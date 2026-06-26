@@ -20,9 +20,7 @@ Table 1: AV dataset comparison. The top part of the table indicates datasets wit
 
 ### Contributions
 
-From the complexities of the multimodal 3D detection challenge, and the limitations of current AV datasets, a large-scale multimodal dataset with $360{^\circ}$ coverage across all vision and range sensors collected from diverse situations alongside map information would boost AV scene-understanding research further. nuScenes does just that, and it is the main contribution of this work.
-
-nuScenes represents a large leap forward in terms of data volumes and complexities (Table 1), and is the first dataset to provide $360{^\circ}$ sensor coverage from the *entire sensor suite*. It is also the first AV dataset to include *radar data* and captured using an AV *approved for public roads*. It is further the first multimodal dataset that contains data from *nighttime* and *rainy* conditions, and with *object attributes and scene descriptions* in addition to object class and location. Similar to, nuScenes is a holistic scene understanding benchmark for AVs. It enables research on multiple tasks such as object detection, tracking and behavior modeling in a range of conditions.
+From the complexities of the multimodal 3D detection challenge, and the limitations of current AV datasets, a large-scale multimodal dataset with $360{^\circ}$ coverage across all vision and range sensors collected from diverse situations alongside map information would boost AV scene-understanding research further. nuScenes does just that, and it is the main contribution of this work. nuScenes represents a large leap forward in terms of data volumes and complexities (Table 1), and is the first dataset to provide $360{^\circ}$ sensor coverage from the *entire sensor suite*. It is also the first AV dataset to include *radar data* and captured using an AV *approved for public roads*. It is further the first multimodal dataset that contains data from *nighttime* and *rainy* conditions, and with *object attributes and scene descriptions* in addition to object class and location. Similar to, nuScenes is a holistic scene understanding benchmark for AVs. It enables research on multiple tasks such as object detection, tracking and behavior modeling in a range of conditions.
 
 Our second contribution is new detection and tracking metrics aimed at the AV application. We train 3D object detectors and trackers as a baseline, including a novel approach of using multiple lidar sweeps to enhance object detection. We also present and analyze the results of the nuScenes object detection and tracking challenges.
 
@@ -50,16 +48,9 @@ We drive in Boston (Seaport and South Boston) and Singapore (One North, Holland 
 
 We use two Renault Zoe supermini electric cars with an identical sensor layout to drive in Boston and Singapore. See Figure 4 for sensor placements and Table 2 for sensor details.
 
-RGB, 12 Hz capture frequency, $\left. 1/1.8 \right."$ CMOS sensor, 1600 × 900 resolution, auto exposure, JPEG compressed
+RGB, 12 Hz capture frequency, $\left. 1/1.8 \right."$ CMOS sensor, 1600 × 900 resolution, auto exposure, JPEG compressed Spinning, 32 beams, 20 Hz capture frequency, 360 ∘ horizontal FOV, −30 ∘ to +10 ∘ vertical FOV, ≤ 70 m range, ±2 cm accuracy, up to 1.4 M points per second.
 
-Spinning, 32 beams, 20 Hz capture frequency, 360 ∘ horizontal FOV, − 30 ∘ to + 10 ∘ vertical FOV, ≤ 70 m range, ± 2 cm accuracy, up to 1.4 M points per second.
-
-≤ 250 m range, 77 GHz, FMCW, 13 Hz capture frequency, ± 0.1 km/h vel. accuracy
-
-GPS &amp; IMU
-GPS, IMU, AHRS. 0.2 ∘ heading, 0.1 ∘ roll/pitch, 20mm RTK positioning, 1000Hz update rate
-
-Table 2: Sensor data in nuScenes.
+≤ 250 m range, 77 GHz, FMCW, 13 Hz capture frequency, ±0.1 km/h vel. accuracy GPS, IMU, AHRS. 0.2 ∘ heading, 0.1 ∘ roll/pitch, 20mm RTK positioning, 1000Hz update rate Table 2: Sensor data in nuScenes.
 
 Front and side cameras have a $70{^\circ}$ FOV and are offset by $55{^\circ}$. The rear camera has a FOV of $110{^\circ}$.
 
@@ -111,17 +102,13 @@ We then calculate AP as the normalized area under the precision recall curve for
 
 ### True Positive metrics
 
-In addition to AP, we measure a set of *True Positive metrics* (TP metrics) for each prediction that was matched with a ground truth box. All TP metrics are calculated using $d = 2$m center distance during matching, and they are all designed to be positive scalars. In the proposed metric, the TP metrics are all in native units (see below) which makes the results easy to interpret and compare. Matching and scoring happen independently per class and each metric is the average of the cumulative mean at each achieved recall level above $10\%$. If $10\%$ recall is not achieved for a particular class, all TP errors for that class are set to $1$. The following TP errors are defined:
-
-Average Translation Error (ATE) is the Euclidean center distance in 2D (units in $meters$). Average Scale Error (ASE) is the 3D intersection over union (IOU) after aligning orientation and translation ($1 - {IOU}$). Average Orientation Error (AOE) is the smallest yaw angle difference between prediction and ground truth ($radians$). All angles are measured on a full $360^{\circ}$ period except for barriers where they are measured on a $180^{\circ}$ period. Average Velocity Error (AVE) is the absolute velocity error as the L2 norm of the velocity differences in 2D ($m/s$). Average Attribute Error (AAE) is defined as 1 minus attribute classification accuracy ($1 - {acc}$). For each TP metric we compute the mean TP metric (mTP) over all classes:
-
-We omit measurements for classes where they are not well defined: AVE for cones and barriers since they are stationary; AOE of cones since they do not have a well defined orientation; and AAE for cones and barriers since there are no attributes defined on these classes.
+In addition to AP, we measure a set of *True Positive metrics* (TP metrics) for each prediction that was matched with a ground truth box. All TP metrics are calculated using $d = 2$m center distance during matching, and they are all designed to be positive scalars. In the proposed metric, the TP metrics are all in native units (see below) which makes the results easy to interpret and compare. Matching and scoring happen independently per class and each metric is the average of the cumulative mean at each achieved recall level above $10\%$. If $10\%$ recall is not achieved for a particular class, all TP errors for that class are set to $1$. The following TP errors are defined: Average Translation Error (ATE) is the Euclidean center distance in 2D (units in $meters$). Average Scale Error (ASE) is the 3D intersection over union (IOU) after aligning orientation and translation ($1 - {IOU}$). Average Orientation Error (AOE) is the smallest yaw angle difference between prediction and ground truth ($radians$). All angles are measured on a full $360^{\circ}$ period except for barriers where they are measured on a $180^{\circ}$ period. Average Velocity Error (AVE) is the absolute velocity error as the L2 norm of the velocity differences in 2D ($m/s$). Average Attribute Error (AAE) is defined as 1 minus attribute classification accuracy ($1 - {acc}$). For each TP metric we compute the mean TP metric (mTP) over all classes: We omit measurements for classes where they are not well defined: AVE for cones and barriers since they are stationary; AOE of cones since they do not have a well defined orientation; and AAE for cones and barriers since there are no attributes defined on these classes.
 
 ### nuScenes detection score
 
 mAP with a threshold on IOU is perhaps the most popular metric for object detection. However, this metric can not capture all aspects of the nuScenes detection tasks, like velocity and attribute estimation. Further, it couples location, size and orientation estimates. The ApolloScape 3D car instance challenge disentangles these by defining thresholds for each error type and recall threshold. This results in $10 \times 3$ thresholds, making this approach complex, arbitrary and unintuitive. We propose instead consolidating the different error types into a scalar score: the nuScenes detection score (NDS).
 
-Here mAP is mean Average Precision, and ${\mathbb{T}}{\mathbb{P}}$ the set of the five mean True Positive metrics. Half of NDS is thus based on the detection performance while the other half quantifies the quality of the detections in terms of box location, size, orientation, attributes, and velocity. Since mAVE, mAOE and mATE can be larger than $1$, we bound each metric between $0$ and $1$ in.
+Here mAP is mean Average Precision, and ${\mathbb{T}}{\mathbb{P}}$ the set of the five mean True Positive metrics. Half of NDS is thus based on the detection performance while the other half quantifies the quality of the detections in terms of box location, size, orientation, attributes, and velocity. Since mAVE, mAOE and mATE can be larger than $1$, we bound each metric between $0$ and $1$ .
 
 ### Tracking
 
@@ -129,9 +116,7 @@ In this section we present the tracking task setup and metrics. The focus of the
 
 ### AMOTA and AMOTP metrics
 
-Weng and Kitani presented a similar 3D MOT benchmark on KITTI. They point out that traditional metrics do not take into account the confidence of a prediction. Thus they develop Average Multi Object Tracking Accuracy (AMOTA) and Average Multi Object Tracking Precision (AMOTP), which average MOTA and MOTP across all recall thresholds. By comparing the KITTI and nuScenes leaderboards for detection and tracking, we find that nuScenes is significantly more difficult. Due to the difficulty of nuScenes, the traditional MOTA metric is often zero. In the updated formulation $\text{sMOTA}_{r}$^66^6Pre-prints of this work referred to $\text{sMOTA}_{r}$ as MOTAR., MOTA is therefore augmented by a term to adjust for the respective recall:
-
-This is to guarantee that $\text{sMOTA}_{r}$ values span the entire $\lbrack 0,1\rbrack$ range. We perform 40-point interpolation in the recall range $\lbrack 0.1,1\rbrack$ (the recall values are denoted as $\mathcal{R}$). The resulting sAMOTA metric is the main metric for the tracking task:
+Weng and Kitani presented a similar 3D MOT benchmark on KITTI. They point out that traditional metrics do not take into account the confidence of a prediction. Thus they develop Average Multi Object Tracking Accuracy (AMOTA) and Average Multi Object Tracking Precision (AMOTP), which average MOTA and MOTP across all recall thresholds. By comparing the KITTI and nuScenes leaderboards for detection and tracking, we find that nuScenes is significantly more difficult. Due to the difficulty of nuScenes, the traditional MOTA metric is often zero. In the updated formulation $\text{sMOTA}_{r}$^66^6Pre-prints of this work referred to $\text{sMOTA}_{r}$ as MOTAR., MOTA is therefore augmented by a term to adjust for the respective recall: This is to guarantee that $\text{sMOTA}_{r}$ values span the entire $\lbrack 0,1\rbrack$ range. We perform 40-point interpolation in the recall range $\lbrack 0.1,1\rbrack$ (the recall values are denoted as $\mathcal{R}$). The resulting sAMOTA metric is the main metric for the tracking task:
 
 ### Traditional metrics
 
@@ -163,7 +148,7 @@ We compare the results of the top submissions to the nuScenes detection challeng
 
 ### Tracking baselines
 
-We present several baselines for tracking from camera and lidar data. From the detection challenge, we pick the best performing lidar method (Megvii ), the fastest reported method at inference time (PointPillars ), as well as the best performing camera method (MonoDIS ). Using the detections from each method, we setup baselines using the tracking approach described in. We provide detection and tracking results for each of these methods on the train, val and test splits to facilitate more systematic research. See the Supplementary Material for the results of the 2019 nuScenes tracking challenge.
+We present several baselines for tracking from camera and lidar data. From the detection challenge, we pick the best performing lidar method (Megvii ), the fastest reported method at inference time (PointPillars ), as well as the best performing camera method (MonoDIS ). Using the detections from each method, we setup baselines using the tracking approach described . We provide detection and tracking results for each of these methods on the train, val and test splits to facilitate more systematic research. See the Supplementary Material for the results of the 2019 nuScenes tracking challenge.
 
 ### Analysis
 
@@ -199,7 +184,7 @@ Table 4: Object detection results on the test set of nuScenes. PointPillars, OFT
 
 ### The importance of pre-training
 
-Using the lidar baseline we examine the importance of pre-training when training a detector on nuScenes. No pretraining means weights are initialized randomly using a uniform distribution as in. ImageNet pretraining uses a backbone that was first trained to accurately classify images. KITTI pretraining uses a backbone that was trained on the lidar pointclouds to predict 3D boxes. Interestingly, while the KITTI pretrained network did converge faster, the final performance of the network only marginally varied between different pretrainings (Table 3). One explanation may be that while KITTI is close in domain, the size is not large enough.
+Using the lidar baseline we examine the importance of pre-training when training a detector on nuScenes. No pretraining means weights are initialized randomly using a uniform distribution as . ImageNet pretraining uses a backbone that was first trained to accurately classify images. KITTI pretraining uses a backbone that was trained on the lidar pointclouds to predict 3D boxes. Interestingly, while the KITTI pretrained network did converge faster, the final performance of the network only marginally varied between different pretrainings (Table 3). One explanation may be that while KITTI is close in domain, the size is not large enough.
 
 ### Better detection gives better tracking
 

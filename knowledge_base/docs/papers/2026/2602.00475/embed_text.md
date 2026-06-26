@@ -20,33 +20,23 @@ Together, these components yield a practical gradient-based planner for learned 
 
 Figure 2: Graphical depiction of (a) a standard serial-based setup for optimization-based planning, where states are rolled out using the actions and the loss is evaluated on the goal state, (b) our setup, which parallelizes the world model evaluations by optimizing “virtual states” directly and only supervising pairwise dynamics satisfaction. The crossed lines and skipped connections for our method’s depiction (b) are detailed in Section 3.3, which keeps the full planning graph connected while not requiring state gradients of the dynamics Fθ. For our planner, we find it helpful to alternate between (a) and (b) throughout the planning optimization.
 
-Our main object of interest is a learned world model $F_{\theta}:{{\mathcal{S} \times \mathcal{A}}\rightarrow\mathcal{S}}$ that predicts the next state given the current state and action. For visual domains, states are typically represented in a learned latent space to handle high-dimensional observations. Here we assume $\mathcal{A} = {\mathbb{R}}^{k}$ is a continuous Euclidean action space.
+Our main object of interest is a learned world model $F_{\theta}:\mathcal{S}\times\mathcal{A}\rightarrow\mathcal{S}$ that predicts the next state given the current state and action. For visual domains, states are typically represented in a learned latent space to handle high-dimensional observations. Here we assume $\mathcal{A}=\mathbb{R}^{k}$ is a continuous Euclidean action space.
 
-We consider the problem of fixed-goal path planning: finding an action sequence $\mathbf{a} = {(a_{0},a_{1},\ldots,a_{T - 1})}$ that, with respect to the dynamics of the world model $F_{\theta}$ and a given initial state $s_{0} \in \mathcal{S}$, reaches a set goal state $g \in \mathcal{S}$:
-
-where the terminal state $s_{T}$ is generated recursively through the update rule $s_{t + 1} = {F_{\theta}{(s_{t},a_{t})}}$:
-
-We can sufficiently compute $\mathbf{a}^{\ast}$ by solving the following optimization problem:
-
-Optimizing Eq. directly is challenging due to two main problems. First, it requires $T$ applications of $F_{\theta}$ (see Eq. 2), which is computationally expensive and difficult to optimize due to the poor conditioning arising from repeated applications of $F_{\theta}$ (see Appendix 8.1 for details). Second, it is susceptible to local minima and a jagged loss landscape---see Figure 1. Due to these reasons, existing planners are based on zero-order optimization algorithms like CEM and MPPI (williams2016aggressive) which are highly stochastic and do not require gradient computation.
+We consider the problem of fixed-goal path planning: finding an action sequence $\mathbf{a}=(a_{0},a_{1},\ldots,a_{T-1})$ that, with respect to the dynamics of the world model $F_{\theta}$ and a given initial state $s_{0}\in\mathcal{S}$, reaches a set goal state $g\in\mathcal{S}$: where the terminal state $s_{T}$ is generated recursively through the update rule $s_{t+1}=F_{\theta}(s_{t},a_{t})$: We can sufficiently compute $\mathbf{a}^{*}$ by solving the following optimization problem: Optimizing Eq. directly is challenging due to two main problems. First, it requires $T$ applications of $F_{\theta}$ (see Eq. 2), which is computationally expensive and difficult to optimize due to the poor conditioning arising from repeated applications of $F_{\theta}$ (see Appendix 8.1 for details). Second, it is susceptible to local minima and a jagged loss landscape---see Figure 1. Due to these reasons, existing planners are based on zero-order optimization algorithms like CEM and MPPI (williams2016aggressive) which are highly stochastic and do not require gradient computation.
 
 In what follows, we propose a gradient-based planner which alleviates these difficulties, while also using the differentiability of the model $F_{\theta}$. In Section 3, we lift the optimization problem by also optimizing over states, which leads to faster convergence and better conditioning. In Section 3.2, we introduce stochasticity, which helps escape local minima.
 
 ## Decoupling dynamics for gradient-based planning
 
-We consider planning with a world model $F_{\theta}$ and horizon $T$. Given an initial state $s_{0} \in \mathcal{S}$ and goal state $g \in \mathcal{S}$, we optimize an action sequence $\mathbf{a} = {(a_{0},\ldots,a_{T - 1})}$ such that the rolled-out state $s_{T}{(\mathbf{a})}$ is as close to $g$ as possible. A standard approach defines a trajectory by rolling out the model, but backpropagating through a deep composition of $F_{\theta}$ can be unstable and ill-conditioned. Following prior work on lifted planning (tamimi2009nonlinear; rybkin2021model), we introduce auxiliary states $\mathbf{z} = {(z_{1},\ldots,z_{T})}$ and enforce dynamics consistency through a penalty function.
+We consider planning with a world model $F_{\theta}$ and horizon $T$. Given an initial state $s_{0}\in\mathcal{S}$ and goal state $g\in\mathcal{S}$, we optimize an action sequence $\mathbf{a}=(a_{0},\dots,a_{T-1})$ such that the rolled-out state $s_{T}(\mathbf{a})$ is as close to $g$ as possible. A standard approach defines a trajectory by rolling out the model, but backpropagating through a deep composition of $F_{\theta}$ can be unstable and ill-conditioned. Following prior work on lifted planning (tamimi2009nonlinear; rybkin2021model), we introduce auxiliary states $\mathbf{z}=(z_{1},\dots,z_{T})$ and enforce dynamics consistency through a penalty function.
 
 ### Parallelized planning
 
-We first want to decouple the states from the explicit rollout outputs. Writing Eq. in terms of each intermediate dynamics condition, we get the following:
+We first want to decouple the states from the explicit rollout outputs. Writing Eq. in terms of each intermediate dynamics condition, we get the following: The minimization in Eq. is equivalent to Eq. in that they share global minimizers.
 
-The minimization in Eq. is equivalent to Eq. in that they share global minimizers.
+Immediately, this gives a great benefit in that *all world model evaluations are parallel*; there is no need to do serial rollouts like what is required in Eq.. There are however two main issues with optimizing this loss directly: *Local minima*. When optimizing with respect to states, the states might be stuck in an unphysical region; for example, Figure 7 shows a case where states go straight through a barrier. To address this, we propose to use Langevin state updates which promote exploration (see Section 3.2).
 
-Immediately, this gives a great benefit in that *all world model evaluations are parallel*; there is no need to do serial rollouts like what is required in Eq.. There are however two main issues with optimizing this loss directly:
-
-*Local minima*. When optimizing with respect to states, the states might be stuck in an unphysical region; for example, Figure 7 shows a case where states go straight through a barrier. To address this, we propose to use Langevin state updates which promote exploration (see Section 3.2).
-
-*World model sensitivity for high-dimensional states.* When optimizing $s$ directly over a higher dimensional space (e.g. vision-based), we observe that the Jacobian $J_{s}F_{\theta}{(s,a)}$ does not necessarily have any nice low-dimensional or convex structure; in practice, the world model can be easily steered toward outputting any desired output state, as depicted in Figure 3. We address this in Section 3.3 with a reshaping of the descent directions.
+*World model sensitivity for high-dimensional states.* When optimizing $s$ directly over a higher dimensional space (e.g. vision-based), we observe that the Jacobian $J_{s}F_{\theta}(s,a)$ does not necessarily have any nice low-dimensional or convex structure; in practice, the world model can be easily steered toward outputting any desired output state, as depicted in Figure 3. We address this in Section 3.3 with a reshaping of the descent directions.
 
 We now describe our approach to address these two fundamental problems with lifted-states approaches to planning.
 
@@ -56,55 +46,39 @@ The lifted optimization in Eq. is still non-convex and can get trapped in poor l
 
 ### Langevin dynamics on state iterates
 
-Consider the optimization induced by Eq.. A standard way to escape spurious basins is to replace deterministic gradient descent on $\mathbf{s}$ with overdamped Langevin dynamics (gelfand1991recursive), whose Euler discretization takes the following form:
-
-where $\xi_{t}^{k} \sim {\mathcal{N}{(0,I)}}$. That is, each optimization step performs a gradient descent update on the intermediate states, followed by an isotropic Gaussian perturbation. Intuitively, the noise allows the iterates to "hop" between nearby basins of the lifted loss landscape.
+Consider the optimization induced by Eq.. A standard way to escape spurious basins is to replace deterministic gradient descent on $\mathbf{s}$ with overdamped Langevin dynamics (gelfand1991recursive), whose Euler discretization takes the following form: where $\xi_{t}^{k}\sim\mathcal{N}(0,I)$. That is, each optimization step performs a gradient descent update on the intermediate states, followed by an isotropic Gaussian perturbation. Intuitively, the noise allows the iterates to "hop" between nearby basins of the lifted loss landscape.
 
 ### Noise on states vs. actions
 
 By only noising the states, we can still condition on more dynamically feasible trajectories, while still allowing exploration over a wider distribution. Intuitively, planning problems often have a single (or small number of) intermediate states to find for the solution, and being able to noise directly over states rather than actions allows us to find these intermediate states faster. See Appendix 8.3 for a characterization of the sampled distribution.
 
-Figure 3: Sensitivity of state gradient structure. Examples of three states far away from the goal on the right (either in-distribution or out-of-distribution), such that taking a small step along the gradient s′ = s − ϵ ∇sℒ (s), ℒ (s) = ∥Fθ (s, a=0) − g∥22, leads to a nearby state s′ that solves the planning problem in a single step: Fθ (s′,0) = g. Thus, optimizing states directly through the world model Fθ can be quite challenging.
+Figure 3: Sensitivity of state gradient structure. Examples of three states far away from the goal on the right (either in-distribution or out-of-distribution), such that taking a small step along the gradient s′ = s − ϵ∇sℒ(s), ℒ(s) = ∥Fθ(s, a = 0) − g∥22, leads to a nearby state s′ that solves the planning problem in a single step: Fθ(s′, 0) = g. Thus, optimizing states directly through the world model Fθ can be quite challenging.
 
 ### Sensitivity to state gradients
 
 ### A note on adversarial robustness of state gradients
 
-In practice, $F_{\theta}$ is learned and can have brittle local geometry. When optimizing Eq. by gradient descent in both $\mathbf{a}$ and $\mathbf{s}$, we observed empirically that gradients with respect to the state inputs, ${\nabla_{s}F_{\theta}}{(s,a)}$, can be exploited: for any local goal-reaching objective of the following form:
-
-instead of the optimizer learning to find an $s$ on-manifold such that applying the action $a$ leads to end state $y$, the optimizer can find a nearby ambient $s + \delta$, ${\|\delta\|}_{2} \ll 1$ such that the loss is practically minimized: $y \approx {F_{\theta}{({s + \delta},a)}}$, *regardless of the starting state $s$*. This is analogous to the adversarial robustness issue of image classifiers (szegedy2013intriguing; shamir2021dimpled): high-dimensional input spaces for trained neural networks can have high Lipschitz constants, hindering optimization performance.
+In practice, $F_{\theta}$ is learned and can have brittle local geometry. When optimizing Eq. by gradient descent in both $\mathbf{a}$ and $\mathbf{s}$, we observed empirically that gradients with respect to the state inputs, $\nabla_{s}F_{\theta}(s,a)$, can be exploited: for any local goal-reaching objective of the following form: instead of the optimizer learning to find an $s$ on-manifold such that applying the action $a$ leads to end state $y$, the optimizer can find a nearby ambient $s+\delta$, $\|\delta\|_{2}\ll 1$ such that the loss is practically minimized: $y\approx F_{\theta}(s+\delta,a)$, *regardless of the starting state $s$*. This is analogous to the adversarial robustness issue of image classifiers (szegedy2013intriguing; shamir2021dimpled): high-dimensional input spaces for trained neural networks can have high Lipschitz constants, hindering optimization performance.
 
 Unfortunately, any loss function over $\mathbf{s}$ and $\mathbf{a}$ whose minimizers are feasible dynamics must depend on the state gradient $\nabla_{s}F$ in a meaningful way. We provide the informal theorem here, with formalization and proof in Appendix 8.4.
 
 ### Theorem 1 (informal)
 
-A differentiable loss function over state/action trajectories $\mathcal{L}:{{\mathcal{S}^{T} \times \mathcal{A}^{T}}\rightarrow{\mathbb{R}}}$ given a world model $F_{\theta}:{{\mathcal{S} \times \mathcal{A}}\rightarrow\mathcal{S}}$ cannot satisfy both of the following at the same time:
+A differentiable loss function over state/action trajectories $\mathcal{L}:\mathcal{S}^{T}\times\mathcal{A}^{T}\to\mathbb{R}$ given a world model $F_{\theta}:\mathcal{S}\times\mathcal{A}\to\mathcal{S}$ cannot satisfy both of the following at the same time: Minimizers of $\mathcal{L}$ correspond to dynamically feasible trajectories: $F_{\theta}(s_{t},a_{t})=s_{t+1}$, $\mathcal{L}$ is insensitive to the world model state gradient $\nabla_{s}F_{\theta}$.
 
-Minimizers of $\mathcal{L}$ correspond to dynamically feasible trajectories: ${F_{\theta}{(s_{t},a_{t})}} = s_{t + 1}$,
-
-$\mathcal{L}$ is insensitive to the world model state gradient $\nabla_{s}F_{\theta}$.
-
-To address this adversarial sensitivity, we detach gradients through the *state inputs* of the world model, while still differentiating with respect to the actions. We denote by ${\overline{s}}_{t}$ a stop-gradient copy of $s_{t}$ (i.e., ${\overline{s}}_{t} = s_{t}$ in value, but treated as constant during differentiation).
+To address this adversarial sensitivity, we detach gradients through the *state inputs* of the world model, while still differentiating with respect to the actions. We denote by $\bar{s}_{t}$ a stop-gradient copy of $s_{t}$ (i.e., $\bar{s}_{t}=s_{t}$ in value, but treated as constant during differentiation).
 
 Figure 4: Virtual states learned through planning. All examples are instantiations of our planner at horizon 50 in the Point-Maze, Wall-Single, and Push-T environments. Regardless of the dynamics constraint relaxation and state noising, directly optimized states find realistic, non-greedy paths towards the goal.
 
 ### Grad-cut dynamics loss
 
-We begin by applying a gradient stop to the state inputs in the dynamics loss:
-
-This objective is differentiable with respect to $\mathbf{a}$ and the *next* states $s_{t + 1}$, but does not backpropagate through $s_{t}$ via $F_{\theta}$.
+We begin by applying a gradient stop to the state inputs in the dynamics loss: This objective is differentiable with respect to $\mathbf{a}$ and the *next* states $s_{t+1}$, but does not backpropagate through $s_{t}$ via $F_{\theta}$.
 
 ### Dense goal shaping on one-step predictions
 
-While Eq. improves robustness, it introduces a new degeneracy: paths gravitate towards the current rollout, regardless of proximity to the goal. To provide a task-aligned signal at every time step without state-input gradients, we add a goal loss on the one-step predictions:
+While Eq. improves robustness, it introduces a new degeneracy: paths gravitate towards the current rollout, regardless of proximity to the goal. To provide a task-aligned signal at every time step without state-input gradients, we add a goal loss on the one-step predictions: This encourages each predicted next state to move toward the goal, supplying gradient information to every action $a_{t}$ while maintaining the grad-cut on $s_{t}$. This is depicted visually in Figure 2, and theoretically in Appendix 8.4. Crucially, due to the stop-gradient $\bar{s}_{t}$, gradients through $F_{\theta}(\bar{s}_{t},a_{t})$ flow only with respect to $a_{t}$ (and not $s_{t}$), which prevents the optimizer from exploiting adversarial state-input directions. The final energy that is sampled from is then the following: | | $\displaystyle\begin{split}\mathcal{L}(\mathbf{s},\mathbf{a})=&\sum_{t=0}^{T-1}\big\|F_{\theta}(\bar{s}_{t},a_{t})-s_{t+1}\big\|_{2}^{2}\\ | | \(10\) | | | &\quad+\gamma\sum_{t=0}^{T-1}\big\|F_{\theta}(\bar{s}_{t},a_{t})-g\big\|_{2}^{2},\end{split}$ | | | where $\gamma>0$ is fixed.
 
-This encourages each predicted next state to move toward the goal, supplying gradient information to every action $a_{t}$ while maintaining the grad-cut on $s_{t}$. This is depicted visually in Figure 2, and theoretically in Appendix 8.4. Crucially, due to the stop-gradient ${\overline{s}}_{t}$, gradients through $F_{\theta}{({\overline{s}}_{t},a_{t})}$ flow only with respect to $a_{t}$ (and not $s_{t}$), which prevents the optimizer from exploiting adversarial state-input directions. The final energy that is sampled from is then the following:
-
-where $\gamma > 0$ is fixed.
-
-Resulting noisy dynamics. The final resulting dynamics, after explicitly writing out $\nabla_{a}\mathcal{L}$, are as follows:
-
-where $\xi_{t}^{k} \sim {\mathcal{N}{(0,I)}}$. Importantly, while the action dynamics still follow a gradient flow, the states do not follow a true gradient vector field, and thus *the resulting dynamics are not Langevin.* What results are still noisy dynamics that bias towards valid goal-oriented trajectories, but whose efficiency will require an extra synchronization step as described in the following section.
+Resulting noisy dynamics. The final resulting dynamics, after explicitly writing out $\nabla_{a}\mathcal{L}$, are as follows: where $\xi_{t}^{k}\sim\mathcal{N}(0,I)$. Importantly, while the action dynamics still follow a gradient flow, the states do not follow a true gradient vector field, and thus *the resulting dynamics are not Langevin.* What results are still noisy dynamics that bias towards valid goal-oriented trajectories, but whose efficiency will require an extra synchronization step as described in the following section.
 
 ### Full-rollout synchronization
 
@@ -112,19 +86,11 @@ The no-state-gradient updates are designed to be robust to brittle state-input J
 
 ### Full-gradient rollout step
 
-Every $K_{sync}$ iterations, we perform $J_{sync}$ steps of gradient descent on the original planning loss
-
-where $s_{T}{(\mathbf{a},s_{0})}$ is computed by sequentially rolling out the world model
-
-During this synchronization phase we update only the actions,
-
-using full backpropagation through the $T$-step rollout. By keeping these GD steps small relative to the stochastic dynamics of Eq., we benefit from the smoothed loss landscape in Figure 1c for wider exploration, and the sharp but brittle landscape in Figure 1b for refinement.
+Every $K_{\mathrm{sync}}$ iterations, we perform $J_{\mathrm{sync}}$ steps of gradient descent on the original planning loss where $s_{T}(\mathbf{a},s_{0})$ is computed by sequentially rolling out the world model During this synchronization phase we update only the actions, using full backpropagation through the $T$-step rollout. By keeping these GD steps small relative to the stochastic dynamics of Eq., we benefit from the smoothed loss landscape in Figure 1c for wider exploration, and the sharp but brittle landscape in Figure 1b for refinement.
 
 ## Results
 
-We evaluate our proposed planner GRASP across two complementary classes of environments designed to test (i) nonconvex long-horizon planning with obstacles and (ii) data-driven visual control under learned dynamics. Concretely, these experiments aim to answer three questions:
-
-Can the proposed planner overcome the greedy local minima that often trap shooting methods?
+We evaluate our proposed planner GRASP across two complementary classes of environments designed to test (i) nonconvex long-horizon planning with obstacles and (ii) data-driven visual control under learned dynamics. Concretely, these experiments aim to answer three questions: Can the proposed planner overcome the greedy local minima that often trap shooting methods?
 
 Does the method remain robust as the planning horizon increases?
 
@@ -142,11 +108,11 @@ We compare against three commonly used planners. CEM optimizes action sequences 
 
 Figure 5: Success rate over time at a fixed horizon. Success rate over fixed set of open-loop planning tasks for CEM, GD, LatCo (rybkin2021model), and our planner for a fixed horizon of 50. Curves summarize how quickly each planner makes progress under the learned world model setting when evaluated at a fixed planning horizon. Shaded regions are Wald 95% confidence intervals.
 
-For all methods, we sweep over hyperparameters and report results using the best-performing setting for each environment and horizon. For our planner, we initialize the states ${\{ s_{t}\}}_{t = 0}^{T}$ as noised around the linear interpolation between $s_{0}$ and $g$: $s_{t} = {{\frac{t}{T}g} + {{({1 - \frac{t}{T}})}s_{0}} + z}$, $z \sim {\mathcal{N}{(0,{\epsilonI})}}$, and actions initialized at zeros: $a_{t} = 0$.
+For all methods, we sweep over hyperparameters and report results using the best-performing setting for each environment and horizon. For our planner, we initialize the states $\{s_{t}\}_{t=0}^{T}$ as noised around the linear interpolation between $s_{0}$ and $g$: $s_{t}=\frac{t}{T}g+(1-\frac{t}{T})s_{0}+z$, $z\sim\mathcal{N}(0,\epsilon I)$, and actions initialized at zeros: $a_{t}=0$.
 
 ### Environments and evaluation protocol
 
-We evaluate planning on three visual control environments with learned dynamics: *PointMaze*, *Wall-Single*, and *Push-T*. World models are trained using the DINO-wm framework (zhou2024dino), following the original paper's setup, where the world model $F_{\theta}{(s,a)}$ takes 5 actions and predicts 5 steps ahead; that is, if ${\text{dim}{(\mathcal{A})}} = 2$, then $F_{\theta}$ takes actions as vectors of stacked actions $\mathbf{a} \in {\mathbb{R}}^{10}$.
+We evaluate planning on three visual control environments with learned dynamics: *PointMaze*, *Wall-Single*, and *Push-T*. World models are trained using the DINO-wm framework (zhou2024dino), following the original paper's setup, where the world model $F_{\theta}(s,a)$ takes 5 actions and predicts 5 steps ahead; that is, if $\text{dim}(\mathcal{A})=2$, then $F_{\theta}$ takes actions as vectors of stacked actions $\mathbf{a}\in\mathbb{R}^{10}$.
 
 All reported metrics measure task success under the learned world model. Success is defined as reaching the goal region within the planning horizon.
 
@@ -164,7 +130,7 @@ Table 4: Median completion times (seconds) across short-term experiments. 500 tr
 
 ### Short-term planning
 
-We also evaluate short-horizon planning, to demonstrate that our planner can match performance on shorter, easier tasks. Table 3 reports success rates across environments for horizons ranging from $H = 10$ to $H = 30$, while Table 4 reports median wall-clock planning times.
+We also evaluate short-horizon planning, to demonstrate that our planner can match performance on shorter, easier tasks. Table 3 reports success rates across environments for horizons ranging from $H=10$ to $H=30$, while Table 4 reports median wall-clock planning times.
 
 Across all environments and short horizons, the proposed planner achieves success rates comparable to the baselines. Alongside similar success rates, our proposed planner exhibits consistently low planning times. As shown in Table 4, it is among the fastest methods across all environments and horizons, often significantly faster than sampling-based approaches and competitive with gradient-based optimization, sacrificing some speed for a higher success rate. These results indicate that even in relatively short and easy planning regimes, our planner remains competitive with the baselines.
 

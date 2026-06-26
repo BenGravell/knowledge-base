@@ -8,9 +8,7 @@ This paper aims to reduce this gap by providing an open-sourced baseline MPC alg
 
 Figure 2: System diagram for deploying the MuJoCo iLQR policy to the Unitree Quadruped and Humanoid robots. The iLQR algorithm provides control, state, and time-varying LQR (TV-LQR) feedback gain trajectories at 50 Hz. The TV-LQR feedback policy can then be updated at 300 Hz and passed to a joint-level PD controller. The robot’s state is estimated by fusing onboard joint encoders and motion capture data. Live state estimates are updated in the planner at 300 − 500 Hz and visualized in the MuJoCo MPC GUI. The cost categories are designed offline but the relative weights, goal locations, and iLQR hyperparameters can be adjusted by the user interactively in real time through the GUI.
 
-Our specific contributions in this paper are:
-
-A simple-yet-surprisingly-effective baseline whole-body predictive control algorithm for real-world legged robot locomotion.
+Our specific contributions in this paper are: A simple-yet-surprisingly-effective baseline whole-body predictive control algorithm for real-world legged robot locomotion.
 
 An open-source interactive GUI system for real-world predictive control of legged robots.
 
@@ -24,11 +22,7 @@ This section provides a brief review of the iLQR algorithm, a survey of relevant
 
 ### II-A Iterative Linear-Quadratic Regulator
 
-Differential Dynamic Programming (DDP), originally introduced in, solves the following nonlinear trajectory optimization problem:
-
-by iteratively solving the an locally approximated problem with Dynamic Programming. In addition to the nominal control sequence $u_{0:{T - 1}}$, DDP also produces a time-varying linear feedback policy:
-
-where $\overline{u}$ and $\overline{x}$ are the current solution, $K_{t}$ is the feedback gain matrix at time index $t$, $k$ is an improvement to the current nominal control, and $\alpha$ is the line search step size. This single-shooting formulation only optimizes over the controls $u_{0:{T - 1}}$ and recovers the corresponding states $x_{0:T}$ by rollingout the discrete-time dynamics $x_{t + 1} = {f{(x_{t},u_{t})}}$. $l{(x_{t},u_{t})}$ and $l_{f}{(x_{T})}$ are the running and terminal costs, respectively. In each iteration, derivatives of cost and dynamics w.r.t to the control sequence are computed around the current solution points in a process called linearization to form a subproblem with quadratic cost and linear constraints. The term iterative LQR, or iLQR, generally refers to the Gauss-Newton approximations of the original DDP algorithm that is often more computationally efficient. The iLQR algorithm can also be modified to handle control limits, state constraints, and contact.
+Differential Dynamic Programming (DDP), originally introduced, solves the following nonlinear trajectory optimization problem: | | $\displaystyle\min_{u_{0:T-1}}$ | $\displaystyle\quad\sum_{t=0}^{T-1}l(x_{t},u_{t})+l_{f}(x_{T})$ | | \(1\) | | | subject to | $\displaystyle\quad x_{t+1}=f(x_{t},u_{t}),$ | | | by iteratively solving the an locally approximated problem with Dynamic Programming. In addition to the nominal control sequence $u_{0:T-1}$, DDP also produces a time-varying linear feedback policy: where $\bar{u}$ and $\bar{x}$ are the current solution, $K_{t}$ is the feedback gain matrix at time index $t$, $k$ is an improvement to the current nominal control, and $\alpha$ is the line search step size. This single-shooting formulation only optimizes over the controls $u_{0:T-1}$ and recovers the corresponding states $x_{0:T}$ by rollingout the discrete-time dynamics $x_{t+1}=f(x_{t},u_{t})$. $l(x_{t},u_{t})$ and $l_{f}(x_{T})$ are the running and terminal costs, respectively. In each iteration, derivatives of cost and dynamics w.r.t to the control sequence are computed around the current solution points in a process called linearization to form a subproblem with quadratic cost and linear constraints. The term iterative LQR, or iLQR, generally refers to the Gauss-Newton approximations of the original DDP algorithm that is often more computationally efficient. The iLQR algorithm can also be modified to handle control limits, state constraints, and contact.
 
 As a single-shooting algorithm, iLQR maintains dynamically feasible state trajectories without convergence requirements, is amenable to warm starting, and naturally handles unstable systems, since the rollouts are performed with a feedback policy, all of these features make it appealing as an online controller. However, this method generally assumes the dynamics are smooth and differentiable. For robots with contact, the dynamics are non-smooth and the derivatives become nontrivial to compute. Our empirical results show that the combination of the MuJoCo soft contact model and its finite difference derivative approximation is sufficient for iLQR and, somewhat surprisingly, transfers well to robot hardware despite obvious model mismatch.
 
@@ -48,11 +42,7 @@ Outside the MuJoCo ecosystem, Pinocchio has become a popular toolbox in the comm
 
 In comparison to prior projects (Table I), our approach bridges the current gap in tooling for model-based robotic control by enabling general controllers for both quadruped and humanoid robots using a popular, off-the-shelf, and fast robotics simulator. An additional advantage for using a mature simulator is the readily available collision detection algorithms that we can leverage during contact-rich planning and control. Additionally, we provide an interactive GUI for real-time control that enables rapid developments of robot behaviors in the real world.
 
-Whole-body collision detection
-
-No fixed contact mode
-
-TABLE I: A comparison model-based control tools through contact
+Whole-body collision detection No fixed contact mode TABLE I: A comparison model-based control tools through contact
 
 ## Iterative LQR with MuJoCo
 
@@ -62,27 +52,17 @@ This section provides a brief description of the MuJoCo soft contact model, the 
 
 The MuJoCo physics engine implements a soft contact model that is a convex approximation of the non-convex, discontinuous contact and friction models. While the interpenetration phenomena between objects (for example, the robot's foot and the floor) may be considered physically unrealistic, this convex formulation is fast, efficient, and provides a guaranteed solution, something difficult to do when solving non-convex problems. Additionally, in theory, the soft contact model offers smooth derivatives through contact. While the analytical derivatives are not yet provided, the finite different derivatives can be computed with little additional effort from the original time-stepping simulation problem.
 
-To approximate the model derivatives, we use the forward difference method
-
-as it requires only one additional simulation evaluation per dimension compared to two in centered difference, where $f$ is an arbitrary function with input $x$ and $\epsilon$ is the finite different tolerance.
+To approximate the model derivatives, we use the forward difference method as it requires only one additional simulation evaluation per dimension compared to two in centered difference, where $f$ is an arbitrary function with input $x$ and $\epsilon$ is the finite different tolerance.
 
 ### III-B Derivative Computation with MuJoCo
 
 To solve a single iteration iLQR problem from Eq. 1, we take a second-order Taylor expansion and solve the resulting subproblem via Dynamic Programming.
 
-We define the cost function as the following:
+We define the cost function as the following: where $r$ is a residual vector to be reduced when solving the problem, $n$ is the norm function that returns a non-negative scaler, and $w$ is non-negative scaler weight defining the importance of a residual term.
 
-where $r$ is a residual vector to be reduced when solving the problem, $n$ is the norm function that returns a non-negative scaler, and $w$ is non-negative scaler weight defining the importance of a residual term.
+We compute the exact cost gradients: and approximate the cost hessians as: where the derivatives of the norm n (i.e. $\frac{\partial\text{n}}{\partial\text{r}}$, $\frac{\partial^{2}\text{n}}{\partial\text{r}^{2}}$) are computed analytically and the Jacobians of the residual r (i.e. $\frac{\partial\text{r}}{\partial x}$, $\frac{\partial\text{r}}{\partial u}$) are computed via finite difference, Eq. 3.
 
-We compute the exact cost gradients:
-
-and approximate the cost hessians as:
-
-where the derivatives of the norm n (i.e. $\frac{\partial\text{n}}{\partial\text{r}}$, $\frac{\partial^{2}\text{n}}{\partial\text{r}^{2}}$) are computed analytically and the Jacobians of the residual r (i.e. $\frac{\partial\text{r}}{\partial x}$, $\frac{\partial\text{r}}{\partial u}$) are computed via finite difference, Eq. 3.
-
-We take the original nonlinear discrete-time dynamics:
-
-where dynamics Jacobians $\frac{\partial f}{\partial x}$ and $\frac{\partial f}{\partial u}$ are computed via finite difference, Eq. 3. Note the because residuals in Eq. 4 are implemented as MuJoCo sensors, we can efficiently compute all the Jacobians $\frac{\partial f}{\partial x}$, $\frac{\partial f}{\partial u}$, $\frac{\partial\text{r}}{\partial x}$, and $\frac{\partial\text{r}}{\partial u}$ via a *single* call to the MuJoCo finite difference utilities function.
+We take the original nonlinear discrete-time dynamics: where dynamics Jacobians $\frac{\partial f}{\partial x}$ and $\frac{\partial f}{\partial u}$ are computed via finite difference, Eq. 3. Note the because residuals in Eq. 4 are implemented as MuJoCo sensors, we can efficiently compute all the Jacobians $\frac{\partial f}{\partial x}$, $\frac{\partial f}{\partial u}$, $\frac{\partial\text{r}}{\partial x}$, and $\frac{\partial\text{r}}{\partial u}$ via a *single* call to the MuJoCo finite difference utilities function.
 
 Once all derivatives are computed, we solve the resulting problem using the Riccati-recursion that produces the updated nominal controls $u$ and a time-varying linear feedback policy $K$, Eq. 2. We perform this update once before returning the current-best nominal trajectories and feedback policy without convergence checks. We then use the previous solution to warm start a new iLQR iteration with the latest state estimation, Fig. 2. Additionally, our interactive GUI allows the user to update the residual terms such as target height, goal positions, etc and adjust the weights assigned to each residual term in real-time on the robot, Fig. 3.
 
@@ -114,9 +94,7 @@ Note that while we choose to use forward difference approximation for computatio
 
 ## Experiments and Results
 
-This section presents the interactive GUI setup on robot hardware platforms and a variety of hardware experiments. We start by demonstrating our system on basic quadrupedal locomotion on Go1 and Go2 robots in Sec. V-B. Next, we show that MuJoCo iLQR naturally extends to open-loop unstable tasks like quadruped walking on two legs in Sec. V-C. Finally, we deploy our system on a human-sized Unitree H1 humanoid robot in Sec. V-D. Our open-source software and experiment videos are available at:
-
-Ommitted for Anoynymous Review
+This section presents the interactive GUI setup on robot hardware platforms and a variety of hardware experiments. We start by demonstrating our system on basic quadrupedal locomotion on Go1 and Go2 robots in Sec. V-B. Next, we show that MuJoCo iLQR naturally extends to open-loop unstable tasks like quadruped walking on two legs in Sec. V-C. Finally, we deploy our system on a human-sized Unitree H1 humanoid robot in Sec. V-D. Our open-source software and experiment videos are available: Ommitted for Anoynymous Review
 
 ### V-A Interactive GUI for Real-World Legged Robots
 
@@ -134,25 +112,7 @@ The residual terms for the locomotion task include tracking position and orienta
 
 Next, we show that the iLQR policies naturally handles open-loop unstable tasks, such as a quadruped walking on two legs (Fig. 1). In comparison, MPPI can tackle locomotion tasks that are stable, but fails under unstable dynamics such as during bipedal walking. In Fig. 1, we successfully enable a quadruped robot to walk gracefully on its back legs alone while using front legs to main balance and getting up to a hand stand pose from an initial quadruped configuration with the MuJoCo iLQR policy.
 
-Keeps torso orientation upright (z-axis pointing up)
-
-Controls torso height relative to average foot position
-
-Tracks head position to target location (x, y, z)
-
-Controls foot lifting patterns during gait cycles (one per foot)
-
-Keeps capture point within support polygon (x, y components)
-
-Penalizes actuator forces to minimize energy consumption
-
-Keeps joints near home configuration
-
-Controls heading direction (x, y components of heading vector)
-
-Controls rotational dynamics (x, y, z components)
-
-TABLE II: Task Residual for Quadrupedal and Humanoid Locomotion
+Keeps torso orientation upright (z-axis pointing up) Controls torso height relative to average foot position Tracks head position to target location (x, y, z) Controls foot lifting patterns during gait cycles (one per foot) Keeps capture point within support polygon (x, y components) Penalizes actuator forces to minimize energy consumption Keeps joints near home configuration Controls heading direction (x, y components of heading vector) Controls rotational dynamics (x, y, z components) TABLE II: Task Residual for Quadrupedal and Humanoid Locomotion
 
 ### V-D Humanoid Locomotion
 

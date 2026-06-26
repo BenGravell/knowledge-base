@@ -1,8 +1,6 @@
 ## Introduction
 
-> Situation awareness is the perception of the elements in the environment within a volume of time and space, and the comprehension of their meaning, and the projection of their status in the near future. --- Endsley
-
-As artificial intelligence moves off of the server and out into the world at large; be this the virtual world, in the form of simulated walkers, climbers and other creatures, or the real world in the form of virtual assistants, self driving vehicles, and household robots; we are increasingly faced with the need to build systems that understand and reason about the world around them.
+> Situation awareness is the perception of the elements in the environment within a volume of time and space, and the comprehension of their meaning, and the projection of their status in the near future. --- Endsley As artificial intelligence moves off of the server and out into the world at large; be this the virtual world, in the form of simulated walkers, climbers and other creatures, or the real world in the form of virtual assistants, self driving vehicles, and household robots; we are increasingly faced with the need to build systems that understand and reason about the world around them.
 
 When building systems like this it is natural to think of the physical world as breaking into two parts. The first part is the platform, the part we design and build, and therefore know quite a lot about; and the second part is everything else, which comprises all the strange and exciting situations that the platform might encounter. As designers, we have very little control over the external part of the world, and the variety of situations that might arise are too numerous to anticipate in advance. Additionally, while the state of the platform is readily accessible (e.g. through deployment of integrated sensors), the state of the external world is generally not available to the system.
 
@@ -46,10 +44,7 @@ Although the high level motivation of Yu et al. is similar, there is an obvious 
 
 The work of Fu et al. also fits dynamics models using neural networks and uses planning in these models to guide action selection. They train a global dynamics model on data from several tasks, and use this global model as a prior for fitting a much simpler local dynamics model within each episode. The global model captures course grained dynamics of the robot and its environment, while the local model accounts for the specific configuration of the environment within an episode. Although they do not probe for this explicitly, one might hypothesize that the type of awareness of the environment that we are after in this work could be encoded in the parameters of their local models.
 
-Dynamics Model: Predicts the action-conditional future observations given the past observations and actions: p (xt + 1: t + k|u1: t + k − 1,x1: t)
-Awareness: The information about unobserved states that is represented by the dynamics model.
-Diagnostic Model: A model used to evaluate (or diagnose) the awareness of a dynamics model by predicting unobserved states.
-Figure 2: Overview of our notation and definitions.
+Dynamics Model: Predicts the action-conditional future observations given the past observations and actions: p (xt + 1: t + k|u1: t + k − 1, x1: t) Awareness: The information about unobserved states that is represented by the dynamics model. Diagnostic Model: A model used to evaluate (or diagnose) the awareness of a dynamics model by predicting unobserved states. Figure 2: Overview of our notation and definitions.
 
 ## Dynamics, Awareness, and Diagnostics
 
@@ -65,15 +60,7 @@ Figure 3: Top Left: A PreCo model generating single-step predictions and correct
 
 This section introduces the Predictor-Corrector (PreCo) dynamics model we use for long-horizon multi-step predictions over the observation space $p{(\left. x_{{t + 1}:{t + k}} \middle| {u_{1:{{t + k} - 1}},x_{1:t}} \right.)}$. We first encode the observed trajectory $\{ u_{1:t},x_{1:t}\}$ into a *deterministic* hidden state $h_{t} \in \mathcal{H}$ using a recurrent model parameterized by $\theta$ and then use this hidden state to predict distributions over the future observations $x_{{t + 1}:{t + k}}$. We show experimentally that even though the hidden states $h_{t}$ were only trained on *observed states*, they contain an *awareness* of *unobserved states* in the environment.
 
-Using a deterministic hidden state allows us to easily unroll the predictor without needing to approximate the distributions with sampling or other approximate methods. We assume that the observation predictions are independent of each other given the hidden state, and can be modeled as
-
-This modelling is done with three deterministic components:
-
-${Predictor}_{\theta}:{{\mathcal{H} \times \mathcal{U}}\rightarrow\mathcal{H}}$ predicts the next hidden state after taking an action,
-
-${Corrector}_{\theta}:{{\mathcal{H} \times \mathcal{X}}\rightarrow\mathcal{H}}$ corrects the current hidden state after receiving an observation from the environment, and
-
-${Decoder}_{\theta}:{\mathcal{H}\rightarrow P_{\mathcal{X}}}$ maps from the hidden state to a distribution over the observations.
+Using a deterministic hidden state allows us to easily unroll the predictor without needing to approximate the distributions with sampling or other approximate methods. We assume that the observation predictions are independent of each other given the hidden state, and can be modeled as This modelling is done with three deterministic components: ${Predictor}_{\theta}:{{\mathcal{H} \times \mathcal{U}}\rightarrow\mathcal{H}}$ predicts the next hidden state after taking an action, ${Corrector}_{\theta}:{{\mathcal{H} \times \mathcal{X}}\rightarrow\mathcal{H}}$ corrects the current hidden state after receiving an observation from the environment, and ${Decoder}_{\theta}:{\mathcal{H}\rightarrow P_{\mathcal{X}}}$ maps from the hidden state to a distribution over the observations.
 
 Separating the dynamics model into predictor and corrector components allows us to operate in single-step and multi-step prediction modes as Figure 3 Dynamics Model ‣ Learning Awareness Models") shows. The predictor can make action-conditional predictions using the hidden states from the corrector for single-step predictions as $h_{t,0}^{p} = {{Predictor}_{\theta}{(h_{t - 1}^{c},u_{t})}}$ or from itself for multi-step predictions as $h_{t,{i + 1}}^{p} = {{Predictor}_{\theta}{(h_{t,i}^{p},u_{t + i})}}$. In our notation, $h_{t,i}^{p}$ denotes the predictor's hidden state prediction at time $t + i$ starting from the corrector's state at time $t - 1$. The corrector then makes the updates $h_{t}^{c} = {{Corrector}_{\theta}{(h_{t,0}^{p},x_{t})}}$.
 
@@ -83,9 +70,7 @@ The predictor and corrector components use single layer LSTM cores. We embed the
 
 ## Control with Dynamics and Diagnostic Models
 
-Model predictive control (MPC), the strategy of controlling a system by repeatedly solving a model-based optimization problem in a receding horizon fashion, is a powerful control technique when a dynamics model is known. Throughout this paper, we use MPC to achieve objectives based on predictions from our dynamics models. Formally, MPC requires that at each timestep after receiving an observation and correcting the hidden state, we solve the optimization problem
-
-where the timesteps in this problem are offset from the actual timestep in the real system, the initial hidden state $h_{init}$ is from the most recent corrector's state, and the remaining hidden states are unrolled from the predictor. In our experiments we also add constraints to the actions $\mathcal{U}_{1:T}$ so that they lie in a box ${\| u_{t}\|}_{\infty} \leq 1$ and we enforce slew rate constraints ${\|{u_{t + 1} - u_{t}}\|}_{\infty} \leq 0.1$. After solving this problem, we execute the first returned control $u_{1}^{\star}$ on the real system, step forward in time, and repeat the process.
+Model predictive control (MPC), the strategy of controlling a system by repeatedly solving a model-based optimization problem in a receding horizon fashion, is a powerful control technique when a dynamics model is known. Throughout this paper, we use MPC to achieve objectives based on predictions from our dynamics models. Formally, MPC requires that at each timestep after receiving an observation and correcting the hidden state, we solve the optimization problem | | ${h_{1:T}^{\star},u_{1:T}^{\star}} = \underset{h_{1:T},u_{1:T}}{argmin}$ | $\sum\limits_{t}{C{(h_{t},u_{t})}}$ | | \(1\) | where the timesteps in this problem are offset from the actual timestep in the real system, the initial hidden state $h_{init}$ is from the most recent corrector's state, and the remaining hidden states are unrolled from the predictor. In our experiments we also add constraints to the actions $\mathcal{U}_{1:T}$ so that they lie in a box ${\| u_{t}\|}_{\infty} \leq 1$ and we enforce slew rate constraints ${\|{u_{t + 1} - u_{t}}\|}_{\infty} \leq 0.1$. After solving this problem, we execute the first returned control $u_{1}^{\star}$ on the real system, step forward in time, and repeat the process.
 
 This formulation allows us to express standard objectives defined over the observation space by using the decoder to map from the hidden state to a distribution over observations at each timestep. We can also use other learned models, such as diagnostic models, to map from the hidden state to other unobservable quantities in the world.
 
@@ -107,9 +92,7 @@ In this paper, we consider environments that are entirely deterministic, except 
 
 Our active exploration exploits this fact by choosing actions to maximize the uncertainty in the rollout predictions. An agent using this uncertainty maximization policy attempts to seek actions for which the outcome is not yet known. This uncertainty can then be resolved by executing these actions and observing their outcome, and the resulting trajectory of observations, actions, and sensations can be used to refine the model.
 
-To choose actions to gather information we use MPC as described in Section 5 over an objective that maximizes the uncertainty in the predictions. Our predictions are Mixtures of Gaussians at each timestep, and the uncertainty over these distributions can be expressed in many ways. We use the Rényi entropy of our model predictions as our measure of uncertainty because it can be easily computed in closed form. Concretely, for a single Mixture of Gaussians prediction $f{(x)}$ we can write
-
-where $i$ and $j$ index the mixture components in the likelihood. A more complete derivation is shown in Appendix A, which extends the result of Wang et al. to the case when the mixture components have different variances. We obtain an information seeking objective by summing the entropy of the predictions across observations and across time, which is expressed as the cost function in MPC as ${C{(h_{t},u_{t})}} = {- {\sum_{f_{i}}{H_{2}{(f_{i})}}}}$ where, through a slight abuse of notation, $f_{i} \in {{Decoder}_{\theta}{(h_{t})}}$ is a distribution over the observation dimension $i$.
+To choose actions to gather information we use MPC as described in Section 5 over an objective that maximizes the uncertainty in the predictions. Our predictions are Mixtures of Gaussians at each timestep, and the uncertainty over these distributions can be expressed in many ways. We use the Rényi entropy of our model predictions as our measure of uncertainty because it can be easily computed in closed form. Concretely, for a single Mixture of Gaussians prediction $f{(x)}$ we can write where $i$ and $j$ index the mixture components in the likelihood. A more complete derivation is shown in Appendix A, which extends the result of Wang et al. to the case when the mixture components have different variances. We obtain an information seeking objective by summing the entropy of the predictions across observations and across time, which is expressed as the cost function in MPC as ${C{(h_{t},u_{t})}} = {- {\sum_{f_{i}}{H_{2}{(f_{i})}}}}$ where, through a slight abuse of notation, $f_{i} \in {{Decoder}_{\theta}{(h_{t})}}$ is a distribution over the observation dimension $i$.
 
 We implement this information gathering policy to collect training data for the model in which it is planning. In our implementation these are two processes running in parallel: we have several actors each with a copy of the current model weights. These use MPC to plan and execute a trajectory of actions that maximizes the model's predicted uncertainty over a fixed horizon trajectory into the future. The observations and actions generated by the actors are collected into a large shared buffer and stored for the learner.
 
@@ -123,7 +106,7 @@ Figure 4: Results for the passive data collection experiment. Black vertical lin
 
 Our simulated environment consists of a hand with a random object placed underneath of it in each episode. The observation state space consists of sensor readings from the hand, and the unobserved state space consists of properties of the object.
 
-The hand is from the Johns Hopkins Modular Prosthetic Limb which we refer to as the "MPL hand", or simply "the hand". This model is distributed with the MuJoCo HAPTIX software and is available for download from the MuJoCo website.^11^1[http://www.mujoco.org/book/haptix.html](http://www.mujoco.org/book/haptix.html) The hand is actuated by 13 motors and has sensors that provide a 132 dimensional observation, which we describe in more detail in Appendix C.
+The hand is from the Johns Hopkins Modular Prosthetic Limb which we refer to as the "MPL hand", or simply "the hand". This model is distributed with the MuJoCo HAPTIX software and is available for download from the MuJoCo website.^11^1 The hand is actuated by 13 motors and has sensors that provide a 132 dimensional observation, which we describe in more detail in Appendix C.
 
 In each episode the hand starts suspended above the table with its palm facing downwards. A random geometric object that we call the "target" is placed on the table, and the hand is free to move to grasp or manipulate the object. The shape of the target is randomly chosen in each episode to be a box, cylinder or ellipsoid and the size and orientation of the target are randomly chosen from reasonable ranges. Figures 1 and 7 show renderings of the environment.
 
@@ -183,9 +166,7 @@ Optimizing for fingertip pressure tends to lead to grasping behavior, since the 
 
 Minimizing entropy of the predictions is also quite interesting. This is the negation of the information gathering objective, and it attempts to make future observations as uninformative as possible. Optimizing for this objective results in behavior where the hand consistently pulls away from the target object.
 
-Qualitative results from executing each of the above policies are shown in Figures 5 and 7. The behavior when minimizing entropy of the predictions is particularly relevant. The resulting behavior causes the hand to pull away from the target object, demonstrating that the model is aware not only of how to interact with the target, but also how to avoid doing so. Videos of the model in action are available online at [https://goo.gl/mZuqAV](https://goo.gl/mZuqAV).
-
-Figure 7: Examples of the hand behaving to maximize uncertainty about the future (top) or minimize uncertainty (bottom). When the hand is trained to maximize uncertainty it engages in playful behavior with the object. The body models learned with this objective, can then be re-used with novel objectives, such as minimizing uncertainty. When doing so, we see that the hand avoids contact so as to minimize uncertainty about future proprioceptive and haptic predictions.
+Qualitative results from executing each of the above policies are shown in Figures 5 and 7. The behavior when minimizing entropy of the predictions is particularly relevant. The resulting behavior causes the hand to pull away from the target object, demonstrating that the model is aware not only of how to interact with the target, but also how to avoid doing so. Videos of the model in action are available online at Figure 7: Examples of the hand behaving to maximize uncertainty about the future (top) or minimize uncertainty (bottom). When the hand is trained to maximize uncertainty it engages in playful behavior with the object. The body models learned with this objective, can then be re-used with novel objectives, such as minimizing uncertainty. When doing so, we see that the hand avoids contact so as to minimize uncertainty about future proprioceptive and haptic predictions.
 
 ## Experiments in the Real World
 
@@ -193,7 +174,7 @@ We have shown that our models work well in simulation. We now turn to demonstrat
 
 ### The shadow hand environment
 
-We use the 24-joint Shadow Dexterous Hand^22^2[https://www.shadowrobot.com/products/dexterous-hand/](https://www.shadowrobot.com/products/dexterous-hand/) with 20-DOF tendon position control and set up a real life analog of our simulated environment, as shown in Figure 8. Since varying the spatial extents of an object in real life would be very labor intensive we instead use a single object fixed to a turntable that can rotate to any one of 255 orientations, and our diagnostic task in this environment is to recover the orientation of the grasped object.
+We use the 24-joint Shadow Dexterous Hand^22^2 with 20-DOF tendon position control and set up a real life analog of our simulated environment, as shown in Figure 8. Since varying the spatial extents of an object in real life would be very labor intensive we instead use a single object fixed to a turntable that can rotate to any one of 255 orientations, and our diagnostic task in this environment is to recover the orientation of the grasped object.
 
 We built a turntable mechanism for orienting the object beneath the hand, and design some randomized grasp trajectories for the hand to close around the block. The object is a soft foam wedge (the shape is chosen to have an unambiguous orientation) and fixed to the turntable. At each episode we turn the table to a randomly chosen orientation and execute two grasp release cycles with the hand robot.
 
@@ -201,9 +182,7 @@ Figure 8: Left: The robotic hand setup. Center: Results on predicting block orie
 
 ### Data collection
 
-Over the course of two days we collected 1140 grasp trajectories in three sessions of 47, 393 and 700 trajectories. We use the 47 trajectories from the initial session as test data, and use the remaining 1093 trajectories for training. Each trajectory is 81 frames long and consists of two grasp-release cycles with the target object at a fixed orientation. At each timestep we measure four different proprioceptive features from the robot:
-
-The actions, a set of 20 desired joint positions, sent to the robot for the current timestep.
+Over the course of two days we collected 1140 grasp trajectories in three sessions of 47, 393 and 700 trajectories. We use the 47 trajectories from the initial session as test data, and use the remaining 1093 trajectories for training. Each trajectory is 81 frames long and consists of two grasp-release cycles with the target object at a fixed orientation. At each timestep we measure four different proprioceptive features from the robot: The actions, a set of 20 desired joint positions, sent to the robot for the current timestep.
 
 The angles, a set of 24 measured joint positions, reported by the robot at the current timestep. There are more angles than actions because not all joints of the hand are separately actuated, and the measured angles may not match the intended actions due to force limits imposed by the low level controller.
 
@@ -213,7 +192,7 @@ The pressures are five scalar measurements that indicate the pressure experience
 
 Joint ranges of the hand are limited to prevent fingers pushing each other, and the actuator strengths are limited for the safety of the robot and the apparatus. At each grasp-release cycle final grasped and released positions are sampled from handcrafted distributions. Position targets sent to the robot are calculated by interpolating between these two positions in 20 steps.
 
-There are multiple complexities the sensor model needs to deal with. First of all once a finger touches the object actual positions and target positions do not match, and the foam object bends and deforms. Also the hand can occasionally overcome the resistance in the turntable motor causing the target object to rotate during the episode (for about 10-20 degrees and rarely more). This creates extra unrecorded source of error in the data.
+There are multiple complexities the sensor model needs to deal . First of all once a finger touches the object actual positions and target positions do not match, and the foam object bends and deforms. Also the hand can occasionally overcome the resistance in the turntable motor causing the target object to rotate during the episode (for about 10-20 degrees and rarely more). This creates extra unrecorded source of error in the data.
 
 ### Awareness and diagnostics
 

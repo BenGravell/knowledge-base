@@ -42,31 +42,23 @@ Our model exploits a history of LiDAR point clouds to extract rich geometric and
 
 Human drivers are able to successfully navigate complex road topologies with high-density of traffic by exploiting their prior knowledge about traffic rules and social behavior such as the fact that vehicles should drive on the road, close to a lane centerline, in the direction of traffic and should not collide with other actors. Since we would like to incorporate such prior knowledge into the decisions of the SDV, and these to be explainable through interpretable concepts, it is important to predict intelligible representations of the static environment, which we refer here as an online map, as well as the dynamic objects position and velocity into the future, captured in our dynamic occupancy field. We refer the reader to Fig.3 for an example of these representations. Since the predicted online map and dynamic occupancy field are not going to be perfect due to limitations in the sensors, occlusions and the model, it is important to reason about uncertainty to assess the risk of each possible decision the SDV might take. Next, we first describe the semantics in our interpretable representation of the world, and then introduce our probabilistic model.
 
-Reachable Distance Transform
-
-Temporal Motion Field
-
-Figure 3: Interpretable Scene representations. For occupancy and motion, we visualize all time steps and classes in the same image to save space, differentiating with colors.
+Reachable Distance Transform Temporal Motion Field Figure 3: Interpretable Scene representations. For occupancy and motion, we visualize all time steps and classes in the same image to save space, differentiating with colors.
 
 ### Online map representation
 
-In order to drive safely it is useful to reason the following elements in BEV:
+In order to drive safely it is useful to reason the following elements in BEV: Drivable area: Road surface (or pavement) where vehicles are allowed to drive, bounded by the curb.
 
-Drivable area: Road surface (or pavement) where vehicles are allowed to drive, bounded by the curb.
-
-Reachable lanes: Lane center lines (or motion paths) are defined as the canonical paths vehicles travel on, typically in the middle of 2 lane markers. We define the reachable lanes as the subset of motion paths the SDV can get to without breaking any traffic rules. When planning a trajectory, we would like the SDV to stay close to these reachable lanes and drive aligned to their direction. Thus, for each pixel in the ground plane we predict the unsigned distance to the closest reachable lane centerline, truncated at 10 meters, as well as the angle of the closest reachable lane centerline segment.
+Reachable lanes: Lane center lines (or motion paths) are defined as the canonical paths vehicles travel , typically in the middle of 2 lane markers. We define the reachable lanes as the subset of motion paths the SDV can get to without breaking any traffic rules. When planning a trajectory, we would like the SDV to stay close to these reachable lanes and drive aligned to their direction. Thus, for each pixel in the ground plane we predict the unsigned distance to the closest reachable lane centerline, truncated at 10 meters, as well as the angle of the closest reachable lane centerline segment.
 
 Intersection: Drivable area portion where traffic is controlled via traffic lights or traffic signs. Reasoning about this is important to handle stop/yield signs and traffic lights. For instance, if a traffic light is red, we should wait to enter the intersection. Following, we assume a separate camera-based perception system detects the traffic lights and recognizes their state as this is not our focus.
 
-Figure 4: The motion field warps the occupancy over time. Transparency denotes probability. Color differences the predicted layers by the network and the future occupancy. We depict the particular case of unimodal motion (K=1).
+Figure 4: The motion field warps the occupancy over time. Transparency denotes probability. Color differences the predicted layers by the network and the future occupancy. We depict the particular case of unimodal motion (K = 1).
 
 ### Dynamic occupancy field
 
 Another critical aspect to achieve safe self-driving is to understand which space is occupied by dynamic objects and how do these move over time. Many accurate LiDAR-based object detectors have been proposed to localize dynamic obstacles followed by a motion forecasting stage to predict the future state of each object. However, all these methods contain unsafe discrete decisions such as confidence thresholding and non-maximum suppression (NMS) that can eliminate low-confidence predictions of true objects resulting in unsafe situations. proposed a probabilistic way to measure the likelihood of a collision for a given SDV maneuver by exploiting a non-parametric spatial representation of the world. This computation is agnostic to the number of objects. However, this representation does not provide velocity estimates, and thus it is not amenable to car-following behaviors and speed-dependent safety buffer reasoning. Moreover, the decision making algorithm cannot properly reason about interactions, since for a given future occupancy its origin cannot be traced back.
 
-In contrast, in this paper we propose an occupancy flow parameterized by the occupancy of the dynamic objects at the current state of the world and a temporal motion field into the future that describes how objects move (and in turn their future occupancies), both discretized into a spatial grid on BEV with a resolution of 0.4 m/pixel, as depicted in Fig. 4:
-
-Initial Occupancy: a BEV grid cell is active (occupied) if its center falls in the interior of a polygon given by an object shape and its current pose.
+In contrast, in this paper we propose an occupancy flow parameterized by the occupancy of the dynamic objects at the current state of the world and a temporal motion field into the future that describes how objects move (and in turn their future occupancies), both discretized into a spatial grid on BEV with a resolution of 0.4 m/pixel, as depicted in Fig. 4: Initial Occupancy: a BEV grid cell is active (occupied) if its center falls in the interior of a polygon given by an object shape and its current pose.
 
 Temporal Motion Field: defined for the occupied pixels at a particular time into the future. Each occupied pixel motion is represented with a 2D BEV velocity vector (in m/s). We discretize this motion field into $T = 11$ time steps into the future (up to 5s, every 0.5s).
 
@@ -74,19 +66,13 @@ Since the SDV behavior should be adaptive to objects from different categories (
 
 ### Probabilistic Model
 
-We would like to reason about uncertainty in our online map and dynamic occupancy field. Towards this goal, we model each semantic channel of the online map $\mathcal{M}$ as a collection of independent variables per BEV grid cell. This assumption makes the model very simple and efficient. To simplify the notation, we use the letter $i$ to indicate a spatial index on the grid instead of two indices (row, column) from now on. We model each BEV grid cell in the drivable area and intersections channels as Bernoulli random variables, $\mathcal{M}_{i}^{A}$ and $\mathcal{M}_{i}^{I}$ respectively, as we consider a grid cell is either part these elements or not. We model the truncated distance transform to the reachable lanes centerline $\mathcal{M}_{i}^{D}$ as a Laplacian, which we empirically found to yield more accurate results than a Gaussian, and the direction of the closest lane centerline in the reachable lanes $\mathcal{M}_{i}^{\theta}$ as a Von Mises distribution since it has support between $\lbrack\pi,\pi\rbrack$.
+We would like to reason about uncertainty in our online map and dynamic occupancy field. Towards this goal, we model each semantic channel of the online map $\mathcal{M}$ as a collection of independent variables per BEV grid cell. This assumption makes the model very simple and efficient. To simplify the notation, we use the letter $i$ to indicate a spatial index on the grid instead of two indices (row, column) from now . We model each BEV grid cell in the drivable area and intersections channels as Bernoulli random variables, $\mathcal{M}_{i}^{A}$ and $\mathcal{M}_{i}^{I}$ respectively, as we consider a grid cell is either part these elements or not. We model the truncated distance transform to the reachable lanes centerline $\mathcal{M}_{i}^{D}$ as a Laplacian, which we empirically found to yield more accurate results than a Gaussian, and the direction of the closest lane centerline in the reachable lanes $\mathcal{M}_{i}^{\theta}$ as a Von Mises distribution since it has support between $\lbrack\pi,\pi\rbrack$.
 
-We model the occupancy of dynamic objects $\mathcal{O}^{c}$ for each class $c \in {\{\text{vehicle, pedestrian, bicyclist}\}}$ as a collection of Bernoulli random variables $\mathcal{O}_{t,i}^{c}$, one for each spatio-temporal index $t,i$. Since an agent future behavior is highly uncertain and multi-modal (e.g., a vehicle going straight vs. turning right), we model the motion for each class at each spatio-temporal location as a categorical distribution $\mathcal{K}_{t,i}^{c}$ over $K$ BEV motion vectors $\{\mathcal{V}_{t,i,k}^{c}:{k \in {1\ldotsK}}\}$. Here, each motion vector is parameterized by the continuous velocity in the x and y directions in BEV. To compute the probability of future occupancy under our probabilistic model, we first define the probability of occupancy flowing from location $i_{1}$ to location $i_{2}$ between two consecutive time steps $t$ and $t + 1$ as follows:
-
-where $p{({\mathcal{V}_{t,i_{1},k} = i_{2}})}$ distributes the mass locally and is determined via bilinear interpolation if $i_{2}$ is among the 4 nearest grid cells to the head of the continuous motion vector, and 0 for all other cells, as depicted in Fig. 4. With this definition, we can easily calculate the future occupancy iteratively, starting from the occupancy predictions at $t = 0$. This parameterization ensures consistency by definition between future motion and future occupancy, and provides an efficient way to query how does some particular initial occupancy evolve over time, which will be used for interaction and right-of-way reasoning in our motion planner. Specifically, to get the occupancy that flows into cell $i$ at time $t + 1$ from all cells $j$ at time $t$, we can simply compute the probability that no occupancy flow event occurs, and take its complement
-
-We point the reader to the appendix for further details on the mapping and perception and prediction network architecture.
+We model the occupancy of dynamic objects $\mathcal{O}^{c}$ for each class $c \in {\{\text{vehicle, pedestrian, bicyclist}\}}$ as a collection of Bernoulli random variables $\mathcal{O}_{t,i}^{c}$, one for each spatio-temporal index $t,i$. Since an agent future behavior is highly uncertain and multi-modal (e.g., a vehicle going straight vs. turning right), we model the motion for each class at each spatio-temporal location as a categorical distribution $\mathcal{K}_{t,i}^{c}$ over $K$ BEV motion vectors $\{\mathcal{V}_{t,i,k}^{c}:{k \in {1\ldotsK}}\}$. Here, each motion vector is parameterized by the continuous velocity in the x and y directions in BEV. To compute the probability of future occupancy under our probabilistic model, we first define the probability of occupancy flowing from location $i_{1}$ to location $i_{2}$ between two consecutive time steps $t$ and $t + 1$ as follows: where $p{({\mathcal{V}_{t,i_{1},k} = i_{2}})}$ distributes the mass locally and is determined via bilinear interpolation if $i_{2}$ is among the 4 nearest grid cells to the head of the continuous motion vector, and 0 for all other cells, as depicted in Fig. 4. With this definition, we can easily calculate the future occupancy iteratively, starting from the occupancy predictions at $t = 0$. This parameterization ensures consistency by definition between future motion and future occupancy, and provides an efficient way to query how does some particular initial occupancy evolve over time, which will be used for interaction and right-of-way reasoning in our motion planner. Specifically, to get the occupancy that flows into cell $i$ at time $t + 1$ from all cells $j$ at time $t$, we can simply compute the probability that no occupancy flow event occurs, and take its complement We point the reader to the appendix for further details on the mapping and perception and prediction network architecture.
 
 ### Motion Planning
 
-The goal of the motion planner is to generate trajectories that are safe, comfortable and progressing towards the goal. We design a sample-based motion-planner in which a set of kinematically-feasible trajectories are generated and then evaluated using a learned scoring function. The scoring function utilizes the probabilistic dynamic occupancy field to encode the safety of the possible maneuvers encouraging cautious behaviors that avoid occupied regions, and maintain a safe headway to the occupied area in front of the SDV. The probabilistic layers in our online map are used in the scoring function to ensure the SDV is driving on the drivable area, close to the lane center and in the right direction, being cautious in uncertain regions, and driving towards the goal specified by the input high-level command. The planner evaluates all the sampled trajectories in parallel and selects the trajectory with the minimum cost:
-
-with $f$ the scoring function, $\mathbf{w}$ the learnable parameters of our models, $\mathcal{M}$ the map layers, $\mathcal{O},\mathcal{K},\mathcal{V}$ the occupancy and motion mode-probability and vector layers respectively, and $\mathcal{T}{(\mathbf{x}_{0})}$ represents the possible trajectories which are generated conditioned on the current state of the SDV $\mathbf{x}_{0}$.
+The goal of the motion planner is to generate trajectories that are safe, comfortable and progressing towards the goal. We design a sample-based motion-planner in which a set of kinematically-feasible trajectories are generated and then evaluated using a learned scoring function. The scoring function utilizes the probabilistic dynamic occupancy field to encode the safety of the possible maneuvers encouraging cautious behaviors that avoid occupied regions, and maintain a safe headway to the occupied area in front of the SDV. The probabilistic layers in our online map are used in the scoring function to ensure the SDV is driving on the drivable area, close to the lane center and in the right direction, being cautious in uncertain regions, and driving towards the goal specified by the input high-level command. The planner evaluates all the sampled trajectories in parallel and selects the trajectory with the minimum cost: with $f$ the scoring function, $\mathbf{w}$ the learnable parameters of our models, $\mathcal{M}$ the map layers, $\mathcal{O},\mathcal{K},\mathcal{V}$ the occupancy and motion mode-probability and vector layers respectively, and $\mathcal{T}{(\mathbf{x}_{0})}$ represents the possible trajectories which are generated conditioned on the current state of the SDV $\mathbf{x}_{0}$.
 
 ### Trajectory Sampling
 
@@ -102,15 +88,11 @@ We use a linear combination of the following cost functions to score the sampled
 
 ### Routing and Driving on Roads
 
-In order to encourage the SDV to perform the high-level command, we use a scoring function that encourages trajectories that travel a larger distance in regions with high probability in $\mathcal{R}$. We use the following score function:
-
-where $m{(\tau)}$ is the BEV grid-cells that overlap with SDV polygon in trajectory $\tau$. This score function makes sure the SDV stays on the route and is only rewarded when moving within the route. We introduce an additional cost-to-go that considers the predicted route beyond the planning horizon. This is important when there is a turn at the end of the horizon and the SDV velocity is high. Specifically, we compute the average value of $1 - \mathcal{R}_{j}$ for all BEV grid-cells $j$ that have overlap with SDV beyond the trajectory horizon, assuming that the SDV maintains constant velocity and heading.
+In order to encourage the SDV to perform the high-level command, we use a scoring function that encourages trajectories that travel a larger distance in regions with high probability in $\mathcal{R}$. We use the following score function: where $m{(\tau)}$ is the BEV grid-cells that overlap with SDV polygon in trajectory $\tau$. This score function makes sure the SDV stays on the route and is only rewarded when moving within the route. We introduce an additional cost-to-go that considers the predicted route beyond the planning horizon. This is important when there is a turn at the end of the horizon and the SDV velocity is high. Specifically, we compute the average value of $1 - \mathcal{R}_{j}$ for all BEV grid-cells $j$ that have overlap with SDV beyond the trajectory horizon, assuming that the SDV maintains constant velocity and heading.
 
 The SDV needs to always stay close to the center of the reachable lanes while on the road. Hence we use the predicted reachable lanes distance transform $\mathcal{M}^{D}$ to penalize distant trajectory points. In order to promote cautious behavior when there is high uncertainty in $\mathcal{M}^{D}$ and $\mathcal{M}^{\theta}$, we use a cost function that is the product of the SDV velocity and the standard deviation of the probability distributions of cells overlapping with SDV in $\mathcal{M}^{D}$ and $\mathcal{M}^{\theta}$. This promotes slow maneuver in the presence of map uncertainty.
 
-The SDV is also required to stay on the road and avoid encroaching onto the side-walks or the curb. Hence, we use the predicted drivable area $\mathcal{M}^{A}$ to penalize trajectories that go off the road:
-
-where $m{(\mathbf{x})}$ is the set of BEV grid-cells that overlap with SDV at trajectory point $\mathbf{x}$. Similarly, the SDV needs to avoid junctions with red-traffic lights. Hence. we use the predicted junction probability map $\mathcal{M}^{J}$ to penalize maneuvers that violate red-traffic light, similar to the routing cost.
+The SDV is also required to stay on the road and avoid encroaching onto the side-walks or the curb. Hence, we use the predicted drivable area $\mathcal{M}^{A}$ to penalize trajectories that go off the road: where $m{(\mathbf{x})}$ is the set of BEV grid-cells that overlap with SDV at trajectory point $\mathbf{x}$. Similarly, the SDV needs to avoid junctions with red-traffic lights. Hence. we use the predicted junction probability map $\mathcal{M}^{J}$ to penalize maneuvers that violate red-traffic light, similar to the routing cost.
 
 ### Safety
 
@@ -122,17 +104,7 @@ The above objective promotes trajectories that do not overlap with occupied regi
 
 We also penalize jerk, lateral acceleration, curvature and its rate of change to promote comfortable driving.
 
-Progress per event (m) ↑
-
-jerk$\left( \frac{m}{s^{3}} \right)$ ↓
-lat.acc. $\left( \frac{m}{s^{2}} \right)$↓
-
-Table 1: Closed-loop simulation results
-
-lat.acc.$\left( \frac{m}{s^{2}} \right)$
-Jerk $\left( \frac{m}{s^{3}} \right)$
-
-Table 2: Large-scale evaluation against expert demonstrations
+Progress per event (m) ↑ jerk$\left(\frac{m}{s^{3}} \right)$ ↓ lat.acc. $\left(\frac{m}{s^{2}} \right)$↓ Table 1: Closed-loop simulation results lat.acc.$\left(\frac{m}{s^{2}} \right)$ Jerk $\left(\frac{m}{s^{3}} \right)$ Table 2: Large-scale evaluation against expert demonstrations
 
 ### Learning
 
@@ -154,13 +126,7 @@ We train the route prediction with binary cross-entropy loss. To learn a better 
 
 Since selecting the minimum-cost trajectory within a discrete set is non-differentiable, we use the max-margin loss to penalize trajectories that have small cost but differ from the human demonstration or are unsafe.
 
-Scenario 1 - Keep Lane
-Scenario 2 - Turn Left
-Scenario 3 - Turn Right
-
-Map and Route
-
-Figure 5: Qualitative results. We show our predicted scene representations and motion plan for different high-level actions.
+Scenario 1 - Keep Lane Scenario 2 - Turn Left Scenario 3 - Turn Right Map and Route Figure 5: Qualitative results. We show our predicted scene representations and motion plan for different high-level actions.
 
 ## Experimental Evaluation
 

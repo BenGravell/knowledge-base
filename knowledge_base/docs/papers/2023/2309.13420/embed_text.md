@@ -22,9 +22,7 @@ CMUNE cmune, a predecessor of DPC, uses the MNN graph to calculate the density o
 
 ### Hierarchical Clustering Algorithms
 
-In this category, data objects are organized into a tree of group-of-objects. The tree is constructed either from top to bottom or from bottom to top leading to divisive or agglomerative type of algorithms, respectively. Hierarchical clustering has been extensively applied in pattern recognition. Some known examples are Chameleon chameleon and CURE cure. The scalability of hierarchical methods is generally limited due to their time complexity. To address this issue, fast_HC_2018 proposed a fast hierarchical clustering algorithm based on topology training. PHA pha_2013 uses both local and global data distribution information during the clustering process. It can deal with overlapping clusters, clusters of non-spherical shapes and clusters containing noisy data, by making good use of the similarity between the iso-potential contours of a potential field and hierarchical clustering. A more successful variant of hierarchical density is HDBSCAN hdbscan_2017. HDBSCAN provides a clustering hierarchy from which a simplified tree of significant clusters is constructed, then a flat partition composed of clusters extracted from optimal local cuts through the cluster tree. Unlike DBSCAN, It can find clusters of variable densities.\
-
-RCC rcc_2017 is a clustering algorithm that achieves high accuracy across multiple domains and scales efficiently to high dimensions and large datasets. it optimizes a smooth continuous objective function that allows the algorithm to be extended to perform joint clustering and dimensionality reduction.
+In this category, data objects are organized into a tree of group-of-objects. The tree is constructed either from top to bottom or from bottom to top leading to divisive or agglomerative type of algorithms, respectively. Hierarchical clustering has been extensively applied in pattern recognition. Some known examples are Chameleon chameleon and CURE cure. The scalability of hierarchical methods is generally limited due to their time complexity. To address this issue, fast_HC_2018 proposed a fast hierarchical clustering algorithm based on topology training. PHA pha_2013 uses both local and global data distribution information during the clustering process. It can deal with overlapping clusters, clusters of non-spherical shapes and clusters containing noisy data, by making good use of the similarity between the iso-potential contours of a potential field and hierarchical clustering. A more successful variant of hierarchical density is HDBSCAN hdbscan_2017. HDBSCAN provides a clustering hierarchy from which a simplified tree of significant clusters is constructed, then a flat partition composed of clusters extracted from optimal local cuts through the cluster tree. Unlike DBSCAN, It can find clusters of variable densities.\RCC rcc_2017 is a clustering algorithm that achieves high accuracy across multiple domains and scales efficiently to high dimensions and large datasets. it optimizes a smooth continuous objective function that allows the algorithm to be extended to perform joint clustering and dimensionality reduction.
 
 A recent algorithm in this category is FINCH algorithm finch_2019. It is fully parameter-free (i.e. does not require any user defined parameters such as similarity thresholds, number of clusters or a priori knowledge about the data distribution) clustering algorithm.The algorithm is based on the clustering equation which defines an adjacency link matrix that links two points i and j if j is the first neighbor of i or i is the first neighbor of j or both i and j have (share) the same first nearest neighbor. The algorithm belongs to the family of hierarchical agglomerative methods, has low computational overhead and is fast.
 
@@ -52,33 +50,25 @@ Figure 1: Asymmetry of the K-nearest neighborhood relation.
 
 ### DenMune classification of data points into Strong, Weak and Noise Points
 
-According to the value of the non-negative ratio $r = \frac{|{KNN_{p\leftarrow}}|}{|{KNN_{p\rightarrow}}|} = \frac{|{KNN_{p\leftarrow}}|}{K}$, since ${|{KNN_{p\rightarrow}}|} = K$ (by definition), from DenMune point of view, each data point 'p' in a dataset, belongs to one of the types described in Eq.:
-
-Figure 2: Fuzziness of the set W of weak points. N and S denote the noise (r = 0) and strong (r ≥ 1) points, respectively. T is some threshold that partitions the set W into WN and WS. Both sets are automatically detected by DenMune.
+According to the value of the non-negative ratio $r = \frac{|{KNN_{p\leftarrow}}|}{|{KNN_{p\rightarrow}}|} = \frac{|{KNN_{p\leftarrow}}|}{K}$, since ${|{KNN_{p\rightarrow}}|} = K$ (by definition), from DenMune point of view, each data point 'p' in a dataset, belongs to one of the types described in Eq.: Figure 2: Fuzziness of the set W of weak points. N and S denote the noise (r = 0) and strong (r ≥ 1) points, respectively. T is some threshold that partitions the set W into WN and WS. Both sets are automatically detected by DenMune.
 
 Strong Points: satisfy the condition ${|{KNN_{p\leftarrow}}|} \geq {|{KNN_{p\rightarrow}}|}$, or ${|{KNN_{p\leftarrow}}|} \geq K$. This implies that ${|{MNN_{p}}|} =$\| $KNN_{p\rightarrow}$ $\cap$ $KNN_{p\leftarrow}|$ $=$ K. Strong points are also called seed points. Seed points that share non-empty MNN-sets of seeds are the clusters' constructors in the proposed algorithm.
 
-Weak points: satisfy the condition ${|{KNN_{p\leftarrow}}|} < {|{KNN_{p\rightarrow}}|}$. From Eq., it is clear that the boundaries of the set defining the weak points are fuzzy. Fig. 2 illustrates the idea that in DenMune, a weak point either succeeds in joining a cluster or it is considered as noise. For this reason, weak-points are called non-strong (non-seed) points. Hence, the following lemma can be concluded:
-
-Lemma: The set of weak points is a fuzzy set. Its boundaries with the sets of strong and noise points are fuzzy. The rule governing the assignment of a weak point to a cluster or rejecting it as noise is, in general, data as well as algorithm dependent.
+Weak points: satisfy the condition ${|{KNN_{p\leftarrow}}|} < {|{KNN_{p\rightarrow}}|}$. From Eq., it is clear that the boundaries of the set defining the weak points are fuzzy. Fig. 2 illustrates the idea that in DenMune, a weak point either succeeds in joining a cluster or it is considered as noise. For this reason, weak-points are called non-strong (non-seed) points. Hence, the following lemma can be concluded: Lemma: The set of weak points is a fuzzy set. Its boundaries with the sets of strong and noise points are fuzzy. The rule governing the assignment of a weak point to a cluster or rejecting it as noise is, in general, data as well as algorithm dependent.
 
 Noise points, represent points either with empty $MNN$s (corresponding to $r = 0$, which are removed early in phase \\@slowromancapi@ of DenMune algorithm, named as noise of type-1), or weak points that fail to merge with any formed cluster (corresponding to $r \ll 1$, which are removed in phase \\@slowromancapii@ of the algorithm, named as noise of type-2).
 
 ### Proposed Algorithm: Overview
 
-DenMune is based on a voting system framework where points that receive the largest number of votes (i.e. they belong to the K-nearest neighbors of at least K other points), are marked as dense/ seed points and are used to construct the backbone of the target clusters in phase \\@slowromancapi@ of the algorithm. Points that receive no votes are considered as noise of type-1 and are eliminated from the clustering process. Phase \\@slowromancapii@ deals with the weak points that either survive by merging with the existing clusters, or are eliminated by being considered as noise of type-2.\
-Table 1 shows the distribution of strong/ seeds and weak/ non-seeds points among the Chameleon's DS7 dataset which includes 10,000 data points, while Fig. 3 illustrates how strong points determine the shapes/ structures of the clusters where weak points can only merge with them.
+DenMune is based on a voting system framework where points that receive the largest number of votes (i.e. they belong to the K-nearest neighbors of at least K other points), are marked as dense/ seed points and are used to construct the backbone of the target clusters in phase \\@slowromancapi@ of the algorithm. Points that receive no votes are considered as noise of type-1 and are eliminated from the clustering process. Phase \\@slowromancapii@ deals with the weak points that either survive by merging with the existing clusters, or are eliminated by being considered as noise of type-2.\Table 1 shows the distribution of strong/ seeds and weak/ non-seeds points among the Chameleon's DS7 dataset which includes 10,000 data points, while Fig. 3 illustrates how strong points determine the shapes/ structures of the clusters where weak points can only merge with them.
 
 Table 1: Strong and weak points found by DenMune in the Chameleon DS7 dataset.
 
-(a) Backbone-constructors (points that receive high votes), also known as strong points. (b) Weak points. (c) DenMune merges some of the weak points in Fig. 2(b) with their nearest clusters. (d) Noise points.
-Figure 3: Phases of DenMune
+(a) Backbone-constructors (points that receive high votes), also known as strong points. (b) Weak points. (c) DenMune merges some of the weak points in Fig. 2(b) with their nearest clusters. (d) Noise points. Figure 3: Phases of DenMune
 
 ### Proposed Algorithm: Steps
 
-DenMune involves the following steps:
-
-Canonical ordering: Clustering results obtained by DenMune are deterministic, as it orders the set of points $P$ according to $|{KNN_{p\leftarrow}}|$ in a descending order.
+DenMune involves the following steps: Canonical ordering: Clustering results obtained by DenMune are deterministic, as it orders the set of points $P$ according to $|{KNN_{p\leftarrow}}|$ in a descending order.
 
 Noise Removal: Noise points of type-1 as well as those of type-2 are detected and removed in phase \\@slowromancapi@ and phase \\@slowromancapii@, of the algorithm, respectively, as illustrated in Table 2.
 
@@ -88,8 +78,7 @@ Table 2: Distribution of the different type of points, detected by DenMune, vs t
 
 To further illustrate the process of clusters propagation, Chameleon's dataset DS7 \\chameleondatasets is used. Several snapshots of the clustering process, are shown in Fig. 4, to illustrate how clusters propagate agglomeratively, and in parallel, in CSharp and DenMune.
 
-(a) CSharp: at the 10th iteration (b) DenMune: at the 10th iteration (c) CSharp: at the 50th iteration (d) DenMune: at the 50th iteration (e) CSharp: at the 250th iteration (f) DenMune: at the 250th iteration (g) CSharp: at the 1000th iteration (h) DenMune: at the 1000th iteration (i) CSharp: at the last iteration, 6734th (j) DenMune: at last iteration, 9329th
-Figure 4: Clusters formation and propagation in DenMune and CSharp. Clusters seeds in DenMune are sparser but their propagation speed is slower. Also, DenMune results are more noise free.
+(a) CSharp: at the 10th iteration (b) DenMune: at the 10th iteration (c) CSharp: at the 50th iteration (d) DenMune: at the 50th iteration (e) CSharp: at the 250th iteration (f) DenMune: at the 250th iteration (g) CSharp: at the 1000th iteration (h) DenMune: at the 1000th iteration (i) CSharp: at the last iteration, 6734th (j) DenMune: at last iteration, 9329th Figure 4: Clusters formation and propagation in DenMune and CSharp. Clusters seeds in DenMune are sparser but their propagation speed is slower. Also, DenMune results are more noise free.
 
 ### Conservative Nature of DenMune
 
@@ -97,52 +86,17 @@ Clusters formation in Phase \\@slowromancapi@: Fig. 5(a), illustrates the evolut
 
 Slow Merging of Weak Points in Phase \\@slowromancapii@: weak points are merged one by one, each to the cluster with which it shares the largest number of $MNN$-seeds. Table 1, indicates that out of the $4142$ $({3471 + 671})$ weak points, 3471 of them succeed in merging with the clusters formed in the first phase. The remaining 671 points are considered as noise points of type-2. It is worth to note that DenMune overcomes the lack of the noise threshold $L$ and the merge parameter $M$, used in CSharp, by strengthening the $MNN$ relationship to involve only seed points, the propagation process considers the weak points individually, i.e. one by one, weak points that fail to merge with the formed clusters are detected and removed as noise. As shown in Fig. 5(b), for the DS7 dataset, after 1000 iterations, CSharp clustered 80% of the data points, while DenMune clustered only 50% of them. This is due to the fact that clusters in DenMune are initially sparse, as shown in Fig. 5(b).
 
-(a) Number of clusters vs number of iterations.
-(b) Number of clustered data points vs number of iterations.
-Figure 5: DenMune vs CSharp:(a) Number of clusters and (b) number of clustered data points vs number of iterations.
+(a) Number of clusters vs number of iterations. (b) Number of clustered data points vs number of iterations. Figure 5: DenMune vs CSharp:(a) Number of clusters and (b) number of clustered data points vs number of iterations.
 
 ## DenMune Algorithm
 
 Algorithm 1 describes the proposed algorithm, followed by a detailed discussion of its time complexity.
 
-Input: Data points P = {p1, p2…, pn}, K // size of the neighborhood of a point
-Output: C // set of generated clusters
-Construct distance matrix D // Construct the Refer-To-List, KNNpi→, for each point pi ∈ P
-KNNpi→ ← {j|d(pi,pj) ≤ d(pi,pk)} // For each point pi construct KNNpi← by scanning KNNpj→ and selecting points j having point i in their KNNpj→
-// From KNNpi→ and KNNpi←, construct MNNpi
-8 MNNpi ← KNNpi→ ∩ KNNpi←
-Remove the set O, of noise points pi of type-1, satisfying |MNNpi| = 0 Form the sorted list P, The sorting is in a descending order according to |KNNpi←| // P = P - O
-Form the sorted list S ⊂ P = {pi|pi satisfies |KNNpi←| ≥ |KNNpi→|} Form the set Q of non-seed points, where Q = P − S // Note that Q ⊂ P = {pi|pi satisfies |KNNpi←|&lt; |KNNpi→|}
-CreateClustersSkeleton(S) // Phase \@slowromancapi@ of the algorithm
-AssignWeakPoints(Q) // Phase \@slowromancapii@ of the algorithm
-Algorithm 1 DenMune Algorithm
-
-Input: Sorted list S of Seed points
-Output: Sorted list L of the m generated clusters
-// Loop through all seed points and create clusters skeleton from seeds that share non-empty sets of MNN-seeds
-L ← ϕ // List of clusters so far
-ℓ(s∈Cj) ← j // label each seed point in Cj as belonging to cluster j
-// Output the set of generated clusters, m the number of clusters and label each seed point s belonging to a cluster Cj by its corresponding cluster index
-
-Input: Sorted lists L of m clusters and Q of non-seed points.
-Output: Updated list L of the m generated clusters.
-// Loop through all non-seed points and assign each of them to the cluster with which it shares the largest number of MNN-seeds
-i ← 1 // i is an index for non-seed points
-2 Select j such that |{qi ∪ MNNqi}∩Cj| is maximum, where j = 1, 2, ⋯, m and Cj ∈ L;
-ℓ(qi) ← j // label non-seed point qi as belonging to cluster Cj
-Output the formed clusters. The remaining unlabeled points are noise of type-2.
+Input: Data points P = {p1, p2…, pn}, K // size of the neighborhood of a point Output: C // set of generated clusters Construct distance matrix D // Construct the Refer-To-List, KNNpi→, for each point pi ∈ P KNNpi→ ← {j|d(pi, pj) ≤ d(pi, pk)} // For each point pi construct KNNpi← by scanning KNNpj→ and selecting points j having point i in their KNNpj→ // From KNNpi→ and KNNpi←, construct MNNpi 8 MNNpi ← KNNpi→ ∩ KNNpi← Remove the set O, of noise points pi of type-1, satisfying |MNNpi| = 0 Form the sorted list P, The sorting is in a descending order according to |KNNpi←| // P = P - O Form the sorted list S ⊂ P = {pi|pi satisfies |KNNpi←| ≥ |KNNpi→|} Form the set Q of non-seed points, where Q = P − S // Note that Q ⊂ P = {pi|pi satisfies |KNNpi←|< |KNNpi→|} CreateClustersSkeleton(S) // Phase \@slowromancapi@ of the algorithm AssignWeakPoints(Q) // Phase \@slowromancapii@ of the algorithm Algorithm 1 DenMune Algorithm Input: Sorted list S of Seed points Output: Sorted list L of the m generated clusters // Loop through all seed points and create clusters skeleton from seeds that share non-empty sets of MNN-seeds L ← ϕ // List of clusters so far ℓ(s ∈ Cj) ← j // label each seed point in Cj as belonging to cluster j // Output the set of generated clusters, m the number of clusters and label each seed point s belonging to a cluster Cj by its corresponding cluster index Input: Sorted lists L of m clusters and Q of non-seed points. Output: Updated list L of the m generated clusters. // Loop through all non-seed points and assign each of them to the cluster with which it shares the largest number of MNN-seeds i ← 1 // i is an index for non-seed points 2 Select j such that |{qi ∪ MNNqi} ∩ Cj| is maximum, where j = 1, 2, ⋯, m and Cj ∈ L; ℓ(qi) ← j // label non-seed point qi as belonging to cluster Cj Output the formed clusters. The remaining unlabeled points are noise of type-2.
 
 ### Time Complexity
 
-Given $N$ the number of data points, $K$ the number of nearest neighbors, $D$ the number of dimensions and $C$ the number of constructed clusters, the time complexity for computing the similarity matrix, between the data points, is ${O{(N^{2})}}*D$ = $O{(N^{2})}$, since $D = 2$ (after dimensionality reduction). This complexity can be reduced to $O{({N{\log N}})}$, by the use of a data structure such as a k-d tree kd-tree-2013 and optimized-quantization_2017, which works efficiently with low dimensional data. The space complexity of this preprocessing phase is $O{({ND})}$. The time complexity of the algorithm can be analyzed as follows:
-
-line 2, finding $KNN_{p_{i}\rightarrow}$: needs K iterations for each data point, hence it has a complexity of $O{({NK})}$
-
-lines 3-6, finding $KNN_{p_{i}\leftarrow}$: needs K iterations for each of the N data points, hence it has a complexity of $O{({KN})}$
-
-line 7, finding $MNN$ for each of the N data points, a search for mutual neighborhood is done within the K-nearest neighbors of each point.
-
-line 9, sorting points: has a complexity of $O{({N{\log N}})}$, using binary sort.
+Given $N$ the number of data points, $K$ the number of nearest neighbors, $D$ the number of dimensions and $C$ the number of constructed clusters, the time complexity for computing the similarity matrix, between the data points, is ${O{(N^{2})}}*D$ = $O{(N^{2})}$, since $D = 2$ (after dimensionality reduction). This complexity can be reduced to $O{({N{\log N}})}$, by the use of a data structure such as a k-d tree kd-tree-2013 and optimized-quantization_2017, which works efficiently with low dimensional data. The space complexity of this preprocessing phase is $O{({ND})}$. The time complexity of the algorithm can be analyzed as follows: line 2, finding $KNN_{p_{i}\rightarrow}$: needs K iterations for each data point, hence it has a complexity of $O{({NK})}$ lines 3-6, finding $KNN_{p_{i}\leftarrow}$: needs K iterations for each of the N data points, hence it has a complexity of $O{({KN})}$ line 7, finding $MNN$ for each of the N data points, a search for mutual neighborhood is done within the K-nearest neighbors of each point. line 9, sorting points: has a complexity of $O{({N{\log N}})}$, using binary sort.
 
 CreateClustersSkeleton algorithm has a complexity of $O{({{|S|}*{|R|}*{\log K}})}$, where R is an upper bound on the number of temporarily generated clusters, $m \leq R \leq {|S|}$. Letting O(R) $\approx {|S|}$ and O(\|S\|) $\approx N$, then this complexity becomes $\approx {O{({N^{2}{\log K}})}}$.
 
@@ -152,9 +106,7 @@ The overall time complexity for DenMune algorithm is O($N^{2}K$) and its space c
 
 ## Experimental Results
 
-Table 3: Datasets used in the experiments and their properties
-
-We have conducted extensive experiments on the datasets described in Table 3 which include: Fifteen real datasets obtained from UCI repository \\ucidatasets, MNIST dataset\\mnistdatasets and KEEL datasets\\keeldatasets Twenty-one synthetic datasets from \\benchmarkdatasets and \\elkidatasets. In total, thirty-six datasets have been used to assess the results obtained by DenMune with respect to the ground truth as well as to the results obtained by nine known algorithms, NPIR npir_2020, CBKM cbkm_2019, Fast DP fastdp_2019, FINCH finch_2019 ), RS rs_2018 ), RCC rcc_2017 ) HDBSCAN hdbscan_2017, KMeans++ kmeanspp_2007 and Spectral clustering.
+Table 3: Datasets used in the experiments and their properties We have conducted extensive experiments on the datasets described in Table 3 which include: Fifteen real datasets obtained from UCI repository \\ucidatasets, MNIST dataset\\mnistdatasets and KEEL datasets\\keeldatasets Twenty-one synthetic datasets from \\benchmarkdatasets and \\elkidatasets. In total, thirty-six datasets have been used to assess the results obtained by DenMune with respect to the ground truth as well as to the results obtained by nine known algorithms, NPIR npir_2020, CBKM cbkm_2019, Fast DP fastdp_2019, FINCH finch_2019), RS rs_2018), RCC rcc_2017) HDBSCAN hdbscan_2017, KMeans++ kmeanspp_2007 and Spectral clustering.
 
 The Euclidean distance has been adopted as a similarity metric for all datasets.
 
@@ -206,22 +158,14 @@ Also, we found that DenMune performs moderately for small size datasets where De
 
 Finally, we recorded the Homogeneity and Completeness of DenMune in Tables(12 and 13). A clustering result satisfies homogeneity if each cluster contains only members of a single class, while it satisfies completeness if all members of a given class are assigned to the same cluster. It is easy to observe that DenMune has high homogeneity and completeness scores, which explain the goodness of its clustering quality.
 
-Table 4: Best NMI scores, obtained by DenMune, when applying different dimensionality reduction methods on three real N-D datasets
-
-Table 5: Best NMI scores when applying DenMune on five real datasets before and after dimensionality reduction
+Table 4: Best NMI scores, obtained by DenMune, when applying different dimensionality reduction methods on three real N-D datasets Table 5: Best NMI scores when applying DenMune on five real datasets before and after dimensionality reduction
 
 ### Speed Performance
 
-The speed of DenMune has been compared to the speed of CMune and CSharp, as shown in Fig.6a. The data set considered is the MNIST dataset (with 70000 patterns), after dividing it into subsets, each of size 1000 patterns. The subsets are added incrementally, and the speed of the algorithm is recorded with each increment. The time considered is the time required for running the core clustering algorithms, excluding the pre-processing time for computing the proximity matrix and dimensionality reduction. The time is measured in seconds. The adopted algorithms as well as the proposed algorithm have been executed on a cloud with the following configuration: Intel E5 Processor, up to 128 GB RAM, and running Linux operating system (Ubuntu 18.04 LTS). Another test is conducted to examine speed versus the number of K-nearest neighbors used, as shown in Fig.6b
-
-(a) DenMune speed performance
-(b) DenMune: Speed vs number of K- nearest neighbors.
-Figure 6: (a) Speed of DenMune compared to the speed of CMune and CSharp on the MNIST dataset. (b) Speed of DenMune vs number of K- nearest neighbors.
+The speed of DenMune has been compared to the speed of CMune and CSharp, as shown in Fig.6a. The data set considered is the MNIST dataset (with 70000 patterns), after dividing it into subsets, each of size 1000 patterns. The subsets are added incrementally, and the speed of the algorithm is recorded with each increment. The time considered is the time required for running the core clustering algorithms, excluding the pre-processing time for computing the proximity matrix and dimensionality reduction. The time is measured in seconds. The adopted algorithms as well as the proposed algorithm have been executed on a cloud with the following configuration: Intel E5 Processor, up to 128 GB RAM, and running Linux operating system (Ubuntu 18.04 LTS). Another test is conducted to examine speed versus the number of K-nearest neighbors used, as shown in Fig.6b (a) DenMune speed performance (b) DenMune: Speed vs number of K- nearest neighbors. Figure 6: (a) Speed of DenMune compared to the speed of CMune and CSharp on the MNIST dataset. (b) Speed of DenMune vs number of K- nearest neighbors.
 
 ## Conclusion and Future Work
 
 In this paper, a novel shared nearest neighbors clustering algorithm DenMune, is presented. It utilizes the MNN size to calculate the density of each point and chooses the high-density points as the seeds from which clusters may grow up. In contrast to recent similar algorithms, such as DPC and CMune, no cut-off parameter is needed from the user of DenMune. Guided by the principle of Mutual Nearest-Neighbors (MNN) consistency, DenMune prioritizes points according to a voting system and partitions them into seeds and non-seeds. Seed points determine the number as well as the skeleton of the clusters while non-seed points either merge with the formed clusters or are considered as noise. It has the ability to automatically detect the number of clusters and has shown robustness for datasets of different shapes and densities. We examined the sensitivity of DenMune to changes in K, the number of nearest neighbors (the only parameter required by the algorithm) on three real datasets with $K$ in the range \[1..200\] and recorded the NMI for each dataset as shown in Fig. 7. The stability of DenMune, with respect to K, makes it a good candidate for data exploration and visualization since it works in a two-dimensional feature space. Algorithms that rely on several parameters such as CSharp, CMune, HDBSCAN and DPC can offer more flexibility than single parameter algorithms such as DenMune, but at the expense of the time needed for their tuning.
 
-Figure 7: DenMune Results stability over changes in K, measured in NMI
-
-Although the motivations behind the algorithm are logical (the scheme adopted by the algorithm to partition points in a given data set into three types (seed, noise and potential noise points) and the MNN consistency principle that governs clusters growth), the conducted experiments on a variety of data sets, have shown its efficiency and robustness in detecting clusters of different sizes, shapes and densities in the presence of noise. In summary, DenMune is conceptually simple, logically sound, relies on a single parameter. As future work, we intend to implement a parallel version of it, since clusters' propagation in the algorithm is inherently parallel, as shown in Fig.4, and investigate its performance on other types of datasets.
+Figure 7: DenMune Results stability over changes in K, measured in NMI Although the motivations behind the algorithm are logical (the scheme adopted by the algorithm to partition points in a given data set into three types (seed, noise and potential noise points) and the MNN consistency principle that governs clusters growth), the conducted experiments on a variety of data sets, have shown its efficiency and robustness in detecting clusters of different sizes, shapes and densities in the presence of noise. In summary, DenMune is conceptually simple, logically sound, relies on a single parameter. As future work, we intend to implement a parallel version of it, since clusters' propagation in the algorithm is inherently parallel, as shown in Fig.4, and investigate its performance on other types of datasets.

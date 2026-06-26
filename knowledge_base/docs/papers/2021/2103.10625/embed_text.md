@@ -18,55 +18,33 @@ Notation: For $K$ vectors $x_{1} \in {\mathbb{R}}^{n_{1}}$,..., $x_{K} \in {\mat
 
 ## Preliminaries
 
-We consider discrete-time system $\Sigma$ in form of
-
-with state ${x{(t)}} \in {\mathbb{R}}^{n}$, control input ${u{(t)}} \in {\mathbb{R}}^{m}$ and disturbance ${d{(t)}} \in D \subseteq {\mathbb{R}}^{l}$. Let $S_{xu} \subseteq {\mathbb{R}}^{n + m}$ be the *safe set* of $\Sigma$ that describes safety constraints on the state-input pairs.
+We consider discrete-time system $\Sigma$ in form of with state ${x{(t)}} \in {\mathbb{R}}^{n}$, control input ${u{(t)}} \in {\mathbb{R}}^{m}$ and disturbance ${d{(t)}} \in D \subseteq {\mathbb{R}}^{l}$. Let $S_{xu} \subseteq {\mathbb{R}}^{n + m}$ be the *safe set* of $\Sigma$ that describes safety constraints on the state-input pairs.
 
 ### Definition 1
 
 A set $C \subseteq {\mathbb{R}}^{n}$ is a *controlled invariant set* of $\Sigma$ in safe set $S_{xu} \subseteq {\mathbb{R}}^{n + m}$ if for all $x \in C$, there exists some $u \in {\mathbb{R}}^{m}$ such that ${(x,u)} \in S_{xu}$ and for all $d \in D$, ${f{(x,u,d)}} \in C$. $C_{max}$ is *the maximal controlled invariant set* in $S_{xu}$ if $C_{max}$ contains any controlled invariant set of $\Sigma$ in $S_{xu}$.
 
-For the remainder of this work, we use $C_{max}{(\Sigma,S_{xu})}$ to denote the maximal controlled invariant set of system $\Sigma$ within safe set $S_{xu}$. Given a controlled invariant set $C$, we define the *admissible input set* at state $x$ by
-
-$\mathcal{A}{(C,x)}$ is the maximal admissible input set at $x$ when $C$ is the maximal controlled invariant set. If a set $C$ is controlled invariant, there exists a safe controller $u_{safe}:{C\rightarrow{\mathbb{R}}^{m}}$ such that any closed-loop trajectory starting from $C$ stays in $C$ indefinitely, robust to arbitrary disturbances in $D$. A function $u_{safe}:{C\rightarrow{\mathbb{R}}^{m}}$ is a safety controller if and only if ${u_{safe}{(x)}} \in {\mathcal{A}{(C,x)}}$ for all $x \in C$.
+For the remainder of this work, we use $C_{max}{(\Sigma,S_{xu})}$ to denote the maximal controlled invariant set of system $\Sigma$ within safe set $S_{xu}$. Given a controlled invariant set $C$, we define the *admissible input set* at state $x$ by $\mathcal{A}{(C,x)}$ is the maximal admissible input set at $x$ when $C$ is the maximal controlled invariant set. If a set $C$ is controlled invariant, there exists a safe controller $u_{safe}:{C\rightarrow{\mathbb{R}}^{m}}$ such that any closed-loop trajectory starting from $C$ stays in $C$ indefinitely, robust to arbitrary disturbances in $D$. A function $u_{safe}:{C\rightarrow{\mathbb{R}}^{m}}$ is a safety controller if and only if ${u_{safe}{(x)}} \in {\mathcal{A}{(C,x)}}$ for all $x \in C$.
 
 In this work, we measure the conservativeness of controlled invariant sets by comparing (i) the size of the controlled invariant set, or (ii) the size of the admissible input set at a given state $x$. There is a connection between these two measures: If we have controlled invariant sets $C_{1}$ and $C_{2}$ with $C_{1} \subseteq C_{2}$, then ${\mathcal{A}{(C_{1},x)}} \subseteq {\mathcal{A}{(C_{2},x)}}$ for all $x \in C_{1}$.
 
-To compute controlled invariant sets, we introduce the *controlled predecessor operator* with respect to system $\Sigma$ as in
-
-Define $X_{0} = {PROJ_{1:n}{(S_{xu})}}$ and recursively define
-
-Under sufficient conditions in, $X_{k}$ converges to the maximal controlled invariant set $C_{max}{(\Sigma,S_{xu})}$.
+To compute controlled invariant sets, we introduce the *controlled predecessor operator* with respect to system $\Sigma$ as in Define $X_{0} = {PROJ_{1:n}{(S_{xu})}}$ and recursively define Under sufficient conditions, $X_{k}$ converges to the maximal controlled invariant set $C_{max}{(\Sigma,S_{xu})}$.
 
 ### Definition 2
 
 We call a system $\Sigma$ *with $p$-step preview* if the disturbances in the next $p$ steps can be measured at each time instant. In other words, the control input $u{(t)}$ at each time $t$ can be determined based on the state $x{}$ and the disturbances $d{(k)}$ for $k$ from $0$ to ${t + p} - 1$.
 
-For system $\Sigma$ with $p$-step preview, to explicitly indicate the available information on future disturbances at each time, we construct a *p-augmented system* $\Sigma_{p}$ with respect to system $\Sigma$ with state^22^2We use $d_{1:p}{(t)}$ to denote the vector $({d_{1}{(t)}},\cdots,{d_{p}{(t)}})$. ${\xi{(t)}}:={({x{(t)}},{d_{1:p}{(t)}})}$, defined by
+For system $\Sigma$ with $p$-step preview, to explicitly indicate the available information on future disturbances at each time, we construct a *p-augmented system* $\Sigma_{p}$ with respect to system $\Sigma$ with state^22^2We use $d_{1:p}{(t)}$ to denote the vector $({d_{1}{(t)}},\cdots,{d_{p}{(t)}})$. ${\xi{(t)}}:={({x{(t)}},{d_{1:p}{(t)}})}$, defined by with ${\xi{(t)}} \in {{\mathbb{R}}^{n} \times D^{p}}$, ${u{(t)}} \in {\mathbb{R}}^{m}$ and ${d{(t)}} \in D \subseteq {\mathbb{R}}^{l}$.
 
-with ${\xi{(t)}} \in {{\mathbb{R}}^{n} \times D^{p}}$, ${u{(t)}} \in {\mathbb{R}}^{m}$ and ${d{(t)}} \in D \subseteq {\mathbb{R}}^{l}$.
+Suppose $\Sigma$ has safe set $S_{xu}$. We define the *$p$-augmented safe set* of $\Sigma_{p}$ by Note that if $d_{1:p} \in D^{p}$, to check ${(x,d_{1:p},u)} \in S_{{xu},p}$ is equivalent to check ${(x,u)} \in S_{xu}$. In what follows, we use $C_{{max},p}{(\Sigma,S_{xu})}$ to denote the maximal controlled invariant set $C_{max}{(\Sigma_{p},S_{{xu},p})}$. When $\Sigma$ and $S_{xu}$ are clear from the context, we use $C_{{max},p}$ for short.
 
-Suppose $\Sigma$ has safe set $S_{xu}$. We define the *$p$-augmented safe set* of $\Sigma_{p}$ by
+There are two baseline methods to compute controlled invariant sets of $\Sigma_{p}$ in $S_{{xu},p}$: Method 1: Apply the following iterative procedure: Compute $X_{0,p} = {{PROJ_{1:n}{(S_{xu})}} \times D^{p}}$. Then, compute $X_{k,p} = {Pre_{\Sigma_{p}}{(X_{{k - 1},p},S_{{xu},p})}}$ recursively until convergence, that is $X_{{k + 1},p} = X_{k,p}$. $\blacksquare$ When the recursive procedure terminates, Method 1 returns the maximal controlled invariant set. However, Method 1 is not guaranteed to terminate in finite iterations and does not scale well for high-dimensional systems. Since the dimensionality $({n + {pl}})$ of $\Sigma_{p}$ is proportional to the preview time $p$, this method does not work well for systems with a long preview time.
 
-Note that if $d_{1:p} \in D^{p}$, to check ${(x,d_{1:p},u)} \in S_{{xu},p}$ is equivalent to check ${(x,u)} \in S_{xu}$. In what follows, we use $C_{{max},p}{(\Sigma,S_{xu})}$ to denote the maximal controlled invariant set $C_{max}{(\Sigma_{p},S_{{xu},p})}$. When $\Sigma$ and $S_{xu}$ are clear from the context, we use $C_{{max},p}$ for short.
-
-There are two baseline methods to compute controlled invariant sets of $\Sigma_{p}$ in $S_{{xu},p}$:
-
-Method 1: Apply the following iterative procedure: Compute $X_{0,p} = {{PROJ_{1:n}{(S_{xu})}} \times D^{p}}$. Then, compute $X_{k,p} = {Pre_{\Sigma_{p}}{(X_{{k - 1},p},S_{{xu},p})}}$ recursively until convergence, that is $X_{{k + 1},p} = X_{k,p}$. $\blacksquare$
-
-When the recursive procedure terminates, Method 1 returns the maximal controlled invariant set. However, Method 1 is not guaranteed to terminate in finite iterations and does not scale well for high-dimensional systems. Since the dimensionality $({n + {pl}})$ of $\Sigma_{p}$ is proportional to the preview time $p$, this method does not work well for systems with a long preview time.
-
-Method 2: Find a conservative controlled invariant set $X_{0,p}$ of $\Sigma_{p}$ within $S_{{xu},p}$. Pick a maximal iteration number $K \in {{\mathbb{N}} \cup {\{\infty\}}}$. Compute $X_{k,p} = {Pre_{\Sigma_{p}}{(X_{{k - 1},p},S_{{xu},p})}}$ recursively until $k \geq K$ or $X_{k,p} = X_{{k - 1},p}$. $\blacksquare$
-
-A typical choice of $X_{0,p}$ is ${C_{max}{(\Sigma,S_{xu})}} \times D^{p}$. Since $X_{0,p}$ is controlled invariant, the size of $X_{k,p}$ grows as $k$ increases, and $X_{k,p}$ is controlled invariant for any $k \geq 0$. In practice, Method 2 can be more scalable than Method 1. The drawback of Method 2 is that, as $K\rightarrow\infty$, $X_{K,p}$ does not necessarily converge to the maximal controlled invariant set, as shown in Example 1. In this sense, Method 2 is more conservative than Method 1.
+Method 2: Find a conservative controlled invariant set $X_{0,p}$ of $\Sigma_{p}$ within $S_{{xu},p}$. Pick a maximal iteration number $K \in {{\mathbb{N}} \cup {\{\infty\}}}$. Compute $X_{k,p} = {Pre_{\Sigma_{p}}{(X_{{k - 1},p},S_{{xu},p})}}$ recursively until $k \geq K$ or $X_{k,p} = X_{{k - 1},p}$. $\blacksquare$ A typical choice of $X_{0,p}$ is ${C_{max}{(\Sigma,S_{xu})}} \times D^{p}$. Since $X_{0,p}$ is controlled invariant, the size of $X_{k,p}$ grows as $k$ increases, and $X_{k,p}$ is controlled invariant for any $k \geq 0$. In practice, Method 2 can be more scalable than Method 1. The drawback of Method 2 is that, as $K\rightarrow\infty$, $X_{K,p}$ does not necessarily converge to the maximal controlled invariant set, as shown in Example 1. In this sense, Method 2 is more conservative than Method 1.
 
 ### Example 1
 
-Consider the following $2$-dimensional system
-
-with $x{(t)}$, ${d{(t)}} \in D \subseteq {\mathbb{R}}^{2}$ and ${u{(t)}} \in {\mathbb{R}}$. The safe set is $S_{x} \times {\mathbb{R}}$, where ${S_{x} = {\{{(a,a)}\mid{{|a|} \leq 1}\}}}.$ Since the disturbance term is multiplied by $0$, for any preview horizon $p$, the maximal controlled invariant set of the $p$-augmented system is the $p$-augmented safe set $S_{x} \times D^{p} \times {\mathbb{R}}$. We apply Method 2 with the seed set $X_{0,p} = {{\{{}\}} \times D^{p}}$. We can easily check that $X_{0,p}$ is controlled invariant. For arbitrarily large $K > 0$ in Method 2, $X_{K,p} = X_{0,p}$ is strictly contained by the maximal controlled invariant set. $\blacksquare$
-
-It is worth noting that if we use $C_{max}{(\Sigma,S_{xu})}$ as the terminal state constraints in a model predictive control formulation with the planning horizon $p$, the feasible set of the initial states and the disturbances is equal to the controlled invariant set obtained by taking $K = p$ in Method 2 with the seed set ${C_{max}{(\Sigma,S_{xu})}} \times D^{p}$. In other words, this model predictive control formulation implicitly embeds the results of Method 2.
+Consider the following $2$-dimensional system with $x{(t)}$, ${d{(t)}} \in D \subseteq {\mathbb{R}}^{2}$ and ${u{(t)}} \in {\mathbb{R}}$. The safe set is $S_{x} \times {\mathbb{R}}$, where ${S_{x} = {\{{(a,a)}\mid{{|a|} \leq 1}\}}}.$ Since the disturbance term is multiplied by $0$, for any preview horizon $p$, the maximal controlled invariant set of the $p$-augmented system is the $p$-augmented safe set $S_{x} \times D^{p} \times {\mathbb{R}}$. We apply Method 2 with the seed set $X_{0,p} = {{\{{}\}} \times D^{p}}$. We can easily check that $X_{0,p}$ is controlled invariant. For arbitrarily large $K > 0$ in Method 2, $X_{K,p} = X_{0,p}$ is strictly contained by the maximal controlled invariant set. $\blacksquare$ It is worth noting that if we use $C_{max}{(\Sigma,S_{xu})}$ as the terminal state constraints in a model predictive control formulation with the planning horizon $p$, the feasible set of the initial states and the disturbances is equal to the controlled invariant set obtained by taking $K = p$ in Method 2 with the seed set ${C_{max}{(\Sigma,S_{xu})}} \times D^{p}$. In other words, this model predictive control formulation implicitly embeds the results of Method 2.
 
 In this work, we want to study the general properties of controlled invariant sets of $\Sigma_{p}$. For instance, is a longer preview always a better choice? How does the maximal controlled invariant set change as the preview time $p$ increases? Then, we study a special class of systems where the closed-form expression of the maximal controlled invariant set of the $p$-augmented systems can be derived analytically.
 
@@ -80,29 +58,15 @@ First, the following theorem allows us to compare controlled invariant sets for 
 
 Suppose a set $C_{p_{1}} \subseteq {{\mathbb{R}}^{n} \times D^{p_{1}}}$ is a controlled invariant set of $\Sigma_{p_{1}}$ within $S_{{xu},p_{1}}$ for some $p_{1} \geq 0$. Then, for $p_{2} > p_{1}$, $C_{p_{1}} \times D^{p_{2} - p_{1}}$ is a controlled invariant set of $\Sigma_{p_{2}}$ within $S_{{xu},p_{2}}$.
 
-Suppose $p_{2} > p_{1} \geq 0$. Thanks to Theorem 1, improvement in safety control by increasing the preview time from $p_{1}$ to $p_{2}$ can be measured by the volume difference of $C_{{max},p_{2}}$ and $C_{{max},p_{1}} \times D^{p_{2} - p_{1}}$. Moreover, $C_{{max},p_{1}}$ provides an inner bound for $C_{{max},p_{2}}$, that is
-
-As a result, for all states ${(x,d_{1:p_{2}})} \in S_{{xu},p_{2}}$,
-
-That is, the maximal admissible input set at each state grows as the preview time increases. An important question is then if there exists a critical $p_{0}$ such that the maximal admissible input set stops growing for $p > p_{0}$, that is for all $p > p_{0}$, for all states ${(x,d_{1:p})} \in S_{{xu},p}$,
-
-If such a $p_{0}$ indeed exists, we know the longest preview time to be considered is $p_{0}$, since preview longer than $p_{0}$ does not provide more admissible inputs. In the next section, we show that this $p_{0}$ does exist for a specific class of systems. However, for general systems, $p_{0}$ may not exist, shown by the following example.
+Suppose $p_{2} > p_{1} \geq 0$. Thanks to Theorem 1, improvement in safety control by increasing the preview time from $p_{1}$ to $p_{2}$ can be measured by the volume difference of $C_{{max},p_{2}}$ and $C_{{max},p_{1}} \times D^{p_{2} - p_{1}}$. Moreover, $C_{{max},p_{1}}$ provides an inner bound for $C_{{max},p_{2}}$, that is As a result, for all states ${(x,d_{1:p_{2}})} \in S_{{xu},p_{2}}$, That is, the maximal admissible input set at each state grows as the preview time increases. An important question is then if there exists a critical $p_{0}$ such that the maximal admissible input set stops growing for $p > p_{0}$, that is for all $p > p_{0}$, for all states ${(x,d_{1:p})} \in S_{{xu},p}$, If such a $p_{0}$ indeed exists, we know the longest preview time to be considered is $p_{0}$, since preview longer than $p_{0}$ does not provide more admissible inputs. In the next section, we show that this $p_{0}$ does exist for a specific class of systems. However, for general systems, $p_{0}$ may not exist, shown by the following example.
 
 ### Example 2
 
-Consider a $1$-dimensional system
-
-with $x{(t)}$, ${u{(t)}} \in {\mathbb{R}}$ and ${d{(t)}} \in {\lbrack{- \gamma},\gamma\rbrack}$. The safe set $S_{xu} = {{\lbrack{- r},r\rbrack} \times {\lbrack{- \beta},\beta\rbrack}}$.
+Consider a $1$-dimensional system with $x{(t)}$, ${u{(t)}} \in {\mathbb{R}}$ and ${d{(t)}} \in {\lbrack{- \gamma},\gamma\rbrack}$. The safe set $S_{xu} = {{\lbrack{- r},r\rbrack} \times {\lbrack{- \beta},\beta\rbrack}}$.
 
 Suppose that the parameters $a$, $\gamma$, $\beta$ and $p$ satisfy $a > 1$, $r \geq {{({\beta + \gamma})}/{({a - 1})}}$ and ${a^{p - 1}\beta} \geq \gamma$. Then, the maximal controlled invariant set $C_{{max},p}$ of the $p$-augmented system within the augmented safe set ${\lbrack{- r},r\rbrack} \times {\lbrack{- \gamma},\gamma\rbrack}^{p} \times {\lbrack{- \beta},\beta\rbrack}$ is the set of points $(x,d_{1},\cdots,d_{p})$ satisfying^33^3The proof can be found in Appendix.
 
-\(i\) $d_{i} \in {\lbrack{- \gamma},\gamma\rbrack}$ for $i$ from $1$ to $p$,
-
-Based on the closed-form expression of $C_{{max},p}$, we can easily verify that for all $p \geq 0$, the maximal controlled invariant set $C_{{max},{p + 1}}$ strictly contains $C_{{max},p} \times {\lbrack{- \gamma},\gamma\rbrack}$ and thus the maximal admissible input set $\mathcal{A}{({(x,d_{1:{p + 1}})},C_{{max},{p + 1}})}$ strictly contains $\mathcal{A}{({(x,d_{1:p})},C_{{max},p})}$ for some ${(x,d_{1:{p + 1}})} \in C_{{max},{p + 1}}$. $\blacksquare$
-
-Example 2 reveals that the maximal controlled invariant set may not converge at finite $p_{0}$ in the sense of $C_{{max},p} = {C_{{max},p_{0}} \times D^{p - p_{0}}}$ for $p \geq p_{0}$. Then, to understand the asymptotic properties of $C_{{max},p}$ as $p$ goes to infinity, we consider the disturbance-collaborative system of $\Sigma$:
-
-with ${x{(t)}} \in {\mathbb{R}}^{n}$, ${u{(t)}} \in R^{m}$ and ${u_{d}{(t)}} \in R^{l}$. $A,B$ matrices are the same as in $\Sigma$. $u_{d}$ and $u$ are both input signals of $\mathcal{D}{(\Sigma)}$. The safe set of $\mathcal{D}{(\Sigma)}$ on $(x,u,u_{d})$ is $S_{{xu},{co}} = {S_{xu} \times D}$.
+\(i\) $d_{i} \in {\lbrack{- \gamma},\gamma\rbrack}$ for $i$ from $1$ to $p$, Based on the closed-form expression of $C_{{max},p}$, we can easily verify that for all $p \geq 0$, the maximal controlled invariant set $C_{{max},{p + 1}}$ strictly contains $C_{{max},p} \times {\lbrack{- \gamma},\gamma\rbrack}$ and thus the maximal admissible input set $\mathcal{A}{({(x,d_{1:{p + 1}})},C_{{max},{p + 1}})}$ strictly contains $\mathcal{A}{({(x,d_{1:p})},C_{{max},p})}$ for some ${(x,d_{1:{p + 1}})} \in C_{{max},{p + 1}}$. $\blacksquare$ Example 2 reveals that the maximal controlled invariant set may not converge at finite $p_{0}$ in the sense of $C_{{max},p} = {C_{{max},p_{0}} \times D^{p - p_{0}}}$ for $p \geq p_{0}$. Then, to understand the asymptotic properties of $C_{{max},p}$ as $p$ goes to infinity, we consider the disturbance-collaborative system of $\Sigma$: with ${x{(t)}} \in {\mathbb{R}}^{n}$, ${u{(t)}} \in R^{m}$ and ${u_{d}{(t)}} \in R^{l}$. $A,B$ matrices are the same as in $\Sigma$. $u_{d}$ and $u$ are both input signals of $\mathcal{D}{(\Sigma)}$. The safe set of $\mathcal{D}{(\Sigma)}$ on $(x,u,u_{d})$ is $S_{{xu},{co}} = {S_{xu} \times D}$.
 
 We denote the maximal controlled invariant set $C_{max}{({\mathcal{D}{(\Sigma)}},S_{{xu},{co}})}$ by $C_{{max},{co}}{(\Sigma,S_{xu})}$, or $C_{{max},{co}}$ when $\Sigma$ and $S_{xu}$ are clear from the context. Intuitively, $C_{{max},{co}}$ contains all the possible initial states $x$ from which the future state-input pairs of $\Sigma$ can stay in $S_{xu}$ indefinitely, when we have infinite preview time.
 
@@ -114,23 +78,13 @@ By Theorem 2, we know that ${PROJ_{1:n}{(C_{{max},p})}} \subseteq C_{{max},{co}}
 
 ### Example 3
 
-We consider the same dynamics and safe set in Example 2. The projection of the maximal controlled invariant set onto the first coordinate is
-
-The corresponding disturbance-collaborative system is
-
-with the safe set ${\lbrack{- r},r\rbrack} \times {\lbrack{{- \beta} - \gamma},{\beta + \gamma}\rbrack}$. It is easy to check that the maximal controlled invariant set $C_{{max},{co}}$ of the disturbance-collaborative system is ${\lbrack{- {{({\beta + \gamma})}/{({a - 1})}}},{{({\beta + \gamma})}/{({a - 1})}}\rbrack}.$ Thus, $PROJ_{1}{(C_{{max},p})}$ is strictly contained by $C_{{max},{co}}$ for all^44^4Recall that in Example 2 we assume that ${a^{p - 1}\beta} \geq \gamma$, which implies $p \geq {1 + {{({{\log{(\gamma)}} - {\log{(\beta)}}})}/{\log{(a)}}}}$. $p \geq {1 + {{({{\log{(\gamma)}} - {\log{(\beta)}}})}/{\log{(a)}}}}$ and as $p$ goes to infinity, $PROJ_{1}{(C_{{max},p})}$ converges to the interior of $C_{{max},{co}}$, that is
-
-However, the Hausdorff distance between the projection $PROJ_{1:n}{(C_{{max},p})}$ and $C_{{max},{co}}$ does not always converge to $0$ as $p$ goes to infinity, shown by the following example.
+We consider the same dynamics and safe set in Example 2. The projection of the maximal controlled invariant set onto the first coordinate is The corresponding disturbance-collaborative system is with the safe set ${\lbrack{- r},r\rbrack} \times {\lbrack{{- \beta} - \gamma},{\beta + \gamma}\rbrack}$. It is easy to check that the maximal controlled invariant set $C_{{max},{co}}$ of the disturbance-collaborative system is ${\lbrack{- {{({\beta + \gamma})}/{({a - 1})}}},{{({\beta + \gamma})}/{({a - 1})}}\rbrack}.$ Thus, $PROJ_{1}{(C_{{max},p})}$ is strictly contained by $C_{{max},{co}}$ for all^44^4Recall that in Example 2 we assume that ${a^{p - 1}\beta} \geq \gamma$, which implies $p \geq {1 + {{({{\log{(\gamma)}} - {\log{(\beta)}}})}/{\log{(a)}}}}$. $p \geq {1 + {{({{\log{(\gamma)}} - {\log{(\beta)}}})}/{\log{(a)}}}}$ and as $p$ goes to infinity, $PROJ_{1}{(C_{{max},p})}$ converges to the interior of $C_{{max},{co}}$, that is However, the Hausdorff distance between the projection $PROJ_{1:n}{(C_{{max},p})}$ and $C_{{max},{co}}$ does not always converge to $0$ as $p$ goes to infinity, shown by the following example.
 
 ### Example 4
 
-Consider system ${x{({t + 1})}} = {{u{(t)}} + {d{(t)}}}$, with $x{(t)}$, ${u{(t)}} \in {\mathbb{R}}$ and ${d{(t)}} \in {\lbrack{- 5},5\rbrack}$. Suppose the safe set $S_{xu} = {{\lbrack{- 1},1\rbrack} \times {\lbrack{- 1},1\rbrack}}$. Obviously, $C_{{max},{co}} = {\lbrack{- 1},1\rbrack}$ but $C_{{max},p} = \varnothing$ for all $p \geq 0$. $\blacksquare$
+Consider system ${x{({t + 1})}} = {{u{(t)}} + {d{(t)}}}$, with $x{(t)}$, ${u{(t)}} \in {\mathbb{R}}$ and ${d{(t)}} \in {\lbrack{- 5},5\rbrack}$. Suppose the safe set $S_{xu} = {{\lbrack{- 1},1\rbrack} \times {\lbrack{- 1},1\rbrack}}$. Obviously, $C_{{max},{co}} = {\lbrack{- 1},1\rbrack}$ but $C_{{max},p} = \varnothing$ for all $p \geq 0$. $\blacksquare$ Combining Theorems 1 and 2, given any $p$, the maximal controlled invariant set $C_{{max},p}$ of $\Sigma_{p}$ within $S_{{xu},p}$ is bounded by where $C_{{max},p'}$ is the maximal controlled invariant set of $\Sigma_{p'}$ within $S_{{xu},p'}$, for some $p' < p$. The cost of computing $C_{{max},p'}$ and $C_{{max},{co}}$ is independent of the preview time $p$, but the cost to compute $C_{{max},p'}$ rises as $p'$ increases. An inner bound tighter than the left hand side in can be obtained by growing $C_{{max},p'} \times D^{p - p'}$ via Method 2 with $X_{0,p} = {C_{{max},p'} \times D^{p - p'}}$, which requires more computational cost.
 
-Combining Theorems 1 and 2, given any $p$, the maximal controlled invariant set $C_{{max},p}$ of $\Sigma_{p}$ within $S_{{xu},p}$ is bounded by
-
-where $C_{{max},p^{\prime}}$ is the maximal controlled invariant set of $\Sigma_{p^{\prime}}$ within $S_{{xu},p^{\prime}}$, for some $p^{\prime} < p$. The cost of computing $C_{{max},p^{\prime}}$ and $C_{{max},{co}}$ is independent of the preview time $p$, but the cost to compute $C_{{max},p^{\prime}}$ rises as $p^{\prime}$ increases. An inner bound tighter than the left hand side in can be obtained by growing $C_{{max},p^{\prime}} \times D^{p - p^{\prime}}$ via Method 2 with $X_{0,p} = {C_{{max},p^{\prime}} \times D^{p - p^{\prime}}}$, which requires more computational cost.
-
-In practice, according to, if we already compute $C_{{max},p^{\prime}}$ for some $p^{\prime}$ and wonder if it is worth taking more cost to compute $C_{{max},p}$ for $p$ larger than $p^{\prime}$, a useful strategy is to compare the volumes of $C_{{max},p^{\prime}} \times D^{p - p^{\prime}}$ and $C_{{max},{co}} \times D^{p}$. The volume difference of the two sets indicates what we can gain at most by further increasing preview time.
+In practice, according to, if we already compute $C_{{max},p'}$ for some $p'$ and wonder if it is worth taking more cost to compute $C_{{max},p}$ for $p$ larger than $p'$, a useful strategy is to compare the volumes of $C_{{max},p'} \times D^{p - p'}$ and $C_{{max},{co}} \times D^{p}$. The volume difference of the two sets indicates what we can gain at most by further increasing preview time.
 
 Another significant implication of is that for any initial state not in $C_{{max},{co}}$, the future state-input trajectory of the system $\Sigma$ cannot stay within $S_{xu}$ indefinitely no matter how long the preview time $p$ is. In other words, $C_{{max},{co}}$ shows the limits of safety control with preview in terms of the allowable initial states.
 
@@ -138,55 +92,35 @@ Another significant implication of is that for any initial state not in $C_{{max
 
 In this section, we study systems in Brunovsky canonical form with a single input^55^5The results in this section apply to multiple-input case, since in Brunovsky canonical form, a system with multiple inputs can be decoupled into several systems with single input.. Due to the simple structure of the systems in Brunovsky canonical form, we can derive a closed-form expression of the maximal controlled invariant set within hyperbox safe sets. Next, based on the closed-form expression, we show convergence properties of the maximal controlled invariant set as the preview time increases. In terms of generality, any controllable system can be converted to a system in Brunovsky canonical form via an invertible transformation (see ), and thus our results on systems in Brunovsky canonical form is also useful for controllable systems.
 
-The dynamics of a system $\Sigma_{B}$ in Brunovsky canonical form is
-
-where ${x{(t)}} \in {\mathbb{R}}^{n}$, ${u{(t)}} \in {\mathbb{R}}$, ${d{(t)}} \in D \subseteq {\mathbb{R}}^{n}$, and
-
-The $\mathbf{I}_{k}$ and $\mathbf{0}_{j \times k}$ in represent the identity matrix in ${\mathbb{R}}^{k \times k}$ and the matrix with all zero entries in ${\mathbb{R}}^{j \times k}$.
+The dynamics of a system $\Sigma_{B}$ in Brunovsky canonical form is where ${x{(t)}} \in {\mathbb{R}}^{n}$, ${u{(t)}} \in {\mathbb{R}}$, ${d{(t)}} \in D \subseteq {\mathbb{R}}^{n}$, and The $\mathbf{I}_{k}$ and $\mathbf{0}_{j \times k}$ in represent the identity matrix in ${\mathbb{R}}^{k \times k}$ and the matrix with all zero entries in ${\mathbb{R}}^{j \times k}$.
 
 Suppose that $D$ is a polytope in ${\mathbb{R}}^{n}$, and $B_{d} = {\Pi_{k = 1}^{n}{\lbrack c_{k,1},c_{k,2}\rbrack}}$ is the smallest hyperbox containing $D$. We consider a hyperbox safe set $\mathbf{B} \times {\mathbb{R}}$, where the state $x$ is constrained within hyperbox $\mathbf{B} = {\Pi_{k = 1}^{n}{\lbrack b_{k,1},b_{k,2}\rbrack}}$ and the input $u$ is unconstrained. Denote the $p$-augmented system corresponding to $\Sigma_{B}$ by $\Sigma_{B,p}$. The $p$-augmented safe set is $\mathbf{B} \times D^{p} \times {\mathbb{R}}$.
 
-We first derive a necessary condition for the existence of nonempty controlled invariant sets of $\Sigma_{\mathbf{B},p}$ within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$. The idea is based on the following observation: Given an input $u{(t)}$ at time $t \geq 0$, due to the special structure of $\overline{A}$ and $\overline{B}$, the $({{n - k} + 1})$ th entry $x_{{n - k} + 1}{({t + k})}$ of the state at time $t + k$ for $k$ with $1 \leq k \leq n$ can be exactly expressed as
+We first derive a necessary condition for the existence of nonempty controlled invariant sets of $\Sigma_{\mathbf{B},p}$ within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$. The idea is based on the following observation: Given an input $u{(t)}$ at time $t \geq 0$, due to the special structure of $\overline{A}$ and $\overline{B}$, the $({{n - k} + 1})$ th entry $x_{{n - k} + 1}{({t + k})}$ of the state at time $t + k$ for $k$ with $1 \leq k \leq n$ can be exactly expressed as where $d_{1,{n - i}}{({t + i})}$ is the $n - i$ th entry of ${d_{1}{({t + i})}} \in {\mathbb{R}}^{n}$ for $i$ from $0$ to $n - 1$.
 
-where $d_{1,{n - i}}{({t + i})}$ is the $n - i$ th entry of ${d_{1}{({t + i})}} \in {\mathbb{R}}^{n}$ for $i$ from $0$ to $n - 1$.
-
-Suppose there exists a nonempty controlled invariant set in $\mathbf{B} \times D^{p} \times {\mathbb{R}}$. Then, there exists at least one safe input ${u{(t)}} \in {\mathbb{R}}$ such that for all $k$ from $1$ to $n$, the right hand side of satisfies the constraints on $x_{{n - k} + 1}{({t + k})}$ from $\mathbf{B}$, robust to all possible future disturbances, that is, for $k$ from $1$ to $n$,
-
-for all possible values of $\sum_{i = 0}^{k - 1}{d_{1,{n - i}}{({t + i})}}$; otherwise, for all ${u{(t)}} \in {\mathbb{R}}$, we can find future disturbances such that the state ${x_{{n - k} + 1}{({t + k})}} \notin {\lbrack b_{{{n - k} + 1},1},b_{{{n - k} + 1},2}\rbrack}$.
+Suppose there exists a nonempty controlled invariant set in $\mathbf{B} \times D^{p} \times {\mathbb{R}}$. Then, there exists at least one safe input ${u{(t)}} \in {\mathbb{R}}$ such that for all $k$ from $1$ to $n$, the right hand side of satisfies the constraints on $x_{{n - k} + 1}{({t + k})}$ from $\mathbf{B}$, robust to all possible future disturbances, that is, for $k$ from $1$ to $n$, for all possible values of $\sum_{i = 0}^{k - 1}{d_{1,{n - i}}{({t + i})}}$; otherwise, for all ${u{(t)}} \in {\mathbb{R}}$, we can find future disturbances such that the state ${x_{{n - k} + 1}{({t + k})}} \notin {\lbrack b_{{{n - k} + 1},1},b_{{{n - k} + 1},2}\rbrack}$.
 
 Note that if $i < p$, $d_{1,{n - i}}{({t + i})}$ is a scalar known from preview at time $t$; otherwise $d_{1,{n - i}}{({t + i})}$ takes arbitrary values in $\lbrack c_{{n - i},1},c_{{n - i},2}\rbrack$. Based on this observation, the condition of the existence of a safe input $u{(t)}$ satisfying is given in Theorem 3, which is necessary for the existence of a nonempty controlled invariant set.
 
 ### Theorem 3
 
-There exists a nonempty controlled invariant set of $\Sigma_{B,p}$ within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$ only if ${\forall v} \in V_{d,\overline{p}}$ we have
+There exists a nonempty controlled invariant set of $\Sigma_{B,p}$ within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$ only if ${\forall v} \in V_{d,\overline{p}}$ we have where $V_{d,\overline{p}}$ is the set of vertices of the hyperbox $\mathbf{B}_{d,\overline{p}} = {\Pi_{k = {{n - \overline{p}} + 1}}^{n}{\lbrack c_{k,1},c_{k,2}\rbrack}}$, and $\overline{p} = {\min{(p,n)}}$, and ${\hat{b}}_{k,1} = {b_{k,1} - {\sum_{i = k}^{n - \overline{p}}c_{i,1}}}$ and ${\hat{b}}_{k,2} = {b_{k,2} - {\sum_{i = k}^{n - \overline{p}}c_{i,2}}}$ for $k$ with ${n - \overline{p}} \leq k \leq n$.
 
-where $V_{d,\overline{p}}$ is the set of vertices of the hyperbox $\mathbf{B}_{d,\overline{p}} = {\Pi_{k = {{n - \overline{p}} + 1}}^{n}{\lbrack c_{k,1},c_{k,2}\rbrack}}$, and $\overline{p} = {\min{(p,n)}}$, and ${\hat{b}}_{k,1} = {b_{k,1} - {\sum_{i = k}^{n - \overline{p}}c_{i,1}}}$ and ${\hat{b}}_{k,2} = {b_{k,2} - {\sum_{i = k}^{n - \overline{p}}c_{i,2}}}$ for $k$ with ${n - \overline{p}} \leq k \leq n$.
+In practice, if we want to compute controlled invariant sets of $\Sigma_{B,p}$, unnecessary computations can be avoided by checking the condition in first. As the number of constraints in is proportional to the cardinality of $V_{d,\overline{p}}$, we derive an equivalent condition to that contains only $n^{2}$ inequalities: for all $j$ and $k$ from $1$ to $n$, Next, suppose that there exists a nonempty controlled invariant set, namely that is satisfied. We derive conditions under which states $\xi = {(x,d_{1},d_{2},\ldots,d_{p})} \in {\mathbb{R}}^{{({p + 1})}n}$ are contained by the maximal controlled invariant set.
 
-In practice, if we want to compute controlled invariant sets of $\Sigma_{B,p}$, unnecessary computations can be avoided by checking the condition in first. As the number of constraints in is proportional to the cardinality of $V_{d,\overline{p}}$, we derive an equivalent condition to that contains only $n^{2}$ inequalities: for all $j$ and $k$ from $1$ to $n$,
+We use $x_{i}$, $d_{k,i}$ to denote $i$ th entry of $x$, $d_{k}$. According to the dynamics , the first $({n - t})$ entries of the vector $x{(t)}$ for all $t = {0,1,\cdots,{n - 1}}$ are independent from the control inputs and completely determined by the initial state $x{}$ and disturbances $d{}$, $d{}$..., $d{({n - 2})}$.
 
-Next, suppose that there exists a nonempty controlled invariant set, namely that is satisfied. We derive conditions under which states $\xi = {(x,d_{1},d_{2},\ldots,d_{p})} \in {\mathbb{R}}^{{({p + 1})}n}$ are contained by the maximal controlled invariant set.
-
-We use $x_{i}$, $d_{k,i}$ to denote $i$ th entry of $x$, $d_{k}$. According to the dynamics in, the first $({n - t})$ entries of the vector $x{(t)}$ for all $t = {0,1,\cdots,{n - 1}}$ are independent from the control inputs and completely determined by the initial state $x{}$ and disturbances $d{}$, $d{}$..., $d{({n - 2})}$.
-
-Thus, one necessary condition on ${\xi{}} = {({x{}},{d_{1:p}{}})} \in C_{{max},p}$ is that for all possible future disturbances in $D$ that are not previewed yet at the initial time, for all $t$ from $0$ to $n - 1$ and all $k$ from $1$ to $n - t$, the state $x{(t)}$ satisfies
-
-By expanding $x_{k}{(t)}$ using $x{}$ and $d_{1:p}{}$, we obtain the conditions stated in the following theorem.
+Thus, one necessary condition on ${\xi{}} = {({x{}},{d_{1:p}{}})} \in C_{{max},p}$ is that for all possible future disturbances in $D$ that are not previewed yet at the initial time, for all $t$ from $0$ to $n - 1$ and all $k$ from $1$ to $n - t$, the state $x{(t)}$ satisfies By expanding $x_{k}{(t)}$ using $x{}$ and $d_{1:p}{}$, we obtain the conditions stated in the following theorem.
 
 ### Theorem 4
 
-A state $(x,d_{1:p})$ is contained in the maximal controlled invariant set $C_{{max},p}$ only if
-
-and for all $k$, $2 \leq k \leq n$ and for all $j$, ${1 \leq j < k}:$
-
-where $d_{i,{k - i}}$ is the $k - i$ th entry of vector $d_{i}$.
+A state $(x,d_{1:p})$ is contained in the maximal controlled invariant set $C_{{max},p}$ only if and for all $k$, $2 \leq k \leq n$ and for all $j$, ${1 \leq j < k}:$ where $d_{i,{k - i}}$ is the $k - i$ th entry of vector $d_{i}$.
 
 To clarify the notation, in the case of ${k - j} < {p + 1}$, the right hand set of becomes ${{\lbrack b_{j,1},b_{j,2}\rbrack} - \varnothing} = {\lbrack b_{j,1},b_{j,2}\rbrack}$. We denote the set of states $(x,d_{1:p})$ satisfying constraints in and by $C_{p}$. The following theorem states that the maximal controlled invariant set of $\Sigma_{B,p}$ within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$ is exactly equal to $C_{p}$.
 
 ### Theorem 5
 
-Suppose that is satisfied. Define
-
-Then, $C_{p}$ is the maximal controlled invariant set of $\Sigma_{B,p}$ within the safe set $\mathbf{B} \times D^{p} \times {\mathbb{R}}$.
+Suppose that is satisfied. Define Then, $C_{p}$ is the maximal controlled invariant set of $\Sigma_{B,p}$ within the safe set $\mathbf{B} \times D^{p} \times {\mathbb{R}}$.
 
 ### Corollary 1
 
@@ -194,37 +128,27 @@ The condition in is necessary and sufficient for the existence of nonempty contr
 
 ### Corollary 2
 
-If instead of $\Sigma_{B}$ in, we consider a system in the following form:
-
-for ${d{(t)}} \in D_{v} \subseteq {\mathbb{R}}^{l}$ and some $\overline{E} \in {\mathbb{R}}^{n \times l}$. Then, we first define system $\Sigma_{B}^{\prime}$ in Brunovsky canonical form
-
-with ${d{(t)}} \in {\overline{E}D_{v}} \subseteq {\mathbb{R}}^{n}$. We have the closed-form expression of the maximal controlled invariant set $C_{p}$ of the $p$-augmented system of $\Sigma_{B}^{\prime}$ within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$. The maximal controlled invariant set $C_{v}$ of the $p$-augmented system of $\Sigma_{v}$ within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$ is nonempty if and only if $C_{p}$ is nonempty and
+If instead of $\Sigma_{B}$, we consider a system in the following form: for ${d{(t)}} \in D_{v} \subseteq {\mathbb{R}}^{l}$ and some $\overline{E} \in {\mathbb{R}}^{n \times l}$. Then, we first define system $\Sigma_{B}'$ in Brunovsky canonical form with ${d{(t)}} \in {\overline{E}D_{v}} \subseteq {\mathbb{R}}^{n}$. We have the closed-form expression of the maximal controlled invariant set $C_{p}$ of the $p$-augmented system of $\Sigma_{B}'$ within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$. The maximal controlled invariant set $C_{v}$ of the $p$-augmented system of $\Sigma_{v}$ within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$ is nonempty if and only if $C_{p}$ is nonempty and
 
 ### Remark 1
 
-Adopting the idea from, for a more general safe set in form of $P \times {\mathbb{R}}$, where $P$ is a polytope, we can construct a controlled invariant set of $\Sigma_{B,p}$ within $P \times D^{p} \times {\mathbb{R}}$ in $2$ moves: First, we construct a polytope in a lifted space that encodes all hyperboxes $\mathbf{B}$ in $P$ and all states $(x,d_{1:p})$ within the maximal controlled invariant set within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$, based on the nonemptyness condition and the closed-form expression of $C_{p}$. Then, we project this lifted set onto its first $n{({p + 1})}$ coodinates, equal to the union of the maximal controlled invariant set within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$ for all hyperboxes $\mathbf{B}$ contained by $P$. By construction, this set is a controlled invariant set in $P \times D^{p} \times {\mathbb{R}}$.
+Adopting the idea , for a more general safe set in form of $P \times {\mathbb{R}}$, where $P$ is a polytope, we can construct a controlled invariant set of $\Sigma_{B,p}$ within $P \times D^{p} \times {\mathbb{R}}$ in $2$ moves: First, we construct a polytope in a lifted space that encodes all hyperboxes $\mathbf{B}$ in $P$ and all states $(x,d_{1:p})$ within the maximal controlled invariant set within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$, based on the nonemptyness condition and the closed-form expression of $C_{p}$. Then, we project this lifted set onto its first $n{({p + 1})}$ coodinates, equal to the union of the maximal controlled invariant set within $\mathbf{B} \times D^{p} \times {\mathbb{R}}$ for all hyperboxes $\mathbf{B}$ contained by $P$. By construction, this set is a controlled invariant set in $P \times D^{p} \times {\mathbb{R}}$.
 
-Furthermore, as stated in Remark 1 of, any controllable system with a polytopic safe set (including input constraints) can be transformed into system in Brunovsky canonical form with a safe set in form of $P \times {\mathbb{R}}$. Thus, our results in this section can be used to compute controlled invariant sets for $p$-augmented systems of a controllable system. $\blacksquare$
-
-According to the closed-form expression of the maximal controlled invariant set $C_{p}$, we show the convergence property of $C_{p}$ for $p \geq n$ in the following theorem.
+Furthermore, as stated in Remark 1 of, any controllable system with a polytopic safe set (including input constraints) can be transformed into system in Brunovsky canonical form with a safe set in form of $P \times {\mathbb{R}}$. Thus, our results in this section can be used to compute controlled invariant sets for $p$-augmented systems of a controllable system. $\blacksquare$ According to the closed-form expression of the maximal controlled invariant set $C_{p}$, we show the convergence property of $C_{p}$ for $p \geq n$ in the following theorem.
 
 ### Theorem 6
 
 For preview time $p > n$, the maximal controlled invariant set $C_{p}$ is equal to the Cartesian product of the maximal controlled invariant set $C_{n}$ of $\Sigma_{B,n}$ and the set $D^{p - n}$, that is $C_{p} = {C_{n} \times D^{p - n}}$.
 
-Theorem 6 indicates that for system $\Sigma_{B}$ in Brunovsky canonical form with a safe set $\mathbf{B} \times {\mathbb{R}}$, the preview time longer than $p = n$ is not necessary. However, given a state $(x,d_{1:p})$ in the maximal controlled invariant set $C_{n} \times D^{p - n}$, the admissible input set with the maximal size is obtained when preview is $n + 1$, that is
-
-That is, the critical preview time $p_{0} = {n + 1}$.
+Theorem 6 indicates that for system $\Sigma_{B}$ in Brunovsky canonical form with a safe set $\mathbf{B} \times {\mathbb{R}}$, the preview time longer than $p = n$ is not necessary. However, given a state $(x,d_{1:p})$ in the maximal controlled invariant set $C_{n} \times D^{p - n}$, the admissible input set with the maximal size is obtained when preview is $n + 1$, that is That is, the critical preview time $p_{0} = {n + 1}$.
 
 We are curious if the property $p_{0} = {n + 1}$ holds for systems in Brunovsky canonical form with arbitrary polytopic safe sets. Unfortunately, the following example shows that for general safe sets, a critical preview time may not exist.
 
 ### Example 5
 
-Consider the $1$-dimensional system $\Sigma$ and the safe set $S_{xu}$ defined in Example 2. We replace $u{(t)}$ in $\Sigma$ by ${{u{(t)}} = {{- {ax{(t)}}} + {v{(t)}}}},$ where $v{(t)}$ is the new control input. Then, the $1$-dimensional dynamics $\Sigma^{\prime}$ with respect to the state $x$ and the input $v$ is in Brunovsky canonical form. The safe set for this new dynamics is $S_{xu}^{\prime} = {\{{(x,v)}\mid{{(x,{{- {ax}} + v})} \in S_{xu}}\}}$.
+Consider the $1$-dimensional system $\Sigma$ and the safe set $S_{xu}$ defined in Example 2. We replace $u{(t)}$ in $\Sigma$ by ${{u{(t)}} = {{- {ax{(t)}}} + {v{(t)}}}},$ where $v{(t)}$ is the new control input. Then, the $1$-dimensional dynamics $\Sigma'$ with respect to the state $x$ and the input $v$ is in Brunovsky canonical form. The safe set for this new dynamics is $S_{xu}' = {\{{(x,v)}\mid{{(x,{{- {ax}} + v})} \in S_{xu}}\}}$.
 
-Let $C_{{max},p}$ and $C_{{max},p}^{\prime}$ be the maximal controlled invariant sets of $\Sigma$ within $S_{xu}$ and $\Sigma^{\prime}$ within $S_{xu}^{\prime}$ respectively. It can be easily shown that $C_{{max},p}^{\prime} = C_{{max},p}$. Thus, $C_{{max},p}^{\prime}$ strictly contains $C_{{max},n}^{\prime} \times {\lbrack{- \gamma},\gamma\rbrack}^{p - n}$. $\blacksquare$
-
-Finally, recall that an outer bound on controlled invariant sets of $\Sigma_{B,p}$ is given in Section II by the Cartesian product of the maximal controlled invariant set of the disturbance-collaborative system and the set $D^{p}$, that is the right hand set of. We wonder the relation between $C_{n}$ and this outer bound, which is revealed by the next theorem.
+Let $C_{{max},p}$ and $C_{{max},p}'$ be the maximal controlled invariant sets of $\Sigma$ within $S_{xu}$ and $\Sigma'$ within $S_{xu}'$ respectively. It can be easily shown that $C_{{max},p}' = C_{{max},p}$. Thus, $C_{{max},p}'$ strictly contains $C_{{max},n}' \times {\lbrack{- \gamma},\gamma\rbrack}^{p - n}$. $\blacksquare$ Finally, recall that an outer bound on controlled invariant sets of $\Sigma_{B,p}$ is given in Section II by the Cartesian product of the maximal controlled invariant set of the disturbance-collaborative system and the set $D^{p}$, that is the right hand set of. We wonder the relation between $C_{n}$ and this outer bound, which is revealed by the next theorem.
 
 ### Theorem 7
 
@@ -246,7 +170,7 @@ In addition, we observe in Fig. 1 that the largest $c$ stops increasing after $p
 
 ### V-B Lane Keeping Control with Preview
 
-To show the usefulness of preview, we present how preview helps the driver-assist system to keep a vehicle within lanes. We use a $4$-dimensional linearized bicycle model with respect to constant longitudinal speed ${30m}/s$ from. The state space consists of lateral displacement $y$, lateral velocity $v$, yaw angle $\Delta\Psi$ and yaw rate $r$. The disturbance $r_{d}$ with ${|r_{d}|} \leq 0.04$ considered in this simplified model is a quantity related to the road curvature that perturbs the yaw angle. The control input $u$ is the steering angle, with constraints $u \in {\lbrack{- {\pi/2}},{\pi/2}\rbrack}$.
+To show the usefulness of preview, we present how preview helps the driver-assist system to keep a vehicle within lanes. We use a $4$-dimensional linearized bicycle model with respect to constant longitudinal speed ${30m}/s$ . The state space consists of lateral displacement $y$, lateral velocity $v$, yaw angle $\Delta\Psi$ and yaw rate $r$. The disturbance $r_{d}$ with ${|r_{d}|} \leq 0.04$ considered in this simplified model is a quantity related to the road curvature that perturbs the yaw angle. The control input $u$ is the steering angle, with constraints $u \in {\lbrack{- {\pi/2}},{\pi/2}\rbrack}$.
 
 The safe set $S_{xu}$ is the set of state-input pairs within bounds ${|y|} \leq 0.9$, ${|v|} \leq 1.2$, ${|{\Delta\Phi}|} \leq 0.05$ and ${|r|} \leq 0.3$, and ${|u|} \leq {\pi/2}$. We set the preview time $p = 5$. We first compute the maximal controlled invariant set within $S_{xu}$ for system without preview, denoted by $C_{{max},0}$. Then, we use Method 2 to grow the seed set $C_{{max},0} \times D^{5}$ for the $p$-augmented system over $10$ iterations, the result of which is denoted by $C_{{io},5}$. Numerically we find that $C_{{io},5}$ strictly contains $C_{{max},0} \times D^{5}$. We also try the idea in Remark 1 to obtain a controlled invariant set based on our results in Section IV, but the resulting set is contained by $C_{{max},0} \times D^{p}$, which is too conservative to be useful.
 

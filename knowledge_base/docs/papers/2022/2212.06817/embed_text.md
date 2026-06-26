@@ -14,7 +14,7 @@ The two main challenges lie in assembling the right dataset and designing the ri
 
 The second challenge lies in the design of the model itself. Effective robotic multi-task learning requires a high capacity model, and Transformer models excel in this regard, particularly when it is necessary to learn many tasks conditioned, as in our case, on language instructions. However, robotic controllers must also be efficient enough to run in real time, which presents a major challenge for Transformers in particular. We propose a novel architecture that we call RT-1 (Robotics Transformer 1), which by encoding high-dimensional inputs and outputs, including camera images, instructions and motor commands into compact token representations to be used by the Transformer, allows for efficient inference at runtime to make real-time control feasible.
 
-Our contribution is the RT-1 model and experiments with this model on a large and broad dataset of real-world robotic tasks. Our experiments not only demonstrate that RT-1 can exhibit significantly improved generalization and robustness compared to prior techniques, but also evaluate and ablate many design choices in both the model and in the composition of the training set. Our results show that RT-1 can perform over 700 training instructions at 97% success rate, and can generalize to new tasks, distractors, and backgrounds 25%, 36% and 18% better than the next best baseline, respectively. This level of performance allows us to execute very long-horizon tasks in the SayCan framework, with as many as 50 stages. We further show that RT-1 can incorporate data from simulation or even other robot types, retaining performance on the original tasks and improving generalization to new scenarios. A short overview of RT-1 capabilities is presented in Fig. 0(b) ‣ Figure 1 ‣ 1 Introduction ‣ RT-1: Robotics Transformer for Real-World Control at Scale")^22^2Helper robots shown in Fig. 1-5 are from [Everyday Robots](http://www.everydayrobots.com).
+Our contribution is the RT-1 model and experiments with this model on a large and broad dataset of real-world robotic tasks. Our experiments not only demonstrate that RT-1 can exhibit significantly improved generalization and robustness compared to prior techniques, but also evaluate and ablate many design choices in both the model and in the composition of the training set. Our results show that RT-1 can perform over 700 training instructions at 97% success rate, and can generalize to new tasks, distractors, and backgrounds 25%, 36% and 18% better than the next best baseline, respectively. This level of performance allows us to execute very long-horizon tasks in the SayCan framework, with as many as 50 stages. We further show that RT-1 can incorporate data from simulation or even other robot types, retaining performance on the original tasks and improving generalization to new scenarios. A short overview of RT-1 capabilities is presented in Fig. 0(b) ‣ Figure 1 ‣ 1 Introduction ‣ RT-1: Robotics Transformer for Real-World Control at Scale")^22^2Helper robots shown in Fig. 1-5 are from Everyday Robots.
 
 ## Related Work
 
@@ -74,42 +74,7 @@ This requirement limits the size of the model that we can use. We further explor
 
 ### Data
 
-Lift the object off the surface
-pick iced tea can
-
-Move Object Near Object
-Move the first object near the second
-move pepsi can near rxbar blueberry
-
-Place Object Upright
-Place an elongated object upright
-place water bottle upright
-
-Knock Object Over
-Knock an elongated object over
-knock redbull can over
-
-Open any of the cabinet drawers
-open the top drawer
-
-Close any of the cabinet drawers
-close the middle drawer
-
-Place Object into Receptacle
-Place an object into a receptacle
-place brown chip bag into white bowl
-
-Pick Object from Receptacle and Place on the Counter
-Pick an object up from a location and then place it on the counter
-pick green jalapeno chip bag from paper bowl and place on counter
-
-Section 6.3 and 6.4 tasks
-Skills trained for realistic, long instructions
-open the large glass jar of pistachios
-
-pull napkin out of dispenser
-
-Table 1: The list of skills collected for RT-1 together with their descriptions and example instructions.
+Lift the object off the surface pick iced tea can Move Object Near Object Move the first object near the second move pepsi can near rxbar blueberry Place Object Upright Place an elongated object upright place water bottle upright Knock Object Over Knock an elongated object over knock redbull can over Open any of the cabinet drawers open the top drawer Close any of the cabinet drawers close the middle drawer Place Object into Receptacle Place an object into a receptacle place brown chip bag into white bowl Pick Object from Receptacle and Place on the Counter Pick an object up from a location and then place it on the counter pick green jalapeno chip bag from paper bowl and place on counter Section 6.3 and 6.4 tasks Skills trained for realistic, long instructions open the large glass jar of pistachios pull napkin out of dispenser Table 1: The list of skills collected for RT-1 together with their descriptions and example instructions.
 
 Our goal is to build a system that exhibits high performance, generalization to new tasks, and robustness to distractors and backgrounds. We therefore aim to collect a large, diverse dataset of robot trajectories that includes multiple tasks, objects and environments. Our primary dataset consists of $\sim$`<!-- -->`{=html}130k robot demonstrations, collected with a fleet of 13 robots over the course of 17 months. We conducted this large-scale data collection in a series of office kitchen segments, which we refer to as robot classrooms, shown in Fig. 2. More details on data collection are in Appendix C.2.
 
@@ -119,19 +84,7 @@ The current set of skills includes picking, placing, opening and closing drawers
 
 ## Experiments
 
-Our experiments seek to answer the following questions:
-
-Can an RT-1 learn to perform a large number of instructions, as well as to generalize in zero shot to new tasks, objects and environments? (Section 6.2)
-
-Can we push the resulting model even further by incorporating heterogeneous data sources, such as simulated data or data from different robots? (Section 6.3)
-
-How do various methods generalize to long-horizon robotic scenarios? (Section 6.4)
-
-How do generalization metrics change with varying amounts of data quantity and data diversity? (Section 6.5)
-
-What are the important and practical decisions in the design of the model and how do they affect performance and generalization? (Appendix Section D.4)
-
-Throughout this section we will compare to two baseline state of the art architectures, Gato and BC-Z. Importantly both of these are trained on our data described in detail in Sec. 5.2 (which is an important part of our system) since the original models in these publications would not exhibit generalization properties required for our evaluation tasks. Gato is, similarly to RT-1, based on a Transformer architecture, but varies from RT-1 in multiple aspects. First, it computes image tokens without the notion of language and each image token embedding is computed separately for each image patch, as opposed to early language fusion and global image embedding in our model. Second, it does not use a pre-trained text embedding to encode the language string. It also does not include inference time considerations that are necessary for real robots as discussed in Sec. 5.1 such as TokenLearner and the removal of auto-regressive actions. In order to run Gato on real robots at a high enough frequency, we also limit the size of the model compared to the original publication, which was 1.2B parameters (resulting in on robot inference time of $1.9$s), to be of similar size to RT-1 (37M parameters for Gato vs. 35M for RT-1). BC-Z is based on a ResNet architecture, and was used in SayCan. BC-Z differs from RT-1 in that it is a feedforward model that does not use previous timesteps, and it uses continuous actions rather than discrete action tokens. In addition to the original BC-Z model size, we also compare our method to a larger version of BC-Z that has a similar number of parameters to RT-1 and refer to it as BC-Z XL. We study and analyze how each of these design decisions changes performance in Appendix Sections D.4 and D.5.
+Our experiments seek to answer the following questions: Can an RT-1 learn to perform a large number of instructions, as well as to generalize in zero shot to new tasks, objects and environments? (Section 6.2) Can we push the resulting model even further by incorporating heterogeneous data sources, such as simulated data or data from different robots? (Section 6.3) How do various methods generalize to long-horizon robotic scenarios? (Section 6.4) How do generalization metrics change with varying amounts of data quantity and data diversity? (Section 6.5) What are the important and practical decisions in the design of the model and how do they affect performance and generalization? (Appendix Section D.4) Throughout this section we will compare to two baseline state of the art architectures, Gato and BC-Z. Importantly both of these are trained on our data described in detail in Sec. 5.2 (which is an important part of our system) since the original models in these publications would not exhibit generalization properties required for our evaluation tasks. Gato is, similarly to RT-1, based on a Transformer architecture, but varies from RT-1 in multiple aspects. First, it computes image tokens without the notion of language and each image token embedding is computed separately for each image patch, as opposed to early language fusion and global image embedding in our model. Second, it does not use a pre-trained text embedding to encode the language string. It also does not include inference time considerations that are necessary for real robots as discussed in Sec. 5.1 such as TokenLearner and the removal of auto-regressive actions. In order to run Gato on real robots at a high enough frequency, we also limit the size of the model compared to the original publication, which was 1.2B parameters (resulting in on robot inference time of $1.9$s), to be of similar size to RT-1 (37M parameters for Gato vs. 35M for RT-1). BC-Z is based on a ResNet architecture, and was used in SayCan. BC-Z differs from RT-1 in that it is a feedforward model that does not use previous timesteps, and it uses continuous actions rather than discrete action tokens. In addition to the original BC-Z model size, we also compare our method to a larger version of BC-Z that has a similar number of parameters to RT-1 and refer to it as BC-Z XL. We study and analyze how each of these design decisions changes performance in Appendix Sections D.4 and D.5.
 
 We evaluate the success rate in experiments to measure performance on training instructions, generalization to unseen instructions, robustness to backgrounds and distractors, and performance in long-horizon scenarios, as detailed below. Throughout this section, we evaluate our approach and baselines with over 3000 real-world trials, making one of the largest scale evaluation of a robot learning system to-date.
 
@@ -165,9 +118,7 @@ To evaluate our algorithm in realistic scenarios in a real kitchen, we construct
 
 We report the per-task success rate in these realistic scenarios along with the varying generalization levels in Table 3 and find RT-1 to be the most robust on all levels. Gato generalizes fairly well at the first level but it performs significantly drops for the more difficult generalization scenarios. BC-Z and its XL equivalent perform fairly well at $L2$ level and better than Gato at $L3$ but they are still not at the generalization level of RT-1.
 
-Generalization Scenario Levels
-
-Table 3: Realistic generalization scenarios: we compare model success rate in a realistic Google kitchen scenarios across three levels of generalization: L1 for generalization to the new counter-top layout and lighting conditions, L2 for additionally generalization to unseen distractor objects, L3 for additionally generalization to drastically new task settings, new task objects or in unseen locations like near a sink.
+Generalization Scenario Levels Table 3: Realistic generalization scenarios: we compare model success rate in a realistic Google kitchen scenarios across three levels of generalization: L1 for generalization to the new counter-top layout and lighting conditions, L2 for additionally generalization to unseen distractor objects, L3 for additionally generalization to drastically new task settings, new task objects or in unseen locations like near a sink.
 
 ### Can we push the resulting model further by incorporating heterogeneous data sources such as simulation or data from different robots?
 
@@ -177,9 +128,7 @@ Absorbing simulation data. Table 4 shows the ability of RT-1, and baselines, to 
 
 We find in Table 4 that for RT-1, we do not lose performance adding simulation data compared to the Real Only dataset. We do however, see a significant increase in performance (from 23% to 87%) on objects and tasks seen only in simulation, to approximately the performance of the those in real, demonstrating an impressive degree of domain transfer. We also see a significant increase in performance on unseen instructions from 7% to 33%; impressive given the object in question has never been seen in real and the instruction never seen at all. Overall, we find that RT-1 is able to efficiently absorb new data, even from a very different domain.
 
-Sim Objects (not seen in real)
-
-Table 4: Experimental results for incorporating simulation data in RT-1. Adding simulation data does not impact the performance on real objects, while significantly improving real performance on objects that were only introduced in simulation (+64%). It also improves real-world generalization on simulated objects used with skills seen only in the real world (+26%), e.g. “move X to Y” where X only appeared in simulated “pick X” task.
+Sim Objects (not seen in real) Table 4: Experimental results for incorporating simulation data in RT-1. Adding simulation data does not impact the performance on real objects, while significantly improving real performance on objects that were only introduced in simulation (+64%). It also improves real-world generalization on simulated objects used with skills seen only in the real world (+26%), e.g. “move X to Y” where X only appeared in simulated “pick X” task.
 
 Absorbing data from different robots. To push the data absorption limits of RT-1, we conduct an additional set of experiments where we combine two data sources that originate from different robots: Kuka IIWA as well as the Everyday Robots mobile manipulators used in the experiments so far. The Kuka data contains all the successful examples collected in QT-Opt, which corresponds to 209k episodes, where the robot was indiscriminately grasping objects in a bin (see an example of a Kuka episode in Table. 5). To test whether RT-1 can effectively absorb these two very different datasets, which we refer to as the standard "Classroom eval", as well as the performance on the newly constructed tasks that reflect the bin-picking setup present in the Kuka data, which we refer to as the "Bin-picking eval" (see Fig. 6).
 
@@ -189,13 +138,7 @@ We would like to emphasize the difficulty of this setting by noting the major di
 
 The results are presented in Table 5. We observe that the model that mixes the RT-1 data and the Kuka data has only a minimal decrease in the original tasks' performance (i.e. Classroom eval), i.e. $2\%$. Even more importantly, in the Bin-picking eval, we observe that the model trained on multi-robot data performs at $39\%$ compared to the $22\%$ of the model that was trained only on the RT-1 data. This is a $17\%$ performance difference (almost 2x). Additionally, RT-1 trained on Kuka bin-picking data and evaluated on the bin-picking tasks with the Everyday Robots (EDR) robot achieves 0% performance, confirming that it is difficult to transfer a behavior from another robot morphology. However, mixing the data from both robots allows RT-1 to infer the correct actions of the EDR robot even when faced with the states observed by Kuka robots. This is achieved without explicit demonstrations of bin-picking on EDR robot and by taking advantage of past experiences collected by Kuka robots. These results indicate that RT-1's absorption properties also include the ability to acquire new skills through observing other robots' experiences and present an exciting avenue of future work where we combine many more multi-robot datasets to enhance the robot capabilities.
 
-Kuka bin-picking data + EDR data
-
-EDR only data
-
-Kuka bin-picking only data
-
-Table 5: Experimental results for mixing data from two different robots. Incorporating Kuka bin-picking data from QT-Opt in RT-1 minimally impacts the standard classroom evaluation performance and results in almost a 2x improvement in generalization to the Bin-picking evaluation (that is similar to the setup in the Kuka data) on the Everyday Robots manipulator. This demonstrates an effective transfer across two different robot morphologies.
+Kuka bin-picking data + EDR data EDR only data Kuka bin-picking only data Table 5: Experimental results for mixing data from two different robots. Incorporating Kuka bin-picking data from QT-Opt in RT-1 minimally impacts the standard classroom evaluation performance and results in almost a 2x improvement in generalization to the Bin-picking evaluation (that is similar to the setup in the Kuka data) on the Everyday Robots manipulator. This demonstrates an effective transfer across two different robot morphologies.
 
 ### How do various methods generalize long-horizon robotic scenarios?
 
@@ -203,12 +146,7 @@ In the next set of experiments we evaluate whether our method generalizes enough
 
 Table 6 shows our results (on instructions in Appendix Table 12). Except for original SayCan, all methods get 87% as planning success rate, and RT-1 performs the best, with 67% execution success rate in Kitchen1. Kitchen2 constitutes a much more challenging generalization scene, since the Robot Classroom training scenes are modeled after Kitchen1 (see the pictures of the kitchens in Fig. 2). Due to this generalization difficulty, SayCan with Gato is not able to finish any long horizon task, and SayCan with BC-Z is able to achieve a success rate of 13%. The original SayCan paper did not evaluate performance in a new kitchen. Surprisingly, the manipulation performance does not see a visible drop from Kitchen1 to Kitchen2 for our method. In the supplementary video, we show that this enables us to operate unseen drawers in Kitchen2, and that we can use SayCan-RT1 to plan and execute ultra-long horizon tasks, with as many as 50 steps.
 
-SayCan tasks in Kitchen1
-SayCan tasks in Kitchen2
-
-SayCan w/ RT-1 (ours)
-
-Table 6: SayCan style long horizon tasks in Kitchen1 and Kitchen2. (*Original SayCan eval uses a slightly different prompt so the planning success rate is lower.)
+SayCan tasks in Kitchen1 SayCan tasks in Kitchen2 SayCan w/ RT-1 (ours) Table 6: SayCan style long horizon tasks in Kitchen1 and Kitchen2. (*Original SayCan eval uses a slightly different prompt so the planning success rate is lower.)
 
 ### How do generalization metrics change with varying amounts of data quantity and data diversity?
 
@@ -226,4 +164,4 @@ While RT-1 presents a promising step towards large-scale robot learning with an 
 
 As we explore future directions for this work, we hope to scale the number of robot skills faster by developing methods that allow non-experts to train the robot via directed data collection and model prompting. While the current version of RT-1 is fairly robust especially to distractor objects, its robustness to backgrounds and environments could be further improved by greatly increasing the environment diversity. We also hope to improve the reaction speeds and context retention of RT-1 through scalable attention and memory.
 
-To allow the research community to build on top of this work, we have open-sourced the code for RT-1 ^44^4[http://github.com/google-research/robotics_transformer](http://github.com/google-research/robotics_transformer), which we hope will provide researchers with a valuable resource for future research for scaling up robot learning.
+To allow the research community to build on top of this work, we have open-sourced the code for RT-1 ^44^4 which we hope will provide researchers with a valuable resource for future research for scaling up robot learning.

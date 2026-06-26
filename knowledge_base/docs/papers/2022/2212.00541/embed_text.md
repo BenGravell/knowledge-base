@@ -18,36 +18,21 @@ In this section we provide a general background on Optimal Control and Trajector
 
 ### Optimal control
 
-Optimal Control means choosing actions in order to minimise future costs (equivalently, to maximise future returns). A dynamical system with *state* $x \in \mathbf{R}^{n}$, which takes a user-chosen *control* (or *action*) $u \in \mathbf{R}^{m}$, evolves according to the discrete-time^11^1The continuous-time formulation is generally equivalent, we choose discrete time for notation simplicity. dynamics:
-
-returning a new state, $y \in \mathbf{R}^{n}$. The behaviour of the system is encoded via the running cost:
-
-a function of state and control, where explicit time-dependence can be realised by folding time into the state. Future costs (a.k.a *cost-to-go* or *value*), can be defined in several ways. The summation can continue to infinity, leading to the *average-cost* or *discounted-cost* formulations, favoured in temporal-difference learning, which we discuss in Section 5. Here we focus on the *finite-horizon* formulation, whereby the optimisation objective $J$ is given by:
-
-where subscripts indicated discrete-time indices.
+Optimal Control means choosing actions in order to minimise future costs (equivalently, to maximise future returns). A dynamical system with *state* $x \in \mathbf{R}^{n}$, which takes a user-chosen *control* (or *action*) $u \in \mathbf{R}^{m}$, evolves according to the discrete-time^11^1The continuous-time formulation is generally equivalent, we choose discrete time for notation simplicity. dynamics: returning a new state, $y \in \mathbf{R}^{n}$. The behaviour of the system is encoded via the running cost: a function of state and control, where explicit time-dependence can be realised by folding time into the state. Future costs (a.k.a *cost-to-go* or *value*), can be defined in several ways. The summation can continue to infinity, leading to the *average-cost* or *discounted-cost* formulations, favoured in temporal-difference learning, which we discuss in Section 5. Here we focus on the *finite-horizon* formulation, whereby the optimisation objective $J$ is given: where subscripts indicated discrete-time indices.
 
 ### Trajectory optimisation
 
-Solving the finite-horizon optimal control problem, i.e., optimising a fixed-length trajectory, is commonly known as *planning* or *trajectory optimisation*. These algorithms \Von Stryk and Bulirsch, [1992, Betts, 1998\] have a rich history reaching back to the Apollo Program \NASA, [1971, Smith and Yound, 1967\]. An important distinction can be made between two classes of algorithms:
-
-*Direct* or *simultaneous* methods have both states and controls as decision variables and enforce the dynamics as constraints. These methods (e.g., Von Stryk ) specify a large, sparse optimisation problem, which is usually solved with general-purpose software \Wächter and Biegler, [2006, Gill et al., 2005\]. They have the important benefit that non-physically-realisable trajectories can be represented, for example in order to clamp a final state, without initially knowing how to get to it.
+Solving the finite-horizon optimal control problem, i.e., optimising a fixed-length trajectory, is commonly known as *planning* or *trajectory optimisation*. These algorithms \Von Stryk and Bulirsch, [1992, Betts, 1998\] have a rich history reaching back to the Apollo Program \NASA, [1971, Smith and Yound, 1967\]. An important distinction can be made between two classes of algorithms: *Direct* or *simultaneous* methods have both states and controls as decision variables and enforce the dynamics as constraints. These methods (e.g., Von Stryk) specify a large, sparse optimisation problem, which is usually solved with general-purpose software \Wächter and Biegler, [2006, Gill et al., 2005\]. They have the important benefit that non-physically-realisable trajectories can be represented, for example in order to clamp a final state, without initially knowing how to get to it.
 
 *Shooting* methods like Differential Dynamic Programming \Jacobson and Mayne, use only the controls $u_{0:T}$ as decision variables and enforce the dynamics via forward simulation. In the shooting approach only physically-realisable trajectories can be considered, but they benefit from the reduced search space and from the optimiser not having to enforce the dynamics. The latter benefit is especially important for stiff systems like those with contact, where the difference between a physical and non-physical trajectory can be very small^22^2For example, consider the physical scenario of a free rigid box lying flat on a plane under gravity, and then consider the non-physical scenario of the same box hovering above the plane or penetrating it by a few microns.. Unlike *direct* methods which require dynamics derivatives, shooting methods can employ derivative-free optimisation, as discussed below.
 
 ### Predictive control
 
-1:Read the current action u from the nominal plan Π, apply it to the controlled system.
-1:Measure the current state x.
-2:Using the nominal Π to warm-start, optimise the finite-horizon objective J.
-Algorithm 1 Predictive Control (asynchronous)
-
-The key idea of Predictive Control, invented in the late 60s and first published in \Richalet et al. is to use trajectory optimisation in *real-time* as the system dynamics are evolving. This class of algorithm has been successfully deployed in numerous real-world settings including: chemical and nuclear process control \Na et al., [2003, Lopez-Negrete et al., 2013\], navigation for autonomous vehicles \Falcone et al. and whole-body control of humanoid robots \Kuindersma et al.,.
+1:Read the current action u from the nominal plan Π, apply it to the controlled system. 1:Measure the current state x. 2:Using the nominal Π to warm-start, optimise the finite-horizon objective J. Algorithm 1 Predictive Control (asynchronous) The key idea of Predictive Control, invented in the late 60s and first published in \Richalet et al. is to use trajectory optimisation in *real-time* as the system dynamics are evolving. This class of algorithm has been successfully deployed in numerous real-world settings including: chemical and nuclear process control \Na et al., [2003, Lopez-Negrete et al., 2013\], navigation for autonomous vehicles \Falcone et al. and whole-body control of humanoid robots \Kuindersma et al.,.
 
 In the real-time setting, the current state $x$ needs to be estimated or measured, and the trajectory optimiser is required to return a set of optimal or near-optimal controls for the finite-horizon (here often called the *receding horizon*) problem, starting at $x$. We use $\mathbf{\Pi}$ to denote the *plan*, the finite-horizon policy. In the context of shooting methods $\mathbf{\Pi} = u_{0:T}$, though as we discuss later, in some cases it can be re-parameterised, rather than using the discrete-time control sequence directly. Predictive control is best thought of in terms of two asynchronous processes, the *agent* and the *planner*, see Algorithm 1.
 
-Predictive Control has the following notable properties:
-
-Faster computation improves performance. The reason for this is clear, the more optimisation steps the planner can take in one unit of time, the better the optimised control sequences will be.
+Predictive Control has the following notable properties: Faster computation improves performance. The reason for this is clear, the more optimisation steps the planner can take in one unit of time, the better the optimised control sequences will be.
 
 Warmstarting has a large beneficial effect. By reusing the plan from the previous planning step, the optimiser only needs to make small modifications in order to correct for the changes implied by the new state. Warm-starting also leads to an amortisation of the optimisation process across multiple planning steps.
 
@@ -69,7 +54,7 @@ Sampling-based methods have been used in the predictive control context, but not
 
 ## MuJoCo MPC (MJPC)
 
-We introduce MJPC, an open-source interactive application and software framework for predictive control, that lets the user easily synthesise behaviours for complex systems using predictive control algorithms in real time. Behaviours are specified by simple, composable objectives that are risk-aware. The planners, including: Gradient Descent, Iterative Linear Quadratic Gaussian (iLQG), and Predictive Sampling are implemented in C++ and extensively utilise multi-threading for parallel rollouts. The framework is asynchronous, enabling simulation slow-down and emulation of a faster controller, allowing this tool to run on slow machines. An intuitive graphical user-interface enables real-time interactions with the environment and the ability to modify task parameters, planner and model settings, and to instantly see the effects of the modifications. The tool is available at: [https://github.com/deepmind/mujoco_mpc](https://github.com/deepmind/mujoco_mpc).
+We introduce MJPC, an open-source interactive application and software framework for predictive control, that lets the user easily synthesise behaviours for complex systems using predictive control algorithms in real time. Behaviours are specified by simple, composable objectives that are risk-aware. The planners, including: Gradient Descent, Iterative Linear Quadratic Gaussian (iLQG), and Predictive Sampling are implemented in C++ and extensively utilise multi-threading for parallel rollouts. The framework is asynchronous, enabling simulation slow-down and emulation of a faster controller, allowing this tool to run on slow machines. An intuitive graphical user-interface enables real-time interactions with the environment and the ability to modify task parameters, planner and model settings, and to instantly see the effects of the modifications. The tool is available :
 
 ### Physics Simulation
 
@@ -81,11 +66,7 @@ MJPC provides convenient utilities to easily design and compose costs in order t
 
 ### Costs
 
-We use a "base cost" of the form:
-
-This cost is a sum of $M$ terms, each comprising:
-
-A nonnegative weight $w \in \mathbf{R}_{+}$ determining the relative importance of this term.
+We use a "base cost" of the form: This cost is a sum of $M$ terms, each comprising: A nonnegative weight $w \in \mathbf{R}_{+}$ determining the relative importance of this term.
 
 A twice-differentiable norm ${\text{n}{( \cdot )}}:{\mathbf{R}^{p}\rightarrow\mathbf{R}_{+}}$, which takes its minimum at $0^{p}$.
 
@@ -93,13 +74,9 @@ The residual $r \in \mathbf{R}^{p}$ is a vector of elements that are "small when
 
 ### Risk sensitivity
 
-Figure 1: Risk transformation ρ (l;R). The function is evaluated between 0 and 1 for different values of the risk parameter R.
+Figure 1: Risk transformation ρ (l; R). The function is evaluated between 0 and 1 for different values of the risk parameter R.
 
-We augment the base cost (4 ‣ Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo")) with a risk-aware exponential scalar transformation, $\rho:{{\mathbf{R}_{+} \times \mathbf{R}}\rightarrow\mathbf{R}}$, corresponding to the classical risk-sensitive control framework \Jacobson, [1973, Whittle, 1981\]. The final running cost $c$ is given by:
-
-The scalar parameter $R \in \mathbf{R}$ denotes risk-sensitivity. $R = 0$ (the default) is interpreted as risk-neutral, $R > 0$ as risk-averse, and $R < 0$ as risk-seeking. The mapping $\rho$ (see Figure 1 ‣ Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo")) has the following properties:
-
-Defined and smooth for any $R$.
+We augment the base cost (4 ‣ Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo")) with a risk-aware exponential scalar transformation, $\rho:{{\mathbf{R}_{+} \times \mathbf{R}}\rightarrow\mathbf{R}}$, corresponding to the classical risk-sensitive control framework \Jacobson, [1973, Whittle, 1981\]. The final running cost $c$ is given: The scalar parameter $R \in \mathbf{R}$ denotes risk-sensitivity. $R = 0$ (the default) is interpreted as risk-neutral, $R > 0$ as risk-averse, and $R < 0$ as risk-seeking. The mapping $\rho$ (see Figure 1 ‣ Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo")) has the following properties: Defined and smooth for any $R$.
 
 If $R = 0$, is the identity ${\rho{(l;0)}} = l$ (in the limit).
 
@@ -111,48 +88,29 @@ Non-negative: If $l \geq 0$ then ${\rho{(l;R)}} \geq 0$.
 
 Monotonic: ${\rho{(l;R)}} > {\rho{(z;R)}}$ if $l > z$.
 
-If $R < 0$ then $\rho$ is bounded: ${\rho{(l;R)}} < {- \frac{1}{R}}$.
-
-$\rho{(l;R)}$ carries the same units as $l$.
+If $R < 0$ then $\rho$ is bounded: ${\rho{(l;R)}} < {- \frac{1}{R}}$. $\rho{(l;R)}$ carries the same units as $l$.
 
 Note that for negative $R$, the transformation $\rho$ creates costs that are similar to the bounded rewards commonly used in reinforcement learning. For example, when using the quadratic norm ${\text{n}{(r)}} = {r^{T}Wr}$ for some SPD matrix $W = \Sigma^{- 1}$ and a risk parameter $R = {- 1}$, we get an inverted-Gaussian cost $c = {1 - e^{- {r^{T}\Sigma^{- 1}r}}}$, whose minimisation is equivalent to maximum-likelihood maximisation of the Gaussian. This leads to the interesting interpretation of the bounded rewards commonly used in RL as *risk-seeking*. We do not investigate this relationship further in this paper.
 
 ### Derivatives
 
-MuJoCo provides a utility for computing finite-difference (FD) Jacobians of the dynamics, which is efficient in two ways. First, by avoiding re-computation where possible, for example when differencing w.r.t. controls, quantities that depend only on positions and velocities are not recomputed. Second, because FD computational costs scale with the dimension of the *input*, outputs can be added cheaply. MuJoCo's step function ${y,r} = {f{(x,u)}}$, computes both the next state $y$ and sensor values $r$, defined in the model. Because the FD approximation of the Jacobians,
-
-scales like the combined dimension of $x$ and $u$, adding more sensors $r$ is effectively "free". MJPC automatically and efficiently computes cost derivatives as follows.
+MuJoCo provides a utility for computing finite-difference (FD) Jacobians of the dynamics, which is efficient in two ways. First, by avoiding re-computation where possible, for example when differencing w.r.t. controls, quantities that depend only on positions and velocities are not recomputed. Second, because FD computational costs scale with the dimension of the *input*, outputs can be added cheaply. MuJoCo's step function ${y,r} = {f{(x,u)}}$, computes both the next state $y$ and sensor values $r$, defined in the model. Because the FD approximation of the Jacobians, scales like the combined dimension of $x$ and $u$, adding more sensors $r$ is effectively "free". MJPC automatically and efficiently computes cost derivatives as follows.
 
 ### Gradients
 
-Cost gradients are computed with:
-
-$\frac{\partial c}{\partial x}$ ${= {e^{Rl}\frac{\partial l}{\partial x}} = {e^{Rl}{\sum\limits_{i = 0}^{M}{w_{i}\frac{\partial\text{n}_{i}}{\partial r}\frac{\partial r_{i}}{\partial x}}}}},$ (7a)
-$\frac{\partial c}{\partial u}$ ${= {e^{Rl}\frac{\partial l}{\partial u}} = {e^{Rl}{\sum\limits_{i = 0}^{M}{w_{i}\frac{\partial\text{n}_{i}}{\partial r}\frac{\partial r_{i}}{\partial u}}}}}.$ (7b)
-
-The norm gradients, $\partial{\text{n}/{\partial r}}$, are computed analytically.
+Cost gradients are computed: The norm gradients, $\partial{\text{n}/{\partial r}}$, are computed analytically.
 
 ### Hessians
 
-Second-order derivatives use the Gauss-Newton approximation, ignoring second derivatives of $r$:
-
-$\frac{\partial^{2}c}{\partial x^{2}} \approx$ ${e^{Rl}\left\lbrack {{\sum\limits_{i = 0}^{M}{w_{i}\frac{\partial r_{i}}{\partial x}^{T}\frac{\partial^{2}\text{n}_{i}}{\partial r^{2}}\frac{\partial r_{i}}{\partial x}}} + {R\frac{\partial l}{\partial x}^{T}\frac{\partial l}{\partial x}}} \right\rbrack},$ (8a)
-$\frac{\partial^{2}c}{\partial u^{2}} \approx$ ${e^{Rl}\left\lbrack {{\sum\limits_{i = 0}^{M}{w_{i}\frac{\partial r_{i}}{\partial u}^{T}\frac{\partial^{2}\text{n}_{i}}{\partial r^{2}}\frac{\partial r_{i}}{\partial u}}} + {R\frac{\partial l}{\partial u}^{T}\frac{\partial l}{\partial u}}} \right\rbrack},$ (8b)
-$\frac{\partial^{2}c}{\partial{x{\partial u}}} \approx$ ${e^{Rl}\left\lbrack {{\sum\limits_{i = 0}^{M}{w_{i}\frac{\partial r_{i}}{\partial x}^{T}\frac{\partial^{2}\text{n}_{i}}{\partial r^{2}}\frac{\partial r_{i}}{\partial u}}} + {R\frac{\partial l}{\partial x}^{T}\frac{\partial l}{\partial u}}} \right\rbrack}.$ (8c)
-
-The norm Hessians, $\partial^{2}{\text{n}/{\partial r^{2}}}$, are computed analytically.
+Second-order derivatives use the Gauss-Newton approximation, ignoring second derivatives of $r$: The norm Hessians, $\partial^{2}{\text{n}/{\partial r^{2}}}$, are computed analytically.
 
 ### Splines
 
 Figure 2: Time-indexed spline representation of the controls. Parameter points (black) utilised to construct: zero (magenta), linear (orange), and cubic (blue) interpolants.
 
-As we explain below, planners like iLQG require the *direct* control-sequence representation $u_{0:T}$ due to the requirements of the Bellman Principle. Without this constraint, controls can be "compressed" into a lower-dimensional object. There are many ways to do this, we picked the simplest: splines. Action trajectories are represented as a time-indexed set of knots, or control-points, parameterised by a sequence of monotonic time points $\tau_{0:P}$ and parameter values $\theta_{0:P}$, where we use the shorthand $\theta = \theta_{0:P}$. Given a query point $\tau$, the evaluation of the spline is given by:
+As we explain below, planners like iLQG require the *direct* control-sequence representation $u_{0:T}$ due to the requirements of the Bellman Principle. Without this constraint, controls can be "compressed" into a lower-dimensional object. There are many ways to do this, we picked the simplest: splines. Action trajectories are represented as a time-indexed set of knots, or control-points, parameterised by a sequence of monotonic time points $\tau_{0:P}$ and parameter values $\theta_{0:P}$, where we use the shorthand $\theta = \theta_{0:P}$. Given a query point $\tau$, the evaluation of the spline is given: We provide three spline implementations: traditional cubic Hermite splines, piecewise-linear interpolation, and zero-order hold. See (Fig. 2 ‣ Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo")) for an illustration.
 
-We provide three spline implementations: traditional cubic Hermite splines, piecewise-linear interpolation, and zero-order hold. See (Fig. 2 ‣ Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo")) for an illustration.
-
-The main benefit of compressed representations like splines is that they reduce the search space. They also smooth the control trajectory, which is often desirable. Spline functions belong to the class of linear bases, which includes the Fourier basis and orthogonal polynomials. These are useful because they allow easy propagation of gradients from the direct representation $\partial\mathbf{\Pi}$ back to the parameter values $\partial\theta$. In our case this amounts to computing:
-
-which has a simple analytic formula (see code for details). Unlike other linear bases, splines have the convenient property that bounding the values $\theta$ also bounds the spline trajectory. This is exactly true for the zero and linear interpolations, and mostly-true for cubic splines. Bounding is important as most physical systems clamp controls to bounds, and there is no point searching outside of them. Expressions for cubic, linear and zero interpolations are provided in Appendix A.
+The main benefit of compressed representations like splines is that they reduce the search space. They also smooth the control trajectory, which is often desirable. Spline functions belong to the class of linear bases, which includes the Fourier basis and orthogonal polynomials. These are useful because they allow easy propagation of gradients from the direct representation $\partial\mathbf{\Pi}$ back to the parameter values $\partial\theta$. In our case this amounts to computing: which has a simple analytic formula (see code for details). Unlike other linear bases, splines have the convenient property that bounding the values $\theta$ also bounds the spline trajectory. This is exactly true for the zero and linear interpolations, and mostly-true for cubic splines. Bounding is important as most physical systems clamp controls to bounds, and there is no point searching outside of them. Expressions for cubic, linear and zero interpolations are provided in Appendix A.
 
 ### Planners
 
@@ -160,44 +118,17 @@ MJPC includes two derivative-based planners.
 
 ### iLQG
 
-1:initial state x0, nominal plan Π = u0: T
-2:Roll out nominal trajectory from x0 using Π
-3:Compute action improvements and feedback policy using Dynamic Programming.
-4:Roll out parallel line search with feedback policy.
-5:Best actions are new nominal actions.
+1:initial state x0, nominal plan Π = u0: T 2:Roll out nominal trajectory from x0 using Π 3:Compute action improvements and feedback policy using Dynamic Programming. 4:Roll out parallel line search with feedback policy. 5:Best actions are new nominal actions.
 
-The iLQG^33^3Equivalently, "iLQR", since we don't make use of the noise-sensitive term for which iLQG was originally developed \Li and Todorov,. We keep the name "iLQG" due to its provenance. planner \Tassa et al. a Gauss-Newton approximation of the DDP algorithm \Jacobson and Mayne utilises first- and second-order derivative information to take an approximate Newton step over the open-loop control sequence $u_{0:T}$ via dynamic programming \Kalman producing a time-varying linear feedback policy:
-
-The *nominal*, or current best trajectory, is denoted with overbars ($\overline{}$), $K$ is a feedback gain matrix, and $k$ is an improvement to the current action trajectory. A parallel line search over the step size $\alpha \in {\lbrack\alpha_{\text{min}},1\rbrack}$ is performed to find the best improvement. Additional enhancements include a constrained backward pass \Tassa et al., that enforces action limits and adaptive regularisation. The details of iLQG are too involved to restate here, we refer the reader to the references above for details.
+The iLQG^33^3Equivalently, "iLQR", since we don't make use of the noise-sensitive term for which iLQG was originally developed \Li and Todorov,. We keep the name "iLQG" due to its provenance. planner \Tassa et al. a Gauss-Newton approximation of the DDP algorithm \Jacobson and Mayne utilises first- and second-order derivative information to take an approximate Newton step over the open-loop control sequence $u_{0:T}$ via dynamic programming \Kalman producing a time-varying linear feedback policy: The *nominal*, or current best trajectory, is denoted with overbars ($\overline{}$), $K$ is a feedback gain matrix, and $k$ is an improvement to the current action trajectory. A parallel line search over the step size $\alpha \in {\lbrack\alpha_{\text{min}},1\rbrack}$ is performed to find the best improvement. Additional enhancements include a constrained backward pass \Tassa et al., that enforces action limits and adaptive regularisation. The details of iLQG are too involved to restate here, we refer the reader to the references above for details.
 
 ### Gradient descent
 
-1:initial state x0, nominal plan Π (θ)
-2:Roll out nominal from x0 using Π (θ)
-5:Roll out parallel line-search with
-6:Pick the best one: θ ← argmin (J (θ(i)))
-Algorithm 3 Gradient Descent
-
-This first-order planner, known as Pontryagin's Maximum Principle \Mangasarian utilises gradient information to improve action sequences, here represented as splines. The gradient of the total return is used to update the spline parameters, using a parallel line search over the step size $\alpha \in {\lbrack\alpha_{\text{min}},\alpha_{\text{max}}\rbrack}$:
-
-The total gradient is given by:
-
-where the spline gradient $\partial{\mathbf{\Pi}/{\partial\theta}}$ is given by (10 ‣ Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo")), while $\partial{J/{\partial\mathbf{\Pi}}}$ is computed with the Maximum Principle. Letting $\lambda$ denote the *co-state*, the gradients with respect to $u$ are given by:
-
-$\lambda_{j}$ ${= {\frac{\partial c}{\partial x_{j}} + {\left( \frac{\partial f}{\partial x_{j}} \right)^{T}\lambda_{j + 1}}}},$ (14a)
-$\frac{\partial J}{\partial u_{j}}$ ${= {\frac{\partial c}{\partial u_{j}} + {\left( \frac{\partial f}{\partial u_{j}} \right)^{T}\lambda_{j + 1}}}}.$ (14b)
-
-The primary advantage of this first-order method compared to a computationally more expensive method like iLQG is that optimisation is performed over the smaller space of spline parameters, instead of the entire (non-parametric) sequences of actions.
+1:initial state x0, nominal plan Π (θ) 2:Roll out nominal from x0 using Π (θ) 5:Roll out parallel line-search with 6:Pick the best one: θ ← argmin (J (θ(i))) Algorithm 3 Gradient Descent This first-order planner, known as Pontryagin's Maximum Principle \Mangasarian utilises gradient information to improve action sequences, here represented as splines. The gradient of the total return is used to update the spline parameters, using a parallel line search over the step size $\alpha \in {\lbrack\alpha_{\text{min}},\alpha_{\text{max}}\rbrack}$: The total gradient is given: where the spline gradient $\partial{\mathbf{\Pi}/{\partial\theta}}$ is given by (10 ‣ Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo")), while $\partial{J/{\partial\mathbf{\Pi}}}$ is computed with the Maximum Principle. Letting $\lambda$ denote the *co-state*, the gradients with respect to $u$ are given: The primary advantage of this first-order method compared to a computationally more expensive method like iLQG is that optimisation is performed over the smaller space of spline parameters, instead of the entire (non-parametric) sequences of actions.
 
 ### Predictive Sampling
 
-Parameters: N rollouts, noise scale σ
-1:initial state x0, nominal plan Π (θ)
-3:Including θ, roll out all N samples from x0
-4:Pick the best one: θ ← argmin (J (θ(i)))
-Algorithm 4 Predictive Sampling
-
-This is a trivial, zero-order, sampling-based Predictive Control method that works well and is easy to understand. Designed as an elementary baseline, this algorithm turned out to be surprisingly competitive with the more elaborate derivative-based algorithms.
+Parameters: N rollouts, noise scale σ 1:initial state x0, nominal plan Π (θ) 3:Including θ, roll out all N samples from x0 4:Pick the best one: θ ← argmin (J (θ(i))) Algorithm 4 Predictive Sampling This is a trivial, zero-order, sampling-based Predictive Control method that works well and is easy to understand. Designed as an elementary baseline, this algorithm turned out to be surprisingly competitive with the more elaborate derivative-based algorithms.
 
 ### Algorithm
 
@@ -205,7 +136,7 @@ A nominal sequence of actions, represented with spline parameters, is iterativel
 
 ## Results
 
-We provide a short textual description of our graphical user interface (GUI) for three example tasks. They are best understood by viewing the associated video at [dpmd.ai/mjpc](https://dpmd.ai/mjpc) or better yet, by downloading the software and interacting with it.
+We provide a short textual description of our graphical user interface (GUI) for three example tasks. They are best understood by viewing the associated video at dpmd.ai/mjpc or better yet, by downloading the software and interacting with it.
 
 ### Graphical User Interface
 
@@ -265,9 +196,7 @@ This is a general limitation of Predictive Control and is in fact stronger since
 
 ### Myopic
 
-The core limitation of Predictive Control is that it is *myopic* and cannot see past the fixed horizon. This can be ameliorated in three conceptually straightforward ways:
-
-Learned policies. By adding a learned policy, information from past episodes can propagate to the present via policy generalisation \Byravan et al.,. This approach is attractive since it can only *improve* performance: when rolling out samples, one also rolls out the proposal policy. If the rollout is better, it becomes the new nominal. A learned policy is also expected to lead to more stereotypical, periodic behaviours, which are important in locomotion.
+The core limitation of Predictive Control is that it is *myopic* and cannot see past the fixed horizon. This can be ameliorated in three conceptually straightforward ways: Learned policies. By adding a learned policy, information from past episodes can propagate to the present via policy generalisation \Byravan et al.,. This approach is attractive since it can only *improve* performance: when rolling out samples, one also rolls out the proposal policy. If the rollout is better, it becomes the new nominal. A learned policy is also expected to lead to more stereotypical, periodic behaviours, which are important in locomotion.
 
 Value functions. Terminating the rollout with a learned value function which estimates the remaining cost-to-go is the obvious way by which to increase the effective horizon. Combining learned policies and value functions with model-based search would amount to an "AlphaGo for control" \Silver et al., [2016, Springenberg et al., 2020\].
 

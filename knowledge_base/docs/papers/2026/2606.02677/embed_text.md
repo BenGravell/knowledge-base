@@ -32,65 +32,9 @@ Bruce and Veloso developed Extended RRT (ERRT), which discards the entire tree w
 
 Zucker et al. presented Multipartite RRT (MPRRT), which prunes the colliding nodes to form multiple disconnected trees. These disjoint trees are then reconnected to the main robot-rooted tree using a forest biasing strategy. Gayle et al.\[57-an approach for motion planning with multiple tasks in dynamic environments")\] proposed Lazy Reconfiguration Forest (LRF), which maintains multiple disconnected trees after pruning invalid nodes and attempts to reconnect nearby trees through random sampling. Bekris and Kavraki presented a method called GRIP, which prunes disconnected branches and biases new tree growth toward the trimmed regions.
 
-Old path biasing
+Old path biasing Grows a new tree from scratch Trimmed area biasing Grows the tree by biasing samples to the trimmed area Reconnects the robot-rooted tree to other trees via new samples Relocates the colliding nodes and deforms the edges Repairs the goal-rooted subtree by rewiring cascade Biases the tree growth to promising area captured by GMM Colliding path nodes Old path biasing Grows the robot-rooted tree towards goal tree for reconnection Uses artificial potential field to guide the tree growth Reconnects trees at hot-spots Grows the tree via new samples filtered by adaptive risk tolerance Grows the tree by adding new nodes with low risk Grows the full tree and updates its safe subtree to find a path Grows multiple trees in parallel to guide main-tree expansion Table I: Qualitative comparison of representative sampling-based motion planning methods in dynamic environments.
 
-Grows a new tree from scratch
-
-Trimmed area biasing
-
-Grows the tree by biasing
-
-samples to the trimmed area
-
-Reconnects the robot-rooted tree
-
-to other trees via new samples
-
-Relocates the colliding
-
-nodes and deforms the edges
-
-Repairs the goal-rooted
-
-subtree by rewiring cascade
-
-Biases the tree growth to
-
-promising area captured by GMM
-
-Colliding path nodes
-
-Old path biasing
-
-Grows the robot-rooted tree
-
-towards goal tree for reconnection
-
-Uses artificial potential field to
-
-guide the tree growth
-
-Reconnects trees at hot-spots
-
-Grows the tree via new samples
-
-filtered by adaptive risk tolerance
-
-Grows the tree by adding new
-
-nodes with low risk
-
-Grows the full tree and updates
-
-its safe subtree to find a path
-
-Grows multiple trees in parallel
-
-to guide main-tree expansion
-
-Table I: Qualitative comparison of representative sampling-based motion planning methods in dynamic environments.
-
-To fully reuse previous search efforts, Otte and Frazzoli proposed the RRT$^{\text{X}}$ algorithm, which maintains and refines the same graph without pruning any nodes. This is because previously colliding nodes may become valid as obstacles move in dynamic environments. Upon environmental changes, RRT$^{\text{X}}$ employs RRT\*-like rewiring cascades to remodel the graph and repair the goal-rooted subtree, ensuring an updated shortest feasible path. Notably, RRT$^{\text{X}}$ is the first sampling-based planner for dynamic environments that is both asymptotically optimal and single-query. Several subsequent works have extended RRT$^{\text{X}}$ to improve performance and broaden its applicability. Huang and Jing enhanced RRT$^{\text{X}}$ by (i) accelerating convergence through selective expansion of promising vertices, and (ii) reducing computation by heuristically evaluating edge quality before computing exact costs. Silveira et al. introduced the Real-Time Fast Marching Tree (RT-FMT) algorithm, which repairs the tree via RRT$^{\text{X}}$-style rewiring cascades and then expands it using the FMT\* algorithm to discover new paths. Xu et al. extended RRT$^{\text{X}}$ to RRT-Q${}_{}^{}{}$ targeting kinodynamic motion planning with unknown dynamics and disturbances. This method leverages RRT$^{\text{X}}$ to generate waypoints and employs a Q-learning-based controller for local waypoint navigation.
+To fully reuse previous search efforts, Otte and Frazzoli proposed the RRT${}^{\text{X}}$ algorithm, which maintains and refines the same graph without pruning any nodes. This is because previously colliding nodes may become valid as obstacles move in dynamic environments. Upon environmental changes, RRT${}^{\text{X}}$ employs RRT\*-like rewiring cascades to remodel the graph and repair the goal-rooted subtree, ensuring an updated shortest feasible path. Notably, RRT${}^{\text{X}}$ is the first sampling-based planner for dynamic environments that is both asymptotically optimal and single-query. Several subsequent works have extended RRT${}^{\text{X}}$ to improve performance and broaden its applicability. Huang and Jing enhanced RRT${}^{\text{X}}$ by (i) accelerating convergence through selective expansion of promising vertices, and (ii) reducing computation by heuristically evaluating edge quality before computing exact costs. Silveira et al. introduced the Real-Time Fast Marching Tree (RT-FMT) algorithm, which repairs the tree via RRT${}^{\text{X}}$-style rewiring cascades and then expands it using the FMT\* algorithm to discover new paths. Xu et al. extended RRT${}^{\text{X}}$ to RRT-Q${}^{\text{X}}_{\infty}$ targeting kinodynamic motion planning with unknown dynamics and disturbances. This method leverages RRT${}^{\text{X}}$ to generate waypoints and employs a Q-learning-based controller for local waypoint navigation.
 
 Chen et al. proposed the Horizon-based Lazy RRT\* (HLRRT\*), which restricts feasibility checks to a finite time horizon, as distant dynamic obstacles pose no immediate risk to the robot. This lazy feasibility checking strategy delays expensive computations. Infeasible nodes and their successors are pruned, and the remaining tree is expanded by biasing samples toward regions of low heuristic total cost. Such regions are captured by a Gaussian Mixture Model trained online. Building , Yuan et al. proposed Efficient Bias-goal Factor RRT (EBGRRT), which maintains both a robot-rooted main tree and a goal-rooted tree. Colliding nodes are pruned, and the main tree is guided toward the goal tree by biasing samples to the previous path nodes.
 
@@ -114,73 +58,7 @@ Sampling-based planning methods have evolved from rebuilding trees or roadmaps t
 
 Despite these advances, several trade-offs remain. Although, reuse of existing search structures reduces computation, it may retain suboptimal or poorly distributed samples. On the other hand, risk-aware expansion improves safety, but it depends on prediction accuracy and may become overly conservative under uncertainties. Therefore, the central challenge for sampling-based planning in dynamic environments is to balance real-time responsiveness and path quality.
 
-Predefined spatial graph with dynamically updated edge costs
-
-Repairs previous search results by propagating
-
-edge-cost changes through inconsistent vertices
-
-Removes affected path labels and regenerates
-
-inconsistent states to update the Pareto-optimal path set
-
-Combines forward and backward searches to reuse previous
-
-search results and limits the forward search to the sensing range
-
-Predefined Spatiotemporal graph with dynamically updated edge costs
-
-Computes safe intervals from predicted obstacle
-
-trajectories and searches over configuration-interval states
-
-Combines SIPP safe intervals with multi-objective
-
-label search to compute Pareto-optimal collision-free paths
-
-Builds a Delaunay-triangulation graph from pedestrian
-
-positions and searches a collision-free path on it
-
-Constructs a safe-interval visibility graph, extracts spatial-
-
-temporally distinct paths, and optimizes B-spline trajectories
-
-within spatial-temporal corridors
-
-Incrementally constructed spatial graph based on motion primitives
-
-Generates motion primitives by discretizing control inputs,
-
-improves efficiency via primitive aggregation and pruning, and
-
-accelerates collision checking by evaluating point-line distance
-
-Predicts future occupancy using a particle-based dynamic map,
-
-evaluates collision risk along sampled motion primitives, and
-
-builds spatiotemporal safety corridors for trajectory optimization
-
-Generates local risk-aware trajectories using two-phase motion
-
-primitives for collision avoidance and merges back to the global
-
-reference path when it turns safe
-
-Obtains a coarse path using spatiotemporal motion primitives,
-
-combined heuristics, and fast collision checking, then refines
-
-the path and speed profile through multilayer optimization
-
-Uses high-resolution short-horizon lattice planning and low-
-
-resolution long-horizon guidance, switching to safe partial
-
-trajectories when no complete path to the goal is available
-
-Table II: Qualitative comparison of representative search-based motion planning methods in dynamic environments.
+Predefined spatial graph with dynamically updated edge costs Repairs previous search results by propagating edge-cost changes through inconsistent vertices Removes affected path labels and regenerates inconsistent states to update the Pareto-optimal path set Combines forward and backward searches to reuse previous search results and limits the forward search to the sensing range Predefined Spatiotemporal graph with dynamically updated edge costs Computes safe intervals from predicted obstacle trajectories and searches over configuration-interval states Combines SIPP safe intervals with multi-objective label search to compute Pareto-optimal collision-free paths Builds a Delaunay-triangulation graph from pedestrian positions and searches a collision-free path on it Constructs a safe-interval visibility graph, extracts spatialtemporally distinct paths, and optimizes B-spline trajectories within spatial-temporal corridors Incrementally constructed spatial graph based on motion primitives Generates motion primitives by discretizing control inputs, improves efficiency via primitive aggregation and pruning, and accelerates collision checking by evaluating point-line distance Predicts future occupancy using a particle-based dynamic map, evaluates collision risk along sampled motion primitives, and builds spatiotemporal safety corridors for trajectory optimization Generates local risk-aware trajectories using two-phase motion primitives for collision avoidance and merges back to the global reference path when it turns safe Obtains a coarse path using spatiotemporal motion primitives, combined heuristics, and fast collision checking, then refines the path and speed profile through multilayer optimization Uses high-resolution short-horizon lattice planning and lowresolution long-horizon guidance, switching to safe partial trajectories when no complete path to the goal is available Table II: Qualitative comparison of representative search-based motion planning methods in dynamic environments.
 
 ## Search-based Methods
 
@@ -218,7 +96,7 @@ Model Predictive Control (MPC) is widely adopted for motion planning in dynamic 
 
 Several methods formulate safety constraints using the predicted positions and uncertainties of dynamic obstacles. Obstacles are commonly represented as convex polyhedra, such as cuboids, or as smooth differentiable surfaces, such as ellipsoids. Polyhedral obstacles are typically encoded as disjunctions of linear inequality constraints, which can be transformed into deterministic constraints. However, this formulation can be computationally expensive in crowded environments. In contrast, representing obstacles as differentiable surfaces allows collision avoidance to be expressed using smooth nonlinear constraints, avoiding the binary variables and numerous face constraints required by polyhedral formulations, thus reducing the number of constraints. However, this strategy may produce conservative solutions.
 
-Figure 5: Different safety constraint formulations for dynamic obstacle with position uncertainty and ellipsoidal boundary. (a) The red region illustrates the 1 σ to 3 σ interval of the collision uncertainty. (b) A linearized chance constraint is applied over the uncertainty region shown in (a). (c) The chance constraint is reformulated into a set of deterministic constraints by sampling (red circles), and a collision avoidance boundary (black line) is computed for each sample. To improve efficiency, only critical samples (blue circles) are retained.
+Figure 5: Different safety constraint formulations for dynamic obstacle with position uncertainty and ellipsoidal boundary. (a) The red region illustrates the 1σ to 3σ interval of the collision uncertainty. (b) A linearized chance constraint is applied over the uncertainty region shown in (a). (c) The chance constraint is reformulated into a set of deterministic constraints by sampling (red circles), and a collision avoidance boundary (black line) is computed for each sample. To improve efficiency, only critical samples (blue circles) are retained.
 
 Brito et al. developed the Local Model Predictive Contouring Control approach, which generates a collision-free trajectory to track a reference global path within a finite horizon. Dynamic obstacles are represented as ellipsoids, and the collision region is conservatively approximated in closed form using the Minkowski sum of an ellipsoid and the robot's circular footprint, as shown in Fig. 5a. Zhu and Alonso-Mora proposed the Chance-Constrained Nonlinear Model Predictive Control approach, which plans local trajectories while keeping the collision probability below a prescribed threshold. Dynamic obstacles are modeled as ellipsoids, and collision avoidance is formulated as chance constraints. These constraints are then linearized and converted into deterministic constraints for optimization, as illustrated in Fig. 5b.
 
@@ -248,95 +126,7 @@ Figure 8: Organization and main topics of learning-based motion planning methods
 
 MPC-based methods provide a unified optimization framework for dynamic motion planning by considering system dynamics, safety constraints, and time-varying objectives within a receding horizon. Safety-constraint formulations improve collision avoidance by encoding dynamic obstacles as deterministic, chance-constrained, or risk-aware constraints. However, these formulations often introduce a trade-off between safety, conservatism, and computational tractability, especially in crowded environments with multiple uncertain obstacles. Uncertainty-aware prediction further improves robustness by incorporating probabilistic forecasts or calibrated prediction regions, but its effectiveness depends on the reliability of the prediction model and the quality of uncertainty estimation. High-level guidance and cost-function design help mitigate deadlock and improve long-horizon task progress, yet they introduce additional dependencies on global planners, learned policies, or carefully designed objectives. Overall, MPC-based methods provide strong capabilities for enforcing dynamic feasibility and safety constraints. However, their practical performance is often limited by the need to solve complex optimization problems in real time while accounting for uncertain obstacle predictions and long-horizon interactions.
 
-Easy to implement and enables fast inference
-
-Directly maps the raw LiDAR data
-
-to collision-free steering commands
-
-Presents a multi-modal sensor fusion
-
-framework for the policy learning module
-
-Designs a spatiotemporal attention pipeline to
-
-infer the scene dynamics from raw LiDAR data
-
-Generates robust and cooperative policies
-
-Introduces a joint state representation that
-
-implicitly models human-robot interactions
-
-Promotes social-aware behaviors
-
-using a norm-inducing reward term
-
-Employs LSTM to handle the observations
-
-of an arbitrary number of dynamic obstacles
-
-Models and aggregates both human-robot and
-
-human-human interactions by attention module
-
-Models agents and their interactions as nodes
-
-and edges using graph neural network (GNN)
-
-Captures interactions in each frame and
-
-their evolution over time using transformer
-
-Improves scalability and generalization
-
-Selects PID, RL, and safety-oriented policies
-
-based on the complexity of surrounding scenario
-
-Develops a hierarchical planning method that uses
-
-a global path to guide the RL-based local planner
-
-Learns corrective actions to adjust MPC planner
-
-Uses a high-level RL to determine subgoals
-
-to guide low-level RL control policy
-
-Improves efficiency, robustness, and generalization
-
-Provides a data-efficient way to acquire
-
-policies by leveraging expert demonstrations
-
-Trains policies in simple scenarios and
-
-transfers them to more complex scenarios
-
-Accelerates learning process by
-
-transferring MPC experience data
-
-Generates diverse training scenarios
-
-Improves applicability in cluttered scenarios
-
-Computes a deviation to adjust the velocity
-
-output of RL to avoid entering freezing zone
-
-Uses oriented capsules to enclose obstacles;
-
-adds a velocity-aware risk to reward function
-
-Creates a reward term based on velocity obstacles
-
-(VO) to promote active collision avoidance
-
-Leverages predicted congestion information to
-
-improve navigation policy in cluttered scenarios.
+Easy to implement and enables fast inference Directly maps the raw LiDAR data to collision-free steering commands Presents a multi-modal sensor fusion framework for the policy learning module Designs a spatiotemporal attention pipeline to infer the scene dynamics from raw LiDAR data Generates robust and cooperative policies Introduces a joint state representation that implicitly models human-robot interactions Promotes social-aware behaviors using a norm-inducing reward term Employs LSTM to handle the observations of an arbitrary number of dynamic obstacles Models and aggregates both human-robot and human-human interactions by attention module Models agents and their interactions as nodes and edges using graph neural network (GNN) Captures interactions in each frame and their evolution over time using transformer Improves scalability and generalization Selects PID, RL, and safety-oriented policies based on the complexity of surrounding scenario Develops a hierarchical planning method that uses a global path to guide the RL-based local planner Learns corrective actions to adjust MPC planner Uses a high-level RL to determine subgoals to guide low-level RL control policy Improves efficiency, robustness, and generalization Provides a data-efficient way to acquire policies by leveraging expert demonstrations Trains policies in simple scenarios and transfers them to more complex scenarios Accelerates learning process by transferring MPC experience data Generates diverse training scenarios Improves applicability in cluttered scenarios Computes a deviation to adjust the velocity output of RL to avoid entering freezing zone Uses oriented capsules to enclose obstacles; adds a velocity-aware risk to reward function Creates a reward term based on velocity obstacles (VO) to promote active collision avoidance Leverages predicted congestion information to improve navigation policy in cluttered scenarios.
 
 Table III: Qualitative comparison of representative RL-based motion planning methods in dynamic environments.
 
@@ -366,11 +156,7 @@ In summary, sensor-level methods offer a lightweight and efficient solution for 
 
 ### V-B2 Interaction-Aware Learning
 
-In crowded environments, safe and reliable navigation requires an understanding of the surrounding agents' behaviors and intentions. This challenge is addressed by Interaction-aware methods, which explicitly model agent-agent interactions and incorporate this relational model into the learning process. By leveraging structured representations of interactions, these methods enable socially compliant, cooperative, and anticipatory navigation behaviors that go beyond the capabilities of sensor-level approaches.
-
-a\) Implicit Interaction Modeling: Chen et al. used a joint state representation to capture the states of the robot and the humans, thereby implicitly modeling human-robot interactions. Building upon this work, Chen et al. promoted socially aware behaviors (e.g., passing from the right) by incorporating an induced norm penalty into the reward function. Later , the authors employed long short-term memory (LSTM) to encode the variable-sized joint state of surrounding agents into a fixed-length representation, enabling the robot to handle an arbitrary and dynamically changing number of humans over time. Instead of manually specifying social rules, Kathuria et al. proposed an inverse reinforcement learning framework to learn social navigation reward maps from few-shot expert demonstrations. The method uses scene geometry, human-robot trajectory histories, human velocity and heading, and the robot goal as inputs. The learned map is then used to generate reference trajectories executed by a local controller to enable implicit yielding and deadlock avoidance.
-
-b\) Explicit Interaction Modeling: The above methods focus solely on human-robot interactions, overlooking the effects of interactions between humans. To address this limitation, Chen et al. explicitly modeled the human-robot interactions and encoded the human-human interactions using coarse-grained local maps. Fig. 9a shows the interactions between the robot and each human, which are aggregated in the attention pooling module. The resulting aggregated representation informs the value network used for policy learning. This structure enables the robot to reason about both direct and indirect interactions in dense crowds. However, this method does not explicitly model static obstacles, instead treating them as stationary humans, which can lead to sub-optimal decisions. To overcome this limitation, Liu et al. enhanced the framework by processing static and dynamic obstacles separately, allowing for a more natural reaction.
+In crowded environments, safe and reliable navigation requires an understanding of the surrounding agents' behaviors and intentions. This challenge is addressed by Interaction-aware methods, which explicitly model agent-agent interactions and incorporate this relational model into the learning process. By leveraging structured representations of interactions, these methods enable socially compliant, cooperative, and anticipatory navigation behaviors that go beyond the capabilities of sensor-level approaches. a\) Implicit Interaction Modeling: Chen et al. used a joint state representation to capture the states of the robot and the humans, thereby implicitly modeling human-robot interactions. Building upon this work, Chen et al. promoted socially aware behaviors (e.g., passing from the right) by incorporating an induced norm penalty into the reward function. Later, the authors employed long short-term memory (LSTM) to encode the variable-sized joint state of surrounding agents into a fixed-length representation, enabling the robot to handle an arbitrary and dynamically changing number of humans over time. Instead of manually specifying social rules, Kathuria et al. proposed an inverse reinforcement learning framework to learn social navigation reward maps from few-shot expert demonstrations. The method uses scene geometry, human-robot trajectory histories, human velocity and heading, and the robot goal as inputs. The learned map is then used to generate reference trajectories executed by a local controller to enable implicit yielding and deadlock avoidance. b\) Explicit Interaction Modeling: The above methods focus solely on human-robot interactions, overlooking the effects of interactions between humans. To address this limitation, Chen et al. explicitly modeled the human-robot interactions and encoded the human-human interactions using coarse-grained local maps. Fig. 9a shows the interactions between the robot and each human, which are aggregated in the attention pooling module. The resulting aggregated representation informs the value network used for policy learning. This structure enables the robot to reason about both direct and indirect interactions in dense crowds. However, this method does not explicitly model static obstacles, instead treating them as stationary humans, which can lead to sub-optimal decisions. To overcome this limitation, Liu et al. enhanced the framework by processing static and dynamic obstacles separately, allowing for a more natural reaction.
 
 To capture structured relational dependencies, recent methods encoded agents and their interactions as nodes and edges of a Graph neural network (GNN). These GNN-based methods were extended later for performance enhancement. For instance, Jiang et al. modeled asymmetric interactions between the robot and humans. Liu et al. modeled heterogeneous interactions between the robot and different types of obstacles, as seen in Fig. 9b. Zhou et al. proposed a similar method to capture heterogeneous interactions. Lu et al. modeled spatio-temporal interactions capturing relational features. Recently, Transformer-based architectures have also gained attention. Yang et al. proposed a transformer-based method that captures agent-to-agent interactions in each frame and their evolution over time. The resulting representation is used in a value-based RL framework.
 
@@ -382,13 +168,7 @@ Figure 10: Multi-policy adaptation strategy: sensor information is used to asses
 
 ### V-B3 Hybrid Strategy
 
-RL-based local planners often struggle with sparse rewards in large environments and limited generalization due to the sim-to-real gap. To address these limitations, hybrid strategies have emerged as a promising solution.
-
-a\) Multi-Policy Adaptation: As shown in Fig. 10, a multi-policy architecture switches between a learning-based policy and a rule-based policy based on scenario complexity or risk level. Fan et al. introduced a scenario-aware policy adaptation method that explicitly classifies navigation contexts into simple, complex, and emergent categories based on the robot's proximity to dynamic obstacles and a user-defined risk threshold. Depending on the scenario, the robot selects from three navigation strategies: a PID controller for simple cases, an RL-based planner for complex situations, and a safety-oriented policy for emergencies. Similar approaches are also adopted .
-
-b\) Classical Planner Guidance: As shown in Fig. 11, Wang et al. developed a hierarchical path planning algorithm that leverages global guidance to train an RL-based local planner. Specifically, the A\* algorithm is used to generate a globally optimal path, which serves as a high-level reference. The RL-based local planner then learns to generate collision-free actions by considering both the global path and local environmental observations, including static and dynamic obstacles. Similar global-guided training schemes are also explored . Han et al. used Residual Deep RL to learn corrective actions on top of the MPC, enhancing control robustness and safety.
-
-c\) Hierarchical Learning: As shown in Fig. 12, Jing et al. proposed a hierarchical RL framework, where the high-level RL policy generates subgoals that guide the robot to avoid dense crowds while progressing towards the final destination, and the low-level network produces control actions to navigate towards these subgoals. Chen et al. adopted a similar hierarchical framework, where a high-level network assesses environmental complexity to determine appropriate navigation behaviors (e.g., obstacle avoidance or goal pursuit), while a low-level network generates the corresponding control commands. Similar hierarchical learning methods are also explored .
+RL-based local planners often struggle with sparse rewards in large environments and limited generalization due to the sim-to-real gap. To address these limitations, hybrid strategies have emerged as a promising solution. a\) Multi-Policy Adaptation: As shown in Fig. 10, a multi-policy architecture switches between a learning-based policy and a rule-based policy based on scenario complexity or risk level. Fan et al. introduced a scenario-aware policy adaptation method that explicitly classifies navigation contexts into simple, complex, and emergent categories based on the robot's proximity to dynamic obstacles and a user-defined risk threshold. Depending on the scenario, the robot selects from three navigation strategies: a PID controller for simple cases, an RL-based planner for complex situations, and a safety-oriented policy for emergencies. Similar approaches are also adopted. b\) Classical Planner Guidance: As shown in Fig. 11, Wang et al. developed a hierarchical path planning algorithm that leverages global guidance to train an RL-based local planner. Specifically, the A\* algorithm is used to generate a globally optimal path, which serves as a high-level reference. The RL-based local planner then learns to generate collision-free actions by considering both the global path and local environmental observations, including static and dynamic obstacles. Similar global-guided training schemes are also explored. Han et al. used Residual Deep RL to learn corrective actions on top of the MPC, enhancing control robustness and safety. c\) Hierarchical Learning: As shown in Fig. 12, Jing et al. proposed a hierarchical RL framework, where the high-level RL policy generates subgoals that guide the robot to avoid dense crowds while progressing towards the final destination, and the low-level network produces control actions to navigate towards these subgoals. Chen et al. adopted a similar hierarchical framework, where a high-level network assesses environmental complexity to determine appropriate navigation behaviors (e.g., obstacle avoidance or goal pursuit), while a low-level network generates the corresponding control commands. Similar hierarchical learning methods are also explored.
 
 In summary, Hybrid strategies offer a balanced framework that improves the scalability and generalization of navigation policies. By switching between policies based on scenario complexity or combining different planners with reinforcement learning, these methods enable more effective decision-making across diverse environments while addressing safety and performance concerns. Although they introduce additional architectural complexity, hybrid strategies represent a practical and scalable approach for deploying learning-based navigation systems in real-world, safety-critical applications.
 
@@ -406,43 +186,7 @@ In summary, Learning enhancement methods improve RL-based motion planning mainly
 
 Figure 12: Hierarchical learning strategy: a high-level policy generates subgoals from sensor information, and a low-level policy produces control commands to navigate toward the selected subgoals.
 
-Constructs velocity-space constraints that identify
-
-robot velocities leading to future collisions, and
-
-selects safe velocities outside these regions
-
-Explicitly captures relative motion
-
-and is suitable for multi-agent
-
-Requires accurate agent-state
-
-Generates attractive forces toward the goal and
-
-repulsive forces around obstacles, guiding the
-
-robot by the resulting force field
-
-Easy to implement and capable
-
-of producing smooth motions
-
-Prone to local minima
-
-Samples admissible velocity commands under
-
-robot dynamic constraints and selects the best
-
-command according to an objective function
-
-Directly accounts for robot dynamic
-
-constraints and produces feasible
-
-Limited to handcrafted cost
-
-Table IV: Qualitative comparison of representative classical local planning methods in dynamic environments.
+Constructs velocity-space constraints that identify robot velocities leading to future collisions, and selects safe velocities outside these regions Explicitly captures relative motion and is suitable for multi-agent Requires accurate agent-state Generates attractive forces toward the goal and repulsive forces around obstacles, guiding the robot by the resulting force field Easy to implement and capable of producing smooth motions Prone to local minima Samples admissible velocity commands under robot dynamic constraints and selects the best command according to an objective function Directly accounts for robot dynamic constraints and produces feasible Limited to handcrafted cost Table IV: Qualitative comparison of representative classical local planning methods in dynamic environments.
 
 ### V-B5 Freezing-robot Mitigation
 
@@ -502,37 +246,7 @@ For pedestrian detection and tracking in human-centered dynamic environments, RG
 
 Onboard perception must be computationally efficient and low-latency for high-speed obstacle avoidance. Oleynikova et al. designed a fully onboard stereo-vision system that produces Video Graphics Array (VGA)-sized disparity images using a Field-Programmable Gate Array (FPGA). Obstacles are extracted from U-disparity maps, approximated as ellipses in a short-term map, and used to generate feasible waypoints for planning. Lu et al. developed an onboard RGB-D perception system for quadrotors facing multiple small and fast-moving objects. For trajectory prediction, the method: a) uses YOLO-Fastest for RGB-based detection, b) extracts 3D positions from depth images, and c) introduces 3D-SORT to estimate object positions, velocities, and accelerations. Xu et al. proposed a lightweight RGB-D dynamic object detection and tracking system for low-power robots. It combines depth-image- and point-cloud-based detectors to improve accuracy, associates obstacles across frames using point-cloud statistical features, and estimates their states with a constant-acceleration Kalman filter. It also optionally incorporates a light weight learning-based detector to extend the detection range and improve dynamic obstacle identification.
 
-High spatial resolution,
-
-rich semantic information,
-
-and low hardware cost
-
-Sensitive to illumination changes
-
-and occlusion, limited FOV
-
-Semantic navigation and
-
-socially aware navigation
-
-Accurate geometric measurement,
-
-wide FOV, and robust to
-
-Limited semantic information and
-
-relatively high computational resources
-
-Low-latency sensing for high-speed
-
-Less informative in static or slowly changing
-
-scenarios and requires specialized algorithms
-
-Agile UAV navigation
-
-Table V: Comparison of dynamic perception modalities.
+High spatial resolution, rich semantic information, and low hardware cost Sensitive to illumination changes and occlusion, limited FOV Semantic navigation and socially aware navigation Accurate geometric measurement, wide FOV, and robust to Limited semantic information and relatively high computational resources Low-latency sensing for high-speed Less informative in static or slowly changing scenarios and requires specialized algorithms Agile UAV navigation Table V: Comparison of dynamic perception modalities.
 
 ### VII-A4 Fusion, Tracking, and Mapping for Planning
 
@@ -586,9 +300,7 @@ Motion planning in dynamic environments is a critical yet challenging problem in
 
 In addition, we emphasized the critical role of dynamic perception, which enables robots to detect, track, and predict the motion of surrounding agents and provides the essential input for safe and adaptive planning. Perception and planning are inherently interconnected: without reliable perception, even advanced planners cannot operate effectively in real-world dynamic settings. By positioning perception as a supporting module and planning as the central focus, this survey offers a holistic perspective on motion planning in dynamic environments and contributes to a deeper understanding of both the progress achieved and the challenges that remain.
 
-Looking ahead, several open challenges deserve further attention as discussed below:
-
-First, learning-based planners still face a significant sim-to-real gap. Policies trained in simulation may fail under real-world scenarios due to noise, imperfect actuation, unmodeled agent behaviors, and rare safety-critical events. Improving robustness, transferability, and the ability to handle rare and unknown scenarios remains essential for practical deployment.
+Looking ahead, several open challenges deserve further attention as discussed below: First, learning-based planners still face a significant sim-to-real gap. Policies trained in simulation may fail under real-world scenarios due to noise, imperfect actuation, unmodeled agent behaviors, and rare safety-critical events. Improving robustness, transferability, and the ability to handle rare and unknown scenarios remains essential for practical deployment.
 
 Second, verification and validation of complex data-driven planners remain difficult. Although learning-based planners provide strong adaptability, their safety properties are often harder to certify than those of classical planners. Future work should develop planning frameworks that combine the flexibility of learned models with formal safety mechanisms, such as reachability analysis, control barrier functions, chance constraints, and conformal prediction.
 

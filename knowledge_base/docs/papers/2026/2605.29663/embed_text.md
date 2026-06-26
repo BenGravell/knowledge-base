@@ -8,9 +8,7 @@ Navigating such robots in cluttered scenes presents several technical challenges
 
 To address these challenges, we propose EXACT-MPPI -- a training-free, perception-to-control local navigation framework for ground robots with complex 2D footprints operating in cluttered environments. The framework computes the exact minimum signed distance analytically between observed obstacle points and the robot footprint, which is modeled as a simple polygon that can be convex or concave, without convex decomposition or inflation. Motion commands are generated directly from point clouds perceived by onboard LiDAR, without constructing any intermediate environment representation such as an occupancy grid, signed-distance field, or local costmap. Collision-aware and smooth local navigation is achieved through Model Predictive Path Integral (MPPI) control, a sampling-based predictive controller that does not require gradient information or differentiable cost functions and supports a wide range of robot kinematics. MPPI is driven by a weak guidance path, and the signed-distance evaluation is incorporated into the cost function as a safety penalty. The signed-distance evaluator and the MPPI trajectory rollouts are implemented as batched JAX computations with GPU acceleration, enabling real-time planning over a receding horizon while preserving the exact polygonal footprint.
 
-The main contributions of this work, illustrated in Fig. 1, are as follows:
-
-We propose EXACT-MPPI, a perception-to-control local navigation framework that maps local LiDAR point-cloud observations and weak waypoint guidance directly to motion commands, without constructing occupancy grids, signed-distance fields, or local costmaps.
+The main contributions of this work, illustrated in Fig. 1, are as follows: We propose EXACT-MPPI, a perception-to-control local navigation framework that maps local LiDAR point-cloud observations and weak waypoint guidance directly to motion commands, without constructing occupancy grids, signed-distance fields, or local costmaps.
 
 We develop an analytic point-to-footprint signed-distance evaluator for explicit 2D footprint representations. The simple-polygon formulation handles convex and concave planar footprints in a unified manner, while a rectangle-cover specialization accelerates evaluation for rectilinear footprints.
 
@@ -28,7 +26,7 @@ This section reviews three areas of related work: modular map-based navigation (
 
 Most robot navigation systems follow a modular pipeline of perception, mapping, planning, and control. Sensor data is first converted into a structured environment representation such as an occupancy grid, costmap, or Euclidean Signed Distance Field (ESDF), in which obstacle observations are rasterized into occupied cells or pre-computed distance values, and the robot footprint is approximated for collision checking. A local planner then generates kinematically feasible, collision-free trajectories on this representation in response to nearby and possibly dynamic obstacles, and a low-level controller tracks the resulting motion.
 
-Local planners operating on map representations generally fall into four families. *Reactive methods*, including artificial potential fields, vector field histograms, the nearness diagram method, and the dynamic window approach, compute steering commands from local sensor data while reducing the robot to a point or a disc. *Sampling-based methods*, including lattice planners and Falco, sample candidate motions and score them against a cost function. *Search-based methods*, including Hybrid $A^{\ast}$, discretize the configuration space and apply heuristic search over a costmap. *Optimization-based methods*, including the Timed Elastic Band, EGO-Planner, corridor-based planners that decompose free space into convex regions, and recent swept-volume extensions, generate trajectories by optimizing a cost function over a parameterized trajectory representation.
+Local planners operating on map representations generally fall into four families. *Reactive methods*, including artificial potential fields, vector field histograms, the nearness diagram method, and the dynamic window approach, compute steering commands from local sensor data while reducing the robot to a point or a disc. *Sampling-based methods*, including lattice planners and Falco, sample candidate motions and score them against a cost function. *Search-based methods*, including Hybrid $A^{*}$, discretize the configuration space and apply heuristic search over a costmap. *Optimization-based methods*, including the Timed Elastic Band, EGO-Planner, corridor-based planners that decompose free space into convex regions, and recent swept-volume extensions, generate trajectories by optimizing a cost function over a parameterized trajectory representation.
 
 A closely related body of work embeds collision avoidance within a model predictive control (MPC) framework, solving a finite-horizon optimal control problem at each control step. Representative examples include model predictive contouring control, CIAO, and optimization-based collision avoidance (OBCA), which handles full-shape robot-obstacle distance through a convex-duality reformulation. Control barrier functions provide a complementary, control-level safety mechanism by enforcing forward invariance of a safe set defined by a smooth distance-like function.
 
@@ -58,7 +56,7 @@ This section defines the inputs, geometry, signed-distance quantity, kinematic m
 
 ### III-A Problem Setting
 
-At each replanning instant, the controller receives a local point cloud from onboard LiDAR and the current robot state from onboard state estimation. We denote the current planar pose of the robot by $\mathbf{q}_{0} = {\lbrack x_{0},y_{0},\theta_{0}\rbrack}^{\top}$, expressed in the local planning frame. Collision costs are evaluated with respect to the observed local obstacle points after preprocessing, rather than against a continuous obstacle surface or a rasterized map. The collision-relevant geometry of the robot is captured by a two-dimensional projected footprint that includes the chassis together with any rigidly attached or carried geometry. The detailed model is given in Sec. III-B.
+At each replanning instant, the controller receives a local point cloud from onboard LiDAR and the current robot state from onboard state estimation. We denote the current planar pose of the robot by $\boldsymbol{\mathbf{q}}_{0}=[x_{0},y_{0},\theta_{0}]^{\top}$, expressed in the local planning frame. Collision costs are evaluated with respect to the observed local obstacle points after preprocessing, rather than against a continuous obstacle surface or a rasterized map. The collision-relevant geometry of the robot is captured by a two-dimensional projected footprint that includes the chassis together with any rigidly attached or carried geometry. The detailed model is given in Sec. III-B.
 
 We assume that weak guidance is available from an upstream module. Examples include a target pose, waypoint sequence, reference path, or learned navigation prior. This assumption matches the applications that motivate this work: warehouse forklifts receive target pallet poses from fleet- or task-level planners, agricultural platforms follow between-row reference paths generated from prior maps or row-detection modules, and mobile manipulators receive target object poses from task planners. In all these cases, the local controller is responsible for following the high-level intent safely through clutter, not for generating the intent itself.
 
@@ -66,73 +64,35 @@ To handle dynamic obstacles, the controller treats them as quasi-static within a
 
 ### III-B Robot Effective Footprint
 
-We represent the collision-relevant geometry of the robot by an *effective footprint*: a compact planar set in the robot body frame,
+We represent the collision-relevant geometry of the robot by an *effective footprint*: a compact planar set in the robot body frame, used for collision checking and clearance evaluation during local navigation. Depending on the platform, $\mathcal{B}_{\mathrm{eff}}$ may correspond to the chassis alone or include any rigidly attached or carried geometry. We write where $\mathcal{B}_{\mathrm{chassis}}$ denotes the nominal chassis and $\mathcal{B}_{\mathrm{add}}$ denotes any added geometry, such as a palletized load on a forklift, a trailing implement on an agricultural platform, or an object grasped by a mobile manipulator.
 
-used for collision checking and clearance evaluation during local navigation. Depending on the platform, $\mathcal{B}_{eff}$ may correspond to the chassis alone or include any rigidly attached or carried geometry. We write
-
-where $\mathcal{B}_{chassis}$ denotes the nominal chassis and $\mathcal{B}_{add}$ denotes any added geometry, such as a palletized load on a forklift, a trailing implement on an agricultural platform, or an object grasped by a mobile manipulator.
-
-The effective footprint is assumed fixed in the body frame during a navigation episode. Different platform configurations are accommodated by updating $\mathcal{B}_{eff}$, with no per-platform training required. In practice, $\mathcal{B}_{eff}$ is represented either by a rectangle cover or by a (possibly non-convex) simple polygon, depending on the platform geometry. The computational details are given in Sec. IV-B.
+The effective footprint is assumed fixed in the body frame during a navigation episode. Different platform configurations are accommodated by updating $\mathcal{B}_{\mathrm{eff}}$, with no per-platform training required. In practice, $\mathcal{B}_{\mathrm{eff}}$ is represented either by a rectangle cover or by a (possibly non-convex) simple polygon, depending on the platform geometry. The computational details are given in Sec. IV-B.
 
 ### III-C Robot--Obstacle Signed Distance
 
-At each replanning instant, the controller uses a preprocessed local obstacle set
+At each replanning instant, the controller uses a preprocessed local obstacle set expressed in the current planning frame. Here $N$ denotes the number of obstacle points supplied to the controller after height filtering and downsampling, rather than the number of original LiDAR returns.
 
-expressed in the current planning frame. Here $N$ denotes the number of obstacle points supplied to the controller after height filtering and downsampling, rather than the number of original LiDAR returns.
+The signed distance from a body-frame query point $\boldsymbol{\mathbf{p}}$ to the effective footprint, denoted is negative inside $\mathcal{B}_{\mathrm{eff}}$, zero on its boundary, and positive outside. Throughout this paper, the query is taken against observed obstacle points rather than a continuous obstacle surface. Explicit formulas for $d^{\pm}$ are derived in Sec. IV-C.
 
-The signed distance from a body-frame query point $\mathbf{p}$ to the effective footprint, denoted
-
-is negative inside $\mathcal{B}_{eff}$, zero on its boundary, and positive outside. Throughout this paper, the query is taken against observed obstacle points rather than a continuous obstacle surface. Explicit formulas for $d^{\pm}$ are derived in Sec. IV-C.
-
-The minimum signed distance from $\mathcal{O}$ to the robot footprint at the current pose is
-
-A negative value $d^{\min} < 0$ indicates that at least one obstacle point lies inside the effective footprint. A positive value is the minimum point-wise clearance to the local obstacle set.
+The minimum signed distance from $\mathcal{O}$ to the robot footprint at the current pose is A negative value $d^{\min}<0$ indicates that at least one obstacle point lies inside the effective footprint. A positive value is the minimum point-wise clearance to the local obstacle set.
 
 ### III-D Robot Kinematic Models
 
-Let $m \in \mathcal{M}$ index the motion model used for state propagation. The planar pose $\mathbf{q}_{h} = {\lbrack x_{h},y_{h},\theta_{h}\rbrack}^{\top}$ is propagated with a forward-Euler discretization,
+Let $m\in\mathcal{M}$ index the motion model used for state propagation. The planar pose $\boldsymbol{\mathbf{q}}_{h}=[x_{h},y_{h},\theta_{h}]^{\top}$ is propagated with a forward-Euler discretization, where $\boldsymbol{\mathbf{u}}_{h}\in\mathbb{R}^{n_{u}}$ is the control input, $\Delta t$ is the sampling interval, and $\mathcal{F}_{m}(\cdot)$ denotes the model-specific continuous-time kinematics.
 
-where $\mathbf{u}_{h} \in {\mathbb{R}}^{n_{u}}$ is the control input, $\Deltat$ is the sampling interval, and $\mathcal{F}_{m}{( \cdot )}$ denotes the model-specific continuous-time kinematics.
+We consider the following motion models in our experiments. The differential-drive (or unicycle) model takes control input $\boldsymbol{\mathbf{u}}=[v,\omega]^{\top}$, where $v$ is the linear velocity and $\omega$ is the angular velocity, with kinematics The Ackermann (or bicycle) model takes $\boldsymbol{\mathbf{u}}=[v,\delta]^{\top}$, where $\delta$ is the steering angle, with kinematics where $L$ is the wheelbase.
 
-We consider the following motion models in our experiments. The differential-drive (or unicycle) model takes control input $\mathbf{u} = {\lbrack v,\omega\rbrack}^{\top}$, where $v$ is the linear velocity and $\omega$ is the angular velocity, with kinematics
-
-The Ackermann (or bicycle) model takes $\mathbf{u} = {\lbrack v,\delta\rbrack}^{\top}$, where $\delta$ is the steering angle, with kinematics
-
-where $L$ is the wheelbase.
-
-For platforms that accept planar body-frame velocity commands, the omni-motion model is
-
-where $v_{x}$ and $v_{y}$ are the body-frame longitudinal and lateral velocities. The spin-in-place mode is represented by
-
-For hybrid platforms that additionally support lateral translation (e.g., the AgileX Ranger Mini ), a parallel-motion mode is modeled as
-
-where $v_{para}$ is the signed lateral body-frame velocity, that is, translation along the body-frame $y$-axis with the heading preserved.
+For platforms that accept planar body-frame velocity commands, the omni-motion model is where $v_{x}$ and $v_{y}$ are the body-frame longitudinal and lateral velocities. The spin-in-place mode is represented by For hybrid platforms that additionally support lateral translation (e.g., the AgileX Ranger Mini), a parallel-motion mode is modeled as where $v_{\mathrm{para}}$ is the signed lateral body-frame velocity, that is, translation along the body-frame $y$-axis with the heading preserved.
 
 ### III-E MPPI Formulation
 
-Model Predictive Path Integral (MPPI) control is used as the receding-horizon local controller. At each replanning instant, the controller maintains a nominal control sequence
+Model Predictive Path Integral (MPPI) control is used as the receding-horizon local controller. At each replanning instant, the controller maintains a nominal control sequence where $T$ is the planning horizon length. MPPI generates $K$ sampled rollout sequences by perturbing this nominal sequence, where $\boldsymbol{\epsilon}_{h}^{(r)}$ is the sampled control perturbation for rollout $r$ at horizon step $h$. The corresponding perturbed control sequence is denoted by Using the Euler discretization in Sec. III-D, each rollout starts from $\boldsymbol{\mathbf{q}}_{0}$ and follows under the selected motion model $m$.
 
-where $T$ is the planning horizon length. MPPI generates $K$ sampled rollout sequences by perturbing this nominal sequence,
+At a high level, MPPI evaluates sampled control sequences using a finite-horizon cost that combines task, control-regularization, and safety terms. In EXACT-MPPI, the safety term is defined by the minimum signed distance between the predicted robot footprint and the local obstacle observation. For rollout $r$, we write | | $\displaystyle J^{(r)}=\sum_{h=0}^{T-1}\Big[$ | $\displaystyle\phi_{\mathrm{task}}(\boldsymbol{\mathbf{q}}_{h}^{(r)},\boldsymbol{\mathbf{u}}_{h}^{(r)})+\phi_{\mathrm{ctrl}}(\boldsymbol{\mathbf{u}}_{h}^{(r)})$ | | \(16\) | | | | $\displaystyle+\phi_{\mathrm{obs}}(d_{h}^{\min,(r)})\Big],$ | | | where $\phi_{\mathrm{task}}$ represents navigation objectives such as goal seeking, path following, or progress along a reference path, $\phi_{\mathrm{ctrl}}$ regularizes the sampled control command, and $\phi_{\mathrm{obs}}$ penalizes collision or insufficient clearance. The scalar $d_{h}^{\min,(r)}$ denotes the minimum signed distance evaluated at the rollout state $\boldsymbol{\mathbf{q}}_{h}^{(r)}$ over the local obstacle points; its rollout-frame definition is given in Sec. IV-C.
 
-where $\mathbf{\epsilon}_{h}^{(r)}$ is the sampled control perturbation for rollout $r$ at horizon step $h$. The corresponding perturbed control sequence is denoted by
+After all rollouts are evaluated, MPPI assigns an importance weight to each rollout according to its relative cost. Let The normalized weight of rollout $r$ is where $\lambda>0$ is the temperature parameter. The nominal control sequence is then updated by the weighted average of the sampled perturbations, This update is a stochastic receding-horizon improvement step rather than an exact solution of the nonlinear finite-horizon optimal control problem. After the update, only the first control command is executed. The horizon is then shifted forward, the local obstacle observation is refreshed, and the procedure is repeated at the next replanning instant. The specific signed-distance computation, safety cost, feasibility screening, trajectory validation, and batched implementation used in EXACT-MPPI are described in Sec. IV.
 
-Using the Euler discretization in Sec. III-D, each rollout starts from $\mathbf{q}_{0}$ and follows
-
-under the selected motion model $m$.
-
-At a high level, MPPI evaluates sampled control sequences using a finite-horizon cost that combines task, control-regularization, and safety terms. In EXACT-MPPI, the safety term is defined by the minimum signed distance between the predicted robot footprint and the local obstacle observation. For rollout $r$, we write
-
-where $\phi_{task}$ represents navigation objectives such as goal seeking, path following, or progress along a reference path, $\phi_{ctrl}$ regularizes the sampled control command, and $\phi_{obs}$ penalizes collision or insufficient clearance. The scalar $d_{h}^{\min,{(r)}}$ denotes the minimum signed distance evaluated at the rollout state $\mathbf{q}_{h}^{(r)}$ over the local obstacle points; its rollout-frame definition is given in Sec. IV-C.
-
-After all rollouts are evaluated, MPPI assigns an importance weight to each rollout according to its relative cost. Let
-
-The normalized weight of rollout $r$ is
-
-where $\lambda > 0$ is the temperature parameter. The nominal control sequence is then updated by the weighted average of the sampled perturbations,
-
-This update is a stochastic receding-horizon improvement step rather than an exact solution of the nonlinear finite-horizon optimal control problem. After the update, only the first control command is executed. The horizon is then shifted forward, the local obstacle observation is refreshed, and the procedure is repeated at the next replanning instant. The specific signed-distance computation, safety cost, feasibility screening, trajectory validation, and batched implementation used in EXACT-MPPI are described in Sec. IV.
-
-The main MPPI parameters that determine the sampling budget are the rollout count $K$, horizon length $T$, integration step $\Deltat$, control-perturbation distribution, and temperature $\lambda$. The physical prediction horizon is $T\Deltat$. Each control cycle samples $K$ candidate control sequences, corresponding to $KT$ perturbed control inputs and $K{({T + 1})}$ rollout states before the first command is executed. In the footprint-aware setting, the obstacle point budget $N$, safety margin $d_{safe}$, and cost weights further determine the number and influence of collision checks performed per cycle.
+The main MPPI parameters that determine the sampling budget are the rollout count $K$, horizon length $T$, integration step $\Delta t$, control-perturbation distribution, and temperature $\lambda$. The physical prediction horizon is $T\Delta t$. Each control cycle samples $K$ candidate control sequences, corresponding to $KT$ perturbed control inputs and $K(T+1)$ rollout states before the first command is executed. In the footprint-aware setting, the obstacle point budget $N$, safety margin $d_{\mathrm{safe}}$, and cost weights further determine the number and influence of collision checks performed per cycle.
 
 ## Methodology
 
@@ -152,17 +112,11 @@ Starting from the effective-footprint model in Sec. III-B, we use two representa
 
 ### IV-B1 Orthogonal Footprints via Rectangle Covering
 
-A footprint is termed *rectilinear* when its boundary edges are axis-aligned and meet at right angles. Many vehicle chassis and attached implements fall in this class. For such footprints, the effective footprint is represented as a union of axis-aligned rectangles in the body frame,
-
-Each rectangle $\mathcal{R}_{j}$ is parameterized by its center $\mathbf{c}_{j} \in {\mathbb{R}}^{2}$ and half-extent $\mathbf{s}_{j} \in {\mathbb{R}}_{+}^{2}$. We retain this representation alongside the general polygon route purely for computational efficiency. The closed-form point-to-box distance derived in Sec. IV-C requires only elementwise arithmetic and a single vector norm per rectangle, with no branching, sorting, or topology test, which makes it well suited to batched rollout evaluation on the GPU.
+A footprint is termed *rectilinear* when its boundary edges are axis-aligned and meet at right angles. Many vehicle chassis and attached implements fall in this class. For such footprints, the effective footprint is represented as a union of axis-aligned rectangles in the body frame, Each rectangle $\mathcal{R}_{j}$ is parameterized by its center $\boldsymbol{\mathbf{c}}_{j}\in\mathbb{R}^{2}$ and half-extent $\boldsymbol{\mathbf{s}}_{j}\in\mathbb{R}_{+}^{2}$. We retain this representation alongside the general polygon route purely for computational efficiency. The closed-form point-to-box distance derived in Sec. IV-C requires only elementwise arithmetic and a single vector norm per rectangle, with no branching, sorting, or topology test, which makes it well suited to batched rollout evaluation on the GPU.
 
 ### IV-B2 General Simple Polygonal Footprints
 
-For footprints whose boundary is not rectilinear, including concave shapes such as those resulting from attached implements or grasped objects, the effective footprint is described by an ordered cyclic sequence of $B$ vertices in the body frame,
-
-with the wrap-around convention $\mathbf{v}_{B + 1} \equiv \mathbf{v}_{1}$. The polygon is *simple* in the sense that its boundary is a non-self-intersecting closed curve. The boundary consists of $B$ directed edges, each represented as a vector,
-
-This vector form is used as the basic primitive in the point-to-segment distance derived in Sec. IV-C.
+For footprints whose boundary is not rectilinear, including concave shapes such as those resulting from attached implements or grasped objects, the effective footprint is described by an ordered cyclic sequence of $B$ vertices in the body frame, with the wrap-around convention $\boldsymbol{\mathbf{v}}_{B+1}\equiv\boldsymbol{\mathbf{v}}_{1}$. The polygon is *simple* in the sense that its boundary is a non-self-intersecting closed curve. The boundary consists of $B$ directed edges, each represented as a vector, This vector form is used as the basic primitive in the point-to-segment distance derived in Sec. IV-C.
 
 ### IV-C Signed Distance Evaluation
 
@@ -170,31 +124,15 @@ We now instantiate the signed-distance evaluation in Eq.. For both footprint rep
 
 ### IV-C1 Rollout-Frame Transformation
 
-Let $\mathcal{O} = {\{\mathbf{o}_{i}\}}_{i = 1}^{N}$ denote the preprocessed local obstacle set supplied to the controller, expressed in the current planning frame. During rollout evaluation, this same obstacle set is copied across sampled trajectories and horizon steps. For rollout $r$ and horizon step $h$, let
-
-denote the predicted robot pose relative to the current planning frame, with $\mathbf{t}_{h}^{(r)} = {\lbrack x_{h}^{(r)},y_{h}^{(r)}\rbrack}^{\top}$. Each obstacle point is re-expressed in the predicted body frame as
-
-The resulting points are then evaluated against the effective footprint in the predicted body frame. In this way, EXACT-MPPI keeps the footprint representation static and instead transforms the local obstacle observation into the body frame of each rollout pose for signed-distance evaluation.
+Let $\mathcal{O}=\{\boldsymbol{\mathbf{o}}_{i}\}_{i=1}^{N}$ denote the preprocessed local obstacle set supplied to the controller, expressed in the current planning frame. During rollout evaluation, this same obstacle set is copied across sampled trajectories and horizon steps. For rollout $r$ and horizon step $h$, let denote the predicted robot pose relative to the current planning frame, with $\boldsymbol{\mathbf{t}}_{h}^{(r)}=[x_{h}^{(r)},\ y_{h}^{(r)}]^{\top}$. Each obstacle point is re-expressed in the predicted body frame as The resulting points are then evaluated against the effective footprint in the predicted body frame. In this way, EXACT-MPPI keeps the footprint representation static and instead transforms the local obstacle observation into the body frame of each rollout pose for signed-distance evaluation.
 
 ### IV-C2 Distance to Orthogonal Footprints
 
-For a body-frame query point $\mathbf{p}$ and a rectangle $\mathcal{R}_{j}$ with center $\mathbf{c}_{j}$ and half-extent $\mathbf{s}_{j}$, define
-
-where the absolute value is applied elementwise. The point-to-box signed distance is
-
-where $\max{( \cdot,0)}$ inside the norm is taken elementwise and $a_{j,x},a_{j,y}$ are the components of $\mathbf{a}_{j}{(\mathbf{p})}$. For a rectangle-cover footprint, the signed distance is obtained by reduction over the $R$ rectangles,
+For a body-frame query point $\boldsymbol{\mathbf{p}}$ and a rectangle $\mathcal{R}_{j}$ with center $\boldsymbol{\mathbf{c}}_{j}$ and half-extent $\boldsymbol{\mathbf{s}}_{j}$, define where the absolute value is applied elementwise. The point-to-box signed distance is where $\max(\cdot,0)$ inside the norm is taken elementwise and $a_{j,x},a_{j,y}$ are the components of $\boldsymbol{\mathbf{a}}_{j}(\boldsymbol{\mathbf{p}})$. For a rectangle-cover footprint, the signed distance is obtained by reduction over the $R$ rectangles,
 
 ### IV-C3 Distance to General Simple Polygonal Footprint
 
-For a simple polygonal footprint, the unsigned distance to the boundary is the minimum distance to its polygon edges. For an edge $\mathbf{e}_{b} = {\mathbf{v}_{b + 1} - \mathbf{v}_{b}}$, define the clipped projection parameter
-
-and the corresponding point-to-segment distance
-
-The sign is assigned using a point-in-polygon test (implemented via ray casting),
-
-The signed distance to the simple polygonal footprint is then
-
-This quantity is the exact signed distance for the represented simple polygon, whether convex or non-convex.
+For a simple polygonal footprint, the unsigned distance to the boundary is the minimum distance to its polygon edges. For an edge $\boldsymbol{\mathbf{e}}_{b}=\boldsymbol{\mathbf{v}}_{b+1}-\boldsymbol{\mathbf{v}}_{b}$, define the clipped projection parameter and the corresponding point-to-segment distance The sign is assigned using a point-in-polygon test (implemented via ray casting), The signed distance to the simple polygonal footprint is then This quantity is the exact signed distance for the represented simple polygon, whether convex or non-convex.
 
 Figure 3 compares the two evaluators on a T-shaped rectilinear footprint with an exterior query point. The rectangle-cover route (left) takes the minimum over per-rectangle point-to-box distances, while the polygon-edge route (right) takes the minimum over per-edge point-to-segment distances. Both identify the same nearest boundary point and return the same exterior signed distance, which is the regime that MPPI actually uses for safety penalization.
 
@@ -208,85 +146,41 @@ Figure 4: Representative signed-distance fields produced by the polygon-edge eva
 
 ### IV-D Batched Rollout and Distance Computation
 
-The dominant computation at each control cycle is the joint evaluation of $K$ sampled rollouts, $T$ horizon steps per rollout, and $N$ obstacle points. Together these produce $K \times T \times N$ signed-distance queries. The preprocessed obstacle set is stored as a fixed-size array of $N$ points with an accompanying validity mask. Padding is used when the number of observed obstacle points is smaller than $N$, and the mask prevents padded entries from contributing to the distance reduction. The obstacle array is then broadcast over the rollout and horizon dimensions, producing $K \times T \times N$ body-frame query points $\mathbf{p}_{h,i}^{b,{(r)}}$ for signed-distance evaluation.
+The dominant computation at each control cycle is the joint evaluation of $K$ sampled rollouts, $T$ horizon steps per rollout, and $N$ obstacle points. Together these produce $K\times T\times N$ signed-distance queries. The preprocessed obstacle set is stored as a fixed-size array of $N$ points with an accompanying validity mask. Padding is used when the number of observed obstacle points is smaller than $N$, and the mask prevents padded entries from contributing to the distance reduction. The obstacle array is then broadcast over the rollout and horizon dimensions, producing $K\times T\times N$ body-frame query points $\boldsymbol{\mathbf{p}}_{h,i}^{b,(r)}$ for signed-distance evaluation.
 
-The rollout and distance computations are implemented in batched form. For rollout propagation, the selected motion model is evaluated over the $K$ sampled control sequences. For collision evaluation, the rollout-frame transformation of Sec. IV-C is applied over the rollout, horizon, and obstacle-point dimensions. The transformed query points are then evaluated using either the rectangle-cover signed-distance function $d_{rect}^{\pm}$ or the polygonal signed-distance function $d_{poly}^{\pm}$. The validity mask is applied during the reduction over obstacle points so that padded entries do not affect the result. This produces the minimum signed-distance matrix
+The rollout and distance computations are implemented in batched form. For rollout propagation, the selected motion model is evaluated over the $K$ sampled control sequences. For collision evaluation, the rollout-frame transformation of Sec. IV-C is applied over the rollout, horizon, and obstacle-point dimensions. The transformed query points are then evaluated using either the rectangle-cover signed-distance function $d^{\pm}_{\mathrm{rect}}$ or the polygonal signed-distance function $d^{\pm}_{\mathrm{poly}}$. The validity mask is applied during the reduction over obstacle points so that padded entries do not affect the result. This produces the minimum signed-distance matrix of size $K\times T$. These values are used for rollout scoring, feasibility screening, and trajectory validation (Sec. IV-E).
 
-of size $K \times T$. These values are used for rollout scoring, feasibility screening, and trajectory validation (Sec. IV-E).
-
-The signed-distance stage evaluates a batched set of $K \times T \times N$ body-frame query points. For a rectangle-cover footprint, each query point is reduced over $R$ point-to-box distances, giving computational cost $O{({KTNR})}$. For a polygonal footprint, each query point requires a reduction over $B$ point-to-segment distances and an inside--outside test that also scales with $B$, giving computational cost $O{({KTNB})}$. The arithmetic operations inside each point-to-box or point-to-segment evaluation are constant-size vector operations and therefore affect the constant factor rather than the asymptotic scaling.
+The signed-distance stage evaluates a batched set of $K\times T\times N$ body-frame query points. For a rectangle-cover footprint, each query point is reduced over $R$ point-to-box distances, giving computational cost $O(KTNR)$. For a polygonal footprint, each query point requires a reduction over $B$ point-to-segment distances and an inside--outside test that also scales with $B$, giving computational cost $O(KTNB)$. The arithmetic operations inside each point-to-box or point-to-segment evaluation are constant-size vector operations and therefore affect the constant factor rather than the asymptotic scaling.
 
 Although these computations are executed efficiently in batched form on the GPU, the total number of point-to-primitive evaluations still scales with the rollout count, horizon length, obstacle-point budget, and footprint primitive count. We implement the computation in JAX. Just-in-time compilation and automatic vectorization allow the per-rollout, per-horizon-step, per-point, and per-footprint-primitive operations to be written in NumPy-like syntax and compiled into optimized computations for CPU or GPU execution. Compilation occurs at the first control cycle for a fixed input shape, and subsequent cycles reuse the compiled computation.
 
 ### IV-E Safety Penalties and Trajectory Validation
 
-The signed-distance quantities computed during rollout evaluation are incorporated into MPPI through both a soft obstacle penalty and a hard post-update validation step. For a rollout state with minimum signed distance $d$, we use the obstacle penalty
+The signed-distance quantities computed during rollout evaluation are incorporated into MPPI through both a soft obstacle penalty and a hard post-update validation step. For a rollout state with minimum signed distance $d$, we use the obstacle penalty where $w_{\mathrm{coll}}$ is a large collision penalty, $w_{\mathrm{rep}}$ weights the clearance penalty, $d_{\mathrm{safe}}$ is the desired safety margin, and $\mathbb{I}(\cdot)$ denotes the indicator function ($1$ when its argument is true and $0$ otherwise). The first term penalizes penetration of the effective footprint, while the second term discourages trajectories that pass closer than the safety margin.
 
-where $w_{coll}$ is a large collision penalty, $w_{rep}$ weights the clearance penalty, $d_{safe}$ is the desired safety margin, and ${\mathbb{I}}{( \cdot )}$ denotes the indicator function ($1$ when its argument is true and $0$ otherwise). The first term penalizes penetration of the effective footprint, while the second term discourages trajectories that pass closer than the safety margin.
+In addition to this soft penalty, rollout scoring records an unsafe flag $\chi^{(r)}$ whenever any horizon step violates the safety margin, The rollout cost used for MPPI weighting is then augmented as where $w_{\mathrm{inf}}$ is chosen large enough that unsafe rollouts receive negligible importance weight.
 
-In addition to this soft penalty, rollout scoring records an unsafe flag $\chi^{(r)}$ whenever any horizon step violates the safety margin,
+After the nominal control sequence is updated by the MPPI weighted-average rule, the corresponding nominal trajectory is rolled out once and validated using the same clearance condition, where $d_{h}^{\min,\mathrm{nom}}$ denotes the minimum signed distance evaluated along the updated nominal trajectory (the rollout superscript is dropped because there is a single nominal trajectory). If this validation fails, the controller executes a zero-velocity hold for the current cycle and reinitializes the nominal control sequence to zero for the next replanning step. If validation succeeds, the first command of the updated sequence is executed, and the remaining sequence is shifted forward in standard receding-horizon fashion. Algorithm 1 summarizes one control cycle of EXACT-MPPI.
 
-The rollout cost used for MPPI weighting is then augmented as
-
-where $w_{\inf}$ is chosen large enough that unsafe rollouts receive negligible importance weight.
-
-After the nominal control sequence is updated by the MPPI weighted-average rule, the corresponding nominal trajectory is rolled out once and validated using the same clearance condition,
-
-where $d_{h}^{\min,{nom}}$ denotes the minimum signed distance evaluated along the updated nominal trajectory (the rollout superscript is dropped because there is a single nominal trajectory). If this validation fails, the controller executes a zero-velocity hold for the current cycle and reinitializes the nominal control sequence to zero for the next replanning step. If validation succeeds, the first command of the updated sequence is executed, and the remaining sequence is shifted forward in standard receding-horizon fashion. Algorithm 1 summarizes one control cycle of EXACT-MPPI.
-
-1Input: pose q0, nominal 𝕌, obstacles 𝒪, footprint ℬeff, motion model m
-2 Params: K, T, Δ t, λ, dsafe, wcoll, wrep, winf
-/* 1. Batched rollout propagation */
-4 Sample ϵh(r); form uh(r) ← uh + ϵh(r); propagate qh + 1(r) ← qh(r) + ℱm (qh(r),uh(r)) Δ t from q0(r) = q0;
-/* 2. Signed-distance evaluation and scoring */
-8 Transform 𝒪 into the body frame at qh(r) to obtain ph, ib, (r);
-9 dhmin, (r) ← minid± (ph, ib, (r),ℬeff);
-10 J(r) ← J(r) + ϕtask (qh(r),uh(r)) + ϕctrl (uh(r)) + ϕobs (dhmin, (r));
-/* 3. Feasibility flag and path-integral update */
-15 ${\overset{\sim}{J}}^{(r)}\leftarrow{J^{(r)} + {w_{\inf}{\mathbb{I}}{(\chi^{(r)})}}}$; $\beta\leftarrow{\min_{r}{\overset{\sim}{J}}^{(r)}}$;
-16 $\omega^{(r)}\leftarrow{\exp{({- {{({{\overset{\sim}{J}}^{(r)} - \beta})}/\lambda}})}}$; normalize so ∑rω(r) = 1;
-/* 4. Validation and execution */
-19 Roll out updated 𝕌; evaluate dhmin, nom;
-20 if dhmin, nom ≥ dsafe ∀h then
-Algorithm 1 Batched EXACT-MPPI Control Cycle
+1Input: pose q0, nominal 𝕌, obstacles 𝒪, footprint ℬeff, motion model m 2 Params: K, T, Δt, λ, dsafe, wcoll, wrep, winf /* 1. Batched rollout propagation */4 Sample ϵh(r); form uh(r) ← uh + ϵh(r); propagate qh + 1(r) ← qh(r) + ℱm(qh(r), uh(r)) Δt from q0(r) = q0; /* 2. Signed-distance evaluation and scoring */8 Transform 𝒪 into the body frame at qh(r) to obtain ph, ib, (r); 9 dhmin, (r) ← minid±(ph, ib, (r), ℬeff); 10 J(r) ← J(r) + ϕtask(qh(r), uh(r)) + ϕctrl(uh(r)) + ϕobs(dhmin, (r)); /* 3. Feasibility flag and path-integral update *//* 4. Validation and execution */19 Roll out updated 𝕌; evaluate dhmin, nom; 20 if dhmin, nom ≥ dsafe ∀h then Algorithm 1 Batched EXACT-MPPI Control Cycle
 
 ### IV-F Extension to Hybrid-Mode Platforms
 
 Some mobile platforms achieve near-holonomic maneuverability through a finite set of non-skidding motion modes (e.g., dual-Ackermann steering, lateral parallel motion, spin-in-place). Treating the command space as fully continuous can produce motions that require wheel slip to execute. Selecting among discrete modes avoids this but introduces mode-switching decisions. We therefore extend MPPI to a hybrid-mode formulation that evaluates each mode as a separate rollout family and selects among them at each control cycle.
 
-Let $\mathcal{M}_{hyb}$ denote the set of active motion modes. For each $m \in \mathcal{M}_{hyb}$, EXACT-MPPI runs the Algorithm 1 cycle under dynamics $\mathcal{F}_{m}$, producing a validated candidate sequence ${\mathbb{U}}_{m}$ with cost $J_{m}$. The signed-distance evaluator and effective footprint are shared across modes; only the rollout dynamics and admissible command structure differ.
+Let $\mathcal{M}_{\mathrm{hyb}}$ denote the set of active motion modes. For each $m\in\mathcal{M}_{\mathrm{hyb}}$, EXACT-MPPI runs the Algorithm 1 cycle under dynamics $\mathcal{F}_{m}$, producing a validated candidate sequence $\mathbb{U}_{m}$ with cost $J_{m}$. The signed-distance evaluator and effective footprint are shared across modes; only the rollout dynamics and admissible command structure differ.
 
-To discourage unnecessary switching, each candidate cost is augmented with a switching penalty relative to the previously active mode $m_{prev}$,
-
-Candidates that fail trajectory validation are assigned ${\overline{J}}_{m} = {+ \infty}$ and excluded. A cooldown variable further blocks mode changes for a fixed number of replanning steps after a switch. The selected mode is $m^{\star} = {\arg{\min_{m}{\overline{J}}_{m}}}$.
+To discourage unnecessary switching, each candidate cost is augmented with a switching penalty relative to the previously active mode $m_{\mathrm{prev}}$, Candidates that fail trajectory validation are assigned $\bar{J}_{m}=+\infty$ and excluded. A cooldown variable further blocks mode changes for a fixed number of replanning steps after a switch. The selected mode is $m^{\star}=\arg\min_{m}\bar{J}_{m}$.
 
 For physical deployment, the chosen command is projected onto the command structure of mode $m^{\star}$ and passed through a deadzone correction. If its magnitude falls below a mode-dependent threshold, it is scaled to the minimum executable value. The direction is preserved for translational modes and the sign is preserved for pure rotation. This post-processing affects only hardware execution, not the rollout-time signed-distance evaluation. Algorithm 2 summarizes the full procedure.
 
-1Input: pose q0, sequences {𝕌m}m ∈ ℳhyb, obstacles 𝒪, footprint ℬeff, mprev, τcool
-2 Params: λswitch, τcoolmax, vmin, ωmin, δnoisev, δnoiseω (plus Algorithm 1 parameters)
-3 Output: command u*, mode m*
-/* 1. Per-mode rollout evaluation */
-5 Run Algorithm 1 with dynamics ℱm to obtain 𝕌m, Jm, νm;
-6 ${\overline{J}}_{m}\leftarrow{J_{m} + {\lambda_{switch}{\mathbb{I}}{({m \neq m_{prev}})}}}$ if νm, else + ∞;
-/* 2. Mode selection with cooldown */
-if ${\overline{J}}_{m} = {+ {\infty{\forall m}}}$ then return 0, mprev;
-11 $m^{\ast}\leftarrow{\arg{\min_{m}{\overline{J}}_{m}}}$;
-12 if τcool &gt; 0 and m* ≠ mprev then m* ← mprev;
-13 τcool ← τcoolmax if m* ≠ mprev, else max (τcool − 1,0);
-14 uraw← first command of 𝕌m*;
-// drop components inadmissible for m*
-16 Let ulin*, ω* denote the linear and angular parts of u*;
-18 vmag ← ∥ulin*∥2; if δnoisev &lt; vmag &lt; vmin then ulin* ← (vmin/vmag) ulin*;
-21 if δnoiseω &lt; |ω*| &lt; ωmin then ω* ← sgn(ω*) ωmin;
-Algorithm 2 Hybrid-Mode EXACT-MPPI with Actuator Post-Processing
+1Input: pose q0, sequences {𝕌m}m ∈ ℳhyb, obstacles 𝒪, footprint ℬeff, mprev, τcool 2 Params: λswitch, τcoolmax, vmin, ωmin, δnoisev, δnoiseω (plus Algorithm 1 parameters) 3 Output: command u*, mode m* /* 1. Per-mode rollout evaluation */5 Run Algorithm 1 with dynamics ℱm to obtain 𝕌m, Jm, νm; 6 J̄m ← Jm + λswitch 𝕀(m ≠ mprev) if νm, else +∞; /* 2. Mode selection with cooldown */if J̄m = +∞ ∀m then return 0, mprev; 12 if τcool > 0 and m* ≠ mprev then m* ← mprev; 13 τcool ← τcoolmax if m* ≠ mprev, else max (τcool − 1, 0); 14 uraw← first command of 𝕌m*; $\boldsymbol{\mathbf{u}}^{*}\leftarrow\textsc{ProjectToMode}(\boldsymbol{\mathbf{u}}_{\mathrm{raw}},m^{*})$; // drop components inadmissible for m* 16 Let ulin*, ω* denote the linear and angular parts of u*; 18 vmag ← ∥ulin*∥2; if δnoisev < vmag < vmin then ulin* ← (vmin/vmag) ulin*; 21 if δnoiseω < |ω*| < ωmin then ω* ← sgn (ω*) ωmin; Algorithm 2 Hybrid-Mode EXACT-MPPI with Actuator Post-Processing
 
 ## Experiments and Results
 
 ### V-A Experimental Design
 
-We evaluate EXACT-MPPI in simulation and real-world settings across multiple robot platforms with distinct footprint geometries and kinematic characteristics. The experiments are organized around four questions:
-
-Computational efficiency: Can the JAX-based batched signed-distance evaluator support real-time MPPI rollout evaluation under a fixed sampling budget?
+We evaluate EXACT-MPPI in simulation and real-world settings across multiple robot platforms with distinct footprint geometries and kinematic characteristics. The experiments are organized around four questions: Computational efficiency: Can the JAX-based batched signed-distance evaluator support real-time MPPI rollout evaluation under a fixed sampling budget?
 
 Footprint-modeling fidelity: Does explicit footprint-aware signed-distance evaluation preserve feasible motion in clearance-limited environments where convex-hull or simplified footprint approximations become overly conservative?
 
@@ -298,12 +192,11 @@ Dynamic-obstacle experiments are included as a supporting evaluation. Since EXAC
 
 Experimental Platforms and Environments. We conduct experiments in simulation and on real robot platforms to evaluate EXACT-MPPI under different footprint geometries, motion models, sensing conditions, and obstacle configurations. In simulation, controlled narrow-passage scenarios are used to evaluate footprint-modeling fidelity under different degrees of narrowness, while dynamic-obstacle scenarios are used to evaluate reactive replanning from updated point-cloud observations. IR-SIM is used as the main lightweight simulator, and Gazebo is used for the higher-fidelity dynamic-obstacle comparison. To support the omni-directional body-velocity cases considered in this work, we adapt IR-SIM with a control interface that accepts longitudinal, lateral, and yaw-rate commands.
 
-Feature Dual-arm robot AgileX Ranger mini Unitree Go2 Ack. Parallel Spin Motion model(s) Differential mode Dual-Ackermann mode Parallel mode Spin mode Omni-motion mode Control input(s) (vx,ω) (vx,ω) (vx,vy) (ω) (vx,vy,ω) Longitudinal velocity limit (m/s) vx ∈ [−1.5, 1.5] vx ∈ [−1.5, 1.5] vx ∈ [−1.0, 1.0] vx = 0 vx ∈ [−1.0, 1.0] Lateral velocity limit (m/s) Not used Not used vy ∈ [−0.6, 0.6] Not used vy ∈ [−0.4, 0.4] Yaw-rate limit (rad/s) ω ∈ [−1.0, 1.0] ω ∈ [−1.0, 1.0] ω = 0 ω ∈ [−1.0, 1.0] ω ∈ [−1.0, 1.0] Linear acceleration limit (m/s2) ax ∈ [−1.0, 1.0] ax ∈ [−1.0, 1.0] ax, ay ∈ [−1.0, 1.0] Not used ax, ay ∈ [−1.0, 1.0] Angular acceleration limit (rad/s2) aω ∈ [−1.0, 1.0] aω ∈ [−1.0, 1.0] Not used aω ∈ [−2.0, 2.0] aω ∈ [−1.0, 1.0]
-TABLE I: Cross-platform motion models and kinematic limits used in the hardware deployment experiments.
+Feature Dual-arm robot AgileX Ranger mini Unitree Go2 Ack. Parallel Spin Motion model(s) Differential mode Dual-Ackermann mode Parallel mode Spin mode Omni-motion mode Control input(s) (vx, ω) (vx, ω) (vx, vy) (ω) (vx, vy, ω) Longitudinal velocity limit (m/s) vx ∈ [−1.5, 1.5] vx ∈ [−1.5, 1.5] vx ∈ [−1.0, 1.0] vx = 0 vx ∈ [−1.0, 1.0] Lateral velocity limit (m/s) Not used Not used vy ∈ [−0.6, 0.6] Not used vy ∈ [−0.4, 0.4] Yaw-rate limit (rad/s) ω ∈ [−1.0, 1.0] ω ∈ [−1.0, 1.0] ω = 0 ω ∈ [−1.0, 1.0] ω ∈ [−1.0, 1.0] Linear acceleration limit (m/s2) ax ∈ [−1.0, 1.0] ax ∈ [−1.0, 1.0] ax, ay ∈ [−1.0, 1.0] Not used ax, ay ∈ [−1.0, 1.0] Angular acceleration limit (rad/s2) aω ∈ [−1.0, 1.0] aω ∈ [−1.0, 1.0] Not used aω ∈ [−2.0, 2.0] aω ∈ [−1.0, 1.0] TABLE I: Cross-platform motion models and kinematic limits used in the hardware deployment experiments.
 
 The hardware experiments use three platforms with distinct motion interfaces and effective footprints, as shown in Fig. 5. The differential-drive dual-arm robot represents a conventional indoor service platform. AgileX Ranger mini is a hybrid 4WS/4WD platform with dual-Ackermann, parallel, and spin-in-place modes, and is used to evaluate the hybrid-mode extension of EXACT-MPPI. The Unitree Go2 quadruped carries a rigid bar that extends its projected footprint, providing a body-velocity deployment case with a task-dependent footprint. Across these platforms, the same collision-evaluation principle is used: observed obstacle points are transformed into the predicted robot body frame and evaluated against an explicit planar effective footprint represented by either a rectangle cover or a simple polygon.
 
-Shared MPPI Sampling Budget. Unless otherwise stated, the navigation experiments use $K = 1000$ sampled trajectories, $T = 50$ horizon steps, and ${\Deltat} = 0.1$ s, corresponding to a 5 s prediction horizon. The local point cloud is preprocessed and downsampled to $N = 100$ obstacle points before rollout evaluation. Thus, each control cycle evaluates ${KTN} = {5.0 \times 10^{6}}$ point-to-footprint signed-distance queries. In our implementation, this setting occupies approximately 500 MB of GPU memory.
+Shared MPPI Sampling Budget. Unless otherwise stated, the navigation experiments use $K=1000$ sampled trajectories, $T=50$ horizon steps, and $\Delta t=0.1$ s, corresponding to a 5 s prediction horizon. The local point cloud is preprocessed and downsampled to $N=100$ obstacle points before rollout evaluation. Thus, each control cycle evaluates $KTN=5.0\times 10^{6}$ point-to-footprint signed-distance queries. In our implementation, this setting occupies approximately 500 MB of GPU memory.
 
 All platforms are equipped with onboard 2D or 3D LiDAR sensors for local point-cloud acquisition. The weak guidance path is provided to the local planner and transformed into the robot coordinate frame using the available state-estimation or SLAM system, such as Cartographer or FAST-LIO2. The guidance provides high-level directional information, while local collision avoidance and maneuver generation are handled by EXACT-MPPI.
 
@@ -319,15 +212,11 @@ Mean speed is the average speed along the executed trajectory, computed over suc
 
 Path length is the total executed trajectory length. It is reported for experiments where route efficiency is compared in addition to completion time.
 
-Degree of Narrowness (DoN) quantifies the difficulty of clearance-limited navigation. Following, we define
+Degree of Narrowness (DoN) quantifies the difficulty of clearance-limited navigation. Following, we define where $W_{r}$ is the effective robot width and $W_{p}$ is the minimum passable width of the environment. Larger DoN values indicate tighter passages; as $\mathrm{DoN}\rightarrow 1$, the available clearance becomes small and footprint modeling becomes more important.
 
-where $W_{r}$ is the effective robot width and $W_{p}$ is the minimum passable width of the environment. Larger DoN values indicate tighter passages; as ${DoN}\rightarrow 1$, the available clearance becomes small and footprint modeling becomes more important.
+The effective width depends on the motion model because it is measured relative to the direction of translation. Let $\mathbf{d}$ denote the translation direction and $\mathbf{n}$ an orthogonal unit vector. For a footprint $S\subset\mathbb{R}^{2}$, the directional width is and $W_{p}$ is measured along the same cross-sectional direction. For Ackermann-steered and differential-drive robots, $\mathbf{d}$ is the forward direction, so $W_{r}$ is the lateral body width. For parallel motion, $\mathbf{d}$ is the sideways direction, so $W_{r}$ is the longitudinal span. For omni-directional motion, we report the minimum directional width over all planar translation directions.
 
-The effective width depends on the motion model because it is measured relative to the direction of translation. Let $\mathbf{d}$ denote the translation direction and $\mathbf{n}$ an orthogonal unit vector. For a footprint $S \subset {\mathbb{R}}^{2}$, the directional width is
-
-and $W_{p}$ is measured along the same cross-sectional direction. For Ackermann-steered and differential-drive robots, $\mathbf{d}$ is the forward direction, so $W_{r}$ is the lateral body width. For parallel motion, $\mathbf{d}$ is the sideways direction, so $W_{r}$ is the longitudinal span. For omni-directional motion, we report the minimum directional width over all planar translation directions.
-
-For concave footprints, this directional width is a coarse scalar measure rather than a complete description of passability. In particular, $W_{r}{(\mathbf{n})}$ is unchanged if $S$ is replaced by its convex hull, since both have the same extrema along direction $\mathbf{n}$. Therefore, DoN is used only to quantify passage tightness; it does not capture the extra feasible configurations that may be available when the planner reasons about the exact concave footprint instead of its convex hull.
+For concave footprints, this directional width is a coarse scalar measure rather than a complete description of passability. In particular, $W_{r}(\mathbf{n})$ is unchanged if $S$ is replaced by its convex hull, since both have the same extrema along direction $\mathbf{n}$. Therefore, DoN is used only to quantify passage tightness; it does not capture the extra feasible configurations that may be available when the planner reasons about the exact concave footprint instead of its convex hull.
 
 ### V-B Experiment 1: Benchmark the Signed-Distance Evaluator
 
@@ -335,29 +224,21 @@ This experiment evaluates the signed-distance evaluator, which is the dominant g
 
 We compare EXACT-MPPI with the deep unfolded neural encoder (DUNE) from NeuPAN, a recent learning-based method for point-to-robot distance computation. Both methods take obstacle points and robot geometry as inputs and return point-to-robot distance values without constructing an occupancy grid or ESDF. The comparison therefore isolates two different design choices for the distance module: analytic evaluation from an explicit footprint representation versus learned distance approximation.
 
-The experiment addresses three questions:
-
-How does analytic signed-distance evaluation compare with DUNE in runtime and scaling behavior?
+The experiment addresses three questions: How does analytic signed-distance evaluation compare with DUNE in runtime and scaling behavior?
 
 How much does the rectangle-cover specialization accelerate evaluation on rectilinear footprints compared with direct polygon-edge evaluation?
 
 What deployment overhead is required when switching footprints or robot platforms?
 
-Benchmark setup. All measurements are collected on an Ubuntu workstation with an Intel Core i7-13700F CPU and an NVIDIA GeForce RTX 4060 Ti GPU. For each benchmarked footprint, query points are uniformly sampled from a $50 \times 50$ m region. Unless otherwise stated, per-call inference time is averaged over 50 randomly sampled batches, and EXACT-MPPI and DUNE use identical query batches for fairness. The DUNE models are trained using the default training settings reported for NeuPAN. For Q1, we use four representative footprints: a rectangle, a trapezoid, a sprayer footprint, and a double-sided pruner footprint. For Q2, we use three rectilinear multi-component footprints: L-, T-, and F-shaped bodies.
+Benchmark setup. All measurements are collected on an Ubuntu workstation with an Intel Core i7-13700F CPU and an NVIDIA GeForce RTX 4060 Ti GPU. For each benchmarked footprint, query points are uniformly sampled from a $50\times 50$ m region. Unless otherwise stated, per-call inference time is averaged over 50 randomly sampled batches, and EXACT-MPPI and DUNE use identical query batches for fairness. The DUNE models are trained using the default training settings reported for NeuPAN. For Q1, we use four representative footprints: a rectangle, a trapezoid, a sprayer footprint, and a double-sided pruner footprint. For Q2, we use three rectilinear multi-component footprints: L-, T-, and F-shaped bodies.
 
 ### V-B1 Analytic versus Learned Distance Evaluation (Q1)
 
 Property comparison. Table II ‣ V-B Experiment 1: Benchmark the Signed-Distance Evaluator ‣ V Experiments and Results ‣ EXACT-MPPI: Exact Signed-Distance Navigation for Arbitrary-Footprint Robots from Point Clouds via Path Integral Control") summarizes the structural differences between the two evaluators. DUNE uses a learned surrogate for distance evaluation and requires footprint-specific training or adaptation. In contrast, EXACT-MPPI evaluates distances analytically from an explicit footprint representation. For simple-polygon footprints, the signed distance is computed from point-to-edge distances and an inside--outside test. For rectangle-cover footprints, the exterior distance is exact with respect to the rectangle union, while the interior value is used primarily for collision classification and penalty assignment.
 
-Convex footprint support
+Convex footprint support Concave footprint support Update footprint description TABLE II: Property comparison of DUNE and the proposed distance evaluator.
 
-Concave footprint support
-
-Update footprint description
-
-TABLE II: Property comparison of DUNE and the proposed distance evaluator.
-
-Runtime comparison. At the representative benchmark size of 100,000 query points, the JAX-batched analytic evaluator is consistently faster than DUNE on the GPU. The measured speedups are $14.0 \times$ for the rectangle, $12.6 \times$ for the trapezoid, $18.9 \times$ for the sprayer footprint, and $16.0 \times$ for the double-sided pruner footprint.
+Runtime comparison. At the representative benchmark size of 100,000 query points, the JAX-batched analytic evaluator is consistently faster than DUNE on the GPU. The measured speedups are $14.0\times$ for the rectangle, $12.6\times$ for the trapezoid, $18.9\times$ for the sprayer footprint, and $16.0\times$ for the double-sided pruner footprint.
 
 Scaling with obstacle point count. Figure 6 ‣ V-B Experiment 1: Benchmark the Signed-Distance Evaluator ‣ V Experiments and Results ‣ EXACT-MPPI: Exact Signed-Distance Navigation for Arbitrary-Footprint Robots from Point Clouds via Path Integral Control") reports per-call inference time as the number of query points grows from $10^{2}$ to $10^{6}$. The curves show the mean over 100 trials, with shaded bands denoting one standard deviation. Across the tested range, EXACT-MPPI scales more favorably than DUNE for both simple and multi-part footprints. This behavior is expected because the proposed evaluator uses explicit analytic geometry implemented as tensorized arithmetic and reduction operations, whereas DUNE performs inference through a neural encoder. As the query batch size increases, the neural inference overhead becomes more pronounced, while the analytic evaluator remains well matched to GPU-parallel batched distance computation.
 
@@ -365,7 +246,7 @@ Figure 6: Inference time versus obstacle point count for DUNE and the JAX-based 
 
 ### V-B2 Rectangle-Cover versus Polygon Evaluation
 
-For rectilinear footprints, EXACT-MPPI provides a rectangle-cover specialization in addition to the general simple-polygon evaluator. Table III reports per-call GPU runtime on the tested L-, T-, and F-shaped footprints. Under the same benchmark setup, the rectangle-cover path is faster than direct polygon-edge evaluation by $3.25 \times$, $3.34 \times$, and $2.03 \times$, respectively. These results justify using rectangle covers as a computational specialization for rectilinear bodies, while retaining the polygon-edge route for general planar polygonal footprints.
+For rectilinear footprints, EXACT-MPPI provides a rectangle-cover specialization in addition to the general simple-polygon evaluator. Table III reports per-call GPU runtime on the tested L-, T-, and F-shaped footprints. Under the same benchmark setup, the rectangle-cover path is faster than direct polygon-edge evaluation by $3.25\times$, $3.34\times$, and $2.03\times$, respectively. These results justify using rectangle covers as a computational specialization for rectilinear bodies, while retaining the polygon-edge route for general planar polygonal footprints.
 
 TABLE III: GPU runtime comparison of rectangle-cover and polygon-edge signed-distance evaluation on rectilinear footprints.
 
@@ -373,7 +254,7 @@ TABLE III: GPU runtime comparison of rectangle-cover and polygon-edge signed-dis
 
 The proposed evaluator requires no neural-network training and no precomputed distance field. A new platform requires specifying the footprint representation and motion model, followed by JAX just-in-time compilation at the first execution for the fixed input shape. In our setup, this compilation takes less than 1 s, and subsequent calls reuse the compiled computation. By contrast, DUNE requires a trained distance encoder for the target footprint representation. Under the default settings reported , training takes approximately one hour per footprint. Therefore, when the robot footprint changes substantially, EXACT-MPPI requires only updating the explicit footprint description, whereas the learned distance module requires retraining or adaptation.
 
-Experiment 1 shows that the analytic evaluator provides order-of-magnitude GPU speedups over DUNE on the tested footprints, scales consistently with the number of query points, and supports fast deployment by avoiding footprint-specific training. The rectangle-cover specialization further accelerates evaluation on rectilinear footprints by $2.03$--$3.34 \times$ compared with direct polygon-edge evaluation. These results support the use of analytic signed-distance evaluation as a lightweight, training-free distance module for MPPI-based local navigation.
+Experiment 1 shows that the analytic evaluator provides order-of-magnitude GPU speedups over DUNE on the tested footprints, scales consistently with the number of query points, and supports fast deployment by avoiding footprint-specific training. The rectangle-cover specialization further accelerates evaluation on rectilinear footprints by $2.03$--$3.34\times$ compared with direct polygon-edge evaluation. These results support the use of analytic signed-distance evaluation as a lightweight, training-free distance module for MPPI-based local navigation.
 
 ### V-C Experiment 2: Clearance-Limited Navigation with Exact versus Convex Footprints
 
@@ -385,7 +266,7 @@ A differential-drive robot with a T-shaped footprint navigates through a clutter
 
 For NeuPAN, the DUNE distance encoder is trained for the convex-hull T-shaped footprint. The Learnable Optimization Network (LON) is used to tune the NRMP planner parameters on a representative base case, DoN = 0.9. The tuned NRMP parameters are then kept fixed when evaluating the remaining DoN values. This protocol reflects a deployment-transfer setting in which the footprint-specific distance encoder and planner parameters are prepared once and applied across related environment variations without per-case planner retuning. NeuPAN uses a reference speed of $1.5$ m/s, chosen to be compatible with its typical update frequency of approximately 15 Hz in our setup. For the MPPI-based methods, we use the same linear-velocity limit of $\pm 2$ m/s, but do not include a fixed reference-speed critic; their executed speed is determined by rollout costs and local clearance.
 
-For DoN = 0.6--0.9, all three methods use the same straight-line weak guidance path, and the passage remains feasible under both the explicit T-shaped footprint and its convex hull. For DoN = 1.0, the convex-hull representation removes the remaining feasible passage. We therefore also test this case using an $A^{\ast}$ waypoint path as weak guidance. The $A^{\ast}$ path does not account for the detailed T-shaped footprint geometry. With this guidance, EXACT-MPPI completes the task by exploiting the non-convex free space of the T-shaped footprint, while Convex-MPPI and NeuPAN still fail under their convex-hull footprint representation.
+For DoN = 0.6--0.9, all three methods use the same straight-line weak guidance path, and the passage remains feasible under both the explicit T-shaped footprint and its convex hull. For DoN = 1.0, the convex-hull representation removes the remaining feasible passage. We therefore also test this case using an $A^{*}$ waypoint path as weak guidance. The $A^{*}$ path does not account for the detailed T-shaped footprint geometry. With this guidance, EXACT-MPPI completes the task by exploiting the non-convex free space of the T-shaped footprint, while Convex-MPPI and NeuPAN still fail under their convex-hull footprint representation.
 
 Figure 7 shows representative cases, and Table IV summarizes the mean speed and navigation time over successful trials. For DoN = 0.6--0.9, all methods complete the task, and the fastest method varies across DoN levels. At DoN = 1.0, only EXACT-MPPI succeeds, completing the task in $70.4$ s. The zoomed inset in Fig. 7(d) shows how the explicit T-shaped footprint preserves a narrow feasible passage that is removed by the convex-hull approximation.
 
@@ -395,7 +276,7 @@ TABLE IV: Corridor DoN sweep: average speed and navigation time over successful 
 
 ### V-C2 Test Case 2: Omni-Directional Gap Scenario
 
-An omni-directional robot with an L-shaped footprint navigates through a narrow-gap environment. The L-shaped footprint has an overall height of 2.0 m, an overall width of 2.0 m, and a uniform leg thickness of 0.4 m. The gap width varies over $\lbrack 1.9,2.0,2.2,2.4\rbrack$ m, producing different DoN values while keeping the start pose, goal pose, and environment layout fixed. Omni-directional motion allows the robot to rotate and translate laterally, so it can align favorable cross-sectional dimensions with the passage constraint.
+An omni-directional robot with an L-shaped footprint navigates through a narrow-gap environment. The L-shaped footprint has an overall height of 2.0 m, an overall width of 2.0 m, and a uniform leg thickness of 0.4 m. The gap width varies over $[1.9,2.0,2.2,2.4]$ m, producing different DoN values while keeping the start pose, goal pose, and environment layout fixed. Omni-directional motion allows the robot to rotate and translate laterally, so it can align favorable cross-sectional dimensions with the passage constraint.
 
 We compare two methods under the same omni-motion dynamics and MPPI settings: (i) EXACT-MPPI with the L-shaped footprint represented explicitly and (ii) Convex-MPPI with the convex hull of the L-shaped footprint. NeuPAN is not included in this test because the purpose is to isolate footprint modeling under identical omni-directional MPPI dynamics.
 
@@ -419,8 +300,7 @@ Figure 9 shows representative qualitative behavior in this benchmark. Quantitati
 
 Figure 9: IR-SIM comparison in the 8 m-wide corridor with mixed static and dynamic obstacles: (a) EXACT-MPPI, (b) Convex-MPPI, (c) Rectangle-MPPI, and (d) NeuPAN with a convex-hull T-shaped footprint.
 
-Method Success rate Mean Time (s) Mean Path (m) Mean Speed (m/s) EXACT-MPPI 0.92 44.25 63.62 1.482 Convex-MPPI 0.86 41.79 63.57 1.556 Rectangle-MPPI 0.78 39.66 63.00 1.609 NeuPAN (convex hull) 0.76 42.95 64.05 1.491
-TABLE VI: Corridor dynamic-random benchmark (50 trials per method): success rate and mean metrics over successful runs for EXACT-MPPI, Convex-MPPI, Rectangle-MPPI, and NeuPAN with a convex-hull T-shaped footprint.
+Method Success rate Mean Time (s) Mean Path (m) Mean Speed (m/s) EXACT-MPPI 0.92 44.25 63.62 1.482 Convex-MPPI 0.86 41.79 63.57 1.556 Rectangle-MPPI 0.78 39.66 63.00 1.609 NeuPAN (convex hull) 0.76 42.95 64.05 1.491 TABLE VI: Corridor dynamic-random benchmark (50 trials per method): success rate and mean metrics over successful runs for EXACT-MPPI, Convex-MPPI, Rectangle-MPPI, and NeuPAN with a convex-hull T-shaped footprint.
 
 ### V-C4 Test Case 4: Gazebo Dynamic-Obstacle Comparison
 
@@ -430,8 +310,7 @@ For the loaded-Limo footprint, NeuPAN's DUNE distance encoder is trained using t
 
 We complete 50 Gazebo trials for each method. Table VII summarizes the quantitative comparison between EXACT-MPPI and NeuPAN with a convex-hull T-shaped footprint. In this benchmark, EXACT-MPPI achieves a success rate of $0.96$, compared with $0.65$ for NeuPAN. Over successful runs, EXACT-MPPI also yields lower mean navigation time ($62.47$ s versus $64.47$ s) and shorter mean path length ($25.05$ m versus $26.49$ m), while NeuPAN has a slightly higher mean speed ($0.41$ m/s versus $0.40$ m/s). These results indicate that explicit footprint-aware signed-distance evaluation improves robustness in the setting with the added load while maintaining comparable efficiency on successful trials.
 
-Method Success rate Mean Time (s) Mean Path (m) Mean Speed (m/s) EXACT-MPPI 0.96 62.47 25.05 0.40 NeuPAN (convex hull) 0.65 64.47 26.49 0.41
-TABLE VII: Gazebo dynamic-obstacle benchmark (50 trials per method): success rate and mean metrics over successful runs for EXACT-MPPI and NeuPAN with a convex-hull T-shaped footprint.
+Method Success rate Mean Time (s) Mean Path (m) Mean Speed (m/s) EXACT-MPPI 0.96 62.47 25.05 0.40 NeuPAN (convex hull) 0.65 64.47 26.49 0.41 TABLE VII: Gazebo dynamic-obstacle benchmark (50 trials per method): success rate and mean metrics over successful runs for EXACT-MPPI and NeuPAN with a convex-hull T-shaped footprint.
 
 Figure 10: Gazebo dynamic-obstacle experiment setting.
 
@@ -453,7 +332,7 @@ Figure 11: Differential-drive dual-arm transportation in an indoor office enviro
 
 We next deploy EXACT-MPPI on the AgileX Ranger mini platform, which provides a complementary transfer case because it has a different footprint and supports multiple non-skidding motion modes. In this deployment, the footprint representation is replaced by the Ranger mini body geometry, and rollout propagation is matched to the available motion modes. The signed-distance evaluation and MPPI update structure remain unchanged. For the dual-Ackermann rollout model, we use half the axle-axis length as the effective wheelbase parameter.
 
-Figure 12 compares EXACT-MPPI and Convex-MPPI in the parallel-motion case. With the explicit footprint representation, EXACT-MPPI exits the trap in approximately $9$ s. Convex-MPPI is unable to complete the same maneuver because the convex-hull approximation removes the narrow feasible passage at an effective degree of narrowness of ${DoN} = 1.0$. Here DoN is measured relative to the actual moving direction: under parallel motion, the robot translates sideways and cannot use rotation to reduce its effective cross section.
+Figure 12 compares EXACT-MPPI and Convex-MPPI in the parallel-motion case. With the explicit footprint representation, EXACT-MPPI exits the trap in approximately $9$ s. Convex-MPPI is unable to complete the same maneuver because the convex-hull approximation removes the narrow feasible passage at an effective degree of narrowness of $\mathrm{DoN}=1.0$. Here DoN is measured relative to the actual moving direction: under parallel motion, the robot translates sideways and cannot use rotation to reduce its effective cross section.
 
 Figure 13 compares the dual-Ackermann case across EXACT-MPPI, Convex-MPPI, and NeuPAN. Under dual-Ackermann steering, EXACT-MPPI exits the trap in approximately $13$ s, while Convex-MPPI requires approximately $35$ s in the same setting. In this real-robot comparison, EXACT-MPPI updates at approximately $30$ Hz, while NeuPAN runs at approximately $15$ Hz in our setup. Panels (c) and (d) show NeuPAN under two platform configurations. In Panel (c), DUNE is trained for the nominal Ranger mini footprint and the NRMP planner parameters are tuned for the nominal chassis, allowing the robot to pass the trap. In Panel (d), after attaching the extra load, DUNE is retrained for the updated footprint representation, while the NRMP parameters are transferred from the nominal-chassis setting. Under this transferred planner configuration, NeuPAN does not escape the trap. This comparison illustrates a practical deployment issue: when the task-dependent footprint changes, both the footprint-dependent distance representation and the downstream planner parameters may affect performance. In contrast, EXACT-MPPI updates the explicit footprint representation directly while preserving the same MPPI collision-evaluation structure.
 
@@ -483,7 +362,7 @@ Figure 17: Extreme narrow-passage comparison for the Unitree Go2 with the carrie
 
 This experiment evaluates the hybrid-mode extension of EXACT-MPPI on the Ranger mini platform. While Experiment 3 demonstrated cross-platform deployment, this experiment isolates the contribution of multi-mode rollout selection by comparing the full hybrid-mode controller with a dual-Ackermann-only ablation under the same footprint model and environment.
 
-Experimental Setup. The test environment contains tight turns, narrow passages, and local recovery regions that require heterogeneous maneuvers. The representative narrow-space scenario has a maximum degree of narrowness of ${DoN} = 0.90$, so the task remains clearance-limited but is traversable with appropriate mode selection. The signed-distance evaluator, footprint representation, obstacle processing, and MPPI cost structure are kept the same for both methods. The only difference is the admissible motion set: the hybrid controller can select among dual-Ackermann, parallel, and spin-in-place modes, whereas the ablation is restricted to dual-Ackermann steering.
+Experimental Setup. The test environment contains tight turns, narrow passages, and local recovery regions that require heterogeneous maneuvers. The representative narrow-space scenario has a maximum degree of narrowness of $\mathrm{DoN}=0.90$, so the task remains clearance-limited but is traversable with appropriate mode selection. The signed-distance evaluator, footprint representation, obstacle processing, and MPPI cost structure are kept the same for both methods. The only difference is the admissible motion set: the hybrid controller can select among dual-Ackermann, parallel, and spin-in-place modes, whereas the ablation is restricted to dual-Ackermann steering.
 
 Ablation Result. In the representative scenario, the dual-Ackermann-only configuration requires $140$ s to complete the task, while the hybrid-mode configuration completes it in $106$ s. This corresponds to an approximately $24\%$ reduction in completion time. The result indicates that access to multiple non-skidding motion modes can enlarge the local maneuver set and reduce unnecessary steering corrections in constrained regions.
 

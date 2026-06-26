@@ -2,8 +2,7 @@
 
 We present Brax, an open source library for rigid body simulation with a focus on performance and parallelism on accelerators, written in JAX. We present results on a suite of tasks inspired by the existing reinforcement learning literature, but remade in our engine. Additionally, we provide reimplementations of PPO, SAC, ES, and direct policy optimization in JAX that compile alongside our environments, allowing the learning algorithm and the environment processing to occur on the same device, and to scale seamlessly on accelerators. Finally, we include notebooks that facilitate training of performant policies on common OpenAI Gym MuJoCo-like tasks in minutes.
 
-\begin{overpic}[width=433.62pt]{brax_initial_release.png} \end{overpic}
-Figure 1: The suite of examples environments included in the initial release of Brax. From left to right: ant, fetch, grasp, halfcheetah, and humanoid.
+\begin{overpic}[width=433.62pt]{brax_initial_release.png} \end{overpic} Figure 1: The suite of examples environments included in the initial release of Brax. From left to right: ant, fetch, grasp, halfcheetah, and humanoid.
 
 ## Summary of Contributions
 
@@ -19,9 +18,7 @@ While these engines and algorithms are quite powerful, and have provided the fir
 
 While some progress has been made to lower this sample complexity using off-policy algorithms, RL systems instead frequently address sample complexity by scaling out the environment simulation to massive distributed systems. These distributed simulation platforms yield impressive RL results at nearly interactive timescales, but their hardware and power costs make them inaccessible to most researchers.
 
-The design of the simulation engine contributes to this inaccessibility problem in three ways:
-
-First, most simulation engines in use today run on CPU, while the RL algorithm runs on GPU or TPU, in another process or another machine. Latency due to data marshalling and network traffic across machines becomes the dominant factor in the time it takes to run an RL experiment.
+The design of the simulation engine contributes to this inaccessibility problem in three ways: First, most simulation engines in use today run on CPU, while the RL algorithm runs on GPU or TPU, in another process or another machine. Latency due to data marshalling and network traffic across machines becomes the dominant factor in the time it takes to run an RL experiment.
 
 Second, most simulation engines are black boxes: they do not offer a gradient for the sampled environment state, which makes them suitable only for model-free RL approaches. This lack of differentiability forces the researcher to use slower, less efficient optimization methods.
 
@@ -31,21 +28,13 @@ We submit Brax as a proposed solution to all three problems at once. Brax puts a
 
 ## Using Brax: The core physics loop
 
-Brax simulates physical interactions in maximal coordinates, where every independent entity in a scene that can freely move is tracked separately. This data---position, rotational orientation, velocity, and angular velocity---is typically the *only* data that changes dynamically in the course of a simulation. All other dynamical relationships, like joints, actuators, collisions, and integration steps are then built as transformations on this fundamental state data. This is codified in the data primitive *QP*, implemented as a flax dataclass, and named whimsically after the canonical coordinates *q* and *p* that it tracks. To make vectorization easy, *QP*s have leading batch dimensions for the number of parallel scenes as well as the number of bodies in a scene. For example the shape of *QP.pos* for 4 parallel scenes with 10 bodies per scene would be $\lbrack 4,10,3\rbrack$.
-
-def pseudo_physics_step(q p, action, dt):
-q p = kinematic_integrator.apply(q p, dt)
-q p = potential_integrator.apply(q p, d pj + d pa, dt)
-q p = collision_integrator.apply(q p, d pc)
-Algorithm 1 Pseudocode for the structure of a physics step in Brax. Impulsive updates (d pi) are collected in parallel for each type of joint, actuator, and collider. Integrator transformations then apply these updates to the qp.
+Brax simulates physical interactions in maximal coordinates, where every independent entity in a scene that can freely move is tracked separately. This data---position, rotational orientation, velocity, and angular velocity---is typically the *only* data that changes dynamically in the course of a simulation. All other dynamical relationships, like joints, actuators, collisions, and integration steps are then built as transformations on this fundamental state data. This is codified in the data primitive *QP*, implemented as a flax dataclass, and named whimsically after the canonical coordinates *q* and *p* that it tracks. To make vectorization easy, *QP*s have leading batch dimensions for the number of parallel scenes as well as the number of bodies in a scene. For example the shape of *QP.pos* for 4 parallel scenes with 10 bodies per scene would be $\lbrack 4,10,3\rbrack$. def pseudo_physics_step(q p, action, dt): q p = kinematic_integrator.apply(q p, dt) q p = potential_integrator.apply(q p, d pj + d pa, dt) q p = collision_integrator.apply(q p, d pc) Algorithm 1 Pseudocode for the structure of a physics step in Brax. Impulsive updates (d pi) are collected in parallel for each type of joint, actuator, and collider. Integrator transformations then apply these updates to the qp.
 
 A physically simulated object generally includes extra data, thus we bundle other information---masses, inertias, dimensions of objects, etc.---in abstractions associated with particular QPs. These abstractions are *bodies*, *joints*, *actuators*, and *colliders*. As an example, a *joint.revolute* class bundles together all of the relevant metadata that governs a 1-degree-of-freedom constraint for a pair of parent and child *bodies*. The *apply* function for this class then calculates forces and torques---i.e., changes in velocity, angular velocity, position, and rotation---necessary to constrain the two bodies into a 1-degree-of-freedom joint configuration. These two bodies are associated with particular indices in the *QP* object. Thus, calling *joint.revolute.apply(qp)* gathers the relevant physical data from the full QP object---i.e., the two qp entities that are being constrained---and returns a vectorized, differential update to the full QP state. All Brax transformations follow this pattern where an apply function transforms a *QP* in this way.
 
 To complete the physics step, Brax then sums up all of the differential updates to *QP* data in the course of a single short timestep, and transform the system state via a second order symplectic Euler update (extensions to higher order integrators are straightforward, but see 7 for more details). Throughout, we parallelize wherever possible, across actuators, joints, colliders, and even entire simulation scenes. See Alg. 1 for pseudocode for the structure of this loop, or for the code of the loop.
 
-An overarching *system* class handles the coordination and bookkeeping of all of these updates and physical metadata. This class also provides a way to perform a single simulation step via the *step* function.
-
-where *actions* are any torques or target angles needed by any actuators in the system.
+An overarching *system* class handles the coordination and bookkeeping of all of these updates and physical metadata. This class also provides a way to perform a single simulation step via the *step* function. where *actions* are any torques or target angles needed by any actuators in the system.
 
 Modifying or extending this control flow is as simple as implementing a new Brax_transformation that conforms to this structure, and then appropriately inserting this transformation in the physics step function.
 
@@ -87,76 +76,37 @@ To train performant policies on the environments included in this release and in
 
 ### Learning Algorithms Bundled with Brax
 
-Brax includes several common reinforcement learning algorithms that have been implemented to leverage the parallelism and just-in-time-compilation capabilities of JAX. These algorithms are:
-
-Proximal Policy Optimization (PPO)
-
-Soft Actor Critic (SAC)
-
-Analytic Policy Gradient (APG)
-
-Each algorithm is unique in some respects. PPO is an on-policy RL algorithm, SAC is off-policy, ES is a black-box optimization algorithm, and APG exploits differentiability of the rewards provided by the environment. This breadth of algorithmic coverage demonstrates the flexibility of Brax, as well as its potential to accelerate research and reduce costs. For this work, we focus our experimental analysis on PPO and SAC (see, e.g., Sec 6), and defer analysis of ES and APG to future work.
+Brax includes several common reinforcement learning algorithms that have been implemented to leverage the parallelism and just-in-time-compilation capabilities of JAX. These algorithms are: Proximal Policy Optimization (PPO) Soft Actor Critic (SAC) Analytic Policy Gradient (APG) Each algorithm is unique in some respects. PPO is an on-policy RL algorithm, SAC is off-policy, ES is a black-box optimization algorithm, and APG exploits differentiability of the rewards provided by the environment. This breadth of algorithmic coverage demonstrates the flexibility of Brax, as well as its potential to accelerate research and reduce costs. For this work, we focus our experimental analysis on PPO and SAC (see, e.g., Sec 6), and defer analysis of ES and APG to future work.
 
 ### Proximal Policy Optimization (PPO)
 
 In order to capture all benefits of a JAX based batched environment that could run on an accelerator(s) we built a custom implementation of PPO. In particular the environment data (rollouts) are generated on an accelerator and subsequently processed there by an SGD optimizer. There's no need for this data to ever leave the accelerator nor is there any need for context switches between various processes. The whole training loop (env rollouts + SGD updates) happens within a single non-interrupted jitted function.
 
-The training proceeds as follows:
-
-the batch is split evenly between every available accelerator core and environment rollouts are collected
-
-normalization statistics are computed based on this batch, stats are synced between all cores and then observations are normalized
-
-each accelerator core splits the batch into an appropriate number of mini batches for which gradient updates are computed, synced between all cores, and then applied synchronously
-
-The performance/throughput of the algorithm heavily depends on the hyperparameters (e.g. batch size, number of minibatches, number of optimization epochs). We noticed that for the best hyperparameters, our implementation of PPO is efficient enough that the primary bottleneck comes from the environment(e.g., 75% time goes to running the env for Ant), even though the environment itself is quite fast.
+The training proceeds as follows: the batch is split evenly between every available accelerator core and environment rollouts are collected normalization statistics are computed based on this batch, stats are synced between all cores and then observations are normalized each accelerator core splits the batch into an appropriate number of mini batches for which gradient updates are computed, synced between all cores, and then applied synchronously The performance/throughput of the algorithm heavily depends on the hyperparameters (e.g. batch size, number of minibatches, number of optimization epochs). We noticed that for the best hyperparameters, our implementation of PPO is efficient enough that the primary bottleneck comes from the environment(e.g., 75% time goes to running the env for Ant), even though the environment itself is quite fast.
 
 ### Soft Actor Critic (SAC)
 
-Unlike PPO, SAC uses a replay buffer to sample batches from. In order to use the whole potential of Brax we implemented a custom SAC with a replay buffer living completely on an accelerator. This allowed the whole training procedure to be compiled into a single jitted function and run without any interruptions. The training roughly proceeds as follows:
-
-each available accelerator core runs the environment for a few steps and adds this data to an individual per-core replay buffer
-
-normalization statistics are computed based on the newly generated data, stats are synced between all cores
-
-several SGD updates are performed, where each accelerator core samples its part of a batch from its own replay buffer, computes gradient updates, and synchronizes the final update with other cores
-
-SAC is much more sample efficient than PPO, thus we observed that the training throughput now becomes bottlenecked by SGD updates (12% for running the env, 10% for working with replay buffer, 78% for SGD updates). Because of the poor scaling of SGD updates to multiple cores, using more than 1 accelerator core was providing marginal benefit, so the most cost efficient setup was achieved with a single accelerator core.
+Unlike PPO, SAC uses a replay buffer to sample batches. In order to use the whole potential of Brax we implemented a custom SAC with a replay buffer living completely on an accelerator. This allowed the whole training procedure to be compiled into a single jitted function and run without any interruptions. The training roughly proceeds as follows: each available accelerator core runs the environment for a few steps and adds this data to an individual per-core replay buffer normalization statistics are computed based on the newly generated data, stats are synced between all cores several SGD updates are performed, where each accelerator core samples its part of a batch from its own replay buffer, computes gradient updates, and synchronizes the final update with other cores SAC is much more sample efficient than PPO, thus we observed that the training throughput now becomes bottlenecked by SGD updates (12% for running the env, 10% for working with replay buffer, 78% for SGD updates). Because of the poor scaling of SGD updates to multiple cores, using more than 1 accelerator core was providing marginal benefit, so the most cost efficient setup was achieved with a single accelerator core.
 
 ### Evolution Strategy (ES)
 
 To implement ES we followed the same paradigm as for PPO/SAC: we ran everything on an accelerator without any interruptions, keeping all processing contained within the accelerator.
 
-The training proceeds as follows:
-
-a lead accelerator generates policy parameters perturbations
-
-policy parameters perturbations are split evenly between all available accelerator cores for evaluation
-
-the lead computes gradients based on evaluation scores and updates the policy
-
-The algorithm spends \> 99% of running time evaluating environment steps.
+The training proceeds as follows: a lead accelerator generates policy parameters perturbations policy parameters perturbations are split evenly between all available accelerator cores for evaluation the lead computes gradients based on evaluation scores and updates the policy The algorithm spends \> 99% of running time evaluating environment steps.
 
 ### Analytic Policy Gradient (APG)
 
-As a proof of concept of how to leverage the differentiablity of our engine, we provide a APG implementation. Training is significantly simpler than the previous algorithms:
-
-compile a function that takes a gradient of the loss through a short trajectory
-
-perform gradient descent with this function
-
-After compiling the gradient update, this algorithm spends the majority of the remaining time evaluating the gradient function. This algorithm is less mature than the previous three, and does not currently produce locomotive gaits, and instead seems prone to being trapped in local minima on the environments we provide. Differentiating through long trajectories is an active area of research and is known to be difficult to optimize, thus we defer more advanced differentiable algorithms to future releases.
+As a proof of concept of how to leverage the differentiablity of our engine, we provide a APG implementation. Training is significantly simpler than the previous algorithms: compile a function that takes a gradient of the loss through a short trajectory perform gradient descent with this function After compiling the gradient update, this algorithm spends the majority of the remaining time evaluating the gradient function. This algorithm is less mature than the previous three, and does not currently produce locomotive gaits, and instead seems prone to being trapped in local minima on the environments we provide. Differentiating through long trajectories is an active area of research and is known to be difficult to optimize, thus we defer more advanced differentiable algorithms to future releases.
 
 ### Training Performance
 
-As part of our release, we include performant hyperparameters for all of our environments. These hyperparameters typically solve their environment with a standard accelerator in seconds to minutes. For exhaustive listings of our hyperparameter experiments see our [repo](https://github.com/google/brax/tree/main/datasets). For plots of performance of the best 20 hyperparameter settings for each environment for exhaustive hyperparameter sweeps over SAC and PPO, see Appendix D.
+As part of our release, we include performant hyperparameters for all of our environments. These hyperparameters typically solve their environment with a standard accelerator in seconds to minutes. For exhaustive listings of our hyperparameter experiments see our repo. For plots of performance of the best 20 hyperparameter settings for each environment for exhaustive hyperparameter sweeps over SAC and PPO, see Appendix D.
 
 ## Performance Benchmarking
 
 ### Parallelizing over Accelerators
 
-\begin{overpic}[width=325.215pt]{brax_scaling.png} \end{overpic}
-Figure 2: (left) Scaling of the effective environment steps per second for each environment in this release on a 4x2 TPU v3. (right) Scaling of the effective environment steps per second for several accelerators on the Ant environment. Error bars are not visible at this scale.
+\begin{overpic}[width=325.215pt]{brax_scaling.png} \end{overpic} Figure 2: (left) Scaling of the effective environment steps per second for each environment in this release on a 4x2 TPU v3. (right) Scaling of the effective environment steps per second for several accelerators on the Ant environment. Error bars are not visible at this scale.
 
 By leveraging JAX's vectorization and device parallelism primitives, we can easily scale Brax up to hundreds of millions of steps per second of performance by distributing environment computation within and across accelerators. Fig. 2 depicts these scaling curves for the suite of environments included in this release on a particular fast, modern accelerator cluster (4x2 topology of TPUv3), as well as the performance scaling on the Ant environment for a variety of accelerators and TPU topologies. For reference, Colab TPU instances currently provide limited free usage of 2x2 TPUv2 accelerators.
 
@@ -166,14 +116,11 @@ A perfectly apples to apples comparison between engines is difficult, primarily 
 
 To make this performance gap clear, we first consider a qualitative comparison of training speed for the Ant environment with Brax's PPO implementation over a variety of architectures. We compare this to a traditional setup, with a standard implementation of PPO---i.e., not compiled nor optimized for parallelism, visualized in Fig. 3. Note that Brax reaches performant locomotion in ten seconds or so, whereas the standard PPO implementation takes close to half an hour.
 
-\begin{overpic}[width=325.215pt]{brax_wallclock.png} \end{overpic}
-Figure 3: Qualitative comparisons of training curves for Brax’s compiled and optimized PPO implementation versus a standard PPO implementation. Note the x-axis is log-wallclock-time in seconds. All curves with “brax” labels are Brax’s version of Ant, whereas the MuJoCo curve is MuJoCo-Ant-v2. Both implementations of ppo were evaluated for 10 million environment steps. Shaded region indicates lowest and highest performing seeds over 5 replicas, and solid line indicates mean. See App. C for hyperparameters used.
+\begin{overpic}[width=325.215pt]{brax_wallclock.png} \end{overpic} Figure 3: Qualitative comparisons of training curves for Brax’s compiled and optimized PPO implementation versus a standard PPO implementation. Note the x-axis is log-wallclock-time in seconds. All curves with “brax” labels are Brax’s version of Ant, whereas the MuJoCo curve is MuJoCo-Ant-v2. Both implementations of ppo were evaluated for 10 million environment steps. Shaded region indicates lowest and highest performing seeds over 5 replicas, and solid line indicates mean. See App. C for hyperparameters used.
 
-\begin{overpic}[width=433.62pt]{brax_muj_compare.png} \end{overpic}
-Figure 4: Qualitative comparisons of training curve trajectories in MuJoCo and Brax. (left) Training curves for MuJoCo-Humanoid-v2 and brax-humanoid, (middle) MuJoCo-Ant-v2 and brax-ant, and (right) MuJoCo-HalfCheetah-v2 and brax-halfcheetah. All environments were evaluated with the same standard implementation of SAC with environments evaluated on CPU and learning on a 2x2 TPUv2—i.e., not Brax’s accelerator-optimized implementation. Solid lines indicate average performance, envelopes are variance over random seeds. See App. C for hyperparameters used. See Appendix E for a short discussion of the gap in performance for halfcheetah.
+\begin{overpic}[width=433.62pt]{brax_muj_compare.png} \end{overpic} Figure 4: Qualitative comparisons of training curve trajectories in MuJoCo and Brax. (left) Training curves for MuJoCo-Humanoid-v2 and brax-humanoid, (middle) MuJoCo-Ant-v2 and brax-ant, and (right) MuJoCo-HalfCheetah-v2 and brax-halfcheetah. All environments were evaluated with the same standard implementation of SAC with environments evaluated on CPU and learning on a 2x2 TPUv2—i.e., not Brax’s accelerator-optimized implementation. Solid lines indicate average performance, envelopes are variance over random seeds. See App. C for hyperparameters used. See Appendix E for a short discussion of the gap in performance for halfcheetah.
 
-\begin{overpic}[width=433.62pt]{brax_engine_compare.png} \end{overpic}
-Figure 5: Linear momentum (left), angular momentum (middle), and energy (right) non-conservation scaling for Brax as well as several other engines. Non-Brax data was adapted with permission from the authors of and plotted here for comparison. Following Erez et al., in the momentum conservation scene we disabled damping, collisions, and gravity, and randomly actuated the limbs for 1 second with approximately.5 N m of torque per actuator per step. For energy, we additionally disabled actuators, gave every body part a random 1 m/s kick, and measured the energy drift after 1 second of simulation. All measurements averaged over 128 random seeds with single precision floats.
+\begin{overpic}[width=433.62pt]{brax_engine_compare.png} \end{overpic} Figure 5: Linear momentum (left), angular momentum (middle), and energy (right) non-conservation scaling for Brax as well as several other engines. Non-Brax data was adapted with permission from the authors of and plotted here for comparison. Following Erez et al., in the momentum conservation scene we disabled damping, collisions, and gravity, and randomly actuated the limbs for 1 second with approximately.5 N m of torque per actuator per step. For energy, we additionally disabled actuators, gave every body part a random 1 m/s kick, and measured the energy drift after 1 second of simulation. All measurements averaged over 128 random seeds with single precision floats.
 
 Next, to verify that Brax's versions of MuJoCo's environments are qualitatively similar to MuJoCo's environments, we depict training curves for a standard implementation of SAC on our environments side-by-side with training curves for MuJoCo's versions. Qualitatively, for a fixed set of SAC hyperparameters, Brax environments achieve similar reward in a similar number of environment steps compared to their MuJoCo counterparts. Note that this is not meant to be a claim that we facilitate "higher reward", because comparing different reward functions is somewhat theoretically fraught (though Brax's reward functions are very close to the MuJoCo gym definitions, see Appendix E for more details). We intend only to demonstrate that the progression of reward gain is similar, and that Brax environments achieve qualitatively similar performance over a similar number of learning steps.
 

@@ -56,9 +56,7 @@ The standard Transformer architecture and its adaptation for image classificatio
 
 ### Self-attention in non-overlapped windows
 
-For efficient modeling, we propose to compute self-attention within local windows. The windows are arranged to evenly partition the image in a non-overlapping manner. Supposing each window contains $M \times M$ patches, the computational complexity of a global MSA module and a window based one on an image of $h \times w$ patches are^33^3We omit SoftMax computation in determining complexity.:
-
-where the former is quadratic to patch number $hw$, and the latter is linear when $M$ is fixed (set to $7$ by default). Global self-attention computation is generally unaffordable for a large $hw$, while the window based self-attention is scalable.
+For efficient modeling, we propose to compute self-attention within local windows. The windows are arranged to evenly partition the image in a non-overlapping manner. Supposing each window contains $M \times M$ patches, the computational complexity of a global MSA module and a window based one on an image of $h \times w$ patches are^33^3We omit SoftMax computation in determining complexity.: where the former is quadratic to patch number $hw$, and the latter is linear when $M$ is fixed (set to $7$ by default). Global self-attention computation is generally unaffordable for a large $hw$, while the window based self-attention is scalable.
 
 ### Shifted window partitioning in successive blocks
 
@@ -66,9 +64,7 @@ The window-based self-attention module lacks connections across windows, which l
 
 As illustrated in Figure 2, the first module uses a regular window partitioning strategy which starts from the top-left pixel, and the $8 \times 8$ feature map is evenly partitioned into $2 \times 2$ windows of size $4 \times 4$ ($M = 4$). Then, the next module adopts a windowing configuration that is shifted from that of the preceding layer, by displacing the windows by $({\lfloor\frac{M}{2}\rfloor},{\lfloor\frac{M}{2}\rfloor})$ pixels from the regularly partitioned windows.
 
-With the shifted window partitioning approach, consecutive Swin Transformer blocks are computed as
-
-where ${\hat{\mathbf{z}}}^{l}$ and $\mathbf{z}^{l}$ denote the output features of the (S)W-MSA module and the MLP module for block $l$, respectively; W-MSA and SW-MSA denote window based multi-head self-attention using regular and shifted window partitioning configurations, respectively.
+With the shifted window partitioning approach, consecutive Swin Transformer blocks are computed as where ${\hat{\mathbf{z}}}^{l}$ and $\mathbf{z}^{l}$ denote the output features of the (S)W-MSA module and the MLP module for block $l$, respectively; W-MSA and SW-MSA denote window based multi-head self-attention using regular and shifted window partitioning configurations, respectively.
 
 The shifted window partitioning approach introduces connections between neighboring non-overlapping windows in the previous layer and is found to be effective in image classification, object detection, and semantic segmentation, as shown in Table 4.
 
@@ -80,9 +76,7 @@ An issue with shifted window partitioning is that it will result in more windows
 
 ### Relative position bias
 
-In computing self-attention, we follow by including a relative position bias $B \in {\mathbb{R}}^{M^{2} \times M^{2}}$ to each head in computing similarity:
-
-where ${Q,K,V} \in {\mathbb{R}}^{M^{2} \times d}$ are the *query*, *key* and *value* matrices; $d$ is the *query*/*key* dimension, and $M^{2}$ is the number of patches in a window. Since the relative position along each axis lies in the range $\lbrack{{- M} + 1},{M - 1}\rbrack$, we parameterize a smaller-sized bias matrix $\hat{B} \in {\mathbb{R}}^{{({{2M} - 1})} \times {({{2M} - 1})}}$, and values in $B$ are taken from $\hat{B}$.
+In computing self-attention, we follow by including a relative position bias $B \in {\mathbb{R}}^{M^{2} \times M^{2}}$ to each head in computing similarity: where ${Q,K,V} \in {\mathbb{R}}^{M^{2} \times d}$ are the *query*, *key* and *value* matrices; $d$ is the *query*/*key* dimension, and $M^{2}$ is the number of patches in a window. Since the relative position along each axis lies in the range $\lbrack{{- M} + 1},{M - 1}\rbrack$, we parameterize a smaller-sized bias matrix $\hat{B} \in {\mathbb{R}}^{{({{2M} - 1})} \times {({{2M} - 1})}}$, and values in $B$ are taken from $\hat{B}$.
 
 We observe significant improvements over counterparts without this bias term or that use absolute position embedding, as shown in Table 4. Further adding absolute position embedding to the input as in drops performance slightly, thus it is not adopted in our implementation.
 
@@ -90,17 +84,7 @@ The learnt relative position bias in pre-training can be also used to initialize
 
 ### Architecture Variants
 
-We build our base model, called Swin-B, to have of model size and computation complexity similar to ViT-B/DeiT-B. We also introduce Swin-T, Swin-S and Swin-L, which are versions of about $0.25 \times$, $0.5 \times$ and $2 \times$ the model size and computational complexity, respectively. Note that the complexity of Swin-T and Swin-S are similar to those of ResNet-50 (DeiT-S) and ResNet-101, respectively. The window size is set to $M = 7$ by default. The query dimension of each head is $d = 32$, and the expansion layer of each MLP is $\alpha = 4$, for all experiments. The architecture hyper-parameters of these model variants are:
-
-Swin-T: $C = 96$, layer numbers = $\{ 2,2,6,2\}$
-
-Swin-S: $C = 96$, layer numbers =$\{ 2,2,18,2\}$
-
-Swin-B: $C = 128$, layer numbers =$\{ 2,2,18,2\}$
-
-Swin-L: $C = 192$, layer numbers =$\{ 2,2,18,2\}$
-
-where $C$ is the channel number of the hidden layers in the first stage. The model size, theoretical computational complexity (FLOPs), and throughput of the model variants for ImageNet image classification are listed in Table 1.
+We build our base model, called Swin-B, to have of model size and computation complexity similar to ViT-B/DeiT-B. We also introduce Swin-T, Swin-S and Swin-L, which are versions of about $0.25 \times$, $0.5 \times$ and $2 \times$ the model size and computational complexity, respectively. Note that the complexity of Swin-T and Swin-S are similar to those of ResNet-50 (DeiT-S) and ResNet-101, respectively. The window size is set to $M = 7$ by default. The query dimension of each head is $d = 32$, and the expansion layer of each MLP is $\alpha = 4$, for all experiments. The architecture hyper-parameters of these model variants are: Swin-T: $C = 96$, layer numbers = $\{ 2,2,6,2\}$ Swin-S: $C = 96$, layer numbers =$\{ 2,2,18,2\}$ Swin-B: $C = 128$, layer numbers =$\{ 2,2,18,2\}$ Swin-L: $C = 192$, layer numbers =$\{ 2,2,18,2\}$ where $C$ is the channel number of the hidden layers in the first stage. The model size, theoretical computational complexity (FLOPs), and throughput of the model variants for ImageNet image classification are listed in Table 1.
 
 ## Experiments
 
@@ -110,9 +94,7 @@ We conduct experiments on ImageNet-1K image classification, COCO object detectio
 
 ### Settings
 
-For image classification, we benchmark the proposed Swin Transformer on ImageNet-1K, which contains 1.28M training images and 50K validation images from 1,000 classes. The top-1 accuracy on a single crop is reported. We consider two training settings:
-
-*Regular ImageNet-1K training*. This setting mostly follows. We employ an AdamW optimizer for 300 epochs using a cosine decay learning rate scheduler and 20 epochs of linear warm-up. A batch size of 1024, an initial learning rate of 0.001, and a weight decay of 0.05 are used. We include most of the augmentation and regularization strategies of in training, except for repeated augmentation and EMA, which do not enhance performance. Note that this is contrary to where repeated augmentation is crucial to stabilize the training of ViT.
+For image classification, we benchmark the proposed Swin Transformer on ImageNet-1K, which contains 1.28M training images and 50K validation images from 1,000 classes. The top-1 accuracy on a single crop is reported. We consider two training settings: *Regular ImageNet-1K training*. This setting mostly follows. We employ an AdamW optimizer for 300 epochs using a cosine decay learning rate scheduler and 20 epochs of linear warm-up. A batch size of 1024, an initial learning rate of 0.001, and a weight decay of 0.05 are used. We include most of the augmentation and regularization strategies of in training, except for repeated augmentation and EMA, which do not enhance performance. Note that this is contrary to where repeated augmentation is crucial to stabilize the training of ViT.
 
 *Pre-training on ImageNet-22K and fine-tuning on ImageNet-1K*. We also pre-train on the larger ImageNet-22K dataset, which contains 14.2 million images and 22K classes. We employ an AdamW optimizer for 90 epochs using a linear decay learning rate scheduler with a 5-epoch linear warm-up. A batch size of 4096, an initial learning rate of 0.001, and a weight decay of 0.01 are used. In ImageNet-1K fine-tuning, we train the models for 30 epochs with a batch size of 1024, a constant learning rate of $10^{- 5}$, and a weight decay of $10^{- 8}$.
 
@@ -148,9 +130,7 @@ We compare our Swin Transformer to standard ConvNets, i.e. ResNe(X)t, and previo
 
 #param.
 
-Cascade Mask R-CNN
-
-(b) Various backbones w. Cascade Mask R-CNN
+Cascade Mask R-CNN (b) Various backbones w. Cascade Mask R-CNN
 
 #param.
 
@@ -182,11 +162,7 @@ ADE20K is a widely-used semantic segmentation dataset, covering a broad range of
 
 ### Results
 
-Table 3 lists the mIoU, model size (#param), FLOPs and FPS for different method/backbone pairs. From these results, it can be seen that Swin-S is +5.3 mIoU higher (49.3 vs. 44.0) than DeiT-S with similar computation cost. It is also +4.4 mIoU higher than ResNet-101, and +2.4 mIoU higher than ResNeSt-101. Our Swin-L model with ImageNet-22K pre-training achieves 53.5 mIoU on the val set, surpassing the previous best model by +3.2 mIoU (50.3 mIoU by SETR which has a larger model size).
-
-abs.+rel. pos.
-
-rel. pos. w/o app.
+Table 3 lists the mIoU, model size (#param), FLOPs and FPS for different method/backbone pairs. From these results, it can be seen that Swin-S is +5.3 mIoU higher (49.3 vs. 44.0) than DeiT-S with similar computation cost. It is also +4.4 mIoU higher than ResNet-101, and +2.4 mIoU higher than ResNeSt-101. Our Swin-L model with ImageNet-22K pre-training achieves 53.5 mIoU on the val set, surpassing the previous best model by +3.2 mIoU (50.3 mIoU by SETR which has a larger model size). abs.+rel. pos. rel. pos. w/o app.
 
 Table 4: Ablation study on the shifted windows approach and different position embedding methods on three benchmarks, using the Swin-T architecture. w/o shifting: all self-attention modules adopt regular window partitioning, without shifting; abs. pos.: absolute position embedding term of ViT; rel. pos.: the default settings with an additional relative position bias term (see Eq. ); app.: the first scaled dot-product term in Eq..
 
@@ -210,17 +186,7 @@ The real speed of different self-attention computation methods and implementatio
 
 The self-attention modules built on the proposed *shifted window* approach are 40.8$\times$/2.5$\times$, 20.2$\times$/2.5$\times$, 9.3$\times$/2.1$\times$, and 7.6$\times$/1.8$\times$ more efficient than those of *sliding windows* in naive/kernel implementations on four network stages, respectively. Overall, the Swin Transformer architectures built on *shifted windows* are 4.1/1.5, 4.0/1.5, 3.6/1.5 times faster than variants built on *sliding windows* for Swin-T, Swin-S, and Swin-B, respectively. Table 6 compares their accuracy on the three tasks, showing that they are similarly accurate in visual modeling.
 
-Compared to Performer, which is one of the fastest Transformer architectures (see ), the proposed *shifted window* based self-attention computation and the overall Swin Transformer architectures are slightly faster (see Table 5), while achieving +2.3% top-1 accuracy compared to Performer on ImageNet-1K using Swin-T (see Table 6).
-
-sliding window (naive)
-
-sliding window (kernel)
-
-shifted window (padding)
-
-shifted window (cyclic)
-
-Table 5: Real speed of different self-attention computation methods and implementations on a V100 GPU.
+Compared to Performer, which is one of the fastest Transformer architectures (see), the proposed *shifted window* based self-attention computation and the overall Swin Transformer architectures are slightly faster (see Table 5), while achieving +2.3% top-1 accuracy compared to Performer on ImageNet-1K using Swin-T (see Table 6). sliding window (naive) sliding window (kernel) shifted window (padding) shifted window (cyclic) Table 5: Real speed of different self-attention computation methods and implementations on a V100 GPU.
 
 Table 6: Accuracy of Swin Transformer using different methods for self-attention computation on three benchmarks.
 

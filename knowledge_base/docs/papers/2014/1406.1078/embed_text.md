@@ -12,35 +12,23 @@ We qualitatively analyze the trained RNN Encoder--Decoder by comparing its phras
 
 ### Preliminary: Recurrent Neural Networks
 
-A recurrent neural network (RNN) is a neural network that consists of a hidden state $\mathbf{h}$ and an optional output $\mathbf{y}$ which operates on a variable-length sequence $\mathbf{x} = {(x_{1},\ldots,x_{T})}$. At each time step $t$, the hidden state $\mathbf{h}_{\langle t\rangle}$ of the RNN is updated by
+A recurrent neural network (RNN) is a neural network that consists of a hidden state $\mathbf{h}$ and an optional output $\mathbf{y}$ which operates on a variable-length sequence $\mathbf{x} = {(x_{1},\ldots,x_{T})}$. At each time step $t$, the hidden state $\mathbf{h}_{\langle t\rangle}$ of the RNN is updated by where $f$ is a non-linear activation function. $f$ may be as simple as an element-wise logistic sigmoid function and as complex as a long short-term memory (LSTM) unit \[Hochreiter and Schmidhuber, 1997\].
 
-where $f$ is a non-linear activation function. $f$ may be as simple as an element-wise logistic sigmoid function and as complex as a long short-term memory (LSTM) unit \[Hochreiter and Schmidhuber, 1997\].
-
-An RNN can learn a probability distribution over a sequence by being trained to predict the next symbol in a sequence. In that case, the output at each timestep $t$ is the conditional distribution $p{({x_{t} \mid {x_{t - 1},\ldots,x_{1}}})}$. For example, a multinomial distribution ($1$-of-$K$ coding) can be output using a softmax activation function
-
-for all possible symbols $j = {1,\ldots,K}$, where $\mathbf{w}_{j}$ are the rows of a weight matrix $\mathbf{W}$. By combining these probabilities, we can compute the probability of the sequence $\mathbf{x}$ using
-
-From this learned distribution, it is straightforward to sample a new sequence by iteratively sampling a symbol at each time step.
+An RNN can learn a probability distribution over a sequence by being trained to predict the next symbol in a sequence. In that case, the output at each timestep $t$ is the conditional distribution $p{({x_{t} \mid {x_{t - 1},\ldots,x_{1}}})}$. For example, a multinomial distribution ($1$-of-$K$ coding) can be output using a softmax activation function for all possible symbols $j = {1,\ldots,K}$, where $\mathbf{w}_{j}$ are the rows of a weight matrix $\mathbf{W}$. By combining these probabilities, we can compute the probability of the sequence $\mathbf{x}$ using From this learned distribution, it is straightforward to sample a new sequence by iteratively sampling a symbol at each time step.
 
 ### RNN Encoder--Decoder
 
-In this paper, we propose a novel neural network architecture that learns to encode a variable-length sequence into a fixed-length vector representation and to decode a given fixed-length vector representation back into a variable-length sequence. From a probabilistic perspective, this new model is a general method to learn the conditional distribution over a variable-length sequence conditioned on yet another variable-length sequence, e.g. $p{(y_{1},\ldots,{y_{T^{\prime}} \mid {x_{1},\ldots,x_{T}}})}$, where one should note that the input and output sequence lengths $T$ and $T^{\prime}$ may differ.
+In this paper, we propose a novel neural network architecture that learns to encode a variable-length sequence into a fixed-length vector representation and to decode a given fixed-length vector representation back into a variable-length sequence. From a probabilistic perspective, this new model is a general method to learn the conditional distribution over a variable-length sequence conditioned on yet another variable-length sequence, e.g. $p{(y_{1},\ldots,{y_{T'} \mid {x_{1},\ldots,x_{T}}})}$, where one should note that the input and output sequence lengths $T$ and $T'$ may differ.
 
 The encoder is an RNN that reads each symbol of an input sequence $\mathbf{x}$ sequentially. As it reads each symbol, the hidden state of the RNN changes according to Eq.. After reading the end of the sequence (marked by an end-of-sequence symbol), the hidden state of the RNN is a summary $\mathbf{c}$ of the whole input sequence.
 
-The decoder of the proposed model is another RNN which is trained to generate the output sequence by predicting the next symbol $y_{t}$ given the hidden state $\mathbf{h}_{\langle t\rangle}$. However, unlike the RNN described in Sec. 2.1, both $y_{t}$ and $\mathbf{h}_{\langle t\rangle}$ are also conditioned on $y_{t - 1}$ and on the summary $\mathbf{c}$ of the input sequence. Hence, the hidden state of the decoder at time $t$ is computed by,
-
-and similarly, the conditional distribution of the next symbol is
-
-for given activation functions $f$ and $g$ (the latter must produce valid probabilities, e.g. with a softmax).
+The decoder of the proposed model is another RNN which is trained to generate the output sequence by predicting the next symbol $y_{t}$ given the hidden state $\mathbf{h}_{\langle t\rangle}$. However, unlike the RNN described in Sec. 2.1, both $y_{t}$ and $\mathbf{h}_{\langle t\rangle}$ are also conditioned on $y_{t - 1}$ and on the summary $\mathbf{c}$ of the input sequence. Hence, the hidden state of the decoder at time $t$ is computed, and similarly, the conditional distribution of the next symbol is for given activation functions $f$ and $g$ (the latter must produce valid probabilities, e.g. with a softmax).
 
 Figure 1: An illustration of the proposed RNN Encoder–Decoder.
 
 See Fig. 1 for a graphical depiction of the proposed model architecture.
 
-The two components of the proposed RNN Encoder--Decoder are jointly trained to maximize the conditional log-likelihood
-
-where $\mathbf{θ}$ is the set of the model parameters and each $\left( \mathbf{x}_{n},\mathbf{y}_{n} \right)$ is an (input sequence, output sequence) pair from the training set. In our case, as the output of the decoder, starting from the input, is differentiable, we can use a gradient-based algorithm to estimate the model parameters.
+The two components of the proposed RNN Encoder--Decoder are jointly trained to maximize the conditional log-likelihood where $\mathbf{θ}$ is the set of the model parameters and each $\left(\mathbf{x}_{n},\mathbf{y}_{n} \right)$ is an (input sequence, output sequence) pair from the training set. In our case, as the output of the decoder, starting from the input, is differentiable, we can use a gradient-based algorithm to estimate the model parameters.
 
 Once the RNN Encoder--Decoder is trained, the model can be used in two ways. One way is to use the model to generate a target sequence given an input sequence. On the other hand, the model can be used to score a given pair of input and output sequences, where the score is simply a probability $p_{\mathbf{θ}}{({\mathbf{y} \mid \mathbf{x}})}$ from Eqs. and.
 
@@ -48,15 +36,9 @@ Once the RNN Encoder--Decoder is trained, the model can be used in two ways. One
 
 In addition to a novel model architecture, we also propose a new type of hidden unit ($f$ in Eq. ) that has been motivated by the LSTM unit but is much simpler to compute and implement.^11^1 The LSTM unit, which has shown impressive results in several applications such as speech recognition, has a memory cell and four gating units that adaptively control the information flow inside the unit, compared to only two gating units in the proposed hidden unit. For details on LSTM networks, see, e.g., \[Graves, 2012\]. Fig. 2 shows the graphical depiction of the proposed hidden unit.
 
-Let us describe how the activation of the $j$-th hidden unit is computed. First, the reset gate $r_{j}$ is computed by
+Let us describe how the activation of the $j$-th hidden unit is computed. First, the reset gate $r_{j}$ is computed by where $\sigma$ is the logistic sigmoid function, and $\left\lbrack. \right\rbrack_{j}$ denotes the $j$-th element of a vector. $\mathbf{x}$ and $\mathbf{h}_{t - 1}$ are the input and the previous hidden state, respectively. $\mathbf{W}_{r}$ and $\mathbf{U}_{r}$ are weight matrices which are learned.
 
-where $\sigma$ is the logistic sigmoid function, and $\left\lbrack. \right\rbrack_{j}$ denotes the $j$-th element of a vector. $\mathbf{x}$ and $\mathbf{h}_{t - 1}$ are the input and the previous hidden state, respectively. $\mathbf{W}_{r}$ and $\mathbf{U}_{r}$ are weight matrices which are learned.
-
-Similarly, the update gate $z_{j}$ is computed by
-
-The actual activation of the proposed unit $h_{j}$ is then computed by
-
-In this formulation, when the reset gate is close to 0, the hidden state is forced to ignore the previous hidden state and reset with the current input only. This effectively allows the hidden state to drop any information that is found to be irrelevant later in the future, thus, allowing a more compact representation.
+Similarly, the update gate $z_{j}$ is computed by The actual activation of the proposed unit $h_{j}$ is then computed by In this formulation, when the reset gate is close to 0, the hidden state is forced to ignore the previous hidden state and reset with the current input only. This effectively allows the hidden state to drop any information that is found to be irrelevant later in the future, thus, allowing a more compact representation.
 
 On the other hand, the update gate controls how much information from the previous hidden state will carry over to the current hidden state. This acts similarly to the memory cell in the LSTM network and helps the RNN to remember long-term information. Furthermore, this may be considered an adaptive variant of a leaky-integration unit \[Bengio et al., 2013\].
 
@@ -68,13 +50,9 @@ Figure 2: An illustration of the proposed hidden activation function. The update
 
 ## Statistical Machine Translation
 
-In a commonly used statistical machine translation system (SMT), the goal of the system (decoder, specifically) is to find a translation $\mathbf{f}$ given a source sentence $\mathbf{e}$, which maximizes
+In a commonly used statistical machine translation system (SMT), the goal of the system (decoder, specifically) is to find a translation $\mathbf{f}$ given a source sentence $\mathbf{e}$, which maximizes where the first term at the right hand side is called translation model and the latter language model. In practice, however, most SMT systems model ${\log p}{({\mathbf{f} \mid \mathbf{e}})}$ as a log-linear model with additional features and corresponding weights: where $f_{n}$ and $w_{n}$ are the $n$-th feature and weight, respectively. $Z{(\mathbf{e})}$ is a normalization constant that does not depend on the weights. The weights are often optimized to maximize the BLEU score on a development set.
 
-where the first term at the right hand side is called translation model and the latter language model. In practice, however, most SMT systems model ${\log p}{({\mathbf{f} \mid \mathbf{e}})}$ as a log-linear model with additional features and corresponding weights:
-
-where $f_{n}$ and $w_{n}$ are the $n$-th feature and weight, respectively. $Z{(\mathbf{e})}$ is a normalization constant that does not depend on the weights. The weights are often optimized to maximize the BLEU score on a development set.
-
-In the phrase-based SMT framework introduced in \[Koehn et al., 2003\] and \[Marcu and Wong, 2002\], the translation model ${\log p}{({\mathbf{e} \mid \mathbf{f}})}$ is factorized into the translation probabilities of matching phrases in the source and target sentences.^22^2 Without loss of generality, from here on, we refer to $p{({\mathbf{e} \mid \mathbf{f}})}$ for each phrase pair as a translation model as well These probabilities are once again considered additional features in the log-linear model (see Eq. ) and are weighted accordingly to maximize the BLEU score.
+In the phrase-based SMT framework introduced in \[Koehn et al., 2003\] and \[Marcu and Wong, 2002\], the translation model ${\log p}{({\mathbf{e} \mid \mathbf{f}})}$ is factorized into the translation probabilities of matching phrases in the source and target sentences.^22^2 Without loss of generality, from here , we refer to $p{({\mathbf{e} \mid \mathbf{f}})}$ for each phrase pair as a translation model as well These probabilities are once again considered additional features in the log-linear model (see Eq. ) and are weighted accordingly to maximize the BLEU score.
 
 Since the neural net language model was proposed in \[Bengio et al., 2003\], neural networks have been used widely in SMT systems. In many cases, neural networks have been used to rescore translation hypotheses ($n$-best lists). Recently, however, there has been interest in training neural networks to score the translated sentence (or phrase pairs) using a representation of the source sentence as an additional input. See, e.g., \[Schwenk, 2012\], \[Son et al., 2012\] and \[Zou et al., 2013\].
 
@@ -130,53 +108,7 @@ We used Adadelta and stochastic gradient descent to train the RNN Encoder--Decod
 
 Details of the architecture used in the experiments are explained in more depth in the supplementary material.
 
-RNN Encoder–Decoder
-
-at the end of the
-[a la fin de la] [ŕ la fin des années] [être supprimés à la fin de la]
-[à la fin du] [à la fin des] [à la fin de la]
-
-for the first time
-[r © pour la premirëre fois] [été donnés pour la première fois] [été commémorée pour la première fois]
-[pour la première fois] [pour la première fois,] [pour la première fois que]
-
-in the United States and
-[? aux ?tats-Unis et] [été ouvertes aux États-Unis et] [été constatées aux États-Unis et]
-[aux Etats-Unis et] [des Etats-Unis et] [des États-Unis et]
-
-[?s, qu’] [?s, ainsi que] [?re aussi bien que]
-[, ainsi qu’] [, ainsi que] [, ainsi que les]
-
-one of the most
-[?t ?l’ un des plus] [?l’ un des plus] [être retenue comme un de ses plus]
-
-(a) Long, frequent source phrases
-
-RNN Encoder–Decoder
-
-, Minister of Communications and Transport
-[Secrétaire aux communications et aux transports:] [Secrétaire aux communications et aux transports]
-[Secrétaire aux communications et aux transports] [Secrétaire aux communications et aux transports:]
-
-did not comply with the
-[vestimentaire, ne correspondaient pas à des] [susmentionnée n’ était pas conforme aux] [présentées n’ étaient pas conformes à la]
-[n’ ont pas respecté les] [n’ était pas conforme aux] [n’ ont pas respecté la]
-
-parts of the world.
-[© gions du monde.] [régions du monde considérées.] [région du monde considérée.]
-[parties du monde.] [les parties du monde.] [des parties du monde.]
-
-the past few days.
-[le petit texte.] [cours des tout derniers jours.] [les tout derniers jours.]
-[ces derniers jours.] [les derniers jours.] [cours des derniers jours.]
-
-on Friday and Saturday
-[vendredi et samedi à la] [vendredi et samedi à] [se déroulera vendredi et samedi,]
-[le vendredi et le samedi] [le vendredi et samedi] [vendredi et samedi]
-
-(b) Long, rare source phrases
-
-Table 2: The top scoring target phrases for a small set of source phrases according to the translation model (direct translation probability) and by the RNN Encoder–Decoder. Source phrases were randomly selected from phrases with 4 or more words. ? denotes an incomplete (partial) character. r is a Cyrillic letter ghe.
+RNN Encoder–Decoder at the end of the [a la fin de la] [ŕ la fin des années] [être supprimés à la fin de la] [à la fin du] [à la fin des] [à la fin de la] for the first time [r © pour la premirëre fois] [été donnés pour la première fois] [été commémorée pour la première fois] [pour la première fois] [pour la première fois,] [pour la première fois que] in the United States and [? aux ?tats-Unis et] [été ouvertes aux États-Unis et] [été constatées aux États-Unis et] [aux Etats-Unis et] [des Etats-Unis et] [des États-Unis et] [?s, qu’] [?s, ainsi que] [?re aussi bien que] [, ainsi qu’] [, ainsi que] [, ainsi que les] one of the most [?t ?l’ un des plus] [?l’ un des plus] [être retenue comme un de ses plus] (a) Long, frequent source phrases RNN Encoder–Decoder, Minister of Communications and Transport [Secrétaire aux communications et aux transports:] [Secrétaire aux communications et aux transports] [Secrétaire aux communications et aux transports] [Secrétaire aux communications et aux transports:] did not comply with the [vestimentaire, ne correspondaient pas à des] [susmentionnée n’ était pas conforme aux] [présentées n’ étaient pas conformes à la] [n’ ont pas respecté les] [n’ était pas conforme aux] [n’ ont pas respecté la] parts of the world. [© gions du monde.] [régions du monde considérées.] [région du monde considérée.] [parties du monde.] [les parties du monde.] [des parties du monde.] the past few days. [le petit texte.] [cours des tout derniers jours.] [les tout derniers jours.] [ces derniers jours.] [les derniers jours.] [cours des derniers jours.] on Friday and Saturday [vendredi et samedi à la] [vendredi et samedi à] [se déroulera vendredi et samedi,] [le vendredi et le samedi] [le vendredi et samedi] [vendredi et samedi] (b) Long, rare source phrases Table 2: The top scoring target phrases for a small set of source phrases according to the translation model (direct translation probability) and by the RNN Encoder–Decoder. Source phrases were randomly selected from phrases with 4 or more words. ? denotes an incomplete (partial) character. r is a Cyrillic letter ghe.
 
 ### Neural Language Model
 
@@ -186,55 +118,13 @@ We trained the CSLM model on 7-grams from the target corpus. Each input word was
 
 To address the computational complexity of using a CSLM in the decoder a buffer was used to aggregate n-grams during the stack-search performed by the decoder. Only when the buffer is full, or a stack is about to be pruned, the n-grams are scored by the CSLM. This allows us to perform fast matrix-matrix multiplication on GPU using Theano \[Bergstra et al., 2010, Bastien et al., 2012\].
 
-Samples from RNN Encoder–Decoder
-
-at the end of the
-
-for the first time
-[pour la première fois] ( × 24) [pour la première fois que] ( × 2)
-
-in the United States and
-[aux États-Unis et] ( × 6) [dans les États-Unis et] ( × 4)
-
-[, ainsi que] [ainsi que] [, ainsi qu’] [et UNK]
-
-one of the most
-[l’ un des plus] ( × 9) [l’ un des] ( × 5) [l’ une des plus] ( × 2)
-
-(a) Long, frequent source phrases
-
-Samples from RNN Encoder–Decoder
-
-, Minister of Communications and Transport
-[, ministre des communications et le transport] ( × 13)
-
-did not comply with the
-[n’ tait pas conforme aux] [n’ a pas respect l’] ( × 2) [n’ a pas respect la] ( × 3)
-
-parts of the world.
-[arts du monde.] ( × 11) [des arts du monde.] ( × 7)
-
-the past few days.
-[quelques jours.] ( × 5) [les derniers jours.] ( × 5) [ces derniers jours.] ( × 2)
-
-on Friday and Saturday
-[vendredi et samedi] ( × 5) [le vendredi et samedi] ( × 7) [le vendredi et le samedi] ( × 4)
-
-(b) Long, rare source phrases
-
-Table 3: Samples generated from the RNN Encoder–Decoder for each source phrase used in Table 2. We show the top-5 target phrases out of 50 samples. They are sorted by the RNN Encoder–Decoder scores.
+Samples from RNN Encoder–Decoder at the end of the for the first time [pour la première fois] (×24) [pour la première fois que] (×2) in the United States and [aux États-Unis et] (×6) [dans les États-Unis et] (×4) [, ainsi que] [ainsi que] [, ainsi qu’] [et UNK] one of the most [l’ un des plus] (×9) [l’ un des] (×5) [l’ une des plus] (×2) (a) Long, frequent source phrases Samples from RNN Encoder–Decoder, Minister of Communications and Transport [, ministre des communications et le transport] (×13) did not comply with the [n’ tait pas conforme aux] [n’ a pas respect l’] (×2) [n’ a pas respect la] (×3) parts of the world. [arts du monde.] (×11) [des arts du monde.] (×7) the past few days. [quelques jours.] (×5) [les derniers jours.] (×5) [ces derniers jours.] (×2) on Friday and Saturday [vendredi et samedi] (×5) [le vendredi et samedi] (×7) [le vendredi et le samedi] (×4) (b) Long, rare source phrases Table 3: Samples generated from the RNN Encoder–Decoder for each source phrase used in Table 2. We show the top-5 target phrases out of 50 samples. They are sorted by the RNN Encoder–Decoder scores.
 
 Figure 3: The visualization of phrase pairs according to their scores (log-probabilities) by the RNN Encoder–Decoder and the translation model.
 
 ### Quantitative Analysis
 
-We tried the following combinations:
-
-Baseline + CSLM + RNN
-
-Baseline + CSLM + RNN + Word penalty
-
-The results are presented in Table 1. As expected, adding features computed by neural networks consistently improves the performance over the baseline performance.
+We tried the following combinations: Baseline + CSLM + RNN Baseline + CSLM + RNN + Word penalty The results are presented in Table 1. As expected, adding features computed by neural networks consistently improves the performance over the baseline performance.
 
 The best performance was achieved when we used both CSLM and the phrase scores from the RNN Encoder--Decoder. This suggests that the contributions of the CSLM and the RNN Encoder--Decoder are not too correlated and that one can expect better results by improving each method independently. Furthermore, we tried penalizing the number of words that are unknown to the neural networks (i.e. words which are not in the shortlist). We do so by simply adding the number of unknown words as an additional feature the log-linear model in Eq..^33^3 To understand the effect of the penalty, consider the set of all words in the 15,000 large shortlist, SL. All words $x^{i} \notin \text{SL}$ are replaced by a special token $\left\lbrack \text{UNK} \right\rbrack$ before being scored by the neural networks. Hence, the conditional probability of any $x_{t}^{i} \notin \text{SL}$ is actually given by the model as $p\left( x_{t} = \right.$ $\left. \left\lbrack \text{UNK} \right\rbrack \mid x_{< t} \right) = p\left( x_{t} \notin \text{SL} \mid x_{< t} \right)$ ${= {\sum\limits_{x_{t}^{j} \notin {SL}}{p\left( {x_{t}^{j} \mid x_{< t}} \right)}} \geq {p\left( {x_{t}^{i} \mid x_{< t}} \right)}},$ where $x_{< t}$ is a shorthand notation for $x_{t - 1},\ldots,x_{1}$. As a result, the probability of words not in the shortlist is always overestimated. It is possible to address this issue by backing off to an existing model that contain non-shortlisted words In this paper, however, we opt for introducing a word penalty instead, which counteracts the word probability overestimation. However, in this case we were not able to achieve better performance on the test set, but only on the development set.
 
@@ -244,7 +134,7 @@ Figure 5: 2–D embedding of the learned phrase representation. The top left one
 
 ### Qualitative Analysis
 
-In order to understand where the performance improvement comes from, we analyze the phrase pair scores computed by the RNN Encoder--Decoder against the corresponding $p{({\mathbf{f} \mid \mathbf{e}})}$ from the translation model. Since the existing translation model relies solely on the statistics of the phrase pairs in the corpus, we expect its scores to be better estimated for the frequent phrases but badly estimated for rare phrases. Also, as we mentioned earlier in Sec. 3.1, we further expect the RNN Encoder--Decoder which was trained without any frequency information to score the phrase pairs based rather on the linguistic regularities than on the statistics of their occurrences in the corpus.
+In order to understand where the performance improvement comes , we analyze the phrase pair scores computed by the RNN Encoder--Decoder against the corresponding $p{({\mathbf{f} \mid \mathbf{e}})}$ from the translation model. Since the existing translation model relies solely on the statistics of the phrase pairs in the corpus, we expect its scores to be better estimated for the frequent phrases but badly estimated for rare phrases. Also, as we mentioned earlier in Sec. 3.1, we further expect the RNN Encoder--Decoder which was trained without any frequency information to score the phrase pairs based rather on the linguistic regularities than on the statistics of their occurrences in the corpus.
 
 We focus on those pairs whose source phrase is long (more than 3 words per source phrase) and frequent. For each such source phrase, we look at the target phrases that have been scored high either by the translation probability $p{({\mathbf{f} \mid \mathbf{e}})}$ or by the RNN Encoder--Decoder. Similarly, we perform the same procedure with those pairs whose source phrase is long but rare in the corpus.
 

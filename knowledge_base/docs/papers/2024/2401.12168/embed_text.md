@@ -12,9 +12,7 @@ Our key insight is that recent advancement in off-the-shelf vision models can au
 
 Through experiments, we find our trained VLM exhibit many desirable capabilities. First, its ability to answer qualitative spatial questions is greatly enhanced. Secondly, it can perform quantitative estimation reliably despite noisy training data. Such capability not only gives it common sense knowledge about object sizes but also makes it useful as a open-vocabulary reward annotator for rearrangement tasks. Thirdly, we find this spatial Vision Language Model, benefiting from its natural language interface, can perform spatial chain-of-thought to solve complex spatial reasoning tasks when combined with a powerful Large Language Model.
 
-Our main contributions are:
-
-We endow VLMs quantitative spatial reasoning capability, which is a fundamental capability of humans.
+Our main contributions are: We endow VLMs quantitative spatial reasoning capability, which is a fundamental capability of humans.
 
 We design a framework to automatically label 3D spatial reasoning VQA data based on real world images at the Internet scale.
 
@@ -60,11 +58,7 @@ Traditional spatial VQA datasets generated using object detection and bounding b
 
 ### Ambiguity Resolution
 
-Sometimes there are multiple objects of similar categories in one image, leading to ambiguities of their caption labels. For example, one same caption label "cake" can refer to multiple different cakes in a same image. Therefore, before we can ask questions about these objects, we need to make sure the reference expressions are not ambiguous. We made two key design choices that have been validated empirically to be effective in tackling this challenge:
-
-We deliberately choose to avoid common object detectors, which tend to produce fixed and coarse categories such as "cake", and adopt FlexCap, a user-configurable object-centric captioning approach. In practice, for each object we can sample a random caption of a variable length between $1 - 6$ words. As a result, our object annotations are fine-grained, such as "cake shaped like a house" and "cup cake in plastic container"
-
-We design a semantic-oriented post-processing algorithm that further remove ambiguities by augmenting or rejecting object captions. Details of this algorithm are shown in Appendix A.2.
+Sometimes there are multiple objects of similar categories in one image, leading to ambiguities of their caption labels. For example, one same caption label "cake" can refer to multiple different cakes in a same image. Therefore, before we can ask questions about these objects, we need to make sure the reference expressions are not ambiguous. We made two key design choices that have been validated empirically to be effective in tackling this challenge: We deliberately choose to avoid common object detectors, which tend to produce fixed and coarse categories such as "cake", and adopt FlexCap, a user-configurable object-centric captioning approach. In practice, for each object we can sample a random caption of a variable length between $1 - 6$ words. As a result, our object annotations are fine-grained, such as "cake shaped like a house" and "cup cake in plastic container" We design a semantic-oriented post-processing algorithm that further remove ambiguities by augmenting or rejecting object captions. Details of this algorithm are shown in Appendix A.2.
 
 ### Large-Scale Spatial Reasoning VQA Dataset
 
@@ -98,9 +92,7 @@ Figure 4: Chain-of-thought spatial reasoning. We illustrate that we can perform 
 
 ## Experiments
 
-We conduct experiments to answer the following questions:
-
-Q1 Does our spatial VQA data generation and training pipeline improve VLM's general spatial reasoning capabilities? And how well does it perform?
+We conduct experiments to answer the following questions: Q1 Does our spatial VQA data generation and training pipeline improve VLM's general spatial reasoning capabilities? And how well does it perform?
 
 Q2 How does the noisy synthetic spatial VQA data and different training strategies affect the learning performance?
 
@@ -140,9 +132,7 @@ Figure 5: Given a sequence of images where the robot gripper is approaching the 
 
 The second question we want to answer is: since we co-train with a considerable amount of spatial VQA data, whether the performance of VLM in other tasks will degrade as a result. We compared our model with the vanilla PaLM 2-E trained without the spatial VQA dataset on general VQA benchmarks, and as summarized in Table. 3, our model achieves comparable performance as PaLM 2-E on the OKVQA benchmark, in which limited spatial reasoning questions are included, and performs slightly better on VQA-v2 test-dev benchmark, which includes spatial reasoning questions. This seem to suggest that VLMs are generally underfitting in the distribution of tasks close to spatial reasoning, and can benefit from spatial VQA supervisions without hurting their general VQA capabilities.
 
-General VQA benchmarks
-
-Table 3: VQA performance. Co-training on SpatialVLM training mix and finetuning on VQA datasets (VQA v2) improves VQA performance. A PaLM 2-E model trained with SpatialVLM data improves VQA v2 performance by 2.4% compared to a model with the same number of parameters, but without the data. However, we don’t find OKVQA task to benefit from SpatialVLM training.
+General VQA benchmarks Table 3: VQA performance. Co-training on SpatialVLM training mix and finetuning on VQA datasets (VQA v2) improves VQA performance. A PaLM 2-E model trained with SpatialVLM data improves VQA v2 performance by 2.4% compared to a model with the same number of parameters, but without the data. However, we don’t find OKVQA task to benefit from SpatialVLM training.
 
 ### Effect of Visual Transformer (ViT) Encoder in Spatial Reasoning
 

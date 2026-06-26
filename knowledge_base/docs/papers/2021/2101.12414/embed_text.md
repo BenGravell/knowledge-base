@@ -4,17 +4,9 @@
 
 We consider the problem of forecasting future values of a vector time series $x_{t} \in \text{R}^{n}$, $t = {1,2,\ldots}$, given previously observed values. At each time $t$ we form an estimate of the future values $x_{t + 1},\ldots,x_{t + H}$, where $H$ is our prediction horizon. We denote these as ${\hat{x}}_{t + {1|t}},{\hat{x}}_{t + {2|t}},\ldots,{\hat{x}}_{t + {H|t}}$, where ${\hat{x}}_{\tau|t}$ is our prediction of $x_{\tau}$ made at time $t$. These estimates are based on the $M$ current and past values, $x_{t},x_{t - 1},\ldots,x_{{t - M} + 1}$, where $M$ is the memory of our forecaster. When $H = 1$, forecasting reduces to the common problem of predicting the next value in the time series, given the previous $M$ values.
 
-We introduce some notation to denote these windows of past and future values. We define the *past* at time $t$ as
+We introduce some notation to denote these windows of past and future values. We define the *past* at time $t$ as We define the *future* at time $t$ as We make the observation that $p_{t}$ and $p_{t + 1}$ are related by a block shift, since where $a_{i:j}$ denotes the subvector of $a$ with entries $i,\ldots,j$. A similar shift structure holds for $f_{t}$.
 
-We define the *future* at time $t$ as
-
-We make the observation that $p_{t}$ and $p_{t + 1}$ are related by a block shift, since
-
-where $a_{i:j}$ denotes the subvector of $a$ with entries $i,\ldots,j$. A similar shift structure holds for $f_{t}$.
-
-We use ${\hat{f}}_{t}$ to denote our estimate or forecast of the future at time $t$, i.e.,
-
-A *forecaster* has the form ${\hat{f}}_{t} = {\phi{(p_{t})}}$, and $\phi:{\text{R}^{Mn}\rightarrow\text{R}^{Hn}}$ defines the forecaster.
+We use ${\hat{f}}_{t}$ to denote our estimate or forecast of the future at time $t$, i.e., A *forecaster* has the form ${\hat{f}}_{t} = {\phi{(p_{t})}}$, and $\phi:{\text{R}^{Mn}\rightarrow\text{R}^{Hn}}$ defines the forecaster.
 
 We observe that the forecasts do not necessarily have the shift structure that the past and future vectors do. While ${(f_{t + 1})}_{1:n}$ and ${(f_{t})}_{{n + 1}:{2n}}$ are both equal to $x_{t + 2}$, ${({\hat{f}}_{t + 1})}_{1:n}$ and ${({\hat{f}}_{t})}_{{n + 1}:{2n}}$ can be different. The first is ${\hat{x}}_{t + {2|{t + 1}}}$, our estimate of $x_{t + 2}$ made at time $t + 1$, whereas the second is ${\hat{x}}_{t + {2|t}}$, our estimate of $x_{t + 2}$ made at time $t$. These two estimates need not be the same. (We will come back to this soon with the concept of forecasting consistency.)
 
@@ -26,33 +18,21 @@ The latent state can be very useful in applications, since it summarizes what we
 
 ### Judging forecaster performance
 
-Suppose we have a $T$-long observation of the time series, $x_{1},\ldots,x_{T}$, with $T \geq {M + H}$. From this data set we extract the $N$ pairs of past and future,
-
-with $N = {{T - H - M} + 1}$. We judge the performance of a forecaster on this data set by its average loss,
-
-where $\ell:{\text{R}^{Hn}\rightarrow\text{R}}$ is a convex loss function. (The lower the loss function, the better the forecast.) Common choices include the $\ell_{2}$ (squared) loss ${\ell{(u)}} = {\| u\|}_{2}^{2}$, $\ell_{1}$ loss ${\ell{(u)}} = {\| u\|}_{1}$, or an appropriate Huber penalty function \[2, §6.1.2\].
+Suppose we have a $T$-long observation of the time series, $x_{1},\ldots,x_{T}$, with $T \geq {M + H}$. From this data set we extract the $N$ pairs of past and future, with $N = {{T - H - M} + 1}$. We judge the performance of a forecaster on this data set by its average loss, where $\ell:{\text{R}^{Hn}\rightarrow\text{R}}$ is a convex loss function. (The lower the loss function, the better the forecast.) Common choices include the $\ell_{2}$ (squared) loss ${\ell{(u)}} = {\| u\|}_{2}^{2}$, $\ell_{1}$ loss ${\ell{(u)}} = {\| u\|}_{1}$, or an appropriate Huber penalty function \[2, §6.1.2\].
 
 When the data set is also the one used to fit or choose the forecaster, $\mathcal{L}$ is the training loss. When the data set is a different set of data, not used to fit or choose the forecaster, $\mathcal{L}$ is the test loss. We are interested in finding a forecaster that has low test loss, i.e., makes good forecasts on data that was not used to fit it. Another approach is walk-forward cross-validation, where one produces a number of successive training and test data sets from a single data set, where all test data points occur after all training data points. (This is to avoid look-ahead bias, and is in contrast to standard cross-validation, where one creates random training and test splits.)
 
 ### Forecaster consistency
 
-Consider the value $x_{\tau}$, with $\tau \geq {M + 1}$. We make predictions of $x_{\tau}$, denoted as ${\hat{x}}_{\tau|t}$, at times
+Consider the value $x_{\tau}$, with $\tau \geq {M + 1}$. We make predictions of $x_{\tau}$, denoted as ${\hat{x}}_{\tau|t}$, at times forecasts of the same value, made at different times and with different available information, need not be the same. We say the forecast is *consistent* if these forecasts are not too different. We note that inconsistency is not necessarily bad; it simply means that over the different periods in which we form a prediction of $x_{\tau}$, we are changing our prediction.
 
-forecasts of the same value, made at different times and with different available information, need not be the same. We say the forecast is *consistent* if these forecasts are not too different. We note that inconsistency is not necessarily bad; it simply means that over the different periods in which we form a prediction of $x_{\tau}$, we are changing our prediction.
+While other measures of inconsistency could be used, we will judge inconsistency of the forecasts of $x_{\tau}$ using a sum of squares measure. Define the average of the predictions of $x_{\tau}$ made at different times. Thus ${\hat{x}}_{\tau|t} - {\overline{x}}_{\tau}$ is the deviation of the prediction of $x_{\tau}$ made at time $t$ and the average of all predictions we make of $x_{\tau}$.
 
-While other measures of inconsistency could be used, we will judge inconsistency of the forecasts of $x_{\tau}$ using a sum of squares measure. Define
-
-the average of the predictions of $x_{\tau}$ made at different times. Thus ${\hat{x}}_{\tau|t} - {\overline{x}}_{\tau}$ is the deviation of the prediction of $x_{\tau}$ made at time $t$ and the average of all predictions we make of $x_{\tau}$.
-
-Now consider a $T$-long observation of the time series, from which we obtain the data set $(p_{t},f_{t})$, $t = {M,\ldots,{T - H}}$. We define the (sum of squares) inconsistency as
-
-While forecaster consistency need not lead to better performance (and indeed, often does not), it can be considered as a desirable property for a forecaster, independent of forecast loss or performance. As a concrete example, suppose we are predicting the future cash flows of a business, and adjusting business operations based on these forecasts. In this case, inconsistent forecasts could lead to more changes in business operations than we would like. We may prefer forecasts that are more consistent, at the cost of some loss in forecast performance.
+Now consider a $T$-long observation of the time series, from which we obtain the data set $(p_{t},f_{t})$, $t = {M,\ldots,{T - H}}$. We define the (sum of squares) inconsistency as While forecaster consistency need not lead to better performance (and indeed, often does not), it can be considered as a desirable property for a forecaster, independent of forecast loss or performance. As a concrete example, suppose we are predicting the future cash flows of a business, and adjusting business operations based on these forecasts. In this case, inconsistent forecasts could lead to more changes in business operations than we would like. We may prefer forecasts that are more consistent, at the cost of some loss in forecast performance.
 
 ### Statistical forecasting
 
-We mention here a general method for forecasting that includes many existing methods (described in more detail below). Suppose we assume that $\{ x_{t}\}$ is a stationary stochastic process, with a distribution of ${(p_{t},f_{t})} \in \text{R}^{M + H}$ that, by stationarity, does not depend on $t$. A natural forecast in this case is the conditional mean of the future given the past, i.e.,
-
-(The forecaster function $\phi$ does not depend on $t$.) This forecaster minimizes the mean square error $\mathbf{E}{\|{{\hat{f}}_{t} - f_{t}}\|}_{2}^{2}$ over all possible forecasters.
+We mention here a general method for forecasting that includes many existing methods (described in more detail below). Suppose we assume that $\{ x_{t}\}$ is a stationary stochastic process, with a distribution of ${(p_{t},f_{t})} \in \text{R}^{M + H}$ that, by stationarity, does not depend on $t$. A natural forecast in this case is the conditional mean of the future given the past, i.e., (The forecaster function $\phi$ does not depend on $t$.) This forecaster minimizes the mean square error $\mathbf{E}{\|{{\hat{f}}_{t} - f_{t}}\|}_{2}^{2}$ over all possible forecasters.
 
 ### Outline
 
@@ -60,9 +40,7 @@ In §2 we describe the special case of linear forecasting. In §3 we describe a 
 
 ## Linear forecasting
 
-We now focus on linear forecasters, which have the form ${\phi{(p_{t})}} = {\theta^{T}p_{t}}$, where $\theta \in {\text{R}^{Mn} \times \text{R}^{Hn}}$ is the forecaster parameter matrix. We partition $\theta$ as $\theta = \begin{bmatrix}
-{\theta_{1}\cdots\theta_{H}}
-\end{bmatrix}$, so we have
+We now focus on linear forecasters, which have the form ${\phi{(p_{t})}} = {\theta^{T}p_{t}}$, where $\theta \in {\text{R}^{Mn} \times \text{R}^{Hn}}$ is the forecaster parameter matrix. We partition $\theta$ as $\theta = \begin{bmatrix} {\theta_{1}\cdots\theta_{H}} \end{bmatrix}$, so we have
 
 ### Low rank linear forecasting
 
@@ -72,27 +50,19 @@ Evidently the latent state associated with a low rank linear forecaster is only 
 
 ### Hankel data matrices
 
-Suppose we have data $x_{1},\ldots,x_{T}$, from which we extract $N = {{T - H - M} + 1}$ past/future pairs, ${(p_{M},f_{M})},\ldots,{(p_{T - H},f_{T - H})}$. From these data we form the data matrices
-
-These matrices are block Hankel, due to the shift structure mentioned in §1.
+Suppose we have data $x_{1},\ldots,x_{T}$, from which we extract $N = {{T - H - M} + 1}$ past/future pairs, ${(p_{M},f_{M})},\ldots,{(p_{T - H},f_{T - H})}$. From these data we form the data matrices These matrices are block Hankel, due to the shift structure mentioned in §1.
 
 ### Forecasts matrix
 
-We stack the forecasts into the matrix
-
-This matrix is in general *not* block Hankel, unless the forecaster is completely consistent, i.e., never changes its prediction of any value $x_{\tau}$. (This only happens when $\mathcal{I} = 0$.)
+We stack the forecasts into the matrix This matrix is in general *not* block Hankel, unless the forecaster is completely consistent, i.e., never changes its prediction of any value $x_{\tau}$. (This only happens when $\mathcal{I} = 0$.)
 
 ### Loss
 
-The average loss can be expressed as
-
-where we extend $\ell$ to apply row-wise to its matrix argument, and $\mathbf{1}$ is the vector with all entries one. For the $\ell_{2}$ (squared) loss, this can be written as $\mathcal{L} = {{({1/N})}{\|{{P\theta} - F}\|}_{F}^{2}}$, where $\parallel \cdot \parallel_{F}$ denotes the Frobenius norm of a matrix.
+The average loss can be expressed as where we extend $\ell$ to apply row-wise to its matrix argument, and $\mathbf{1}$ is the vector with all entries one. For the $\ell_{2}$ (squared) loss, this can be written as $\mathcal{L} = {{({1/N})}{\|{{P\theta} - F}\|}_{F}^{2}}$, where $\parallel \cdot \parallel_{F}$ denotes the Frobenius norm of a matrix.
 
 ### Inconsistency
 
-The inconsistency measure $\mathcal{I}$ can be expressed as
-
-where $\operatorname{\mathbf{d}\mathbf{i}\mathbf{s}\mathbf{t}}{(\hat{F})}$ is the Frobenius norm distance to the set of block Hankel matrices. It is readily shown that the projection $\pi{(Z)}$ of an ${N \times H}n$ matrix $Z$ onto the set of block Hankel matrices is obtained by replacing each block by the average over the corresponding anti-diagonal blocks. We observe for future use that $\mathcal{I}$ is a convex quadratic function of $\theta$. The inconsistency measure can be evaluated in $O{({NHn})}$ flops, and its gradient can be evaluated in the same order; see appendix §A for the details.
+The inconsistency measure $\mathcal{I}$ can be expressed as where $\operatorname{\mathbf{d}\mathbf{i}\mathbf{s}\mathbf{t}}{(\hat{F})}$ is the Frobenius norm distance to the set of block Hankel matrices. It is readily shown that the projection $\pi{(Z)}$ of an ${N \times H}n$ matrix $Z$ onto the set of block Hankel matrices is obtained by replacing each block by the average over the corresponding anti-diagonal blocks. We observe for future use that $\mathcal{I}$ is a convex quadratic function of $\theta$. The inconsistency measure can be evaluated in $O{({NHn})}$ flops, and its gradient can be evaluated in the same order; see appendix §A for the details.
 
 ## Linear forecasting methods
 
@@ -102,71 +72,39 @@ In this section we describe several general and well known methods for construct
 
 ### Forecasting via autocovariance
 
-The methods described below start by modeling $(p_{t},f_{t})$ as a Gaussian zero mean random variable (that does not depend on $t$),
+The methods described below start by modeling $(p_{t},f_{t})$ as a Gaussian zero mean random variable (that does not depend on $t$), Since ${(p_{t},f_{t})} = {(x_{{t - M} + 1},\ldots,x_{t + H})}$, $\Sigma$ is block Toeplitz, where $\Sigma_{i} = {\mathbf{E}{x_{t}x_{t + i}^{T}}}$ is the $i$th autocovariance of the process $\{ x_{t}\}$. (So $\Sigma_{- i} = \Sigma_{i}^{T}$.) There are many methods available to estimate the autocovariance matrices $\Sigma_{0},\ldots,\Sigma_{{M + H} - 1}$ from some training data; see, e.g.,.
 
-Since ${(p_{t},f_{t})} = {(x_{{t - M} + 1},\ldots,x_{t + H})}$, $\Sigma$ is block Toeplitz,
-
-where $\Sigma_{i} = {\mathbf{E}{x_{t}x_{t + i}^{T}}}$ is the $i$th autocovariance of the process $\{ x_{t}\}$. (So $\Sigma_{- i} = \Sigma_{i}^{T}$.) There are many methods available to estimate the autocovariance matrices $\Sigma_{0},\ldots,\Sigma_{{M + H} - 1}$ from some training data; see, e.g.,.
-
-To obtain a forecaster, we partition $\Sigma$ as
-
-with $\Sigma_{\text{pp}} \in \text{R}^{{{Mn} \times M}n}$ and $\Sigma_{\text{ff}} \in \text{R}^{{{Hn} \times H}n}$. Using a conditional mean forecaster, we have
-
-where $\theta = {\Sigma_{\text{pp}}^{- 1}\Sigma_{\text{pf}}}$. This forecaster is not, in general, low rank.
+To obtain a forecaster, we partition $\Sigma$ as with $\Sigma_{\text{pp}} \in \text{R}^{{{Mn} \times M}n}$ and $\Sigma_{\text{ff}} \in \text{R}^{{{Hn} \times H}n}$. Using a conditional mean forecaster, we have where $\theta = {\Sigma_{\text{pp}}^{- 1}\Sigma_{\text{pf}}}$. This forecaster is not, in general, low rank.
 
 ### Iterated AR($M$) forecasting
 
-Another approach is to posit an AR($M$) model of $x_{t}$, i.e.,
+Another approach is to posit an AR($M$) model of $x_{t}$, i.e., where $\epsilon_{t} \sim {\mathcal{N}{(0,W)}}$ are independent and $A_{i} \in \text{R}^{n \times n}$, $i = {1,\ldots,m}$. We implicitly assume that the coefficients are such that the model is stable, so it defines a stationary stochastic process. A simple way to fit an AR($M$) model is by linear regression; $W$ is an estimate of the one-step ahead prediction error covariance.
 
-where $\epsilon_{t} \sim {\mathcal{N}{(0,W)}}$ are independent and $A_{i} \in \text{R}^{n \times n}$, $i = {1,\ldots,m}$. We implicitly assume that the coefficients are such that the model is stable, so it defines a stationary stochastic process. A simple way to fit an AR($M$) model is by linear regression; $W$ is an estimate of the one-step ahead prediction error covariance.
-
-With this model we can work out the autocovariance matrices and then use the general formula, but we can more directly find the conditional mean of the future, given the past. Evidently we have
-
-and, continuing recursively, for $\tau = {{t + 2},\ldots}$, we have
-
-where ${\overset{\sim}{x}}_{s \mid t} = x_{t}$ if $s \leq t$ and ${\overset{\sim}{x}}_{s \mid t} = {\mathbf{E}{({x_{s} \mid p_{t}})}}$ for $s > t$. This is the same as iterating the dynamics of the AR($M$) model forward, with $\epsilon_{s} = 0$. This forecaster is evidently linear, but not, in general, low rank. (Of course it agrees with the general formula above.)
+With this model we can work out the autocovariance matrices and then use the general formula, but we can more directly find the conditional mean of the future, given the past. Evidently we have and, continuing recursively, for $\tau = {{t + 2},\ldots}$, we have where ${\overset{\sim}{x}}_{s \mid t} = x_{t}$ if $s \leq t$ and ${\overset{\sim}{x}}_{s \mid t} = {\mathbf{E}{({x_{s} \mid p_{t}})}}$ for $s > t$. This is the same as iterating the dynamics of the AR($M$) model forward, with $\epsilon_{s} = 0$. This forecaster is evidently linear, but not, in general, low rank. (Of course it agrees with the general formula above.)
 
 ### Forecasting using a latent state space model
 
-Another approach is to model $\{ x_{t}\}$ as a stationary Gaussian stochastic process generated by a state space model,
+Another approach is to model $\{ x_{t}\}$ as a stationary Gaussian stochastic process generated by a state space model, where $z_{t} \in \text{R}^{r}$ is the latent state, $A \in \text{R}^{r \times r}$, and $C \in \text{R}^{n \times r}$, $\epsilon_{t} \sim {\mathcal{N}{(0,Q)}}$ is a process noise, and $\eta_{t} \sim {\mathcal{N}{(0,R)}}$ is a measurement noise. (We assume that $\epsilon_{t}$ and $\eta_{t}$ are independent of one another and across time.) We assume that the matrix $A$ is stable (i.e., its eigenvalues have magnitude less than one), so this defines a stationary stochastic process. There are many ways to fit a state space model to time series training data, e.g., via N4SID, EM, and least squares auto-tuning. Here too we can work out the autocovariance coefficients and use the general formula above to find a forecaster. This forecaster, not surprisingly, has low rank, indeed, rank $r$.
 
-where $z_{t} \in \text{R}^{r}$ is the latent state, $A \in \text{R}^{r \times r}$, and $C \in \text{R}^{n \times r}$, $\epsilon_{t} \sim {\mathcal{N}{(0,Q)}}$ is a process noise, and $\eta_{t} \sim {\mathcal{N}{(0,R)}}$ is a measurement noise. (We assume that $\epsilon_{t}$ and $\eta_{t}$ are independent of one another and across time.) We assume that the matrix $A$ is stable (i.e., its eigenvalues have magnitude less than one), so this defines a stationary stochastic process. There are many ways to fit a state space model to time series training data, e.g., via N4SID, EM, and least squares auto-tuning. Here too we can work out the autocovariance coefficients and use the general formula above to find a forecaster. This forecaster, not surprisingly, has low rank, indeed, rank $r$.
+Here we describe the construction of the associated forecaster in a more natural way, that explains the factorization of $\theta$ into two natural parts: a state estimator, followed by a forward simulator. The first step is to determine $\mathbf{E}{({z_{t} \mid p_{t}})}$, our estimate of the current latent state, given the past. This can be done by solving the Kalman smoothing problem with memory $M$ The value of $z_{t}$ is $\mathbf{E}{({z_{t} \mid p_{t}})}$. This is a linearly constrained least squares problem, so the solution is a linear function of the past $p_{t}$, i.e., $z_{t} = {Kp_{t}}$, where $K \in \text{R}^{{r \times M}n}$. The matrix $K$ is readily found by forming the KKT optimality conditions, and standard linear algebra computations. We note one slight difference between this state estimator and the traditional Kalman filter: this one uses only the $M$ previous values of $x_{s}$ (i.e., $p_{t}$), whereas the Kalman filter uses all previous values.
 
-Here we describe the construction of the associated forecaster in a more natural way, that explains the factorization of $\theta$ into two natural parts: a state estimator, followed by a forward simulator. The first step is to determine $\mathbf{E}{({z_{t} \mid p_{t}})}$, our estimate of the current latent state, given the past. This can be done by solving the Kalman smoothing problem with memory $M$
-
-The value of $z_{t}$ is $\mathbf{E}{({z_{t} \mid p_{t}})}$. This is a linearly constrained least squares problem, so the solution is a linear function of the past $p_{t}$, i.e., $z_{t} = {Kp_{t}}$, where $K \in \text{R}^{{r \times M}n}$. The matrix $K$ is readily found by forming the KKT optimality conditions, and standard linear algebra computations. We note one slight difference between this state estimator and the traditional Kalman filter: this one uses only the $M$ previous values of $x_{s}$ (i.e., $p_{t}$), whereas the Kalman filter uses all previous values.
-
-It is readily seen that for $\tau = {{t + 1},\ldots,{t + H}}$, we have
-
-This shows that $\theta$ has rank (at most) $r$, the dimension of the latent time series. This is hardly surprising, since under this model the past and future are independent, given the current state $z_{t}$.
+It is readily seen that for $\tau = {{t + 1},\ldots,{t + H}}$, we have This shows that $\theta$ has rank (at most) $r$, the dimension of the latent time series. This is hardly surprising, since under this model the past and future are independent, given the current state $z_{t}$.
 
 ### Forecasting via regression
 
-Regression yields another set of methods for choosing $\theta$ directly from a given training data set. (Regression methods and statistical methods are closely linked, as we discuss below.) Let $\mathcal{L}{(\theta)}$ denote the loss on the training data set. In (regularized) regression, the parameter matrix $\theta$ is chosen as a minimizer of
+Regression yields another set of methods for choosing $\theta$ directly from a given training data set. (Regression methods and statistical methods are closely linked, as we discuss below.) Let $\mathcal{L}{(\theta)}$ denote the loss on the training data set. In (regularized) regression, the parameter matrix $\theta$ is chosen as a minimizer of where $\mathcal{R}:{\text{R}^{{{Mn} \times H}n}\rightarrow\text{R}}$ is a convex regularizer function, and $\lambda$ is a positive hyper-parameter. This is a convex function, so computing an optimal $\theta$ is in principle straightforward.
 
-where $\mathcal{R}:{\text{R}^{{{Mn} \times H}n}\rightarrow\text{R}}$ is a convex regularizer function, and $\lambda$ is a positive hyper-parameter. This is a convex function, so computing an optimal $\theta$ is in principle straightforward.
-
-The most common regression problem, ridge regression, uses $\ell_{2}$ loss and regularization, so the objective is
-
-with variable $\theta$. This has the minimizer
-
-The objective is separable across the columns of $\theta$, which means each column of $\theta$ can be found separately. This forecaster simply uses a separate ridge regression to predict $x_{\tau}$ based on $p_{t}$, for $\tau = {{t + 1},\ldots,{t + H}}$.
+The most common regression problem, ridge regression, uses $\ell_{2}$ loss and regularization, so the objective is with variable $\theta$. This has the minimizer The objective is separable across the columns of $\theta$, which means each column of $\theta$ can be found separately. This forecaster simply uses a separate ridge regression to predict $x_{\tau}$ based on $p_{t}$, for $\tau = {{t + 1},\ldots,{t + H}}$.
 
 When $\lambda = 0$, ridge regression is ordinary least squares, and coincides with the statistical method above when we use the empirical estimates of the autocovariance matrices, since $\theta = {{\hat{\Sigma}}_{\text{pp}}^{- 1}{\hat{\Sigma}}_{\text{fp}}}$, where ${\hat{\Sigma}}_{\text{pp}}$ is the empirical covariance of $p_{t}$ and ${\hat{\Sigma}}_{\text{fp}}$ is the empirical covariance of $f_{t}$ and $p_{t}$, which are given by
 
 ## A regularized regression method
 
-The method we propose is a regression method with two particular regularization functions, one that encourages $\theta$ to be low rank, and another that encourages forecaster consistency. We choose $\theta$ to minimize
-
-where $\parallel \cdot \parallel_{\ast}$ is the dual norm of a matrix (also known as the nuclear norm, trace norm, Ky Fan norm, or Schatten norm), i.e., the sum of its singular values, and $\lambda$ and $\kappa$ are positive hyper-parameters that control the strength of the two types of regularization. The objective is a convex function of $\theta$, and so in principle straightforward to minimize. The nuclear norm is widely used as a convex surrogate for the (nonconvex) rank function; roughly speaking it promotes low rank of its matrix argument. Generally (but not always), the larger $\lambda$ is, the lower the rank of $\theta$. The forecaster consistency term, as discussed above, encourages $\theta$ to produce consistent forecasts.
+The method we propose is a regression method with two particular regularization functions, one that encourages $\theta$ to be low rank, and another that encourages forecaster consistency. We choose $\theta$ to minimize where $\parallel \cdot \parallel_{\ast}$ is the dual norm of a matrix (also known as the nuclear norm, trace norm, Ky Fan norm, or Schatten norm), i.e., the sum of its singular values, and $\lambda$ and $\kappa$ are positive hyper-parameters that control the strength of the two types of regularization. The objective is a convex function of $\theta$, and so in principle straightforward to minimize. The nuclear norm is widely used as a convex surrogate for the (nonconvex) rank function; roughly speaking it promotes low rank of its matrix argument. Generally (but not always), the larger $\lambda$ is, the lower the rank of $\theta$. The forecaster consistency term, as discussed above, encourages $\theta$ to produce consistent forecasts.
 
 ### Critical value of $\lambda$
 
-There is a critical value $\lambda^{\max}$, with the property that $\theta = 0$ if and only if $\lambda \geq \lambda^{\max}$. When $\mathcal{L}$ is differentiable, $\lambda^{\max}$ is given by
-
-where ${{\nabla_{\theta}\mathcal{L}}{}} \in \text{R}^{{{Mn} \times H}n}$ is the gradient of $\mathcal{L}{(\theta)}$ at $\theta = 0$, and $\parallel \cdot \parallel_{2}$ is the $\ell_{2}$ norm (maximum singular value). This can be verified by examining the condition under which $\theta = 0$ is optimal, i.e., that the subdifferential of includes $0$. When the $\ell_{2}$ loss is used, this condition reduces to
-
-(This can be computed efficiently, without forming the matrix $P^{T}F$, using power iteration.) It is convenient to express the nuclear norm regularization as $\lambda = {\alpha\lambda^{\max}}$, with $\alpha \in {\lbrack 0,1\rbrack}$.
+There is a critical value $\lambda^{\max}$, with the property that $\theta = 0$ if and only if $\lambda \geq \lambda^{\max}$. When $\mathcal{L}$ is differentiable, $\lambda^{\max}$ is given by where ${{\nabla_{\theta}\mathcal{L}}{}} \in \text{R}^{{{Mn} \times H}n}$ is the gradient of $\mathcal{L}{(\theta)}$ at $\theta = 0$, and $\parallel \cdot \parallel_{2}$ is the $\ell_{2}$ norm (maximum singular value). This can be verified by examining the condition under which $\theta = 0$ is optimal, i.e., that the subdifferential of includes $0$. When the $\ell_{2}$ loss is used, this condition reduces to (This can be computed efficiently, without forming the matrix $P^{T}F$, using power iteration.) It is convenient to express the nuclear norm regularization as $\lambda = {\alpha\lambda^{\max}}$, with $\alpha \in {\lbrack 0,1\rbrack}$.
 
 ### Choosing $\alpha$ and $\kappa$
 
@@ -180,23 +118,15 @@ The objective is convex, and can be minimized using many methods. Smaller instan
 
 ### Factored problem
 
-Suppose we know that the solution to has at most rank $k$. Then is equivalent to the *factored* problem
-
-with variables $U \in \text{R}^{{Mn} \times k}$ and $V \in \text{R}^{{k \times H}n}$. That is, $U,V$ is a solution to if and only if $\theta = {UV}$ is a solution to and ${\| U\|}_{F}^{2} = {\| V\|}_{F}^{2} = {\frac{1}{2}{\|\theta\|}_{\ast}}$. (See, e.g., for a proof.) Solving this problem directly gives us the two factors of $\theta$. In fact we obtain a balanced factorization, i.e., the (positive) singular values of $U$ and $V$ are the same.
+Suppose we know that the solution to has at most rank $k$. Then is equivalent to the *factored* problem with variables $U \in \text{R}^{{Mn} \times k}$ and $V \in \text{R}^{{k \times H}n}$. That is, $U,V$ is a solution to if and only if $\theta = {UV}$ is a solution to and ${\| U\|}_{F}^{2} = {\| V\|}_{F}^{2} = {\frac{1}{2}{\|\theta\|}_{\ast}}$. (See, e.g., for a proof.) Solving this problem directly gives us the two factors of $\theta$. In fact we obtain a balanced factorization, i.e., the (positive) singular values of $U$ and $V$ are the same.
 
 ### Alternating method
 
 The problem is not convex, but it is convex in $U$ for fixed $V$ and convex in $V$ for fixed $U$. Each of these minimizations can be carried out efficiently using, e.g., the limited-memory Broyden Fletcher Goldfarb and Shanno (L-BFGS) method. This method requires storing a modest number of matrices with the same same sizes as $U$ and $V$, and in each iteration, the computation of the gradient of the objective with respect to $U$ or $V$. (The gradients of the objective in are given in appendix §A; in our implementation they are mostly computed automatically using automatic differentiation techniques.)
 
-### Computing the rank of $U\hspace{0pt}V$
+### Computing the rank of $UV$
 
-After solving problem, it can be the case that the rank of $UV$ is less than $k$. We can both find the rank of $UV$, compute reduced versions of $U$ and $V$, and compute the reduced-rank SVD of $\theta$ efficiently (i.e., without actually computing the full SVD of $\theta = {UV}$ or even forming $\theta$) as follows. Denote the rank of $U$ by $r_{U}$ and the rank of $V$ by $r_{V}$. First, we compute the SVD of $U$ and $V$,
-
-where $U_{U},\Sigma_{U},V_{U}$ and $U_{V},\Sigma_{V},V_{V}$ are the appropriate sizes. Next we compute the SVD of the matrix $A = {\Sigma_{U}V_{U}^{T}U_{V}\Sigma_{V}}$, which has rank $r = {\operatorname{\mathbf{r}\mathbf{a}\mathbf{n}\mathbf{k}}{({UV})}}$,
-
-where $U_{A},\Sigma_{A},V_{A}$ are the appropriate sizes. Then the reduced rank versions of $U$ and $V$, denoted $\overset{\sim}{U} \in \text{R}^{{Mn} \times r}$ and $\overset{\sim}{V} \in \text{R}^{{r \times H}n}$, are given by
-
-The SVD of $\theta$, $\theta = {U_{\theta}\Sigma_{\theta}V_{\theta}}$, is given by
+After solving problem, it can be the case that the rank of $UV$ is less than $k$. We can both find the rank of $UV$, compute reduced versions of $U$ and $V$, and compute the reduced-rank SVD of $\theta$ efficiently (i.e., without actually computing the full SVD of $\theta = {UV}$ or even forming $\theta$) as follows. Denote the rank of $U$ by $r_{U}$ and the rank of $V$ by $r_{V}$. First, we compute the SVD of $U$ and $V$, where $U_{U},\Sigma_{U},V_{U}$ and $U_{V},\Sigma_{V},V_{V}$ are the appropriate sizes. Next we compute the SVD of the matrix $A = {\Sigma_{U}V_{U}^{T}U_{V}\Sigma_{V}}$, which has rank $r = {\operatorname{\mathbf{r}\mathbf{a}\mathbf{n}\mathbf{k}}{({UV})}}$, where $U_{A},\Sigma_{A},V_{A}$ are the appropriate sizes. Then the reduced rank versions of $U$ and $V$, denoted $\overset{\sim}{U} \in \text{R}^{{Mn} \times r}$ and $\overset{\sim}{V} \in \text{R}^{{r \times H}n}$, are given by The SVD of $\theta$, $\theta = {U_{\theta}\Sigma_{\theta}V_{\theta}}$, is given by
 
 ### Choosing $k$
 
@@ -204,11 +134,7 @@ We propose the following simple method for choosing the value of $k$. We start w
 
 ### Convergence
 
-Since this is an alternating method, the objective is decreasing and so converges. Whether the alternating method converges to the solution of the original (convex) problem is another question. We can check for global optimality of $\theta = {UV}$ in the original convex problem as follows. Suppose $\ell$ is differentiable and let
-
-i.e., the gradient of the differentiable part of the objective. Then $\theta$ is globally optimal if and only if the following conditions hold
-
-where $\theta = {U_{\theta}\Sigma_{\theta}V_{\theta}}$ is the SVD of $\theta$ (computed as described in above). The residuals of these three conditions could be used as a stopping criterion for the alternating method.
+Since this is an alternating method, the objective is decreasing and so converges. Whether the alternating method converges to the solution of the original (convex) problem is another question. We can check for global optimality of $\theta = {UV}$ in the original convex problem as follows. Suppose $\ell$ is differentiable and let i.e., the gradient of the differentiable part of the objective. Then $\theta$ is globally optimal if and only if the following conditions hold where $\theta = {U_{\theta}\Sigma_{\theta}V_{\theta}}$ is the SVD of $\theta$ (computed as described in above). The residuals of these three conditions could be used as a stopping criterion for the alternating method.
 
 We have observed that in all numerical examples when $r < k$, the final $\theta$ is close to satisfying the optimality conditions above. Unfortunately, verifying optimality requires us to form a matrix the same size as $\theta$, as well as compute its norm. While the norm could be evaluated using a power method, never explicitly forming the matrix, we would suggest that this final global optimality check is not needed in practice.
 
@@ -224,47 +150,31 @@ In this section we describe a number of extensions and variations. Several of th
 
 In this section we describe low rank nonlinear forecasting. Our forecaster has the familiar form $\phi = {\mathcal{V} \circ \mathcal{U}}$, but instead of the encoder and encoder being linear, they are nonlinear functions, for example neural networks. The encoder $\mathcal{U}$ encodes the past into the latent state $z_{t}$, as $z_{t} = {\mathcal{U}{(p_{t};\theta_{U})}}$ and has parameters $\theta_{U} \in \text{R}^{p_{U}}$. The decoder $\mathcal{V}$ decodes the state into the forecast ${\hat{f}}_{t}$, as ${\hat{f}}_{t} = {\mathcal{V}{(z_{t};\theta_{V})}}$ and has parameters $\theta_{V} \in \text{R}^{p_{V}}$.
 
-The fitting problem in the nonlinear forecasting case becomes
-
-The second term in the objective is no longer the nuclear norm of the forecaster matrix, since the predictor is nonlinear. However, it can still be useful; it will help control the complexity of the neural network parameters. We can also use the same forecaster consistency term.
+The fitting problem in the nonlinear forecasting case becomes The second term in the objective is no longer the nuclear norm of the forecaster matrix, since the predictor is nonlinear. However, it can still be useful; it will help control the complexity of the neural network parameters. We can also use the same forecaster consistency term.
 
 We can approximately solve problem using the stochastic gradient method (SGD). We refer the reader to and the references therein for possible architectures and training methods. We note that problem is equivalent to the methods described in §4 with single layer (i.e., linear) neural networks for $\mathcal{U}$ and $\mathcal{V}$.
 
 ### Data weighting
 
-We can weight the components of the loss function, based on how much we care about particular parts of the forecast. That is, we adjust the loss term to
+We can weight the components of the loss function, based on how much we care about particular parts of the forecast. That is, we adjust the loss term to where $W \in \text{R}_{+}^{{N \times H}n}$ is the *weight matrix*, and $\circ$ denotes the Hadamard or elementwise product. We denote the (block) elements of $W$ as $w_{\tau \mid t}$, i.e., The larger ${(w_{\tau \mid t})}_{i}$ is, the more we care about forecasting the $i$th element of $x_{\tau}$ at time $t$.
 
-where $W \in \text{R}_{+}^{{N \times H}n}$ is the *weight matrix*, and $\circ$ denotes the Hadamard or elementwise product. We denote the (block) elements of $W$ as $w_{\tau \mid t}$, i.e.,
-
-The larger ${(w_{\tau \mid t})}_{i}$ is, the more we care about forecasting the $i$th element of $x_{\tau}$ at time $t$.
-
-There are many ways to construct a weight matrix. One way is via exponentially decaying weighting on $t$, $\tau$, and a separate constant weight for each element of the time series. That is, we specify a halflife for $t$, denoted $h^{t} > 0$ and a halflife for $\tau$, denoted $h^{\tau} > 0$. Then let the weights for time and forecast time be
-
-We also specify a weight for each element of the time series, denoted $w^{col} \in \text{R}_{+}^{n}$. For example, if ${(w^{col})}_{i} = 0$, then we do not care about forecasting ${(x_{t})}_{i}$. (But note that we do use ${(x_{t})}_{i}$ to forecast the other elements of $x_{t}$.) The weights are then given by the product of these three weights,
+There are many ways to construct a weight matrix. One way is via exponentially decaying weighting on $t$, $\tau$, and a separate constant weight for each element of the time series. That is, we specify a halflife for $t$, denoted $h^{t} > 0$ and a halflife for $\tau$, denoted $h^{\tau} > 0$. Then let the weights for time and forecast time be We also specify a weight for each element of the time series, denoted $w^{col} \in \text{R}_{+}^{n}$. For example, if ${(w^{col})}_{i} = 0$, then we do not care about forecasting ${(x_{t})}_{i}$. (But note that we do use ${(x_{t})}_{i}$ to forecast the other elements of $x_{t}$.) The weights are then given by the product of these three weights,
 
 ### Auxiliary data
 
 Often we have auxiliary information or data separate from the time series that can be useful for forecasting future values of the time series. Common examples are time-based features, such as hour, day of week, or month. These features could be useful for forecasting, but are clearly not worth forecasting themselves. Another example is an additional time series that is related to or correlated with our time series.
 
-We denote the auxiliary information known at time $t$ by the vector $a_{t} \in \text{R}^{p}$. There are two ways to incorporate auxiliary information into our forecasting problem. The first is to remove the effect of $a_{t}$ on $x_{t}$, and then forecast the residual time series. We might do this by solving the problem
+We denote the auxiliary information known at time $t$ by the vector $a_{t} \in \text{R}^{p}$. There are two ways to incorporate auxiliary information into our forecasting problem. The first is to remove the effect of $a_{t}$ on $x_{t}$, and then forecast the residual time series. We might do this by solving the problem with variable $S \in \text{R}^{n \times p}$. (We can of course add regularization here if needed.) When the auxiliary information are simple functions of time such as linear or sinusoidal, this step is called de-trending or removing the trend or seasonality from a time series (see, e.g., \[5, §9\], \[15, §13.1.1\], or \[30, Appendix A\]). We then define a new series ${\overset{\sim}{x}}_{t} = {x_{t} - {Sa_{t}}}$, and forecast that series instead of the original series. Our final forecast is then where ${\hat{\overset{\sim}{x}}}_{\tau \mid t}$ is the forecast for ${\overset{\sim}{x}}_{\tau}$ made at time $t$. The first term is the baseline; the second is the forecast of the residual time series, with the baseline removed.
 
-with variable $S \in \text{R}^{n \times p}$. (We can of course add regularization here if needed.) When the auxiliary information are simple functions of time such as linear or sinusoidal, this step is called de-trending or removing the trend or seasonality from a time series (see, e.g., \[5, §9\], \[15, §13.1.1\], or \[30, Appendix A\]). We then define a new series ${\overset{\sim}{x}}_{t} = {x_{t} - {Sa_{t}}}$, and forecast that series instead of the original series. Our final forecast is then
-
-where ${\hat{\overset{\sim}{x}}}_{\tau \mid t}$ is the forecast for ${\overset{\sim}{x}}_{\tau}$ made at time $t$. The first term is the baseline; the second is the forecast of the residual time series, with the baseline removed.
-
-The second way to incorporate auxiliary information is to make our forecaster a function of both the past and auxiliary data. That is, we let our forecaster be
-
-where $\Phi \in \text{R}^{{p \times H}n}$. We can decide whether or not to make $\Phi$ low rank. If we want it to be low rank, then the nuclear norm regularization term becomes
+The second way to incorporate auxiliary information is to make our forecaster a function of both the past and auxiliary data. That is, we let our forecaster be where $\Phi \in \text{R}^{{p \times H}n}$. We can decide whether or not to make $\Phi$ low rank. If we want it to be low rank, then the nuclear norm regularization term becomes
 
 ### Other regularization
 
-Other convex regularization on $\theta$ can be added to problem and the alternating method will work the same, because it will be biconvex in $U$ and $V$. Convex regularization on the factors $U$ and $V$ can be added, and the alternating method will work the same. For example, if we wanted the encoder $U$ to be sparse, i.e., each element of the state only depends on a few elements of the time series, then we could add a multiple of the term $\sum_{i,j}{|U_{ij}|}$ to the objective in. (We note however that L-BFGS does not handle nonsmooth terms like absolute value well, so an alternate solution method might be needed.) When regularization is added to $U$ or $V$ individually, the fitting problem is nonconvex. While the algorithm will still work, there is no guarantee that it will converge to the global solution.
+Other convex regularization on $\theta$ can be added to problem and the alternating method will work the same, because it will be biconvex in $U$ and $V$. Convex regularization on the factors $U$ and $V$ can be added, and the alternating method will work the same. For example, if we wanted the encoder $U$ to be sparse, i.e., each element of the state only depends on a few elements of the time series, then we could add a multiple of the term $\sum_{i,j}{|U_{ij}|}$ to the objective . (We note however that L-BFGS does not handle nonsmooth terms like absolute value well, so an alternate solution method might be needed.) When regularization is added to $U$ or $V$ individually, the fitting problem is nonconvex. While the algorithm will still work, there is no guarantee that it will converge to the global solution.
 
 ### Latent state dynamics
 
-If the sole objective is to forecast the original series $x_{t}$, the latent series $z_{t}$ is simply an intermediate quantity used in forming ${\hat{f}}_{t}$. In other cases, the latent series $z_{t}$ discovered by our forecasting method is actually of interest by itself. In those cases, it might be interesting to look at its dynamics, i.e., how $z_{t}$ evolves over time. One reasonable model of $z_{t}$ is an autoregressive model,
-
-where $A \in \text{R}^{r \times r}$ and $\epsilon_{t} \in {\mathcal{N}{(0,W)}}$ are independent. We can fit such a model by linear regression.
+If the sole objective is to forecast the original series $x_{t}$, the latent series $z_{t}$ is simply an intermediate quantity used in forming ${\hat{f}}_{t}$. In other cases, the latent series $z_{t}$ discovered by our forecasting method is actually of interest by itself. In those cases, it might be interesting to look at its dynamics, i.e., how $z_{t}$ evolves over time. One reasonable model of $z_{t}$ is an autoregressive model, where $A \in \text{R}^{r \times r}$ and $\epsilon_{t} \in {\mathcal{N}{(0,W)}}$ are independent. We can fit such a model by linear regression.
 
 ## Examples
 
@@ -272,11 +182,7 @@ In this section we apply our method to three examples. All experiments were cond
 
 ### Simulated state space dataset
 
-We consider a dataset sampled from a state space model,
-
-where the state is $z_{t} \in \text{R}^{2}$ and the observations are $x_{t} \in \text{R}^{10}$. The entries of $A$ and $C$ are randomly sampled according to
-
-We scale $A$ so that its spectral radius is 0.98. We set the covariance matrices to $Q = I$ and $R = {{(0.1)}I}$. We consider as our training dataset a length 100 sample from the model, and as our test dataset a length 500 sample from the model. (In both of these datasets $z_{1}$ was sampled from the steady state distribution.) We take $H = M = 12$, so $\theta \in \text{R}^{120 \times 120}$ and we are using the 12 most recent values of $\{ x_{t}\}$ to predict the next 12 values of $\{ x_{t}\}$. The forecaster matrix $\theta$ contains $14400$ entries. We use $\ell_{2}$ loss.
+We consider a dataset sampled from a state space model, where the state is $z_{t} \in \text{R}^{2}$ and the observations are $x_{t} \in \text{R}^{10}$. The entries of $A$ and $C$ are randomly sampled according to We scale $A$ so that its spectral radius is 0.98. We set the covariance matrices to $Q = I$ and $R = {{(0.1)}I}$. We consider as our training dataset a length 100 sample from the model, and as our test dataset a length 500 sample from the model. (In both of these datasets $z_{1}$ was sampled from the steady state distribution.) We take $H = M = 12$, so $\theta \in \text{R}^{120 \times 120}$ and we are using the 12 most recent values of $\{ x_{t}\}$ to predict the next 12 values of $\{ x_{t}\}$. The forecaster matrix $\theta$ contains $14400$ entries. We use $\ell_{2}$ loss.
 
 We begin by constructing the optimal (conditional mean) forecaster using the techniques described in §2, and the actual (true) values of $A$, $C$, $Q$, and $R$. This forecaster has a test loss of 10.54. Aside from the small difference between expectation and the empirical loss over the test set, no forecaster can do better, since this forecaster minimizes mean square loss over all forecasters, and uses the true values of the autocovariance matrices. We can therefore consider $10.54$ as an approximate lower bound on achievable performance.
 
@@ -286,9 +192,7 @@ Figure 1: Test loss and rank of θ versus α on the simulated dataset.
 
 Figure 2: Forecast of simulated data made at a time t, shown as vertical line. The solid curve shows (xτ)1, and the dashed line is our forecast, (x̂τ ∣ t)1, τ = t + 1, …, t + H.
 
-We can also compare our extracted latent state to the true latent state. As mentioned above, the latent state is modulo a linear change of coordinates, so to compare the true latent state and the latent state of our forecaster, we use our latent state to predict the true latent state of the underlying state space model, by choosing $S$ to minimize
-
-over the coordinate transformation $S \in \text{R}^{2 \times 2}$. In figure 3 we plot the transformed states. We can see that our transformed latent states reasonably track the true latent states.
+We can also compare our extracted latent state to the true latent state. As mentioned above, the latent state is modulo a linear change of coordinates, so to compare the true latent state and the latent state of our forecaster, we use our latent state to predict the true latent state of the underlying state space model, by choosing $S$ to minimize over the coordinate transformation $S \in \text{R}^{2 \times 2}$. In figure 3 we plot the transformed states. We can see that our transformed latent states reasonably track the true latent states.
 
 Figure 3: Simulated dataset. Top. Transformed latent state of the forecaster. Bottom. True latent state of underlying state space model.
 
@@ -328,9 +232,7 @@ We consider a dataset from the Caltrans performance measurement system (PeMS), w
 
 ### Pre-processing
 
-We carried out several pre-processing steps. We first clip or Winsorize the raw occupancy rates $o_{t}$ to be in $\lbrack 0.001,0.999\rbrack$, and then perform a logit transform, i.e.,
-
-where division and $\log$ are elementwise. (This yields a more normal distribution.)
+We carried out several pre-processing steps. We first clip or Winsorize the raw occupancy rates $o_{t}$ to be in $\lbrack 0.001,0.999\rbrack$, and then perform a logit transform, i.e., where division and $\log$ are elementwise. (This yields a more normal distribution.)
 
 We split the dataset in half into a training and test dataset. We subtracted the mean occupancy rate on the training dataset for each station from the occupancy rates in both the training and test dataset. We take $M = 24$ and $H = 6$, so from the last day of traffic we predict the next quarter day of traffic. In total, there are around 1.4 million parameters in a linear forecaster. We use the $\ell_{2}$ (squared) loss. The loss of the constant (mean) forecaster was 1.108 on the training dataset and 0.962 on the test dataset.
 
@@ -364,7 +266,7 @@ The techniques in this paper are closely related to the formation of low rank ap
 
 ### Reduced rank prediction
 
-A closely related problem is reduced rank prediction. Reduced rank regression can be traced back to the work, where a likelihood-ratio test is obtained for the hypothesis that the rank of the regression coefficient matrix is a given number. Later, the work provided an explicit form of the estimate of the regression coefficient matrix with a given rank, and discussed the asymptotics of the estimated regression coefficient matrix. The reduced rank regression problem was approximately solved as a nuclear norm penalized least squares problem in, and then further generalized into an adaptive nuclear norm penalized reduced rank regression problem in. For more details on reduced rank regression, please refer to. The optimization problem in the form of a loss function plus a nuclear norm regularization term has applications in in multi-task learning; see, e.g.,.
+A closely related problem is reduced rank prediction. Reduced rank regression can be traced back to the work, where a likelihood-ratio test is obtained for the hypothesis that the rank of the regression coefficient matrix is a given number. Later, the work provided an explicit form of the estimate of the regression coefficient matrix with a given rank, and discussed the asymptotics of the estimated regression coefficient matrix. The reduced rank regression problem was approximately solved as a nuclear norm penalized least squares problem , and then further generalized into an adaptive nuclear norm penalized reduced rank regression problem . For more details on reduced rank regression, please refer to. The optimization problem in the form of a loss function plus a nuclear norm regularization term has applications in in multi-task learning; see, e.g.,.
 
 ### Reduced rank time series
 

@@ -2,13 +2,11 @@
 
 Recent works have demonstrated a ubiquitous "double descent" phenomenon present in a range of machine learning models, including decision trees, random features, linear regression, and deep neural networks Opper; Advani & Saxe; Spigler et al.; Belkin et al.; Geiger et al.; Nakkiran et al.; Belkin et al.; Hastie et al.; Bartlett et al.; Muthukumar et al.; Bibas et al.; Mitra; Mei & Montanari; Liang & Rakhlin; Liang et al.; Xu & Hsu; Dereziński et al.; Lampinen & Ganguli; Deng et al.; Nakkiran. The phenomenon is that models exhibit a peak of high test risk when they are just barely able to fit the train set, that is, to *interpolate*. For example, as we increase the size of models, test risk first decreases, then increases to a peak around when effective model size is close to the training data size, and then decreases again in the overparameterized regime. Also surprising is that Nakkiran et al. observe a double descent as we increase sample size, i.e. for a fixed model, training the model with more data can hurt test performance.
 
-Figure 1: Test Risk vs. Num. Samples for Isotropic Ridge Regression in d = 500 dimensions. Unregularized regression is non-monotonic in samples, but optimally-regularized regression (λ = λo p t) is monotonic. The sample distribution is (x,y) where x ∼ 𝒩 (0,Id) and y = ⟨β*, x⟩ + 𝒩 (0,σ2) for d = 500, σ = 0.5, and ∥β*∥2 = 1. For λ &gt; 0, the ridge estimator on n samples is ${\hat{\beta}}_{\lambda}:={{\operatorname{argmin}_{\beta}\left\| {{X\beta} - \overset{\rightarrow}{y}} \right\|_{2}^{2}} + {\lambda\left\| \beta \right\|_{2}^{2}}}$. In this setting, the optimal regularizer λo p t does not depend on number of samples n (Lemma 2), but this is not always true – see Figure 2.
+Figure 1: Test Risk vs. Num. Samples for Isotropic Ridge Regression in d = 500 dimensions. Unregularized regression is non-monotonic in samples, but optimally-regularized regression (λ = λo p t) is monotonic. The sample distribution is (x, y) where x ∼ 𝒩 (0, Id) and y = ⟨β*, x⟩ + 𝒩 (0, σ2) for d = 500, σ = 0.5, and ∥β*∥2 = 1. For λ > 0, the ridge estimator on n samples is ${\hat{\beta}}_{\lambda}:={{\operatorname{argmin}_{\beta}\left\| {{X\beta} - \overset{\rightarrow}{y}} \right\|_{2}^{2}} + {\lambda\left\| \beta \right\|_{2}^{2}}}$. In this setting, the optimal regularizer λo p t does not depend on number of samples n (Lemma 2), but this is not always true – see Figure 2.
 
 These striking observations highlight a potential gap in our understanding of generalization and an opportunity for improved methods. Ideally, we seek to use learning algorithms which robustly improve performance as the data or model size grow and do not exhibit such unexpected non-monotonic behaviors. In other words, we aim to improve the test performance in situations which would otherwise exhibit high test risk due to double descent. Here, a natural strategy would be to use a regularizer and tune its strength on a validation set.
 
-This motivates the central question of this work:
-
-When does optimally tuned regularization mitigate or remove the double-descent phenomenon?
+This motivates the central question of this work: When does optimally tuned regularization mitigate or remove the double-descent phenomenon?
 
 Another motivation to start this line of inquiry is the observation that the double descent phenomenon is largely observed for *unregularized* or *under-regularized* models in practice. As an example, Figure 1 shows a simple linear ridge regression setting in which the unregularized estimator exhibits double descent, but an optimally-tuned regularizer has monotonic test performance.
 
@@ -16,25 +14,19 @@ Another motivation to start this line of inquiry is the observation that the dou
 
 We study this question from both a theoretical and empirical perspective. Theoretically, we start with the setting of high-dimensional linear regression. Linear regression is a sensible starting point to study these questions, since it already exhibits many of the qualitative features of double descent in more complex models (e.g. Belkin et al.; Hastie et al. and further related works in Section 1.1).
 
-This work shows that optimally-tuned ridge regression can achieve both sample-wise monotonicity and model-size-wise monotonicity under certain assumptions. Concretely, we show
-
-Sample-wise monotonicity: In the setting of well-specified linear regression with isotropic features/covariates (Figure 1), we prove that optimally-tuned ridge regression yields monotonic test performance with increasing samples. That is, more data never hurts for optimally-tuned ridge regression (see Theorem 1).
+This work shows that optimally-tuned ridge regression can achieve both sample-wise monotonicity and model-size-wise monotonicity under certain assumptions. Concretely, we show Sample-wise monotonicity: In the setting of well-specified linear regression with isotropic features/covariates (Figure 1), we prove that optimally-tuned ridge regression yields monotonic test performance with increasing samples. That is, more data never hurts for optimally-tuned ridge regression (see Theorem 1).
 
 Model-wise monotonicity: We consider a setting where the input/covariate lives in a high-dimensional ambient space with isotropic covariance. Given a fixed model size $d$ (which might be much smaller than ambient dimension), we consider the family of models which first project the input to a random $d$-dimensional subspace, and then compute a linear function in this projected "feature space." (This is nearly identical to models of double-descent considered in Hastie et al. ). We prove that in this setting, as we grow the model-size, optimally-tuned ridge regression over the projected features has monotone test performance. That is, with optimal regularization, bigger models are always better or the same. (See Theorem 3).
 
 Monotonicity in the real-world: We also demonstrate several richer empirical settings where optimal $\ell_{2}$ regularization induces monotonicity, including random feature classifiers and convolutional neural networks. This suggests that the mitigating effect of optimal regularization may hold more generally in broad machine learning contexts. (See Section 5).
 
-A few remarks are in order:
-
-Problem-specific vs Minimax and Bayesian. It is worth noting that our results hold for all linear ground-truths, rather than holding for only the worst-case ground-truth or a random ground-truth. Indeed, the minimax optimal estimator or the Bayes optimal estimator are both trivially sample-wise and model-wise monotonic *with respect to the minimax risk or the Bayes risk*. However, they do not guarantee monotonicity of the risk itself for a given fixed problem.
+A few remarks are in order: Problem-specific vs Minimax and Bayesian. It is worth noting that our results hold for all linear ground-truths, rather than holding for only the worst-case ground-truth or a random ground-truth. Indeed, the minimax optimal estimator or the Bayes optimal estimator are both trivially sample-wise and model-wise monotonic *with respect to the minimax risk or the Bayes risk*. However, they do not guarantee monotonicity of the risk itself for a given fixed problem.
 
 Universal vs Asymptotic. We also remark that our analysis is not only non-asymptotic but also works for all possible input dimensions, model sizes, and sample sizes. Prior works on double descent mostly rely on asymptotic assumptions that send the sample size or the model size to infinity in a specific manner. To our knowledge, the results herein are the first non-asymptotic sample-wise and model-wise monotonicity results for linear regression. (See discussion of related works Hastie et al.; Mei & Montanari for related results in the asymptotic setting).
 
 Finally, we note that our claims are about monotonicity of the actual test risk, instead of the monotonicity of the generalization bounds (e.g., results in Wei et al. ).
 
-Towards a more general characterization. Our theoretical results crucially rely on the covariance of the data being isotropic. A natural next question is if and when the same results can hold more generally. A full answer to this question is beyond the scope of this paper, though we give the following results:
-
-Optimally-tuned ridge regression is *not* always sample-monotonic: we show a counterexample for a certain non-Gaussian data distribution and heteroscedastic noise. We are not aware of prior work pointing out this fact. (See Section 4.1 for the counterexample and intuitions.)
+Towards a more general characterization. Our theoretical results crucially rely on the covariance of the data being isotropic. A natural next question is if and when the same results can hold more generally. A full answer to this question is beyond the scope of this paper, though we give the following results: Optimally-tuned ridge regression is *not* always sample-monotonic: we show a counterexample for a certain non-Gaussian data distribution and heteroscedastic noise. We are not aware of prior work pointing out this fact. (See Section 4.1 for the counterexample and intuitions.)
 
 For non-isotropic Gaussian covariates, we can achieve sample-wise monotonicity with a regularizer that depends on the population covariance matrix of data. This suggests unlabeled data might also help mitigate double descent in some settings, because the population covariance can be estimated from unlabeled data. (See Section 6).
 
@@ -54,49 +46,25 @@ A recent stream of theoretical works consider model-wise double descent in simpl
 
 In this section, we prove that optimally-regularized ridge regression has test risk that is monotonic in samples, for isotropic gaussian covariates and linear response. This confirms the behavior empirically observed in Figure 1. We also show that this monotonicity is not "fragile", and using larger than larger regularization is still sample-monotonic (consistent with Figure 1).
 
-Formally, we consider the following linear regression problem in $d$ dimensions. The input/covariate $x \in {\mathbb{R}}^{d}$ is generated from $\mathcal{N}{(0,I_{d})}$, and the output/response is generated by
-
-with $\varepsilon \sim {\mathcal{N}{(0,\sigma^{2})}}$ and for some unknown parameter $\beta^{\ast} \in {\mathbb{R}}^{d}$. We denote the joint distribution of $(x,y)$ by $\mathcal{D}$. We are given $n$ training examples ${\{{(x_{i},y_{i})}\}}_{i = 1}^{n}$ i.i.d sampled from $\mathcal{D}$. We aim to learn a linear model ${f_{\beta}{(x)}} = {\langle x,\beta\rangle}$ with small population mean-squared error on the distribution $\mathcal{D}$
-
-For simplicity, let $X \in {\mathbb{R}}^{n \times d}$ be the data matrix that contains $x_{i}^{\top}$'s as rows and let $\overset{\rightarrow}{y} \in {\mathbb{R}}^{n}$ be column vector that contains the responses $y_{i}$'s as entries. For any estimator ${\hat{\beta}}_{n}{(X,\overset{\rightarrow}{y})}$ as a function of $n$ samples, define the expected risk of the estimator as:
-
-We consider the regularized least-squares estimator, also known as the ridge regression estimator. For a given $\lambda > 0$, define
-
-Here $I_{d}$ denotes the $d$ dimensional identity matrix. Let $\lambda_{n}^{\text{opt}}$ be the optimal ridge parameter (that achieves the minimum expected risk) given $n$ samples:
-
-Let ${\hat{\beta}}_{n}^{\text{opt}}$ be the estimator that corresponds to the $\lambda_{n}^{\text{opt}}$
-
-Our main theorem in this section shows that the expected risk of ${\hat{\beta}}_{n}^{\text{opt}}$ monotonically decreases as $n$ increases.
+Formally, we consider the following linear regression problem in $d$ dimensions. The input/covariate $x \in {\mathbb{R}}^{d}$ is generated from $\mathcal{N}{(0,I_{d})}$, and the output/response is generated by with $\varepsilon \sim {\mathcal{N}{(0,\sigma^{2})}}$ and for some unknown parameter $\beta^{\ast} \in {\mathbb{R}}^{d}$. We denote the joint distribution of $(x,y)$ by $\mathcal{D}$. We are given $n$ training examples ${\{{(x_{i},y_{i})}\}}_{i = 1}^{n}$ i.i.d sampled from $\mathcal{D}$. We aim to learn a linear model ${f_{\beta}{(x)}} = {\langle x,\beta\rangle}$ with small population mean-squared error on the distribution $\mathcal{D}$ For simplicity, let $X \in {\mathbb{R}}^{n \times d}$ be the data matrix that contains $x_{i}^{\top}$'s as rows and let $\overset{\rightarrow}{y} \in {\mathbb{R}}^{n}$ be column vector that contains the responses $y_{i}$'s as entries. For any estimator ${\hat{\beta}}_{n}{(X,\overset{\rightarrow}{y})}$ as a function of $n$ samples, define the expected risk of the estimator as: We consider the regularized least-squares estimator, also known as the ridge regression estimator. For a given $\lambda > 0$, define Here $I_{d}$ denotes the $d$ dimensional identity matrix. Let $\lambda_{n}^{\text{opt}}$ be the optimal ridge parameter (that achieves the minimum expected risk) given $n$ samples: Let ${\hat{\beta}}_{n}^{\text{opt}}$ be the estimator that corresponds to the $\lambda_{n}^{\text{opt}}$ Our main theorem in this section shows that the expected risk of ${\hat{\beta}}_{n}^{\text{opt}}$ monotonically decreases as $n$ increases.
 
 ### Theorem 1
 
-In the setting above, the expected test risk of optimally-regularized well-specified isotropic linear regression is monotonic in samples. That is, for all $\beta^{\ast} \in {\mathbb{R}}^{d}$ and all ${d \in {\mathbb{N}}},{{n \in {\mathbb{N}}},{\sigma > 0}}$,
-
-The above theorem shows a strong form of monotonicity, since it holds for every fixed ground-truth $\beta^{\ast}$, and does not require averaging over any prior on ground-truths. Moreover, it holds *non-asymptotically*, for every fixed ${n,d} \in {\mathbb{N}}$. Obtaining such non-asymptotic results is nontrivial, since we cannot rely on concentration properties of the involved random variables.
+In the setting above, the expected test risk of optimally-regularized well-specified isotropic linear regression is monotonic in samples. That is, for all $\beta^{\ast} \in {\mathbb{R}}^{d}$ and all ${d \in {\mathbb{N}}},{{n \in {\mathbb{N}}},{\sigma > 0}}$, The above theorem shows a strong form of monotonicity, since it holds for every fixed ground-truth $\beta^{\ast}$, and does not require averaging over any prior on ground-truths. Moreover, it holds *non-asymptotically*, for every fixed ${n,d} \in {\mathbb{N}}$. Obtaining such non-asymptotic results is nontrivial, since we cannot rely on concentration properties of the involved random variables.
 
 In particular, evaluating $\overline{R}{({\hat{\beta}}_{n}^{\text{opt}})}$ as a function of the problem parameters ($n,\sigma,\beta^{\ast}$, and $d$) is technically challenging. In fact, we suspect that a simple closed form expression does not exist. The key idea towards proving the theorem is to derive a "partial evaluation" --- the following lemmas shows that we can write $\overline{R}{({\hat{\beta}}_{n}^{\text{opt}})}$ in the form of $\mathbb{E}{\lbrack{g{(\gamma,\sigma,n,d,\beta^{\ast})}}\rbrack}$ where $\gamma \in {\mathbb{R}}^{d}$ contains the singular values of $X$. We will then couple the randomness of data matrices obtained by adding a single sample, and use singular value interlacing to compare their singular values.
 
 ### Lemma 1
 
-In the setting of Theorem 1, let $\gamma = {(\gamma_{1},\ldots,\gamma_{d})}$ be the singular values of the data matrix $X \in {\mathbb{R}}^{n \times d}$. (If $n < d$, we pad the $\gamma_{i} = 0$ for $i > n$.) Let $\Gamma_{n}$ be the distribution of $\gamma$. Then, the expected test risk is
-
-From Lemma 1, the below lemma follows directly by taking derivatives to find the optimal $\lambda$.
+In the setting of Theorem 1, let $\gamma = {(\gamma_{1},\ldots,\gamma_{d})}$ be the singular values of the data matrix $X \in {\mathbb{R}}^{n \times d}$. (If $n < d$, we pad the $\gamma_{i} = 0$ for $i > n$.) Let $\Gamma_{n}$ be the distribution of $\gamma$. Then, the expected test risk is From Lemma 1, the below lemma follows directly by taking derivatives to find the optimal $\lambda$.
 
 ### Lemma 2
 
-In the setting of Theorem 1, the optimal ridge parameter is constant for all $n$: ${\lambda_{n}^{\text{opt}} = \frac{d\sigma^{2}}{\left\| \beta^{\ast} \right\|_{2}^{2}}}.$ Moreover, the optimal expected test risk can be written as
-
-Lemma 2's proof is deferred to the Appendix, Section A.1. We now prove Lemma 1.
+In the setting of Theorem 1, the optimal ridge parameter is constant for all $n$: ${\lambda_{n}^{\text{opt}} = \frac{d\sigma^{2}}{\left\| \beta^{\ast} \right\|_{2}^{2}}}.$ Moreover, the optimal expected test risk can be written as Lemma 2's proof is deferred to the Appendix, Section A.1. We now prove Lemma 1.
 
 ### Proof of Lemma 1
 
-For isotropic $x$, the test risk is related to the parameter error as:
-
-Plugging in the form of ${\hat{\beta}}_{n,\lambda}$ and expanding:
-
-Now let $X = {U\SigmaV^{T}}$ be the full singular value decomposition of $X$, with ${U \in {\mathbb{R}}^{n \times n}},{{\Sigma \in {\mathbb{R}}^{n \times d}},{V \in {\mathbb{R}}^{d \times d}}}$. Let $(\gamma_{1},{\ldots\gamma_{d}})$ denote the singular values, defining $\gamma_{i} = 0$ for $i > {\min{(n,d)}}$. Then, continuing:
-
-In Line follows because by symmetry, the distribution of $V$ is a uniformly random orthonormal matrix, and $\Sigma$ is independent of $V$. Thus, $z:={V^{T}\beta^{\ast}}$ is distributed as a uniformly random point on the unit sphere of radius ${\|\beta^{\ast}\|}_{2}$.
+For isotropic $x$, the test risk is related to the parameter error as: Plugging in the form of ${\hat{\beta}}_{n,\lambda}$ and expanding: Now let $X = {U\SigmaV^{T}}$ be the full singular value decomposition of $X$, with ${U \in {\mathbb{R}}^{n \times n}},{{\Sigma \in {\mathbb{R}}^{n \times d}},{V \in {\mathbb{R}}^{d \times d}}}$. Let $(\gamma_{1},{\ldots\gamma_{d}})$ denote the singular values, defining $\gamma_{i} = 0$ for $i > {\min{(n,d)}}$. Then, continuing: In Line follows because by symmetry, the distribution of $V$ is a uniformly random orthonormal matrix, and $\Sigma$ is independent of $V$. Thus, $z:={V^{T}\beta^{\ast}}$ is distributed as a uniformly random point on the unit sphere of radius ${\|\beta^{\ast}\|}_{2}$.
 
 Now we are ready to prove Theorem 1.
 
@@ -106,15 +74,11 @@ Let $\overset{\sim}{X} \in {\mathbb{R}}^{{({n + 1})} \times d}$ and $X \in {\mat
 
 If we couple $\overset{\sim}{X}$ and $X$, it will induce a coupling $\Pi$ between the distributions $\Gamma_{n + 1}$ and $\Gamma_{n}$, of the singular values of the data matrix for $n + 1$ and $n$ samples. This coupling satisfies that ${\overset{\sim}{\gamma}}_{i} \geq \gamma_{i}$ with probability 1 for ${({\{{\overset{\sim}{\gamma}}_{i}\}},{\{\gamma_{i}\}})} \sim \Pi$.
 
-Now, expand the test risk using Lemma 2, and observe that each term in the sum of Equation below is monotone decreasing with $\gamma_{i}$. Thus:
-
-By similar techniques, we can also prove that *overregularization* ---that is, using ridge parameters $\lambda$ larger than the optimal value--- is still monotonic. This proves the behavior empirically observed in Figure 1.
+Now, expand the test risk using Lemma 2, and observe that each term in the sum of Equation below is monotone decreasing with $\gamma_{i}$. Thus: By similar techniques, we can also prove that *overregularization* ---that is, using ridge parameters $\lambda$ larger than the optimal value--- is still monotonic. This proves the behavior empirically observed in Figure 1.
 
 ### Theorem 2
 
-In the same setting as Theorem 1, over-regularized regression is also monotonic in samples. That is, for all ${d \in {\mathbb{N}}},{{n \in {\mathbb{N}}},{{\sigma > 0},{\beta^{\ast} \in {\mathbb{R}}^{d}}}}$, the following holds
-
-where $\lambda^{\ast} = \frac{d\sigma^{2}}{\left\| \beta^{\ast} \right\|_{2}^{2}}$.
+In the same setting as Theorem 1, over-regularized regression is also monotonic in samples. That is, for all ${d \in {\mathbb{N}}},{{n \in {\mathbb{N}}},{{\sigma > 0},{\beta^{\ast} \in {\mathbb{R}}^{d}}}}$, the following holds where $\lambda^{\ast} = \frac{d\sigma^{2}}{\left\| \beta^{\ast} \right\|_{2}^{2}}$.
 
 ### Proof
 
@@ -124,21 +88,9 @@ In this section, we show that for a certain family of linear models, optimal reg
 
 We consider the following learning problem. Informally, covariates live in a $p$-dimensional ambient space, and we consider models which first linearly project down to a random $d$-dimensional subspace, then perform ridge regression in that subspace for some $d \leq p$.
 
-Formally, the covariate $x \in {\mathbb{R}}^{p}$ is generated from $\mathcal{N}{(0,I_{p})}$, and the response is generated by
+Formally, the covariate $x \in {\mathbb{R}}^{p}$ is generated from $\mathcal{N}{(0,I_{p})}$, and the response is generated by with $\varepsilon \sim {\mathcal{N}{(0,\sigma^{2})}}$ and for some unknown parameter $\theta \in {\mathbb{R}}^{p}$. Next, $n$ examples ${\{{(x_{i},y_{i})}\}}_{i = 1}^{n}$ are sampled i.i.d from this distribution. For a given model size $d \leq p$, we first sample a random orthonormal matrix $P \in {\mathbb{R}}^{d \times p}$ which specifies our model. We then consider models which operate on ${(\overset{\sim}{x_{i}},y_{i})} \in {{\mathbb{R}}^{d} \times {\mathbb{R}}}$, where $\overset{\sim}{x_{i}} = {Px_{i}}$. We denote the joint distribution of $(\overset{\sim}{x},y)$ by $\mathcal{D}$. Here, we emphasize that $p$ is some large ambient dimension and $d \leq p$ is the size of the model we learn.
 
-with $\varepsilon \sim {\mathcal{N}{(0,\sigma^{2})}}$ and for some unknown parameter $\theta \in {\mathbb{R}}^{p}$. Next, $n$ examples ${\{{(x_{i},y_{i})}\}}_{i = 1}^{n}$ are sampled i.i.d from this distribution. For a given model size $d \leq p$, we first sample a random orthonormal matrix $P \in {\mathbb{R}}^{d \times p}$ which specifies our model. We then consider models which operate on ${(\overset{\sim}{x_{i}},y_{i})} \in {{\mathbb{R}}^{d} \times {\mathbb{R}}}$, where $\overset{\sim}{x_{i}} = {Px_{i}}$. We denote the joint distribution of $(\overset{\sim}{x},y)$ by $\mathcal{D}$. Here, we emphasize that $p$ is some large ambient dimension and $d \leq p$ is the size of the model we learn.
-
-For a fixed $P$, we want to learn a linear model ${f_{\hat{\beta}}{(\overset{\sim}{x})}} = {\langle\overset{\sim}{x},\hat{\beta}\rangle}$ for estimating $y$, with small mean squared error on distribution:
-
-For $n$ samples $(x_{i},y_{i})$, let $X \in {\mathbb{R}}^{n \times p}$ be the data matrix, $\overset{\sim}{X} = {XP^{T}} \in {\mathbb{R}}^{n \times d}$ be the projected data matrix and $\overset{\rightarrow}{y} \in {\mathbb{R}}^{n}$ be the responses. For any estimator $\hat{\beta}{(\overset{\sim}{X},\overset{\rightarrow}{y})}$ as a function of the observed samples, define the expected risk of the estimator as:
-
-We consider the regularized least-squares estimator. For a given $\lambda > 0$, define
-
-Let $\lambda_{d}^{\text{opt}}$ be the optimal ridge parameter (that achieves the minimum expected risk) for a model of size $d$, with $n$ samples:
-
-Let ${\hat{\beta}}_{d}^{\text{opt}}$ be the estimator that corresponds to the $\lambda_{d}^{\text{opt}}$
-
-Now, our main theorem in this setting shows that with optimal $\ell_{2}$ regularization, test performance is monotonic in model size.
+For a fixed $P$, we want to learn a linear model ${f_{\hat{\beta}}{(\overset{\sim}{x})}} = {\langle\overset{\sim}{x},\hat{\beta}\rangle}$ for estimating $y$, with small mean squared error on distribution: For $n$ samples $(x_{i},y_{i})$, let $X \in {\mathbb{R}}^{n \times p}$ be the data matrix, $\overset{\sim}{X} = {XP^{T}} \in {\mathbb{R}}^{n \times d}$ be the projected data matrix and $\overset{\rightarrow}{y} \in {\mathbb{R}}^{n}$ be the responses. For any estimator $\hat{\beta}{(\overset{\sim}{X},\overset{\rightarrow}{y})}$ as a function of the observed samples, define the expected risk of the estimator as: We consider the regularized least-squares estimator. For a given $\lambda > 0$, define Let $\lambda_{d}^{\text{opt}}$ be the optimal ridge parameter (that achieves the minimum expected risk) for a model of size $d$, with $n$ samples: Let ${\hat{\beta}}_{d}^{\text{opt}}$ be the estimator that corresponds to the $\lambda_{d}^{\text{opt}}$ Now, our main theorem in this setting shows that with optimal $\ell_{2}$ regularization, test performance is monotonic in model size.
 
 ### Theorem 3
 
@@ -156,9 +108,7 @@ For all $\theta \in {\mathbb{R}}^{p}$, ${d,n} \in {\mathbb{N}}$, and $\lambda > 
 
 Let $(\gamma_{1},\ldots,\gamma_{m})$ be the singular values of the data matrix $\overset{\sim}{X} \in {\mathbb{R}}^{n \times d}$, for $m:={\max{(n,d)}}$ (with $\gamma_{i} = 0$ for $i > {\min{(n,d)}}$). Let $\Gamma_{d}$ be the distribution of singular values $(\gamma_{1},\ldots,\gamma_{m})$.
 
-Then, the optimal ridge parameter is constant for all $d$:
-
-Moreover, the optimal expected test risk can be written as
+Then, the optimal ridge parameter is constant for all $d$: Moreover, the optimal expected test risk can be written as
 
 ### Proof
 
@@ -174,9 +124,7 @@ Here we give an example of a distribution $(x,y)$ for which the expected error o
 
 This counterexample is most intuitive to understand when the ridge parameter $\lambda$ is allowed to depend on the specific sample instance $(X,\overset{\rightarrow}{y})$ as well as $n$^11^1 Recall, our model of optimal ridge regularization from Section 2 only allows $\lambda$ to depend on $n$ (not on $X,\overset{\rightarrow}{y}$).. We sketch the intuition for this below.
 
-Consider the following distribution on $(x,y)$ in $d = 2$ dimensions. This distribution has one "clean" coordinate and one "noisy" coordinate. The distribution is:
-
-where $A = 10$ and $\pm A$ is uniformly random independent noise. This distribution is "well-specified" in that the optimal predictor is linear in $x$: ${\mathbb{E}{\lbrack\left. y \middle| x \right.\rbrack}} = {\langle\beta^{\ast},x\rangle}$ for $\beta^{\ast} = {\lbrack 1,0\rbrack}$. However, the noise is heteroscedastic.
+Consider the following distribution on $(x,y)$ in $d = 2$ dimensions. This distribution has one "clean" coordinate and one "noisy" coordinate. The distribution is: where $A = 10$ and $\pm A$ is uniformly random independent noise. This distribution is "well-specified" in that the optimal predictor is linear in $x$: ${\mathbb{E}{\lbrack\left. y \middle| x \right.\rbrack}} = {\langle\beta^{\ast},x\rangle}$ for $\beta^{\ast} = {\lbrack 1,0\rbrack}$. However, the noise is heteroscedastic.
 
 For $n = 1$ samples, the estimator can decide whether to use small $\lambda$ or large $\lambda$ depending on if the sampled coordinate is the "clean" or "noisy" one. Specifically, for the sample $(x,y)$: If $x = {\overset{\rightarrow}{e}}_{1}$, then the optimal ridge parameter is $\lambda = 0$. If $x = {\overset{\rightarrow}{e}}_{2}$, then the optimal parameter is $\lambda = \infty$.
 
@@ -188,11 +136,7 @@ It turns out that a slight modification to the above also serves as a counterexa
 
 There exists a distribution $\mathcal{D}$ over $(x,y)$ for ${x \in {\mathbb{R}}^{2}},{y \in {\mathbb{R}}}$ with the following properties.
 
-Let ${\hat{\beta}}_{n}^{\text{opt}}$ be the optimally-regularized ridge regression solution for $n$ samples $(X,\overset{\rightarrow}{y})$ from $\mathcal{D}$. Then:
-
-$\mathcal{D}$ is "well-specified" in that $\mathbb{E}_{\mathcal{D}}{\lbrack\left. y \middle| x \right.\rbrack}$ is a linear function of $x$,
-
-The expected test risk increases as a function of $n$, between $n = 1$ and $n = 2$. Specifically
+Let ${\hat{\beta}}_{n}^{\text{opt}}$ be the optimally-regularized ridge regression solution for $n$ samples $(X,\overset{\rightarrow}{y})$ from $\mathcal{D}$. Then: $\mathcal{D}$ is "well-specified" in that $\mathbb{E}_{\mathcal{D}}{\lbrack\left. y \middle| x \right.\rbrack}$ is a linear function of $x$, The expected test risk increases as a function of $n$, between $n = 1$ and $n = 2$. Specifically
 
 ### Proof
 
@@ -212,9 +156,7 @@ Here we show various settings where optimal $\ell_{2}$ regularization empiricall
 
 We first consider the setting of Theorem 1, but with non-isotropic covariantes $x$. That is, we perform ridge regression on samples $(x,y)$, where the covariate $x \in {\mathbb{R}}^{d}$ is generated from $\mathcal{N}{(0,\Sigma)}$ for $\Sigma \neq I_{d}$. As before, the response is generated by $y = {{\langle x,\beta^{\ast}\rangle} + \varepsilon}$ with $\varepsilon \sim {\mathcal{N}{(0,\sigma^{2})}}$ for some unknown parameter $\beta^{\ast} \in {\mathbb{R}}^{d}$.
 
-We consider the same ridge regression estimator,
-
-Figure 2: Test Risk vs. Num. Samples for Non-Isotropic Ridge Regression in d = 30 dimensions. Unregularized regression is non-monotonic in samples, but optimally-regularized regression is monotonic. Note the optimal regularization λ depends on the number of samples n. Plotting empirical means of test risk over 5000 trials. See Figure 6 for the corresponding train errors.
+We consider the same ridge regression estimator, Figure 2: Test Risk vs. Num. Samples for Non-Isotropic Ridge Regression in d = 30 dimensions. Unregularized regression is non-monotonic in samples, but optimally-regularized regression is monotonic. Note the optimal regularization λ depends on the number of samples n. Plotting empirical means of test risk over 5000 trials. See Figure 6 for the corresponding train errors.
 
 Figure 2 shows one instance of this, for a particular choice of $\Sigma$ and $\beta^{\ast}$. The covariance $\Sigma$ is diagonal, with $\Sigma_{i,i} = 10$ for $i \leq 15$ and $\Sigma_{i,i} = 1$ for $i > 15$. That is, the covariance has one "large" eigenspace and one "small" eigenspace. The ground-truth $\beta^{\ast} = {{0.1\overset{\rightarrow}{e_{1}}} + \overset{\rightarrow}{e_{30}}}$, which lies almost entirely within the "small" eigenspace of $\Sigma$. The noise parameter is $\sigma = 0.5$.
 
@@ -224,9 +166,7 @@ In this setting, optimally-regularized ridge regression is empirically monotonic
 
 ### Random ReLU Features
 
-We consider random ReLU features, in the random features framework of Rahimi & Recht. We apply random features to Fashion-MNIST Xiao et al., an image classification problem with 10 classes. Input images $x \in {\mathbb{R}}^{d}$ are normalized and flattened to ${\lbrack{- 1},1\rbrack}^{d}$ for $d = 784$. Class labels are encoded as one-hot vectors $y \in {\{\overset{\rightarrow}{e_{1}},{\ldots\overset{\rightarrow}{e_{10}}}\}} \subset {\mathbb{R}}^{10}$. For a given number of features $D$, and number of samples $n$, the random feature classifier is obtained by performing regularized linear regression on the embedding
-
-where $W \in {\mathbb{R}}^{D \times d}$ is a matrix with each entry sampled i.i.d $\mathcal{N}{(0,{1/\sqrt{d}})}$, and ReLU applies pointwise. This is equivalent to a 2-layer fully-connected neural network with a frozen (randomly-initialized) first layer, trained with $\ell_{2}$ loss and weight decay.
+We consider random ReLU features, in the random features framework of Rahimi & Recht. We apply random features to Fashion-MNIST Xiao et al., an image classification problem with 10 classes. Input images $x \in {\mathbb{R}}^{d}$ are normalized and flattened to ${\lbrack{- 1},1\rbrack}^{d}$ for $d = 784$. Class labels are encoded as one-hot vectors $y \in {\{\overset{\rightarrow}{e_{1}},{\ldots\overset{\rightarrow}{e_{10}}}\}} \subset {\mathbb{R}}^{10}$. For a given number of features $D$, and number of samples $n$, the random feature classifier is obtained by performing regularized linear regression on the embedding where $W \in {\mathbb{R}}^{D \times d}$ is a matrix with each entry sampled i.i.d $\mathcal{N}{(0,{1/\sqrt{d}})}$, and ReLU applies pointwise. This is equivalent to a 2-layer fully-connected neural network with a frozen (randomly-initialized) first layer, trained with $\ell_{2}$ loss and weight decay.
 
 Figure 3(a) shows the test error of the random features classifier, for $D = 500$ random features and varying number of train samples. We see that underregularized models are non-monotonic, but optimal $\ell_{2}$ regularization is monotonic in samples. Moreover, the optimal ridge parameter $\lambda$ appears to be constant for all $n$, similar to our results from the isotropic setting in Theorem 1.
 
@@ -262,9 +202,7 @@ Here we investigate whether monotonicity provably holds in more general models, 
 
 ### Adaptive Regularization
 
-The results on isotropic regression in Section 2 imply that ridge regression can be made sample-monotonic even for non-isotropic covariates, if an appropriate regularizer is applied. Specifically, the appropriate regularizer depends on the covariance of the inputs: for $x \sim {\mathcal{N}{(0,\Sigma)}}$, the following estimator is sample-monotonic for optimally-tuned $\lambda$:
-
-This follows directly from Theorem 1 by applying a change-of-variable; full details of this equivalence are in Section A.3. Note that if the population covariance $\Sigma$ is not known, it can potentially be estimated from unlabeled data.
+The results on isotropic regression in Section 2 imply that ridge regression can be made sample-monotonic even for non-isotropic covariates, if an appropriate regularizer is applied. Specifically, the appropriate regularizer depends on the covariance of the inputs: for $x \sim {\mathcal{N}{(0,\Sigma)}}$, the following estimator is sample-monotonic for optimally-tuned $\lambda$: This follows directly from Theorem 1 by applying a change-of-variable; full details of this equivalence are in Section A.3. Note that if the population covariance $\Sigma$ is not known, it can potentially be estimated from unlabeled data.
 
 ### Towards Proving Monotonicity
 
@@ -274,23 +212,13 @@ Specifically, we conjecture the following.
 
 ### Conjecture 1
 
-For all $d \in {\mathbb{N}}$, and all PSD covariances $\Sigma \in {\mathbb{R}}^{d \times d}$, consider the distribution on $(x,y)$ where $x \sim {\mathcal{N}{(0,\Sigma)}}$, and $y \sim {{\langle x,\beta^{\ast}\rangle} + {\mathcal{N}{(0,\sigma^{2})}}}$. Then, we conjecture that the expected test risk of the ridge regression estimator:
-
-for optimally-tuned $\lambda \geq 0$, is monotone non-increasing in number of samples $n$. That is, for all $n \in {\mathbb{N}}$,
-
-where we define ${\hat{\beta}}_{n,0}:={\lim_{\lambda\rightarrow{0 +}}{\hat{\beta}}_{n,\lambda}} = {X^{\dagger}y}$.
+For all $d \in {\mathbb{N}}$, and all PSD covariances $\Sigma \in {\mathbb{R}}^{d \times d}$, consider the distribution on $(x,y)$ where $x \sim {\mathcal{N}{(0,\Sigma)}}$, and $y \sim {{\langle x,\beta^{\ast}\rangle} + {\mathcal{N}{(0,\sigma^{2})}}}$. Then, we conjecture that the expected test risk of the ridge regression estimator: for optimally-tuned $\lambda \geq 0$, is monotone non-increasing in number of samples $n$. That is, for all $n \in {\mathbb{N}}$, where we define ${\hat{\beta}}_{n,0}:={\lim_{\lambda\rightarrow{0 +}}{\hat{\beta}}_{n,\lambda}} = {X^{\dagger}y}$.
 
 In order to establish Conjecture 1, it is sufficient to prove the following technical conjecture.
 
 ### Conjecture 2
 
-For all $n \in {\mathbb{N}}$, $d \geq n$, $\lambda > 0$, symmetric positive definite matrix $Q \in {\mathbb{R}}^{d \times d}$, the following holds.
-
-where $X \in {\mathbb{R}}^{n \times d}$ is sampled with each entry i.i.d. $\mathcal{N}{}$. Similarly, define
-
-The expected test risk for $n$ samples can be expressed as:
-
-Then, we conjecture that the following two conditions hold.
+For all $n \in {\mathbb{N}}$, $d \geq n$, $\lambda > 0$, symmetric positive definite matrix $Q \in {\mathbb{R}}^{d \times d}$, the following holds. where $X \in {\mathbb{R}}^{n \times d}$ is sampled with each entry i.i.d. $\mathcal{N}{}$. Similarly, define The expected test risk for $n$ samples can be expressed as: Then, we conjecture that the following two conditions hold.
 
 Proving Conjecture 2 presents a number of technical challenges, but we have numerically verified it in a variety of cases. (One can numerically verify the conjecture for a fixed $Q$, $n$ and $d$. Here $Q$ can be assumed to be diagonal w.l.o.g. because $X$ is isotropic. The matrices and scalars in equation can be evaluated by sampling the random matrix $X$. The derivatives w.r.t $\lambda$ can be done by auto-differentiation).
 

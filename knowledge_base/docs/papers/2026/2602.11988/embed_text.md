@@ -14,9 +14,7 @@ Surprisingly, we observe that *developer-provided files only marginally improve 
 
 ### Key contributions
 
-Our key contributions are:
-
-AGENTbench, a new curated benchmark for the impact of actively used context files on agents' ability to solve real-world software engineering tasks.
+Our key contributions are: AGENTbench, a new curated benchmark for the impact of actively used context files on agents' ability to solve real-world software engineering tasks.
 
 An extensive evaluation of different coding agents and underlying models on AGENTbench and SWE-bench Lite, showing that LLM-generated context files tend to decrease agent performance, across models or prompts used to generate them, while developer-written context files tend to slightly improve it.
 
@@ -50,9 +48,9 @@ In this Section, we discuss the requirements for AGENTbench, a SWE-Bench-like be
 
 ### Notation and Definitions
 
-We first introduce the notation to describe codebases, their test suites, and changes to these codebases in the form of patches. Following the notation of Mündler et al., we denote a codebase, or repository $R$ after applying patch $X$ as $R \circ X$. Several patches can be applied sequentially, i.e., $R \circ X \circ Y$ is the codebase $R$ after applying a first patch $X$ and then a second one $Y$.
+We first introduce the notation to describe codebases, their test suites, and changes to these codebases in the form of patches. Following the notation of Mündler et al., we denote a codebase, or repository $R$ after applying patch $X$ as $R\circ X$. Several patches can be applied sequentially, i.e., $R\circ X\circ Y$ is the codebase $R$ after applying a first patch $X$ and then a second one $Y$.
 
-A *test suite* $\mathcal{T}$ is a collection of tests that is used to validate the functionality of code in the repository. Executing a test suite $\mathcal{T}$ on repository state $R$ returns ${{exec}_{R}{(\mathcal{T})}} \in {\{\text{pass},\text{fail}\}}$ either indicating that all tests in the suite passed or that at least one test failed. An *issue* $I$ is a task for autonomous completion by the coding agent, such as resolving a bug or implementing a requested feature. We denote quadruples of $(I,R,\mathcal{T},X^{\ast})$ as *instances*, where the coding agent is tasked with predicting a patch $\hat{X}$ given issue $I$ and repository state $R$ such that ${{exec}_{R \circ \hat{X}}{(\mathcal{T})}} = \text{pass}$, and $X^{\ast}$ is the golden patch for that instance. We define the *success rate* $\mathcal{S}$ as the percentage of predicted patches ${\hat{X}}_{i}$ for instances $(I_{i},R_{i},\mathcal{T}_{i},X_{i}^{\ast})$ where ${{exec}_{R_{i} \circ {\hat{X}}_{i}}{(\mathcal{T}_{i})}} = \text{pass}$.
+A *test suite* $\mathcal{T}$ is a collection of tests that is used to validate the functionality of code in the repository. Executing a test suite $\mathcal{T}$ on repository state $R$ returns $\mathrm{exec}_{R}(\mathcal{T})\in\{\textsc{pass},\textsc{fail}\}$ either indicating that all tests in the suite passed or that at least one test failed. An *issue* $I$ is a task for autonomous completion by the coding agent, such as resolving a bug or implementing a requested feature. We denote quadruples of $(I,R,\mathcal{T},X^{*})$ as *instances*, where the coding agent is tasked with predicting a patch $\hat{X}$ given issue $I$ and repository state $R$ such that $\mathrm{exec}_{R\circ\hat{X}}(\mathcal{T})=\textsc{pass}$, and $X^{*}$ is the golden patch for that instance. We define the *success rate* $\mathcal{S}$ as the percentage of predicted patches $\hat{X}_{i}$ for instances $(I_{i},R_{i},\mathcal{T}_{i},X^{*}_{i})$ where $\mathrm{exec}_{R_{i}\circ\hat{X}_{i}}(\mathcal{T}_{i})=\textsc{pass}$.
 
 ### Generation of AGENTbench Instances
 
@@ -76,15 +74,15 @@ For every PR and corresponding repository state, we set up an execution environm
 
 ### Task Descriptions
 
-Many of the smaller repositories we used to source AGENTbench do not enforce strict requirements on the quality of PR and issue descriptions. As a result, many issues are too imprecise and underspecified to solve the task in a testable manner (e.g., in some cases, the PR body is empty). Further, some PRs implement new features, which would require detailed descriptions about expected behavior and interfaces. We therefore use a third LLM agent to produce a standardized and detailed task description $I$ based on the PR description, associated issues if available, and the original patch $X^{\ast}$. This standardized task description is divided into 6 sections: description, steps to reproduce, expected behavior, observed behavior, specification, and additional information. Importantly, we ask the agent not to leak the solution in the generated task description, and to provide precise specifications. We randomly sampled and inspected 10% of the generated instances, and found that none of them leaked the solution.
+Many of the smaller repositories we used to source AGENTbench do not enforce strict requirements on the quality of PR and issue descriptions. As a result, many issues are too imprecise and underspecified to solve the task in a testable manner (e.g., in some cases, the PR body is empty). Further, some PRs implement new features, which would require detailed descriptions about expected behavior and interfaces. We therefore use a third LLM agent to produce a standardized and detailed task description $I$ based on the PR description, associated issues if available, and the original patch $X^{*}$. This standardized task description is divided into 6 sections: description, steps to reproduce, expected behavior, observed behavior, specification, and additional information. Importantly, we ask the agent not to leak the solution in the generated task description, and to provide precise specifications. We randomly sampled and inspected 10% of the generated instances, and found that none of them leaked the solution.
 
 ### Generating Unit Tests
 
-As most collected PRs do not modify or add unit tests that we could use to check the correctness of any given implementation, we use an LLM agent to generate such unit tests. We provide the agent with the standardized task description $I$, the test files modified by the PR, if available, the original code changes $X^{\ast}$ made by the PR, and the base state of the repository $R$. We then ask it to generate tests that pass for any implementation that resolves the described task. We verify that the added tests fail on $R$ and pass on $R \circ X^{\ast}$. Finally, we manually improve tests that are over-specified (i.e., tests that check for implementation details not specified in the task description), resulting in newly generated tests $\mathcal{T}_{i}^{X}$. We further determine all tests of the repository test suite $\mathcal{T}_{i}^{R}$ that pass on the patched code, i.e., the maximal set $\mathcal{T}_{i}^{R \ast} \subseteq \mathcal{T}_{i}^{R}$, such that ${{exec}_{R_{i} \circ X_{i}^{\ast}}{(\mathcal{T}_{i}^{R \ast})}} = \text{pass}$, and obtain the final test set $\mathcal{T}_{i} = {\mathcal{T}_{i}^{X} \uplus \mathcal{T}_{i}^{R \ast}}$. The resulting tests achieve an average coverage of 75% of the modified code (see Table˜1).
+As most collected PRs do not modify or add unit tests that we could use to check the correctness of any given implementation, we use an LLM agent to generate such unit tests. We provide the agent with the standardized task description $I$, the test files modified by the PR, if available, the original code changes $X^{*}$ made by the PR, and the base state of the repository $R$. We then ask it to generate tests that pass for any implementation that resolves the described task. We verify that the added tests fail on $R$ and pass on $R\circ X^{*}$. Finally, we manually improve tests that are over-specified (i.e., tests that check for implementation details not specified in the task description), resulting in newly generated tests $\mathcal{T}_{i}^{X}$. We further determine all tests of the repository test suite $\mathcal{T}_{i}^{R}$ that pass on the patched code, i.e., the maximal set $\mathcal{T}_{i}^{R*}\subseteq\mathcal{T}_{i}^{R}$, such that $\mathrm{exec}_{R_{i}\circ X_{i}^{*}}(\mathcal{T}_{i}^{R*})=\textsc{pass}$, and obtain the final test set $\mathcal{T}_{i}=\mathcal{T}^{X}_{i}\uplus\mathcal{T}^{R*}_{i}$. The resulting tests achieve an average coverage of 75% of the modified code (see Table˜1).
 
 ### Evaluation
 
-We thus obtain AGENTbench instances $i$, each consisting of a task description $I_{i}$, a codebase $R_{i}$, golden patch $X_{i}^{\ast}$, and a set of tests $\mathcal{T}_{i}$. During evaluation, we first set up the environment before prompting the coding agent with the task description $I_{i}$, retrieving the predicted patch ${\hat{X}}_{i}$, and measuring ${exec}_{R_{i} \circ {\hat{X}}_{i}}{(\mathcal{T}_{i})}$.
+We thus obtain AGENTbench instances $i$, each consisting of a task description $I_{i}$, a codebase $R_{i}$, golden patch $X^{*}_{i}$, and a set of tests $\mathcal{T}_{i}$. During evaluation, we first set up the environment before prompting the coding agent with the task description $I_{i}$, retrieving the predicted patch $\hat{X}_{i}$, and measuring $\mathrm{exec}_{R_{i}\circ\hat{X}_{i}}(\mathcal{T}_{i})$.
 
 Figure 2: Distribution of AGENTbench instances across 12 open-source GitHub repositories, each containing context files.
 
@@ -128,9 +126,7 @@ We use SWE-bench Lite, which consists of 300 tasks sourced from GitHub issues ac
 
 ### Settings
 
-We consider three context file settings:
-
-None: No context files are available, i.e., we remove developer-provided files for AGENTbench.
+We consider three context file settings: None: No context files are available, i.e., we remove developer-provided files for AGENTbench.
 
 LLM: An LLM-generated context file is available. We use the recommended initialization command and model for each agent individually to generate the context file using the pre-patch repository state $R$.
 
@@ -144,9 +140,7 @@ The main metric for agent performance is success rate (Section˜3.1), i.e., the 
 
 Figure 4: Number of steps before the first interaction between the agent and a file included in the PR patch (lower is better) is generally lower without context files than with LLM-generated context files or with developer-written context files (Human) on SWE-bench Lite (left) and AGENTbench (right).
 
-SWE- Bench Lite
-
-Table 2: The average number of steps (lower is better) and execution cost (in USD — lower is better) per SWE-bench Lite and AGENTbench instance without context files (None), with LLM-generated context files (LLM), and with developer-written context files (Hum). We bold the best setting.
+SWE- Bench Lite Table 2: The average number of steps (lower is better) and execution cost (in USD — lower is better) per SWE-bench Lite and AGENTbench instance without context files (None), with LLM-generated context files (LLM), and with developer-written context files (Hum). We bold the best setting.
 
 ### LLM-generated context files increase cost and reduce performance
 
@@ -164,7 +158,7 @@ Figure 5: When removing all documentation-related files from the codebase, LLM-g
 
 Figure 6: Increase in average tool use when including LLM-generated (bright green) or developer-provided (dark green) context files, compared to the average tool use without context files. For tool names, we map Codex and Qwen Code tools to the Claude Code equivalents (we detail the mapping in Appendix˜A).
 
-To assess the usefulness of these overviews, we measure how quickly agents discover files relevant to the described issue $I$. Concretely, we measure the average number of steps before the coding agent interacts with any file modified in the original PR patch $X^{\ast}$. We exclude the $3\%$ of instances in which the agent never interacts with any file modified in $X^{\ast}$. Both on SWE-bench Lite and AGENTbench the presence of context files does not meaningfully reduce this metric, as shown in Figure˜4.
+To assess the usefulness of these overviews, we measure how quickly agents discover files relevant to the described issue $I$. Concretely, we measure the average number of steps before the coding agent interacts with any file modified in the original PR patch $X^{*}$. We exclude the $3\%$ of instances in which the agent never interacts with any file modified in $X^{*}$. Both on SWE-bench Lite and AGENTbench the presence of context files does not meaningfully reduce this metric, as shown in Figure˜4.
 
 While context files appear to increase the number of required steps significantly for GPT-5.1 mini, we observe in manual trace inspection that this increase is due to it (i) issuing multiple commands to find the context files and (ii) reading them (multiple times) despite them being already included in the agent's context. Interestingly, we only observed this behavior if context files were present at all. We conclude that context files, even developer-provided ones, are not effective at providing a repository overview.
 

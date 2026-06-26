@@ -12,9 +12,7 @@ In this work we propose SafetyNet: the first autonomous driving system to combin
 
 This combination outperforms ML-only systems and allows us to *safely* deploy an ML planning system in the busy streets of San Francisco, constituting the first demonstration of its kind. Our system exhibits a variety of maneuvers such as lane-following, keeping the distance to other vehicles, and navigating intersections without impeding the safety of the vehicle and other traffic participants.
 
-Our contributions are three-fold:
-
-The first combination of machine learning and a lightweight hand-engineered system to control a self-driving vehicle that learns from data while offering safety and legality guarantees.
+Our contributions are three-fold: The first combination of machine learning and a lightweight hand-engineered system to control a self-driving vehicle that learns from data while offering safety and legality guarantees.
 
 The first evaluation of such a system in the challenging, real-world, urban environment of downtown San Francisco.
 
@@ -52,9 +50,7 @@ The SafetyNet system is outlined in Fig. 1. It is composed of an ML neural polic
 
 ### III-A Input and Output
 
-Input representation. The input data is encoded in an ego-centric frame of reference where the SDV is always at a fixed location relative to a frame. As shown in Fig. 2, the input to our model consists of:
-
-SDV: the current and past poses of the SDV and its size.
+Input representation. The input data is encoded in an ego-centric frame of reference where the SDV is always at a fixed location relative to a frame. As shown in Fig. 2, the input to our model consists of: SDV: the current and past poses of the SDV and its size.
 
 Agents: the current and past poses of perceived agents, their sizes, and object type (e.g. vehicle, pedestrian, cyclist) produced by the SDV's perception system.
 
@@ -66,35 +62,21 @@ Route: the intended global route that the SDV should follow.
 
 We use a vectorized input representation based on to encode the perception outputs and map elements to vector sets. Each element includes a pose relative to the SDV pose, as well as additional features, such as the element type, time of observation.
 
-Output representation. We define a trajectory $\tau$ as a sequence of $T$ discrete states separated uniformly in time by $\Deltat$. Each state $s_{t}$ is defined as:
-
-where $x_{t},y_{t},\theta_{t}$ correspond to the pose of the rear axle of the SDV w.r.t. a fixed coordinate frame at time $t$ and $v_{t},a_{t},k_{t},j_{t}$ correspond to the velocity, longitudinal acceleration, curvature and jerk respectively.
+Output representation. We define a trajectory $\tau$ as a sequence of $T$ discrete states separated uniformly in time by $\Deltat$. Each state $s_{t}$ is defined as: where $x_{t},y_{t},\theta_{t}$ correspond to the pose of the rear axle of the SDV w.r.t. a fixed coordinate frame at time $t$ and $v_{t},a_{t},k_{t},j_{t}$ correspond to the velocity, longitudinal acceleration, curvature and jerk respectively.
 
 ### III-B ML planner
 
 Figure 3: Safety (top) and comfort (bottom) events as a function of dataset size for the ML planner (with and without the fallback layer). We see that the addition of the fallback layer significantly improves every metric, save passiveness. We note that the number of collisions is not decreasing quickly as the ML planner is trained on more data, but despite this the fallback layer ensures a high level of safety.
 
-Average Displacement Error [m]
-
-Training set size
-
-Table I: Open-loop performance trend with increasing training set size. The open-loop prediction error improves when trained with more data.
+Average Displacement Error [m] Training set size Table I: Open-loop performance trend with increasing training set size. The open-loop prediction error improves when trained with more data.
 
 The ML planning component of our system takes the input $I$ capturing the states around the SDV and outputs the trajectory $\overline{\tau}$ to be executed.
 
-Model architecture. Inspired by, our model is built on a hierarchical graph network-based architecture as shown in Fig. 2. It consists of a PointNet-based local subgraph for processing local information from vectorized inputs and a global graph using a Transformer encoder for reasoning about interactions over agents and map features.
+Model architecture. Inspired , our model is built on a hierarchical graph network-based architecture as shown in Fig. 2. It consists of a PointNet-based local subgraph for processing local information from vectorized inputs and a global graph using a Transformer encoder for reasoning about interactions over agents and map features.
 
-To ensure the predicted trajectories are physically feasible, we introduce a kinematic decoder, which models the vehicle kinematic using a unicycle model. First, a 3-layer multilayer perceptron (MLP) is added after the Transformer encoder, which predicts longitudinal jerk $j_{1:T}$ and curvature $k_{1:T}$ for each time step within the prediction horizon $T$. Then a kinematic layer takes the predictions as well as the current ego state to roll out the next state of the ego:
+To ensure the predicted trajectories are physically feasible, we introduce a kinematic decoder, which models the vehicle kinematic using a unicycle model. First, a 3-layer multilayer perceptron (MLP) is added after the Transformer encoder, which predicts longitudinal jerk $j_{1:T}$ and curvature $k_{1:T}$ for each time step within the prediction horizon $T$. Then a kinematic layer takes the predictions as well as the current ego state to roll out the next state of the ego: where $f$ is the update function of the kinematic model, $\gamma$ comprises a set of parameters for vehicle kinematic constraint, including the maximum allowed jerk, acceleration, curvature and steering angle, which are used to clip controls to ensure physical feasibility.
 
-where $f$ is the update function of the kinematic model, $\gamma$ comprises a set of parameters for vehicle kinematic constraint, including the maximum allowed jerk, acceleration, curvature and steering angle, which are used to clip controls to ensure physical feasibility.
-
-Inspired by the deep kinematic model introduced in, we implement $f$ as follows:
-
-where the state derivatives are computed as follows:
-
-Training framework. We use imitation learning to train a driving policy that mimics expert driving behavior by minimizing the L1 loss between the poses generated by the model and the ground truth poses. Following, we include perturbations to extend the distribution of states seen during the training and thus reduce the impact of the covariate shift. Although previous work used a pre-solver to smooth the target trajectory after applying perturbations, we can skip that thanks to the fact that we are using a kinematic decoder. Instead, we can simply penalize large values of jerk and curvature to reduce jerk and improve driving comfort. The final loss is then:
-
-where $p_{t}$ is the predicted pose $(x_{t},y_{t},\theta_{t})$ at time $t$, $\hat{p_{t}}$ is the target pose, and $\alpha$ and $\beta$ are hyperparameters.
+Inspired by the deep kinematic model introduced, we implement $f$ as follows: where the state derivatives are computed as follows: Training framework. We use imitation learning to train a driving policy that mimics expert driving behavior by minimizing the L1 loss between the poses generated by the model and the ground truth poses. Following, we include perturbations to extend the distribution of states seen during the training and thus reduce the impact of the covariate shift. Although previous work used a pre-solver to smooth the target trajectory after applying perturbations, we can skip that thanks to the fact that we are using a kinematic decoder. Instead, we can simply penalize large values of jerk and curvature to reduce jerk and improve driving comfort. The final loss is then: where $p_{t}$ is the predicted pose $(x_{t},y_{t},\theta_{t})$ at time $t$, $\hat{p_{t}}$ is the target pose, and $\alpha$ and $\beta$ are hyperparameters.
 
 ### III-C Fallback Layer
 
@@ -104,21 +86,13 @@ Dynamic feasibility. We evaluate whether the input trajectory remains within a f
 
 The bounds for those parameters were obtained from real-world vehicle testing. In practice, we typically use more conservative limits for jerk, longitudinal acceleration, and lateral acceleration to remain within comfortable limits.
 
-Legality. For a given trajectory, we evaluate whether it is violating the traffic rules. A trajectory will be labeled as Infeasible if any of the following violations happens:
-
-Running the stop sign,
-
-Violation of the right of way,
-
-Running a red traffic light,
-
-Leaving the drivable surface.
+Legality. For a given trajectory, we evaluate whether it is violating the traffic rules. A trajectory will be labeled as Infeasible if any of the following violations happens: Running the stop sign, Violation of the right of way, Running a red traffic light, Leaving the drivable surface.
 
 Collision likelihood. We check each state in the given trajectory for collisions with predicted poses of other agents from an in-house prediction module. Collision detection is performed by rasterizing future agent predictions and checking for overlaps with planned ego poses. Additionally, we also check for longitudinal distance, time-to-collision, and time headway violations along the trajectory. If any of the collision likelihood checks fail, the trajectory is labeled as Infeasible.
 
 Fallback trajectory generation. Assuming the ML trajectory is labeled as Feasible, we will directly execute it. If the trajectory is labeled as Infeasible, we select a feasible fallback trajectory as close as possible to the ML trajectory.
 
-For this we use a trajectory generation method based on, generating a number of lane-aligned trajectory candidates $\tau^{i}$. These candidates consist of speed keeping, distance keeping, and emergency stopping maneuvers. Our implementation can be easily adapted to specific scenarios of interest.
+For this we use a trajectory generation method based , generating a number of lane-aligned trajectory candidates $\tau^{i}$. These candidates consist of speed keeping, distance keeping, and emergency stopping maneuvers. Our implementation can be easily adapted to specific scenarios of interest.
 
 Each of the generated trajectories is checked for feasibility as described above and the trajectory candidate which is most similar to the ML trajectory is selected for execution:
 
@@ -126,11 +100,7 @@ Each of the generated trajectories is checked for feasibility as described above
 
 ## events per 1k miles
 
-Deviation from Route
-
-ML Planner + Fallback Layer
-
-Table II: Comparing the performance of an ML-Planner-only approach vs SafetyNet, in closed-loop evaluation. This shows that SafetyNet significantly reduces collisions, close calls, and discomfort breaking, at the expense of more passiveness. See Fig. 5 for some qualitative examples.
+Deviation from Route ML Planner + Fallback Layer Table II: Comparing the performance of an ML-Planner-only approach vs SafetyNet, in closed-loop evaluation. This shows that SafetyNet significantly reduces collisions, close calls, and discomfort breaking, at the expense of more passiveness. See Fig. 5 for some qualitative examples.
 
 In this section we evaluate our system across several dimensions: (a) the performance of the ML planner in simulation when trained on an increasing amount of data (no fallback layer), (b) the effectiveness of the fallback layer in simulation, and (c) the performance of SafetyNet in the real world when controlling a real vehicle in San Francisco. We start by describing the datasets and metrics used during the evaluation.
 
@@ -142,9 +112,7 @@ We created an in-house dataset to train and evaluate our system: 380 hours of ur
 
 We validate our planner using large-scale real-world driving dataset with closed-loop simulation. During simulation, we execute the planner and motion controller modules and simulate the SDV motion. The vehicle model is calibrated to the real-world SDV. Since the simulated SDV pose can diverge significantly from the logged pose in the dataset, we allow the other road *agents* to be reactive in their longitudinal behavior, avoiding collisions while preserving their trajectories from the dataset.
 
-To evaluate the closed-loop performance of the model, for each scene in the test set we simulate the SDV by unrolling the driving policy for the full duration of the scene and detect the following binary events:
-
-*Collisions*: the simulated SDV is $<$`<!-- -->`{=html}5cm from the road boundaries, static obstacles, or agents.
+To evaluate the closed-loop performance of the model, for each scene in the test set we simulate the SDV by unrolling the driving policy for the full duration of the scene and detect the following binary events: *Collisions*: the simulated SDV is $<$`<!-- -->`{=html}5cm from the road boundaries, static obstacles, or agents.
 
 *Close-calls*: the simulated SDV has no collision, but either gets within 25cm of another agent, has a time-to-collision $<$`<!-- -->`{=html}1.5s, or has a time headway to another agent $<$`<!-- -->`{=html}1s.
 
@@ -172,7 +140,7 @@ Figure 4: The distribution of causes for a fallback trajectory to be used over t
 
 Figure 5: Examples of when the fallback layer prevented unsafe behavior caused by the ML planner. [Top] avoiding collision with a bus, [middle] running a red light, and [bottom] ensuring yielding to vehicle with right-of-way. We report the unsafe trajectory in column (b), and SafetyNet safe trajectory in column (c).
 
-Now we evaluate the effectiveness of the fallback layer in simulation by comparing the SafetyNet performance with, and without the fallback layer enabled. Here the ML planner is trained on the full 300h dataset. As shown in Tab. II, collisions are reduced by 95%, close call events by 40%, and discomfort braking by 92% when the fallback layer is enabled. This clearly demonstrates the value of the fallback layer and its importance for real world deployment. Crucially, we see that the solid lines in Fig. 3 (w/ fallback) are close to zero regardless of the maturity of the ML planner. This indicates that, with our method, we can safely deploy not only well-performing ML planners, but even immature ones (trained on $<$`<!-- -->`{=html}50h of data), thus facilitating faster development and evaluation cycle.
+Now we evaluate the effectiveness of the fallback layer in simulation by comparing the SafetyNet performance , and without the fallback layer enabled. Here the ML planner is trained on the full 300h dataset. As shown in Tab. II, collisions are reduced by 95%, close call events by 40%, and discomfort braking by 92% when the fallback layer is enabled. This clearly demonstrates the value of the fallback layer and its importance for real world deployment. Crucially, we see that the solid lines in Fig. 3 (w/ fallback) are close to zero regardless of the maturity of the ML planner. This indicates that, with our method, we can safely deploy not only well-performing ML planners, but even immature ones (trained on $<$`<!-- -->`{=html}50h of data), thus facilitating faster development and evaluation cycle.
 
 We note that there is also a 29.5% increase in passive behavior when the fallback layer is enabled, due to the fact that the SDV drives more conservatively. We see this as a necessary trade-off for reducing collisions and close calls.
 

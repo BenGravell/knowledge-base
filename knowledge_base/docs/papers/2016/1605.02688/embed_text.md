@@ -18,9 +18,9 @@ Theano's API mimics NumPy Walt *et al.*; Jones *et al.*, a widely adopted Python
 
 Theano is a free, open-source software, licensed under the New (3-clause) BSD license. It relies on a wide and very active community of developers and users worldwide.
 
-The main communication channels with the developers are the project's GitHub page^22^2[https://github.com/Theano/Theano/](https://github.com/Theano/Theano/) for bug reports, feature requests, and pull requests, and the theano-dev mailing list,^33^3[https://groups.google.com/group/theano-dev/](https://groups.google.com/group/theano-dev/) which has 675 subscribers. Support for users is provided by the community at theano-users^44^4[https://groups.google.com/group/theano-users/](https://groups.google.com/group/theano-users/) (more than 3000 members) and on StackOverflow^55^5[http://stackoverflow.com/questions/tagged/theano](http://stackoverflow.com/questions/tagged/theano) (more than 1000 questions asked). PyPI^66^6[https://pypi.python.org/pypi](https://pypi.python.org/pypi) counted 38k downloads of Theano packages during the last month.
+The main communication channels with the developers are the project's GitHub page^22^2 for bug reports, feature requests, and pull requests, and the theano-dev mailing list,^33^3 which has 675 subscribers. Support for users is provided by the community at theano-users^44^4 (more than 3000 members) and on StackOverflow^55^5 (more than 1000 questions asked). PyPI^66^6 counted 38k downloads of Theano packages during the last month.
 
-Since the project development migrated to GitHub in 2011, Theano has been forked 1280 times. Around 250 developers have actively contributed to the code base, and numerous others have played a role in the community, asking, answering or curating questions, helping discussing the development needs, and writing documentation, tutorials,^77^7For instance, the deep learning tutorials at [http://deeplearning.net/tutorial/](http://deeplearning.net/tutorial/) or even full-fledged software projects based on Theano.
+Since the project development migrated to GitHub in 2011, Theano has been forked 1280 times. Around 250 developers have actively contributed to the code base, and numerous others have played a role in the community, asking, answering or curating questions, helping discussing the development needs, and writing documentation, tutorials,^77^7For instance, the deep learning tutorials at or even full-fledged software projects based on Theano.
 
 ### Software based on Theano
 
@@ -36,25 +36,13 @@ Theano defines a *language* to represent mathematical expressions and manipulate
 
 ### II.1.1 Graph structure
 
-Theano represents symbolic mathematical expressions as directed, acyclic graphs. These graphs are also bipartite, containing two kinds of nodes:
-
-Variable nodes (or variables), which represent *data*, usually tensors;
-
-Apply nodes, which represent the application of *mathematical operations*.
+Theano represents symbolic mathematical expressions as directed, acyclic graphs. These graphs are also bipartite, containing two kinds of nodes: Variable nodes (or variables), which represent *data*, usually tensors; Apply nodes, which represent the application of *mathematical operations*.
 
 In practice, variables are used for graph inputs and outputs, as well as for intermediate values. During the execution phase, values will be provided for input variables, and computed for intermediate and output ones. An Apply node has inputs and outputs, which are Variable nodes; it represents the application of a mathematical operation (or Op) on its input variables. A Variable node can be the input to several Apply nodes, but can be the output of at most one (graph inputs are not the result of any computation). This corresponds to the single static assignment (SSA) form in compiler design, in that a variable is the result of only one assignation.
 
 This structure is similar to dataflow graphs Arvind and Culler, where Apply nodes would correspond to operations nodes (the only kind of nodes), and Variable nodes would correspond to arcs in the dataflow graph. The main difference is that a single intermediate Variable node can be an input to several Apply nodes, whereas a dataflow graph would require different arcs, one for each of the next operations.
 
-Variables are strongly typed, they enforce some conditions on the values that can be associated with them. These types are known since the construction of the graph. The main categories of types are:
-
-`TensorType`, which represents n-dimensional arrays in the main memory, the values associated with variables of that type are NumPy `ndarray` objects;
-
-`CudaNdarrayType`, which represents n-dimensional arrays in GPU memory, associated with `CudaNdarray` objects, used in the legacy GPU back-end;
-
-`GpuArrayType`, associated with `GpuArray` objects, its equivalent in the new GPU back-end;
-
-`Sparse`, for main-memory sparse matrices, represented by SciPy CSC or CSR matrices.
+Variables are strongly typed, they enforce some conditions on the values that can be associated with them. These types are known since the construction of the graph. The main categories of types are: `TensorType`, which represents n-dimensional arrays in the main memory, the values associated with variables of that type are NumPy `ndarray` objects; `CudaNdarrayType`, which represents n-dimensional arrays in GPU memory, associated with `CudaNdarray` objects, used in the legacy GPU back-end; `GpuArrayType`, associated with `GpuArray` objects, its equivalent in the new GPU back-end; `Sparse`, for main-memory sparse matrices, represented by SciPy CSC or CSR matrices.
 
 The number of dimensions and the data type (float32, int64, etc.) are part of the type, as well as what we call the *broadcastable pattern*, which indicates which dimensions are guaranteed to have a shape of 1. Otherwise, the shape is not part of the type, and neither is the memory layout (strides).
 
@@ -66,9 +54,7 @@ It is also possible to clone an existing graph, or a part of it. In that case, w
 
 ### II.1.3 Symbolic differentiation
 
-A useful way of deriving gradients is by applying the chain rule backwards through the graph, from a scalar cost towards the inputs (or parameters). This procedure is known as gradient back-propagation, or as the backward or reverse mode of differentiation. For instance, if we have three functions $f:{{\mathbb{R}}^{M}\rightarrow{\mathbb{R}}}$, $g:{{\mathbb{R}}^{N}\rightarrow{\mathbb{R}}^{M}}$, and $C:{{\mathbb{R}}^{N}\rightarrow{\mathbb{R}}}$ so that ${C{(x)}} = {f{({g{(x)}})}}$, then:
-
-Instead of computing (and storing in memory) explicitly the whole $M \times N$ Jacobian matrix, $\left. \frac{\partial g}{\partial x} \right|_{x}$, all we need is a function ${\nabla g_{x}}:{{{\mathbb{R}}^{M}\rightarrow{\mathbb{R}}^{N}},{v\mapsto\left. {v \cdot \frac{\partial g}{\partial x}} \right|_{x}}}$ that computes the vector-Jacobian dot product for any vector $v$. This can be generalized easily to functions with several inputs, which can be multi-dimensional arrays.
+A useful way of deriving gradients is by applying the chain rule backwards through the graph, from a scalar cost towards the inputs (or parameters). This procedure is known as gradient back-propagation, or as the backward or reverse mode of differentiation. For instance, if we have three functions $f:{{\mathbb{R}}^{M}\rightarrow{\mathbb{R}}}$, $g:{{\mathbb{R}}^{N}\rightarrow{\mathbb{R}}^{M}}$, and $C:{{\mathbb{R}}^{N}\rightarrow{\mathbb{R}}}$ so that ${C{(x)}} = {f{({g{(x)}})}}$, then: Instead of computing (and storing in memory) explicitly the whole $M \times N$ Jacobian matrix, $\left. \frac{\partial g}{\partial x} \right|_{x}$, all we need is a function ${\nabla g_{x}}:{{{\mathbb{R}}^{M}\rightarrow{\mathbb{R}}^{N}},{v\mapsto\left. {v \cdot \frac{\partial g}{\partial x}} \right|_{x}}}$ that computes the vector-Jacobian dot product for any vector $v$. This can be generalized easily to functions with several inputs, which can be multi-dimensional arrays.
 
 Most of Theano Ops implement a `grad` method that, given symbolic variables for $x$ and $v$, will return a symbolic expression of ${\nabla g_{x}}{(v)}$, where $g$ is the function represented by that Op. `theano.grad` traverses the graph following the usual back-propagation algorithm, calling the `grad` method on each Apply node's Op, passing that node's input as $x$ and the gradient coming from the subsequent operations as $v$. This builds a symbolic expression for the gradient of the cost with respect to variables. These gradients are symbolic variables that are part of the graph as well, so it is possible to use them as parts of other symbolic expressions (to express a learning rule, for instance), and even to traverse the graph again to obtain higher-order derivatives.
 
@@ -146,11 +132,11 @@ Although Theano is developed and mainly used for research in machine learning an
 
 TensorFlow Abadi *et al.* has a core in C++ and includes most of the features from Theano, in particular the graph-compiling approach, and symbolic differentiation (on full layers as well as on elementary operations), all directly accessible from Python through the API. In addition, it has a focus on distributed, multi-node computation. Even though a graph-rewriting engine is present (and used to distribute computation across devices, for instance) it does not seem to be used for mathematical expressions simplification or kernel fusion at the moment.
 
-Torch7 Collobert *et al.* has a different approach: it implements efficient CPU and GPU computation kernels in C and makes them available in Lua, but does not provide gradient expressions for elementary operations. Instead, packages like 'nn' and 'cunn' feature higher-level *layers* that can store parameters and provide methods to compute values for forward propagation, gradient back-propagation, and parameter updates. Many packages extend Torch's features, in particular Autograd^88^8[https://github.com/twitter/torch-autograd/](https://github.com/twitter/torch-autograd/) provides automatic differentiation of code written in Torch, by building a graph that records the evaluation of expressions (even through loops and conditionals), and playing those records back to build an expression graph for gradients. That graph is symbolic as well, making it possible to express higher-order gradients. Moreover, an optimizer can rewrite the graph to make it more efficient to evaluate.
+Torch7 Collobert *et al.* has a different approach: it implements efficient CPU and GPU computation kernels in C and makes them available in Lua, but does not provide gradient expressions for elementary operations. Instead, packages like 'nn' and 'cunn' feature higher-level *layers* that can store parameters and provide methods to compute values for forward propagation, gradient back-propagation, and parameter updates. Many packages extend Torch's features, in particular Autograd^88^8 provides automatic differentiation of code written in Torch, by building a graph that records the evaluation of expressions (even through loops and conditionals), and playing those records back to build an expression graph for gradients. That graph is symbolic as well, making it possible to express higher-order gradients. Moreover, an optimizer can rewrite the graph to make it more efficient to evaluate.
 
-MXNet Chen *et al.* and Caffe Jia *et al.*, both written in C++, feature the same kind of higher-level layers as Torch. MXNet can also express the gradients through those layers as symbolic layers themselves, giving more flexibility for the dispatching of the computation to different devices, and for memory reuse. It also allows distributed computation over multiple nodes. Caffe2^99^9[https://github.com/Yangqing/caffe2](https://github.com/Yangqing/caffe2) is an experimental rewrite of Caffe that features explicit symbolic gradients in the computation graph, rather than a "backward" method of the layers.
+MXNet Chen *et al.* and Caffe Jia *et al.*, both written in C++, feature the same kind of higher-level layers as Torch. MXNet can also express the gradients through those layers as symbolic layers themselves, giving more flexibility for the dispatching of the computation to different devices, and for memory reuse. It also allows distributed computation over multiple nodes. Caffe2^99^9 is an experimental rewrite of Caffe that features explicit symbolic gradients in the computation graph, rather than a "backward" method of the layers.
 
-Neon^1010^10[http://neon.nervanasys.com/](http://neon.nervanasys.com/) and Chainer Tokui *et al.* are two other machine learning frameworks written in Python, with GPU kernels, that feature symbolic computation graphs and symbolic differentiation. Neon's most prominent feature is its collection of highly-optimized GPU kernels, in particular for operations used in neural networks. Chainer instead builds its computation graph dynamically at the same time as its first evaluation, making it easier to express loops and conditionals.
+Neon^1010^10 and Chainer Tokui *et al.* are two other machine learning frameworks written in Python, with GPU kernels, that feature symbolic computation graphs and symbolic differentiation. Neon's most prominent feature is its collection of highly-optimized GPU kernels, in particular for operations used in neural networks. Chainer instead builds its computation graph dynamically at the same time as its first evaluation, making it easier to express loops and conditionals.
 
 ## New features
 
@@ -174,7 +160,7 @@ Theano wraps cuDNN 2D and 3D convolutions and their gradients, and provide optio
 
 ### III.1.3 CNMeM integration
 
-Another improvement to the GPU performance comes integrating the CNMeM library,^1111^11The original code is available at [https://github.com/NVIDIA/cnmem](https://github.com/NVIDIA/cnmem), Theano includes a copy of it. and using the allocator and deallocator it provides. The main issue was that calling `cudaFree` is synchronous, so it forces the synchronization of all the streams on the device, waiting for them to finish, which seriously limited the potential for parallel execution of different kernels. A previous option was to keep memory allocated for intermediate values between calls, as mentioned in Section II.3, but the amount of memory typically available on GPU devices is limited.
+Another improvement to the GPU performance comes integrating the CNMeM library,^1111^11The original code is available at Theano includes a copy of it. and using the allocator and deallocator it provides. The main issue was that calling `cudaFree` is synchronous, so it forces the synchronization of all the streams on the device, waiting for them to finish, which seriously limited the potential for parallel execution of different kernels. A previous option was to keep memory allocated for intermediate values between calls, as mentioned in Section II.3, but the amount of memory typically available on GPU devices is limited.
 
 CNMeM works by allocating large memory pools using `cudaMalloc`, returning chunks of it when its allocator is called, and keeping track of which ones are released by its deallocator. Theano makes it possible to reserve part of the GPU memory from the start, using `lib.cnmem=0.9` to reserve 90% of the memory for CNMeM. The new GPU back-end does not use CNMeM, but implements a similar strategy, with asynchronous allocator and deallocator and a memory pool.
 
@@ -192,9 +178,7 @@ Finally, an additional keyword, `strict`, has been added to the `scan` function.
 
 ### III.1.5 New gpuarray-based back-end
 
-Theano now features a new GPU backend based on libgpuarray Bastien *et al.*. This new back-end brings in several improvements over the previous one. The most visible improvement is that it supports all the usual data types, instead of being limited to float32 data. In particular, it supports half-precision floating point values (float16). As did the previous back-end, this one supports views and strides to avoid copies and reuse memory whenever possible.
-
-libgpuarray^1212^12[http://deeplearning.net/software/libgpuarray/](http://deeplearning.net/software/libgpuarray/), code available at [https://github.com/Theano/libgpuarray](https://github.com/Theano/libgpuarray) is a separate project with the aim of providing a ndarray-like object on the GPU. It has a C interface so that it can be reused in other projects that don't use Python. It also supports 64-bit indexing, so that arrays with more than $2^{32}$ elements are supported.
+Theano now features a new GPU backend based on libgpuarray Bastien *et al.*. This new back-end brings in several improvements over the previous one. The most visible improvement is that it supports all the usual data types, instead of being limited to float32 data. In particular, it supports half-precision floating point values (float16). As did the previous back-end, this one supports views and strides to avoid copies and reuse memory whenever possible. libgpuarray^1212^12 code available at is a separate project with the aim of providing a ndarray-like object on the GPU. It has a C interface so that it can be reused in other projects that don't use Python. It also supports 64-bit indexing, so that arrays with more than $2^{32}$ elements are supported.
 
 Another noticeable improvement is that we have basic support for OpenCL, however a sizable portion of the GPU Ops in Theano do not currently support it. This could be fixed with some porting effort.
 
@@ -208,7 +192,7 @@ The new back-end is now fully functional, and well tested for correctness. It su
 
 To take advantage of multiple computing devices, there are two main approaches: model parallelism and data parallelism. Model parallelism consists in splitting the model itself into multiple parts and have those parts computed by different devices. It requires a careful balancing of the size of the parts and of the communication costs to ensure optimal performance. Data parallelism on the other hand is about splitting your input data in multiple parts, and running multiple copies of the model. It requires attention to model synchronization so that the copies don't drift apart too much during training, and to the way of aggregating the results produced.
 
-Usually, data parallelism on a single machine is done using multiple threads, but this approach is unworkable in Python because of the Python GIL. Because of this, we have to turn to multiple processes and this presents a new set of challenges. Platoon^1313^13[https://github.com/mila-udem/platoon](https://github.com/mila-udem/platoon) is a package that has been developed to to address those challenges and help train Theano models faster by using data parallelism.
+Usually, data parallelism on a single machine is done using multiple threads, but this approach is unworkable in Python because of the Python GIL. Because of this, we have to turn to multiple processes and this presents a new set of challenges. Platoon^1313^13 is a package that has been developed to to address those challenges and help train Theano models faster by using data parallelism.
 
 Platoon features a central controller process, that communicates with different worker processes, each using Theano to train a copy of the model on a CPU or GPU. It uses shared memory to share model parameters between workers, in order to avoid inter-process communication overhead. The communications with the central controller are sent asynchronously, so that the worker does not have to wait for a reply. There is also a script to launch all the workers and monitor them while running that provides a central "job" to wait for on clusters.
 
@@ -222,7 +206,7 @@ As mentioned in Section II.2.1, some sets of optimizations are pre-defined and c
 
 ### III.2.2 Swapping updates without recompiling
 
-It is now possible to copy functions using the `function.copy()` method. This can be useful when creating functions that are similar but use different shared variables or update parameters, for instance when creating test and validation functions. Most importantly, the optimized graph of the original function is copied, meaning compilation only occurs once.
+It is now possible to copy functions using the `function.copy` method. This can be useful when creating functions that are similar but use different shared variables or update parameters, for instance when creating test and validation functions. Most importantly, the optimized graph of the original function is copied, meaning compilation only occurs once.
 
 The interface for `copy` lets users specify which shared variables to swap, and whether or not updates are carried over. It is also possible to have copied functions share intermediate storage in memory (storage that is not input or output). When this is combined with disabled garbage collection, this can increase execution speed and save memory.
 
@@ -272,7 +256,7 @@ To improve this feature, we are currently in the process of going through all op
 
 This section aims at giving a sense of the performance might expect from Theano against some of its largest competitors among machine learning research software, on different kinds of models. We used publicly-available software to compare against, when possible. We have made some of the benchmarking code public as well already, and will try to provide the remaining code as well in the future.
 
-The goal of having more extensive benchmarks, on a wider variety of models and frameworks, is more easily attained by online projects, that can provide a picture more up-to-date. Among these projects, we can cite convnet-benchmarks,^1414^14[https://github.com/soumith/convnet-benchmarks/](https://github.com/soumith/convnet-benchmarks/) rnn-benchmarks,^1515^15[https://github.com/glample/rnn-benchmarks](https://github.com/glample/rnn-benchmarks) and hopefully DeepMark^1616^16[https://github.com/DeepMark/deepmark](https://github.com/DeepMark/deepmark) in the future.
+The goal of having more extensive benchmarks, on a wider variety of models and frameworks, is more easily attained by online projects, that can provide a picture more up-to-date. Among these projects, we can cite convnet-benchmarks,^1414^14 rnn-benchmarks,^1515^15 and hopefully DeepMark^1616^16 in the future.
 
 We benchmarked Theano against Torch and TensorFlow (Section IV.1), on three kinds of popular machine learning models: convolutional networks (Section IV.2), recurrent neural networks (Section IV.3), and recurrent neural networks for sequence-to-sequence mapping (Section IV.4). Finally, we show how the computation speed scales when using multiple GPUs with Platoon (Section IV.5).
 
@@ -280,27 +264,17 @@ We benchmarked Theano against Torch and TensorFlow (Section IV.1), on three kind
 
 All the benchmarks were run on a NVIDIA Digits DevBox, with 4 Titan X GPUs, and a Core i7-5930K CPU. All the benchmarks except for data-parallelism were run on only one GPU, which was not the one used for running the X server (using `CUDA_VISIBLE_DEVICES`). We used Cuda 7.5.17, with cuDNN v4 (version 4007), and data type float32, for all frameworks and all experiments.
 
-The compared software were installed as follow:
-
-Theano was installed from the development version, at commit `1bd371c`. The following configuration flags were used: `floatX=float32`, `lib.cnmem=0.45`, `device=gpu0`, `optimizer_including=unsafe`, `dnn.conv.algo_fwd=time_once`, `dnn.conv.algo_bwd_filter=time_once`, `dnn.conv.algo_bwd_data=time_once`. For fast_compile experiments, the additional option `optimizer=fast_compile` was provided.
+The compared software were installed as follow: Theano was installed from the development version, at commit `1bd371c`. The following configuration flags were used: `floatX=float32`, `lib.cnmem=0.45`, `device=gpu0`, `optimizer_including=unsafe`, `dnn.conv.algo_fwd=time_once`, `dnn.conv.algo_bwd_filter=time_once`, `dnn.conv.algo_bwd_data=time_once`. For fast_compile experiments, the additional option `optimizer=fast_compile` was provided.
 
 TensorFlow 0.8 was installed from the binary package.
 
-Torch7 was installed from [https://github.com/torch/distro](https://github.com/torch/distro) at commit `ffffc39`.
+Torch7 was installed from at commit `ffffc39`.
 
 ### IV.2 Convolutional networks
 
-We measure the performance of four different convolutional models, that have been successfully used on the Imagenet dataset:
+We measure the performance of four different convolutional models, that have been successfully used on the Imagenet dataset: AlexNet, the one-column variant from Krizhevsky, with a batch size of 128; OverFeat, the *fast* variant from Sermanet *et al.*, with a batch size of 128; VGG, also known as OxfordNet, model A Simonyan and Zisserman, with a batch size of 64; GoogLeNet V1 Szegedy *et al.*, with a batch size of 128.
 
-AlexNet, the one-column variant from Krizhevsky, with a batch size of 128;
-
-OverFeat, the *fast* variant from Sermanet *et al.*, with a batch size of 128;
-
-VGG, also known as OxfordNet, model A Simonyan and Zisserman, with a batch size of 64;
-
-GoogLeNet V1 Szegedy *et al.*, with a batch size of 128.
-
-We used the code from [https://github.com/soumith/convnet-benchmarks](https://github.com/soumith/convnet-benchmarks) at commit `84b5bb1` for Theano, Torch, and TensorFlow. We report the processing time per minibatch, for the forward and the backward pass.
+We used the code from at commit `84b5bb1` for Theano, Torch, and TensorFlow. We report the processing time per minibatch, for the forward and the backward pass.
 
 Figure 2: Processing time for convolutional networks on Imagenet (milliseconds per batch, lower is better). Dark colors show forward computation time, pale colors show backward time.
 
@@ -308,21 +282,7 @@ The results, presented in Figure 2, show that Theano is slightly slower than Tor
 
 ### IV.3 Recurrent neural networks: LSTM on Penn Treebank
 
-To showcase recurrent network models, we benchmarked variants of the LSTM model applied to the Penn Treebank dataset described in Zaremba *et al.*. We compared:
-
-the Torch implementation available at [https://github.com/wojzaremba/lstm](https://github.com/wojzaremba/lstm);
-
-the TensorFlow implementation showcased at [https://www.tensorflow.org/versions/r0.8/tutorials/recurrent/](https://www.tensorflow.org/versions/r0.8/tutorials/recurrent/);^1717^17Code at [https://github.com/tensorflow/tensorflow/tree/master/tensorflow/models/rnn/ptb](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/models/rnn/ptb) and
-
-the Theano implementation available at [https://github.com/caglar/rnn_benchmarks](https://github.com/caglar/rnn_benchmarks).
-
-We measured words per second during training, and report results on the following models:
-
-Small: Single Layer, 200 hidden units, sequence length: 20;
-
-Medium: Single Layer, 600 hidden units, sequence length: 40;
-
-Large: Two Layers, 650 hidden units each, sequence length: 50.
+To showcase recurrent network models, we benchmarked variants of the LSTM model applied to the Penn Treebank dataset described in Zaremba *et al.*. We compared: the Torch implementation available at the TensorFlow implementation showcased at at and the Theano implementation available at We measured words per second during training, and report results on the following models: Small: Single Layer, 200 hidden units, sequence length: 20; Medium: Single Layer, 600 hidden units, sequence length: 40; Large: Two Layers, 650 hidden units each, sequence length: 50.
 
 All three models used dropout on non-recurrent connections during training, following Zaremba *et al.*. The batch size was set to 20.
 
@@ -334,7 +294,7 @@ Figure 3 shows that Theano comes second behind TensorFlow for the small model, b
 
 In this section, we use the sequence-to-sequence mapping model from Yao *et al.*. The input is a series of video frames and the output is a one-sentence English description of the input. Each input video frame is preprocessed by a GoogLeNet that was pre-trained for classification on ImageNet. The representation of the frame is thus a 1024 vector. The entire input is therefore represented by (M, F, 1024) where M is the minibatch size, and F is the number of frames. The output size is (M, L), where M is the minibatch size and L the sentence length (padding is used within a minibatch to ensure the same length, but different minibatches could have different L). Specifically, the model is written as $P{(\left. S \middle| V \right.)}$, an LSTM on the sentence $S$, conditioned on the video $V$. $V$ is a weighted sum of frames representations.
 
-The original code for Yao *et al.* is available at [https://github.com/yaoli/arctic-capgen-vid](https://github.com/yaoli/arctic-capgen-vid). We used simplified versions, in Theano and TensorFlow, instrumented for profiling, which will be made public in the future. There was no publicly available implementation in Torch. Theano with fast_compile could not run because it was requiring too much memory. We report the processing time per minibatch, for the forward and backward passes, using three different batch sizes.
+The original code for Yao *et al.* is available at We used simplified versions, in Theano and TensorFlow, instrumented for profiling, which will be made public in the future. There was no publicly available implementation in Torch. Theano with fast_compile could not run because it was requiring too much memory. We report the processing time per minibatch, for the forward and backward passes, using three different batch sizes.
 
 Figure 4: Processing time for generating word sequences from video representations (milliseconds per batch, lower is better). Dark colors show forward computation time, pale colors show backward time.
 
@@ -350,7 +310,7 @@ Figure 5 shows a consistent increase in processing speed when adding more GPUs. 
 
 ## Limitations and challenges
 
-Despite the progress made in recent years and our best efforts, there remain some limitations or shortcomings in Theano. Some of these issues have been addressed by competing frameworks mentioned in Section II.5, and by other projects like CGT (Computation Graph Toolkit).^1818^18[http://rll.berkeley.edu/cgt/](http://rll.berkeley.edu/cgt/)
+Despite the progress made in recent years and our best efforts, there remain some limitations or shortcomings in Theano. Some of these issues have been addressed by competing frameworks mentioned in Section II.5, and by other projects like CGT (Computation Graph Toolkit).^1818^18
 
 ### Limitations from Python
 
@@ -384,9 +344,7 @@ Scaling model execution and training to multiple machines is outside of the scop
 
 ### Improving memory usage
 
-Given the limited availability of on-board GPU memory, memory consumption is often a bottleneck for training machine learning algorithms. This can limit the size and modelling power of trainable models, and make the processing power of GPUs under-used, for instance when batch sizes have to be reduced. In addition to storing intermediate values in a lower-precision format (for instance, storing data as float16 is supported in Theano's new GPU back-end), different options could be explored and combined:
-
-Change the order of execution of computations, so the peak memory usage is reduced. This can be done statically before the function is executed, or dynamically, for instance by detecting that memory is insufficient and waiting for some other computation to finish and free intermediate values.
+Given the limited availability of on-board GPU memory, memory consumption is often a bottleneck for training machine learning algorithms. This can limit the size and modelling power of trainable models, and make the processing power of GPUs under-used, for instance when batch sizes have to be reduced. In addition to storing intermediate values in a lower-precision format (for instance, storing data as float16 is supported in Theano's new GPU back-end), different options could be explored and combined: Change the order of execution of computations, so the peak memory usage is reduced. This can be done statically before the function is executed, or dynamically, for instance by detecting that memory is insufficient and waiting for some other computation to finish and free intermediate values.
 
 Move intermediate values to the main (CPU) memory, or to another GPU's memory, if it is not needed for a while, and transfer it back before it is used again. This method has been successfully implemented by Rhu *et al.*.
 
@@ -396,7 +354,7 @@ Free intermediate values, and recompute them when they are needed again. This ap
 
 Tools like Theano and TensorFlow are compilers for mathematical expressions, in that they require the code (or computation graph) to be defined first, and then executed. On the other hand, Torch works more like an interpreter: the computation is done as soon as the expression is called. It could be interesting to explore how to apply JIT (just-in-time) compiler ideas to the computation graph, to combine the immediate response and flexibility of an interpreter (including using control flow statements like `if`, `for`, `while`, from the language directly), and the performance gains of a compiler when an expression has to be evaluated multiple times.
 
-Most machine-learning frameworks can now share efficient implementations of GPU kernels, such as the ones published by NVIDIA (cuDNN) and Nervana. Graph optimizations could be another component shared between projects, maybe through a common language to define computation graphs and such optimizations. It could be common to machine learning frameworks and computer algebra systems (CAS) such as SymPy SymPy Development Team and SympyCore.^1919^19[https://github.com/pearu/sympycore](https://github.com/pearu/sympycore)
+Most machine-learning frameworks can now share efficient implementations of GPU kernels, such as the ones published by NVIDIA (cuDNN) and Nervana. Graph optimizations could be another component shared between projects, maybe through a common language to define computation graphs and such optimizations. It could be common to machine learning frameworks and computer algebra systems (CAS) such as SymPy SymPy Development Team and SympyCore.^1919^19
 
 ## Conclusion
 

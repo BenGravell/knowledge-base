@@ -66,17 +66,9 @@ However, the obligation to discretize the descriptor space may be limiting for s
 
 ### II-E Quality-Diversity Optimization
 
-Based on the seminal works presented previously and the formulation of Pugh et al., we can outline a common definition:
+Based on the seminal works presented previously and the formulation of Pugh et al., we can outline a common definition: While this definition is shared with the existing literature, we also stress the importance of the coverage regularity of the produced collections. In the vast majority of the applications presented previously, not only is the coverage of importance but its uniformity is as well. For example, in the locomotion tasks, an even coverage of all possible turning abilities of the robot is required to allow the execution of arbitrary trajectories.
 
-While this definition is shared with the existing literature, we also stress the importance of the coverage regularity of the produced collections. In the vast majority of the applications presented previously, not only is the coverage of importance but its uniformity is as well. For example, in the locomotion tasks, an even coverage of all possible turning abilities of the robot is required to allow the execution of arbitrary trajectories.
-
-Based on this definition, the overall performance of a QD-algorithm is defined by the quality of the produced collection of solutions according to three criteria:
-
-the coverage of the descriptor space;
-
-the uniformity of the coverage; and
-
-the performance of the solution found for each type.
+Based on this definition, the overall performance of a QD-algorithm is defined by the quality of the produced collection of solutions according to three criteria: the coverage of the descriptor space; the uniformity of the coverage; and the performance of the solution found for each type.
 
 ### II-F Understanding the Underlying Mechanisms
 
@@ -90,29 +82,13 @@ These different works illustrate the interest of the community in QD-algorithms 
 
 ## A united and modular framework for QD-Optimization algorithms
 
-(𝒜←⌀)⊳ Creation of an empty container.
-for iter = 1 → I do ⊳ The main loop repeats during I iterations.
-if iter = = 1 then ⊳ Initialization.
-bparents← random() ⊳ The first 2 batches of individuals are generated randomly.
-else⊳ The next controllers are generated using the container and/or the previous batch.
-bparents← selection(𝒜, boffspring) ⊳ Selection of a batch of individuals from the container and/or the previous batch.
-boffspring← random_variation(bparents) ⊳ Creation of a randomly modified copy of bparents (mutation and/or crossover).
-for each indiv ∈ boffspring do
-{desc,perf}← eval(indiv) ⊳ Evaluation of the individual and recording of its descriptor and performance.
-if add_to_container(indiv) then ⊳ “add_to_container” returns true if the individual has been added to the container.
-curiosity(parent(indiv)) + = Reward ⊳ The parent gets a reward by increasing its curiosity score (typically Reward = 1).
-curiosity(parent(indiv)) − = Penalty ⊳ Otherwise, its curiosity score is decreased (typically Penalty = 0.5). update_container() ⊳ Update of the attributes of all the individuals in the container (e.g. novelty score).
-Algorithm 1 QD-Optimization algorithm ( I iterations)
-
-As presented in the previous section, most works using or comparing QD-algorithms consider either MAP-Elites or NSLC-based algorithms, or direct comparisons of these two algorithms. These comparisons are relevant because of the distinct origins of these two algorithms. However, they only provide high-level knowledge and do not provide much insight of properties or particularities which make one algorithm better than the other.
+(𝒜 ← ⌀)⊳ Creation of an empty container. for iter = 1 → I do ⊳ The main loop repeats during I iterations. if iter = = 1 then ⊳ Initialization. bparents← random ⊳ The first 2 batches of individuals are generated randomly. else⊳ The next controllers are generated using the container and/or the previous batch. bparents← selection(𝒜, boffspring) ⊳ Selection of a batch of individuals from the container and/or the previous batch. boffspring← random_variation(bparents) ⊳ Creation of a randomly modified copy of bparents (mutation and/or crossover). for each indiv ∈ boffspring do {desc, perf}← eval(indiv) ⊳ Evaluation of the individual and recording of its descriptor and performance. if add_to_container(indiv) then ⊳ “add_to_container” returns true if the individual has been added to the container. curiosity(parent(indiv))+= Reward ⊳ The parent gets a reward by increasing its curiosity score (typically Reward = 1). curiosity(parent(indiv))−= Penalty ⊳ Otherwise, its curiosity score is decreased (typically Penalty = 0.5). update_container ⊳ Update of the attributes of all the individuals in the container (e.g. novelty score). Algorithm 1 QD-Optimization algorithm (I iterations) As presented in the previous section, most works using or comparing QD-algorithms consider either MAP-Elites or NSLC-based algorithms, or direct comparisons of these two algorithms. These comparisons are relevant because of the distinct origins of these two algorithms. However, they only provide high-level knowledge and do not provide much insight of properties or particularities which make one algorithm better than the other.
 
 In this section, we introduce a new and common framework for QD-algorithms, which can be instantiated with different operators, such as different selection or aggregation operators, similarly to most evolutionary algorithms. This framework demonstrates that MAP-Elites and NSLC can be formulated as the same algorithm using a different combination of operators. Indeed, specific configurations of this framework are equivalent to MAP-Elites or NSLC. However, this framework opens new perspectives as some other configurations lead to algorithms that share the advantages of both MAP-Elites and NSLC. For example, it can be used to design an algorithm that is as simple as MAP-Elites but working on an unstructured archive (rather than a grid), or to investigate different selection pressures like NSLC. Moreover, this decomposition of the algorithms allows us to draw conclusions on the key elements that make an algorithm better than the others (e.g., the selective pressure or the way to form the collection).
 
 This new formulation is composed of two main operators: 1) a container, which gathers and orders the solutions into a collection, and 2) the selection operator, which selects the solutions that will be altered (via mutations and cross-over) during the next batch (or generation). The selection operator is similar to the selection operators used in traditional evolutionary algorithms, except that it considers not only the current population, but all the solutions contained in the container as well. Other operators can be considered with this new formulation, like the traditional mutation or cross-over operators. However, in this paper we only consider the operators described above that are specific to QD-algorithms.
 
-After a random initialization, the execution of a QD-algorithm based on this framework follows four steps that are repeated:
-
-The selection operator produces a new set of individuals ($\mathbf{b}_{\mathbf{p}\mathbf{a}\mathbf{r}\mathbf{e}\mathbf{n}\mathbf{t}\mathbf{s}}$) that will be altered in order to form the new batch of evaluations ($\mathbf{b}_{\mathbf{o}\mathbf{f}\mathbf{f}\mathbf{s}\mathbf{p}\mathbf{r}\mathbf{i}\mathbf{n}\mathbf{g}}$).
+After a random initialization, the execution of a QD-algorithm based on this framework follows four steps that are repeated: The selection operator produces a new set of individuals ($\mathbf{b}_{\mathbf{p}\mathbf{a}\mathbf{r}\mathbf{e}\mathbf{n}\mathbf{t}\mathbf{s}}$) that will be altered in order to form the new batch of evaluations ($\mathbf{b}_{\mathbf{o}\mathbf{f}\mathbf{f}\mathbf{s}\mathbf{p}\mathbf{r}\mathbf{i}\mathbf{n}\mathbf{g}}$).
 
 The individuals of $\mathbf{b}_{\mathbf{o}\mathbf{f}\mathbf{f}\mathbf{s}\mathbf{p}\mathbf{r}\mathbf{i}\mathbf{n}\mathbf{g}}$ are evaluated and their performance and descriptor are recorded.
 
@@ -136,7 +112,7 @@ The procedure to add an individual to the collection is relatively straight forw
 
 ### Computing the novelty/diversity of a solution
 
-The inherent structure of the grid provides an efficient way to compute the novelty of each solution. Instead of considering the average distance of the k-nearest neighbors as a novelty score, like suggested in, here we can consider the number of filled cells around the considered individual. The density of filled cells of the sub-grid defined around the individual is a good indicator of the novelty of the solution. Similarly to the "k" parameter used in the k-nearest neighbors, the sub-grid is defined according to a parameter that governs its size, which is defined as $\pm k$ cells around the individual (in each direction). In this case, the score needs to be minimized.
+The inherent structure of the grid provides an efficient way to compute the novelty of each solution. Instead of considering the average distance of the k-nearest neighbors as a novelty score, like suggested , here we can consider the number of filled cells around the considered individual. The density of filled cells of the sub-grid defined around the individual is a good indicator of the novelty of the solution. Similarly to the "k" parameter used in the k-nearest neighbors, the sub-grid is defined according to a parameter that governs its size, which is defined as $\pm k$ cells around the individual (in each direction). In this case, the score needs to be minimized.
 
 ### III-A2 The Archive
 
@@ -146,7 +122,7 @@ The novelty archive introduced in the Novelty Search algorithm consists of an un
 
 The management of the solutions is crucial with this container because it affects both the quality, and the final coverage of the collection. A first attempt was proposed in the BR-Evolution algorithm by extending the archive management of the Novelty Search: an individual is added to the archive if its novelty score exceeds a predefined threshold (which can be adjusted over time), or if it outperforms its nearest neighbor in the archive. In the second case, the nearest neighbor is removed from the archive and only the best of the two individuals is kept.
 
-While this archive management is relatively simple, further experiments reveal underlying limitations. First, an individual with the same (or very close) descriptor as another individual can be added to the archive. Indeed, the novelty score, which is based on the average distance of the k-nearest neighbors, can still be relatively high even when two individuals are close if the rest of the collection is further. One of the consequences of using the novelty score as a criterion to add the solution in the container is that the collection is likely to show an uneven density of solutions. For example, experiments in these works show collections that contain a high density of solutions in certain regions (the inter-individuals distance being notably lower than the Novelty Score threshold used to add individual into the collection). While this property can be interesting for some applications, it mainly originates from a side effect. Second, the same experiments reveal that the replacement of individuals by better ones can erode the border of the collection, as discussed in the previous section. Indeed, in some cases, the individuals in the center of the collection show better performance than the ones in its border (because of the intrinsic structure of the performance function or because the center has been more intensively explored). This can lead to the replacement of individuals that are on the border of the collection by individuals that are closer to the center. This is an important limitation as it reduces the coverage of the collection, as shown in.
+While this archive management is relatively simple, further experiments reveal underlying limitations. First, an individual with the same (or very close) descriptor as another individual can be added to the archive. Indeed, the novelty score, which is based on the average distance of the k-nearest neighbors, can still be relatively high even when two individuals are close if the rest of the collection is further. One of the consequences of using the novelty score as a criterion to add the solution in the container is that the collection is likely to show an uneven density of solutions. For example, experiments in these works show collections that contain a high density of solutions in certain regions (the inter-individuals distance being notably lower than the Novelty Score threshold used to add individual into the collection). While this property can be interesting for some applications, it mainly originates from a side effect. Second, the same experiments reveal that the replacement of individuals by better ones can erode the border of the collection, as discussed in the previous section. Indeed, in some cases, the individuals in the center of the collection show better performance than the ones in its border (because of the intrinsic structure of the performance function or because the center has been more intensively explored). This can lead to the replacement of individuals that are on the border of the collection by individuals that are closer to the center. This is an important limitation as it reduces the coverage of the collection, as shown .
 
 Figure 2: Management of collections of solutions based on an unstructured archive. A) A solution is directly added to the collection if its nearest neighbor from the collection is further than l. B) Conversely, if the distance is smaller than l (i.e., if the circles overlap), the new solution is not automatically added to the collection, but competes against its nearest neighbor. If the new solution dominates the one already in the collection, then the new solution replaces the previous one. C) In the strict ϵ-domination, a solution dominates another one if the progress in one objective is larger than the decrease in the other objective (up to a predefined value ϵ).
 
@@ -154,9 +130,7 @@ In order to mitigate these limitations, *we propose the following new way to man
 
 If the distance between the new individual and its nearest neighbor is lower than $l$, then this new individual can potentially replace its nearest neighbor in the collection. This is only the case if its distance from its second nearest neighbor exceeds the $l$ parameter, such that the distance among the solutions is preserved (see Fig. 2.B) and if it improves the overall quality of the collection. A new individual can improve the overall collection in two ways: 1) if it has a better quality, which increases the total quality of the collection or 2) if it has a better novelty score, which means that it extends the coverage of the collection. This can be seen as two objectives that need to be maximized. From this perspective, we can use the definition of Pareto dominance to decide if an individual should replace another one already in the collection. Therefore, a simple criterion could be to replace an existing individual, only if it is dominated by the new one. However, this criterion is very difficult to reach, as the new individual should be both better and more diverse than the previous one. This prevents most new individuals from being added to the collection, which limits the quality of the produced collections.
 
-In order to soften this criterion, we introduce a variant of the $\epsilon$-dominance, that we name the *exclusive $\epsilon$-dominance*. In this variant, we tolerate the dominating individual being worse than the other individual according to one of the objectives (up to a predefined percentage governed by $\epsilon$), *only* if it is better on the other objective by *at least* the same amount (see Fig. 2.C). This criterion is more strict than the original $\epsilon$-dominance, which allows an individual to be dominated by another one that is worse on both objectives. From a mathematical point of view, an individual $x_{1}$ dominates $x_{2}$ if these three points are verified:
-
-with $N$ corresponding to the Novelty Score and $Q$ to the Quality (or performance) of an individual, which both need to be maximized^11^1This definition could very likely be generalized to more than two objectives, but this question is beyond the scope of this paper.. This set of conditions makes the addition of new individuals in the container more flexible, but rejects individuals that do not improve the collection.
+In order to soften this criterion, we introduce a variant of the $\epsilon$-dominance, that we name the *exclusive $\epsilon$-dominance*. In this variant, we tolerate the dominating individual being worse than the other individual according to one of the objectives (up to a predefined percentage governed by $\epsilon$), *only* if it is better on the other objective by *at least* the same amount (see Fig. 2.C). This criterion is more strict than the original $\epsilon$-dominance, which allows an individual to be dominated by another one that is worse on both objectives. From a mathematical point of view, an individual $x_{1}$ dominates $x_{2}$ if these three points are verified: with $N$ corresponding to the Novelty Score and $Q$ to the Quality (or performance) of an individual, which both need to be maximized^11^1This definition could very likely be generalized to more than two objectives, but this question is beyond the scope of this paper.. This set of conditions makes the addition of new individuals in the container more flexible, but rejects individuals that do not improve the collection.
 
 The experimental results presented in section IV demonstrate that this new archive management overcomes the limitation of the previous approaches by producing collections with similar coverage and quality compared with the grid-based container.
 
@@ -192,9 +166,7 @@ An intuitive way to mitigate the loss of selection pressure from the random sele
 
 Other scores can also be considered to bias the selection. For example, the novelty score of each solution can substitute for the quality score for fostering the algorithm to focus on solutions that are different from the others.
 
-In addition to these two scores, in this paper we introduce a new score, named the *Curiosity Score*, that can be used to bias the selection and which is defined as follows:
-
-A practical implementation (see Algorithm 1) consists of increasing the curiosity score of an individual (initially set to zero) each time one of its offspring is added to the collection. Conversely, when an offspring fails to be added to the archive (because it is not novel or high-performing enough), the Curiosity Score is decreased. In this paper, we use respectively $1$ and $- 0.5$ for the reward and the penalty values. With this implementation, individuals may gain momentum, but this means that such individual will be selected more often, making their score more likely to rapidly decrease.
+In addition to these two scores, in this paper we introduce a new score, named the *Curiosity Score*, that can be used to bias the selection and which is defined as follows: A practical implementation (see Algorithm 1) consists of increasing the curiosity score of an individual (initially set to zero) each time one of its offspring is added to the collection. Conversely, when an offspring fails to be added to the archive (because it is not novel or high-performing enough), the Curiosity Score is decreased. In this paper, we use respectively $1$ and $- 0.5$ for the reward and the penalty values. With this implementation, individuals may gain momentum, but this means that such individual will be selected more often, making their score more likely to rapidly decrease.
 
 We named this score "Curiosity" because it encourages the algorithm to focus on individuals that produce interesting solutions, until nothing new is produced. In other words, the algorithm focuses on regions of the search space as long as they produce interesting results, then, when the algorithm gets "bored", it focuses its attention on different regions. This behavior is similar to the one of the "Intelligent Adaptive Curiosity", while the implementation and the inspiration are strictly different.
 
@@ -218,37 +190,11 @@ These different selection operators can all be equally used with both of the con
 
 ## Experimental Comparisons
 
-Random Search / Motor Babbling
-
-Novelty &amp; Local Quality
-
-MAP-Elites with Novelty
-
-arch_pop_fitness
-
-arch_pop_novelty
-
-arch_pop_curiosity
-
-Random Search / Motor Babbling
-
-Novelty &amp; Local Quality
-
-grid_pop_fitness
-
-grid_pop_novelty
-
-grid_pop_curiosity
-
-Population &amp; archive based
-Novelty &amp; Local Quality
-Novelty Search with Local Competition
-
-TABLE I: The different combinations of containers and selection operators that are evaluated in this paper. The variants in bold are tested on the three experimental scenarios while the others are only tested on the first one.
+Random Search / Motor Babbling Novelty & Local Quality MAP-Elites with Novelty arch_pop_fitness arch_pop_novelty arch_pop_curiosity Random Search / Motor Babbling Novelty & Local Quality grid_pop_fitness grid_pop_novelty grid_pop_curiosity Population & archive based Novelty & Local Quality Novelty Search with Local Competition TABLE I: The different combinations of containers and selection operators that are evaluated in this paper. The variants in bold are tested on the three experimental scenarios while the others are only tested on the first one.
 
 To compare the different combinations of containers and selection operators, we consider three experimental scenarios that take place in simulation: 1) a highly redundant robotic arm discovering how to reach points in its vicinity, 2) a virtual six-legged robot learning to walk in every direction, and 3) the same robot searching for a large number of ways to walk on a straight line.
 
-In addition to the tested combinations of containers and selection operators, we include the original Novelty Search with Local Competition algorithm (NSLC, ) in our experimental comparisons in order to assess the influence of the lack of density accumulation in the descriptor space, as discussed in section III-A3. Like in, all individuals of the population are potentially added to a grid container (the same as the one used with the others variants) after each generation. We then used the produced grid container to compare NSLC with the other variants. For this experiment, we used the implementation of NSLC provided by the Sferes~v2~ framework.
+In addition to the tested combinations of containers and selection operators, we include the original Novelty Search with Local Competition algorithm (NSLC, ) in our experimental comparisons in order to assess the influence of the lack of density accumulation in the descriptor space, as discussed in section III-A3. Like , all individuals of the population are potentially added to a grid container (the same as the one used with the others variants) after each generation. We then used the produced grid container to compare NSLC with the other variants. For this experiment, we used the implementation of NSLC provided by the Sferes~v2~ framework.
 
 In the experiments presented in this paper, we only consider direct encodings with genomes that are small and fixed in size. It would be interesting to see how the conclusion drawn from these experiments hold with large genomes, genomes of increasing complexity over generations, or indirect encodings. For instance, highlights that indirect encodings may have a negative impact on QD-algorithms. However, these further considerations are out of the scope of this paper and will be considered in future works.
 
@@ -266,7 +212,7 @@ corresponds to the quality of the best solution contained in the collection and 
 
 ### IV-A3 Total Quality
 
-is the sum of the qualities over all the solutions contained in the collection. This metric provides information on the global quality of the collection as it can be improved either by finding additional individuals or by improving those already in the collection. It corresponds to the metric named "Quality Diversity" used in.
+is the sum of the qualities over all the solutions contained in the collection. This metric provides information on the global quality of the collection as it can be improved either by finding additional individuals or by improving those already in the collection. It corresponds to the metric named "Quality Diversity" used .
 
 ### IV-A4 Total Novelty
 
@@ -276,12 +222,7 @@ This metric is similar to the previous one, except that the sum considers the no
 
 In, the authors presented other metrics to compare collections produced by MAP-Elites. However, the main idea of these metrics is to normalize the quality of each solution by the maximal quality that can be achieved by each type of solution (i.e., by each grid cell). To infer the highest possible quality for each cell, the authors selected the best solution found by all the algorithms over all the replicates. However, this approach is only feasible with the grid-based container because the continuous descriptor space used in the archive-based container makes it challenging to associate and compare each "solution type". For this reason, in this paper we decided to only consider the four metrics presented previously.
 
-Mutation rate for each parameter
-
-Random new value
-Random new value
-
-TABLE II: Parameter values used the experiments.
+Mutation rate for each parameter Random new value Random new value TABLE II: Parameter values used the experiments.
 
 ### IV-B The Redundant Arm
 
@@ -299,7 +240,7 @@ An extensive set of configurations from the QD-algorithm framework (see algorith
 
 ### IV-B2 Results
 
-Figure 4: Progression of the quality metrics in the redundant arm experiment. The first row depicts the results from variants using the archive-based container, while the second row considers variants with the grid-based container. Because of the difficulty to distinguish the different variants, a zoom on the best variants during the last 1000 batches is pictured on the right of each plot. The middle lines represent the median performance over the 20 replications, while the shaded areas extend to the first and third quartiles. In this experiment, the quality score is negative, thus in order to get a monotonic progression in the “Total Quality” metric, + 1 is added to the Quality to have a positive score.
+Figure 4: Progression of the quality metrics in the redundant arm experiment. The first row depicts the results from variants using the archive-based container, while the second row considers variants with the grid-based container. Because of the difficulty to distinguish the different variants, a zoom on the best variants during the last 1000 batches is pictured on the right of each plot. The middle lines represent the median performance over the 20 replications, while the shaded areas extend to the first and third quartiles. In this experiment, the quality score is negative, thus in order to get a monotonic progression in the “Total Quality” metric, +1 is added to the Quality to have a positive score.
 
 A typical collection of solutions produced by each of the tested variants is pictured in Figure 3. The collections using the archive-based container appear very similar to those using the other container type. This similarity, which holds in the other experiments as well, demonstrates that the archive management introduced in this paper successfully address the erosion issues described previously. Theoretically, the ideal result homogeneously covers a quasi-circular region and the performance (i.e., the color) should be arranged in concentric shapes resembling cardioids (inverted, heart-shaped curves)^33^3We can demonstrate that the points with the highest performance are located on a curve resembling a cardioid by computing the position of the end-effector for which all angular positions of the joints are set to the same angle (from $- {\pi/2}$ to $+ {\pi/2}$).. This type of collection is found using the random, the fitness or the curiosity-based selection operators (over the collection) regardless of the container type used, as well as with the NSLC algorithm. The novelty based selection with the archive-based container also produces such a collection, while this is not the case with the grid-based container. It is interesting to note that the no-selection approach, which can be considered as a motor babbling or random search, is unable to produce the desired result. While the coverage is decent, the quality of the gathered solutions is not satisfactory.
 
@@ -331,13 +272,13 @@ Figure 5: Typical collections of solutions produced by considered variants in th
 
 In this second experimental setup, we consider a six-legged robot in a physical simulator. The objective of the QD-algorithms is to produce a collection of behaviors that allows the robot to walk in every direction and at different speeds.
 
-This experimental setup has first been introduced in. Each potential solution consists of a set of 36 parameters (6 per leg) that define the way each of the robot's joint is moving (the controller is the same as the one used in ). During the evaluation of a solution, the robot executes the behavior defined by the parameters for three seconds, and its final position and orientation are recorded. The descriptor space is defined by the final position of the robot (X and Y coordinates), while the quality of the solution corresponds to the orientation error with respect to a desired orientation, which encourages the robot to follow circular trajectories. These kinds of trajectories are interesting for planning purposes as any arbitrary trajectory can be decomposed as a succession of circular arcs. In order to be able to chain circular trajectories, the robot needs to be aligned with the tangent of these circles at the beginning and the end of each movement. We can note that only one circular trajectory goes through both the initial and final positions of the robot with its tangent aligned with the initial orientation of the robot. The difference between the final orientation of the robot and the direction of the tangent of this unique circular trajectory defines the orientation error, which is minimized by the QD algorithms (more details can be found in ).
+This experimental setup has first been introduced . Each potential solution consists of a set of 36 parameters (6 per leg) that define the way each of the robot's joint is moving (the controller is the same as the one used in ). During the evaluation of a solution, the robot executes the behavior defined by the parameters for three seconds, and its final position and orientation are recorded. The descriptor space is defined by the final position of the robot (X and Y coordinates), while the quality of the solution corresponds to the orientation error with respect to a desired orientation, which encourages the robot to follow circular trajectories. These kinds of trajectories are interesting for planning purposes as any arbitrary trajectory can be decomposed as a succession of circular arcs. In order to be able to chain circular trajectories, the robot needs to be aligned with the tangent of these circles at the beginning and the end of each movement. We can note that only one circular trajectory goes through both the initial and final positions of the robot with its tangent aligned with the initial orientation of the robot. The difference between the final orientation of the robot and the direction of the tangent of this unique circular trajectory defines the orientation error, which is minimized by the QD algorithms (more details can be found in ).
 
 The usage of the physical simulator makes the experiments significantly longer (between 4 and 5 hours are required to perform 10,000 batches with one variant). For this reason, the number of generations has been decreased to 10,000 and only 10 variants (those in bold in Table I) are considered for this experiment. This sub-set of variants includes variants that are related to MAP-Elites, NSLC, Motor Babbling, traditional population-based EA and the variant considering the curiosity score over the entire collection. The execution of each of those variants has been replicated $10$ times. The value of the parameters used for this experiment can be found in Table II.
 
 ### IV-C2 Results
 
-Figure 6: Progression of three quality metrics in the turning legged-robot experiment. The progression of the maximal quality is not depicted because all the variants found at least one solution with the highest possible quality (i.e., 0) in fewer than 1.000 batches. The first row depicts the results from variants using the archive-based container, while the second row considers variants with the grid-based container. The middle lines represent the median performance over the 10 replications, while the shaded areas extend to the first and third quartiles. In this experiment, the quality score is negative, thus in order to get a monotonic progression in the “Total Quality” metric, + 180 is added to the Quality to have positive score.
+Figure 6: Progression of three quality metrics in the turning legged-robot experiment. The progression of the maximal quality is not depicted because all the variants found at least one solution with the highest possible quality (i.e., 0) in fewer than 1.000 batches. The first row depicts the results from variants using the archive-based container, while the second row considers variants with the grid-based container. The middle lines represent the median performance over the 10 replications, while the shaded areas extend to the first and third quartiles. In this experiment, the quality score is negative, thus in order to get a monotonic progression in the “Total Quality” metric, +180 is added to the Quality to have positive score.
 
 From a high-level point of view, the same conclusion as previously can be drawn based on the resulting collections (see Fig. 5): The variants "no_selection" and "pop_fitness" produce worse collections than the other variants, while the variants "random", "curiosity" and NSLC generate the best collections. In this experiment, the "Pareto" variant performs better than in the previous one. This result can be explained by the absence of a unique Pareto-optimal solution.
 
@@ -349,7 +290,7 @@ In this experiment, the NSLC variant shows similar results to the "random" varia
 
 ### IV-D1 The Experimental Setup
 
-In this third experimental setup, we use the same virtual robot as in the previous experiment with the same controller. However, in this case the robot has to learn a large collection of gaits to walk in a straight line as fast as possible. This scenario is inspired by.
+In this third experimental setup, we use the same virtual robot as in the previous experiment with the same controller. However, in this case the robot has to learn a large collection of gaits to walk in a straight line as fast as possible. This scenario is inspired .
 
 In this experiment, the quality score is the traveled distance after walking for 3 seconds, and the solution descriptor is the proportion of time that each leg is in contact with the ground. The descriptor space has thus 6 dimensions in this experiment. The experiment has been replicated 10 times and the other parameters of the algorithm can be found in Table II.
 
@@ -357,7 +298,7 @@ In this experiment, the quality score is the traveled distance after walking for
 
 Figure 7: Progression of the four quality metrics in the experiment with the legged-robot learning different ways to walk in a straight line. The first row depicts the results from variants using the archive-based container, while the second row considers variants with the grid-based container. The middle lines represent the median performance over the 10 replications, while the shaded areas extend to the first and third quartiles.
 
-From a general point of view, the same conclusion as in the previous experiments can be drawn from the progression of quality metrics (see Fig.7)^55^5Visualizations of the collections are not provided in this experiment because of the high-dimensionality of the descriptor-space. While the grid-based collections could have been depicted with the same approach as in, this approach cannot be applied with the archive-based container.. Variants selecting individuals from the whole collection significantly outperform, in terms of coverage, total quality and diversity, those that consider populations (all the p-values$< {{2e} - 4}$). In particular, the curiosity-based selection operator shows the best results both with the grid-based and the archive-based containers. For instance, one can note that the total quality achieved by the random selection (second best approach) after 20,000 batches, is achieved by the curiosity-based selection after only 11,000 batches with the archive-based container and 13,500 batches with the grid-based container.
+From a general point of view, the same conclusion as in the previous experiments can be drawn from the progression of quality metrics (see Fig.7)^55^5Visualizations of the collections are not provided in this experiment because of the high-dimensionality of the descriptor-space. While the grid-based collections could have been depicted with the same approach as , this approach cannot be applied with the archive-based container.. Variants selecting individuals from the whole collection significantly outperform, in terms of coverage, total quality and diversity, those that consider populations (all the p-values$< {{2e} - 4}$). In particular, the curiosity-based selection operator shows the best results both with the grid-based and the archive-based containers. For instance, one can note that the total quality achieved by the random selection (second best approach) after 20,000 batches, is achieved by the curiosity-based selection after only 11,000 batches with the archive-based container and 13,500 batches with the grid-based container.
 
 In contrast with the previous experiment, the "no_selection" variants manage to achieve good coverage (about half of the coverage produced by the variants using the collection-wise selection). However, they show the worst results according to the total quality and the maximal quality metrics.
 
@@ -377,6 +318,6 @@ This unified and modular framework for QD-algorithms is intended to encourage ne
 
 ## Quality Diversity Library
 
-The source code of the QD-algorithm framework is available at [https://github.com/sferes2/modular_QD](https://github.com/sferes2/modular_QD). It is based on the Sferes~v2~ framework and implements both the grid-based and archive-based containers and several selection operators, including all those that have been evaluated in this paper. The source code of the experimental setups is available at the same location and can be used by interested readers to investigate and evaluate new QD-algorithms.
+The source code of the QD-algorithm framework is available at It is based on the Sferes~v2~ framework and implements both the grid-based and archive-based containers and several selection operators, including all those that have been evaluated in this paper. The source code of the experimental setups is available at the same location and can be used by interested readers to investigate and evaluate new QD-algorithms.
 
 The implementation allows researchers to easily implement and evaluate new combinations of operators, while maintaining high execution speed. For this reason, we followed the policy-based design in C++, which allows developers to replace the behavior of the program simply by changing the template declarations of the algorithm. For example, changing from the grid-based container to the archive-based one only requires changing "container::Grid" to "container::Archive" in the template definition of the QD-algorithm object. Moreover, the modularity provided by this design pattern does not add any overhead, contrary to classic Object-Oriented Programming design. Interested readers are welcome to use and to contribute to the source code.

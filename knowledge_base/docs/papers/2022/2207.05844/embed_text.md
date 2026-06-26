@@ -14,9 +14,7 @@ To keep complexity under control without sacrificing quality or efficiency, we n
 
 Our experiments suggest the domain of motion forecasting conforms to Occam's Razor. We show state of the art results with the simplest design choices and making minimal domain specific assumptions, which is in stark contrast to previous work. When tested in simulation and on real AVs, these Wayformer models showed good understanding of the scene.
 
-Our contributions can be summarized as follows:
-
-We design a family of models with two basic primitives: a *self-attention encoder*, where we fuse one or more modalities across temporal and spatial dimensions, and a *cross-attention decoder*, where we attend to driving scene elements to produce a diverse set of trajectories.
+Our contributions can be summarized as follows: We design a family of models with two basic primitives: a *self-attention encoder*, where we fuse one or more modalities across temporal and spatial dimensions, and a *cross-attention decoder*, where we attend to driving scene elements to produce a diverse set of trajectories.
 
 We study three variations of the scene encoder that differ in how and when different input modalities are fused.
 
@@ -30,7 +28,7 @@ Driving scenarios consist of multimodal data, such as road information, traffic 
 
 ### Agent History
 
-contains a sequence of past agent states along with the current state $\lbrack A,T,1,D_{h}\rbrack$. For each timestep $t \in T$, we consider features that define the state of the agent e.g. x, y, velocity, acceleration, bounding box and so on. We include a context dimension $S_{h} = 1$ for homogeneity.
+contains a sequence of past agent states along with the current state $\lbrack A,T,1,D_{h}\rbrack$. For each timestep $t \in T$, we consider features that define the state of the agent e.g. x, y, velocity, acceleration, bounding box and so . We include a context dimension $S_{h} = 1$ for homogeneity.
 
 ### Agent Interactions
 
@@ -46,7 +44,7 @@ For each agent $a \in A$, traffic light information $\lbrack A,T,S_{tls},D_{tls}
 
 ## Wayformer
 
-We design the family of Wayformer models to consist of two main components: a Scene Encoder and a Decoder. The scene encoder is mainly composed of one or more attention encoders that summarize the driving scene. The decoder is a stack of one or more standard transformer cross-attention blocks, in which learned initial queries are fed in, and then cross-attended with the scene encoding to produce trajectories. Figure 1 shows the Wayformer model processing multimodal inputs to produce scene encoding. This scene encoding serves as the context for the decoder to generate $k$ possible trajectories covering the multimodality of the output space.
+We design the family of Wayformer models to consist of two main components: a Scene Encoder and a Decoder. The scene encoder is mainly composed of one or more attention encoders that summarize the driving scene. The decoder is a stack of one or more standard transformer cross-attention blocks, in which learned initial queries are fed , and then cross-attended with the scene encoding to produce trajectories. Figure 1 shows the Wayformer model processing multimodal inputs to produce scene encoding. This scene encoding serves as the context for the decoder to generate $k$ possible trajectories covering the multimodality of the output space.
 
 ### Frame of Reference
 
@@ -94,9 +92,7 @@ This refers to the default transformer setting which applies self-attention acro
 
 Computational complexity of the self-attention is a quadratic in input sequence length. This becomes more pronounced in multi-dimensional sequences, since each extra dimension increases the size of the input by a multiplicative factor. For example, some input modalities have both temporal and spatial dimensions, so the compute cost scales as $\mathcal{O}{({S_{m}^{2} \times T^{2}})}$. To alleviate this, we consider factorized attention along the two dimensions. This exploits the multidimensional structure of input sequences by applying self-attention over each dimension individually, which reduces the cost of self-attention sub-network from $\mathcal{O}{({S_{m}^{2} \times T^{2}})}$ to ${\mathcal{O}{(S_{m}^{2})}} + {\mathcal{O}{(T^{2})}}$. Note that the linear term still tends to dominate if ${\sum_{m}{\mathcal{S}_{m} \times T}}\operatorname{<<}{12 \times D}$.
 
-While factorized attention has the potential to reduce computation compared to multi-axis attention, it introduces complexity in deciding the order in which self-attention is applied to each dimension. In our work, we compare two paradigms of factorized attention (see Figure 3(b)):
-
-Sequential Attention: an $N$ layer encoder consists of $N/2$ temporal encoder blocks followed by another $N/2$ spatial encoder blocks.
+While factorized attention has the potential to reduce computation compared to multi-axis attention, it introduces complexity in deciding the order in which self-attention is applied to each dimension. In our work, we compare two paradigms of factorized attention (see Figure 3(b)): Sequential Attention: an $N$ layer encoder consists of $N/2$ temporal encoder blocks followed by another $N/2$ spatial encoder blocks.
 
 Interleaved Attention: an $N$ layer encoder consists of temporal and spatial encoder blocks alternating $N/2$ times.
 
@@ -174,11 +170,7 @@ In Table 1, we present results on the Waymo Open Motion Dataset and Argoverse Da
 
 For Argoverse leaderboard, we train 15 replicas each with its own encoder and $N = 10$ transformer decoders. To merge predictions over $N$ decoders we follow the aggregation scheme in section 3.4 to result in $k = 6$ modes for each model. We then ensemble 15 such replicas following the same aggregation scheme (section 3.4) to reduce $N \times 6$ modes to $k = 6$.
 
-Waymo Open Motion Dataset
-
-Wayformer Early Fusion
-
-Table 1: Wayformer models and select SOTA baselines on Waymo Open Motion Dataset 2021 and Argoverse 2021. * denotes the metric used for leaderboard ranking. LQ denotes latent query.
+Waymo Open Motion Dataset Wayformer Early Fusion Table 1: Wayformer models and select SOTA baselines on Waymo Open Motion Dataset 2021 and Argoverse 2021. * denotes the metric used for leaderboard ranking. LQ denotes latent query.
 
 ## Related Work
 

@@ -10,9 +10,7 @@ Recent advances in accelerating motion planning have made real-time motion plann
 
 To this end, we revisit the problem of samping-based manifold-constrained motion planning through the lens of vector acceleration. The primary bottleneck---beyond collision checking---is the manifold-constrained extension step, i.e., tracing a geodesic between configurations on a manifold. We tackle this with *fine-grained parallelization* of the projection of configurations in a geodesic onto the manifold. Altogether, we present the Manifold-Constrained Vector Accelerated Motion Planner (McVAMP) which is capable of planning on the order of microseconds to milliseconds for a wide range of manifold-constrained systems including whole-body manipulation. We believe this is a categorical shift in capabilities of planning for constrained high-DoF systems, as planning in real-time enables reactive global planning which could be used both for high-level task planning as well as low-level control.
 
-Thus, our contribution is as follows
-
-We present a single-core CPU-only SIMD-accelerated sampling-based manifold-constrained motion planner that is capable of planning in the order of microseconds to milliseconds.
+Thus, our contribution is as follows We present a single-core CPU-only SIMD-accelerated sampling-based manifold-constrained motion planner that is capable of planning in the order of microseconds to milliseconds.
 
 At the heart of our planner is a SIMD-parallel manifold-constrained extension step, which projects multiple configurations in parallel to satisfy constraints, and then evaluates for collision building upon VAMP's existing primitives.
 
@@ -22,21 +20,13 @@ We evaluate our planner on a number of challenging problems in simulation and re
 
 ## Preliminaries
 
-The goal of constrained motion planning is to compute a collision-free trajectory between start and goal configurations while adhering to constraints imposed by the robot or task specifications. Formally, let $\mathcal{C} \subset {\mathbb{R}}^{d}$ be the robot configuration space, where $d$ typically represents the number of actuated joints and $q \in \mathcal{C}$ is a robot configuration. The Euclidean space ${\mathbb{R}}^{d}$ is referred to as the ambient space. The obstacle-free configuration space is represented by $\mathcal{C}_{\text{free}} \subset \mathcal{C}$. Let ${\mathcal{F}_{i}{(q)}}:{\mathcal{C}\rightarrow\mathcal{R}^{k}}$ denote the $i^{\text{th}}$ constraint imposed on the robot, which is a function of the robot's configuration and $k$ represents the dimensionality of the constraint. A configuration $q$ satisfies the constraint if ${\mathcal{F}_{i}{(q)}} = \mathbf{0}$. In practice, an acceptable numerical tolerance is imposed, ${\mathcal{F}_{i}{(q)}} \leq \epsilon$. Each constraint reduces the dimensionality of $\mathcal{C}$, and defines a $({d - k})$-dimensional submanifold $\mathcal{M}_{i}$ embedded within $\mathcal{C}$. We also consider the Jacobian $J_{i}{(q)}$ of the constraint function $\mathcal{F}_{i}{(q)}$, which is the matrix of first-order partial derivatives with respect to $q$. While we refer to each constraint function individually, we also consider their composition, $\mathcal{F}{(q)}$, and corresponding composite manifold $\mathcal{M}$. Thus, the goal of constrained motion planning is to find a collision-free trajectory ${\sigma{(t)}}:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{M}_{\text{free}}}$ from $q_{a}$ to $q_{b}$ such that it is both collision free and lies on the manifold, given that ${q_{a},q_{b}} \in {\mathcal{M}_{\text{free}}\mspace{7mu}{({= {\mathcal{M} \cap \mathcal{C}_{free}}})}}$.
+The goal of constrained motion planning is to compute a collision-free trajectory between start and goal configurations while adhering to constraints imposed by the robot or task specifications. Formally, let $\mathcal{C}\subset\mathbb{R}^{d}$ be the robot configuration space, where $d$ typically represents the number of actuated joints and $q\in\mathcal{C}$ is a robot configuration. The Euclidean space $\mathbb{R}^{d}$ is referred to as the ambient space. The obstacle-free configuration space is represented by $\mathcal{C}_{\text{free}}\subset\mathcal{C}$. Let $\mathcal{F}_{i}(q):\mathcal{C}\to\mathcal{R}^{k}$ denote the $i^{\text{th}}$ constraint imposed on the robot, which is a function of the robot's configuration and $k$ represents the dimensionality of the constraint. A configuration $q$ satisfies the constraint if $\mathcal{F}_{i}(q)=\mathbf{0}$. In practice, an acceptable numerical tolerance is imposed, $\mathcal{F}_{i}(q)\leq\epsilon$. Each constraint reduces the dimensionality of $\mathcal{C}$, and defines a $(d-k)$-dimensional submanifold $\mathcal{M}_{i}$ embedded within $\mathcal{C}$. We also consider the Jacobian $J_{i}(q)$ of the constraint function $\mathcal{F}_{i}(q)$, which is the matrix of first-order partial derivatives with respect to $q$. While we refer to each constraint function individually, we also consider their composition, $\mathcal{F}(q)$, and corresponding composite manifold $\mathcal{M}$. Thus, the goal of constrained motion planning is to find a collision-free trajectory $\sigma(t):\rightarrow\mathcal{M}_{\text{free}}$ from $q_{a}$ to $q_{b}$ such that it is both collision free and lies on the manifold, given that $q_{a},q_{b}\in\mathcal{M}_{\text{free}}(=\mathcal{M}\cap\mathcal{C}_{free})$.
 
-Inspired by \[undefd\], we model end-effector pose constraints as Task Space Region (TSR) constraints. Let $\mathcal{T} \in {SE{}}$ denote a pose transform, where $\mathcal{T}_{b}^{a}$ transforms from frame $a$ to $b$, and is composed of a translational and rotational component $\lbrack t_{b}^{a},R_{b}^{a}\rbrack$. A TSR is composed of two transforms $\mathcal{T}_{w}^{0}$, $\mathcal{T}_{e}^{w}$, and bounds $\mathcal{B}^{w}$
+Inspired by \[undefd\], we model end-effector pose constraints as Task Space Region (TSR) constraints. Let $\mathcal{T}\in SE$ denote a pose transform, where $\mathcal{T}_{b}^{a}$ transforms from frame $a$ to $b$, and is composed of a translational and rotational component $[t_{b}^{a},R_{b}^{a}]$. A TSR is composed of two transforms $\mathcal{T}^{0}_{w}$, $\mathcal{T}^{w}_{e}$, and bounds $\mathcal{B}^{w}$ $\mathcal{T}^{0}_{w}$ transforms global frame to the TSR frame $w$ (i.e., the object frame), $\mathcal{T}^{w}_{e}$ transforms object frame to the end-effector frame, $\mathcal{B}^{w}$ represents the bounds for the rotational and transformation errors. This specifies which components of the $SE$ pose of the end-effector are constrained.
 
-$\mathcal{T}_{w}^{0}$ transforms global frame to the TSR frame $w$ (i.e., the object frame),
+For example, for a grasped mug to be held upright, $\mathcal{T}^{0}_{w}$ is the mug pose, $\mathcal{T}^{w}_{e}$ represents the grasp pose, and $\mathcal{B}^{w}$ specifies that the mug is free to translate and rotate about the $z$-axis, but is tightly constrained along the $x$- and $y$-axes.
 
-$\mathcal{T}_{e}^{w}$ transforms object frame to the end-effector frame,
-
-$\mathcal{B}^{w}$ represents the bounds for the rotational and transformation errors. This specifies which components of the $SE{}$ pose of the end-effector are constrained.
-
-For example, for a grasped mug to be held upright, $\mathcal{T}_{w}^{0}$ is the mug pose, $\mathcal{T}_{e}^{w}$ represents the grasp pose, and $\mathcal{B}^{w}$ specifies that the mug is free to translate and rotate about the $z$-axis, but is tightly constrained along the $x$- and $y$-axes.
-
-Using this formulation, for a given configuration $q$, the constraint function $\mathcal{F}{(q)}$ is expressed as the distance to the constraint manifold, given :
-
-where $T_{s}^{0} = {FK{(q)}}$ is the end-effector pose of $q$ obtained by forward kinematics, $T_{s^{\prime}}^{w}$ denotes the pose error in $SE{}$, $d^{w} \in R^{6}$, and $\log{(R_{s^{\prime}}^{w})}^{\vee}$ represents the logarithmic map of the $SO{}$ rotational element of the standard Lie algebra.
+Using this formulation, for a given configuration $q$, the constraint function $\mathcal{F}(q)$ is expressed as the distance to the constraint manifold, given: where $T_{s}^{0}=FK(q)$ is the end-effector pose of $q$ obtained by forward kinematics, $T_{s^{\prime}}^{w}$ denotes the pose error in $SE$, $d^{w}\in R^{6}$, and $\operatorname{log}(R_{s^{\prime}}^{w})^{\vee}$ represents the logarithmic map of the $SO$ rotational element of the standard Lie algebra.
 
 ## Related Work
 
@@ -60,40 +50,11 @@ Specific to humanoids, planners such as CBiRRT \[undefd\] have tackled the probl
 
 In manifold-constrained sampling-based motion planning, local connections between configurations should satisfy constraints. Typically, these are approximations of a geodesic on the constraint submanifold, and are computationally expensive to generate. Our primary contribution is vectorizing the generation of constraint satisfying motion by parallelizing the projection step that maps configurations onto the constraint manifold. The key insight is that multiple configurations along an extension can be projected and checked in parallel using SIMD operations, dramatically reducing the overall cost of constraint satisfaction. We first present the complete manifold-constrained RRT-Connect algorithm, then detail the vectorized projection mechanism, and finally discuss the choices that went into the design of our planner.
 
-3: while iter &lt; MaxIterations do
-5: qneara ← Nearest (Ta,qrand)
-6: qproja ← ParallelConstrainedExtend (Ta,qneara,qrand)
-7: while qproja ≠ NULL do
-8: qnearb ← Nearest (Tb,qproja)
-9: qproja ← ParallelConstrainedExtend (Ta,qproja,qnearb)
-10: if qproja = qnearb then
-Algorithm 1 Vectorized Manifold-Constrained RRT-Connect
-
-1: T, qs, qtarget, ℱ, r, σ, n= SIMD width (e.g., 8 for Intel AVX)
-3: dist ← min (∥qtarget−qs∥,r)
-4: $v_{\text{extend}}\leftarrow\frac{q_{\text{target}} - q_{s}}{\left\| {q_{\text{target}} - q_{s}} \right\|}$
-5: qsteer ← qs + dist ⋅ vextend
-6: qparticles(i) ← qsteer + ϵi vextend, ϵi ∼ 𝒩 (0,σ2), i = 1, …, n
-7: qproj ← ParallelProject (qparticles)
-8: if qproj = NULL then
-10: if ¬CollisionFree (qproj) ∨ ∥qproj−qs∥ &gt; 2 ⋅ dist then
-12: qinterp ← n interpolated points between qs and qproj
-13: qint_proj ← ParallelProject (qinterp)
-14: if ${\exists i}:{\left\| {q_{\text{int\_proj}}^{(i)} - q_{\text{int\_proj}}^{({i + 1})}} \right\| &gt; \frac{r}{n}}$ then
-15: return NULL ⊳ Projected points too far apart
-16: ⊳ Recursively interpolate and project until resolution δ is met ⊲
-24: return qparticles ⊳ All particles converged
-25: step ← getDescentStep (qparticles)
-26: if ∃i: ∥step(i)∥ &gt; MaxDistance then
-27: return NULL ⊳ Projection diverging
-28: qparticles ← qparticles + step
-34: Δ q ← α JiT (Ji JiT+λ I)−1 d (or α (JiT Ji+λ I)−1 JiT d)
-36: return qparticles − qinit
+3: while iter < MaxIterations do 5: qneara ← Nearest(Ta, qrand) 6: $q^{a}_{\text{proj}}\leftarrow{\color[rgb]{0.25390625,0.41015625,0.8828125}\definecolor[named]{pgfstrokecolor}{rgb}{0.25390625,0.41015625,0.8828125}\text{ParallelConstrainedExtend}}(T_{\text{a}},q^{a}_{\text{near}},q_{\text{rand}})$ 7: while $q^{a}_{\text{proj}}\neq\textsc{NULL}$ do 8: qnearb ← Nearest(Tb, qproja) 9: $q^{a}_{\text{proj}}\leftarrow{\color[rgb]{0.25390625,0.41015625,0.8828125}\definecolor[named]{pgfstrokecolor}{rgb}{0.25390625,0.41015625,0.8828125}\text{ParallelConstrainedExtend}}(T_{\text{a}},q^{a}_{\text{proj}},q^{b}_{\text{near}})$ 10: if qproja = qnearb then Algorithm 1 Vectorized Manifold-Constrained RRT-Connect 1: T, qs, qtarget, ℱ, r, σ, n= SIMD width (e.g., 8 for Intel AVX) 3: dist ← min (∥qtarget − qs∥, r) 4: $v_{\text{extend}}\leftarrow\frac{q_{\text{target}}-q_{s}}{\|q_{\text{target}}-q_{s}\|}$ 5: qsteer ← qs + dist ⋅ vextend 6: qparticles(i) ← qsteer + ϵivextend, ϵi ∼ 𝒩(0, σ2), i = 1, …, n 7: qproj ← ParallelProject(qparticles) 8: if $q_{\text{proj}}=\textsc{NULL}$ then 10: if ¬CollisionFree(qproj)∨∥qproj − qs∥ > 2 ⋅ dist then 12: qinterp ← n interpolated points between qs and qproj 13: qint_proj ← ParallelProject(qinterp) 14: if $\exists i:\big\|q_{\text{int_proj}}^{(i)}-q_{\text{int_proj}}^{(i+1)}\big\|>\frac{r}{n}$ then 15: return NULL ⊳ Projected points too far apart 16: ⊳ Recursively interpolate and project until resolution δ is met ⊲ 24: return qparticles ⊳ All particles converged 25: step ← getDescentStep(qparticles) 26: if ∃i: ∥step(i)∥ > MaxDistance then 27: return NULL ⊳ Projection diverging 28: qparticles ← qparticles + step 34: Δq ← αJiT(JiJiT + λI)−1d (or α(JiTJi + λI)−1JiTd) 36: return qparticles − qinit
 
 ### IV-A Vectorized Projection-Based Sampling-Based Planning
 
-[width=0.99]svg-inkscape/methodology_horizontal_svg-tex.pdf_tex
-Figure 2: Methodology. (a) RRT-Extend Step: A random configuration in ambient space is sampled. (b) qs t e e r is computed at a fixed distance from qn e a r and samples around qs t e e r are projected onto the manifold until any one succeeds. (c) Interpolated samples along the vector connecting the start and the initial projected point are projected in parallel. (d) Configurations are interpolated between the projected particles and are projected and validated recursively until desired resolution is achieved. n = 4 here for illustrative purposes, each represented by a different color.
+[width=0.99]svg-inkscape/methodology_horizontal_svg-tex.pdf_tex Figure 2: Methodology. (a) RRT-Extend Step: A random configuration in ambient space is sampled. (b) qsteer is computed at a fixed distance from qnear and samples around qsteer are projected onto the manifold until any one succeeds. (c) Interpolated samples along the vector connecting the start and the initial projected point are projected in parallel. (d) Configurations are interpolated between the projected particles and are projected and validated recursively until desired resolution is achieved. n = 4 here for illustrative purposes, each represented by a different color.
 
 Our parallel vectorized manifold-constrained RRT-Connect algorithm is presented in Alg.˜1. This is a variant of the RRT-Connect algorithm \[undeff\] where all nodes and edges lie on the manifold $\mathcal{M}_{\text{free}}$ up to some discretization resolution $\delta$. In practice, we also use the dynamic-domain \[undefy\] and balancing heuristics \[undefz\], but have elided these from the pseudocode for clarity.
 
@@ -107,7 +68,7 @@ Sine the number of points to check along the motion vector is typically small (o
 
 The critical component of the parallel extend method is parallel projection of multiple points onto the manifold. To be able to perform this, a few pieces are needed.
 
-Tracing Compiler for Constraints In a manner similar to VAMP, we generate SIMD parallel code for evaluating constraint functions using a tracing compiler to *trace* the low-level operations needed to compute the distanceToConstraint (Alg 2, Line 22). We use build upon the existing tracing compiler used by VAMP which uses Pinocchio \[undefaa\] and CppAD \[undefab\] to generate efficient, branch-free, loop-unrolled code for robot kinematics, which is amenable to SIMD operations. By using automatic differentiation during the tracing process, we efficiently compute the corresponding Jacobian matrices of the constraint functions. To enable gradient-based optimization, we implement a differentiable version of $\log{(R_{s^{\prime}}^{w})}^{\vee}$ by using a first order Taylor Series approximation of the sinc function at singularities.
+Tracing Compiler for Constraints In a manner similar to VAMP, we generate SIMD parallel code for evaluating constraint functions using a tracing compiler to *trace* the low-level operations needed to compute the distanceToConstraint (Alg 2, Line 22). We use build upon the existing tracing compiler used by VAMP which uses Pinocchio \[undefaa\] and CppAD \[undefab\] to generate efficient, branch-free, loop-unrolled code for robot kinematics, which is amenable to SIMD operations. By using automatic differentiation during the tracing process, we efficiently compute the corresponding Jacobian matrices of the constraint functions. To enable gradient-based optimization, we implement a differentiable version of $\operatorname{log}(R_{s^{\prime}}^{w})^{\vee}$ by using a first order Taylor Series approximation of the sinc function at singularities.
 
 Vectorized Levenberg--Marquardt: In addition to tracing the constraint functions and Jacobians, we also subsequently trace one step of the Levenberg-Marquardt (LM) algorithm to be able to more efficiently perform the gradient descent in projection. We exploit the known dimensionality of the robot and the constraint functions by using a second-order LM algorithm. To achieve this, we trace compile the Jacobian matrix pseudoinversion for each constraint. Given the semipositive definite (SPD) formulation of the LM step, we implement a custom Cholesky decomposition method \[undefac\], which also follows the SIMD principle of branchless control flow, and the fixed dimensionality allows us to perform loop-unrolled Cholesky solve expressions that can be parallelized. This subroutine is compiled for each constraint and allows us to perform one LM step in parallel for multiple particles. We provide both the inner and outer matrix pseudoinversions, the former is bounded by the dimension of the manifold function while the latter is bounded by the dimension of the robot.
 
@@ -119,10 +80,7 @@ Early Exits The independent parallel nature of projection can cause inconsistenc
 
 Two-Stage Projection While the two-stage projection may seem unnecessary at first (as prior projection-based planners simply interpolate towards $q_{steer}$), for hard constraints this reduces the likelihood of interpolated points projecting far away from each other during descent, as they are already quite close to the manifold. We provide an ablation study of this in Sec.˜V-B. The two-step projection also behaves as an adaptive range parameter for extension step: by sampling points around $q_{steer}$, depending on the difficulty of the constraint, a point that is either closer or farther away from the manifold could be projected the earliest, and overall provides higher chance of successful extension.
 
-Consequently, our tree growth approach is built with the following principles: (i) stay close to the manifold while extending to limit the amount of computationally expensive projection iterations, and (ii) employ particle-based optimization to improve the success of manifold sampling, as even when the initial seeds are proximal in the ambient space the local gradient landscape can lead to divergent behavior.
-
-[width=0.7]svg-inkscape/manifold_intersection_svg-tex.pdf_tex
-Figure 3: Cyclic Projection to intersection of manifolds. At each iteration, we take one step towards each manifold in a pre-determined order, and the algorithm stops when we reach their intersections
+Consequently, our tree growth approach is built with the following principles: (i) stay close to the manifold while extending to limit the amount of computationally expensive projection iterations, and (ii) employ particle-based optimization to improve the success of manifold sampling, as even when the initial seeds are proximal in the ambient space the local gradient landscape can lead to divergent behavior. [width=0.7]svg-inkscape/manifold_intersection_svg-tex.pdf_tex Figure 3: Cyclic Projection to intersection of manifolds. At each iteration, we take one step towards each manifold in a pre-determined order, and the algorithm stops when we reach their intersections
 
 ### IV-C Composition of Constraints
 
@@ -136,20 +94,13 @@ We evaluate our planner on a wide suite of problems with different types and com
 
 Figure 4: Example of a line problem generated with start goal pairs (spheres) and the solution. Random cuboid obstacles are generated around the robot which have to be avoided.
 
-\includeinkscape[width=]svg-inkscape/line_plane_problems_cdf_svg-tex.pdf_tex
-Figure 5: CDF plot benchmarking planner performance for the line and plane constrained problems, binned by number of environment obstacles. 1. LP - Line with Position Constraint only, 2. LPO - Line with Position and Orientation Constraint, 3. PP - Plane with Position Constraint, 4. PPO - Plane with Position and Orientation Constraint For most problems, McVAMP is 1000 times faster than the baselines achieving a 100% success rates, while the other planners suffer in the success rate as the number of obstacles increases.
+\includeinkscape[width=]svg-inkscape/line_plane_problems_cdf_svg-tex.pdf_tex Figure 5: CDF plot benchmarking planner performance for the line and plane constrained problems, binned by number of environment obstacles. 1. LP - Line with Position Constraint only, 2. LPO - Line with Position and Orientation Constraint, 3. PP - Plane with Position Constraint, 4. PPO - Plane with Position and Orientation Constraint For most problems, McVAMP is 1000 times faster than the baselines achieving a 100% success rates, while the other planners suffer in the success rate as the number of obstacles increases.
 
 We first evaluate our constrained planner on the 7-DoF Franka Emika Panda arm. We test on 4 constraints: keeping the end-effector on a plane (i) without an orientation constraint and (ii) with a fixed orientation, and keeping the end-effector on a line (iii) without and (iv) with an orientation constraint. An example problem can be seen in Fig.˜4. To generate the problems, we sample from a set of pre-defined lines and planes as constraints and sample valid start and goal configurations on the constraint. For each start-goal pair we incrementally add obstacles in the task space. Finally, we run our planner with many different hyperparameters and retain the problem even if any succeed. Note that CuRobo's constrained planner does not allow providing joint space configurations goals; we provide the end-effector pose of the goal configuration. We set a timeout of 10 seconds for OMPL after which the planner reports failure.
 
 Fig.˜5 shows the results for each class of constraint problem over a range of obstacle densities. In general, across all benchmarks we obtain superior performance in terms of planning time, with 100% success even as the difficulty increases. Most plans are under 1ms, which is anywhere from 100--2000$\times$ faster than the OMPL and CuRobo baselines.
 
-(a) Generated plan to solve the maze
-
-(b) Real-time replanning for dynamic environments
-
-Figure 6: Solving a Maze. Here the tip of the marker is constrained to the floor of the maze. Consequently, the robot has to solve the maze to find a plan from start to goal. Planning is done at 20Hz. (b) when a dynamic obstacle blocks the path (red sphere here), the planner can compute a new path due to the high motion validation and planning throughput
-
-Next, we evaluate the effectiveness of our planner to navigate complex environments while respecting constraints using a maze (shown in Fig.˜6). We initialize 100 random start goal pairs at different points on the maze a minimum distance apart. We attach a marker to the end effector of the robot, whose tip is constrained to the bottom plane of the maze. In addition, we also impose an orientation constraint, such that only the yaw is free (i.e., the marker is free to rotate about its axis). We benchmark our algorithm against OMPL. As an ablation study, we replace the Pinocchio-based projection of OMPL with our compiled projection. For OMPL, we set the timeout to 100 seconds.
+(a) Generated plan to solve the maze (b) Real-time replanning for dynamic environments Figure 6: Solving a Maze. Here the tip of the marker is constrained to the floor of the maze. Consequently, the robot has to solve the maze to find a plan from start to goal. Planning is done at 20Hz. (b) when a dynamic obstacle blocks the path (red sphere here), the planner can compute a new path due to the high motion validation and planning throughput Next, we evaluate the effectiveness of our planner to navigate complex environments while respecting constraints using a maze (shown in Fig.˜6). We initialize 100 random start goal pairs at different points on the maze a minimum distance apart. We attach a marker to the end effector of the robot, whose tip is constrained to the bottom plane of the maze. In addition, we also impose an orientation constraint, such that only the yaw is free (i.e., the marker is free to rotate about its axis). We benchmark our algorithm against OMPL. As an ablation study, we replace the Pinocchio-based projection of OMPL with our compiled projection. For OMPL, we set the timeout to 100 seconds.
 
 From the results in Table˜I, our planner shows a remarkable improvement on planning times and success rates, achieving over a 1000$\times$ speed-up in some cases, opening the door to real-time planning for hard manifold constraint problems. We illustrate this in Fig.˜6(b) where the planner is able to avoid a dynamic obstacle that blocks its current path.
 
@@ -157,9 +108,7 @@ Table I: Results for maze Solving. All times are reported in seconds. OMPL (comp
 
 ### V-B Bimanual Arm Constraint
 
-To test the scalability of the planner to higher dimensions, we evaluate it on a box transport problem with a bimanual system. In this task, the 14-Dof arms are constrained such that the relative transform between the left and the right arm must be fixed throughout the motion, i.e., holding the box. To enforce this constraint, we formulate it as a TSR constraint:
-
-Following \[undefl\], we evaluate our planner on the same problem of moving the arms between shelves while maintaining the relative pose and avoiding collisions. For baselines, we use compare against both their IK-BiRRT planner as well as the IK-GCS approach; these both use a pre-computed analytic representation of the manifold constraint.
+To test the scalability of the planner to higher dimensions, we evaluate it on a box transport problem with a bimanual system. In this task, the 14-Dof arms are constrained such that the relative transform between the left and the right arm must be fixed throughout the motion, i.e., holding the box. To enforce this constraint, we formulate it as a TSR constraint: Following \[undefl\], we evaluate our planner on the same problem of moving the arms between shelves while maintaining the relative pose and avoiding collisions. For baselines, we use compare against both their IK-BiRRT planner as well as the IK-GCS approach; these both use a pre-computed analytic representation of the manifold constraint.
 
 As this problem is more complex and higher-dimensional, we evaluate an ablation our two stage projection approach to prove its value. We test a single-stage projection, where points are interpolated between $q_{near}$ and $q_{steer}$ (McVAMP 1-step). Table˜II shows the results of the planners.
 
@@ -171,22 +120,11 @@ Table II: KUKA IIWA Bimanual Planning Results: Time in milliseconds (top) and Pa
 
 ### V-C Whole Body Planning
 
-𝒞B: Terr = Tref−1 (TL−1 TR) $d_{B} = \begin{bmatrix}
-{\log{(R_{\text{err}})}^{\vee}}
-\end{bmatrix}$ 𝒞C L: $d_{CL} = \begin{bmatrix}
-{\|{X_{\text{hip}}^{l} - X_{\text{tar}}^{l}}\|} \\
-{\|{X_{\text{hip}}^{r} - X_{\text{tar}}^{r}}\|}
-\end{bmatrix}$ 𝒞CoM: xnear = proj (xcomx y,P) dCOM = xcomx y − xnear 𝒞F: $d^{f} = \begin{bmatrix}
-{\log{({(T_{\text{ref}}^{f})}^{- 1}T_{f})}^{\vee}}
-\end{bmatrix}$ $d_{F} = \begin{bmatrix}
-\end{bmatrix}^{\intercal}$
-Figure 7: The different constraints of the Digit robot. (i) 𝒞B, the bimanual fixed pose constraint, (ii) 𝒞C L, the closed linkage constraint, (iii) 𝒞C O M, the center of mass constraint, and (iv) 𝒞F, the fixed feet placement constraint.
+𝒞B: Terr = Tref−1(TL−1TR) $d_{B}=\begin{bmatrix}t_{\text{err}}\\\log(R_{\text{err}})^{\vee}\end{bmatrix}$ 𝒞CL: $d_{CL}=\begin{bmatrix}\|X_{\text{hip}}^{l}-X_{\text{tar}}^{l}\|\\\|X_{\text{hip}}^{r}-X_{\text{tar}}^{r}\|\end{bmatrix}$ 𝒞CoM: xnear = proj(xcomxy, P) dCOM = xcomxy − xnear 𝒞F: $d^{f}=\begin{bmatrix}t_{\text{rel}}^{f}\\\log((T_{\text{ref}}^{f})^{-1}T_{f})^{\vee}\end{bmatrix}$ $d_{F}=\begin{bmatrix}d^{l}&d^{r}\end{bmatrix}^{\intercal}$ Figure 7: The different constraints of the Digit robot. (i) 𝒞B, the bimanual fixed pose constraint, (ii) 𝒞CL, the closed linkage constraint, (iii) 𝒞COM, the center of mass constraint, and (iv) 𝒞F, the fixed feet placement constraint.
 
-In this scenario, we scale beyond beyond constraints on just the end-effector of a fixed-based manipulator and evaluate the ability to tackle composition of constraints. We implement our planner for the Digit robot to perform quasi-static whole body planning to transport a box. The Digit robot has 30 joints and 6-DoF floating base. Of these 30 joints, 4 are high-stiffness springs, while another 6 are passive and constrained by closed-loop linkages. By assuming rigidity of the 4 spring joints and relying on the low-level tracking controller to handle the 4 closed-loop linkages associated with the ankles, we model it as a 28-Dof system, composed of 22 joints and a 6-Dof floating base, where 2 joints are passive and constrained by 2 closed-loop linkages. To generate a feasible motion plan for the Digit, the motion must respect the following four constraints (equations detailed in Fig.˜7):
+In this scenario, we scale beyond beyond constraints on just the end-effector of a fixed-based manipulator and evaluate the ability to tackle composition of constraints. We implement our planner for the Digit robot to perform quasi-static whole body planning to transport a box. The Digit robot has 30 joints and 6-DoF floating base. Of these 30 joints, 4 are high-stiffness springs, while another 6 are passive and constrained by closed-loop linkages. By assuming rigidity of the 4 spring joints and relying on the low-level tracking controller to handle the 4 closed-loop linkages associated with the ankles, we model it as a 28-Dof system, composed of 22 joints and a 6-Dof floating base, where 2 joints are passive and constrained by 2 closed-loop linkages. To generate a feasible motion plan for the Digit, the motion must respect the following four constraints (equations detailed in Fig.˜7): Stability Constraint: To maintain balance, the $xy$-projection of the center of mass (CoM), $\mathbf{x}_{com}^{xy}$, must remain within the convex hull of the support polygon $P$. The error is to the nearest point in the hull.
 
-Stability Constraint: To maintain balance, the $xy$-projection of the center of mass (CoM), $\mathbf{x}_{com}^{xy}$, must remain within the convex hull of the support polygon $P$. The error is to the nearest point in the hull.
-
-Feet Constraint (TSR): For fixed feet placement, we stack the 6-DoF pose errors for both feet ($f \in {\{ l,r\}}$) into a 12-element vector.
+Feet Constraint (TSR): For fixed feet placement, we stack the 6-DoF pose errors for both feet ($f\in\{l,r\}$) into a 12-element vector.
 
 Closed Link Constraint: The closed loop linkages between the hip and the tarsus joint are enforced as fixed lengths between the two links.
 
@@ -200,17 +138,7 @@ We evaluate our planner in two real-world experiments. In additional to planning
 
 For this task, the robot is required to transport the box between three levels of the shelf, shown in Fig.˜1. Each task is repeated 3 times; Table˜III shows the planning times for each task. For motion segment, we show the distribution of the tracking error of the highest offending joints (the knee and the tarsus joints). Errors range less than 10 degrees on average, with a max error across all joints of 12 degrees at a single point for the left tarsus joint.
 
-Tracking error (deg)
-
-Left Knee Joint
-
-Left Tarsus Joint
-
-Right Knee Joint
-
-Right Tarsus Joint
-
-Note: S: Standing Pose, T: Top, B: Bottom, M: Middle.
+Tracking error (deg) Left Knee Joint Left Tarsus Joint Right Knee Joint Right Tarsus Joint Note: S: Standing Pose, T: Top, B: Bottom, M: Middle.
 
 Table III: Planning to transport a box. The robot picks up the box from the top shelf, transports it to the bottom shelf, then the middle and finally the top one. We show the mean tracking error in the legs between the controller and the planner, and planning time in milliseconds. All numbers are reported as mean ± 1 standard deviation.
 
@@ -220,9 +148,7 @@ Here, the humanoid robot is tasked to repeatedly plan and execute a box transpor
 
 (a) Whole-body trajectory execution in dynamic environment. During the upward motion, an obstacle is detected, the robot plans a feasible trajectory around the obstacle.
 
-(b) Tracking error and planning times for the repeated start-goal-start motions for the bimanual
-
-Figure 8: Experimental results for dynamic environment obstacle avoidance.
+(b) Tracking error and planning times for the repeated start-goal-start motions for the bimanual Figure 8: Experimental results for dynamic environment obstacle avoidance.
 
 Our planner is able to generate feasible trajectories in under 40ms, with the majority of planning times taking under 10ms, thereby enabling quick reactions to changing environments. All trajectories generated were feasible, and tracking errors remained under 8 degrees for the worst offending joints.
 

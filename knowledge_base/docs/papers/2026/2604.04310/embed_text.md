@@ -10,41 +10,19 @@ Most of the leading dynamics libraries are written in C++, and while they often 
 
 ### I-A Contributions
 
-To address this, we present frax, a pure-Python library for fast computation of robot kinematics and dynamics. Due to its vectorized JAX implementation of rigid-body dynamics algorithms, frax natively supports just-in-time (JIT) compilation, compatibility with CPU, GPU, and TPU, and automatic differentiation. In comparisons to common dynamics libraries with Python interfaces (Pinocchio, MuJoCo), frax is the fastest library for writing inverse-kinematic and inverse-dynamic controllers, coming close to matching the raw performance of optimized C++. The same code can then be deployed across thousands of parallel instances, meeting or exceeding the performance of libraries for GPU-based simulation (MJX, BRAX). frax's codebase can be found at
+To address this, we present frax, a pure-Python library for fast computation of robot kinematics and dynamics. Due to its vectorized JAX implementation of rigid-body dynamics algorithms, frax natively supports just-in-time (JIT) compilation, compatibility with CPU, GPU, and TPU, and automatic differentiation. In comparisons to common dynamics libraries with Python interfaces (Pinocchio, MuJoCo), frax is the fastest library for writing inverse-kinematic and inverse-dynamic controllers, coming close to matching the raw performance of optimized C++. The same code can then be deployed across thousands of parallel instances, meeting or exceeding the performance of libraries for GPU-based simulation (MJX, BRAX). frax's codebase can be found at Figure 1: frax is a high-performance library for robot kinematics and dynamics on CPU, GPU, and TPU, supporting manipulators, humanoids, and more. Via JAX, frax enables fast robot control and planning with automatic differentiation through arbitrary functions of the kinematics and dynamics. Shown above (Franka Panda): collision and singularity avoidance in an optimization-based inverse dynamics controller, fully through jax.jvp.
 
-Figure 1: frax is a high-performance library for robot kinematics and dynamics on CPU, GPU, and TPU, supporting manipulators, humanoids, and more. Via JAX, frax enables fast robot control and planning with automatic differentiation through arbitrary functions of the kinematics and dynamics. Shown above (Franka Panda): collision and singularity avoidance in an optimization-based inverse dynamics controller, fully through jax.jvp.
+Fast dynamics and analytical derivatives on CPU Fast simulation and dynamics on CPU Controller prototyping on CPU Simulation and controller prototyping on CPU GPU/TPU-parallelized simulation and RL GPU/TPU-parallelized simulation and RL Fast controller design on CPU, GPU, and TPU † Compatible with external AD libraries such as CppAD
 
-Fast dynamics and analytical derivatives on CPU
-
-Fast simulation and dynamics on CPU
-
-Controller prototyping on CPU
-
-Simulation and controller prototyping on CPU
-
-GPU/TPU-parallelized simulation and RL
-
-GPU/TPU-parallelized simulation and RL
-
-Fast controller design on CPU, GPU, and TPU
-
-† Compatible with external AD libraries such as CppAD
-
-* Python bindings to a compiled library
-
-TABLE I: Feature and Compatibility Comparison for Common Dynamics Libraries
+* Python bindings to a compiled library TABLE I: Feature and Compatibility Comparison for Common Dynamics Libraries
 
 ## Kinematics and Dynamics Preliminaries
 
-We consider a robot modeled as a kinematic tree with generalized coordinates $\mathbf{q}$. The forward kinematics $FK{(\mathbf{q})}$ defines the transformation $\mathbf{T}$ of a link, joint, or other reference frame $i$ with respect to the $0^{th}$ (root) frame, denoted as ${}_{}^{}{}_{}^{}$. Inverse kinematics (IK) seeks joint configurations or velocities that achieve a desired task-space pose or motion, either globally (solving for $\mathbf{q}$) or differentially (solving for $\overset{˙}{\mathbf{q}}$).
+We consider a robot modeled as a kinematic tree with generalized coordinates $\mathbf{q}$. The forward kinematics $FK(\mathbf{q})$ defines the transformation $\mathbf{T}$ of a link, joint, or other reference frame $i$ with respect to the $0^{th}$ (root) frame, denoted as ${}^{0}\mathbf{T}_{i}$. Inverse kinematics (IK) seeks joint configurations or velocities that achieve a desired task-space pose or motion, either globally (solving for $\mathbf{q}$) or differentially (solving for $\dot{\mathbf{q}}$).
 
-Inverse dynamics (ID) computes the torque required to achieve a joint acceleration $\overset{¨}{\mathbf{q}}$ given the joint state $\left\lbrack \mathbf{q},\overset{˙}{\mathbf{q}} \right\rbrack$ and any external contacts or applied forces,
+Inverse dynamics (ID) computes the torque required to achieve a joint acceleration $\ddot{\mathbf{q}}$ given the joint state $\left[\mathbf{q},\dot{\mathbf{q}}\right]$ and any external contacts or applied forces, Here, $\boldsymbol{\Gamma}$ is the vector of generalized joint torques, $\mathbf{M}(\mathbf{q})$ is the joint-space mass matrix, $\mathbf{c}(\mathbf{q},\dot{\mathbf{q}})$ is the vector of centrifugal and Coriolis forces, $\mathbf{g}(\mathbf{q})$ is the gravity vector, and $\mathbf{J}$ is the Jacobian for any constraints or external forces $\mathbf{f}$.
 
-Here, $\mathbf{\Gamma}$ is the vector of generalized joint torques, $\mathbf{M}{(\mathbf{q})}$ is the joint-space mass matrix, $\mathbf{c}{(\mathbf{q},\overset{˙}{\mathbf{q}})}$ is the vector of centrifugal and Coriolis forces, $\mathbf{g}{(\mathbf{q})}$ is the gravity vector, and $\mathbf{J}$ is the Jacobian for any constraints or external forces $\mathbf{f}$.
-
-The corresponding forward dynamics (FD) computes the acceleration of the robot $\overset{¨}{\mathbf{q}}$ resulting from the applied joint torques and external forces, for a given joint state $\left\lbrack \mathbf{q},\overset{˙}{\mathbf{q}} \right\rbrack$,
-
-Rigid body dynamics algorithms are commonly based on Featherstone's formulation, namely, the Composite Rigid Body Algorithm (CRBA), the Recursive Newton-Euler Algorithm (RNEA), and the Articulated Body Algorithm (ABA). CRBA computes the joint-space mass matrix $\mathbf{M}$; RNEA computes the inverse dynamics (Eq. 1) or individual terms such as $\mathbf{c}$ or $\mathbf{g}$; and ABA computes the forward dynamics as a lower-complexity alternative to Eq. 2. These methods rely on spatial algebra, expressing motion and force in 6-D vector spaces. Using the notation of spatial algebra, we can construct the spatial axes $\mathbf{S}$, inertias $\mathbf{I}$, velocities $\mathbf{V}$, accelerations $\mathbf{A}$, forces $\mathbf{F}$, and for CRBA, the composite inertias $\mathbf{C}$.
+The corresponding forward dynamics (FD) computes the acceleration of the robot $\ddot{\mathbf{q}}$ resulting from the applied joint torques and external forces, for a given joint state $\left[\mathbf{q},\dot{\mathbf{q}}\right]$, Rigid body dynamics algorithms are commonly based on Featherstone's formulation, namely, the Composite Rigid Body Algorithm (CRBA), the Recursive Newton-Euler Algorithm (RNEA), and the Articulated Body Algorithm (ABA). CRBA computes the joint-space mass matrix $\mathbf{M}$; RNEA computes the inverse dynamics (Eq. 1) or individual terms such as $\mathbf{c}$ or $\mathbf{g}$; and ABA computes the forward dynamics as a lower-complexity alternative to Eq. 2. These methods rely on spatial algebra, expressing motion and force in 6-D vector spaces. Using the notation of spatial algebra, we can construct the spatial axes $\mathbf{S}$, inertias $\mathbf{I}$, velocities $\mathbf{V}$, accelerations $\mathbf{A}$, forces $\mathbf{F}$, and for CRBA, the composite inertias $\mathbf{C}$.
 
 ## Vectorized Rigid-Body Dynamics
 
@@ -52,17 +30,11 @@ Figure 2: Rigid-body dynamics performance across batch sizes. frax’s vectorize
 
 While most dynamics libraries implement these algorithms through a recursive traversal of the kinematic tree, frax instead adopts a fully-vectorized formulation that prioritizes fine-grained parallelism, simplified tracing for automatic differentiation, and fast JIT compilation. Algorithms 1 and 2 provide an overview of the primary vectorized dynamics methods used in frax. Notation is based on spatial algebra and array broadcasting; a full overview is available in the Appendix (Table III).
 
-1:Precompute: U ⊳ Ancestor mask
-Algorithm 1 ${\text{Vectorized RNEA}{(\mathbf{q},\overset{˙}{\mathbf{q}},\overset{¨}{\mathbf{q}},\mathbf{a}_{g},{{}_{}^{}{}_{{\text{ext},1}:n}^{}})}}\rightarrow\mathbf{\Gamma}$
-
-1:Precompute: U ⊳ Ancestor mask
-Algorithm 2 Vectorized CRBA (q) → M
-
-The main difference between frax's vectorized approach and traditional recursive approaches comes from the use of an ancestor mask $\mathbf{U} \in {\{ 0,1\}}^{n \times n}$ to encode the tree structure. Specifically, $\mathbf{U}_{ij} = 1$ if $j \in {\text{Anc}{(i)}}$ (we consider $i \in {\text{Anc}{(i)}}$), and for a topological sort of the robot joints, $\mathbf{U}$ is lower triangular. This construction allows for summations up and down the tree to be performed with matrix multiplication, assuming spatial values are expressed in a common reference frame. For CRBA, $\mathbf{U}$ also allows for vectorized computation of the entries of $\mathbf{M}$, while masking out any terms corresponding to non-ancestral pairs. Similar operators have appeared in older work, such as, but are uncommon in modern libraries.
+1:Precompute: U ⊳ Ancestor mask 3:${}^{0}\mathbf{V}_{1:n}=\mathbf{U}({}^{0}\mathbf{S}_{i}\dot{\mathbf{q}}_{i})_{i=1}^{n}$ 4:${}^{0}\mathbf{A}_{1:n}=(\mathbf{a}_{g})_{i=1}^{n}+\mathbf{U}({}^{0}\mathbf{S}_{i}\ddot{\mathbf{q}}_{i}+{}^{0}\mathbf{V}_{i}\times{}^{0}\mathbf{S}_{i}\dot{\mathbf{q}}_{i})_{i=1}^{n}$ Algorithm 1 $\text{Vectorized RNEA}(\mathbf{q},\dot{\mathbf{q}},\ddot{\mathbf{q}},\mathbf{a}_{g},{}^{0}\mathbf{F}_{\text{ext},1:n})\rightarrow\boldsymbol{\Gamma}$ 1:Precompute: U ⊳ Ancestor mask Algorithm 2 Vectorized CRBA(q) → M The main difference between frax's vectorized approach and traditional recursive approaches comes from the use of an ancestor mask $\mathbf{U}\in\{0,1\}^{n\times n}$ to encode the tree structure. Specifically, $\mathbf{U}_{ij}=1$ if $j\in\text{Anc}(i)$ (we consider $i\in\text{Anc}(i)$), and for a topological sort of the robot joints, $\mathbf{U}$ is lower triangular. This construction allows for summations up and down the tree to be performed with matrix multiplication, assuming spatial values are expressed in a common reference frame. For CRBA, $\mathbf{U}$ also allows for vectorized computation of the entries of $\mathbf{M}$, while masking out any terms corresponding to non-ancestral pairs. Similar operators have appeared in older work, such as, but are uncommon in modern libraries.
 
 ### III-A Complexity Tradeoffs
 
-Crucially, by avoiding a recursive loop-based structure, we intentionally increase the complexity of RNEA from $O{(n)}$ to $O{(n^{2})}$, and from $O{({nd})}$ to $O{(n^{2})}$ for CRBA. Here, $n$ is the number of degrees of freedom (DOFs) and $d$ is the maximum depth of the kinematic tree. However, the overhead of redundant $O{(n^{2})}$ computations is vastly outweighed by the performance gains from the XLA compiler's ability to make use of fine-grained parallelism within the CPU, GPU, or TPU.
+Crucially, by avoiding a recursive loop-based structure, we intentionally increase the complexity of RNEA from $O(n)$ to $O(n^{2})$, and from $O(nd)$ to $O(n^{2})$ for CRBA. Here, $n$ is the number of degrees of freedom (DOFs) and $d$ is the maximum depth of the kinematic tree. However, the overhead of redundant $O(n^{2})$ computations is vastly outweighed by the performance gains from the XLA compiler's ability to make use of fine-grained parallelism within the CPU, GPU, or TPU.
 
 In general, this aversion to loops typically leads to modest improvements to the compute time for a single evaluation on CPU, but significant improvements in JIT compilation, GPU performance, and automatic differentiation performance (on both CPU and GPU). While CPUs can efficiently handle tree traversals, GPUs favor operations with fewer sequential dependencies; thus, we take this approach to maintain strong performance across platforms. And, when applying automatic differentiation to the robot dynamics, the vectorized form avoids the cost of tracing gradients through long unrolled loops, for fast evaluation and compilation.
 
@@ -70,17 +42,15 @@ Note that only one loop is strictly required in frax, to compute the forward kin
 
 ### III-B Batched Performance
 
-In Fig. 2, we explore the trends in throughput across CPU and increasing batch sizes on GPU. For a single robot instance, CPU is extremely fast -- much more so than on GPU, which experiences additional overhead cost, though it begins to match the total computations/second achievable once the batch size exceeds 4. As batch size increases, overhead is considerable up to approximately $N = 64$, after which the increased computational load begins to noticeably impact the total time for the batch. We also see strong performance even on very large batch sizes with throughput rates of upwards of 100 million computations per second. While this is not directly comparable with a GPU-accelerated simulator's "steps per second" metric, it does indicate that frax's dynamics methods can be used in a highly-parallelized context without impeding the performance of an underlying training environment.
+In Fig. 2, we explore the trends in throughput across CPU and increasing batch sizes on GPU. For a single robot instance, CPU is extremely fast -- much more so than on GPU, which experiences additional overhead cost, though it begins to match the total computations/second achievable once the batch size exceeds 4. As batch size increases, overhead is considerable up to approximately $N=64$, after which the increased computational load begins to noticeably impact the total time for the batch. We also see strong performance even on very large batch sizes with throughput rates of upwards of 100 million computations per second. While this is not directly comparable with a GPU-accelerated simulator's "steps per second" metric, it does indicate that frax's dynamics methods can be used in a highly-parallelized context without impeding the performance of an underlying training environment.
 
 ## Getting Started with FRAX
 
-After installing either via pip or from source, frax supports any robot loaded via URDF, with specialized methods based on the kinematic structure (end-effector transforms, Jacobians, manipulability indices,...) available via the Manipulator and Humanoid classes. frax has native support for the Franka Panda and Unitree G1, including tuned spherized collision models and self-collision pairs for both robots.
-
-frax currently contains three examples, with more to be added: differential IK, operational space control, and safe operational space control with CBFs. Each is a minimal example of designing an IK or ID controller with JAX, and can be fully wrapped in jax.jit for high performance. Figure 1 gives a visual representation of the CBF demo, including the spherized collision model for the Franka, an obstacle, and the end-effector target shown in red.
+After installing either via pip or from source, frax supports any robot loaded via URDF, with specialized methods based on the kinematic structure (end-effector transforms, Jacobians, manipulability indices,...) available via the Manipulator and Humanoid classes. frax has native support for the Franka Panda and Unitree G1, including tuned spherized collision models and self-collision pairs for both robots. frax currently contains three examples, with more to be added: differential IK, operational space control, and safe operational space control with CBFs. Each is a minimal example of designing an IK or ID controller with JAX, and can be fully wrapped in jax.jit for high performance. Figure 1 gives a visual representation of the CBF demo, including the spherized collision model for the Franka, an obstacle, and the end-effector target shown in red.
 
 ### IV-A Fast JVPs for Robot Control
 
-As a unique benefit of using JAX, we can often replace a full set of Jacobian computations with an efficient, direct evaluation of a Jacobian-vector product (JVP). In general, a Jacobian computed via AD will be slower than an analytical form^11^1frax contains analytical Jacobians for many common functions of the robot kinematics, for this reason., unless the Jacobian does not need to be computed in the first place. As an example, in the CBF demo, we differentiate through the model of the Franka to form the safety constraints, which can be nontrivial functions of the kinematics and dynamics (e.g., the manipulability index). The Lie derivatives required to construct the CBF constraint, such as ${L_{f}h{(\mathbf{z})}} = {\frac{dh}{d\mathbf{z}}f{(\mathbf{z})}}$, is itself a JVP, and thus $\frac{dh}{d\mathbf{z}}$ does not need to be computed in full. This can be particularly beneficial for high-DOF systems like the Unitree G1, while also being simple to derive and implement.
+As a unique benefit of using JAX, we can often replace a full set of Jacobian computations with an efficient, direct evaluation of a Jacobian-vector product (JVP). In general, a Jacobian computed via AD will be slower than an analytical form^11^1frax contains analytical Jacobians for many common functions of the robot kinematics, for this reason., unless the Jacobian does not need to be computed in the first place. As an example, in the CBF demo, we differentiate through the model of the Franka to form the safety constraints, which can be nontrivial functions of the kinematics and dynamics (e.g., the manipulability index). The Lie derivatives required to construct the CBF constraint, such as $L_{f}h(\mathbf{z})=\frac{dh}{d\mathbf{z}}f(\mathbf{z})$, is itself a JVP, and thus $\frac{dh}{d\mathbf{z}}$ does not need to be computed in full. This can be particularly beneficial for high-DOF systems like the Unitree G1, while also being simple to derive and implement.
 
 ## Comparison of Dynamics Libraries
 
@@ -88,19 +58,13 @@ Figure 3: Compute timing for controllers written with frax and other common libr
 
 To evaluate frax's performance, we consider the application of writing robot controllers, including IK-based (differential IK) and ID-based (operational space control) methods. For comparison, we include compiled C++ libraries (Pinocchio, MuJoCo), their Python APIs (with NumPy for intermediate computations), and JIT-compiled JAX libraries (MJX, BRAX). These tests reflect a typical workflow, where we need multiple kinematic and dynamic terms ($\mathbf{M}$, $\mathbf{c}$, $\mathbf{g}$, $\mathbf{J}$,...).
 
-From Figure 3, we observe that existing JAX libraries for robot dynamics (MJX, BRAX) tend to optimize for GPU performance, leading to limited applicability for single-robot control and planning on CPU. This is especially noticeable for inverse dynamics methods on the G1, which can lead to significant spikes in controller compute times (on the order of 1 $ms$ as opposed to 25 $\mus$ with frax).
+From Figure 3, we observe that existing JAX libraries for robot dynamics (MJX, BRAX) tend to optimize for GPU performance, leading to limited applicability for single-robot control and planning on CPU. This is especially noticeable for inverse dynamics methods on the G1, which can lead to significant spikes in controller compute times (on the order of 1 $ms$ as opposed to 25 $\mu s$ with frax).
 
 In comparison to the Python APIs for Pinocchio and MuJoCo, frax fares very well, with around a 2-5x speedup, due to JAX's JIT compilation leading to reduced overhead, compiler fusions, and multithreaded linear algebra operations.
 
 For the best possible performance on CPU, a controller written in C++ and compiled directly with the C++ interfaces to Pinocchio and MuJoCo will beat out frax, but this gap can be quite close, as seen in the G1 OSC timings (Fig. 3). This C++ approach also loses the flexibility of Python, the easy automatic differentiation enabled via JAX, and the ability to run on GPU or TPU (see Table I). A brief summary of frax's CPU performance on common IK and ID controllers is also available in Table II, and further discussion on performance is included in the Appendix.
 
-Inverse kinematics [Diff. IK]
-
-Inverse dynamics [OSC]
-
-TABLE II: Compute Times for FRAX Controllers on CPU (μs)
-
-On GPU, frax is on par (or slightly faster) than MJX or BRAX. All three were designed for good GPU compatibility with JAX as the backend, so this is to be expected. However, frax has the additional benefit of significantly reduced JIT compilation times --- while JIT times are of much lower importance than "hot" calls in the control loop, for these tests, frax compiles in 1-2 seconds versus 6-12 for MJX/BRAX. For iterative development and tuning, this speedup can significantly reduce friction for designers.
+Inverse kinematics [Diff. IK] Inverse dynamics [OSC] TABLE II: Compute Times for FRAX Controllers on CPU (μs) On GPU, frax is on par (or slightly faster) than MJX or BRAX. All three were designed for good GPU compatibility with JAX as the backend, so this is to be expected. However, frax has the additional benefit of significantly reduced JIT compilation times --- while JIT times are of much lower importance than "hot" calls in the control loop, for these tests, frax compiles in 1-2 seconds versus 6-12 for MJX/BRAX. For iterative development and tuning, this speedup can significantly reduce friction for designers.
 
 ## Conclusion
 

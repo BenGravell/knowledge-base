@@ -6,7 +6,7 @@ At a high level, incorporating pessimism prevents algorithms from settling down 
 
 ### Overview and our contributions
 
-Implementing pessimism with function approximation is challenging for several reasons. First, uncertainty must be estimated with particular care. On one hand, underestimating it can fail to correct the coverage problem. On the other hand, overestimating it leads to policies that are too conservative and thus underperform. Second, the incorporation of pessimism may introduce complex, higher order perturbations into the value function class handled by the algorithm. Similar issues can arise when adding optimistic bonuses in the exploration. The increased complexity of the function class often requires additional assumptions on the model, because the new class needs to interact "nicely" with the Bellman operator. Prior art on pessimism with function approximation has by-passed this problem by making strong model assumptions, such as low-rank transitions \[\] or algorithm-specific assumptions \[\].
+Implementing pessimism with function approximation is challenging for several reasons. First, uncertainty must be estimated with particular care. On one hand, underestimating it can fail to correct the coverage problem. On the other hand, overestimating it leads to policies that are too conservative and thus underperform. Second, the incorporation of pessimism may introduce complex, higher order perturbations into the value function class handled by the algorithm. Similar issues can arise when adding optimistic bonuses in the exploration. The increased complexity of the function class often requires additional assumptions on the model, because the new class needs to interact "nicely" with the Bellman operator. Prior art on pessimism with function approximation has by-passed this problem by making strong model assumptions, such as low-rank transitions or algorithm-specific assumptions.
 
 ### Actor-critic methods
 
@@ -16,11 +16,9 @@ Most past theoretical work on offline reinforcement learning on finding with hig
 
 More specifically, we study the problem of policy learning using linear function approximation in the offline setting. We assume that we are given a batch data set $\mathcal{D}$, in which each sample consists of a quadruple. The first two components are the state-action pair, corresponding to the state in which a given action was taken, and the last two components correspond to a noisy observation of the reward, and a successor state drawn from the appropriate transition function. Our theory allows for a very general dependence structure among the the state-action pairs in these samples; when the data set is ordered according to how the samples were collected (which need not be related to a trajectory), we allow the state-action pair at any given instant to depend on all past samples. This set-up allows from data collected from arbitrary policies, mixtures of policies, generative models or even in adversarial manner.
 
-Given such a data set, our objective is to find the policy that performs best in the face of uncertainty. In particular, we need to account for the fact that the optimal policy $\pi^{\ast}$ for the underlying MDP may not be well covered by the dataset $\mathcal{D}$, in which case the associated uncertainty would be prohibitive. In order to achieve this goal, we design an actor-critic procedure that iteratively optimizes a lower bound on the value of the optimal policy. Suppose that we are interested in optimizing the value function at some given initial $s_{1}$. Our strategy works as follows: for any given policy $\pi$, we construct a family $\mathcal{M}{(\pi)}$ of "statistically plausible" MDPs, and use them to define a simple second-order cone program. By solving this convex program, we obtain value function estimate ${{\underset{¯}{V}}_{M}^{\pi}{(s_{1})}} = {{\arg{\min_{M \in {\mathcal{M}{(\pi)}}}V_{M}^{\pi}}}{(s_{1})}}$ that---for an appropriately constructed family $\mathcal{M}{(\pi)}$---is guaranteed to be a lower bound on the true value function of $\pi$ in the unknown MDP that generated the dataset. Given a procedure for producing such lower bounds, it is then natural to maximize these lower bounds over some family $\Pi$ of policies. This combination leads to the saddle-point problem
+Given such a data set, our objective is to find the policy that performs best in the face of uncertainty. In particular, we need to account for the fact that the optimal policy $\pi^{\ast}$ for the underlying MDP may not be well covered by the dataset $\mathcal{D}$, in which case the associated uncertainty would be prohibitive. In order to achieve this goal, we design an actor-critic procedure that iteratively optimizes a lower bound on the value of the optimal policy. Suppose that we are interested in optimizing the value function at some given initial $s_{1}$. Our strategy works as follows: for any given policy $\pi$, we construct a family $\mathcal{M}{(\pi)}$ of "statistically plausible" MDPs, and use them to define a simple second-order cone program. By solving this convex program, we obtain value function estimate ${{\underset{¯}{V}}_{M}^{\pi}{(s_{1})}} = {{\arg{\min_{M \in {\mathcal{M}{(\pi)}}}V_{M}^{\pi}}}{(s_{1})}}$ that---for an appropriately constructed family $\mathcal{M}{(\pi)}$---is guaranteed to be a lower bound on the true value function of $\pi$ in the unknown MDP that generated the dataset. Given a procedure for producing such lower bounds, it is then natural to maximize these lower bounds over some family $\Pi$ of policies. This combination leads to the saddle-point problem Note that actor-critic methods fit naturally in this framework: the critic provides a pessimistic evaluation of any given policy $\pi$, and the actor solves the outer maximization problem over policies. This decoupling lends itself to a computationally tractable implementation, along with an analysis of the procedure. In particular, we show that the actor's sequence of estimated policies enjoys online learning-style guarantees with respect to a sequence of pessimistic MDPs implicitly identified by the critic.
 
-Note that actor-critic methods fit naturally in this framework: the critic provides a pessimistic evaluation of any given policy $\pi$, and the actor solves the outer maximization problem over policies. This decoupling lends itself to a computationally tractable implementation, along with an analysis of the procedure. In particular, we show that the actor's sequence of estimated policies enjoys online learning-style guarantees with respect to a sequence of pessimistic MDPs implicitly identified by the critic.
-
-The way in which we introduce pessimism is a second key component of the algorithmic framework. In particular, in line with our previous paper \[\], we do so without enlarging the prescribed classes of functions and policies. We do so by a direct perturbation of the value functions examined by the critic; there is no addition of pessimistic bonuses or absorbing states. Since the class of value functions is not altered, this method has two main advantages. First, there are no additional model assumptions compared to the standard---that is non-pessimistic---version of the actor-critic method. Second, the complexity of the underlying classes is not increased, thereby allowing us to construct tight confidence intervals and estimation error bounds that are minimax optimal up to logarithmic factors.
+The way in which we introduce pessimism is a second key component of the algorithmic framework. In particular, in line with our previous paper, we do so without enlarging the prescribed classes of functions and policies. We do so by a direct perturbation of the value functions examined by the critic; there is no addition of pessimistic bonuses or absorbing states. Since the class of value functions is not altered, this method has two main advantages. First, there are no additional model assumptions compared to the standard---that is non-pessimistic---version of the actor-critic method. Second, the complexity of the underlying classes is not increased, thereby allowing us to construct tight confidence intervals and estimation error bounds that are minimax optimal up to logarithmic factors.
 
 The remainder of this paper is organized as follows. We begin in Section 2 with background on MDPS, and then introduce the modeling assumptions that underlie the analysis of this paper. In Section 3, we introduce the algorithm studied in this paper, namely the Pessimistic Actor Critic for Learning without Exploration (for short, Pacle) algorithm. Section 4 provides statements of our main results and discussion of their consequences, including an upper bound on the Pacle algorithm in Theorem 1. ‣ 4.1 A guarantee for PACLE ‣ 4 Main results"), and a minimax lower bound in Theorem 2. ‣ 4.2 A lower bound ‣ 4 Main results"). In Section 5, we provide an outline of the proof of Theorem 1. ‣ 4.1 A guarantee for PACLE ‣ 4 Main results"), with various technical details as well as the proof of Theorem 2. ‣ 4.2 A lower bound ‣ 4 Main results") deferred to the appendices. We conclude with a discussion in Section 6.
 
@@ -36,11 +34,7 @@ We begin by providing some background, before introducing the assumptions that u
 
 In this paper, we focus on finite-horizon Markov decision processes, for which we provide a very brief introduction here. See the books \[ \] for more background and detail. A finite-horizon MDP is specified by a positive integer $H$, and events take place over a sequence of stages indexed by the time step $h \in {\lbrack H\rbrack}\overset{def}{=}{\{ 1,\ldots,H\}}$. The underlying dynamics involve a state space $\mathcal{S}$, and are controlled by actions that take values in some action set $\mathcal{A}$. In this paper, we allow the state space to be arbitrary (continous or discrete), whereas our analysis applies to discrete action spaces. For each time step $h \in {\lbrack H\rbrack}$, there is a reward function $r_{h}:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$, and for every time step $h$ and state-action pair $(s,a)$, there is a transition function ${\mathbb{P}}_{h}{( \cdot \mid s,a)}$. When at horizon $h$, if the agent takes action $a$ in state $s$, it receives a random reward drawn from a distribution $R_{h}{(s,a)}$ with mean $r_{h}{(s,a)}$, and it then transitions randomly to a next state $s^{+}$ drawn from the transition function ${\mathbb{P}}_{h}{( \cdot \mid s,a)}$.
 
-A policy $\pi_{h}$ at stage $h$ is a mapping from the state space $\mathcal{S}$ to the action space $\mathcal{A}$. Given a full policy $\pi = {(\pi_{1},\ldots,\pi_{H})}$, the state-action value function at time step $h$ is given by
-
-where the expectation is over the trajectories induced by $\pi$ upon starting from the pair $(s,a)$. When we omit the starting state-action pair $(s,a)$, the expectation is intended to start from a fixed state denoted by $s_{1}$. The value function associated to $\pi$ is ${V_{h}^{\pi}{(s)}} = {Q_{h}^{\pi}{(s,{\pi_{h}{(s)}})}}$. For a given policy $\pi$, we define the Bellman evaluation operator
-
-Under some regularity conditions \[, \], there always exists an optimal policy $\pi^{\star}$ whose value and action-value functions are defined as
+A policy $\pi_{h}$ at stage $h$ is a mapping from the state space $\mathcal{S}$ to the action space $\mathcal{A}$. Given a full policy $\pi = {(\pi_{1},\ldots,\pi_{H})}$, the state-action value function at time step $h$ is given by where the expectation is over the trajectories induced by $\pi$ upon starting from the pair $(s,a)$. When we omit the starting state-action pair $(s,a)$, the expectation is intended to start from a fixed state denoted by $s_{1}$. The value function associated to $\pi$ is ${V_{h}^{\pi}{(s)}} = {Q_{h}^{\pi}{(s,{\pi_{h}{(s)}})}}$. For a given policy $\pi$, we define the Bellman evaluation operator Under some regularity conditions \[, \], there always exists an optimal policy $\pi^{\star}$ whose value and action-value functions are defined as
 
 ### Assumptions on data generation
 
@@ -56,14 +50,7 @@ For each $h \in {\lbrack H\rbrack}$, we let $\mathcal{I}_{h}$ denote the subset 
 
 ### Policy and function classes
 
-Next we define the policy space $\Pi$ and the action value function space $\mathcal{Q}$ over which we seek solutions. Let $\phi:{{\mathcal{S} \times \mathcal{A}}\mapsto{\mathbb{R}}^{d}}$ be a $d$-dimensional feature mapping. We assume throughout that these feature mappings are normalized such that ${\|{\phi{(s,a)}}\|}_{2} \leq 1$ uniformly for all $(s,a)$-pairs. We consider action-value functions that are linear in $\phi$, and families of the form
-
-$\mathcal{Q}{(\rho^{w})}$ ${\overset{def}{=}{\{{{(s,a)}\mapsto\left\langle {\phi{(s,a)}},w \right\rangle}\mid{{\| w\|}_{2} \leq \rho^{w}}\}}},$ (3a)
-where $\rho^{w} \in {(0,1\rbrack}$ is a user-defined radius. For policies, we consider the associated soft-max class
-
-${{\Pi_{soft}{(\rho^{\theta})}}\overset{def}{=}\left\{ \frac{e^{\langle{\phi{(s,a)}},\theta\rangle}}{\sum\limits_{a^{\prime} \in \mathcal{A}}e^{\langle{\phi{(s,a^{\prime})}},\theta\rangle}}\mid{{\|\theta\|}_{2} \leq \rho^{\theta}} \right\}},$ (3b)
-
-where $\rho^{\theta} > 0$ is a second radius.
+Next we define the policy space $\Pi$ and the action value function space $\mathcal{Q}$ over which we seek solutions. Let $\phi:{{\mathcal{S} \times \mathcal{A}}\mapsto{\mathbb{R}}^{d}}$ be a $d$-dimensional feature mapping. We assume throughout that these feature mappings are normalized such that ${\|{\phi{(s,a)}}\|}_{2} \leq 1$ uniformly for all $(s,a)$-pairs. We consider action-value functions that are linear in $\phi$, and families of the form where $\rho^{\theta} > 0$ is a second radius.
 
 In the context of our actor-critic algorithm, the weight radius $\rho^{w}$ remains fixed for all updates. On the other hand, the actor produces a sequence of soft-max radii ${\{\rho_{t}^{\theta}\}}_{t = 1}^{T}$, indexed by the iterations $t$ of the actor. This sequence is produced via the update rule in Line 5 of Algorithm 1. The policy radius can be large $\rho^{\theta} \gg 1$ but we constrain $\rho^{w} \leq 1$ so that the critic's estimate ${Q_{w}{(s,a)}} = \left\langle {\phi{(s,a)}},w \right\rangle$ is bounded by one, i.e., ${\sup_{(s,a,w)}{|{Q_{w}{(s,a)}}|}} \leq 1$.
 
@@ -77,37 +64,23 @@ We begin with the least restrictive condition, which is a very natural starting 
 
 ### Assumption 2 (Linear action-value functions $Q^{\pi}$)
 
-The MDP admits a linear action-value function representation for all policies in $\Pi$, meaning that for each policy $\pi \in \Pi$ and time step $h \in {\lbrack H\rbrack}$, there exists a vector $w_{h}^{\pi}$ such that
-
-This assumption alone turns out to be inadequate to ensure that effective learning is possible; indeed, the recent papers \[, \] establish that even under this condition, there are instances that require exponentially many samples to do better than a random policy.\
-
-Given this fact, if one is interested in procedures with polynomial complexity (in both sample size and running time), stronger conditions need to be imposed. In general, the Bellman evaluation operator, even when applied to a linear action-value function, will return a nonlinear value function. The analysis of this paper is based on bounding the Bellman error in the sense of sup-norm deviation from linearity:
+The MDP admits a linear action-value function representation for all policies in $\Pi$, meaning that for each policy $\pi \in \Pi$ and time step $h \in {\lbrack H\rbrack}$, there exists a vector $w_{h}^{\pi}$ such that This assumption alone turns out to be inadequate to ensure that effective learning is possible; indeed, the recent papers \[, \] establish that even under this condition, there are instances that require exponentially many samples to do better than a random policy.\Given this fact, if one is interested in procedures with polynomial complexity (in both sample size and running time), stronger conditions need to be imposed. In general, the Bellman evaluation operator, even when applied to a linear action-value function, will return a nonlinear value function. The analysis of this paper is based on bounding the Bellman error in the sense of sup-norm deviation from linearity:
 
 ### Assumption 3 (Bellman Restricted Closedness)
 
-The policy and value function spaces $(\Pi,\mathcal{Q})$ are closed up to $\nu \in {\mathbb{R}}^{H}$ error in the sup-norm if there is a non-negative sequence ${\{\nu_{h}\}}_{h = 1}^{H}$ such that for each $h \in {\lbrack H\rbrack}$, we have
-
-The restricted closedness assumption measures how well we can fit the action-value function resulting from the application of the Bellman evaluation operator to an action value function in $\mathcal{Q}$ and for a policy in $\Pi$. It enables the analysis of least-squares policy evaluation (e.g., \[\]), which will be our starting point when constructing the critic.\
-
-Finally, for understanding connections to past work, it is relevant to compare to the *low-rank MDP* assumption that has been analyzed in recent work \[, \], including in offline RL with pessimismistic guarantees \[\], as well as in various online settings \[, MCK^+^21, \].
+The policy and value function spaces $(\Pi,\mathcal{Q})$ are closed up to $\nu \in {\mathbb{R}}^{H}$ error in the sup-norm if there is a non-negative sequence ${\{\nu_{h}\}}_{h = 1}^{H}$ such that for each $h \in {\lbrack H\rbrack}$, we have The restricted closedness assumption measures how well we can fit the action-value function resulting from the application of the Bellman evaluation operator to an action value function in $\mathcal{Q}$ and for a policy in $\Pi$. It enables the analysis of least-squares policy evaluation (e.g.,), which will be our starting point when constructing the critic.\Finally, for understanding connections to past work, it is relevant to compare to the *low-rank MDP* assumption that has been analyzed in recent work \[, \], including in offline RL with pessimismistic guarantees, as well as in various online settings \[, MCK^+^21, \].
 
 ### Assumption 4 (Low-Rank MDP)
 
-An MDP is low-rank if for all $h \in {\lbrack H\rbrack}$, there exists a reward parameter $w_{h} \in {\mathbb{R}}^{d}$ and a component-wise positive mapping $\psi_{h}:{\mathcal{S}\rightarrow{\mathbb{R}}_{+}^{d}}$ such that ${\|{\psi_{h}{(s)}}\|}_{1} = 1$ for all $s \in \mathcal{S}$, and
-
-The following proposition explicates the nested relationship between these three conditions, showing that the low-rank MDP condition is the most restrictive:\
+An MDP is low-rank if for all $h \in {\lbrack H\rbrack}$, there exists a reward parameter $w_{h} \in {\mathbb{R}}^{d}$ and a component-wise positive mapping $\psi_{h}:{\mathcal{S}\rightarrow{\mathbb{R}}_{+}^{d}}$ such that ${\|{\psi_{h}{(s)}}\|}_{1} = 1$ for all $s \in \mathcal{S}$, and The following proposition explicates the nested relationship between these three conditions, showing that the low-rank MDP condition is the most restrictive:\
 
 ### Proposition 1 (Low Rank $\subset$ Restricted Closedness $\subset$ Linear $Q^{\pi}$)
 
-For any fixed state-action space, horizon, and feature extractor:
-
-The class of low-rank MDPs is a strict subset of the class of MDPs that satisfy Bellman restricted closedness.
+For any fixed state-action space, horizon, and feature extractor: The class of low-rank MDPs is a strict subset of the class of MDPs that satisfy Bellman restricted closedness.
 
 The class of MDPs that satisfy Bellman restricted closedness is a strict subset of the linear $Q^{\pi}$ MDP class.
 
-See Appendix B for the proof of this claim.\
-
-Based on Proposition 1. ‣ 2.4 A range of function class assumptions ‣ 2 Background and problem formulation"), we see that any analysis based on assuming Bellman restricted closedness also *a fortiori* applies to MDPs that satisfy the more stringent low-rank MDP condition.
+See Appendix B for the proof of this claim.\Based on Proposition 1. ‣ 2.4 A range of function class assumptions ‣ 2 Background and problem formulation"), we see that any analysis based on assuming Bellman restricted closedness also *a fortiori* applies to MDPs that satisfy the more stringent low-rank MDP condition.
 
 ## The Pessimistic Actor-Critic
 
@@ -117,58 +90,29 @@ Given the set-up thus far, we are now ready to describe the actor-critic algorit
 
 The purpose of the critic is to provide pessimistic value function estimates corresponding to the policy $\pi$ under consideration by the actor. Monte Carlo with importance sampling (IS) is not desirable in this setting, as the policy or distribution that generated the dataset might be unknown and estimation errors on the distribution can accumulate exponentially with the horizon in IS estimators (see e.g. \[LGR^+^18\]). Instead, we use a least-squares temporal difference method for policy evaluation, but suitably perturbed to return pessimistic estimates---i.e., lower bounds on the true value function of the given policy $\pi$. Our method is based on directly perturbing the regression parameters in the least-square estimate. In contrast to bonus-based approaches, this method has the important advantage of ensuring that the action-value function remains linear. The purpose of the perturbations is to compensate for possible statistical errors in estimating the regression parameter due to poor coverage of the given dataset.
 
-Let us now give a precise description of the critic. Given a policy $\pi = {(\pi_{1},\ldots,\pi_{H})}$, the goal of the critic is to minimize the quantity
+Let us now give a precise description of the critic. Given a policy $\pi = {(\pi_{1},\ldots,\pi_{H})}$, the goal of the critic is to minimize the quantity which is an estimate of the value function $V^{\pi}{(s_{1})}$ for the policy $\pi$ at the initial state $s_{1}$. The parameter $w_{1} \in {\mathbb{R}}^{d}$ is a vector to be adjusted, one that is determined by a backwards-running sequence of regression problems from $h = H$ down to $h = 1$.
 
-which is an estimate of the value function $V^{\pi}{(s_{1})}$ for the policy $\pi$ at the initial state $s_{1}$. The parameter $w_{1} \in {\mathbb{R}}^{d}$ is a vector to be adjusted, one that is determined by a backwards-running sequence of regression problems from $h = H$ down to $h = 1$.
+We introduce the pessimistic perturbations directly to the solution of these regression problems. They involve a norm defined by the cumulative covariance matrix. Recall that $\mathcal{I}_{h}$ indexes the subset of observations associated with state-action pairs at time step $h$. For each $h \in {\lbrack H\rbrack}$ and $i \in \mathcal{I}_{h}$, let us write the associated sample as the quadruple $(s_{hi},a_{hi},r_{hi},s_{{h + 1},i})$. Introducing the shorthand notation $\phi_{hi} = {\phi_{h}{(s_{hi},a_{hi})}}$, we define the *cumulative covariance matrix* where $I_{d \times d}$ denotes the $d$-dimensional identity matrix. Notice that the cumulative covariance grows as the number of samples in $\mathcal{I}_{h}$ increases; we do not normalize it by the local sample size $n_{h} = {|\mathcal{I}_{h}|}$, so that $\Sigma_{h}$ effectively represents the amount of information contained in the sub-dataset $\mathcal{D}_{h}$ at time step $h$.
 
-We introduce the pessimistic perturbations directly to the solution of these regression problems. They involve a norm defined by the cumulative covariance matrix. Recall that $\mathcal{I}_{h}$ indexes the subset of observations associated with state-action pairs at time step $h$. For each $h \in {\lbrack H\rbrack}$ and $i \in \mathcal{I}_{h}$, let us write the associated sample as the quadruple $(s_{hi},a_{hi},r_{hi},s_{{h + 1},i})$. Introducing the shorthand notation $\phi_{hi} = {\phi_{h}{(s_{hi},a_{hi})}}$, we define the *cumulative covariance matrix*
+Since $\Sigma_{h}$ is strictly positive definite by construction, it defines a pair of norms Consider the regression problem that is solved in moving backward from time step $h + 1$ to $h$. Given the weight vector $w_{h + 1}$ at time step $h + 1$, the regularized least-squares estimate of $w_{h}$ is given by We introduce pessimism by directly perturbing the weight vectors themselves---that is, we search for weight vector $w_{h}$ such that $w_{h} = {\xi_{h} + {\hat{w}}_{h}}$, where the pessimism vector $\xi_{h} \in {\mathbb{R}}^{d}$ satisfies a bound of the form ${\|\xi_{h}\|}_{\Sigma_{h}} \leq \alpha_{h}$, for a user-defined parameter $\alpha_{h}$.
 
-where $I_{d \times d}$ denotes the $d$-dimensional identity matrix. Notice that the cumulative covariance grows as the number of samples in $\mathcal{I}_{h}$ increases; we do not normalize it by the local sample size $n_{h} = {|\mathcal{I}_{h}|}$, so that $\Sigma_{h}$ effectively represents the amount of information contained in the sub-dataset $\mathcal{D}_{h}$ at time step $h$.
-
-Since $\Sigma_{h}$ is strictly positive definite by construction, it defines a pair of norms
-
-Consider the regression problem that is solved in moving backward from time step $h + 1$ to $h$. Given the weight vector $w_{h + 1}$ at time step $h + 1$, the regularized least-squares estimate of $w_{h}$ is given by
-
-We introduce pessimism by directly perturbing the weight vectors themselves---that is, we search for weight vector $w_{h}$ such that $w_{h} = {\xi_{h} + {\hat{w}}_{h}}$, where the pessimism vector $\xi_{h} \in {\mathbb{R}}^{d}$ satisfies a bound of the form ${\|\xi_{h}\|}_{\Sigma_{h}} \leq \alpha_{h}$, for a user-defined parameter $\alpha_{h}$.
-
-In detail, the critic takes as input the dataset $\mathcal{D}$, a policy $\pi$, a sequence of tolerance parameters $\alpha = {(\alpha_{1},\ldots,\alpha_{H})}$, weight radii $\rho^{w} = {(\rho_{1}^{w},\ldots,\rho_{H}^{w})}$ with each $\rho_{h}^{w} \in {(0,1\rbrack}$. The optimization variables consist of the regression vectors $w = {(w_{1},\ldots,w_{H})} \in {({\mathbb{R}}^{d})}^{H}$ and the pessimism vectors $\xi = {(\xi_{1},\ldots,\xi_{H})} \in {({\mathbb{R}}^{d})}^{H}$. The critic then solves the convex program
-
-${(\xi^{\pi},{\underset{¯}{w}}^{\pi})}\overset{def}{=}{{\arg\min\limits_{\substack{\xi \in {({\mathbb{R}}^{d})}^{H} \\ w \in {({\mathbb{R}}^{d})}^{H}}}}{\sum\limits_{a \in \mathcal{A}}{\pi_{1}{({a \mid s_{1}})}\left\langle {\phi_{1}{(s_{1},a)}},w_{1} \right\rangle}}}$ (10a)
-with the terminal condition $w_{H + 1} = 0$, and subject to the constraints
-
-$w_{h}$ $= {{\xi_{h} + {\Sigma_{h}^{- 1}{\sum\limits_{k \in \mathcal{I}_{h}}{\phi_{hk}\left\lbrack {r_{hk} + {\sum\limits_{a \in \mathcal{A}}{\pi_{h + 1}{({a \mid s_{{h + 1},k}})}\left\langle {\phi_{h + 1}{(s_{{h + 1},k},a)}},w_{h + 1} \right\rangle}}} \right\rbrack}}}},\text{and}}$ (10b)
-
-for all $h \in {\lbrack H\rbrack}$. Here the matrices $\Sigma_{h}$ were previously defined in equation.
+In detail, the critic takes as input the dataset $\mathcal{D}$, a policy $\pi$, a sequence of tolerance parameters $\alpha = {(\alpha_{1},\ldots,\alpha_{H})}$, weight radii $\rho^{w} = {(\rho_{1}^{w},\ldots,\rho_{H}^{w})}$ with each $\rho_{h}^{w} \in {(0,1\rbrack}$. The optimization variables consist of the regression vectors $w = {(w_{1},\ldots,w_{H})} \in {({\mathbb{R}}^{d})}^{H}$ and the pessimism vectors $\xi = {(\xi_{1},\ldots,\xi_{H})} \in {({\mathbb{R}}^{d})}^{H}$. The critic then solves the convex program for all $h \in {\lbrack H\rbrack}$. Here the matrices $\Sigma_{h}$ were previously defined in equation.
 
 The convex program consists of a linear objective subject to quadratic constraints; it is a special case of a second order cone program, and can be efficiently solved with standard convex solvers.
 
-1:Input: Dataset 𝒟, starting state s1, learning rate η
-2:Set $\theta_{1} = {(\overset{\rightarrow}{0},\ldots,\overset{\rightarrow}{0})}$
-4: ${\underset{¯}{w}}_{t}\leftarrow$ Critic(𝒟,πθt,s1)
-5: $\theta_{t + 1} = {\theta_{t} + {\eta{\underset{¯}{w}}_{t}}}$
-7:Return: Mixture policy πθ1, …, πθT
-Algorithm 1 Actor (Mirror Descent)
-
-1:Input: Dataset 𝒟, target policy π, starting state s1, critic radii {ρhw}h = 1, …, H, and parameters {αh}h = 1, …, H
-2:Solve the optimization program
-3:Return: Optimal weight vector $\underset{¯}{w}$
-Algorithm 2 Critic (Plspe)
+1:Input: Dataset 𝒟, starting state s1, learning rate η 2:Set $\theta_{1} = {(\overset{\rightarrow}{0},\ldots,\overset{\rightarrow}{0})}$ 4: ${\underset{¯}{w}}_{t}\leftarrow$ Critic(𝒟, πθt, s1) 5: $\theta_{t + 1} = {\theta_{t} + {\eta{\underset{¯}{w}}_{t}}}$ 7:Return: Mixture policy πθ1, …, πθT Algorithm 1 Actor (Mirror Descent) 1:Input: Dataset 𝒟, target policy π, starting state s1, critic radii {ρhw}h = 1, …, H, and parameters {αh}h = 1, …, H 2:Solve the optimization program 3:Return: Optimal weight vector $\underset{¯}{w}$ Algorithm 2 Critic (Plspe)
 
 ### The Actor: Mirror Descent
 
-We now turn to the behavior of the actor. It applies the mirror descent algorithm based on the Kullback Leibler (KL) divergence \[\]. This combination leads to the exponentiated gradient update rule in every timestep $h \in {\lbrack H\rbrack}$, so that the soft-max policy in moving from iteration $t$ to $t + 1$ is updated as
-
-Here $\eta > 0$ is a stepsize parameter, and our theory specifies a suitable choice.
+We now turn to the behavior of the actor. It applies the mirror descent algorithm based on the Kullback Leibler (KL) divergence. This combination leads to the exponentiated gradient update rule in every timestep $h \in {\lbrack H\rbrack}$, so that the soft-max policy in moving from iteration $t$ to $t + 1$ is updated as Here $\eta > 0$ is a stepsize parameter, and our theory specifies a suitable choice.
 
 If the $Q$-value above from the critic lives in $\mathcal{Q}$, then it is possible to show that $\pi_{{t + 1},h} \in \Pi_{h}$ and the update rule takes a much simpler and computationally more efficient form (cf. Line 5 of Algorithm 1), where ${\underset{¯}{w}}_{t}$ is the gradient of the value function on the pessimistic MDP implicitly identified by the critic. In this case, the spaces $(\mathcal{Q},\Pi)$ are said to be *compatible* \[SMS^+^99 \] and the resulting algorithm is often called the *Natural Policy Gradient* (NPG) (see also \[, \]). By construction, the critic maintains a linear action value function even after pessimistic perturbations. As a consequence, the actor policy space is the simple softmax policy class $\Pi$ and the easier update rule can be used. As we explain in the analysis, this has important statistical benefits.
 
-After $T$ rounds of updates, the mirror descent algorithm that we use here readily achieves online regret rates (in the optimization setting with exact feedback) $\sim {1/T}$ or $\sim {1/\sqrt{T}}$ depending on the analysis \[\] and the learning rate, although we mention that these rates could potentially be improved \[ \].
+After $T$ rounds of updates, the mirror descent algorithm that we use here readily achieves online regret rates (in the optimization setting with exact feedback) $\sim {1/T}$ or $\sim {1/\sqrt{T}}$ depending on the analysis and the learning rate, although we mention that these rates could potentially be improved \[ \].
 
 ## Main results
 
-We now turn to the statement of a bound on the performance of the policy $\pi_{\text{Alg}}$ returned by Pacle. This upper bound involves three terms: an optimization error, an uncertainty term, and a model mis-specification term. The *optimization error* is given by ${\mathcal{C}{(T)}}\overset{def}{=}{4H\sqrt{\frac{\log{|\mathcal{A}|}}{T}}}$; it captures the rate at which the error decreases as a function of the iterations of the actor. The *mis-specification error* ${\mathcal{E}_{\text{msp}}{(\nu)}}\overset{def}{=}{\sum_{h = 1}^{H}\nu_{h}}$ is simply the sum of all the stage-wise mis-specification errors; notice that the mis-specification error does depend on the choice of the radii for the critic $\rho_{1}^{w},\ldots,\rho_{H}^{w}$ in a problem dependent way (cf. 3. ‣ 2.4 A range of function class assumptions ‣ 2 Background and problem formulation")). Finally, for each $h$, define the vector ${\overline{\phi}}_{h}^{\pi}\overset{def}{=}{{\mathbb{E}}_{{(S_{h},A_{h})} \sim \pi}{\lbrack{\phi_{h}{(S_{h},A_{h})}}\rbrack}}$, where the expectation is over the state-action $(S_{h},A_{h})$ encountered at timestep $h$ upon following policy $\pi$. In terms of these vectors, the *uncertainty error* is given by
-
-where the cumulative covariance matrix $\Sigma_{h}$ was defined in equation.
+We now turn to the statement of a bound on the performance of the policy $\pi_{\text{Alg}}$ returned by Pacle. This upper bound involves three terms: an optimization error, an uncertainty term, and a model mis-specification term. The *optimization error* is given by ${\mathcal{C}{(T)}}\overset{def}{=}{4H\sqrt{\frac{\log{|\mathcal{A}|}}{T}}}$; it captures the rate at which the error decreases as a function of the iterations of the actor. The *mis-specification error* ${\mathcal{E}_{\text{msp}}{(\nu)}}\overset{def}{=}{\sum_{h = 1}^{H}\nu_{h}}$ is simply the sum of all the stage-wise mis-specification errors; notice that the mis-specification error does depend on the choice of the radii for the critic $\rho_{1}^{w},\ldots,\rho_{H}^{w}$ in a problem dependent way (cf. 3. ‣ 2.4 A range of function class assumptions ‣ 2 Background and problem formulation")). Finally, for each $h$, define the vector ${\overline{\phi}}_{h}^{\pi}\overset{def}{=}{{\mathbb{E}}_{{(S_{h},A_{h})} \sim \pi}{\lbrack{\phi_{h}{(S_{h},A_{h})}}\rbrack}}$, where the expectation is over the state-action $(S_{h},A_{h})$ encountered at timestep $h$ upon following policy $\pi$. In terms of these vectors, the *uncertainty error* is given by where the cumulative covariance matrix $\Sigma_{h}$ was defined in equation.
 
 The amount of information from the dataset $\mathcal{D}$ is fully encoded in the uncertainty function $\mathcal{U}$ through the sequence of cumulative covariance matrices ${\{\Sigma_{h}\}}_{h = 1}^{H}$ and parameters ${\{\alpha_{h}\}}_{h = 1}^{H}$. The more data are available, the more positive definite $\Sigma_{h}$ is and the smaller the uncertainty function $\mathcal{U}{(\pi;\alpha)}$ becomes for a fixed policy $\pi$. If the sampling distribution that generates the dataset is fixed, then we can write ${\mathcal{U}{(\pi;\alpha)}} \lessapprox {c/\sqrt{n}}$ where $c$ does not depend on $n$ and can be interpreted as the coverage of the sampling distribution with respect to policy $\pi$.
 
@@ -178,13 +122,9 @@ Our main result holds under Assumption 1. ‣ 2.2 Assumptions on data generation
 
 ### Theorem 1 (An achievable guarantee)
 
-Suppose that we are given a data set $\mathcal{D}$ collected in a way that respects Assumption 1. ‣ 2.2 Assumptions on data generation ‣ 2 Background and problem formulation"). Then there are pessimism vectors bounded as $\alpha_{h} = {{\overset{\sim}{O}{(\sqrt{d{\log{({1/\delta})}}})}} + {\nu_{h}\sqrt{n_{h}}}}$ such that, after running $T \geq {\log{|\mathcal{A}|}}$ rounds of the actor with stepsize $\eta = \sqrt{\frac{\log{|\mathcal{A}|}}{T}}$, the Pacle procedure returns a policy $\pi_{\text{Alg}}$ for which
+Suppose that we are given a data set $\mathcal{D}$ collected in a way that respects Assumption 1. ‣ 2.2 Assumptions on data generation ‣ 2 Background and problem formulation"). Then there are pessimism vectors bounded as $\alpha_{h} = {{\overset{\sim}{O}{(\sqrt{d{\log{({1/\delta})}}})}} + {\nu_{h}\sqrt{n_{h}}}}$ such that, after running $T \geq {\log{|\mathcal{A}|}}$ rounds of the actor with stepsize $\eta = \sqrt{\frac{\log{|\mathcal{A}|}}{T}}$, the Pacle procedure returns a policy $\pi_{\text{Alg}}$ for which with probability exceeding $1 - \delta$.
 
-with probability exceeding $1 - \delta$.
-
-The result provides a family of upper bounds on the sub-optimality of the learned policy $\pi_{\text{Alg}}$, indexed by the choice of comparator policy $\pi$, and embodies a tradeoff between the sub-optimality of the comparator $\pi$ and its uncertainty $\mathcal{U}{(\pi;\alpha)}$. Note that the optimization error $\mathcal{C}{(T)}$ can be reduced arbitrarily, while $\alpha$ (and thus $\mathcal{U}{(\pi;\alpha)}$) increase only logarithmically with $T$. As a special case, if we set $\pi = \pi^{\star}$ and assume that there is no mis-specification error, then we obtain that the learned policy satisfies a bound of the form
-
-with probability at least $1 - \delta$. Since $\mathcal{C}{(T)}$ is well-controlled, this guarantee is satisfied whenever the uncertainty term $\mathcal{U}{(\pi^{\star};\alpha)}$ is small.
+The result provides a family of upper bounds on the sub-optimality of the learned policy $\pi_{\text{Alg}}$, indexed by the choice of comparator policy $\pi$, and embodies a tradeoff between the sub-optimality of the comparator $\pi$ and its uncertainty $\mathcal{U}{(\pi;\alpha)}$. Note that the optimization error $\mathcal{C}{(T)}$ can be reduced arbitrarily, while $\alpha$ (and thus $\mathcal{U}{(\pi;\alpha)}$) increase only logarithmically with $T$. As a special case, if we set $\pi = \pi^{\star}$ and assume that there is no mis-specification error, then we obtain that the learned policy satisfies a bound of the form with probability at least $1 - \delta$. Since $\mathcal{C}{(T)}$ is well-controlled, this guarantee is satisfied whenever the uncertainty term $\mathcal{U}{(\pi^{\star};\alpha)}$ is small.
 
 More generally, the guarantee (13. ‣ 4.1 A guarantee for PACLE ‣ 4 Main results")) is significantly stronger than most prior work as Pacle competes not just with the optimal policy $\pi^{\star}$, but with all comparator policies simultaneously. Such comparator policies need not necessarily be in the prescribed policy class $\Pi$. To highlight the strength of this generality, suppose that the uncertainty $\mathcal{U}{(\pi^{\star};\alpha)}$ of the optimal $\pi^{\star}$ is *not* small---it could in fact be infinite. In this case, the bound would not be useful.
 
@@ -200,19 +140,17 @@ We show that the lower bound actually holds in a setting that is easier for the 
 
 ### Theorem 2 (Information-theoretic lower bound)
 
-For a given horizon $H$ and dimension $d$, consider a sample size $n \geq {2d^{3}H^{3}}$. There is a class $\mathcal{M}$ of low-rank MDPs and a data generating procedure satisfying Assumption 1. ‣ 2.2 Assumptions on data generation ‣ 2 Background and problem formulation") such that for any policy ${\hat{\pi}}_{\text{Alg}}$, we have
-
-where $c > 0$ is a universal constant.
+For a given horizon $H$ and dimension $d$, consider a sample size $n \geq {2d^{3}H^{3}}$. There is a class $\mathcal{M}$ of low-rank MDPs and a data generating procedure satisfying Assumption 1. ‣ 2.2 Assumptions on data generation ‣ 2 Background and problem formulation") such that for any policy ${\hat{\pi}}_{\text{Alg}}$, we have where $c > 0$ is a universal constant.
 
 When $H = 1$ the above result gives a sample complexity lower bound for learning a near optimal policy from batch data in a linear bandit instance.
 
 ### Comparison to related work
 
-Theorem 1. ‣ 4.1 A guarantee for PACLE ‣ 4 Main results") automatically implies the typical bound ${{\mathbb{P}}{\lbrack{{V_{1}^{\pi_{\text{Alg}}}{(s_{1})}} \geq {{V_{1}^{\star}{(s_{1})}} - {\mathcal{U}{(\pi^{\star};\alpha)}}}}\rbrack}} \geq {1 - \delta}$ when the comparator policy is the optimal policy $\pi^{\star}$, e.g., \[, RZM^+^21 \]. The guarantee can be written as ${V_{1}^{\pi_{\text{Alg}}}{(s_{1})}} \gtrsim {{V_{1}^{\star}{(s_{1})}} - {C/\sqrt{n}}}$ where $n$ is the number of samples and $C$ is the (scaled) condition number of $\Sigma_{h}^{- 1}$. One could interpret $C$ as a concentrability coefficient that expresses the coverage of dataset---through $\Sigma_{h}$---with respect to the average direction in feature space ${\mathbb{E}}_{{(S_{h},A_{h})} \sim \pi_{h}^{\star}}{\lbrack{\phi{(S_{h},A_{h})}}\rbrack}$ of the optimal policy $\pi^{\star}$. As in the paper \[\], such a factor can be small even when traditional concentrability coefficients are large because they depend on state-action visit ratios (see the literature in Appendix A, e.g., \[\]).
+Theorem 1. ‣ 4.1 A guarantee for PACLE ‣ 4 Main results") automatically implies the typical bound ${{\mathbb{P}}{\lbrack{{V_{1}^{\pi_{\text{Alg}}}{(s_{1})}} \geq {{V_{1}^{\star}{(s_{1})}} - {\mathcal{U}{(\pi^{\star};\alpha)}}}}\rbrack}} \geq {1 - \delta}$ when the comparator policy is the optimal policy $\pi^{\star}$, e.g., \[, RZM^+^21 \]. The guarantee can be written as ${V_{1}^{\pi_{\text{Alg}}}{(s_{1})}} \gtrsim {{V_{1}^{\star}{(s_{1})}} - {C/\sqrt{n}}}$ where $n$ is the number of samples and $C$ is the (scaled) condition number of $\Sigma_{h}^{- 1}$. One could interpret $C$ as a concentrability coefficient that expresses the coverage of dataset---through $\Sigma_{h}$---with respect to the average direction in feature space ${\mathbb{E}}_{{(S_{h},A_{h})} \sim \pi_{h}^{\star}}{\lbrack{\phi{(S_{h},A_{h})}}\rbrack}$ of the optimal policy $\pi^{\star}$. As in the paper, such a factor can be small even when traditional concentrability coefficients are large because they depend on state-action visit ratios (see the literature in Appendix A, e.g., ).
 
-With reference to the results in the paper \[\], our work provides improvements in two distinct ways. First, their upper and lower bounds exhibit a gap of the order $dH$, which our analysis closes. Second, our analysis holds under the more permissive 3 *( (Bellman Restricted Closedness).)*. ‣ 2.4 A range of function class assumptions ‣ 2 Background and problem formulation") which includes low-rank MDPs. Of this improvement, a factor of $\sqrt{d}$ is due to the algorithm that we use, and the remainder is due to a more refined construction to certify optimality in Theorem 2. ‣ 4.2 A lower bound ‣ 4 Main results"). To be clear, our upper and lower bounds differ from theirs by a factor of $H$ due to a different normalization in the value function). We also note that the result of Liu et al.\[\] can be specialized to the low-rank MDP setting; however, even in this simpler setting, the results would be sub-optimal and also require additional density estimates.
+With reference to the results in the paper, our work provides improvements in two distinct ways. First, their upper and lower bounds exhibit a gap of the order $dH$, which our analysis closes. Second, our analysis holds under the more permissive 3 *( (Bellman Restricted Closedness).)*. ‣ 2.4 A range of function class assumptions ‣ 2 Background and problem formulation") which includes low-rank MDPs. Of this improvement, a factor of $\sqrt{d}$ is due to the algorithm that we use, and the remainder is due to a more refined construction to certify optimality in Theorem 2. ‣ 4.2 A lower bound ‣ 4 Main results"). To be clear, our upper and lower bounds differ from theirs by a factor of $H$ due to a different normalization in the value function). We also note that the result of Liu et al. can be specialized to the low-rank MDP setting; however, even in this simpler setting, the results would be sub-optimal and also require additional density estimates.
 
-Deriving a computationally tractable model-free algorithm without low-rank dynamics but subject to value function perturbations (e.g., optimistic or pessimistic perturbations) is an open problem even in the more heavily studied online exploration setting: there the current state-of-the art \[ DKL^+^21, JKA^+^17\] only present computationally *intractable* algorithms with the exception of \[\] for a PAC setting with low inherent Bellman error which however requires an additional "explorability" condition.
+Deriving a computationally tractable model-free algorithm without low-rank dynamics but subject to value function perturbations (e.g., optimistic or pessimistic perturbations) is an open problem even in the more heavily studied online exploration setting: there the current state-of-the art \[ DKL^+^21, JKA^+^17\] only present computationally *intractable* algorithms with the exception of for a PAC setting with low inherent Bellman error which however requires an additional "explorability" condition.
 
 ## Proofs
 
@@ -222,71 +160,37 @@ The proof outline given here follows a bottom-up approach: (a) starting with the
 
 ### Critic's Analysis
 
-Given a policy $\pi$ and pessimism parameters $\alpha$ for which the convex program is feasible, the critic returns the pair ${({\underset{¯}{\xi}}^{\pi},{\underset{¯}{w}}^{\pi})} = {\{{({\underset{¯}{\xi}}_{h}^{\pi},{\underset{¯}{w}}_{h}^{\pi})}\}}_{h = 1}^{H}$. These weight vectors induce the estimated value functions
-
-Our goal in analyzing the critic is to relate these critic-estimated value functions to the true value functions ${\{ Q_{h}^{\pi}\}}_{h = 1}^{H}$.
+Given a policy $\pi$ and pessimism parameters $\alpha$ for which the convex program is feasible, the critic returns the pair ${({\underset{¯}{\xi}}^{\pi},{\underset{¯}{w}}^{\pi})} = {\{{({\underset{¯}{\xi}}_{h}^{\pi},{\underset{¯}{w}}_{h}^{\pi})}\}}_{h = 1}^{H}$. These weight vectors induce the estimated value functions Our goal in analyzing the critic is to relate these critic-estimated value functions to the true value functions ${\{ Q_{h}^{\pi}\}}_{h = 1}^{H}$.
 
 ### Induced MDP
 
-Essential to our analysis is an object that provides the essential link between the critic's output and the actor's input. In particular, it is helpful to understand the critic in the following way: when given a policy $\pi$ as input, the critic computes the estimates ${\{{\underset{¯}{Q}}_{h}^{\pi}\}}_{h = 1}^{H}$, and uses them form a new MDP $\hat{M}{(\pi)}$, which we refer to as the *induced MDP*. This new MDP shares the same state/action space and transition dynamics with the original MDP $M$, differing only in the perturbation of the reward function. In particular, for each $h \in {\lbrack H\rbrack}$, we define the *perturbed reward function*
-
-The induced MDP $\hat{M}{(\pi)}$ is simply the original MDP that uses this perturbed reward function.
+Essential to our analysis is an object that provides the essential link between the critic's output and the actor's input. In particular, it is helpful to understand the critic in the following way: when given a policy $\pi$ as input, the critic computes the estimates ${\{{\underset{¯}{Q}}_{h}^{\pi}\}}_{h = 1}^{H}$, and uses them form a new MDP $\hat{M}{(\pi)}$, which we refer to as the *induced MDP*. This new MDP shares the same state/action space and transition dynamics with the original MDP $M$, differing only in the perturbation of the reward function. In particular, for each $h \in {\lbrack H\rbrack}$, we define the *perturbed reward function* The induced MDP $\hat{M}{(\pi)}$ is simply the original MDP that uses this perturbed reward function.
 
 One important property of the induced MDP---which motivates the definition ---is that the estimates returned by the critic correspond to the *exact value functions* of policy $\pi$ in the induced MDP. We summarize in the following:
 
 ### Lemma 1 (Critic exactness in induced MDP)
 
-Given a policy $\pi$ as input, the critic returns a sequence ${\{{\underset{¯}{V}}_{h}^{\pi}\}}_{h = 1}^{H}$ such that
+Given a policy $\pi$ as input, the critic returns a sequence ${\{{\underset{¯}{V}}_{h}^{\pi}\}}_{h = 1}^{H}$ such that where $V_{h,{\hat{M}{(\pi)}}}^{\pi}$ is the exact value function of policy $\pi$ in the induced MDP $\hat{M}{(\pi)}$.
 
-${\underset{¯}{Q}}_{h}^{\pi}$ $= {Q_{h,{\hat{M}{(\pi)}}}^{\pi},\text{and}}$ (18a)
-${\underset{¯}{V}}_{h}^{\pi}$ $= {V_{h,{\hat{M}{(\pi)}}}^{\pi}\qquad{\text{for (18b)
-all~}{h \in {\lbrack H\rbrack}}\text{,}}}$
-
-where $V_{h,{\hat{M}{(\pi)}}}^{\pi}$ is the exact value function of policy $\pi$ in the induced MDP $\hat{M}{(\pi)}$.
-
-See Section C.1 for the proof of this claim.\
-
-Moreover, since the induced MDP differs from the original MDP only in terms of the reward perturbation, we have the following convenient property: for any policy $\overset{\sim}{\pi}$---which need not be of the soft-max form---the definition of value functions ensures that
-
-where $V_{1,{\hat{M}{(\pi)}}}^{\overset{\sim}{\pi}}$ is the value function of $\overset{\sim}{\pi}$ in the induced MDP. This simple relation allows us to use the induced MDP to relate arbitrary policies to their exact value functions.
+See Section C.1 for the proof of this claim.\Moreover, since the induced MDP differs from the original MDP only in terms of the reward perturbation, we have the following convenient property: for any policy $\overset{\sim}{\pi}$---which need not be of the soft-max form---the definition of value functions ensures that where $V_{1,{\hat{M}{(\pi)}}}^{\overset{\sim}{\pi}}$ is the value function of $\overset{\sim}{\pi}$ in the induced MDP. This simple relation allows us to use the induced MDP to relate arbitrary policies to their exact value functions.
 
 ### Critic's guarantee under a "good" event
 
 We now show that there is a "good event"---call it $\mathcal{G}{(\alpha)}$---under which the critic's value function estimates have some additional desirable properties. Once this event is defined, the core of our proof involves determining the smallest choice of pessimism parameters under which it holds with probability at least $1 - \delta$.
 
-We begin with some notation required to define the good event. Let $\mathcal{F}$ denote the space of all real-valued functions on $\mathcal{S} \times \mathcal{A}$. The *regression operator* is a mapping from $\mathcal{F}$ to ${\mathbb{R}}^{d}$, given by
+We begin with some notation required to define the good event. Let $\mathcal{F}$ denote the space of all real-valued functions on $\mathcal{S} \times \mathcal{A}$. The *regression operator* is a mapping from $\mathcal{F}$ to ${\mathbb{R}}^{d}$, given by Note that $\mathcal{P}_{h}^{\pi}$ is a mapping from $\mathcal{F}$ to ${\mathbb{R}}^{d}$; it returns the weight vector of the best-fitting linear function to the Bellman update $\mathcal{T}_{h}^{\pi}{(F)}$.
 
-$\mathcal{R}_{h}^{\pi}{(F)}$ ${\overset{def}{=}{\Sigma_{h}^{- 1}{\sum\limits_{k = 1}^{T}{\phi_{hk}\left\{ {r_{hk} + {{\mathbb{E}}_{A^{\prime} \sim \pi{( \cdot \mid s_{hk})}}F{(s_{{h + 1},k},A^{\prime})}}} \right\}}}}},$ (20a)
-where $F \in \mathcal{F}$. To appreciate the relevance of the regression operator, note that by definition of the critic, we have the equivalence
-
-${{\underset{¯}{w}}_{h}^{\pi} = {{\underset{¯}{\xi}}_{h}^{\pi} + {\mathcal{R}_{h}^{\pi}{({\underset{¯}{Q}}_{h + 1}^{\pi})}}}}.$ (20b)
-We also define the *sup-norm projection operator* (for the definition of $\mathcal{B}$ please see Section 1.2)
-
-$\mathcal{P}_{h}^{\pi}{(F)}$ ${\overset{def}{=}{{\arg\min\limits_{w_{h} \in {\mathcal{B}{(\rho_{h}^{w})}}}}{\sup\limits_{(s,a)}\left| {\left\langle {\phi{(s,a)}},w_{h} \right\rangle - {\left( {\mathcal{T}_{h}^{\pi}F} \right){(s,a)}}} \right|}}}.$ (20c)
-
-Note that $\mathcal{P}_{h}^{\pi}$ is a mapping from $\mathcal{F}$ to ${\mathbb{R}}^{d}$; it returns the weight vector of the best-fitting linear function to the Bellman update $\mathcal{T}_{h}^{\pi}{(F)}$.
-
-Our good event is defined in terms of the *parameter error operators* $\mathcal{E}_{h}^{\pi}:{\mathcal{F}\rightarrow{\mathbb{R}}^{d}}$ given by
-
-For a given sequence $\alpha = {(\alpha_{1},\ldots,\alpha_{H})}$ of pessimism parameters, we define the *good event*
+Our good event is defined in terms of the *parameter error operators* $\mathcal{E}_{h}^{\pi}:{\mathcal{F}\rightarrow{\mathbb{R}}^{d}}$ given by For a given sequence $\alpha = {(\alpha_{1},\ldots,\alpha_{H})}$ of pessimism parameters, we define the *good event*
 
 ### Some intuition
 
-Why is this event relevant for guaranteeing good performance of the critic? In order to gain intuition, let us consider the special case in which there is no approximation error, so that the exact state-action value functions are actually linear. Letting $w_{h}^{\pi}$ denote the parameter associated with the linear action-value function at step $h$, when the good event holds, our choice of $\alpha$ allows us to set
-
-in the constraints (10b). In this way, at each step $h$ the vector ${\underset{¯}{\xi}}_{h}^{\pi}$ can perfectly compensate the noise error $\mathcal{E}_{h}^{\pi_{h + 1}}{(Q_{h + 1}^{\pi})}$ ensuring that the action-value function $Q_{h}^{\pi}$ (compactly encoded in the parameter $w_{h}^{\pi}$) can be perfectly represented. In other words, our choice guarantees that the feasible set for contains the 'true' solution $w_{h}^{\pi}$. Since the convex program involves minimizing over value functions, this feasibility underlies showing the critic returns an underestimate of the true value function for $\pi$ along with some approximation error in the general setting; see equation (23a ‣ Proposition 2. ‣ Some intuition: ‣ 5.1.2 Critic’s guarantee under a “good” event ‣ 5.1 Critic’s Analysis ‣ 5 Proofs")) below for a precise statement. We highlight that such underestimates is only guaranteed at the initial state $s_{1}$ and timestep $h = 1$ as encoded in the objective of the program in equation.
+Why is this event relevant for guaranteeing good performance of the critic? In order to gain intuition, let us consider the special case in which there is no approximation error, so that the exact state-action value functions are actually linear. Letting $w_{h}^{\pi}$ denote the parameter associated with the linear action-value function at step $h$, when the good event holds, our choice of $\alpha$ allows us to set in the constraints (10b). In this way, at each step $h$ the vector ${\underset{¯}{\xi}}_{h}^{\pi}$ can perfectly compensate the noise error $\mathcal{E}_{h}^{\pi_{h + 1}}{(Q_{h + 1}^{\pi})}$ ensuring that the action-value function $Q_{h}^{\pi}$ (compactly encoded in the parameter $w_{h}^{\pi}$) can be perfectly represented. In other words, our choice guarantees that the feasible set for contains the 'true' solution $w_{h}^{\pi}$. Since the convex program involves minimizing over value functions, this feasibility underlies showing the critic returns an underestimate of the true value function for $\pi$ along with some approximation error in the general setting; see equation (23a ‣ Proposition 2. ‣ Some intuition: ‣ 5.1.2 Critic’s guarantee under a “good” event ‣ 5.1 Critic’s Analysis ‣ 5 Proofs")) below for a precise statement. We highlight that such underestimates is only guaranteed at the initial state $s_{1}$ and timestep $h = 1$ as encoded in the objective of the program in equation.
 
 On the other hand, for other policies $\overset{\sim}{\pi}$, we can use the relation to control the difference between the value function $V_{1,{\hat{M}{(\pi)}}}^{\overset{\sim}{\pi}}$ in the induced MDP, and the exact value function $V_{1}^{\overset{\sim}{\pi}}$; see equation (23b ‣ Proposition 2. ‣ Some intuition: ‣ 5.1.2 Critic’s guarantee under a “good” event ‣ 5.1 Critic’s Analysis ‣ 5 Proofs")) for a precise statement of our conclusion. We summarize all of our findings thus far in the following:
 
 ### Proposition 2
 
-Conditionally on the event $\mathcal{G}{(\alpha)}$, when given as input any policy $\pi$ in the soft-max class $\Pi_{soft}{(R)}$, the critic returns an induced MDP $\hat{M}{(\pi)}$ such that:
-
-For the given policy $\pi$, we have
-
-For any policy $\overset{\sim}{\pi}$, not necessarily in the soft-max class $\Pi$, we have
-
-where ${\overline{\phi}}_{h}^{\overset{\sim}{\pi}}\overset{def}{=}{{\mathbb{E}}_{{(S_{h},A_{h})} \sim \overset{\sim}{\pi}}{\lbrack{\phi_{h}{(S_{h},A_{h})}}\rbrack}}$.
+Conditionally on the event $\mathcal{G}{(\alpha)}$, when given as input any policy $\pi$ in the soft-max class $\Pi_{soft}{(R)}$, the critic returns an induced MDP $\hat{M}{(\pi)}$ such that: For the given policy $\pi$, we have For any policy $\overset{\sim}{\pi}$, not necessarily in the soft-max class $\Pi$, we have where ${\overline{\phi}}_{h}^{\overset{\sim}{\pi}}\overset{def}{=}{{\mathbb{E}}_{{(S_{h},A_{h})} \sim \overset{\sim}{\pi}}{\lbrack{\phi_{h}{(S_{h},A_{h})}}\rbrack}}$.
 
 See Appendix C.2 for the proof.
 
@@ -294,55 +198,33 @@ See Appendix C.2 for the proof.
 
 Based on Proposition 2, our problem is now reduced to determining a choice of $\alpha$ for which the good event holds with probability at least $1 - \delta$. The bulk of our effort in analyzing the critic is devoted to the technical details of this step; we provide only a high-level summary here.
 
-The event needs to hold uniformly over the value function and policy classes used by the algorithm. Our analysis involves deriving an upper bound $R$ on the $\ell_{2}$-radius of the actor parameter over all $T$ iterations of the algorithm, as follows:
-
-For such choice of $R$ and failure probability $\delta \in {}$, suppose that we set
-
-for a suitably large universal constant $c$. Central to our analysis is the following lemma:
+The event needs to hold uniformly over the value function and policy classes used by the algorithm. Our analysis involves deriving an upper bound $R$ on the $\ell_{2}$-radius of the actor parameter over all $T$ iterations of the algorithm, as follows: For such choice of $R$ and failure probability $\delta \in {}$, suppose that we set for a suitably large universal constant $c$. Central to our analysis is the following lemma:
 
 ### Lemma 2
 
-For any $\delta \in {}$, given the choice of pessimism vector $\alpha{(\delta)}$ in equation, we have
-
-See Section C.3 for the proof of this claim.
+For any $\delta \in {}$, given the choice of pessimism vector $\alpha{(\delta)}$ in equation, we have See Section C.3 for the proof of this claim.
 
 In our proof of Lemma 2, we benefit from the fact that our procedure injects its pessimism by direct perturbations of the parameter vectors. Indeed, one key step in the proof is bounding certain metric entropies defined by classes $\mathcal{Q}$ of linear action-value functions, and policy classes $\Pi_{soft}{(R)}$ used in the actor's iterations.
 
-First, for any fixed policy $\pi$, since the agent's action value function ${\underset{¯}{Q}}^{\pi}$ is enforced to be linear ${\underset{¯}{Q}}^{\pi} \in \mathcal{Q}$ even after perturbations, the relevant action-value class $\mathcal{Q}$ is also linear. Thus, we need only control metric entropy (and perform union bounds over the resulting covering) for a linear function class; in this way, we avoid a potentially more costly union bound over the much larger function class obtained by adding complex bonuses to linear functions, as in past work \[\]. In this way, we achieve a guarantee that is sharper by a factor of $\sqrt{d}$.
+First, for any fixed policy $\pi$, since the agent's action value function ${\underset{¯}{Q}}^{\pi}$ is enforced to be linear ${\underset{¯}{Q}}^{\pi} \in \mathcal{Q}$ even after perturbations, the relevant action-value class $\mathcal{Q}$ is also linear. Thus, we need only control metric entropy (and perform union bounds over the resulting covering) for a linear function class; in this way, we avoid a potentially more costly union bound over the much larger function class obtained by adding complex bonuses to linear functions, as in past work. In this way, we achieve a guarantee that is sharper by a factor of $\sqrt{d}$.
 
 Second, the union bound needs to be extended to all policies that the actor can use to invoke the critic. Recall that the critic returns a linear action-value function $\underset{¯}{Q}$, which is compatible \[, \] with the soft-max policy class $\Pi_{soft}$. Consequently, the actor's updates take the simple form of Algorithm 1. If the action-value function $\underset{¯}{Q}$ were perturbed by bonuses, then linearity of the critic's value function would be lost.
 
 ### Actor's Analysis
 
-In this section, we analyze the mirror descent algorithm---that is, the actor in Algorithm 1. Our analysis exploits the methods in the paper \[\], with some small changes to accommodate our framework; in particular, while our analysis assumes no error in the critic's evaluation, it does involve a sequence of time-varying MDPs.
+In this section, we analyze the mirror descent algorithm---that is, the actor in Algorithm 1. Our analysis exploits the methods in the paper, with some small changes to accommodate our framework; in particular, while our analysis assumes no error in the critic's evaluation, it does involve a sequence of time-varying MDPs.
 
 Given a sequence of MDPs ${\{ M_{t}\}}_{t = 1}^{T}$, let $V_{t}^{\pi}$ be the value function associated with policy $\pi$ on MDP $M_{t}$. Given the initialization $\theta_{1} = 0$, let ${\{\theta_{t}\}}_{t = 1}^{T}$ be parameter sequence generated by the actor, and let $\pi_{t} = \pi_{\theta_{t}}$ be the policy associated with parameter $\theta_{t}$. For each $t$, there is a sequence $w_{t} = {\{ w_{ht}\}}_{h = 1}^{H}$ such that ${\| w_{ht}\|}_{2} \leq \rho_{h}^{w}$ for all $h \in {\lbrack H\rbrack}$, and
 
-$Q_{h,M_{t}}^{\pi_{t}}{(s,a)}$ $\overset{def}{=}{\left\langle {\phi_{h}{(s,a)}},w_{ht} \right\rangle,{\text{for all~}{(s,a)}\text{~and~}{h \in {\lbrack H\rbrack}}\text}}$ (26a)
-In particular, the value of $w_{ht}$ is the value ${\underset{¯}{w}}_{ht}$ identified by the critic (see equation ) corresponding to policy $\pi_{t}$, so that $Q_{M_{t}}^{\pi_{t}} = {\underset{¯}{Q}}^{\pi_{t}}$. Define the value function ${V_{h,M_{t}}^{\pi_{t}}{(s)}} = {{\mathbb{E}}_{A^{\prime} \sim \pi_{t}}\left\lbrack {Q_{h,M_{t}}^{\pi_{t}}{(s,A^{\prime})}} \right\rbrack}$ along with the advantage function
-
 ### Proposition 3 (Actor's Analysis)
 
-Suppose that the actor takes $T \geq {\log{|\mathcal{A}|}}$ steps using a stepsize $\eta \in {}$, and the advantage function at each iteration $t$ is uniformly bounded as ${|{G_{h,M_{t}}^{\pi_{t}}{(s,a)}}|} \leq 2$ for all $(s,a)$. Then for any fixed policy $\pi$, we have
-
-$\frac{1}{T}{\sum\limits_{t = 1}^{T}\left\{ {{V_{1,M_{t}}^{\pi}{(s_{1})}} - {V_{1,M_{t}}^{\pi_{t}}{(s_{1})}}} \right\}}$ ${\leq {H\left\lbrack {\frac{\log{|\mathcal{A}|}}{\etaT} + \eta} \right\rbrack}}.$ (27a)
-In particular, setting $\eta = \sqrt{\frac{\log{|\mathcal{A}|}}{T}}$ yields the bound
-
-$\frac{1}{T}{\sum\limits_{t = 1}^{T}\left\{ {{V_{1,M_{t}}^{\pi}{(s_{1})}} - {V_{1,M_{t}}^{\pi_{t}}{(s_{1})}}} \right\}}$ ${\leq \underset{= {\mathcal{C}{(T)}}}{\underbrace{2H\sqrt{\frac{\log ⁡{|\mathcal{A}|}}{T}}}}}.$ (27b)
-
-To be clear, the fixed comparator policy $\pi$ in the above bounds need not be in $\Pi$. This fact is important, as it allows us to derive bounds relative to an arbitrary comparator.
+Suppose that the actor takes $T \geq {\log{|\mathcal{A}|}}$ steps using a stepsize $\eta \in {}$, and the advantage function at each iteration $t$ is uniformly bounded as ${|{G_{h,M_{t}}^{\pi_{t}}{(s,a)}}|} \leq 2$ for all $(s,a)$. Then for any fixed policy $\pi$, we have To be clear, the fixed comparator policy $\pi$ in the above bounds need not be in $\Pi$. This fact is important, as it allows us to derive bounds relative to an arbitrary comparator.
 
 ### Combining the pieces
 
 We are now ready to combine the pieces so as to prove Theorem 1. ‣ 4.1 A guarantee for PACLE ‣ 4 Main results"). For each iteration $t \in {\lbrack T\rbrack}$, let $\pi_{t}\overset{def}{=}\pi_{\theta_{t}}$ be the policy chosen by the actor, and let $M_{t} = M_{\pi_{t}}$ be the corresponding induced MDP.
 
-Recall that Lemma 2, stated in Section C.2, guarantees that the "good" event $\mathcal{G}$ from equation occurs with probability at least $1 - \delta$. Conditioned on the occurrence of $\mathcal{G}$, the bounds (23a ‣ Proposition 2. ‣ Some intuition: ‣ 5.1.2 Critic’s guarantee under a “good” event ‣ 5.1 Critic’s Analysis ‣ 5 Proofs")) and (23b ‣ Proposition 2. ‣ Some intuition: ‣ 5.1.2 Critic’s guarantee under a “good” event ‣ 5.1 Critic’s Analysis ‣ 5 Proofs")) ensure that for any comparator $\overset{\sim}{\pi}$, we have
-
-We now average over the iterations $t \in {\lbrack T\rbrack}$. The equality (18a. ‣ 5.1.1 Induced MDP ‣ 5.1 Critic’s Analysis ‣ 5 Proofs")) from Lemma 1. ‣ 5.1.1 Induced MDP ‣ 5.1 Critic’s Analysis ‣ 5 Proofs") ensures for each iteration $t$, the actor receives as an input a vector ${\underset{¯}{w}}_{t}$ such that
-
-Consequently, the action-value function ${\underset{¯}{Q}}^{\pi_{t}}$ that provided as input to the actor via ${\underset{¯}{w}}_{t}$ is the action-value function of $\pi_{t}$ on the associated induced MDP $M_{t}$, i.e., $Q_{M_{t}}^{\pi_{t}}$. Applying the bound (27b. ‣ 5.2 Actor’s Analysis ‣ 5 Proofs")) from Proposition 3. ‣ 5.2 Actor’s Analysis ‣ 5 Proofs") yields ${\frac{1}{T}{\sum_{t = 1}^{T}\left\lbrack {{V_{1,M_{t}}^{\overset{\sim}{\pi}}{(s_{1})}} - {V_{1,M_{t}}^{\pi_{t}}{(s_{1})}}} \right\rbrack}} \leq {\mathcal{C}{(T)}}$. Combining with the prior display yields
-
-Notice that the policy returned by the agent $\pi_{\text{Alg}}$ is the mixture policy of the policies $\pi_{1},\ldots,\pi_{T}$ and its value function is $V^{\pi_{\text{Alg}}} = {\frac{1}{T}{\sum_{t = 1}^{T}V^{\pi_{t}}}}$.
+Recall that Lemma 2, stated in Section C.2, guarantees that the "good" event $\mathcal{G}$ from equation occurs with probability at least $1 - \delta$. Conditioned on the occurrence of $\mathcal{G}$, the bounds (23a ‣ Proposition 2. ‣ Some intuition: ‣ 5.1.2 Critic’s guarantee under a “good” event ‣ 5.1 Critic’s Analysis ‣ 5 Proofs")) and (23b ‣ Proposition 2. ‣ Some intuition: ‣ 5.1.2 Critic’s guarantee under a “good” event ‣ 5.1 Critic’s Analysis ‣ 5 Proofs")) ensure that for any comparator $\overset{\sim}{\pi}$, we have We now average over the iterations $t \in {\lbrack T\rbrack}$. The equality (18a. ‣ 5.1.1 Induced MDP ‣ 5.1 Critic’s Analysis ‣ 5 Proofs")) from Lemma 1. ‣ 5.1.1 Induced MDP ‣ 5.1 Critic’s Analysis ‣ 5 Proofs") ensures for each iteration $t$, the actor receives as an input a vector ${\underset{¯}{w}}_{t}$ such that Consequently, the action-value function ${\underset{¯}{Q}}^{\pi_{t}}$ that provided as input to the actor via ${\underset{¯}{w}}_{t}$ is the action-value function of $\pi_{t}$ on the associated induced MDP $M_{t}$, i.e., $Q_{M_{t}}^{\pi_{t}}$. Applying the bound (27b. ‣ 5.2 Actor’s Analysis ‣ 5 Proofs")) from Proposition 3. ‣ 5.2 Actor’s Analysis ‣ 5 Proofs") yields ${\frac{1}{T}{\sum_{t = 1}^{T}\left\lbrack {{V_{1,M_{t}}^{\overset{\sim}{\pi}}{(s_{1})}} - {V_{1,M_{t}}^{\pi_{t}}{(s_{1})}}} \right\rbrack}} \leq {\mathcal{C}{(T)}}$. Combining with the prior display yields Notice that the policy returned by the agent $\pi_{\text{Alg}}$ is the mixture policy of the policies $\pi_{1},\ldots,\pi_{T}$ and its value function is $V^{\pi_{\text{Alg}}} = {\frac{1}{T}{\sum_{t = 1}^{T}V^{\pi_{t}}}}$.
 
 Note that under the good event $\mathcal{G}$, the bound holds for any comparator policy $\overset{\sim}{\pi}$, which was the claim of the theorem.
 

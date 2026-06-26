@@ -22,9 +22,7 @@ This alternative view helps to explain why SGD converges to a good local minimum
 
 ### Assumption 1 (Main Assumption)
 
-For a fixed point $x^{\ast}$^33^3Notice that $x^{\ast}$ is not necessarily the global optimal in the original function $f$ due to the convolution operator., noise distribution $W{(x)}$, step size $\eta$, the function $f$ is $c$-one point strongly convex with respect to $x^{\ast}$ after convolved with noise. That is, for any $x,y$ in domain $\mathbb{D}$ s.t. $y = {x - {\eta{\nabla f}{(x)}}}$,
-
-For point $y$, since the direction $x^{\ast} - y$ points to $x^{\ast}$, by having positive inner product with $x^{\ast} - y$, we know the direction $- {\eta{\nabla f}{({y_{t} - {\eta\omega_{t}}})}}$ in approximately points to $x^{\ast}$ in expectation (See more discussion on one point convexity in Appendix). Therefore, $y_{t}$ will converge to $x^{\ast}$ with decent probability:
+For a fixed point $x^{\ast}$^33^3Notice that $x^{\ast}$ is not necessarily the global optimal in the original function $f$ due to the convolution operator., noise distribution $W{(x)}$, step size $\eta$, the function $f$ is $c$-one point strongly convex with respect to $x^{\ast}$ after convolved with noise. That is, for any $x,y$ in domain $\mathbb{D}$ s.t. $y = {x - {\eta{\nabla f}{(x)}}}$, For point $y$, since the direction $x^{\ast} - y$ points to $x^{\ast}$, by having positive inner product with $x^{\ast} - y$, we know the direction $- {\eta{\nabla f}{({y_{t} - {\eta\omega_{t}}})}}$ in approximately points to $x^{\ast}$ in expectation (See more discussion on one point convexity in Appendix). Therefore, $y_{t}$ will converge to $x^{\ast}$ with decent probability:
 
 ### Theorem 1 (Main Theorem, Informal)
 
@@ -48,9 +46,7 @@ To visualize the loss surface of neural network, a common practice is projecting
 
 Let us first see a simple example in Figure 3. We use $F_{r,c}$ to denote the sub-figure at row $r$ and column $c$. The function $f$ at $F_{1,1}$ is a approximately convex function, but very spiky. Therefore, GD easily gets stuck at various local minima, see $F_{2,1}$. However, we want to get rid of those spurious local minima, and get a point near $x^{\ast} = 0$.
 
-If we take the alternative view that SGD works on the convolved version of $f$ ($F_{1,2}$, $F_{1,3}$, $F_{1,4}$), we find that those functions are much smoother and contain few local minima. However, the gradient noise here is a double-edged sword. On one hand, if the noise is small, the convolved $f$ is still somewhat non-convex, then SGD may find a few bad local minima as shown in $F_{2,2}$. On the other hand, if the noise is too large, the noise dominates the gradient, and SGD will act like random walk, see $F_{2,4}$.
-
-$F_{2,3}$ seems like a nice tradeoff, as all trials converges to a local region near $0$, but the region is too big (most points are in $\lbrack{- 1.5},1.5\rbrack$). In order to get closer to $0$, we may "restart" SGD with a point in $\lbrack{- 1.5},1.5\rbrack$, using smaller noise level $0.15$. Recall in $F_{2,2}$, SGD fails because the convolved $f$ has a few non-convex regions ($F_{1,2}$), so SGD may find spurious local minima. However, those local minima are outside $\lbrack{- 1.5},1.5\rbrack$. The convolved $f$ in $F_{1,2}$ restricted in $\lbrack{- 1.5},1.5\rbrack$ is pretty convex, so if we start a point in this region, SGD converges to a smaller local region centered at $0$, see $F_{3,2}$.
+If we take the alternative view that SGD works on the convolved version of $f$ ($F_{1,2}$, $F_{1,3}$, $F_{1,4}$), we find that those functions are much smoother and contain few local minima. However, the gradient noise here is a double-edged sword. On one hand, if the noise is small, the convolved $f$ is still somewhat non-convex, then SGD may find a few bad local minima as shown in $F_{2,2}$. On the other hand, if the noise is too large, the noise dominates the gradient, and SGD will act like random walk, see $F_{2,4}$. $F_{2,3}$ seems like a nice tradeoff, as all trials converges to a local region near $0$, but the region is too big (most points are in $\lbrack{- 1.5},1.5\rbrack$). In order to get closer to $0$, we may "restart" SGD with a point in $\lbrack{- 1.5},1.5\rbrack$, using smaller noise level $0.15$. Recall in $F_{2,2}$, SGD fails because the convolved $f$ has a few non-convex regions ($F_{1,2}$), so SGD may find spurious local minima. However, those local minima are outside $\lbrack{- 1.5},1.5\rbrack$. The convolved $f$ in $F_{1,2}$ restricted in $\lbrack{- 1.5},1.5\rbrack$ is pretty convex, so if we start a point in this region, SGD converges to a smaller local region centered at $0$, see $F_{3,2}$.
 
 We may do this iteratively, with even smaller noise levels and smaller initialization regions, and finally we will get pretty close to $0$ with decent probability, see $F_{3,3}$ and $F_{3,4}$.
 
@@ -58,9 +54,7 @@ We may do this iteratively, with even smaller noise levels and smaller initializ
 
 ### Definition 1 (Smoothness)
 
-Function $f \in {\mathbb{R}}^{d}\rightarrow{\mathbb{R}}$ is $L$-smooth, if for any ${x,y} \in {\mathbb{R}}^{d}$,
-
-Assume that we are running SGD on the sequence $\{ x_{t}\}$. Recall the update rule for $y_{t}$. Our main theorem says that $\{ y_{t}\}$ is converging to $x^{\ast}$ and will stay around $x^{\ast}$ afterwards.
+Function $f \in {\mathbb{R}}^{d}\rightarrow{\mathbb{R}}$ is $L$-smooth, if for any ${x,y} \in {\mathbb{R}}^{d}$, Assume that we are running SGD on the sequence $\{ x_{t}\}$. Recall the update rule for $y_{t}$. Our main theorem says that $\{ y_{t}\}$ is converging to $x^{\ast}$ and will stay around $x^{\ast}$ afterwards.
 
 ### Theorem 4. ‣ 1 Introduction ‣ An Alternative View: When Does SGD Escape Local Minima?") (Main Theorem)
 
@@ -68,11 +62,11 @@ Assume $f$ is $L$-smooth, for every $x \in {\mathbb{D}}$, $W{(x)}$ s.t., ${\max_
 
 We defer the proof to Section 4.
 
-Remark. For fixed $c$, there exists a lower bound on $\eta$ to satisfy Assumption 2. ‣ 1 Introduction ‣ An Alternative View: When Does SGD Escape Local Minima?"), so $\eta$ cannot be arbitrarily small. However, the main theorem says within $T_{1} + T_{2}$ steps, SGD will stay in a local region centered at $x^{\ast}$ with diameter $O\left( \frac{{\log{(T_{2})}}b}{\lambda} \right)$, which is essentially $\overset{\sim}{O}{({{\etar^{2}}/c})}$ that scales with $\eta$. In order to get closer to $x^{\ast}$, a common trick in practice is to restart SGD with smaller step size $\eta^{\prime}$ within the local region. If $f$ inside this region has better geometric properties (which is usually true), one gets better convergence guarantee:
+Remark. For fixed $c$, there exists a lower bound on $\eta$ to satisfy Assumption 2. ‣ 1 Introduction ‣ An Alternative View: When Does SGD Escape Local Minima?"), so $\eta$ cannot be arbitrarily small. However, the main theorem says within $T_{1} + T_{2}$ steps, SGD will stay in a local region centered at $x^{\ast}$ with diameter $O\left( \frac{{\log{(T_{2})}}b}{\lambda} \right)$, which is essentially $\overset{\sim}{O}{({{\etar^{2}}/c})}$ that scales with $\eta$. In order to get closer to $x^{\ast}$, a common trick in practice is to restart SGD with smaller step size $\eta'$ within the local region. If $f$ inside this region has better geometric properties (which is usually true), one gets better convergence guarantee:
 
 ### Corollary 2 (Shrinking Learning Rate)
 
-If the assumptions in Theorem 4. ‣ 1 Introduction ‣ An Alternative View: When Does SGD Escape Local Minima?") holds, and $f$ restricted in the local region ${\mathbb{D}}^{\prime} \triangleq \left. \{ x \middle| {{\|{x - x^{\ast}}\|} \leq \frac{20b}{\lambda}}\} \right.$ satisfy the same assumption with ${c^{\prime} > c},{\eta^{\prime} < \eta}$, then if we run SGD with $\eta$ for the first $T_{1} \geq \frac{\log{(\frac{\lambdad}{b})}}{\lambda}$ steps, and with $\eta^{\prime}$ for the next $T_{2} \geq \frac{\log{(\frac{\lambda\frac{20b^{\prime}}{\lambda}}{b^{\prime}})}}{\lambda^{\prime}}$ steps, with probability at least $1/4$, we have ${\|{y_{T_{1} + T_{2}} - x^{\ast}}\|}_{2}^{2} \leq \frac{20b^{\prime}}{\lambda^{\prime}} < \frac{20b}{\lambda}$.
+If the assumptions in Theorem 4. ‣ 1 Introduction ‣ An Alternative View: When Does SGD Escape Local Minima?") holds, and $f$ restricted in the local region ${\mathbb{D}}' \triangleq \left. \{ x \middle| {{\|{x - x^{\ast}}\|} \leq \frac{20b}{\lambda}}\} \right.$ satisfy the same assumption with ${c' > c},{\eta' < \eta}$, then if we run SGD with $\eta$ for the first $T_{1} \geq \frac{\log{(\frac{\lambdad}{b})}}{\lambda}$ steps, and with $\eta'$ for the next $T_{2} \geq \frac{\log{(\frac{\lambda\frac{20b'}{\lambda}}{b'})}}{\lambda'}$ steps, with probability at least $1/4$, we have ${\|{y_{T_{1} + T_{2}} - x^{\ast}}\|}_{2}^{2} \leq \frac{20b'}{\lambda'} < \frac{20b}{\lambda}$.
 
 This corollary can be easily generalized to shrink the learning rate multiple times.
 
@@ -80,13 +74,11 @@ Our main theorem is based on the important assumption that the step size is boun
 
 ### Theorem 3
 
-For function $f$, if ${{\forall x},{\langle{- {{\nabla f}{(x)}}},{x^{\ast} - x}\rangle}} \leq {c^{\prime}{\|{x^{\ast} - x}\|}_{2}^{2}}$, and we are at the point $x_{t}$. If we run full gradient descent with step size $\eta > \frac{2c^{\prime}{\|{x_{t} - x^{\ast}}\|}_{2}^{2}}{{\|{{\nabla f}{(x_{t})}}\|}_{2}^{2}}$, we have ${\|{x_{t + 1} - x^{\ast}}\|}_{2}^{2} \geq {\|{x_{t} - x^{\ast}}\|}_{2}^{2}$.
+For function $f$, if ${{\forall x},{\langle{- {{\nabla f}{(x)}}},{x^{\ast} - x}\rangle}} \leq {c'{\|{x^{\ast} - x}\|}_{2}^{2}}$, and we are at the point $x_{t}$. If we run full gradient descent with step size $\eta > \frac{2c'{\|{x_{t} - x^{\ast}}\|}_{2}^{2}}{{\|{{\nabla f}{(x_{t})}}\|}_{2}^{2}}$, we have ${\|{x_{t + 1} - x^{\ast}}\|}_{2}^{2} \geq {\|{x_{t} - x^{\ast}}\|}_{2}^{2}$.
 
 ### Proof
 
-The proof is straightforward and we defer it to Appendix C. ∎
-
-Figure 4: When step size is too big, even the gradient is one point convex, we may still go farther away from x*.
+The proof is straightforward and we defer it to Appendix C. ∎ Figure 4: When step size is too big, even the gradient is one point convex, we may still go farther away from x*.
 
 This theorem can be best illustrated with Figure 4. If $\eta$ is too big, although the gradient (the arrow) is pointing to the approximately correct direction, $x_{t + 1}$ will be farther away from $x^{\ast}$ (going outside of the $x^{\ast}$-centered ball).
 
@@ -100,9 +92,7 @@ In the proof, we will use the following lemma.
 
 ### Theorem 4 (Azuma)
 
-Let $X_{1},X_{2},\cdots,X_{n}$ be independent random variables satisfying ${{|{X_{i} - {E{(X_{i})}}}|} \leq c_{i}},{{{for}1} \leq i \leq n}$. We have the following bound for the sum $X = {\sum_{i = 1}^{n}X_{i}}$:
-
-Our proof has four steps.
+Let $X_{1},X_{2},\cdots,X_{n}$ be independent random variables satisfying ${{|{X_{i} - {E{(X_{i})}}}|} \leq c_{i}},{{{for}1} \leq i \leq n}$. We have the following bound for the sum $X = {\sum_{i = 1}^{n}X_{i}}$: Our proof has four steps.
 
 Step 1. Since Assumption 2. ‣ 1 Introduction ‣ An Alternative View: When Does SGD Escape Local Minima?") holds, we show that SGD always makes progress towards $x^{\ast}$ in expectation, plus some noise.
 
@@ -110,35 +100,15 @@ Let filtration $\mathcal{F}_{t} = {\sigma{\{\omega_{0},\cdots,\omega_{t - 1}\}}}
 
 Step 2. Since SGD makes progress in every step, after many steps, SGD gets very close to $x^{\ast}$ in expectation. By Markov inequality, this event holds with large probability.
 
-Notice that since $\eta < \frac{c}{L^{2}}$, we have $\lambda = {{2\etac} - {\eta^{2}L^{2}}} > {\etac} > 0$. Recall $b \triangleq {\eta^{2}r^{2}{({1 + {\etaL}})}^{2}}$, we get:
-
-That means, $G_{t}$ is a supermartingale. We have
-
-Since $T_{1} \geq \frac{\log\left( \frac{\lambda{\|{y_{0} - x^{\ast}}\|}_{2}^{2}}{b} \right)}{\lambda}$, we get:
-
-By Markov inequality, we know with probability at least $0.9$,
-
-For notational simplicity, for the analysis below we relabel the point $y_{T_{1}}$ as $y_{0}$. Therefore, at time $0$ we already have ${\|{y_{0} - x^{\ast}}\|}_{2}^{2} \leq \frac{20b}{\lambda}$.
+Notice that since $\eta < \frac{c}{L^{2}}$, we have $\lambda = {{2\etac} - {\eta^{2}L^{2}}} > {\etac} > 0$. Recall $b \triangleq {\eta^{2}r^{2}{({1 + {\etaL}})}^{2}}$, we get: That means, $G_{t}$ is a supermartingale. We have Since $T_{1} \geq \frac{\log\left(\frac{\lambda{\|{y_{0} - x^{\ast}}\|}_{2}^{2}}{b} \right)}{\lambda}$, we get: By Markov inequality, we know with probability at least $0.9$, For notational simplicity, for the analysis below we relabel the point $y_{T_{1}}$ as $y_{0}$. Therefore, at time $0$ we already have ${\|{y_{0} - x^{\ast}}\|}_{2}^{2} \leq \frac{20b}{\lambda}$.
 
 Step 3. Conditioned on the event that we are close to $x^{\ast}$, below we show that if for $t_{0} > t \geq 0$, $y_{t}$ is close to $x^{\ast}$, then $y_{t_{0}}$ is also close to $x^{\ast}$ with high probability.
 
 Let $\zeta = \frac{9T_{2}}{4}$. Let event ${\mathfrak{E}}_{t} = {\{{{{\forall\tau} \leq t},{{\|{y_{\tau} - x^{\ast}}\|} \leq {\mu\sqrt{\frac{b}{\lambda}}} = \delta}}\}}$, where $\mu$ is a parameter satisfies $\mu \geq {\max{\{ 8,{42{\log^{\frac{1}{2}}{(\zeta)}}}\}}}$. If with probability $\frac{5}{9}$, ${\mathfrak{E}}_{t}$ holds for every $t \leq T_{2}$, we are done.
 
-By the previous calculation, we know that ($\mathbb{1}_{{\mathfrak{E}}_{t}}$ is the indicator function for ${\mathfrak{E}}_{t}$)
+By the previous calculation, we know that ($\mathbb{1}_{{\mathfrak{E}}_{t}}$ is the indicator function for ${\mathfrak{E}}_{t}$) So $G_{t}\mathbb{1}_{{\mathfrak{E}}_{t - 1}}$ is a supermartingale, with the initial value $G_{0}$. In order to apply Azuma inequality, we first bound the following term (notice that we use ${{\mathbb{E}}{\lbrack\omega_{t}\rbrack}} = 0$ multiple times): Where the last inequality uses the fact that ${\etaL} \leq \frac{1}{2}$ and ${\|{y_{t} - x^{\ast}}\|}_{2} \leq \delta$ (as $\mathbb{1}_{{\mathfrak{E}}_{t}}$ holds). Let $M \triangleq {{3.5\eta^{2}r^{2}} + {7\etar\delta}}$. Let $d_{\tau} = |G_{\tau}\mathbb{1}_{{\mathfrak{E}}_{\tau - 1}} - {\mathbb{E}}{\lbrack G_{\tau}\mathbb{1}_{{\mathfrak{E}}_{\tau - 1}}|\mathcal{F}_{t}\rbrack}|$, we have Apply Azuma inequality (Theorem 4. ‣ 4 Proof for Theorem 4 ‣ An Alternative View: When Does SGD Escape Local Minima?")), for any $\zeta > 0$, we know Therefore, with probability $1 - \frac{1}{\zeta}$, Step 4. The inequality above says, if ${\mathfrak{E}}_{t - 1}$ holds, i.e., for all ${\tau \leq {t - 1}},{{\|{y_{\tau} - x^{\ast}}\|} \leq \delta}$, then with probability $1 - \frac{1}{\zeta}$, $G_{t}$ is bounded. If we can show from the upper bound of $G_{t}$ that ${\|{y_{t} - x^{\ast}}\|} \leq \delta$ is also true, we automatically get ${\mathfrak{E}}_{t}$ holds. In other words, that means if ${\mathfrak{E}}_{t - 1}$ holds, then ${\mathfrak{E}}_{t}$ holds with probability $1 - \frac{1}{\zeta}$. Therefore, by applying this claim $T_{2}$ times, we get ${\mathfrak{E}}_{T_{2}}$ holds with probability ${1 - \frac{T_{2}}{\zeta}} = \frac{5}{9}$. Combining with inequality, we know with probability at least $1/2$, the theorem statement holds. Thus, it remains to show that ${\|{y_{t} - x^{\ast}}\|} \leq \delta$.
 
-So $G_{t}\mathbb{1}_{{\mathfrak{E}}_{t - 1}}$ is a supermartingale, with the initial value $G_{0}$. In order to apply Azuma inequality, we first bound the following term (notice that we use ${{\mathbb{E}}{\lbrack\omega_{t}\rbrack}} = 0$ multiple times):
-
-Where the last inequality uses the fact that ${\etaL} \leq \frac{1}{2}$ and ${\|{y_{t} - x^{\ast}}\|}_{2} \leq \delta$ (as $\mathbb{1}_{{\mathfrak{E}}_{t}}$ holds). Let $M \triangleq {{3.5\eta^{2}r^{2}} + {7\etar\delta}}$. Let $d_{\tau} = |G_{\tau}\mathbb{1}_{{\mathfrak{E}}_{\tau - 1}} - {\mathbb{E}}{\lbrack G_{\tau}\mathbb{1}_{{\mathfrak{E}}_{\tau - 1}}|\mathcal{F}_{t}\rbrack}|$, we have
-
-Apply Azuma inequality (Theorem 4. ‣ 4 Proof for Theorem 4 ‣ An Alternative View: When Does SGD Escape Local Minima?")), for any $\zeta > 0$, we know
-
-Therefore, with probability $1 - \frac{1}{\zeta}$,
-
-Step 4. The inequality above says, if ${\mathfrak{E}}_{t - 1}$ holds, i.e., for all ${\tau \leq {t - 1}},{{\|{y_{\tau} - x^{\ast}}\|} \leq \delta}$, then with probability $1 - \frac{1}{\zeta}$, $G_{t}$ is bounded. If we can show from the upper bound of $G_{t}$ that ${\|{y_{t} - x^{\ast}}\|} \leq \delta$ is also true, we automatically get ${\mathfrak{E}}_{t}$ holds. In other words, that means if ${\mathfrak{E}}_{t - 1}$ holds, then ${\mathfrak{E}}_{t}$ holds with probability $1 - \frac{1}{\zeta}$. Therefore, by applying this claim $T_{2}$ times, we get ${\mathfrak{E}}_{T_{2}}$ holds with probability ${1 - \frac{T_{2}}{\zeta}} = \frac{5}{9}$. Combining with inequality, we know with probability at least $1/2$, the theorem statement holds. Thus, it remains to show that ${\|{y_{t} - x^{\ast}}\|} \leq \delta$.
-
-If ${G_{t}\mathbb{1}_{{\mathfrak{E}}_{t - 1}}} \leq {G_{0} + {\sqrt{2}r_{t}{\log^{\frac{1}{2}}{(\zeta)}}}}$, we know
-
-The second last inequality holds because we know $\frac{1}{1 - {({1 - \lambda})}^{2}} = \frac{1}{{2\lambda} - \lambda^{2}} \leq \frac{1}{\lambda} \leq \frac{1}{\etac}$, since $\lambda = {{2\etac} - {\eta^{2}L^{2}}} \leq {2\etac} < 1$, and $\lambda > {\etac}$.
+If ${G_{t}\mathbb{1}_{{\mathfrak{E}}_{t - 1}}} \leq {G_{0} + {\sqrt{2}r_{t}{\log^{\frac{1}{2}}{(\zeta)}}}}$, we know The second last inequality holds because we know $\frac{1}{1 - {({1 - \lambda})}^{2}} = \frac{1}{{2\lambda} - \lambda^{2}} \leq \frac{1}{\lambda} \leq \frac{1}{\etac}$, since $\lambda = {{2\etac} - {\eta^{2}L^{2}}} \leq {2\etac} < 1$, and $\lambda > {\etac}$.
 
 It remains to prove the following lemma, which we defer to Appendix B.
 
@@ -152,11 +122,7 @@ Therefore, ${\|{y_{t} - x^{\ast}}\|} \leq \delta$. Combining the 4 steps togethe
 
 (b) The neighborhood of SGD trajectory is one point convex.
 
-(c) The norm of stochastic gradient
-
-Figure 5: (a). The inner product between the negative gradient and x300 − xt for each epoch t ≥ 5 is always positive. Every data point is the minimum value among 5 trials. (b). Neighborhood of SGD trajectory is also one point convex with respect to x300. (c). Norm of stochastic gradient
-
-In this section, we explore the loss surfaces of modern neural networks, and show that they enjoy many nice one point convex properties. Therefore, our main theorem could be used for explaining why SGD works so well in practice.
+(c) The norm of stochastic gradient Figure 5: (a). The inner product between the negative gradient and x300 − xt for each epoch t ≥ 5 is always positive. Every data point is the minimum value among 5 trials. (b). Neighborhood of SGD trajectory is also one point convex with respect to x300. (c). Norm of stochastic gradient In this section, we explore the loss surfaces of modern neural networks, and show that they enjoy many nice one point convex properties. Therefore, our main theorem could be used for explaining why SGD works so well in practice.
 
 ### The SGD trajectory is one point convex
 
@@ -170,7 +136,7 @@ Having a one point convex trajectory for $5$ trials does not suffice to show SGD
 
 In this experiment, we tried Resnet ($34$ layers, $\approx 1.2$M parameters), Densenet ($100$ layers, $\approx 0.8$M parameters) on cifar10 and cifar100^66^6We also tried VGG with $\approx 1$M parameters, but does not have similar observations. This might be why Resnet and Densenet are slightly easier to optimize.. For every epoch in each setting, we take one point and look at its neighborhood with radius $0.5$ (upper bound of the length of one SGD step, as we will show below). We take $100$ random points inside each neighborhood to verify Assumption 2. ‣ 1 Introduction ‣ An Alternative View: When Does SGD Escape Local Minima?")^77^7We also tried to sample points that are one SGD step away to represent the neighborhood, and got similar observations.. More specifically, for every random point $w$ in the neighborhood of $x_{t}$, we computer $\langle{- {{\nabla f}{(w)}}},{x_{300} - x_{t}}\rangle$. Figure 5(b) shows the mean value (solid line), as well as upper and lower bound of the inner product (shaded area). As we can see, the inner products for all epochs in every setting have small variances, and are always positive. Although we could not verify Assumption 2. ‣ 1 Introduction ‣ An Alternative View: When Does SGD Escape Local Minima?") by computing the exact expectation due to limited computational resources, from Figure 5(b) and Hoeffding bound (Lemma 6. ‣ 5.2 The neighborhood of the trajectory is one point convex ‣ 5 Empirical Observations ‣ An Alternative View: When Does SGD Escape Local Minima?")), we conclude that Assumption 2. ‣ 1 Introduction ‣ An Alternative View: When Does SGD Escape Local Minima?") should hold with high probability.
 
-### Lemma 6 (Hoeffding bound \[12\])
+### Lemma 6 (Hoeffding bound )
 
 Let $X_{1},\ldots,X_{n}$ be i.i.d. random variables bounded by the interval $\lbrack a,b\rbrack$. Then ${\Pr\left( {{{\frac{1}{n}{\sum_{i}X_{i}}} - {{\mathbb{E}}{\lbrack X_{1}\rbrack}}} \geq t} \right)} \leq {\exp\left( {- \frac{2nt^{2}}{{({b - a})}^{2}}} \right)}$.
 
@@ -178,19 +144,13 @@ Figure 5(c) shows the norm of the stochastic gradients, including both the mean 
 
 Notice that the gradient norm gets bigger when we get closer to the final solution (after epoch $150$). This further explains why shrinking step size is important.
 
-(a) Loss value of different local minima on
-
-(b) Loss value of different local minima on Cifar100
-
-(c) Distance from the local minima to the initialization
-
-Figure 6: Spectrum of local minima on the loss surface on modern neural networks.
+(a) Loss value of different local minima on (b) Loss value of different local minima on Cifar100 (c) Distance from the local minima to the initialization Figure 6: Spectrum of local minima on the loss surface on modern neural networks.
 
 ### Loss surface is locally a "slope"
 
 Even with the observation that the whole neighborhood along the SGD trajectory is one point convex with respect to the final solution, there exists a chicken-and-egg concern, as the final target is generated using the SGD trajectory.
 
-In this subsection, we show that the one point convexity is a pretty "global" property. We were running Resnet and Densenet on, but with smaller networks (each with about $10K$ parameters). For each network, if we fix the first $10$ epochs, and generate $50$ SGD trajectories with different random seeds for $140$ epochs and $0.1$ learning rate, we get $50$ different final solutions (they are pretty far away from each other, with minimum pairwise distance $40$). For each network, if we look at the inner product between the negative gradient of any epoch of any trajectories, and the vector pointing to any final solutions, we find that the inner products are almost always positive. (only $0.1\%$ of the inner products are not positive for Densenet, and only $2$ out of $343,000$ inner products are not positive for Resnet).
+In this subsection, we show that the one point convexity is a pretty "global" property. We were running Resnet and Densenet , but with smaller networks (each with about $10K$ parameters). For each network, if we fix the first $10$ epochs, and generate $50$ SGD trajectories with different random seeds for $140$ epochs and $0.1$ learning rate, we get $50$ different final solutions (they are pretty far away from each other, with minimum pairwise distance $40$). For each network, if we look at the inner product between the negative gradient of any epoch of any trajectories, and the vector pointing to any final solutions, we find that the inner products are almost always positive. (only $0.1\%$ of the inner products are not positive for Densenet, and only $2$ out of $343,000$ inner products are not positive for Resnet).
 
 This indicates that the loss surface is "skewed" to the similar direction, and our observation that the whole SGD trajectory is one point convex w.r. to the last point is not a coincidence. Based on our Theorem 4. ‣ 1 Introduction ‣ An Alternative View: When Does SGD Escape Local Minima?"), such loss surface is very friendly to SGD optimization, even with a few exceptional points that are not one point convex with respect to the final solution.
 

@@ -1,8 +1,6 @@
 ## Introduction
 
-Gradient descent (GD) is a simple iterative algorithm to minimize an objective function $f$ by producing better and better estimates via the update
-
-GD dates back nearly two hundred years to the work of Cauchy, yet it (and its variants) remain a primary workhorse in modern optimization, engineering, and machine learning due to the practical efficacy, simplicity, and scalability. It is of both theoretical and practical importance to analyze the convergence of GD and moreover to optimize parameters so that this convergence is as fast as possible.
+Gradient descent (GD) is a simple iterative algorithm to minimize an objective function $f$ by producing better and better estimates via the update GD dates back nearly two hundred years to the work of Cauchy, yet it (and its variants) remain a primary workhorse in modern optimization, engineering, and machine learning due to the practical efficacy, simplicity, and scalability. It is of both theoretical and practical importance to analyze the convergence of GD and moreover to optimize parameters so that this convergence is as fast as possible.
 
 A central fact in convex optimization is that with a prudent choice of the stepsize schedule $\{\alpha_{t}\}$---the only^11^1In convex optimization, we typically view the initialization $x_{0}$ as part of the problem instance rather than a parameter choice, since $x_{0} = 0$ without loss of generality after a possible translation of the objective function $f$. parameters of the algorithm---running GD from any initialization $x_{0}$ produces iterates which optimize $f$ to arbitrary accuracy. Quantifying this statement leads to two intertwined questions: How fast does $x_{n}$ converge to a minimizer $x^{\ast}$ of $f$? And what stepsize choice $\{\alpha_{t}\}$ leads to the fastest convergence rate?
 
@@ -12,28 +10,15 @@ Note that this is markedly different from the past forty years of literature on 
 
 ### Mainstream approach
 
-The standard analysis of GD uses a constant stepsize schedule, i.e., $\alpha_{t} = \overline{\alpha}$ for all iterations $t$; see e.g. the textbooks among many others. For example, $\overline{\alpha} = {1/M}$ in the setting of $M$-smooth convex objectives, or $\overline{\alpha} = {2/{({M + m})}}$ if the objectives are additionally $m$-strongly convex. This prescription is based on the following fact:
-
-This is provably correct. For example, in the strongly convex setting, this $\overline{\alpha}$ provides the optimal contraction rate---a larger stepsize $\alpha_{t} > \overline{\alpha}$ can lead to overshooting the target $x^{\ast}$, and a smaller stepsize $\alpha_{t} < \overline{\alpha}$ can lead to undershooting $x^{\ast}$.
+The standard analysis of GD uses a constant stepsize schedule, i.e., $\alpha_{t} = \overline{\alpha}$ for all iterations $t$; see e.g. the textbooks among many others. For example, $\overline{\alpha} = {1/M}$ in the setting of $M$-smooth convex objectives, or $\overline{\alpha} = {2/{({M + m})}}$ if the objectives are additionally $m$-strongly convex. This prescription is based on the following fact: This is provably correct. For example, in the strongly convex setting, this $\overline{\alpha}$ provides the optimal contraction rate---a larger stepsize $\alpha_{t} > \overline{\alpha}$ can lead to overshooting the target $x^{\ast}$, and a smaller stepsize $\alpha_{t} < \overline{\alpha}$ can lead to undershooting $x^{\ast}$.
 
 However, it is well-known that even after optimizing the constant $\overline{\alpha}$, this constant stepsize schedule leads to a slow convergence rate. (Hence the intensive research on accelerated GD.) Moreover, even though many alternative stepsize schedules have been proposed in both theory and practice---e.g., exact line search, Armijo-Goldstein rules, Polyak-type schedules, Barzilai-Borwein-type schedules, etc., see the related work section---none of these alternative schedules have led to an analysis that outperforms the slow "unaccelerated" rate of constant stepsize GD. Conventional wisdom therefore dictates that slow convergence is unavoidable, unless one modifies GD by adding extra building blocks beyond choosing stepsizes, e.g., via momentum.
 
-Θ (κ) by constant stepsizes (folklore)
-Θ (κ) by constant stepsizes (folklore)
-
-$\Theta\left( \sqrt{\kappa} \right)$ by Heavy Ball
-$\Theta\left( \sqrt{\kappa} \right)$ by Nesterov Acceleration
-
-$\Theta\left( \sqrt{\kappa} \right)$ by Chebyshev Stepsizes
-Θ (κlogρ2) by Silver Stepsizes (Theorem 1.1)
-
-Table 1: Iteration complexity of various approaches for minimizing a κ-conditioned function. The dependence on the accuracy ε is omitted as it is always log 1/ε. Mainstream stepsize schedules require Θ (κ) iterations; this is the textbook unaccelerated rate. For the special case of quadratics (left), accelerated rates of $\Theta{(\sqrt{\kappa})}$ can be equivalently achieved via Young’s 1953 Chebyshev Stepsize Schedule or Polyak’s 1964 Heavy Ball Algorithm. For the general case of convex functions (right), this equivalence between internal dynamics and varying stepsizes is false. Acceleration was first achieved by Nesterov’s 1983 Fast Gradient Algorithm and it has long been believed that in the convex setting, any acceleration requires modifying GD by adding internal dynamics, e.g., momentum. We prove that accelerated convex optimization is possible by choosing better stepsizes.
+Θ (κ) by constant stepsizes (folklore) Θ (κ) by constant stepsizes (folklore) $\Theta\left(\sqrt{\kappa} \right)$ by Heavy Ball $\Theta\left(\sqrt{\kappa} \right)$ by Nesterov Acceleration $\Theta\left(\sqrt{\kappa} \right)$ by Chebyshev Stepsizes Θ (κlogρ2) by Silver Stepsizes (Theorem 1.1) Table 1: Iteration complexity of various approaches for minimizing a κ-conditioned function. The dependence on the accuracy ε is omitted as it is always log 1/ε. Mainstream stepsize schedules require Θ (κ) iterations; this is the textbook unaccelerated rate. For the special case of quadratics (left), accelerated rates of $\Theta{(\sqrt{\kappa})}$ can be equivalently achieved via Young’s 1953 Chebyshev Stepsize Schedule or Polyak’s 1964 Heavy Ball Algorithm. For the general case of convex functions (right), this equivalence between internal dynamics and varying stepsizes is false. Acceleration was first achieved by Nesterov’s 1983 Fast Gradient Algorithm and it has long been believed that in the convex setting, any acceleration requires modifying GD by adding internal dynamics, e.g., momentum. We prove that accelerated convex optimization is possible by choosing better stepsizes.
 
 ### Faster convergence via dynamic stepsizes?
 
-The premise of this series of papers is that this is wrong. Why might the constant stepsize schedule $\alpha_{t} = \overline{\alpha}$ be sub-optimal? Certainly it is optimal if GD is only run for $n = 1$ iteration---this is the assertion (1.2). However, it is sub-optimal for $n$ steps of GD, for any $n > 1$. Briefly, this is because the statement for $n = 1$ requires the worst-case problem instance (the objective function $f$ and initialization $x_{0}$) to align with the choice of stepsize $\alpha_{t} \neq \overline{\alpha}$ so that the convergence is slow, and for $n > 1$, the worst-case problem instances for each individual step might not align. This suggests an algorithmic opportunity:
-
-We refer to this algorithmic idea as *hedging* between worst-case problem instances. (See §2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") for a fully worked-out example.)
+The premise of this series of papers is that this is wrong. Why might the constant stepsize schedule $\alpha_{t} = \overline{\alpha}$ be sub-optimal? Certainly it is optimal if GD is only run for $n = 1$ iteration---this is the assertion (1.2). However, it is sub-optimal for $n$ steps of GD, for any $n > 1$. Briefly, this is because the statement for $n = 1$ requires the worst-case problem instance (the objective function $f$ and initialization $x_{0}$) to align with the choice of stepsize $\alpha_{t} \neq \overline{\alpha}$ so that the convergence is slow, and for $n > 1$, the worst-case problem instances for each individual step might not align. This suggests an algorithmic opportunity: We refer to this algorithmic idea as *hedging* between worst-case problem instances. (See §2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") for a fully worked-out example.)
 
 ### Motivation: the special case of quadratics
 
@@ -61,17 +46,7 @@ Formalizing this result requires restricting to a function class with controlled
 
 ### Theorem 1.1
 
-For any horizon $n \in {\mathbb{N}}$ that is a power of $2$, any dimension $d$, any $\kappa$-conditioned function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$, and any initialization $x_{0}$,
-
-where $x^{\ast}$ denotes the unique minimizer of $f$, $x_{n}$ denotes the output of $n$ steps of GD using the Silver Stepsize Schedule (defined in §3), and $\tau_{n}$ denotes the $n$-step Silver Convergence Rate (defined in §3). Moreover, $\tau_{n}$ undergoes the following phase transition at $n^{\ast} = {\Theta{(\kappa^{\log_{\rho}2})}}$:
-
-Acceleration regime. For $n \leqslant n^{\ast}$,
-
-Saturation regime. For $n > n^{\ast}$,
-
-In particular, in order to achieve a final error ${\|{x_{n} - x^{\ast}}\|}^{2} \leqslant \varepsilon$, it suffices to run GD using the Silver Stepsize Schedule for
-
-Figure 2: Log of the average per-step rate, aka $\frac{1}{n}{\log\tau_{n}}$, for varying condition numbers κ. The initial value is the unaccelerated rate ${(\frac{\kappa - 1}{\kappa + 1})}^{2}$. Notice the rate saturation phenomenon that occurs at n = n* ≍ κlogρ2.
+For any horizon $n \in {\mathbb{N}}$ that is a power of $2$, any dimension $d$, any $\kappa$-conditioned function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$, and any initialization $x_{0}$, where $x^{\ast}$ denotes the unique minimizer of $f$, $x_{n}$ denotes the output of $n$ steps of GD using the Silver Stepsize Schedule (defined in §3), and $\tau_{n}$ denotes the $n$-step Silver Convergence Rate (defined in §3). Moreover, $\tau_{n}$ undergoes the following phase transition at $n^{\ast} = {\Theta{(\kappa^{\log_{\rho}2})}}$: Acceleration regime. For $n \leqslant n^{\ast}$, Saturation regime. For $n > n^{\ast}$, In particular, in order to achieve a final error ${\|{x_{n} - x^{\ast}}\|}^{2} \leqslant \varepsilon$, it suffices to run GD using the Silver Stepsize Schedule for Figure 2: Log of the average per-step rate, aka $\frac{1}{n}{\log\tau_{n}}$, for varying condition numbers κ. The initial value is the unaccelerated rate ${(\frac{\kappa - 1}{\kappa + 1})}^{2}$. Notice the rate saturation phenomenon that occurs at n = n* ≍ κlogρ2.
 
 ### Discussion of Silver Convergence Rate
 
@@ -99,15 +74,11 @@ We conjecture the Silver Stepsize Schedule has the fastest convergence rate amon
 
 ### Recursive construction
 
-The Silver Stepsize Schedule is defined recursively in a fully explicit way. We briefly overview the construction; see §3 for full details. The $1$-step schedule $h^{}$ is initialized to the constant $\overline{\alpha} = {2/{({1 + {1/\kappa}})}}$ that is classically known to be optimal for $1$-step descent. We then recursively define the $2n$-step schedule $h^{({2n})}$ as
-
-where ${\overset{\sim}{h}}^{(n)}$ is the $n$-step schedule $h^{(n)}$ with its final stepsize $b_{n}$ removed, and $a_{2n}$ and $b_{2n}$ are obtained by "splitting" this removed stepsize $b_{n}$. Modulo a certain normalizing transformation, this splitting produces $a_{2n} < b_{n} < b_{2n}$ as the roots to a certain quadratic equation in $b_{n}$. See §4 for details and closed-form expressions.
+The Silver Stepsize Schedule is defined recursively in a fully explicit way. We briefly overview the construction; see §3 for full details. The $1$-step schedule $h^{}$ is initialized to the constant $\overline{\alpha} = {2/{({1 + {1/\kappa}})}}$ that is classically known to be optimal for $1$-step descent. We then recursively define the $2n$-step schedule $h^{({2n})}$ as where ${\overset{\sim}{h}}^{(n)}$ is the $n$-step schedule $h^{(n)}$ with its final stepsize $b_{n}$ removed, and $a_{2n}$ and $b_{2n}$ are obtained by "splitting" this removed stepsize $b_{n}$. Modulo a certain normalizing transformation, this splitting produces $a_{2n} < b_{n} < b_{2n}$ as the roots to a certain quadratic equation in $b_{n}$. See §4 for details and closed-form expressions.
 
 ### Finite-horizon schedule
 
-This recursive construction produces (normalized) stepsize schedules that follow the pattern
-
-See Figure 1 for a visualization.
+This recursive construction produces (normalized) stepsize schedules that follow the pattern See Figure 1 for a visualization.
 
 ### Infinite-horizon schedule
 
@@ -117,7 +88,7 @@ This schedule simplifies in the limit $n\rightarrow\infty$: the $i$-th normalize
 
 For the special case of quadratic optimization, the order of the stepsizes is well-known to be irrelevant for the convergence rate. In contrast, in the general setting of convex optimization, the order of the stepsizes provably does matter \[5, Chapter 8\]. For example, it can be shown that the convergence rate in Theorem 1.1 becomes greater than $1$ (i.e., not even contractive) if one reverses the order of the $2$-step Silver Stepsize Schedule.
 
-The Silver Stepsize Schedule generates a fractal, see Figure 1. This is due to our recursive construction, and is directly evident from the aforementioned fact that the $i$-th stepsize depends on the sparsity pattern of the binary expansion of $i$. This fractal structure aligns with the numerical observations in, and is in stark contrast with all classical stepsize schedules which, if time-varying, decay monotonically in the iteration number $i$, e.g., as $1/i$.
+The Silver Stepsize Schedule generates a fractal, see Figure 1. This is due to our recursive construction, and is directly evident from the aforementioned fact that the $i$-th stepsize depends on the sparsity pattern of the binary expansion of $i$. This fractal structure aligns with the numerical observations , and is in stark contrast with all classical stepsize schedules which, if time-varying, decay monotonically in the iteration number $i$, e.g., as $1/i$.
 
 ### Approximate periodicity
 
@@ -141,7 +112,7 @@ It is well-known that smoothness is required for acceleration: otherwise, GD can
 
 Theorem 1.1 is stated for the strongly convex setting, but this can be relaxed to the non-strongly convex setting. Indeed, all our core conceptual ideas extend: the advantage of time-varying, non-monotonic stepsizes, proving this advantage via multi-step descent rather than iterating the greedy $1$-step bound, certifying multi-step descent via recursive gluing, etc. The adaptation requires only minor technical modifications to the stepsize schedule, certificate recursion, and progress measure. These details will appear in a shortly forthcoming paper.
 
-We mention that by standard black-box reductions (see e.g., or \[12, page 285\]), Theorem 1.1 immediately implies accelerated rates for the (non-strongly) convex setting by running GD with the Silver Stepsize Schedule on a quadratically regularized objective, i.e., $f{( \cdot )} + \delta \parallel \cdot - y \parallel^{2}$ for appropriate choices of $\delta$ and $y$. This gives an analogous partially accelerated rate of $\varepsilon^{- {\log\rho_{2}}} \approx \varepsilon^{- 0.7864}$ iterations to obtain $\varepsilon$ function suboptimality. This is intermediate between the textbook unaccelerated rate $\Theta{(\varepsilon^{- 1})}$ and Nesterov's accelerated rate $\Theta{(\varepsilon^{- {1/2}})}$ from 1983. This strongly suggests that acceleration in the (non-strongly) convex case surpasses the $\Theta{({1/{({T{\log T}})}})}$ conjecture in. The aforementioned forthcoming paper will address this via a direct analysis that bypasses regularization.
+We mention that by standard black-box reductions (see e.g., or \[12, page 285\]), Theorem 1.1 immediately implies accelerated rates for the (non-strongly) convex setting by running GD with the Silver Stepsize Schedule on a quadratically regularized objective, i.e., $f{( \cdot )} + \delta \parallel \cdot - y \parallel^{2}$ for appropriate choices of $\delta$ and $y$. This gives an analogous partially accelerated rate of $\varepsilon^{- {\log\rho_{2}}} \approx \varepsilon^{- 0.7864}$ iterations to obtain $\varepsilon$ function suboptimality. This is intermediate between the textbook unaccelerated rate $\Theta{(\varepsilon^{- 1})}$ and Nesterov's accelerated rate $\Theta{(\varepsilon^{- {1/2}})}$ from 1983. This strongly suggests that acceleration in the (non-strongly) convex case surpasses the $\Theta{({1/{({T{\log T}})}})}$ conjecture . The aforementioned forthcoming paper will address this via a direct analysis that bypasses regularization.
 
 ### Related work
 
@@ -171,7 +142,7 @@ The conventional approach for achieving faster convergence is to consider variat
 
 ### Accelerated GD via dynamic stepsizes
 
-Although many time-varying stepsize schedules have been considered for GD, no convergences analyses improved over the textbook unaccelerated rate beyond the quadratic case. In 2018, Altschuler's MS thesis considered time-varying stepsize schedules in several settings, all through the unifying lens of hedging and multi-step descent. In Chapter 8 of the thesis, the PESTO framework was used to show for the first time the advantage of using time-varying stepsize schedules for GD beyond the quadratic setting. Explicit solutions were given for $n = {2,3}$ in the strongly convex setting. This showed that a constant-factor improvement over the textbook unaccelerated GD rate was indeed possible. A key difficulty in extending this to larger horizons $n$ is that the search for optimal stepsizes is non-convex. In 2022, Das Gupta et al. combined Branch & Bound techniques with the PESTO SDP to develop algorithms that perform this search numerically, and as an example used this to compute good approximate schedules in the convex setting for larger values of $n$ up to $50$. Grimmer very recently developed a technique to round these Branch & Bound solutions to exact rational certificates. This allowed him to extend these approximate stepsize schedules up to $n = 127$ in order to get a larger constant-factor improvement, and conjectured that dynamic stepsizes might lead to an accelerated rate of $O{({1/{({T{\log T}})}})}$. By extending a recursive application of the $2$-step solution in, the present paper rigorously proves acceleration for all horizons $n$, and in particular obtains the first asymptotic improvements over the textbook unaccelerated GD rate---not just by a constant factor.
+Although many time-varying stepsize schedules have been considered for GD, no convergences analyses improved over the textbook unaccelerated rate beyond the quadratic case. In 2018, Altschuler's MS thesis considered time-varying stepsize schedules in several settings, all through the unifying lens of hedging and multi-step descent. In Chapter 8 of the thesis, the PESTO framework was used to show for the first time the advantage of using time-varying stepsize schedules for GD beyond the quadratic setting. Explicit solutions were given for $n = {2,3}$ in the strongly convex setting. This showed that a constant-factor improvement over the textbook unaccelerated GD rate was indeed possible. A key difficulty in extending this to larger horizons $n$ is that the search for optimal stepsizes is non-convex. In 2022, Das Gupta et al. combined Branch & Bound techniques with the PESTO SDP to develop algorithms that perform this search numerically, and as an example used this to compute good approximate schedules in the convex setting for larger values of $n$ up to $50$. Grimmer very recently developed a technique to round these Branch & Bound solutions to exact rational certificates. This allowed him to extend these approximate stepsize schedules up to $n = 127$ in order to get a larger constant-factor improvement, and conjectured that dynamic stepsizes might lead to an accelerated rate of $O{({1/{({T{\log T}})}})}$. By extending a recursive application of the $2$-step solution , the present paper rigorously proves acceleration for all horizons $n$, and in particular obtains the first asymptotic improvements over the textbook unaccelerated GD rate---not just by a constant factor.
 
 ### Organization
 
@@ -181,15 +152,9 @@ In §2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver
 
 This section provides a complete analysis for the minimal non-trivial horizon length: $n = 2$. (No hedging can occur if $n = 1$.) Our goal here is to provide further intuition for the core concepts of hedging and multi-step descent, and explain concretely how these manifest in the design and analysis of the Silver Stepsize Schedule. Indeed, the $n = 2$ case captures most of the core intuition and ideas, and the result for general $n$ is essentially just an amped-up version thereof. These results first appeared in Altschuler's thesis \[5, Chapter 8\]; we refer to there for a lengthier treatment.
 
-For simplicity, in this section we denote the stepsizes by $\alpha$ and $\beta$, so that the algorithm is
+For simplicity, in this section we denote the stepsizes by $\alpha$ and $\beta$, so that the algorithm is and the worst-case convergence rate over a function class $\mathcal{F}$ is The question of optimal stepsizes is therefore the minimax problem To motivate why non-constant stepsizes might be helpful, in §2.1 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") we first briefly recall the classical result of which solves this for the case of quadratic $\mathcal{F}$. Then in §2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), we solve this problem for convex $\mathcal{F}$ by presenting the $2$-step Silver Stepsize Schedule from \[5, Theorem 8.11\], proving its convergence rate via multi-step descent, and proving its optimality via hedging.
 
-and the worst-case convergence rate over a function class $\mathcal{F}$ is
-
-The question of optimal stepsizes is therefore the minimax problem
-
-To motivate why non-constant stepsizes might be helpful, in §2.1 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") we first briefly recall the classical result of which solves this for the case of quadratic $\mathcal{F}$. Then in §2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), we solve this problem for convex $\mathcal{F}$ by presenting the $2$-step Silver Stepsize Schedule from \[5, Theorem 8.11\], proving its convergence rate via multi-step descent, and proving its optimality via hedging.
-
-(a) Quadratic setting: (α*,β*) are the two permutations of {1.12339, 2.77905}. Details in §2.1.
+(a) Quadratic setting: (α*, β*) are the two permutations of {1.12339, 2.77905}. Details in §2.1.
 
 (b) Convex setting: ${(\alpha^{\ast},\beta^{\ast})} = {(\frac{4}{3},2)}$. Details in §2.2.
 
@@ -199,13 +164,9 @@ Figure 3: Contour plots of worst-case rates, as a function of the two stepsizes 
 
 ### Young's argument from 1953
 
-What is the optimal stepsize schedule $(\alpha,\beta)$ for the class $\mathcal{F}$ of quadratic functions $f$ that are $m$-strongly convex and $M$-smooth? Without loss of generality after translating, ${f{(x)}} = {\frac{1}{2}x^{T}Hx}$ where ${mI} \preceq H \preceq {MI}$. By definition of GD, $x_{1} = {{({1 - {\alphaH}})}x_{0}}$ and $x_{2} = {{({1 - {\betaH}})}x_{1}}$, thus
+What is the optimal stepsize schedule $(\alpha,\beta)$ for the class $\mathcal{F}$ of quadratic functions $f$ that are $m$-strongly convex and $M$-smooth? Without loss of generality after translating, ${f{(x)}} = {\frac{1}{2}x^{T}Hx}$ where ${mI} \preceq H \preceq {MI}$. By definition of GD, $x_{1} = {{({1 - {\alphaH}})}x_{0}}$ and $x_{2} = {{({1 - {\betaH}})}x_{1}}$, thus Observe that as one ranges over all possible choices of the stepsizes $(\alpha,\beta)$, the polynomial $p$ ranges over the set $\mathcal{P}$ of all degree $2$ polynomials satisfying the normalizing condition ${p{}} = 1$. Therefore finding optimal stepsizes $(\alpha,\beta)$ is equivalent to finding an optimal polynomial $p \in \mathcal{P}$.
 
-Observe that as one ranges over all possible choices of the stepsizes $(\alpha,\beta)$, the polynomial $p$ ranges over the set $\mathcal{P}$ of all degree $2$ polynomials satisfying the normalizing condition ${p{}} = 1$. Therefore finding optimal stepsizes $(\alpha,\beta)$ is equivalent to finding an optimal polynomial $p \in \mathcal{P}$.
-
-What is the optimal polynomial? By the above display and properties of the spectral norm,
-
-Thus the optimal polynomial $p \in P_{2}$ is the one with minimal $L_{\infty}$ norm over the interval $\lbrack m,M\rbrack$. It is classically known that this is the (translated and scaled) Chebyshev polynomial of the first kind, see e.g.,. Thus the optimal stepsizes $(\alpha^{\ast},\beta^{\ast})$ are the inverses of the roots $\frac{M + m}{2} \pm \frac{M - m}{2\sqrt{2}}$ of the Chebyshev polynomial, in either order. These are the symmetric marked points in Figure 3 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), left.
+What is the optimal polynomial? By the above display and properties of the spectral norm, Thus the optimal polynomial $p \in P_{2}$ is the one with minimal $L_{\infty}$ norm over the interval $\lbrack m,M\rbrack$. It is classically known that this is the (translated and scaled) Chebyshev polynomial of the first kind, see e.g.,. Thus the optimal stepsizes $(\alpha^{\ast},\beta^{\ast})$ are the inverses of the roots $\frac{M + m}{2} \pm \frac{M - m}{2\sqrt{2}}$ of the Chebyshev polynomial, in either order. These are the symmetric marked points in Figure 3 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), left.
 
 Crucially, observe that these two stepsizes are different---hence the advantage of non-constant schedules in the quadratic setting. We now interpret this phenomenon in two ways that are essential to our intuition for the convex setting. This discussion is based on \[5, Chapters 1 and 2\].
 
@@ -215,11 +176,7 @@ Why is $\overline{\alpha}:=\frac{2}{M + m}$ suboptimal for $2$ steps of GD when 
 
 ### The necessity of multi-step descent
 
-There is a dual interpretation of hedging via multi-step descent. By (2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")), the worst-case rate for $2$ steps is
-
-Contrast this with the greedy analysis, which bounds the worst-case rate after $2$ iterations by the product of the worst-case rates for $1$ step with $\alpha$ or $\beta$, namely
-
-Observe that the greedy analysis (2.4 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) is so shortsighted that it not only leads to worse bounds for any given stepsize schedule, but moreover leads to the wrong prescription of stepsizes. Indeed, optimizing this convergence rate (2.4 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) over $(\alpha,\beta)$ leads to $\alpha = \beta = \frac{2}{M + m}$ which is the constant schedule. This necessity of multi-step descent explains why the mainstream approach for convex optimization is constant stepsizes: previous approaches were unable to analyze multi-step descent. (This is only tractable in the quadratic setting because the gradient operator is linear, see (2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")).)
+There is a dual interpretation of hedging via multi-step descent. By (2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")), the worst-case rate for $2$ steps is Contrast this with the greedy analysis, which bounds the worst-case rate after $2$ iterations by the product of the worst-case rates for $1$ step with $\alpha$ or $\beta$, namely Observe that the greedy analysis (2.4 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) is so shortsighted that it not only leads to worse bounds for any given stepsize schedule, but moreover leads to the wrong prescription of stepsizes. Indeed, optimizing this convergence rate (2.4 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) over $(\alpha,\beta)$ leads to $\alpha = \beta = \frac{2}{M + m}$ which is the constant schedule. This necessity of multi-step descent explains why the mainstream approach for convex optimization is constant stepsizes: previous approaches were unable to analyze multi-step descent. (This is only tractable in the quadratic setting because the gradient operator is linear, see (2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")).)
 
 ### Optimal stepsizes for convex optimization
 
@@ -227,19 +184,13 @@ We now turn to the convex setting. Let $\mathcal{F}$ denote the set of $m$-stron
 
 ### Silver Stepsize Schedule for $n = 2$
 
-We show below that the $2$-step convergence rate $R{(\alpha,\beta;\mathcal{F})}$ is minimized by the stepsizes $(\alpha,\beta)$ that are defined by the system of equations
-
-and moreover the optimal $2$-step convergence rate $R^{\ast}$ is given by this equalized value.
+We show below that the $2$-step convergence rate $R{(\alpha,\beta;\mathcal{F})}$ is minimized by the stepsizes $(\alpha,\beta)$ that are defined by the system of equations and moreover the optimal $2$-step convergence rate $R^{\ast}$ is given by this equalized value.
 
 ### Remark 2.1
 
-The equations (2.5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) can be solved explicitly, to give the alternative expressions
+The equations (2.5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) can be solved explicitly, to give the alternative expressions where $S = \sqrt{M^{2} + {({M - m})}^{2}}$. These are the formulas given in \[5, Thm. 8.10\], and is the $n = 2$ case of the Silver Stepsize Schedule and (square-rooted) Silver Convergence Rate defined in §4.
 
-where $S = \sqrt{M^{2} + {({M - m})}^{2}}$. These are the formulas given in \[5, Thm. 8.10\], and is the $n = 2$ case of the Silver Stepsize Schedule and (square-rooted) Silver Convergence Rate defined in §4.
-
-This $n = 2$ solution showcases the key phenomena that also occur for larger $n$:
-
-Provable advantage of dynamic stepsizes. Since $R^{\ast} < {(\frac{M - m}{M + m})}^{2}$, this proves that it is possible to improve over standard GD by dynamically changing the stepsize. (Recall that $\frac{M - m}{M + m}$ is the textbook unaccelerated rate for 1 step of GD.) This mirrors how for quadratics, the optimal 2-step rate (2.3 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) is better than the squared optimal $1$-step rate (2.4 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")).
+This $n = 2$ solution showcases the key phenomena that also occur for larger $n$: Provable advantage of dynamic stepsizes. Since $R^{\ast} < {(\frac{M - m}{M + m})}^{2}$, this proves that it is possible to improve over standard GD by dynamically changing the stepsize. (Recall that $\frac{M - m}{M + m}$ is the textbook unaccelerated rate for 1 step of GD.) This mirrors how for quadratics, the optimal 2-step rate (2.3 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) is better than the squared optimal $1$-step rate (2.4 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")).
 
 Stepsize splitting. Since $\alpha^{\ast} < \frac{2}{M + m} < \beta^{\ast}$, the optimal stepsize $\frac{2}{M + m}$ for $n = 1$ splits into a short step $\alpha^{\ast}$ and long step $\beta^{\ast}$. For general $n$, the Silver Stepsize Schedule mirrors this splitting at every scale: it splits the largest stepsize into a shorter and longer step.
 
@@ -249,7 +200,7 @@ Milder splitting. Even ignoring order, the stepsize values differ from the quadr
 
 We now turn to proving that Theorem 1.1 holds in the case $n = 2$, and moreover that the proposed Silver Stepsize Schedule is optimal among all $2$-step schedules.
 
-### Theorem 2.2 (Optimal $2$-step schedule for strongly convex optimization, Theorem 8.11 of \[5\])
+### Theorem 2.2 (Optimal $2$-step schedule for strongly convex optimization, Theorem 8.11 of )
 
 Consider any strong-convexity and smoothness parameters $0 < m \leqslant M < \infty$. The unique optimal $2$-step schedule ${(\alpha^{\ast},\beta^{\ast})} \in {{\operatorname{argmin}_{\alpha,\beta}R}{(\alpha,\beta;\mathcal{F})}}$ and the corresponding optimal $2$-step rate $R^{\ast}$ are as stated in Remark 2.1 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule").
 
@@ -259,11 +210,7 @@ The proof has two parts: an upper bound on $R{(\alpha^{\ast},\beta^{\ast},\mathc
 
 As discussed above, in order to prove any benefit of deviating from the constant stepsizes, we must directly analyze the cumulative multi-step descent of all iterations. This requires capturing how different iterations affect other iterations' progress. We do this by exploiting long-range consistency conditions between the information that GD sees along its trajectory.
 
-Our starting point is a known result on convex interpolability, recalled next. There is a set of consistency conditions that any $f \in \mathcal{F}$ must satisfy at any set of points ${\{ x_{i}\}}_{i \in \mathcal{I}}$: the co-coercivity
-
-must be non-negative for every pair of points ${x,y} \in \mathcal{I}$. Of particular interest to us is the converse: there are consistency conditions on a set of data ${\{{(x_{i},g_{i},f_{i})}\}}_{i \in \mathcal{I}}$ that ensure it is $\mathcal{F}$-interpolable, i.e., there exists $f \in \mathcal{F}$ satisfying $g_{i} = {{\nabla f}{(x_{i})}}$ and $f_{i} = {f{(x_{i})}}$ for each $i \in \mathcal{I}$. Specifically, a celebrated line of work on convex interpolability culminated in a beautiful theorem of which states that ${\{{(x_{i},g_{i},f_{i})}\}}_{i \in \mathcal{I}}$ is $\mathcal{F}$-interpolable if and only if
-
-is non-negative for every pair of indices ${i,j} \in \mathcal{I}$.
+Our starting point is a known result on convex interpolability, recalled next. There is a set of consistency conditions that any $f \in \mathcal{F}$ must satisfy at any set of points ${\{ x_{i}\}}_{i \in \mathcal{I}}$: the co-coercivity must be non-negative for every pair of points ${x,y} \in \mathcal{I}$. Of particular interest to us is the converse: there are consistency conditions on a set of data ${\{{(x_{i},g_{i},f_{i})}\}}_{i \in \mathcal{I}}$ that ensure it is $\mathcal{F}$-interpolable, i.e., there exists $f \in \mathcal{F}$ satisfying $g_{i} = {{\nabla f}{(x_{i})}}$ and $f_{i} = {f{(x_{i})}}$ for each $i \in \mathcal{I}$. Specifically, a celebrated line of work on convex interpolability culminated in a beautiful theorem of which states that ${\{{(x_{i},g_{i},f_{i})}\}}_{i \in \mathcal{I}}$ is $\mathcal{F}$-interpolable if and only if is non-negative for every pair of indices ${i,j} \in \mathcal{I}$.
 
 We apply these conditions along the trajectory of GD. Specifically, we take $\mathcal{I}:={\{ 0,1,\ldots,n, \ast \}}$ to index the GD iterates and the optimum, and let ${\{{(x_{i},g_{i},f_{i})}\}}_{i \in \mathcal{I}}$ denote the first-order data^77^7This is purely an analysis device and does not change the GD algorithm (which neither knows the optimum nor queries function values). Including function values simplifies the interpolability conditions and thus our analysis.. The upshot is that this theorem enables replacing the supremum over functions $f \in \mathcal{F}$ by the data ${\{{(x_{i},g_{i},f_{i})}\}}_{i \in \mathcal{I}}$ in the definition of the worst-case rate $R{(\alpha,\beta;\mathcal{F})}$. Note that this replacement is lossless since the interpolability conditions in the theorem are necessary and sufficient.
 
@@ -271,31 +218,15 @@ From the perspective of hedging, these co-coercivity conditions ${\{{Q_{ij} \geq
 
 ### Proof of rate upper bound for Theorem 2.2. ‣ 2.2.1 Silver Stepsize Schedule for 𝑛=2 ‣ 2.2 Optimal stepsizes for convex optimization ‣ 2 Conceptual overview: two-step case (𝑛=2) ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")
 
-It suffices to prove the *rate certification identity*
-
-for some non-negative choice of multipliers $\lambda_{ij}$. Indeed, since $Q_{ij} \geqslant 0$ is non-negative for any objective function $f \in \mathcal{F}$, the rate certification identity implies
-
-which proves the claimed rate. It remains to construct non-negative $\lambda_{ij}$ for the rate certification identity. This is done in \[5, Theorem 8.10\]. For completeness, we include the explicit values here, in slightly simpler (but equivalent) form:
-
-Here, the rows and columns are indexed by $0,1, \ast$, in that order. ∎
-
-Of course, the challenge in such a proof is finding the multipliers $\lambda_{ij}$. When we prove our result for general $n$, we prove that the multipliers for the $2n$-length Silver Stepsize Schedule are recursively built from repeating the multipliers for the $n$-length Silver Stepsize Schedule twice, modulo a low rank and sparse correction expressible in closed form. With this recursion, (i) the multipliers for the $n = 2$ case above can be derived formulaically from the textbook proof for $n = 1$, and (ii) the proof for the case of general $n$ mirrors the proof for $n = 2$, at least in spirit.
+It suffices to prove the *rate certification identity* for some non-negative choice of multipliers $\lambda_{ij}$. Indeed, since $Q_{ij} \geqslant 0$ is non-negative for any objective function $f \in \mathcal{F}$, the rate certification identity implies which proves the claimed rate. It remains to construct non-negative $\lambda_{ij}$ for the rate certification identity. This is done in \[5, Theorem 8.10\]. For completeness, we include the explicit values here, in slightly simpler (but equivalent) form: Here, the rows and columns are indexed by $0,1, \ast$, in that order. ∎ Of course, the challenge in such a proof is finding the multipliers $\lambda_{ij}$. When we prove our result for general $n$, we prove that the multipliers for the $2n$-length Silver Stepsize Schedule are recursively built from repeating the multipliers for the $n$-length Silver Stepsize Schedule twice, modulo a low rank and sparse correction expressible in closed form. With this recursion, (i) the multipliers for the $n = 2$ case above can be derived formulaically from the textbook proof for $n = 1$, and (ii) the proof for the case of general $n$ mirrors the proof for $n = 2$, at least in spirit.
 
 ### Lower bound: optimality and uniqueness via hedging
 
 ### Proof of rate lower bound in Theorem 2.2. ‣ 2.2.1 Silver Stepsize Schedule for 𝑛=2 ‣ 2.2 Optimal stepsizes for convex optimization ‣ 2 Conceptual overview: two-step case (𝑛=2) ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")
 
-We prove the *rate optimality identity*
+We prove the *rate optimality identity* for all non-trivial^88^8We call such stepsizes non-trivial since if a stepsize is outside this interval, then clipping it to the interval improves convergence. This can be proved by noticing that, of the four hard functions in this proof, all but the fourth apply if $\alpha \geqslant {1/M}$, and all but the third apply if $\alpha \leqslant {1/m}$. By optimizing the resulting analogous bounds (2.10 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) for the cases $\alpha < {1/M}$ and $\alpha > {1/m}$, it follows that clipping to the interval $\lbrack{1/M},{1/m}\rbrack$ leads to faster convergence. stepsizes ${\alpha,\beta} \in {\lbrack{1/M},{1/m}\rbrack}$, where This suffices since it is straightforward to verify that ${\min_{\alpha,\beta}\underset{¯}{R}}{(\alpha,\beta)}$ is minimized uniquely at $(\alpha^{\ast},\beta^{\ast})$ with value $R^{\ast}$; this yields the two defining equations in (2.5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")). Indeed, this verification can be done by hand by case enumeration, or simpler, it can be rigorously proven using standard symbolic computation techniques such as quantifier elimination.
 
-for all non-trivial^88^8We call such stepsizes non-trivial since if a stepsize is outside this interval, then clipping it to the interval improves convergence. This can be proved by noticing that, of the four hard functions in this proof, all but the fourth apply if $\alpha \geqslant {1/M}$, and all but the third apply if $\alpha \leqslant {1/m}$. By optimizing the resulting analogous bounds (2.10 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) for the cases $\alpha < {1/M}$ and $\alpha > {1/m}$, it follows that clipping to the interval $\lbrack{1/M},{1/m}\rbrack$ leads to faster convergence. stepsizes ${\alpha,\beta} \in {\lbrack{1/M},{1/m}\rbrack}$, where
-
-This suffices since it is straightforward to verify that ${\min_{\alpha,\beta}\underset{¯}{R}}{(\alpha,\beta)}$ is minimized uniquely at $(\alpha^{\ast},\beta^{\ast})$ with value $R^{\ast}$; this yields the two defining equations in (2.5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")). Indeed, this verification can be done by hand by case enumeration, or simpler, it can be rigorously proven using standard symbolic computation techniques such as quantifier elimination.
-
-It remains to prove (2.10 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")). We do this by exhibiting four "hard-to-optimize" functions $f \in \mathcal{F}$ for which the $2$-step convergence rate of GD from initialization $x_{0} = 1$ is given by these four values. The first two functions are the quadratics ${f{(x)}} = {\frac{\lambda}{2}x^{2}}$ for $\lambda \in {\{\alpha,\beta\}}$, in which case $x_{2} = {{({1 - {\lambda\alpha}})}{({1 - {\lambda\beta}})}}$. The other two functions are piecewise quadratic. It is perhaps simplest to state these functions via their second derivative since then any function value can be obtained by integrating from the minimum $x^{\ast} = 0$. The third function is given by ${f^{\operatorname{\prime\prime}}{(x)}} = M$ for $x \geqslant 0$ and ${f^{\operatorname{\prime\prime}}{(x)}} = m$ otherwise, in which case $x_{2} = {{({1 - {M\alpha}})}{({1 - {m\beta}})}}$. The fourth function is given by ${f^{\operatorname{\prime\prime}}{(x)}} = m$ for $x \geqslant \frac{1 - {m\alpha}}{1 + {\alpha{({M - m})}}}$ and ${f^{\operatorname{\prime\prime}}{(x)}} = M$ otherwise, in which case $x_{2} = \frac{{({1 - {m\alpha}})}{({1 - {M\beta}})}}{1 + {\alpha{({M - m})}}}$. This proves the desired identity (2.10 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")). ∎
-
-It is insightful to contrast these four hard functions defining the $2$-step rate function^99^9The rate optimality identity (2.10 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) actually holds with equality over all non-trivial stepsizes ${\alpha,\beta} \in {\lbrack{1/M},{1/m}\rbrack}$, although this is unnecessary for our purposes. with the analog for the quadratic case. Recall from (2.3 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) that in the quadratic setting, the $2$-step rate function ${R{(\alpha,{\beta\mathcal{F}})}} = {\sup_{m \leqslant \lambda \leqslant M}{|{{({1 - {\alpha\lambda}})}{({1 - {\beta\lambda}})}}|}}$. Although this seems to requires infinitely many $\lambda$, it was shown in \[5, Chapter 5.2.2\] that one can replace the continuum $\lbrack m,M\rbrack$ with the $3$ extrema of Chebyshev polynomials, i.e.,
-
-in the sense that minimizing this over $(\alpha,\beta)$ yields Young's $2$-step Chebyshev Schedule. These three values of $\lambda$ correspond to "hard-to-optimize" quadratic functions ${f{(x)}} = {\frac{\lambda}{2}x^{2}}$. How are they different from the hard functions in the above proof? The first two quadratics are common between the quadratic and convex case, but the remaining functions differ. In particular, the third and fourth functions in the convex case are non-quadratic. In words, the richness of the convex function class enables changing the curvature in different places, which enables more alignment of the bad convergence rates for the individual stepsizes. This makes it provably harder to hedge in the convex setting. Note also that the denominator of the fourth function is singlehandedly responsible for the asymmetry in $\overline{R}{(\alpha,\beta)}$, and thus in the optimal schedule the convex setting.
+It remains to prove (2.10 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")). We do this by exhibiting four "hard-to-optimize" functions $f \in \mathcal{F}$ for which the $2$-step convergence rate of GD from initialization $x_{0} = 1$ is given by these four values. The first two functions are the quadratics ${f{(x)}} = {\frac{\lambda}{2}x^{2}}$ for $\lambda \in {\{\alpha,\beta\}}$, in which case $x_{2} = {{({1 - {\lambda\alpha}})}{({1 - {\lambda\beta}})}}$. The other two functions are piecewise quadratic. It is perhaps simplest to state these functions via their second derivative since then any function value can be obtained by integrating from the minimum $x^{\ast} = 0$. The third function is given by ${f^{\operatorname{\prime\prime}}{(x)}} = M$ for $x \geqslant 0$ and ${f^{\operatorname{\prime\prime}}{(x)}} = m$ otherwise, in which case $x_{2} = {{({1 - {M\alpha}})}{({1 - {m\beta}})}}$. The fourth function is given by ${f^{\operatorname{\prime\prime}}{(x)}} = m$ for $x \geqslant \frac{1 - {m\alpha}}{1 + {\alpha{({M - m})}}}$ and ${f^{\operatorname{\prime\prime}}{(x)}} = M$ otherwise, in which case $x_{2} = \frac{{({1 - {m\alpha}})}{({1 - {M\beta}})}}{1 + {\alpha{({M - m})}}}$. This proves the desired identity (2.10 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")). ∎ It is insightful to contrast these four hard functions defining the $2$-step rate function^99^9The rate optimality identity (2.10 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) actually holds with equality over all non-trivial stepsizes ${\alpha,\beta} \in {\lbrack{1/M},{1/m}\rbrack}$, although this is unnecessary for our purposes. with the analog for the quadratic case. Recall from (2.3 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) that in the quadratic setting, the $2$-step rate function ${R{(\alpha,{\beta\mathcal{F}})}} = {\sup_{m \leqslant \lambda \leqslant M}{|{{({1 - {\alpha\lambda}})}{({1 - {\beta\lambda}})}}|}}$. Although this seems to requires infinitely many $\lambda$, it was shown in \[5, Chapter 5.2.2\] that one can replace the continuum $\lbrack m,M\rbrack$ with the $3$ extrema of Chebyshev polynomials, i.e., in the sense that minimizing this over $(\alpha,\beta)$ yields Young's $2$-step Chebyshev Schedule. These three values of $\lambda$ correspond to "hard-to-optimize" quadratic functions ${f{(x)}} = {\frac{\lambda}{2}x^{2}}$. How are they different from the hard functions in the above proof? The first two quadratics are common between the quadratic and convex case, but the remaining functions differ. In particular, the third and fourth functions in the convex case are non-quadratic. In words, the richness of the convex function class enables changing the curvature in different places, which enables more alignment of the bad convergence rates for the individual stepsizes. This makes it provably harder to hedge in the convex setting. Note also that the denominator of the fourth function is singlehandedly responsible for the asymmetry in $\overline{R}{(\alpha,\beta)}$, and thus in the optimal schedule the convex setting.
 
 This proof can be extended to establish the optimality of the Silver Stepsize Schedule, as will be detailed in a shortly forthcoming paper.
 
@@ -307,57 +238,35 @@ For simplicity of exposition, from here on we restrict to horizons $n$ that are 
 
 We construct auxiliary stepsize sequences $y_{n},z_{n}$, that are normalized in a certain way to lie in the interval $\lbrack 0,1\rbrack$. The particular normalization (a certain linear fractional transformation defined in §3.2) simplifies the recursive stepsize splitting by making it a quadratic equation.
 
-Explicitly, initialize the sequences $y_{1} = z_{1} = {1/\kappa}$, and define $y_{n},z_{n}$ recursively from $z_{n/2}$ as the solutions to the defining equations
-
-This is the direct analog of the stepsize splitting detailed for the case $n = 2$ in §2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). Denoting $\xi = {1 - z_{n/2}}$, the explicit solution is
-
-Figure 4: Cobweb plot describing the evolution of zn, under the iteration zn/2 ↦ zn given in (3.1) and (3.2). The initial condition is 1/κ (in this plot, κ = 32). The iterates grow exponentially when z is near zero, and converge quadratically to 1 when z is close to 1.
+Explicitly, initialize the sequences $y_{1} = z_{1} = {1/\kappa}$, and define $y_{n},z_{n}$ recursively from $z_{n/2}$ as the solutions to the defining equations This is the direct analog of the stepsize splitting detailed for the case $n = 2$ in §2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). Denoting $\xi = {1 - z_{n/2}}$, the explicit solution is Figure 4: Cobweb plot describing the evolution of zn, under the iteration zn/2 ↦ zn given in (3.1) and (3.2). The initial condition is 1/κ (in this plot, κ = 32). The iterates grow exponentially when z is near zero, and converge quadratically to 1 when z is close to 1.
 
 The following lemma collect several simple observations about these sequences. See §4 for a detailed discussion of how $y_{n},z_{n}$ both increase to their limits ${y_{n},z_{n}}\rightarrow 1$, exponentially fast when they are close to $0$, and then doubly exponentially fast when they are close to $1$.
 
 ### Lemma 3.1 (Basic properties of the Normalized Silver Stepsizes)
 
-The sequence $z_{n}$ is monotonically increasing from $z_{1} = {1/\kappa}$ to ${\lim_{n\rightarrow\infty}z_{n}} = 1$. For all $n$,
-
-Moreover, the above inequality $y_{n} \leqslant z_{n}$ is strict for any $\kappa > 1$.
+The sequence $z_{n}$ is monotonically increasing from $z_{1} = {1/\kappa}$ to ${\lim_{n\rightarrow\infty}z_{n}} = 1$. For all $n$, Moreover, the above inequality $y_{n} \leqslant z_{n}$ is strict for any $\kappa > 1$.
 
 ### Silver Stepsizes
 
-We define the Silver Stepsizes
-
-from the Normalized Silver Stepsizes $y_{n},z_{n}$ via the linear fractional transformation $\psi$ given by
-
-We remark that this mapping $\psi$ has the following special values
-
-The significance of the two middle values is that these are the initial stepsizes $a_{1} = b_{1} = {\psi{({1/\kappa})}}$ and the limiting stepsizes ${\lim_{n\rightarrow\infty}a_{n}} = {\lim_{n\rightarrow\infty}b_{n}} = {\psi{}}$. We remark that these two middle values are the harmonic and arithmetic means of the two extremal values, i.e., ${\psi{({1/\kappa})}} = {{HM}{({\psi{}},{\psi{(\infty)}})}}$ and ${\psi{}} = {{AM}{({\psi{}},{\psi{(\infty)}})}}$. The looseness in the classical AM-HM inequality therefore quantifies the gap between the initial and limiting stepsizes. The following lemma records this and several other simple observations about these stepsizes.
+We define the Silver Stepsizes from the Normalized Silver Stepsizes $y_{n},z_{n}$ via the linear fractional transformation $\psi$ given by We remark that this mapping $\psi$ has the following special values The significance of the two middle values is that these are the initial stepsizes $a_{1} = b_{1} = {\psi{({1/\kappa})}}$ and the limiting stepsizes ${\lim_{n\rightarrow\infty}a_{n}} = {\lim_{n\rightarrow\infty}b_{n}} = {\psi{}}$. We remark that these two middle values are the harmonic and arithmetic means of the two extremal values, i.e., ${\psi{({1/\kappa})}} = {{HM}{({\psi{}},{\psi{(\infty)}})}}$ and ${\psi{}} = {{AM}{({\psi{}},{\psi{(\infty)}})}}$. The looseness in the classical AM-HM inequality therefore quantifies the gap between the initial and limiting stepsizes. The following lemma records this and several other simple observations about these stepsizes.
 
 ### Lemma 3.2 (Basic properties of the Silver Stepsizes)
 
-The sequence $b_{n}$ is monotonically increasing from $b_{1} = {{HM}{(1,\kappa)}}$ to ${\lim_{n\rightarrow\infty}b_{n}} = {{AM}{(1,\kappa)}}$. For all $n$,
-
-Moreover, the above inequality $a_{n} \leqslant b_{n}$ is strict for any $\kappa > 1$.
+The sequence $b_{n}$ is monotonically increasing from $b_{1} = {{HM}{(1,\kappa)}}$ to ${\lim_{n\rightarrow\infty}b_{n}} = {{AM}{(1,\kappa)}}$. For all $n$, Moreover, the above inequality $a_{n} \leqslant b_{n}$ is strict for any $\kappa > 1$.
 
 ### Silver Stepsize Schedule
 
 Figure 5: Normalized Silver Stepsize Schedule, for different condition numbers κ = 4, 16, 64, 256. Notice that these are always bounded between 0 and 1. The Silver Stepsize Schedules h(n) shown in Figure 1 are generated by applying ψ to the schedules here.
 
-Let $h^{(n)}$ denote the Silver Stepsize Schedule of length $n$. Denote its $n/2$-th stepsize by $a_{n}$ and its $n$-th by $b_{n}$. As overviewed briefly in §1.1.3, we recursively construct
-
-where ${\overset{\sim}{h}}^{({n/2})}$ denotes everything in $h^{({n/2})}$ except the final step, i.e., everything except $b_{n/2}$. Note that $b_{n/2}$ is in $h^{({n/2})}$, but not in $h^{(n)}$; it is split into $a_{n}$ and $b_{n}$. Note also that $a_{n}$, $b_{n}$ form the largest stepsizes in $h^{(n)}$, with $b_{n}$ being the largest (Lemma 3.2. ‣ 3.2 Silver Stepsizes ‣ 3 Silver Stepsize Schedule ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")). For the convenience of the reader, we recall from §1.1.3 that for small $n$, this pattern is
-
-See Figure 1 for an illustration of this pattern, and see §1.1.3 for a discussion of the emergent fractal, dependence on the horizon, and patterns for small $n$.
+Let $h^{(n)}$ denote the Silver Stepsize Schedule of length $n$. Denote its $n/2$-th stepsize by $a_{n}$ and its $n$-th by $b_{n}$. As overviewed briefly in §1.1.3, we recursively construct where ${\overset{\sim}{h}}^{({n/2})}$ denotes everything in $h^{({n/2})}$ except the final step, i.e., everything except $b_{n/2}$. Note that $b_{n/2}$ is in $h^{({n/2})}$, but not in $h^{(n)}$; it is split into $a_{n}$ and $b_{n}$. Note also that $a_{n}$, $b_{n}$ form the largest stepsizes in $h^{(n)}$, with $b_{n}$ being the largest (Lemma 3.2. ‣ 3.2 Silver Stepsizes ‣ 3 Silver Stepsize Schedule ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")). For the convenience of the reader, we recall from §1.1.3 that for small $n$, this pattern is See Figure 1 for an illustration of this pattern, and see §1.1.3 for a discussion of the emergent fractal, dependence on the horizon, and patterns for small $n$.
 
 ### Remark 3.3 (Occupation measure)
 
-For all $i \in {\mathbb{N}}$ and all sufficiently large horizons $n \geqslant 2^{i}$, the stepsize $a_{2^{i}}$ is used in $2^{- i}$ fraction of the $n$-step Silver Stepsize Schedule. For example, for all horizons $n \geqslant 2$, the smallest stepsize $a_{2} = {\kappa/{({\kappa - 1})}}$ is used in every other iteration. For the infinite limit of the Silver Stepsize Schedule (see §1.1.3), the occupation measure simplifies to
-
-This can be viewed as a geometric distribution that takes value $a_{2^{i}}$ with probability $2^{- i}$.
+For all $i \in {\mathbb{N}}$ and all sufficiently large horizons $n \geqslant 2^{i}$, the stepsize $a_{2^{i}}$ is used in $2^{- i}$ fraction of the $n$-step Silver Stepsize Schedule. For example, for all horizons $n \geqslant 2$, the smallest stepsize $a_{2} = {\kappa/{({\kappa - 1})}}$ is used in every other iteration. For the infinite limit of the Silver Stepsize Schedule (see §1.1.3), the occupation measure simplifies to This can be viewed as a geometric distribution that takes value $a_{2^{i}}$ with probability $2^{- i}$.
 
 ### Silver Convergence Rate
 
-We define the Silver Convergence Rate as
-
-Of course, from just this definition it is not yet clear why we call $\tau_{n}$ a rate; in §5 we prove that $\tau_{n}$ is the convergence rate of the Silver Stepsize Schedule. Note that since $z_{n}$ is monotonically increasing (Lemma 3.1. ‣ 3.1 Normalized Silver Stepsizes ‣ 3 Silver Stepsize Schedule ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")), this rate $\tau_{n}$ is monotonically decreasing from the textbook unaccelerated rate $\tau_{1} = {({{({\kappa - 1})}/{({\kappa + 1})}})}^{2}$ to ${\lim_{n\rightarrow\infty}\tau_{n}} = 0$. In the following section, we provide a complete understanding of exactly how fast $\tau_{n}$ converges to $0$.
+We define the Silver Convergence Rate as Of course, from just this definition it is not yet clear why we call $\tau_{n}$ a rate; in §5 we prove that $\tau_{n}$ is the convergence rate of the Silver Stepsize Schedule. Note that since $z_{n}$ is monotonically increasing (Lemma 3.1. ‣ 3.1 Normalized Silver Stepsizes ‣ 3 Silver Stepsize Schedule ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")), this rate $\tau_{n}$ is monotonically decreasing from the textbook unaccelerated rate $\tau_{1} = {({{({\kappa - 1})}/{({\kappa + 1})}})}^{2}$ to ${\lim_{n\rightarrow\infty}\tau_{n}} = 0$. In the following section, we provide a complete understanding of exactly how fast $\tau_{n}$ converges to $0$.
 
 ## Analysis of the Silver Convergence Rate
 
@@ -367,11 +276,7 @@ Here we prove the bound on the Silver Convergence Rate $\tau_{n}$ in our main re
 
 Denote $i^{\ast}:={\lfloor{\log_{\rho}\frac{\kappa}{3}}\rfloor}$ and $n^{\ast}:=2^{i^{\ast}}$. Then for any $n$ that is a power of $2$, we have the following bound on $\tau_{n}$.
 
-Acceleration regime. If $n \leqslant n^{\ast}$, then
-
-Saturation regime. If $n > n^{\ast}$, then
-
-This result establishes $n^{\ast} \asymp \kappa^{\log_{\rho}2}$ as the location of a phase transition. There, the Silver Convergence Rate $\tau_{n}$ switches from super-exponential to exponential in the horizon $n$. See the introduction for a detailed discussion of this phase transition and the intuition behind it in terms of how the Silver Stepsize Schedule is effectively periodic with periodic of length $n^{\ast}$.
+Acceleration regime. If $n \leqslant n^{\ast}$, then Saturation regime. If $n > n^{\ast}$, then This result establishes $n^{\ast} \asymp \kappa^{\log_{\rho}2}$ as the location of a phase transition. There, the Silver Convergence Rate $\tau_{n}$ switches from super-exponential to exponential in the horizon $n$. See the introduction for a detailed discussion of this phase transition and the intuition behind it in terms of how the Silver Stepsize Schedule is effectively periodic with periodic of length $n^{\ast}$.
 
 For simplicity, we make no attempt to optimize the constants in the $\Theta$ and the choice of $i^{\ast}$ (the $1/3$ in the theorem statement is arbitrary). Our proofs make crude constant bounds to ease the exposition, and it is straightforward to tighten these. However, as established by our upper and lower bounds, our proofs are already tight up to reasonable constant factors.
 
@@ -379,35 +284,17 @@ The section is organized as follows. In §4.1, we provide a heuristic derivation
 
 ### Heuristic derivation
 
-The phase transition in $\tau_{n} = {(\frac{1 - z_{n}}{1 + z_{n}})}^{2}$ is a consequence of the phase transition in the dynamics of the auxiliary sequence $z_{n}$. To explain this, it is convenient to simplify notation by re-indexing $n = 2^{i}$ so that iterations of the dynamical process are indexed by $i = {0,1,2,3,\ldots}$ rather than $n = {1,2,4,{8\ldots}}$. It is helpful to also re-parameterize
-
-where $\Psi:{{}\rightarrow{}}$ is the monotone bijection
-
-The significance of this re-parameterization to $h_{i}$ is that
-
-Thus, proving a fast convergence rate amounts to lower bounding $h_{i}$.
+The phase transition in $\tau_{n} = {(\frac{1 - z_{n}}{1 + z_{n}})}^{2}$ is a consequence of the phase transition in the dynamics of the auxiliary sequence $z_{n}$. To explain this, it is convenient to simplify notation by re-indexing $n = 2^{i}$ so that iterations of the dynamical process are indexed by $i = {0,1,2,3,\ldots}$ rather than $n = {1,2,4,{8\ldots}}$. It is helpful to also re-parameterize where $\Psi:{{}\rightarrow{}}$ is the monotone bijection The significance of this re-parameterization to $h_{i}$ is that Thus, proving a fast convergence rate amounts to lower bounding $h_{i}$.
 
 Figure 6: Cobweb diagram for the function H (h) in equation (4.3) and its Taylor approximations (4.4) and (4.6). Starting from the initial condition (4.2), iterates grow by a constant multiplicative factor of the Silver Ratio $\rho = {1 + \sqrt{2}}$ when h is near zero, and converge quadratically to 1 when h is close to 1.
 
-What do the dynamics of $h_{i}$ look like? At initialization, $z_{1} = {1/\kappa}$ (see §3), thus
+What do the dynamics of $h_{i}$ look like? At initialization, $z_{1} = {1/\kappa}$ (see §3), thus Then the iterations of this process increase $h_{i}$ exponentially fast to $1$ when it is sub-constant size, and then doubly-exponentially fast when $h_{i}$ is of constant size. (This dichotomy is the source of the phase transition in Theorem 4.1. ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule").)
 
-Then the iterations of this process increase $h_{i}$ exponentially fast to $1$ when it is sub-constant size, and then doubly-exponentially fast when $h_{i}$ is of constant size. (This dichotomy is the source of the phase transition in Theorem 4.1. ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule").)
+To analyze these dynamics, let $H:{{}\rightarrow{}}$ denote the update function sending $h_{i}$ to $h_{i + 1}$. Then $H = {\Psi \circ F \circ \Psi^{- 1}}$ where ${F{(z)}} = {z{({{1 - z} + \sqrt{1 + {({1 - z})}^{2}}})}}$ is the function that updates $z_{n}$ to $z_{2n} = {F{(z_{n})}}$, see Section 3. A direct algebraic computation gives the explicit expression Taylor expanding $H$ around $h \approx 0$ and $h \approx 1$ illustrates the markedly different dynamics in these two regimes; see Figure 6.
 
-To analyze these dynamics, let $H:{{}\rightarrow{}}$ denote the update function sending $h_{i}$ to $h_{i + 1}$. Then $H = {\Psi \circ F \circ \Psi^{- 1}}$ where ${F{(z)}} = {z{({{1 - z} + \sqrt{1 + {({1 - z})}^{2}}})}}$ is the function that updates $z_{n}$ to $z_{2n} = {F{(z_{n})}}$, see Section 3. A direct algebraic computation gives the explicit expression
+Acceleration regime. For $h \ll 1$, Thus, in this regime, each $h_{i}$ increases by a factor of roughly $\rho$, thus $h_{i} \approx {\rho^{i}h_{0}} \approx {\rho^{i}/{({2\kappa})}}$, thus the Silver Convergence Rate is roughly This regime lasts for only $i \approx {\log_{\rho}\kappa}$ iterations (aka horizon $n = 2^{i} \approx \kappa^{\log_{2}\rho}$) because at that point $h_{i} \asymp {\rho^{i}/\kappa} \asymp 1$ is of constant size. This is the phase transition.
 
-Taylor expanding $H$ around $h \approx 0$ and $h \approx 1$ illustrates the markedly different dynamics in these two regimes; see Figure 6.
-
-Acceleration regime. For $h \ll 1$,
-
-Thus, in this regime, each $h_{i}$ increases by a factor of roughly $\rho$, thus $h_{i} \approx {\rho^{i}h_{0}} \approx {\rho^{i}/{({2\kappa})}}$, thus the Silver Convergence Rate is roughly
-
-This regime lasts for only $i \approx {\log_{\rho}\kappa}$ iterations (aka horizon $n = 2^{i} \approx \kappa^{\log_{2}\rho}$) because at that point $h_{i} \asymp {\rho^{i}/\kappa} \asymp 1$ is of constant size. This is the phase transition.
-
-Saturation regime. For $h \approx 1$,
-
-In words, the key phenomenon here is that the average rate $\tau_{n}^{1/n}$ stays essentially the same as $n$ increases---in contrast to the acceleration regime, in which the average rate improves in $n$. Indeed, the Taylor expansion (4.6) indicates that in the saturation regime, $\tau_{n} = \left( {1 - h_{i}} \right)^{2} \approx {({1 - h_{i - 1}})}^{4} = \tau_{n/2}^{2}$. By repeating this argument and then using the fact that $\tau_{n^{\ast}} = {\exp{({- {\Theta{}}})}}$ which follows from the acceleration regime, we obtain
-
-If the approximations were justified in the above two displays, then this informal argument would lead to a proof of Theorem 4.1. ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). We do this in the following subsection.
+Saturation regime. For $h \approx 1$, In words, the key phenomenon here is that the average rate $\tau_{n}^{1/n}$ stays essentially the same as $n$ increases---in contrast to the acceleration regime, in which the average rate improves in $n$. Indeed, the Taylor expansion (4.6) indicates that in the saturation regime, $\tau_{n} = \left({1 - h_{i}} \right)^{2} \approx {({1 - h_{i - 1}})}^{4} = \tau_{n/2}^{2}$. By repeating this argument and then using the fact that $\tau_{n^{\ast}} = {\exp{({- {\Theta{}}})}}$ which follows from the acceleration regime, we obtain If the approximations were justified in the above two displays, then this informal argument would lead to a proof of Theorem 4.1. ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). We do this in the following subsection.
 
 ### Rigorous derivation
 
@@ -419,9 +306,7 @@ Let $\nu:=\frac{3\rho}{2\sqrt{2}} \approx 2.561$. For all $h \geqslant 0$,
 
 ### Lemma 4.3 (Dynamics in the saturation regime)
 
-For all $h \geqslant 0$,
-
-We omit the proofs of these lemmas, since the inequalities are visually obvious from plotting the functions, and can be formally proven in a routine algorithmic way, as they only involve algebraic functions of a single scalar variable. This is done by computing the critical points and using well-known techniques for root isolation; see e.g..
+For all $h \geqslant 0$, We omit the proofs of these lemmas, since the inequalities are visually obvious from plotting the functions, and can be formally proven in a routine algorithmic way, as they only involve algebraic functions of a single scalar variable. This is done by computing the critical points and using well-known techniques for root isolation; see e.g..
 
 An appealing consequence of Lemma 4.3. ‣ 4.2 Rigorous derivation ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") is the inequality $\tau_{2n} \leqslant \tau_{n}^{2}$. We call this the *rate monotonicity* property of the Silver Stepsize Schedule, since it amounts to the statement that using the $2n$-step schedule is at least as good as using the $n$-step schedule twice.
 
@@ -437,21 +322,13 @@ By (4.1), then Lemma 4.3. ‣ 4.2 Rigorous derivation ‣ 4 Analysis of the Silv
 
 Here we prove the upper bounds (a.k.a., the convergence rates). The matching lower bounds are conceptually identical and deferred to Appendix A for brevity.
 
-Acceleration regime. Suppose $n \leqslant n^{\ast}$. Let $i:={\log_{2}n} \leqslant i^{\ast}$. We bound
-
-Above, the first step is by $i$ applications of the lower bound in Lemma 4.2. ‣ 4.2 Rigorous derivation ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). The second step is because $h_{t} \leqslant {\rho^{t}h_{0}}$ by $t$ applications of the upper bound in Lemma 4.2. ‣ 4.2 Rigorous derivation ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). The third step is by summing the geometric series, crudely dropping a positive term, and simplifying ${\nu/{({\rho\sqrt{2}})}} = {3/4}$. The fourth step is because ${\rho^{i}h_{0}} \leqslant {\rho^{i^{\ast}}h_{0}} \leqslant {2/3}$ by definition of $i^{\ast}$ and the initialization upper bound $h_{0} \leqslant {2/\kappa}$, see (4.2). The final step is by definition of $i = {\log_{2}n}$ and the initialization lower bound $h_{0} \geqslant {1/\kappa}$, see (4.2). This completes the proof since by (4.1),
-
-Saturation regime. Next, suppose $n > n^{\ast}$. By $n/n^{\ast}$ applications of Corollary 4.4. ‣ 4.2 Rigorous derivation ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") and then using the bound on $\tau_{n^{\ast}}$ proved in the acceleration regime, we have
-
-The proof is complete by using the definition of $n^{\ast}$ and $i^{\ast}$ to bound ${(n^{\ast})}^{\log_{2}\rho} = \rho^{i^{\ast}} \geqslant \frac{\kappa}{3\rho}$. ∎
+Acceleration regime. Suppose $n \leqslant n^{\ast}$. Let $i:={\log_{2}n} \leqslant i^{\ast}$. We bound Above, the first step is by $i$ applications of the lower bound in Lemma 4.2. ‣ 4.2 Rigorous derivation ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). The second step is because $h_{t} \leqslant {\rho^{t}h_{0}}$ by $t$ applications of the upper bound in Lemma 4.2. ‣ 4.2 Rigorous derivation ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). The third step is by summing the geometric series, crudely dropping a positive term, and simplifying ${\nu/{({\rho\sqrt{2}})}} = {3/4}$. The fourth step is because ${\rho^{i}h_{0}} \leqslant {\rho^{i^{\ast}}h_{0}} \leqslant {2/3}$ by definition of $i^{\ast}$ and the initialization upper bound $h_{0} \leqslant {2/\kappa}$, see (4.2). The final step is by definition of $i = {\log_{2}n}$ and the initialization lower bound $h_{0} \geqslant {1/\kappa}$, see (4.2). This completes the proof since by (4.1), Saturation regime. Next, suppose $n > n^{\ast}$. By $n/n^{\ast}$ applications of Corollary 4.4. ‣ 4.2 Rigorous derivation ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") and then using the bound on $\tau_{n^{\ast}}$ proved in the acceleration regime, we have The proof is complete by using the definition of $n^{\ast}$ and $i^{\ast}$ to bound ${(n^{\ast})}^{\log_{2}\rho} = \rho^{i^{\ast}} \geqslant \frac{\kappa}{3\rho}$. ∎
 
 ## Certificate of the Silver Convergence Rate
 
 Here we prove that the Silver Stepsize Schedule has convergence rate $\tau_{n}$. This is where we establish multi-step descent. For a conceptual overview, we refer the reader to §2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") for the case of $n = 2$; the proof for general $n$ here mirrors that key case, albeit is more technically involved.
 
-Recall from the discussion there that the proof strategy amounts to finding a *certificate* $\{\lambda_{ij}\}$ for the rate $\tau_{n}$, by which we mean non-negative multipliers ${\{\lambda_{ij}\}}_{{i,j} \in {\{ 0,\ldots,{n - 1}, \ast \}}}$ such that
-
-See §2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") for a definition of the co-coercivities $Q_{ij}$. Briefly, these are valid inequalities that generate all possible long-range consistency conditions between the gradients seen along GD's trajectory.
+Recall from the discussion there that the proof strategy amounts to finding a *certificate* $\{\lambda_{ij}\}$ for the rate $\tau_{n}$, by which we mean non-negative multipliers ${\{\lambda_{ij}\}}_{{i,j} \in {\{ 0,\ldots,{n - 1}, \ast \}}}$ such that See §2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") for a definition of the co-coercivities $Q_{ij}$. Briefly, these are valid inequalities that generate all possible long-range consistency conditions between the gradients seen along GD's trajectory.
 
 Figure 7: Components of the recursively glued certificate in Theorem 5.2, illustrated here for combining two copies of the n = 4 certificate (shaded) to create the 2 n = 8 certificate.
 
@@ -465,15 +342,7 @@ A collection of weights ${\{\lambda_{i,j}\}}_{{i,j} \in {\{ 0,\ldots,{n - 1}, \a
 
 ### Theorem 5.2 (Recursive gluing for the Silver Stepsize Schedule)
 
-Let $\kappa \in {{} \cup {(2,\infty)}}$. Suppose ${\{\sigma_{ij}\}}_{{i,j} \in {\{ 0,\ldots,{n - 1}, \ast \}}}$ satisfies $\ast$-sparsity and certifies the $n$-step rate, i.e.,
-
-Then there exists ${\{\lambda_{ij}\}}_{{i,j} \in {\{ 0,\ldots,{{2n} - 1}, \ast \}}}$ that satisfies $\ast$-sparsity and certifies the $2n$-step rate, i.e.,
-
-Moreover, this certificate is explicitly given by
-
-where the "gluing component" $\Theta$ is defined as
-
-the "rank-one correction" $\Xi$ is zero except ${\{\Xi_{ij}\}}_{{i \in {\{{n - 1},{{2n} - 1}, \ast \}}},{j \in {\{ n,\ldots,{{2n} - 2}\}}}}$, and the "sparse correction" $\Delta$ is zero except ${\{\Delta_{ij}\}}_{i \neq j \in {\{{n - 1},{{2n} - 1}, \ast \}}}$. The explicit values of $c$, $\Xi$, $\Delta$ are provided in Appendix B.
+Let $\kappa \in {{} \cup {(2,\infty)}}$. Suppose ${\{\sigma_{ij}\}}_{{i,j} \in {\{ 0,\ldots,{n - 1}, \ast \}}}$ satisfies $\ast$-sparsity and certifies the $n$-step rate, i.e., Then there exists ${\{\lambda_{ij}\}}_{{i,j} \in {\{ 0,\ldots,{{2n} - 1}, \ast \}}}$ that satisfies $\ast$-sparsity and certifies the $2n$-step rate, i.e., Moreover, this certificate is explicitly given by where the "gluing component" $\Theta$ is defined as the "rank-one correction" $\Xi$ is zero except ${\{\Xi_{ij}\}}_{{i \in {\{{n - 1},{{2n} - 1}, \ast \}}},{j \in {\{ n,\ldots,{{2n} - 2}\}}}}$, and the "sparse correction" $\Delta$ is zero except ${\{\Delta_{ij}\}}_{i \neq j \in {\{{n - 1},{{2n} - 1}, \ast \}}}$. The explicit values of $c$, $\Xi$, $\Delta$ are provided in Appendix B.
 
 While the explicit values of $\Xi$ and $\Delta$ are somewhat involved, the key point is that they can be expressed as rational functions in just $z_{n},y_{2n},z_{2n}$, see Remark B.1. ‣ Appendix B Deferred details for §5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). Importantly, since $y_{2n},z_{2n}$ are explicit algebraic functions of $z_{n}$ by construction (see §3.1), this turns verifying the claimed identity (5.3. ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) into a straightforward (albeit tedious) algebraic exercise that is rigorously automatable via standard computer algebra techniques.
 
@@ -483,9 +352,7 @@ Theorem 5.2. ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration b
 
 ### Proof of convergence rate in Theorem 1.1
 
-The base case of $n = 1$ is the classical analysis of GD; see, e.g., \[5, Chapter 8\] for a proof in this language of co-coercivities.^1010^10One can also use Theorem 2.2. ‣ 2.2.1 Silver Stepsize Schedule for 𝑛=2 ‣ 2.2 Optimal stepsizes for convex optimization ‣ 2 Conceptual overview: two-step case (𝑛=2) ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") to take $n = 2$ as the base case. Then this paper's proof is fully self-contained. The convergence rate is the textbook unaccelerated rate $\tau_{1} = {(\frac{\kappa - 1}{\kappa + 1})}^{2}$. By induction, Theorem 2.2. ‣ 2.2.1 Silver Stepsize Schedule for 𝑛=2 ‣ 2.2 Optimal stepsizes for convex optimization ‣ 2 Conceptual overview: two-step case (𝑛=2) ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") implies that $\tau_{n}$ is a valid convergence rate for the $n$-step Silver Stepsize Schedule, for all $n$ that are powers of $2$. ∎
-
-Below, in §5.1, we express the components of the recursively glued certificate as succinct quadratic forms, and then in §5.2, we use this to prove Theorem 5.2. ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule").
+The base case of $n = 1$ is the classical analysis of GD; see, e.g., \[5, Chapter 8\] for a proof in this language of co-coercivities.^1010^10One can also use Theorem 2.2. ‣ 2.2.1 Silver Stepsize Schedule for 𝑛=2 ‣ 2.2 Optimal stepsizes for convex optimization ‣ 2 Conceptual overview: two-step case (𝑛=2) ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") to take $n = 2$ as the base case. Then this paper's proof is fully self-contained. The convergence rate is the textbook unaccelerated rate $\tau_{1} = {(\frac{\kappa - 1}{\kappa + 1})}^{2}$. By induction, Theorem 2.2. ‣ 2.2.1 Silver Stepsize Schedule for 𝑛=2 ‣ 2.2 Optimal stepsizes for convex optimization ‣ 2 Conceptual overview: two-step case (𝑛=2) ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") implies that $\tau_{n}$ is a valid convergence rate for the $n$-step Silver Stepsize Schedule, for all $n$ that are powers of $2$. ∎ Below, in §5.1, we express the components of the recursively glued certificate as succinct quadratic forms, and then in §5.2, we use this to prove Theorem 5.2. ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule").
 
 ### Recursive gluing
 
@@ -497,21 +364,11 @@ This observation is formalized in the following lemma, which expresses the quadr
 
 Consider the setup of Theorem 5.2. ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), let $v:={\lbrack x_{n - 1},g_{n - 1},x_{{2n} - 1},g_{{2n} - 1}\rbrack}^{T}$, and let $E$, $S$, $L$ be the $4 \times 4$ matrices defined in Appendix B.4.
 
-Gluing error: ${{\tau_{2n}{\| x_{0}\|}^{2}} - {\| x_{2n}\|}^{2} - {\sum_{{i,j} \in {\{ 0,\ldots,{{2n} - 1}, \ast \}}}{\Theta_{ij}P_{ij}}}} = {\langle E,{vv^{T}}\rangle}$
-
-Sparse correction: ${\sum_{ij}{\Delta_{ij}P_{ij}}} = {\langle S,{vv^{T}}\rangle}$
-
-Rank-one correction: ${\sum_{ij}{\Xi_{ij}P_{ij}}} = {\langle L,{vv^{T}}\rangle}$
-
-For brevity, we defer the proof of the sparse and low-rank corrections to Appendix. However, we provide the proof of the gluing error here to provide intuition for why these quadratic forms have constant rank rather than the a priori upper bound of $\Theta{(n)}$. In particular, the proof shows how the low rank arises from the recursive construction of the Silver Stepsize Schedule that creates $h^{({2n})}$ from $h^{(n)}$, modulo only changing the $n$-th and $2n$-th stepsizes (each increases the rank by $2$).
+Gluing error: ${{\tau_{2n}{\| x_{0}\|}^{2}} - {\| x_{2n}\|}^{2} - {\sum_{{i,j} \in {\{ 0,\ldots,{{2n} - 1}, \ast \}}}{\Theta_{ij}P_{ij}}}} = {\langle E,{vv^{T}}\rangle}$ Sparse correction: ${\sum_{ij}{\Delta_{ij}P_{ij}}} = {\langle S,{vv^{T}}\rangle}$ Rank-one correction: ${\sum_{ij}{\Xi_{ij}P_{ij}}} = {\langle L,{vv^{T}}\rangle}$ For brevity, we defer the proof of the sparse and low-rank corrections to Appendix. However, we provide the proof of the gluing error here to provide intuition for why these quadratic forms have constant rank rather than the a priori upper bound of $\Theta{(n)}$. In particular, the proof shows how the low rank arises from the recursive construction of the Silver Stepsize Schedule that creates $h^{({2n})}$ from $h^{(n)}$, modulo only changing the $n$-th and $2n$-th stepsizes (each increases the rank by $2$).
 
 ### Proof of gluing error for Lemma 5.3. ‣ 5.1 Recursive gluing ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")
 
-Denote by ${\overset{\sim}{x}}_{n}:={x_{n - 1} - {b_{n}g_{n - 1}}}$ and ${\overset{\sim}{x}}_{2n}:={x_{{2n} - 1} - {b_{n}g_{{2n} - 1}}}$ the iterates obtained by running GD with the Silver Stepsize Schedule $h^{(n)}$ from initializations $x_{0}$ and $x_{n}$, respectively. By definition of $\sigma$ as a certificate for the $n$-step rate,
-
-Thus the desired quantity is equal to
-
-Now by definition of GD, $x_{n} = {x_{n - 1} - {a_{2n}g_{n - 1}}}$, $x_{2n} = {x_{{2n} - 1} - {b_{2n}g_{{2n} - 1}}}$, ${\overset{\sim}{x}}_{n} = {x_{n - 1} - {b_{n}g_{n - 1}}}$, and ${\overset{\sim}{x}}_{2n} = {x_{{2n} - 1} - {b_{n}g_{{2n} - 1}}}$. By plugging this into the above display and expanding the square, we see that the discrepancy between the ${\|{\overset{\sim}{x}}_{n}\|}^{2}$ and ${\| x_{n}\|}^{2}$ terms creates a quadratic form in just $x_{n - 1},g_{n - 1}$, and similarly the discrepancy between the ${\|{\overset{\sim}{x}}_{2n}\|}^{2}$ and ${\| x_{2n}\|}^{2}$ terms creates a quadratic form in just $x_{{2n} - 1},g_{{2n} - 1}$. Tracking coefficients completes the proof. ∎
+Denote by ${\overset{\sim}{x}}_{n}:={x_{n - 1} - {b_{n}g_{n - 1}}}$ and ${\overset{\sim}{x}}_{2n}:={x_{{2n} - 1} - {b_{n}g_{{2n} - 1}}}$ the iterates obtained by running GD with the Silver Stepsize Schedule $h^{(n)}$ from initializations $x_{0}$ and $x_{n}$, respectively. By definition of $\sigma$ as a certificate for the $n$-step rate, Thus the desired quantity is equal to Now by definition of GD, $x_{n} = {x_{n - 1} - {a_{2n}g_{n - 1}}}$, $x_{2n} = {x_{{2n} - 1} - {b_{2n}g_{{2n} - 1}}}$, ${\overset{\sim}{x}}_{n} = {x_{n - 1} - {b_{n}g_{n - 1}}}$, and ${\overset{\sim}{x}}_{2n} = {x_{{2n} - 1} - {b_{n}g_{{2n} - 1}}}$. By plugging this into the above display and expanding the square, we see that the discrepancy between the ${\|{\overset{\sim}{x}}_{n}\|}^{2}$ and ${\| x_{n}\|}^{2}$ terms creates a quadratic form in just $x_{n - 1},g_{n - 1}$, and similarly the discrepancy between the ${\|{\overset{\sim}{x}}_{2n}\|}^{2}$ and ${\| x_{2n}\|}^{2}$ terms creates a quadratic form in just $x_{{2n} - 1},g_{{2n} - 1}$. Tracking coefficients completes the proof. ∎
 
 ### Certificate verification
 
@@ -521,19 +378,11 @@ The non-negativity and $\ast$-sparsity properties of $\lambda$ are direct from t
 
 ### Quadratic form in iterates and gradients
 
-By Lemma 5.3. ‣ 5.1 Recursive gluing ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), it suffices to show that
-
-where $E,S,L$ are the matrices defined in Appendix B.4. This amounts to checking the $10$ entries on or above the diagonal of these $4 \times 4$ matrices---elements below the diagonal need not be checked as the matrices are symmetric. By Lemma B.3. ‣ Appendix B Deferred details for §5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), these entries can be expressed as rational functions in $z_{n},y_{2n},z_{2n}$, which are polynomially related via (3.1). Therefore, checking that these $10$ entries vanish amounts to checking that certain polynomials vanish modulo an associated ideal. This verification is rigorously automatable using standard techniques from computational algebraic geometry such as Gröbner bases; see e.g.. A simple script for Mathematica (or other computer algebra systems) that verifies these identities is available at the URL given in the references. We emphasize that this is purely in the interest of brevity: verifying these identities can be done by hand, as it just amounts to straightforward (albeit tedious) algebraic cancellations.
+By Lemma 5.3. ‣ 5.1 Recursive gluing ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), it suffices to show that where $E,S,L$ are the matrices defined in Appendix B.4. This amounts to checking the $10$ entries on or above the diagonal of these $4 \times 4$ matrices---elements below the diagonal need not be checked as the matrices are symmetric. By Lemma B.3. ‣ Appendix B Deferred details for §5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), these entries can be expressed as rational functions in $z_{n},y_{2n},z_{2n}$, which are polynomially related via (3.1). Therefore, checking that these $10$ entries vanish amounts to checking that certain polynomials vanish modulo an associated ideal. This verification is rigorously automatable using standard techniques from computational algebraic geometry such as Gröbner bases; see e.g.. A simple script for Mathematica (or other computer algebra systems) that verifies these identities is available at the URL given in the references. We emphasize that this is purely in the interest of brevity: verifying these identities can be done by hand, as it just amounts to straightforward (albeit tedious) algebraic cancellations.
 
 ### Linear form in function values
 
-Recall that each $Q_{ij}$ contributes $2{({M - m})}{({f_{i} - f_{j}})}$. Thus, in order to show that all function values vanish in $\sum_{ij}{\lambda_{ij}Q_{ij}}$, it is equivalent to show that
-
-That is, the $j$-th row and column sums of $\lambda$ must match, for all $j$. We call refer to these identities as *netflow constraints*. Since $\sigma$ is a valid certificate, it satisfies the netflow constraints ${\sum_{j}\sigma_{ij}} = {\sum_{j}\sigma_{ji}}$ for all $j \in {\{ 0,\ldots,{n - 1}, \ast \}}$. Thus, by construction of $\Theta$ from $\sigma$, it follows that $\Theta$ satisfies the netflow constraints ${\sum_{j}\Theta_{ij}} = {\sum_{j}\Theta_{ji}}$ for all $i \in {\{ 0,\ldots,{{2n} - 1}, \ast \}}$. Therefore, in order to prove (5.7), it is equivalent to prove the netflow constraints for $\Xi + \Delta$; that is,
-
-The cases $i \in {\{ 0,\ldots,{n - 2}\}}$ are trivial since on these rows and columns, $\Xi$ and $\Delta$ are identically zero. The cases $i \in {\{ n,\ldots,{{2n} - 2}\}}$ are similarly trivial because on these rows and columns, $\Delta$ is identically zero and ${\sum_{j}{({\Xi_{ji} - \Xi_{ij}})}} = {\Xi_{{n - 1},i} + \Xi_{{{2n} - 1},i} + \Xi_{\ast,i}} = 0$ by construction of $\Xi$. It remains only to prove (5.8) for $i \in {\{{n - 1},{{2n} - 1}, \ast \}}$. By the sparsity patterns of $\Xi$ and $\Delta$, this amounts to showing
-
-By Lemma B.3. ‣ Appendix B Deferred details for §5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), these quantities can be expressed as rational functions in $z_{n},y_{2n},z_{2n}$, which are polynomially related via (3.1). Therefore, checking that the three quantities vanish in (5.9) amounts to checking that three polynomials vanish modulo an ideal. As mentioned above, this verification is rigorously automatable using standard computational algebra techniques; see the same URL for a simple script implementing this computation.
+Recall that each $Q_{ij}$ contributes $2{({M - m})}{({f_{i} - f_{j}})}$. Thus, in order to show that all function values vanish in $\sum_{ij}{\lambda_{ij}Q_{ij}}$, it is equivalent to show that That is, the $j$-th row and column sums of $\lambda$ must match, for all $j$. We call refer to these identities as *netflow constraints*. Since $\sigma$ is a valid certificate, it satisfies the netflow constraints ${\sum_{j}\sigma_{ij}} = {\sum_{j}\sigma_{ji}}$ for all $j \in {\{ 0,\ldots,{n - 1}, \ast \}}$. Thus, by construction of $\Theta$ from $\sigma$, it follows that $\Theta$ satisfies the netflow constraints ${\sum_{j}\Theta_{ij}} = {\sum_{j}\Theta_{ji}}$ for all $i \in {\{ 0,\ldots,{{2n} - 1}, \ast \}}$. Therefore, in order to prove (5.7), it is equivalent to prove the netflow constraints for $\Xi + \Delta$; that is, The cases $i \in {\{ 0,\ldots,{n - 2}\}}$ are trivial since on these rows and columns, $\Xi$ and $\Delta$ are identically zero. The cases $i \in {\{ n,\ldots,{{2n} - 2}\}}$ are similarly trivial because on these rows and columns, $\Delta$ is identically zero and ${\sum_{j}{({\Xi_{ji} - \Xi_{ij}})}} = {\Xi_{{n - 1},i} + \Xi_{{{2n} - 1},i} + \Xi_{\ast,i}} = 0$ by construction of $\Xi$. It remains only to prove (5.8) for $i \in {\{{n - 1},{{2n} - 1}, \ast \}}$. By the sparsity patterns of $\Xi$ and $\Delta$, this amounts to showing By Lemma B.3. ‣ Appendix B Deferred details for §5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), these quantities can be expressed as rational functions in $z_{n},y_{2n},z_{2n}$, which are polynomially related via (3.1). Therefore, checking that the three quantities vanish in (5.9) amounts to checking that three polynomials vanish modulo an ideal. As mentioned above, this verification is rigorously automatable using standard computational algebra techniques; see the same URL for a simple script implementing this computation.
 
 ## Future work
 

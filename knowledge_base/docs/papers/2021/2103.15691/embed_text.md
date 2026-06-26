@@ -20,7 +20,7 @@ Concurrently, in natural language processing (NLP), Vaswani *et al*. achieved st
 
 Although previous works attempted to replace convolutions in vision architectures, it is only very recently that Dosovitisky *et al*. showed with their ViT architecture that pure-transformer networks, similar to those employed in NLP, can achieve state-of-the-art results for image classification too. The authors showed that such models are only effective at large scale, as transformers lack some of inductive biases of convolutional networks (such as translational equivariance), and thus require datasets larger than the common ImageNet ILSRVC dataset to train. ViT has inspired a large amount of follow-up work in the community, and we note that there are a number of concurrent approaches on extending it to other tasks in computer vision and improving its data-efficiency. In particular, have also proposed transformer-based models for video.
 
-In this paper, we develop pure-transformer architectures for video classification. We propose several variants of our model, including those that are more efficient by factorising the spatial and temporal dimensions of the input video. We also show how additional regularisation and pretrained models can be used to combat the fact that video datasets are not as large as their image counterparts that ViT was originally trained on. Furthermore, we outperform the state-of-the-art across five popular datasets.
+In this paper, we develop pure-transformer architectures for video classification. We propose several variants of our model, including those that are more efficient by factorising the spatial and temporal dimensions of the input video. We also show how additional regularisation and pretrained models can be used to combat the fact that video datasets are not as large as their image counterparts that ViT was originally trained . Furthermore, we outperform the state-of-the-art across five popular datasets.
 
 ## Video Vision Transformers
 
@@ -28,11 +28,7 @@ We start by summarising the recently proposed Vision Transformer in Sec. 3.1 ‣
 
 ### Overview of Vision Transformers (ViT)
 
-Vision Transformer (ViT) adapts the transformer architecture of to process 2D images with minimal changes. In particular, ViT extracts $N$ non-overlapping image patches, $x_{i} \in {\mathbb{R}}^{h \times w}$, performs a linear projection and then rasterises them into 1D tokens $z_{i} \in {\mathbb{R}}^{d}$. The sequence of tokens input to the following transformer encoder is
-
-where the projection by $\mathbf{E}$ is equivalent to a 2D convolution. As shown in Fig. 1, an optional learned classification token $z_{cls}$ is prepended to this sequence, and its representation at the final layer of the encoder serves as the final representation used by the classification layer. In addition, a learned positional embedding, $\mathbf{p} \in {\mathbb{R}}^{N \times d}$, is added to the tokens to retain positional information, as the subsequent self-attention operations in the transformer are permutation invariant. The tokens are then passed through an encoder consisting of a sequence of $L$ transformer layers. Each layer $\ell$ comprises of Multi-Headed Self-Attention, layer normalisation (LN), and MLP blocks as follows:
-
-The MLP consists of two linear projections separated by a GELU non-linearity and the token-dimensionality, $d$, remains fixed throughout all layers. Finally, a linear classifier is used to classify the encoded input based on $z_{cls}^{L} \in {\mathbb{R}}^{d}$, if it was prepended to the input, or a global average pooling of all the tokens, $\mathbf{z}^{L}$, otherwise.
+Vision Transformer (ViT) adapts the transformer architecture of to process 2D images with minimal changes. In particular, ViT extracts $N$ non-overlapping image patches, $x_{i} \in {\mathbb{R}}^{h \times w}$, performs a linear projection and then rasterises them into 1D tokens $z_{i} \in {\mathbb{R}}^{d}$. The sequence of tokens input to the following transformer encoder is where the projection by $\mathbf{E}$ is equivalent to a 2D convolution. As shown in Fig. 1, an optional learned classification token $z_{cls}$ is prepended to this sequence, and its representation at the final layer of the encoder serves as the final representation used by the classification layer. In addition, a learned positional embedding, $\mathbf{p} \in {\mathbb{R}}^{N \times d}$, is added to the tokens to retain positional information, as the subsequent self-attention operations in the transformer are permutation invariant. The tokens are then passed through an encoder consisting of a sequence of $L$ transformer layers. Each layer $\ell$ comprises of Multi-Headed Self-Attention, layer normalisation (LN), and MLP blocks as follows: The MLP consists of two linear projections separated by a GELU non-linearity and the token-dimensionality, $d$, remains fixed throughout all layers. Finally, a linear classifier is used to classify the encoded input based on $z_{cls}^{L} \in {\mathbb{R}}^{d}$, if it was prepended to the input, or a global average pooling of all the tokens, $\mathbf{z}^{L}$, otherwise.
 
 As the transformer, which forms the basis of ViT, is a flexible architecture that can operate on any sequence of input tokens $\mathbf{z} \in {\mathbb{R}}^{N \times d}$, we describe strategies for tokenising videos next.
 
@@ -42,7 +38,7 @@ We consider two simple methods for mapping a video $\mathbf{V} \in {\mathbb{R}}^
 
 ### Uniform frame sampling
 
-As illustrated in Fig. 2, a straightforward method of tokenising the input video is to uniformly sample $n_{t}$ frames from the input video clip, embed each 2D frame independently using the same method as ViT, and concatenate all these tokens together. Concretely, if $n_{h} \cdot n_{w}$ non-overlapping image patches are extracted from each frame, as in, then a total of $n_{t} \cdot n_{h} \cdot n_{w}$ tokens will be forwarded through the transformer encoder. Intuitively, this process may be seen as simply constructing a large 2D image to be tokenised following ViT. We note that this is the input embedding method employed by the concurrent work of.
+As illustrated in Fig. 2, a straightforward method of tokenising the input video is to uniformly sample $n_{t}$ frames from the input video clip, embed each 2D frame independently using the same method as ViT, and concatenate all these tokens together. Concretely, if $n_{h} \cdot n_{w}$ non-overlapping image patches are extracted from each frame, as , then a total of $n_{t} \cdot n_{h} \cdot n_{w}$ tokens will be forwarded through the transformer encoder. Intuitively, this process may be seen as simply constructing a large 2D image to be tokenised following ViT. We note that this is the input embedding method employed by the concurrent work of.
 
 ### Tubelet embedding
 
@@ -72,19 +68,15 @@ This architecture corresponds to a "late fusion" of temporal information, and th
 
 Figure 5: Factorised self-attention (Model 3). Within each transformer block, the multi-headed self-attention operation is factorised into two operations (indicated by striped boxes) that first only compute self-attention spatially, and then temporally.
 
-This model, in contrast, contains the same number of transformer layers as Model 1. However, instead of computing multi-headed self-attention across all pairs of tokens, $\mathbf{z}^{\ell}$, at layer $l$, we factorise the operation to first only compute self-attention spatially (among all tokens extracted from the same temporal index), and then temporally (among all tokens extracted from the same spatial index) as shown in Fig. 5. Each self-attention block in the transformer thus models spatio-temporal interactions, but does so more efficiently than Model 1 by factorising the operation over two smaller sets of elements, thus achieving the same computational complexity as Model 2. We note that factorising attention over input dimensions has also been explored in, and concurrently in the context of video by in their "Divided Space-Time" model.
+This model, in contrast, contains the same number of transformer layers as Model 1. However, instead of computing multi-headed self-attention across all pairs of tokens, $\mathbf{z}^{\ell}$, at layer $l$, we factorise the operation to first only compute self-attention spatially (among all tokens extracted from the same temporal index), and then temporally (among all tokens extracted from the same spatial index) as shown in Fig. 5. Each self-attention block in the transformer thus models spatio-temporal interactions, but does so more efficiently than Model 1 by factorising the operation over two smaller sets of elements, thus achieving the same computational complexity as Model 2. We note that factorising attention over input dimensions has also been explored , and concurrently in the context of video by in their "Divided Space-Time" model.
 
-This operation can be performed efficiently by reshaping the tokens $\mathbf{z}$ from ${\mathbb{R}}^{{1 \times n_{t}} \cdot n_{h} \cdot n_{w} \cdot d}$ to ${\mathbb{R}}^{{n_{t} \times n_{h}} \cdot n_{w} \cdot d}$ (denoted by $\mathbf{z}_{s}$) to compute spatial self-attention. Similarly, the input to temporal self-attention, $\mathbf{z}_{t}$ is reshaped to ${\mathbb{R}}^{{{n_{h} \cdot n_{w}} \times n_{t}} \cdot d}$. Here we assume the leading dimension is the "batch dimension". Our factorised self-attention is defined as
-
-We observed that the order of spatial-then-temporal self-attention or temporal-then-spatial self-attention does not make a difference, provided that the model parameters are initialised as described in Sec. 3.4. Note that the number of parameters, however, increases compared to Model 1, as there is an additional self-attention layer (cf. Eq. 7). We do not use a classification token in this model, to avoid ambiguities when reshaping the input tokens between spatial and temporal dimensions.
+This operation can be performed efficiently by reshaping the tokens $\mathbf{z}$ from ${\mathbb{R}}^{{1 \times n_{t}} \cdot n_{h} \cdot n_{w} \cdot d}$ to ${\mathbb{R}}^{{n_{t} \times n_{h}} \cdot n_{w} \cdot d}$ (denoted by $\mathbf{z}_{s}$) to compute spatial self-attention. Similarly, the input to temporal self-attention, $\mathbf{z}_{t}$ is reshaped to ${\mathbb{R}}^{{{n_{h} \cdot n_{w}} \times n_{t}} \cdot d}$. Here we assume the leading dimension is the "batch dimension". Our factorised self-attention is defined as We observed that the order of spatial-then-temporal self-attention or temporal-then-spatial self-attention does not make a difference, provided that the model parameters are initialised as described in Sec. 3.4. Note that the number of parameters, however, increases compared to Model 1, as there is an additional self-attention layer (cf. Eq. 7). We do not use a classification token in this model, to avoid ambiguities when reshaping the input tokens between spatial and temporal dimensions.
 
 ### Model 4: Factorised dot-product attention
 
 Figure 6: Factorised dot-product attention (Model 4). For half of the heads, we compute dot-product attention over only the spatial axes, and for the other half, over only the temporal axis.
 
-Finally, we develop a model which has the same computational complexity as Models 2 and 3, while retaining the same number of parameters as the unfactorised Model 1. The factorisation of spatial- and temporal dimensions is similar in spirit to Model 3, but we factorise the multi-head dot-product attention operation instead (Fig. 6). Concretely, we compute attention weights for each token separately over the spatial- and temporal-dimensions using different heads. First, we note that the attention operation for each head is defined as
-
-In self-attention, the queries $\mathbf{Q} = {\mathbf{X}\mathbf{W}}_{q}$, keys $\mathbf{K} = {\mathbf{X}\mathbf{W}}_{k}$, and values $\mathbf{V} = {\mathbf{X}\mathbf{W}}_{v}$ are linear projections of the input $\mathbf{X}$ with ${\mathbf{X},\mathbf{Q},\mathbf{K},\mathbf{V}} \in {\mathbb{R}}^{N \times d}$. Note that in the unfactorised case (Model 1), the spatial and temporal dimensions are merged as $N = {n_{t} \cdot n_{h} \cdot n_{w}}$.
+Finally, we develop a model which has the same computational complexity as Models 2 and 3, while retaining the same number of parameters as the unfactorised Model 1. The factorisation of spatial- and temporal dimensions is similar in spirit to Model 3, but we factorise the multi-head dot-product attention operation instead (Fig. 6). Concretely, we compute attention weights for each token separately over the spatial- and temporal-dimensions using different heads. First, we note that the attention operation for each head is defined as In self-attention, the queries $\mathbf{Q} = {\mathbf{X}\mathbf{W}}_{q}$, keys $\mathbf{K} = {\mathbf{X}\mathbf{W}}_{k}$, and values $\mathbf{V} = {\mathbf{X}\mathbf{W}}_{v}$ are linear projections of the input $\mathbf{X}$ with ${\mathbf{X},\mathbf{Q},\mathbf{K},\mathbf{V}} \in {\mathbb{R}}^{N \times d}$. Note that in the unfactorised case (Model 1), the spatial and temporal dimensions are merged as $N = {n_{t} \cdot n_{h} \cdot n_{w}}$.
 
 The main idea here is to modify the keys and values for each query to only attend over tokens from the same spatial- and temporal index by constructing ${\mathbf{K}_{s},\mathbf{V}_{s}} \in {\mathbb{R}}^{{n_{h} \cdot n_{w}} \times d}$ and ${\mathbf{K}_{t},\mathbf{V}_{t}} \in {\mathbb{R}}^{n_{t} \times d}$, namely the keys and values corresponding to these dimensions. Then, for half of the attention heads, we attend over tokens from the spatial dimension by computing $\mathbf{Y}_{s} = {{Attention}{(\mathbf{Q},\mathbf{K}_{s},\mathbf{V}_{s})}}$, and for the rest we attend over the temporal dimension by computing $\mathbf{Y}_{t} = {{Attention}{(\mathbf{Q},\mathbf{K}_{t},\mathbf{V}_{t})}}$. Given that we are only changing the attention neighbourhood for each query, the attention operation has the same dimension as in the unfactorised case, namely ${\mathbf{Y}_{s},\mathbf{Y}_{t}} \in {\mathbb{R}}^{N \times d}$. We then combine the outputs of multiple heads by concatenating them and using a linear projection, $\mathbf{Y} = {{{Concat}{(\mathbf{Y}_{s},\mathbf{Y}_{t})}}\mathbf{W}_{O}}$.
 
@@ -98,11 +90,7 @@ A positional embedding $\mathbf{p}$ is added to each input token (Eq. 1 ‣ 3 Vi
 
 ### Embedding weights, $\mathbf{E}$
 
-When using the "tubelet embedding" tokenisation method (Sec. 3.2), the embedding filter $\mathbf{E}$ is a 3D tensor, compared to the 2D tensor in the pretrained model, $\mathbf{E}_{\text{image}}$. A common approach for initialising 3D convolutional filters from 2D filters for video classification is to "inflate" them by replicating the filters along the temporal dimension and averaging them as
-
-We consider an additional strategy, which we denote as "central frame initialisation", where $\mathbf{E}$ is initialised with zeroes along all temporal positions, except at the centre $\lfloor\frac{t}{2}\rfloor$,
-
-Therefore, the 3D convolutional filter effectively behaves like "Uniform frame sampling" (Sec. 3.2) at initialisation, while also enabling the model to learn to aggregate temporal information from multiple frames as training progresses.
+When using the "tubelet embedding" tokenisation method (Sec. 3.2), the embedding filter $\mathbf{E}$ is a 3D tensor, compared to the 2D tensor in the pretrained model, $\mathbf{E}_{\text{image}}$. A common approach for initialising 3D convolutional filters from 2D filters for video classification is to "inflate" them by replicating the filters along the temporal dimension and averaging them as We consider an additional strategy, which we denote as "central frame initialisation", where $\mathbf{E}$ is initialised with zeroes along all temporal positions, except at the centre $\lfloor\frac{t}{2}\rfloor$, Therefore, the 3D convolutional filter effectively behaves like "Uniform frame sampling" (Sec. 3.2) at initialisation, while also enabling the model to learn to aggregate temporal information from multiple frames as training progresses.
 
 ### Transformer weights for Model 3
 
@@ -122,9 +110,7 @@ We train our models using synchronous SGD and momentum, a cosine learning rate s
 
 ### Datasets
 
-We evaluate the performance of our proposed models on a diverse set of video classification datasets:
-
-*Kinetics* consists of 10-second videos sampled at 25fps from YouTube. We evaluate on both Kinetics 400 and 600, containing 400 and 600 classes respectively. As these are dynamic datasets (videos may be removed from YouTube), we note our dataset sizes are approximately 267 000 and 446 000 respectively.
+We evaluate the performance of our proposed models on a diverse set of video classification datasets: *Kinetics* consists of 10-second videos sampled at 25fps from YouTube. We evaluate on both Kinetics 400 and 600, containing 400 and 600 classes respectively. As these are dynamic datasets (videos may be removed from YouTube), we note our dataset sizes are approximately 267 000 and 446 000 respectively.
 
 *Epic Kitchens-100* consists of egocentric videos capturing daily kitchen activities spanning 100 hours and 90 000 clips. We report results following the standard "action recognition" protocol. Here, each video is labelled with a "verb" and a "noun" and we therefore predict both categories using a single network with two "heads". The top-scoring verb and action pair predicted by the network form an "action", and action accuracy is the primary metric.
 
@@ -132,9 +118,7 @@ We evaluate the performance of our proposed models on a diverse set of video cla
 
 *Something-Something v2* (SSv2) contains 220 000 videos, with durations ranging from 2 to 6 seconds. In contrast to the other datasets, the objects and backgrounds in the videos are consistent across different action classes, and this dataset thus places more emphasis on a model's ability to recognise fine-grained motion cues.
 
-Uniform frame sampling
-
-Table 1: Comparison of input encoding methods using ViViT-B and spatio-temporal attention on Kinetics. Further details in text.
+Uniform frame sampling Table 1: Comparison of input encoding methods using ViViT-B and spatio-temporal attention on Kinetics. Further details in text.
 
 ### Inference
 
@@ -146,15 +130,7 @@ The input to our network is a video clip of 32 frames using a stride of 2, unles
 
 We first consider the effect of different input encoding methods (Sec. 3.2) using our unfactorised model (Model 1) and ViViT-B on Kinetics 400. As we pass 32-frame inputs to the network, sampling 8 frames and extracting tubelets of length $t = 4$ correspond to the same number of tokens in both cases. Table 1 shows that tubelet embedding initialised using the "central frame" method (Eq. 9) performs well, outperforming the commonly-used "filter inflation" initialisation method by 1.6%, and "uniform frame sampling" by 0.7%. We therefore use this encoding method for all subsequent experiments.
 
-Model 2: Fact. encoder
-
-Model 3: Fact. self-attention
-
-Model 4: Fact. dot product
-
-Model 2: Ave. pool baseline
-
-Table 2: Comparison of model architectures using ViViT-B as the backbone, and tubelet size of 16 × 2. We report Top-1 accuracy on Kinetics 400 (K400) and action accuracy on Epic Kitchens (EK). Runtime is during inference on a TPU-v3.
+Model 2: Fact. encoder Model 3: Fact. self-attention Model 4: Fact. dot product Model 2: Ave. pool baseline Table 2: Comparison of model architectures using ViViT-B as the backbone, and tubelet size of 16 × 2. We report Top-1 accuracy on Kinetics 400 (K400) and action accuracy on Epic Kitchens (EK). Runtime is during inference on a TPU-v3.
 
 Table 3: The effect of varying the number of temporal transformers, Lt, in the Factorised encoder model (Model 2). We report the Top-1 accuracy on Kinetics 400. Note that Lt = 0 corresponds to the “average pooling baseline”.
 
@@ -166,9 +142,7 @@ The unfactorised model (Model 1) performs the best on Kinetics 400. However, it 
 
 As described in Sec. 3.3, all factorised variants of our model use significantly fewer FLOPs than the unfactorised Model 1, as the attention is computed separately over spatial- and temporal-dimensions. Model 4 adds no additional parameters to the unfactorised Model 1, and uses the least compute. The temporal transformer encoder in Model 2 operates on only $n_{t}$ tokens, which is why there is a barely a change in compute and runtime over the average pooling baseline, even though it improves the accuracy substantially (3% on Kinetics and 4.9% on Epic Kitchens). Finally, Model 3 requires more compute and parameters than the other factorised models, as its additional self-attention block means that it performs another query-, key-, value- and output-projection in each transformer layer.
 
-Random crop, flip, colour jitter
-
-Table 4: The effect of progressively adding regularisation (each row includes all methods above it) on Top-1 action accuracy on Epic Kitchens. We use a Factorised encoder model with tubelet size 16 × 2.
+Random crop, flip, colour jitter Table 4: The effect of progressively adding regularisation (each row includes all methods above it) on Top-1 action accuracy on Epic Kitchens. We use a Factorised encoder model with tubelet size 16 × 2.
 
 Figure 7: The effect of the backbone architecture on (a) accuracy and (b) computation on Kinetics 400, for the spatio-temporal attention model (Model 1).
 
@@ -192,11 +166,7 @@ We first analyse the performance as a function of the number of tokens along the
 
 We then vary the number of tokens fed into the model by increasing the spatial crop-size from the default of 224 to 320 in Tab. 5. As expected, there is a consistent increase in both accuracy and computation. We note that when comparing to prior work we consistently obtain state-of-the-art results (Sec. 4.3) using a spatial resolution of 224, but we also highlight that further improvements can be obtained at higher spatial resolutions.
 
-Methods with large-scale pretraining
-
-(d) Epic Kitchens 100 Top 1 accuracy
-
-Table 6: Comparisons to state-of-the-art across multiple datasets. For “views”, x × y denotes x temporal crops and y spatial crops. We report the TFLOPs to process all spatio-temporal views. “FE” denotes our Factorised Encoder model.
+Methods with large-scale pretraining (d) Epic Kitchens 100 Top 1 accuracy Table 6: Comparisons to state-of-the-art across multiple datasets. For “views”, x × y denotes x temporal crops and y spatial crops. We report the TFLOPs to process all spatio-temporal views. “FE” denotes our Factorised Encoder model.
 
 Figure 9: The effect of varying the number of frames input to the network and increasing the number of tokens proportionally. We use ViViT-L/16x2 Factorised Encoder on Kinetics 400. A Kinetics video contains 250 frames (10 seconds sampled at 25 fps) and the accuracy for each model saturates once the number of equidistant temporal views is sufficient to “see” the whole video clip. Observe how models processing more frames (and thus more tokens) achieve higher single- and multi-view accuracy.
 

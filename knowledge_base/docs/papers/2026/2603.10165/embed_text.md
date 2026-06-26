@@ -40,29 +40,13 @@ Each API request is classified as either a *main-line turn* or a *side turn*. Ma
 
 ### Asynchronous Signal Extraction from Next States
 
-The core architectural principle of OpenClaw-RL is full decoupling: policy serving, environment hosting, reward judging, and policy training run as four completely independent asynchronous components with no blocking dependencies between them. The model serves the next user request while the PRM judges previous responses and the trainer applies gradient updates. Weight updates are pushed to the serving engine at well-defined boundaries, so live users always see a consistent policy and never wait for training. The message of each new main-line request contains the reaction to the previous turn, whether a user's reply or an environment's execution result. This becomes the next-state signal $s_{t + 1}$ for the previous turn. The PRM is hosted as a separate inference server and is responsible for automatic signal extraction: given an action $a_{t}$ and the next state $s_{t + 1}$, it produces both an evaluative score and, when applicable, a directive hint. Because PRM judging is decoupled from policy serving, signal extraction can use a stronger model and run multiple votes per sample without affecting user-facing latency. This decoupling is what makes continuous training from live, heterogeneous interaction streams practical: no stream needs to be paused or batched to accommodate another component's schedule.
+The core architectural principle of OpenClaw-RL is full decoupling: policy serving, environment hosting, reward judging, and policy training run as four completely independent asynchronous components with no blocking dependencies between them. The model serves the next user request while the PRM judges previous responses and the trainer applies gradient updates. Weight updates are pushed to the serving engine at well-defined boundaries, so live users always see a consistent policy and never wait for training. The message of each new main-line request contains the reaction to the previous turn, whether a user's reply or an environment's execution result. This becomes the next-state signal $s_{t+1}$ for the previous turn. The PRM is hosted as a separate inference server and is responsible for automatic signal extraction: given an action $a_{t}$ and the next state $s_{t+1}$, it produces both an evaluative score and, when applicable, a directive hint. Because PRM judging is decoupled from policy serving, signal extraction can use a stronger model and run multiple votes per sample without affecting user-facing latency. This decoupling is what makes continuous training from live, heterogeneous interaction streams practical: no stream needs to be paused or batched to accommodate another component's schedule.
 
 ### Scalability: From Personal Agents to Real-World Agent Deployment
 
 OpenClaw-RL is designed to operate across the full spectrum from single-user personal agents to large-scale multi-environment general agent deployment. For personal agents, the environment is a single user's device and the interaction stream is sparse, session-based, and highly personalized. Built on slime \[slime_github\], OpenClaw-RL inherits a scalable training infrastructure for general agents, and we further support cloud-hosted environments across diverse agent settings. Hundreds of parallel environments hosted on cloud services produce a dense stream of structured execution signals, enabling scalable RL training.
 
-Specifically, OpenClaw-RL supports a broad set of general-agent scenarios that cover the most common real-world deployment settings in our open-source implementation (Table 1). Terminal agents are a core component of computer-use systems: they are efficient, cheap to scale, and naturally aligned with the text-based interface of LLMs \[claudecode2026, codexcli2026, seta\]. GUI agents cover capabilities that terminal agents cannot access directly, such as visual interfaces and pointer-based interactions, making them necessary for more general computer-use tasks \[wang2025ui, qin2025ui, wang2025opencua, xue2026evocua\]. SWE agents represent a particularly important class of coding agents, where the environment provides rich executable feedback through tests, diffs, and static analysis \[cao2026qwen3\]. Tool-call agents are also critical, since external tools improve both reasoning capability and factual accuracy \[feng2025retool\].
-
-user response / tool-call results
-
-Shell execution sandbox
-stdout/stderr, exit code
-
-Screen state + accessibility tree
-Visual state diff, task progress
-
-Code repository + test suite
-Test verdicts, diff, lint output
-
-API/function execution
-Return values, error traces
-
-Table 1: Supported agent settings and their environment characteristics.
+Specifically, OpenClaw-RL supports a broad set of general-agent scenarios that cover the most common real-world deployment settings in our open-source implementation (Table 1). Terminal agents are a core component of computer-use systems: they are efficient, cheap to scale, and naturally aligned with the text-based interface of LLMs \[claudecode2026, codexcli2026, seta\]. GUI agents cover capabilities that terminal agents cannot access directly, such as visual interfaces and pointer-based interactions, making them necessary for more general computer-use tasks \[wang2025ui, qin2025ui, wang2025opencua, xue2026evocua\]. SWE agents represent a particularly important class of coding agents, where the environment provides rich executable feedback through tests, diffs, and static analysis \[cao2026qwen3\]. Tool-call agents are also critical, since external tools improve both reasoning capability and factual accuracy \[feng2025retool\]. user response / tool-call results Shell execution sandbox stdout/stderr, exit code Screen state + accessibility tree Visual state diff, task progress Code repository + test suite Test verdicts, diff, lint output API/function execution Return values, error traces Table 1: Supported agent settings and their environment characteristics.
 
 Figure 3: Method Overview. For personal agents, we support both binary-reward optimization and on-policy distillation training. In our experiments, we find that their combination yields significant performance gains. For general agentic RL, in addition to standard RLVR, we provide integrated step-wise rewards and a simple but effective standardization approach [wang2026rlanything].
 
@@ -74,33 +58,23 @@ We first show that the next state yields two complementary signal types, evaluat
 
 ### Two Complementary Signals and A Hybrid RL Objective
 
-Scalar PRM vote
-
-Information per sample
-
-Every scored turn
-Turns with meaningful hint
-Every scored turn
-
-Table 2: Complementary properties of the evaluative and directive signals, and the hybrid objective.
+Scalar PRM vote Information per sample Every scored turn Turns with meaningful hint Every scored turn Table 2: Complementary properties of the evaluative and directive signals, and the hybrid objective.
 
 ### Evaluative signal
 
-Given $(a_{t},s_{t + 1})$, the PRM is queried $m$ times and each query returns a vote in $\{{+ 1},{- 1},0\}$. We take the majority $r_{t} \in {\{{+ 1},{- 1},0\}}$ as the scalar reward at step $t$. The evaluative signal is dense by construction: every scored turn contributes a sample, regardless of whether the user reaction is explicit, such as "that worked," or implicit, such as a re-query or a passing test.
+Given $(a_{t},s_{t+1})$, the PRM is queried $m$ times and each query returns a vote in $\{+1,-1,0\}$. We take the majority $r_{t}\in\{+1,-1,0\}$ as the scalar reward at step $t$. The evaluative signal is dense by construction: every scored turn contributes a sample, regardless of whether the user reaction is explicit, such as "that worked," or implicit, such as a re-query or a passing test.
 
 ### Directive signal
 
-When evaluating $(a_{t},s_{t + 1})$, the PRM is also asked to decide whether $s_{t + 1}$ contains a *meaningful* correction in the first place: extracting a hint is only worthwhile when the next state actually carries directive content, and forcing extraction otherwise would yield low-quality hints that destabilize training. If the answer is yes, the PRM distills $s_{t + 1}$ into a concise hint $h$ enclosed in \[HINT_START\]...\[HINT_END\]; if no, the turn produces no directive signal and contributes only the evaluative one. The hint is appended to the prompt as $s_{t}^{h} = {s_{t} \oplus h}$, and a teacher distribution $\pi_{T}{( \cdot \mid s_{t}^{h})}$ is obtained by querying the same model under the hint-augmented prompt. The resulting signal is a full token-level distribution rather than a scalar, but it is also sparse: the directive signal fires only on the subset of turns where the PRM judges a meaningful correction to be present. For instance, a user's terse "thanks, looks good" or a passing test result carries strong evaluative content but no directive content; while an error trace pointing at a specific line yields a usable hint.
+When evaluating $(a_{t},s_{t+1})$, the PRM is also asked to decide whether $s_{t+1}$ contains a *meaningful* correction in the first place: extracting a hint is only worthwhile when the next state actually carries directive content, and forcing extraction otherwise would yield low-quality hints that destabilize training. If the answer is yes, the PRM distills $s_{t+1}$ into a concise hint $h$ enclosed in \[HINT_START\]...\[HINT_END\]; if no, the turn produces no directive signal and contributes only the evaluative one. The hint is appended to the prompt as $s^{h}_{t}=s_{t}\oplus h$, and a teacher distribution $\pi_{T}(\cdot\mid s^{h}_{t})$ is obtained by querying the same model under the hint-augmented prompt. The resulting signal is a full token-level distribution rather than a scalar, but it is also sparse: the directive signal fires only on the subset of turns where the PRM judges a meaningful correction to be present. For instance, a user's terse "thanks, looks good" or a passing test result carries strong evaluative content but no directive content; while an error trace pointing at a specific line yields a usable hint.
 
 ### Complementary analysis
 
-The two signals are complementary along two axes. In *frequency*, the evaluative signal is available on every scored turn, while the directive signal is only available on the subset of turns where the next state carries an extractable correction. In *information density*, the evaluative signal compresses an entire turn into a single scalar, while the directive signal carries per-token guidance through the teacher distribution $\pi_{T}$. RLVR can only consume the former and pure on-policy distillation can only consume the latter; neither alone uses the full content of $s_{t + 1}$.
+The two signals are complementary along two axes. In *frequency*, the evaluative signal is available on every scored turn, while the directive signal is only available on the subset of turns where the next state carries an extractable correction. In *information density*, the evaluative signal compresses an entire turn into a single scalar, while the directive signal carries per-token guidance through the teacher distribution $\pi_{T}$. RLVR can only consume the former and pure on-policy distillation can only consume the latter; neither alone uses the full content of $s_{t+1}$.
 
 ### Hybrid objective
 
-We therefore combine both signals into a single per-token loss for token $i$
-
-where $\mathcal{L}_{i}^{\text{GRPO}}$ is the standard PPO clipped surrogate driven by the scalar advantage $A_{i}^{\text{grpo}}$, and $\mathcal{L}_{i}^{\text{OPD}}$ is the distillation loss defined in equation 1. By default $w_{\text{RL}} = w_{\text{OPD}} = 1$. The two terms share the same trajectory and the same policy updates; the hybrid objective integrates their complementary strengths in frequency and information density (Table 2). In experiments, we will demonstrate that this hybrid objective improves optimization for both real-time personalization and agentic RL.
+We therefore combine both signals into a single per-token loss for token $i$ where $\mathcal{L}^{\text{GRPO}}_{i}$ is the standard PPO clipped surrogate driven by the scalar advantage $A^{\text{grpo}}_{i}$, and $\mathcal{L}^{\text{OPD}}_{i}$ is the distillation loss defined in equation 1. By default $w_{\text{RL}}=w_{\text{OPD}}=1$. The two terms share the same trajectory and the same policy updates; the hybrid objective integrates their complementary strengths in frequency and information density (Table 2). In experiments, we will demonstrate that this hybrid objective improves optimization for both real-time personalization and agentic RL.
 
 ### Overlap-Guided Hint Selection
 
@@ -110,19 +84,11 @@ Figure 4: Overlap-guided hint selection method overview.
 
 ### Overlap as a selection signal
 
-We exploit this observation by selecting hints based on the geometry of the induced teacher distribution rather than on hint length, teacher confidence, or other surface heuristics. Given $y$ the generated response by the student, let $S_{i}^{q} = {top}\text{-}k{\{\pi_{\text{old}}{( \cdot \mid s_{t},y_{< i})}\}}$ denote the student's top-$k$ vocabulary at response token position $i$, and $S_{i,h}^{p} = {top}\text{-}k{\{\pi_{T}{( \cdot \mid s_{t}^{h},y_{< i})}\}}$ the teacher's top-$k$ vocabulary at position $i$ under candidate hint $h$. We define the overlap signal
-
-which counts how many of the student's high-probability tokens remain high-probability under the hint-conditioned teacher. Among $M$ candidate hints, we consider two selection schemes:
-
-where the sequence-level mode picks one hint per trajectory and the token-level mode picks a different hint at each position. The token-level option is motivated by the fact that the empirical OPD loss is itself token-level rather than sequence-level (Appendix C). In our experiments, the two schemes achieve similar performance, with the sequence-level mode tending to be more stable in general agentic RL settings. Higher overlap means the teacher and the student already agree on what the response should look like at the level of vocabulary support, so distillation can move the student toward the teacher within its own high-density region rather than toward unfamiliar tokens.
+We exploit this observation by selecting hints based on the geometry of the induced teacher distribution rather than on hint length, teacher confidence, or other surface heuristics. Given $y$ the generated response by the student, let $S^{q}_{i}=\mathrm{top}\text{-}k\{\pi_{\text{old}}(\cdot\mid s_{t},y_{<i})\}$ denote the student's top-$k$ vocabulary at response token position $i$, and $S^{p}_{i,h}=\mathrm{top}\text{-}k\{\pi_{T}(\cdot\mid s^{h}_{t},y_{<i})\}$ the teacher's top-$k$ vocabulary at position $i$ under candidate hint $h$. We define the overlap signal which counts how many of the student's high-probability tokens remain high-probability under the hint-conditioned teacher. Among $M$ candidate hints, we consider two selection schemes: where the sequence-level mode picks one hint per trajectory and the token-level mode picks a different hint at each position. The token-level option is motivated by the fact that the empirical OPD loss is itself token-level rather than sequence-level (Appendix C). In our experiments, the two schemes achieve similar performance, with the sequence-level mode tending to be more stable in general agentic RL settings. Higher overlap means the teacher and the student already agree on what the response should look like at the level of vocabulary support, so distillation can move the student toward the teacher within its own high-density region rather than toward unfamiliar tokens.
 
 ### Top-$k$ OPD loss with log-probability-difference clip
 
-Once $h^{\star}$ is chosen, we restrict the distillation loss to a vocabulary subset $S_{i}$, set to $S_{i}^{q}$ by default \[li2026rethinking, shenfeld2026self\]. For each $v \in S_{i}$, we form an importance-weighted advantage from the log-probability gap between teacher and student, $A_{v} = {\Delta_{v} \cdot w_{v}}$, where ${\ell_{\text{old}}{(v)}} = {{\log\pi_{\text{old}}}{({v \mid {s_{t},y_{< i}}})}}$, ${\ell_{T,h^{\star}}{(v)}} = {{\log\pi_{T}}{({v \mid {s_{t}^{h^{\star}},y_{< i}}})}}$,
-
-The weight $w_{v}$ concentrates the advantage on tokens the student is actually likely to sample, while the clip on $\Delta_{v}$ bounds the per-token log-probability gap at $C$, capping the magnitude of any single distillation update even when the teacher is locally far from the student. With the per-vocab ratio $\rho_{v} = {\exp\left( {{\ell_{\text{cur}}{(v)}} - {\ell_{\text{old}}{(v)}}} \right)}$, where ${\ell_{\text{cur}}{(v)}} = {{\log\pi_{\text{cur}}}{({v \mid {s_{t},y_{< i}}})}}$, the distillation loss takes the clipped-surrogate form summed over the subset:
-
-with $\varepsilon_{\text{lo}} = 0.2$ and $\varepsilon_{\text{hi}} = 0.28$ following standard PPO clipping \[schulman2017proximal, yu2025dapo\]. The overlap-guided choice of $k^{\star}$ keeps $\rho_{v}$ near unity on the supervised tokens, while the $\Delta$-clip caps advantage magnitudes; together they bound both factors of the surrogate and yield stable updates without discarding the directional information carried by the hint.
+Once $h^{\star}$ is chosen, we restrict the distillation loss to a vocabulary subset $S_{i}$, set to $S^{q}_{i}$ by default \[li2026rethinking, shenfeld2026self\]. For each $v\in S_{i}$, we form an importance-weighted advantage from the log-probability gap between teacher and student, $A_{v}=\Delta_{v}\cdot w_{v}$, where $\ell_{\text{old}}(v)=\log\pi_{\text{old}}(v\mid s_{t},y_{<i})$, $\ell_{T,h^{\star}}(v)=\log\pi_{T}(v\mid s_{t}^{h^{\star}},y_{<i})$, The weight $w_{v}$ concentrates the advantage on tokens the student is actually likely to sample, while the clip on $\Delta_{v}$ bounds the per-token log-probability gap at $C$, capping the magnitude of any single distillation update even when the teacher is locally far from the student. With the per-vocab ratio $\rho_{v}=\exp\bigl(\ell_{\text{cur}}(v)-\ell_{\text{old}}(v)\bigr)$, where $\ell_{\text{cur}}(v)=\log\pi_{\text{cur}}(v\mid s_{t},y_{<i})$, the distillation loss takes the clipped-surrogate form summed over the subset: with $\varepsilon_{\text{lo}}=0.2$ and $\varepsilon_{\text{hi}}=0.28$ following standard PPO clipping \[schulman2017proximal, yu2025dapo\]. The overlap-guided choice of $k^{\star}$ keeps $\rho_{v}$ near unity on the supervised tokens, while the $\Delta$-clip caps advantage magnitudes; together they bound both factors of the surrogate and yield stable updates without discarding the directional information carried by the hint.
 
 ### Step-wise Reward for General Agentic RL
 
@@ -134,13 +100,13 @@ In long-horizon agentic tasks, outcome-only rewards provide gradient signal only
 
 ### Integrate Outcome and Process Rewards
 
-Verifiable outcomes are standard supervision signals in RLVR settings. Following RLAnything \[wang2026rlanything\], we integrate outcome and process rewards by simply adding them together, using $o + {\sum_{i = 1}^{m}{r_{i}/m}}$ as the reward for step $t$, where the $r_{i}$ are independently assigned by PRM$(a_{t},s_{t + 1})$. Unlike GRPO, the presence of step-wise rewards makes it less straightforward to compute advantages. feng2025group group similar states and perform standardization within each group. However, in real-world settings such as terminal agents, states are not easily clustered. Therefore, we directly group actions with the same step index, which we find effective in our empirical studies.
+Verifiable outcomes are standard supervision signals in RLVR settings. Following RLAnything \[wang2026rlanything\], we integrate outcome and process rewards by simply adding them together, using $o+\sum_{i=1}^{m}r_{i}/m$ as the reward for step $t$, where the $r_{i}$ are independently assigned by PRM$(a_{t},s_{t+1})$. Unlike GRPO, the presence of step-wise rewards makes it less straightforward to compute advantages. feng2025group group similar states and perform standardization within each group. However, in real-world settings such as terminal agents, states are not easily clustered. Therefore, we directly group actions with the same step index, which we find effective in our empirical studies.
 
 ## Experiments
 
 ### Personal Agent Setup
 
-We use LLMs to simulate users from different professions interacting with OpenClaw on work tasks, and evaluate how efficiently the model learns to align with each user's preferences. Three settings are considered---student, TA, and teacher---described below. In every session, the simulated user delegates a single task to OpenClaw on their personal computer; tasks are drawn from GSM8K \[cobbe2021training\]. The user's first message in each session is hard-coded and does not disclose their preferences, allowing us to assess whether the model has internalized prior experience by examining its response to this opening message. We consider the optimization effect to have been achieved once the model's response to the first message satisfies the user's preferences in three consecutive sessions. The OpenClaw policy and reward model in this setting is Qwen3-4B-Thinking-2507 \[yang2025qwen3\]. We set the learning rate to $1 \times 10^{- 5}$ and the log-probability-difference clipping coefficient to $C = 1$, and trigger a training step after every 16 collected samples. Users are simulated with Qwen3-32B to ensure faithful role-following. See more details in Appendix A.1.
+We use LLMs to simulate users from different professions interacting with OpenClaw on work tasks, and evaluate how efficiently the model learns to align with each user's preferences. Three settings are considered---student, TA, and teacher---described below. In every session, the simulated user delegates a single task to OpenClaw on their personal computer; tasks are drawn from GSM8K \[cobbe2021training\]. The user's first message in each session is hard-coded and does not disclose their preferences, allowing us to assess whether the model has internalized prior experience by examining its response to this opening message. We consider the optimization effect to have been achieved once the model's response to the first message satisfies the user's preferences in three consecutive sessions. The OpenClaw policy and reward model in this setting is Qwen3-4B-Thinking-2507 \[yang2025qwen3\]. We set the learning rate to $1\times 10^{-5}$ and the log-probability-difference clipping coefficient to $C=1$, and trigger a training step after every 16 collected samples. Users are simulated with Qwen3-32B to ensure faithful role-following. See more details in Appendix A.1.
 
 Student who uses OpenClaw to do homework. In this setting, a student uses OpenClaw on a personal computer to complete homework while trying to avoid the appearance of relying on AI. A response is identified as AI-like when it contains markers such as bold text, numbered lists, or over-formatting like boxed final answers. The student interacts with OpenClaw to complete the homework in a non-AI-like style and asks for revisions whenever the response is AI-like.
 
@@ -160,16 +126,13 @@ We use SETA RL data \[seta\], OSWorld-Verified \[xie2024osworld\], SWE-Bench-Ver
 
 ### Hyperparameters
 
-We set the learning rate to $10^{- 6}$, the KL coefficient to $0.01$, the lower and upper clip ratios to $0.2$ and $0.28$. We sample 8 tasks per step for the GUI and SWE, 16 for terminal, and 32 for the tool-call setting. For each task, we draw 8 samples. The maximum numbers of interaction steps for GUI, SWE, and terminal are 30, 20, and 10, respectively. See more details in Appendix A.2.
+We set the learning rate to $10^{-6}$, the KL coefficient to $0.01$, the lower and upper clip ratios to $0.2$ and $0.28$. We sample 8 tasks per step for the GUI and SWE, 16 for terminal, and 32 for the tool-call setting. For each task, we draw 8 samples. The maximum numbers of interaction steps for GUI, SWE, and terminal are 30, 20, and 10, respectively. See more details in Appendix A.2.
 
 ### Hybrid RL Extension Setup
 
-We study our algorithm's extension to general RL settings, focusing on multi-turn tool-call \[feng2025retool\] and RLVR. For the tool-call setting, we use Retool-4B, which is supervised-fine-tuned on the Retool dataset \[feng2025retool\], with Qwen3-8B as the PRM. For the RLVR setting, we use DeepSeek-R1-Distill-Qwen-1.5B as the policy model and Qwen3-4B as the PRM, training on DAPO \[yu2025dapo\] and evaluating on AIME \[AIME2024\]. We set the learning rate to $10^{- 6}$, the KL coefficient to $0.01$, the log-probability-difference clipping coefficient to $C = 2$, and the lower and upper PPO clip ratios to $\varepsilon_{\text{lo}} = 0.2$ and $\varepsilon_{\text{hi}} = 0.28$. We sample 32 tasks per training step, with the policy drawing 8 independent rollouts per task. We provide more details in Appendix A.3.
+We study our algorithm's extension to general RL settings, focusing on multi-turn tool-call \[feng2025retool\] and RLVR. For the tool-call setting, we use Retool-4B, which is supervised-fine-tuned on the Retool dataset \[feng2025retool\], with Qwen3-8B as the PRM. For the RLVR setting, we use DeepSeek-R1-Distill-Qwen-1.5B as the policy model and Qwen3-4B as the PRM, training on DAPO \[yu2025dapo\] and evaluating on AIME \[AIME2024\]. We set the learning rate to $10^{-6}$, the KL coefficient to $0.01$, the log-probability-difference clipping coefficient to $C=2$, and the lower and upper PPO clip ratios to $\varepsilon_{\text{lo}}=0.2$ and $\varepsilon_{\text{hi}}=0.28$. We sample 32 tasks per training step, with the policy drawing 8 independent rollouts per task. We provide more details in Appendix A.3.
 
-Optimize all at the same time (joint)
-Optimize for each individual (separate)
-
-Table 3: Optimization efficiency of different methods across settings. Our hybrid RL attains the best overall performance. Notably, jointly optimizing for multiple users amplifies the gains from RL, whereas the efficiency of memory and skill-evolution is largely unaffected. The reported metric is the minimum number of sessions required to achieve the optimization effect, as defined in Section 4.1. We run 5 independent trials with Qwen3-4B-Thinking-2507 and report the mean.
+Optimize all at the same time (joint) Optimize for each individual (separate) Table 3: Optimization efficiency of different methods across settings. Our hybrid RL attains the best overall performance. Notably, jointly optimizing for multiple users amplifies the gains from RL, whereas the efficiency of memory and skill-evolution is largely unaffected. The reported metric is the minimum number of sessions required to achieve the optimization effect, as defined in Section 4.1. We run 5 independent trials with Qwen3-4B-Thinking-2507 and report the mean.
 
 Figure 5: We supports scalable RL for general agents across terminal, GUI, SWE, and tool-call settings.
 
@@ -183,14 +146,11 @@ We conduct experiments across widely used, real-world agent settings, including 
 
 Figure 6: Hybrid RL in multi-turn agentic RL and RLVR settings. Left: the ReTool multi-turn RL setting; right: RLVR. “PRM + Outcome” denotes the integrated approach introduced in Section 3.3, while “Outcome” refers to standard GRPO with verifiable outcome rewards.
 
-Hybrid RL sequence optimal
-Hybrid RL token optimal
-
-Table 4: Ablation on model and method. Sequence-optimal and token-optimal hint selection achieve similar efficiency, both outperforming random hint selection. We use Qwen3-32B here and report the mean over 5 independent runs. The student, TA, and teacher settings are jointly optimized.
+Hybrid RL sequence optimal Hybrid RL token optimal Table 4: Ablation on model and method. Sequence-optimal and token-optimal hint selection achieve similar efficiency, both outperforming random hint selection. We use Qwen3-32B here and report the mean over 5 independent runs. The student, TA, and teacher settings are jointly optimized.
 
 ### Hybrid RL is More Efficient
 
-We compare the optimization efficiency of hybrid RL against its simple ablations using $\mathcal{L}_{i}^{\text{GRPO}}$ (GRPO) and $\mathcal{L}_{i}^{\text{OPD}}$ (OPD), as well as memory and skill-evolution methods Mem0 \[chhikara2025mem0\] and Cognee \[markovic2025optimizinginterfaceknowledgegraphs\]. As shown in Table 3, hybrid RL is substantially more efficient than either GRPO or OPD alone, further validating our analysis of the complementary nature of these two objectives. Hybrid RL also reaches the target performance faster than the skill- and memory-evolving baselines. Notably, these baselines impose additional context overhead at inference time, whereas our RL approach only updates model weights, offering a more sustainable long-term solution. Under the joint optimization setting, the memory and skill-evolution methods perform comparably to their separate-optimization counterparts, while hybrid RL benefits significantly more from joint optimization. We hypothesize that this is because the three optimization objectives are inherently coupled for the policy model.
+We compare the optimization efficiency of hybrid RL against its simple ablations using $\mathcal{L}^{\text{GRPO}}_{i}$ (GRPO) and $\mathcal{L}^{\text{OPD}}_{i}$ (OPD), as well as memory and skill-evolution methods Mem0 \[chhikara2025mem0\] and Cognee \[markovic2025optimizinginterfaceknowledgegraphs\]. As shown in Table 3, hybrid RL is substantially more efficient than either GRPO or OPD alone, further validating our analysis of the complementary nature of these two objectives. Hybrid RL also reaches the target performance faster than the skill- and memory-evolving baselines. Notably, these baselines impose additional context overhead at inference time, whereas our RL approach only updates model weights, offering a more sustainable long-term solution. Under the joint optimization setting, the memory and skill-evolution methods perform comparably to their separate-optimization counterparts, while hybrid RL benefits significantly more from joint optimization. We hypothesize that this is because the three optimization objectives are inherently coupled for the policy model.
 
 ### Hybrid RL Generalizes to Agentic RL
 
@@ -198,10 +158,7 @@ We apply our hybrid RL framework to large-batch training settings, including mul
 
 Figure 7: -. Comparison of hint selection methods in multi-turn RL and RLVR. Selecting hints via top-k overlap effectively improves both training stability and final performance. We find the sequence optimal method tends to be more stable than token optimal, particularly in the RLVR setting. Distribution of the log-probability difference between teacher and student. We observe that this difference can be highly extreme, motivating us to introduce a clipping mechanism.
 
-Si = Siq (student top-k)
-Si = Siq ∩ Si, h⋆p (top-k overlap)
-
-Table 5: Ablation on k and the support set Si. We find that larger values of k tend to improve optimization, although the gain becomes very small when k ≥ 4. Using the top-k overlap as the support set leads to a minor decrease in performance. We choose the joint optimization setting here.
+Si = Siq (student top-k) Si = Siq ∩ Si, h⋆p (top-k overlap) Table 5: Ablation on k and the support set Si. We find that larger values of k tend to improve optimization, although the gain becomes very small when k ≥ 4. Using the top-k overlap as the support set leads to a minor decrease in performance. We choose the joint optimization setting here.
 
 ### Overlap-Guided Hint Selection Improves Efficiency and Stability
 
@@ -213,7 +170,7 @@ We analyze training stability through token-level log-probability shifts. After 
 
 ### Ablation on $k$ and Support Set $S_{i}$
 
-We first study the influence of $k$ on the optimization effect. From Table 5, we observe that larger values of $k$ lead to stronger optimization effects only when $k \leq 4$, which aligns with the finding in \[li2026rethinking\]. In the degenerate case, namely token-level OPD, the performance drops very significantly. Therefore, in all our main experiments, we choose $k = 4$ to maintain efficiency while preserving the maximum effect. We also explore using top-$k$ overlap as the support set $S_{i}$, which offers an efficiency advantage, and find that the performance drops slightly.
+We first study the influence of $k$ on the optimization effect. From Table 5, we observe that larger values of $k$ lead to stronger optimization effects only when $k\leq 4$, which aligns with the finding in \[li2026rethinking\]. In the degenerate case, namely token-level OPD, the performance drops very significantly. Therefore, in all our main experiments, we choose $k=4$ to maintain efficiency while preserving the maximum effect. We also explore using top-$k$ overlap as the support set $S_{i}$, which offers an efficiency advantage, and find that the performance drops slightly.
 
 ### Explore Different Policy and Reward Models
 

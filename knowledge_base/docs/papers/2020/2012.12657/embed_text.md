@@ -4,7 +4,7 @@ Engineering systems are often comprised of many components having different type
 
 However, modern systems such as intelligent transportation systems, complex robotics and smart manufacturing systems have more complex specifications which cannot be captured by the safety and dissipativity frameworks, e.g. behaviour, tracking, and temporal logic specifications. Formal methods in control have been developed to address this issue (Belta et al.; Tabuada; Wongpiromsarn et al. ). This framework can be used to express temporal logic specifications (Tabuada and Pappas ). Unfortunately, even if we care only about safety, the sheer size of modern engineering systems implies that formal verification methods are ineffective, as the need to discretize the state-space results in a curse of dimensionality. Such verification processes can also be extremely wasteful, as even a minuscule change to the dynamical system (e.g., a small change in one of its components) requires starting the verification processes from scratch.
 
-In this paper we present a verification approach relying on contract theory. Contract theory was first developed in the field of software engineering as a modular approach to system design (Meyer ), and it has proved useful for design of cyber-physical methods, both in theory and in practice (Nuzzo et al.; Naik and Nuzzo; Phan-Minh et al. ). Contracts prescribe assumptions on the environments a software component can act in, and guarantees on its behaviour in those environments (Benveniste et al. ). The two main approaches for contract theory in computer science include assume/guarantee contracts, which put assumptions on the input to a software component and prescribe guarantees on its output, and interface theories, which provide specifications on the interaction of a component with its environment. In both cases, computational tools for verifying that a given component satisfies a given contract are needed in order to apply the theory.
+In this paper we present a verification approach relying on contract theory. Contract theory was first developed in the field of software engineering as a modular approach to system design (Meyer ), and it has proved useful for design of cyber-physical methods, both in theory and in practice (Nuzzo et al.; Naik and Nuzzo; Phan-Minh et al. ). Contracts prescribe assumptions on the environments a software component can act , and guarantees on its behaviour in those environments (Benveniste et al. ). The two main approaches for contract theory in computer science include assume/guarantee contracts, which put assumptions on the input to a software component and prescribe guarantees on its output, and interface theories, which provide specifications on the interaction of a component with its environment. In both cases, computational tools for verifying that a given component satisfies a given contract are needed in order to apply the theory.
 
 In recent years, some attempts were made to define a contract theory for dynamical (control) systems. An assume/guarantee framework for continuous-time dynamical systems based on the notion of simulation was considered in Besselink et al., in which an algorithm for verifying that a system satisfies a given contract was provided using geometric control theory methods (Van der Schaft ). Assume/guarantee contracts have also been considered in Saoud et al., in which assumptions are made on the input signals and guarantees are on the state and output signals.
 
@@ -22,9 +22,7 @@ In this section, we define the class of systems for which we introduce an abstra
 
 ### Definition 1
 
-A system $\Sigma$ is a tuple $(\mathcal{X}_{0},A,B,C,D)$ with input $d \in \mathcal{S}^{n_{d}}$, output $y \in \mathcal{S}^{n_{y}}$, and state $x \in \mathcal{S}^{n_{x}}$. The set $\mathcal{X}_{0} \subseteq {\mathbb{R}}^{n_{x}}$ is a set of initial conditions, and $A,B,C,D$ are matrices of appropriate sizes such that the state evolution and output are given by the following equations:
-
-For signals $d \in \mathcal{S}^{n_{d}}$ and $y \in \mathcal{S}^{n_{y}}$, we write $y \in {\Sigma{(d)}}$ if there exists a signal $x \in \mathcal{S}^{n_{x}}$ such that ${d{( \cdot )}},{x{( \cdot )}},{y{( \cdot )}}$ satisfy.
+A system $\Sigma$ is a tuple $(\mathcal{X}_{0},A,B,C,D)$ with input $d \in \mathcal{S}^{n_{d}}$, output $y \in \mathcal{S}^{n_{y}}$, and state $x \in \mathcal{S}^{n_{x}}$. The set $\mathcal{X}_{0} \subseteq {\mathbb{R}}^{n_{x}}$ is a set of initial conditions, and $A,B,C,D$ are matrices of appropriate sizes such that the state evolution and output are given by the following equations: For signals $d \in \mathcal{S}^{n_{d}}$ and $y \in \mathcal{S}^{n_{y}}$, we write $y \in {\Sigma{(d)}}$ if there exists a signal $x \in \mathcal{S}^{n_{x}}$ such that ${d{(\cdot)}},{x{(\cdot)}},{y{(\cdot)}}$ satisfy.
 
 It is essential to include the set of allowable initial states $\mathcal{X}_{0}$ in the definition of a system in order to discuss various specifications. For example, asking whether the output of a system lies in a given safe set is meaningless if we make no assumptions on the initial state, no matter the value of the input $d{( \cdot )}$.
 
@@ -58,9 +56,7 @@ We say that a system $\Sigma$ satisfies $\mathcal{C} = {(\mathcal{D},\Omega)}$ (
 
 ### Example 3
 
-Consider the following contract $\mathcal{C} = {(\mathcal{D},\Omega)}$: ${d,y} \in \mathcal{S}^{1}$,
-
-First, consider a system $\Sigma_{1}$ with no state (i.e., ${x{( \cdot )}} \in \mathcal{S}^{0}$ and $\mathcal{X}_{0} = \varnothing$), $A = B = C = 0$ and $D = 1$, i.e. $\Sigma_{1}$ is a static gain $K = 1$. Thus, for any signal $d{( \cdot )}$ we have ${\Sigma_{1}{(d)}} = {\{ d\}}$, implying that for any $d \in \mathcal{D}$ and $y \in {\Sigma_{1}{(d)}}$ we have ${(d,y)} \in \Omega$, hence $\Sigma_{1} \vDash \mathcal{C}$. Second, consider a system $\Sigma_{2}$ with a state ${x{( \cdot )}} \in \mathcal{S}^{1}$ such that $\mathcal{X}_{0} = {\{ 0\}}$, $A = B = 0.5$, $C = 1$ and $D = 0$. For any ${d{( \cdot )}} \in \mathcal{D}$, there exists some $v \in {\lbrack{- 1},1\rbrack}$ such that ${d{(k)}} = {v,{\forall k}}$. If we feed $d{( \cdot )}$ into $\Sigma$, we get an output ${y{(k)}} = {x{(k)}} = {{({1 - 0.5^{k}})}v}$. Thus, ${|{{d{(k)}} - {y{(k)}}}|} \leq 2^{- k}$, as ${|v|} \leq 1$, and $\Sigma_{2} \vDash \mathcal{C}$.
+Consider the following contract $\mathcal{C} = {(\mathcal{D},\Omega)}$: ${d,y} \in \mathcal{S}^{1}$, First, consider a system $\Sigma_{1}$ with no state (i.e., ${x{(\cdot)}} \in \mathcal{S}^{0}$ and $\mathcal{X}_{0} = \varnothing$), $A = B = C = 0$ and $D = 1$, i.e. $\Sigma_{1}$ is a static gain $K = 1$. Thus, for any signal $d{(\cdot)}$ we have ${\Sigma_{1}{(d)}} = {\{ d\}}$, implying that for any $d \in \mathcal{D}$ and $y \in {\Sigma_{1}{(d)}}$ we have ${(d,y)} \in \Omega$, hence $\Sigma_{1} \vDash \mathcal{C}$. Second, consider a system $\Sigma_{2}$ with a state ${x{(\cdot)}} \in \mathcal{S}^{1}$ such that $\mathcal{X}_{0} = {\{ 0\}}$, $A = B = 0.5$, $C = 1$ and $D = 0$. For any ${d{(\cdot)}} \in \mathcal{D}$, there exists some $v \in {\lbrack{- 1},1\rbrack}$ such that ${d{(k)}} = {v,{\forall k}}$. If we feed $d{(\cdot)}$ into $\Sigma$, we get an output ${y{(k)}} = {x{(k)}} = {{({1 - 0.5^{k}})}v}$. Thus, ${|{{d{(k)}} - {y{(k)}}}|} \leq 2^{- k}$, as ${|v|} \leq 1$, and $\Sigma_{2} \vDash \mathcal{C}$.
 
 ### Refinement and Composition
 
@@ -74,48 +70,33 @@ Colloquially, $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$ if $\mathcal{C}_{1}
 
 ### Example 4
 
-Consider two contracts used for tracking. The first, $\mathcal{C} = {(\mathcal{D},\Omega)}$ defines asymptotic tracking of certain inputs, namely ${d,y} \in \mathcal{S}^{m}$, $\mathcal{D} \subseteq \mathcal{S}^{m}$, and
-
-The second, $\mathcal{C}^{\prime} = {(\mathcal{D},\Omega^{\prime})}$, defines exponential convergence, i.e., we take some $\lambda \in {}$ and define:
-
-By definition, we have $\mathcal{C}^{\prime} \preccurlyeq \mathcal{C}$.
+Consider two contracts used for tracking. The first, $\mathcal{C} = {(\mathcal{D},\Omega)}$ defines asymptotic tracking of certain inputs, namely ${d,y} \in \mathcal{S}^{m}$, $\mathcal{D} \subseteq \mathcal{S}^{m}$, and The second, $\mathcal{C}' = {(\mathcal{D},\Omega')}$, defines exponential convergence, i.e., we take some $\lambda \in {}$ and define: By definition, we have $\mathcal{C}' \preccurlyeq \mathcal{C}$.
 
 Refinement provides a partial ordering of assume/guarantee contracts, and it is "harder" to satisfy refined contracts:
 
 ### Proposition 1
 
-Let $\mathcal{C}_{i} = {(\mathcal{D}_{i},\Omega_{i})}$ be assume/guarantee contracts for $i = {1,2,3}$ and $\Sigma$ be a system. Then, the following statements hold:
-
-$\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{1}$.
+Let $\mathcal{C}_{i} = {(\mathcal{D}_{i},\Omega_{i})}$ be assume/guarantee contracts for $i = {1,2,3}$ and $\Sigma$ be a system. Then, the following statements hold: $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{1}$.
 
 If $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$ and $\mathcal{C}_{2} \preccurlyeq \mathcal{C}_{3}$ then $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{3}$.
 
 If $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$ and $\Sigma \vDash \mathcal{C}_{1}$, then $\Sigma \vDash \mathcal{C}_{2}$.
 
-We prove the claims in order. The first immediately follows from Definition 4. For the second claim, $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, $\mathcal{C}_{2} \preccurlyeq \mathcal{C}_{3}$ imply that $\mathcal{D}_{1} \supseteq \mathcal{D}_{2} \supseteq \mathcal{D}_{3}$, and that:
-
-by intersecting both sides of the first equation with $({\mathcal{D}_{3} \times \mathcal{S}^{n_{y}}})$, and using $\mathcal{D}_{3} \subseteq \mathcal{D}_{2}$, we conclude that ${\Omega_{1} \cap {({\mathcal{D}_{3} \times \mathcal{S}^{n_{y}}})}} \subseteq {\Omega_{3} \cap {({\mathcal{D}_{3} \times \mathcal{S}^{n_{y}}})}}$, hence $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{3}$. Lastly, suppose $\Sigma \vDash \mathcal{C}_{1}$ and $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, and we show that $\Sigma \vDash \mathcal{C}_{2}$. Take any $d \in \mathcal{D}_{2}$ and $y \in {\Sigma{(d)}}$. As $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, we conclude that $d \in \mathcal{D}_{1}$, so $\Sigma \vDash \mathcal{C}_{1}$ implies that ${(d,y)} \in \Omega_{1}$. Noting that $d \in \mathcal{D}_{2}$ and $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, we conclude that ${(d,y)} \in \Omega_{2}$. $\square$ Proposition 1 is important in contract theory, as it shows two key properties. First, if we have an original contract $\mathcal{C}$ and a refined contract $\mathcal{C}^{\prime}$, any system satisfying $\mathcal{C}^{\prime}$ also satisfies $\mathcal{C}$. Second, if we have an original contract $\mathcal{C}$ and a refined contract $\mathcal{C}^{\prime}$, any refinement of $\mathcal{C}^{\prime}$ is also a refinement of $\mathcal{C}$. These properties allow us to refine a contract on a composite system by multiple contracts on the individual subsystems, which can be further refined by a plethora of contracts on the individual components in the system. If each component satisfies its corresponding contract, then the composite system will satisfy the original contract.
+We prove the claims in order. The first immediately follows from Definition 4. For the second claim, $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, $\mathcal{C}_{2} \preccurlyeq \mathcal{C}_{3}$ imply that $\mathcal{D}_{1} \supseteq \mathcal{D}_{2} \supseteq \mathcal{D}_{3}$, and that: by intersecting both sides of the first equation with $({\mathcal{D}_{3} \times \mathcal{S}^{n_{y}}})$, and using $\mathcal{D}_{3} \subseteq \mathcal{D}_{2}$, we conclude that ${\Omega_{1} \cap {({\mathcal{D}_{3} \times \mathcal{S}^{n_{y}}})}} \subseteq {\Omega_{3} \cap {({\mathcal{D}_{3} \times \mathcal{S}^{n_{y}}})}}$, hence $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{3}$. Lastly, suppose $\Sigma \vDash \mathcal{C}_{1}$ and $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, and we show that $\Sigma \vDash \mathcal{C}_{2}$. Take any $d \in \mathcal{D}_{2}$ and $y \in {\Sigma{(d)}}$. As $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, we conclude that $d \in \mathcal{D}_{1}$, so $\Sigma \vDash \mathcal{C}_{1}$ implies that ${(d,y)} \in \Omega_{1}$. Noting that $d \in \mathcal{D}_{2}$ and $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, we conclude that ${(d,y)} \in \Omega_{2}$. $\square$ Proposition 1 is important in contract theory, as it shows two key properties. First, if we have an original contract $\mathcal{C}$ and a refined contract $\mathcal{C}'$, any system satisfying $\mathcal{C}'$ also satisfies $\mathcal{C}$. Second, if we have an original contract $\mathcal{C}$ and a refined contract $\mathcal{C}'$, any refinement of $\mathcal{C}'$ is also a refinement of $\mathcal{C}$. These properties allow us to refine a contract on a composite system by multiple contracts on the individual subsystems, which can be further refined by a plethora of contracts on the individual components in the system. If each component satisfies its corresponding contract, then the composite system will satisfy the original contract.
 
 We now move to cascaded composition. Consider the block diagram in Fig. 2.
 
-Figure 2: Cascade of contracts
-
-Define the cascaded composition of $\mathcal{C}_{1}$ and $\mathcal{C}_{2}$ such that if $\Sigma_{1} \vDash \mathcal{C}_{1}$ and $\Sigma_{2} \vDash \mathcal{C}_{2}$, the cascade of $\Sigma_{1}$ and $\Sigma_{2}$ satisfies the composition $\mathcal{C}_{1} \otimes \mathcal{C}_{2}$. First, let us define the cascade of systems:
+Figure 2: Cascade of contracts Define the cascaded composition of $\mathcal{C}_{1}$ and $\mathcal{C}_{2}$ such that if $\Sigma_{1} \vDash \mathcal{C}_{1}$ and $\Sigma_{2} \vDash \mathcal{C}_{2}$, the cascade of $\Sigma_{1}$ and $\Sigma_{2}$ satisfies the composition $\mathcal{C}_{1} \otimes \mathcal{C}_{2}$. First, let us define the cascade of systems:
 
 ### Definition 2.1
 
-Let $\Sigma_{i} = {(\mathcal{X}_{i},A_{i},B_{i},C_{i},D_{i})}$ be systems for $i = {1,2}$. The cascade ${\Sigma_{1} \otimes \Sigma_{2}} = {(\mathcal{X}_{\otimes},A_{\otimes},B_{\otimes},C_{\otimes},D_{\otimes})}$ has input $d_{\otimes} = d_{1}$, output $y_{\otimes} = y_{2}$, state $x_{\otimes} = {\lbrack x_{1}^{\top},x_{2}^{\top}\rbrack}^{\top}$, allowable initial states $\mathcal{X}_{\otimes} = {\mathcal{X}_{1} \times \mathcal{X}_{2}}$, and matrices $A_{\otimes} = \begin{bmatrix}
-\end{bmatrix}$, $B_{\otimes} = \begin{bmatrix}
-\end{bmatrix}$, ${C_{\otimes} = \begin{bmatrix}
-\end{bmatrix}},$ $D_{\otimes} = {D_{2}D_{1}}$.
+Let $\Sigma_{i} = {(\mathcal{X}_{i},A_{i},B_{i},C_{i},D_{i})}$ be systems for $i = {1,2}$. The cascade ${\Sigma_{1} \otimes \Sigma_{2}} = {(\mathcal{X}_{\otimes},A_{\otimes},B_{\otimes},C_{\otimes},D_{\otimes})}$ has input $d_{\otimes} = d_{1}$, output $y_{\otimes} = y_{2}$, state $x_{\otimes} = {\lbrack x_{1}^{\top},x_{2}^{\top}\rbrack}^{\top}$, allowable initial states $\mathcal{X}_{\otimes} = {\mathcal{X}_{1} \times \mathcal{X}_{2}}$, and matrices $A_{\otimes} = \begin{bmatrix} \end{bmatrix}$, $B_{\otimes} = \begin{bmatrix} \end{bmatrix}$, ${C_{\otimes} = \begin{bmatrix} \end{bmatrix}},$ $D_{\otimes} = {D_{2}D_{1}}$.
 
 Consider two contracts $\mathcal{C}_{i} = {(\mathcal{D}_{i},\Omega_{i})}$ as in Fig. 2. When defining a contract that is satisfied by the composition, we at least need $d_{1} \in \mathcal{D}_{1}$ and ${(d_{2},y_{2})} \in \Omega_{2}$. The latter also requires $d_{2} \in \mathcal{D}_{2}$, while the former only implies ${(d_{1},y_{1})} \in \Omega_{1}$. This motivates the following definition:
 
 ### Definition 2.2
 
-For two contracts $\mathcal{C}_{i} = {(\mathcal{D}_{i},\Omega_{i})}$, the cascaded composition is ${\mathcal{C}_{1} \otimes \mathcal{C}_{2}} = {(\mathcal{D}_{\otimes},\Omega_{\otimes})}$ with input $d_{\otimes} = d_{1}$, output $y_{\otimes} = y_{2}$,
-
-We now prove our main claim about contract composition:
+For two contracts $\mathcal{C}_{i} = {(\mathcal{D}_{i},\Omega_{i})}$, the cascaded composition is ${\mathcal{C}_{1} \otimes \mathcal{C}_{2}} = {(\mathcal{D}_{\otimes},\Omega_{\otimes})}$ with input $d_{\otimes} = d_{1}$, output $y_{\otimes} = y_{2}$, We now prove our main claim about contract composition:
 
 ### Proposition 2
 
@@ -125,9 +106,7 @@ Denote $\mathcal{C}_{i} = {(\mathcal{D}_{i},\Omega_{i})}$. By Definition 2.1, fo
 
 ## Computational Tools for Verification
 
-The previous section presented abstract assume/guarantee contracts for discrete-time dynamical systems, as well the notions of satisfaction, refinement and cascaded composition. In this section, we present computational tools for verifying satisfaction and refinement, relying on mathematical induction and linear programming. We rely on linearity of both the systems and specifications. More precisely, we present computational tools for assumptions of the form ${{A^{1}d{({k + 1})}} + {A^{0}d{(k)}}} \leq a^{0}$ for all $k$, and guarantees of the form ${{G^{1}\begin{bmatrix}
-\end{bmatrix}} + {G^{0}\begin{bmatrix}
-\end{bmatrix}}} \leq g^{0}$ for all $k$, where $A^{0},A^{1},G^{0},G^{1}$ are matrices and $a^{0},g^{0}$ are vectors of appropriate dimensions. Specifications of this form include general bounded signals, as well as outputs of dynamical systems (e.g., the input $d$ is the output of a given first-order system). In Section 4, we use specifications of this form to model a contract where the input is assumed to be a (constrained) trajectory of a dynamical system, and the guarantee is a linear inequality defining safe behaviour.
+The previous section presented abstract assume/guarantee contracts for discrete-time dynamical systems, as well the notions of satisfaction, refinement and cascaded composition. In this section, we present computational tools for verifying satisfaction and refinement, relying on mathematical induction and linear programming. We rely on linearity of both the systems and specifications. More precisely, we present computational tools for assumptions of the form ${{A^{1}d{({k + 1})}} + {A^{0}d{(k)}}} \leq a^{0}$ for all $k$, and guarantees of the form ${{G^{1}\begin{bmatrix} \end{bmatrix}} + {G^{0}\begin{bmatrix} \end{bmatrix}}} \leq g^{0}$ for all $k$, where $A^{0},A^{1},G^{0},G^{1}$ are matrices and $a^{0},g^{0}$ are vectors of appropriate dimensions. Specifications of this form include general bounded signals, as well as outputs of dynamical systems (e.g., the input $d$ is the output of a given first-order system). In Section 4, we use specifications of this form to model a contract where the input is assumed to be a (constrained) trajectory of a dynamical system, and the guarantee is a linear inequality defining safe behaviour.
 
 ### Verifying Satisfaction
 
@@ -135,12 +114,9 @@ Consider a contract $\mathcal{C} = {(\mathcal{D},\Omega)}$ where
 
 ### Example 5
 
-Suppose ${d{( \cdot )}} \in \mathcal{S}^{2}$ is the position of a robot in a field, parameterized by $\mathcal{F} = {\{{p \in {\mathbb{R}}^{2}}:{{L_{1} \leq p_{1} \leq U_{1}},{L_{2} \leq p_{2} \leq U_{2}}}\}}$ for constants $L_{1},L_{2},U_{1},U_{2}$. Assume that for all $k \in {\mathbb{N}}$, ${d{(k)}} \in \mathcal{F}$ and ${d{({k + 1})}} = {{d{(k)}} + {v{(k)}}}$ for some velocity $v{(k)}$ bounded by $V_{\max}$, i.e. that ${- {\lbrack V_{\max},V_{\max}\rbrack}^{\top}} \leq {{d{({k + 1})}} - {d{(k)}}} \leq {\lbrack V_{\max},V_{\max}\rbrack}^{\top}$. The assumptions are of the form where:
+Suppose ${d{(\cdot)}} \in \mathcal{S}^{2}$ is the position of a robot in a field, parameterized by $\mathcal{F} = {\{{p \in {\mathbb{R}}^{2}}:{{L_{1} \leq p_{1} \leq U_{1}},{L_{2} \leq p_{2} \leq U_{2}}}\}}$ for constants $L_{1},L_{2},U_{1},U_{2}$. Assume that for all $k \in {\mathbb{N}}$, ${d{(k)}} \in \mathcal{F}$ and ${d{({k + 1})}} = {{d{(k)}} + {v{(k)}}}$ for some velocity $v{(k)}$ bounded by $V_{\max}$, i.e. that ${- {\lbrack V_{\max},V_{\max}\rbrack}^{\top}} \leq {{d{({k + 1})}} - {d{(k)}}} \leq {\lbrack V_{\max},V_{\max}\rbrack}^{\top}$. The assumptions are of the form where: and $a^{0} = \begin{bmatrix} \end{bmatrix}^{\top}$.
 
-and $a^{0} = \begin{bmatrix}
-\end{bmatrix}^{\top}$.
-
-Let us make the following assumption on,:
+Let us make the following assumption ,:
 
 ### Definition 3.1
 
@@ -150,37 +126,17 @@ Assuming $(A^{1},A^{0},a^{0})$ (or $(G^{1},G^{0},g^{0})$) is extendable is not v
 
 ### Theorem 3
 
-Let $\mathcal{C} = {(\mathcal{D},\Omega)}$ be a contract with and, and let $\Sigma = {(\mathcal{X}_{0},A,B,C,D)}$ be a system with $x \in \mathcal{S}^{n}$. Assume that $(A^{1},A^{0},a^{0})$ is extendable. Then $\Sigma \vDash \mathcal{C}$ if and only if for any $n \in {\mathbb{N}}$, the following condition holds: for any $d_{0},d_{1},\ldots,d_{n + 1},x_{0},x_{1},\ldots,x_{n + 1},y_{0},y_{1},\ldots,y_{n + 1}$, the condition:
+Let $\mathcal{C} = {(\mathcal{D},\Omega)}$ be a contract with and, and let $\Sigma = {(\mathcal{X}_{0},A,B,C,D)}$ be a system with $x \in \mathcal{S}^{n}$. Assume that $(A^{1},A^{0},a^{0})$ is extendable. Then $\Sigma \vDash \mathcal{C}$ if and only if for any $n \in {\mathbb{N}}$, the following condition holds: for any $d_{0},d_{1},\ldots,d_{n + 1},x_{0},x_{1},\ldots,x_{n + 1},y_{0},y_{1},\ldots,y_{n + 1}$, the condition: implies ${{G^{1}\begin{bmatrix} \end{bmatrix}} + {G^{0}\begin{bmatrix} \end{bmatrix}}} \leq g^{0}$.
 
-implies ${{G^{1}\begin{bmatrix}
-\end{bmatrix}} + {G^{0}\begin{bmatrix}
-\end{bmatrix}}} \leq g^{0}$.
+Suppose first that whenever holds we have ${{G^{1}\begin{bmatrix} \end{bmatrix}} + {G^{0}\begin{bmatrix} \end{bmatrix}}} \leq g^{0}$, and take any $d \in \mathcal{D}$ and $y \in {\Sigma{(d)}}$. Note that ${{A^{1}d{({k + 1})}} + {A^{0}d{(k)}}} \leq a^{0}$ holds for all $k$, and for some signal $x{(\cdot)}$, both ${x{({k + 1})}} = {{Ax{(k)}} + {Bd{(k)}}}$ and ${y{(k)}} = {{Cx{(k)}} + {Dd{(k)}}}$ hold for all $k$, as well as ${x{}} \in \mathcal{X}_{0}$. Choosing ${d_{k} = {d{(k)}}},{x_{k} = {x{(k)}}}$ and $y_{k} = {y{(k)}}$ for all $k = {0,\ldots,{n + 1}}$, and using the implication, we conclude that ${{G^{1}\begin{bmatrix} \end{bmatrix}} + {G^{0}\begin{bmatrix} \end{bmatrix}}} \leq g^{0}$ can be proved for all $k \in {\mathbb{N}}$ by induction on the value of $k$, i.e., $\Sigma \vDash \mathcal{C}$.
 
-Suppose first that whenever holds we have ${{G^{1}\begin{bmatrix}
-\end{bmatrix}} + {G^{0}\begin{bmatrix}
-\end{bmatrix}}} \leq g^{0}$, and take any $d \in \mathcal{D}$ and $y \in {\Sigma{(d)}}$. Note that ${{A^{1}d{({k + 1})}} + {A^{0}d{(k)}}} \leq a^{0}$ holds for all $k$, and for some signal $x{( \cdot )}$, both ${x{({k + 1})}} = {{Ax{(k)}} + {Bd{(k)}}}$ and ${y{(k)}} = {{Cx{(k)}} + {Dd{(k)}}}$ hold for all $k$, as well as ${x{}} \in \mathcal{X}_{0}$. Choosing ${d_{k} = {d{(k)}}},{x_{k} = {x{(k)}}}$ and $y_{k} = {y{(k)}}$ for all $k = {0,\ldots,{n + 1}}$, and using the implication, we conclude that ${{G^{1}\begin{bmatrix}
-\end{bmatrix}} + {G^{0}\begin{bmatrix}
-\end{bmatrix}}} \leq g^{0}$ can be proved for all $k \in {\mathbb{N}}$ by induction on the value of $k$, i.e., $\Sigma \vDash \mathcal{C}$.
+Conversely, suppose $\Sigma \vDash \mathcal{C}$, and take $n \in {\mathbb{N}}$ and some $d_{0},x_{0},y_{0},\ldots,d_{n + 1},x_{n + 1},y_{n + 1}$ such that holds, and we show that ${{G^{1}\begin{bmatrix} \end{bmatrix}} + {G^{0}\begin{bmatrix} \end{bmatrix}}} \leq g^{0}$. We show that there exist signals ${\hat{d}{(\cdot)}},{\hat{y}{(\cdot)}}$ such that $\hat{y} \in {\Sigma{(\hat{d})}}$, $\hat{d} \in \mathcal{D}$, and ${{\hat{d}{(k)}} = d_{k}},{{\hat{y}{(k)}} = y_{k}}$ hold for $k = {0,1,\ldots,{n + 1}}$. If we show that, we can use $\Sigma \vDash \mathcal{C}$ to conclude ${(\hat{d},\hat{y})} \in \Omega$, implying the desired inequality at time $k = {n + 1}$. Thus, we prove that the signals ${\hat{d}{(\cdot)}},{\hat{y}{(\cdot)}}$ defined above exist.
 
-Conversely, suppose $\Sigma \vDash \mathcal{C}$, and take $n \in {\mathbb{N}}$ and some $d_{0},x_{0},y_{0},\ldots,d_{n + 1},x_{n + 1},y_{n + 1}$ such that holds, and we show that ${{G^{1}\begin{bmatrix}
-\end{bmatrix}} + {G^{0}\begin{bmatrix}
-\end{bmatrix}}} \leq g^{0}$. We show that there exist signals ${\hat{d}{( \cdot )}},{\hat{y}{( \cdot )}}$ such that $\hat{y} \in {\Sigma{(\hat{d})}}$, $\hat{d} \in \mathcal{D}$, and ${{\hat{d}{(k)}} = d_{k}},{{\hat{y}{(k)}} = y_{k}}$ hold for $k = {0,1,\ldots,{n + 1}}$. If we show that, we can use $\Sigma \vDash \mathcal{C}$ to conclude ${(\hat{d},\hat{y})} \in \Omega$, implying the desired inequality at time $k = {n + 1}$. Thus, we prove that the signals ${\hat{d}{( \cdot )}},{\hat{y}{( \cdot )}}$ defined above exist.
-
-By extendibility, there exists a signal $\hat{d} \in \mathcal{D}$ such that ${\hat{d}{(k)}} = d_{k}$ for $k = {0,\ldots,{n + 1}}$. Choose ${\hat{x}{}} = x_{0}$ and define ${\hat{x}{({k + 1})}} = {{A\hat{x}{(k)}} + {B\hat{d}{(k)}}}$, ${\hat{y}{(k)}} = {{C\hat{x}{(k)}} + {D\hat{d}{(k)}}}$ for any time $k \in {\mathbb{N}}$. On one hand, ${\hat{x}{(k)}} = x_{k}$ and ${\hat{y}{(k)}} = y_{k}$ hold for all $k = {0,\ldots,{n + 1}}$. On the other hand, $\hat{y} \in {\Sigma{(\hat{d})}}$. We thus showed the existence of ${\hat{d}{( \cdot )}},{\hat{y}{( \cdot )}}$, which implies that the desired implication holds. $\blacksquare$
-
-The previous theorem allows one to verify that a given system satisfies a given contract by proving a sequence of (infinitely many) implications of the form. Roughly speaking, this implication guarantees that if the system implements the contract up to time $n$, then it implements the contract up to time $n + 1$. Even though this formulation requires infinitely many steps in general, we will soon see that only finitely many implications of the form needs to be verified. Importantly, the implication can be cast as an optimization problem. For any ${n,p} \in {\mathbb{N}}$ such that $n \geq p$, we consider the following optimization problem:
-
-where $e_{i}$ are the standard basis elements, and $\mathcal{X}_{p}$ for $p = {1,2,\ldots,n}$ are sets to be defined later. We denote this problem as $V_{n,{n - p}}$ and let $\theta_{n,{n - p}}$ be its value. Here, $n$ is the last time at which the we know the guarantee holds, $p$ is the first time we consider, and $\ell = {n - p}$ is the length of history we consider. When taking $p = 0$, the problem computes the "worst-case violation" of the guarantee at time $n + 1$, given that the guarantees hold up to time $n$. For that reason, Theorem 3 can be restated as:
+By extendibility, there exists a signal $\hat{d} \in \mathcal{D}$ such that ${\hat{d}{(k)}} = d_{k}$ for $k = {0,\ldots,{n + 1}}$. Choose ${\hat{x}{}} = x_{0}$ and define ${\hat{x}{({k + 1})}} = {{A\hat{x}{(k)}} + {B\hat{d}{(k)}}}$, ${\hat{y}{(k)}} = {{C\hat{x}{(k)}} + {D\hat{d}{(k)}}}$ for any time $k \in {\mathbb{N}}$. On one hand, ${\hat{x}{(k)}} = x_{k}$ and ${\hat{y}{(k)}} = y_{k}$ hold for all $k = {0,\ldots,{n + 1}}$. On the other hand, $\hat{y} \in {\Sigma{(\hat{d})}}$. We thus showed the existence of ${\hat{d}{(\cdot)}},{\hat{y}{(\cdot)}}$, which implies that the desired implication holds. $\blacksquare$ The previous theorem allows one to verify that a given system satisfies a given contract by proving a sequence of (infinitely many) implications of the form. Roughly speaking, this implication guarantees that if the system implements the contract up to time $n$, then it implements the contract up to time $n + 1$. Even though this formulation requires infinitely many steps in general, we will soon see that only finitely many implications of the form needs to be verified. Importantly, the implication can be cast as an optimization problem. For any ${n,p} \in {\mathbb{N}}$ such that $n \geq p$, we consider the following optimization problem: where $e_{i}$ are the standard basis elements, and $\mathcal{X}_{p}$ for $p = {1,2,\ldots,n}$ are sets to be defined later. We denote this problem as $V_{n,{n - p}}$ and let $\theta_{n,{n - p}}$ be its value. Here, $n$ is the last time at which the we know the guarantee holds, $p$ is the first time we consider, and $\ell = {n - p}$ is the length of history we consider. When taking $p = 0$, the problem computes the "worst-case violation" of the guarantee at time $n + 1$, given that the guarantees hold up to time $n$. For that reason, Theorem 3 can be restated as:
 
 ### Corollary 4
 
-Under the assumptions of Theorem 3, $\Sigma \vDash \mathcal{C}$ if and only if $\theta_{n,n} \leq 0$ for all $n \in {\mathbb{N}}$.
-
-$\theta_{n,n} \leq 0$ if and only if whenever holds, ${{{G^{1}\begin{bmatrix}
-\end{bmatrix}} + {G^{0}\begin{bmatrix}
-\end{bmatrix}}} - g^{0}} \leq 0$ also holds, which is equivalent to $\Sigma \vDash \mathcal{C}$ by Theorem 3. $\square$
-
-The corollary implies that it suffices to compute $\theta_{n,n}$ for all $n \in {\mathbb{N}}$ in order to verify $\Sigma \vDash \mathcal{C}$. We however prefer to compute $\theta_{n,\ell}$ for small $\ell = {n - p}$, as this leads to a simpler problem that can be solved more efficiently with existing numerical methods. The main difficulty in reducing the verification to problems $V_{n,\ell}$ for small $\ell$ is that it requires knowledge of the state trajectory $x{( \cdot )}$ at time $p = {n - l}$, captured in via the constraint $x_{p} \in \mathcal{X}_{p}$. This simply reduces to the initial value $x_{0} \in \mathcal{X}_{0}$ for problems $V_{n,n}$.
+Under the assumptions of Theorem 3, $\Sigma \vDash \mathcal{C}$ if and only if $\theta_{n,n} \leq 0$ for all $n \in {\mathbb{N}}$. $\theta_{n,n} \leq 0$ if and only if whenever holds, ${{{G^{1}\begin{bmatrix} \end{bmatrix}} + {G^{0}\begin{bmatrix} \end{bmatrix}}} - g^{0}} \leq 0$ also holds, which is equivalent to $\Sigma \vDash \mathcal{C}$ by Theorem 3. $\square$ The corollary implies that it suffices to compute $\theta_{n,n}$ for all $n \in {\mathbb{N}}$ in order to verify $\Sigma \vDash \mathcal{C}$. We however prefer to compute $\theta_{n,\ell}$ for small $\ell = {n - p}$, as this leads to a simpler problem that can be solved more efficiently with existing numerical methods. The main difficulty in reducing the verification to problems $V_{n,\ell}$ for small $\ell$ is that it requires knowledge of the state trajectory $x{(\cdot)}$ at time $p = {n - l}$, captured in via the constraint $x_{p} \in \mathcal{X}_{p}$. This simply reduces to the initial value $x_{0} \in \mathcal{X}_{0}$ for problems $V_{n,n}$.
 
 An efficient solution of $V_{n,\ell}$ for small $\ell$ requires a characterization of $\mathcal{X}_{p}$ satisfying the following criteria. First, it is desirable that $\mathcal{X}_{p}$ is a polyhedral set^11^1i.e., it is of the form $\{ x:{{Fx} \leq f}\}$ for a matrix $F$ and a vector $f$., as reduces to a linear problem for which efficient solvers are available, e.g., Yalmip (Löfberg ). Second, we would like $\mathcal{X}_{p}$ to be *independent* of $p$, as this will imply verification of contract satisfaction can be done by solving a finite number of optimization problems (thus not requiring the computation of all $\theta_{n,n}$ as in Corollary 4). Third, $V_{n,\ell}$ is equivalent to $V_{{n + 1},\ell}$ where $\mathcal{X}_{p + 1}$ is the image of $\mathcal{X}_{p}$ under the dynamics $x_{p + 1} = {{Ax_{p}} + {Bd_{p}}}$. Combining the last two points, we search for $\mathcal{X}_{p}$ which is a robust invariant set.
 
@@ -190,13 +146,9 @@ To avoid these difficulties, we simply set $\mathcal{X}_{p} = {\mathbb{R}}^{n_{x
 
 ### Theorem 5
 
-Let $\Sigma = {(\mathcal{X}_{0},A,B,C,D)}$ be a system, and let $\nu$ be its observability index. Take a contract $\mathcal{C} = {(\mathcal{D},\Omega)}$ such that and hold. Define $\mathcal{X}_{p} = {\mathbb{R}}^{n_{x}}$ for all $p \neq 0$. The following claims hold:
+Let $\Sigma = {(\mathcal{X}_{0},A,B,C,D)}$ be a system, and let $\nu$ be its observability index. Take a contract $\mathcal{C} = {(\mathcal{D},\Omega)}$ such that and hold. Define $\mathcal{X}_{p} = {\mathbb{R}}^{n_{x}}$ for all $p \neq 0$. The following claims hold: For any ${n \in {\mathbb{N}}},{\theta_{n,n} \leq \theta_{n,{n - 1}} \leq \theta_{n,{n - 2}} \leq \ldots \leq \theta_{n,0}}$. Moreover, for any $\ell \geq 0$, we have $\theta_{\ell,\ell} \leq \theta_{{\ell + 1},\ell} = \theta_{{\ell + 2},\ell} = \theta_{{\ell + 3},\ell} = \cdots$.
 
-For any ${n \in {\mathbb{N}}},{\theta_{n,n} \leq \theta_{n,{n - 1}} \leq \theta_{n,{n - 2}} \leq \ldots \leq \theta_{n,0}}$. Moreover, for any $\ell \geq 0$, we have $\theta_{\ell,\ell} \leq \theta_{{\ell + 1},\ell} = \theta_{{\ell + 2},\ell} = \theta_{{\ell + 3},\ell} = \cdots$.
-
-Suppose $\mathcal{D}_{\star} = {\{{(d_{0},d_{1})}:{{{A^{1}d_{1}} + {A^{0}d_{0}}} \leq a^{0}}\}}$ is bounded, and that for any bounded set $E \subseteq {\mathbb{R}}^{2n_{d}}$, the intersection of $E \times {\mathbb{R}}^{2n_{y}}$ with $\Omega_{\star} = {\{{(d_{0},d_{1},y_{0},y_{1})}:{{{G^{1}\begin{bmatrix}
-\end{bmatrix}} + {G^{0}\begin{bmatrix}
-\end{bmatrix}}} \leq g^{0}}\}}$ is bounded. Then $\theta_{n,\ell} < \infty$ for $n \geq \ell \geq {\nu - 1}$, and $\theta_{n,\ell} = \infty$ if ${n,{\nu - 1}} > \ell$.
+Suppose $\mathcal{D}_{\star} = {\{{(d_{0},d_{1})}:{{{A^{1}d_{1}} + {A^{0}d_{0}}} \leq a^{0}}\}}$ is bounded, and that for any bounded set $E \subseteq {\mathbb{R}}^{2n_{d}}$, the intersection of $E \times {\mathbb{R}}^{2n_{y}}$ with $\Omega_{\star} = {\{{(d_{0},d_{1},y_{0},y_{1})}:{{{G^{1}\begin{bmatrix} \end{bmatrix}} + {G^{0}\begin{bmatrix} \end{bmatrix}}} \leq g^{0}}\}}$ is bounded. Then $\theta_{n,\ell} < \infty$ for $n \geq \ell \geq {\nu - 1}$, and $\theta_{n,\ell} = \infty$ if ${n,{\nu - 1}} > \ell$.
 
 Given $\ell \geq 0$, if $\theta_{n,n} \leq 0$ for any $0 \leq n < \ell$ and $\theta_{{\ell + 1},\ell} \leq 0$, then $\Sigma \vDash \mathcal{C}$.
 
@@ -212,9 +164,7 @@ Theorem 5 shows that $\theta_{{\ell + 1},\ell} = \infty$ if $\ell \leq {\nu - 2}
 
 ### Remark 3.3
 
-Consider $V_{n,p}$ for $\mathcal{X}_{p} = {\mathbb{R}}^{n_{x}}$. By using the transfer function associated with the state-space system $(A,B,C,D)$, we can find matrices $E_{1},\ldots,E_{m}$ and $F_{0},\ldots,F_{m}$ such that the state-space representation is equivalent to the recursive equation ${y{(k)}} = {{\sum_{r = 1}^{m}{E_{r}y{({k - r})}}} + {\sum_{r = 0}^{m}{F_{r}d{({k - r})}}}}$. Thus, $V_{n,\ell}$ for $\ell \geq m$, $p = {n - \ell}$ and $\mathcal{X}_{p} = {\mathbb{R}}^{n_{x}}$ can be recast as:
-
-This reformulation of is more computationally efficient, as it removes a large number of constraints and variables.
+Consider $V_{n,p}$ for $\mathcal{X}_{p} = {\mathbb{R}}^{n_{x}}$. By using the transfer function associated with the state-space system $(A,B,C,D)$, we can find matrices $E_{1},\ldots,E_{m}$ and $F_{0},\ldots,F_{m}$ such that the state-space representation is equivalent to the recursive equation ${y{(k)}} = {{\sum_{r = 1}^{m}{E_{r}y{({k - r})}}} + {\sum_{r = 0}^{m}{F_{r}d{({k - r})}}}}$. Thus, $V_{n,\ell}$ for $\ell \geq m$, $p = {n - \ell}$ and $\mathcal{X}_{p} = {\mathbb{R}}^{n_{x}}$ can be recast as: This reformulation of is more computationally efficient, as it removes a large number of constraints and variables.
 
 To conclude this section, we showed one can verify a system $\Sigma$ satisfies a contract $\mathcal{C}$ by solving $\nu + 1$ LP problems, where $\nu$ is the observability index of the system. The first $\nu$ problems assert that $\theta_{n,n} \leq 0$ for $n = {0,\ldots,{\nu - 1}}$, and the last asserts that $\theta_{{\nu + 1},\nu} \leq 0$. The first $\nu$ problems deal with the initial conditions of the system, and the last problem deals with the long-term behaviour of the system. This method can be understood as a version of the k-induction method for model checking (Donaldson et al. ).
 
@@ -222,36 +172,19 @@ To conclude this section, we showed one can verify a system $\Sigma$ satisfies a
 
 In this section, we prescribe computational tools for verifying refinement between contracts defined by linear inequalities. These tools are similar to the ones presented in the work of Sankaranarayanan et al..
 
-Consider now two contracts $\mathcal{C}_{1} = {(\mathcal{D}_{1},\Omega_{1})}$ and $\mathcal{C}_{2} = {(\mathcal{D}_{2},\Omega_{2})}$ of the form and, i.e.:
-
-for some $A^{1},A^{0},G^{1},G^{0},B^{1},B^{0},H^{1},H^{0},a^{0},g^{0},b^{0},h^{0}$. We search for a computationally viable way to verify that $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$. It suffices to show that any $d \in \mathcal{D}_{2}$ satisfies $d \in \mathcal{D}_{1}$, and that if ${(d,y)} \in \Omega_{1}$ and $d \in \mathcal{D}_{2}$ then ${(d,y)} \in \Omega_{2}$. As before, we can use inductive reasoning:
+Consider now two contracts $\mathcal{C}_{1} = {(\mathcal{D}_{1},\Omega_{1})}$ and $\mathcal{C}_{2} = {(\mathcal{D}_{2},\Omega_{2})}$ of the form and, i.e.: for some $A^{1},A^{0},G^{1},G^{0},B^{1},B^{0},H^{1},H^{0},a^{0},g^{0},b^{0},h^{0}$. We search for a computationally viable way to verify that $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$. It suffices to show that any $d \in \mathcal{D}_{2}$ satisfies $d \in \mathcal{D}_{1}$, and that if ${(d,y)} \in \Omega_{1}$ and $d \in \mathcal{D}_{2}$ then ${(d,y)} \in \Omega_{2}$. As before, we can use inductive reasoning:
 
 ### Proposition 6
 
-Let $\mathcal{C}_{1},\mathcal{C}_{2}$ be contracts as in, where $G^{1} = {\lbrack G_{d}^{1},G_{y}^{1}\rbrack}$ and $G^{0} = {\lbrack G_{d}^{0},G_{y}^{0}\rbrack}$, and assume both $\left( \begin{bmatrix}
-\end{bmatrix},\begin{bmatrix}
-\end{bmatrix},\begin{bmatrix}
-\end{bmatrix} \right)$ and $(B^{1},B^{0},b^{0})$ are extendable. $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$ if and only if the following two implications hold for any $d_{0},d_{1},y_{0},y_{1}$:
-
-If ${{B^{1}d_{1}} + {B^{0}d_{0}}} \leq b^{0}$ and ${{G^{1}\begin{bmatrix}
-\end{bmatrix}} + {G^{0}\begin{bmatrix}
-\end{bmatrix}}} \leq g^{0}$, then ${{H^{1}\begin{bmatrix}
-\end{bmatrix}} + {H^{0}\begin{bmatrix}
-\end{bmatrix}}} \leq h^{0}$.
+Let $\mathcal{C}_{1},\mathcal{C}_{2}$ be contracts as, where $G^{1} = {\lbrack G_{d}^{1},G_{y}^{1}\rbrack}$ and $G^{0} = {\lbrack G_{d}^{0},G_{y}^{0}\rbrack}$, and assume both $\left(\begin{bmatrix} \end{bmatrix},\begin{bmatrix} \end{bmatrix},\begin{bmatrix} \end{bmatrix} \right)$ and $(B^{1},B^{0},b^{0})$ are extendable. $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$ if and only if the following two implications hold for any $d_{0},d_{1},y_{0},y_{1}$: If ${{B^{1}d_{1}} + {B^{0}d_{0}}} \leq b^{0}$ and ${{G^{1}\begin{bmatrix} \end{bmatrix}} + {G^{0}\begin{bmatrix} \end{bmatrix}}} \leq g^{0}$, then ${{H^{1}\begin{bmatrix} \end{bmatrix}} + {H^{0}\begin{bmatrix} \end{bmatrix}}} \leq h^{0}$.
 
 The proof resembles that of Theorem 3. Suppose first that the two implications hold. We first prove $\mathcal{D}_{1} \supseteq \mathcal{D}_{2}$. Take any $d \in \mathcal{D}_{2}$, so that ${{B^{1}d{({k + 1})}} + {B^{0}d{(k)}}} \leq b^{0}$ holds for all $k$. By assumption, ${{A^{1}d{({k + 1})}} + {A^{0}d{(k)}}} \leq a^{0}$ holds for all $k$, and hence $d \in \mathcal{D}_{1}$. We similarly show that ${\Omega_{1} \cap {({\mathcal{D}_{2} \times \mathcal{S}^{n_{y}}})}} \subseteq {\Omega_{2} \cap {({\mathcal{D}_{2} \times \mathcal{S}^{n_{y}}})}}$.
 
-Conversely, we assume $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, and show that both implications hold. Beginning with the first, we take some $d_{0},d_{1}$ such that ${{B^{1}d_{1}} + {B^{0}d_{0}}} \leq b^{0}$ holds. By extendibility, there exists a signal $d{( \cdot )}$ satisfying ${{d{}} = d_{0}},{{d{}} = d_{1}}$ and ${{B^{1}d{({k + 1})}} + {B^{0}d{(k)}}} \leq b^{0}$ for all $k$. As $\mathcal{D}_{1} \supseteq \mathcal{D}_{2}$, we have ${{A^{1}d{({k + 1})}} + {A^{0}d{(k)}}} \leq a^{0}$ for all $k$. For $k = 0$ we get ${{A^{1}d_{1}} + {A^{0}d_{0}}} \leq a^{0}$, proving the first implication. The second implication is proved similarly. $\square$
-
-Similarly to the previous subsection, we can verify these implications using linear optimization problems:
+Conversely, we assume $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, and show that both implications hold. Beginning with the first, we take some $d_{0},d_{1}$ such that ${{B^{1}d_{1}} + {B^{0}d_{0}}} \leq b^{0}$ holds. By extendibility, there exists a signal $d{(\cdot)}$ satisfying ${{d{}} = d_{0}},{{d{}} = d_{1}}$ and ${{B^{1}d{({k + 1})}} + {B^{0}d{(k)}}} \leq b^{0}$ for all $k$. As $\mathcal{D}_{1} \supseteq \mathcal{D}_{2}$, we have ${{A^{1}d{({k + 1})}} + {A^{0}d{(k)}}} \leq a^{0}$ for all $k$. For $k = 0$ we get ${{A^{1}d_{1}} + {A^{0}d_{0}}} \leq a^{0}$, proving the first implication. The second implication is proved similarly. $\square$ Similarly to the previous subsection, we can verify these implications using linear optimization problems:
 
 ### Theorem 7
 
-Suppose the assumptions of Proposition 6 hold. $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$ if and only if $\psi_{\mathcal{D}}$ and $\psi_{\Omega}$, the optimal values of the problems below, are non-positive:
-
-Follows from Proposition 6, as the implications hold if and only if $\psi_{\mathcal{D}}$ and $\psi_{\Omega}$ are non-positive. $\blacksquare$
-
-To conclude this section, we showed that for contracts defined by time-independent linear inequalities, satisfaction and refinement can be verified using linear programming.
+Suppose the assumptions of Proposition 6 hold. $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$ if and only if $\psi_{\mathcal{D}}$ and $\psi_{\Omega}$, the optimal values of the problems below, are non-positive: Follows from Proposition 6, as the implications hold if and only if $\psi_{\mathcal{D}}$ and $\psi_{\Omega}$ are non-positive. $\blacksquare$ To conclude this section, we showed that for contracts defined by time-independent linear inequalities, satisfaction and refinement can be verified using linear programming.
 
 ## Simulation Example
 
@@ -261,27 +194,11 @@ We exemplify the computational tools prescribed in Section 3 using case studies.
 
 Consider two vehicles driving along a single-lane highway, as in Fig. 3. We are given a headway $h > 0$, and our goal is to verify that the follower keeps at least the given headway from the leader. Denoting the position and velocity of the follower as $p_{1}{(k)}$, $v_{1}{(k)}$, and the position and velocity of the leader as ${p_{2}{(k)}},{v_{2}{(k)}}$, we want to show that ${{p_{2}{(k)}} - {p_{1}{(k)}} - {hv_{1}{(k)}}} \geq 0$ holds at any time $k \in {\mathbb{N}}$. We address this problem using assume/guarantee contracts.
 
-Figure 3: The two-vehicle scenario of Section 4
+Figure 3: The two-vehicle scenario of Section 4 The input signal to the follower $d{(\cdot)}$ is ${d{(k)}} = {\lbrack{p_{2}{(k)}},{v_{2}{(k)}}\rbrack}$. It is reasonable to assume the leader vehicle follows the kinematic laws, i.e., where $a_{2}{(k)}$ is the acceleration to the leading vehicle and ${\Deltat} > 0$ is the length of a discrete time step. As for guarantees, we want to assure that ${{p_{2}{(k)}} - {p_{1}{(k)}} - {hv_{1}{(k)}}} \geq 0$ holds for any $k \in {\mathbb{N}}$. It is clear that these assumptions and guarantees are given by linear inequalities, meaning that the methods of Section 3 can be applied. Explicitly, the set of assumptions is of the form and the set of guarantees is of the form,: We must also specify the system. We assume the follower vehicle also satisfies the kinematic laws, with an acceleration dictated by an affine control law: In other words, the follower can be modeled by a system $\Sigma$ defined by the equations ${x{({k + 1})}} = {{Ax{(k)}} + {Bd{(k)}} + w}$, ${y{(k)}} = {{Cx{(k)}} + {Dd{(k)}}}$, where $x = y = {\lbrack p_{1},v_{1}\rbrack}^{\top}$, $d = {\lbrack p_{2},v_{2}\rbrack}^{\top}$, $\mathcal{X}_{0}$ depends on $d{}$ as we assume the initial state satisfies ${{p_{2}{}} - {p_{1}{}} - {hv_{1}{}}} \geq 0$ (see Remark 1), and the dynamics are given by the matrices: Figure 4: Leader vehicle in simulation.
 
-The input signal to the follower $d{( \cdot )}$ is ${d{(k)}} = {\lbrack{p_{2}{(k)}},{v_{2}{(k)}}\rbrack}$. It is reasonable to assume the leader vehicle follows the kinematic laws, i.e.,
+(a) Velocity of follower vehicle (b) Headway between vehicles Figure 5: Velocity of follower vehicle and headway.
 
-where $a_{2}{(k)}$ is the acceleration to the leading vehicle and ${\Deltat} > 0$ is the length of a discrete time step. As for guarantees, we want to assure that ${{p_{2}{(k)}} - {p_{1}{(k)}} - {hv_{1}{(k)}}} \geq 0$ holds for any $k \in {\mathbb{N}}$. It is clear that these assumptions and guarantees are given by linear inequalities, meaning that the methods of Section 3 can be applied. Explicitly, the set of assumptions is of the form and the set of guarantees is of the form, for:
-
-We must also specify the system. We assume the follower vehicle also satisfies the kinematic laws, with an acceleration dictated by an affine control law:
-
-In other words, the follower can be modeled by a system $\Sigma$ defined by the equations ${x{({k + 1})}} = {{Ax{(k)}} + {Bd{(k)}} + w}$, ${y{(k)}} = {{Cx{(k)}} + {Dd{(k)}}}$, where $x = y = {\lbrack p_{1},v_{1}\rbrack}^{\top}$, $d = {\lbrack p_{2},v_{2}\rbrack}^{\top}$, $\mathcal{X}_{0}$ depends on $d{}$ as we assume the initial state satisfies ${{p_{2}{}} - {p_{1}{}} - {hv_{1}{}}} \geq 0$ (see Remark 1), and the dynamics are given by the matrices:
-
-Figure 4: Leader vehicle in simulation.
-
-(a) Velocity of follower vehicle
-
-(b) Headway between vehicles
-
-Figure 5: Velocity of follower vehicle and headway.
-
-We want to prove that $\Sigma \vDash \mathcal{C}$, and we do so using Theorem 5. The system $\Sigma$ is observable, and its observability index is $\nu = 1$. Thus, it suffices to prove ${\theta_{0,0},\theta_{2,1}} \leq 0$, where:
-
-In the problem defining $\theta_{2,1}$, the parameters with "$+$" correspond to time $k = 2$, and the ones without "$+$" correspond to time $k = 1$. We choose parameters $a_{\min} = a_{\max} = {{9.8m}/s^{2}}$, ${\Deltat} = {0.1\sec}$, $h = {2sec}$, and solve both LP problems using Yalmip (Löfberg ), computing ${\theta_{0,0} = 0},{\theta_{2,1} = {- 0.2}}$, meaning that $\Sigma \vDash \mathcal{C}$ as ${\theta_{0,0},\theta_{2,1}} \leq 0$.
+We want to prove that $\Sigma \vDash \mathcal{C}$, and we do so using Theorem 5. The system $\Sigma$ is observable, and its observability index is $\nu = 1$. Thus, it suffices to prove ${\theta_{0,0},\theta_{2,1}} \leq 0$, where: In the problem defining $\theta_{2,1}$, the parameters with "$+$" correspond to time $k = 2$, and the ones without "$+$" correspond to time $k = 1$. We choose parameters $a_{\min} = a_{\max} = {{9.8m}/s^{2}}$, ${\Deltat} = {0.1\sec}$, $h = {2sec}$, and solve both LP problems using Yalmip (Löfberg), computing ${\theta_{0,0} = 0},{\theta_{2,1} = {- 0.2}}$, meaning that $\Sigma \vDash \mathcal{C}$ as ${\theta_{0,0},\theta_{2,1}} \leq 0$.
 
 We exemplify that $\Sigma \vDash \mathcal{C}$ through simulation. We consider the following trajectory of the leader - its initial speed is about ${110km}/h$, which is roughly kept for 10 seconds. It then starts to sway wildly for 10 seconds between ${80km}/h$ and ${110km}/h$, braking and accelerating as hard as possible. Finally, it stops swaying and keeps its velocity for 10 more seconds. The velocity and acceleration of the leader can be seen in Fig. 4. The follower starts $45m$ behind the leader, so the headway is kept at time $0$. We run the simulation for both vehicles, and plot the headway $\frac{{p_{2}{(k)}} - {p_{1}{(k)}}}{v_{1}{(k)}}$ and the velocity of the follower in Fig. 5. It can be seen that the headway is kept throughout the run, so the guarantees are satisfied, as predicted by our analysis.
 
@@ -289,21 +206,11 @@ We exemplify that $\Sigma \vDash \mathcal{C}$ through simulation. We consider th
 
 As in the previous case study, consider the two-vehicle scenario described in Fig. 3. As before, we consider contracts about the behaviour of the follower vehicle, where the input $d = {\lbrack p_{2},v_{2}\rbrack}$ consists of the position and velocity of the leader vehicle, and the output $y = {\lbrack p_{1},v_{1}\rbrack}$ consists of the position and velocity of the follower vehicle.
 
-We now prescribe two contracts $\mathcal{C}_{1},\mathcal{C}_{2}$ on the follower, where $\mathcal{C}_{1} = {(\mathcal{D}_{1},\Omega_{1})}$ and $\mathcal{C}_{2} = {(\mathcal{D}_{2},\Omega_{2})}$. In both, we assume that the leader vehicle satisfies the kinematic relations, with varying bounds on its acceleration, and guarantee that headway is kept. Namely, for $j = {1,2}$, the set of assumptions $\mathcal{D}_{i}$ is given by the following kinematic relations, which must hold for all times $k \in {\mathbb{N}}$:
-
-where the parameters $a_{\min,j},a_{\max,j}$ determine the assumed maximum acceleration and deceleration. We also assume that the vehicle is moving forward in both cases, i.e. that ${v_{2}{(k)}} \geq 0$. Similarly, the set $\Omega_{j}$ is defined by the following headway-preservation safety guarantee:
-
-where the parameters $h_{1},h_{2}$ determine the desired headway between the vehicles.
+We now prescribe two contracts $\mathcal{C}_{1},\mathcal{C}_{2}$ on the follower, where $\mathcal{C}_{1} = {(\mathcal{D}_{1},\Omega_{1})}$ and $\mathcal{C}_{2} = {(\mathcal{D}_{2},\Omega_{2})}$. In both, we assume that the leader vehicle satisfies the kinematic relations, with varying bounds on its acceleration, and guarantee that headway is kept. Namely, for $j = {1,2}$, the set of assumptions $\mathcal{D}_{i}$ is given by the following kinematic relations, which must hold for all times $k \in {\mathbb{N}}$: where the parameters $a_{\min,j},a_{\max,j}$ determine the assumed maximum acceleration and deceleration. We also assume that the vehicle is moving forward in both cases, i.e. that ${v_{2}{(k)}} \geq 0$. Similarly, the set $\Omega_{j}$ is defined by the following headway-preservation safety guarantee: where the parameters $h_{1},h_{2}$ determine the desired headway between the vehicles.
 
 It is clear that if $a_{\min,2} \leq a_{\min,1}$ and $a_{\max,2},a_{\max,1}$, then the contract $\mathcal{C}_{1}$ assumes less than the contract $\mathcal{C}_{2}$, as its assumptions allow the leading vehicle the accelerate and decelerate more sharply. Moreover, if $h_{1} \geq h_{2}$, then $\mathcal{C}_{1}$ guarantees more than $\mathcal{C}_{2}$, as the associated headway is larger. Thus, for this parameter setting, we have that $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$. We wish to verify this refinement using the tools of Section 3.
 
-First, we note that these contracts are defined by linear inequalities. Specifically, holds where the matrices $A^{0},A^{1},G^{0},G^{1},B^{0},B^{1},H^{0}$ and $H^{1}$ are given by:
-
-By Theorem 7, $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$ if and only if the following two optimization problems have a non-positive value:
-
-where the cost function $c_{\mathcal{D}}$ is defined as:
-
-We choose the parameter ${\Deltat} = {0.1\sec}$ for both contracts, the parameters $a_{\min,1} = a_{\max,1} = {{9.8m}/s^{2}}$, $h_{1} = {2sec}$ for the first contract, and the parameters $a_{\min,2} = a_{\max,2} = {{9.5m}/s^{2}}$, $h_{2} = {1.9\sec}$ for the second contract. We solve both problems using Yalmip (Löfberg ), computing ${\psi_{\mathcal{D}} = {- 0.03}},{\psi_{\Omega} = 0}$. Because ${\psi_{\mathcal{D}},\psi_{\Omega}} \leq 0$, we conclude that $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, as expected.
+First, we note that these contracts are defined by linear inequalities. Specifically, holds where the matrices $A^{0},A^{1},G^{0},G^{1},B^{0},B^{1},H^{0}$ and $H^{1}$ are given: By Theorem 7, $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$ if and only if the following two optimization problems have a non-positive value: where the cost function $c_{\mathcal{D}}$ is defined as: We choose the parameter ${\Deltat} = {0.1\sec}$ for both contracts, the parameters $a_{\min,1} = a_{\max,1} = {{9.8m}/s^{2}}$, $h_{1} = {2sec}$ for the first contract, and the parameters $a_{\min,2} = a_{\max,2} = {{9.5m}/s^{2}}$, $h_{2} = {1.9\sec}$ for the second contract. We solve both problems using Yalmip (Löfberg), computing ${\psi_{\mathcal{D}} = {- 0.03}},{\psi_{\Omega} = 0}$. Because ${\psi_{\mathcal{D}},\psi_{\Omega}} \leq 0$, we conclude that $\mathcal{C}_{1} \preccurlyeq \mathcal{C}_{2}$, as expected.
 
 ## Conclusions and Future Research
 

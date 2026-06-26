@@ -2,11 +2,7 @@
 
 The ability to accurately perceive objects in dense urban environments still remains a challenging problem for self-driving cars. While such self-driving cars typically deploy a wide variety of sensors lidars play a key role due to the accurate range information provided. Driven in part by the availability of benchmark datasets, the last decade has seen tremendous progress in lidar based 3D object detection. However, these methods all ignore the fact that most lidar sensors scan the scene sequentially as the lidar rotates around the z-axis. They instead wait for the rotational scan to complete (colloquially known as full sweep) before processing data, thereby introducing a large data capture latency (usually 50 to 100 ms).
 
-First, Han et al. and then STROBE recognized this problem and proposed solutions which processed lidar sectors (shown in Fig. 1) as soon as they arrived. They showed that a streaming based architecture can achieve significantly reduced latency over the traditional non-streaming baselines. Both of these methods encode the point clouds as an image in bird's-eye view (BEV) using cuboid-shaped voxels. In doing so, they ignore the natural polar representation formed by the lidar sectors. Using cuboid-shaped voxels restricts them to performing convolutions on the minimal rectangular
-
-Figure 1: Left: An illustration of streaming lidar point clouds on bird’s eye view. Lidar point clouds arrive as wedge-shape sectors (shown in gray masks) as the scanner rotates. Previous methods, Han et al. and STROBE, represent the sectors using rectangular regions, wasting half of memory and computation for empty regions. Ours represents the sectors as wedge-shape regions using a polar grid. Right: Comparison of different streaming methods wrt. Panoptic Quality vs End-to-End Lantency as we slice the full sweep into n = 1, 2, 4, 8, 16, 32 sectors using the NuScenes val split. The end-to-end latency includes 50/n ms for LiDAR scan and the total runtime of the algorithms.
-
-region enclosing the point cloud sector which wastes both computation and memory. As shown in Fig. 1, a large portion of the enclosed rectangular region remains empty.
+First, Han et al. and then STROBE recognized this problem and proposed solutions which processed lidar sectors (shown in Fig. 1) as soon as they arrived. They showed that a streaming based architecture can achieve significantly reduced latency over the traditional non-streaming baselines. Both of these methods encode the point clouds as an image in bird's-eye view (BEV) using cuboid-shaped voxels. In doing so, they ignore the natural polar representation formed by the lidar sectors. Using cuboid-shaped voxels restricts them to performing convolutions on the minimal rectangular Figure 1: Left: An illustration of streaming lidar point clouds on bird’s eye view. Lidar point clouds arrive as wedge-shape sectors (shown in gray masks) as the scanner rotates. Previous methods, Han et al. and STROBE, represent the sectors using rectangular regions, wasting half of memory and computation for empty regions. Ours represents the sectors as wedge-shape regions using a polar grid. Right: Comparison of different streaming methods wrt. Panoptic Quality vs End-to-End Lantency as we slice the full sweep into n = 1, 2, 4, 8, 16, 32 sectors using the NuScenes val split. The end-to-end latency includes 50/n ms for LiDAR scan and the total runtime of the algorithms. region enclosing the point cloud sector which wastes both computation and memory. As shown in Fig. 1, a large portion of the enclosed rectangular region remains empty.
 
 Another challenge associated with streaming perception models is the limited view of the scene observed by each sector. Objects close to the ego-vehicle can often be fragmented across multiple sectors as shown by the car highlighted in green in Fig.1. Han et al. proposes to increase the context available to the model by maintaining a recurrent memory across consecutive sectors. STROBE also aggregates representations from the previous sectors by maintaining full-sweep feature maps across multiple scales. However, both these solutions add extra computation.
 
@@ -18,13 +14,9 @@ In this work, we propose several techniques to address the distortion problem de
 
 Finally, we train multitasking streaming models that do simultaneous 3D object detection, lidar segmentation and panoptic segmentation, for the first time in literature. Results on the nuScenes dataset show that our proposed model PolarStream outperforms all streaming methods in both panoptic quality and speed. PolarStream also stays competitive with the top-performing lidar perception methods on the nuScenes leaderboard while being at least twice as fast as the rest. We do several ablation studies and extensive analysis to show the effectiveness of PolarStream.
 
-In summary, our contributions are:
+In summary, our contributions are: An efficient streaming based lidar perception models using a polar grid.
 
-An efficient streaming based lidar perception models using a polar grid.
-
-Multi-scale context padding: an efficient approach to enhance the context of streaming lidar perception models
-
-Several improvements to the core problem of applying convolutions on a polar grid: Feature Undistortion, Range Stratified Convolution&Normalization all add minimal latency to our model.
+Multi-scale context padding: an efficient approach to enhance the context of streaming lidar perception models Several improvements to the core problem of applying convolutions on a polar grid: Feature Undistortion, Range Stratified Convolution&Normalization all add minimal latency to our model.
 
 ## Related Works
 
@@ -66,7 +58,7 @@ To extend PointPillars for segmentation, we add a semantic segmentation head in 
 
 Similar to Panoptic-PolarNet, for each point belonging to things, we predict the instance id as the box id whose category is the same and center is the nearest. For streaming data with $n > 1$, the panoptic segmentation task is not well defined. For example, the points in the $i_{th}$ sector may belong to the box in the ${({i + 1})}_{th}$ sector if the majority of the box is in the ${({i + 1})}_{th}$ sector. However, when we are doing panoptic fusion for $i_{th}$ sector, we do not have information from the ${({i + 1})}_{th}$ sector. Therefore we choose global panoptic fusion for streaming point clouds, i.e., we assign instance ids according to the boxes from all sectors of the same sweep.
 
-Figure 2: Simultaneous LiDAR object detection and segmentation network with polar pillars. We adopt the same backbone as in PointPillars, and add a semantic segmentation head in parallel with the detection heads. The input wedge-shape pillars are unfolded into a rectangular feature map for convolution. The object (green box) is distorted because one end near the sensor looks bigger and the other end far from the sensor looks smaller. Feature Undistortion is applied to classification head to mimic bilinear sampling and interpolate cartesian pillar features from polar pillar features. Range Stratified Convolution&amp; Normalization is applied to center offset regression head.
+Figure 2: Simultaneous LiDAR object detection and segmentation network with polar pillars. We adopt the same backbone as in PointPillars, and add a semantic segmentation head in parallel with the detection heads. The input wedge-shape pillars are unfolded into a rectangular feature map for convolution. The object (green box) is distorted because one end near the sensor looks bigger and the other end far from the sensor looks smaller. Feature Undistortion is applied to classification head to mimic bilinear sampling and interpolate cartesian pillar features from polar pillar features. Range Stratified Convolution& Normalization is applied to center offset regression head.
 
 ### Multi-Task Learning
 
@@ -74,27 +66,13 @@ We adopt Focal Loss for classification and L1 loss for bounding box regression, 
 
 ### Feature Undistortion
 
-As mentioned in Sec.1, objects have distorted appearances with polar pillars, we propose Feature Undistortion to undistort the features. As shown on the top right of Fig.2, the idea of undistortion is to interpolate features at cartesian pillar locations from the original polar pillar locations so that the translation-invariant property of convolution applies. We find the connection of bilinear sampling to convolution and mimic bilinear sampling using convolution. For bilinear sampling, the interpolated features at point $p$ can be sampled from its neighboring points $\mathcal{N}_{p}$:
+As mentioned in Sec.1, objects have distorted appearances with polar pillars, we propose Feature Undistortion to undistort the features. As shown on the top right of Fig.2, the idea of undistortion is to interpolate features at cartesian pillar locations from the original polar pillar locations so that the translation-invariant property of convolution applies. We find the connection of bilinear sampling to convolution and mimic bilinear sampling using convolution. For bilinear sampling, the interpolated features at point $p$ can be sampled from its neighboring points $\mathcal{N}_{p}$: where $w_{k}$ is a function of distance($p$, $p_{k}$).
 
-where $w_{k}$ is a function of distance($p$, $p_{k}$).
-
-We find Equation 1 has the similar form to convolution, except that for convolution $w_{k}$ is fixed because same kernel is slided through every location of the feature map. To make $w_{k}$ distance-dependent, we tweak Equation 1 by adding a new parameter $w_{k}^{\prime}$ so Equation 1 can be rewriten as:
-
-where $w_{k}^{\prime}$ is conditioned on distance($p$, $p_{k}$). We model $w_{k}^{\prime}$ as the output of a neural network. We build a standalone fully convolutional network $g$ that takes position encodings at $p_{k}$ and its neighboring points $\mathcal{N}_{p_{k}}$, i.e. $\left. \{{{pe_{i}} = {(r_{i},{\cos\theta_{i}},{\sin\theta_{i}},x_{i},y_{i})}} \middle| {i \in {\mathcal{N}_{p_{k}} \cup p_{k}}}\} \right.$ as input, and output $w_{k}^{\prime}$. Simply put:
-
-To make it more general, we also add a bias term $b_{k}^{\prime}$, and another standalone network $q$ so that $b_{k}^{\prime} = {q{({\{{pe_{i}}\}})}}$ and
-
-$g$ and $q$ is trained together with our main network, and during inference $w_{k}^{\prime}$ and $b_{k}^{\prime}$ are fixed for each location $p_{k}$ so it does not need extra runtime for $g$ and $q$. We apply feature undistortion in center heatmap prediction.
+We find Equation 1 has the similar form to convolution, except that for convolution $w_{k}$ is fixed because same kernel is slided through every location of the feature map. To make $w_{k}$ distance-dependent, we tweak Equation 1 by adding a new parameter $w_{k}'$ so Equation 1 can be rewriten as: where $w_{k}'$ is conditioned on distance($p$, $p_{k}$). We model $w_{k}'$ as the output of a neural network. We build a standalone fully convolutional network $g$ that takes position encodings at $p_{k}$ and its neighboring points $\mathcal{N}_{p_{k}}$, i.e. $\left. \{{{pe_{i}} = {(r_{i},{\cos\theta_{i}},{\sin\theta_{i}},x_{i},y_{i})}} \middle| {i \in {\mathcal{N}_{p_{k}} \cup p_{k}}}\} \right.$ as input, and output $w_{k}'$. Simply put: To make it more general, we also add a bias term $b_{k}'$, and another standalone network $q$ so that $b_{k}' = {q{({\{{pe_{i}}\}})}}$ and $g$ and $q$ is trained together with our main network, and during inference $w_{k}'$ and $b_{k}'$ are fixed for each location $p_{k}$ so it does not need extra runtime for $g$ and $q$. We apply feature undistortion in center heatmap prediction.
 
 ### Range Stratified Convolution&Normalization
 
-Another challenge with polar pillars is that the center offset is dependent on range and azimuth so it has different statistics at different regions: suppose the heatmap center is at $(r_{c},\theta_{c})$, and the target is at $(r_{t},\theta_{t})$. The center offset is
-
-For simplicity, assume $r_{t} = r_{c}$, i.e. the center offset moves along a circle. Suppose $\theta_{t} > \theta_{c}$ then
-
-where $\theta_{s}$ is a small angle and $\delta\theta$ is the polar pillar angle size. Then
-
-Similarly, we can derive that $d_{y}$ is also dependent on range and azimuth and observe that for Cartesian pillars center offset ranges from -1 to 1 and mean is 0.49 and std is 0.28, while polar pillars center offset ranges from -2 to 2, mean is 0 and std is 0.64. The polar std is much larger than that for Cartesian pillars. Hence it's more difficult to regress center offset based on polar pillars. Based on these observations, we propose Range Stratified Convolution& Normalization instead of regular convolution and batch normalization. As shown on bottom right of Fig.2, Range Stratified Convolution applies individual kernels at different ranges and Range Stratified Normalization only normalizes over individual regions within certain range instead of entire spatial dimension. We apply Range Stratified Convolution&Normalization to center offset regression. We also apply Range Stratified Normalization to the shared convolution for detection heads.
+Another challenge with polar pillars is that the center offset is dependent on range and azimuth so it has different statistics at different regions: suppose the heatmap center is at $(r_{c},\theta_{c})$, and the target is at $(r_{t},\theta_{t})$. The center offset is For simplicity, assume $r_{t} = r_{c}$, i.e. the center offset moves along a circle. Suppose $\theta_{t} > \theta_{c}$ then where $\theta_{s}$ is a small angle and $\delta\theta$ is the polar pillar angle size. Then Similarly, we can derive that $d_{y}$ is also dependent on range and azimuth and observe that for Cartesian pillars center offset ranges from -1 to 1 and mean is 0.49 and std is 0.28, while polar pillars center offset ranges from -2 to 2, mean is 0 and std is 0.64. The polar std is much larger than that for Cartesian pillars. Hence it's more difficult to regress center offset based on polar pillars. Based on these observations, we propose Range Stratified Convolution& Normalization instead of regular convolution and batch normalization. As shown on bottom right of Fig.2, Range Stratified Convolution applies individual kernels at different ranges and Range Stratified Normalization only normalizes over individual regions within certain range instead of entire spatial dimension. We apply Range Stratified Convolution&Normalization to center offset regression. We also apply Range Stratified Normalization to the shared convolution for detection heads.
 
 ### Multi-Scale Context Padding
 
@@ -167,6 +145,7 @@ As the full-sweep 3D object detection and LiDAR semantic segmentation have longe
 We also adopt a heavier 3D ResNet backbone as in CBGS and compare with the state of the art methods for 3D object detection and semantic segmentation in Tab. 2. Our PLS1-heavy is able to match/beat the state-of-the-art models for detection (CenterPoint) and segmentation (Cylinder3D) on the nuScenes validation set. In this work, we focus on onboard applications so we only choose the same backbone as in PointPillars for streaming.
 
 #parameters(MB)
+
 #parameters(MB)
 
 Table 2: Comparison with state-of-the-art methods on nuScenes Val split.
@@ -183,9 +162,7 @@ As shown in Tab.3, the advantage of Multi-Scale Context Padding starts to show u
 
 We do the ablation studies with $n = 1$, i.e., the full-sweep case. To show how we close the gap of detection accuracy between polar pillars and Cartesian Pillars, we also list the results of Cartesian pillars with the same architecture and input size. We find that polar pillars outperforms Cartesian pillars in semantic segmentation mIoU (73.2 vs 72.1), which is also found in prior arts, because points in the same polar pillar have less disagreement in the semantic label compared to those in a Cartesian pillar. However, polar pillars is less accurate in object detection due to the challenges we discussed. In Tab. 4 we show either Range Stratified Convolution& Normalization or Feature Undistortion helps to improve detection accuracy based on polar pillars (by 0.9 and 0.4 mAP respectively). With both techniques combined, we improve detection mAP from $48.2$ to $50.3$, narrowing the gap compared to Cartesian pillars ($50.6$). We also apply both techniques to Cartesian pillars and they do not improve Cartesian pillars, showing they only address the specific challenges of polar pillars, instead of improving the performance by adding more parameters to the network. Our techniques do not add noticeable runtime (0.5ms). In addition, we find detection mAP can be improved when simultaneouly trained with semantic segmentation. The improvement is more significant for Cartesian pillars, but Cartesian pillars suffer from slight drop in segmentation mIoU.
 
-Stratified Norm&amp;Conv
-
-Table 4: Ablation Studies on the validation split of nuScenes.
+Stratified Norm&Conv Table 4: Ablation Studies on the validation split of nuScenes.
 
 ## Conclusion
 

@@ -44,17 +44,9 @@ Let $\mathcal{X}$ be the state space, which is assumed to be ${\lbrack 0,1\rbrac
 
 A motion-planning problem is implicitly defined by the triplet $(\mathcal{F},x_{\text{init}},\mathcal{X}_{\text{goal}})$. A solution to such a problem is a trajectory that moves the robot from the initial state to the goal region while avoiding collisions with obstacles. More formally, a valid trajectory is a continuous map $\pi:{{\lbrack 0,t_{\pi}\rbrack}\rightarrow\mathcal{F}}$, such that ${\pi{}} = x_{\text{init}}$ and ${\pi{(t_{\pi})}} \in \mathcal{X}_{\text{goal}}$. The clearance of $\pi$ is the maximal $\delta_{\text{clear}}$, such that ${\mathcal{B}_{\delta_{\text{clear}}}{({\pi{(t)}})}} \subseteq \mathcal{F}$ for all $t \in {\lbrack 0,t_{\pi}\rbrack}$. We require that $\delta_{\text{clear}} > 0$.
 
-We describe in Algorithm 1 the (geometric) RRT algorithm, GEOM-RRT, based on. The input for GEOM-RRT consists of an initial configuration $x_{\text{init}}$, goal region $\mathcal{X}_{\text{goal}}$, number of iterations $k$, and a steering parameter $\eta > 0$ used by the algorithm. GEOM-RRT constructs a tree $\mathcal{T}$ by preforming $k$ iterations of the following form. In each iteration, a new random sample $x_{\text{rand}}$ is returned from $\mathcal{X}$ uniformly by calling RANDOM_STATE. Then, the vertex $x_{\text{near}} \in \mathcal{T}$ that is nearest (according to $\parallel \cdot \parallel$) to $x_{\text{rand}}$ is found using NEAREST_NEIGHBOR. A new configuration $x_{\text{new}} \in \mathcal{X}$ is then returned by NEW_STATE, such that $x_{\text{new}}$ is on the line segment between $x_{\text{near}}$ and $x_{\text{rand}}$ and the distance $\|{x_{\text{near}} - x_{\text{new}}}\|$ is at most $\eta$. Finally, COLLISION_FREE($x_{\text{near}},x_{\text{new}}$) checks whether the path from $x_{\text{near}}$ to $x_{\text{new}}$ is collision free. If so, $x_{\text{new}}$ is added as a vertex to $\mathcal{T}$ and is connected by an edge from $x_{\text{near}}$.
+We describe in Algorithm 1 the (geometric) RRT algorithm, GEOM-RRT, based . The input for GEOM-RRT consists of an initial configuration $x_{\text{init}}$, goal region $\mathcal{X}_{\text{goal}}$, number of iterations $k$, and a steering parameter $\eta > 0$ used by the algorithm. GEOM-RRT constructs a tree $\mathcal{T}$ by preforming $k$ iterations of the following form. In each iteration, a new random sample $x_{\text{rand}}$ is returned from $\mathcal{X}$ uniformly by calling RANDOM_STATE. Then, the vertex $x_{\text{near}} \in \mathcal{T}$ that is nearest (according to $\parallel \cdot \parallel$) to $x_{\text{rand}}$ is found using NEAREST_NEIGHBOR. A new configuration $x_{\text{new}} \in \mathcal{X}$ is then returned by NEW_STATE, such that $x_{\text{new}}$ is on the line segment between $x_{\text{near}}$ and $x_{\text{rand}}$ and the distance $\|{x_{\text{near}} - x_{\text{new}}}\|$ is at most $\eta$. Finally, COLLISION_FREE($x_{\text{near}},x_{\text{new}}$) checks whether the path from $x_{\text{near}}$ to $x_{\text{new}}$ is collision free. If so, $x_{\text{new}}$ is added as a vertex to $\mathcal{T}$ and is connected by an edge from $x_{\text{near}}$.
 
-3: xrand← RANDOM_STATE()
-4: xnear ← NEAREST_NEIGHBOR (xrand,𝒯)
-5: xnew← NEW_STATE(xrand, xnear, η)
-6: if COLLISION_FREE(xnear, xnew) then
-7: 𝒯.add_vertex(xnew)
-8: 𝒯.add_edge(xnear, xnew)
-Algorithm 1 GEOM-RRT(xinit, 𝒳goal, k, η)
-
-To retrieve a trajectory for the robot, the single path in $\mathcal{T}$ from the root state $x_{\text{init}}$ to the goal is found. It can then be translated to a feasible, collision-free trajectory for the robot by tracing the configurations along this path.
+3: xrand← RANDOM_STATE 4: xnear ← NEAREST_NEIGHBOR (xrand, 𝒯) 5: xnew← NEW_STATE(xrand, xnear, η) 6: if COLLISION_FREE(xnear, xnew) then 7: 𝒯.add_vertex(xnew) 8: 𝒯.add_edge(xnear, xnew) Algorithm 1 GEOM-RRT(xinit, 𝒳goal, k, η) To retrieve a trajectory for the robot, the single path in $\mathcal{T}$ from the root state $x_{\text{init}}$ to the goal is found. It can then be translated to a feasible, collision-free trajectory for the robot by tracing the configurations along this path.
 
 ### III-B Probabilistic completeness proof
 
@@ -68,19 +60,15 @@ Figure 1: Illustration of the proof of Lemma 1.
 
 ### Lemma 1
 
-Suppose that GEOM-RRT has reached $\mathcal{B}_{\nu/5}{(x_{i})}$, that is, $\mathcal{T}$ contains a vertex $x_{i}^{\prime}$ such that $x_{i}^{\prime} \in {\mathcal{B}_{\nu/5}{(x_{i})}}$. If a new sample $x_{\text{rand}}$ is drawn such that $x_{\text{rand}} \in {\mathcal{B}_{\nu/5}{(x_{i + 1})}}$, then the straight line segment between $x_{\text{rand}}$ and its nearest neighbor $x_{\text{near}}$ in $\mathcal{T}$ lies entirely in $\mathcal{F}$.
+Suppose that GEOM-RRT has reached $\mathcal{B}_{\nu/5}{(x_{i})}$, that is, $\mathcal{T}$ contains a vertex $x_{i}'$ such that $x_{i}' \in {\mathcal{B}_{\nu/5}{(x_{i})}}$. If a new sample $x_{\text{rand}}$ is drawn such that $x_{\text{rand}} \in {\mathcal{B}_{\nu/5}{(x_{i + 1})}}$, then the straight line segment between $x_{\text{rand}}$ and its nearest neighbor $x_{\text{near}}$ in $\mathcal{T}$ lies entirely in $\mathcal{F}$.
 
 ### Proof
 
-Denote by $x_{\text{near}}$ the nearest neighbor of $x_{\text{rand}}$ among the RRT vertices. See Figure 1 for an illustration. Then, from the definition of $x_{\text{near}}$, it follows that ${\|{x_{\text{near}} - x_{\text{rand}}}\|} \leqslant {\|{x_{i}^{\prime} - x_{\text{rand}}}\|}$, where $x_{i}^{\prime} \in {\mathcal{B}_{\nu/5}{(x_{i})}}$.
+Denote by $x_{\text{near}}$ the nearest neighbor of $x_{\text{rand}}$ among the RRT vertices. See Figure 1 for an illustration. Then, from the definition of $x_{\text{near}}$, it follows that ${\|{x_{\text{near}} - x_{\text{rand}}}\|} \leqslant {\|{x_{i}' - x_{\text{rand}}}\|}$, where $x_{i}' \in {\mathcal{B}_{\nu/5}{(x_{i})}}$.
 
-We show that $x_{\text{near}}$ must lie in $\mathcal{B}_{\nu}{(x_{i})}$, implying that $\overline{x_{\text{near}}x_{\text{rand}}} \subset \mathcal{F}$, as $x_{rand} \in {\mathcal{B}_{\nu/5}{(x_{i + 1})}} \subset {\mathcal{B}_{\nu}{(x_{i})}}$. From ${\|{x_{\text{near}} - x_{\text{rand}}}\|} \leqslant {\|{x_{i}^{\prime} - x_{\text{rand}}}\|}$ and the triangle inequality, we have:
+We show that $x_{\text{near}}$ must lie in $\mathcal{B}_{\nu}{(x_{i})}$, implying that $\overline{x_{\text{near}}x_{\text{rand}}} \subset \mathcal{F}$, as $x_{rand} \in {\mathcal{B}_{\nu/5}{(x_{i + 1})}} \subset {\mathcal{B}_{\nu}{(x_{i})}}$. From ${\|{x_{\text{near}} - x_{\text{rand}}}\|} \leqslant {\|{x_{i}' - x_{\text{rand}}}\|}$ and the triangle inequality, we have: From the triangle inequality, we have that Hence, $x_{\text{near}} \in {\mathcal{B}_{\nu}{(x_{i})}} \subseteq \mathcal{F}$ and thus $\overline{x_{\text{near}}x_{\text{rand}}} \subset \mathcal{F}$.
 
-From the triangle inequality, we have that
-
-Hence, $x_{\text{near}} \in {\mathcal{B}_{\nu}{(x_{i})}} \subseteq \mathcal{F}$ and thus $\overline{x_{\text{near}}x_{\text{rand}}} \subset \mathcal{F}$.
-
-Note that ${\|{x_{\text{near}} - x_{\text{rand}}}\|} \leqslant \eta$, since: ${{\|{x_{\text{rand}} - x_{\text{near}}}\|} \leqslant {\|{x_{\text{rand}} - x_{i}^{\prime}}\|} \leqslant {{\|{x_{i}^{\prime} - x_{i}}\|} + {\|{x_{i} - x_{i + 1}}\|} + {\|{x_{i + 1} - x_{\text{rand}}}\|}} \leqslant {3 \cdot \frac{\nu}{5}} < \nu \leqslant \eta}.$ The fact that ${\|{x_{\text{near}} - x_{\text{rand}}}\|} \leqslant \eta$, means that $x_{\text{new}} = x_{\text{rand}}$.
+Note that ${\|{x_{\text{near}} - x_{\text{rand}}}\|} \leqslant \eta$, since: ${{\|{x_{\text{rand}} - x_{\text{near}}}\|} \leqslant {\|{x_{\text{rand}} - x_{i}'}\|} \leqslant {{\|{x_{i}' - x_{i}}\|} + {\|{x_{i} - x_{i + 1}}\|} + {\|{x_{i + 1} - x_{\text{rand}}}\|}} \leqslant {3 \cdot \frac{\nu}{5}} < \nu \leqslant \eta}.$ The fact that ${\|{x_{\text{near}} - x_{\text{rand}}}\|} \leqslant \eta$, means that $x_{\text{new}} = x_{\text{rand}}$.
 
 We now prove our main theorem.
 
@@ -96,9 +84,7 @@ Figure 2: A Markov chain where the success probability p = |ℬν/5| is the prob
 
 In order for GEOM-RRT to reach $\mathcal{X}_{\text{goal}}$ from $x_{\text{init}}$ we need to repeat this step $m$ times from $x_{i}$ to $x_{i + 1}$ for $0 \leqslant i < m$. This stochastic process can be viewed as a Markov chain (see Figure 2). Alternatively, this process can be described as $k$ Bernoulli trials with success probability $p$. The planning problem can be solved after $m$ successful outcomes (the $i$th outcome adds an RRT vertex in $\mathcal{B}_{\nu/5}{(x_{i})}$). Note that it is possible that the process ends after less than $m$ successful outcomes, i.e., by defining success to be $m$ successful outcomes we obtain an upper bound on the probability of failure.
 
-Next, we bound the probability of failure, that is, the probability that the process does not reach state $(m)$, after $k$ steps. Let $X_{k}$ denote the number of successes in $k$ trials, then
-
-where the transitions rely on (i) $m \ll k$, (ii) $p < \frac{1}{2}$, and (iii) ${({1 - p})} \leqslant e^{- p}$.
+Next, we bound the probability of failure, that is, the probability that the process does not reach state $(m)$, after $k$ steps. Let $X_{k}$ denote the number of successes in $k$ trials, then where the transitions rely on (i) $m \ll k$, (ii) $p < \frac{1}{2}$, and (iii) ${({1 - p})} \leqslant e^{- p}$.
 
 As $p,m$ are fixed and independent of $k$, the expression $\frac{1}{{({m - 1})}!}k^{m}me^{- {pk}}$ decays to zero exponentially with $k$. Therefore, GEOM-RRT with uniform samples is probabilistically complete. ∎
 
@@ -110,9 +96,7 @@ We begin by formulating the kinodynamic problem. Our assumptions on the robotic 
 
 We adapt the problem attributes introduced in the previous section to accommodate the more involved structure of the kinodynamic case. The state space $\mathcal{X} \subseteq {\mathbb{R}}^{d}$ is a smooth $d$-dimensional manifold. Let $\mathcal{F} \subset \mathcal{X}$ denote the free state space. As before, we assume that there exist ${x_{\text{goal}} \in \mathcal{X}},{\delta_{\text{goal}} > 0}$, such that $\mathcal{X}_{\text{goal}} = {\mathcal{B}_{\delta_{\text{goal}}}{(x_{\text{goal}})}}$.
 
-Let ${\mathbb{U}} \subseteq {\mathbb{R}}^{D}$ denote the space of control vectors. The given system has differential constraints of the following form:
-
-Trajectories under differential constraints are defined as follows.
+Let ${\mathbb{U}} \subseteq {\mathbb{R}}^{D}$ denote the space of control vectors. The given system has differential constraints of the following form: Trajectories under differential constraints are defined as follows.
 
 ### Definition 1
 
@@ -124,77 +108,37 @@ Similar to prior work, we consider control functions that are piecewise constant
 
 A piecewise constant control function $\overline{\Upsilon}$ with resolution $\Deltat$ is the concatenation of constant control functions ${\overline{\Upsilon}}_{i}:{{\lbrack 0,{\Deltat}\rbrack}\rightarrow u_{i}}$, where $u_{i} \in {\mathbb{U}}$, and $1 \leqslant i \leqslant k$, for some $k \in {\mathbb{N}}_{> 0}$.
 
-We assume that the system is Lipschitz continuous for both of its arguments. That is, ${{\exists K_{u}},K_{x}} > 0$ s.t. ${{{\forall x_{0}},x_{1}} \in \mathcal{X}},{{u_{0},u_{1}} \in {\mathbb{U}}}$:
+We assume that the system is Lipschitz continuous for both of its arguments. That is, ${{\exists K_{u}},K_{x}} > 0$ s.t. ${{{\forall x_{0}},x_{1}} \in \mathcal{X}},{{u_{0},u_{1}} \in {\mathbb{U}}}$: We describe here the (kinodynamic) RRT algorithm, based.
 
-We describe here the (kinodynamic) RRT algorithm, based on.
-
-3: xrand← RANDOM_STATE()
-4: xnear ← NEAREST_NEIGHBOR (xrand,𝒯)
-5: t← SAMPLE_DURATION(0, Tprop)
-6: u← SAMPLE_CONTROL_INPUT(𝕌)
-7: xnew← PROPAGATE(xnear, u, t)
-8: if COLLISION_FREE(xnear, xnew) then
-9: 𝒯.add_vertex(xnew)
-10: 𝒯.add_edge(xnear, xnew)
-Algorithm 2 RRT(xinit, 𝒳goal, k, Tprop, 𝕌)
-
-The RRT algorithm in dynamic settings with no BVP solver has the following inputs: start state $x_{\text{init}}$, goal region $\mathcal{X}_{\text{goal}}$, the number of iterations $k$, the maximal time duration for propagation $T_{\text{prop}}$, and the set of control inputs $\mathbb{U}$. Our proof below assumes that $T_{\text{prop}}$ is positive and independent of $k$.
+3: xrand← RANDOM_STATE 4: xnear ← NEAREST_NEIGHBOR (xrand, 𝒯) 5: t← SAMPLE_DURATION(0, Tprop) 6: u← SAMPLE_CONTROL_INPUT(𝕌) 7: xnew← PROPAGATE(xnear, u, t) 8: if COLLISION_FREE(xnear, xnew) then 9: 𝒯.add_vertex(xnew) 10: 𝒯.add_edge(xnear, xnew) Algorithm 2 RRT(xinit, 𝒳goal, k, Tprop, 𝕌) The RRT algorithm in dynamic settings with no BVP solver has the following inputs: start state $x_{\text{init}}$, goal region $\mathcal{X}_{\text{goal}}$, the number of iterations $k$, the maximal time duration for propagation $T_{\text{prop}}$, and the set of control inputs $\mathbb{U}$. Our proof below assumes that $T_{\text{prop}}$ is positive and independent of $k$.
 
 Lines 5--7 in Algorithm 2 replace line 5 in Algorithm 1. Here, a random time duration $t$ is chosen between $0$ and $T_{\text{prop}}$ as well as a random control input $u \in {\mathbb{U}}$. The algorithm uses a forward propagation approach (function PROPAGATE) from $x_{\text{near}}$: control input $u$ is applied for time duration $t$, reaching a new state $x_{\text{new}}$. Finally, if the trajectory from $x_{\text{near}}$ to $x_{\text{new}}$ is collision-free, then $x_{\text{new}}$ is added to $\mathcal{T}$ together with a connecting edge to $x_{\text{near}}$.
 
 ### IV-B Probabilistic completeness proof
 
-We prove that RRT for a system with dynamics satisfying the aforementioned characteristics is PC. To do so, we start by proving three lemmas. The following lemma, which is an extension of Theorem 15 from, bounds the distance between the endpoints of two trajectories with similar control inputs and initial positions, for the same duration.
+We prove that RRT for a system with dynamics satisfying the aforementioned characteristics is PC. To do so, we start by proving three lemmas. The following lemma, which is an extension of Theorem 15 , bounds the distance between the endpoints of two trajectories with similar control inputs and initial positions, for the same duration.
 
 ### Lemma 2
 
-Let $\pi,\pi^{\prime}$ be two trajectories, with the corresponding control functions ${\Upsilon{(t)}},{\Upsilon^{\prime}{(t)}}$. Suppose that ${x_{0} = {\pi{}}},{x_{0}^{\prime} = {\pi^{\prime}{}}}$. Let $T > 0$ be a time duration such that for all $t \in {\lbrack 0,T\rbrack}$ it holds that ${{\Upsilon{(t)}} = u},{{\Upsilon^{\prime}{(t)}} = u^{\prime}}$. That is, $\Upsilon,\Upsilon^{\prime}$ remain fixed throughout $\lbrack 0,T\rbrack$. Then
-
-where ${\Deltax} = {\|{x_{0} - x_{0}^{\prime}}\|}$ and ${\Deltau} = {\|{u - u^{\prime}}\|}$.
+Let $\pi,\pi'$ be two trajectories, with the corresponding control functions ${\Upsilon{(t)}},{\Upsilon'{(t)}}$. Suppose that ${x_{0} = {\pi{}}},{x_{0}' = {\pi'{}}}$. Let $T > 0$ be a time duration such that for all $t \in {\lbrack 0,T\rbrack}$ it holds that ${{\Upsilon{(t)}} = u},{{\Upsilon'{(t)}} = u'}$. That is, $\Upsilon,\Upsilon'$ remain fixed throughout $\lbrack 0,T\rbrack$. Then where ${\Deltax} = {\|{x_{0} - x_{0}'}\|}$ and ${\Deltau} = {\|{u - u'}\|}$.
 
 ### Proof
 
-From the Lipschitz continuity assumption and the triangle inequality, we have that
-
-As in the proof of Theorem 15 in, we will use the Euler integration method to approximate the value of the trajectory $\pi$ at duration $T$. We divide $\lbrack 0,T\rbrack$ into $\ell \in {\mathbb{N}}_{> 0}$ pieces, each of duration $h$, i.e., $T = {\ell \cdot h}$. Let $x_{i},x_{i}^{\prime}$ denote the resulting approximations of the trajectories $\pi,\pi^{\prime}$ at duration $i \cdot h$. From Euler's method we have that
-
-The proof in shows that
-
-Since ${({1 + {K_{x}h}})}^{\ell} = {({1 + {{K_{x}T}/\ell}})}^{\ell} < e^{K_{x}T}$ we have that
-
-From the Lipschitz continuity assumption we have that the Euler integration method converges to the solution of the *Initial value problem*. That is, ${\forall 0} < i \leqslant \ell$,
-
-Next, we give a lower bound on the probability of a successful forward propagation step of RRT (Algorithm 2), from a given tree node, using a random control $u \in {\mathbb{U}}$ and a random duration $t \in T_{\text{prop}}$. We note that our proof uses a construction similar to \[36, proof of Theorem 17\].
+From the Lipschitz continuity assumption and the triangle inequality, we have that As in the proof of Theorem 15, we will use the Euler integration method to approximate the value of the trajectory $\pi$ at duration $T$. We divide $\lbrack 0,T\rbrack$ into $\ell \in {\mathbb{N}}_{> 0}$ pieces, each of duration $h$, i.e., $T = {\ell \cdot h}$. Let $x_{i},x_{i}'$ denote the resulting approximations of the trajectories $\pi,\pi'$ at duration $i \cdot h$. From Euler's method we have that The proof in shows that Since ${({1 + {K_{x}h}})}^{\ell} = {({1 + {{K_{x}T}/\ell}})}^{\ell} < e^{K_{x}T}$ we have that From the Lipschitz continuity assumption we have that the Euler integration method converges to the solution of the *Initial value problem*. That is, ${\forall 0} < i \leqslant \ell$, Next, we give a lower bound on the probability of a successful forward propagation step of RRT (Algorithm 2), from a given tree node, using a random control $u \in {\mathbb{U}}$ and a random duration $t \in T_{\text{prop}}$. We note that our proof uses a construction similar to \[36, proof of Theorem 17\].
 
 ### Lemma 3
 
 Let $\pi$ be a trajectory with clearance $\delta > 0$, and duration $\tau \leqslant T_{\text{prop}}$. Suppose that the control function $\Upsilon$ is fixed for all $t \in {\lbrack 0,\tau\rbrack}$, i.e., ${\Upsilon{(t)}} = u \in {\mathbb{U}}$. Denote by $x_{i},x_{i + 1}$ the states ${\pi{}},{\pi{(\tau)}}$, respectively. Let ${r_{i},r_{i + 1}} \in {\mathbb{R}}_{> 0}$, such that $r_{i + 1} = {{4e^{K_{x}\tau}} \cdot r_{i}}$ and $r_{i + 1} \leqslant \delta$.
 
-Suppose that the propagation step begins at state $x_{i}^{\prime} \in {\mathcal{B}_{r_{i}}{(x_{i})}}$ and ends in $x_{i + 1}^{\prime}$. Then for any ${\kappa \in {(0,1\rbrack}},{\epsilon_{i} \in {(0,{\kappar_{i + 1}})}}$, we have that:
-
-where $\zeta_{D}$ is the Lebesgue measure of the unit ball in ${\mathbb{R}}^{D}$ and $0 < p_{t} \leqslant 1$ is some constant.
+Suppose that the propagation step begins at state $x_{i}' \in {\mathcal{B}_{r_{i}}{(x_{i})}}$ and ends in $x_{i + 1}'$. Then for any ${\kappa \in {(0,1\rbrack}},{\epsilon_{i} \in {(0,{\kappar_{i + 1}})}}$, we have that: where $\zeta_{D}$ is the Lebesgue measure of the unit ball in ${\mathbb{R}}^{D}$ and $0 < p_{t} \leqslant 1$ is some constant.
 
 ### Proof
 
-Consider a sequence of balls of radius $r^{\prime} = {{\kappar_{i + 1}} - \epsilon_{i}}$, such that (i) the center $c_{t}$ of each ball lies on $\pi$, that is, $c_{t} = {\pi{(t)}}$ for some duration $t \in {\lbrack 0,\tau\rbrack}$, and (ii) ${\mathcal{B}_{r^{\prime}}{(c_{t})}} \subset {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$. The centers of all such balls constitute a segment of the trajectory $\pi$ whose duration is $T_{\kappa}$. See Figure 3 for an illustration.
+Consider a sequence of balls of radius $r' = {{\kappar_{i + 1}} - \epsilon_{i}}$, such that (i) the center $c_{t}$ of each ball lies on $\pi$, that is, $c_{t} = {\pi{(t)}}$ for some duration $t \in {\lbrack 0,\tau\rbrack}$, and (ii) ${\mathcal{B}_{r'}{(c_{t})}} \subset {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$. The centers of all such balls constitute a segment of the trajectory $\pi$ whose duration is $T_{\kappa}$. See Figure 3 for an illustration.
 
-Fix $t \in {\lbrack 0,\tau\rbrack}$, such that ${\mathcal{B}_{r^{\prime}}{(c_{t})}} \subset {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$. Additionally denote by $u_{\text{rand}}$ the random control generated by RRT, and denote by $\pi_{t}$ the trajectory corresponding to the propagation step starting at $x_{i}^{\prime}$, using the control $u_{\text{rand}}$ and duration $t$. By Lemma 2, we have that:
+Fix $t \in {\lbrack 0,\tau\rbrack}$, such that ${\mathcal{B}_{r'}{(c_{t})}} \subset {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$. Additionally denote by $u_{\text{rand}}$ the random control generated by RRT, and denote by $\pi_{t}$ the trajectory corresponding to the propagation step starting at $x_{i}'$, using the control $u_{\text{rand}}$ and duration $t$. By Lemma 2, we have that: where ${\Deltau} = {\|{u - u_{\text{rand}}}\|}$. Now, we wish to find the value $\Deltau$ such that ${\|{{\pi{(t)}} - {\pi_{t}{(t)}}}\|} < {{\kappar_{i + 1}} - \epsilon_{i}}$, which would imply that ${\pi_{t}{(t)}} = x_{i + 1}' \in {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$. Thus, we require that As $r_{i + 1} = {{4e^{K_{x}\tau}} \cdot r_{i}}$ the above constraint yields the condition which implies that To ensure that the bound holds for all possible durations $t$ in the relevant range, we should consider $t = \tau$, which is the maximal duration there, as the above expression is decreasing with $t$. That is, we enforce the following bound To summarize, we have shown that for certain values of $t$ and $u_{\text{rand}}$ it is guaranteed to have $x_{i + 1}' \in {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$. It remains to calculate the probability of randomly choosing such values. The probability for successful propagation is at least the (a) probability of choosing a proper $t$ such that $\pi{(t)}$ is a center $c_{t}$ of a small ball ${\mathcal{B}_{r'}{(c_{t})}} \subset {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$ times the (b) probability for choosing a control input that will cause $\pi_{t}{(t)}$ to fall inside ${\mathcal{B}_{r'}{(c_{t})}} \subset {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$.
 
-where ${\Deltau} = {\|{u - u_{\text{rand}}}\|}$. Now, we wish to find the value $\Deltau$ such that ${\|{{\pi{(t)}} - {\pi_{t}{(t)}}}\|} < {{\kappar_{i + 1}} - \epsilon_{i}}$, which would imply that ${\pi_{t}{(t)}} = x_{i + 1}^{\prime} \in {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$. Thus, we require that
-
-As $r_{i + 1} = {{4e^{K_{x}\tau}} \cdot r_{i}}$ the above constraint yields the condition
-
-which implies that
-
-To ensure that the bound holds for all possible durations $t$ in the relevant range, we should consider $t = \tau$, which is the maximal duration there, as the above expression is decreasing with $t$. That is, we enforce the following bound
-
-To summarize, we have shown that for certain values of $t$ and $u_{\text{rand}}$ it is guaranteed to have $x_{i + 1}^{\prime} \in {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$. It remains to calculate the probability of randomly choosing such values. The probability for successful propagation is at least the (a) probability of choosing a proper $t$ such that $\pi{(t)}$ is a center $c_{t}$ of a small ball ${\mathcal{B}_{r^{\prime}}{(c_{t})}} \subset {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$ times the (b) probability for choosing a control input that will cause $\pi_{t}{(t)}$ to fall inside ${\mathcal{B}_{r^{\prime}}{(c_{t})}} \subset {\mathcal{B}_{\kappar_{i + 1}}{(x_{i + 1})}}$.
-
-Clearly, the probability to choose a proper duration for propagation is at least $p_{t} = {T_{\kappa}/T_{\text{prop}}} > 0$. The probability^11^1The maxima function guarantees that the probability will be valid, that is, at least 0. to choose a proper control input is at least:
-
-Therefore, the probability for successfully propagating is at least $\rho_{i} = {p_{t} \cdot p_{u}}$. ∎
-
-Finally, we prove a lower bound on the probability to grow the tree from a vertex in a certain ball.
+Clearly, the probability to choose a proper duration for propagation is at least $p_{t} = {T_{\kappa}/T_{\text{prop}}} > 0$. The probability^11^1The maxima function guarantees that the probability will be valid, that is, at least 0. to choose a proper control input is at least: Therefore, the probability for successfully propagating is at least $\rho_{i} = {p_{t} \cdot p_{u}}$. ∎ Finally, we prove a lower bound on the probability to grow the tree from a vertex in a certain ball.
 
 ### Lemma 4
 
@@ -206,13 +150,11 @@ Suppose that there exists an RRT vertex $z \notin {\mathcal{B}_{r}{(x)}}$, as ot
 
 Figure 4: Illustration of the proof of Lemma 4. z, v are RRT vertices. xrand is the sampled state. Its nearest neighbor will be a vertex in ℬr (x).
 
-Observe that ${\|{x_{\text{rand}} - v}\|} \leqslant {{3r}/5}$ and ${\|{x_{\text{rand}} - z}\|} > {{4r}/5}$. Thus, $v$ is closer to $x_{\text{rand}}$ than $z$ is, implying that $z$ will not be reported as the nearest neighbor of $x_{\text{rand}}$. If $x_{\text{near}} \neq v$, then there must be another RRT vertex $y \in {\mathcal{B}_{{3r}/5}{(x_{\text{rand}})}} \subset {\mathcal{B}_{r}{(x)}}$ such that $\|{y - x_{\text{rand}}}\|$ is minimal. Finally, the probability to choose $x_{\text{rand}} \in {\mathcal{B}_{r/5}{(x)}}$ is ${|\mathcal{B}_{r/5}|}/{|\mathcal{X}|}$. ∎
-
-Now we are ready to prove our main theorem.
+Observe that ${\|{x_{\text{rand}} - v}\|} \leqslant {{3r}/5}$ and ${\|{x_{\text{rand}} - z}\|} > {{4r}/5}$. Thus, $v$ is closer to $x_{\text{rand}}$ than $z$ is, implying that $z$ will not be reported as the nearest neighbor of $x_{\text{rand}}$. If $x_{\text{near}} \neq v$, then there must be another RRT vertex $y \in {\mathcal{B}_{{3r}/5}{(x_{\text{rand}})}} \subset {\mathcal{B}_{r}{(x)}}$ such that $\|{y - x_{\text{rand}}}\|$ is minimal. Finally, the probability to choose $x_{\text{rand}} \in {\mathcal{B}_{r/5}{(x)}}$ is ${|\mathcal{B}_{r/5}|}/{|\mathcal{X}|}$. ∎ Now we are ready to prove our main theorem.
 
 ### Theorem 2
 
-Suppose that there exists a valid trajectory $\pi$ from $x_{\text{init}}$ to $x_{\text{goal}}$ lying in $\mathcal{F}$, with clearance $\delta_{\text{clear}} > 0$. Suppose that the trajectory $\pi$ has a piecewise constant control function. Then the probability that RRT fails to reach $\mathcal{X}_{\text{goal}}$ from $x_{\text{init}}$ after $k$ iterations is at most $a^{\prime}e^{- {b^{\prime}k}}$, for some constants ${a^{\prime},b^{\prime}} \in {\mathbb{R}}_{> 0}$.
+Suppose that there exists a valid trajectory $\pi$ from $x_{\text{init}}$ to $x_{\text{goal}}$ lying in $\mathcal{F}$, with clearance $\delta_{\text{clear}} > 0$. Suppose that the trajectory $\pi$ has a piecewise constant control function. Then the probability that RRT fails to reach $\mathcal{X}_{\text{goal}}$ from $x_{\text{init}}$ after $k$ iterations is at most $a'e^{- {b'k}}$, for some constants ${a',b'} \in {\mathbb{R}}_{> 0}$.
 
 ### Proof
 
@@ -222,11 +164,7 @@ We choose a set of times ${t_{0} = {0,t_{1},t_{2},\ldots}},{t_{m} = t_{\pi}}$, s
 
 We now place a set of $m + 1$ balls centered at $x_{0},\ldots,x_{m}$ such that the radius of the $i$th ball is $r_{i} = {{({4e^{K_{x}\tau}})}^{i} \cdot r_{0}}$ for $0 \leqslant i \leqslant m$. Requiring that $r_{m} = {\min{\{\delta_{\text{goal}},\delta_{\text{clear}}\}}}$, we obtain a value for the smallest radius $r_{0}$. We show that given that an RRT vertex in the $i$th ball exists, the probability $p_{i}$ that in the next iteration RRT will generate a new vertex in the $({i + 1})$st ball when propagating from a vertex in the $i$th ball is bounded from below by a positive constant. More accurately, we show that $p_{i} \geqslant p_{0}$, where $p_{0}$ is the probability that RRT will generate a new vertex in $\mathcal{B}_{r_{1}}{(x_{1})}$ when propagating from $x_{0} = x_{\text{init}}$ and it is positive. The rest of the proof is the same as that of Theorem 1.
 
-Recall that Lemma 3 shows a lower bound $\rho_{i}$ on the probability of a successful propagation between two consecutive balls of radii $r_{i},r_{i + 1}$ placed in ${x_{i} = {\pi{(t_{i})}}},{x_{i + 1} = {\pi{(t_{i + 1})}}}$, respectively, such that ${t_{i + 1} - t_{i}} = \tau$. Assign $\kappa$ from Lemma 3 the value $2/5$ and fix $\epsilon_{i} = {\kappar_{0}} = {{2r_{0}}/5}$ for all $0 \leqslant i \leqslant m$ (note that $\epsilon_{i} \in {(0,{\kappar_{i}})}$, as required). Then $\rho_{i} > 0$ for a duration $\tau$ if
-
-If the above expression is satisfied for $i = 0$ then it also must hold for $1 \leqslant i \leqslant m$ as $r_{i} > r_{0}$. Since $e^{K_{x}\tau} \geqslant 1$ for any $\tau \geqslant 0$ it must follow that
-
-Moreover, we may set $\tau \leqslant T_{\text{prop}}$ such that there exists $\ell \in {\mathbb{N}}_{> 0}$ for which ${\ell \cdot \tau} = {\Deltat}$ holds.
+Recall that Lemma 3 shows a lower bound $\rho_{i}$ on the probability of a successful propagation between two consecutive balls of radii $r_{i},r_{i + 1}$ placed in ${x_{i} = {\pi{(t_{i})}}},{x_{i + 1} = {\pi{(t_{i + 1})}}}$, respectively, such that ${t_{i + 1} - t_{i}} = \tau$. Assign $\kappa$ from Lemma 3 the value $2/5$ and fix $\epsilon_{i} = {\kappar_{0}} = {{2r_{0}}/5}$ for all $0 \leqslant i \leqslant m$ (note that $\epsilon_{i} \in {(0,{\kappar_{i}})}$, as required). Then $\rho_{i} > 0$ for a duration $\tau$ if If the above expression is satisfied for $i = 0$ then it also must hold for $1 \leqslant i \leqslant m$ as $r_{i} > r_{0}$. Since $e^{K_{x}\tau} \geqslant 1$ for any $\tau \geqslant 0$ it must follow that Moreover, we may set $\tau \leqslant T_{\text{prop}}$ such that there exists $\ell \in {\mathbb{N}}_{> 0}$ for which ${\ell \cdot \tau} = {\Deltat}$ holds.
 
 Suppose that there exists an RRT vertex $v \in {\mathcal{B}_{{2r_{i}}/5}{(x_{i})}} \subset {\mathcal{B}_{r_{i}}{(x_{i})}}$. We need to bound the probability $p_{i}$ that in the next iteration the RRT tree will grow from an RRT vertex in $\mathcal{B}_{r_{i}}{(x_{i})}$, given that an RRT vertex in $\mathcal{B}_{{2r_{i}}/5}{(x_{i})}$ exists, and that the propagation step will add a vertex to $\mathcal{B}_{{2r_{i + 1}}/5}{(x_{i + 1})}$. That is, $p_{i}$ is the probability that in the next iteration both $x_{\text{near}} \in {\mathcal{B}_{r_{i}}{(x_{i})}}$ and $x_{\text{new}} \in {\mathcal{B}_{{2r_{i + 1}}/5}{(x_{i + 1})}}$.
 

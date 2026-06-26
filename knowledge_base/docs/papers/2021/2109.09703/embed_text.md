@@ -34,25 +34,13 @@ For any rank parameter $\ell \leq r$, we can construct an $\ell$-truncated SVD $
 
 Suppose we have access to snapshots of a discrete dynamical system as it evolves in time, and we would like to forecast its future values. Let us begin with the most basic setting; we will discuss more general observation models in Section 2.6.
 
-To formalize the problem, let $\mathcal{M} \subseteq {\mathbb{R}}^{d}$ be a closed subset of a Euclidean space. We call $\mathcal{M}$ the state space. Let $F:{\mathcal{M}\rightarrow\mathcal{M}}$ be a mapping, called the flow map. Suppose that we observe an initial condition ${\mathbf{x}}_{0} \in \mathcal{M}$ as well as the (partial) trajectory ${{\mathbf{x}}_{1},{\mathbf{x}}_{2},\ldots,{\mathbf{x}}_{n - 1}} \in \mathcal{M}$ obtained by iterating the flow map:
-
-In most settings, we do not actually know the flow map $F$. Rather, the goal is to use information latent in the measured trajectory $({\mathbf{x}}_{0},\ldots,{\mathbf{x}}_{n - 1})$ to infer the dynamics. Afterward, we are given a new initial condition ${\mathbf{y}} \in \mathcal{M}$, and we are asked to forecast the future state $F^{q}{({\mathbf{y}})}$ of the system after $q$ time steps.
+To formalize the problem, let $\mathcal{M} \subseteq {\mathbb{R}}^{d}$ be a closed subset of a Euclidean space. We call $\mathcal{M}$ the state space. Let $F:{\mathcal{M}\rightarrow\mathcal{M}}$ be a mapping, called the flow map. Suppose that we observe an initial condition ${\mathbf{x}}_{0} \in \mathcal{M}$ as well as the (partial) trajectory ${{\mathbf{x}}_{1},{\mathbf{x}}_{2},\ldots,{\mathbf{x}}_{n - 1}} \in \mathcal{M}$ obtained by iterating the flow map: In most settings, we do not actually know the flow map $F$. Rather, the goal is to use information latent in the measured trajectory $({\mathbf{x}}_{0},\ldots,{\mathbf{x}}_{n - 1})$ to infer the dynamics. Afterward, we are given a new initial condition ${\mathbf{y}} \in \mathcal{M}$, and we are asked to forecast the future state $F^{q}{({\mathbf{y}})}$ of the system after $q$ time steps.
 
 ### Linear forecasting
 
-To motivate the KAF method, we first describe an earlier approach to the forecasting problem, based on *linear inverse models* (LIMs) and the closely related dynamic mode decomposition (DMD). Fix a forecasting horizon $q \in {\mathbb{N}}$. We can arrange the observed trajectory ${{\mathbf{x}}_{0},{\mathbf{x}}_{1},\ldots,{\mathbf{x}}_{n - 1},{\mathbf{x}}_{n},\ldots,{\mathbf{x}}_{{n + q} - 1}} \in {\mathbb{R}}^{d}$ into a training data set that consists of input--response pairs: ${\{{({\mathbf{x}}_{j},{\mathbf{x}}_{j + q})}\}}_{j = 0}^{n - 1}$. Equivalently, consider the pair of matrices
+To motivate the KAF method, we first describe an earlier approach to the forecasting problem, based on *linear inverse models* (LIMs) and the closely related dynamic mode decomposition (DMD). Fix a forecasting horizon $q \in {\mathbb{N}}$. We can arrange the observed trajectory ${{\mathbf{x}}_{0},{\mathbf{x}}_{1},\ldots,{\mathbf{x}}_{n - 1},{\mathbf{x}}_{n},\ldots,{\mathbf{x}}_{{n + q} - 1}} \in {\mathbb{R}}^{d}$ into a training data set that consists of input--response pairs: ${\{{({\mathbf{x}}_{j},{\mathbf{x}}_{j + q})}\}}_{j = 0}^{n - 1}$. Equivalently, consider the pair of matrices We can attempt to find the best linear model ${\mathbf{A}}:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{d}}$ for the dynamics by means of a least-squares fit: An optimal solution to this problem is the matrix Suppose we are given a state ${\mathbf{y}} \in {\mathbb{R}}^{d}$ that serves as a new initial condition. We can forecast the state ${\mathbf{y}}_{\lbrack{+ q}\rbrack} ≔ {F^{q}{({\mathbf{y}})}}$ after $q$ time steps via the estimate ${\mathbf{y}}_{\lbrack{+ q}\rbrack} \approx {{\mathbf{A}}{\mathbf{y}}}$. In other words, $\mathbf{A}$ serves as a linear approximation to the iterated flow map $F^{q}$.
 
-We can attempt to find the best linear model ${\mathbf{A}}:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{d}}$ for the dynamics by means of a least-squares fit:
-
-An optimal solution to this problem is the matrix
-
-Suppose we are given a state ${\mathbf{y}} \in {\mathbb{R}}^{d}$ that serves as a new initial condition. We can forecast the state ${\mathbf{y}}_{\lbrack{+ q}\rbrack} ≔ {F^{q}{({\mathbf{y}})}}$ after $q$ time steps via the estimate ${\mathbf{y}}_{\lbrack{+ q}\rbrack} \approx {{\mathbf{A}}{\mathbf{y}}}$. In other words, $\mathbf{A}$ serves as a linear approximation to the iterated flow map $F^{q}$.
-
-Let us manipulate the linear model for the dynamics so that it takes a more suggestive form. Recall that the pseudoinverse satisfies ${\mathbf{X}}^{\dagger} = {{({{\mathbf{X}}^{\top}{\mathbf{X}}})}^{\dagger}{\mathbf{X}}^{\top}}$. Therefore,
-
-Given a new initial condition ${\mathbf{y}} \in {\mathbb{R}}^{d}$, we obtain the linear forecast
-
-Observe that this computation can be formulated in terms of inner products between states.
+Let us manipulate the linear model for the dynamics so that it takes a more suggestive form. Recall that the pseudoinverse satisfies ${\mathbf{X}}^{\dagger} = {{({{\mathbf{X}}^{\top}{\mathbf{X}}})}^{\dagger}{\mathbf{X}}^{\top}}$. Therefore, Given a new initial condition ${\mathbf{y}} \in {\mathbb{R}}^{d}$, we obtain the linear forecast Observe that this computation can be formulated in terms of inner products between states.
 
 ### The kernel trick
 
@@ -60,31 +48,21 @@ Of course, dynamical systems of practical interest are highly nonlinear, so line
 
 Remarkably, this lifting technique can often be implemented without applying the nonlinear map explicitly. Consider a method, such as Eq. 6, that processes Euclidean data using the inner product as a measure of the similarity between data points. The kernel trick allows us to develop a nonlinear extension simply by replacing each inner product ${\mathbf{x}}^{\top}{\mathbf{y}}$ in the data space with a more general function $\kappa{({\mathbf{x}},{\mathbf{y}})}$, called a kernel.
 
-The kernel trick is justified by the Moore--Aronszajn theorem \[4, section 2\]. Let $\kappa:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}}$ be a symmetric, positive-definite function. That is,
+The kernel trick is justified by the Moore--Aronszajn theorem \[4, section 2\]. Let $\kappa:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}}$ be a symmetric, positive-definite function. That is, Then, the kernel function $\kappa$ coincides with the inner product on a Hilbert space $\mathcal{H}$. More precisely, there is a nonlinear feature map $\varphi:{{\mathbb{R}}^{d}\rightarrow\mathcal{H}}$ with the property that ${\kappa{({\mathbf{x}},{\mathbf{y}})}} = {\langle{\varphi{({\mathbf{x}})}},{\varphi{({\mathbf{y}})}}\rangle}_{\mathcal{H}}$ for all ${{\mathbf{x}},{\mathbf{y}}} \in {\mathbb{R}}^{d}$. Implicitly, the feature map summarizes each data point $\mathbf{x}$ by a long list ${\varphi{({\mathbf{x}})}} \in \mathcal{H}$ of features, and the kernel computes the inner product between the feature vectors.
 
-Then, the kernel function $\kappa$ coincides with the inner product on a Hilbert space $\mathcal{H}$. More precisely, there is a nonlinear feature map $\varphi:{{\mathbb{R}}^{d}\rightarrow\mathcal{H}}$ with the property that ${\kappa{({\mathbf{x}},{\mathbf{y}})}} = {\langle{\varphi{({\mathbf{x}})}},{\varphi{({\mathbf{y}})}}\rangle}_{\mathcal{H}}$ for all ${{\mathbf{x}},{\mathbf{y}}} \in {\mathbb{R}}^{d}$. Implicitly, the feature map summarizes each data point $\mathbf{x}$ by a long list ${\varphi{({\mathbf{x}})}} \in \mathcal{H}$ of features, and the kernel computes the inner product between the feature vectors.
-
-One of the most popular kernel functions is the Gaussian radial basis function (RBF) kernel. For an inverse bandwidth parameter $\gamma > 0$, this kernel takes the form
-
-Under this kernel, two points are "similar" precisely when they are close enough together in Euclidean distance, where the scale depends on the choice of $\gamma$. For clarity of presentation, we will work exclusively with the Gaussian RBF kernel in this paper.
+One of the most popular kernel functions is the Gaussian radial basis function (RBF) kernel. For an inverse bandwidth parameter $\gamma > 0$, this kernel takes the form Under this kernel, two points are "similar" precisely when they are close enough together in Euclidean distance, where the scale depends on the choice of $\gamma$. For clarity of presentation, we will work exclusively with the Gaussian RBF kernel in this paper.
 
 ### Nonlinear kernel forecasting
 
-We can apply the kernel trick to the linear forecasting model Eq. 6. Indeed, we may replace the inner-products in the forms ${\mathbf{X}}^{\top}{\mathbf{X}}$ and ${\mathbf{X}}^{\top}{\mathbf{y}}$ by their kernel equivalents:
-
-This step leads to the kernel analog forecast
-
-The forecast Eq. 8 provides a natural nonlinear generalization of the linear forecast Eq. 6.
+We can apply the kernel trick to the linear forecasting model Eq. 6. Indeed, we may replace the inner-products in the forms ${\mathbf{X}}^{\top}{\mathbf{X}}$ and ${\mathbf{X}}^{\top}{\mathbf{y}}$ by their kernel equivalents: This step leads to the kernel analog forecast The forecast Eq. 8 provides a natural nonlinear generalization of the linear forecast Eq. 6.
 
 ### Regularization
 
 It is dangerous to implement the formula Eq. 8 as written because kernel matrices, such as ${\mathbf{K}}_{x,x}$, are notoriously ill-conditioned; for example, see. As a consequence, the method Eq. 8 can be sensitive to small changes in the observed data.
 
-The paper proposes a mechanism for stabilizing the nonlinear forecast Eq. 8 by replacing the kernel matrix ${\mathbf{K}}_{x,x}$ with its best rank-$\ell$ approximation ${⟦{\mathbf{K}}_{x,x}⟧}_{\ell}$, where $\ell \in {\mathbb{N}}$ is a parameter. In practice, we must also shift the kernel matrix by $\mu\mathbf{I}$ by a small parameter $\mu$ to avoid numerical problems. These modifications leads to the stabilized kernel analog forecast
+The paper proposes a mechanism for stabilizing the nonlinear forecast Eq. 8 by replacing the kernel matrix ${\mathbf{K}}_{x,x}$ with its best rank-$\ell$ approximation ${⟦{\mathbf{K}}_{x,x}⟧}_{\ell}$, where $\ell \in {\mathbb{N}}$ is a parameter. In practice, we must also shift the kernel matrix by $\mu\mathbf{I}$ by a small parameter $\mu$ to avoid numerical problems. These modifications leads to the stabilized kernel analog forecast The dimension $\ell$ of the regression model is usually modest (say, 100s or 1000s); it increases slowly with the required accuracy of the forecasts. The shift parameter $\mu$ is taken to be a small fixed value, such as $10^{- 6}\left\| {\mathbf{K}}_{x,x} \right\|$.
 
-The dimension $\ell$ of the regression model is usually modest (say, 100s or 1000s); it increases slowly with the required accuracy of the forecasts. The shift parameter $\mu$ is taken to be a small fixed value, such as $10^{- 6}\left\| {\mathbf{K}}_{x,x} \right\|$.
-
-The forecasting method Eq. 9 is rigorously justified in. We can view the approach as a form of regularized least-squares on the feature space induced by the kernel. It is closely related to kernel ridge regression.
+The forecasting method Eq. 9 is rigorously justified . We can view the approach as a form of regularized least-squares on the feature space induced by the kernel. It is closely related to kernel ridge regression.
 
 ### Resource usage
 
@@ -102,21 +80,19 @@ To make a forecast from a single initial condition ${\mathbf{y}} \in {\mathbb{R}
 
 The KAF methodology extends to a wider setting. Section 3 provides full details for a streaming KAF algorithm at this level of generality. For now, we just sketch the idea.
 
-Suppose that we observe the value of a function $u:{\mathcal{M}\rightarrow\mathcal{N}}$ of the state, which is called a covariate. For simplicity, we will always take $\mathcal{N} = {\mathbb{R}}^{d^{\prime}}$. Given an observed covariate $u{({\mathbf{x}})}$, we would like to predict a function $g:{\mathcal{M}\rightarrow{\mathbb{R}}^{r}}$ of the state $\mathbf{x}$, which is called a response variable. Functions of the state, such as $g$ and $u$, are called observables.^11^1It is important the the response variable $g$ takes values in a linear space. In principle, the covariates $u$ could take values in a nonlinear manifold $\mathcal{N}$, but we will not consider this extension.
+Suppose that we observe the value of a function $u:{\mathcal{M}\rightarrow\mathcal{N}}$ of the state, which is called a covariate. For simplicity, we will always take $\mathcal{N} = {\mathbb{R}}^{d'}$. Given an observed covariate $u{({\mathbf{x}})}$, we would like to predict a function $g:{\mathcal{M}\rightarrow{\mathbb{R}}^{r}}$ of the state $\mathbf{x}$, which is called a response variable. Functions of the state, such as $g$ and $u$, are called observables.^11^1It is important the the response variable $g$ takes values in a linear space. In principle, the covariates $u$ could take values in a nonlinear manifold $\mathcal{N}$, but we will not consider this extension.
 
-We can build a kernel analog forecast for future values of the response by introducing a kernel $\overset{\sim}{\kappa}:{{\mathbb{R}}^{d^{\prime}} \times {\mathbb{R}}^{d^{\prime}}}$ on the covariate space. Roughly speaking, we replace the matrix $\mathbf{X}$ of training state data by observed covariate values ${\lbrack{u{({\mathbf{x}}_{0})}},\ldots,{u{({\mathbf{x}}_{n - 1})}}\rbrack} \in {\mathbb{R}}^{d^{\prime} \times n}$. Replace the matrix ${\mathbf{X}}_{\lbrack q\rbrack}$ of lagged state data by the lagged matrix ${\lbrack{g{({\mathbf{x}}_{q})}},\ldots,{g{({\mathbf{x}}_{{n + q} - 1})}}\rbrack} \in {\mathbb{R}}^{r \times n}$ of observed response variables. Repeat the derivation above to obtain a KAF function $g_{\ell,q}$ for predicting the observable $g$ from the covariate $u$.
+We can build a kernel analog forecast for future values of the response by introducing a kernel $\overset{\sim}{\kappa}:{{\mathbb{R}}^{d'} \times {\mathbb{R}}^{d'}}$ on the covariate space. Roughly speaking, we replace the matrix $\mathbf{X}$ of training state data by observed covariate values ${\lbrack{u{({\mathbf{x}}_{0})}},\ldots,{u{({\mathbf{x}}_{n - 1})}}\rbrack} \in {\mathbb{R}}^{d' \times n}$. Replace the matrix ${\mathbf{X}}_{\lbrack q\rbrack}$ of lagged state data by the lagged matrix ${\lbrack{g{({\mathbf{x}}_{q})}},\ldots,{g{({\mathbf{x}}_{{n + q} - 1})}}\rbrack} \in {\mathbb{R}}^{r \times n}$ of observed response variables. Repeat the derivation above to obtain a KAF function $g_{\ell,q}$ for predicting the observable $g$ from the covariate $u$.
 
-The computational costs are similar to the costs of the basic KAF method, but the state dimension $d$ is replaced by either the covariate dimension $d^{\prime}$ or the response variable dimension $r$, depending on the role of the state in the computation. See Table 2 for an accounting.
+The computational costs are similar to the costs of the basic KAF method, but the state dimension $d$ is replaced by either the covariate dimension $d'$ or the response variable dimension $r$, depending on the role of the state in the computation. See Table 2 for an accounting.
 
 ### Connection with Koopman operator theory
 
-The linear approach Eq. 6 to forecasting was originally proposed in the paper, and the nonlinear kernel forecast Eq. 8 was presented in. The paper clarifies the connection between the nonlinear forecast and Koopman operator theory. The paper shows that KAF approximates the expectation of the response variable under the action of the Koopman operator, conditioned on the covariate data observed at forecast initialization. Here is an informal summary of these ideas.
+The linear approach Eq. 6 to forecasting was originally proposed in the paper, and the nonlinear kernel forecast Eq. 8 was presented . The paper clarifies the connection between the nonlinear forecast and Koopman operator theory. The paper shows that KAF approximates the expectation of the response variable under the action of the Koopman operator, conditioned on the covariate data observed at forecast initialization. Here is an informal summary of these ideas.
 
 In plain language, the classical work of Koopman and von Neumann characterizes a dynamical system through its induced action on a *linear* space of observables. As a basic example, a real-valued function $g:{\mathcal{M}\rightarrow{\mathbb{R}}}$ on the state space is an observable of the dynamical system. The Koopman operator $\mathcal{K}$ is a linear operator on the space of observables that acts by composition with the flow map of the dynamics: ${{({\mathcal{K}g})}{({\mathbf{x}})}} ≔ {{({g \circ F})}{({\mathbf{x}})}} = {g{({F{({\mathbf{x}})}})}}$. Regardless of the complexity of the dynamical system, we can understand its behavior by spectral analysis of the linear operator $\mathcal{K}$ on an appropriately chosen Banach space of observables. In particular, since our state space $\mathcal{M}$ is a subset of ${\mathbb{R}}^{d}$, we can represent every state ${\mathbf{x}} \in \mathcal{M}$ by the "identity" observable, $\iota:{\mathcal{M}\rightarrow{\mathbb{R}}^{d}}$ with ${\iota{({\mathbf{x}})}} = {\mathbf{x}}$. Thus, the dynamical system becomes linear when lifted to a sufficiently high-dimensional space of observables: ${F{({\mathbf{x}})}} = {{({\mathcal{K}\iota})}{({\mathbf{x}})}}$. Using similar ideas, we can also represent dynamical systems with infinite-dimensional state spaces by means of linear Koopman operators.
 
-Building on previous work, the recent paper established that the stabilized forecast Eq. 9 is a rigorous approximation of the Koopman dynamics of observables in the limit of large data. Consider a measure-preserving and ergodic dynamical system $F$, and let $\lbrack{\mathbf{x}}_{0},\ldots,{\mathbf{x}}_{n - 1}\rbrack$ be a state trajectory as in Eq. 1. Suppose we acquire training data in the form of covariate--response pairs ${({\mathbf{u}}_{0},{\mathbf{g}}_{q})},\ldots,{({\mathbf{u}}_{n - 1},{\mathbf{g}}_{{q + n} - 1})}$, where ${\mathbf{u}}_{i} = {u{({\mathbf{x}}_{i})}} \in \mathcal{N}$ and ${\mathbf{g}}_{i} = {g{({\mathbf{x}}_{i})}} \in {\mathbb{R}}^{r}$. We may construct the KAF function $g_{\ell,q}$ as summarized in Section 2.6. Let ${\mathbf{y}} \in \mathcal{M}$ be an initial condition with an observed covariate $u{({\mathbf{y}})}$. Then the kernel analog forecast converges^22^2Convergence takes place in the $L_{2}$ norm of the invariant measure in the iterated limit of $\ell\rightarrow\infty$ after $n\rightarrow\infty$, and almost surely with respect to the initial condition ${\mathbf{x}}_{0}$ in the training data. to the conditional expectation of the response under the Koopman operator, given the covariate data at forecast initialization:
-
-The conditional expectation is the optimal $L_{2}$ approximation to the Koopman evolution ${({\mathcal{K}^{q}g})}{({\mathbf{y}})}$, given only the measured covariate $\mathbf{v}$. In the specific case where the observables $g = u = \iota$ reproduce the full state vector, we deduce that the forecast $f_{q,\ell}{({\mathbf{y}})}$ presented in Eq. 9 converges to the true $q$-step dynamical evolution, $F^{q}{({\mathbf{y}})}$.
+Building on previous work, the recent paper established that the stabilized forecast Eq. 9 is a rigorous approximation of the Koopman dynamics of observables in the limit of large data. Consider a measure-preserving and ergodic dynamical system $F$, and let $\lbrack{\mathbf{x}}_{0},\ldots,{\mathbf{x}}_{n - 1}\rbrack$ be a state trajectory as in Eq. 1. Suppose we acquire training data in the form of covariate--response pairs ${({\mathbf{u}}_{0},{\mathbf{g}}_{q})},\ldots,{({\mathbf{u}}_{n - 1},{\mathbf{g}}_{{q + n} - 1})}$, where ${\mathbf{u}}_{i} = {u{({\mathbf{x}}_{i})}} \in \mathcal{N}$ and ${\mathbf{g}}_{i} = {g{({\mathbf{x}}_{i})}} \in {\mathbb{R}}^{r}$. We may construct the KAF function $g_{\ell,q}$ as summarized in Section 2.6. Let ${\mathbf{y}} \in \mathcal{M}$ be an initial condition with an observed covariate $u{({\mathbf{y}})}$. Then the kernel analog forecast converges^22^2Convergence takes place in the $L_{2}$ norm of the invariant measure in the iterated limit of $\ell\rightarrow\infty$ after $n\rightarrow\infty$, and almost surely with respect to the initial condition ${\mathbf{x}}_{0}$ in the training data. to the conditional expectation of the response under the Koopman operator, given the covariate data at forecast initialization: The conditional expectation is the optimal $L_{2}$ approximation to the Koopman evolution ${({\mathcal{K}^{q}g})}{({\mathbf{y}})}$, given only the measured covariate $\mathbf{v}$. In the specific case where the observables $g = u = \iota$ reproduce the full state vector, we deduce that the forecast $f_{q,\ell}{({\mathbf{y}})}$ presented in Eq. 9 converges to the true $q$-step dynamical evolution, $F^{q}{({\mathbf{y}})}$.
 
 ## Streaming KAF
 
@@ -134,7 +110,7 @@ Streaming models are well suited to dynamical systems data that has an explicit 
 
 Our streaming KAF method is based on two techniques from the field of randomized matrix computations. First, we use random Fourier features (RFF) to build a structured approximation of the original kernel function. This approximation allows us to rewrite the KAF target function Eq. 8, replacing the $n \times n$ kernel matrix ${\mathbf{K}}_{x,x}$ by a much smaller matrix that is easier to compute and captures the same information. This reformulation also allows us to avoid the kernel computation ${\mathbf{K}}_{x,y}$, which couples the training and test data. As a consequence, we can build a more compact forecasting model.
 
-When we restructure the KAF target function, the low-rank approximation of the kernel matrix converts into a low-rank approximation of the covariance matrix of the features of the training data. The latter approximation may be interpreted as a streaming PCA problem. Here, we employ the randomized Nyström method devised by Halko et al. and extended to the streaming setting in. This algorithm requires minimal storage and arithmetic, and it reliably produces a more accurate solution than competing methods.
+When we restructure the KAF target function, the low-rank approximation of the kernel matrix converts into a low-rank approximation of the covariance matrix of the features of the training data. The latter approximation may be interpreted as a streaming PCA problem. Here, we employ the randomized Nyström method devised by Halko et al. and extended to the streaming setting . This algorithm requires minimal storage and arithmetic, and it reliably produces a more accurate solution than competing methods.
 
 The rest of this section introduces the random features construction. It shows how to integrate random features into KAF to obtain a streaming algorithm, and it highlights the role of the Nyström method. Last, we compare the resource usage of streaming KAF with the direct implementation of KAF. See Section 5 for related work.
 
@@ -142,35 +118,17 @@ The rest of this section introduces the random features construction. It shows h
 
 Random Fourier features (RFF) offer a simple and effective way to approximate certain types of kernels, including the Gaussian RBF kernel. This section summarizes the RFF construction, and the next section explains how we can use RFF to forecast a dynamical system.
 
-Bochner's theorem provides the mathematical foundation for RFF. Let us consider a bounded, continuous, positive-definite kernel $\kappa:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}}$ on a Euclidean space. Assume that the kernel is also translation invariant: ${\kappa{({\mathbf{x}},{\mathbf{y}})}} ≔ {h{({{\mathbf{x}} - {\mathbf{y}}})}}$. The theorem asserts that the kernel is the Fourier transform of a bounded positive measure. More precisely, there exists a unique probability measure $\nu$ on ${\mathbb{R}}^{d}$ and a positive constant $c ≔ {h{(\mathbf{0})}}$ for which
+Bochner's theorem provides the mathematical foundation for RFF. Let us consider a bounded, continuous, positive-definite kernel $\kappa:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}}$ on a Euclidean space. Assume that the kernel is also translation invariant: ${\kappa{({\mathbf{x}},{\mathbf{y}})}} ≔ {h{({{\mathbf{x}} - {\mathbf{y}}})}}$. The theorem asserts that the kernel is the Fourier transform of a bounded positive measure. More precisely, there exists a unique probability measure $\nu$ on ${\mathbb{R}}^{d}$ and a positive constant $c ≔ {h{(\mathbf{0})}}$ for which where ^∗^ denotes the complex conjugate. Since we are working in the real setting, we can rewrite the last expression to avoid complex-valued functions: This statement follows by direct calculation using trigonometric identities. The key property of these formulas is that the integrand is a separable function of the variables $\mathbf{x}$ and $\mathbf{y}$.
 
-where ^∗^ denotes the complex conjugate. Since we are working in the real setting, we can rewrite the last expression to avoid complex-valued functions:
+The simple idea behind RFF is to approximate the kernel using a Monte Carlo estimate of the integral. Let the parameter $s \in {\mathbb{N}}$ designate the number of random features. Once and for all, draw and fix independent random vectors ${{\mathbf{z}}_{1},\ldots,{\mathbf{z}}_{s}} \in {\mathbb{R}}^{d}$ that are distributed according to the probability measure $\nu$. Draw and fix independent random scalars ${\theta_{1},\ldots,\theta_{s}} \in {\mathbb{R}}$ with the $\text{uniform}{\lbrack 0,{2\pi})}$ distribution. Then we can construct a separable, rank-$s$ approximation $\hat{\kappa}:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}}$ of the original kernel: It is not hard to see that ${\hat{\kappa}{({\mathbf{x}},{\mathbf{y}})}} \approx {\kappa{({\mathbf{x}},{\mathbf{y}})}}$ with high probability for a fixed pair $({\mathbf{x}},{\mathbf{y}})$.
 
-This statement follows by direct calculation using trigonometric identities. The key property of these formulas is that the integrand is a separable function of the variables $\mathbf{x}$ and $\mathbf{y}$.
+Equivalently, we may define a feature map $\varphi:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{s}}$ by the formula Then we can compute the approximate kernel $\hat{\kappa}$ as the inner product between two feature vectors: In other words, the approximate kernel is a bilinear function of nonlinear features.
 
-The simple idea behind RFF is to approximate the kernel using a Monte Carlo estimate of the integral. Let the parameter $s \in {\mathbb{N}}$ designate the number of random features. Once and for all, draw and fix independent random vectors ${{\mathbf{z}}_{1},\ldots,{\mathbf{z}}_{s}} \in {\mathbb{R}}^{d}$ that are distributed according to the probability measure $\nu$. Draw and fix independent random scalars ${\theta_{1},\ldots,\theta_{s}} \in {\mathbb{R}}$ with the $\text{uniform}{\lbrack 0,{2\pi})}$ distribution. Then we can construct a separable, rank-$s$ approximation $\hat{\kappa}:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}}$ of the original kernel:
+In computational settings, we are usually interested in approximating the kernel matrix ${\mathbf{K}}_{x,x}$ associated with a family ${\{{\mathbf{x}}_{0},\ldots,{\mathbf{x}}_{n - 1}\}} \subset {\mathbb{R}}^{d}$ of data points. That is, To this end, we collect the data points as the columns of a matrix ${\mathbf{X}} \in {\mathbb{R}}^{d \times n}$. Extend the feature map $\varphi$ to matrices by applying the vector feature map to each column. Thus, $\varphi:{{\mathbb{R}}^{d \times n}\rightarrow{\mathbb{R}}^{s \times n}}$. With this notation, we find that The kernel matrix approximation is the Gram matrix of the nonlinear features.
 
-It is not hard to see that ${\hat{\kappa}{({\mathbf{x}},{\mathbf{y}})}} \approx {\kappa{({\mathbf{x}},{\mathbf{y}})}}$ with high probability for a fixed pair $({\mathbf{x}},{\mathbf{y}})$.
+Finally, we must discuss the number $s$ of random features that we need to ensure that the kernel matrix approximation ${\hat{\mathbf{K}}}_{x,x}$ serves in place of the true kernel matrix ${\mathbf{K}}_{x,x}$ for machine learning tasks. When we have $n$ training points, it has been shown that it suffices to use for kernel principal component analysis (KPCA) or for kernel ridge regression (KRR). The justification involves statistical assumptions on the training and test data. Our empirical study indicates that, in our application, we may extract even fewer features without much loss in forecasting performance.
 
-Equivalently, we may define a feature map $\varphi:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{s}}$ by the formula
-
-Then we can compute the approximate kernel $\hat{\kappa}$ as the inner product between two feature vectors:
-
-In other words, the approximate kernel is a bilinear function of nonlinear features.
-
-In computational settings, we are usually interested in approximating the kernel matrix ${\mathbf{K}}_{x,x}$ associated with a family ${\{{\mathbf{x}}_{0},\ldots,{\mathbf{x}}_{n - 1}\}} \subset {\mathbb{R}}^{d}$ of data points. That is,
-
-To this end, we collect the data points as the columns of a matrix ${\mathbf{X}} \in {\mathbb{R}}^{d \times n}$. Extend the feature map $\varphi$ to matrices by applying the vector feature map to each column. Thus, $\varphi:{{\mathbb{R}}^{d \times n}\rightarrow{\mathbb{R}}^{s \times n}}$. With this notation, we find that
-
-The kernel matrix approximation is the Gram matrix of the nonlinear features.
-
-Finally, we must discuss the number $s$ of random features that we need to ensure that the kernel matrix approximation ${\hat{\mathbf{K}}}_{x,x}$ serves in place of the true kernel matrix ${\mathbf{K}}_{x,x}$ for machine learning tasks. When we have $n$ training points, it has been shown that it suffices to use
-
-for kernel principal component analysis (KPCA) or for kernel ridge regression (KRR). The justification involves statistical assumptions on the training and test data. Our empirical study indicates that, in our application, we may extract even fewer features without much loss in forecasting performance.
-
-As a particular example of the RFF construction, consider the Gaussian RBF kernel Eq. 7 on ${\mathbb{R}}^{d}$ with inverse bandwidth $\gamma > 0$. The normalization constant $c = 1$, and the associated spectral measure $\nu$ satisfies
-
-That is, the random feature descriptor $\mathbf{z}$ is a centered normal vector with covariance ${({2\gamma})}\mathbf{I}$.
+As a particular example of the RFF construction, consider the Gaussian RBF kernel Eq. 7 on ${\mathbb{R}}^{d}$ with inverse bandwidth $\gamma > 0$. The normalization constant $c = 1$, and the associated spectral measure $\nu$ satisfies That is, the random feature descriptor $\mathbf{z}$ is a centered normal vector with covariance ${({2\gamma})}\mathbf{I}$.
 
 Algorithm 1 contains basic pseudocode for implementing Gaussian RBF random features. In this version, the feature descriptors require $O{({ds})}$ storage, and it costs $O{({ds})}$ operations to compute the features for a single input vector. The pseudocode also includes several methods for streaming computation of matrix--matrix products with featurized data $\varphi{({\mathbf{X}})}$.
 
@@ -182,50 +140,21 @@ We can accurately approximate the RFF map for the Gaussian RBF kernel using rand
 
 It is also possible to construct random features for other kinds of kernel functions, including kernels that are not translation invariant. See \[57, Sec. 19\] for some discussion and references.
 
-The constructor (RFF) generates a random feature map φ for the Gaussian RBF kernel on ℝd with inverse bandwidth γ &gt; 0 with s random features. The Featurize method of φ applies the random feature map to the columns of the input matrix X ∈ ℝd × B to obtain φ (X) ∈ ℝs × B. The other methods featurize an input matrix X ∈ ℝd × B and compute various matrix products between φ (X) and another input M by streaming columns of X.
-1local variables γ ∈ ℝ++ and d, s ∈ ℕ ⊳ RFF parameters
-2local variables z1, …, zs ∈ ℝd and θ1, …, θs ∈ ℝ ⊳ Feature descriptors
-3function RFF(γ ∈ ℝ++, d ∈ ℕ; s ∈ ℕ) ⊳ Initialization
-4 Store RFF parameters γ, d; s
-6 ${\mathbf{z}}_{i}\leftarrow{{\sqrt{2\gamma} \cdot \text{randn}}{(d,1)}}$ ⊳ Draw Gaussian vector
-7 θi ← 2 π ⋅ rand ⊳ Draw uniform scalar
-8 return self ⊳ Return feature map
-9function Featurize(X ∈ ℝd × B) ⊳ Compute features of X
-12 ${\lbrack{\varphi{({\mathbf{X}})}}\rbrack}_{ij}\leftarrow{\sqrt{2/s} \cdot {\cos{({\theta_{i} + {{\mathbf{z}}_{i}^{\top}{\mathbf{X}}{(:,j)}}})}}}$
-14function MultCov(X ∈ ℝd × B, M ∈ ℝs × ℓ) ⊳ Form product φ (X) φ (X)⊤ M
-16 for j = 1, …, B do ⊳ Block for efficiency
-17 v ← Featurize (X (:,j)) ⊳ Compute features
-20function RMultAdj(X ∈ ℝd × B, M ∈ ℝr × B) ⊳ Form product M φ (X)⊤
-22 for j = 1, …, B do ⊳ Block for efficiency
-25function RMult(X ∈ ℝd × B, M ∈ ℝr × s) ⊳ Form product M φ (X)
-27 for j = 1, …, B do ⊳ Block for efficiency
-Algorithm 1 Random Fourier Features for Gaussian RBF Kernel. See Section 3.3.
+The constructor (RFF) generates a random feature map φ for the Gaussian RBF kernel on ℝd with inverse bandwidth γ > 0 with s random features. The Featurize method of φ applies the random feature map to the columns of the input matrix X ∈ ℝd × B to obtain φ (X) ∈ ℝs × B. The other methods featurize an input matrix X ∈ ℝd × B and compute various matrix products between φ (X) and another input M by streaming columns of X. 1local variables γ ∈ ℝ++ and d, s ∈ ℕ ⊳ RFF parameters 2local variables z1, …, zs ∈ ℝd and θ1, …, θs ∈ ℝ ⊳ Feature descriptors 3function RFF(γ ∈ ℝ++, d ∈ ℕ; s ∈ ℕ) ⊳ Initialization 4 Store RFF parameters γ, d; s 6 ${\mathbf{z}}_{i}\leftarrow{{\sqrt{2\gamma} \cdot \text{randn}}{(d,1)}}$ ⊳ Draw Gaussian vector 7 θi ← 2 π ⋅ rand ⊳ Draw uniform scalar 8 return self ⊳ Return feature map 9function Featurize(X ∈ ℝd × B) ⊳ Compute features of X 12 ${\lbrack{\varphi{({\mathbf{X}})}}\rbrack}_{ij}\leftarrow{\sqrt{2/s} \cdot {\cos{({\theta_{i} + {{\mathbf{z}}_{i}^{\top}{\mathbf{X}}{(:,j)}}})}}}$ 14function MultCov(X ∈ ℝd × B, M ∈ ℝs × ℓ) ⊳ Form product φ (X) φ (X)⊤ M 16 for j = 1, …, B do ⊳ Block for efficiency 17 v ← Featurize (X (:,j)) ⊳ Compute features 20function RMultAdj(X ∈ ℝd × B, M ∈ ℝr × B) ⊳ Form product M φ (X)⊤ 22 for j = 1, …, B do ⊳ Block for efficiency 25function RMult(X ∈ ℝd × B, M ∈ ℝr × s) ⊳ Form product M φ (X) 27 for j = 1, …, B do ⊳ Block for efficiency Algorithm 1 Random Fourier Features for Gaussian RBF Kernel. See Section 3.3.
 
 ### KAF with random features
 
-We can use RFF to approximate the kernel matrices that appear in the regularized KAF target function Eq. 9. Recall that the matrix ${\mathbf{X}} \in {\mathbb{R}}^{d \times n}$ contains the training data, while ${\mathbf{y}} \in {\mathbb{R}}^{d}$ is a piece of test data. Draw and fix a random feature map $\varphi:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{s}}$ with $s$ random features. Then we can approximate the KAF as
-
-The forecasting model consists of the matrix ${\mathbf{W}}_{q,\ell} \in {\mathbb{R}}^{d \times s}$ of prediction weights, along with the description of the feature map $\varphi:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{s}}$. A key benefit of the reformulation Eq. 11 is the complete decoupling of the test data $\mathbf{y}$ from the forecasting model.
+We can use RFF to approximate the kernel matrices that appear in the regularized KAF target function Eq. 9. Recall that the matrix ${\mathbf{X}} \in {\mathbb{R}}^{d \times n}$ contains the training data, while ${\mathbf{y}} \in {\mathbb{R}}^{d}$ is a piece of test data. Draw and fix a random feature map $\varphi:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{s}}$ with $s$ random features. Then we can approximate the KAF as | \(11\) | | ${f_{q,\ell}{({\mathbf{y}})}}\quad \approx \quad{{\hat{f}}_{q,\ell}{({\mathbf{y}})}}$ | $≔ {\mathbf{X}}_{\lbrack{+ q}\rbrack}{({⟦{\hat{\mathbf{K}}}_{x,x} + \mu\mathbf{I}⟧}_{\ell})}^{\dagger}{\hat{\mathbf{K}}}_{x,y}$ | | | | | | $= {\mathbf{X}}_{\lbrack{+ q}\rbrack}{({⟦\varphi{({\mathbf{X}})}^{\top}\varphi{({\mathbf{X}})} + \mu\mathbf{I}⟧}_{\ell})}^{\dagger}\varphi{({\mathbf{X}})}^{\top}\varphi{({\mathbf{y}})}$ | | | | | | ${≕ {{{\mathbf{W}}_{q,\ell} \cdot \varphi}{({\mathbf{y}})}}}.$ | | The forecasting model consists of the matrix ${\mathbf{W}}_{q,\ell} \in {\mathbb{R}}^{d \times s}$ of prediction weights, along with the description of the feature map $\varphi:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{s}}$. A key benefit of the reformulation Eq. 11 is the complete decoupling of the test data $\mathbf{y}$ from the forecasting model.
 
 Direct substitution of random features does not lead immediately to a streaming algorithm. Indeed, the formula Eq. 11 involves the rank truncation of the $n \times n$ approximate kernel matrix $\varphi{({\mathbf{X}})}^{\top}\varphi{({\mathbf{X}})}$. We cannot form this matrix without multiple views of the columns of $\mathbf{X}$, and the matrix imposes unacceptable storage and arithmetic costs.
 
 ### Streaming KAF
 
-To develop a streaming algorithm, we first recast the expression Eq. 11 in terms of a much smaller $s \times s$ matrix. Recall the linear-algebraic identity
+To develop a streaming algorithm, we first recast the expression Eq. 11 in terms of a much smaller $s \times s$ matrix. Recall the linear-algebraic identity Using this formula, we can write the prediction weights as The matrices in parentheses have the dimensions $d \times s$ and $s \times s$, respectively. Moreover, this representation now supports a streaming algorithm.
 
-Using this formula, we can write the prediction weights as
+In sequence, we pass over the columns ${\mathbf{x}}_{i}$ of the training states, generating random features $\varphi{({\mathbf{x}}_{i})}$ on the fly. Simultaneously, we update the covariance of the features and the covariance between the features and the lagged data. Beginning with ${\mathbf{C}}_{xx} = \mathbf{0}_{s \times s}$ and ${\mathbf{C}}_{gx} = \mathbf{0}_{d \times s}$, iterate \[Because of the lag, to form the matrix ${\mathbf{C}}_{gx}$, the algorithm must buffer the input states at a cost of $O{({qd})}$.\] Once we have streamed all of the training data, we may construct the matrix of prediction weights as Since the expressions for the weights in Eqs. 11, 12, and 14 are algebraically equivalent, we have arrived at a streaming implementation of KAF with random features.
 
-The matrices in parentheses have the dimensions $d \times s$ and $s \times s$, respectively. Moreover, this representation now supports a streaming algorithm.
-
-In sequence, we pass over the columns ${\mathbf{x}}_{i}$ of the training states, generating random features $\varphi{({\mathbf{x}}_{i})}$ on the fly. Simultaneously, we update the covariance of the features and the covariance between the features and the lagged data. Beginning with ${\mathbf{C}}_{xx} = \mathbf{0}_{s \times s}$ and ${\mathbf{C}}_{gx} = \mathbf{0}_{d \times s}$, iterate
-
-\[Because of the lag, to form the matrix ${\mathbf{C}}_{gx}$, the algorithm must buffer the input states at a cost of $O{({qd})}$.\] Once we have streamed all of the training data, we may construct the matrix of prediction weights as
-
-Since the expressions for the weights in Eqs. 11, 12, and 14 are algebraically equivalent, we have arrived at a streaming implementation of KAF with random features.
-
-The general recommendation Eq. 10 for the number $s$ of random features may not be appropriate for the streaming setting because $s$ depends on the number $n$ of training samples. Our empirical work supports a more aggressive choice:
-
-In other words, the number $s$ of features can be proportional to the dimension $\ell$ of the regression model, which is chosen in advance.
+The general recommendation Eq. 10 for the number $s$ of random features may not be appropriate for the streaming setting because $s$ depends on the number $n$ of training samples. Our empirical work supports a more aggressive choice: In other words, the number $s$ of features can be proportional to the dimension $\ell$ of the regression model, which is chosen in advance.
 
 ### Streaming PCA
 
@@ -235,15 +164,9 @@ Evidently, ${\mathbf{C}}_{xx}$ is the covariance of vectors that are presented t
 
 The Nyström approximation of a positive-semidefinite (psd) matrix ${\mathbf{C}} \in {\mathbb{R}}^{s \times s}$ with respect to a test matrix $\mathbf{\Omega} \in {\mathbb{R}}^{s \times k}$ is the best psd approximation with the same range as ${\mathbf{C}}\mathbf{\Omega}$. The construction dates back to the early literature on integral equations; it is intimately connected to Schur complements and Cholesky factorization. The randomized Nyström approximation involves a test matrix $\mathbf{\Omega}$ chosen at random.
 
-We can implement randomized Nyström approximation in the streaming setting. Draw and fix a random matrix $\mathbf{\Omega} \in {\mathbb{R}}^{{s \times 2}\ell}$ from the standard normal distribution.^44^4It is important that the random matrix $\mathbf{\Omega}$ has $2\ell$ columns, not merely $\ell$. Instead of forming ${\mathbf{C}}_{xx}$ as in Eq. 13, we compute the product ${\mathbf{B}} = {{\mathbf{C}}_{xx}\mathbf{\Omega}} \in {\mathbb{R}}^{s \times \ell}$ via the iteration
+We can implement randomized Nyström approximation in the streaming setting. Draw and fix a random matrix $\mathbf{\Omega} \in {\mathbb{R}}^{{s \times 2}\ell}$ from the standard normal distribution.^44^4It is important that the random matrix $\mathbf{\Omega}$ has $2\ell$ columns, not merely $\ell$. Instead of forming ${\mathbf{C}}_{xx}$ as in Eq. 13, we compute the product ${\mathbf{B}} = {{\mathbf{C}}_{xx}\mathbf{\Omega}} \in {\mathbb{R}}^{s \times \ell}$ via the iteration After we have streamed all of the data, we carefully^55^5Do not use the formula Eq. 16 as written! See Algorithm 2. form a Nyström approximation of the covariance and extract its eigenvalue decomposition: The randomized Nyström approximation ${\check{\mathbf{C}}}_{xx}$ provides a good low-rank approximation of the covariance ${\mathbf{C}}_{xx}$; see \[78, Thms. 4.1--4.2\]. Our ultimate formula for the weight matrix becomes We can easily complete this computation because we have the eigenvalue decomposition of the approximation ${\check{\mathbf{C}}}_{xx}$ at hand. The final target function becomes ${{\check{f}}_{q,\ell}{({\mathbf{y}})}} ≔ {{{\check{\mathbf{W}}}_{q,\ell} \cdot \varphi}{({\mathbf{y}})}}$.
 
-After we have streamed all of the data, we carefully^55^5Do not use the formula Eq. 16 as written! See Algorithm 2. form a Nyström approximation of the covariance and extract its eigenvalue decomposition:
-
-The randomized Nyström approximation ${\check{\mathbf{C}}}_{xx}$ provides a good low-rank approximation of the covariance ${\mathbf{C}}_{xx}$; see \[78, Thms. 4.1--4.2\]. Our ultimate formula for the weight matrix becomes
-
-We can easily complete this computation because we have the eigenvalue decomposition of the approximation ${\check{\mathbf{C}}}_{xx}$ at hand. The final target function becomes ${{\check{f}}_{q,\ell}{({\mathbf{y}})}} ≔ {{{\check{\mathbf{W}}}_{q,\ell} \cdot \varphi}{({\mathbf{y}})}}$.
-
-Algorithm 2 provides numerically stable pseudocode for the randomized Nyström method applied to a sequence of random features. This method is based on.
+Algorithm 2 provides numerically stable pseudocode for the randomized Nyström method applied to a sequence of random features. This method is based .
 
 Using ordinary Gaussian random features, the arithmetic cost of forming the matrix $\mathbf{B}$ is $O{({{({\ell + d})}sn})}$. The algorithm uses auxiliary arithmetic $O{({\ell^{2}s})}$, and the storage requirement is just $O{({\ells})}$.
 
@@ -251,44 +174,27 @@ Using ordinary Gaussian random features, the arithmetic cost of forming the matr
 
 The randomized Nyström method always underestimates the eigenvalues of the covariance matrix. If necessary, we can reduce this effect by incorporating powering or Krylov subspace techniques. In the streaming setting, these modifications require us to construct and store the full covariance matrix $\mathbf{C}_{xx}$. In our numerical work, these refinements did not improve the quality of forecasting, but they may merit further study.
 
-Given a random feature map feat and a data matrix X ∈ ℝd × n, this procedure computes an ℓ-truncated eigenvalue decomposition Q Λ Q⊤ of the covariance Cx x = φ (X) φ (X)⊤ of the featurized data using the randomized Nyström method with 2× oversampling.
-1function FeatNyström(RFF feat, X ∈ ℝd × n, ℓ ∈ ℕ))
-2 Q ← orth (randn (s,2 ℓ)) ⊳ Random subspace, oversampling ℓ → 2 ℓ
-3 Z ← feat.MultCov (X,Q) ⊳ Stream the product φ (X) φ (X)⊤ Q
-4 ν ← eps (∥Z∥F) ⊳ Compute shift
-5 Z ← Z + ν Q ⊳ Shift for stability
-6 T ← chol (Q⊤ Z) ⊳ Upper-triangular Cholesky factorization
-7 S ← Z/T ⊳ Solve triangular systems
-8 (Q,Σ,∼) ← svd (S) ⊳ Compact SVD
-9 Λ ← max {0, Σ2 − ν I} ⊳ Remove shift to get eigenvalues
-10 Q ← Q(:,1:ℓ) and Λ ← Λ(1:ℓ,1:ℓ) ⊳ Truncate to rank ℓ
-Algorithm 2 Randomized Nyström for featurized data [57, Sec. 19.4.3]. See Section 3.6.
+Given a random feature map feat and a data matrix X ∈ ℝd × n, this procedure computes an ℓ-truncated eigenvalue decomposition Q Λ Q⊤ of the covariance Cx x = φ (X) φ (X)⊤ of the featurized data using the randomized Nyström method with 2× oversampling. 1function FeatNyström(RFF feat, X ∈ ℝd × n, ℓ ∈ ℕ)) 2 Q ← orth (randn (s, 2 ℓ)) ⊳ Random subspace, oversampling ℓ → 2 ℓ 3 Z ← feat.MultCov (X, Q) ⊳ Stream the product φ (X) φ (X)⊤ Q 4 ν ← eps (∥Z∥F) ⊳ Compute shift 5 Z ← Z + ν Q ⊳ Shift for stability 6 T ← chol (Q⊤ Z) ⊳ Upper-triangular Cholesky factorization 7 S ← Z/T ⊳ Solve triangular systems 8 (Q, Σ, ∼) ← svd (S) ⊳ Compact SVD 9 Λ ← max {0, Σ2 − ν I} ⊳ Remove shift to get eigenvalues 10 Q ← Q(:,1: ℓ) and Λ ← Λ(1: ℓ, 1: ℓ) ⊳ Truncate to rank ℓ Algorithm 2 Randomized Nyström for featurized data [57, Sec. 19.4.3]. See Section 3.6.
 
 ### Other observables
 
-We can easily extend streaming KAF to the more general setting outlined in Section 2.6. Suppose we wish to use a general covariate $u:{\mathcal{M}\rightarrow{\mathbb{R}}^{d^{\prime}}}$ to predict a general response variable $g:{\mathcal{M}\rightarrow{\mathbb{R}}^{r}}$ after $q$ time steps. Let $\overset{\sim}{\kappa}:{{\mathbb{R}}^{d^{\prime} \times d^{\prime}}\rightarrow{\mathbb{R}}_{+}}$ be a positive-definite kernel on the covariate space, with associated feature map $\overset{\sim}{\varphi}:{{\mathbb{R}}^{d^{\prime}}\rightarrow{\mathbb{R}}}$.
+We can easily extend streaming KAF to the more general setting outlined in Section 2.6. Suppose we wish to use a general covariate $u:{\mathcal{M}\rightarrow{\mathbb{R}}^{d'}}$ to predict a general response variable $g:{\mathcal{M}\rightarrow{\mathbb{R}}^{r}}$ after $q$ time steps. Let $\overset{\sim}{\kappa}:{{\mathbb{R}}^{d' \times d'}\rightarrow{\mathbb{R}}_{+}}$ be a positive-definite kernel on the covariate space, with associated feature map $\overset{\sim}{\varphi}:{{\mathbb{R}}^{d'}\rightarrow{\mathbb{R}}}$.
 
-To train, we acquire data in the form of measured values of the covariate paired with measured values of the lagged response: $({\mathbf{u}}_{i},{\mathbf{g}}_{q + i})$ where ${\mathbf{u}}_{i} = {u{({\mathbf{x}}_{i})}}$ and ${\mathbf{g}}_{i} = {g{({\mathbf{x}}_{i})}}$ for $i = {0,\ldots,{n - 1}}$. In this setting, the underlying state trajectory $({\mathbf{x}}_{0},\ldots,{\mathbf{x}}_{n - 1})$ is unknown. By streaming the observable data, we compute the matrices
+To train, we acquire data in the form of measured values of the covariate paired with measured values of the lagged response: $({\mathbf{u}}_{i},{\mathbf{g}}_{q + i})$ where ${\mathbf{u}}_{i} = {u{({\mathbf{x}}_{i})}}$ and ${\mathbf{g}}_{i} = {g{({\mathbf{x}}_{i})}}$ for $i = {0,\ldots,{n - 1}}$. In this setting, the underlying state trajectory $({\mathbf{x}}_{0},\ldots,{\mathbf{x}}_{n - 1})$ is unknown. By streaming the observable data, we compute the matrices Finally, we determine the weights: As before, the randomized Nyström method serves for the streaming PCA computation.
 
-Finally, we determine the weights:
-
-As before, the randomized Nyström method serves for the streaming PCA computation.
-
-Now, suppose that we observe a covariate ${\mathbf{v}} \in {\mathbb{R}}^{d^{\prime}}$, where ${\mathbf{v}} = {u{({\mathbf{y}})}}$ for an unknown state ${\mathbf{y}} \in \mathcal{M}$. We forecast the lagged response $g{({F^{q}{({\mathbf{y}})}})}$ as
-
-Our approach gives a principled approximation of the optimal forecast of the response given the observed covariate, as described in Section 2.7.
+Now, suppose that we observe a covariate ${\mathbf{v}} \in {\mathbb{R}}^{d'}$, where ${\mathbf{v}} = {u{({\mathbf{y}})}}$ for an unknown state ${\mathbf{y}} \in \mathcal{M}$. We forecast the lagged response $g{({F^{q}{({\mathbf{y}})}})}$ as Our approach gives a principled approximation of the optimal forecast of the response given the observed covariate, as described in Section 2.7.
 
 ### Resource usage
 
 Algorithm 3 lists pseudocode for the general streaming KAF method outlined in Section 3.7. Table 1 compares the costs against a naïve implementation of KAF. We also list the costs of streaming KAF with fast random features (Fast Streaming KAF; see Remark 3.1. ‣ 3.3 Kernel approximation by random features ‣ 3 Streaming KAF ‣ Learning to Forecast Dynamical Systems from Streaming DataSubmitted to the editors DATE. \fundingDG acknowledges support from NSF DMS 1854383 and ONR MURI N00014-19-1-242. AH was funded by AFOSR MURI FA9550-19-1-0005, NSF DMS 1952735. JAT was supported by ONR N00014-18-1-2363 and NSF DMS 1952777. RW acknowledges support from AFOSR MURI FA9550-19-1-0005, NSF DMS 1952735, and NSF IFML 2019844.")), omitting an exposition.
 
-First, we discuss the costs of the training step of streaming KAF with covariate data ${\mathbf{X}} \in {\mathbb{R}}^{d^{\prime} \times n}$ and (lagged) observable data ${\mathbf{G}} \in {\mathbb{R}}^{r \times n}$. Assume that the truncation rank $\ell \leq s$, where $s$ is the number of random features.
+First, we discuss the costs of the training step of streaming KAF with covariate data ${\mathbf{X}} \in {\mathbb{R}}^{d' \times n}$ and (lagged) observable data ${\mathbf{G}} \in {\mathbb{R}}^{r \times n}$. Assume that the truncation rank $\ell \leq s$, where $s$ is the number of random features.
 
-To construct random feature descriptors, we draw and store $O{({d^{\prime}s})}$ normal random variables. The Nyström approximation of the featurized covariance matrix involves $O{({{({d^{\prime} + \ell})}sn})}$ arithmetic and local storage $O{({\ells})}$. The covariate--response matrix requires $O{({{({d^{\prime} + r})}sn})}$ arithmetic and storage $O{({rs})}$. To form the prediction weights, we expend $O{({\ellrs})}$ arithmetic and $O{({rs})}$ storage. In practice, the Nyström approximation is the most expensive step.
+To construct random feature descriptors, we draw and store $O{({d's})}$ normal random variables. The Nyström approximation of the featurized covariance matrix involves $O{({{({d' + \ell})}sn})}$ arithmetic and local storage $O{({\ells})}$. The covariate--response matrix requires $O{({{({d' + r})}sn})}$ arithmetic and storage $O{({rs})}$. To form the prediction weights, we expend $O{({\ellrs})}$ arithmetic and $O{({rs})}$ storage. In practice, the Nyström approximation is the most expensive step.
 
-The total storage required for the forecasting model consists of the $O{({d^{\prime}s})}$ storage for the random feature descriptors and the $O{({rs})}$ storage for the prediction weights.
+The total storage required for the forecasting model consists of the $O{({d's})}$ storage for the random feature descriptors and the $O{({rs})}$ storage for the prediction weights.
 
-In the forecasting step, we simply featurize the test data and form a matrix--matrix product. This step uses $O{({{({d^{\prime} + r})}s})}$ arithmetic per initial condition (IC), but no additional storage.
+In the forecasting step, we simply featurize the test data and form a matrix--matrix product. This step uses $O{({{({d' + r})}s})}$ arithmetic per initial condition (IC), but no additional storage.
 
 Let us summarize. In comparison with naïve KAF, the streaming KAF method is significantly faster because it is a streaming method. The precise improvements to storage and arithmetic costs depend on several parameters. Loosely, the streaming method reduces training arithmetic by a factor of about $n/s$ and reduces training storage by a factor of about $n^{2}/s$. For forecasting, the arithmetic and storage both decrease by a factor of $n/s$.
 
@@ -296,21 +202,9 @@ Let us summarize. In comparison with naïve KAF, the streaming KAF method is sig
 
 For reasons of modularity, the pseudocode and our prototype implementation take two passes over the data, but they are mathematically equivalent to the streaming KAF algorithm.
 
-The method Train takes covariate data X ∈ ℝd × n and (lagged) response data G ∈ ℝr × n as input. It constructs a random feature map with parameters (γ,d;s) and builds a forecasting model for the response data G using truncation rank ℓ ∈ ℕ. The method Forecast uses the model to make estimates of the response from the covariates listed as columns of Y ∈ ℝd × m.
-1local variables RFF feat ⊳ Random feature map φ: ℝd → ℝs
-2local variables W ∈ ℝr × s ⊳ Prediction weights
-4 feat ← RFF (γ,d;s) ⊳ Initialize random feature map
-5 (Q,Λ) ← FeatNyström (feat,X;ℓ) ⊳ Factor ⟦φ(X)φ(X)⊤⟧ℓ; see Section 3.6
-6 Λ ← Λ + μ max (Λ) ⋅ I ⊳ Filter eigenvalues; μ = 10−6
-7 C ← feat.RMultAdj (X,G) ⊳ Form product G φ (X)⊤ ∈ ℝr × s
-8 W ← ((C Q)/Λ) Q⊤ ⊳ Compute prediction weights
-10 ${\hat{\mathbf{F}}\leftarrow\text{feat}}.{\text{RMult}{({\mathbf{Y}},{\mathbf{W}})}}$ ⊳ Form W φ (Y)
-11 return $\hat{\mathbf{F}} \in {\mathbb{R}}^{d \times m}$ ⊳ Forecasts for columns of Y
-Algorithm 3 Scalable Kernel Analog Forecasting. Implements Section 3.7.
+The method Train takes covariate data X ∈ ℝd × n and (lagged) response data G ∈ ℝr × n as input. It constructs a random feature map with parameters (γ, d; s) and builds a forecasting model for the response data G using truncation rank ℓ ∈ ℕ. The method Forecast uses the model to make estimates of the response from the covariates listed as columns of Y ∈ ℝd × m. 1local variables RFF feat ⊳ Random feature map φ: ℝd → ℝs 2local variables W ∈ ℝr × s ⊳ Prediction weights 4 feat ← RFF (γ, d; s) ⊳ Initialize random feature map 5 (Q, Λ) ← FeatNyström (feat, X; ℓ) ⊳ Factor ⟦φ(X)φ(X)⊤⟧ℓ; see Section 3.6 6 Λ ← Λ + μ max (Λ) ⋅ I ⊳ Filter eigenvalues; μ = 10−6 7 C ← feat.RMultAdj (X, G) ⊳ Form product G φ (X)⊤ ∈ ℝr × s 8 W ← ((C Q)/Λ) Q⊤ ⊳ Compute prediction weights 10 ${\hat{\mathbf{F}}\leftarrow\text{feat}}.{\text{RMult}{({\mathbf{Y}},{\mathbf{W}})}}$ ⊳ Form W φ (Y) 11 return $\hat{\mathbf{F}} \in {\mathbb{R}}^{d \times m}$ ⊳ Forecasts for columns of Y Algorithm 3 Scalable Kernel Analog Forecasting. Implements Section 3.7.
 
-Storage for model
-
-Table 1: Resource usage for training and for a single forecast: Covariate dimension d′, response dimension r, with n training samples, s random features, truncation rank ℓ. Assumes ℓ ≤ s ≤ n. Constants are suppressed. The fast streaming method uses a more efficient random feature construction. See Sections 2.5 and 3.8.
+Storage for model Table 1: Resource usage for training and for a single forecast: Covariate dimension d′, response dimension r, with n training samples, s random features, truncation rank ℓ. Assumes ℓ ≤ s ≤ n. Constants are suppressed. The fast streaming method uses a more efficient random feature construction. See Sections 2.5 and 3.8.
 
 ## Experiments
 
@@ -324,21 +218,11 @@ Our experiments focus on the Lorenz '63 model, a classical three-dimensional dyn
 
 The Lorenz '63 (L63) model was introduced by Edward Lorenz in 1963 as a crude model of atmospheric convection. Although this example is simple, its properties have been studied extensively, and it is known to exhibit many of the features that make forecasting challenging in more complex systems, including fractal attractors and mixing dynamics.
 
-The L63 model is defined via the following system of differential equations. For a state ${\mathbf{x}} = {(x_{1},x_{2},x_{3})} \in {\mathbb{R}}^{3}$,
-
-The classical parameters for the L63 system that generate chaotic dynamics are ${(\sigma,\mu,\beta)} = {(10,28,{8/3})}$. This choice leads to the famous "butterfly attractor," a compact set in ${\mathbb{R}}^{3}$ with fractal dimension $\approx 2.06$ that supports an ergodic invariant measure with Lyapunov exponent $\lambda \approx 0.91$; see. Figure 1 presents an illustration.
+The L63 model is defined via the following system of differential equations. For a state ${\mathbf{x}} = {(x_{1},x_{2},x_{3})} \in {\mathbb{R}}^{3}$, | \(19\) | | $\overset{˙}{\mathbf{x}}{(t)}$ | ${= {{{\mathbf{V}}{({{\mathbf{x}}{(t)}})}}\quad{\text{with initial condition~}{{{\mathbf{x}}{}} = {\mathbf{x}}_{init}}}}};$ | | The classical parameters for the L63 system that generate chaotic dynamics are ${(\sigma,\mu,\beta)} = {(10,28,{8/3})}$. This choice leads to the famous "butterfly attractor," a compact set in ${\mathbb{R}}^{3}$ with fractal dimension $\approx 2.06$ that supports an ergodic invariant measure with Lyapunov exponent $\lambda \approx 0.91$; see. Figure 1 presents an illustration.
 
 ### Lorenz '96
 
-We also consider the two-phase Lorenz '96 system (L96), as introduced in. This model has dynamics that occur on two distinct timescales, a set of "slow variables" ${\mathbf{x}} = {\{{x{(k)}}\}}_{k \in {\lbrack K\rbrack}}$ and a set of "fast variables" ${\mathbf{z}} = {\{{z{(j,k)}}\}}_{{j \in {\lbrack J\rbrack}},{k \in {\lbrack K\rbrack}}}$. These variables evolve according to the following system of equations. The boundary conditions ${x{({k + K})}} = x_{k}$ and ${z{(j,{k + K})}} = {z{(j,k)}}$ for $k \in {\lbrack K\rbrack}$ and ${z{({j + J},k)}} = {z{(j,{k + 1})}}$ for $j \in {\lbrack J\rbrack}$; the dynamics are
-
-As in, we set the parameters ${(h_{x},h_{y},K,J,\varepsilon)} = {({- 0.8},1,9,8,{1/128})}$. Depending on the value of the forcing constant $F$, three distinct regimes of behavior emerge.
-
-$F = 5$ yields a periodic system;
-
-$F = 6.9$ yields a quasi-periodic system; and
-
-$F = 10$ yields a fully chaotic system.
+We also consider the two-phase Lorenz '96 system (L96), as introduced. This model has dynamics that occur on two distinct timescales, a set of "slow variables" ${\mathbf{x}} = {\{{x{(k)}}\}}_{k \in {\lbrack K\rbrack}}$ and a set of "fast variables" ${\mathbf{z}} = {\{{z{(j,k)}}\}}_{{j \in {\lbrack J\rbrack}},{k \in {\lbrack K\rbrack}}}$. These variables evolve according to the following system of equations. The boundary conditions ${x{({k + K})}} = x_{k}$ and ${z{(j,{k + K})}} = {z{(j,k)}}$ for $k \in {\lbrack K\rbrack}$ and ${z{({j + J},k)}} = {z{(j,{k + 1})}}$ for $j \in {\lbrack J\rbrack}$; the dynamics are As, we set the parameters ${(h_{x},h_{y},K,J,\varepsilon)} = {({- 0.8},1,9,8,{1/128})}$. Depending on the value of the forcing constant $F$, three distinct regimes of behavior emerge. $F = 5$ yields a periodic system; $F = 6.9$ yields a quasi-periodic system; and $F = 10$ yields a fully chaotic system.
 
 See Fig. 1 for typical trajectories.
 
@@ -350,19 +234,11 @@ Figure 1: Lorenz models. [top left] The L63 system in the chaotic regime. [Other
 
 All of our experiments are performed using data obtained by integrating the governing equations of the L63 and L96 systems. Here are the details about how we apply streaming KAF to make forecasts and evaluate the results.
 
-For L63, the training data consists of states ${{\mathbf{x}}_{1},{\mathbf{x}}_{2},\ldots,{\mathbf{x}}_{n}} \in {\mathbb{R}}^{d}$ generated by iterating the dynamics:
+For L63, the training data consists of states ${{\mathbf{x}}_{1},{\mathbf{x}}_{2},\ldots,{\mathbf{x}}_{n}} \in {\mathbb{R}}^{d}$ generated by iterating the dynamics: where $F$ is the flow map obtained by discretizing Eq. 19 with time step ${dt} =.01$.
 
-where $F$ is the flow map obtained by discretizing Eq. 19 with time step ${dt} =.01$.
+For L96, we first generate the full $81$-dimensional system of slow and fast variables: where $F$ is the flow map obtained by discretizing Eq. 20 with time step ${dt} =.01$. We then form the training matrix ${\mathbf{X}} = {\lbrack{\mathbf{x}}_{1},\ldots,{\mathbf{x}}_{n}\rbrack} \in {\mathbb{R}}^{9 \times n}$ using only the slow variables.
 
-For L96, we first generate the full $81$-dimensional system of slow and fast variables:
-
-where $F$ is the flow map obtained by discretizing Eq. 20 with time step ${dt} =.01$. We then form the training matrix ${\mathbf{X}} = {\lbrack{\mathbf{x}}_{1},\ldots,{\mathbf{x}}_{n}\rbrack} \in {\mathbb{R}}^{9 \times n}$ using only the slow variables.
-
-To evaluate the performance, we use the normalized root mean square error (RMSE) metric for the forecast error. For a single response variable $i^{\ast}$, consider the test set ${\mathbf{Y}}_{i^{\ast}}$ and the true trajectory ${\mathbf{Y}}_{q,i^{\ast}}$:
-
-For the forecast $f_{q,\ell,i^{\ast}}$ of the response variable, applied columnwise, we define the error
-
-where ${std}{({\mathbf{z}})}$ denotes the standard deviation of the vector $\mathbf{z}$.
+To evaluate the performance, we use the normalized root mean square error (RMSE) metric for the forecast error. For a single response variable $i^{\ast}$, consider the test set ${\mathbf{Y}}_{i^{\ast}}$ and the true trajectory ${\mathbf{Y}}_{q,i^{\ast}}$: For the forecast $f_{q,\ell,i^{\ast}}$ of the response variable, applied columnwise, we define the error where ${std}{({\mathbf{z}})}$ denotes the standard deviation of the vector $\mathbf{z}$.
 
 For each system and each set of parameter specifications, we consider $5$ sets of tests ${\mathbf{Y}}_{1},\ldots,{\mathbf{Y}}_{5}$, each with $m = {10,000}$ data points (columns) of the same form as the training data. The first test data set ${\mathbf{Y}}_{1}$ is obtained by evolving the system from the final point ${\mathbf{x}}_{n}$ in the training data. For the remaining test sets, the initial condition is the final point in the previous set. In all figures, the line series represents the average of the errors resulting from each of the $5$ tests, and the shaded region around the error lines represents one standard deviation of uncertainty around the average.
 
@@ -390,11 +266,11 @@ Figure 2: Lorenz ’63: Forecast error versus amount of training data. Average n
 
 The KAF methodology has similar success at forecasting all three state variables. For each of the three variables and with $n = {10,000}$ training samples, Fig. 3 compares the forecasting error attained by the naïve and streaming methods.
 
-Figure 3: Lorenz ’63: Forecasting all three state variables. Average normalized RMSE for forecasting all three state coordinates (x1,x2,x3) = (blue, orange, green) via naïve KAF [left] and streaming KAF [right] with n = 10, 000 training points. The regression model has dimension ℓ = 400, the kernel inverse bandwidth γ =.05, and the number of features $s = {\sqrt{n}{\log{(n)}}}$. See Section 4.4.
+Figure 3: Lorenz ’63: Forecasting all three state variables. Average normalized RMSE for forecasting all three state coordinates (x1, x2, x3) = (blue, orange, green) via naïve KAF [left] and streaming KAF [right] with n = 10, 000 training points. The regression model has dimension ℓ = 400, the kernel inverse bandwidth γ =.05, and the number of features $s = {\sqrt{n}{\log{(n)}}}$. See Section 4.4.
 
 ### Case Study: L96
 
-In our second set of experiments, we explore the performance of scalable KAF for the L96 system in the periodic, quasi-periodic, and chaotic regimes documented in. An increase in the forcing constant $F$ generates more chaotic behavior and, unsurprisingly, reduces the time horizon for which KAF can make informative forecasts.
+In our second set of experiments, we explore the performance of scalable KAF for the L96 system in the periodic, quasi-periodic, and chaotic regimes documented . An increase in the forcing constant $F$ generates more chaotic behavior and, unsurprisingly, reduces the time horizon for which KAF can make informative forecasts.
 
 For the periodic regime ($F = 5$), forecasting is quite easy. Figure 4 illustrates the performance of streaming KAF as a function of the number $n$ of training samples. The success of the method hardly varies as we increase $n$ from $5,000$ to $20,000$, and the RMSE remains quite small over long time scales.
 
@@ -406,9 +282,9 @@ We conclude that streaming KAF and naïve KAF have similar forecasting skill in 
 
 Figure 4: Lorenz ’96: Forecasting error versus amount of training data. Via streaming KAF, the average normalized RMSE for forecasting the first slow variable of periodic L96 [top], quasi-periodic L96 [bottom left], and chaotic L96 [bottom right] as a function of the number n of training points. The regression model has dimension ℓ = 400, and the number of features $s = {\sqrt{n}{\log{(n)}}}$. The kernel inverse bandwidth γ = 0.0001 in the periodic and chaotic cases, while γ = 0.01 in the quasi-periodic case. See Section 4.5.
 
-Figure 5: Quasi-periodic Lorenz ’96: Forecasting three slow variables. Average normalized RMSE for forecasting three slow coordinates (x1,x2,x3) = (blue, orange, green) of quasi-periodic L96 via naïve KAF [left] and streaming KAF [right] with n = 10, 000 training points. The regression model has dimension ℓ = 400, the kernel inverse bandwidth γ =.0001, and the number of features $s = {\sqrt{n}{\log{(n)}}}$. See Section 4.5.
+Figure 5: Quasi-periodic Lorenz ’96: Forecasting three slow variables. Average normalized RMSE for forecasting three slow coordinates (x1, x2, x3) = (blue, orange, green) of quasi-periodic L96 via naïve KAF [left] and streaming KAF [right] with n = 10, 000 training points. The regression model has dimension ℓ = 400, the kernel inverse bandwidth γ =.0001, and the number of features $s = {\sqrt{n}{\log{(n)}}}$. See Section 4.5.
 
-Figure 6: Chaotic Lorenz ’96: Forecasting three slow variables. Average normalized RMSE for forecasting three slow variables (x1,x2,x3) = (blue, orange, green) of chaotic L96 via naïve KAF [left] and streaming KAF [right] with n = 10, 000 training points. The regression model has dimension ℓ = 400, the kernel inverse bandwidth γ = 0.0001, and the number of features $s = {\sqrt{n}{\log{(n)}}}$. See Section 4.5.
+Figure 6: Chaotic Lorenz ’96: Forecasting three slow variables. Average normalized RMSE for forecasting three slow variables (x1, x2, x3) = (blue, orange, green) of chaotic L96 via naïve KAF [left] and streaming KAF [right] with n = 10, 000 training points. The regression model has dimension ℓ = 400, the kernel inverse bandwidth γ = 0.0001, and the number of features $s = {\sqrt{n}{\log{(n)}}}$. See Section 4.5.
 
 ### Hyperparameter specifications and sensitivity
 
@@ -426,9 +302,7 @@ Figure 7: Robustness to inverse bandwidth parameter: For the L96 system in the p
 
 To implement streaming KAF, we must choose the dimension, or rank, $\ell$ of the regression model. When $\ell$ is too small, the model does not capture all of the dynamics. Meanwhile, when $\ell$ is too large, we can introduce noise dimensions or encounter numerical problems. In this section, we outline some strategies for this task, and we will show that the forecasting methodology is robust to the choice of this parameter.
 
-One principled approach is to form the full covariance matrix ${\mathbf{C}}_{xx} \in {\mathbb{R}}^{s \times s}$ or ${\mathbf{C}}_{uu} \in {\mathbb{R}}^{s \times s}$ of the covariate data. In this case, we can explicitly compute the eigenvalues $(\lambda_{1},\lambda_{2},\ldots,\lambda_{s})$ of the matrix. Then, we choose the truncation level $\ell$ so that we capture, say, $99.9\%$ of the spectral content:
-
-This method is effective for a range of problems. At the same time, it imposes additional computational costs, and it is not compatible with the streaming algorithm.
+One principled approach is to form the full covariance matrix ${\mathbf{C}}_{xx} \in {\mathbb{R}}^{s \times s}$ or ${\mathbf{C}}_{uu} \in {\mathbb{R}}^{s \times s}$ of the covariate data. In this case, we can explicitly compute the eigenvalues $(\lambda_{1},\lambda_{2},\ldots,\lambda_{s})$ of the matrix. Then, we choose the truncation level $\ell$ so that we capture, say, $99.9\%$ of the spectral content: This method is effective for a range of problems. At the same time, it imposes additional computational costs, and it is not compatible with the streaming algorithm.
 
 Instead, we typically prescribe the dimension $\ell$ of the regression model in advance using prior knowledge about the problem or to work within our computational budget. For example, in our medium-scale experiments, we make the choice $\ell = 400$, which captures over $99.9\%$ of the spectral content of the computed covariance matrices. Since we have included the ridge regularization $\mu\mathbf{I}$ in the forecasting function, we can insulate the algorithm from the negative impact of outsize $\ell$.
 
@@ -446,7 +320,7 @@ In the streaming setting, we may not know the number $n$ of training points in a
 
 Table 2: L63: Timing costs and error in forecasting. This table reports the time cost (in seconds) required to construct and evaluate a forecasting model using Streaming and Naïve KAF algorithms, along with the average normalized RMSE of the resulting models. The covariate is the 3-dimensional state of the L63 system, and the response is the first state variable after 0.5 time units. The number n of training samples varies, and the number of random features $s = {\sqrt{n}{\log{(n)}}}$. Reported test time is for making all m = 10, 000 forecasts. See Section 4.7 for more details.
 
-Table 3: L63: Timing costs and error in forecasting using fewer random features. This table reports the time cost (in seconds) required to construct and evaluate a forecasting model using Streaming KAF. The setup is the same as in Table 2, but with model parameters (s,ℓ,γ) = (3200,3200,.72) fixed for all experiments. See Section 4.7 for more details.
+Table 3: L63: Timing costs and error in forecasting using fewer random features. This table reports the time cost (in seconds) required to construct and evaluate a forecasting model using Streaming KAF. The setup is the same as in Table 2, but with model parameters (s, ℓ, γ) = (3200, 3200,.72) fixed for all experiments. See Section 4.7 for more details.
 
 ### Timing comparisons
 
@@ -466,17 +340,17 @@ Several other techniques for data-driven prediction have been proposed and studi
 
 ### Forecasting methodologies
 
-Examples of reduced modeling techniques are linear inverse models, (extended) DMD, and methods for approximating the Koopman generator. These methods formally assume that the training data have a (deterministic) Markovian evolution. That assumption is clearly satisfied under the autonomous dynamics in if the training data are snapshots ${\mathbf{x}}_{0},{\mathbf{x}}_{1},\ldots$ of the full system state in ${\mathbb{R}}^{d}$. On the other hand, if we have access to samples ${u{({\mathbf{x}}_{0})}},{u{({\mathbf{x}}_{1})}},\ldots$ of a covariate $u:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{d^{\prime}}}$ with $d^{\prime} < d$, then training data are generally non-Markovian (unless $u$ happens to lie in a Koopman-invariant subspace). Approaches for overcoming non-Markovianity include dimension augmentation through delay-coordinate maps and incorporation of memory terms using the Mori-Zwanzig formalism.
+Examples of reduced modeling techniques are linear inverse models, (extended) DMD, and methods for approximating the Koopman generator. These methods formally assume that the training data have a (deterministic) Markovian evolution. That assumption is clearly satisfied under the autonomous dynamics in if the training data are snapshots ${\mathbf{x}}_{0},{\mathbf{x}}_{1},\ldots$ of the full system state in ${\mathbb{R}}^{d}$. On the other hand, if we have access to samples ${u{({\mathbf{x}}_{0})}},{u{({\mathbf{x}}_{1})}},\ldots$ of a covariate $u:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{d'}}$ with $d' < d$, then training data are generally non-Markovian (unless $u$ happens to lie in a Koopman-invariant subspace). Approaches for overcoming non-Markovianity include dimension augmentation through delay-coordinate maps and incorporation of memory terms using the Mori-Zwanzig formalism.
 
 Other approaches model the observed data as realizations of a stochastic process. For example, techniques based on Ulam's method estimate the transfer operator of a dynamical system (which is a dual operator to the Koopman operator, acting on probability measures) in a basis of indicator functions associated with a partition of state space. The diffusion forecasting technique estimates the evolution semigroup associated with a stochastic differential equation (SDE) on a manifold in a smooth data-driven basis of kernel eigenfunctions learned through the diffusion maps algorithm. Extensions of DMD to random dynamical systems and SDEs have also been proposed recently.
 
-A common aspect of reduced modeling techniques is that they learn a surrogate model of the dynamics from time series data. Often, in order to make a forecast to a horizon of $q$ time units, these models are trained on a shorter timestep $q^{\prime} < q$ and iteratively applied $q/q^{\prime}$ times to reach the desired horizon. This approach is attractive because it allows simulation of the long-term statistical behavior of the system (assuming that the training phase was successful).
+A common aspect of reduced modeling techniques is that they learn a surrogate model of the dynamics from time series data. Often, in order to make a forecast to a horizon of $q$ time units, these models are trained on a shorter timestep $q' < q$ and iteratively applied $q/q'$ times to reach the desired horizon. This approach is attractive because it allows simulation of the long-term statistical behavior of the system (assuming that the training phase was successful).
 
 In contrast, regression-based methodologies usually operate by constructing a forecast function at a *fixed* lead time (or a family of independent forecast functions up to a desired lead time), and they evaluate the forecast once on the initial data to yield a prediction. This approach offers greater generality than reduced modeling approaches, since Markovianity of the covariate--response observables is not required, nor is it required that the covariate and response lie in a Koopman-invariant subspace. Indeed, as discussed in Section 2.7, KAF yields asymptotically optimal predictions (in the $L_{2}$ or RMSE sense) in the large-data limit in the form of the conditional expectation of the Koopman-evolved response conditioned on the covariate. Yet, at the same time, the conditional expectation may not be a good approximation for actual dynamical trajectories, which makes direct regression approaches unsuitable for simulating the statistical behavior of the system (despite yielding RMSE-optimal forecasts). For further details, see the paper, which studies applications of KAF to multiscale systems with averaging and homogenization limits. A recent paper has explored applications of kernel learning to forecasting with kernel regression.
 
 All of the above approaches are purely data-driven, in the sense that they only use time-ordered data snapshots as inputs, without requiring knowledge of the equations of motion. Yet, in many applications, full or partial knowledge of the equations of motion *is* available, and it is natural to design methods that take advantage of that knowledge. An example is the "lift and learn" framework which employs a mapping to transport the data to a higher-dimensional space where the system is quadratic. Unlike the Koopman operator, the existence of a finite-dimensional quadratic representation of the system dynamics is not universally guaranteed, but can be constructed for many systems encountered in physical and engineering applications if the equations of motion are known. The approach of leverages the quadratic structure of the system in the lifted space by employing a projection that is compatible with quadratic nonlinearities (see also ). In this manner, the reduced model is compatible with the "physics" of the lifted model. In, the projection is obtained from the *proper orthogonal decomposition* (POD), which computes a low-rank approximation to the *autocorrelation* matrix ${{\mathbf{X}}{\mathbf{X}}^{\top}} \in {\mathbb{R}}^{d \times d}$ rather than the covariance matrix ${{\mathbf{X}}^{\top}{\mathbf{X}}} \in {\mathbb{R}}^{n \times n}$. The randomized singular value decomposition is also used within this forecasting framework to build a scalable implementation.
 
-Note that the eigenvectors of ${\mathbf{X}}{\mathbf{X}}^{\top}$ are spatial vectors in ${\mathbb{R}}^{d}$. In DMD, the analogous objects are the eigenvectors of the matrix $\mathbf{A}$ in, called Koopman modes, which can also be employed for model reduction. The KAF approach can be thought of as being "dual" to these methods in that it employs $n \times n$ kernel matrices which are discretizations of operators acting on spaces of observables of the system (rather than spatial patterns in ${\mathbb{R}}^{d}$).
+Note that the eigenvectors of ${\mathbf{X}}{\mathbf{X}}^{\top}$ are spatial vectors in ${\mathbb{R}}^{d}$. In DMD, the analogous objects are the eigenvectors of the matrix $\mathbf{A}$ , called Koopman modes, which can also be employed for model reduction. The KAF approach can be thought of as being "dual" to these methods in that it employs $n \times n$ kernel matrices which are discretizations of operators acting on spaces of observables of the system (rather than spatial patterns in ${\mathbb{R}}^{d}$).
 
 ### Streaming algorithms for kernel computation
 

@@ -6,9 +6,9 @@ Time-Optimal Path Parameterization (TOPP) is the problem of finding the fastest 
 
 There are two main families of methods to TOPP, based respectively on Numerical Integration (NI) and Convex Optimization (CO). Each approach has its strengths and weaknesses.
 
-The NI-based approach was initiated by, and further improved and extended by many researchers, see for a review. NI-based algorithms are based on Pontryagin's Maximum Principle, which states that the time-optimal path parameterization consists of alternatively maximally accelerating and decelerating segments. The key advantage of this approach is that the optimal controls can be explicitly computed (and not searched for as in the CO approach) at each path position, resulting in extremely fast implementations. However, this requires finding the switch points between accelerating and decelerating segments, which constitutes a major implementation difficulty as well as the main cause of failure. Another notable implementation difficulty is handling of velocity bounds ^11^1In a NI-based algorithm, to account for velocity bounds, one has to compute the direct Maximum Velocity Curve ${MVC}_{direct}$, then find and resolve "trap points". Implementing this procedure is tricky in practice because of accumulating numerical errors. This observation comes from our own experience with the TOPP library.. The formulation of the present paper naturally removes those two difficulties.
+The NI-based approach was initiated , and further improved and extended by many researchers, see for a review. NI-based algorithms are based on Pontryagin's Maximum Principle, which states that the time-optimal path parameterization consists of alternatively maximally accelerating and decelerating segments. The key advantage of this approach is that the optimal controls can be explicitly computed (and not searched for as in the CO approach) at each path position, resulting in extremely fast implementations. However, this requires finding the switch points between accelerating and decelerating segments, which constitutes a major implementation difficulty as well as the main cause of failure. Another notable implementation difficulty is handling of velocity bounds ^11^1In a NI-based algorithm, to account for velocity bounds, one has to compute the direct Maximum Velocity Curve ${MVC}_{direct}$, then find and resolve "trap points". Implementing this procedure is tricky in practice because of accumulating numerical errors. This observation comes from our own experience with the TOPP library.. The formulation of the present paper naturally removes those two difficulties.
 
-The CO-based approach was initiated by and further extended in. This approach formulates TOPP as a single large convex optimization program, whose optimization variables are the accelerations and squared velocities at discretized positions along the path. The main advantages of this approach are: (i) it is simple to implement and robust, as one can use off-the-shelf convex optimization packages; (ii) other convex objectives than traversal time can be considered. On the downside, the optimization program to solve is huge -- the number of variables and constraint inequalities scale with the discretization step size -- resulting in implementations that are one order of magnitude slower than NI-based methods. This makes CO-based methods inappropriate for online motion planning or as subroutine to kinodynamic motion planners.
+The CO-based approach was initiated by and further extended . This approach formulates TOPP as a single large convex optimization program, whose optimization variables are the accelerations and squared velocities at discretized positions along the path. The main advantages of this approach are: (i) it is simple to implement and robust, as one can use off-the-shelf convex optimization packages; (ii) other convex objectives than traversal time can be considered. On the downside, the optimization program to solve is huge -- the number of variables and constraint inequalities scale with the discretization step size -- resulting in implementations that are one order of magnitude slower than NI-based methods. This makes CO-based methods inappropriate for online motion planning or as subroutine to kinodynamic motion planners.
 
 Figure 1: Time-Optimal Path Parameterization by Reachability Analysis (TOPP-RA) computes the optimal parameterization in two passes. In the first pass (backward), starting from the last grid point N, the algorithm computes controllable sets (red intervals) recursively. In the second pass (forward), starting now from grid point 0, the algorithm greedily selects the highest controls such that resulting velocities remain inside the respective controllable sets.
 
@@ -18,13 +18,7 @@ In this paper, we propose a new approach to TOPP based on Reachability Analysis 
 
 As compared to NI-based methods, the proposed approach has therefore a better time complexity (actual computation time is similar for problem instances with few constraints, and becomes significantly faster for instances with $> 22$ constraints). More importantly, the proposed method is much easier to implement and has a success rate of $100\%$, while state-of-the-art NI-based implementations (e.g. ) comprise thousands of lines of code and still report failures on hard problem instances. As compared to CO-based methods, the proposed approach enjoys the same level of robustness and of ease-of-implementation while being significantly faster.
 
-Besides the gains in implementation robustness and performance, viewing the classical TOPP problem from the proposed new perspective yields the following additional benefits:
-
-constraints for redundantly-actuated systems are handled natively: there is no need to project the constraints to the plane (path acceleration $\times$ control) at each path position, as done in;
-
-Admissible Velocity Propagation, a recent concept for kinodynamic motion planning (see Section VI-A for a brief summary), can be derived "for free";
-
-robustness to parametric uncertainty, e.g. uncertain coefficients of friction or uncertain inertia matrices, can be obtained in a natural way.
+Besides the gains in implementation robustness and performance, viewing the classical TOPP problem from the proposed new perspective yields the following additional benefits: constraints for redundantly-actuated systems are handled natively: there is no need to project the constraints to the plane (path acceleration $\times$ control) at each path position, as done; Admissible Velocity Propagation, a recent concept for kinodynamic motion planning (see Section VI-A for a brief summary), can be derived "for free"; robustness to parametric uncertainty, e.g. uncertain coefficients of friction or uncertain inertia matrices, can be obtained in a natural way.
 
 More details regarding the benefits as well as definitions of relevant concepts will be given in Section VI.
 
@@ -38,55 +32,31 @@ The rest of the paper is organized as follows. Section II formulates the TOPP pr
 
 Consider a $n$-dof robot system, whose configuration is denoted by a $n$ dimensional vector $\mathbf{q} \in {\mathbb{R}}^{n}$. A *geometric path* $\mathcal{P}$ in the configuration space is represented as a function $\mathbf{q}{(s)}_{s \in {\lbrack 0,s_{end}\rbrack}}$. We assume that $\mathbf{q}{(s)}$ is piece-wise $\mathcal{C}^{2}$-continuous. A *time parameterization* is a piece-wise $\mathcal{C}^{2}$, increasing scalar function $s:{{\lbrack 0,T\rbrack}\rightarrow{\lbrack 0,s_{end}\rbrack}}$, from which a *trajectory* is recovered as $\mathbf{q}{({s{(t)}})}_{t \in {\lbrack 0,T\rbrack}}$.
 
-In this paper, we consider *generalized second-order constraints* of the following form
-
-$\mathbf{A},\mathbf{B},\mathbf{f}$ are continuous mappings from ${\mathbb{R}}^{n}$ to ${\mathbb{R}}^{m \times n},{\mathbb{R}}^{n \times m \times n}$ and ${\mathbb{R}}^{m}$ respectively;
-
-$\mathcal{C}{(\mathbf{q})}$ is a convex polytope in ${\mathbb{R}}^{m}$.
+In this paper, we consider *generalized second-order constraints* of the following form $\mathbf{A},\mathbf{B},\mathbf{f}$ are continuous mappings from ${\mathbb{R}}^{n}$ to ${\mathbb{R}}^{m \times n},{\mathbb{R}}^{n \times m \times n}$ and ${\mathbb{R}}^{m}$ respectively; $\mathcal{C}{(\mathbf{q})}$ is a convex polytope in ${\mathbb{R}}^{m}$.
 
 ### Implementation remark 1
 
 The above form is the most general in the TOPP literature to date, and can account for many types of kinodynamic constraints, including velocity and acceleration bounds, joint torque bounds for fully- or redundantly-actuated robots, contact stability under Coulomb friction model, etc.
 
-Consider for instance the torque bounds on a fully-actuated manipulator
+Consider for instance the torque bounds on a fully-actuated manipulator This can be rewritten in the form of with $\mathbf{A}:=\mathbf{M}$, $\mathbf{B}:=\mathbf{C}$, $\mathbf{f}:=\mathbf{g}$ and which is clearly convex.
 
-This can be rewritten in the form of with $\mathbf{A}:=\mathbf{M}$, $\mathbf{B}:=\mathbf{C}$, $\mathbf{f}:=\mathbf{g}$ and
-
-which is clearly convex.
-
-For redundantly-actuated manipulators, it was shown that the TOPP problem can also be formulated in the form of with
-
-where $\mathbf{S}$ is a linear transformation, which implies that the so-defined $\mathcal{C}{(\mathbf{q})}$ is a convex polytope.
+For redundantly-actuated manipulators, it was shown that the TOPP problem can also be formulated in the form of with where $\mathbf{S}$ is a linear transformation, which implies that the so-defined $\mathcal{C}{(\mathbf{q})}$ is a convex polytope.
 
 In legged robots, the TOPP problem under contact-stability constraints where the friction cones are linearized was shown to be reducible to the form of with $\mathcal{C}{(\mathbf{q})}$ being also a *convex polytope*.
 
-If the friction cones are not linearized, then $\mathcal{C}{(\mathbf{q})}$ is still convex, but not polytopic. The developments in the present paper that concern reachable and controllable sets (Section III) are still valid in the convex, non-polytopic case. The developments on time-optimality (Section IV) is however only applicable to the polytopic case. ∎
-
-Finally, we also consider first-order constraints of the form
-
-where the coefficients are matrices of appropriate sizes and $\mathcal{C}^{v}{(\mathbf{q})}$ is a convex set. Direct velocity bounds and momentum bounds are examples of first-order constraints.
+If the friction cones are not linearized, then $\mathcal{C}{(\mathbf{q})}$ is still convex, but not polytopic. The developments in the present paper that concern reachable and controllable sets (Section III) are still valid in the convex, non-polytopic case. The developments on time-optimality (Section IV) is however only applicable to the polytopic case. ∎ Finally, we also consider first-order constraints of the form where the coefficients are matrices of appropriate sizes and $\mathcal{C}^{v}{(\mathbf{q})}$ is a convex set. Direct velocity bounds and momentum bounds are examples of first-order constraints.
 
 ### II-B Projecting the constraints on the path
 
-Differentiating successively $\mathbf{q}{(s)}$, one has
+Differentiating successively $\mathbf{q}{(s)}$, one has where $\square'$ denotes differentiation with respect to the path parameter $s$. From now, we shall refer to $s,\overset{˙}{s},\overset{¨}{s}$ as the position, velocity and acceleration respectively.
 
-where $\square^{\prime}$ denotes differentiation with respect to the path parameter $s$. From now on, we shall refer to $s,\overset{˙}{s},\overset{¨}{s}$ as the position, velocity and acceleration respectively.
-
-Substituting Eq. to Eq., one transforms second-order constraints on the system dynamics into constraints on $s,\overset{˙}{s},\overset{¨}{s}$ as follows
-
-Similarly, first-order constraints are transformed into
+Substituting Eq. to Eq., one transforms second-order constraints on the system dynamics into constraints on $s,\overset{˙}{s},\overset{¨}{s}$ as follows Similarly, first-order constraints are transformed into
 
 ### II-C Path discretization
 
-As in the CO-based approach, we divide the interval $\lbrack 0,s_{end}\rbrack$ into $N$ segments and $N + 1$ grid points
+As in the CO-based approach, we divide the interval $\lbrack 0,s_{end}\rbrack$ into $N$ segments and $N + 1$ grid points Denote by $u_{i}$ the constant path acceleration over the interval $\lbrack s_{i},s_{i + 1}\rbrack$ and by $x_{i}$ the squared velocity ${\overset{˙}{s}}_{i}^{2}$ at $s_{i}$. By simple algebraic manipulations, one can show that the following relation holds where $\Delta_{i}:={s_{i + 1} - s_{i}}$. In the sequel we refer to $s_{i}$ as the $i$-stage, $u_{i}$ and $x_{i}$ as respectively the control and state at the $i$-stage. Any sequence $x_{0},u_{0},\ldots,x_{N - 1},u_{N - 1},x_{N}$ that satisfies the linear relation is referred to as a path parameterization.
 
-Denote by $u_{i}$ the constant path acceleration over the interval $\lbrack s_{i},s_{i + 1}\rbrack$ and by $x_{i}$ the squared velocity ${\overset{˙}{s}}_{i}^{2}$ at $s_{i}$. By simple algebraic manipulations, one can show that the following relation holds
-
-where $\Delta_{i}:={s_{i + 1} - s_{i}}$. In the sequel we refer to $s_{i}$ as the $i$-stage, $u_{i}$ and $x_{i}$ as respectively the control and state at the $i$-stage. Any sequence $x_{0},u_{0},\ldots,x_{N - 1},u_{N - 1},x_{N}$ that satisfies the linear relation is referred to as a path parameterization.
-
-A parameterization is *admissible* if it satisfies the constraints at every points in $\lbrack 0,s_{end}\rbrack$. One possible way to bring this requirement into the discrete setting is through a *collocation* discretization scheme: for each position $s_{i}$, one evaluates the continuous constraints and requires the control and state $u_{i},x_{i}$ to verify
-
-where ${\mathbf{a}_{i}:={\mathbf{a}{(s_{i})}}},{{\mathbf{b}_{i}:={\mathbf{b}{(s_{i})}}},{{\mathbf{c}_{i}:={\mathbf{c}{(s_{i})}}},{\mathcal{C}_{i}:={\mathcal{C}{(s_{i})}}}}}$.
+A parameterization is *admissible* if it satisfies the constraints at every points in $\lbrack 0,s_{end}\rbrack$. One possible way to bring this requirement into the discrete setting is through a *collocation* discretization scheme: for each position $s_{i}$, one evaluates the continuous constraints and requires the control and state $u_{i},x_{i}$ to verify where ${\mathbf{a}_{i}:={\mathbf{a}{(s_{i})}}},{{\mathbf{b}_{i}:={\mathbf{b}{(s_{i})}}},{{\mathbf{c}_{i}:={\mathbf{c}{(s_{i})}}},{\mathcal{C}_{i}:={\mathcal{C}{(s_{i})}}}}}$.
 
 Since the constraints are enforced only at a finite number of points, the actual continuous constraints might not be respected everywhere along $\lbrack 0,s_{end}\rbrack$ ^22^2This limitation is however not specific to the proposed approach as both the NI and CO approaches require discretization at some stages of the algorithm.. Therefore, it is important to bound the constraint satisfaction error. We show in Appendix -D that the collocation scheme has an error of order $O{(\Delta_{i})}$. Appendix -D also presents a first-order interpolation discretization scheme, which has an error of order $O{(\Delta_{i}^{2})}$ but which involves more variables and inequality constraints than the collocation scheme.
 
@@ -96,15 +66,9 @@ The key to our analysis is that the "path-projected dynamics", is a *discrete-ti
 
 ### III-A Admissible states and controls
 
-We first need some definitions. Denote the $i$-stage set of *admissible* control-state pairs by
+We first need some definitions. Denote the $i$-stage set of *admissible* control-state pairs by One can see $\Omega_{i}$ as the projection of $\mathcal{C}_{i}$ on the $(\overset{¨}{s},{\overset{˙}{s}}^{2})$ plane. Since $\mathcal{C}_{i}$ is a polytope, $\Omega_{i}$ is a *polygon*. Algorithmically, the projection can be obtained by e.g. the recursive expansion algorithm.
 
-One can see $\Omega_{i}$ as the projection of $\mathcal{C}_{i}$ on the $(\overset{¨}{s},{\overset{˙}{s}}^{2})$ plane. Since $\mathcal{C}_{i}$ is a polytope, $\Omega_{i}$ is a *polygon*. Algorithmically, the projection can be obtained by e.g. the recursive expansion algorithm.
-
-Next, the $i$-stage set of *admissible states* is the projection of $\Omega_{i}$ on the second axis
-
-The $i$-stage set of *admissible controls* given a state $x$ is
-
-Note that, since $\Omega_{i}$ is convex, both $\mathcal{X}_{i}$ and $\mathcal{U}_{i}{(x)}$ are *intervals*.
+Next, the $i$-stage set of *admissible states* is the projection of $\Omega_{i}$ on the second axis The $i$-stage set of *admissible controls* given a state $x$ is Note that, since $\Omega_{i}$ is convex, both $\mathcal{X}_{i}$ and $\mathcal{U}_{i}{(x)}$ are *intervals*.
 
 Classic terminologies in the TOPP literature (e.g. Maximum Velocity Curve, $\alpha$ and $\beta$ acceleration fields, etc.) can be conveniently expressed using these definitions. See the first part of Appendix -A for more details.
 
@@ -118,9 +82,7 @@ The key notion in Reachability Analysis is that of $i$-stage reachable set.
 
 ### Definition 1 ($i$-stage reachable set)
 
-Consider a set of starting states ${\mathbb{I}}_{0}$. The *$i$-stage reachable set* $\mathcal{L}_{i}{({\mathbb{I}}_{0})}$ is the set of states $x \in \mathcal{X}_{i}$ such that there exist a state $x_{0} \in {\mathbb{I}}_{0}$ and a sequence of admissible controls $u_{0},\ldots,u_{i - 1}$ that steers the system from $x_{0}$ to $x$. ∎
-
-To compute the $i$-stage reachable set, one needs the following intermediate representation.
+Consider a set of starting states ${\mathbb{I}}_{0}$. The *$i$-stage reachable set* $\mathcal{L}_{i}{({\mathbb{I}}_{0})}$ is the set of states $x \in \mathcal{X}_{i}$ such that there exist a state $x_{0} \in {\mathbb{I}}_{0}$ and a sequence of admissible controls $u_{0},\ldots,u_{i - 1}$ that steers the system from $x_{0}$ to $x$. ∎ To compute the $i$-stage reachable set, one needs the following intermediate representation.
 
 ### Definition 2 (Reach set)
 
@@ -128,19 +90,11 @@ Consider a set of states $\mathbb{I}$. The *reach set* $\mathcal{R}_{i}{({\mathb
 
 ### Implementation remark 3
 
-Let us note ${\Omega_{i}{({\mathbb{I}})}}:={\{{{(u,\overset{\sim}{x})} \in \Omega_{i}}\mid{\overset{\sim}{x} \in {\mathbb{I}}}\}}$. If $\mathbb{I}$ is convex, then $\Omega_{i}{({\mathbb{I}})}$ is convex as the intersection of two convex sets. Next, $\mathcal{R}_{i}{({\mathbb{I}})}$ can be seen as the intersection of the projection of $\Omega_{i}{({\mathbb{I}})}$ onto a line and the interval $\mathcal{X}_{i + 1}$. Thus, $\mathcal{R}_{i}{({\mathbb{I}})}$ is an interval, hence defined by its lower and upper bounds $(x^{-},x^{+})$, which can be computed as follows
-
-Since $\Omega_{i}{({\mathbb{I}})}$ is a polygon, the above equations constitute two LPs. Note finally that there is no need to compute explicitly $\Omega_{i}{({\mathbb{I}})}$, since one can write directly
-
-and similarly for $x^{-}$. ∎
-
-The $i$-stage reachable set can be recursively computed by
+Let us note ${\Omega_{i}{({\mathbb{I}})}}:={\{{{(u,\overset{\sim}{x})} \in \Omega_{i}}\mid{\overset{\sim}{x} \in {\mathbb{I}}}\}}$. If $\mathbb{I}$ is convex, then $\Omega_{i}{({\mathbb{I}})}$ is convex as the intersection of two convex sets. Next, $\mathcal{R}_{i}{({\mathbb{I}})}$ can be seen as the intersection of the projection of $\Omega_{i}{({\mathbb{I}})}$ onto a line and the interval $\mathcal{X}_{i + 1}$. Thus, $\mathcal{R}_{i}{({\mathbb{I}})}$ is an interval, hence defined by its lower and upper bounds $(x^{-},x^{+})$, which can be computed as follows Since $\Omega_{i}{({\mathbb{I}})}$ is a polygon, the above equations constitute two LPs. Note finally that there is no need to compute explicitly $\Omega_{i}{({\mathbb{I}})}$, since one can write directly and similarly for $x^{-}$. ∎ The $i$-stage reachable set can be recursively computed by
 
 ### Implementation remark 4
 
-If ${\mathbb{I}}_{0}$ is an interval, then by recursion and by application of Implementation remark 3, all the $\mathcal{L}_{i}$ are intervals. Each step of the recursion requires solving two LPs for computing $\mathcal{R}_{i - 1}{({\mathcal{L}_{i - 1}{({\mathbb{I}}_{0})}})}$. Therefore, $\mathcal{L}_{i}$ can be computed by solving ${2i} + 2$ LPs. ∎
-
-The $i$-stage reachable set may be empty, which implies that the system can not evolve without violating constraints: the path is not time-parameterizable. One can also note that
+If ${\mathbb{I}}_{0}$ is an interval, then by recursion and by application of Implementation remark 3, all the $\mathcal{L}_{i}$ are intervals. Each step of the recursion requires solving two LPs for computing $\mathcal{R}_{i - 1}{({\mathcal{L}_{i - 1}{({\mathbb{I}}_{0})}})}$. Therefore, $\mathcal{L}_{i}$ can be computed by solving ${2i} + 2$ LPs. ∎ The $i$-stage reachable set may be empty, which implies that the system can not evolve without violating constraints: the path is not time-parameterizable. One can also note that
 
 ### III-C Controllable sets
 
@@ -148,23 +102,17 @@ Controllability is the dual notion of reachability, as made clear by the followi
 
 ### Definition 3 ($i$-stage controllable set)
 
-Consider a set of desired ending states ${\mathbb{I}}_{N}$. The *$i$-stage controllable set* $\mathcal{K}_{i}{({\mathbb{I}}_{N})}$ is the set of states $x \in \mathcal{X}_{i}$ such that there exist a state $x_{N} \in {\mathbb{I}}_{N}$ and a sequence of admissible controls $u_{i},\ldots,u_{N - 1}$ that steers the system from $x$ to $x_{N}$. ∎
-
-The dual notion of "reach set" is that of "one-step" set.
+Consider a set of desired ending states ${\mathbb{I}}_{N}$. The *$i$-stage controllable set* $\mathcal{K}_{i}{({\mathbb{I}}_{N})}$ is the set of states $x \in \mathcal{X}_{i}$ such that there exist a state $x_{N} \in {\mathbb{I}}_{N}$ and a sequence of admissible controls $u_{i},\ldots,u_{N - 1}$ that steers the system from $x$ to $x_{N}$. ∎ The dual notion of "reach set" is that of "one-step" set.
 
 ### Definition 4 (One-step set)
 
 Consider a set of states $\mathbb{I}$. The *one-step set* $\mathcal{Q}_{i}{({\mathbb{I}})}$ is the set of states $x \in \mathcal{X}_{i}$ such that there exist a state $\overset{\sim}{x} \in {\mathbb{I}}$ and an admissible control $u \in {\mathcal{U}_{i}{(x)}}$ that steers the system from $x$ to $\overset{\sim}{x}$, i.e.
 
-The $i$-stage controllable set can now be computed recursively by
+The $i$-stage controllable set can now be computed recursively by | | $\mathcal{K}_{N}{({\mathbb{I}}_{N})}$ | ${= {{\mathbb{I}}_{N} \cap \mathcal{X}_{N}}},$ | | \(10\) | | | $\mathcal{K}_{i}{({\mathbb{I}}_{N})}$ | ${= {\mathcal{Q}_{i}{({\mathcal{K}_{i + 1}{({\mathbb{I}}_{N})}})}}}.$ | | |
 
 ### Implementation remark 5
 
-Similar to Implementation remark 4, every one-step set $\mathcal{Q}_{i}{({\mathbb{I}})}$ is an interval, whose lower and upper bounds $(x^{-},x^{+})$ are given by the following two LPs
-
-and similarly for $x^{-}$. Thus, computing the $i$-stage controllable set will require solving ${2{({N - i})}} + 2$ LPs. ∎
-
-The $i$-stage controllable set may be empty, in that case, the path is not time-parameterizable. One also has
+Similar to Implementation remark 4, every one-step set $\mathcal{Q}_{i}{({\mathbb{I}})}$ is an interval, whose lower and upper bounds $(x^{-},x^{+})$ are given by the following two LPs and similarly for $x^{-}$. Thus, computing the $i$-stage controllable set will require solving ${2{({N - i})}} + 2$ LPs. ∎ The $i$-stage controllable set may be empty, in that case, the path is not time-parameterizable. One also has
 
 ## TOPP by Reachability Analysis
 
@@ -172,13 +120,7 @@ The $i$-stage controllable set may be empty, in that case, the path is not time-
 
 Armed with the notions of reachable and controllable sets, we can now proceed to solving the TOPP problem. The Reachability-Analysis-based TOPP algorithm (TOPP-RA) is given in Algorithm 1 below and illustrated in Fig. 1.
 
-Input: Path 𝒫, starting and ending velocities ${\overset{˙}{s}}_{0},{\overset{˙}{s}}_{N}$
-/* Backward pass: compute the controllable sets */
-5if 𝒦0 = ⌀ or ${\overset{˙}{s}}_{0}^{2} \notin \mathcal{K}_{0}$ then
-/* Forward pass: select controls greedily */
-10 ui*:= max u, subject to: xi* + 2 Δi u ∈ 𝒦i + 1 and (u,xi*) ∈ Ωi
-
-The algorithm proceeds in two passes. The first pass goes backward: it recursively computes the controllable sets $\mathcal{K}_{i}{({\{{\overset{˙}{s}}_{N}^{2}\}})}$ given the desired ending velocity ${\overset{˙}{s}}_{N}$, as described in Section III-C. If any of the controllable sets is empty or if the starting state ${\overset{˙}{s}}_{0}^{2}$ is not contained in the 0-stage controllable set, then the algorithm reports failure.
+Input: Path 𝒫, starting and ending velocities ${\overset{˙}{s}}_{0},{\overset{˙}{s}}_{N}$ /* Backward pass: compute the controllable sets */5if 𝒦0 = ⌀ or ${\overset{˙}{s}}_{0}^{2} \notin \mathcal{K}_{0}$ then /* Forward pass: select controls greedily */10 ui*:= max u, subject to: xi* + 2 Δi u ∈ 𝒦i + 1 and (u, xi*) ∈ Ωi The algorithm proceeds in two passes. The first pass goes backward: it recursively computes the controllable sets $\mathcal{K}_{i}{({\{{\overset{˙}{s}}_{N}^{2}\}})}$ given the desired ending velocity ${\overset{˙}{s}}_{N}$, as described in Section III-C. If any of the controllable sets is empty or if the starting state ${\overset{˙}{s}}_{0}^{2}$ is not contained in the 0-stage controllable set, then the algorithm reports failure.
 
 Otherwise, the algorithm proceeds to a second, forward, pass. Here, the optimal states and controls are constructed *greedily*: at each stage $i$, the highest admissible control $u$ such that the resulting next state belongs to the $({i + 1})$-stage controllable set is selected.
 
@@ -216,17 +158,11 @@ To avoid too many technicalities, we make the following assumption.
 
 ### Assumption 1 (and definition)
 
-There exist piece-wise $\mathcal{C}^{1}$-continuous functions ${\overset{\sim}{\mathbf{a}}{(s)}_{s \in {\lbrack 0,1\rbrack}}},{\overset{\sim}{\mathbf{b}}{(s)}_{s \in {\lbrack 0,1\rbrack}}},{\overset{\sim}{\mathbf{c}}{(s)}_{s \in {\lbrack 0,1\rbrack}}}$ such that for all $i \in {\{ 0,\ldots,N\}}$, the set of admissible control-state pairs is given by
-
-Augment $\overset{\sim}{\mathbf{a}},\overset{\sim}{\mathbf{b}},\overset{\sim}{\mathbf{c}}$ into $\overline{\mathbf{a}},\overline{\mathbf{b}},\overline{\mathbf{c}}$ by adding two inequalities that express the condition ${x + {2\Delta_{i}u}} \in \mathcal{K}_{i + 1}$. The set of admissible *and controllable* control-state pairs is given by
-
-The above assumption is easily verified in the canonical case of a fully-actuated manipulator subject to torque bounds tracking a smooth path. It allows us to next easily define zero-inertia points.
+There exist piece-wise $\mathcal{C}^{1}$-continuous functions ${\overset{\sim}{\mathbf{a}}{(s)}_{s \in {\lbrack 0,1\rbrack}}},{\overset{\sim}{\mathbf{b}}{(s)}_{s \in {\lbrack 0,1\rbrack}}},{\overset{\sim}{\mathbf{c}}{(s)}_{s \in {\lbrack 0,1\rbrack}}}$ such that for all $i \in {\{ 0,\ldots,N\}}$, the set of admissible control-state pairs is given by Augment $\overset{\sim}{\mathbf{a}},\overset{\sim}{\mathbf{b}},\overset{\sim}{\mathbf{c}}$ into $\overline{\mathbf{a}},\overline{\mathbf{b}},\overline{\mathbf{c}}$ by adding two inequalities that express the condition ${x + {2\Delta_{i}u}} \in \mathcal{K}_{i + 1}$. The set of admissible *and controllable* control-state pairs is given by The above assumption is easily verified in the canonical case of a fully-actuated manipulator subject to torque bounds tracking a smooth path. It allows us to next easily define zero-inertia points.
 
 ### Definition 5 (Zero-inertia points)
 
-A point $s^{\bullet}$ constitutes a zero-inertia point if there is a constraint $k$ such that ${\overline{\mathbf{a}}{(s^{\bullet})}{\lbrack k\rbrack}} = 0$. ∎
-
-We have the following theorem, whose proof is given in Appendix -B ‣ VII Conclusion ‣ A New Approach to Time-Optimal Path Parameterization based on Reachability Analysis") (to simplify the notations, we consider uniform step sizes $\Delta_{0} = \cdots = \Delta_{N - 1} = \Delta$).
+A point $s^{\bullet}$ constitutes a zero-inertia point if there is a constraint $k$ such that ${\overline{\mathbf{a}}{(s^{\bullet})}{\lbrack k\rbrack}} = 0$. ∎ We have the following theorem, whose proof is given in Appendix -B ‣ VII Conclusion ‣ A New Approach to Time-Optimal Path Parameterization based on Reachability Analysis") (to simplify the notations, we consider uniform step sizes $\Delta_{0} = \cdots = \Delta_{N - 1} = \Delta$).
 
 ### Theorem 2
 
@@ -236,9 +172,7 @@ The key hypothesis of this theorem is that there is no zero-inertia points. In p
 
 ### Theorem 3
 
-Consider a TOPP instance with a zero-inertia point at $s^{\bullet}$. Denote by $J^{\ast}$ the cost of the parameterization returned by TOPP-RA at step size $\Delta$: $\sum_{i = 0}^{N + 1}\frac{\Delta}{\sqrt{x_{i}^{\ast}}}$ and by $J^{\dagger}$ the minimum cost at the same step size. Then one has
-
-This theorem implies that, by reducing the step size, the cost of the parameterization returned by TOPP-RA can be made arbitrarily close to the minimum cost. This remains true when there are a finite number of zero-inertia points. The case of zero-inertia *arcs* might be more problematic, but it is always possible to avoid such arcs during the planning stage.
+Consider a TOPP instance with a zero-inertia point at $s^{\bullet}$. Denote by $J^{\ast}$ the cost of the parameterization returned by TOPP-RA at step size $\Delta$: $\sum_{i = 0}^{N + 1}\frac{\Delta}{\sqrt{x_{i}^{\ast}}}$ and by $J^{\dagger}$ the minimum cost at the same step size. Then one has This theorem implies that, by reducing the step size, the cost of the parameterization returned by TOPP-RA can be made arbitrarily close to the minimum cost. This remains true when there are a finite number of zero-inertia points. The case of zero-inertia *arcs* might be more problematic, but it is always possible to avoid such arcs during the planning stage.
 
 ### IV-D Complexity analysis
 
@@ -256,7 +190,7 @@ This analysis shows that TOPP-RA has the best theoretical complexity. The next s
 
 ## Experiments
 
-We implements TOPP-RA in Python on a machine running Ubuntu with a Intel i7-4770 3.9GHz CPU and 8Gb RAM. To solve the LPs we use the Python interface of the solver qpOASES. The implementation and test cases are available at [https://github.com/hungpham2511/toppra](https://github.com/hungpham2511/toppra).
+We implements TOPP-RA in Python on a machine running Ubuntu with a Intel i7-4770 3.9GHz CPU and 8Gb RAM. To solve the LPs we use the Python interface of the solver qpOASES. The implementation and test cases are available at
 
 ### V-A Experiment 1: Pure joint velocity and acceleration bounds
 
@@ -302,11 +236,7 @@ Here we consider the time-parameterization problem for a 50-dof legged robot in 
 
 ### V-B1 Formulation
 
-We now give a brief description of our formulation, for more details, refer to. Let $\mathbf{w}_{i}$ denote the net contact wrench (force-torque pair) exerted on the robot by the $i$-th contact at point $\mathbf{p}_{i}$. Using the linearized friction cone, one obtains the set of feasible wrenches as a polyhedral cone
-
-for some matrix $\mathbf{F}_{i}$. This matrix can be found using the Cone Double Description method. Combining with the equation governing rigid-body dynamics, we obtain the full dynamic feasibility constraint as follow
-
-where $\mathbf{J}_{i}{(\mathbf{q})}$ is the wrench Jacobian. The convex set $\mathcal{C}{(\mathbf{q})}$ in Eq. can now be identified as a multi-dimensional polyhedron.
+We now give a brief description of our formulation, for more details, refer to. Let $\mathbf{w}_{i}$ denote the net contact wrench (force-torque pair) exerted on the robot by the $i$-th contact at point $\mathbf{p}_{i}$. Using the linearized friction cone, one obtains the set of feasible wrenches as a polyhedral cone for some matrix $\mathbf{F}_{i}$. This matrix can be found using the Cone Double Description method. Combining with the equation governing rigid-body dynamics, we obtain the full dynamic feasibility constraint as follow where $\mathbf{J}_{i}{(\mathbf{q})}$ is the wrench Jacobian. The convex set $\mathcal{C}{(\mathbf{q})}$ in Eq. can now be identified as a multi-dimensional polyhedron.
 
 We considered a simple swaying motion: the robot stands with both feet lie flat on two uneven steps and shift its body back and forth, see Fig. 6. The coefficient of friction was set to $\mu = 0.5$. Start and end path velocities were set to zero. Discretization grid size was $N = 100$. The number of constraint inequalities was $m = 242$.
 
@@ -316,33 +246,19 @@ Figure 6: Time-parameterization of a legged robot trajectory under joint torque 
 
 Excluding computation of dynamic quantities, TOPP-RA took $267\ {ms}$ to solve for the time-optimal path parameterization on our computer. The final parameterization is shown in Fig. 6 and computation time is presented in Table II.
 
-Compared to TOPP-NI and TOPP-CO, TOPP-RA had significantly better computation time, chiefly because both existing methods require an expensive polytopic projection step. Indeed, reported projection time of $2.4\ s$ for a similar sized problem, which is significantly more expensive than TOPP-RA computation time. Notice that in, computing the parameterization takes an addition $2.46\ s$ which leads to a total computation time of $4.86\ s$.
+Compared to TOPP-NI and TOPP-CO, TOPP-RA had significantly better computation time, chiefly because both existing methods require an expensive polytopic projection step. Indeed, reported projection time of $2.4\ s$ for a similar sized problem, which is significantly more expensive than TOPP-RA computation time. Notice that , computing the parameterization takes an addition $2.46\ s$ which leads to a total computation time of $4.86\ s$.
 
-To make a more accurate comparison, we implement the following pipeline on our computer to solve the same problem
-
-project the constraint polyhedron $\mathcal{C}_{i}$ onto the path using Bretl's polygon recursive expansion algorithm;
-
-parameterize the resulting problem using TOPP-NI.
+To make a more accurate comparison, we implement the following pipeline on our computer to solve the same problem project the constraint polyhedron $\mathcal{C}_{i}$ onto the path using Bretl's polygon recursive expansion algorithm; parameterize the resulting problem using TOPP-NI.
 
 This pipeline turned out to be much slower than TOPP-RA. We found that the number of LPs the projection step solved is nearly 8 times more than the number of LPs solved by TOPP-RA (which is fixed at ${3N} = 300$). For a more detailed comparison of computation time and parameters of the LPs, refer to Table II.
 
 ### V-B3 Obtaining joint torques and contact forces "for free"
 
-Another interesting feature of TOPP-RA is that the algorithm can optimize and obtain joint torques and contact forces "for free" without additional processing. Concretely, since joint torques and contact forces are slack variables, one can simply store the optimal slack variable at each step and obtain a trajectory of feasible forces. To optimize the forces, we can solve the following quadratic program (QP) at the $i$-th step of the forward pass
+Another interesting feature of TOPP-RA is that the algorithm can optimize and obtain joint torques and contact forces "for free" without additional processing. Concretely, since joint torques and contact forces are slack variables, one can simply store the optimal slack variable at each step and obtain a trajectory of feasible forces. To optimize the forces, we can solve the following quadratic program (QP) at the $i$-th step of the forward pass where $\epsilon$ is a positive scalar. Figure 6's lower plot shows computed contact wrench for the left leg. We note that both existing approaches, TOPP-NI and TOPP-CO are not able to produce joint torques and contact forces readily as they "flatten" the constraint polygon in the projection step.
 
-where $\epsilon$ is a positive scalar. Figure 6's lower plot shows computed contact wrench for the left leg. We note that both existing approaches, TOPP-NI and TOPP-CO are not able to produce joint torques and contact forces readily as they "flatten" the constraint polygon in the projection step.
+In fact, the above formulation suggests that time-optimality is simply a specific objective cost function (linear) of the more general family of quadratic objectives. Therefore, one can in principle depart from time-optimality in favor of more realistic objective such as minimizing torque while maintaining a certain nominal velocity $x_{norm}$ as follow Finally, we observed that the choice of path discretization scheme has noticeable effects on both computational cost and quality of the result. In general, TOPP-RA-intp produced smoother trajectories and better (lower) constraint satisfaction error at the cost of longer computation time. On the other hand, TOPP-RA was faster but produced trajectories with jitters ^33^3Our experiments show that singularities do not cause parameterization failures for TOPP-RA and the jitters can usually be removed easily. One possible method is to use cubic splines to smooth the velocity profile locally around the jitters. near dynamic singularities and had worse (higher) constraint satisfaction error. comp. dynamic quantities contact forces avail.
 
-In fact, the above formulation suggests that time-optimality is simply a specific objective cost function (linear) of the more general family of quadratic objectives. Therefore, one can in principle depart from time-optimality in favor of more realistic objective such as minimizing torque while maintaining a certain nominal velocity $x_{norm}$ as follow
-
-Finally, we observed that the choice of path discretization scheme has noticeable effects on both computational cost and quality of the result. In general, TOPP-RA-intp produced smoother trajectories and better (lower) constraint satisfaction error at the cost of longer computation time. On the other hand, TOPP-RA was faster but produced trajectories with jitters ^33^3Our experiments show that singularities do not cause parameterization failures for TOPP-RA and the jitters can usually be removed easily. One possible method is to use cubic splines to smooth the velocity profile locally around the jitters. near dynamic singularities and had worse (higher) constraint satisfaction error.
-
-comp. dynamic quantities
-
-contact forces avail.
-
-Constraints sat. error
-
-TABLE II: Computation time ( ms) and internal parameters comparison between TOPP-RA, TOPP-NI and TOPP-RA-intp (first-order interpolation) in Experiment 2.
+Constraints sat. error TABLE II: Computation time (ms) and internal parameters comparison between TOPP-RA, TOPP-NI and TOPP-RA-intp (first-order interpolation) in Experiment 2.
 
 ## Additional benefits of TOPP by Reachability Analysis
 
@@ -358,39 +274,27 @@ Suppose that the initial velocity interval is ${\mathbb{I}}_{0}$. It can be imme
 
 In most works dedicated to TOPP, including the development of the present paper up to this point, the parameters appearing in the dynamics equations and in the constraints are supposed to be exactly known. In reality, those parameters, which include inertia matrices or payloads in robot manipulators, or feet positions or friction coefficients in legged robots, are only known up to some precision. An admissible parameterization for the nominal values of the parameters might not be admissible for the actual values, and the probability of constraints violation is even higher in the *optimal* parameterization, which saturates at least one constraint at any moment in time.
 
-TOPP-RA provides a natural way to handle parametric uncertainty. Assume that the constraints appear in the following form
-
-where $\mathcal{E}_{i}$ contains all the possible values that the parameters might take at path position $s_{i}$.
+TOPP-RA provides a natural way to handle parametric uncertainty. Assume that the constraints appear in the following form | | | ${{{\mathbf{a}_{i}u} + {\mathbf{b}_{i}x} + \mathbf{c}_{i}} \in \mathcal{C}_{i}},$ | | \(11\) | | | | ${{\forall{(\mathbf{a}_{i},\mathbf{b}_{i},\mathbf{c}_{i},\mathcal{C}_{i})}} \in \mathcal{E}_{i}},$ | | | where $\mathcal{E}_{i}$ contains all the possible values that the parameters might take at path position $s_{i}$.
 
 ### Implementation remark 6
 
-Consider for instance the manipulator with torque bounds of equation. Suppose that, at path position $i$, the inertia matrix is uncertain, i.e., that it might take any values $\mathbf{M}_{i} \in {B{(\mathbf{M}_{i}^{\text{nominal}},\epsilon)}}$, where $B{(\mathbf{M}_{i}^{\text{nominal}},\epsilon)}$ denotes the ball of radius $\epsilon$ centered around $\mathbf{M}_{i}^{\text{nominal}}$ for the max norm. Then, the first component of $\mathcal{E}_{i}$ is given by $\{{\mathbf{M}_{i}\mathbf{q}^{\prime}{(s_{i})}}\mid{\mathbf{M}_{i} \in {B{(\mathbf{M}_{i}^{\text{nominal}},\epsilon)}}}\}$, which is a convex set.
+Consider for instance the manipulator with torque bounds of equation. Suppose that, at path position $i$, the inertia matrix is uncertain, i.e., that it might take any values $\mathbf{M}_{i} \in {B{(\mathbf{M}_{i}^{\text{nominal}},\epsilon)}}$, where $B{(\mathbf{M}_{i}^{\text{nominal}},\epsilon)}$ denotes the ball of radius $\epsilon$ centered around $\mathbf{M}_{i}^{\text{nominal}}$ for the max norm. Then, the first component of $\mathcal{E}_{i}$ is given by $\{{\mathbf{M}_{i}\mathbf{q}'{(s_{i})}}\mid{\mathbf{M}_{i} \in {B{(\mathbf{M}_{i}^{\text{nominal}},\epsilon)}}}\}$, which is a convex set.
 
-In legged robots, uncertainties on feet positions or on friction coefficients can be encoded into a "set of sets", in which $\mathcal{C}_{i}$ can take values. ∎
-
-TOPP-RA can handle this situation by suitably modifying its two passes. Before presenting the modifications, we first give some definitions. Denote the $i$-stage set of *robust admissible* control-state pairs by
-
-The sets of robust admissible states ${\hat{\mathcal{X}}}_{i}$ and robust admissible controls ${\hat{\mathcal{U}}}_{i}{(x)}$ can be defined as in Section III-A.
+In legged robots, uncertainties on feet positions or on friction coefficients can be encoded into a "set of sets", in which $\mathcal{C}_{i}$ can take values. ∎ TOPP-RA can handle this situation by suitably modifying its two passes. Before presenting the modifications, we first give some definitions. Denote the $i$-stage set of *robust admissible* control-state pairs by The sets of robust admissible states ${\hat{\mathcal{X}}}_{i}$ and robust admissible controls ${\hat{\mathcal{U}}}_{i}{(x)}$ can be defined as in Section III-A.
 
 In the backward pass, TOPP-RA computes the *robust controllable sets*, whose definition is given below.
 
 ### Definition 6 ($i$-stage *robust* controllable set)
 
-Consider a set of desired ending states ${\mathbb{I}}_{N}$. The *$i$-stage robust controllable set* ${\hat{\mathcal{K}}}_{i}{({\mathbb{I}}_{N})}$ is the set states $x \in \hat{\mathcal{X}_{i}}$ such that there exists a state $x_{N} \in {\mathbb{I}}_{N}$ and a sequence of *robust admissible controls* $u_{i},\ldots,u_{N - 1}$ that steers the system from $x$ to $x_{N}$. ∎
-
-To compute the robust controllable sets, one needs the robust one-step set.
+Consider a set of desired ending states ${\mathbb{I}}_{N}$. The *$i$-stage robust controllable set* ${\hat{\mathcal{K}}}_{i}{({\mathbb{I}}_{N})}$ is the set states $x \in \hat{\mathcal{X}_{i}}$ such that there exists a state $x_{N} \in {\mathbb{I}}_{N}$ and a sequence of *robust admissible controls* $u_{i},\ldots,u_{N - 1}$ that steers the system from $x$ to $x_{N}$. ∎ To compute the robust controllable sets, one needs the robust one-step set.
 
 ### Definition 7 (*Robust* one-step set)
 
-Consider a set of states $\mathbb{I}$. The *robust one-step set* ${\hat{\mathcal{Q}}}_{i}{({\mathbb{I}})}$ is the set of states $x \in {\hat{\mathcal{X}}}_{i}$ such that there exists a state $\overset{\sim}{x} \in {\mathbb{I}}$ and a robust admissible control $u \in {{\hat{\mathcal{U}}}_{i}{(x)}}$ that steers the system from $x$ to $\overset{\sim}{x}$. ∎
-
-Finally, in the forward pass, the algorithm selected the *greatest* robust admissible control at each stage.
+Consider a set of states $\mathbb{I}$. The *robust one-step set* ${\hat{\mathcal{Q}}}_{i}{({\mathbb{I}})}$ is the set of states $x \in {\hat{\mathcal{X}}}_{i}$ such that there exists a state $\overset{\sim}{x} \in {\mathbb{I}}$ and a robust admissible control $u \in {{\hat{\mathcal{U}}}_{i}{(x)}}$ that steers the system from $x$ to $\overset{\sim}{x}$. ∎ Finally, in the forward pass, the algorithm selected the *greatest* robust admissible control at each stage.
 
 ### Implementation remark 7
 
-Computing the robust one-step set and the greatest robust admissible control involves solving LPs with uncertain constraints of the form. In general, these constraints may contain hundreds of inequalities, making them difficult to handle by generic methods. In the mathematical optimization literature, they are known as "Robust Linear Programs", and specific methods have been developed to handle them efficiently, when the robust constraints are
-
-Conic Quadratic re-presentable (CQr) sets.
+Computing the robust one-step set and the greatest robust admissible control involves solving LPs with uncertain constraints of the form. In general, these constraints may contain hundreds of inequalities, making them difficult to handle by generic methods. In the mathematical optimization literature, they are known as "Robust Linear Programs", and specific methods have been developed to handle them efficiently, when the robust constraints are Conic Quadratic re-presentable (CQr) sets.
 
 The first case can be treated as normal LPs with appropriate slack variables, while the last two cases are explicit Conic Quadratic Program (CQP). For more information on this conversion, refer to the first and second chapters of. ∎
 

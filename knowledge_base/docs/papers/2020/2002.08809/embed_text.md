@@ -4,7 +4,7 @@ The abstract paragraph should be indented 1/2 inch (3 picas) on both left and ri
 
 ## Submission of conference papers to ICLR 2021
 
-ICLR requires electronic submissions, processed by [https://openreview.net/](https://openreview.net/). See ICLR's website for more instructions.
+ICLR requires electronic submissions, processed by See ICLR's website for more instructions.
 
 If your paper is ultimately accepted, the statement \\iclrfinalcopy should be inserted to adjust the format to the camera ready requirements.
 
@@ -18,11 +18,7 @@ Authors are required to use the ICLR LaTeX style files obtainable at the ICLR we
 
 ### Retrieval of style files
 
-The style files for ICLR and other conference information are available online at:
-
-[http://www.iclr.cc/](http://www.iclr.cc/)
-
-The file `iclr2021_conference.pdf` contains these instructions and illustrates the various formatting requirements your ICLR paper must satisfy. Submissions must be made using LaTeX and the style files `iclr2021_conference.sty` and `iclr2021_conference.bst` (to be used with LaTeX2e). The file `iclr2021_conference.tex` may be used as a "shell" for writing your paper. All you have to do is replace the author, title, abstract, and text of the paper with your own.
+The style files for ICLR and other conference information are available online: The file `iclr2021_conference.pdf` contains these instructions and illustrates the various formatting requirements your ICLR paper must satisfy. Submissions must be made using LaTeX and the style files `iclr2021_conference.sty` and `iclr2021_conference.bst` (to be used with LaTeX2e). The file `iclr2021_conference.tex` may be used as a "shell" for writing your paper. All you have to do is replace the author, title, abstract, and text of the paper with your own.
 
 The formatting instructions contained in these style files are summarized in sections 2, 3, and 4 below.
 
@@ -56,7 +52,7 @@ These instructions apply to everyone, regardless of the formatter being used.
 
 ### Citations within the text
 
-Citations within the text should be based on the natbib package and include the authors' last names and year (with the "et al." construct for more than two authors). When the authors or the publication are included in the sentence, the citation should not be in parenthesis using `\citet{}` (as in "See for more information."). Otherwise, the citation should be in parenthesis using `\citep{}` (as in "Deep learning shows promise to make progress towards AI (Bengio+chapter2007).").
+Citations within the text should be based on the natbib package and include the authors' last names and year (with the "et al." construct for more than two authors). When the authors or the publication are included in the sentence, the citation should not be in parenthesis using `` (as in "See for more information."). Otherwise, the citation should be in parenthesis using `` (as in "Deep learning shows promise to make progress towards AI (Bengio+chapter2007).").
 
 The corresponding references are to be listed in alphabetical order of authors, in the References section. As to the format of the references themselves, any style is acceptable as long as it is used consistently.
 
@@ -80,19 +76,13 @@ All tables must be centered, neat, clean and legible. Do not use hand-drawn tabl
 
 Place one line space before the table title, one line space after the table title, and one line space after the table. The table title must be lower case (except for first word and proper nouns); tables are numbered consecutively.
 
-Cell body (contains cell nucleus)
-
-Table 1: Sample table title
+Cell body (contains cell nucleus) Table 1: Sample table title
 
 ## Default Notation
 
-In an attempt to encourage standardized notation, we have included the notation file from the textbook, Deep Learning goodfellow2016deep available at [https://github.com/goodfeli/dlbook_notation/](https://github.com/goodfeli/dlbook_notation/). Use of this style is not required and can be disabled by commenting out math_commands.tex.
+In an attempt to encourage standardized notation, we have included the notation file from the textbook, Deep Learning goodfellow2016deep available at Use of this style is not required and can be disabled by commenting out math_commands.tex.
 
-Numbers and Arrays
-
-Sets and Graphs
-
-Probability and Information Theory
+Numbers and Arrays Sets and Graphs Probability and Information Theory
 
 ## Final instructions
 
@@ -104,24 +94,11 @@ Please prepare PostScript or PDF files with paper size "US Letter", and not, for
 
 Consider directly generating PDF files using `pdflatex` (especially if you are a MiKTeX user). PDF figures must be substituted for EPS figures, however.
 
-Otherwise, please generate your PostScript and PDF files with the following commands:
-
-dvips mypaper.dvi -t letter -Ppdf -G0 -o mypaper.ps
-ps2pdf mypaper.ps mypaper.pdf
+Otherwise, please generate your PostScript and PDF files with the following commands: dvips mypaper.dvi -t letter -Ppdf -G0 -o mypaper.ps ps2pdf mypaper.ps mypaper.pdf
 
 ### Margins in LaTeX
 
-Most of the margin problems come from figures positioned by hand using `\special` or other commands. We suggest using the command `\includegraphics` from the graphicx package. Always specify the figure width as a multiple of the line width as in the example below using.eps graphics
-
-\usepackage[dvips]{graphicx}...
-\includegraphics[width=0.8\linewidth]{myfile.eps}
-
-\usepackage[pdftex]{graphicx}...
-\includegraphics[width=0.8\linewidth]{myfile.pdf}
-
-for.pdf graphics. See section 4.4 in the graphics bundle documentation ([http://www.ctan.org/tex-archive/macros/latex/required/graphics/grfguide.ps](http://www.ctan.org/tex-archive/macros/latex/required/graphics/grfguide.ps))
-
-A number of width problems arise when LaTeX cannot properly hyphenate a line. Please give LaTeX hyphenation hints using the `\-` command.
+Most of the margin problems come from figures positioned by hand using `\special` or other commands. We suggest using the command `\includegraphics` from the graphicx package. Always specify the figure width as a multiple of the line width as in the example below using.eps graphics \usepackage[dvips]{graphicx}... \includegraphics[width=0.8\linewidth]{myfile.eps} \usepackage[pdftex]{graphicx}... \includegraphics[width=0.8\linewidth]{myfile.pdf}.pdf graphics. See section 4.4 in the graphics bundle documentation A number of width problems arise when LaTeX cannot properly hyphenate a line. Please give LaTeX hyphenation hints using the `\-` command.
 
 ### Author Contributions
 

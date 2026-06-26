@@ -2,21 +2,13 @@
 
 The evolution of autonomous driving systems has witnessed a paradigm shift from traditional modular architectures to end-to-end (E2E) driving frameworks, a transition increasingly embraced by industry. In contrast to modular designs that explicitly separate perception, prediction, and planning with hand-crafted intermediate representations, E2E approaches map raw sensor inputs directly to vehicle motion through jointly trained neural networks. This unified formulation eliminates manually engineered interfaces, enabling joint optimization and data-driven policy learning at scale. Recent advances in transformer-based architectures, coupled with large-scale driving datasets have further improved the overall performance and generalization of the E2E driving paradigm. Despite these successes, current E2E approaches remain fragile in handling long-tail and safety-critical situations, where sparse supervision and the need for high-level reasoning pose significant challenges.. Consequently, a significant gap persists between the capabilities of existing E2E models and the requirements for achieving robust Level-4 autonomy with driving-specific reasoning capabilities.
 
-Recent advances in large language models (LLMs) offer a promising direction to address this reasoning gap. LLMs have transformed artificial intelligence, with scaling laws demonstrating that model performance improves predictably as compute and data increase. Beyond training-time scaling, recent frontier models such as OpenAI's o1, DeepSeek-R1, and similar systems have introduced a new paradigm: *inference-time reasoning*. Unlike traditional single-step answer generation, these models generate intermediate reasoning traces, denoted chains of thought, that mimic human problem-solving strategies. This shift makes inference time a tunable resource: allocating more compute to deliberative reasoning often yields more accurate, robust, and verifiable decisions. This reasoning capability is particularly important for autonomous driving, where decision-making is inherently uncertain and safety-critical. Text-based reasoning further enables models to explore alternative outcomes in language space before committing to actions, offering several key advantages:
-
-improved safety through explicit counterfactual reasoning and the potential for runtime safety cross-checks and monitoring;
-
-better interpretability via human-readable decision rationales;
-
-richer training signals that can be used as verifiable rewards to boost long-tail performance.
+Recent advances in large language models (LLMs) offer a promising direction to address this reasoning gap. LLMs have transformed artificial intelligence, with scaling laws demonstrating that model performance improves predictably as compute and data increase. Beyond training-time scaling, recent frontier models such as OpenAI's o1, DeepSeek-R1, and similar systems have introduced a new paradigm: *inference-time reasoning*. Unlike traditional single-step answer generation, these models generate intermediate reasoning traces, denoted chains of thought, that mimic human problem-solving strategies. This shift makes inference time a tunable resource: allocating more compute to deliberative reasoning often yields more accurate, robust, and verifiable decisions. This reasoning capability is particularly important for autonomous driving, where decision-making is inherently uncertain and safety-critical. Text-based reasoning further enables models to explore alternative outcomes in language space before committing to actions, offering several key advantages: improved safety through explicit counterfactual reasoning and the potential for runtime safety cross-checks and monitoring; better interpretability via human-readable decision rationales; richer training signals that can be used as verifiable rewards to boost long-tail performance.
 
 VLMs/VLAs have been widely applied to autonomous driving, however, most approaches either lack explicit reasoning or perform reasoning in a free-form, unstructured manner. Such approaches struggle to generalize beyond training distributions, especially in ambiguous or compositional long-tail scenarios where strong domain priors are essential. Moreover, treating autonomous vehicle (AV) reasoning as a pure natural language processing (NLP) problem overlooks the rich structural knowledge inherent to driving: lane geometry, traffic rules, map priors, agent interactions, and dynamic constraints.
 
 We argue that effective reasoning for autonomous driving must be *causally grounded* and *structurally aligned* with the task of driving. Instead of generating verbose, unstructured narratives, reasoning traces should explicitly link observed scene evidence to concrete driving decisions through causal chains, and these decisions should directly condition or control low-level trajectory generation. The above design principle ensures that reasoning is not only an interpretability-enhancing addition, but rather a functional component that improves both training efficiency and closed-loop driving performance, particularly in safety-critical long-tail events.
 
-In this work, we introduce Alpamayo-R1, a VLA that extends the vision-action (VA) model Alpamayo-VA with structured reasoning capabilities, bridging reasoning and action prediction for generalizable autonomous driving. It addresses the challenges stated above through three key innovations:
-
-We develop a structured Chain of Causation (CoC) labeling framework that produces decision-grounded, causally-linked reasoning traces aligned with driving scenarios, supported by a hybrid human-in-the-loop and auto-labeling pipeline for scalable high-quality data generation.
+In this work, we introduce Alpamayo-R1, a VLA that extends the vision-action (VA) model Alpamayo-VA with structured reasoning capabilities, bridging reasoning and action prediction for generalizable autonomous driving. It addresses the challenges stated above through three key innovations: We develop a structured Chain of Causation (CoC) labeling framework that produces decision-grounded, causally-linked reasoning traces aligned with driving scenarios, supported by a hybrid human-in-the-loop and auto-labeling pipeline for scalable high-quality data generation.
 
 We employ a diffusion-based action-expert trajectory decoder built on flow matching to efficiently generate continuous, multi-modal trajectory plans that align with the language reasoning outputs while meeting real-time inference requirements.
 
@@ -60,13 +52,7 @@ Building an effective and reasoning-capable VLA for autonomous driving requires 
 
 To address these challenges, we introduce Alpamayo-R1 (AR1), a modular VLA architecture that extends Alpamayo-VA to integrate reasoning with action prediction for autonomous driving. Our design philosophy emphasizes *flexibility* and *modularity*: the architecture can adopt any off-the-shelf VLM backbone while incorporating domain-specific components for efficient vision encoding and real-time action decoding. This modularity enables us to leverage advances in vision-language pretraining while efficiently bridging high-level reasoning with low-level control for autonomous driving.
 
-Problem Formulation. Given a sequence of past observations $\mathbf{o}$ up to timestamp $T$ (omitted below), including multi-camera images ${\mathbf{o}}_{\text{image}}$ and egomotion history ${\mathbf{o}}_{\text{egomotion}}$, AR1 is trained to perform reasoning, denoted as Reason, and to predict the future trajectory of the ego vehicle $\mathbf{τ}$. We formulate this task as a sequential prediction problem, where the entire sequence is constructed as
-
-with each component conditioned on all previous ones. By default, the model is trained to predict the entire 6.4s-long future trajectory sequence
-
-where $(x^{i},y^{i},\theta_{\text{yaw}}^{i})$ denotes the $i$-th future waypoint sampled at 10 Hz in the ego-vehicle's coordinate frame at time $T$. As will be detailed in Sec.˜3.2.2, we adopt a control-based representation using unicycle dynamics with control inputs
-
-where $a^{i}$ and $\kappa^{i}$ denote the acceleration and curvature at timestep $i$, respectively. Details of how $\mathbf{τ}$ is encoded and decoded are provided in Sec.˜3.2.2 and 5.1.
+Problem Formulation. Given a sequence of past observations $\bm{o}$ up to timestamp $T$ (omitted below), including multi-camera images $\bm{o}_{\text{image}}$ and egomotion history $\bm{o}_{\text{egomotion}}$, AR1 is trained to perform reasoning, denoted as Reason, and to predict the future trajectory of the ego vehicle $\bm{\tau}$. We formulate this task as a sequential prediction problem, where the entire sequence is constructed as with each component conditioned on all previous ones. By default, the model is trained to predict the entire 6.4s-long future trajectory sequence where $(x^{i},y^{i},\theta_{\text{yaw}}^{i})$ denotes the $i$-th future waypoint sampled at 10 Hz in the ego-vehicle's coordinate frame at time $T$. As will be detailed in Sec.˜3.2.2, we adopt a control-based representation using unicycle dynamics with control inputs where $a^{i}$ and $\kappa^{i}$ denote the acceleration and curvature at timestep $i$, respectively. Details of how $\bm{\tau}$ is encoded and decoded are provided in Sec.˜3.2.2 and 5.1.
 
 Overall Architecture. Fig.˜1 presents the end-to-end architecture of AR1. The system processes multi-camera, multi-timestep observations as visual inputs, optionally augmented with textual inputs such as user commands and high-level navigation instructions. All inputs, including historical ego-motion data, are tokenized into a unified sequence of multimodal tokens following a predefined order. These tokens are then processed by the Cosmos-Reason backbone, which produces output tokens representing reasoning traces, meta-actions, and predicted future trajectories. The model is trained in multiple stages, combining supervised fine-tuning (SFT) and RL, as will be described in Sec.˜5.
 
@@ -76,9 +62,7 @@ We adopt Cosmos-Reason as the VLM backbone for Alpamayo-R1. Cosmos-Reason is a V
 
 Domain-Specific Supervised Fine-Tuning. To further enhance Cosmos-Reason for autonomous driving deployment, we curate supplementary datasets spanning multiple Physical AI domains, including autonomous driving, robotics, healthcare, smart cities, manufacturing, retail, and logistics. This broad Physical AI pre-training enables the model to develop general physical common sense and embodied reasoning capabilities that transfer to driving scenarios. For autonomous driving specifically, we augment the training data with 100K new samples that include annotations for critical objects in the environment and reasoning for the next action.
 
-Driving-Focused Data Curation. We develop complementary labeling approaches to balance quality and scale for autonomous driving:
-
-Human-labeled data includes comprehensive annotations covering the operational design domain (weather, lighting, road conditions), traffic regulations (traffic lights, signs), ego behaviors (interactive and non-interactive meta-actions), critical objects influencing ego behavior, and causal reasoning behind observed maneuvers. These labels improve the model's understanding and reasoning in complex driving scenarios.
+Driving-Focused Data Curation. We develop complementary labeling approaches to balance quality and scale for autonomous driving: Human-labeled data includes comprehensive annotations covering the operational design domain (weather, lighting, road conditions), traffic regulations (traffic lights, signs), ego behaviors (interactive and non-interactive meta-actions), critical objects influencing ego behavior, and causal reasoning behind observed maneuvers. These labels improve the model's understanding and reasoning in complex driving scenarios.
 
 Automatically labeled data focuses on ego behavior reasoning and prediction, generated by prompting a teacher VLM (e.g., Qwen3-VL ) with driving-specific priors that encode longitudinal, lateral, and lane-related meta-actions along with velocity information. This scalable approach strengthens the model's predictive reasoning capabilities.
 
@@ -94,21 +78,15 @@ In this section, we discuss the different vision encoders that AR1 can use as we
 
 Single-Image Tokenization. Many vision tokenizers primarily focus on representing single images and either employ autoencoding architectures or directly encode patches of pixels. VLMs adopt the latter primarily and employ Vision Transformers (ViTs) to partition images into patches that are encoded to form a 1D token sequence. We denote this paradigm as single-image tokenization, where a model encodes each input frame into a set of tokens.
 
-AR1's default tokenizer (and the one used for all subsequent experiments) leverages this paradigm, employing the base VLM's vision encoder (e.g., Zhai et al.; Tschannen et al. ) to encode a $W \times H$ px input image into patch features $\mathbf{f} \in {\mathbb{R}}^{{{{W/14} \times H}/14} \times D}$ which are then $2 \times$ bilinearly downsampled to $\mathbf{f}^{\prime} \in {\mathbb{R}}^{{{{W/28} \times H}/28} \times D}$ features per image. As an example, with ${W = 448},{H = 280}$ this process produces 160 tokens per image.
+AR1's default tokenizer (and the one used for all subsequent experiments) leverages this paradigm, employing the base VLM's vision encoder (e.g., Zhai et al.; Tschannen et al. ) to encode a $W\times H$ px input image into patch features $\mathbf{f}\in\mathbb{R}^{W/14\times H/14\times D}$ which are then $2\times$ bilinearly downsampled to $\mathbf{f}^{\prime}\in\mathbb{R}^{W/28\times H/28\times D}$ features per image. As an example, with $W=448,H=280$ this process produces 160 tokens per image.
 
 Multi-Camera Tokenization. While single-image tokenization is simple to implement, it produces token counts that scale linearly with image resolution and the number of cameras. To obtain a 360-degree view of their surroundings, AVs often use 6 to 10 cameras, the patch-based tokenization of which would yield thousands of tokens per timestep and preclude real-time inference. Accordingly, AR1 also supports the use of a new line of efficient multi-camera tokenizers that encode images from multiple cameras into an intermediate representation before tokenizing that representation.
 
-Specifically, AR1 can additionally use the efficient multi-camera tokenizer proposed in Ivanovic et al., which leverages triplanes as a 3D inductive bias, to simultaneously represent multiple camera images in an efficient manner. Crucially, since the triplane sizes are fixed, the input number of cameras and their resolution are decoupled from the resulting number of tokens. Formally, for a triplane with grid sizes $S_{x},S_{y},S_{z}$ and downstream patchification values of $p_{x},p_{y},p_{z}$, the number of tokens produced by the tokenizer is
+Specifically, AR1 can additionally use the efficient multi-camera tokenizer proposed in Ivanovic et al., which leverages triplanes as a 3D inductive bias, to simultaneously represent multiple camera images in an efficient manner. Crucially, since the triplane sizes are fixed, the input number of cameras and their resolution are decoupled from the resulting number of tokens. Formally, for a triplane with grid sizes $S_{x},S_{y},S_{z}$ and downstream patchification values of $p_{x},p_{y},p_{z}$, the number of tokens produced by the tokenizer is As an example, for $S_{x}=S_{y}=96,S_{z}=48$, and $p_{x}=p_{y}=p_{z}=8$, only 288 tokens are needed to represent one timestep of observations, irrespective of the number of cameras or their resolution. For a 7-camera vehicle setup, this equates to approximately $41.1$ tokens per image ($3.9\times$ less than single-image tokenization). Further, as we will show in Sec.˜6.7, this efficiency is achieved without major compromises to end-to-end driving metrics.
 
-As an example, for ${S_{x} = S_{y} = 96},{S_{z} = 48}$, and $p_{x} = p_{y} = p_{z} = 8$, only 288 tokens are needed to represent one timestep of observations, irrespective of the number of cameras or their resolution. For a 7-camera vehicle setup, this equates to approximately $41.1$ tokens per image ($3.9 \times$ less than single-image tokenization). Further, as we will show in Sec.˜6.7, this efficiency is achieved without major compromises to end-to-end driving metrics.
+Multi-Camera Video Tokenization. While the above already yields significant reductions in the number of tokens required to represent sensor observations, there are still two fundamental areas where additional efficiency can be achieved: accounting for temporal information (e.g., there can be redundancy in information across frames); removing the potential performance ceiling that comes with using a structured feature representation.
 
-Multi-Camera Video Tokenization. While the above already yields significant reductions in the number of tokens required to represent sensor observations, there are still two fundamental areas where additional efficiency can be achieved:
-
-accounting for temporal information (e.g., there can be redundancy in information across frames);
-
-removing the potential performance ceiling that comes with using a structured feature representation.
-
-Accordingly, AR1 also supports using multi-camera video tokenizers that directly encode entire sequences of camera observations from multiple timesteps. One example is Flex, which compresses a set of image tokens from multiple cameras and timesteps via full self-attention layers and a fixed set of query vectors, providing an explicit mechanism to control the magnitude of the information bottleneck. As will be shown in Sec.˜6.7, this approach can achieve an up to $20 \times$ token compression rate (compared to single-image tokenization) while maintaining or even improving downstream driving metrics.
+Accordingly, AR1 also supports using multi-camera video tokenizers that directly encode entire sequences of camera observations from multiple timesteps. One example is Flex, which compresses a set of image tokens from multiple cameras and timesteps via full self-attention layers and a fixed set of query vectors, providing an explicit mechanism to control the magnitude of the information bottleneck. As will be shown in Sec.˜6.7, this approach can achieve an up to $20\times$ token compression rate (compared to single-image tokenization) while maintaining or even improving downstream driving metrics.
 
 Additional Avenues for Token Compression. Beyond the tokenization strategies described above, several complementary approaches can further reduce token counts. Post-training token pruning techniques, exemplified by SparseVILA, dynamically identify and remove redundant tokens during inference without retraining, offering a practical path to reduce computational costs on models already trained. These methods represent promising directions for further scaling AR1 to even larger backbones while maintaining real-time performance constraints.
 
@@ -116,19 +94,11 @@ Additional Avenues for Token Compression. Beyond the tokenization strategies des
 
 Figure 2: Examples of reasoning traces exhibiting common issues in existing datasets. Text highlighted in yellow indicates vague behavior descriptions that fail to specify concrete driving decisions correlated with the trajectories. Text highlighted in blue denotes superficial reasoning, such as contextual observations that do not directly inform the ego vehicle’s decision. Red highlights indicate incorrect or causally inconsistent reasoning that contradicts the actual behavior of the ego vehicle.
 
-To extend the capability of a VLM to operate effectively in the physical world, it is essential to incorporate physical actions, corresponding to future driving trajectories in the autonomous driving context, into the training of the VLA. However, embodiment introduces unique challenges in action decoding:
+To extend the capability of a VLM to operate effectively in the physical world, it is essential to incorporate physical actions, corresponding to future driving trajectories in the autonomous driving context, into the training of the VLA. However, embodiment introduces unique challenges in action decoding: the action representation must be accurate, preserving both fidelity and multi-modality; the decoding process must be fast enough to support real-time inference; the decoding mechanism should integrate seamlessly into the VLA training pipeline.
 
-the action representation must be accurate, preserving both fidelity and multi-modality;
+Initially, we found that training the model in raw position (i.e., $x,y$) waypoint space is susceptible to sensor noise, which often degrades model convergence. Moreover, the downstream low-level vehicle controllers typically smooth trajectory outputs to ensure consistent and stable execution on-vehicle. Thus, instead of directly learning $\bm{\tau}$ in the raw position waypoint space, we adopt an action representation governed by unicycle dynamics that leads to better closed-loop performance. Specifically, we employ the following unicycle dynamics with control input $\bm{a}=\{(a^{i},\kappa^{i})\}_{i=1}^{64}$ and apply Euler discretization: where $\Delta T=0.1\text{s}$ in our setup, $x$ and $y$ denote positional waypoints in the bird's-eye-view (BEV) plane, $\theta$ represents the yaw angle, $v$ the velocity, $\kappa$ the curvature, and $a$ the acceleration. During training, the ground-truth control sequence $\bm{a}$ is derived from $\bm{\tau}$ through a least-squares formulation with Tikhonov regularization to attenuate high-frequency noise. The model is trained to predict the control sequence $\bm{a}$ and, during inference, we apply Eq.˜5 to map it to $\bm{\tau}$.
 
-the decoding process must be fast enough to support real-time inference;
-
-the decoding mechanism should integrate seamlessly into the VLA training pipeline.
-
-Initially, we found that training the model in raw position (i.e., $x,y$) waypoint space is susceptible to sensor noise, which often degrades model convergence. Moreover, the downstream low-level vehicle controllers typically smooth trajectory outputs to ensure consistent and stable execution on-vehicle. Thus, instead of directly learning $\mathbf{τ}$ in the raw position waypoint space, we adopt an action representation governed by unicycle dynamics that leads to better closed-loop performance. Specifically, we employ the following unicycle dynamics with control input ${\mathbf{a}} = {\{{(a^{i},\kappa^{i})}\}}_{i = 1}^{64}$ and apply Euler discretization:
-
-where ${\DeltaT} = {0.1\text{s}}$ in our setup, $x$ and $y$ denote positional waypoints in the bird's-eye-view (BEV) plane, $\theta$ represents the yaw angle, $v$ the velocity, $\kappa$ the curvature, and $a$ the acceleration. During training, the ground-truth control sequence $\mathbf{a}$ is derived from $\mathbf{τ}$ through a least-squares formulation with Tikhonov regularization to attenuate high-frequency noise. The model is trained to predict the control sequence $\mathbf{a}$ and, during inference, we apply Eq.˜5 to map it to $\mathbf{τ}$.
-
-Furthermore, to enable AR1 to understand and generate trajectories, we encode $\mathbf{τ}$ either as discrete tokens or continuous embeddings. In the discrete representation, we uniformly quantize each continuous value in $\mathbf{a}$ within a predefined range into equally spaced bins and represent the resulting indices as special tokens. For the continuous representation, we map $\mathbf{a}$ into AR1's embedding space using sinusoidal positional encoding followed by an MLP projection. Specifically, we adopt a strategy inspired by $\pi_{0.5}$-KI, combining discrete trajectory tokens learned within the VLM with an action-expert that decodes the same trajectories into continuous representations using a flow matching framework. This framework facilitates streamlined VLM training, accelerates trajectory decoding, and achieves better closed-loop performance. Training details of the action modality injection are provided in Sec.˜5.1.
+Furthermore, to enable AR1 to understand and generate trajectories, we encode $\bm{\tau}$ either as discrete tokens or continuous embeddings. In the discrete representation, we uniformly quantize each continuous value in $\bm{a}$ within a predefined range into equally spaced bins and represent the resulting indices as special tokens. For the continuous representation, we map $\bm{a}$ into AR1's embedding space using sinusoidal positional encoding followed by an MLP projection. Specifically, we adopt a strategy inspired by $\pi_{0.5}$-KI, combining discrete trajectory tokens learned within the VLM with an action-expert that decodes the same trajectories into continuous representations using a flow matching framework. This framework facilitates streamlined VLM training, accelerates trajectory decoding, and achieves better closed-loop performance. Training details of the action modality injection are provided in Sec.˜5.1.
 
 Summary. This section further detailed the two principal design dimensions (vision encoding and action decoding) through which VLMs can be systematically adapted into AV policy VLAs. In subsequent sections, we detail the construction of the data pipeline and the formulation of the training strategy, which together endow the model with enhanced reasoning and alignment capabilities, thereby improving its robustness in handling long-tail events.
 
@@ -136,13 +106,7 @@ Figure 3: Overview of the proposed structured CoC labeling pipeline, composed of
 
 ## Chain of Causation Dataset: Learning Causally Grounded Reasoning VLAs
 
-To enable reasoning VLA models to explain the causes of driving actions and to improve their trajectory-level performance, reasoning data must be closely correlated with the ego trajectory. However, existing CoT reasoning datasets in the AV community often exhibit several limitations, as shown in Fig.˜2:
-
-Vague behavior descriptions: free-form CoT annotations may fail to specify concrete driving actions or may choose words that weakly correlate with ego trajectories;
-
-Superficial reasoning: some reasoning traces primarily describe contextual observations or hypothetical factors that lack a direct causal link to the ego vehicle's behavior, providing limited benefit for improving post-training driving performance;
-
-Causal confusion: reasoning traces may include causal factors that occur in future time windows, which are not observable to the model during training. This arises because the labeling process often exposes the entire video without distinguishing between historical and future segments.
+To enable reasoning VLA models to explain the causes of driving actions and to improve their trajectory-level performance, reasoning data must be closely correlated with the ego trajectory. However, existing CoT reasoning datasets in the AV community often exhibit several limitations, as shown in Fig.˜2: Vague behavior descriptions: free-form CoT annotations may fail to specify concrete driving actions or may choose words that weakly correlate with ego trajectories; Superficial reasoning: some reasoning traces primarily describe contextual observations or hypothetical factors that lack a direct causal link to the ego vehicle's behavior, providing limited benefit for improving post-training driving performance; Causal confusion: reasoning traces may include causal factors that occur in future time windows, which are not observable to the model during training. This arises because the labeling process often exposes the entire video without distinguishing between historical and future segments.
 
 To address these gaps, we introduce a labeling framework that enforces an explicit causal structure in the reasoning traces. We first define a comprehensive set of high-level driving decisions that directly correspond to low-level ego trajectories. Each reasoning trace is associated with an explicit driving decision and includes only the causal factors that motivate that driving decision. By carefully selecting keyframes to split historical and future video segments, we ensure that all causal factors originate within the observable history window, thereby preventing causal confusion. This design ensures that every reasoning trace is both decision-grounded and causally linked, capturing concise and interpretable cause--and--effect relationships rather than verbose descriptive narratives. The resulting dataset, termed the Chain of Causation (CoC) dataset, provides clear supervision for learning decision causality, enabling reasoning VLAs to efficiently reason about the causes of specific driving actions during onboard inference. An overview of our labeling pipeline is shown in Fig.˜3.
 
@@ -150,82 +114,45 @@ To address these gaps, we introduce a labeling framework that enforces an explic
 
 To facilitate efficient annotation, our labeling framework decomposes each data sample into three structured components: the driving decision, the causal factors (critical components), and the composed CoC trace. Consequently, each data instance constitutes a structured CoC sample encompassing these three components.
 
-Set speed tracking
-Maintain or reach a target speed when unconstrained; excludes follow/yield/stop logic.
+Set speed tracking Maintain or reach a target speed when unconstrained; excludes follow/yield/stop logic.
 
-Lead obstacle following
-Maintain a safe time gap to the lead entity (closest in-path entity moves in the same traffic flow); excludes geometry-based slowing, gap-matching, and yielding to non-lead entity.
+Lead obstacle following Maintain a safe time gap to the lead entity (closest in-path entity moves in the same traffic flow); excludes geometry-based slowing, gap-matching, and yielding to non-lead entity.
 
-Speed adaptation (road events)
-Adjust speed for roadway features (curves, grades, bumps, ramps, roundabouts, turns); independent of a lead.
+Speed adaptation (road events) Adjust speed for roadway features (curves, grades, bumps, ramps, roundabouts, turns); independent of a lead.
 
-Gap-searching (for LC/merge/zipper)
-Adjust speed to match the target stream or create a usable gap to support a planned lateral maneuver.
+Gap-searching (for LC/merge/zipper) Adjust speed to match the target stream or create a usable gap to support a planned lateral maneuver.
 
-Acceleration for passing/overtaking
-Increase speed to pass a slower lead with an associated lateral plan.
+Acceleration for passing/overtaking Increase speed to pass a slower lead with an associated lateral plan.
 
-Yield (agent right-of-way)
-Slow/stop to concede priority to specific agents (pedestrians, cross-traffic, emergency vehicles, cut-ins).
+Yield (agent right-of-way) Slow/stop to concede priority to specific agents (pedestrians, cross-traffic, emergency vehicles, cut-ins).
 
-Stop for static constraints
-Decelerate to—and hold at—control points (stop/yield lines, red light, school bus/rail rules); Sometimes a yield is necessary even when owning the right-of-way, to avoid a collision.
+Stop for static constraints Decelerate to—and hold at—control points (stop/yield lines, red light, school bus/rail rules); Sometimes a yield is necessary even when owning the right-of-way, to avoid a collision.
 
-Lane keeping &amp; centering
-Maintain position within lane boundaries; minor in-lane offsets allowed; never cross lane lines.
+Lane keeping & centering Maintain position within lane boundaries; minor in-lane offsets allowed; never cross lane lines.
 
-Merge / Split (facility change)
-Transition between facilities (e.g., on-ramp ↔︎ mainline, weave segments); not a same-road lane change.
+Merge / Split (facility change) Transition between facilities (e.g., on-ramp ↔︎ mainline, weave segments); not a same-road lane change.
 
-Out-of-lane nudge (straddle avoidance)
-Brief, intentional lane-line crossing to increase clearance around a blockage/hazard; return to original lane; specify left/right.
+Out-of-lane nudge (straddle avoidance) Brief, intentional lane-line crossing to increase clearance around a blockage/hazard; return to original lane; specify left/right.
 
 Temporary offset within the lane (no line crossing) to increase clearance around a blockage/hazard; specify left/right.
 
-Lane change (lateral push)
-Full adjacent-lane transition with gap negotiation; specify left/right in reasoning trace.
+Lane change (lateral push) Full adjacent-lane transition with gap negotiation; specify left/right in reasoning trace.
 
-Pull-over / curb approach
-Move toward edge/shoulder or a designated stop area (pickup, emergency stop, parking approach).
+Pull-over / curb approach Move toward edge/shoulder or a designated stop area (pickup, emergency stop, parking approach).
 
-Turn (intersection/roundabout/U-turn)
-Planned path onto a different road segment with a significant heading change; specify left/right.
+Turn (intersection/roundabout/U-turn) Planned path onto a different road segment with a significant heading change; specify left/right.
 
-Lateral maneuver abort
-Cancel an ongoing lateral maneuver (nudge, lane change, merge/split, pull-over) and re-center when safe.
+Lateral maneuver abort Cancel an ongoing lateral maneuver (nudge, lane change, merge/split, pull-over) and re-center when safe.
 
 Table 1: Closed-set driving decisions (longitudinal and lateral) used to anchor reasoning traces to explicit control intent. Annotators select at most one decision per channel (or None), ensuring decision-grounded supervision. Definitions emphasize operational intent and disambiguate visually or behaviorally similar maneuvers (e.g., Lead obstacle following vs. Yield, Lane change vs. Merge / Split). Each selected decision must be causally supported by evidence from the observed history window. LC denotes lane change.
 
 Driving Decision. To ensure our CoC data is *decision-grounded*, we define a closed set of high-level driving decisions as in Tab.˜1. Each clip is annotated with at most one longitudinal and one lateral decision (or *None* for either channel), corresponding to the first action taken by the ego vehicle immediately after the critical reasoning moment. This standardized inventory directly aligns with low-level trajectories and eliminates free-form, vague descriptions of driving behavior, ensuring that every reasoning trace unambiguously specifies *what* decision is taken. For linguistic consistency and diversity, the final CoC reasoning traces are constructed using a compact verb set aligned with these driving decisions.
 
-Example attributes to record (if decision-relevant)
-
-Type (veh./ped./cyclist/VRU), relative pose to ego (in-path, left/right, oncoming, crosswalk), motion (stopped, slowing, crossing, cut-in risk)
-
-Current state (R/Y/G), arrow state, visibility/occlusion; presence of wait line
-
-Yield/Stop control
-Presence of signs, all-way vs two-way, stop/yield line location
-
-Curvature/grade, speed bump, narrowing, roundabout, ramp/junction ahead
-
-Lane count, laneline type (dashed/solid), shoulder/bike lane, usable width
-
-Target lane/turn (L/R/through), near-term split/merge, required lane for maneuver
-
-Weather/visibility, construction, emergency vehicles, school bus/rail rules
-
-Table 2: Categories and example attributes of critical components that may serve as causal factors for driving decisions. Only those directly influencing the driving decision are labeled. Use a Low/High uncertainty tag when forecasting object behavior or when signals are partially occluded. The list is open-ended, allowing additional critical components to be added as needed.
+Example attributes to record (if decision-relevant) Type (veh./ped./cyclist/VRU), relative pose to ego (in-path, left/right, oncoming, crosswalk), motion (stopped, slowing, crossing, cut-in risk) Current state (R/Y/G), arrow state, visibility/occlusion; presence of wait line Yield/Stop control Presence of signs, all-way vs two-way, stop/yield line location Curvature/grade, speed bump, narrowing, roundabout, ramp/junction ahead Lane count, laneline type (dashed/solid), shoulder/bike lane, usable width Target lane/turn (L/R/through), near-term split/merge, required lane for maneuver Weather/visibility, construction, emergency vehicles, school bus/rail rules Table 2: Categories and example attributes of critical components that may serve as causal factors for driving decisions. Only those directly influencing the driving decision are labeled. Use a Low/High uncertainty tag when forecasting object behavior or when signals are partially occluded. The list is open-ended, allowing additional critical components to be added as needed.
 
 Critical Components. In contrast to the closed-set driving decisions, causal factors are defined as an open-ended set, with categories and example attributes described in Tab.˜2. This design allows human labelers or an auto-labeling pipeline to flexibly specify only the key elements that directly influence the driving decision, while maintaining a structured output.
 
-Composed CoC Traces. Once the driving decision and critical components are identified, they are linguistically organized into a coherent CoC reasoning trace that captures the causal rationale behind the chosen decision. As a result, the structured CoC protocol enforces:
-
-decision grounding: each reasoning trace is anchored to a single, explicit decision at the critical moment;
-
-causal locality: all evidence must originate from the observed history window;
-
-annotation economy: only decision-relevant factors are included.
+Composed CoC Traces. Once the driving decision and critical components are identified, they are linguistically organized into a coherent CoC reasoning trace that captures the causal rationale behind the chosen decision. As a result, the structured CoC protocol enforces: decision grounding: each reasoning trace is anchored to a single, explicit decision at the critical moment; causal locality: all evidence must originate from the observed history window; annotation economy: only decision-relevant factors are included.
 
 ### Data Curation
 
@@ -233,37 +160,19 @@ Having defined the structured components of CoC (driving decisions, critical com
 
 Clip Selection. We choose clips that contain an explicit driving decision to label the CoC dataset, thereby avoiding low-signal clips that provide limited causal information. These clips are categorized into two types of scenarios: Reactive - where the ego vehicle must immediately adapt its behavior in response to a specific event, such as stopping for a lead vehicle or red light, or adjusting its lateral position to maintain clearance from a nearby obstacle or hazard; Proactive - where the ego vehicle is not required to react instantly but must actively assess and anticipate potential maneuver adjustments due to upcoming road events or obstacles. For example, the ego may receive a routing command to change lanes but lacks sufficient space in the target lane, requiring continuous gap searching and space assessment in preparation for the lane change maneuver. We employ rule-based methods to identify clips corresponding to each scenario and balance the number of clips per scenario to ensure dataset diversity. Detailed definitions of the scenarios are provided in Tab.˜3.
 
-Keyframe Definition (Reactive) / Keyframe Range (Proactive)
+Keyframe Definition (Reactive) / Keyframe Range (Proactive) Slow for the lead vehicle 0.5 seconds before the ego decelerates behind a lead vehicle.
 
-Slow for the lead vehicle
-0.5 seconds before the ego decelerates behind a lead vehicle.
+Stop for the lead vehicle Stop for traffic light (TL) / traffic sign (TS) Whichever occurs later: 0.5 seconds before the ego begins to decelerate for a TL/TS; or for a TL, the frame when it turns yellow/red.
 
-Stop for the lead vehicle
+Whichever occurs later: 0.5 seconds before the ego begins to accelerate from standstill due a TL/TS; or for a TL, the frame when it turns green. 0.5 seconds before the ego starts to move off-center of its original lane. 0.5 seconds before the ego begins to decelerate or nudge for a VRU.
 
-Stop for traffic light (TL) / traffic sign (TS)
-Whichever occurs later: 0.5 seconds before the ego begins to decelerate for a TL/TS; or for a TL, the frame when it turns yellow/red.
+Whichever occurs first: when the contender signals a LC into ego’s lane; or when the contender starts to move off-center of its original lane for the LC if no blinker signal is given. 0.5 seconds before the ego decelerates for the speed bump ahead. 0.5 seconds before the ego moves away from the lane center to avoid or give space to an obstacle.
 
-Whichever occurs later: 0.5 seconds before the ego begins to accelerate from standstill due a TL/TS; or for a TL, the frame when it turns green.
-
-0.5 seconds before the ego starts to move off-center of its original lane.
-
-0.5 seconds before the ego begins to decelerate or nudge for a VRU.
-
-Whichever occurs first: when the contender signals a LC into ego’s lane; or when the contender starts to move off-center of its original lane for the LC if no blinker signal is given.
-
-0.5 seconds before the ego decelerates for the speed bump ahead.
-
-0.5 seconds before the ego moves away from the lane center to avoid or give space to an obstacle.
-
-Bypass construction objects
-0.5 seconds before the ego decelerates or nudges to construction objects or changes lane in response to construction objects modifying the lane.
-
-0.5 seconds before the ego decelerates, nudges or moves backward for a risky event or obstacle, e.g., lane-weaving leading vehicle, parked vehicle backing out, or oncoming vehicle crossing into ego’s lane.
+Bypass construction objects 0.5 seconds before the ego decelerates or nudges to construction objects or changes lane in response to construction objects modifying the lane. 0.5 seconds before the ego decelerates, nudges or moves backward for a risky event or obstacle, e.g., lane-weaving leading vehicle, parked vehicle backing out, or oncoming vehicle crossing into ego’s lane.
 
 Start: whichever occurs first - 0.5 seconds before the ego begins to decelerate for the curve; or when the ego enters the curve at current speed. End: when the ego exits the curve.
 
-Lane change (LC) preparation
-Start: ego receives a reason to perform a LC (e.g., route or passing a slow lead) but cannot do it immediately due to a blocked target lane. End: Ego is ready to change lanes after gap searching or when traffic clears.
+Lane change (LC) preparation Start: ego receives a reason to perform a LC (e.g., route or passing a slow lead) but cannot do it immediately due to a blocked target lane. End: Ego is ready to change lanes after gap searching or when traffic clears.
 
 Start: ego receives a reason to nudge for an obstacle, but cannot do it immediately due to traffic. End: Ego is ready to nudge once the traffic clears.
 
@@ -277,7 +186,7 @@ Keyframe Labeling. Each raw clip contains 20 seconds of data and can generate mu
 
 ### Hybrid Labeling Procedure
 
-To ensure both quality and scalability, we develop a hybrid labeling procedure that combines human labeling and auto-labeling. While auto-labels are sufficient for generating large-scale training data for reasoning VLA models, high-quality and human-verified data, on the order of $\sim {10\%}$ of the total, is essential for further SFT, auto-label evaluation, and model evaluation. Our proposed hybrid labeling approach balances efficiency and accuracy, supporting both large-scale training and reliable model assessment.
+To ensure both quality and scalability, we develop a hybrid labeling procedure that combines human labeling and auto-labeling. While auto-labels are sufficient for generating large-scale training data for reasoning VLA models, high-quality and human-verified data, on the order of $\sim 10\%$ of the total, is essential for further SFT, auto-label evaluation, and model evaluation. Our proposed hybrid labeling approach balances efficiency and accuracy, supporting both large-scale training and reliable model assessment.
 
 ### Human Labeling
 
@@ -289,13 +198,11 @@ Stage II (0--8 s): (a) apply a safety exclusion filter to remove invalid data wi
 
 To enforce a clear separation between Stage I and Stage II and minimize causal leakage, we designed a labeling tool that explicitly distinguishes historical video segments (0-2 s) from future segments (2-8 s). This tool also provides visual aids, including ego-dynamics plots (speed, acceleration, steering angle, and turn signals), BEV visualizations overlaid with lane topology, and obstacle bounding boxes in order to help annotators achieve a more accurate understanding of the driving scene.
 
-Quality Assurance (QA). To maximize annotation quality and reduce potential bias, we implement a rigorous QA process. Each labeled instance first undergoes a quality check performed by a different annotator. Moreover, ${10\%} - {20\%}$ of labeled instances are selected, based on the performance of the assigned annotators, for an additional auditing process conducted by a dedicated team of experienced auditors. Both the quality check and auditing process follow the same QA guidelines, with key rules summarized in Tab.˜4. This QA process ensures that the desiderata of CoC are rigorously enforced while preserving flexibility for natural language expression. As a result, we generate high-quality CoC reasoning traces across diverse driving scenarios, with representative examples shown in Fig.˜4.
+Quality Assurance (QA). To maximize annotation quality and reduce potential bias, we implement a rigorous QA process. Each labeled instance first undergoes a quality check performed by a different annotator. Moreover, $10\%-20\%$ of labeled instances are selected, based on the performance of the assigned annotators, for an additional auditing process conducted by a dedicated team of experienced auditors. Both the quality check and auditing process follow the same QA guidelines, with key rules summarized in Tab.˜4. This QA process ensures that the desiderata of CoC are rigorously enforced while preserving flexibility for natural language expression. As a result, we generate high-quality CoC reasoning traces across diverse driving scenarios, with representative examples shown in Fig.˜4.
 
 Each selected decision references at least one Stage I component; otherwise mark UNOBSERVED with brief justification.
 
-Reasoning trace must logically explain the selected decision based on valid cause–and–effect relationships. Circular reasoning, misattributed causes, or missing necessary conditions are flagged for rework
-
-Prefer the immediate driver (e.g., stopped lead) over background conditions (e.g., red light when not first in queue).
+Reasoning trace must logically explain the selected decision based on valid cause–and–effect relationships. Circular reasoning, misattributed causes, or missing necessary conditions are flagged for rework Prefer the immediate driver (e.g., stopped lead) over background conditions (e.g., red light when not first in queue).
 
 If no change in decision, label None.
 
@@ -303,10 +210,7 @@ Table 4: Quality assurance (QA) checklist for quality check and auditing process
 
 Figure 4: Examples of our labeled CoC reasoning traces, where driving decisions and critical components are organized into CoC and highlighted correspondingly.
 
-Sharp steer left
-Sharp steer right
-
-Table 5: List of atomic meta actions defined for longitudinal and lateral directions. These meta actions represent instantaneous kinematic changes in low-level trajectories at the frame level, in contrast to high-level driving decisions that are composed of multiple atomic actions over a video segment.
+Sharp steer left Sharp steer right Table 5: List of atomic meta actions defined for longitudinal and lateral directions. These meta actions represent instantaneous kinematic changes in low-level trajectories at the frame level, in contrast to high-level driving decisions that are composed of multiple atomic actions over a video segment.
 
 ### Auto-Labeling
 
@@ -320,9 +224,7 @@ To mitigate causal confusion, VLMs are prompted to use the 2-second historical v
 
 ### Evaluation
 
-Assessing open-ended text, especially reasoning traces, remains an open challenge in the AV research community, and evaluating causal-effect relationships in CoC introduces an additional layer of complexity. Prior datasets have typically relied on one of the following approaches:
-
-Human evaluation on a small subset of samples. While effective when labelers are properly guided, this approach is not scalable for large-scale evaluation or rapid iteration of labeling pipelines.
+Assessing open-ended text, especially reasoning traces, remains an open challenge in the AV research community, and evaluating causal-effect relationships in CoC introduces an additional layer of complexity. Prior datasets have typically relied on one of the following approaches: Human evaluation on a small subset of samples. While effective when labelers are properly guided, this approach is not scalable for large-scale evaluation or rapid iteration of labeling pipelines.
 
 Heuristics-based metrics, such as BLEU, METEOR and CIDEr. These metrics focus on capturing only shallow text similarity and fail to reflect underlying causal reasoning, making them inadequate for evaluating our CoC dataset.
 
@@ -346,23 +248,13 @@ During training, we inject the action modality to the VLM through discrete token
 
 Motivation for Dual Representation. The use of discrete tokens during training alongside a continuous flow-matching decoder at inference provides several key advantages. First, discrete tokenization enables unified autoregressive training in which reasoning and trajectories share a common token space, allowing the VLM to tightly couple causal explanations with vehicle behaviors through standard next-token prediction. Second, discrete representations facilitate RL optimization by allowing direct gradient flow during post-training (Sec.˜5.3), allowing policy gradient methods such as GRPO to jointly refine reasoning quality and reasoning-action consistency. Third, the discrete representation provides strong supervision for learning vehicle dynamics, while the flow-matching expert ensures physically feasible and multi-modal outputs. Finally, flow-matching decoding offers computational efficiency, generating continuous trajectories substantially faster than autoregressively sampling 128 discrete tokens, enabling real-time inference.
 
-Similar to $\pi_{0.5}$-KI, we adopt a separate action-expert to decode actions via flow matching. The action-expert follows the same Transformer architecture as the VLM, using the same number of attention heads and attention dimensions, but with a smaller hidden embedding size and MLP dimension for efficiency. At each diffusion timestep $t$ in the diffusion schedule, the action-expert takes as input both the KV-cache from the sequence $\lbrack{\mathbf{o}}_{\text{image}},{\mathbf{o}}_{\text{egomotion}},\text{Reason}\rbrack$ in the VLM and the embedded representation of the noisy control ${\mathbf{a}}_{t}$ (with the diffusion time $t$ also embedded and added to the feature). The expert then predicts the vector field $\mathbf{v}_{\Theta}{({\mathbf{a}}_{t},{\mathbf{o}},\text{Reason})}$ by projecting the final layer feature through an MLP head, where $\Theta$ denotes the learnable parameters. We train the action-expert using a vanilla conditional flow matching loss,
-
-In practice, we adopt the Gaussian conditional optimal transport (OT) path and sample ${\mathbf{a}}_{t} = {{t{\mathbf{a}}} + {{({1 - t})}\mathbf{\epsilon}}}$ with $\mathbf{\epsilon} \sim {\mathcal{N}{(\mathbf{0},{\mathbf{I}})}}$, where the target vector field admits a closed-form expression:
-
-During inference, starting with ${\mathbf{a}}_{0} \in {\mathcal{N}{(\mathbf{0},{\mathbf{I}})}}$, we perform denoising through Euler integration:
-
-By default, we use $\delta_{t} = 0.1$ during inference and set $p_{\text{schedule}}$ to a shifted beta distribution during training, as suggested by Physical Intelligence et al.. During training, we apply a stop-gradient to the KV-cache produced by the VLM to prevent gradients from the expert back-propagating into the VLM weights.
+Similar to $\pi_{0.5}$-KI, we adopt a separate action-expert to decode actions via flow matching. The action-expert follows the same Transformer architecture as the VLM, using the same number of attention heads and attention dimensions, but with a smaller hidden embedding size and MLP dimension for efficiency. At each diffusion timestep $t$ in the diffusion schedule, the action-expert takes as input both the KV-cache from the sequence $[\bm{o}_{\text{image}},\bm{o}_{\text{egomotion}},\textsc{Reason}]$ in the VLM and the embedded representation of the noisy control $\bm{a}_{t}$ (with the diffusion time $t$ also embedded and added to the feature). The expert then predicts the vector field $\mathbf{v}_{\Theta}(\bm{a}_{t},\bm{o},\textsc{Reason})$ by projecting the final layer feature through an MLP head, where $\Theta$ denotes the learnable parameters. We train the action-expert using a vanilla conditional flow matching loss, In practice, we adopt the Gaussian conditional optimal transport (OT) path and sample $\bm{a}_{t}=t\bm{a}+(1-t)\bm{\epsilon}$ with $\bm{\epsilon}\sim\mathcal{N}(\bm{0},\bm{I})$, where the target vector field admits a closed-form expression: During inference, starting with $\bm{a}_{0}\in\mathcal{N}(\bm{0},\bm{I})$, we perform denoising through Euler integration: By default, we use $\delta_{t}=0.1$ during inference and set $p_{\text{schedule}}$ to a shifted beta distribution during training, as suggested by Physical Intelligence et al.. During training, we apply a stop-gradient to the KV-cache produced by the VLM to prevent gradients from the expert back-propagating into the VLM weights.
 
 ### Eliciting Reasoning
 
-Having established a VLA with action generation capabilities in Sec.˜5.1, the next challenge is to enable the model to perform structured and causally grounded reasoning that explains why specific driving decisions are made. This capability is critical for handling complex, safety-critical scenarios where pure pattern matching from imitation learning may fail. To achieve this, we leverage the structured CoC dataset introduced in Sec.˜4, which provides decision-grounded and causally linked reasoning traces paired with expert trajectories. We perform SFT on the CoC dataset to teach the model to generate reasoning traces through imitation, where each reasoning trace is anchored to explicit driving decisions (Tab.˜1) and grounded in critical scene components (Tab.˜2). While SFT enables the model to scaffold basic reasoning capabilities, we further refine reasoning quality and enforce reasoning-action consistency through RL in Sec.˜5.3. Formally, each training sample consists of a multi-camera driving scene observation ${\mathbf{o}} = {\lbrack{\mathbf{o}}_{\text{image}},{\mathbf{o}}_{\text{egomotion}}\rbrack}$, a structured CoC reasoning trace Reason that explains the causal factors behind the ego vehicle's decision, and the corresponding ground-truth control-based trajectory representation $\mathbf{a}$ defined in Eq.˜3. Following the sequence formulation in Eq.˜1, the SFT objective maximizes the conditional log-likelihood of the reasoning--action sequence:
+Having established a VLA with action generation capabilities in Sec.˜5.1, the next challenge is to enable the model to perform structured and causally grounded reasoning that explains why specific driving decisions are made. This capability is critical for handling complex, safety-critical scenarios where pure pattern matching from imitation learning may fail. To achieve this, we leverage the structured CoC dataset introduced in Sec.˜4, which provides decision-grounded and causally linked reasoning traces paired with expert trajectories. We perform SFT on the CoC dataset to teach the model to generate reasoning traces through imitation, where each reasoning trace is anchored to explicit driving decisions (Tab.˜1) and grounded in critical scene components (Tab.˜2). While SFT enables the model to scaffold basic reasoning capabilities, we further refine reasoning quality and enforce reasoning-action consistency through RL in Sec.˜5.3. Formally, each training sample consists of a multi-camera driving scene observation $\bm{o}=[\bm{o}_{\text{image}},\bm{o}_{\text{egomotion}}]$, a structured CoC reasoning trace Reason that explains the causal factors behind the ego vehicle's decision, and the corresponding ground-truth control-based trajectory representation $\bm{a}$ defined in Eq.˜3. Following the sequence formulation in Eq.˜1, the SFT objective maximizes the conditional log-likelihood of the reasoning--action sequence: where $\pi_{\theta}$ denotes the VLA policy parameterized by $\theta$, encompassing the vision encoder, language backbone, and corresponding embedding adapters. In practice, we apply the cross-entropy loss over both the reasoning tokens and the discrete trajectory tokens (128 tokens per trajectory as described in Sec.˜5.1), enabling the model to learn the joint distribution of language-based reasoning and action prediction in a unified autoregressive framework.
 
-where $\pi_{\theta}$ denotes the VLA policy parameterized by $\theta$, encompassing the vision encoder, language backbone, and corresponding embedding adapters. In practice, we apply the cross-entropy loss over both the reasoning tokens and the discrete trajectory tokens (128 tokens per trajectory as described in Sec.˜5.1), enabling the model to learn the joint distribution of language-based reasoning and action prediction in a unified autoregressive framework.
-
-Why SFT Alone is Insufficient. This imitation learning stage allows the model to internalize human-like reasoning patterns: learning not only *what* action to take, but also *why* such actions are appropriate given specific visual and contextual cues. As shown in Fig.˜8, SFT on CoC data already yields measurable improvements in trajectory prediction accuracy compared to models trained without explicit reasoning supervision. However, while SFT enables the VLA model to scaffold reasoning traces, it remains inherently limited by several factors:
-
-Data bias and annotation noise: Auto-labeled data may contain imperfect causal relationships (Tab.˜5), causing the model to overfit to annotation artifacts rather than learning robust causal reasoning.
+Why SFT Alone is Insufficient. This imitation learning stage allows the model to internalize human-like reasoning patterns: learning not only *what* action to take, but also *why* such actions are appropriate given specific visual and contextual cues. As shown in Fig.˜8, SFT on CoC data already yields measurable improvements in trajectory prediction accuracy compared to models trained without explicit reasoning supervision. However, while SFT enables the VLA model to scaffold reasoning traces, it remains inherently limited by several factors: Data bias and annotation noise: Auto-labeled data may contain imperfect causal relationships (Tab.˜5), causing the model to overfit to annotation artifacts rather than learning robust causal reasoning.
 
 Limited generalization: The model may memorize common reasoning patterns without developing deeper causal understanding, failing to generalize to novel scenarios.
 
@@ -382,9 +274,7 @@ Figure 6: Overview of our RL-based post-training framework. We optimize three re
 
 Large-scale foundation model post-training has emerged as a central strategy to enhance the reasoning capabilities and generation quality of large-scale foundation models. Recently, these techniques have been extended to the embodied AI domain, encouraging VLA models to generate actions that better reflect human intent across diverse embodiments, including autonomous driving and generalist robotic agents. In our reasoning VLA context, the alignment stage extends beyond improving motion generation; it explicitly enhances reasoning quality grounded in embodied settings and enforces reasoning--action consistency, both of which are key properties for achieving interpretable and trustworthy autonomy.
 
-We adopt GRPO as our alignment algorithm. GRPO extends standard policy gradient methods by optimizing relative advantages within a group of sampled model rollouts rather than relying on absolute reward signals. Specifically, given a group of model rollouts ${\{\tau_{i}\}}_{i = 1}^{K}$ sampled from the current model $\pi_{\theta}$, each with an associated scalar reward $r_{i}$, the objective of GRPO is defined as:
-
-Here, $A_{i}$ denotes the relative advantage of each trajectory within the group, $\overline{r}$ is the group-average reward, and $\beta$ controls the sharpness of the weighting distribution. The KL regularization term with coefficient $\lambda_{KL}$ penalizes deviations from the reference policy $\pi_{\text{ref}}$ (typically the SFT model), preventing over-optimization on noisy or biased reward signals and preserving linguistic and behavioral priors learned during pre-training.
+We adopt GRPO as our alignment algorithm. GRPO extends standard policy gradient methods by optimizing relative advantages within a group of sampled model rollouts rather than relying on absolute reward signals. Specifically, given a group of model rollouts $\{\tau_{i}\}_{i=1}^{K}$ sampled from the current model $\pi_{\theta}$, each with an associated scalar reward $r_{i}$, the objective of GRPO is defined as: Here, $A_{i}$ denotes the relative advantage of each trajectory within the group, $\bar{r}$ is the group-average reward, and $\beta$ controls the sharpness of the weighting distribution. The KL regularization term with coefficient $\lambda_{\mathrm{KL}}$ penalizes deviations from the reference policy $\pi_{\text{ref}}$ (typically the SFT model), preventing over-optimization on noisy or biased reward signals and preserving linguistic and behavioral priors learned during pre-training.
 
 ### Reward Model
 
@@ -392,15 +282,11 @@ Our reward model integrates three complementary signals that together evaluate b
 
 Grading Reasoning with Large Reasoning Models. To mitigate the issue where reasoning traces can exhibit hallucinations that produce plausible yet unsafe or causally inconsistent plans, we employ large reasoning models (LRMs) as automatic evaluators to provide scalable, high-quality feedback on reasoning quality. Inspired by recent advances in LLM alignment, where expert models serve as judges to provide scalable feedback, we leverage state-of-the-art LRMs (e.g., DeepSeek-R1, Cosmos-Reason ) as *reasoning critics* to evaluate the quality of reasoning traces generated by the VLA. We choose an LRM as the critic because, although such models may struggle to generate driving-specific reasoning due to limited embodiment priors, they exhibit strong verification and evaluation capabilities. In other words, even when generation in this domain is imperfect, their ability to assess logical soundness, causal alignment, and contextual consistency remains highly reliable (also known as the generation--verification gap ). The resulting reward signal provides a continuous measure of reasoning quality, enabling RL to iteratively refine the model's ability to generate grounded and logically consistent reasoning.
 
-Reasoning Critic Design. For each training sample, the LRM critic takes as input the multi-camera visual observation ${\mathbf{o}}_{\text{image}}$ at the last frame of the 2-second history window, the ground-truth CoC reasoning trace $\text{Reason}_{\text{GT}}$ from the dataset, and the model-generated reasoning trace $\text{Reason}_{\text{pred}}$ produced by the current policy $\pi_{\theta}$. The critic evaluates how well $\text{Reason}_{\text{pred}}$ aligns with $\text{Reason}_{\text{GT}}$ along two dimensions: behavior consistency, whether the predicted reasoning describes a driving decision consistent with ground truth; and causal reasoning quality, whether it correctly identifies causal factors observable in the scene's history according to CoC principles (Sec.˜4.1). The critic grades the predicted reasoning according to a structured rubric focused on behavior consistency and causal reasoning consistency:
+Reasoning Critic Design. For each training sample, the LRM critic takes as input the multi-camera visual observation $\bm{o}_{\text{image}}$ at the last frame of the 2-second history window, the ground-truth CoC reasoning trace $\textsc{Reason}_{\text{GT}}$ from the dataset, and the model-generated reasoning trace $\textsc{Reason}_{\text{pred}}$ produced by the current policy $\pi_{\theta}$. The critic evaluates how well $\textsc{Reason}_{\text{pred}}$ aligns with $\textsc{Reason}_{\text{GT}}$ along two dimensions: behavior consistency, whether the predicted reasoning describes a driving decision consistent with ground truth; and causal reasoning quality, whether it correctly identifies causal factors observable in the scene's history according to CoC principles (Sec.˜4.1). The critic grades the predicted reasoning according to a structured rubric focused on behavior consistency and causal reasoning consistency: The resulting scalar score $r_{\text{reason}}$ is used as the reasoning reward. This signal encourages the model to generate reasoning traces that not only describe correct driving behaviors but also maintain causal fidelity, accurately explaining why an action is taken based on visual context and traffic cues.
 
-The resulting scalar score $r_{\text{reason}}$ is used as the reasoning reward. This signal encourages the model to generate reasoning traces that not only describe correct driving behaviors but also maintain causal fidelity, accurately explaining why an action is taken based on visual context and traffic cues.
+CoC-Action Consistency. To ensure that the model's action generation faithfully follows its reasoning, we introduce a CoC--action consistency reward that measures behavioral alignment between the generated reasoning trace and the corresponding predicted ego trajectory. Specifically, for each reasoning--action rollout, we convert the predicted motion trajectory into a sequence of meta-actions (interpretable motion primitives) described in Tab.˜5. These meta-actions encode the ego vehicle's control behavior along both the longitudinal (acceleration/braking) and lateral (steering) directions. We then parse the generated reasoning trace to infer the ego's intended behavior and compare it against the meta-actions derived from the predicted trajectory using rule-based matching. If the described behavior in the reasoning trace and the meta-action are consistent across both axes, we assign $r_{\text{consistency}}=1$; otherwise, $r_{\text{consistency}}=0$. In cases where the reasoning cannot be parsed into a valid driving decision (i.e., the intent is not recognized within the closed decision set used for auto-labeling), we conservatively assign $r_{\text{consistency}}=0$. Although based on simple rule-based logic, this binary reward plays a crucial role in improving the trustworthiness of the model's reasoning--action coupling. By explicitly penalizing inconsistencies and rewarding only correct matches, it encourages the model to generate reasoning that not only sounds plausible but also translates into coherent, physically consistent behavior.
 
-CoC-Action Consistency. To ensure that the model's action generation faithfully follows its reasoning, we introduce a CoC--action consistency reward that measures behavioral alignment between the generated reasoning trace and the corresponding predicted ego trajectory. Specifically, for each reasoning--action rollout, we convert the predicted motion trajectory into a sequence of meta-actions (interpretable motion primitives) described in Tab.˜5. These meta-actions encode the ego vehicle's control behavior along both the longitudinal (acceleration/braking) and lateral (steering) directions. We then parse the generated reasoning trace to infer the ego's intended behavior and compare it against the meta-actions derived from the predicted trajectory using rule-based matching. If the described behavior in the reasoning trace and the meta-action are consistent across both axes, we assign $r_{\text{consistency}} = 1$; otherwise, $r_{\text{consistency}} = 0$. In cases where the reasoning cannot be parsed into a valid driving decision (i.e., the intent is not recognized within the closed decision set used for auto-labeling), we conservatively assign $r_{\text{consistency}} = 0$. Although based on simple rule-based logic, this binary reward plays a crucial role in improving the trustworthiness of the model's reasoning--action coupling. By explicitly penalizing inconsistencies and rewarding only correct matches, it encourages the model to generate reasoning that not only sounds plausible but also translates into coherent, physically consistent behavior.
-
-Low-Level Trajectory Quality. To ensure that the generated motion trajectories remain physically feasible, comfortable, and safe to execute, we include a low-level trajectory quality reward that evaluates the model's motion outputs in continuous space. This component complements the above reasoning- and consistency-level rewards by directly regularizing the trajectory's physical properties. The reward combines three terms:
-
-where $x_{\text{pred}}$ and $x_{\text{expert}}$ denote the predicted and expert trajectories, respectively; ${\mathbb{I}}{\lbrack{\text{collision}{(x_{\text{pred}})}}\rbrack}$ is a binary indicator that denotes whether the predicted motion leads to a collision with surrounding obstacles; and $J{(x_{\text{pred}})}$ measures the magnitude of the jerk to penalize abrupt or uncomfortable motion. The L2 imitation term encourages proximity to expert demonstrations, promoting stable learning and smooth driving profiles. The collision penalty ensures safety, while the jerk regularization improves comfort and control smoothness. Together, these terms anchor the learning of the model to human-like, safe, and comfortable motion, reinforcing the physical plausibility of the trajectories generated during the alignment process.
+Low-Level Trajectory Quality. To ensure that the generated motion trajectories remain physically feasible, comfortable, and safe to execute, we include a low-level trajectory quality reward that evaluates the model's motion outputs in continuous space. This component complements the above reasoning- and consistency-level rewards by directly regularizing the trajectory's physical properties. The reward combines three terms: where $x_{\text{pred}}$ and $x_{\text{expert}}$ denote the predicted and expert trajectories, respectively; $\mathbb{I}[\text{collision}(x_{\text{pred}})]$ is a binary indicator that denotes whether the predicted motion leads to a collision with surrounding obstacles; and $J(x_{\text{pred}})$ measures the magnitude of the jerk to penalize abrupt or uncomfortable motion. The L2 imitation term encourages proximity to expert demonstrations, promoting stable learning and smooth driving profiles. The collision penalty ensures safety, while the jerk regularization improves comfort and control smoothness. Together, these terms anchor the learning of the model to human-like, safe, and comfortable motion, reinforcing the physical plausibility of the trajectories generated during the alignment process.
 
 Figure 7: Compared to models that only output trajectories or only output meta-actions and trajectories, Alpamayo-R1 achieves improvements in both nominal and challenging scenarios.
 
@@ -408,7 +294,7 @@ Figure 7: Compared to models that only output trajectories or only output meta-a
 
 RL--based post-training is computationally expensive due to its iterative nature: each policy update requires multiple model rollouts, reward evaluations, and gradient steps across large batches of reasoning and trajectory samples. Moreover, unlike the SFT stage where the loss is directly computed from labeled data, our post-training procedure involves on-policy sampling and LRM-based reward function calls, which amplify both compute and data costs. Consequently, scaling RL to the full pre-training data would be prohibitive in both training time and compute resources. To address this, we curate a high-information-gain dataset for RL post-training. The key idea is to prioritize samples where the model's implicit reward signal (encoded in its logits) disagrees with the explicit reward model.
 
-Specifically, for each sample rollout from the model (denoted as $\tau_{i}$), we compute the model's predicted probability distribution derived from its logits, and the corresponding probability distribution implied by the rewards, which we obtain by transforming the reward into a Boltzmann distribution ${p_{\text{reward}}{(\tau_{i})}} = \frac{\exp{({\betar_{i}})}}{\sum_{j}{\exp{({\betar_{j}})}}}$. A large divergence between these two distributions indicates that the model's internal preference (its implicit reward) conflicts with the externally defined reward signal. Such disagreement reveals samples where the model's learned reward is inaccurate, making them particularly valuable for alignment. We therefore prioritize these high-disagreement samples to construct a focused post-training dataset, while mixing in a similar proportion of randomly sampled data to preserve distributional diversity and stabilize training. By focusing RL updates on this hybrid set, we achieve both high alignment efficiency and robust learning dynamics compared to uniformly sampled data.
+Specifically, for each sample rollout from the model (denoted as $\tau_{i}$), we compute the model's predicted probability distribution derived from its logits, and the corresponding probability distribution implied by the rewards, which we obtain by transforming the reward into a Boltzmann distribution $p_{\text{reward}}(\tau_{i})=\frac{\exp(\beta\,r_{i})}{\sum_{j}\exp(\beta\,r_{j})}$. A large divergence between these two distributions indicates that the model's internal preference (its implicit reward) conflicts with the externally defined reward signal. Such disagreement reveals samples where the model's learned reward is inaccurate, making them particularly valuable for alignment. We therefore prioritize these high-disagreement samples to construct a focused post-training dataset, while mixing in a similar proportion of randomly sampled data to preserve distributional diversity and stabilize training. By focusing RL updates on this hybrid set, we achieve both high alignment efficiency and robust learning dynamics compared to uniformly sampled data.
 
 ### Post-Training Infrastructure
 
@@ -422,43 +308,13 @@ In the following sections, we first present the evaluation protocol in Sec.˜6.1
 
 ### Evaluation Protocol
 
-Base model (action modality)
-
-+ Ft. w/ Meta-action &amp; Traj.
-
-+ Ft. w/ CoC &amp; Traj. (AR1)
-
-Base model (action modality)
-
-+ Ft. w/ Meta-action &amp; Traj.
-
-+ Ft. w/ CoC &amp; Traj. (AR1)
-
-Base model (action modality)
-
-+ Ft. w/ Meta-action &amp; Traj.
-
-+ Ft. w/ CoC &amp; Traj. (AR1)
-
-Table 6: Open-loop evaluation of models on the CoC dataset. The base model is pre-trained with 𝒟overall and all other models are finetuned on the CoC dataset, then evaluated on held-out CoC test data. Numbers with green background are the best under each setting.
-
-Ft. w/ Meta-action &amp; Traj.
-
-Ft. w/ CoC &amp; Traj. (AR1)
+Base model (action modality) Base model (action modality) Base model (action modality) Table 6: Open-loop evaluation of models on the CoC dataset. The base model is pre-trained with 𝒟overall and all other models are finetuned on the CoC dataset, then evaluated on held-out CoC test data. Numbers with green background are the best under each setting.
 
 Table 7: Open-loop evaluation of models on the challenging dataset. All models are finetuned on the CoC dataset and evaluated on the challenging dataset.
 
 Figure 8: Policy improvements via eliciting reasoning: Alpamayo-R1 generates a correct reasoning trace at an all-way stop sign intersection and yields to other vehicles that enter the intersection earlier than ego.
 
-Our evaluation strategy consists of four complementary components:
-
-open-loop trajectory prediction on both nominal and long-tail driving scenarios to measure planning accuracy;
-
-closed-loop simulation using AlpaSim to assess safety and robustness when the model controls the vehicle in realistic scenarios;
-
-ablation studies examining the impact of key architectural choices, including vision-language model scaling, vision encoding strategies, reasoning integration, and action decoding strategies;
-
-on-vehicle road tests to validate real-world deployment of the model in autonomous driving scenarios.
+Our evaluation strategy consists of four complementary components: open-loop trajectory prediction on both nominal and long-tail driving scenarios to measure planning accuracy; closed-loop simulation using AlpaSim to assess safety and robustness when the model controls the vehicle in realistic scenarios; ablation studies examining the impact of key architectural choices, including vision-language model scaling, vision encoding strategies, reasoning integration, and action decoding strategies; on-vehicle road tests to validate real-world deployment of the model in autonomous driving scenarios.
 
 Dataset. We train and evaluate models on internal driving data collected across diverse geographic regions in the US and EU, with all evaluation data strictly geo-fenced and held out from training regions to prevent information leakage. Our evaluation encompasses both nominal driving scenarios in dataset $\mathcal{D}_{\text{overall}}$ and challenging long-tail cases in $\mathcal{D}_{\text{hard}}$ to thoroughly test the model's ability to handle rare, safety-critical events. In detail, the full training and evaluation dataset comprises 80,000 hours of driving data collected from multiple ego-vehicles operating in more than 2,500 cities in 25 countries. It encompasses diverse driving scenarios, including highway and urban environments, under various weather conditions, times of day, and traffic densities. The raw sensory inputs consist of video recordings from a surround-view seven-camera setup, accompanied by precise camera calibration parameters and ego-motion data. In this work, we focus on using two front-facing cameras as input: a front wide-angle camera with 120^∘^ field of view and a front telephoto camera with 30^∘^ field of view, providing complementary perspectives for both near-field and far-field scene understanding.
 
@@ -468,17 +324,7 @@ Open-Loop Evaluation. For open-loop trajectory prediction, we evaluate models ov
 
 Closed-Loop Evaluation. It is well established that strong open-loop results do not necessarily translate into reliable closed-loop driving performance. To address this gap, we further evaluate our models within AlpaSim, an open-source closed-loop end-to-end simulator based on state-of-the-art neural reconstruction technology. AlpaSim leverages a temporal 3D Gaussian Splatting representation from recorded real-world driving logs and, during closed-loop evaluation, uses it to synthesize novel viewpoints when the ego vehicle deviates from the recorded trajectory. During evaluation, predicted trajectories are tracked by a model predictive controller (MPC), and vehicle dynamics follow a dynamically extended bicycle model. Traffic agents, including vehicles and pedestrians, follow their recorded trajectories.
 
-We evaluate models in 75 challenging 20-second scenarios, selected for their dense ego--agent and agent--agent interactions. While this may appear as a limited set, these scenarios are specifically curated to represent the most demanding safety-critical situations requiring complex reasoning and interactive decision-making. We report the following AlpaSim metrics:
-
-close encounter rate (all): percentage of scenarios where the ego vehicle experiences a close encounter with any other traffic agent;
-
-close encounter rate (at-fault): same as close encounter rate but considering only close encounters where the ego vehicle is deemed responsible, i.e., excluding rear-end close encounters.
-
-offroad rate: percentage of scenarios where the ego vehicle drives outside of the drivable area;
-
-AlpaSim score (all): average distance driven in km between events, where events correspond to offroad or close encounter occurrences;
-
-AlpaSim score (at-fault): same as AlpaSim score but considering only close encounters where the ego vehicle is deemed responsible, i.e., excluding rear-end close encounters.
+We evaluate models in 75 challenging 20-second scenarios, selected for their dense ego--agent and agent--agent interactions. While this may appear as a limited set, these scenarios are specifically curated to represent the most demanding safety-critical situations requiring complex reasoning and interactive decision-making. We report the following AlpaSim metrics: close encounter rate (all): percentage of scenarios where the ego vehicle experiences a close encounter with any other traffic agent; close encounter rate (at-fault): same as close encounter rate but considering only close encounters where the ego vehicle is deemed responsible, i.e., excluding rear-end close encounters. offroad rate: percentage of scenarios where the ego vehicle drives outside of the drivable area; AlpaSim score (all): average distance driven in km between events, where events correspond to offroad or close encounter occurrences; AlpaSim score (at-fault): same as AlpaSim score but considering only close encounters where the ego vehicle is deemed responsible, i.e., excluding rear-end close encounters.
 
 The simulation ends after the first close encounter or off-road event. To mitigate rendering artifacts, events in which the ego deviates more than 4 m from the original recorded trajectory are excluded from all metric computations.
 
@@ -496,10 +342,7 @@ Closed-Loop Improvements. As shown in Tab.˜8, AR1 achieves a 35% reduction in c
 
 ### Improvements of Reasoning, Consistency, and Safety via RL Post-Training
 
-Close Encounter Rate
-Close Encounter Rate
-
-Table 8: Closed-loop evaluation results in AlpaSim. All models are evaluated without route information across 75 challenging scenarios. Baseline refers to the trajectory-only model fine-tuned on CoC training data without reasoning.
+Close Encounter Rate Close Encounter Rate Table 8: Closed-loop evaluation results in AlpaSim. All models are evaluated without route information across 75 challenging scenarios. Baseline refers to the trajectory-only model fine-tuned on CoC training data without reasoning.
 
 While SFT on CoC data enables the model to jointly generate reasoning traces and actions, it does not guarantee that these traces are causally grounded or that the resulting actions faithfully reflect the reasoning or align with human driving norms. To address this gap, we apply RL-based post-training to simultaneously improve reasoning quality, reasoning-action consistency, and trajectory quality (see Sec.˜5.3 for methodology details). In this section, we post-train a 0.5B AR1 model fine-tuned on CoC data, and demonstrate the impact of different reward components on model behavior.
 
@@ -509,14 +352,7 @@ The Value of Learning from LRM Feedback. To ensure that the model's reasoning tr
 
 Figure 11: Post-training with the reasoning–action consistency reward improves motion fidelity. Grey motion denotes the most-likely rollout from the SFT-pretrained base model, and green motion denotes the most-likely rollout from the post-trained model. The orange motions denote the obstacles’ motion replay. Left: The base model (grey) stops halfway and fails to resume motion, even though its reasoning trace correctly instructs the ego vehicle to accelerate after stopping. The post-trained model (green) executes the full causal sequence: decelerating, stopping, and accelerating once the intersection is clear. Right: When the reasoning instructs the ego vehicle to follow a lead vehicle, the post-trained model’s generated motion maintains appropriate speed and lane position in accordance with its reasoning trace (“accelerating and keeping lane”), whereas the base model’s generated motion changes the lane, drifting from the intended plan.
 
-Reasoning–Action Consistency Score ↑
-Close Encounter Rate (%) ↓
-
-SFT + RL (rreason + rconsistency)
-
-SFT + RL (rreason + rconsistency + rsafety)
-
-Table 9: Improvements from RL-based post-training. We evaluate the impact of RL-based post-training on the model’s reasoning, consistency, and motion quality. Metrics are computed from the most-likely rollout among six generated rollouts to assess how RL alignment influences the model’s generation distribution. We measure ADE, reasoning quality graded by the large reasoning critic (Sec.˜5.3.2), reasoning–action consistency, and close encounter rate. Evaluations are conducted on the full CoC dataset introduced in Sec.˜6.2. We compare four configurations: the SFT-pretrained base model and three RL post-training variants incorporating different combinations of reasoning, consistency, and safety rewards.
+Reasoning–Action Consistency Score ↑ Close Encounter Rate (%) ↓ SFT + RL (rreason + rconsistency) SFT + RL (rreason + rconsistency + rsafety) Table 9: Improvements from RL-based post-training. We evaluate the impact of RL-based post-training on the model’s reasoning, consistency, and motion quality. Metrics are computed from the most-likely rollout among six generated rollouts to assess how RL alignment influences the model’s generation distribution. We measure ADE, reasoning quality graded by the large reasoning critic (Sec.˜5.3.2), reasoning–action consistency, and close encounter rate. Evaluations are conducted on the full CoC dataset introduced in Sec.˜6.2. We compare four configurations: the SFT-pretrained base model and three RL post-training variants incorporating different combinations of reasoning, consistency, and safety rewards.
 
 The Value of Enforcing Reasoning-Action Consistency. Interestingly, when the post-training stage optimizes solely for the reasoning reward, the reasoning score indeed improves; however, both the ADE metric and reasoning--action consistency degrade compared to the base model. This indicates that optimizing for reasoning quality alone can lead to ungrounded or overconfident reasoning, where the model produces fluent but causally disconnected explanations that fail to translate into coherent actions. The consistency reward is therefore crucial for anchoring reasoning to physically realizable behaviors, ensuring that improvements in interpretability do not come at the expense of control fidelity. Specifically, when jointly optimizing both the reasoning and consistency rewards, the post-trained model achieves a 9.4% reduction in most-likely mode ADE (2.12m$\rightarrow$`<!-- -->`{=html}1.92m), a 45% improvement in the reasoning score (3.1$\rightarrow$`<!-- -->`{=html}4.5), and a 37% increase in reasoning--action consistency (0.62$\rightarrow$`<!-- -->`{=html}0.85). These results demonstrate that the two reward components are complementary: the reasoning reward enhances interpretability and causal grounding, while the consistency reward ensures that the generated reasoning translates into faithful and more accurate motion behaviors. In Fig.˜11, we present two qualitative examples illustrating how post-training improves the model's motion fidelity. When the model reasons "decelerate, stop, and then accelerate at a stop sign," the aligned model produces actions that faithfully follow this causal sequence (decelerating smoothly, coming to a complete stop, and accelerating only once the intersection is clear), whereas the SFT-pretrained model tends to stop halfway and never resume motion.
 
@@ -526,9 +362,7 @@ The Value of Imposing a Safety Reward. While reasoning and consistency rewards i
 
 To enable reproducible evaluation and community comparison, we evaluate the publicly released Alpamayo-R1 model on the PhysicalAI-AV dataset and the AlpaSim public scenario set. Alpamayo-R1-10B leverages Cosmos-Reason as the VLM backbone with a 2B parameter diffusion-based trajectory decoder, while Alpamayo-R1-0.5B uses a smaller backbone for comparison. Both models generate Chain-of-Causation reasoning traces alongside trajectory predictions.
 
-Close Encounter Rate ↓ (%)
-
-Table 10: Evaluation of Alpamayo-R1 on the public PhysicalAI-AV dataset. Open-loop results are evaluated on 644 examples from the PhysicalAI-AV evaluation set. Closed-loop results are evaluated on 920 scenarios from the PhysicalAI-AV NuRec dataset using AlpaSim. All models predict CoC reasoning traces and trajectories. Closed-loop metrics are at-fault.
+Close Encounter Rate ↓ (%) Table 10: Evaluation of Alpamayo-R1 on the public PhysicalAI-AV dataset. Open-loop results are evaluated on 644 examples from the PhysicalAI-AV evaluation set. Closed-loop results are evaluated on 920 scenarios from the PhysicalAI-AV NuRec dataset using AlpaSim. All models predict CoC reasoning traces and trajectories. Closed-loop metrics are at-fault.
 
 Open-Loop Results. We evaluate both models on 644 held-out examples from the PhysicalAI-AV dataset. As shown in Tab.˜10, Alpamayo-R1-10B achieves a minADE~6~ of 0.849m at 6.4s, a 7.0% improvement over Alpamayo-R1-0.5B (0.913m), demonstrating the benefits of scaling the VLM backbone.
 
@@ -566,24 +400,19 @@ These results confirm that both model capacity and domain-specific pre-training 
 
 ### Ablation: Action Modality Injection
 
-We demonstrate the effectiveness of adopting a continuous action representation governed by unicycle dynamics with flow matching in Tab.˜12. Specifically, we compare a baseline model trained to auto-regressively predict 6 discrete trajectory tokens against a model of identical size and training data that decodes trajectories via flow matching. The discrete trajectory tokenizer in the baseline auto-regressive model is pre-trained via VQGAN, which minimizes the number of output discrete tokens to reduce the auto-regressive decoding latency while maintaining low reconstruction error. During inference, we set $\delta_{t} = 0.2$, i.e., 5 steps, in flow matching to reduce latency with negligible performance degradation. As shown in Tab.˜12, leveraging a dynamically governed continuous action space through flow-matching yields substantial improvements in both open-loop and closed-loop metrics, enhancing comfort and achieving faster inference speed.
+We demonstrate the effectiveness of adopting a continuous action representation governed by unicycle dynamics with flow matching in Tab.˜12. Specifically, we compare a baseline model trained to auto-regressively predict 6 discrete trajectory tokens against a model of identical size and training data that decodes trajectories via flow matching. The discrete trajectory tokenizer in the baseline auto-regressive model is pre-trained via VQGAN, which minimizes the number of output discrete tokens to reduce the auto-regressive decoding latency while maintaining low reconstruction error. During inference, we set $\delta_{t}=0.2$, i.e., 5 steps, in flow matching to reduce latency with negligible performance degradation. As shown in Tab.˜12, leveraging a dynamically governed continuous action space through flow-matching yields substantial improvements in both open-loop and closed-loop metrics, enhancing comfort and achieving faster inference speed.
 
-AlpaSim Score (at fault) ↑
-Rel. Decode Speed↑
-
-Table 12: Comparison on trajectory decoding strategies. The models are trained and evaluated with route signals. The evaluation is on 𝒟overall to show overall gains. Comfort (Accel) metric measures the percentage of predicted trajectories that are within a comfort range.
+AlpaSim Score (at fault) ↑ Rel. Decode Speed↑ Table 12: Comparison on trajectory decoding strategies. The models are trained and evaluated with route signals. The evaluation is on 𝒟overall to show overall gains. Comfort (Accel) metric measures the percentage of predicted trajectories that are within a comfort range.
 
 ### Ablation: Efficient Vision Encoding
 
 As discussed in Sec.˜3.2.1, there are alternative methods for vision encoding that can be more efficient than the default single-image tokenizer in terms of tokens needed to represent multi-camera video inputs. To compare approaches, we choose a 4-camera setup, vary the vision encoder, and compare the resulting end-to-end model's open-loop driving quality via minADE~6~ relative to the baseline.
 
-As can be seen in Tab.˜13, the triplane-based multi-camera tokenizer from Ivanovic et al. achieves nearly identical minADE~6~ values as the baseline, while only adding 6.3M parameters and reducing sensor token counts by $3.6 \times$. Flex is able to achieve more drastic improvements, with a token compression of up to $20 \times$ while only adding 61.6M parameters to the overall driving model and matching the driving quality of the baseline.
+As can be seen in Tab.˜13, the triplane-based multi-camera tokenizer from Ivanovic et al. achieves nearly identical minADE~6~ values as the baseline, while only adding 6.3M parameters and reducing sensor token counts by $3.6\times$. Flex is able to achieve more drastic improvements, with a token compression of up to $20\times$ while only adding 61.6M parameters to the overall driving model and matching the driving quality of the baseline.
 
 AR1 adopts single-image tokenization by default, as the optimal strategy can vary with the number of cameras, temporal frames, and camera resolutions. For example, a small number of cameras and short histories will favor single-image tokenization, more cameras and short histories will favor triplanes, and more cameras and long history sequences will favor Flex.
 
-Tokens per Image ↓
-
-Table 13: Relative comparison of different efficient vision encoding strategies on 𝒟overall.
+Tokens per Image ↓ Table 13: Relative comparison of different efficient vision encoding strategies on 𝒟overall.
 
 ### On-Vehicle Road Tests
 
@@ -591,13 +420,7 @@ To validate the real-world deployment capability of AR1, we deployed the model i
 
 Real-Time Inference Performance. A critical requirement for on-vehicle deployment is real-time inference capability. We benchmark AR1 on an NVIDIA RTX 6000 Pro Blackwell platform, achieving an end-to-end inference latency of 99ms, within the real-time requirements for autonomous driving (typically 100ms). Tab.˜14 provides a detailed breakdown of the inference pipeline, comparing our approach against alternative design choices. The prefilling stage processes the visual tokens and route information through the transformer layers to generate the key-value cache, which is then used during both reasoning and trajectory decoding.
 
-Baseline (trajectory-only, flow matching)
-
-Alpamayo-R1 (ours, flow matching)
-
-Alpamayo-R1 (auto-regressive traj)
-
-Table 14: Inference runtime breakdown on an NVIDIA RTX 6000 Pro Blackwell. Alpamayo-R1 achieves real-time performance (99ms) by combining flow-matching-based trajectory decoding with efficient vision encoding.
+Baseline (trajectory-only, flow matching) Alpamayo-R1 (ours, flow matching) Alpamayo-R1 (auto-regressive traj) Table 14: Inference runtime breakdown on an NVIDIA RTX 6000 Pro Blackwell. Alpamayo-R1 achieves real-time performance (99ms) by combining flow-matching-based trajectory decoding with efficient vision encoding.
 
 Figure 14: On-vehicle road test showing that AR1 generates a reasoning trace in an intersection scenario. The ego vehicle first decelerates to stop due to the red light, then waits for the traffic signal and finally resumes when the light turns green and takes the turn.
 

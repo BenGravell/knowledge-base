@@ -8,9 +8,9 @@ Simulators play a key role in training robots improving both the safety and iter
 
 However, switching back and forth between CPU cores optimized for sequential tasks and GPUs which offer large-scale parallelism is by nature inefficient, requiring data to be transferred between different parts of the system at multiple points during the training process. Therefore, scalability of deep reinforcement learning in robotics is faced with two critical bottlenecks: 1) enormous computational requirements and 2) limited simulation speed. These problems are especially challenging when learning long-horizon behaviours for robots with high degrees of freedom.
 
-Popular physics engines like MuJoCo, PyBullet, DART, Drake, V-Rep etc. need large CPU clusters to solve challenging RL tasks naturally face these bottlenecks. For instance, in, almost 30,000 CPU cores (920 worker machines with 32 cores each) were used to train a robot to solve the Rubik's Cube task using RL. In a similar task, used a cluster of 384 systems with 6144 CPU cores, plus 8 NVIDIA V100 GPUs, and required 30 hours of training for RL to converge.
+Popular physics engines like MuJoCo, PyBullet, DART, Drake, V-Rep etc. need large CPU clusters to solve challenging RL tasks naturally face these bottlenecks. For instance, , almost 30,000 CPU cores (920 worker machines with 32 cores each) were used to train a robot to solve the Rubik's Cube task using RL. In a similar task, used a cluster of 384 systems with 6144 CPU cores, plus 8 NVIDIA V100 GPUs, and required 30 hours of training for RL to converge.
 
-One way to speed-up simulation and training is to make use of hardware accelerators. GPUs have enjoyed enormous success in computer graphics are also naturally suited for highly parallel simulations. This approach was taken by, and showed very promising results running simulation on GPU, proving that it is possible to greatly reduce both training time as well as computational resources required to solve very challenging tasks using RL. However, some bottlenecks were still not addressed in the work -- simulation was on GPU but physics state was copied back to CPU. There, observations and rewards were calculated using optimized C++ code and later copied back to GPU where policy and value networks ran. Furthermore, only simplified physics-based scenarios were trained, rather than representative robotic environments, and no attempt was made to show sim2real.
+One way to speed-up simulation and training is to make use of hardware accelerators. GPUs have enjoyed enormous success in computer graphics are also naturally suited for highly parallel simulations. This approach was taken , and showed very promising results running simulation on GPU, proving that it is possible to greatly reduce both training time as well as computational resources required to solve very challenging tasks using RL. However, some bottlenecks were still not addressed in the work -- simulation was on GPU but physics state was copied back to CPU. There, observations and rewards were calculated using optimized C++ code and later copied back to GPU where policy and value networks ran. Furthermore, only simplified physics-based scenarios were trained, rather than representative robotic environments, and no attempt was made to show sim2real.
 
 To address these bottlenecks, we present Isaac Gym - an end-to-end high performance robotics simulation platform. It runs an end-to-end GPU accelerated training pipeline, which allows researchers to overcome the aforementioned limitations and achieves 2-3 orders of magnitude of training speed-up in continuous control tasks. Isaac Gym leverages NVIDIA PhysX to provide a GPU-accelerated simulation back-end, allowing it to gather experience data required for robotics RL at rates only achievable using a high degree of parallelism. It provides a PyTorch tensor-based API to access the results of physics simulation natively on the GPU. Observation tensors can be used as inputs to a policy network and the resulting action tensors can be directly fed back into the physics system. We note that others have recently begun attempting an approach similar to Isaac Gym with respect to running end-to-end training on hardware accelerators.
 
@@ -42,8 +42,7 @@ Physics simulations on a GPU is not new. In previous work, we demonstrated good 
 
 Isaac Gym eliminates those inefficiencies by keeping all of the computations on the GPU. Stepping physics, computing observations and rewards, and applying actions are performed on the GPU without ever copying large quantities of data between devices. Two new features were added to PhysX to facilitate this. First, PhysX GPU simulations can run without fetching the results to the CPU after every step. Second, a new direct GPU API was added to access the current state, submit state changes, and apply control inputs in GPU buffers. In Figure 3, we contrast the traditional RL experience collection pipeline with our high throughput fully GPU-based pipeline.
 
-(a) Traditional RL experience collection. (b) Isaac Gym experience collection.
-Figure 3: (a) Traditional RL experience collection pipelines often use CPU based physics engines which quickly become the bottleneck. (b) In contrast, Isaac Gym not only runs physics on the GPU but also directly copies the physics data to the deep neural network framework using CUDA interoperatability without ever using CPU in the process. This massively improves the performance of RL training process leading to significantly faster training times.
+(a) Traditional RL experience collection. (b) Isaac Gym experience collection. Figure 3: (a) Traditional RL experience collection pipelines often use CPU based physics engines which quickly become the bottleneck. (b) In contrast, Isaac Gym not only runs physics on the GPU but also directly copies the physics data to the deep neural network framework using CUDA interoperatability without ever using CPU in the process. This massively improves the performance of RL training process leading to significantly faster training times.
 
 ### Simulation Setup
 
@@ -73,21 +72,17 @@ A powerful feature of Isaac Gym is the ability to run the same code on either CP
 
 ### Physics State Tensors
 
-Actor root state
-State of all actor root bodies (position, orientation, linear and angular velocity).
+Actor root state State of all actor root bodies (position, orientation, linear and angular velocity).
 
 State of all degrees of freedom (position and velocity).
 
-Rigid body state
-State of all rigid bodies (position, orientation, linear and angular velocity).
+Rigid body state State of all rigid bodies (position, orientation, linear and angular velocity).
 
 Net forces experienced at each degree of freedom.
 
-Rigid body forces
-Rigid body forces and torques experienced at force sensor locations.
+Rigid body forces Rigid body forces and torques experienced at force sensor locations.
 
-Net contact forces
-Net forces experienced by each rigid body.
+Net contact forces Net forces experienced by each rigid body.
 
 Jacobian matrices for a homogeneous group of actors.
 
@@ -98,27 +93,28 @@ Table 1: Physics state tensors. NA is the total number of actors, NB is the tota
 Physics state tensors are used to obtain state snapshots of a running simulation. Isaac Gym allows for interacting with the simulation using maximal and reduced coordinates. Physics state includes the kinematic state of rigid bodies and degrees of freedom (DOFs). Rigid body state consists of position, orientation (quaternion), linear velocity, and angular velocity. DOF state includes position and velocity. In the code snippet below we show how to access them through the API.
 
 ## Acquire tensor descriptors
+
 ## Raw storage buffer independent of client framework
+
 ## Storage will be on GPU if using GPU pipeline, CPU otherwise
+
 ## Same code for CPU and GPU just different device
-root_state_desc = gym.acquire_actor_root_state_tensor(sim)
-dof_state_desc = gym.acquire_dof_state_tensor(sim)
+
+root_state_desc = gym.acquire_actor_root_state_tensor(sim) dof_state_desc = gym.acquire_dof_state_tensor(sim)
+
 ## PyTorch interop
+
 ## No data copying, just wrap the gym buffers as torch tensors
+
 ## The root state tensor captures the state of the root bodies of all actors
-root_states = gymtorch.wrap_tensor(root_state_desc)
-dof_states = gymtorch.wrap_tensor(dof_state_desc)
+
+root_states = gymtorch.wrap_tensor(root_state_desc) dof_states = gymtorch.wrap_tensor(dof_state_desc)
+
 ## obtaining physics states
+
 ## Physics state includes kinematic states of rigid bodies and degrees of freedom (DOFs)
-root_state_vec = root_states.view(num_envs, actors_per_env, 13)
-dof_state_vec = dof_states.view(num_envs, dofs_per_env, 13)
-root_p = root_states[..., 0:3] # positions of rigid bodies
-root_q = root_states[..., 3:7] # rotations, in quaternions, of rigid bodies
-root_v = root_states[..., 7:10] # linear velocities of rigid bodies
-root_a = root_states[..., 10:13] # angular velocities of rigid bodies
-dof_p = dof_state_vec[..., 0] # joint positions
-dof_v = dof_state_vec[..., 1] # joint velocities
-Obtaining state information by wrapping physics buffers into PyTorch tensors. CUDA interoperability allows copying the data directly without ever going through the host.
+
+root_state_vec = root_states.view(num_envs, actors_per_env, 13) dof_state_vec = dof_states.view(num_envs, dofs_per_env, 13) root_p = root_states[..., 0:3] # positions of rigid bodies root_q = root_states[..., 3:7] # rotations, in quaternions, of rigid bodies root_v = root_states[..., 7:10] # linear velocities of rigid bodies root_a = root_states[..., 10:13] # angular velocities of rigid bodies dof_p = dof_state_vec[..., 0] # joint positions dof_v = dof_state_vec[..., 1] # joint velocities Obtaining state information by wrapping physics buffers into PyTorch tensors. CUDA interoperability allows copying the data directly without ever going through the host.
 
 Revolute DOFs use radians and linear DOFs use meters for units. Additional state data includes contact forces, rigid body force sensors, and DOF force sensors. To support operational space control and inverse kinematics applications, Isaac Gym also provides Jacobian and generalized mass matrices which can be obtained for articulated actors.
 
@@ -128,27 +124,7 @@ The available state tensors are listed in Table 1. Most of the state tensors are
 
 Physics simulation inputs include forces, torques, and PD controls such as position and velocity targets. Forces and torques can be applied to rigid bodies and DOFs. PD targets are applied to DOFs that have been configured to use position or velocity drives. Users can configure the drive parameters like stiffness and damping using a separate API. Table 2 lists the available control tensors. The control tensors are typically created in a higher-level framework like PyTorch, but can be efficiently shared with Isaac Gym using the tensor-wrapping utilities.
 
-DOF actuation forces
-Torques or linear forces to be applied to degrees of freedom.
-All actors or indexed subset
-
-DOF position targets
-PD position targets for degrees of freedom.
-All actors or indexed subset
-
-DOF velocity targets
-PD velocity targets for degrees of freedom.
-All actors or indexed subset
-
-Rigid body forces
-Forces to be applied to rigid bodies.
-All rigid bodies
-
-Rigid body torques
-Torques to be applied to rigid bodies.
-All rigid bodies
-
-Table 2: Physics control tensors. NB is the total number of rigid bodies (including articulation links) and ND is the total number of degrees of freedom.
+DOF actuation forces Torques or linear forces to be applied to degrees of freedom. All actors or indexed subset DOF position targets PD position targets for degrees of freedom. All actors or indexed subset DOF velocity targets PD velocity targets for degrees of freedom. All actors or indexed subset Rigid body forces Forces to be applied to rigid bodies. All rigid bodies Rigid body torques Torques to be applied to rigid bodies. All rigid bodies Table 2: Physics control tensors. NB is the total number of rigid bodies (including articulation links) and ND is the total number of degrees of freedom.
 
 ## Physics Simulation
 
@@ -156,76 +132,25 @@ Robots are simulated using PhysX reduced coordinate articulations. Any individua
 
 We use the Temporal Gauss Seidel (TGS) solver to compute the future states of objects in our physics simulation. The TGS solver uses the observation that sub-stepping a simulation with a single gauss-seidel solver iteration yields significantly faster convergence than running larger steps with more solver iterations. It folds this process efficiently into the iteration process, calculating the velocity at the end of each iteration and accumulating these velocities (scaled by ${dt}/N$, where $N$ is the number of iterations) into a per-body accumulated delta buffer. This delta buffer is projected onto the constraint Jacobians and added to the bias terms in the constraints. This approach adds only a few additional operations to a more traditional Gauss-Seidel solver, producing almost identical performance cost per-iteration. However, it achieves the same effect on convergence as having sub-stepped the simulation without the computational expense. With positional joint constraints, an additional rotational term is calculated for joint anchors to improve handling of non-linear motion to avoid linearization artifacts. This term is not necessary (and in fact undesirable) to add to contacts. Various parameters exposed to the user to tune the simulator are described in Table 3.
 
-Controls time-step size
+Controls time-step size Controls the gravity in the scene Filters collisions between shapes Biased (velocity + positional error correcting) solver iterations Unbiased (velocity error only correcting) solver iterations Max bias coefficient Limits the magnitude of position error bias Friction Static/dynamic friction Static and dynamic friction coefficients Relative normal velocity limit below which restitution is ignored Distance at which shapes are held separated. Default is 0 but can be increased to hold objects at gap. Useful for thin objects.
 
-Controls the gravity in the scene
+Friction offset threshold Distance at which friction anchors are discarded (static friction depends on friction anchor caching) Solver offset slop An epsilon value used to correct for round-off errors in contact gen. Corrects small skew effects with rolling spheres or capsules.
 
-Filters collisions between shapes
-
-Biased (velocity + positional error correcting) solver iterations
-
-Unbiased (velocity error only correcting) solver iterations
-
-Max bias coefficient
-Limits the magnitude of position error bias Friction
-
-Static/dynamic friction
-Static and dynamic friction coefficients
-
-Relative normal velocity limit below which restitution is ignored
-
-Distance at which shapes are held separated. Default is 0 but can
-
-be increased to hold objects at gap. Useful for thin objects.
-
-Friction offset threshold
-
-Distance at which friction anchors are discarded
-
-(static friction depends on friction anchor caching)
-
-Solver offset slop
-
-An epsilon value used to correct for round-off errors in contact
-
-gen. Corrects small skew effects with rolling spheres or capsules.
-
-Friction correlation distance
-
-Distance at which contacts are merged into a single
-
-Per-body and per-contact force limits
-
-Positional error correction coefficient of a PD controller
-
-Velocity error correction coefficient of a PD controller
-
-Per-joint frictional term. Simulates dry friction in a joint.
+Friction correlation distance Distance at which contacts are merged into a single Per-body and per-contact force limits Positional error correction coefficient of a PD controller Velocity error correction coefficient of a PD controller Per-joint frictional term. Simulates dry friction in a joint.
 
 Per-joint armature term - simulates motor inertia.
 
-Body/link Damping
-World-space linear/angular damping on each body/link
-
-Linear/angular velocity limits per-body
-
-Table 3: Parameters exposed to tune the simulator.
+Body/link Damping World-space linear/angular damping on each body/link Linear/angular velocity limits per-body Table 3: Parameters exposed to tune the simulator.
 
 ## Environments
 
 We implemented a diverse set of environments covering different application areas. Here we describe a subset of representative examples and key points related to the training. Benchmark results on the simulation performance and training results are presented in the subsequent sections.
 
-All environments are trained using the Proximal Policy Optimization algorithm, using rl_games, a highly-optimized GPU end-to-end implementation from. This implementation vectorizes observations and actions on GPU allowing us to take advantage of the parallelization provided by the simulator. We list the environments used in our experiments below:
-
-1\. Locomotion Environments • Ant • Humanoid • Ingenuity • ANYmal 2. Franka Cube Stacking 3. Humanoid Character Animation 4. Robotic Hands • Shadow • Allegro • Trifinger
-
-While Ant and Humanoid are relatively simple environments popularised by MuJoCo continuous control benchmarks, the strength of our simulator really shines when training on environments that are rich in complexity particularly robotic hands. Various meta-data related to simulation setup for these environments is in Table 4.
+All environments are trained using the Proximal Policy Optimization algorithm, using rl_games, a highly-optimized GPU end-to-end implementation. This implementation vectorizes observations and actions on GPU allowing us to take advantage of the parallelization provided by the simulator. We list the environments used in our experiments below: 1\. Locomotion Environments • Ant • Humanoid • Ingenuity • ANYmal 2. Franka Cube Stacking 3. Humanoid Character Animation 4. Robotic Hands • Shadow • Allegro • Trifinger While Ant and Humanoid are relatively simple environments popularised by MuJoCo continuous control benchmarks, the strength of our simulator really shines when training on environments that are rich in complexity particularly robotic hands. Various meta-data related to simulation setup for these environments is in Table 4.
 
 ### Key Experimental Details
 
-Unless stated otherwise, all experiments are done on a system with a single NVIDIA A100 GPU and a single 3.7GHz Intel i7-8700K CPU
-
-All training runs for each environment are averaged over 5 seeds. The reward curves are plotted with $\mu \pm \sigma$ regions.
+Unless stated otherwise, all experiments are done on a system with a single NVIDIA A100 GPU and a single 3.7GHz Intel i7-8700K CPU All training runs for each environment are averaged over 5 seeds. The reward curves are plotted with $\mu \pm \sigma$ regions.
 
 All the environments by default follow symmetric actor-critic approach with shared observations as well as shared network for policy and value functions. Sharing the network allows faster forward passes and improves training.
 
@@ -235,22 +160,7 @@ For all environments trained with feed forward networks we use a discount factor
 
 Detailed hyper-parameters for each training task are shown in Table 17. Rewards and observations for each environment we used can be found in Appendix A.2.
 
-Rigid Body Forces
-
-Joint Position Targets
-
-Franka Cube Stacking
-Operation Space Control
-
-Shadow Hand Standard
-Joint Position Targets
-
-Shadow Hand OpenAI
-Joint Position Targets
-
-Joint Position Targets
-
-Table 4: Simulation setup for the environments.
+Rigid Body Forces Joint Position Targets Franka Cube Stacking Operation Space Control Shadow Hand Standard Joint Position Targets Shadow Hand OpenAI Joint Position Targets Joint Position Targets Table 4: Simulation setup for the environments.
 
 ## Characterising Simulation Performance
 
@@ -258,8 +168,7 @@ We first characterise the simulation performance as a function of number of envi
 
 ### Ant
 
-(a) Rewards (b) Total number of environment steps per second
-Figure 5: Rewards and effective FPS with respect to number of parallel environments for the Ant experiment. Best training time is achieved with 8192 environments and a horizon lengths of 16.
+(a) Rewards (b) Total number of environment steps per second Figure 5: Rewards and effective FPS with respect to number of parallel environments for the Ant experiment. Best training time is achieved with 8192 environments and a horizon lengths of 16.
 
 We first experiment with the standard Ant environment where the agent is trained to run on a flat ground. We find that as the number of agents is increased, the training time, as expected, is reduced i.e. changing the number of environments from 256 to 8192 --- an increase by 5 orders of magnitude --- leads to a reduction in training time to reach 7000 reward by an order of magnitude from 1000 seconds (\~16.6 minutes) to 100 seconds (\~1.6 minutes). However, note that Ant reaches performant locomotion at 3000 reward in just 20 seconds on a single GPU.
 
@@ -269,11 +178,9 @@ Since Ant is one of the simplest environments to simulate, the number of paralle
 
 The Humanoid environment has more degrees of freedom and requires the agent to discover the gait that lets itself balance on two feet and walk on the ground. As observed in Figure 6 and Figure 7, the training times are increased by an order of magnitude compared to the Ant in Figure 5.
 
-(a) Rewards (b) Total number of environment steps per second
-Figure 6: Rewards and effective FPS with respect to number of parallel environments for the Humanoid experiment. Best training time is achieved with 4096 environments and a horizon lengths of 32.
+(a) Rewards (b) Total number of environment steps per second Figure 6: Rewards and effective FPS with respect to number of parallel environments for the Humanoid experiment. Best training time is achieved with 4096 environments and a horizon lengths of 32.
 
-(a) Rewards (b) Total number of environment steps per second
-Figure 7: Rewards and effective FPS with respect to number of parallel environments for the Humanoid experiment. Best training time is achieved with both 4096 and 8192 environments and horizon lengths of 64 and 32 respectively.
+(a) Rewards (b) Total number of environment steps per second Figure 7: Rewards and effective FPS with respect to number of parallel environments for the Humanoid experiment. Best training time is achieved with both 4096 and 8192 environments and horizon lengths of 64 and 32 respectively.
 
 We also note in Figure 6 that as the number of agents is increased, in this case, from 256 to 4096, the training time needed to reach the highest reward of 7000 is reduced by an order of magnitude from $10^{4}$ seconds (\~2.7 hours) to $10^{3}$ seconds (\~17 minutes). However, performant locomotion starts happening at around a reward of 5000 at a training time of just 4 minutes. Going beyond 4096 environments for this set up resulted in no further gains and in fact led to both increase in training time and sub-optimal gaits. We attribute this to the complexity of the environment that makes it challenging to learn walking at such small horizon lengths.
 
@@ -283,8 +190,7 @@ Also worth noting that due to the increased degrees of freedom the number of par
 
 ### Shadow Hand
 
-(a) Rewards. (b) Total number of environment steps per second
-Figure 8: Rewards and effective FPS with respect to number of parallel environments for the Shadow Hand experiment. Best training time is achieved with both 8192 and 16384 environments and horizon lengths of 16 and 8 respectively.
+(a) Rewards. (b) Total number of environment steps per second Figure 8: Rewards and effective FPS with respect to number of parallel environments for the Shadow Hand experiment. Best training time is achieved with both 8192 and 16384 environments and horizon lengths of 16 and 8 respectively.
 
 Lastly, we experiment with Shadow Hand to learn to rotate a cube resting on the palm to a target orientation using the fingers and the wrist. This task is challenging due to the number of DoFs involved and the contacts that are made and broken during the process of rotation. Our results with Shadow Hand environment follow similar trends. As the number of agents is increased, in this case, from 256 to 16384, the training time is reduced by an order of magnitude from $5 \times 10^{4}$ seconds (\~14 hours) to $3 \times 10^{3}$ seconds (\~1 hour). We find that the environment reaches performant dexterity of 10 consecutive successes at reward of 3000 in just 5 minutes.^11^1The experiments used Shadow Hand Standard variant as explained in Section 6.4.1. Further performance improvements continue to happen as more experience is collected. Additionally, we find that the horizon length of 8 for 16384 agents still allows learning re-posing the cube. The maximum effective frame-rate of 150K number of parallel environment steps per second was achieved with 16384 agents.
 
@@ -314,7 +220,7 @@ ANYmal is a robot developed by ANYbotics for industrial maintenance. It is a fou
 
 ### ANYmal Sim-to-real on Uneven Terrain
 
-In addition to the simple flat terrain environment, we have developed a rough terrain locomotion task for ANYmal and validated the approach by transferring trained policies to the real robot. The robot learns to walk on uneven surfaces, slopes, stairs and obstacles. In addition to the observations of the flat terrain environment it receives terrain height measurements around the robot's base. For sim-to-real transfer we extend the reward function, add noise to the observations, randomize the friction coefficient of the ground, randomly push the robots during the episode and add an actuator network to the simulation. Following the approach used in, the actuator network is trained to model the complex dynamics of the series elastic actuators of the real robot.
+In addition to the simple flat terrain environment, we have developed a rough terrain locomotion task for ANYmal and validated the approach by transferring trained policies to the real robot. The robot learns to walk on uneven surfaces, slopes, stairs and obstacles. In addition to the observations of the flat terrain environment it receives terrain height measurements around the robot's base. For sim-to-real transfer we extend the reward function, add noise to the observations, randomize the friction coefficient of the ground, randomly push the robots during the episode and add an actuator network to the simulation. Following the approach used , the actuator network is trained to model the complex dynamics of the series elastic actuators of the real robot.
 
 Figure 10: Trained policy for ANYmal on rough terrain tested in simulation and on the real robot.
 
@@ -338,15 +244,13 @@ We use 16384 agents to train a Franka robot to stack a cube on top of an other. 
 
 Figure 13: The three in-hand manipulation environments implemented in Isaac Gym: Shadow Hand, Trifinger, and Allegro.
 
-(d) Allegro Hand Standard
-
-Figure 14: Reward curves for the three in-hand manipulation environments implemented in Isaac Gym. These results are obtained with (a) Shadow Hand with OpenAI observation and LSTMs, (b) Shadow Hand with OpenAI observation and feed forward networks (c) Shadow Hand with Standard observations and (d) Allegro Hand with Standard observations. Shadow Hand OpenAI is trained with asymmetric actor-critic and domain radomisation while Shadow Hand Standard and Allegro Hand Standard are trained with standard observations and symmetric actor-critic with no domain randomisation.
+(d) Allegro Hand Standard Figure 14: Reward curves for the three in-hand manipulation environments implemented in Isaac Gym. These results are obtained with (a) Shadow Hand with OpenAI observation and LSTMs, (b) Shadow Hand with OpenAI observation and feed forward networks (c) Shadow Hand with Standard observations and (d) Allegro Hand with Standard observations. Shadow Hand OpenAI is trained with asymmetric actor-critic and domain radomisation while Shadow Hand Standard and Allegro Hand Standard are trained with standard observations and symmetric actor-critic with no domain randomisation.
 
 Large-scale simulation has the ability to solve not just individual instances but whole classes of problems in robotics, by leveraging the generality of the model-free reinforcement learning framework. Dexterous manipulations is one of the most challenging problems in robotics.
 
-To show the performance of our simulator and the ability to realistically model contact we implemented 3 different hand training environments as shown in. Shadow Hand and Allegro Hand are trained to learn cube orientation while TriFinger learns to repose the cube in 6 degrees-of-freedom involving rotation and translation. We now focus on the specific training details for these environments.
+To show the performance of our simulator and the ability to realistically model contact we implemented 3 different hand training environments as shown . Shadow Hand and Allegro Hand are trained to learn cube orientation while TriFinger learns to repose the cube in 6 degrees-of-freedom involving rotation and translation. We now focus on the specific training details for these environments.
 
-Firstly, the Shadow Dexterous Hand. We follow the standard formulation where policy and value function both receive the same input as well as OpenAI observations with asymmetric formulation and domain randomisation from. Secondly, the TriFinger robot, which shows the ability to do 6-DoF manipulation by reposing the cube to a desired position and orientation, a task which has previously shown to be challenging for model-free reinforcement learning. We use asymmetric actor-critic and domain randomisation for TriFinger and demonstrate sim-to-real transfer on a real robot. Finally, we reuse system from the Shadow Hand to the Allegro hand with minimal changes to show the generality of our approach. These three environments are depicted in Figure 13 and the corresponding reward curves in Figure 14.
+Firstly, the Shadow Dexterous Hand. We follow the standard formulation where policy and value function both receive the same input as well as OpenAI observations with asymmetric formulation and domain randomisation . Secondly, the TriFinger robot, which shows the ability to do 6-DoF manipulation by reposing the cube to a desired position and orientation, a task which has previously shown to be challenging for model-free reinforcement learning. We use asymmetric actor-critic and domain randomisation for TriFinger and demonstrate sim-to-real transfer on a real robot. Finally, we reuse system from the Shadow Hand to the Allegro hand with minimal changes to show the generality of our approach. These three environments are depicted in Figure 13 and the corresponding reward curves in Figure 14.
 
 ### Shadow Hand
 
@@ -358,25 +262,19 @@ In this setting, we use a standard formulation for training where the policy and
 
 ### Shadow Hand OpenAI
 
-We also reproduce results with OpenAI Shadow Hand experiments in Isaac Gym with observations used in dexterity work from OpenAI et al.. A key difference between this and the Shadow Hand Standard variant is that it uses asymmetric observations. The policy receives only the input observations that are possible to obtain in the real world settings while the value function receives the same observations in addition to the other privileged information available from the simulator. This variant should make it possible to transfer the policy to the real world, mimicking the setup in. The observations for the policy and value function are provided in Table 14. We experiment with both feed forward networks (SH OpenAI FF) and LSTMs (SH OpenAI LSTM). The LSTM networks are trained with a sequence length of 4.
+We also reproduce results with OpenAI Shadow Hand experiments in Isaac Gym with observations used in dexterity work from OpenAI et al.. A key difference between this and the Shadow Hand Standard variant is that it uses asymmetric observations. The policy receives only the input observations that are possible to obtain in the real world settings while the value function receives the same observations in addition to the other privileged information available from the simulator. This variant should make it possible to transfer the policy to the real world, mimicking the setup . The observations for the policy and value function are provided in Table 14. We experiment with both feed forward networks (SH OpenAI FF) and LSTMs (SH OpenAI LSTM). The LSTM networks are trained with a sequence length of 4.
 
 It is worth noting that only networks trained with OpenAI observations use domain randomisation to closely match the results in OpenAI dexterity work.
 
-(d) Allegro Hand Standard
-
-Figure 15: Consecutive successes per episode for (a) Shadow Hand with OpenAI observation and LSTMs, (b) Shadow Hand with OpenAI observation and feed forward networks (c) Shadow Hand with Standard observations and (d) Allegro Hand with Standard observations. Shadow Hand Standard and Allegro Hand Standard both use feed forward networks for policy and value functions.
+(d) Allegro Hand Standard Figure 15: Consecutive successes per episode for (a) Shadow Hand with OpenAI observation and LSTMs, (b) Shadow Hand with OpenAI observation and feed forward networks (c) Shadow Hand with Standard observations and (d) Allegro Hand with Standard observations. Shadow Hand Standard and Allegro Hand Standard both use feed forward networks for policy and value functions.
 
 ### Randomizations
 
 For domain randomization we closely followed the approach proposed in and applied correlated and uncorrelated noise to observations, actions, as well as randomized cube size and all the key physics properties -- masses, inertia tensors, friction, restitution, joint limits, stiffness and damping. Full details of these are available in Appendix A.4.1.
 
-We outline a few important differences between our setup and the one used in the OpenAI work below:
+We outline a few important differences between our setup and the one used in the OpenAI work below: While OpenAI used a success tolerance of 0.4 rad^22^2page 22, section C.1, paragraph Goals, we use both 0.4 rad and a tighter tolerance of 0.1 rad. We focus on results with 0.4 rad in this section and provide results with 0.1 tolerance in Appendix A.4.2 We use a continuous as opposed to a discrete control space used.
 
-While OpenAI used a success tolerance of 0.4 rad^22^2page 22, section C.1, paragraph Goals in, we use both 0.4 rad and a tighter tolerance of 0.1 rad. We focus on results with 0.4 rad in this section and provide results with 0.1 tolerance in Appendix A.4.2
-
-We use a continuous as opposed to a discrete control space used in.
-
-Our results are averaged with 5 seeds while OpenAI show results with only 1 seed^33^3page 11, section 6.3, Ablation of Randomizations, Figure 8 in.
+Our results are averaged with 5 seeds while OpenAI show results with only 1 seed^33^3page 11, section 6.3, Ablation of Randomizations, Figure 8 .
 
 The randomizations used in our work do not include action delay and motor backlash.
 
@@ -394,13 +292,13 @@ Figure 16: TriFinger reward and the corresponding success rate.
 
 ### TriFinger
 
-The TriFinger manipulation task, originating in, involves picking a cube lying on a flat surface and repositioning it to a desired 6-degrees-of-freedom pose. The manipulator has 3 fingers each with three degrees of freedom. In, it was shown that Isaac Gym training combined with Domain Randomization allows sim-to-real transfer. The environment is shown in Figure 13.
+The TriFinger manipulation task, originating , involves picking a cube lying on a flat surface and repositioning it to a desired 6-degrees-of-freedom pose. The manipulator has 3 fingers each with three degrees of freedom. In, it was shown that Isaac Gym training combined with Domain Randomization allows sim-to-real transfer. The environment is shown in Figure 13.
 
 We use an asymmetric actor-critic formulation for this system as that allows to design a policy that uses input observations that are possible to obtain in the real world and therefore enable sim-to-real transfer. We show the reward and success rate in simulation in Figure 16. We also transfer results from simulation to the real world and note that our mean success rate in the real world is 55%. We refer to for more detailed analysis.
 
 In particular, this example shows the ability of policies learned using Isaac Gym's physics to generalize to the real world. Some of the behaviours leaned by the policy are shown in the Figure 17. It is worth noting that the robot is situated in a different location and therefore the sim-to-real transfer was done remotely.
 
-Figure 17: Trifinger learns a variety of dexterous manipulation behaviours in order to move the cube to the correct position and orientation. These results are obtained on the real TriFinger robot hosted by.
+Figure 17: Trifinger learns a variety of dexterous manipulation behaviours in order to move the cube to the correct position and orientation. These results are obtained on the real TriFinger robot hosted .
 
 ### Allegro Hand
 

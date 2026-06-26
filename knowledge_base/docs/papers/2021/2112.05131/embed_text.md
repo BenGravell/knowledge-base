@@ -38,9 +38,7 @@ Our model is a sparse voxel grid in which each occupied voxel corner stores a sc
 
 ### Volume Rendering
 
-We use the same differentiable model for volume rendering as in NeRF, where the color of a ray is approximated by integrating over samples taken along the ray:
-
-$T_{i}$ represents how much light is transmitted through ray r to sample $i$ (versus contributed by preceding samples), $\left( {1 - {\exp{({- {\sigma_{i}\delta_{i}}})}}} \right)$ denotes how much light is contributed by sample $i$, $\sigma_{i}$ denotes the opacity of sample $i$, and $\text{c}_{i}$ denotes the color of sample $i$, with distance $\delta_{i}$ to the next sample. Although this formula is not exact (it assumes single-scattering and constant values between samples ), it is differentiable and enables updating the 3D model based on the error of each training ray.
+We use the same differentiable model for volume rendering as in NeRF, where the color of a ray is approximated by integrating over samples taken along the ray: $T_{i}$ represents how much light is transmitted through ray r to sample $i$ (versus contributed by preceding samples), $\left({1 - {\exp{({- {\sigma_{i}\delta_{i}}})}}} \right)$ denotes how much light is contributed by sample $i$, $\sigma_{i}$ denotes the opacity of sample $i$, and $\text{c}_{i}$ denotes the color of sample $i$, with distance $\delta_{i}$ to the next sample. Although this formula is not exact (it assumes single-scattering and constant values between samples), it is differentiable and enables updating the 3D model based on the error of each training ray.
 
 ### Voxel Grid with Spherical Harmonics
 
@@ -60,11 +58,7 @@ We achieve high resolution via a coarse-to-fine strategy that begins with a dens
 
 ### Optimization
 
-We optimize voxel opacities and spherical harmonic coefficients with respect to the mean squared error (MSE) over rendered pixel colors, with total variation (TV) regularization. Specifically, our base loss function is:
-
-Where the MSE reconstruction loss $\mathcal{L}_{recon}$ and the total variation regularizer $\mathcal{L}_{TV}$ are:
-
-with $\Delta_{x}^{2}{(\mathbf{v},d)}$ shorthand for the squared difference between the $d$th value in voxel $\mathbf{v}:={(i,j,k)}$ and the $d$th value in voxel $({i + 1},j,k)$ normalized by the resolution, and analogously for $\Delta_{y}^{2}{(\mathbf{v},d)}$ and $\Delta_{z}^{2}{(\mathbf{v},d)}$. Note in practice we use different weights for SH coefficients and $\sigma$ values. These weights are fixed for each scene type (bounded, forward-facing, and $360^{\circ}$).
+We optimize voxel opacities and spherical harmonic coefficients with respect to the mean squared error (MSE) over rendered pixel colors, with total variation (TV) regularization. Specifically, our base loss function is: Where the MSE reconstruction loss $\mathcal{L}_{recon}$ and the total variation regularizer $\mathcal{L}_{TV}$ are: with $\Delta_{x}^{2}{(\mathbf{v},d)}$ shorthand for the squared difference between the $d$th value in voxel $\mathbf{v}:={(i,j,k)}$ and the $d$th value in voxel $({i + 1},j,k)$ normalized by the resolution, and analogously for $\Delta_{y}^{2}{(\mathbf{v},d)}$ and $\Delta_{z}^{2}{(\mathbf{v},d)}$. Note in practice we use different weights for SH coefficients and $\sigma$ values. These weights are fixed for each scene type (bounded, forward-facing, and $360^{\circ}$).
 
 For faster iteration, we use a stochastic sample of the rays $\mathcal{R}$ to evaluate the MSE term and a stochastic sample of the voxels $\mathcal{V}$ to evaluate the TV term in each optimization step. We use the same learning rate schedule as JAXNeRF and Mip-NeRF, but tune the initial learning rate separately for opacity and harmonic coefficients. The learning rate is fixed for all scenes in all datasets in the main experiments.
 
@@ -86,13 +80,9 @@ We illustrate the importance of TV regularization in Fig. 3. In addition to TV r
 
 Figure 3: Ablation over TV regularization. Clear artifacts are visible in the forward-facing scenes without TV on both σ and SH coefficients, although PSNR does not always reflect this.
 
-On the real, forward-facing and $360^{\circ}$ scenes, we use a sparsity prior based on a Cauchy loss following SNeRG:
+On the real, forward-facing and $360^{\circ}$ scenes, we use a sparsity prior based on a Cauchy loss following SNeRG: where $\sigma{({\mathbf{r}_{i}{(t_{k})}})}$ denotes the opacity of sample $k$ along training ray $i$. In each minibatch of optimization on forward-facing scenes, we evaluate this loss term at each sample on each active ray. This is also similar to the sparsity loss used in PlenOctrees and encourages voxels to be empty, which helps to save memory and reduce quality loss when upsampling.
 
-where $\sigma{({\mathbf{r}_{i}{(t_{k})}})}$ denotes the opacity of sample $k$ along training ray $i$. In each minibatch of optimization on forward-facing scenes, we evaluate this loss term at each sample on each active ray. This is also similar to the sparsity loss used in PlenOctrees and encourages voxels to be empty, which helps to save memory and reduce quality loss when upsampling.
-
-On the real, $360^{\circ}$ scenes, we also use a beta distribution regularizer on the accumulated foreground transmittance of each ray in each minibatch. This loss term, following Neural Volumes, promotes a clear foreground-background decomposition by encouraging the foreground to be either fully opaque or empty. This beta loss is:
-
-where $\mathbf{r}$ are the training rays and $T_{FG}{(\mathbf{r})}$ is the accumulated foreground transmittance (between 0 and 1) of ray $\mathbf{r}$.
+On the real, $360^{\circ}$ scenes, we also use a beta distribution regularizer on the accumulated foreground transmittance of each ray in each minibatch. This loss term, following Neural Volumes, promotes a clear foreground-background decomposition by encouraging the foreground to be either fully opaque or empty. This beta loss is: where $\mathbf{r}$ are the training rays and $T_{FG}{(\mathbf{r})}$ is the accumulated foreground transmittance (between 0 and 1) of ray $\mathbf{r}$.
 
 ### Implementation
 
@@ -118,7 +108,7 @@ Table 2: Results. Top: average over the 8 synthetic scenes from NeRF; Middle: th
 
 Figure 6: Synthetic, bounded scenes. Example results on the lego and ship synthetic scenes from NeRF. Please see the supplementary material for more images.
 
-We compare our method to Neural Volumes (NV) (as a prior method that predicts a grid for each scene, using a 3D convolutional network), and JAXNeRF. For Neural Volumes we use values reported in; for JAXNeRF we report results from our own rerunning, fixing the centered pixel bug. Our method achieves comparable quality compared to the best baseline, while training in an average of 11 minutes per scene on a single GPU and supporting interactive rendering.
+We compare our method to Neural Volumes (NV) (as a prior method that predicts a grid for each scene, using a 3D convolutional network), and JAXNeRF. For Neural Volumes we use values reported ; for JAXNeRF we report results from our own rerunning, fixing the centered pixel bug. Our method achieves comparable quality compared to the best baseline, while training in an average of 11 minutes per scene on a single GPU and supporting interactive rendering.
 
 ### Real Forward-Facing Scenes
 
@@ -148,19 +138,11 @@ In Tab. 3, we consider how our method handles a dramatic reduction in training d
 
 We also ablate over the resolution of our Plenoxel grid in Tab. 4 and the rendering formula in Tab. 5. The rendering formula from Max yields a substantial improvement compared to that of Neural Volumes, perhaps because it is more physically accurate (as discussed further in the supplement). The supplement also includes ablations over the learning rate schedule and optimizer demonstrating Plenoxel optimization to be robust to these hyperparameters.
 
-Ours: 100 images (low TV)
-
-Ours: 25 images (low TV)
-
-Ours: 25 images (high TV)
-
-Table 3: Ablation over the number of views. By increasing our TV regularization, we exceed NeRF fidelity even when the number of training views is only a quarter of the full dataset. Results are averaged over the 8 synthetic scenes from NeRF.
+Ours: 100 images (low TV) Ours: 25 images (low TV) Ours: 25 images (high TV) Table 3: Ablation over the number of views. By increasing our TV regularization, we exceed NeRF fidelity even when the number of training views is only a quarter of the full dataset. Results are averaged over the 8 synthetic scenes from NeRF.
 
 Table 4: Ablation over the Plenoxel grid resolution. Results are averaged over the 8 synthetic scenes from NeRF.
 
-Max, used in NeRF
-
-Table 5: Comparison of different rendering formulas. We compare the rendering formula from Max (used in NeRF and our main method) to the one used in Neural Volumes, which uses absolute instead of relative transmittance. Results are averaged over the 8 synthetic scenes from NeRF.
+Max, used in NeRF Table 5: Comparison of different rendering formulas. We compare the rendering formula from Max (used in NeRF and our main method) to the one used in Neural Volumes, which uses absolute instead of relative transmittance. Results are averaged over the 8 synthetic scenes from NeRF.
 
 ## Discussion
 

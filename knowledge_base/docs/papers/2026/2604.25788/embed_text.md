@@ -6,18 +6,11 @@ A central challenge in robotics that arises from embodied interaction with the r
 
 Despite the importance of physical reasoning to robotics, there is little consensus on the state of the art. Measuring physical reasoning is hard: no single task is sufficient (why not just memorize the solution?) and even procedurally-generated variations of a task cannot capture the challenge of physical reasoning in its full generality. Existing benchmarks (Section III) cover more general challenges for robot learning and planning---broad task diversity, long-horizon decision making, language grounding---or focus on full-fledged application-focused domains such as home assistance. As a result, it remains difficult to perform targeted evaluation of physical reasoning itself, disentangled from perception, language understanding, or domain-specific considerations.
 
-Focus On Physical Reasoning
-Basic Spatial Relations
-Nonprehensile Multi-Object Manipulation
-Combinatorial Geometric Constraints
-
-TABLE I: Related Benchmarks. KinDER is a benchmark for robot physical reasoning with both 2D and 3D environments and with an emphasis on five core challenges (Section II). KinDER fills a gap in the literature; see Section III for discussion.
+Focus On Physical Reasoning Basic Spatial Relations Nonprehensile Multi-Object Manipulation Combinatorial Geometric Constraints TABLE I: Related Benchmarks. KinDER is a benchmark for robot physical reasoning with both 2D and 3D environments and with an emphasis on five core challenges (Section II). KinDER fills a gap in the literature; see Section III for discussion.
 
 Another reason for the lack of consensus is that physical reasoning has been studied from very different perspectives in separate subfields of robotics. Classical approaches such as task and motion planning (TAMP) use explicit models and optimization techniques to formulate and solve generalized constraint satisfaction problems. Model-free approaches such as reinforcement learning (RL) and imitation learning (IL) use data to compile away the need for explicit reasoning. Foundation model (FM) based approaches such as LLM, VLM, or VLA planning combine explicit reasoning in natural language with implicit understanding from pretraining. There is also broad interest in combining the complementary strengths of these approaches, but without clarity on the state of the art, it is difficult to make progress.
 
-To address these challenges, we propose (KinDER): a benchmark for Kinematic and Dynamic Embodied Reasoning. KinDER has three main contributions (Figure LABEL:fig:teaser):
-
-KinDERGarden: A collection of 25 simulated environments, each with infinite procedurally-generated variations, to capture different facets of physical reasoning.
+To address these challenges, we propose (KinDER): a benchmark for Kinematic and Dynamic Embodied Reasoning. KinDER has three main contributions (Figure LABEL:fig:teaser): KinDERGarden: A collection of 25 simulated environments, each with infinite procedurally-generated variations, to capture different facets of physical reasoning.
 
 KinDERGym: A Python package that includes a Gymnasium-compatible environment API, a collection of parameterized skills and concepts, multiple teleoperation interfaces, and demonstration datasets.
 
@@ -29,9 +22,7 @@ All contributions are open-source and tested on multiple standard operating syst
 
 We begin by presenting the core physical reasoning challenges that are prioritized in KinDER. To select these challenges, we started by reviewing existing work in robot planning and learning where individual physical reasoning problems are considered with one-off environments; and existing benchmarks in related areas (Section III). We then identified themes in that are not well-represented . In other words, we chose challenges at the frontier of active research, but where the current state-of-the-art remains unclear.
 
-The five KinDER core challenges are illustrated by example in Figure 1. In Section III, we discuss coverage of these challenges in existing benchmarks. In Section IV, we detail how environments in KinDERGarden capture the challenges. The challenges are as follows:
-
-Basic Spatial Relations: To set a dinner table, load a dishwasher, or follow instructions with locative prepositions, robots must understand spatial relations between objects. They must have both a passive understanding (is the fork on the left of the plate?) and an active understanding (how can I put it there?).
+The five KinDER core challenges are illustrated by example in Figure 1. In Section III, we discuss coverage of these challenges in existing benchmarks. In Section IV, we detail how environments in KinDERGarden capture the challenges. The challenges are as follows: Basic Spatial Relations: To set a dinner table, load a dishwasher, or follow instructions with locative prepositions, robots must understand spatial relations between objects. They must have both a passive understanding (is the fork on the left of the plate?) and an active understanding (how can I put it there?).
 
 Nonprehensile Multi-Object Manipulation: Generalized manipulation requires more than pick and place---robots should be able to push, pull, sweep, scoop, stir, and slap multiple objects at the same time. They should leverage, rather than strictly avoid, whole-arm and whole-body contact.
 
@@ -71,21 +62,21 @@ Our first contribution is KinDERGarden, a collection of 25 environments for robo
 
 ### General Environment Structure
 
-KinDERGarden environments inherit from the general Gymnasium API, which includes an observation space, action space, initial state distribution ${reset}{}$, and a ${step}{}$ function that takes an action as input and produces a next observation, reward, and termination indicator. Rewards are sparse: $- 1$ is given at every step until successful termination, which occurs only when a goal is achieved. All environments have an infinite task distribution that is implemented with procedural generation inside the ${reset}{}$ function; see Figure 3 for an example.
+KinDERGarden environments inherit from the general Gymnasium API, which includes an observation space, action space, initial state distribution $\mathrm{reset}$, and a $\mathrm{step}$ function that takes an action as input and produces a next observation, reward, and termination indicator. Rewards are sparse: $-1$ is given at every step until successful termination, which occurs only when a goal is achieved. All environments have an infinite task distribution that is implemented with procedural generation inside the $\mathrm{reset}$ function; see Figure 3 for an example.
 
-The main design decision that distinguishes KinDER from the general Gymnasium API is that all environments use *object-centric states*. An object-centric state is a mapping from object names (e.g., $robot$, $hook$) to real-valued feature vectors. The dimensionality of each vector is determined by object *type*. For example, a $robot$ with type $MobileManipulator$ has features for the robot's base position and velocity in ${SE}{}$, arm configuration and velocity in ${\mathbb{R}}^{7}$, and gripper joint value in $\lbrack 0,1\rbrack$. A $hook$ with type $Movable$ has features for pose and velocity in ${SE}{}$ and bounding box dimensions in ${\mathbb{R}}^{3}$, among others. Another $Movable$ object (e.g., a $plate$) would have the same feature space. This design makes it easy to vary the number of objects, which can be useful for evaluating generalization and test-time scaling (Section VI).
+The main design decision that distinguishes KinDER from the general Gymnasium API is that all environments use *object-centric states*. An object-centric state is a mapping from object names (e.g., $\mathrm{robot}$, $\mathrm{hook}$) to real-valued feature vectors. The dimensionality of each vector is determined by object *type*. For example, a $\mathrm{robot}$ with type $\mathrm{MobileManipulator}$ has features for the robot's base position and velocity in $\mathrm{SE}$, arm configuration and velocity in $\mathbb{R}^{7}$, and gripper joint value in $$. A $\mathrm{hook}$ with type $\mathrm{Movable}$ has features for pose and velocity in $\mathrm{SE}$ and bounding box dimensions in $\mathbb{R}^{3}$, among others. Another $\mathrm{Movable}$ object (e.g., a $\mathrm{plate}$) would have the same feature space. This design makes it easy to vary the number of objects, which can be useful for evaluating generalization and test-time scaling (Section VI).
 
-Baselines in KinDER can use object-centric states directly, but to facilitate experiments with standard learning-based approaches, we provide two other options. The first option is to use RGB image observations. The second is to commit to a *variant* of a KinDERGarden environment where the objects are constant. For example, in $Shelf3D$, the number of books can vary in general, but in the $b5$ variant, there are always 5 books. For constant-object variants, KinDERGarden flattens the object-centric state into a fixed-dimensionality vector. These environments are then compatible with standard reinforcement learning and imitation learning approaches.
+Baselines in KinDER can use object-centric states directly, but to facilitate experiments with standard learning-based approaches, we provide two other options. The first option is to use RGB image observations. The second is to commit to a *variant* of a KinDERGarden environment where the objects are constant. For example, in $\mathrm{Shelf3D}$, the number of books can vary in general, but in the $\mathrm{b5}$ variant, there are always 5 books. For constant-object variants, KinDERGarden flattens the object-centric state into a fixed-dimensionality vector. These environments are then compatible with standard reinforcement learning and imitation learning approaches.
 
 ### Kinematic2D Environments
 
-The Kinematic2D category includes six environments that are especially useful for studying tool use and combinatorial geometric constraints at a high level of abstraction. This category is *kinematic* in the sense that environment transitions are entirely determined by object poses and robot configurations (velocities and accelerations are not modeled); and *2D* in that it is implemented with 2D shapes. All environments have a robot with a circular base that moves in ${SE}{}$, an extendable 1D arm, and a rectangular vacuum on its end effector that can be activated or deactivated. When the vacuum is activated, all objects in its immediate vicinity become rigidly attached to the robot. Actions are constrained to make small changes to the robot's configuration. When an action is received, a tentative next state is computed. If that next state includes any collisions, the state is reverted. These environments are implemented in pure Python; no physics backend is used.
+The Kinematic2D category includes six environments that are especially useful for studying tool use and combinatorial geometric constraints at a high level of abstraction. This category is *kinematic* in the sense that environment transitions are entirely determined by object poses and robot configurations (velocities and accelerations are not modeled); and *2D* in that it is implemented with 2D shapes. All environments have a robot with a circular base that moves in $\mathrm{SE}$, an extendable 1D arm, and a rectangular vacuum on its end effector that can be activated or deactivated. When the vacuum is activated, all objects in its immediate vicinity become rigidly attached to the robot. Actions are constrained to make small changes to the robot's configuration. When an action is received, a tentative next state is computed. If that next state includes any collisions, the state is reverted. These environments are implemented in pure Python; no physics backend is used.
 
 ### Dynamic2D Environments
 
 The Dynamic2D category includes four environments that are especially useful for studying nonprehensile multi-object manipulation and tool use at a high level of abstraction. Unlike Kinematic2D, velocities and accelerations are modeled in this category. We use the Pymunk physics backend for dynamics. Similar to Kinematic2D, these environments feature a robot with a circular base and an extendable 1D arm. For the benefit of studying contact-rich dynamics, we use a two-fingered gripper on the end effector.
 
-Kinematic2D and Dynamic2D environments require qualitatively different forms of physical reasoning (Figure 4). For example, consider the contrast between $Obstruction2D$ (kinematic) and $DynObstruction2D$ (dynamic). In both environments, the goal is to move a target object onto a target region that may be initially obstructed by one or more obstacles. In the kinematic version, the robot has no choice but to pick and place the obstacles before picking and placing the target object. However, in the dynamic version, shortcuts are possible: if space constraints allow, the robot may be able to push the obstacles out of the way while holding the target.
+Kinematic2D and Dynamic2D environments require qualitatively different forms of physical reasoning (Figure 4). For example, consider the contrast between $\mathrm{Obstruction2D}$ (kinematic) and $\mathrm{DynObstruction2D}$ (dynamic). In both environments, the goal is to move a target object onto a target region that may be initially obstructed by one or more obstacles. In the kinematic version, the robot has no choice but to pick and place the obstacles before picking and placing the target object. However, in the dynamic version, shortcuts are possible: if space constraints allow, the robot may be able to push the obstacles out of the way while holding the target.
 
 Figure 4: 2D Kinematic and Dynamic Physical Reasoning Examples. In Obstruction2D, the robot must pick and place obstacles to make space on a target region. In DynObstruction2D, the robot can push the obstacles out of the way while grasping the target object.
 
@@ -103,15 +94,15 @@ Our second main contribution is KinDERGym, a pip-installable Python package that
 
 ### Parameterized Skills and Concepts
 
-KinDERGym provides utilities for defining parameterized skills and concepts that can be used for hierarchical planning and learning. Skills are implemented as options with associated PDDL operators and samplers. The options have both object parameters (the same as the PDDL operator) and additional parameters of any type (proposed by the sampler). For example, a ${Pick}{({object},\theta)}$ skill can be used to pick different objects with different relative grasps $\theta \in {{SE}{}}$. For generality, we allow option policies to maintain internal state. A common pattern is to generate and follow a motion plan.
+KinDERGym provides utilities for defining parameterized skills and concepts that can be used for hierarchical planning and learning. Skills are implemented as options with associated PDDL operators and samplers. The options have both object parameters (the same as the PDDL operator) and additional parameters of any type (proposed by the sampler). For example, a $\mathrm{Pick(object,\theta)}$ skill can be used to pick different objects with different relative grasps $\theta\in\mathrm{SE}$. For generality, we allow option policies to maintain internal state. A common pattern is to generate and follow a motion plan.
 
-Concepts are implemented as relational predicates with classifiers that ground in object-centric states. For example, ${On}{({object},{surface})}$ is a predicate with a classifier that evaluates to True in states where the $object$ is above and in contact with the $surface$. These predicates are used in the preconditions and effects of the skill operators. Together with the object-centric states, concepts can also be understood as defining a two-level scene graph.
+Concepts are implemented as relational predicates with classifiers that ground in object-centric states. For example, $\mathrm{On(object,surface)}$ is a predicate with a classifier that evaluates to True in states where the $\mathrm{object}$ is above and in contact with the $\mathrm{surface}$. These predicates are used in the preconditions and effects of the skill operators. Together with the object-centric states, concepts can also be understood as defining a two-level scene graph.
 
 In our experiments (Section VI), we use KinDERGym skills and concepts for the bilevel planning, LLM planning, and VLM planning baselines. However, the nature of physical reasoning is such that hierarchical task decompositions are not always readily apparent or easy to engineer. Designing or learning such skills remains an important direction for future work on physical reasoning that KinDER can support.
 
 ### Teleoperation Interfaces and Demonstrations
 
-KinDERGym includes multiple teleoperation interfaces that can be used to collect human demonstrations. Kinematic2D and Dynamic2D environments can be controlled through a mouse-and-keyboard interface, or through a PS5 video game controller. The mouse-and-keyboard interface includes joystick-like buttons that can be clicked and dragged to move the robot in ${SE}{}$. Keyboard commands extend and retract the arm, activate and deactivate the vacuum (for Kinematic2D), and open and close the gripper (for Dynamic2D). The PS5 controller similarly uses the joysticks to move the robot and buttons for the arm, vacuum, and gripper.
+KinDERGym includes multiple teleoperation interfaces that can be used to collect human demonstrations. Kinematic2D and Dynamic2D environments can be controlled through a mouse-and-keyboard interface, or through a PS5 video game controller. The mouse-and-keyboard interface includes joystick-like buttons that can be clicked and dragged to move the robot in $\mathrm{SE}$. Keyboard commands extend and retract the arm, activate and deactivate the vacuum (for Kinematic2D), and open and close the gripper (for Dynamic2D). The PS5 controller similarly uses the joysticks to move the robot and buttons for the arm, vacuum, and gripper.
 
 Kinematic3D and Dynamic3D environments can be controlled through an iPhone web app, or through a Meta Quest 3S virtual reality headset and controller. The iPhone web app is based on the TidyBot++ interface, which uses the iPhone's gyroscope and accelerometer to capture spatial inputs. The teleoperator can toggle between base and arm control. For arm control, inputs are mapped to task (end effector) space and inverse kinematics is used to derive environment actions. The Meta Quest 3S interface uses the right-hand controller for task-space inputs and the left-hand controller for base movements. We additionally allow the teleoperator to select one or more camera angles, which can also be defined relative to the robot.
 
@@ -123,23 +114,7 @@ Our third contribution is KinDERBench, a standardized multi-metric benchmark for
 
 ### Environments
 
-We select two representative environments with varying levels of difficulty from each of the four KinDERGarden categories. See Appendix -A for detailed descriptions.
-
-$Motion2D$: The simplest Kinematic2D environment. The robot must move to reach a goal region. In this variant ($p0$), there are no obstacles.
-
-$StickButton2D$: A Kinematic2D environment where a robot must press a button. The button is sometimes out of reach, requiring the robot to use a stick as a tool to press it. In this variant ($b1$), there is one button.
-
-$DynObstruction2D$: The Dynamic2D environment in Figure 4. In this variant ($o1$), there is one obstacle.
-
-$DynPushPullHook2D$: A Dynamic2D environment that requires using a hook to pull a target object surrounded by obstacles. In this variant ($o5$), there are five obstacles.
-
-$BaseMotion3D$: The simplest Kinematic3D environment. The robot must move its base to reach a goal region. In this variant ($o0$), there are no obstacles.
-
-$Transport3D$: A Kinematic3D environment where a box and one or more objects must be moved from the floor to a table. The box may be used as a container, but this is not required (and not always optimal). In this variant ($o2$), there are two objects in addition to the box.
-
-$Shelf3D$: A Dynamic3D environment where objects must be packed into a space-constrained shelf. In this variant ($o1$), one object must be packed.
-
-$SweepIntoDrawer3D$: A Dynamic3D environment where small objects on a countertop must be moved to an initially closed drawer, optionally using a sweeping tool. In this variant ($o5$), there are 5 objects.
+We select two representative environments with varying levels of difficulty from each of the four KinDERGarden categories. See Appendix -A for detailed descriptions. $\mathrm{Motion2D}$: The simplest Kinematic2D environment. The robot must move to reach a goal region. In this variant ($\mathrm{p0}$), there are no obstacles. $\mathrm{StickButton2D}$: A Kinematic2D environment where a robot must press a button. The button is sometimes out of reach, requiring the robot to use a stick as a tool to press it. In this variant ($\mathrm{b1}$), there is one button. $\mathrm{DynObstruction2D}$: The Dynamic2D environment in Figure 4. In this variant ($\mathrm{o1}$), there is one obstacle. $\mathrm{DynPushPullHook2D}$: A Dynamic2D environment that requires using a hook to pull a target object surrounded by obstacles. In this variant ($\mathrm{o5}$), there are five obstacles. $\mathrm{BaseMotion3D}$: The simplest Kinematic3D environment. The robot must move its base to reach a goal region. In this variant ($\mathrm{o0}$), there are no obstacles. $\mathrm{Transport3D}$: A Kinematic3D environment where a box and one or more objects must be moved from the floor to a table. The box may be used as a container, but this is not required (and not always optimal). In this variant ($\mathrm{o2}$), there are two objects in addition to the box. $\mathrm{Shelf3D}$: A Dynamic3D environment where objects must be packed into a space-constrained shelf. In this variant ($\mathrm{o1}$), one object must be packed. $\mathrm{SweepIntoDrawer3D}$: A Dynamic3D environment where small objects on a countertop must be moved to an initially closed drawer, optionally using a sweeping tool. In this variant ($\mathrm{o5}$), there are 5 objects.
 
 ### Baselines
 
@@ -175,11 +150,9 @@ TABLE II: Benchmark evaluations across representative Kinematic2D, Dynamic2D, Ki
 
 ### Evaluation Metrics
 
-KinDERBench includes multiple metrics that capture different dimensions of efficiency and effectiveness in physical reasoning. These include:
+KinDERBench includes multiple metrics that capture different dimensions of efficiency and effectiveness in physical reasoning. These include: Success Rate (SR): A measure of effectiveness.
 
-Success Rate (SR): A measure of effectiveness.
-
-Cumulative Rewards (Rwd): A measure of efficiency. Recall rewards are $- 1$ until success. This metric is considered only for successful episodes.
+Cumulative Rewards (Rwd): A measure of efficiency. Recall rewards are $-1$ until success. This metric is considered only for successful episodes.
 
 Inference Time (Inf-Time): Another measure of efficiency. We report per-episode wall-clock time (sec).
 
@@ -191,12 +164,9 @@ We present our main benchmark results in Table II. All baselines are evaluated o
 
 We now discuss baseline performance in detail, highlighting some of the more surprising results. First, given that both use the same parameterized skills, the gap between BP and LLMPlan/VLMPlan, especially in the more challenging environments, indicates that there remains room to improve the latter approaches. The comparison between LLMPlan/VLMPlan and LLMCon/VLMCon shows that in-context examples are important for the overall performance. Furthermore, the comparable performance between LLMPlan/VLMPlan suggests that the VLM is not able to meaningfully leverage the images that it receives in addition to the object-centric states.
 
-Sweep Some Objects
-Sweep All Objects
+Sweep Some Objects Sweep All Objects TABLE III: Subtask success rate for DPES, DP, VLA baselines in the SweepIntoDrawer3D environment.
 
-TABLE III: Subtask success rate for DPES, DP, VLA baselines in the SweepIntoDrawer3D environment.
-
-The imitation learning baselines (DP, DPES, VLA) perform well overall, considering that they do not have access to parameterized skills. Interestingly, the VLA is the only baseline that achieves a non-trivial success rate (0.43) on the $DynPushPullHook2D$ task with 5 obstacles. Recall that this environment requires both tool use and nonprehensile multi-object manipulation. This result is surprising because the 2D rendering and physics is quite different from the data used to pretrain the VLA. Another surprising finding is the nontrivial success rate of DP (0.14) and DPES (0.04) on the long-horizon multi-stage $SweepIntoDrawer3D$, which requires the robot to open the drawer, grasp the sweeper, and then sweep multiple objects into the drawer. We also provide subtask success rates in Table III. We also see that DPES performs comparably to DP, despite its access to object-centric states. This suggests that DP is not able to meaningfully leverage the states, which is an interesting dual to the LLM/VLM case.
+The imitation learning baselines (DP, DPES, VLA) perform well overall, considering that they do not have access to parameterized skills. Interestingly, the VLA is the only baseline that achieves a non-trivial success rate (0.43) on the $\mathrm{DynPushPullHook2D}$ task with 5 obstacles. Recall that this environment requires both tool use and nonprehensile multi-object manipulation. This result is surprising because the 2D rendering and physics is quite different from the data used to pretrain the VLA. Another surprising finding is the nontrivial success rate of DP (0.14) and DPES (0.04) on the long-horizon multi-stage $\mathrm{SweepIntoDrawer3D}$, which requires the robot to open the drawer, grasp the sweeper, and then sweep multiple objects into the drawer. We also provide subtask success rates in Table III. We also see that DPES performs comparably to DP, despite its access to object-centric states. This suggests that DP is not able to meaningfully leverage the states, which is an interesting dual to the LLM/VLM case.
 
 We also find that the MPC baseline performs well, given that it only receives the sparse reward functions. We attribute the good performance to the predictive sampling proposed . The MBRL performs worse than the MPC baseline, though they use the same planner, which demonstrates that the learned transition model is unreliable.
 
@@ -206,17 +176,17 @@ TABLE IV: DynObstruction2D out-of-distribution generalization. Training has 1 ob
 
 ### Additional Results
 
-Out-of-Distribution Generalization: We next evaluate generalization to unseen scenarios for the imitation learning baselines (DP, VLA) that do not require environment-specific state vectors in the $DynObstruction2D$ environment. After training with 1 obstacle, we test with 0, 2, and 3 obstacles. Results are shown in Table IV. Although there is some performance degradation, both baselines perform surprisingly well in these out-of-distribution tasks. The VLA is particularly robust, perhaps due to pretraining.
+Out-of-Distribution Generalization: We next evaluate generalization to unseen scenarios for the imitation learning baselines (DP, VLA) that do not require environment-specific state vectors in the $\mathrm{DynObstruction2D}$ environment. After training with 1 obstacle, we test with 0, 2, and 3 obstacles. Results are shown in Table IV. Although there is some performance degradation, both baselines perform surprisingly well in these out-of-distribution tasks. The VLA is particularly robust, perhaps due to pretraining.
 
 TABLE V: Test-time generalization for bilevel planning baseline in the StickButton2D environment.
 
-Scaling Bilevel Planning: We finally evaluate the efficiency and effectiveness of bilevel planning in the $StickButton2D$ environment as the number of objects increases. In Table V, we see that the success rate and planning time substantially decrease and increase respectively. This highlights an opportunity for future work that uses learning to improve planning for physical reasoning at scale.
+Scaling Bilevel Planning: We finally evaluate the efficiency and effectiveness of bilevel planning in the $\mathrm{StickButton2D}$ environment as the number of objects increases. In Table V, we see that the success rate and planning time substantially decrease and increase respectively. This highlights an opportunity for future work that uses learning to improve planning for physical reasoning at scale.
 
 ## Real World Validation
 
 Figure 5: Real-to-sim-to-real example. We construct a twin simulation from real-world observations using object-centric states, generate motion plans in simulation, and execute them in the real world.
 
-We next demonstrate an example of real-to-sim-to-real with the TidyBot++ as the real robot and the $Shelf3D$ environment in KinDERGarden as the simulator (Figure 5). Our goal is to show that KinDERGarden corresponds to real-world physical reasoning challenges, while also highlighting the potential for future real-to-sim-to-real research using KinDER. We use an overhead camera to localize the robot and obtain object bounding boxes and poses using. Given the estimated robot and object poses, we initialize the robot states and object-centric states accordingly. We then generate a plan in the simulator and execute it back in the real world. See Appendix -D for additional discussion.
+We next demonstrate an example of real-to-sim-to-real with the TidyBot++ as the real robot and the $\mathrm{Shelf3D}$ environment in KinDERGarden as the simulator (Figure 5). Our goal is to show that KinDERGarden corresponds to real-world physical reasoning challenges, while also highlighting the potential for future real-to-sim-to-real research using KinDER. We use an overhead camera to localize the robot and obtain object bounding boxes and poses using. Given the estimated robot and object poses, we initialize the robot states and object-centric states accordingly. We then generate a plan in the simulator and execute it back in the real world. See Appendix -D for additional discussion.
 
 ## Limitations and Discussion
 

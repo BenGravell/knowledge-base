@@ -11,11 +11,13 @@ CVXPY has been downloaded by thousands of users and used to teach multiple cours
 CVXPY has a simple, readable syntax inspired by CVX. The following code constructs and solves a least squares problem where the variable's entries are constrained to be between 0 and 1. The problem data $A \in \text{R}^{m \times n}$ and $b \in \text{R}^{m}$ could be encoded as NumPy ndarrays or one of several other common matrix representations in Python.
 
 ## Construct the problem
-objective = Minimize(sum_squares(A*x - b))
-prob = Problem(objective, constraints)
 
-## The optimal objective is returned by prob.solve()
-result = prob.solve()
+objective = Minimize(sum_squares(A*x - b)) prob = Problem(objective, constraints)
+
+## The optimal objective is returned by prob.solve
+
+result = prob.solve
+
 ## The optimal value for x is stored in x.value
 
 The variable, objective, and constraints are each constructed separately and combined in the final problem. In CVX, by contrast, these objects are created within the scope of a particular problem. Allowing variables and other objects to be created in isolation makes it easier to write high-level code that constructs problems (see §6).
@@ -36,56 +38,22 @@ CVXPY extends the DCP rules used in CVX by keeping track of the signs of express
 
 Another improvement in CVXPY is the introduction of parameters. Parameters are constants whose symbolic properties (e.g., dimensions and sign) are fixed but whose numeric value can change. A problem involving parameters can be solved repeatedly for different values of the parameters without redoing computations that do not depend on the parameter values. Parameters are an old idea in DSLs for optimization, appearing in AMPL.
 
-A common use case for parameters is computing a trade-off curve. The following code constructs a LASSO problem where the positive parameter $\gamma$ trades off the sum of squares error and the regularization term. The problem data are $A \in \text{R}^{m \times n}$ and $b \in \text{R}^{m}$.
-
-gamma = Parameter(sign="positive") # Must be positive due to DCP rules.
-error = sum_squares(A*x - b)
-prob = Problem(Minimize(error + gamma*regularization))
-
-Computing a trade-off curve is trivially parallelizable, since each problem can be solved independently. CVXPY can be combined with Python multiprocessing (or any other parallelism library) to distribute the trade-off curve computation across many processes.
+A common use case for parameters is computing a trade-off curve. The following code constructs a LASSO problem where the positive parameter $\gamma$ trades off the sum of squares error and the regularization term. The problem data are $A \in \text{R}^{m \times n}$ and $b \in \text{R}^{m}$. gamma = Parameter(sign="positive") # Must be positive due to DCP rules. error = sum_squares(A*x - b) prob = Problem(Minimize(error + gamma*regularization)) Computing a trade-off curve is trivially parallelizable, since each problem can be solved independently. CVXPY can be combined with Python multiprocessing (or any other parallelism library) to distribute the trade-off curve computation across many processes.
 
 ## Assign a value to gamma and find the optimal x
-def get_x(gamma_value):
-gamma.value = gamma_value
-result = prob.solve()
+
+def get_x(gamma_value): gamma.value = gamma_value result = prob.solve
 
 ## Get a range of gamma values with NumPy
+
 gamma_vals = numpy.logspace(-4, 6)
+
 ## Do parallel computation with multiprocessing
-pool = multiprocessing.Pool(processes = N)
-x_values = pool.map(get_x, gamma_vals)
+
+pool = multiprocessing.Pool(processes = N) x_values = pool.map(get_x, gamma_vals)
 
 ## Object-Oriented Convex Optimization
 
-CVXPY enables an object-oriented approach to constructing optimization problems. As an example, consider an optimal flow problem on a directed graph $G = {(V,E)}$ with vertex set $V$ and (directed) edge set $E$. Each edge $e \in E$ carries a flow $f_{e} \in \text{R}$, and each vertex $v \in V$ has an internal source that generates $s_{v} \in \text{R}$ flow. (Negative values correspond to flow in the opposite direction, or a sink at a vertex.) The (single commodity) flow problem is (with variables $f_{e}$ and $s_{v}$)
+CVXPY enables an object-oriented approach to constructing optimization problems. As an example, consider an optimal flow problem on a directed graph $G = {(V,E)}$ with vertex set $V$ and (directed) edge set $E$. Each edge $e \in E$ carries a flow $f_{e} \in \text{R}$, and each vertex $v \in V$ has an internal source that generates $s_{v} \in \text{R}$ flow. (Negative values correspond to flow in the opposite direction, or a sink at a vertex.) The (single commodity) flow problem is (with variables $f_{e}$ and $s_{v}$) where the $\phi_{e}$ and $\psi_{v}$ are convex cost functions and $I{(v)}$ and $O{(v)}$ give vertex $v$'s incoming and outgoing edges, respectively.
 
-where the $\phi_{e}$ and $\psi_{v}$ are convex cost functions and $I{(v)}$ and $O{(v)}$ give vertex $v$'s incoming and outgoing edges, respectively.
-
-To express the problem in CVXPY, we construct vertex and edge objects, which store local information such as optimization variables, constraints, and an associated objective term. These are exported as a CVXPY problem for each vertex and each edge.
-
-class Vertex(object):
-def __init__(self, cost):
-self.source = Variable()
-self.cost = cost(self.source)
-self.edge_flows = []
-
-def prob(self):
-net_flow = sum(self.edge_flows) + self.source
-return Problem(Minimize(self.cost), [net_flow == 0])
-
-class Edge(object):
-def __init__(self, cost):
-self.flow = Variable()
-self.cost = cost(self.flow)
-
-def connect(self, in_vertex, out_vertex):
-in_vertex.edge_flows.append(-self.flow)
-out_vertex.edge_flows.append(self.flow)
-
-def prob(self):
-return Problem(Minimize(self.cost))
-
-The vertex and edge objects are composed into a graph using the edges' `connect` method. To construct the single commodity flow problem, we sum the vertices and edges' local problems. (Addition of problems is overloaded in CVXPY to add the objectives together and concatenate the constraints.)
-
-prob = sum([object.prob() for object in vertices + edges])
-prob.solve() # Solve the single commodity flow problem.
+To express the problem in CVXPY, we construct vertex and edge objects, which store local information such as optimization variables, constraints, and an associated objective term. These are exported as a CVXPY problem for each vertex and each edge. class Vertex(object): def __init__(self, cost): self.source = Variable self.cost = cost(self.source) self.edge_flows = def prob(self): net_flow = sum(self.edge_flows) + self.source return Problem(Minimize(self.cost), [net_flow == 0]) class Edge(object): def __init__(self, cost): self.flow = Variable self.cost = cost(self.flow) def connect(self, in_vertex, out_vertex): in_vertex.edge_flows.append(-self.flow) out_vertex.edge_flows.append(self.flow) def prob(self): return Problem(Minimize(self.cost)) The vertex and edge objects are composed into a graph using the edges' `connect` method. To construct the single commodity flow problem, we sum the vertices and edges' local problems. (Addition of problems is overloaded in CVXPY to add the objectives together and concatenate the constraints.) prob = sum([object.prob for object in vertices + edges]) prob.solve # Solve the single commodity flow problem.

@@ -1,18 +1,10 @@
 ## Introduction
 
-Low-dimensional linear models have applications in a huge array of data analysis problems. Let us highlight some examples from computer vision, machine learning, and bioinformatics.
+Low-dimensional linear models have applications in a huge array of data analysis problems. Let us highlight some examples from computer vision, machine learning, and bioinformatics.: Images of a face---or any Lambertian object---viewed under different illumination conditions lie near a nine-dimensional subspace:5pm2; HYL+03:Clustering-Appearances;:Lambertian-Reflectance.
 
-: Images of a face---or any Lambertian object---viewed under different illumination conditions lie near a nine-dimensional subspace:5pm2; HYL+03:Clustering-Appearances;:Lambertian-Reflectance.
+Structure from motion: Feature points on a moving rigid body lie on an affine space of dimension three, assuming the affine camera model:Multibody-Factorization. More generally, estimating structure from motion involves estimating low-rank matrices (:Efficient-Computation Sec. 5.2).
 
-Structure from motion
-
-: Feature points on a moving rigid body lie on an affine space of dimension three, assuming the affine camera model:Multibody-Factorization. More generally, estimating structure from motion involves estimating low-rank matrices (:Efficient-Computation Sec. 5.2).
-
-Latent semantic indexing
-
-: We can describe a large corpus of documents that concern a small number of topics using a low-dimensional linear model DDL+88:Improving-Information.
-
-: Low-dimensional models of single nucleotide polymorphism (SNP) data have been used to show that the genotype of an individual is correlated with her geographical ancestry NJB+08:Genes-Mirror. More generally, linear models are used to assess differences in allele frequencies among populations PPP+06:Principal-Components.
+Latent semantic indexing: We can describe a large corpus of documents that concern a small number of topics using a low-dimensional linear model DDL+88:Improving-Information.: Low-dimensional models of single nucleotide polymorphism (SNP) data have been used to show that the genotype of an individual is correlated with her geographical ancestry NJB+08:Genes-Mirror. More generally, linear models are used to assess differences in allele frequencies among populations PPP+06:Principal-Components.
 
 In most of these applications, the datasets are noisy, and they contain a substantial number of outliers. Principal component analysis, the standard method for finding a low-dimensional linear model, is sensitive to these non-idealities. As a consequence, good robust modeling techniques would be welcome in a range of scientific and engineering disciplines.
 
@@ -28,19 +20,15 @@ An *orthoprojector* is a symmetric matrix $\mathbf{\Pi}$ that satisfies $\mathbf
 
 For a real number $a$, the notation $\lfloor a\rfloor$ refers to the greatest integer that does not exceed $a$, and $\lceil a\rceil$ refers to the smallest integer that is at least as large as $a$. These operations are usually referred to as *floor* and *ceiling*, respectively. We also define the function ${\lbrack a\rbrack}_{+}:={\max{\{ a,0\}}}$, which returns the positive part of a real number.
 
-Finally, we introduce the *spherization transform* for vectors:
-
-We extend the spherization transform to matrices by applying it separately to each column.
+Finally, we introduce the *spherization transform* for vectors: We extend the spherization transform to matrices by applying it separately to each column.
 
 ### Linear Modeling by Principal Component Analysis
 
 To motivate our approach to linear modeling, we summarize a classical line of research in statistics that begins with principal component analysis.
 
-Let $\mathcal{X}$ be a dataset^11^1A dataset is simply a finite multiset, that is, a finite set with repeated elements allowed. consisting of $N$ points in ${\mathbb{R}}^{D}$. Suppose we wish to determine a $d$-dimensional subspace that best explains the data. For each point, we can measure the residual error in the approximation by computing the orthogonal distance from the point to the subspace. The classical method for fitting a subspace asks us to minimize the sum of the *squared* residuals:
+Let $\mathcal{X}$ be a dataset^11^1A dataset is simply a finite multiset, that is, a finite set with repeated elements allowed. consisting of $N$ points in ${\mathbb{R}}^{D}$. Suppose we wish to determine a $d$-dimensional subspace that best explains the data. For each point, we can measure the residual error in the approximation by computing the orthogonal distance from the point to the subspace. The classical method for fitting a subspace asks us to minimize the sum of the *squared* residuals: (Here and elsewhere, sums indexed by a dataset repeat each point as many times as it appears in the dataset.) The approach (1.2) is equivalent with the method of *principal component analysis* (PCA) from the statistics literature:Principal-Component and the *total least squares* (TLS) method from the linear algebra community:Total-Least.
 
-(Here and elsewhere, sums indexed by a dataset repeat each point as many times as it appears in the dataset.) The approach (1.2) is equivalent with the method of *principal component analysis* (PCA) from the statistics literature:Principal-Component and the *total least squares* (TLS) method from the linear algebra community:Total-Least.
-
-The mathematical program (1.2) is not convex because orthoprojectors do not form a convex set, so we have no right to expect that the problem is tractable. Nevertheless, we can compute an analytic solution by means of a singular value decomposition (SVD) of the data:Principal-Axis;:Total-Least. Suppose that $\mathbf{X}$ is a $D \times N$ matrix whose columns are the data points, arranged in fixed order, and let ${\mathbf{X}} = {{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\mathsf{t}}}$ be an SVD of this matrix. Form the $D \times d$ matrix ${\mathbf{U}}_{d}$ by extracting the first $d$ columns of $\mathbf{U}$; the columns of ${\mathbf{U}}_{d}$ are often called the *principal components* of the data. Then we can construct an optimal point $\mathbf{\Pi}_{\star}$ for (1.2) using the formula $\mathbf{\Pi}_{\star} = {{\mathbf{U}}_{d}{}_{}^{}}$.
+The mathematical program (1.2) is not convex because orthoprojectors do not form a convex set, so we have no right to expect that the problem is tractable. Nevertheless, we can compute an analytic solution by means of a singular value decomposition (SVD) of the data:Principal-Axis;:Total-Least. Suppose that $\mathbf{X}$ is a $D \times N$ matrix whose columns are the data points, arranged in fixed order, and let ${\mathbf{X}} = {{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\mathsf{t}}}$ be an SVD of this matrix. Form the $D \times d$ matrix ${\mathbf{U}}_{d}$ by extracting the first $d$ columns of $\mathbf{U}$; the columns of ${\mathbf{U}}_{d}$ are often called the *principal components* of the data. Then we can construct an optimal point $\mathbf{\Pi}_{\star}$ for (1.2) using the formula $\mathbf{\Pi}_{\star} = {{\mathbf{U}}_{d}{\mathbf{U}}_{d}^{\mathsf{t}}}$.
 
 ### Classical Methods for Achieving Robustness
 
@@ -56,9 +44,7 @@ Unfortunately, the mathematical program (1.3) is not convex, and, in contrast to
 
 The goal of this paper is to develop, analyze, and test a rigorous method for fitting robust linear models by means of convex optimization. We propose to *relax* the hard optimization problem (1.3) by replacing the nonconvex constraint set with a larger convex set. The advantage of this approach is that we can solve the resulting convex program completely using a variety of efficient algorithms.
 
-The idea behind our relaxation is straightforward. Each eigenvalue of an orthoprojector $\mathbf{\Pi}$ equals zero or one because $\mathbf{\Pi}^{2} = \mathbf{\Pi}$. Although a 0--1 constraint on eigenvalues is hard to enforce, the symmetric matrices whose eigenvalues lie in the interval $\lbrack 0,1\rbrack$ form a convex set. This observation leads us to frame the following convex optimization problem. Given a dataset $\mathcal{X}$ in ${\mathbb{R}}^{D}$ and a target dimension $d \in {\{ 1,2,\ldots,{D - 1}\}}$ for the linear model, we solve
-
-We refer to (1.4) as reaper because it attempts to harvest linear structure from data.
+The idea behind our relaxation is straightforward. Each eigenvalue of an orthoprojector $\mathbf{\Pi}$ equals zero or one because $\mathbf{\Pi}^{2} = \mathbf{\Pi}$. Although a 0--1 constraint on eigenvalues is hard to enforce, the symmetric matrices whose eigenvalues lie in the interval $\lbrack 0,1\rbrack$ form a convex set. This observation leads us to frame the following convex optimization problem. Given a dataset $\mathcal{X}$ in ${\mathbb{R}}^{D}$ and a target dimension $d \in {\{ 1,2,\ldots,{D - 1}\}}$ for the linear model, we solve We refer to (1.4) as reaper because it attempts to harvest linear structure from data.
 
 ### Tighter Relaxation?
 
@@ -74,11 +60,9 @@ Fact 1.1 gives a geometric indication about why reaper might be effective. Suppo
 
 ### Computing an Orthoprojector from the Solution of reaper
 
-It is easy to see that a solution ${\mathbf{P}}_{\star}$ to the reaper problem has rank $d$ or greater. On the other hand, the matrix ${\mathbf{P}}_{\star}$ does need not to be an orthoprojector, so it is not immediately clear how to obtain a $d$-dimensional linear model from a minimizer of reaper. To accomplish this goal, let us consider the auxiliary problem
+It is easy to see that a solution ${\mathbf{P}}_{\star}$ to the reaper problem has rank $d$ or greater. On the other hand, the matrix ${\mathbf{P}}_{\star}$ does need not to be an orthoprojector, so it is not immediately clear how to obtain a $d$-dimensional linear model from a minimizer of reaper. To accomplish this goal, let us consider the auxiliary problem In other words, we find a rank-$d$ orthoprojector $\mathbf{\Pi}_{\star}$ that is closest to ${\mathbf{P}}_{\star}$ in Schatten 1-norm. We use the range of $\mathbf{\Pi}_{\star}$ as our linear model.
 
-In other words, we find a rank-$d$ orthoprojector $\mathbf{\Pi}_{\star}$ that is closest to ${\mathbf{P}}_{\star}$ in Schatten 1-norm. We use the range of $\mathbf{\Pi}_{\star}$ as our linear model.
-
-It is straightforward to compute a solution $\mathbf{\Pi}_{\star}$ to the problem (1.5). We just need to construct an orthogonal projector whose range is a dominant $d$-dimensional invariant subspace of ${\mathbf{P}}_{\star}$. More precisely, we form the spectral factorization ${\mathbf{P}}_{\star} = {{\mathbf{U}}\mathbf{\Lambda}{\mathbf{U}}^{\mathsf{t}}}$ where the entries of the diagonal matrix $\mathbf{\Lambda}$ are listed in weakly decreasing order. Extract the $D \times d$ matrix ${\mathbf{U}}_{d}$ consisting of the first $d$ columns of $\mathbf{U}$. Then an optimal point for (1.5) is given by the formula $\mathbf{\Pi}_{\star} = {{\mathbf{U}}_{d}{}_{}^{}}$. (This well-known recipe for solving (1.5) can be verified using a straightforward modification of the argument leading to (:Matrix-Analysis Thm. IX.7.2).)
+It is straightforward to compute a solution $\mathbf{\Pi}_{\star}$ to the problem (1.5). We just need to construct an orthogonal projector whose range is a dominant $d$-dimensional invariant subspace of ${\mathbf{P}}_{\star}$. More precisely, we form the spectral factorization ${\mathbf{P}}_{\star} = {{\mathbf{U}}\mathbf{\Lambda}{\mathbf{U}}^{\mathsf{t}}}$ where the entries of the diagonal matrix $\mathbf{\Lambda}$ are listed in weakly decreasing order. Extract the $D \times d$ matrix ${\mathbf{U}}_{d}$ consisting of the first $d$ columns of $\mathbf{U}$. Then an optimal point for (1.5) is given by the formula $\mathbf{\Pi}_{\star} = {{\mathbf{U}}_{d}{\mathbf{U}}_{d}^{\mathsf{t}}}$. (This well-known recipe for solving (1.5) can be verified using a straightforward modification of the argument leading to (:Matrix-Analysis Thm. IX.7.2).)
 
 The range of the matrix $\mathbf{\Pi}_{\star}$ often provides a very good fit for the inlying data points, even when there are many outliers. This paper provides theoretical and empirical support for this claim. In Section 4, we present a numerical algorithm for solving (1.4) efficiently. Section 5.1 outlines some practical issues that are important in applications.
 
@@ -102,19 +86,7 @@ The goal of this section is to provide theoretical evidence that the reaper prob
 
 To analyze the performance of the reaper method, we need to introduce a model for the input data. It is natural to consider the case where the dataset contains inliers that lie on or near a fixed low-dimensional subspace, while the outliers can be arrayed arbitrarily in the ambient space. We formalize this intuition in a set of assumptions that we refer to as the In & Out Model, and we direct the reader to Table 2.1 for a detailed list of the parameters.
 
-Dimension of the ambient space
-
-A proper d-dimensional subspace of ℝD
-
-Dataset of Nin inliers, located “near” the subspace L
-
-Dataset of Nout outliers, at arbitrary locations in ℝD ∖ L
-
-Dataset 𝒳in ∪ 𝒳out containing all the observations
-
-D × Nout matrix whose columns are the outliers
-
-Table 2.1: The In &amp; Out Model. A deterministic model for data with linear structure that is contaminated with outliers.
+Dimension of the ambient space A proper d-dimensional subspace of ℝD Dataset of Nin inliers, located “near” the subspace L Dataset of Nout outliers, at arbitrary locations in ℝD ∖ L Dataset 𝒳in ∪ 𝒳out containing all the observations D × Nout matrix whose columns are the outliers Table 2.1: The In & Out Model. A deterministic model for data with linear structure that is contaminated with outliers.
 
 The key point about the In & Out Model is that all the inliers are located near a subspace $L$, so it is reasonable for us to investigate when an algorithm can approximate this target subspace $L$.
 
@@ -134,13 +106,9 @@ Let us emphasize that the total inlier residual is less sensitive to large error
 
 Next, let us turn to the condition that we require of the outliers. A major challenge for any robust linear modeling procedure is the possibility that both the inliers and the outliers exhibit linear structure. In this case, an algorithm may choose to fit a linear model to the outliers if they have a stronger signature.
 
-To measure the amount of linear structure in the outliers, we introduce the *alignment statistic* $\mathcal{A}{(M)}$ with respect to a target subspace $M$.
+To measure the amount of linear structure in the outliers, we introduce the *alignment statistic* $\mathcal{A}{(M)}$ with respect to a target subspace $M$. where ${\mathbf{X}}_{out}$ is the matrix whose columns are the outlying data points and the spherization operator $\overset{\sim}{}$ normalizes the columns of a matrix. It is somewhat harder to understand what the alignment statistic $\mathcal{A}{(M)}$ reflects. First, observe that the spectral norm $\left\| {\mathbf{X}}_{out} \right\|$ tends to be large when the outliers are collinear, and it is small when the outliers are weakly correlated. The other term in the alignment statistic asks about the collinearity of the outliers after we have removed their components in the subspace $M$.
 
-where ${\mathbf{X}}_{out}$ is the matrix whose columns are the outlying data points and the spherization operator $\overset{\sim}{}$ normalizes the columns of a matrix. It is somewhat harder to understand what the alignment statistic $\mathcal{A}{(M)}$ reflects. First, observe that the spectral norm $\left\| {\mathbf{X}}_{out} \right\|$ tends to be large when the outliers are collinear, and it is small when the outliers are weakly correlated. The other term in the alignment statistic asks about the collinearity of the outliers after we have removed their components in the subspace $M$.
-
-Finally, we present one more statistic that weighs the influence of the inliers against the influence of the outliers. The *stability statistic* $\mathcal{S}{(M)}$ of the data with respect to a subspace $M \subset {\mathbb{R}}^{D}$ is the quantity
-
-The stability statistic tends to be large when the inliers provide a lot of evidence for the subspace $M$ and the outliers contain relatively little distracting linear structure. As we will see, when $\mathcal{S}{(M)}$ is large, the reaper method can be very effective at approximating the subspace $M$, even when the inliers are noisy.
+Finally, we present one more statistic that weighs the influence of the inliers against the influence of the outliers. The *stability statistic* $\mathcal{S}{(M)}$ of the data with respect to a subspace $M \subset {\mathbb{R}}^{D}$ is the quantity The stability statistic tends to be large when the inliers provide a lot of evidence for the subspace $M$ and the outliers contain relatively little distracting linear structure. As we will see, when $\mathcal{S}{(M)}$ is large, the reaper method can be very effective at approximating the subspace $M$, even when the inliers are noisy.
 
 ### Performance of reaper with Deterministic Data
 
@@ -148,9 +116,7 @@ The main theoretical result in this paper describes the behavior of the reaper m
 
 ### Theorem 2.1 (Performance Analysis for reaper)
 
-Fix any $d$-dimensional subspace $L$ of ${\mathbb{R}}^{D}$, and assume that $\mathcal{X}$ is a dataset that conforms to the In & Out Model on page 2.1. Let $\mathbf{P}_{\star}$ be a solution to the reaper problem (1.4), and find the nearest $d$-dimensional orthoprojector $\mathbf{\Pi}_{\star}$ by solving (1.5). Then we have the error bound
-
-The stability statistic $\mathcal{S}{(L)}$ is defined in (2.4), and the total inlier residual $\mathcal{R}{(L)}$ is defined in (2.2).
+Fix any $d$-dimensional subspace $L$ of ${\mathbb{R}}^{D}$, and assume that $\mathcal{X}$ is a dataset that conforms to the In & Out Model on page 2.1. Let $\mathbf{P}_{\star}$ be a solution to the reaper problem (1.4), and find the nearest $d$-dimensional orthoprojector $\mathbf{\Pi}_{\star}$ by solving (1.5). Then we have the error bound The stability statistic $\mathcal{S}{(L)}$ is defined in (2.4), and the total inlier residual $\mathcal{R}{(L)}$ is defined in (2.2).
 
 An overview of the proof of Theorem 2.1. ‣ 2.3 Performance of reaper with Deterministic Data ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") appears below in Section 2.4. Before we present the argument, let us explain the content of this result.
 
@@ -160,13 +126,9 @@ Again, suppose that the inliers are located within the target subspace $L$. As w
 
 The effect of outliers appears only through the alignment statistic (2.3). When the inliers lie in the subspace $L$, the alignment statistic is the largest when the outliers cluster along a one-dimensional subspace in $L^{\perp}$. With adversarial outliers, our theory indicates that a very large permeance (2.1) is required to counteract linear structure in the outliers.
 
-We have measured the distance between the projectors using the Schatten 1-norm, which provides a very strong bound indeed. To appreciate the value of this type of estimate, note that it follows from (:Matrix-Analysis p. 202) that for any two $d$-dimensional subspaces $M$, $M^{\prime}$ of ${\mathbb{R}}^{D}$,
+We have measured the distance between the projectors using the Schatten 1-norm, which provides a very strong bound indeed. To appreciate the value of this type of estimate, note that it follows from (:Matrix-Analysis p. 202) that for any two $d$-dimensional subspaces $M$, $M'$ of ${\mathbb{R}}^{D}$, where $\theta_{i}{(M,M')}$ is the $i$th principal angle between the subspaces, and we use the fact that ${\sin{(\theta)}} \geq {{2\theta}/\pi}$ for $0 \leq \theta \leq {\pi/2}$. Therefore, our error bound allows us to control all the principal angles between the computed subspace ${range}{(\mathbf{\Pi}_{\star})}$ and the target subspace $L$.
 
-where $\theta_{i}{(M,M^{\prime})}$ is the $i$th principal angle between the subspaces, and we use the fact that ${\sin{(\theta)}} \geq {{2\theta}/\pi}$ for $0 \leq \theta \leq {\pi/2}$. Therefore, our error bound allows us to control all the principal angles between the computed subspace ${range}{(\mathbf{\Pi}_{\star})}$ and the target subspace $L$.
-
-Imagine that we knew in advance which points were inliers. Then we could pose the oracle $\ell_{1}$ orthogonal regression problem:
-
-Let $\mathbf{\Pi}_{oracle}$ be a solution to this (apparently intractable) problem. Then the subspace $L_{oracle}:={{range}{(\mathbf{\Pi}_{oracle})}}$ minimizes the total inlier residual $\mathcal{R}{(M)}$ over $d$-dimensional subspaces $M \subset {\mathbb{R}}^{D}$. When we apply Theorem 2.1. ‣ 2.3 Performance of reaper with Deterministic Data ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") with $L = L_{oracle}$, we discover that reaper identifies a linear model that is close to the oracle $\ell_{1}$ model---provided that the oracle model is sufficiently stable. This observation is interesting even when there are no outliers.
+Imagine that we knew in advance which points were inliers. Then we could pose the oracle $\ell_{1}$ orthogonal regression problem: Let $\mathbf{\Pi}_{oracle}$ be a solution to this (apparently intractable) problem. Then the subspace $L_{oracle}:={{range}{(\mathbf{\Pi}_{oracle})}}$ minimizes the total inlier residual $\mathcal{R}{(M)}$ over $d$-dimensional subspaces $M \subset {\mathbb{R}}^{D}$. When we apply Theorem 2.1. ‣ 2.3 Performance of reaper with Deterministic Data ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") with $L = L_{oracle}$, we discover that reaper identifies a linear model that is close to the oracle $\ell_{1}$ model---provided that the oracle model is sufficiently stable. This observation is interesting even when there are no outliers.
 
 How does reaper compare with standard PCA? The formulation (1.2) shows that PCA searches for a subspace by minimizing the sum of squared residuals. On the other hand, we have just seen that reaper is (almost) capable of finding a subspace that minimizes the sum of unsquared residuals. It is well known that the sum of unsquared residuals tends to be much less sensitive to large errors than the sum of squared residuals. As a consequence, we expect that reaper will be more effective at ignoring data points that contribute large errors. See Figure 3.2 below for numerical evidence of this phenomenon.
 
@@ -176,25 +138,13 @@ In short, Theorem 2.1. ‣ 2.3 Performance of reaper with Deterministic Data ‣
 
 This section contains the main steps in the proof of Theorem 2.1. ‣ 2.3 Performance of reaper with Deterministic Data ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès"). Most of the technical details are encapsulated in two lemmata, which we establish in Appendix A. Throughout this section and the appendix, we retain the notation and assumptions of the In & Out Model from page 2.1.
 
-The argument is based on several ideas. First, if the inliers are contained within a low-dimensional subspace $L$, then reaper can identify this subspace whenever the stability statistic ${\mathcal{S}{(L)}} > 0$. To show that (1.4) recovers $L$ exactly in this case, we prove that every feasible perturbation of the projector $\mathbf{\Pi}_{L}$ increases the objective. This type of primal analysis is similar in spirit to the argument in:Just-Relax;:Corrigendum-Just, but the technical details are harder because we are working with matrices. It contrasts with the style of analysis that dominates recent papers on convex methods for robust linear modeling, which are usually based on elaborate constructions of dual certificates.
+The argument is based on several ideas. First, if the inliers are contained within a low-dimensional subspace $L$, then reaper can identify this subspace whenever the stability statistic ${\mathcal{S}{(L)}} > 0$. To show that (1.4) recovers $L$ exactly in this case, we prove that every feasible perturbation of the projector $\mathbf{\Pi}_{L}$ increases the objective. This type of primal analysis is similar in spirit to the argument :Just-Relax;:Corrigendum-Just, but the technical details are harder because we are working with matrices. It contrasts with the style of analysis that dominates recent papers on convex methods for robust linear modeling, which are usually based on elaborate constructions of dual certificates.
 
 Second, when the inliers are not contained in the subspace $L$, we can use a perturbation analysis to assess how much the noise impacts the solution to the optimization problem. The key idea here is to replace the objective function in (1.4) with a nearby objective function. This alteration allows us to take advantage of the exact recovery results that we mentioned in the last paragraph. The approach is based on some classic arguments in optimization; see (:Perturbation-Analysis Sec. 4.4.1). We do not believe these ideas have been applied in the literature on convex relaxations of data analysis problems.
 
-To begin, we introduce some notation. The reaper problem (1.4) can be framed as
+To begin, we introduce some notation. The reaper problem (1.4) can be framed as with objective function and feasible set Let ${\mathbf{P}}_{\star}$ be any solution to (1.4). Next, we find a solution $\mathbf{\Pi}_{\star}$ to the problem Our aim is to compare the computed projector $\mathbf{\Pi}_{\star}$ with the target projector $\mathbf{\Pi}_{L}$.
 
-with objective function
-
-and feasible set
-
-Let ${\mathbf{P}}_{\star}$ be any solution to (1.4). Next, we find a solution $\mathbf{\Pi}_{\star}$ to the problem
-
-Our aim is to compare the computed projector $\mathbf{\Pi}_{\star}$ with the target projector $\mathbf{\Pi}_{L}$.
-
-The main technical insight is to use the target projector $\mathbf{\Pi}_{L}$ to construct a perturbation $g$ of the objective function $f$ of the reaper problem:
-
-To perform the analysis, we pass from the original optimization problem (2.5) to the perturbed problem
-
-Observe that, if the inliers are contained in the target subspace $L$, then the perturbed problem (2.10) coincides with the original problem (2.5).
+The main technical insight is to use the target projector $\mathbf{\Pi}_{L}$ to construct a perturbation $g$ of the objective function $f$ of the reaper problem: To perform the analysis, we pass from the original optimization problem (2.5) to the perturbed problem Observe that, if the inliers are contained in the target subspace $L$, then the perturbed problem (2.10) coincides with the original problem (2.5).
 
 The argument requires two technical results. The first lemma shows that the total inlier residual $\mathcal{R}{(L)}$ controls the difference between the perturbed objective $g$ and the original objective $f$. The second lemma shows, in particular, that $\mathbf{\Pi}_{L}$ is the unique minimizer of (2.10) when the stability statistic ${\mathcal{S}{(L)}} > 0$. Together, these estimates allow us to conclude that the solution to the original problem (2.5) is not far from $\mathbf{\Pi}_{L}$.
 
@@ -202,9 +152,7 @@ More precisely, we demonstrate that the perturbed objective $g$ is close to the 
 
 ### Lemma 2.2 (Controlling the Size of the Perturbation)
 
-Introduce the difference $h:={f - g}$ between the two objectives. Then
-
-for any symmetric matrix $\mathbf{\Delta}$. The total inlier residual $\mathcal{R}{(L)}$ is defined in (2.2).
+Introduce the difference $h:={f - g}$ between the two objectives. Then for any symmetric matrix $\mathbf{\Delta}$. The total inlier residual $\mathcal{R}{(L)}$ is defined in (2.2).
 
 The proof of Lemma 2.2. ‣ 2.4 Proof of Theorem 2.1 ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") appears in Appendix A.1.
 
@@ -212,21 +160,11 @@ We also argue that that the perturbed objective function $g$ increases quickly w
 
 ### Lemma 2.3 (Rate of Ascent of the Perturbed Objective)
 
-Assume that ${\mathbf{\Pi}_{L} + \mathbf{\Delta}} \in \Phi$. Then
-
-The stability statistic $\mathcal{S}{(L)}$ is defined in (2.4).
+Assume that ${\mathbf{\Pi}_{L} + \mathbf{\Delta}} \in \Phi$. Then The stability statistic $\mathcal{S}{(L)}$ is defined in (2.4).
 
 The proof of Lemma 2.3. ‣ 2.4 Proof of Theorem 2.1 ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") appears in Appendix A.2.
 
-Granted these two results, we quickly complete the proof of Theorem 2.1. ‣ 2.3 Performance of reaper with Deterministic Data ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès"). Define the function $h:={f - g}$. Adding and subtracting terms, we find that
-
-The inequality in (2.11) holds because the second bracket is nonpositive. Indeed, ${\mathbf{P}}_{\star}$ minimizes $f$ over the feasible set $\Phi$, and $\mathbf{\Pi}_{L}$ is also a member of the feasible set. Set $\mathbf{\Delta} = {{\mathbf{P}}_{\star} - \mathbf{\Pi}_{L}}$, and apply Lemmas 2.2. ‣ 2.4 Proof of Theorem 2.1 ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") and 2.3. ‣ 2.4 Proof of Theorem 2.1 ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") to bound the right- and left-hand sides of (2.11). We reach
-
-Solve this inequality to reach the bound
-
-To finish the argument, note that
-
-The first bound follows from the triangle inequality. The second estimate holds because the distance from $\mathbf{\Pi}_{\star}$ to ${\mathbf{P}}_{\star}$ is no greater than the distance from $\mathbf{\Pi}_{L}$ to ${\mathbf{P}}_{\star}$ because $\mathbf{\Pi}_{\star}$ is a minimizer of (2.8). The last inequality follows from (2.12).
+Granted these two results, we quickly complete the proof of Theorem 2.1. ‣ 2.3 Performance of reaper with Deterministic Data ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès"). Define the function $h:={f - g}$. Adding and subtracting terms, we find that The inequality in (2.11) holds because the second bracket is nonpositive. Indeed, ${\mathbf{P}}_{\star}$ minimizes $f$ over the feasible set $\Phi$, and $\mathbf{\Pi}_{L}$ is also a member of the feasible set. Set $\mathbf{\Delta} = {{\mathbf{P}}_{\star} - \mathbf{\Pi}_{L}}$, and apply Lemmas 2.2. ‣ 2.4 Proof of Theorem 2.1 ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") and 2.3. ‣ 2.4 Proof of Theorem 2.1 ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") to bound the right- and left-hand sides of (2.11). We reach Solve this inequality to reach the bound To finish the argument, note that The first bound follows from the triangle inequality. The second estimate holds because the distance from $\mathbf{\Pi}_{\star}$ to ${\mathbf{P}}_{\star}$ is no greater than the distance from $\mathbf{\Pi}_{L}$ to ${\mathbf{P}}_{\star}$ because $\mathbf{\Pi}_{\star}$ is a minimizer of (2.8). The last inequality follows from (2.12).
 
 ## Theoretical Example: The Haystack Model
 
@@ -236,13 +174,9 @@ The In & Out Model is very general, so Theorem 2.1. ‣ 2.3 Performance of reape
 
 Let us consider a simple generative random model for a dataset. We call this the Haystack Model, and we refer the reader to Table 3.1 for a list of the assumptions and the parameters. The Haystack Model is not intended as a realistic description of data. Instead, the goal is to capture the idea that inliers admit a low-dimensional linear model, while the outliers are totally unstructured.
 
-D Dimension of the ambient space L A proper d-dimensional subspace of ℝD containing the inliers Nin Number of inliers Nout Number of outliers ρin Inlier sampling ratio ρin:= Nin/d ρout Outlier sampling ratio ρout:= Nout/D σin2 Variance of the inliers per subspace dimension σout2 Variance of the outliers per ambient dimension
-𝒳in Set of Nin inliers, drawn i.i.d. normal (0,(σin2/d) ΠL) 𝒳out Set of Nout outliers, drawn i.i.d. normal (0,(σout2/D) ID) 𝒳 The set 𝒳in ∪ 𝒳out containing all the data points
-Table 3.1: The Haystack Model. A generative random model for data with linear structure that is contaminated with outliers. The abbreviation i.i.d. stands for independent and identically distributed.
+D Dimension of the ambient space L A proper d-dimensional subspace of ℝD containing the inliers Nin Number of inliers Nout Number of outliers ρin Inlier sampling ratio ρin:= Nin/d ρout Outlier sampling ratio ρout:= Nout/D σin2 Variance of the inliers per subspace dimension σout2 Variance of the outliers per ambient dimension 𝒳in Set of Nin inliers, drawn i.i.d. normal (0, (σin2/d) ΠL) 𝒳out Set of Nout outliers, drawn i.i.d. normal (0, (σout2/D) ID) 𝒳 The set 𝒳in ∪ 𝒳out containing all the data points Table 3.1: The Haystack Model. A generative random model for data with linear structure that is contaminated with outliers. The abbreviation i.i.d. stands for independent and identically distributed.
 
-There are a few useful intuitions associated with this model. As the inlier sampling ratio $\rho_{in}$ increases, the inliers fill out the subspace $L$ more completely so the linear structure becomes more evident. As the outlier sampling ratio $\rho_{out}$ increases, the outliers become more distracting and they may even start to exhibit some linear structure due to chance. Next, observe that we have scaled the points so that their energy does not depend on the dimensional parameters:
-
-As a result, when $\sigma_{in}^{2} = \sigma_{out}^{2}$, we cannot screen outliers just by looking at their energy. The sampling ratios and the variances contain most of the information about the behavior of this model.
+There are a few useful intuitions associated with this model. As the inlier sampling ratio $\rho_{in}$ increases, the inliers fill out the subspace $L$ more completely so the linear structure becomes more evident. As the outlier sampling ratio $\rho_{out}$ increases, the outliers become more distracting and they may even start to exhibit some linear structure due to chance. Next, observe that we have scaled the points so that their energy does not depend on the dimensional parameters: As a result, when $\sigma_{in}^{2} = \sigma_{out}^{2}$, we cannot screen outliers just by looking at their energy. The sampling ratios and the variances contain most of the information about the behavior of this model.
 
 ### Analysis of the Haystack Model
 
@@ -250,15 +184,11 @@ Using methods from high-dimensional probability, we can analyze the stability st
 
 ### Theorem 3.1 (Analysis of the Haystack Model)
 
-Fix a number $\beta > 0$, and assume that $1 \leq d \leq {{({D - 1})}/2}$. Let $L$ be an arbitrary $d$-dimensional subspace of ${\mathbb{R}}^{D}$, and draw the dataset $\mathcal{X}$ at random according to the Haystack Model on page 3.1. The stability statistic satisfies the bound
-
-except with probability $3.5e^{- {\betad}}$.
+Fix a number $\beta > 0$, and assume that $1 \leq d \leq {{({D - 1})}/2}$. Let $L$ be an arbitrary $d$-dimensional subspace of ${\mathbb{R}}^{D}$, and draw the dataset $\mathcal{X}$ at random according to the Haystack Model on page 3.1. The stability statistic satisfies the bound except with probability $3.5e^{- {\betad}}$.
 
 The proof of Theorem 3.1. ‣ 3.2 Analysis of the Haystack Model ‣ 3 Theoretical Example: The Haystack Model ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") appears in Appendix B. The restriction $d \leq {{({D - 1})}/2}$ above simplifies the result; see Theorem B.1 for a comprehensive statement valid for $1 \leq d \leq {D - 1}$.
 
-To appreciate what this result means, it is helpful to set $\sigma_{in} = \sigma_{out} = 1$ and to suppress the values of the constants:
-
-We see that the stability statistic grows linearly with the inlier sampling ratio, and it decreases linearly with the outlier sampling ratio.
+To appreciate what this result means, it is helpful to set $\sigma_{in} = \sigma_{out} = 1$ and to suppress the values of the constants: We see that the stability statistic grows linearly with the inlier sampling ratio, and it decreases linearly with the outlier sampling ratio.
 
 Since the inliers in the Haystack Model are contained in the subspace $L$, Theorem 2.1. ‣ 2.3 Performance of reaper with Deterministic Data ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") shows that reaper recovers $L$ perfectly when the stability statistic is positive. Therefore, a sufficient condition for exact recovery is that $\rho_{in}$, the number of inliers *per subspace dimension*, should be at least a constant multiple of $\rho_{out}$, the number of outliers *per ambient dimension*. As a consequence, we can find low-dimensional linear structure in a high-dimensional space given a small number of examples, even when the number of outliers seems exorbitant.
 
@@ -272,27 +202,19 @@ We find ${\mathbf{P}}_{\star}$ by solving reaper (1.4) with the algorithm descri
 
 ### Noisy inliers
 
-To understand how reaper behaves when the inlying set $\mathcal{X}_{in}$ does not lie precisely within the target subspace, we introduce the *Noisy* Haystack Model. This model expands the standard Haystack Model from Table 3.1 with the additional parameter $\sigma_{noise}^{2}$ that controls the amount of noise present in the inliers. In this extended model, the inlying data $\mathcal{X}_{in}$ is given by
+To understand how reaper behaves when the inlying set $\mathcal{X}_{in}$ does not lie precisely within the target subspace, we introduce the *Noisy* Haystack Model. This model expands the standard Haystack Model from Table 3.1 with the additional parameter $\sigma_{noise}^{2}$ that controls the amount of noise present in the inliers. In this extended model, the inlying data $\mathcal{X}_{in}$ is given by All other parameters and data agree with the Haystack Model of Table 3.1.
 
-All other parameters and data agree with the Haystack Model of Table 3.1.
+The definition (3.2) of the inlying data ensures that the stability statistic $\mathcal{S}{(L)}$ has the same distribution under the Noisy Haystack Model as under the plain Haystack Model. In particular, the relationship (3.1) holds under the Noisy Haystack Model. On the other hand, the inlier residual statistic $\mathcal{R}{(L)}$ (2.2) is not equal to zero under the noisy model, but rather satisfies where ${\mathbf{g}}_{i} \sim {\text{normal}\left(\mathbf{0},{{({\sigma_{noise}^{2}/{({D - d})}})}\mathbf{\Pi}_{L^{\perp}}} \right)}$. The inequality is Jensen's, and the last expression uses the fact that the squared norm of a Gaussian random variable on the $({D - d})$-dimensional subspace is $D - d$.
 
-The definition (3.2) of the inlying data ensures that the stability statistic $\mathcal{S}{(L)}$ has the same distribution under the Noisy Haystack Model as under the plain Haystack Model. In particular, the relationship (3.1) holds under the Noisy Haystack Model. On the other hand, the inlier residual statistic $\mathcal{R}{(L)}$ (2.2) is not equal to zero under the noisy model, but rather satisfies
-
-where ${\mathbf{g}}_{i} \sim {\text{normal}\left( \mathbf{0},{{({\sigma_{noise}^{2}/{({D - d})}})}\mathbf{\Pi}_{L^{\perp}}} \right)}$. The inequality is Jensen's, and the last expression uses the fact that the squared norm of a Gaussian random variable on the $({D - d})$-dimensional subspace is $D - d$.
-
-A basic concentration result indicates that the residual statistic will not exceed its mean by more than a factor of, say, two with overwhelming probability. (This claim is easily made precise using the result (Bogachev1998 Thm. 1.7.6).) Combining this observation with (3.1) and Theorem 2.1. ‣ 2.3 Performance of reaper with Deterministic Data ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès"), we see that with high probability
-
-where we define the signal-to-noise ratio ${SNR}:={\sigma_{in}/\sigma_{noise}}$. This inequality suggests that reaper is stable under the Noisy Haystack Model in the regime where the stability statistic ${\mathcal{S}{(L)}} = {O{}}$ and the signal-to-noise ratio ${SNR} = {O{(N_{in}^{- 1})}}$. Our numerical experience suggests that this SNR restriction is conservative.
+A basic concentration result indicates that the residual statistic will not exceed its mean by more than a factor of, say, two with overwhelming probability. (This claim is easily made precise using the result (Bogachev1998 Thm. 1.7.6).) Combining this observation with (3.1) and Theorem 2.1. ‣ 2.3 Performance of reaper with Deterministic Data ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès"), we see that with high probability where we define the signal-to-noise ratio ${SNR}:={\sigma_{in}/\sigma_{noise}}$. This inequality suggests that reaper is stable under the Noisy Haystack Model in the regime where the stability statistic ${\mathcal{S}{(L)}} = {O{}}$ and the signal-to-noise ratio ${SNR} = {O{(N_{in}^{- 1})}}$. Our numerical experience suggests that this SNR restriction is conservative.
 
 ### Numerical experiment
 
 Figure 3.2 compares the results of a numerical experiment under the Noisy Haystack Model using both reaper and PCA. As in the experiment for the basic Haystack Model, we set $D = 100$ and perform the experiment for a linear subspace $L$ of dimension $d = 10$ and $d = 1$. The variance parameters are $\sigma_{in} = \sigma_{out} = 1$, and we fix ${SNR} = {\sigma_{in}/\sigma_{noise}} = 10$. For each equally-spaced value^33^3In this experiment, $N_{in}$ increases in increments of two while $N_{out}$ increases in increments of $20$. of $N_{in}$ and $N_{out}$, we draw the data $\mathcal{X}$ from the Noisy Haystack Model. We determine a projector $\mathbf{\Pi}_{\star}$ by solving reaper (1.4) and finding the closest subspace (1.5), and then we compute the error $\left\| {\mathbf{\Pi}_{\star} - \mathbf{\Pi}_{L}} \right\|_{S_{1}}$. We determine the same statistic for the projection given by PCA (1.5). We repeat this experiment $25$ times for each value of $(\rho_{in},\rho_{out})$.
 
-The heat map in Figure 3.2 shows the mean error $\left\| {\mathbf{\Pi}_{\star} - \mathbf{\Pi}_{L}} \right\|_{S_{1}}$ over these trials for both reaper and PCA. The blue region of the heat map begins where the error is less than $10\%$ of the maximum possible error
+The heat map in Figure 3.2 shows the mean error $\left\| {\mathbf{\Pi}_{\star} - \mathbf{\Pi}_{L}} \right\|_{S_{1}}$ over these trials for both reaper and PCA. The blue region of the heat map begins where the error is less than $10\%$ of the maximum possible error We see that reaper is in the blue region over more of the parameter regime than PCA, which indicates that reaper is more stable than PCA under the Noisy Haystack Model.
 
-We see that reaper is in the blue region over more of the parameter regime than PCA, which indicates that reaper is more stable than PCA under the Noisy Haystack Model.
-
-Figure 3.2: Approximate subspace recovery with reaper and PCA. The heat maps show the mean error ∥Π⋆−ΠL∥S1 for the projection computed by reaper and PCA. The ambient dimension is D = 100, and we perform the experiment for both d = 10 (top) and d = 1 (bottom). The blue region indicates where the mean error is less than 10% of the maximum possible error.
+Figure 3.2: Approximate subspace recovery with reaper and PCA. The heat maps show the mean error ∥Π⋆ − ΠL∥S1 for the projection computed by reaper and PCA. The ambient dimension is D = 100, and we perform the experiment for both d = 10 (top) and d = 1 (bottom). The blue region indicates where the mean error is less than 10% of the maximum possible error.
 
 ## An Iterative Reweighted Least-Squares Algorithm for reaper
 
@@ -304,69 +226,21 @@ In this section, we describe a numerical algorithm for solving the reaper proble
 
 IRLS is based on the idea that we can solve many types of weighted least-squares problems efficiently. Therefore, instead of solving the reaper problem (1.4) directly, we replace it with a sequence of weighted least-squares problems.
 
-To motivate the approach, suppose we have an estimate $\beta_{\mathbf{x}} \approx \left\| {{\mathbf{x}} - {{\mathbf{P}}_{\star}{\mathbf{x}}}} \right\|^{- 1}$ for each ${\mathbf{x}} \in \mathcal{X}$. Then the reaper objective at ${\mathbf{P}}_{\star}$ satisfies
-
-and so it seems plausible that the minimizer of the following quadratic program is close to ${\mathbf{P}}_{\star}$.
+To motivate the approach, suppose we have an estimate $\beta_{\mathbf{x}} \approx \left\| {{\mathbf{x}} - {{\mathbf{P}}_{\star}{\mathbf{x}}}} \right\|^{- 1}$ for each ${\mathbf{x}} \in \mathcal{X}$. Then the reaper objective at ${\mathbf{P}}_{\star}$ satisfies and so it seems plausible that the minimizer of the following quadratic program is close to ${\mathbf{P}}_{\star}$.
 
 We can efficiently solve problem (4.1) by performing a spectral computation and a water-filling step that ensures $\mathbf{0} \preccurlyeq {\mathbf{P}} \preccurlyeq \mathbf{I}$. The water-filling step differentiates the new algorithm from the earlier work:Novel-M-Estimator. The details appear in a box labeled Algorithm 4.1, and a proof of correctness appears in Appendix C.1.
 
-A nonnegative weight βx for each x ∈ 𝒳
-The dimension parameter d in (4.1), where d ∈ {1,2,…,D − 1}
-
-A D × D matrix P⋆ that solves (4.1)
-
-Form the D × D weighted covariance matrix
-
-$${\mathbf{C}}\leftarrow{\sum\limits_{{\mathbf{x}} \in \mathcal{X}}{\beta_{\mathbf{x}}{\mathbf{x}}{\mathbf{x}}^{\mathsf{t}}}}$$
-
-Compute an eigenvalue decomposition C = U ⋅ diag(λ1,…,λD) ⋅ Ut with eigenvalues in nonincreasing order: λ1 ≥ ⋯ ≥ λD ≥ 0
-
-$$\nu_{i}\leftarrow\begin{cases}
-{0,} &amp; \text{otherwise}
-
-$$\theta\leftarrow\frac{i - d}{\sum_{k = 1}^{i}\lambda_{k}^{- 1}}$$
-
-if λi &gt; θ ≥ λi + 1 then break for
-
-$$\nu_{i}\leftarrow\begin{cases}
-{{1 - \frac{\theta}{\lambda_{i}}},} &amp; {\lambda_{i} &gt; \theta} \\
-{0,} &amp; {\lambda_{i} \leq \theta}
-
-Algorithm 4.1 Solving the weighted least-squares problem (4.1)
-
-The heuristic above motivates an iterative procedure for solving (1.4). Let $\delta$ be a (small) positive regularization parameter. Initialize the iteration counter $k\leftarrow 0$ and the weights $\beta_{\mathbf{x}}\leftarrow 1$ for each ${\mathbf{x}} \in \mathcal{X}$. We solve (4.1) with the weights $\beta_{\mathbf{x}}$ to obtain a matrix ${\mathbf{P}}^{(k)}$, and then we update the weights according to the formula
-
-In other words, we emphasize the observations that are explained well by the current model. The presence of the regularization parameter $\delta$ ensures that no single point can gain undue influence. We increment $k$, and we repeat the process until it has converged. See the box labeled Algorithm 4.2 for the details.
+A nonnegative weight βx for each x ∈ 𝒳 The dimension parameter d in (4.1), where d ∈ {1, 2, …, D − 1} A D × D matrix P⋆ that solves (4.1) Form the D × D weighted covariance matrix $${\mathbf{C}}\leftarrow{\sum\limits_{{\mathbf{x}} \in \mathcal{X}}{\beta_{\mathbf{x}}{\mathbf{x}}{\mathbf{x}}^{\mathsf{t}}}}$$ Compute an eigenvalue decomposition C = U ⋅ diag(λ1, …, λD) ⋅ Ut with eigenvalues in nonincreasing order: λ1 ≥ ⋯ ≥ λD ≥ 0 $$\nu_{i}\leftarrow\begin{cases} $$\theta\leftarrow\frac{i - d}{\sum_{k = 1}^{i}\lambda_{k}^{- 1}}$$ if λi > θ ≥ λi + 1 then break for $$\nu_{i}\leftarrow\begin{cases} {{1 - \frac{\theta}{\lambda_{i}}},} & {\lambda_{i} > \theta} \\{0,} & {\lambda_{i} \leq \theta} Algorithm 4.1 Solving the weighted least-squares problem (4.1) The heuristic above motivates an iterative procedure for solving (1.4). Let $\delta$ be a (small) positive regularization parameter. Initialize the iteration counter $k\leftarrow 0$ and the weights $\beta_{\mathbf{x}}\leftarrow 1$ for each ${\mathbf{x}} \in \mathcal{X}$. We solve (4.1) with the weights $\beta_{\mathbf{x}}$ to obtain a matrix ${\mathbf{P}}^{(k)}$, and then we update the weights according to the formula In other words, we emphasize the observations that are explained well by the current model. The presence of the regularization parameter $\delta$ ensures that no single point can gain undue influence. We increment $k$, and we repeat the process until it has converged. See the box labeled Algorithm 4.2 for the details.
 
 The following result shows that Algorithm 4.2 is guaranteed to converge to a point whose value is close to the optimal value of the reaper problem (1.4).
 
-The dimension parameter d in (1.4), where d ∈ {1, 2, …, D − 1}
-
-A D × D matrix P⋆ that satisfies 0 ≼ P⋆ ≼ I and trP⋆ = d
-
-Initialize the variables:
-
-Set the iteration counter k ← 0
-Set the initial error α ← +∞
-Set the weight βx ← 1 for each x ∈ 𝒳
-
-Use Algorithm 4.1 to compute an optimal point P(k) of (4.1) with weights βx
-Let α(k) be the optimal value of (4.1) at P(k)
-Update the weights:
-
-$$\beta_{\mathbf{x}}\leftarrow{\frac{1}{\max\left\{ \delta,{\|{{\mathbf{x}} - {{\mathbf{P}}^{(k)}{\mathbf{x}}}}\|} \right\}}\quad{\text{for each~}{{\mathbf{x}} \in \mathcal{X}}}}$$
-
-until the objective fails to decrease: α(k) ≥ α(k−1) − ε
-
-Algorithm 4.2 IRLS algorithm for solving the reaper problem (1.4)
+The dimension parameter d in (1.4), where d ∈ {1, 2, …, D − 1} A D × D matrix P⋆ that satisfies 0 ≼ P⋆ ≼ I and trP⋆ = d Initialize the variables: Set the iteration counter k ← 0 Set the initial error α ← +∞ Set the weight βx ← 1 for each x ∈ 𝒳 Use Algorithm 4.1 to compute an optimal point P(k) of (4.1) with weights βx Let α(k) be the optimal value of (4.1) at P(k) Update the weights: $$\beta_{\mathbf{x}}\leftarrow{\frac{1}{\max\left\{ \delta,{\|{{\mathbf{x}} - {{\mathbf{P}}^{(k)}{\mathbf{x}}}}\|} \right\}}\quad{\text{for each~}{{\mathbf{x}} \in \mathcal{X}}}}$$ until the objective fails to decrease: α(k) ≥ α(k − 1) − ε Algorithm 4.2 IRLS algorithm for solving the reaper problem (1.4)
 
 ### Theorem 4.1 (Convergence of IRLS)
 
-Assume that the set $\mathcal{X}$ of observations does not lie in the union of two strict subspaces of ${\mathbb{R}}^{D}$. Then the iterates of Algorithm 4.2 with $\varepsilon = 0$ converge to a point $\mathbf{P}_{\delta}$ that satisfies the constraints of the reaper problem (1.4). Moreover, the objective value at $\mathbf{P}_{\delta}$ satisfies the bound
+Assume that the set $\mathcal{X}$ of observations does not lie in the union of two strict subspaces of ${\mathbb{R}}^{D}$. Then the iterates of Algorithm 4.2 with $\varepsilon = 0$ converge to a point $\mathbf{P}_{\delta}$ that satisfies the constraints of the reaper problem (1.4). Moreover, the objective value at $\mathbf{P}_{\delta}$ satisfies the bound where $\mathbf{P}_{\star}$ is an optimal point of reaper.
 
-where $\mathbf{P}_{\star}$ is an optimal point of reaper.
-
-The proof of Theorem 4.1. ‣ 4.1 Solving reaper via IRLS ‣ 4 An Iterative Reweighted Least-Squares Algorithm for reaper ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") is similar to established convergence arguments (:Novel-M-Estimator Thms. 11 and 12), which follow the schema in:Convergence-Lagged;:Linear-Convergence. See Appendix C for a summary of the proof.
+The proof of Theorem 4.1. ‣ 4.1 Solving reaper via IRLS ‣ 4 An Iterative Reweighted Least-Squares Algorithm for reaper ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") is similar to established convergence arguments (:Novel-M-Estimator Thms. 11 and 12), which follow the schema :Convergence-Lagged;:Linear-Convergence. See Appendix C for a summary of the proof.
 
 ### Computational Costs for Algorithm 4.2
 
@@ -376,7 +250,7 @@ The bulk of the computation in Algorithm 4.2 occurs when we solve the subproblem
 
 In summary, each iteration of Algorithm 4.2 requires $\mathcal{O}{({ND^{2}})}$ arithmetic operations. The algorithm converges linearly in practice, so we need $\mathcal{O}{({\log{({1/\eta})}})}$ iterations to achieve an error of $\eta$.
 
-In the statement of Algorithm 4.1, we have presented the weighted least-squared calculation in the most direct way possible. In practice, it is usually more efficient to form a $D \times N$ matrix $\mathbf{W}$ with columns $\sqrt{\beta_{\mathbf{x}}}{\mathbf{x}}$ for ${\mathbf{x}} \in \mathcal{X}$, to compute a thin SVD ${\mathbf{W}} = {{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\mathsf{t}}}$, and to set $\mathbf{\Lambda} = \mathbf{\Sigma}^{2}$. This approach is also more stable. In some situations, such as when $\mathbf{C}$ can be guaranteed to be low rank at each iteration, it is possible to accelerate the spectral calculations using randomized dimension reduction as in:Finding-Structure.
+In the statement of Algorithm 4.1, we have presented the weighted least-squared calculation in the most direct way possible. In practice, it is usually more efficient to form a $D \times N$ matrix $\mathbf{W}$ with columns $\sqrt{\beta_{\mathbf{x}}}{\mathbf{x}}$ for ${\mathbf{x}} \in \mathcal{X}$, to compute a thin SVD ${\mathbf{W}} = {{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\mathsf{t}}}$, and to set $\mathbf{\Lambda} = \mathbf{\Sigma}^{2}$. This approach is also more stable. In some situations, such as when $\mathbf{C}$ can be guaranteed to be low rank at each iteration, it is possible to accelerate the spectral calculations using randomized dimension reduction as :Finding-Structure.
 
 ### Empirical Convergence Rate of Algorithm 4.2
 
@@ -398,18 +272,7 @@ In this section, we present a numerical experiment that describes the performanc
 
 Although the reaper formulation is effective on its own, we can usually obtain better linear models if we preprocess the data before solving (1.4). Let us summarize the recommended procedure, which appears as Algorithm 5.1.
 
-The target dimension d for the linear model, where d ∈ {1, 2, …, D − 1}
-
-(Optional.) Solve (5.1) to obtain a center c⋆, and center the data: x ← x − c⋆ for each x ∈ 𝒳
-(Optional.) Spherize the data: x ← x/∥x∥ for each nonzero x ∈ 𝒳
-Solve the reaper problem (1.4) with dataset 𝒳 and parameter d to obtain an optimal point P⋆
-Solve (1.5) by finding a dominant d-dimensional invariant subspace of P⋆
-
-Algorithm 5.1 Prototype algorithm for robust computation of a linear model
-
-First, the reaper problem assumes that the inliers are approximately centered. When they are not, it is important to identify a centering point ${\mathbf{c}}_{\star}$ for the dataset and to work with the centered observations. We can compute a centering point ${\mathbf{c}}_{\star}$ robustly by solving the Euclidean median problem:Robust-Statistics;:Robust-Statistics:
-
-It is also possible to incorporate centering by modifying the optimization problem (1.4). For brevity, we omit the details.
+The target dimension d for the linear model, where d ∈ {1, 2, …, D − 1} (Optional.) Solve (5.1) to obtain a center c⋆, and center the data: x ← x − c⋆ for each x ∈ 𝒳 (Optional.) Spherize the data: x ← x/∥x∥ for each nonzero x ∈ 𝒳 Solve the reaper problem (1.4) with dataset 𝒳 and parameter d to obtain an optimal point P⋆ Solve (1.5) by finding a dominant d-dimensional invariant subspace of P⋆ Algorithm 5.1 Prototype algorithm for robust computation of a linear model First, the reaper problem assumes that the inliers are approximately centered. When they are not, it is important to identify a centering point ${\mathbf{c}}_{\star}$ for the dataset and to work with the centered observations. We can compute a centering point ${\mathbf{c}}_{\star}$ robustly by solving the Euclidean median problem:Robust-Statistics;:Robust-Statistics: It is also possible to incorporate centering by modifying the optimization problem (1.4). For brevity, we omit the details.
 
 Second, the reaper formulation can be sensitive to outliers with large magnitude. A simple but powerful method for addressing this challenge is to spherize the data points before solving the optimization problem. For future reference, we write down the resulting convex program.
 
@@ -427,11 +290,9 @@ By now, there are a huge number of proposals for robust linear modeling, so we h
 
 We consider two standard approaches, PCA:Principal-Component and spherical PCA LMS+99:Robust-Principal. Spherical PCA rescales each observation so it lies on the Euclidean sphere, and then it applies standard PCA. Simulations performed with several different robust PCA methods in Maronna2005 lead Maronna et al.:Robust-Statistics to recommend spherical PCA as a reliable classical robust PCA algorithm.
 
-We also consider a more recent proposal:Robust-PCA-NIPS;:Robust-PCA;:Two-Proposals, which is called *low-leverage decomposition* (LLD) or *outlier pursuit*. This method decomposes the $D \times N$ matrix $\mathbf{X}$ of observations by solving the optimization problem
+We also consider a more recent proposal:Robust-PCA-NIPS;:Robust-PCA;:Two-Proposals, which is called *low-leverage decomposition* (LLD) or *outlier pursuit*. This method decomposes the $D \times N$ matrix $\mathbf{X}$ of observations by solving the optimization problem where $\left. \parallel \cdot \parallel{}_{S_{1}} \right.$ is the Schatten 1-norm and $\left. \parallel \cdot \parallel_{1\rightarrow 2}^{\ast} \right.$ returns the sum of Euclidean norms of the column. The idea is that the optimizer $({\mathbf{P}}_{\star},{\mathbf{C}}_{\star})$ will consist of a low-rank model ${\mathbf{P}}_{\star}$ for the data along with a column-sparse matrix ${\mathbf{C}}_{\star}$ that identifies the outliers. We always use the parameter choice $\gamma = {0.8\sqrt{D/N}}$, which seems to be effective in practice.
 
-where $\left. \parallel \cdot \parallel{}_{S_{1}} \right.$ is the Schatten 1-norm and $\left. \parallel \cdot \parallel_{1\rightarrow 2}^{\ast} \right.$ returns the sum of Euclidean norms of the column. The idea is that the optimizer $({\mathbf{P}}_{\star},{\mathbf{C}}_{\star})$ will consist of a low-rank model ${\mathbf{P}}_{\star}$ for the data along with a column-sparse matrix ${\mathbf{C}}_{\star}$ that identifies the outliers. We always use the parameter choice $\gamma = {0.8\sqrt{D/N}}$, which seems to be effective in practice.
-
-We do not make comparisons with the rank--sparsity decomposition:Rank-Sparsity, which has also been considered for robust linear modeling in:Robust-Principal. It is not effective for the problem that we consider here.
+We do not make comparisons with the rank--sparsity decomposition:Rank-Sparsity, which has also been considered for robust linear modeling :Robust-Principal. It is not effective for the problem that we consider here.
 
 ### Faces in a Crowd
 
@@ -457,7 +318,7 @@ We begin with an overview of the major techniques that have been proposed in the
 
 ### Robust Combination of Residuals
 
-Historically, one of the earliest approaches to linear regression is to minimize the sum of (nonorthogonal) residuals. This is the principle of *least absolute deviations* (LAD). Early proponents of this idea include Galileo, Boscovich, Laplace, and Edgeworth. See:Method-Least-I;:Method-Least-II;:Introduction-L1-Norm for some historical discussion. It appears that *orthogonal* regression with LAD was first considered in the late 1980s:Analysis-Total;:Orthogonal-Linear;:Least-Orthogonal; the extension from orthogonal regression to PCA seems to be even more recent:Some-Problems;:R1-PCA. LAD has also been considered as a method for hybrid linear modeling in:Median-k-Flats;:Robust-Recovery. We are not aware of a tractable algorithm for these formulations.
+Historically, one of the earliest approaches to linear regression is to minimize the sum of (nonorthogonal) residuals. This is the principle of *least absolute deviations* (LAD). Early proponents of this idea include Galileo, Boscovich, Laplace, and Edgeworth. See:Method-Least-I;:Method-Least-II;:Introduction-L1-Norm for some historical discussion. It appears that *orthogonal* regression with LAD was first considered in the late 1980s:Analysis-Total;:Orthogonal-Linear;:Least-Orthogonal; the extension from orthogonal regression to PCA seems to be even more recent:Some-Problems;:R1-PCA. LAD has also been considered as a method for hybrid linear modeling :Median-k-Flats;:Robust-Recovery. We are not aware of a tractable algorithm for these formulations.
 
 There are many other robust methods for combining residuals aside from LAD. An approach that has received wide attention is to minimize the median of the squared residuals:Least-Median;:Robust-Regression. Other methods appear in the books:Robust-Statistics;:Robust-Statistics. These formulations are generally not computationally tractable.
 
@@ -491,13 +352,9 @@ Recently, researchers have started to develop effective techniques for robust li
 
 ### Demixing Methods
 
-One class of techniques for robust linear modeling is based on splitting a data matrix into a low-rank model plus a corruption. The first approach of this form is due to Chandrasekaran et al.:Rank-Sparsity. Given an observed matrix $\mathbf{X}$, they solve the semidefinite problem
+One class of techniques for robust linear modeling is based on splitting a data matrix into a low-rank model plus a corruption. The first approach of this form is due to Chandrasekaran et al.:Rank-Sparsity. Given an observed matrix $\mathbf{X}$, they solve the semidefinite problem Minimizing the Schatten 1-norm $\left. \parallel \cdot \parallel{}_{S_{1}} \right.$ promotes low rank, while minimizing the vector $\ell_{1}$ norm promotes sparsity. The regularization parameter $\gamma$ negotiates a tradeoff between the two goals. Candès et al.:Robust-Principal study the performance of (6.1) for robust linear modeling in the setting where individual entries of the matrix $\mathbf{X}$ are subject to error.
 
-Minimizing the Schatten 1-norm $\left. \parallel \cdot \parallel{}_{S_{1}} \right.$ promotes low rank, while minimizing the vector $\ell_{1}$ norm promotes sparsity. The regularization parameter $\gamma$ negotiates a tradeoff between the two goals. Candès et al.:Robust-Principal study the performance of (6.1) for robust linear modeling in the setting where individual entries of the matrix $\mathbf{X}$ are subject to error.
-
-A related proposal is due to Xu et al.:Robust-PCA-NIPS;:Robust-PCA and independently to McCoy & Tropp:Two-Proposals. These authors recommend solving the decomposition problem
-
-The norm $\left. \parallel \cdot \parallel_{1\rightarrow 2}^{\ast} \right.$ returns the sum of Euclidean norms of the columns of its argument. This formulation is appropriate for inlier--outlier data models, where entire columns of the data matrix may be corrupted, in contrast to the formulation (6.1) that is used for corruptions of individual matrix elements.
+A related proposal is due to Xu et al.:Robust-PCA-NIPS;:Robust-PCA and independently to McCoy & Tropp:Two-Proposals. These authors recommend solving the decomposition problem The norm $\left. \parallel \cdot \parallel_{1\rightarrow 2}^{\ast} \right.$ returns the sum of Euclidean norms of the columns of its argument. This formulation is appropriate for inlier--outlier data models, where entire columns of the data matrix may be corrupted, in contrast to the formulation (6.1) that is used for corruptions of individual matrix elements.
 
 Both (6.1) and (6.2) possess some theoretical guarantees under appropriate model assumptions, but we restrict our discussion to (6.2) because it is tuned to the In & Out Model that we consider here. In the noiseless case, Xu et al.:Robust-PCA show that (6.2) will exactly recover the underlying subspace under the In & Out Model so long as the inlier-to-outlier ratio exceeds a constant times the inlier dimension $d$.^44^4More precisely, the inlier-to-outlier ratio must exceed ${({{121\mu}/9})}d$, where $\mu \geq 1$ depends on the data. For the Haystack Model with $\sigma_{in} = \sigma_{out}$ and $d \ll D$, the lower bound (3.1) is positive when the fraction of inliers exceeds a constant times $d/D$. Hence, Theorem 2.1. ‣ 2.3 Performance of reaper with Deterministic Data ‣ 2 Theoretical Analysis of the reaper Problem ‣ Robust computation of linear models by convex relaxationCommunicated by Emmanuel Candès") endows reaper with an exact recovery guarantee that is stronger than the results of:Robust-PCA for (6.2) in the $d \ll D$ regime; a similar statement holds for the stability of reaper. Moreover, the work of Coudron & Lerman:Sample-Complexity-RPCA, which appeared after the submission of this work, provides sample-complexity guarantees for reaper that mirrors that of standard PCA when the data $\mathcal{X}$ is drawn i.i.d. from a subgaussian distribution.
 
@@ -507,12 +364,10 @@ Nevertheless, the demixing strategy readily adapts to different situations such 
 
 ### Precedents for the reaper Problem
 
-The reaper problem (1.4) is a semidefinite relaxation of the $\ell_{1}$ orthogonal distance problem (1.3). Our work extends an earlier relaxation of (1.3) proposed by Zhang & Lerman:Novel-M-Estimator:
-
-where the minimum occurs over symmetric $\mathbf{P}$. Although not obvious, the formulation above is equivalent to reaper with the specific choice $d = {D - 1}$. Indeed, any optimal point ${\mathbf{P}}_{\star}$ of (6.3) satisfies ${\mathbf{I} - {\mathbf{P}}_{\star}} \succcurlyeq \mathbf{0}$ (:Novel-M-Estimator Lem. 14), and this fact, together with the trace constraint ${{tr}{({\mathbf{I} - {\mathbf{P}}_{\star}})}} = 1$, implies that ${\mathbf{I} - {\mathbf{P}}_{\star}} \preccurlyeq \mathbf{I}$. Thus, the reaper constraints $\mathbf{0} \preccurlyeq {\mathbf{P}} \preccurlyeq \mathbf{I}$ are implicit in (6.3), and so the observation ${{tr}{(\mathbf{I})}} = D$ yields the claimed equivalence.
+The reaper problem (1.4) is a semidefinite relaxation of the $\ell_{1}$ orthogonal distance problem (1.3). Our work extends an earlier relaxation of (1.3) proposed by Zhang & Lerman:Novel-M-Estimator: where the minimum occurs over symmetric $\mathbf{P}$. Although not obvious, the formulation above is equivalent to reaper with the specific choice $d = {D - 1}$. Indeed, any optimal point ${\mathbf{P}}_{\star}$ of (6.3) satisfies ${\mathbf{I} - {\mathbf{P}}_{\star}} \succcurlyeq \mathbf{0}$ (:Novel-M-Estimator Lem. 14), and this fact, together with the trace constraint ${{tr}{({\mathbf{I} - {\mathbf{P}}_{\star}})}} = 1$, implies that ${\mathbf{I} - {\mathbf{P}}_{\star}} \preccurlyeq \mathbf{I}$. Thus, the reaper constraints $\mathbf{0} \preccurlyeq {\mathbf{P}} \preccurlyeq \mathbf{I}$ are implicit in (6.3), and so the observation ${{tr}{(\mathbf{I})}} = D$ yields the claimed equivalence.
 
 The present work extends the earlier formulation by freeing the parameter $d$ to search for subspaces of a specific dimension, which provides a tighter relaxation for finding $d$-dimensional orthoprojectors. In:Novel-M-Estimator, however, the authors show that the optimal point ${\mathbf{P}}_{\star}$ of (6.3) is more analogous to a robust inverse covariance matrix than to an approximate orthoprojector. This allows the determination of the dimension $d$ using the eigenvalues of ${\mathbf{P}}_{\star}$, while in the present work, we treat $d$ as a known parameter.
 
-Our analysis of reaper builds on the ideas first presented in:lp-Recovery;:Novel-M-Estimator, but it incorporates a number of refinements that simplify and improve the theoretical guarantees. In particular, the present results do not require an oracle condition like (:Novel-M-Estimator Eqs. ), and our stability statistic $\mathcal{S}{(L)}$ supersedes the earlier exact recovery and stability requirements (:Novel-M-Estimator Eqs. & ). The exact recovery guarantees under the Haystack Model are somewhat stronger for reaper than the analogous guarantees for (6.3) (:Novel-M-Estimator Sec. 2.6.1). The IRLS algorithm for reaper and the convergence analysis that we present in Section 4 also extend ideas from the earlier work.
+Our analysis of reaper builds on the ideas first presented :lp-Recovery;:Novel-M-Estimator, but it incorporates a number of refinements that simplify and improve the theoretical guarantees. In particular, the present results do not require an oracle condition like (:Novel-M-Estimator Eqs. ), and our stability statistic $\mathcal{S}{(L)}$ supersedes the earlier exact recovery and stability requirements (:Novel-M-Estimator Eqs. & ). The exact recovery guarantees under the Haystack Model are somewhat stronger for reaper than the analogous guarantees for (6.3) (:Novel-M-Estimator Sec. 2.6.1). The IRLS algorithm for reaper and the convergence analysis that we present in Section 4 also extend ideas from the earlier work.
 
-From a broad perspective, the idea of relaxing a difficult nonconvex program like (1.3) to obtain a convex problem is well established in the literature on combinatorial optimization. Research on linear programming relaxations is summarized in:Approximation-Algorithms. Some significant works on semidefinite relaxation include:Cones-Matrices;:Improved-Approximation.
+From a broad perspective, the idea of relaxing a difficult nonconvex program like (1.3) to obtain a convex problem is well established in the literature on combinatorial optimization. Research on linear programming relaxations is summarized :Approximation-Algorithms. Some significant works on semidefinite relaxation include:Cones-Matrices;:Improved-Approximation.

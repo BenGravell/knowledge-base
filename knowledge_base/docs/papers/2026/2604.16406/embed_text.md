@@ -12,9 +12,7 @@ We address these challenges with PHASE, a self-play framework for controllable h
 
 We evaluate PHASE in two complementary settings. On exiD, PHASE transfers zero-shot to unseen real highway scenarios and substantially outperforms a prior self-play baseline in both success rate and displacement error. In a learned trajectory embedding space built from proprietary real highway logs, it also produces trajectory distributions that align more closely with real traffic than IDM.
 
-Our main contributions are as follows:
-
-A conditioned formulation for controllable heterogeneous highway simulation. We formulate highway traffic generation as a conditioned goal-reaching POSG in which a single policy controls both passenger cars and articulated tractor-trailers across a 0--40 m/s operating range through joint goal and context conditioning.
+Our main contributions are as follows: A conditioned formulation for controllable heterogeneous highway simulation. We formulate highway traffic generation as a conditioned goal-reaching POSG in which a single policy controls both passenger cars and articulated tractor-trailers across a 0--40 m/s operating range through joint goal and context conditioning.
 
 A scalable synthetic scenario generation pipeline for broad highway coverage. We introduce an offline--online generator that combines lane-graph endpoint search with controllable world sampling to produce diverse, map-consistent highway scenes without direct imitation from expert trajectory logs.
 
@@ -36,33 +34,25 @@ Trajectory Realism and Distributional Evaluation. Evaluating traffic realism rem
 
 ### Task Definition
 
-We formulate highway traffic generation as a Partially Observable Stochastic Game (POSG), defined by the tuple
+We formulate highway traffic generation as a Partially Observable Stochastic Game (POSG), defined by the tuple Here, $\mathcal{I}=\{1,\dots,N\}$ denotes the set of agents, $\mathcal{S}$ is the global joint state space, and $\mathcal{O}^{i}$ and $\mathcal{A}^{i}$ are the observation and action spaces of agent $i$.
 
-Here, $\mathcal{I} = {\{ 1,\ldots,N\}}$ denotes the set of agents, $\mathcal{S}$ is the global joint state space, and $\mathcal{O}^{i}$ and $\mathcal{A}^{i}$ are the observation and action spaces of agent $i$.
-
-We define a *conditioned goal-reaching* task. Each agent $i$ is assigned a Cartesian goal location $g_{i} \in {\mathbb{R}}^{2}$ together with an individual conditioning context vector
-
-Here, $v_{\text{goal},i} \in {\lbrack 0,40\rbrack}$ m/s is the target cruising speed, $\alpha_{i} \in {\lbrack 0.1,1\rbrack}$ modulates the agent's longitudinal control range, $\mathcal{T}_{i} \in {\{\text{Car},\text{Truck}\}}$ specifies vehicle type, and $\mathcal{D}_{i} = {(\ell_{i},w_{i},\ell_{i}^{\text{tr}},w_{i}^{\text{tr}})}$ specifies vehicle dimensions, including corresponding trailer dimensions for articulated vehicles. Trailer terms are zero for passenger cars.
+We define a *conditioned goal-reaching* task. Each agent $i$ is assigned a Cartesian goal location $g_{i}\in\mathbb{R}^{2}$ together with an individual conditioning context vector Here, $v_{\text{goal},i}\in$ m/s is the target cruising speed, $\alpha_{i}\in[0.1,1]$ modulates the agent's longitudinal control range, $\mathcal{T}_{i}\in\{\text{Car},\text{Truck}\}$ specifies vehicle type, and $\mathcal{D}_{i}=(\ell_{i},w_{i},\ell_{i}^{\text{tr}},w_{i}^{\text{tr}})$ specifies vehicle dimensions, including corresponding trailer dimensions for articulated vehicles. Trailer terms are zero for passenger cars.
 
 An episode is considered successful for agent $i$ if the agent reaches a designated target region around $g_{i}$ without collision over a finite horizon $T$. Target speed and yaw alignment are treated as soft objectives through reward shaping, while $\alpha_{i}$ defines the agent's control envelope rather than an additional success criterion.
 
-The transition function $\mathcal{P}{({s^{\prime} \mid {s,\mathbf{a}}})}$ is determined by the underlying vehicle-dependent kinematics induced by $\mathcal{T}_{i}$ and $\mathcal{D}_{i}$. Because each agent's return depends directly on the actions of the other agents, the environment is inherently non-stationary from any single-agent perspective, motivating self-play for learning decentralized policies that induce coherent multi-agent traffic behavior.
+The transition function $\mathcal{P}(s^{\prime}\mid s,\mathbf{a})$ is determined by the underlying vehicle-dependent kinematics induced by $\mathcal{T}_{i}$ and $\mathcal{D}_{i}$. Because each agent's return depends directly on the actions of the other agents, the environment is inherently non-stationary from any single-agent perspective, motivating self-play for learning decentralized policies that induce coherent multi-agent traffic behavior.
 
 ### Synthetic Scenario Generation
 
 We train PHASE entirely in procedurally generated highway scenes to maximize coverage over traffic compositions, kinematics, and interaction patterns without relying on expert trajectory logs. The generator is controlled by seven parameters: the lane-change ratio $P_{lc}$, truck proportion $P_{\text{truck}}$, agent-count bounds $N_{\min}$ and $N_{\max}$, path-distance bounds $D_{\min}$ and $D_{\max}$, and a lane-change budget $K$.
 
-Offline, for each map we construct a reusable tuple $(\text{map},\text{pool})$, where the pool contains candidate start--goal pairs. We first upsample the road geometry into a lane graph $G$ with nodes spaced at 1 m intervals and edges encoding lane continuity and left/right adjacency. For each sampled node, we run a bounded breadth-first search over longitudinal and lateral transitions to enumerate reachable endpoints whose path length lies in $\lbrack D_{\min},D_{\max}\rbrack$. Each frontier state tracks a signed lane-change count $c$, where left and right transitions update $c$ by $- 1$ and $+ 1$, respectively, and only states with ${|c|} \leq K$ are retained. Candidate endpoints are then partitioned into same-lane ($c = 0$) and lane-change ($c \neq 0$) sets, from which we sample goals to match the target lane-change ratio $P_{lc}$. Figure 2 shows example start--goal pairs from this offline pool.
+Offline, for each map we construct a reusable tuple $(\text{map},\text{pool})$, where the pool contains candidate start--goal pairs. We first upsample the road geometry into a lane graph $G$ with nodes spaced at 1 m intervals and edges encoding lane continuity and left/right adjacency. For each sampled node, we run a bounded breadth-first search over longitudinal and lateral transitions to enumerate reachable endpoints whose path length lies in $[D_{\min},D_{\max}]$. Each frontier state tracks a signed lane-change count $c$, where left and right transitions update $c$ by $-1$ and $+1$, respectively, and only states with $|c|\leq K$ are retained. Candidate endpoints are then partitioned into same-lane ($c=0$) and lane-change ($c\neq 0$) sets, from which we sample goals to match the target lane-change ratio $P_{lc}$. Figure 2 shows example start--goal pairs from this offline pool.
 
 Figure 2: Example start–goal pairs sampled from the offline lane-graph pool. Red nodes denote start points, green nodes denote sampled goal points, and blue lines connect each start to its candidate goals. The map overlay shows road boundaries in red, lane boundaries in light blue, and lane centers in gray.
 
-Online, we instantiate multiple worlds from each $(\text{map},\text{pool})$ tuple and sample scenarios independently within each world. We begin by sampling the number of agents as $N \sim {\mathcal{U}{\lbrack N_{\min},N_{\max}\rbrack}}$. A fraction $P_{\text{truck}}$ of the sampled agents are then designated as trucks and assigned truck-specific dynamics, while the remaining agents use car dynamics. We also randomize vehicle geometry on a per-agent basis. Finally, subject to collision checking, we sample each agent's initial state and goal from the offline pool.
+Online, we instantiate multiple worlds from each $(\text{map},\text{pool})$ tuple and sample scenarios independently within each world. We begin by sampling the number of agents as $N\sim\mathcal{U}[N_{\min},N_{\max}]$. A fraction $P_{\text{truck}}$ of the sampled agents are then designated as trucks and assigned truck-specific dynamics, while the remaining agents use car dynamics. We also randomize vehicle geometry on a per-agent basis. Finally, subject to collision checking, we sample each agent's initial state and goal from the offline pool.
 
-To set kinematics, we compute a base speed $v_{\text{base}}$ from the episode horizon and the average path length ${({D_{\min} + D_{\max}})}/2$, including safety buffers. Each agent then receives an initial speed
-
-where $\epsilon_{\text{init},i}$ is a per-agent perturbation. We further sample a goal-speed offset $\epsilon_{\text{goal},i}$ and define
-
-together with an action-range parameter $\alpha_{i} \sim {\mathcal{U}{(0.1,1.0)}}$.
+To set kinematics, we compute a base speed $v_{\text{base}}$ from the episode horizon and the average path length $(D_{\min}+D_{\max})/2$, including safety buffers. Each agent then receives an initial speed where $\epsilon_{\text{init},i}$ is a per-agent perturbation. We further sample a goal-speed offset $\epsilon_{\text{goal},i}$ and define together with an action-range parameter $\alpha_{i}\sim\mathcal{U}(0.1,1.0)$.
 
 This offline--online design separates map-consistent route generation from online world randomization. In practice, it yields broad coverage over lane-change structure, traffic density, vehicle type, geometry, and target behavior, while preserving control through per-agent conditioning.
 
@@ -72,45 +62,31 @@ Observation Space. We use an ego-centric observation space composed of the ego s
 
 Action Space. The action space is discrete and defined as the Cartesian product of bounded longitudinal and lateral inputs, specifically longitudinal jerk (m/s^3^) and steering rate (rad/s). At each step, the policy produces a discrete action token, which is subsequently mapped to continuous commands before being passed to the simulator. The selected longitudinal command is then scaled by the agent-specific conditioning variable $\alpha_{i}$, allowing the same policy structure to adapt its behavior to different vehicle capabilities. In practice, this conditioning allows a single policy to operate across a wide range of control envelopes, spanning agile passenger cars as well as heavy articulated trucks.
 
-Kinematic Model. Each agent is propagated with a standard discrete-time kinematic bicycle model using longitudinal jerk $j$ and steering rate $\overset{˙}{\delta}$. For articulated vehicles, we additionally update the hitch angle state $\phi$, clipped to $\lbrack{- {\pi/2}},{\pi/2}\rbrack$, according to
-
-where $l_{\text{trailer}}$ is the trailer length.
+Kinematic Model. Each agent is propagated with a standard discrete-time kinematic bicycle model using longitudinal jerk $j$ and steering rate $\dot{\delta}$. For articulated vehicles, we additionally update the hitch angle state $\phi$, clipped to $[-\pi/2,\pi/2]$, according to where $l_{\text{trailer}}$ is the trailer length.
 
 ### Simulation Mechanisms
 
 We introduce two simulation mechanisms to improve training stability: early termination of unrecoverable states and at-fault collision attribution.
 
-We early-terminate an agent when it enters a state from which reaching its assigned goal is no longer realistically plausible. Let $g_{i} \in {\mathbb{R}}^{2}$ denote the goal position expressed in the agent's local frame, and let $f_{i} \in {\mathbb{R}}^{2}$ denote the agent's forward unit vector. Agent $A_{i}$ is classified as unrecoverable if ${g_{i}^{\top}f_{i}} < 0$. Intuitively, this condition identifies states in which the goal lies behind the agent, indicating that the agent is moving away from its destination. Figure 3 illustrates two examples of such unrecoverable states in cases (a.1) and (a.2). This criterion provides two benefits:
-
-It terminates agents traveling in an adjacent lane when the goal lies immediately to the left or right, thereby preventing unrealistic last-moment lane changes caused by extreme steering corrections near the goal.
+We early-terminate an agent when it enters a state from which reaching its assigned goal is no longer realistically plausible. Let $g_{i}\in\mathbb{R}^{2}$ denote the goal position expressed in the agent's local frame, and let $f_{i}\in\mathbb{R}^{2}$ denote the agent's forward unit vector. Agent $A_{i}$ is classified as unrecoverable if $g_{i}^{\top}f_{i}<0$. Intuitively, this condition identifies states in which the goal lies behind the agent, indicating that the agent is moving away from its destination. Figure 3 illustrates two examples of such unrecoverable states in cases (a.1) and (a.2). This criterion provides two benefits: It terminates agents traveling in an adjacent lane when the goal lies immediately to the left or right, thereby preventing unrealistic last-moment lane changes caused by extreme steering corrections near the goal.
 
 During the early stages of training, it prevents agents from collecting low-value trajectories that move away from the goal, which in turn improves sample efficiency and helps stabilize training.
 
-As in prior self-play work, we do not resolve collisions physically and instead penalize them through rewards. Unlike prior approaches, however, we penalize only the at-fault agent. We find this attribution rule important for training stability and performance. Formally, for a colliding pair $(A_{i},A_{j})$, let ${p_{i},p_{j}} \in {\mathbb{R}}^{2}$ denote effective global positions, and let $\ell_{j}$ denote the effective tractor or vehicle length of $A_{j}$. We assign fault to $A_{i}$ if
-
-We define $F_{j}$ analogously. If neither agent is clearly behind the other (i.e., $F_{i} = F_{j} = 0$), we conservatively assign fault to both (${F_{i}\leftarrow 1},{F_{j}\leftarrow 1}$). Figure 3 (b) illustrates this collision-attribution mechanism.
+As in prior self-play work, we do not resolve collisions physically and instead penalize them through rewards. Unlike prior approaches, however, we penalize only the at-fault agent. We find this attribution rule important for training stability and performance. Formally, for a colliding pair $(A_{i},A_{j})$, let $p_{i},p_{j}\in\mathbb{R}^{2}$ denote effective global positions, and let $\ell_{j}$ denote the effective tractor or vehicle length of $A_{j}$. We assign fault to $A_{i}$ if We define $F_{j}$ analogously. If neither agent is clearly behind the other (i.e., $F_{i}=F_{j}=0$), we conservatively assign fault to both ($F_{i}\leftarrow 1,F_{j}\leftarrow 1$). Figure 3 (b) illustrates this collision-attribution mechanism.
 
 Figure 3: Simulation mechanisms used for stabilization. Panels (a.1) and (a.2) show unrecoverable states in which the agent’s forward direction diverges from the goal direction, triggering early termination. Panel (b) illustrates collision fault attribution based on relative positions.
 
 ### Rewards
 
-We use a mixture of sparse and dense reward terms to encourage safe, goal-consistent highway behavior while retaining useful learning signal early in training. For each agent $A_{i}$, the per-step reward is
+We use a mixture of sparse and dense reward terms to encourage safe, goal-consistent highway behavior while retaining useful learning signal early in training. For each agent $A_{i}$, the per-step reward is Here, $R_{g,i}$ corresponds to goal completion, $R_{l,i}$ to lane-boundary compliance, $R_{f,i}$ to collision penalty, $R_{e,i}$ to road-edge penalty, $R_{t,i}$ to early-termination penalty, $R_{a,i}$ to alignment penalty, $R_{s,i}$ to speed-deviation penalty, and $R_{p,i}$ progress reward. We define each term as follows: Here, $\bar{w}_{(\cdot)}>0$ are fixed weights and $\rho\in$ denotes curriculum progress. The curriculum multipliers $m_{g,i}(\rho,w_{s,i},w_{a,i})$, $m_{f}(\rho)$, $m_{e}(\rho)$, $m_{t}(\rho)$, and $m_{p}(\rho)$ are defined in Section 3.6 as functions of curriculum progress and, where applicable, goal-quality terms. Here, $F_{i}$ denotes the collision indicator, $G_{i}$ denotes the goal-achievement indicator, $E_{i}$ denotes the road-edge collision indicator, and $L_{i}$ denotes the lane-boundary collision indicator.
 
-Here, $R_{g,i}$ corresponds to goal completion, $R_{l,i}$ to lane-boundary compliance, $R_{f,i}$ to collision penalty, $R_{e,i}$ to road-edge penalty, $R_{t,i}$ to early-termination penalty, $R_{a,i}$ to alignment penalty, $R_{s,i}$ to speed-deviation penalty, and $R_{p,i}$ progress reward. We define each term as follows:
+For early termination, we set $T_{i}\leftarrow\|g_{i}\|_{2}$ when agent $i$ is terminated under the unrecoverable-state rule in Section 3.4. This penalizes goal-divergent failures more strongly when they occur far from the goal, while assigning smaller penalties to near-goal failures.
 
-Here, ${\overline{w}}_{( \cdot )} > 0$ are fixed weights and $\rho \in {\lbrack 0,1\rbrack}$ denotes curriculum progress. The curriculum multipliers $m_{g,i}{(\rho,w_{s,i},w_{a,i})}$, $m_{f}{(\rho)}$, $m_{e}{(\rho)}$, $m_{t}{(\rho)}$, and $m_{p}{(\rho)}$ are defined in Section 3.6 as functions of curriculum progress and, where applicable, goal-quality terms. Here, $F_{i}$ denotes the collision indicator, $G_{i}$ denotes the goal-achievement indicator, $E_{i}$ denotes the road-edge collision indicator, and $L_{i}$ denotes the lane-boundary collision indicator.
+We use $w_{s,i},w_{a,i}\in\{0.1,1\}$ to represent goal completion quality. The factor $w_{s,i}$ measures agreement with the target speed at the goal, and $w_{a,i}$ measures yaw alignment with the lane direction at the goal. These terms act as soft terminal preferences rather than hard feasibility constraints.
 
-For early termination, we set $T_{i}\leftarrow{\| g_{i}\|}_{2}$ when agent $i$ is terminated under the unrecoverable-state rule in Section 3.4. This penalizes goal-divergent failures more strongly when they occur far from the goal, while assigning smaller penalties to near-goal failures.
+The progress reward $r_{\text{progress},i}$ provides dense guidance toward the goal, especially early in training: Here, $d_{t,i}$ is the Euclidean distance to the goal, $\kappa>1$ is a progress factor, and $\psi(d)$ is a distance-dependent decay term. The reward is normalized by speed so that faster agents are not favored purely because they cover more distance, and it is clipped for stability.
 
-We use ${w_{s,i},w_{a,i}} \in {\{ 0.1,1\}}$ to represent goal completion quality. The factor $w_{s,i}$ measures agreement with the target speed at the goal, and $w_{a,i}$ measures yaw alignment with the lane direction at the goal. These terms act as soft terminal preferences rather than hard feasibility constraints.
-
-The progress reward $r_{\text{progress},i}$ provides dense guidance toward the goal, especially early in training:
-
-Here, $d_{t,i}$ is the Euclidean distance to the goal, $\kappa > 1$ is a progress factor, and $\psi{(d)}$ is a distance-dependent decay term. The reward is normalized by speed so that faster agents are not favored purely because they cover more distance, and it is clipped for stability.
-
-The alignment term $r_{\text{alignment},i}$ captures the increased pull to perform lane changes as agent $i$ moves closer to its goal:
-
-Here, $\Delta\theta_{i}$ is the yaw-error term for agent $i$ and $\overline{T_{\text{ramp}}}$ is the alignment ramp horizon. This term increases as the agent approaches its goal, encouraging timely lane changes and reducing late, aggressive corrections. The ramp depends on an estimate of time-to-go, rather than raw distance, so that slower agents are not permitted larger heading errors at the same spatial distance.
+The alignment term $r_{\text{alignment},i}$ captures the increased pull to perform lane changes as agent $i$ moves closer to its goal: Here, $\Delta\theta_{i}$ is the yaw-error term for agent $i$ and $\bar{T_{\text{ramp}}}$ is the alignment ramp horizon. This term increases as the agent approaches its goal, encouraging timely lane changes and reducing late, aggressive corrections. The ramp depends on an estimate of time-to-go, rather than raw distance, so that slower agents are not permitted larger heading errors at the same spatial distance.
 
 The speed term $r_{\text{speed},i}$ encourages the agent to track its assigned target speed $v_{\text{goal},i}$ throughout the rollout:
 
@@ -118,11 +94,9 @@ The speed term $r_{\text{speed},i}$ encourages the agent to track its assigned t
 
 We use two coupled curricula: a reward curriculum and a scenario curriculum.
 
-For the reward curriculum, we introduce a curriculum progress variable $\rho \in {\lbrack 0,1\rbrack}$ and define:
+For the reward curriculum, we introduce a curriculum progress variable $\rho\in$ and define: Here, $w_{s,i}w_{a,i}$ is the goal-reward scaling term, and $\lambda>1$ is the terminal curriculum multiplier that controls how strongly collision and off-road penalties are increased by the end of the curriculum. Thus, the goal-achievement multiplier is annealed, collision/off-road multipliers are ramped up, and the progress multiplier decays to $0$ at the terminal curriculum stage. Intuitively, this schedule gradually shifts optimization from dense guidance toward stricter emphasis on safety, alignment, and terminal behavior. Early in training, the progress reward helps agents discover goal-directed behavior; later, collision and off-road penalties become more dominant.
 
-Here, $w_{s,i}w_{a,i}$ is the goal-reward scaling term, and $\lambda > 1$ is the terminal curriculum multiplier that controls how strongly collision and off-road penalties are increased by the end of the curriculum. Thus, the goal-achievement multiplier is annealed, collision/off-road multipliers are ramped up, and the progress multiplier decays to $0$ at the terminal curriculum stage. Intuitively, this schedule gradually shifts optimization from dense guidance toward stricter emphasis on safety, alignment, and terminal behavior. Early in training, the progress reward helps agents discover goal-directed behavior; later, collision and off-road penalties become more dominant.
-
-For the scenario curriculum, we increase the lane-change ratio $P_{lc}$ and shift the agent-count distribution toward denser scenes at the end of training ($\rho = 1$). This late-stage curriculum exposes the policy to more congested, interaction-heavy traffic after it has already learned basic driving structure, which improves robustness and stability in challenging highway regimes.
+For the scenario curriculum, we increase the lane-change ratio $P_{lc}$ and shift the agent-count distribution toward denser scenes at the end of training ($\rho=1$). This late-stage curriculum exposes the policy to more congested, interaction-heavy traffic after it has already learned basic driving structure, which improves robustness and stability in challenging highway regimes.
 
 Figure 4: Model architecture of PHASE. Ego, partner-agent, and road-element features are encoded and fused via cross-attention and attention pooling. Red lines denote queries, and blue lines denote keys and values.
 
@@ -130,13 +104,9 @@ Figure 4: Model architecture of PHASE. Ego, partner-agent, and road-element feat
 
 We parameterize PHASE with an MLP-based architecture augmented with cross-attention and attention pooling, as shown in Figure 4. Ego, partner-agent, and road-element features are first encoded separately. We then apply cross-attention between partner and road features to capture interactions between neighboring agents and local topology, followed by attention pooling to aggregate variable-sized inputs while preserving permutation invariance. In addition to the encoded observation, the policy receives the conditioning variables $(v_{\text{goal},i},\alpha_{i},\mathcal{T}_{i},\mathcal{D}_{i})$ as explicit inputs, which are concatenated with the ego feature embedding before the policy and value heads. The resulting representation is passed to separate policy and value heads.
 
-Table 1: Training scenario statistics for the offline–online synthetic generator. Each row corresponds to a group of (map,pool) tuples with different traffic-density and speed regimes. Npre and Npost denote the agent-count distributions before and after the curriculum switch, Pl cpre and Pl cpost denote the corresponding lane-change proportions, and K = 3 is fixed across all tuples.
+Table 1: Training scenario statistics for the offline–online synthetic generator. Each row corresponds to a group of (map, pool) tuples with different traffic-density and speed regimes. Npre and Npost denote the agent-count distributions before and after the curriculum switch, Plcpre and Plcpost denote the corresponding lane-change proportions, and K = 3 is fixed across all tuples. $\bar{T_{\text{ramp}}}$ Table 2: Constant reward and curriculum parameters used throughout training. The listed symbols correspond to the reward terms defined in Section 3.5 and the curriculum schedules described in Section 3.6. In particular, dmin and dmax denote the lower and upper path-distance bounds used in scenario generation.
 
-$\overline{T_{\text{ramp}}}$
-
-Table 2: Constant reward and curriculum parameters used throughout training. The listed symbols correspond to the reward terms defined in Section 3.5 and the curriculum schedules described in Section 3.6. In particular, dmin and dmax denote the lower and upper path-distance bounds used in scenario generation.
-
-Table 3: Zero-shot evaluation on 512 exiD scenarios and ablation comparison across policy variants. Arrows indicate whether higher or lower is better. G R denotes goal-reaching rate, C Ra agent-collision rate, C Rr road-edge collision rate, and S R success rate, defined as reaching the goal without causing a collision with another agent. ADE and FDE are computed over a 5 s horizon. The full PHASE configuration achieves the strongest overall performance despite minor regression in ADE/FDE/C Rr
+Table 3: Zero-shot evaluation on 512 exiD scenarios and ablation comparison across policy variants. Arrows indicate whether higher or lower is better. GR denotes goal-reaching rate, CRa agent-collision rate, CRr road-edge collision rate, and SR success rate, defined as reaching the goal without causing a collision with another agent. ADE and FDE are computed over a 5 s horizon. The full PHASE configuration achieves the strongest overall performance despite minor regression in ADE/FDE/CRr
 
 ### Training
 
@@ -144,13 +114,9 @@ Highway self-play is less stable than the lower-speed urban settings considered 
 
 Training Algorithms. We use DClamp-PPO, a variant of PPO, to reduce instability during curriculum transitions. As curriculum progress $\rho$ increases, both the reward landscape and scenario distribution shift: dense progress guidance is reduced, terminal penalties become stronger, and later-stage scenarios become denser and more interactive. These coupled changes can cause standard PPO to overshoot. DClamp-PPO imposes a tighter effective trust region during such transitions, leading to smoother adaptation and fewer late-stage collapses.
 
-Sample Reweighting. Worlds with many agents produce more trajectories per update than sparse worlds. Without correction, dense worlds dominate the gradient and bias training toward slow, crowded traffic. To balance contributions across traffic regimes, we weight each world's loss inversely by its agent count:
+Sample Reweighting. Worlds with many agents produce more trajectories per update than sparse worlds. Without correction, dense worlds dominate the gradient and bias training toward slow, crowded traffic. To balance contributions across traffic regimes, we weight each world's loss inversely by its agent count: Here, $\mathcal{W}$ is the set of sampled worlds in an update, $N_{w}$ is the number of agents in world $w$, and $\mathcal{L}_{\pi}^{(w,i)}$ is the policy loss for agent $i$ in world $w$. We apply the same reweighting to the value loss. This normalization makes each world contribute more evenly regardless of density and reduces the variance amplification induced by highly interactive dense scenes.
 
-Here, $\mathcal{W}$ is the set of sampled worlds in an update, $N_{w}$ is the number of agents in world $w$, and $\mathcal{L}_{\pi}^{(w,i)}$ is the policy loss for agent $i$ in world $w$. We apply the same reweighting to the value loss. This normalization makes each world contribute more evenly regardless of density and reduces the variance amplification induced by highly interactive dense scenes.
-
-Action Regularization. We replace the standard PPO entropy bonus with a KL regularizer toward a discrete action prior induced by a zero-mean Gaussian over the jerk--steering lattice. The prior is parameterized as $\mathcal{N}{(0,\Sigma_{0})}$, centered at zero jerk and zero steering rate. Concretely, we optimize:
-
-where $\lambda_{KL} > 0$ controls the regularization strength and $\Sigma_{0} \in {\mathbb{R}}^{2}$ sets the spread of the prior for steering rate and jerk invidually. This regularizer favors moderate, smoother controls while encouraging exploration.
+Action Regularization. We replace the standard PPO entropy bonus with a KL regularizer toward a discrete action prior induced by a zero-mean Gaussian over the jerk--steering lattice. The prior is parameterized as $\mathcal{N}(0,\Sigma_{0})$, centered at zero jerk and zero steering rate. Concretely, we optimize: where $\lambda_{\mathrm{KL}}>0$ controls the regularization strength and $\Sigma_{0}\in\mathbb{R}^{2}$ sets the spread of the prior for steering rate and jerk invidually. This regularizer favors moderate, smoother controls while encouraging exploration.
 
 ## Experiments and Results
 

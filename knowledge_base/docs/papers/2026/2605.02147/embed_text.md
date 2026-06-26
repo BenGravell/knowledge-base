@@ -10,9 +10,7 @@ Both failure modes stem from the control-as-inference formulation underlying the
 
 This article addresses these shortcomings at a foundational level by developing Sinkhorn Coordinate Descent (SCD), a sampling-based optimization algorithm derived from an optimal transport (OT) variational principle. Unlike information-theoretic divergences, OT objectives such as the Wasserstein distance measure not only whether two distributions assign probability mass similarly, but also the cost of transforming one into the other---incorporating spatial information. Entropy regularization softens the coupling and enables efficient computation via the Sinkhorn algorithm. The resulting MPC algorithm, Optimal Transport MPC (OT-MPC), computes an optimal coupling between particles and low-cost proposals, then updates each particle toward its weighted barycenter. Like MPPI, this algorithm requires only cost evaluations, making it compatible with non-smooth dynamics and non-differentiable costs. Experiments on navigation, manipulation, and locomotion demonstrate improved success rates over existing methods.
 
-Contributions. In summary, this article contributes the following to the theory and practice of sampling-based control:
-
-We propose SCD, a gradient-free optimization algorithm, and its MPC instantiation, OT-MPC. Unlike other sampling-based methods, SCD updates particles based on both cost and geometric proximity---enabling local refinement while preserving diversity.
+Contributions. In summary, this article contributes the following to the theory and practice of sampling-based control: We propose SCD, a gradient-free optimization algorithm, and its MPC instantiation, OT-MPC. Unlike other sampling-based methods, SCD updates particles based on both cost and geometric proximity---enabling local refinement while preserving diversity.
 
 We establish theoretical properties of SCD, including monotone descent, convergence guarantees, and closed-form updates for quadratic costs.
 
@@ -40,71 +38,144 @@ The most similar existing algorithm to OT-MPC is MPOT, which also uses the Sinkh
 
 Figure 2: Overview of OT-MPC. (a) Proposals are sampled to explore the trajectory space. (b) The Sinkhorn algorithm computes a soft coupling between candidates (bold curves) and proposals factoring in both cost and proximity. Colors indicate which to which proposals the candidate is most strongly coupled. (c) Each candidate updates toward its coupled proposals via a barycentric projection eq. 17—refining locally while preserving distinct modes. (d) The lowest-cost candidate is executed. Unlike MPPI, which averages all samples globally, OT-MPC couples each candidate to nearby proposals—avoiding the mode-averaging that would steer directly into the obstacle and enabling local refinement of candidates within each mode.
 
-Optimal transport (OT) finds the minimum-cost coupling between two distributions. For probability mass functions $q \in \mathbf{\Delta}^{N}$ and $p \in \mathbf{\Delta}^{M}$, a coupling is a joint distribution $\Gamma \in \mathbf{R}_{+}^{N \times M}$ with marginals ${\Gamma1_{M}} = q$ and ${\Gamma^{\mathsf{T}}1_{N}} = p$; denote this set $\mathbf{\Gamma}{(q,p)}$. Given a cost matrix $C \in \mathbf{R}^{N \times M}$, the OT problem minimizes total transport cost. When the cost reflects distance, OT metrizes the space of distributions---for instance, yielding the Wasserstein distance when $C_{ij} = {\|{x_{i} - y_{j}}\|}^{2}$. Unlike the KL divergence, which compares distributions pointwise without regard to the underlying space, OT incorporates geometric structure through the cost matrix.
+Optimal transport (OT) finds the minimum-cost coupling between two distributions. For probability mass functions $q\in\mathbf{\Delta}^{N}$ and $p\in\mathbf{\Delta}^{M}$, a coupling is a joint distribution $\Gamma\in\mathbf{R}_{+}^{N\times M}$ with marginals $\Gamma 1_{M}=q$ and ${\Gamma}^{\mathsf{T}}1_{N}=p$; denote this set $\mathbf{\Gamma}(q,p)$. Given a cost matrix $C\in\mathbf{R}^{N\times M}$, the OT problem minimizes total transport cost. When the cost reflects distance, OT metrizes the space of distributions---for instance, yielding the Wasserstein distance when $C_{ij}=\|x_{i}-y_{j}\|^{2}$. Unlike the KL divergence, which compares distributions pointwise without regard to the underlying space, OT incorporates geometric structure through the cost matrix.
 
-The OT problem is a linear program with $\mathcal{O}{({N^{3}{\log N}})}$ complexity, but entropy regularization enables efficient approximate solutions via the Sinkhorn algorithm. The entropic OT (EOT) problem is:
+The OT problem is a linear program with $\mathcal{O}(N^{3}\log N)$ complexity, but entropy regularization enables efficient approximate solutions via the Sinkhorn algorithm. The entropic OT (EOT) problem is: where $H(\Gamma)\coloneqq-\sum_{i,j}\Gamma_{ij}(\log\Gamma_{ij}-1)$ is the entropy. The unique solution has the form ${\Gamma}^{\star}_{ij}=u_{i}K_{ij}v_{j}$ with $K_{ij}=\exp(-C_{ij}/\varepsilon)$, where the scaling vectors $u,v$ are computed by alternating projections onto the marginal constraints (Algorithm 1). As $\varepsilon\to 0$, the coupling becomes sparse, deterministic coupling ${\Gamma}^{\star}$ as converges to the unregularized OT solution. As $\varepsilon\to\infty$, the coupling ignores the transport cost and ${\Gamma}^{\star}\to q{p}^{\mathsf{T}}$.
 
-where ${H{(\Gamma)}} ≔ {- {\sum_{i,j}{\Gamma_{ij}{({{\log\Gamma_{ij}} - 1})}}}}$ is the entropy. The unique solution has the form $\Gamma_{ij}^{\star} = {u_{i}K_{ij}v_{j}}$ with $K_{ij} = {\exp\left( {- {C_{ij}/\varepsilon}} \right)}$, where the scaling vectors $u,v$ are computed by alternating projections onto the marginal constraints (Algorithm 1). As $\varepsilon\rightarrow 0$, the coupling becomes sparse, deterministic coupling $\Gamma^{\star}$ as converges to the unregularized OT solution. As $\varepsilon\rightarrow\infty$, the coupling ignores the transport cost and $\Gamma^{\star}\rightarrow{qp^{\mathsf{T}}}$.
-
-Input: Cost matrix C ∈ RN × M, marginals q ∈ RN, p ∈ RM, regularization ε &gt; 0.
-Output: Optimal coupling Γ⋆ ∈ RN × M.
-// Can warm start
-
-Algorithm 1 Sinkhorn Algorithm (Sink)
+Input: Cost matrix C ∈ RN × M, marginals q ∈ RN, p ∈ RM, regularization ε > 0. Output: Optimal coupling Γ⋆ ∈ RN × M. 1exKij ← exp (−Cij/ε); // Can warm start Algorithm 1 Sinkhorn Algorithm (Sink)
 
 ## Optimal Control Problem Formulation
 
 This section formulates the optimal control problems solved by OT-MPC using the control-as-inference perspective, which is mathematically equivalent to the free energy duality in the MPPI literature.
 
-Consider a deterministic discrete-time system with state $x_{t} \in \mathbf{R}^{n}$, control $u_{t} \in \mathbf{R}^{m}$, initial condition $x_{0}$, and dynamics:
-
-Let $\mathbf{X}$ and $\mathbf{U}$ denote the sets of state and control sequences of horizon $t_{f}$. The task is specified by a cost function $J:{{\mathbf{X} \times \mathbf{U}}\rightarrow\mathbf{R}_{+}}$. A common choice is,
-
-though $J{(\mathbf{x},\mathbf{u})}$ need not be continuous or differentiable. Let $\Phi{(\mathbf{u};x_{0})}$ denote the *rollout* map, which returns the state-control trajectory satisfying eq. 2. The optimal control problem is:
+Consider a deterministic discrete-time system with state $x_{t}\in\mathbf{R}^{n}$, control $u_{t}\in\mathbf{R}^{m}$, initial condition $x_{0}$, and dynamics: Let $\mathbf{X}$ and $\mathbf{U}$ denote the sets of state and control sequences of horizon $t_{f}$. The task is specified by a cost function $J:\mathbf{X}\times\mathbf{U}\to\mathbf{R}_{+}$. A common choice is, though $J(\mathbf{x},\mathbf{u})$ need not be continuous or differentiable. Let $\Phi(\mathbf{u};x_{0})$ denote the *rollout* map, which returns the state-control trajectory satisfying eq. 2. The optimal control problem is:
 
 ### IV-A Optimal Control via Variational Inference
 
-The OT-MPC algorithm solves eq. P using SCD (Section V), which approximately samples from a target distribution that concentrates probability mass at the minima of $S{(\mathbf{u};x_{0})}$. This target is derived using the control-as-inference framework, which reformulates eq. P as a Bayesian inference problem in which $\mathbf{u}$ are the latent variables to be inferred.
+The OT-MPC algorithm solves eq. P using SCD (Section V), which approximately samples from a target distribution that concentrates probability mass at the minima of $S(\mathbf{u};x_{0})$. This target is derived using the control-as-inference framework, which reformulates eq. P as a Bayesian inference problem in which $\mathbf{u}$ are the latent variables to be inferred.
 
-Select a prior $P{(\mathbf{u})}$ and define a binary random variable $o \in {\{ 0,1\}}$ to indicate whether controls $\mathbf{u}$ are optimal. Optimal sequences can be generated by sampling from the posterior:
-
-Since sampling from this posterior is intractable, we seek a variational approximation by finding the distribution in a tractable family $\mathbf{Q} \subseteq {\mathbf{\Delta}{(\mathbf{U})}}$ closest in KL divergence:
-
-Rearranging yields the *evidence lower bound* (ELBO):
-
-The standard choice of likelihood is the exponentiated cost:
-
-under which the ELBO becomes:
-
-When $\mathbf{Q} = {\mathbf{\Delta}{(\mathbf{U})}}$, the solution is the Gibbs measure:
-
-The inverse temperature $\beta$ controls concentration: as $\beta\rightarrow 0$, $Q\rightarrow P$; as $\beta\rightarrow\infty$, probability concentrates at the global minima of $S$. In practice, $Q^{\star} \notin \mathbf{Q}$, so algorithms like OT-MPC and MPPI approximate it within $\mathbf{Q}$.
+Select a prior $P(\mathbf{u})$ and define a binary random variable $o\in\{0,1\}$ to indicate whether controls $\mathbf{u}$ are optimal. Optimal sequences can be generated by sampling from the posterior: Since sampling from this posterior is intractable, we seek a variational approximation by finding the distribution in a tractable family $\mathbf{Q}\subseteq\mathbf{\Delta}(\mathbf{U})$ closest in KL divergence: Rearranging yields the *evidence lower bound* (ELBO): The standard choice of likelihood is the exponentiated cost: under which the ELBO becomes: When $\mathbf{Q}=\mathbf{\Delta}(\mathbf{U})$, the solution is the Gibbs measure: The inverse temperature $\beta$ controls concentration: as $\beta\to 0$, $Q\to P$; as $\beta\to\infty$, probability concentrates at the global minima of $S$. In practice, ${Q}^{\star}\notin\mathbf{Q}$, so algorithms like OT-MPC and MPPI approximate it within $\mathbf{Q}$.
 
 ### IV-B The Path Integral Method for Sampling Controls
 
 This section briefly describes how MPPI solves eq. 8. The objective eq. 8 is equivalent to the free energy variational inequality in the MPPI literature. The distinction between the two inequalities is only in terminology.
 
-The MPPI algorithm restricts $\mathbf{Q}$ to Gaussian distributions with fixed covariance:
-
-where $\mathbf{\Sigma} = {(\Sigma_{t})}_{t = 0}^{t_{f}}$ is a known covariance sequence and $\overline{\mathbf{u}} = {({\overline{u}}_{t})}_{t = 0}^{t_{f}}$ is the mean to be optimized. Since $Q^{\star}$ cannot be sampled directly, importance sampling approximates the minimum mean square error (MMSE) estimator:
-
-where $\mathbf{u}_{j} = {\overline{\mathbf{u}} + {\delta\mathbf{u}_{j}}}$ with ${\delta\mathbf{u}_{j}} \sim {\mathcal{N}{(0,\mathbf{\Sigma})}}$. This yields the MPPI update:
+The MPPI algorithm restricts $\mathbf{Q}$ to Gaussian distributions with fixed covariance: where $\mathbf{\Sigma}=(\Sigma_{t})_{t=0}^{t_{f}}$ is a known covariance sequence and $\bar{\mathbf{u}}=(\bar{u}_{t})_{t=0}^{t_{f}}$ is the mean to be optimized. Since ${Q}^{\star}$ cannot be sampled directly, importance sampling approximates the minimum mean square error (MMSE) estimator: where $\mathbf{u}_{j}=\bar{\mathbf{u}}+\delta\mathbf{u}_{j}$ with $\delta\mathbf{u}_{j}\sim\mathcal{N}(0,\mathbf{\Sigma})$. This yields the MPPI update:
 
 ## Sinkhorn Coordinate Descent
 
-This section describes *Sinkhorn Coordinate Descent* (SCD), a gradient-free algorithm that evolves $N$ particles $\mathbf{z} = {(z_{i})}_{i = 1}^{N}$ toward the target distribution $Q^{\star}{(z)}$ using $M$ proposals $\mathbf{y} = {(y_{j})}_{j = 1}^{M}$ sampled from a reference distribution $R{(\left. \mathbf{y} \middle| \mathbf{x} \right.)}$. Note that the reference may optionally depend on the particle values. Unlike importance sampling, which computes a single global average, SCD incorporates geometric information through the EOT cost computed via Algorithm 1. This section presents SCD independently of the control setting; section VI instantiates it for MPC.
+This section describes *Sinkhorn Coordinate Descent* (SCD), a gradient-free algorithm that evolves $N$ particles $\mathbf{z}=(z_{i})_{i=1}^{N}$ toward the target distribution ${Q}^{\star}(z)$ using $M$ proposals $\mathbf{y}=(y_{j})_{j=1}^{M}$ sampled from a reference distribution $R(\mathbf{y}|\mathbf{x})$. Note that the reference may optionally depend on the particle values. Unlike importance sampling, which computes a single global average, SCD incorporates geometric information through the EOT cost computed via Algorithm 1. This section presents SCD independently of the control setting; section VI instantiates it for MPC.
 
-The proposals are sampled from a distribution $R{(\left. \mathbf{y} \middle| \mathbf{z} \right.)}$, which is optionally conditioned on the particle values. The target marginal ${p{(\mathbf{y})}} \in \mathbf{\Delta}^{M}$ is defined via self-normalizing importance sampling:
-
-The particle marginal ${q{(\mathbf{z})}} \in \mathbf{\Delta}^{N}$ can be set arbitrarily, e.g., it can be defined analogously to $p{(\mathbf{y})}$ or a uniform distribution to encourage exploration. Together with a cost function $c:{{\mathbf{R}^{n} \times \mathbf{R}^{n}}\rightarrow\mathbf{R}}$, these define an EOT problem over particle positions:
-
-The SCD algorithm solves this EOT problem via alternating optimization of particles and coupling:
-
-$\mathbf{z}^{({k + 1})}$ ${\leftarrow{{\operatorname{argmin}\limits_{\mathbf{z}}\mathcal{L}_{\varepsilon}^{c}}{(\mathbf{z},\Gamma^{(k)};\mathbf{y})}}},$ (16a)
-$\Gamma^{({k + 1})}$ ${\leftarrow{{\operatorname{argmin}\limits_{\Gamma \in \mathbf{\Gamma}^{({k + 1})}}\mathcal{L}_{\varepsilon}^{c}}{(\mathbf{z}^{({k + 1})},\Gamma;\mathbf{y})}}},$ (16b)
-
-where $\mathbf{\Gamma}^{({k + 1})} ≔ {\mathbf{\Gamma}{({q{(\mathbf{z}^{({k + 1})})}},{p{(\mathbf{y})}})}}$ is the coupling constraint induced by the current particles. The coupling update eq. 16b is solved efficiently via Algorithm 1. The particle update eq. 16a generally requires first-order optimization, with gradients available via the envelope theorem. However, for quadratic costs the solution is closed-form, e.g:
+The proposals are sampled from a distribution $R(\mathbf{y}|\mathbf{z})$, which is optionally conditioned on the particle values. The target marginal $p(\mathbf{y})\in\mathbf{\Delta}^{M}$ is defined via self-normalizing importance sampling: The particle marginal $q(\mathbf{z})\in\mathbf{\Delta}^{N}$ can be set arbitrarily, e.g., it can be defined analogously to $p(\mathbf{y})$ or a uniform distribution to encourage exploration. Together with a cost function $c:\mathbf{R}^{n}\times\mathbf{R}^{n}\to\mathbf{R}$, these define an EOT problem over particle positions: The SCD algorithm solves this EOT problem via alternating optimization of particles and coupling: where $\mathbf{\Gamma}^{(k+1)}\coloneqq\mathbf{\Gamma}(q(\mathbf{z}^{(k+1)}),p(\mathbf{y}))$ is the coupling constraint induced by the current particles. The coupling update eq. 16b is solved efficiently via Algorithm 1. The particle update eq. 16a generally requires first-order optimization, with gradients available via the envelope theorem. However, for quadratic costs the solution is closed-form, e.g:
 
 ### Proposition 1 (Barycentric Update)
 
-When ${c{(z,y)}} = {\|{z - y}\|}_{2}^{2}$, the minimizer of $\mathbf{z}\mapsto{\mathcal{L}_{\varepsilon}^{c}{(\mathbf{z},\Gamma;\mathbf{y})}}$ is the barycentric projection:
+When $c(z,y)=\|z-y\|_{2}^{2}$, the minimizer of $\mathbf{z}\mapsto\mathcal{L}^{c}_{\varepsilon}(\mathbf{z},\Gamma;\mathbf{y})$ is the barycentric projection: Appendix B establishes general conditions for closed-form updates and lists additional cases useful in robotics, e.g., spline parameters and elements of $\mathbf{SE}$.
+
+Input: Init. particles z, proposals y, weights q ∈ ΔN, p ∈ ΔM, parameters ε > 0, η ∈ (0, 1]. Output: Updated particles z. y← Resample from R in parallel (Optional); $b_{i}\leftarrow\sum_{j=1}^{M}\Gamma_{ij}y_{j}\big/\sum_{k=1}^{M}\Gamma_{ik}$; Algorithm 2 Sinkhorn Coordinate Descent (SCD) Properties and Behavior. The complete SCD algorithm is listed in Algorithm 2. In practice, the particle update eq. 16a is relaxed with step size $\eta\in(0,1]$ to improve stability and reduce variance when proposals are resampled each iteration or $\varepsilon$ is very small.
+
+Notably, SCD generalizes the importance sampling procedure underlying MPPI. When $N=1$, the marginal constraint forces $\Gamma_{1j}=p_{j}$, and the barycenter eq. 17. ‣ V Sinkhorn Coordinate Descent ‣ Sampling-Based Control via Entropy-Regularized Optimal Transport") reduces to the global weighted average in eq. 11. Similarly, as $\varepsilon\to\infty$, the coupling factors as $\Gamma_{ij}=q_{i}p_{j}$, which causes the barycenter update in eq. 17. ‣ V Sinkhorn Coordinate Descent ‣ Sampling-Based Control via Entropy-Regularized Optimal Transport") to be independent of the particle identity---causing all particles to have the same barycenter. In both limits, the barycentric projection becomes an importance-weighted average and SCD recovers MPPI.
+
+The algorithm enjoys favorable theoretical properties when proposals are fixed. The most important of which are stated concisely in the following proposition. Full details, additional theoretical results, and proofs in the Appendix A.
+
+### Proposition 2
+
+When $\mathbf{y}$ are fixed and $z\mapsto c(z,y)$ is convex: The objective $\mathcal{L}^{c}_{\varepsilon}(\mathbf{z},\Gamma;\mathbf{y})$ is biconvex in $(\mathbf{z},\Gamma)$.
+
+The sequence $\quantity(\mathcal{L}^{c}_{\varepsilon}(\mathbf{z}^{(k)},\Gamma^{(k)};\mathbf{y}))_{k\geq 0}$ is non-increasing.
+
+The iterates $(z^{(k)},\Gamma^{(k)})$ converge to a stationary point.
+
+The biconvexity of $\mathcal{L}^{c}_{\varepsilon}(\mathbf{z},\Gamma;\mathbf{y})$ ensures each subproblem has a unique solution. As a descent method, each iteration maintains or improves the solution. The convergence guarantee ensures the algorithm terminates at a well-defined fixed point rather than oscillating. Together, these properties make SCD well-suited for real-time MPC: the algorithm can be stopped after a fixed iteration budget with the *guarantee that each iteration has improved the solution*.
+
+Exploration-Exploitation Tradeoff. The transport structure shapes algorithmic behavior in several ways. First, particles remain in the convex hull of proposals---exploration is limited by proposal coverage, making the choice of reference distribution $R(\mathbf{y}|\mathbf{z})$ important. Second, marginal constraints coordinate updates: each particle must distribute its mass $q_{i}$ across proposals, and the transport cost biases this allocation toward nearby proposals. This prevents particles from collapsing to a single mode when proposals cover multiple basins. However, if proposals themselves cluster in one basin---e.g., when resampling around already-converged particles---diversity can still collapse.
+
+For these reasons, the choice of $R(\mathbf{y}|\mathbf{z})$ and the resampling frequency significantly shape SCD's behavior. Sampling proposals near each particle enables local refinement but reduces exploration, potentially causing all particles to converge to the best known local minimum. Depending on the application, this can be desirable---especially when combined with annealing---since committing to the best discovered mode after sufficient exploration is a reasonable strategy when gradient information is unavailable.
+
+Stopping Criteria. When early stopping is preferred, some options for practical convergence criteria include, Figure 3: Robotics control experiments used to evaluate OT-MPC. (a) Kinematic Bicycle navigating through an obstacle field. (b) Quadrotor navigating from start to goal through cluttered environment. (c) Two-Quadrotor system cooperatively carrying a suspended load through an opening in the wall. (d) Push-T task using Franka where the manipulator has to push and align the T-Block to a goal location (e) Unitree Go2 box pushing task, where the quadruped has to push the box to a goal location (f) Unitree Go2 locomotion task of climbing an inclined ramp.
+
+## Model-Predictive Control via Entropic Optimal Transport
+
+This section instantiates SCD for control, creating *Optimal Transport MPC* (OT-MPC). We specify the particle representation, proposal distribution, and computational trade-offs.
+
+### VI-A Trajectory Optimization via Sinkhorn Coordinate Descent
+
+Each particle $z_{i}=(u_{i}^{0},u_{i}^{1},\ldots,u_{i}^{t_{f}-1})$ represents a candidate control sequence. The proposal weights follow the Gibbs distribution $p_{j}\propto\exp(-\beta S(y_{j};x_{0}))$, where $\beta>0$ is an inverse temperature controlling concentration at low-cost proposals. Particles receive uniform weights $q_{i}=1/N$ to encourage exploration. At each MPC cycle, we run $K$ iterations of SCD, drawing fresh proposals each iteration, then execute the first control from the lowest-cost particle. Standard warm-starting applies: particles are shifted forward in time and the final segment is reinitialized.
+
+### VI-B Proposal Distribution
+
+The proposal distribution $R(\mathbf{y}|\mathbf{z})$ balances local refinement against global exploration. We use a mixture to sample proposals: where $\rho\in$ controls the exploration rate. The first component perturbs existing particles, enabling local refinement around promising solutions. The second component $R_{\mathrm{global}}$ provides global coverage---either uniform over the control bounds or a broad Gaussian centered at zero.
+
+The perturbation covariance $\Sigma$ can be isotropic ($\sigma^{2}I$) or structured to reflect problem geometry. For trajectory optimization, temporal correlations often improve sample quality: perturbations that vary smoothly across timesteps produce dynamically coherent candidates, whereas independent noise at each timestep yields low-quality erratic trajectories.
+
+### VI-C Hyperparameter Selection
+
+OT-MPC introduces three key hyperparameters beyond those shared with MPPI: the entropy regularization $\varepsilon$, the relaxation parameter $\eta$, and the number of particles $N$.
+
+The regularization $\varepsilon$ controls coupling sparsity. Small $\varepsilon$ yields near-deterministic assignment where each particle couples primarily to its nearest low-cost proposal; this accelerates convergence but risks premature commitment. Large $\varepsilon$ spreads coupling mass broadly, maintaining diversity but slowing refinement. We find $\varepsilon$ in the range $[0.01,0.1]$ times the median pairwise distance works well across tasks.
+
+The relaxation parameter $\eta\in(0,1]$ governs step size toward the barycenter. Full steps ($\eta=1$) converge fastest when proposals are fixed, but cause oscillation when proposals are resampled each iteration. Damped updates ($\eta\approx 0.5$) provide stability at the cost of slower convergence. In practice, $\eta$ between $0.3$ and $0.7$ balances these concerns.
+
+The particle count $N$ determines the capacity to represent multimodal structure. Too few particles collapse to a single mode; too many incur unnecessary coupling cost. We observe diminishing returns beyond $N\approx 10$--$20$ for problems with two to four distinct modes. Since the coupling cost scales as $\mathcal{O}(NM)$, a practical heuristic is to set $N\ll M$, using many proposals for exploration but few particles to track the discovered modes.
+
+## Experiments
+
+We evaluate OT-MPC across a diverse set of robotics control tasks ranging from navigation, locomotion to manipulation. The experiments are designed to test and evaluate whether the optimal transport coupling improves the performance on tasks with multimodal cost landscapes that generally cause other sampling based methods to struggle.
+
+Baselines. We benchmark against MPPI, CEM and Stein Variational Model-Predictive Control (SV-MPC) on the lower-dimensional tasks such as bicycle navigation and planar Push-T task. We decided to exclude CEM and SV-MPC from higher dimensional system for the following reasons. As the state dimensions increase the CEM's elite selection mechanism performs poorly as it discards majority of the cost information and fails to capture complex cost landscapes. SV-MPC, which builds on SVGD requires differentiable and smooth dynamics and cost functions which may not be feasible for complex and larger dimensional systems that includes rich contact dynamics and sparse cost structure (e.g. indicator functions for collision). As OT-MPC and MPPI are both zeroth order sampling based methods, OT-MPC can be fairly compared against MPPI.
+
+MPPI Variants. OT-MPC generalizes MPPI in the cases $N=1$ or $\varepsilon\to\infty$ because SCD recovers the MPPI importance-weighted average exactly (Section V). The two methods share the same high-level structure---sample proposals, roll out dynamics, evaluate costs, update candidate controls. They differ only in how the candidates integrate sample information: MPPI uses a global weighted average while OT-MPC uses optimal transport. Comparing against vanilla MPPI therefore *isolates the contribution of the OT-based update rule*. Most enhancements to MPPI, e.g., colored noise, annealing schedules, and log-space formulations, improve proposal generation and scoring but do not modify the aggregation step, and thus *transfer directly to OT-MPC without modification*.
+
+Hyperparameter Tuning. To ensure fair comparison, the hyperparameters for all control algorithm are tuned using Optuna with the same hyperparameter tuning objective and whenever possible with the same sampling budget. Complete details on *cost structures, hyperparameter values, implementation details and additional visualization of successes and failures* are provided in the Appendix. Videos and an interactive 3D visualizer for qualitative inspection of trajectories are available on the project page.
+
+### VII-A Car (Bicycle) Obstacle Avoidance
+
+We first evaluate OT-MPC on a car navigation task using a kinematic bicycle model with states $(x,y,\theta,v)$ representing the position, heading and velocity of the system and with linear acceleration and steering angle as control inputs. The objective is to navigate the car from a starting location to a goal location through a dense obstacle field avoiding collision. We benchmark OT-MPC against MPPI, CEM, and SV-MPC across 300 Monte Carlo trials with randomly generated initializations, goal locations and obstacle field at two difficulty levels: Easy (sparser obstacles) and Hard (denser obstacle field). The hyperparameters of all the controllers were tuned using Optuna for a fair comparison. Table I shows the benchmark results and we can see that OT-MPC achieves the highest success rate (99% on Easy and 93.5% on Hard), outperforming MPPI and other control algorithms. The performance gap widens in the Hard settings where the denser obstacles create more multimodal cost landscapes and control schemes like MPPI struggle due to mode-averaging. Other details regarding the parameters, cost structure and breakdown of the benchmark results can be found in the Appendix C.
+
+### VII-B 2D Push-T
+
+The planar Push-T task is a well-known manipulator task used to evaluate controllers in a multimodal scenario. The objective here is to push and align a T-shaped block from a randomly perturbed initial location to a goal location using a circular pusher. This is an inherently difficult task for standard MPC and sampling based controllers due to the hybrid contact dynamics and sparse costs. Here the states of the system are the pusher position as well as the position and orientation of the T-block and we use velocity control to move the pusher. We benchmark our OT-MPC with other controllers across 50 randomly generated initial and goal configuration for the T-block. The results of the benchmark are provided in Table I. We can clearly observe the superior performance of OT-MPC (76% success) compared to the other control algorithms. Again here MPPI struggles due to mode-averaging in this contact-rich settings where there might be multiple viable solutions. SV-MPC was not able to solve this problem, due to the lack of meaningful gradients from the hybrid contact dynamics.
+
+### VII-C Quadrotor Dense Obstacle Avoidance
+
+In order to evaluate OT-MPC in higher dimensional systems, we have considered the 12DOF Quadrotor with thrust-torque control navigating in a dense obstacle field from a starting location to a goal avoiding collision. We tested our OT-MPC controller against MPPI across 100 trials each on three different environment difficulty settings - Easy (50 obstacles), Medium (100 obstacles), Hard (100 obstacles in tighter configuration). As shown in Table I OT-MPC outperform MPPI in both Medium (100% vs 60%) and Hard (92% vs 19%) settings. We observed that the low success rate in MPPI is not due to collision with obstacle but rather due to MPPI failing to find a feasible path in this dense obstacle field and often gets stuck in local minima while OT-MPC's multimodal approach helps alleviate this issue.
+
+### VII-D Two Quadrotor Cooperative Load Carrying
+
+Car Obstacle Easy Car Obstacle Hard Quad. Obstacle Easy Quad. Obstacle Medium Quad. Obstacle Hard Quad. Carry Normal Quad. Carry Hard TABLE I: Benchmark results comparing OT-MPC (ours) with various control schemes on a variety of robotics control tasks. The average steps for each task is computed using only successful runs. † The low standard deviation is due to the fact that MPPI only completed two runs successfully.
+
+We have extended our quadrotor experiment to two-quadrotor system trying to cooperatively carry a suspended load from an initial location to a goal. Here we have a 27DOF system (Two 12DOF quadrotors and 3D position of the suspended load) with a 6-dimensional control - thrust-torque control for each quadrotor but with yaw torque control disabled due to cable constraints. To increase the complexity of the experiment, we have designed the environment in which the two-quadrotor system must navigate through an opening in the wall to reach the other side (goal). We have benchmark MPPI and OT-MPC in two different difficulty setting with locations of holes and initial states of the system randomized - Normal (2.0m x 2.0m opening) and Hard (1.2m x 1.4m opening). The benchmark result from 100 runs (each) are shown in Table I and we observe that OT-MPC performs exceptionally well in both Normal (91 % vs 22%) and Hard (75%, 10%) when compared to MPPI. Here the narrow opening creates a bottleneck where both quadrotors need to coordinate precisely to navigate through and MPPI 's mode-averaging disrupts this coordination.
+
+### VII-E Franka Push-T
+
+We extended the planar Push-T task to full 3D manipulation setting using a Franka Panda arm and end-effector poking stick. The Franka state is 14-dimensional (joint positions and velocities) with 7-dimensional joint position control. Along with the T-block states (13 dimensional - position, quaternion, velocity and angular velocity) and End-Effector states (7-dimensional - End-effector position and quaternion), the total system is 34-dimensional. We parameterize the control trajectories using cubic splines to produce smooth joint motion. The objective here is to push a T-Block from an initial pose to a goal using the end-effector stick. We benchmark over 50 trials with randomized T-Block configurations. MPPI initially showed low success rate on this task, requiring significantly more hyperparameter tuning effort compared to OT-MPC to achieve competitive performance. After extensive tuning, as shown in Table I we were able to reach similar success rate (66% for OT-MPC vs 64% for MPPI). This result shows that OT-MPC can achieve good performance with less tuning in complex tasks and can probably outperform MPPI, if similar tuning effort is used.
+
+### VII-F Quadruped Locomotion
+
+We also evaluated the effectiveness of our controller on a simulated Unitree Go2 quadruped on locomotion task in different terrains. The Go2 quadruped is 37-dimensional system where the control inputs are the joint position of 12 leg joints. We employ a cubic hermite spline parameterization to sample smooth joint positions and velocities that enables us to produce coherent motions and the gaits emerge naturally from the sampling-based optimization rather than requiring reference trajectories or predefined gaits. We tuned our cost function weights for both MPPI and OT-MPC in flat terrain to produce stable walking gait. To test generalization capability, we then evaluate these algorithms on out of distribution environments like inclined ramp (mild inclination) and narrow bridge crossing. The results are shown in Table II. Since here we want to evaluate the locomotion performance, we have decided to report the average steps and median distance to goal across 5 terrain configurations. Both MPPI and OT-MPC achieve stable locomotion, however, OT-MPC achieves significantly lower average steps compared to MPPI indicating superior locomotion performance.
+
+### VII-G Quadruped Box Pushing
+
+We have also extended our Quadruped locomotion task to a contact rich loco-manipulation task where the quadruped is tasked with pushing a box from a starting location to a goal location. Here with the addition of the box, the state space expands to 37 robot states and 13 box states (position, quaternions, velocity and angular velocities). We benchmark the performance of MPPI and OT-MPC across 100 trials with randomized initial robot pose and box initializations (based on difficulty. See Appendix C for details). Table II shows the benchmark results and we can see that OT-MPC performs better while maintaining lower average steps and median distance to goal.
+
+### VII-H Computational Overhead
+
+For tasks with JAX-vectorized rollouts, Table III reports per-iteration and wall-clock times. OT-MPC achieves comparable or faster wall-clock times on most tasks despite the additional Sinkhorn step. This is because Optuna consistently selects fewer proposals per OT-MPC iteration. The transport coupling extracts more information per sample, reducing the number of rollouts needed. Since rollouts dominate compute, this efficiency more than compensates for the Sinkhorn overhead.
+
+For the Franka and Go2 experiments, sequential MuJoCo rollouts dominate wall-clock time, making overall timings unrepresentative of algorithmic cost. To isolate the OT-MPC overhead, we measured the per-iteration cost of the Sinkhorn solve and barycentric update: 1.6 ms for Franka ($8\times 800$ coupling) and 0.2 ms for Go2 ($8\times 50$).
+
+Median Goal Dist.
+
+TABLE II: Results of Go2 Quadruped locomotion tasks. In the locomotion task both control methods achieved 100% success when tested in 5 different terrain configurations. In the box pushing task, OT-MPC achieved a 78% success while MPPI achieved 71% across 100 Monte Carlo runs.
+
+Two Quad Carry TABLE III: Computation times for JAX-vectorized environments. Each method uses its Optuna-tuned sample count.
+
+## Conclusion
+
+This paper addresses the fundamental limitations of existing sampling-based optimal control algorithms, e.g., MPPI and CEM, caused by their information-theoretic foundations. The variational principles from which they are derived cannot incorporate geometric information, resulting in solutions that blend distinct modes or commit prematurely to one. To ameliorate these limitations, we derive a novel sampling algorithm, Sinkhorn Coordinate Descent (SCD), founded in optimal transport rather than information theory, and instantiate it in a model-predictive control scheme (OT-MPC). The optimal transport cost structure incorporates geometric proximity---enabling both local refinement and mode preservation behaviors not found in existing methods.
+
+Moreover, we established theoretical properties of SCD including monotone descent and convergence guarantees, and demonstrated empirically that OT-MPC outperforms MPPI, CEM, and SV-MPC across navigation, manipulation, and locomotion tasks. The performance gap is most pronounced in settings with multimodal cost landscapes---e.g., dense obstacle fields, contact-rich manipulation, and coordinated multi-robot control---where existing methods struggle.
+
+Limitations. OT-MPC incurs additional computational cost from Sinkhorn iterations compared to MPPI. Its complexity scales as $\mathcal{O}(NM)$ per iteration compared to the $\mathcal{O}(M)$ for an MPPI update---however, OT-MPC did not incur a significant overhead for the quantities of particles used in our experiments ($N\approx 10$--$20$). The algorithm's performance depends on the entropy regularization $\varepsilon$. Small values risk premature commitment while excessively large values slow refinement. We provided practical guidelines, but adaptive scheduling remains an open question. Finally, because particles update toward barycenters of proposals, exploration is fundamentally limited by proposal coverage---poor initialization or overly local sampling can still cause diversity collapse.
+
+Future Work. There are a number of exciting avenues for future work. As a novel sampling algorithm, SCD has broad application beyond OT-MPC and would benefit from detailed comparisons to other sampling methods to identify its strengths and weaknesses across problem classes. There are also various algorithmic extensions to explore. For example, there are opportunities to dynamically adapt the proposal distribution by extending particles from points to Gaussian distributions or leveraging natural connections between OT and Laguerre tessellations to create a semi-discrete algorithm. Finally, the theoretical results we established for SCD are for the setting where proposals are fixed---generalizing them to situations where proposals are resampled can better inform our understanding of this algorithm.

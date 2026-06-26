@@ -24,59 +24,45 @@ In the aforementioned approaches to ensuring stability and safety in dynamical s
 
 Contributions. In this paper, we propose a class of goal-conditioned neural dynamical systems that incorporate built-in guarantees of global exponential stability and safety (safe set forward invariance), for all combinations of initial state and goal state within the safe set. The models are compatible with learning-based paradigms for motion planning, such as learning from demonstration. The main contributions are: a systematic approach for constructing goal-conditioned dynamical systems via diffeomorphisms; theoretical results establishing guarantees of safety and exponential stability regardless of goal location; a tractable machine learning formulation for a diffeomorphism; empirical validation confirming the effectiveness of the proposed approach.
 
-Notation. A mapping $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{m}}$ is said to be of class $C^{k}$ if it has up to $k$th continuous derivatives. A continuously differentiable mapping $g:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$ is called a diffeomorphism if it is a bijection and its inverse $g^{- 1}$ is also differentiable. Given a $C^{1}$ function $V:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$, its gradient is taken as ${\nabla V}:=\left( {\partial{V/{\partial x}}} \right)^{\top}$. We denote unit ball as $\mathcal{B}^{n} = {\{{x \in {\mathbb{R}}^{n}}:{{|x|} \leq 1}\}}$, where $| \cdot |$ is the Euclidean norm. Given a set $X \subset {\mathbb{R}}^{n}$, we use $\partial X$ and ${Int}{(X)}$ to denote its boundary and interior, respectively.
+Notation. A mapping $f:\mathbb{R}^{n}\rightarrow\mathbb{R}^{m}$ is said to be of class $C^{k}$ if it has up to $k$th continuous derivatives. A continuously differentiable mapping $g:\mathbb{R}^{n}\rightarrow\mathbb{R}^{n}$ is called a diffeomorphism if it is a bijection and its inverse $g^{-1}$ is also differentiable. Given a $C^{1}$ function $V:\mathbb{R}^{n}\rightarrow\mathbb{R}$, its gradient is taken as $\nabla V:=\bigl(\partial V/\partial x\bigr)^{\top}$. We denote unit ball as $\mathcal{B}^{n}=\{x\in\mathbb{R}^{n}:|x|\leq 1\}$, where $|\cdot|$ is the Euclidean norm. Given a set $X\subset\mathbb{R}^{n}$, we use $\partial X$ and $\mathrm{Int}(X)$ to denote its boundary and interior, respectively.
 
 ## Preliminaries and Problem Formulation
 
 ### II-A The Dynamic Approach for Motion Planning
 
-The basic motion planning problem in robotics usually considers the robot dynamics to be fully-actuated and velocity-controlled, i.e.
+The basic motion planning problem in robotics usually considers the robot dynamics to be fully-actuated and velocity-controlled, i.e. where $x(t)\in\mathcal{X}\subseteq\mathbb{R}^{n}$ is the state, e.g., $x(t)$ could be the position of a robot arm's end effector.
 
-where ${x{(t)}} \in \mathcal{X} \subseteq {\mathbb{R}}^{n}$ is the state, e.g., $x{(t)}$ could be the position of a robot arm's end effector.
-
-While the dynamics are very simple, the difficulty comes from two sources. Firstly, the requirement for collision avoidance and other safety constraints, which can be represented as
-
-where $\mathcal{X}_{\text{safe}} \subset \mathcal{X}$ is a safe set that may have complex geometry. We denote by $\mathcal{X}_{\text{unsafe}}$ its complement $\mathcal{X}_{\text{unsafe}} = {\mathcal{X} \smallsetminus \mathcal{X}_{\text{safe}}}$, i.e., the set of unsafe states.
+While the dynamics are very simple, the difficulty comes from two sources. Firstly, the requirement for collision avoidance and other safety constraints, which can be represented as where $\mathcal{X}_{\text{safe}}\subset\mathcal{X}$ is a safe set that may have complex geometry. We denote by $\mathcal{X}_{\text{unsafe}}$ its complement $\mathcal{X}_{\text{unsafe}}=\mathcal{X}\setminus\mathcal{X}_{\text{safe}}$, i.e., the set of unsafe states.
 
 Secondly, the motion task may be complex and only partially specified. While it usually includes motion towards a goal position $x_{\star}$, among the infinite variety of possible motions approach the same goal, the desirable ones may be specified only indirectly via a limited set of demonstration data. The robot motion should not only accurately reproduce the training demonstrations, but also generalize to new conditions and react gracefully to disturbances. This generally requires some form of smoothness and stability of the dynamics.
 
 ### II-B Problem Statement
 
-In this work, we focus on a learning-based *all-pairs* motion planning problem, where both $x_{0}$ and $x_{\star}$ are allowed to be arbitrary points in $\mathcal{X}_{\text{safe}}$. Specifically, we aim to learn a smooth goal-conditioned dynamical system of the form
-
-where ${f{(x_{\star},x_{\star})}} = 0$ for all $x_{\star} \in \mathcal{X}_{\text{safe}}$, i.e. the goal state is an equilibrium.
+In this work, we focus on a learning-based *all-pairs* motion planning problem, where both $x_{0}$ and $x_{\star}$ are allowed to be arbitrary points in $\mathcal{X}_{\text{safe}}$. Specifically, we aim to learn a smooth goal-conditioned dynamical system of the form where $f(x_{\star},x_{\star})=0$ for all $x_{\star}\in\mathcal{X}_{\text{safe}}$, i.e. the goal state is an equilibrium.
 
 To formalize the desired properties of, we first recall the following standard definition:
 
 ### Definition 1
 
-For a given dynamical system with state $x{(t)}$, a set $\mathcal{S}$ is called forward invariant if ${x{}} \in \mathcal{S}$ implies ${x{(t)}} \in \mathcal{S}$ for all $t \geq 0$.
+For a given dynamical system with state $x(t)$, a set $\mathcal{S}$ is called forward invariant if $x\in\mathcal{S}$ implies $x(t)\in\mathcal{S}$ for all $t\geq 0$.
 
 We use the following notions of safety and stability for a goal-conditioned system:
 
 ### Definition 2
 
-System is called *safe* w.r.t. the set $\mathcal{X}_{\text{safe}}$ if for any goal state $x_{\star} \in \mathcal{X}_{\text{safe}}$, the set $\mathcal{X}_{\text{safe}}$ is forward invariant.
+System is called *safe* w.r.t. the set $\mathcal{X}_{\text{safe}}$ if for any goal state $x_{\star}\in\mathcal{X}_{\text{safe}}$, the set $\mathcal{X}_{\text{safe}}$ is forward invariant.
 
 ### Definition 3
 
-System is globally *equilibrium-independent exponentially stable* if for any initial state $x_{0} \in \mathcal{X}$ and any equilibrium $x_{\star} \in \mathcal{X}$, the solution $x{(t)}$ satisfies
-
-for some $\kappa \geq 1$ and $\lambda > 0$.
+System is globally *equilibrium-independent exponentially stable* if for any initial state $x_{0}\in\mathcal{X}$ and any equilibrium $x_{\star}\in\mathcal{X}$, the solution $x(t)$ satisfies for some $\kappa\geq 1$ and $\lambda>0$.
 
 Here we are interested in the following problem.
 
 ### Problem 1
 
-Given training data characterising the safe and unsafe sets:
+Given training data characterising the safe and unsafe sets: and additionally some task-relevant data for the system's desired behaviour inside the safe set, e.g. demonstration data: the goal is to learn a smooth dynamical system of the form with the following properties: The system is safe w.r.t. the set $\mathcal{X}_{\text{safe}}$.
 
-and additionally some task-relevant data for the system's desired behaviour inside the safe set, e.g. demonstration data:
-
-the goal is to learn a smooth dynamical system of the form with the following properties:
-
-The system is safe w.r.t. the set $\mathcal{X}_{\text{safe}}$.
-
-The system has a known bound on velocity on the safe set: ${|{f{(x,x_{\star})}}|} \leq B$ for all ${x,x_{\star}} \in \mathcal{X}_{\text{safe}}$.
+The system has a known bound on velocity on the safe set: $|f(x,x_{\star})|\leq B$ for all $x,x_{\star}\in\mathcal{X}_{\text{safe}}$.
 
 The system is globally equilibrium-independent exponentially stable.
 
@@ -92,15 +78,9 @@ To formulate our approach, we first require some technical machinery. We extensi
 
 ### Definition 4
 
-The diffeomorphism $g:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$ is said to be *bi-Lipschitz* if for all ${x_{1},x_{2}} \in {\mathbb{R}}^{n}$, we have
+The diffeomorphism $g:\mathbb{R}^{n}\to\mathbb{R}^{n}$ is said to be *bi-Lipschitz* if for all $x_{1},x_{2}\in\mathbb{R}^{n}$, we have for some $\nu\geq\mu>0$.
 
-for some $\nu \geq \mu > 0$.
-
-Note that $g^{- 1}$ is also a bi-Lipschitz diffeomorphism as
-
-Moreover, $g$ also induces a Riemmanian metric
-
-with ${G{(x)}} = {\partial{{g{(x)}}/{\partial x}}}$ as the Jacobian of $g$ at $x$, where $M$ gives a notion of local distance. Since $g$ is bi-Lipschitz, $M$ is uniformly bounded, i.e.,
+Note that $g^{-1}$ is also a bi-Lipschitz diffeomorphism as Moreover, $g$ also induces a Riemmanian metric with $G(x)=\partial g(x)/\partial x$ as the Jacobian of $g$ at $x$, where $M$ gives a notion of local distance. Since $g$ is bi-Lipschitz, $M$ is uniformly bounded, i.e.,
 
 ## Main Theoretical Results
 
@@ -108,55 +88,35 @@ In this section, we provide a systematic approach to construct an all-pairs moti
 
 ### III-A All-Pairs Motion Planning via Natural Gradient Flow
 
-Let $g:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$ be a bi-Lipschitz diffeomorphism. We take the candidate Lyapunov function as follows
-
-where $\lambda > 0$ is a tunable parameter. We then construct the dynamics based on the natural gradient flow of $V{(x,x_{\star})}$, i.e.,
-
-The matrix inverse is well-defined due to, and the system has a unique equilibrium point at $x_{\star}$. Our main theoretical result is as follows.
+Let $g:\mathbb{R}^{n}\rightarrow\mathbb{R}^{n}$ be a bi-Lipschitz diffeomorphism. We take the candidate Lyapunov function as follows where $\lambda>0$ is a tunable parameter. We then construct the dynamics based on the natural gradient flow of $V(x,x_{\star})$, i.e., The matrix inverse is well-defined due to, and the system has a unique equilibrium point at $x_{\star}$. Our main theoretical result is as follows.
 
 ### Theorem 1
 
-If there exists a bi-Lipschitz diffeomorphism $g:{\mathcal{X}_{\text{safe}}\rightarrow\mathcal{B}^{n}}$, then the following statements hold:
+If there exists a bi-Lipschitz diffeomorphism $g:\mathcal{X}_{\text{safe}}\rightarrow\mathcal{B}^{n}$, then the following statements hold: System is safe w.r.t. the set $\mathcal{X}_{\text{safe}}$.
 
-System is safe w.r.t. the set $\mathcal{X}_{\text{safe}}$.
-
-The vector field in is bounded
-
-System is globally equilibrium-independent exponentially stable.
+The vector field in is bounded System is globally equilibrium-independent exponentially stable.
 
 ### Proof
 
-As shown , under the coordinate transformation $z = {g{(x)}}$, system is equivalent to
+As shown, under the coordinate transformation $z=g(x)$, system is equivalent to with $z_{\star}=g(x_{\star})$. Thus, system has explicit solutions of Statement 1): The main idea is that under the diffeomorphism $g$, the transformed safe set $\mathcal{Z}_{\text{safe}}:=\mathcal{B}^{n}$ which is convex, and from we have that $z(t)$ is a straight line from $z_{0}$ to $z_{\star}$. Hence for any $z_{0}$ and $z_{\star}$ in $\mathcal{Z}_{\text{safe}}$ the path between them remains in $\mathcal{Z}_{\text{safe}}$, i.e. $z(t)\in\mathcal{Z}_{\text{safe}}$ for all $t\geq 0$. Passing back to $x(t)=g^{-1}(z(t))$, this implies that $x(t)\in\mathcal{X}_{\text{safe}}$ for all $t\geq 0$.
 
-with $z_{\star} = {g{(x_{\star})}}$. Thus, system has explicit solutions of
+Statement 2): The $\mathcal{Z}$-space dynamics is a push forward map of: which further implies since $z,z_{\star}\in\mathcal{B}^{n}$ and $g$ has lower Lipschitz bound of $\mu$.
 
-Statement 1): The main idea is that under the diffeomorphism $g$, the transformed safe set $\mathcal{Z}_{\text{safe}}:=\mathcal{B}^{n}$ which is convex, and from we have that $z{(t)}$ is a straight line from $z_{0}$ to $z_{\star}$. Hence for any $z_{0}$ and $z_{\star}$ in $\mathcal{Z}_{\text{safe}}$ the path between them remains in $\mathcal{Z}_{\text{safe}}$, i.e. ${z{(t)}} \in \mathcal{Z}_{\text{safe}}$ for all $t \geq 0$. Passing back to ${x{(t)}} = {g^{- 1}{({z{(t)}})}}$, this implies that ${x{(t)}} \in \mathcal{X}_{\text{safe}}$ for all $t \geq 0$.
-
-Statement 2): The $\mathcal{Z}$-space dynamics is a push forward map of:
-
-which further implies
-
-since ${z,z_{\star}} \in \mathcal{B}^{n}$ and $g$ has lower Lipschitz bound of $\mu$.
-
-Statement 3): Since $g$ is bi-Lipschitz, we obtain
-
-System is equilibrium-independent exponentially stable. ∎
+Statement 3): Since $g$ is bi-Lipschitz, we obtain System is equilibrium-independent exponentially stable. ∎
 
 ### Remark 1
 
-While can be considered as a feedback controller to be implemented in real-time for the system, there is also often need to predict future motions in simulation. For this case, we can sample the analytic solution for $z{(t)}$ at a grid of points, and pass them in parallel through $g^{- 1}$ to obtain $x{(t)}$. When a fast inverse algorithm is available $g$, as , this can be done in parallel on a GPU.
+While can be considered as a feedback controller to be implemented in real-time for the system, there is also often need to predict future motions in simulation. For this case, we can sample the analytic solution for $z(t)$ at a grid of points, and pass them in parallel through $g^{-1}$ to obtain $x(t)$. When a fast inverse algorithm is available $g$, as , this can be done in parallel on a GPU.
 
 ### Remark 2
 
-It can be shown that system is incrementally exponentially stable w.r.t. the incremental Lyapunov $V{(x_{1},x_{2})}$. From the contraction theory perspective, system is contracting w.r.t. the metric $M{(x)}$ in \[33, Thm. 1\], see also.
+It can be shown that system is incrementally exponentially stable w.r.t. the incremental Lyapunov $V(x_{1},x_{2})$. From the contraction theory perspective, system is contracting w.r.t. the metric $M(x)$ in \[33, Thm. 1\], see also.
 
 It is clear from the proof that without any additional effort, we can extend the above theorem by replacing the set $\mathcal{B}^{n}$ to any convex, compact set $\mathcal{Z}_{\text{safe}}$ so that $\mathcal{X}_{\text{safe}}$ admits more complicated shapes (e.g., with sharp corners).
 
 ### Corollary 1
 
-Suppose that $g:{\mathcal{X}_{\text{safe}}\rightarrow\mathcal{Z}_{\text{safe}}}$ is a bi-Lipschitz diffeomorphism, where $\mathcal{Z}_{\text{safe}} \subset {\mathbb{R}}^{n}$ is a convex and compact set. Then, Statement 1) and 3) hold. For Statement 2), the vector field is bound
-
-where $D$ is the diameter of $\mathcal{Z}_{\text{safe}}$, i.e.,
+Suppose that $g:\mathcal{X}_{\text{safe}}\rightarrow\mathcal{Z}_{\text{safe}}$ is a bi-Lipschitz diffeomorphism, where $\mathcal{Z}_{\text{safe}}\subset\mathbb{R}^{n}$ is a convex and compact set. Then, Statement 1) and 3) hold. For Statement 2), the vector field is bound where $D$ is the diameter of $\mathcal{Z}_{\text{safe}}$, i.e.,
 
 ### Remark 3
 
@@ -168,13 +128,7 @@ The key property of our approach is that it guarantees safety for arbitrary star
 
 ### Definition 5
 
-Consider a nonlinear system $\overset{˙}{x} = {f{(x,t)}}$. A continuously differentiable function $h:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is called a *barrier function* of $\mathcal{X}_{\text{safe}}$ if there exist a class $\mathcal{K}$ function $\alpha{( \cdot )}$ such that
-
-$${{{h{(x)}} \geq 0}\mspace{21mu}{{\forall x} \in \mathcal{X}_{\text{safe}}}},$$ (19a)
-$${{{h{(x)}} < 0}\mspace{21mu}{{\forall x} \in \mathcal{X}_{\text{unsafe}}}},$$ (19b)
-$${{{\frac{\partial h}{\partial x}f{(x,t)}} \geq {- {\alpha{(h)}}}}\mspace{21mu}{{\forall x} \in \mathcal{X}}}.$$ (19c)
-
-Note that the Lyapunov function $V{(x,x_{\star})}$ in is not a barrier function for $\mathcal{X}_{\text{safe}}$ as $V{(x,x_{\star})}$ may not be a constant for all $x \in {\partial\mathcal{X}_{\text{safe}}}$. The following result gives an explicit construction of barrier function for the proposed goal-conditioned neural ODE.
+Consider a nonlinear system $\dot{x}=f(x,t)$. A continuously differentiable function $h:\mathbb{R}^{n}\rightarrow\mathbb{R}$ is called a *barrier function* of $\mathcal{X}_{\text{safe}}$ if there exist a class $\mathcal{K}$ function $\alpha(\cdot)$ such that Note that the Lyapunov function $V(x,x_{\star})$ in is not a barrier function for $\mathcal{X}_{\text{safe}}$ as $V(x,x_{\star})$ may not be a constant for all $x\in\partial\mathcal{X}_{\text{safe}}$. The following result gives an explicit construction of barrier function for the proposed goal-conditioned neural ODE.
 
 ### Proposition 1
 
@@ -182,13 +136,7 @@ Suppose that conditions of Theorem 1 hold. Then, the forward invariance of $\mat
 
 ### Proof
 
-Since $g:{\mathcal{X}_{\text{safe}}\rightarrow\mathcal{B}^{n}}$ is a bi-Lipschitz diffeomorphism, then $h{(x)}$ satisfies (19a) - (19b). The time derivative of $h$ yields
-
-For $x \in \mathcal{X}_{\text{safe}}$, we have
-
-where the last inequality follows by ${{g{(x)}},{g{(x_{\star})}}} \in \mathcal{B}^{n}$. For $x \in \mathcal{X}_{\text{unsafe}}$ (i.e. ${|{g{(x)}}|} > 1$ and ${h{(x)}} < 0$), we can obtain
-
-Thus, (19c) holds and $h{(x)}$ is a barrier function of $\mathcal{X}_{\text{safe}}$. ∎
+Since $g:\mathcal{X}_{\text{safe}}\rightarrow\mathcal{B}^{n}$ is a bi-Lipschitz diffeomorphism, then $h(x)$ satisfies (19a) - (19b). The time derivative of $h$ yields For $x\in\mathcal{X}_{\text{safe}}$, we have where the last inequality follows by $g(x),g(x_{\star})\in\mathcal{B}^{n}$. For $x\in\mathcal{X}_{\text{unsafe}}$ (i.e. $|g(x)|>1$ and $h(x)<0$), we can obtain Thus, (19c) holds and $h(x)$ is a barrier function of $\mathcal{X}_{\text{safe}}$. ∎
 
 ### III-C Time-Varying Goal Location
 
@@ -196,77 +144,47 @@ When the goal position is time-varying with uncertain but bounded velocity, e.g.
 
 ### Theorem 2
 
-Consider system with time-varying goal $x_{\star}{(t)}$ with ${|{{\overset{˙}{x}}_{\star}{(t)}}|} \leq b$ for all $t \geq 0$. If $g:{\mathcal{X}_{\text{safe}}\rightarrow\mathcal{Z}_{\text{safe}}}$ is a bi-Lipschitz diffeomorphism, where $\mathcal{Z}_{\text{safe}}$ is a convex compact set, then the following statements hold:
+Consider system with time-varying goal $x_{\star}(t)$ with $|\dot{x}_{\star}(t)|\leq b$ for all $t\geq 0$. If $g:\mathcal{X}_{\text{safe}}\rightarrow\mathcal{Z}_{\text{safe}}$ is a bi-Lipschitz diffeomorphism, where $\mathcal{Z}_{\text{safe}}$ is a convex compact set, then the following statements hold: The set $\mathcal{X}_{\text{safe}}$ is forward invariant.
 
-The set $\mathcal{X}_{\text{safe}}$ is forward invariant.
-
-The time-varying vector field is bounded
-
-For any $x_{0} \in \mathcal{X}_{\text{safe}}$, the tracking error ${\epsilon{(t)}}:={{x{(t)}} - {x_{\star}{(t)}}}$ satisfies
+The time-varying vector field is bounded For any $x_{0}\in\mathcal{X}_{\text{safe}}$, the tracking error $\epsilon(t):=x(t)-x_{\star}(t)$ satisfies
 
 ### Proof
 
-Statement 1): System with time-varying $x_{\star}{(t)}$ can also be transformed into $\overset{˙}{z} = {\lambda{({{z_{\star}{(t)}} - z})}}$ with ${z_{\star}{(t)}} = {g{({x_{\star}{(t)}})}}$. Since $\mathcal{Z}_{\text{safe}}$ is compact and convex, then the time-varying vector field $\lambda{({{z_{\star}{(t)}} - z})}$ always points into $\mathcal{Z}_{\text{safe}}$ or is tangent to $\partial\mathcal{Z}_{\text{safe}}$ for any $z \in {\partial\mathcal{Z}_{\text{safe}}}$ and ${z_{\star}{(t)}} \in \mathcal{Z}_{\text{safe}}$. By Nagumo's theorem we obtain that $\mathcal{Z}_{\text{safe}}$ is forward invariant, implying that $\mathcal{X}_{\text{safe}}$ is forward invariant under.
+Statement 1): System with time-varying $x_{\star}(t)$ can also be transformed into $\dot{z}=\lambda(z_{\star}(t)-z)$ with $z_{\star}(t)=g(x_{\star}(t))$. Since $\mathcal{Z}_{\text{safe}}$ is compact and convex, then the time-varying vector field $\lambda(z_{\star}(t)-z)$ always points into $\mathcal{Z}_{\text{safe}}$ or is tangent to $\partial\mathcal{Z}_{\text{safe}}$ for any $z\in\partial\mathcal{Z}_{\text{safe}}$ and $z_{\star}(t)\in\mathcal{Z}_{\text{safe}}$. By Nagumo's theorem we obtain that $\mathcal{Z}_{\text{safe}}$ is forward invariant, implying that $\mathcal{X}_{\text{safe}}$ is forward invariant under.
 
-Statement 2) follows directly by and. We now focus on Statement 3). First, the dynamics of ${\epsilon_{z}{(t)}}:={{z{(t)}} - {z_{\star}{(t)}}}$ in the $\mathcal{Z}$-space can be rewritten as
-
-where ${|{{\overset{˙}{z}}_{\star}{(t)}}|} \leq {\nub}$. This implies ${|{\epsilon_{z}{(t)}}|} \leq {{{|{\epsilon_{z}{}}|}e^{- {\lambdat}}} + {{\nub}/\lambda}}$. Finally, following the procedure in yields
+Statement 2) follows directly by and. We now focus on Statement 3). First, the dynamics of $\epsilon_{z}(t):=z(t)-z_{\star}(t)$ in the $\mathcal{Z}$-space can be rewritten as where $|\dot{z}_{\star}(t)|\leq\nu b$. This implies $|\epsilon_{z}(t)|\leq|\epsilon_{z}|e^{-\lambda t}+\nu b/\lambda$. Finally, following the procedure in yields
 
 ### III-D Finite-time Convergence via Euclidean Norm Potential
 
-Similar to, the proposed Lyapunov function $V{(x,x_{\star})}$ can incorporate a more general potential function $\Phi:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$, i.e.,
+Similar to, the proposed Lyapunov function $V(x,x_{\star})$ can incorporate a more general potential function $\Phi:\mathbb{R}^{n}\rightarrow\mathbb{R}$, i.e., Then, the dynamics of in the $\mathcal{Z}$-space becomes which can be pulled back in to $\mathcal{X}$ space. If $\Phi$ continuously differentiable and satisfies the *Polyak-Łojasiewicz* (PL) condition, then global exponential stability can still be established.
 
-Then, the dynamics of in the $\mathcal{Z}$-space becomes
-
-which can be pulled back in to $\mathcal{X}$ space. If $\Phi$ continuously differentiable and satisfies the *Polyak-Łojasiewicz* (PL) condition, then global exponential stability can still be established.
-
-If finite-time convergence is desired, then $\Phi$ can be taken as the Euclidean norm (i.e., ${\Phi{(z)}} = {\lambda{|z|}}$), instead of the norm squared, and then system becomes
-
-although the dynamics is not smooth at the goal $z_{\star}$. Since the resulting trajectory has unit velocity in $\mathcal{Z}$ space, we can, analogously to Theorem 1, obtain simple upper and lower bounds on the vector field velocity in the $\mathcal{X}$-space, i.e.,
+If finite-time convergence is desired, then $\Phi$ can be taken as the Euclidean norm (i.e., $\Phi(z)=\lambda|z|$), instead of the norm squared, and then system becomes although the dynamics is not smooth at the goal $z_{\star}$. Since the resulting trajectory has unit velocity in $\mathcal{Z}$ space, we can, analogously to Theorem 1, obtain simple upper and lower bounds on the vector field velocity in the $\mathcal{X}$-space, i.e.,
 
 ### III-E Natural Gradient Flow v.s. Gradient Flow
 
 A natural question for the proposed approach is: what advantages does natural gradient flow offer over standard gradient flow? Our answer is as follows: standard gradient flow does not provide safety guarantees when $x_{\star}$ varies.
 
-Given a Lyapunov function $V{(x,x_{\star})}$ , we consider the following gradient flow dynamics:
-
-From \[19, Thm. 1\], we can conclude that the above system achieves equilibrium-independent exponential stability. However, it cannot provide safety guarantees for all $x_{\star} \in \mathcal{X}_{\text{safe}}$, see the example below.
+Given a Lyapunov function $V(x,x_{\star})$, we consider the following gradient flow dynamics: From \[19, Thm. 1\], we can conclude that the above system achieves equilibrium-independent exponential stability. However, it cannot provide safety guarantees for all $x_{\star}\in\mathcal{X}_{\text{safe}}$, see the example below.
 
 ### Example 1
 
-Consider the mapping $g:{{\mathbb{R}}^{2}\rightarrow{\mathbb{R}}^{2}}$ defined by
-
-where ${h{(x_{1})}} = {{{2{\sin{(x_{1})}}} + {\cos{({5x_{1}})}}} - {3x_{1}}}$. It is a bi-Lipschitz diffeomorphism with $g^{- 1}$ defined by $x_{1} = z_{1}$ and $x_{2} = {z_{2} - {h{(z_{1})}z_{1}}}$. We take $\mathcal{Z}_{\text{safe}} = \mathcal{B}^{2}$ and $\mathcal{X}_{\text{safe}} = {g^{- 1}{(\mathcal{Z}_{\text{safe}})}}$.
+Consider the mapping $g:\mathbb{R}^{2}\to\mathbb{R}^{2}$ defined by where $h(x_{1})=2\sin(x_{1})+\cos(5x_{1})-3x_{1}$. It is a bi-Lipschitz diffeomorphism with $g^{-1}$ defined by $x_{1}=z_{1}$ and $x_{2}=z_{2}-h(z_{1})z_{1}$. We take $\mathcal{Z}_{\text{safe}}=\mathcal{B}^{2}$ and $\mathcal{X}_{\text{safe}}=g^{-1}(\mathcal{Z}_{\text{safe}})$.
 
 Figure 2: Trajectory samples and vector field on the boundary for the natural gradient flow (blue) and the gradient flow (black) with different goal points, where red curves are the boundaries.
 
-When $x_{\star} = {}$, we have that $V{(x,x_{\star})}$ is a barrier function for both and. Thus, $\mathcal{X}_{\text{safe}}$ is forward invariant in both cases, see Fig. 2(a). When $x_{\star}$ changes, it is no longer a barrier function as $V{(x,x_{\star})}$ is not a constant for $x \in {\partial\mathcal{X}_{\text{safe}}}$. Fig. 2(b) shows that $\mathcal{X}_{\text{safe}}$ is no longer a forward-invariant set . This is also supported by the fact that its vector field points outward at some part of the boundary. For the proposed approach, $\mathcal{X}_{\text{safe}}$ is forward invariant as the vector field of always points inward for all $x_{\star} \in \mathcal{X}_{\text{safe}}$. A barrier function $h{(x)}$ can be constructed via.
+When $x_{\star}=$, we have that $V(x,x_{\star})$ is a barrier function for both and. Thus, $\mathcal{X}_{\text{safe}}$ is forward invariant in both cases, see Fig. 2(a). When $x_{\star}$ changes, it is no longer a barrier function as $V(x,x_{\star})$ is not a constant for $x\in\partial\mathcal{X}_{\text{safe}}$. Fig. 2(b) shows that $\mathcal{X}_{\text{safe}}$ is no longer a forward-invariant set . This is also supported by the fact that its vector field points outward at some part of the boundary. For the proposed approach, $\mathcal{X}_{\text{safe}}$ is forward invariant as the vector field of always points inward for all $x_{\star}\in\mathcal{X}_{\text{safe}}$. A barrier function $h(x)$ can be constructed via.
 
 ### III-F Comparison with Navigation Function based Approach
 
-When the goal state $x_{\star}$ is fixed, a classical approach to construct system is via gradient flow
+When the goal state $x_{\star}$ is fixed, a classical approach to construct system is via gradient flow where $\phi:\mathcal{X}_{\text{safe}}\to$ is a *navigation function* satisfying the following conditions: $\phi$ is Morse function (i.e., $\phi$ is smooth and it has no degenerate critical point); $\phi$ has a unique minimum on $\mathcal{X}_{\text{safe}}$ at $x_{\star}$ and no other critical points; $\nabla\phi$ is bounded on $\mathcal{X}_{\text{safe}}$; $\phi(x)=1$ for all $x\in\partial\mathcal{X}_{\text{safe}}$.
 
-where $\phi:{\mathcal{X}_{\text{safe}}\rightarrow{\lbrack 0,1\rbrack}}$ is a *navigation function* satisfying the following conditions:
-
-$\phi$ is Morse function (i.e., $\phi$ is smooth and it has no degenerate critical point);
-
-$\phi$ has a unique minimum on $\mathcal{X}_{\text{safe}}$ at $x_{\star}$ and no other critical points;
-
-$\nabla\phi$ is bounded on $\mathcal{X}_{\text{safe}}$;
-
-${\phi{(x)}} = 1$ for all $x \in {\partial\mathcal{X}_{\text{safe}}}$.
-
-The navigation function $\phi$ serves as both a Lyapunov function and a barrier function since
-
-Note that ${\phi{(x)}} = {|{g{(x)}}|}^{2}$ with $g:{\mathcal{X}_{\text{safe}}\rightarrow\mathcal{B}^{n}}$ and ${g{(x_{\star})}} = 0$ is a validate navigation function. However, one needs to recompute $g$ when $x_{\star}$ changes.
+The navigation function $\phi$ serves as both a Lyapunov function and a barrier function since Note that $\phi(x)=|g(x)|^{2}$ with $g:\mathcal{X}_{\text{safe}}\rightarrow\mathcal{B}^{n}$ and $g(x_{\star})=0$ is a validate navigation function. However, one needs to recompute $g$ when $x_{\star}$ changes.
 
 Compared with the navigation based approach, our method is more flexible as it does not require recomputing $g$ when $x_{\star}$ changes since it uses different certificate functions for stability and safety, although both are expressed in terms of a single learned diffeomorphism $g$.
 
 ### III-G Compared with Existing Diffeomorphism based Dynamical Approaches
 
-The diffeomorphism based approach has also been recently explored for learning stable neural ODE from demonstration, see. Specifically, those approaches take the following gradient flow in the $\mathcal{Z}$-space:
-
-where the potential function $\Phi$ is positive definite, convex, continuously differentiable, and radially unbounded. And a natural gradient dynamics in the $\mathcal{X}$-space is constructed by pulling back to the $\mathcal{X}_{\text{safe}}$-space via a diffeomorphism $g$. The primary goal of those approaches is to learn stable dynamics that mimics the demonstration data.
+The diffeomorphism based approach has also been recently explored for learning stable neural ODE from demonstration, see. Specifically, those approaches take the following gradient flow in the $\mathcal{Z}$-space: where the potential function $\Phi$ is positive definite, convex, continuously differentiable, and radially unbounded. And a natural gradient dynamics in the $\mathcal{X}$-space is constructed by pulling back to the $\mathcal{X}_{\text{safe}}$-space via a diffeomorphism $g$. The primary goal of those approaches is to learn stable dynamics that mimics the demonstration data.
 
 Different from those approaches, our method can learn both stable and safe dynamics from data. The second difference is that our approach can generalize to unseen goal point without retraining the model. Finally, our approach imposes explicit bounds on the diffeomorphism $g$, which can be seen as effective regularization preventing overfitting. Meanwhile, explicit bounds on tracking error and vector field magnitude can be obtained, which is useful for practical applications.
 
@@ -274,27 +192,17 @@ Different from those approaches, our method can learn both stable and safe dynam
 
 In this section, we aim to translate the above theoretical construction into a tractable machine learning setup, detailing the choice of training data, model class, and loss functions.
 
-We parameterize the diffeomorphism $g$ by some smooth bi-Lipschitz neural network $g_{\theta}:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$ with $\theta \in {\mathbb{R}}^{p}$ as the learnable parameter. By construction, system is smooth and globally equilibrium-independent experientially stable, as shown in Theorem 1. To ensure safety, one needs to learn a $g_{\theta}$ that can be used to characterize the set $\mathcal{X}_{\text{safe}}$. Since a candidate Lyapunov function $V{(x,x_{\star})}$ is used in the model construct, we seek to separate the safe and unsafe datasets in via a Lyapunov sublevel set of $V$. Specifically, we pick up a point ${\hat{x}}_{\star} \in \mathcal{D}_{\text{safe}}$ as the goal and take ${g_{\theta}{({\hat{x}}_{\star})}} = 0$. Then, the Lyapunov function in can be written as
-
-whose sublevel sets are $\Omega_{\theta}^{c} = {\{ x:{{{\overset{\sim}{V}}_{\theta}{(x)}} \leq c}\}}$ with $c > 0$. Note that $\Omega_{\theta}^{c}$ is diffeomorphic to $\mathcal{B}^{n}$ for any $\theta \in {\mathbb{R}}^{p}$ and $c > 0$. Now, the learning problem becomes: find a pair $(c,\theta)$ such that
-
-$x_{i} \in \mathcal{D}_{\text{safe}}$ ${\Rightarrow x_{i} \in \Omega_{\theta}^{c}},$ (33a)
-$x_{j} \in \mathcal{D}_{\text{unsafe}}$ ${\Rightarrow x_{j} \notin \Omega_{\theta}^{c}}.$ (33b)
+We parameterize the diffeomorphism $g$ by some smooth bi-Lipschitz neural network $g_{\theta}:\mathbb{R}^{n}\to\mathbb{R}^{n}$ with $\theta\in\mathbb{R}^{p}$ as the learnable parameter. By construction, system is smooth and globally equilibrium-independent experientially stable, as shown in Theorem 1. To ensure safety, one needs to learn a $g_{\theta}$ that can be used to characterize the set $\mathcal{X}_{\text{safe}}$. Since a candidate Lyapunov function $V(x,x_{\star})$ is used in the model construct, we seek to separate the safe and unsafe datasets in via a Lyapunov sublevel set of $V$. Specifically, we pick up a point $\hat{x}_{\star}\in\mathcal{D}_{\text{safe}}$ as the goal and take $g_{\theta}(\hat{x}_{\star})=0$. Then, the Lyapunov function in can be written as whose sublevel sets are $\Omega_{\theta}^{c}=\{x:\tilde{V}_{\theta}(x)\leq c\}$ with $c>0$. Note that $\Omega_{\theta}^{c}$ is diffeomorphic to $\mathcal{B}^{n}$ for any $\theta\in\mathbb{R}^{p}$ and $c>0$. Now, the learning problem becomes: find a pair $(c,\theta)$ such that
 
 ### IV-A Training Data
 
-To solve the above learning problem, we need to assign labels to the points from the datasets $\mathcal{D}_{\text{safe}}$ and $\mathcal{D}_{\text{unsafe}}$. An intuitive approach is to associate $x_{i} \in \mathcal{D}_{\text{safe}}$ and $x_{j} \in \mathcal{D}_{\text{unsafe}}$ with labels of 0 and 1, respectively. The learning problem in is formulated as a classification task, where ${\overset{\sim}{V}}_{\theta}{(x)}$ is the classifier. However, those labels do not provide informative geometric information in $\mathcal{D}_{\text{safe}}$ and $\mathcal{D}_{\text{unsafe}}$.
+To solve the above learning problem, we need to assign labels to the points from the datasets $\mathcal{D}_{\text{safe}}$ and $\mathcal{D}_{\text{unsafe}}$. An intuitive approach is to associate $x_{i}\in\mathcal{D}_{\text{safe}}$ and $x_{j}\in\mathcal{D}_{\text{unsafe}}$ with labels of 0 and 1, respectively. The learning problem in is formulated as a classification task, where $\tilde{V}_{\theta}(x)$ is the classifier. However, those labels do not provide informative geometric information in $\mathcal{D}_{\text{safe}}$ and $\mathcal{D}_{\text{unsafe}}$.
 
-By leveraging the existing sampling-based motion planning algorithms (e.g. PRM or RRT ), we can assign each point $x_{i} \in \mathcal{D}_{\text{safe}}$ with a label $c_{i}$ indicating the shortest path length from $x_{i}$ to the targe ${\hat{x}}_{\star}$. Specifically, we first construct a graph by connecting each $x_{i}$ to a set of its nearby neighbors in $\mathcal{D}_{\text{safe}}$. From this graph, we can define the cost-to-go function $d:{\mathcal{D}_{\text{safe}}\rightarrow{\mathbb{R}}_{\geq 0}}$ as the shortest path distance from sample $x \in \mathcal{D}_{\text{safe}}$ to the goal ${\hat{x}}_{\star}$, which is a proxy for the distance between $x_{i}$ and ${\hat{x}}_{\star}$. The function $d{(x)}$ naturally reflects the geometry of $\mathcal{X}_{\text{safe}}$: samples near the goal attain small values, while samples that are distant or geometrically separated from ${\hat{x}}_{\star}$ attain large values. Thus, $d{(x)}$ provides meaningful information for training ${\overset{\sim}{V}}_{\theta}{(x)}$. Then, we construct the training datasets as follows:
-
-${\overline{\mathcal{D}}}_{\text{safe}}$ $= {\{{(x_{i},c_{i})}:{{c_{i} = {d{(x_{i})}}},{x_{i} \in \mathcal{D}_{\text{safe}}}}\}}$ (34a)
-${\overline{\mathcal{D}}}_{\text{unsafe}}$ $= {\{{(x_{j},c_{j})}:{{c_{j} = {\overline{c} + \delta}},{x_{j} \in \mathcal{D}_{\text{unsafe}}}}\}}$ (34b)
-
-where $\overline{c}$ is the maximum label value in ${\overline{\mathcal{D}}}_{\text{safe}}$, and $\delta > 0$ is a hyperparameter which ensures that there exists $c \in {\lbrack\overline{c},{\overline{c} + \delta}\rbrack}$ satisfying.
+By leveraging the existing sampling-based motion planning algorithms (e.g. PRM or RRT), we can assign each point $x_{i}\in\mathcal{D}_{\text{safe}}$ with a label $c_{i}$ indicating the shortest path length from $x_{i}$ to the targe $\hat{x}_{\star}$. Specifically, we first construct a graph by connecting each $x_{i}$ to a set of its nearby neighbors in $\mathcal{D}_{\text{safe}}$. From this graph, we can define the cost-to-go function $d:\mathcal{D}_{\text{safe}}\to\mathbb{R}_{\geq 0}$ as the shortest path distance from sample $x\in\mathcal{D}_{\text{safe}}$ to the goal $\hat{x}_{\star}$, which is a proxy for the distance between $x_{i}$ and $\hat{x}_{\star}$. The function $d(x)$ naturally reflects the geometry of $\mathcal{X}_{\text{safe}}$: samples near the goal attain small values, while samples that are distant or geometrically separated from $\hat{x}_{\star}$ attain large values. Thus, $d(x)$ provides meaningful information for training $\tilde{V}_{\theta}(x)$. Then, we construct the training datasets as follows: where $\bar{c}$ is the maximum label value in $\bar{\mathcal{D}}_{\text{safe}}$, and $\delta>0$ is a hyperparameter which ensures that there exists $c\in[\bar{c},\bar{c}+\delta]$ satisfying.
 
 ### IV-B Model Class
 
-In this work, we use the BiLipNet as the model class for $g_{\theta}$. BiLipNets can enforce certified bi-Lipschitz bounds $\mu$ and $\nu$ via a method derived from which are, to the authors knowledge, the tightest available. The bi-Lipschitz bounds are trainable parameters, and their ratio $\frac{\nu}{\mu}$ can be considered a tunable distortion parameter, describing how much the learnt representation of $\mathcal{X}_{\text{safe}}$ distorts from a unit ball, and therefore how much the learnt trajectories can deviate from straight lines -- notice that this also appears in the overshoot constant for our exponential convergence bound. The lower bound $\mu$ also appears in our bound on velocity.
+In this work, we use the BiLipNet as the model class for $g_{\theta}$. BiLipNets can enforce certified bi-Lipschitz bounds $\mu$ and $\nu$ via a method derived from which are, to the authors knowledge, the tightest available. The bi-Lipschitz bounds are trainable parameters, and their ratio $\tfrac{\nu}{\mu}$ can be considered a tunable distortion parameter, describing how much the learnt representation of $\mathcal{X}_{\text{safe}}$ distorts from a unit ball, and therefore how much the learnt trajectories can deviate from straight lines -- notice that this also appears in the overshoot constant for our exponential convergence bound. The lower bound $\mu$ also appears in our bound on velocity.
 
 BiLipNets have a number of other advantages: firstly, BiLipNets admits a direct model parameterization, which allows training within the standard unconstrained optimization methods such as stochastic gradient descent. Secondly, the feedthrough layer architecture can improve the model expressivity without suffering from vanishing gradients. Thirdly, BiLipNets have a structure that admits fast splitting-based solvers for computing the model inverse.
 
@@ -302,31 +210,27 @@ BiLipNets have a number of other advantages: firstly, BiLipNets admits a direct 
 
 The loss function will generally include two components. The first component trains the diffeomorphism to map the safe set $\mathcal{X}_{\text{safe}}$ onto the unit ball. However, this leaves substantial flexibility for the shape of the mapping inside $\mathcal{X}_{\text{safe}}$, so a second task-specific loss term can be employed which may take many forms, e.g. training the dynamics to mimic demonstration trajectories.
 
-For the first task, i.e., achieving, we choose the following loss function
+For the first task, i.e., achieving, we choose the following loss function The term $\mathcal{L}_{\text{safe}}$ penalizes the samples from $\bar{\mathcal{D}}_{\text{safe}}$ for which $\tilde{V}_{\theta}(x_{i})>c_{i}$ is required to ensure (33a), while $\mathcal{L}_{\text{unsafe}}$ penalizes the samples from $\bar{\mathcal{D}}_{\text{unsafe}}$ for which $\tilde{V}_{\theta}(x_{j})<\bar{c}$ to ensure (33b).
 
-The term $\mathcal{L}_{\text{safe}}$ penalizes the samples from ${\overline{\mathcal{D}}}_{\text{safe}}$ for which ${{\overset{\sim}{V}}_{\theta}{(x_{i})}} > c_{i}$ is required to ensure (33a), while $\mathcal{L}_{\text{unsafe}}$ penalizes the samples from ${\overline{\mathcal{D}}}_{\text{unsafe}}$ for which ${{\overset{\sim}{V}}_{\theta}{(x_{j})}} < \overline{c}$ to ensure (33b).
-
-The loss function for the second task may take various forms. E.g., when the demonstration dataset is available, we can define
-
-where $f_{\theta}$ is the vector filed in with $g_{\theta}$. The total loss is taken as $\mathcal{L}_{t} = {\mathcal{L} + {\rho\mathcal{L}_{\text{task}}}}$ with weighting $\rho > 0$.
+The loss function for the second task may take various forms. E.g., when the demonstration dataset is available, we can define where $f_{\theta}$ is the vector filed in with $g_{\theta}$. The total loss is taken as $\mathcal{L}_{t}=\mathcal{L}+\rho\mathcal{L}_{\text{task}}$ with weighting $\rho>0$.
 
 ## Numerical Experiments
 
-We illustrate the proposed approach on a 2D corridor navigation task (see Fig. 3), where we aim to generate safe and smooth trajectories from any initial configuration $x_{0} \in \mathcal{X}_{\text{safe}}$ to any goal $x_{\star} \in \mathcal{X}_{\text{safe}}$ in the presence of geometric obstacles. All experiments are implemented in Python using JAX and executed on an NVIDIA RTX 4090 GPU. Code is available at
+We illustrate the proposed approach on a 2D corridor navigation task (see Fig. 3), where we aim to generate safe and smooth trajectories from any initial configuration $x_{0}\in\mathcal{X}_{\text{safe}}$ to any goal $x_{\star}\in\mathcal{X}_{\text{safe}}$ in the presence of geometric obstacles. All experiments are implemented in Python using JAX and executed on an NVIDIA RTX 4090 GPU. Code is available at
 
 ### V-A Data Generation and Training details
 
-As shown in Fig. 3 (left), we initialized RRT at a fixed goal ${\hat{x}}_{\star}$ to generate a shortest-path tree over $\mathcal{X}_{\text{safe}}$. This automatically provides the dataset pair $(x_{i},{d{(x_{i})}})$ where $d{(x_{i})}$ is the cost-to-go with $x_{i} \in \mathcal{X}_{\text{safe}}$, see Fig. 3 (right). We take 2,500 samples to formulate the dataset ${\overline{\mathcal{D}}}_{\text{safe}}$ in (34a). Another 2,500 samples are uniformly sampled in $\mathcal{X}_{\text{unsafe}}$, which forms ${\overline{\mathcal{D}}}_{\text{unsafe}}$ in (34b).
+As shown in Fig. 3 (left), we initialized RRT at a fixed goal $\hat{x}_{\star}$ to generate a shortest-path tree over $\mathcal{X}_{\text{safe}}$. This automatically provides the dataset pair $(x_{i},d(x_{i}))$ where $d(x_{i})$ is the cost-to-go with $x_{i}\in\mathcal{X}_{\text{safe}}$, see Fig. 3 (right). We take 2,500 samples to formulate the dataset $\bar{\mathcal{D}}_{\text{safe}}$ in (34a). Another 2,500 samples are uniformly sampled in $\mathcal{X}_{\text{unsafe}}$, which forms $\bar{\mathcal{D}}_{\text{unsafe}}$ in (34b).
 
-Figure 3: RRT data (gray) in the corridor environment. (Left) RRT rooted at x̂⋆, with a representative trajectory (blue) in 𝒳. (Right) Corresponding cost-to-go field d (⋅) visualized via contour lines over 𝒳safe.
+Figure 3: RRT data (gray) in the corridor environment. (Left) RRT rooted at x̂⋆, with a representative trajectory (blue) in 𝒳. (Right) Corresponding cost-to-go field d(⋅) visualized via contour lines over 𝒳safe.
 
 We use BiLipNet from to parameterize the bi-Lipschitz diffeomorphism $g_{\theta}$. The network is trained based on the loss function in via the Adam optimizer with a batch size of 16 for 1500 epochs.
 
 ### V-B Results and Discussions
 
-Fig. 1 shows the learned mapping $g$ that transforms $\mathcal{X}_{\text{safe}}^{\prime} \subset \mathcal{X}_{\text{safe}}$ in the $\mathcal{X}$-space (Left) to a unit ball $\mathcal{B}^{2}$ in the $\mathcal{Z}$-space (Right). $\partial\mathcal{X}_{\text{safe}}^{\prime}$ and $\partial\mathcal{B}^{2}$ are indicated by red curves while $\partial\mathcal{X}_{\text{safe}}$ is in black. $\partial\mathcal{X}_{\text{safe}}^{\prime}$ conforms to the geometry of the obstacle boundaries, which is neither convex nor star-convex.
+Fig. 1 shows the learned mapping $g$ that transforms $\mathcal{X}_{\text{safe}}^{\prime}\subset\mathcal{X}_{\text{safe}}$ in the $\mathcal{X}$-space (Left) to a unit ball $\mathcal{B}^{2}$ in the $\mathcal{Z}$-space (Right). $\partial\mathcal{X}_{\text{safe}}^{\prime}$ and $\partial\mathcal{B}^{2}$ are indicated by red curves while $\partial\mathcal{X}_{\text{safe}}$ is in black. $\partial\mathcal{X}_{\text{safe}}^{\prime}$ conforms to the geometry of the obstacle boundaries, which is neither convex nor star-convex.
 
-Fig. 4 shows that complex trajectories of the natural gradient flow system (left) are equivariant to linear trajectories of system (right) under the coordination change. Pulling back straight lines in $\mathcal{Z}$-space (Fig. 4 right) through $g_{\theta}^{- 1}$ yields safe trajectories in $\mathcal{X}_{\text{safe}}$ (Fig. 4 left) that respect the obstacle geometry. All trajectories in Fig. 4 (left) also converge to ${\hat{x}}_{\star}$.
+Fig. 4 shows that complex trajectories of the natural gradient flow system (left) are equivariant to linear trajectories of system (right) under the coordination change. Pulling back straight lines in $\mathcal{Z}$-space (Fig. 4 right) through $g_{\theta}^{-1}$ yields safe trajectories in $\mathcal{X}_{\text{safe}}$ (Fig. 4 left) that respect the obstacle geometry. All trajectories in Fig. 4 (left) also converge to $\hat{x}_{\star}$.
 
 Figure 4: Trajectories generated by system from multiple initial configurations to the goal x̂⋆ in the training dataset. (Left) Smooth, safe paths in the 𝒳-space. (Right) Those paths are transformed into straight-line trajectories in the 𝒵-space, demonstrating the geometric simplification induced by gθ.
 

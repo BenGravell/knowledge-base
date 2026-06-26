@@ -8,9 +8,7 @@ Recently, deep learning has been shown as a promising alternative to traditional
 
 Figure 1: RAFT consists of 3 main components: A feature encoder that extracts per-pixel features from both input images, along with a context encoder that extracts features from only I1. A correlation layer which constructs a 4D W × H × W × H correlation volume by taking the inner product of all pairs of feature vectors. The last 2-dimensions of the 4D volume are pooled at multiple scales to construct a set of multi-scale volumes. An update operator which recurrently updates optical flow by using the current estimate to look up values from the set of correlation volumes.
 
-We introduce Recurrent All-Pairs Field Transforms (RAFT), a new deep network architecture for optical flow. RAFT enjoys the following strengths:
-
-*State-of-the-art accuracy*: On KITTI, RAFT achieves an F1-all error of 5.10%, a 16% error reduction from the best published result (6.10%). On Sintel (final pass), RAFT obtains an end-point-error of 2.855 pixels, a 30% error reduction from the best published result (4.098 pixels).
+We introduce Recurrent All-Pairs Field Transforms (RAFT), a new deep network architecture for optical flow. RAFT enjoys the following strengths: *State-of-the-art accuracy*: On KITTI, RAFT achieves an F1-all error of 5.10%, a 16% error reduction from the best published result (6.10%). On Sintel (final pass), RAFT obtains an end-point-error of 2.855 pixels, a 30% error reduction from the best published result (4.098 pixels).
 
 *Strong generalization*: When trained only on synthetic data, RAFT achieves an end-point-error of 5.04 pixels on KITTI, a 40% error reduction from the best prior deep network trained on the same data (8.36 pixels).
 
@@ -52,7 +50,7 @@ Our approach can be viewed as learning to optimize: our network uses a large num
 
 ## Approach
 
-Given a pair of consecutive RGB images, $I_{1}$, $I_{2}$, we estimate a dense displacement field $(\mathbf{f}^{1},\mathbf{f}^{2})$ which maps each pixel $(u,v)$ in $I_{2}$ to its corresponding coordinates ${(u^{\prime},v^{\prime})} = {({u + {f^{1}{(u)}}},{v + {f^{2}{(v)}}})}$ in $I_{2}$. An overview of our approach is given in Figure 1. Our method can be distilled down to three stages: feature extraction, computing visual similarity, and iterative updates, where all stages are differentiable and composed into an end-to-end trainable architecture.
+Given a pair of consecutive RGB images, $I_{1}$, $I_{2}$, we estimate a dense displacement field $(\mathbf{f}^{1},\mathbf{f}^{2})$ which maps each pixel $(u,v)$ in $I_{2}$ to its corresponding coordinates ${(u',v')} = {({u + {f^{1}{(u)}}},{v + {f^{2}{(v)}}})}$ in $I_{2}$. An overview of our approach is given in Figure 1. Our method can be distilled down to three stages: feature extraction, computing visual similarity, and iterative updates, where all stages are differentiable and composed into an end-to-end trainable architecture.
 
 ### Feature Extraction
 
@@ -68,15 +66,11 @@ Figure 2: Building correlation volumes. Here we depict 2D slices of a full 4D vo
 
 Correlation Pyramid: We construct a 4-layer pyramid $\{\mathbf{C}^{1},\mathbf{C}^{2},\mathbf{C}^{3},\mathbf{C}^{4}\}$ by pooling the last two dimensions of the correlation volume with kernel sizes 1, 2, 4, and 8 and equivalent stride (Figure 2). Thus, volume $\mathbf{C}^{k}$ has dimensions ${{{H \times W \times H}/2^{k}} \times W}/2^{k}$. The set of volumes gives information about both large and small displacements; however, by maintaining the first 2 dimensions (the $I_{1}$ dimensions) we maintain high resolution information, allowing our method to recover the motions of small fast-moving objects.
 
-Correlation Lookup: We define a lookup operator $L_{\mathbf{C}}$ which generates a feature map by indexing from the correlation pyramid. Given a current estimate of optical flow $(\mathbf{f}^{1},\mathbf{f}^{2})$, we map each pixel $\mathbf{x} = {(u,v)}$ in $I_{1}$ to its estimated correspondence in $I_{2}$: $\mathbf{x}^{\prime} = {({u + {f^{1}{(u)}}},{v + {f^{2}{(v)}}})}$. We then define a local grid around $\mathbf{x}^{\prime}$
+Correlation Lookup: We define a lookup operator $L_{\mathbf{C}}$ which generates a feature map by indexing from the correlation pyramid. Given a current estimate of optical flow $(\mathbf{f}^{1},\mathbf{f}^{2})$, we map each pixel $\mathbf{x} = {(u,v)}$ in $I_{1}$ to its estimated correspondence in $I_{2}$: $\mathbf{x}' = {({u + {f^{1}{(u)}}},{v + {f^{2}{(v)}}})}$. We then define a local grid around $\mathbf{x}'$ as the set of integer offsets which are within a radius of $r$ units of $\mathbf{x}'$ using the L1 distance. We use the local neighborhood $\mathcal{N}{(\mathbf{x}')}_{r}$ to index from the correlation volume. Since $\mathcal{N}{(\mathbf{x}')}_{r}$ is a grid of real numbers, we use bilinear sampling.
 
-as the set of integer offsets which are within a radius of $r$ units of $\mathbf{x}^{\prime}$ using the L1 distance. We use the local neighborhood $\mathcal{N}{(\mathbf{x}^{\prime})}_{r}$ to index from the correlation volume. Since $\mathcal{N}{(\mathbf{x}^{\prime})}_{r}$ is a grid of real numbers, we use bilinear sampling.
+We perform lookups on all levels of the pyramid, such that the correlation volume at level $k$, $\mathbf{C}^{k}$, is indexed using the grid $\mathcal{N}{({\mathbf{x}'/2^{k}})}_{r}$. A constant radius across levels means larger context at lower levels: for the lowest level, $k = 4$ using a radius of 4 corresponds to a range of 256 pixels at the original resolution. The values from each level are then concatenated into a single feature map.
 
-We perform lookups on all levels of the pyramid, such that the correlation volume at level $k$, $\mathbf{C}^{k}$, is indexed using the grid $\mathcal{N}{({\mathbf{x}^{\prime}/2^{k}})}_{r}$. A constant radius across levels means larger context at lower levels: for the lowest level, $k = 4$ using a radius of 4 corresponds to a range of 256 pixels at the original resolution. The values from each level are then concatenated into a single feature map.
-
-Efficient Computation for High Resolution Images: The all pairs correlation scales $O{(N^{2})}$ where $N$ is the number of pixels, but only needs to be computed once and is constant in the number of iterations $M$. However, there exists an equivalent implementation of our approach which scales $O{({NM})}$ exploiting the linearity of the inner product and average pooling. Consider the cost volume at level $m$, $\mathbf{C}_{ijkl}^{m}$, and feature maps $g^{} = {g_{\theta}{(I_{1})}}$, $g^{} = {g_{\theta}{(I_{2})}}$:
-
-which is the average over the correlation response in the $2^{m} \times 2^{m}$ grid. This means that the value at $\mathbf{C}_{ijkl}^{m}$ can be computed as the inner product between the feature vector $g_{\theta}{(I_{1})}_{ij}$ and $g_{\theta}{(I_{2})}$ pooled with kernel size $2^{m} \times 2^{m}$.
+Efficient Computation for High Resolution Images: The all pairs correlation scales $O{(N^{2})}$ where $N$ is the number of pixels, but only needs to be computed once and is constant in the number of iterations $M$. However, there exists an equivalent implementation of our approach which scales $O{({NM})}$ exploiting the linearity of the inner product and average pooling. Consider the cost volume at level $m$, $\mathbf{C}_{ijkl}^{m}$, and feature maps $g^{} = {g_{\theta}{(I_{1})}}$, $g^{} = {g_{\theta}{(I_{2})}}$: which is the average over the correlation response in the $2^{m} \times 2^{m}$ grid. This means that the value at $\mathbf{C}_{ijkl}^{m}$ can be computed as the inner product between the feature vector $g_{\theta}{(I_{1})}_{ij}$ and $g_{\theta}{(I_{2})}$ pooled with kernel size $2^{m} \times 2^{m}$.
 
 In this alternative implementation, we do not precompute the correlations, but instead precompute the pooled image feature maps. In each iteration, we compute each correlation value on demand---only when it is looked up. This gives a complexity of $O{({NM})}$.
 
@@ -92,9 +86,7 @@ Initialization: By default, we initialize the flow field to 0 everywhere, but ou
 
 Inputs: Given the current flow estimate $\mathbf{f}^{k}$, we use it to retrieve correlation features from the correlation pyramid as described in Sec. 3.2. The correlation features are then processed by 2 convolutional layers. Additionally, we apply 2 convolutional layers to the flow estimate itself to generate flow features. Finally, we directly inject the input from the context network. The input feature map is then taken as the concatenation of the correlation, flow, and context features.
 
-Update: A core component of the update operator is a gated activation unit based on the GRU cell, with fully connected layers replaced with convolutions:
-
-where $x_{t}$ is the concatenation of flow, correlation, and context features previously defined. We also experiment with a separable ConvGRU unit, where we replace the $3 \times 3$ convolution with two GRUs: one with a $1 \times 5$ convolution and one with a $5 \times 1$ convolution to increase the receptive field without significantly increasing the size of the model.
+Update: A core component of the update operator is a gated activation unit based on the GRU cell, with fully connected layers replaced with convolutions: where $x_{t}$ is the concatenation of flow, correlation, and context features previously defined. We also experiment with a separable ConvGRU unit, where we replace the $3 \times 3$ convolution with two GRUs: one with a $1 \times 5$ convolution and one with a $5 \times 1$ convolution to increase the receptive field without significantly increasing the size of the model.
 
 Flow Prediction: The hidden state outputted by the GRU is passed through two convolutional layers to predict the flow update $\Delta\mathbf{f}$. The output flow is at 1/8 resolution of the input image. During training and evaluation, we upsample the predicted flow fields to match the resolution of the ground truth.
 
@@ -102,15 +94,13 @@ Upsampling: The network outputs optical flow at 1/8 resolution. We upsample the 
 
 ### Supervision
 
-We supervised our network on the $l_{1}$ distance between the predicted and ground truth flow over the full sequence of predictions, $\{\mathbf{f}_{1},\ldots,\mathbf{f}_{N}\}$, with exponentially increasing weights. Given ground truth flow $\mathbf{f}_{gt}$, the loss is defined as
-
-where we set $\gamma = 0.8$ in our experiments.
+We supervised our network on the $l_{1}$ distance between the predicted and ground truth flow over the full sequence of predictions, $\{\mathbf{f}_{1},\ldots,\mathbf{f}_{N}\}$, with exponentially increasing weights. Given ground truth flow $\mathbf{f}_{gt}$, the loss is defined as where we set $\gamma = 0.8$ in our experiments.
 
 ## Experiments
 
 We evaluate RAFT on Sintel and KITTI. Following previous works, we pretrain our network on FlyingChairs and FlyingThings, followed by dataset specific finetuning. Our method achieves state-of-the-art performance on both Sintel (both clean and final passes) and KITTI. Additionally, we test our method on 1080p video from the DAVIS dataset to demonstrate that our method scales to videos of very high resolutions.
 
-Implementation Details: RAFT is implemented in PyTorch. All modules are initialized from scratch with random weights. During training, we use the AdamW optimizer and clip gradients to the range $\lbrack{- 1},1\rbrack$. Unless otherwise noted, we evaluate after 32 flow updates on Sintel and 24 on KITTI. For every update, ${\Delta\mathbf{f}} + \mathbf{f}_{k}$, we only backpropgate the gradient through the $\Delta\mathbf{f}$ branch, and zero the gradient through the $\mathbf{f}_{k}$ branch as suggested by.
+Implementation Details: RAFT is implemented in PyTorch. All modules are initialized from scratch with random weights. During training, we use the AdamW optimizer and clip gradients to the range $\lbrack{- 1},1\rbrack$. Unless otherwise noted, we evaluate after 32 flow updates on Sintel and 24 on KITTI. For every update, ${\Delta\mathbf{f}} + \mathbf{f}_{k}$, we only backpropgate the gradient through the $\Delta\mathbf{f}$ branch, and zero the gradient through the $\mathbf{f}_{k}$ branch as suggested .
 
 Training Schedule: We train RAFT using two 2080Ti GPUs. We pretrain on FlyingThings for 100k iterations with a batch size of 12, then train for 100k iterations on FlyingThings3D with a batch size of 6. We finetune on Sintel for another 100k by combining data from Sintel, KITTI-2015, and HD1K similar to MaskFlowNet and PWC-Net+. Finally, we finetune on KITTI-2015 for an additionally 50k iterations using the weights from the model finetuned on Sintel. Details on training and data augmentation are provided in the supplemental material. For comparison with prior work, we also include results from our model when finetuning only on Sintel and only on KITTI.
 
@@ -122,9 +112,7 @@ We train our model using the FlyingChairs$\rightarrow$FlyingThings schedule and 
 
 Figure 4: Flow predictions on the KITTI test set.
 
-Table 1: Results on Sintel and KITTI datasets. We test the generalization performance on Sintel(train) after training on FlyingChairs(C) and FlyingThing(T), and outperform all existing methods on both the clean and final pass. The bottom two sections show the performance of our model on public leaderboards after dataset specific finetuning. S/K includes methods which use only Sintel data for finetuning on Sintel and only KITTI data when finetuning on KITTI. +S+K+H includes methods which combine KITTI, HD1K, and Sintel data when finetuning on Sintel. Ours (warm-start) ranks 1st on both the Sintel clean and final passes, and 1st among all flow approaches on KITTI. (1FlowNet2 originally reported results on the disparity split of Sintel, 3.54 is the EPE when their model is evaluated on the standard data. 2 finds that HD1K data does not help significantly during Sintel finetuning and reports results without it. )
-
-When using C+T for training, our method outperforms all existing approaches, despite using a significantly shorter training schedule. Our method achieves an average EPE (end-point-error) of 1.43 on the Sintel(train) clean pass, which is a 29% lower error than FlowNet2. These results demonstrates good cross dataset generalization. One of the reasons for better generalization is the structure of our network. By constraining optical flow to be the product of a series of identical update steps, we force the network to learn an update operator which mimics the updates of a first-order descent algorithm. This constrains the search space, reduces the risk of over-fitting, and leads to faster training and better generalization.
+Table 1: Results on Sintel and KITTI datasets. We test the generalization performance on Sintel(train) after training on FlyingChairs(C) and FlyingThing(T), and outperform all existing methods on both the clean and final pass. The bottom two sections show the performance of our model on public leaderboards after dataset specific finetuning. S/K includes methods which use only Sintel data for finetuning on Sintel and only KITTI data when finetuning on KITTI. +S+K+H includes methods which combine KITTI, HD1K, and Sintel data when finetuning on Sintel. Ours (warm-start) ranks 1st on both the Sintel clean and final passes, and 1st among all flow approaches on KITTI. (1FlowNet2 originally reported results on the disparity split of Sintel, 3.54 is the EPE when their model is evaluated on the standard data. 2 finds that HD1K data does not help significantly during Sintel finetuning and reports results without it.) When using C+T for training, our method outperforms all existing approaches, despite using a significantly shorter training schedule. Our method achieves an average EPE (end-point-error) of 1.43 on the Sintel(train) clean pass, which is a 29% lower error than FlowNet2. These results demonstrates good cross dataset generalization. One of the reasons for better generalization is the structure of our network. By constraining optical flow to be the product of a series of identical update steps, we force the network to learn an update operator which mimics the updates of a first-order descent algorithm. This constrains the search space, reduces the risk of over-fitting, and leads to faster training and better generalization.
 
 When evaluating on the Sintel(test) set, we finetune on the combined clean and final passes of the training set along with KITTI and HD1K data. Our method ranks 1st on both the Sintel clean and final passes, and outperforms all prior work by 0.9 pixels (36%) on the clean pass and 1.2 pixels (30%) on the final pass. We evaluate two versions of our model, Ours (two-frame) uses zero initialization, while Ours (warp-start) initializes flow by forward projecting the flow estimate from the previous frame. Since our method operates at a single resolution, we can initialize the flow estimate to utilize motion smoothness from past frames, which cannot be easily done using the coarse-to-fine model.
 
@@ -136,13 +124,7 @@ We also evaluate RAFT on KITTI and provide results in Table 1 and Figure 4. We f
 
 We perform a set of ablation experiments to show the relative importance of each component. All ablated versions are trained on FlyingChairs(C) + FlyingThings(T). Results of the ablations are shown in Table 2. In each section of the table, we test a specific component of our approach in isolation, the settings which are used in our final model is underlined. Below we describe each of the experiments in more detail.
 
-Reference Model (bilinear upsampling), Training: 100k(C) → 60k(T)
-
-Features for Refinement
-
-Reference Model (convex upsampling), Training: 100k(C) → 100k(T)
-
-Table 2: Ablation experiments. Settings used in our final model are underlined. See Sec. 4.3 for details.
+Reference Model (bilinear upsampling), Training: 100k(C) → 60k(T) Features for Refinement Reference Model (convex upsampling), Training: 100k(C) → 100k(T) Table 2: Ablation experiments. Settings used in our final model are underlined. See Sec. 4.3 for details.
 
 Architecture of Update Operator: We use a gated activation unit based on the GRU cell. We experiment with replacing the convolutional GRU with a set of 3 convolutional layers with ReLU activation. We achieve better performance by using the GRU block, likely because the gated activation makes it easier for the sequence of flow estimates to converge.
 
@@ -179,3 +161,5 @@ To demonstrate that our method scales well to videos of very high resolution we 
 ## Conclusions
 
 We have proposed RAFT---Recurrent All-Pairs Field Transforms---a new end-to-end trainable model for optical flow. RAFT is unique in that it operates at a single resolution using a large number of lightweight, recurrent update operators. Our method achieves state-of-the-art accuracy across a diverse range of datasets, strong cross dataset generalization, and is efficient in terms of inference time, parameter count, and training iterations.
+
+Acknowledgments: This work was partially funded by the National Science Foundation under Grant No. 1617767.

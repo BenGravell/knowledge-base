@@ -86,7 +86,7 @@ Fixing a notion of simulatability, the quantity denoted by *reasonable* is subje
 
 ### Decomposability
 
-A second notion of transparency might be that each part of the model - each input, parameter, and calculation - admits an intuitive explanation. This accords with the property of *intelligibility* as described by. For example, each node in a decision tree might correspond to a plain text description (e.g. *all patients with diastolic blood pressure over 150*). Similarly, the parameters of a linear model could be described as representing strengths of association between each feature and the label.
+A second notion of transparency might be that each part of the model - each input, parameter, and calculation - admits an intuitive explanation. This accords with the property of *intelligibility* as described . For example, each node in a decision tree might correspond to a plain text description (e.g. *all patients with diastolic blood pressure over 150*). Similarly, the parameters of a linear model could be described as representing strengths of association between each feature and the label.
 
 Note that this notion of interpretability requires that inputs themselves be individually interpretable, disqualifying some models with highly engineered or anonymous features. While this notion is popular, we shouldn't accept it blindly. The weights of a linear model might seem intuitive, but they can be fragile with respect to feature selection and pre-processing. For example, associations between flu risk and vaccination might be positive or negative depending on whether the feature set includes indicators of old age, infancy, or immunodeficiency.
 
@@ -120,7 +120,7 @@ While it may be difficult to succinctly describe the full mapping learned by a n
 
 Note that these explanations of what a model is *focusing on* may be misleading. The saliency map is a local explanation only. Once you move a single pixel, you may get a very different saliency map. This contrasts with linear models, which model global relationships between inputs and outputs.
 
-Figure 2: Saliency map by Wang et al. to convey intuition over what the value function and advantage function portions of their deep Q-network are focusing on.
+Figure 2: Saliency map by Wang et al. to convey intuition over what the value function and advantage function portions of their deep Q-network are focusing .
 
 Another attempt at local explanations is made by Ribeiro et al.. In this work, the authors explain the decisions of any model in a local region near a particular point, by learning a separate sparse linear model to explain the decisions of the first.
 

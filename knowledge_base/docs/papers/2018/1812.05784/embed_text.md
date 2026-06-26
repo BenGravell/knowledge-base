@@ -10,7 +10,7 @@ However, the bird's eye view tends to be extremely sparse which makes direct app
 
 In this work we propose PointPillars: a method for object detection in 3D that enables end-to-end learning with only 2D convolutional layers. PointPillars uses a novel encoder that learn features on pillars (vertical columns) of the point cloud to predict 3D oriented boxes for objects. There are several advantages of this approach. First, by learning features instead of relying on fixed encoders, PointPillars can leverage the full information represented by the point cloud. Further, by operating on pillars instead of voxels there is no need to tune the binning of the vertical direction by hand. Finally, pillars are highly efficient because all key operations can be formulated as 2D convolutions which are extremely efficient to compute on a GPU. An additional benefit of learning features is that PointPillars requires no hand-tuning to use different point cloud configurations. For example, it can easily incorporate multiple lidar scans, or even radar point clouds.
 
-We evaluated our PointPillars network on the public KITTI detection challenges which require detection of cars, pedestrians, and cyclists in either the bird's eye view (BEV) or 3D. While our PointPillars network is trained using only lidar point clouds, it dominates the current state of the art including methods that use lidar *and* images, thus establishing new standards for performance on both BEV and 3D detection (Table 1 and Table 2). At the same time PointPillars runs at $62Hz$, which is orders of magnitude faster than previous art. PointPillars further enables a trade off between speed and accuracy; in one setting we match state of the art performance at over $100Hz$ (Figure 5). We have also released code ([https://github.com/nutonomy/second.pytorch](https://github.com/nutonomy/second.pytorch)) that can reproduce our results.
+We evaluated our PointPillars network on the public KITTI detection challenges which require detection of cars, pedestrians, and cyclists in either the bird's eye view (BEV) or 3D. While our PointPillars network is trained using only lidar point clouds, it dominates the current state of the art including methods that use lidar *and* images, thus establishing new standards for performance on both BEV and 3D detection (Table 1 and Table 2). At the same time PointPillars runs at $62Hz$, which is orders of magnitude faster than previous art. PointPillars further enables a trade off between speed and accuracy; in one setting we match state of the art performance at over $100Hz$ (Figure 5). We have also released code that can reproduce our results.
 
 Figure 2: Network overview. The main components of the network are a Pillar Feature Network, Backbone, and SSD Detection Head. See Section 2 for more details. The raw point cloud is converted to a stacked pillar tensor and pillar index tensor. The encoder uses the stacked pillars to learn a set of features that can be scattered back to a 2D pseudo-image for a convolutional neural network. The features from the backbone are used by the detection head to predict 3D bounding boxes for objects. Note: here we show the backbone dimensions for the car network.
 
@@ -70,57 +70,25 @@ In this paper, we use the Single Shot Detector (SSD) setup to perform 3D object 
 
 ## Implementation Details
 
-In this section we describe our network parameters and the loss function that we optimize for.
+In this section we describe our network parameters and the loss function that we optimize .
 
 ### Network
 
-Instead of pre-training our networks, all weights were initialized randomly using a uniform distribution as in.
+Instead of pre-training our networks, all weights were initialized randomly using a uniform distribution as .
 
 The encoder network has $C = 64$ output features. The car and pedestrian/cyclist backbones are the same except for the stride of the first block ($S = 2$ for car, $S = 1$ for pedestrian/cyclist). Both network consists of three blocks, Block1($S$, 4, C), Block2($2S$, 6, 2C), and Block3($4S$, 6, 4C). Each block is upsampled by the following upsampling steps: Up1($S$, $S$, 2C), Up2($2S$, $S$, 2C) and Up3($4S$, $S$, 2C). Then the features of Up1, Up2 and Up3 are concatenated together to create 6C features for the detection head.
 
 ### Loss
 
-We use the same loss functions introduced in SECOND. Ground truth boxes and anchors are defined by $(x,y,z,w,l,h,\theta)$. The localization regression residuals between ground truth and anchors are defined by:
+We use the same loss functions introduced in SECOND. Ground truth boxes and anchors are defined by $(x,y,z,w,l,h,\theta)$. The localization regression residuals between ground truth and anchors are defined: where $x^{gt}$ and $x^{a}$ are respectively the ground truth and anchor boxes and $d^{a} = \sqrt{{(w^{a})}^{2} + {(l^{a})}^{2}}$. The total localization loss is: Since the angle localization loss cannot distinguish flipped boxes, we use a softmax classification loss on the discretized directions, $\mathcal{L}_{dir}$, which enables the network to learn the heading.
 
-where $x^{gt}$ and $x^{a}$ are respectively the ground truth and anchor boxes and $d^{a} = \sqrt{{(w^{a})}^{2} + {(l^{a})}^{2}}$. The total localization loss is:
-
-Since the angle localization loss cannot distinguish flipped boxes, we use a softmax classification loss on the discretized directions, $\mathcal{L}_{dir}$, which enables the network to learn the heading.
-
-For the object classification loss, we use the focal loss:
-
-where $p^{a}$ is the class probability of an anchor. We use the original paper settings of $\alpha = 0.25$ and $\gamma = 2$. The total loss is therefore:
-
-where $N_{pos}$ is the number of positive anchors and $\beta_{loc} = 2$, $\beta_{cls} = 1$, and $\beta_{dir} = 0.2$.
+For the object classification loss, we use the focal loss: where $p^{a}$ is the class probability of an anchor. We use the original paper settings of $\alpha = 0.25$ and $\gamma = 2$. The total loss is therefore: where $N_{pos}$ is the number of positive anchors and $\beta_{loc} = 2$, $\beta_{cls} = 1$, and $\beta_{dir} = 0.2$.
 
 To optimize the loss function we use the Adam optimizer with an initial learning rate of $2 \ast 10^{- 4}$ and decay the learning rate by a factor of $0.8$ every $15$ epochs and train for $160$ epochs. We use a batch size of 2 for validation set and 4 for our test submission.
 
-Lidar &amp; Img.
-
-Lidar &amp; Img.
-
-Lidar &amp; Img.
-
-Lidar &amp; Img.
-
-Lidar &amp; Img.
-
-Lidar &amp; Map
-
 Table 1: Results on the KITTI test BEV detection benchmark.
 
-Lidar &amp; Img.
-
-Lidar &amp; Img.
-
-Lidar &amp; Img.
-
-Lidar &amp; Img.
-
-Lidar &amp; Img.
-
 Table 2: Results on the KITTI test 3D detection benchmark.
-
-Lidar &amp; Img.
 
 Table 3: Results on the KITTI test average orientation similarity (AOS) detection benchmark. SubCNN is the best performing image only method, while AVOD-FPN, SECOND, and PointPillars are the only 3D object detectors that predict orientation.
 
@@ -184,11 +152,11 @@ The main inference steps are as follows. First, the point cloud is loaded and fi
 
 ### Encoding
 
-The key design to enable this runtime is the PointPilar encoding. For example, at $1.3ms$ it is 2 orders of magnitude faster than the VoxelNet encoder ($190ms$). Recently, SECOND proposed a faster sparse version of the VoxelNet encoder for a total network runtime of $50ms$. They did not provide a runtime analysis, but since the rest of their architecture is similar to ours, it suggests that the encoder is still significantly slower; in their open source implementation^11^1https://github.com/traveller59/second.pytorch/ the encoder requires $48ms$.
+The key design to enable this runtime is the PointPilar encoding. For example, at $1.3ms$ it is 2 orders of magnitude faster than the VoxelNet encoder ($190ms$). Recently, SECOND proposed a faster sparse version of the VoxelNet encoder for a total network runtime of $50ms$. They did not provide a runtime analysis, but since the rest of their architecture is similar to ours, it suggests that the encoder is still significantly slower; in their open source implementation^11^1 the encoder requires $48ms$.
 
 ### Slimmer Design
 
-We opt for a single PointNet in our encoder, compared to 2 sequential PointNets suggested by. This reduced our runtime by $2.5ms$ in our PyTorch runtime. The number of dimensions of the first block were also lowered $64$ to match the encoder output size, which reduced the runtime by $4.5ms$. Finally, we saved another $3.9ms$ by cutting the output dimensions of the upsampled feature layers by half to $128$. Neither of these changes affected detection performance.
+We opt for a single PointNet in our encoder, compared to 2 sequential PointNets suggested . This reduced our runtime by $2.5ms$ in our PyTorch runtime. The number of dimensions of the first block were also lowered $64$ to match the encoder output size, which reduced the runtime by $4.5ms$. Finally, we saved another $3.9ms$ by cutting the output dimensions of the upsampled feature layers by half to $128$. Neither of these changes affected detection performance.
 
 ### TensorRT
 
@@ -206,7 +174,7 @@ In this section we provide ablation studies and discuss our design choices compa
 
 A trade-off between speed and accuracy can be achieved by varying the size of the spatial binning. Smaller pillars allow finer localization and lead to more features, while larger pillars are faster due to fewer non-empty pillars (speeding up the encoder) and a smaller pseudo-image (speeding up the CNN backbone). To quantify this effect we performed a sweep across grid sizes. From Figure 5 it is clear that the larger bin sizes lead to faster networks; at $0.28^{2}$ we achieve $105Hz$ at similar performance to previous methods. The decrease in performance was mainly due to the pedestrian and cyclist classes, while car performance was stable across the bin sizes.
 
-Figure 5: BEV detection performance (mAP) vs speed (Hz) on the KITTI val set across pedestrians, bicycles and cars. Blue circles indicate lidar only methods, red squares indicate methods that use lidar &amp; vision. Different operating points were achieved by using pillar grid sizes in {0.122, 0.162, 0.22, 0.242, 0.282} m2. The number of max-pillars was varied along with the resolution and set to 16000, 12000, 12000, 8000, 8000 respectively.
+Figure 5: BEV detection performance (mAP) vs speed (Hz) on the KITTI val set across pedestrians, bicycles and cars. Blue circles indicate lidar only methods, red squares indicate methods that use lidar & vision. Different operating points were achieved by using pillar grid sizes in {0.122, 0.162, 0.22, 0.242, 0.282} m2. The number of max-pillars was varied along with the resolution and set to 16000, 12000, 12000, 8000, 8000 respectively.
 
 ### Per Box Data Augmentation
 

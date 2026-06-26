@@ -38,67 +38,39 @@ In this section, we establish theoretical preliminaries for dynamic optimization
 
 ### Entropic-regularized Dynamic Optimization
 
-With the deterministic dynamics $x_{t + 1} = {f{(x_{t},u_{t})}}$, with state $x \in {\mathbb{R}}^{n_{x}}$ and control $u \in {\mathbb{R}}^{n_{u}}$, we consider the following TO problem:
+With the deterministic dynamics $x_{t+1}=f(x_{t},u_{t})$, with state $x\in\mathbb{R}^{n_{x}}$ and control $u\in\mathbb{R}^{n_{u}}$, we consider the following TO problem: subject to the dynamics. Here, we define state and control trajectories as $X=[x_{1},\cdots,x_{T}]$ and $U=[u_{1},\cdots,u_{T-1}]$. The scalar-valued functions $l(\cdot,\cdot)$, $\Phi(\cdot)$, and $J(\cdot,\cdot)$ denote the running, terminal, and total cost of the problem, respectively. There exist several second-order solvers that can solve the problem above. Typically, they solve Quadratic Programming (QP) with a quadratic approximation of the cost under constraints from dynamics. Two well-known classes of algorithms are DDP and SQP. With quadratic approximation of dynamics, DDP effectively splits the problem into a sequence of stage-wise subproblems and solves them efficiently. SQP solves a large QP over trajectories under linearized dynamics, although there exist methods to solve QP efficiently with LQR Rao et al.. Both of these methods are successfully used in robotic applications. However, since they are relying on local information on the cost and dynamics, i.e., gradient and Hessian, they are vulnerable to being trapped at a poor local solution as mentioned in Introduction.
 
-subject to the dynamics. Here, we define state and control trajectories as $X = {\lbrack x_{1},\cdots,x_{T}\rbrack}$ and $U = {\lbrack u_{1},\cdots,u_{T - 1}\rbrack}$. The scalar-valued functions $l{( \cdot, \cdot )}$, $\Phi{( \cdot )}$, and $J{( \cdot, \cdot )}$ denote the running, terminal, and total cost of the problem, respectively. There exist several second-order solvers that can solve the problem above. Typically, they solve Quadratic Programming (QP) with a quadratic approximation of the cost under constraints from dynamics. Two well-known classes of algorithms are DDP and SQP. With quadratic approximation of dynamics, DDP effectively splits the problem into a sequence of stage-wise subproblems and solves them efficiently. SQP solves a large QP over trajectories under linearized dynamics, although there exist methods to solve QP efficiently with LQR Rao et al.. Both of these methods are successfully used in robotic applications. However, since they are relying on local information on the cost and dynamics, i.e., gradient and Hessian, they are vulnerable to being trapped at a poor local solution as mentioned in Introduction.
+To alleviate the issue, we consider a stochastic control policy $\Pi(U|X)$ and introduce expected entropy of the policy: where $P(X)$ is the marginal distribution of the state trajectory induced by the policy $\Pi$, and $P(X,U)=P(X)\Pi(U|X)$ is the resulting joint distribution of the state and control trajectories. Here, we use the term expected entropy because it represents the conditional entropy of the control trajectory, marginalized over the state trajectory distribution. We add it to the objective to promote exploration. Incorporating the dynamics and taking expectation over a trajectory, we have a new objective: The temperature parameter $\tau$ acts as a thermodynamic scaling factor. The intuition here is that, at high temperatures, the control (thermodynamic particles) has high kinetic energy, spreading across the cost landscape to maximize entropy. This prevents the optimizer from collapsing into a local minimum. In contrast, when the temperature is low, the control acts like a crystal, which does not explore the landscape.
 
-To alleviate the issue, we consider a stochastic control policy $\Pi{(\left. U \middle| X \right.)}$ and introduce expected entropy of the policy:
-
-where $P{(X)}$ is the marginal distribution of the state trajectory induced by the policy $\Pi$, and ${P{(X,U)}} = {P{(X)}\Pi{(\left. U \middle| X \right.)}}$ is the resulting joint distribution of the state and control trajectories. Here, we use the term expected entropy because it represents the conditional entropy of the control trajectory, marginalized over the state trajectory distribution. We add it to the objective to promote exploration. Incorporating the dynamics and taking expectation over a trajectory, we have a new objective:
-
-The temperature parameter $\tau$ acts as a thermodynamic scaling factor. The intuition here is that, at high temperatures, the control (thermodynamic particles) has high kinetic energy, spreading across the cost landscape to maximize entropy. This prevents the optimizer from collapsing into a local minimum. In contrast, when the temperature is low, the control acts like a crystal, which does not explore the landscape.
-
-With the objective with the entropy, the TO problem seeks a stochastic policy that minimizes the original objective while maximizing the corresponding entropy. The resulting policy can explore multiple local solutions and is robust to being captured by poor ones. There exist multiple approaches to solve the problem. One of the simplest cases is with a feedforward control $\Pi{(\left. U \middle| x_{1} \right.)}$ which gives
-
-where $Z_{0}$ is a partition function Liu et al.. In this work, we use DDP to effectively obtain and utilize the feedback policy.
+With the objective with the entropy, the TO problem seeks a stochastic policy that minimizes the original objective while maximizing the corresponding entropy. The resulting policy can explore multiple local solutions and is robust to being captured by poor ones. There exist multiple approaches to solve the problem. One of the simplest cases is with a feedforward control $\Pi(U|x_{1})$ which gives where $Z_{0}$ is a partition function Liu et al.. In this work, we use DDP to effectively obtain and utilize the feedback policy.
 
 ### Differential Dynamic Programming
 
 In this section, we review DDP. Although this is a classic work, we highlight its inherent quadratic structure and treatment of its Hessian. This is because the Hessian plays a key role in the exploration strategies developed in the following sections.
 
-We consider the cost-to-go at time step $t = i$, i.e., cost starting from $t = i$ to $N$, denoted by $J_{i}{(X_{i},U_{i})}$. This is given by
+We consider the cost-to-go at time step $t=i$, i.e., cost starting from $t=i$ to $N$, denoted by ${J}_{i}(X_{i},U_{i})$. This is given by with trajectories starting from time step $i$: $X_{i}=[{x}_{i},\dots,{x}_{N}]$, $U_{i}=[{u}_{i},\dots,{u}_{N-1}]$. The value function is defined as the minimum cost-to-go in each state and time step $t$ via $V_{t}({x}_{t}):=\min_{{u}_{t}}J_{t}({X_{t}},{U_{t}})$. Given Bellman's principle of optimality that provides the following rule where $Q_{t}(x_{t},u_{t})$ is action-state, or simply $Q$ function, DDP finds local solutions to the minimization of by expanding about nominal trajectories $\bar{X}$ and $\bar{U}$.
 
-with trajectories starting from time step $i$: $X_{i} = {\lbrack x_{i},\ldots,x_{N}\rbrack}$, $U_{i} = {\lbrack u_{i},\ldots,u_{N - 1}\rbrack}$. The value function is defined as the minimum cost-to-go in each state and time step $t$ via ${V_{t}{(x_{t})}}:={{\min_{u_{t}}J_{t}}{(X_{t},U_{t})}}$. Given Bellman's principle of optimality that provides the following rule
-
-where $Q_{t}{(x_{t},u_{t})}$ is action-state, or simply $Q$ function, DDP finds local solutions to the minimization of by expanding about nominal trajectories $\overline{X}$ and $\overline{U}$.
-
-The first step of the minimization is to perform quadratic expansions of $Q_{t}$ about nominal pair (${\overline{x}}_{t}$, ${\overline{u}}_{t}$) with the deviation ${\deltax_{t}} = {x_{t} - {\overline{x}}_{t}}$, ${\deltau_{t}} = {u_{t} - {\overline{u}}_{t}}$, obtaining
-
-where we drop the time index $t$ for $Q$. For readability, we drop the time subscript $t$ where the time dependency can be recovered from the arguments or associated variables (e.g., writing $Q_{u}^{\mathsf{T}}\deltau_{t}$ instead of $Q_{u,t}^{\mathsf{T}}\deltau_{t}$), hereafter.
+The first step of the minimization is to perform quadratic expansions of $Q_{t}$ about nominal pair ($\bar{x}_{t}$, $\bar{u}_{t}$) with the deviation $\delta x_{t}=x_{t}-\bar{x}_{t}$, $\delta u_{t}=u_{t}-\bar{u}_{t}$, obtaining where we drop the time index $t$ for $Q$. For readability, we drop the time subscript $t$ where the time dependency can be recovered from the arguments or associated variables (e.g., writing $Q_{u}^{\mathsf{T}}\delta u_{t}$ instead of $Q_{u,t}^{\mathsf{T}}\delta u_{t}$), hereafter.
 
 The quadratic approximation is a standard process in nonlinear optimization, as used in Newton's method.
 
-Assuming that the Hessian $Q_{uu}$ is Positive Definite (PD), we can explicitly optimize $Q$ approximated in with respect to $\deltau_{t}$ by computing a partial derivative of with respect to $\deltau_{t}$ and setting it zero. This minimization yields the following local optimal control law
+Assuming that the Hessian $Q_{uu}$ is Positive Definite (PD), we can explicitly optimize $Q$ approximated in with respect to $\delta{u}_{t}$ by computing a partial derivative of with respect to $\delta u_{t}$ and setting it zero. This minimization yields the following local optimal control law where $\kappa$ and $K$ are known as feedforward and feedback gains, respectively.
 
-where $\kappa$ and $K$ are known as feedforward and feedback gains, respectively.
-
-DDP has backward and forward passes. In the backward pass, the derivatives of $Q$ functions which is later introduced , gains in are computed backward in time. In the forward pass, the new control ${\overline{u}}_{t} + {\deltau_{t}^{\ast}}$ is propagated forward in time to give a new pair of nominal trajectories.
+DDP has backward and forward passes. In the backward pass, the derivatives of $Q$ functions which is later introduced , gains in are computed backward in time. In the forward pass, the new control $\bar{u}_{t}+\delta u^{\ast}_{t}$ is propagated forward in time to give a new pair of nominal trajectories.
 
 ### Backward pass
 
-To obtain the derivatives of $Q$ functions that are required to compute gains, we perform a similar expansion on the term ${l{(x_{t},u_{t})}} + {V_{t + 1}{(x_{t + 1})}}$ given in the definition of $Q$ function , and eliminate $\deltax_{t + 1}$ using quadratic approximation of the dynamics:
+To obtain the derivatives of $Q$ functions that are required to compute gains, we perform a similar expansion on the term $l(x_{t},u_{t})+V_{t+1}(x_{t+1})$ given in the definition of $Q$ function, and eliminate $\delta x_{t+1}$ using quadratic approximation of the dynamics: where $f_{x}$ and $f_{u}$ denote the state and control Jacobians, while the block-matrix in the last term contains the Hessian tensors. Specifically, $f_{xx}$ and $f_{uu}$ represent the second-order sensitivities with respect to state and control, respectively, and $f_{xu}$ accounts for their coupling. Mapping the terms on both sides of quadratic approximation of $Q(x_{t},u_{t})=l(x_{t},u_{t})+V_{t+1}(x_{t+1})$, we obtain the derivatives of $Q$ (evaluated on $\bar{X}$ and $\bar{U}$) as follows. where derivatives of the running cost and dynamics are evaluated at time $t$, and $\cdot$ for Hessians and ${V_{x,t+1}}$ is tensor contraction along the first (state) axis.
 
-where $f_{x}$ and $f_{u}$ denote the state and control Jacobians, while the block-matrix in the last term contains the Hessian tensors. Specifically, $f_{xx}$ and $f_{uu}$ represent the second-order sensitivities with respect to state and control, respectively, and $f_{xu}$ accounts for their coupling. Mapping the terms on both sides of quadratic approximation of ${Q{(x_{t},u_{t})}} = {{l{(x_{t},u_{t})}} + {V_{t + 1}{(x_{t + 1})}}}$, we obtain the derivatives of $Q$ (evaluated on $\overline{X}$ and $\overline{U}$) as follows.
-
-where derivatives of the running cost and dynamics are evaluated at time $t$, and $\cdot$ for Hessians and $V_{x,{t + 1}}$ is tensor contraction along the first (state) axis.
-
-Now, $\deltau_{t}^{\ast}$ is computed using $V_{x,{t + 1}}$ and $V_{{xx},{t + 1}}$, which are in one time step ahead. To propagate derivatives of $V_{t}{(x)}$ back in time, we consider the quadratic expansion of $V_{t}{(x)}$, that is,
-
-and equate the equation with the quadratic expansion of $Q$ in through. Since we now have a solution of the $\min_{u_{t}}$ in the right-hand side of, by substituting $\deltau^{\ast}$ for $\deltau$, the $\min$ operator vanishes. This allows us to compare the coefficients of $\deltax_{t}$ by mapping the terms, giving the backward recursions:
-
-with the terminal condition
-
-We note that in our implementation, we drop the second-order information of the dynamics and use a linear approximation, which corresponds to iterative LQR.
+Now, $\delta{u}_{t}^{\ast}$ is computed using $V_{x,t+1}$ and $V_{xx,t+1}$, which are in one time step ahead. To propagate derivatives of $V_{t}(x)$ back in time, we consider the quadratic expansion of $V_{t}(x)$, that is, and equate the equation with the quadratic expansion of $Q$ in through. Since we now have a solution of the $\min_{u_{t}}$ in the right-hand side of, by substituting $\delta u^{\ast}$ for $\delta u$, the $\min$ operator vanishes. This allows us to compare the coefficients of $\delta x_{t}$ by mapping the terms, giving the backward recursions: with the terminal condition We note that in our implementation, we drop the second-order information of the dynamics and use a linear approximation, which corresponds to iterative LQR.
 
 ### Forward pass
 
-In the forward pass, the new control ${\overline{u}}_{t} + {\deltau_{t}^{\ast}}$ is propagated forward in time to give a new pair of nominal trajectories, typically with a backtracking line search to absorb the discrepancy between the quadratic cost model, linear or quadratic dynamics model, and the actual ones.
+In the forward pass, the new control $\bar{u}_{t}+\delta u^{\ast}_{t}$ is propagated forward in time to give a new pair of nominal trajectories, typically with a backtracking line search to absorb the discrepancy between the quadratic cost model, linear or quadratic dynamics model, and the actual ones.
 
 ### Regularization
 
-To compute the optimal gains by minimizing, the Hessian $Q_{uu}$ must be PD. Furthermore, established convergence analysis relies on PD $Q_{uu}$ or on the convexity of the surrogate model formed with regularized $Q_{uu}$. When the $Q_{uu}$ is not PD, it must be regularized. One of the well-known strategies is
-
-which is equivalent to adding a cost penalizing large $\deltau_{t}$ via a quadratic trust-region penalty.
+To compute the optimal gains by minimizing, the Hessian $Q_{uu}$ must be PD. Furthermore, established convergence analysis relies on PD $Q_{uu}$ or on the convexity of the surrogate model formed with regularized $Q_{uu}$. When the $Q_{uu}$ is not PD, it must be regularized. One of the well-known strategies is which is equivalent to adding a cost penalizing large $\delta u_{t}$ via a quadratic trust-region penalty.
 
 In practical implementations of DDP, if cost reduction is not achieved with a small step size in the forward pass, the backward pass is rerun with a larger regularization parameter.
 
@@ -108,31 +80,17 @@ This effectively restricts the optimization to a smaller, more reliable neighbor
 
 This section provides a review of ME-DDP and demonstrates its efficacy in solving the entropy-regularized dynamic optimization problem. We also introduce its unimodal and multimodal policies. We have a detailed derivation in the Appendix.
 
-Using the Markovian assumption Puterman, we decompose the policy defined over the trajectories into multiple of policies at each time step:
-
-Then, the expected total entropy of the policy $\mathcal{H}{\lbrack\Pi\rbrack}$ becomes the sum of stage-wise entropy:
-
-With this decomposition, we consider the stage-wise minimization of given state $x_{t}$,
-
-which can be seen as an entropic regularized version of. Here, we use $\overset{\sim}{V}$ to denote the value function of the entropic regularized problem. The minimization in results in the optimal control policy $\pi_{t}^{\ast}$:
-
-where $Z{(x)}$ is the corresponding partition function and ${{\overset{\sim}{Q}}_{t}{(x_{t},u_{t})}} = {{l{(x_{t},u_{t})}} + {{\overset{\sim}{V}}_{t + 1}{(x_{t + 1})}}}$. The relationship represents a smooth approximation of the Bellman optimality operator. The intuition here is that, by exponentiating the negative $Q$ function, the lowest value are magnified relative to higher ones. The subsequent operation with $\ln$ and negation returns the result to the original scale. This operation effectively acts as a Soft-min operator.
+Using the Markovian assumption Puterman, we decompose the policy defined over the trajectories into multiple of policies at each time step: Then, the expected total entropy of the policy $\mathcal{H}[\Pi]$ becomes the sum of stage-wise entropy: With this decomposition, we consider the stage-wise minimization of given state $x_{t}$, which can be seen as an entropic regularized version of. Here, we use $\tilde{V}$ to denote the value function of the entropic regularized problem. The minimization in results in the optimal control policy $\pi_{t}^{\ast}$: where $Z(x)$ is the corresponding partition function and $\tilde{Q}_{t}(x_{t},u_{t})=l(x_{t},u_{t})+\tilde{V}_{t+1}(x_{t+1})$. The relationship represents a smooth approximation of the Bellman optimality operator. The intuition here is that, by exponentiating the negative $Q$ function, the lowest value are magnified relative to higher ones. The subsequent operation with $\ln$ and negation returns the result to the original scale. This operation effectively acts as a Soft-min operator.
 
 ### Unimodal Gaussian Policy
 
-Combined with the quadratic approximation of $Q$ function utilized in DDP, indicates that the optimal policy has a form of unimodal Gaussian ${\pi^{\ast}{(\left. {\deltau} \middle| {\deltax} \right.)}} \sim {\mathcal{N}{({\deltau^{\ast}},{\tauQ_{uu}^{- 1}})}}$, where $\deltau^{\ast}$ is a solution of deterministic DDP .
+Combined with the quadratic approximation of $Q$ function utilized in DDP, indicates that the optimal policy has a form of unimodal Gaussian $\pi^{\ast}(\delta u|\delta x)\sim\mathcal{N}(\delta u^{\ast},\tau Q_{uu}^{-1})$, where $\delta u^{\ast}$ is a solution of deterministic DDP .
 
 ### Multimodal Gaussian Policy
 
-In the multimodal case, we consider $N$ trajectories or modes:
+In the multimodal case, we consider $N$ trajectories or modes: with $n=1,\dots,N$ and the LogSumExp approximation of the value function where the superscript $(n)$ denotes the $n$ th trajectory. The exponential transformation $\mathcal{E}_{\tau}(y)=\exp(-y/{\tau})$ of the value function results in a control policy represented as a mixture of Gaussians whose categorical distribution is proportional to the value function of each trajectory. This multimodal policy is represented as follows: The intuition here is that the policy decides which modes to sample based on the value function and then samples from the corresponding Gaussian. We note that while theoretically allows the policy to be multimodal, in practice these modes may collapse into a single dominant local minimum. This numerical collapse significantly diminishes the exploratory benefit of ME-DDP.
 
-with $n = {1,\ldots,N}$ and the LogSumExp approximation of the value function
-
-where the superscript $(n)$ denotes the $n$ th trajectory. The exponential transformation ${\mathcal{E}_{\tau}{(y)}} = {\exp{({- {y/\tau}})}}$ of the value function results in a control policy represented as a mixture of Gaussians whose categorical distribution is proportional to the value function of each trajectory. This multimodal policy is represented as follows:
-
-The intuition here is that the policy decides which modes to sample based on the value function and then samples from the corresponding Gaussian. We note that while theoretically allows the policy to be multimodal, in practice these modes may collapse into a single dominant local minimum. This numerical collapse significantly diminishes the exploratory benefit of ME-DDP.
-
-To mitigate the issue, we introduce a heuristic in our implementation with a lower bound $\omega_{\min}$ on the weights. The weights are updated as ${\hat{\omega}}^{(n)} = {\max{(\omega^{(n)},\omega_{\min})}}$ and subsequently renormalized.
+To mitigate the issue, we introduce a heuristic in our implementation with a lower bound $\omega_{\mathrm{min}}$ on the weights. The weights are updated as $\hat{\omega}^{(n)}=\max(\omega^{(n)},\omega_{\rm{min}})$ and subsequently renormalized.
 
 ### Exploration (sampling) vs Exploitation (gradient)
 
@@ -148,96 +106,39 @@ To provide the theoretical basis, we first review SVGD and its connection to fun
 
 SVGD minimizes the Kullback-Leibler (KL) divergence between a set of particles and a target distribution by performing functional gradient descent in a Reproducing Kernel Hilbert Space (RKHS). SVNM incorporates the Hessian to accelerate convergence and better capture the geometry of the underlying distribution.
 
-For comprehensive treatments, we refer the reader to Liu and Wang; Liu for SVGD and to Detommaso et al. for SVNM. In this subsection, $x \in {\mathbb{R}}^{d}$ denotes a generic optimization variable rather than the system state, and $x_{n} \in {\mathbb{R}}^{d}$ represents a specific sampled point (particle).
+For comprehensive treatments, we refer the reader to Liu and Wang; Liu for SVGD and to Detommaso et al. for SVNM. In this subsection, $x\in\mathbb{R}^{d}$ denotes a generic optimization variable rather than the system state, and $x_{n}\in\mathbb{R}^{d}$ represents a specific sampled point (particle).
 
 ### Stein Variational Gradient Descent
 
-Let $p$ on ${\mathbb{R}}^{d}$ be a target distribution that we wish to approximate using a collection of samples. We specify the argument of $p{( \cdot )}$, when we evaluate it at a point $x_{n}$ as $p{(x_{n})}$. With samples $\{ x_{n}\}$ from a tractable reference distribution $q$ on ${\mathbb{R}}^{d}$, SVGD iteratively computes a transport map $\mathcal{T}:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{d}}$ so that the transformed samples of $q$, i.e., $\{{\mathcal{T}{(x_{n})}}\}$ can empirically approximate $p$. This map is obtained by solving the following optimization problem:
+Let $p$ on $\mathbb{R}^{d}$ be a target distribution that we wish to approximate using a collection of samples. We specify the argument of $p(\cdot)$, when we evaluate it at a point $x_{n}$ as $p(x_{n})$. With samples $\{x_{n}\}$ from a tractable reference distribution $q$ on $\mathbb{R}^{d}$, SVGD iteratively computes a transport map $\mathcal{T}:\mathbb{R}^{d}\rightarrow\mathbb{R}^{d}$ so that the transformed samples of $q$, i.e., $\{\mathcal{T}(x_{n})\}$ can empirically approximate $p$. This map is obtained by solving the following optimization problem: where $\mathcal{T}_{\#}q^{l}=q^{l+1}$ and $l$ stands for $l$-th iteration. Here, $D_{\rm{KL}}$ is KL divergence that measures the difference between the two distributions. To simplify this problem, SVGD considers the vector-valued Reproducing Kernel Hilbert Space (RKHS) $\mathcal{F}^{d}=\mathcal{F}\times\cdots\times\mathcal{F}$, where $\mathcal{F}$ is a scalar-valued RKHS with kernel $k(x,x^{\prime})$. This framework allows us to represent functions as weighted compositions of kernels centered at the samples. Furthermore, it also allows us to solve the optimization problem in functional space by solving the corresponding problem with the weights using standard optimization techniques. To solve, we define the map $\mathcal{T}$ as a perturbation $\mathcal{P}$ of the identity map $I$ in $\mathcal{F}^{d}$ as With the map, we reformulate the objective of the problem as To minimize the objective $\hat{J}_{q^{l}}[\mathcal{P}]$, we consider a perturbation $\mathcal{P}$ in the direction of the functional gradient. Specifically, we define the descent direction as the negative functional gradient of $\hat{J}_{q^{l}}$ evaluated at the identity map (represented by the zero perturbation $\mathbf{0}$): where $\nabla_{\mathcal{P}}\hat{J}_{q^{l}}[\mathcal{P}]$ denotes the functional derivative of the objective with respect to $\mathcal{P}$. This formulation allows us to treat the transformation of the distribution as a steepest descent process in the space of maps. By selecting $\mathcal{P}=-\alpha\nabla_{\mathcal{P}}\hat{J}_{{q}^{l}}[\mathbf{0}]$, we shift the current distribution ${q}^{l}$ towards the target $p$ in the direction that yields the most rapid decrease in KL divergence. This construction provides a direct link between standard gradient descent on a point $x$ and the functional update of the entire distribution ${q}$.
 
-where ${\mathcal{T}_{\#}q^{l}} = q^{l + 1}$ and $l$ stands for $l$-th iteration. Here, $D_{KL}$ is KL divergence that measures the difference between the two distributions. To simplify this problem, SVGD considers the vector-valued Reproducing Kernel Hilbert Space (RKHS) $\mathcal{F}^{d} = {\mathcal{F} \times \cdots \times \mathcal{F}}$, where $\mathcal{F}$ is a scalar-valued RKHS with kernel $k{(x,x^{\prime})}$. This framework allows us to represent functions as weighted compositions of kernels centered at the samples. Furthermore, it also allows us to solve the optimization problem in functional space by solving the corresponding problem with the weights using standard optimization techniques. To solve, we define the map $\mathcal{T}$ as a perturbation $\mathcal{P}$ of the identity map $I$ in $\mathcal{F}^{d}$ as
-
-With the map, we reformulate the objective of the problem as
-
-To minimize the objective ${\hat{J}}_{q^{l}}{\lbrack\mathcal{P}\rbrack}$, we consider a perturbation $\mathcal{P}$ in the direction of the functional gradient. Specifically, we define the descent direction as the negative functional gradient of ${\hat{J}}_{q^{l}}$ evaluated at the identity map (represented by the zero perturbation $\mathbf{0}$):
-
-where ${\nabla_{\mathcal{P}}{\hat{J}}_{q^{l}}}{\lbrack\mathcal{P}\rbrack}$ denotes the functional derivative of the objective with respect to $\mathcal{P}$. This formulation allows us to treat the transformation of the distribution as a steepest descent process in the space of maps. By selecting $\mathcal{P} = {- {\alpha{\nabla_{\mathcal{P}}{\hat{J}}_{q^{l}}}{\lbrack\mathbf{0}\rbrack}}}$, we shift the current distribution $q^{l}$ towards the target $p$ in the direction that yields the most rapid decrease in KL divergence. This construction provides a direct link between standard gradient descent on a point $x$ and the functional update of the entire distribution $q$.
-
-The descent direction satisfies the following condition with $S \in \mathcal{F}^{d}$:
-
-where we drop $l$. Here, the left-hand side is the first variation of ${\hat{J}}_{q}$ at $S$ along $V$ defined as follows:
-
-The authors of Liu and Wang showed that the functional gradient at $\mathbf{0}$ is empirically approximated by $N$ particles:
-
-where the first term in the summation follows the gradient direction, and the second term spreads the particles apart from each other. Thus, it is known as the repulsive force. Finally, the update rule for samples is given by setting $\phi^{\ast} = {- {{\nabla{\hat{J}}_{q}}{\lbrack\mathbf{0}\rbrack}}}$ and with a step size $\alpha$ as follows:
+The descent direction satisfies the following condition with $S\in\mathcal{F}^{d}$: where we drop $l$. Here, the left-hand side is the first variation of $\hat{J}_{q}$ at $S$ along $V$ defined as follows: The authors of Liu and Wang showed that the functional gradient at $\bm{0}$ is empirically approximated by $N$ particles: where the first term in the summation follows the gradient direction, and the second term spreads the particles apart from each other. Thus, it is known as the repulsive force. Finally, the update rule for samples is given by setting $\phi^{\ast}=-\nabla\hat{J}_{q}[\bm{0}]$ and with a step size $\alpha$ as follows:
 
 ### Stein Variational Newton Method
 
-SVGD constructs a vector field and evaluates it at a single point to determine how a particle moves. SVNM additionally incorporates second-order information by approximating the Hessian of the KL functional, which is an operator rather than a vector. Operators act on functions and therefore require two evaluation points. To reduce indices, we adopt the following notation: $z$ represents the point where the input function is evaluated (input location), and $y$ represents the location where the output of the operator is evaluated (output location). Let us consider a function $f_{0}$ and an operator $H_{0}$, then applying the operator to the function gives
+SVGD constructs a vector field and evaluates it at a single point to determine how a particle moves. SVNM additionally incorporates second-order information by approximating the Hessian of the KL functional, which is an operator rather than a vector. Operators act on functions and therefore require two evaluation points. To reduce indices, we adopt the following notation: $z$ represents the point where the input function is evaluated (input location), and $y$ represents the location where the output of the operator is evaluated (output location). Let us consider a function $f_{0}$ and an operator $H_{0}$, then applying the operator to the function gives where the kernel $k(y,z)$ defines the coupling of $z$ and $y$.
 
-where the kernel $k{(y,z)}$ defines the coupling of $z$ and $y$.
+For second-order optimization in functional space, we define the second variation of $\hat{J}_{q}$ at $\bm{0}$ along the pair of directions $\mathcal{V},W\in\mathcal{F}^{d}$ as: The Newton direction $W$ is obtained by the optimality condition given by the following equation. which gives the transformation map of the Newton direction as a perturbation of the identity map as $\mathcal{T}=I+\alpha W.$ The authors in Detommaso et al. proved that the Newton direction $W=(w_{1},\cdots,w_{d})^{\mathsf{T}}$ satisfies for all $\mathcal{V}=(v_{1},\cdots v_{d})^{\mathsf{T}}\in\mathcal{F}^{d}$, In the same work, the Galerkin approximation of the solution of $W$ is also proposed, where $W$ is expanded on $\mathcal{F}^{d}=\mathrm{span}\{k(x_{1},\cdot),\cdots,k(x_{N},\cdot)\}$. The expansion leads to the following approximation with coefficients $\beta^{n}\in\mathbb{R}^{d}$ where the superscripts $n$ indicate the $n$-th particle. The coefficients $\beta$s are given as a solution of linear systems: where the Hessian is denoted as $H^{s,n}_{i,j}=h_{ij}(x_{s},x_{n})$.
 
-For second-order optimization in functional space, we define the second variation of ${\hat{J}}_{q}$ at $\mathbf{0}$ along the pair of directions ${\mathcal{V},W} \in \mathcal{F}^{d}$ as:
-
-The Newton direction $W$ is obtained by the optimality condition given by the following equation.
-
-which gives the transformation map of the Newton direction as a perturbation of the identity map as ${\mathcal{T} = {I + {\alphaW}}}.$ The authors in Detommaso et al. proved that the Newton direction $W = {(w_{1},\cdots,w_{d})}^{\mathsf{T}}$ satisfies for all $\mathcal{V} = {(v_{1},{\cdotsv_{d}})}^{\mathsf{T}} \in \mathcal{F}^{d}$,
-
-In the same work, the Galerkin approximation of the solution of $W$ is also proposed, where $W$ is expanded on $\mathcal{F}^{d} = {{span}{\{{k{(x_{1}, \cdot )}},\cdots,{k{(x_{N}, \cdot )}}\}}}$. The expansion leads to the following approximation with coefficients $\beta^{n} \in {\mathbb{R}}^{d}$
-
-where the superscripts $n$ indicate the $n$-th particle. The coefficients $\beta$s are given as a solution of linear systems:
-
-where the Hessian is denoted as $H_{i,j}^{s,n} = {h_{ij}{(x_{s},x_{n})}}$.
-
-The authors also propose the block-diagonal approximation of the system for parallelization, by transforming the system as:
-
-which means that the off-diagonal blocks are approximated to zero $H^{s,n} = O_{d}$ for $s \neq n$, where $O_{d} \in {\mathbb{R}}^{d \times d}$ is a zero matrix. A detailed explanation with an example is provided in the appendix. SVNM repeats the process of solving the linear systems above and updating particles with
-
-to approximate the optimal distribution.
+The authors also propose the block-diagonal approximation of the system for parallelization, by transforming the system as: which means that the off-diagonal blocks are approximated to zero $H^{s,n}=O_{d}$ for $s\neq n$, where $O_{d}\in\mathbb{R}^{d\times d}$ is a zero matrix. A detailed explanation with an example is provided in the appendix. SVNM repeats the process of solving the linear systems above and updating particles with to approximate the optimal distribution.
 
 ### ME-DDP with Functional Gradient and Hessian
 
 In this section, we apply SVNM to ME-DDP to derive a new algorithm SV-DDP. The motivation here is that, by using a kernel-based repulsive force, the algorithm can keep trajectories representing the modes diverse. This mechanism prevents mode collapse and maintains high exploration capability.
 
-We consider $N$ trajectories optimized by DDP to compose policy as in the MG-ME-DDP. Here, we assume that the global $Q$ is approximated by $Q^{(n)}$ around the trajectories $\lbrack x^{(n)},u^{(n)}\rbrack$.
+We consider $N$ trajectories optimized by DDP to compose policy as in the MG-ME-DDP. Here, we assume that the global $Q$ is approximated by $Q^{(n)}$ around the trajectories $[x^{(n)},u^{(n)}]$.
 
 We initially considered a GMM to approximate $Q$. However, since each DDP trajectory is local in nature, treating the ensemble as a global PDF via GMM interpolation is physically inconsistent. Such an approach would require evaluating local policy in regions far from their nominal trajectories, where the underlying quadratic approximations are not valid.
 
-By substituting the optimal policy $\pi^{\ast}{(u)}$ for $p$ in the functional gradient, we obtain
+By substituting the optimal policy $\pi^{\ast}(u)$ for $p$ in the functional gradient, we obtain for $s=1,\cdots,N$. We consider the quadratic approximation of $Q$ function and deviation of trajectories. Due to the linearity of the deviation, derivative with respect to $u$ is now equivalent to that of $\delta u$. As in the case of ME-DDP, the optimizer alternates optimization and exploration. Here, we assume that DDP refinement can bring the trajectory to a locally convex region with PD $Q_{uu}$, and consider the optimal control $u^{\ast}$ computed by DDP. By substituting the optimal control back into the quadratic approximation of $Q$, we have where the derivatives of $Q$ are evaluated at $\bar{u}^{(n)}$. The coefficient of the kernel $k(\cdot,\cdot)$ is zero because of the optimality condition in the derivation of DDP. Thus, we are left with the repulsive force terms. This seems attractive for spreading trajectories. However, since the temperature $\tau$ is lost, this formulation cannot capture the relative importance of the entropy in the objective.
 
-for $s = {1,\cdots,N}$. We consider the quadratic approximation of $Q$ function and deviation of trajectories. Due to the linearity of the deviation, derivative with respect to $u$ is now equivalent to that of $\deltau$. As in the case of ME-DDP, the optimizer alternates optimization and exploration. Here, we assume that DDP refinement can bring the trajectory to a locally convex region with PD $Q_{uu}$, and consider the optimal control $u^{\ast}$ computed by DDP. By substituting the optimal control back into the quadratic approximation of $Q$, we have
-
-where the derivatives of $Q$ are evaluated at ${\overline{u}}^{(n)}$. The coefficient of the kernel $k{( \cdot, \cdot )}$ is zero because of the optimality condition in the derivation of DDP. Thus, we are left with the repulsive force terms. This seems attractive for spreading trajectories. However, since the temperature $\tau$ is lost, this formulation cannot capture the relative importance of the entropy in the objective.
-
-To recover the temperature, we use SVNM. By substituting $\pi^{\ast}{(u)}$ for $p{(x)}$ in the approximated Hessian with the terms in (3.1.2), and performing empirical approximation, the Hessian for SV Newton's method is obtained as:
-
-where we drop optimality $\ast$ for readability. By plugging this into and solving the equations, we get the SV update (or sample) of control:
-
-where $K$ is feedback gain of DDP.
+To recover the temperature, we use SVNM. By substituting $\pi^{\ast}(u)$ for $p(x)$ in the approximated Hessian with the terms in (3.1.2), and performing empirical approximation, the Hessian for SV Newton's method is obtained as: where we drop optimality $\ast$ for readability. By plugging this into and solving the equations, we get the SV update (or sample) of control: where $K$ is feedback gain of DDP.
 
 Consequently, the temperature $\tau$ is naturally recovered within the Hessian $H^{s,s}$. We therefore propose that this approach is the consistent formulation for incorporating SV methods into the DDP framework. In, the second term is an expected outer product of the gradient, which captures information on the variation in all directions like its Hessian Trivedi et al.. Thus, $H^{s,s}$ can be seen as a sum of the Hessians of the objective and kernels. We analyze how the Hessian interacts with the repulsive force term in section Inverse Hessian as covariance. We note that the SV framework is deterministic. In this method, stochasticity enters the system only via the random sampling used for initialization. Nevertheless, we conceptualize and refer to this behavior as an exploration mechanism, maintaining conceptual continuity with the ME-DDP framework.
 
 We provide the schematic of ME-DDP variants in Fig.1. We note that the update is not applied to the best trajectory, ensuring that at least one mode shows a monotonic cost reduction to preserve the convergence property of DDP as in So et al.; Dong and Tong. The proposed optimization framework, detailed in Algorithm 1, where an exploration mechanism based on the SV method is provided in 2. We have alternative mechanisms, i.e., UG- and MG-ME-DDPs in appendix.
 
-Input: x1: Initial state, $\overline{u}$: Initial nominal sequence
-Σ0: Initial covariance, N: Number of modes
-m: Sampling frequency, I: Max iterations
-IDDP: DDP iterations per mode
-U: Batched control trajectory {U(n)}n = 1N
-X: Batched state trajectory {X(n)}n = 1N
-Qu u: Batched Hessian sequences {Qu u, 1: T − 1(n)}n = 1N
-K: Batched feedback gain sequences {K1: T − 1(n)}n = 1N
-5 $U^{(n)}\leftarrow{\{{u_{t}^{(n)} \sim {\mathcal{N}{({\overline{u}}_{t},\Sigma_{0})}}}\}}_{t = 1}^{T - 1}$
-Best mode index
-Exploitation via Parallel DDP
-Algorithm 1 Entropic Regularized DDP
-
-Output: Updated trajectories X, U
-1 Compute Newton coefficients via and
-4 Solve Htn, n βt(n) = −∇Ĵq (ut(n)) $w_{t}^{(n)}\leftarrow{\sum_{n^{\prime} = 1}^{N}{\beta_{t}^{(n^{\prime})}k{(u_{t}^{(n)},u_{t}^{(n^{\prime})})}}}$
-1exApply update to all modes except the current best
-Algorithm 2 Stein Variational Exploration
-
-Figure 1: Schematic of algorithms in a trajectory optimization setting. The optimizer initializes N trajectories, optimizing each via DDP for several iterations in parallel. The current best trajectory is marked (*). For illustrative clarity, we assume that the cost function is dominated by the distance to the target. Policies are composed based on the specific algorithm: UG-ME-DDP uses a unimodal Gaussian centered on the best trajectory, MG-ME-DDP captures all trajectories in a multimodal distribution, and SV-DDP applies kernel-based repulsive forces to maintain diversity. Note that although the policies are constructed in control space, they are visualized here in state space for simplicity. New trajectories are sampled from these policies for exploration, excluding the current best. The cycle repeats. Although the best trajectory may get stuck at a poor local solution, the sampling mechanism and trajectories ran in parallel allows trajectories to be re-initialized into more promising areas to reach the target.
+Input: x1: Initial state, ū: Initial nominal sequence Σ0: Initial covariance, N: Number of modes m: Sampling frequency, I: Max iterations IDDP: DDP iterations per mode U: Batched control trajectory {U(n)}n = 1N X: Batched state trajectory {X(n)}n = 1N Quu: Batched Hessian sequences {Quu, 1: T − 1(n)}n = 1N K: Batched feedback gain sequences {K1: T − 1(n)}n = 1N Best mode index Exploitation via Parallel DDP 20 X(n), U(n), K1: T − 1(n), Quu, 1: T − 1(n), J(n) ← RunDDP(X(n), U(n), IDDP) Algorithm 1 Entropic Regularized DDP Output: Updated trajectories X, U 1 Compute Newton coefficients via and 4 Solve Htn, nβt(n) = −∇Ĵq(ut(n)) $w_{t}^{(n)}\leftarrow\sum_{n^{\prime}=1}^{N}\beta_{t}^{(n^{\prime})}k(u_{t}^{(n)},u_{t}^{(n^{\prime})})$ 1exApply update to all modes except the current best Algorithm 2 Stein Variational Exploration Figure 1: Schematic of algorithms in a trajectory optimization setting. The optimizer initializes N trajectories, optimizing each via DDP for several iterations in parallel. The current best trajectory is marked (*). For illustrative clarity, we assume that the cost function is dominated by the distance to the target. Policies are composed based on the specific algorithm: UG-ME-DDP uses a unimodal Gaussian centered on the best trajectory, MG-ME-DDP captures all trajectories in a multimodal distribution, and SV-DDP applies kernel-based repulsive forces to maintain diversity. Note that although the policies are constructed in control space, they are visualized here in state space for simplicity. New trajectories are sampled from these policies for exploration, excluding the current best. The cycle repeats. Although the best trajectory may get stuck at a poor local solution, the sampling mechanism and trajectories ran in parallel allows trajectories to be re-initialized into more promising areas to reach the target.
 
 ### Essential Components in SV-DDP
 
@@ -245,13 +146,11 @@ In this subsection, we first discuss the choice and properties of the kernel fun
 
 ### Kernel and resampling
 
-As in other SV literature in robotics, we use the RBF kernel ${k{(x,x^{\prime})}} = {\exp{({- {{\|{x - x^{\prime}}\|}^{2}/h}})}}$ and choose its length parameter by median heuristic
+As in other SV literature in robotics, we use the RBF kernel $k(x,x^{\prime})=\exp(-\|x-x^{\prime}\|^{2}/h)$ and choose its length parameter by median heuristic. We note that while kernels such as the Inverse Quadratic (IQ) kernel are frequently used in static optimization and sampling to leverage heavy-tailed characteristics that induce repulsion at greater distances, the RBF kernel remains dominant in robotics. Fig. 2 shows the RBF kernel and its derivatives. We argue that in high-dimensional robotics problems, local repulsion of RBF is more effective than far-field interaction of IQ.
 
-. We note that while kernels such as the Inverse Quadratic (IQ) kernel are frequently used in static optimization and sampling to leverage heavy-tailed characteristics that induce repulsion at greater distances, the RBF kernel remains dominant in robotics. Fig. 2 shows the RBF kernel and its derivatives. We argue that in high-dimensional robotics problems, local repulsion of RBF is more effective than far-field interaction of IQ.
+Although the exponential decay of the RBF kernel is a fundamental property, it poses a challenge in high-dimensional spaces where the concentration of measure increases the average Euclidean distance between particles. In such regimes, the kernel value $k(u^{(i)},u^{(j)})$, and consequently its gradient, tends to vanish, as the exponential decay outpaces the linear growth of the distance vector. This leads to a vanishing repulsive force, making the SV method less effective. The sum of local kernels alleviates this problem and is used in robotic applications. This is because, in these works, the input of the kernel is a full horizon of control sequence whose dimension is $n_{u}(T-1)$. In our work, due to the stage-wise formulation of DDP, the input dimension is only $n_{u}$. Thus, it works well without the technique mentioned above.
 
-Although the exponential decay of the RBF kernel is a fundamental property, it poses a challenge in high-dimensional spaces where the concentration of measure increases the average Euclidean distance between particles. In such regimes, the kernel value $k{(u^{(i)},u^{(j)})}$, and consequently its gradient, tends to vanish, as the exponential decay outpaces the linear growth of the distance vector. This leads to a vanishing repulsive force, making the SV method less effective. The sum of local kernels alleviates this problem and is used in robotic applications. This is because, in these works, the input of the kernel is a full horizon of control sequence whose dimension is $n_{u}{({T - 1})}$. In our work, due to the stage-wise formulation of DDP, the input dimension is only $n_{u}$. Thus, it works well without the technique mentioned above.
-
-The derivative of the kernel drives the repulsive force term. It reaches local extremum before decaying as the distance between points approaches zero. Consequently, while the force pushes trajectories apart at moderate distances, it vanishes when trajectories nearly coincide, potentially leading to mode collapse. To counteract this issue, we monitor the distance of the trajectories normalized by the time horizon and dimension $\left\| {u_{i} - u_{j}} \right\|/\sqrt{Tn_{u}}$. If the distance falls below a threshold, we keep the elite trajectory and resample the remaining redundant ones to ensure continuous exploration.
+The derivative of the kernel drives the repulsive force term. It reaches local extremum before decaying as the distance between points approaches zero. Consequently, while the force pushes trajectories apart at moderate distances, it vanishes when trajectories nearly coincide, potentially leading to mode collapse. To counteract this issue, we monitor the distance of the trajectories normalized by the time horizon and dimension $\left\lVert u_{i}-u_{j}\right\rVert/\sqrt{Tn_{u}}$. If the distance falls below a threshold, we keep the elite trajectory and resample the remaining redundant ones to ensure continuous exploration.
 
 Figure 2: RBF kernel (a) and its gradient (b) across different bandwidths. The gradient represents the repulsive force of SV methods.
 
@@ -259,11 +158,11 @@ Figure 2: RBF kernel (a) and its gradient (b) across different bandwidths. The g
 
 Since the step size $\alpha$ determines the extent of the exploration, its choice is critical. While the SV literature often employs backtracking line search based on the Armijo condition, robotic applications frequently tune task-specific fixed sizes.
 
-In our implementation, we observe that the repulsive force naturally pushes trajectories toward higher-cost regions, especially near obstacle boundaries. Consequently, a standard line search often prefers near zero $\alpha$. To address this, we implement a cost-bounded heuristic: we accept the largest $\alpha \in {(0,1\rbrack}$ that keeps the trajectory cost within a factor $c_{c}$ (e.g., say 10-20) of the current minimum. This approach prioritizes global exploration while maintaining numerical stability.
+In our implementation, we observe that the repulsive force naturally pushes trajectories toward higher-cost regions, especially near obstacle boundaries. Consequently, a standard line search often prefers near zero $\alpha$. To address this, we implement a cost-bounded heuristic: we accept the largest $\alpha\in(0,1]$ that keeps the trajectory cost within a factor $c_{c}$ (e.g., say 10-20) of the current minimum. This approach prioritizes global exploration while maintaining numerical stability.
 
 ## Geometric Analysis and Algorithmic Synthesis
 
-This section provides a formal justification for using the inverse Hessian as a covariance in sampling. Although utilizing $Q_{uu}^{- 1}$, as a sampling covariance has been previously proposed in policy search literature, we present a more rigorous analysis to demonstrate why this choice is theoretically principled in the context of DDP. Subsequently, we provide how constraints are incorporated into our framework. Finally, we conclude with the implementation details for Model Predictive Control (MPC).
+This section provides a formal justification for using the inverse Hessian as a covariance in sampling. Although utilizing $Q_{uu}^{-1}$, as a sampling covariance has been previously proposed in policy search literature, we present a more rigorous analysis to demonstrate why this choice is theoretically principled in the context of DDP. Subsequently, we provide how constraints are incorporated into our framework. Finally, we conclude with the implementation details for Model Predictive Control (MPC).
 
 ### Inverse Hessian as covariance
 
@@ -273,25 +172,19 @@ Figure 3: Surface plot of the quadratic function (a) and the resulting covarianc
 
 ### Property of Hessian
 
-We consider a two-dimensional function with a diagonal Hessian:
+We consider a two-dimensional function with a diagonal Hessian: The surface plot and the covariance ellipse induced by the inverse of the Hessian ($H^{-1}$) are shown in Fig. 3. The Hessian has eigenvalues $\lambda_{1}=4$, $\lambda_{2}=1$ with corresponding eigenvectors $e_{1}=^{\mathsf{T}},\ e_{2}=^{\mathsf{T}}$. This means that the function changes the most rapidly along $e_{1}$ and the least rapidly along $e_{2}$. In the contour plot, the levels are denser along the $x$-direction, reflecting the higher curvature in that dimension.
 
-The surface plot and the covariance ellipse induced by the inverse of the Hessian ($H^{- 1}$) are shown in Fig. 3. The Hessian has eigenvalues $\lambda_{1} = 4$, $\lambda_{2} = 1$ with corresponding eigenvectors ${e_{1} = {\lbrack 1,0\rbrack}^{\mathsf{T}}},{e_{2} = {\lbrack 0,1\rbrack}^{\mathsf{T}}}$. This means that the function changes the most rapidly along $e_{1}$ and the least rapidly along $e_{2}$. In the contour plot, the levels are denser along the $x$-direction, reflecting the higher curvature in that dimension.
-
-When the Hessian is inverted, the eigenvalues become the reciprocals of the original ones, while the eigenvectors are preserved. Consequently, the eigenpairs are $({{1/\lambda_{1}} = {0.25,e_{1}}})$ and $({{1/\lambda_{2}} = {1.0,e_{2}}})$. As illustrated by the covariance ellipse, using $H^{- 1}$ as covariance, the sampling scheme samples more in directions where the function increases the least and less in directions where the objective increases the most, which is important when combined with optimization.
+When the Hessian is inverted, the eigenvalues become the reciprocals of the original ones, while the eigenvectors are preserved. Consequently, the eigenpairs are $(1/\lambda_{1}=0.25,e_{1})$ and $(1/\lambda_{2}=1.0,e_{2})$. As illustrated by the covariance ellipse, using $H^{-1}$ as covariance, the sampling scheme samples more in directions where the function increases the least and less in directions where the objective increases the most, which is important when combined with optimization.
 
 ### Static problem
 
 In the previous example, we only analyzed the Hessian in a simple setting. Here, we consider the interaction between the local gradient and the geometry defined by the Hessian, and examine the sampling scheme in a more general setting.
 
-We consider an optimization problem with an objective function $f_{0}{(x)}$ with $x \in {\mathbb{R}}^{n}$ and solve it with Newton's method by iteratively applying quadratic approximation and solving the subproblem. This process is fundamentally aligned with DDP. The subproblem with the approximation is given by
+We consider an optimization problem with an objective function $f_{0}(x)$ with $x\in\mathbb{R}^{n}$ and solve it with Newton's method by iteratively applying quadratic approximation and solving the subproblem. This process is fundamentally aligned with DDP. The subproblem with the approximation is given by where $\bar{x}$ is the current point, and we assume that the Hessian $H$ is PD. Although a gradient-based step ($\delta x^{\ast}=H^{-1}\nabla f_{0}(\bar{x})$) reduces the cost of the quadratic model of the term $\delta x^{\mathsf{T}}\nabla f_{0}(\bar{x})$, the PD Hessian serves as a local metric of cost sensitivity. It characterizes the sensitivity of the objective to deviations and how much step the optimizer can take. For example, when the Hessian has a large eigenvalue, the quadratic term ($\delta x^{\mathsf{T}}H\delta{x}$) provides a large (positive) penalty that may counteract the descent term from the gradient.
 
-where $\overline{x}$ is the current point, and we assume that the Hessian $H$ is PD. Although a gradient-based step (${\deltax^{\ast}} = {H^{- 1}{\nabla f_{0}}{(\overline{x})}}$) reduces the cost of the quadratic model of the term $\deltax^{\mathsf{T}}{\nabla f_{0}}{(\overline{x})}$, the PD Hessian serves as a local metric of cost sensitivity. It characterizes the sensitivity of the objective to deviations and how much step the optimizer can take. For example, when the Hessian has a large eigenvalue, the quadratic term ($\deltax^{\mathsf{T}}H\deltax$) provides a large (positive) penalty that may counteract the descent term from the gradient.
+To facilitate exploration, we consider the situation where we perturb the solution by $\delta x+\xi$, where $\xi\sim\mathcal{N}(0,H^{-1})$ once in a few iterations as we do in ME-DDP. As we examined in the previous example, the eigenvectors of the Hessian indicate the principal axes of curvature. When the inverse Hessian is used as the covariance matrix, the sampling scheme becomes anisotropic: it prioritizes exploration along the axis of minimal sensitivity, where the quadratic model is flat and therefore safe to explore. Furthermore, it restricts sampling along the axis of maximal sensitivity, where even small perturbations would drive the cost up, making exploration unsafe. Here, we use the term "safety" to refer to the preservation of the optimization signal. When exploration imposes too high a cost, it essentially washes out the information of the gradient, which makes the update pure random sampling. The choice of covariance allows the optimizer to exploit information from the gradient without being perturbed by overly costly samples. Therefore, the choice provides a rigorous framework for broad exploration while preserving the efficiency of the optimization via gradient.
 
-To facilitate exploration, we consider the situation where we perturb the solution by ${\deltax} + \xi$, where $\xi \sim {\mathcal{N}{(0,H^{- 1})}}$ once in a few iterations as we do in ME-DDP. As we examined in the previous example, the eigenvectors of the Hessian indicate the principal axes of curvature. When the inverse Hessian is used as the covariance matrix, the sampling scheme becomes anisotropic: it prioritizes exploration along the axis of minimal sensitivity, where the quadratic model is flat and therefore safe to explore. Furthermore, it restricts sampling along the axis of maximal sensitivity, where even small perturbations would drive the cost up, making exploration unsafe. Here, we use the term "safety" to refer to the preservation of the optimization signal. When exploration imposes too high a cost, it essentially washes out the information of the gradient, which makes the update pure random sampling. The choice of covariance allows the optimizer to exploit information from the gradient without being perturbed by overly costly samples. Therefore, the choice provides a rigorous framework for broad exploration while preserving the efficiency of the optimization via gradient.
-
-Another interpretation can be obtained by investigating the change of cost induced by sampling. We consider the perturbation ${\deltax} + \xi$, with noise $\xi \sim {\mathcal{N}{(0,\Sigma)}}$, where we specify the covariance $\Sigma$, later. By substituting the perturbed $\deltax$ in the quadratic approximation and taking expectation of the stochastic components with $\xi$, we obtain:
-
-where we take the covariance as a scaled inverse Hessian $\Sigma = {\tauH^{- 1}}$ and use the fact that the trace of a scalar is the scalar itself. Generally, stochastic exploration imposes a penalty on the objective, particularly in regions of high curvature (large eigenvalue), where small perturbations can cause significant spikes. By this choice of covariance, we cancel the local geometry of the cost landscape. The optimizer explores more in the safe region and less in the unsafe region. This ensures that the expected cost of exploration remains constant and independent of the Hessian's eigenvalues, effectively normalizing the risk of sampling high-cost regions.
+Another interpretation can be obtained by investigating the change of cost induced by sampling. We consider the perturbation $\delta x+\xi$, with noise $\xi\sim\mathcal{N}(0,\Sigma)$, where we specify the covariance $\Sigma$, later. By substituting the perturbed $\delta x$ in the quadratic approximation and taking expectation of the stochastic components with $\xi$, we obtain: where we take the covariance as a scaled inverse Hessian $\Sigma=\tau H^{-1}$ and use the fact that the trace of a scalar is the scalar itself. Generally, stochastic exploration imposes a penalty on the objective, particularly in regions of high curvature (large eigenvalue), where small perturbations can cause significant spikes. By this choice of covariance, we cancel the local geometry of the cost landscape. The optimizer explores more in the safe region and less in the unsafe region. This ensures that the expected cost of exploration remains constant and independent of the Hessian's eigenvalues, effectively normalizing the risk of sampling high-cost regions.
 
 Figure 4: Surface plot of the objective function (a). Quadratic approximation of the objective at a locally convex point A and the approximation at a locally concave point B with original (not PD) and regularized (PD) Hessian (b). A contour plot of the objective function and the sampling covariance obtained at the two points A and B (c). The covariance ellipses, scaled by two temperatures, are drawn.
 
@@ -321,17 +214,15 @@ This subsection details the integration of constraints into the ME-DDP framework
 
 One common approach to incorporating constraints into an objective function is through the $\log$-barrier function. These functions are powerful tools for static optimization and have been widely employed Murray and Wright; Cho; O'Neill and Wright. The function is also used in the field of optimal control, specifically, in trajectory optimization and MPC under constraints.
 
-A key limitation of standard log-barrier methods is that they cannot handle infeasible trajectories due to the domain restrictions of the $\log$ function. This is problematic in our setting because the exploration is only implicitly aware of constraints. To address this issue, we utilize relaxed-$\log$ barrier function. We define the scalar relaxed barrier $\mathcal{B}_{r,i}{(g_{i};\mu,\delta_{\mu})}$ for a single constraint ${g_{i}{(x)}} < 0$ as
-
-When ${g{(x)}} \in {\mathbb{R}}^{w}$, the total penalty is then given by the sum ${\mathcal{B}_{r}{({g{(x)}})}} = {\sum_{i = 1}^{w}{\mathcal{B}_{r,i}{({g_{i}{(x)}})}}}$. In this formulation, the function smoothly transitions from a logarithmic form to a polynomial approximation while maintaining $C^{2}$ continuity, allowing for infeasible trajectories.
+A key limitation of standard log-barrier methods is that they cannot handle infeasible trajectories due to the domain restrictions of the $\log$ function. This is problematic in our setting because the exploration is only implicitly aware of constraints. To address this issue, we utilize relaxed-$\log$ barrier function. We define the scalar relaxed barrier $\mathcal{B}_{\mathrm{r},i}(g_{i};\mu,\delta_{\mu})$ for a single constraint $g_{i}(x)<0$ as When $g(x)\in\mathbb{R}^{w}$, the total penalty is then given by the sum $\mathcal{B}_{\mathrm{r}}(g(x))=\sum_{i=1}^{w}\mathcal{B}_{\mathrm{r},i}(g_{i}(x))$. In this formulation, the function smoothly transitions from a logarithmic form to a polynomial approximation while maintaining $C^{2}$ continuity, allowing for infeasible trajectories.
 
 The relaxed formulation has found applications in MPC and robotics. For instance, Feller and Ebenbauer applies it to a linear MPC problem and provides a detailed performance analysis. In Aguiar et al., the function is incorporated into a projection-based motion planning algorithm Hauser, achieving constrained trajectory optimization. The efficacy of the formulation with DDP/LQR is validated through hardware experiments on a quadruped in Grandia et al.. Since it can handle infeasible trajectories, the formulation can be used that requires exploration that may cause constraint violation, such as reinforcement learning as proposed in Zhang et al..
 
 ### Properties of the function
 
-Figure 5: Relaxed log-barrier function ℬr (x) for various switching points δμ. The right panel provides a magnified view near the origin to highlight the behavior around the boundary (g (x) = 0). Dashed vertical lines indicate the respective switching points δμ where the barrier transitions from a logarithmic to a quadratic form.
+Figure 5: Relaxed log-barrier function ℬr(x) for various switching points δμ. The right panel provides a magnified view near the origin to highlight the behavior around the boundary (g(x) = 0). Dashed vertical lines indicate the respective switching points δμ where the barrier transitions from a logarithmic to a quadratic form.
 
-Fig. 5 provides the function with different relaxation parameters $\delta_{\mu}$. The parameter governs how closely the relaxed barrier approximates the exact logarithmic barrier and, consequently, the degree of constraint satisfaction. As $\delta_{\mu}\rightarrow 0$, the relaxed formulation converges to the exact $\log$-barrier, yielding increasingly strict constraint satisfaction. However, this increased accuracy comes at the cost of numerical conditioning: steep gradients and large curvature arise near the constraint boundary, leading to ill-conditioned gradient and Hessian, which is critical in second-order optimization methods. Consequently, excessively small values of $\delta_{\mu}$ recover the numerical instabilities of the exact $\log$ barrier. In practice, $\delta_{\mu}$ is chosen to balance constraint satisfaction and numerical robustness. We note that even with a small $\delta_{\mu}$, the resulting conditioning issues are mitigated by appropriate scaling and regularization of gradient and Hessian terms.
+Fig. 5 provides the function with different relaxation parameters $\delta_{\mu}$. The parameter governs how closely the relaxed barrier approximates the exact logarithmic barrier and, consequently, the degree of constraint satisfaction. As $\delta_{\mu}\to 0$, the relaxed formulation converges to the exact $\log$-barrier, yielding increasingly strict constraint satisfaction. However, this increased accuracy comes at the cost of numerical conditioning: steep gradients and large curvature arise near the constraint boundary, leading to ill-conditioned gradient and Hessian, which is critical in second-order optimization methods. Consequently, excessively small values of $\delta_{\mu}$ recover the numerical instabilities of the exact $\log$ barrier. In practice, $\delta_{\mu}$ is chosen to balance constraint satisfaction and numerical robustness. We note that even with a small $\delta_{\mu}$, the resulting conditioning issues are mitigated by appropriate scaling and regularization of gradient and Hessian terms.
 
 In the original formulation for static problems, the penalty parameter $\mu$ is reduced towards zero as optimization proceeds. In practice, however, a small fixed $\mu$ often provides sufficient accuracy while improving numerical stability. We present how the barrier function is incorporated into DDP in appendix.
 
@@ -343,7 +234,7 @@ Numerical instability can be mitigated by the method described above, but numeri
 
 To meet real-time requirements in highly nonlinear environments, as we will see in our experiments, we adopt an MPC formulation. A critical observation in our implementation is the necessity of consecutive optimization iterations for constraint satisfaction. Because the exploration process is not explicitly aware of the constraints, raw samples often violate constraints. We observe that overly frequent sampling is counterproductive, as it disrupts the optimizer's ability to recover feasibility. By restricting exploration to the initiation of the MPC cycle and prioritizing successive DDP iterations, we ensure the control sequence is both diverse and respects constraints.
 
-A challenge in warm-starting is the coupling between the sampling covariance $\Sigma{(Q_{uu}^{- 1})}$ and the nominal trajectories. While the control sequence $U^{(n)}$ can be shifted for warm-starting, the state sequence $X^{(n)}$ obtained by shifting inevitably diverges from those obtained by applying $U^{(n)}$ to the system with initial state $x_{t}$. Because feedback gains $K$ and sampling covariances $\Sigma$ are local approximations, this mismatch in state trajectory yields the simple temporal shift of feedback gain and covariance invalid. Consequently, a re-evaluation of the system's sensitivity via a backward pass is necessary at each time step to ensure the exploration remains aligned with the current local geometry.
+A challenge in warm-starting is the coupling between the sampling covariance $\Sigma(Q_{uu}^{-1})$ and the nominal trajectories. While the control sequence $U^{(n)}$ can be shifted for warm-starting, the state sequence $X^{(n)}$ obtained by shifting inevitably diverges from those obtained by applying $U^{(n)}$ to the system with initial state $x_{t}$. Because feedback gains $K$ and sampling covariances $\Sigma$ are local approximations, this mismatch in state trajectory yields the simple temporal shift of feedback gain and covariance invalid. Consequently, a re-evaluation of the system's sensitivity via a backward pass is necessary at each time step to ensure the exploration remains aligned with the current local geometry.
 
 We perform an initial backward pass at the start of each MPC loop to generate feedback gain and covariance. When the backward pass fails due to an ill-conditioned $Q_{uu}$, the algorithm samples with a pre-specified fixed covariance used in the initialization.
 
@@ -365,19 +256,19 @@ Figure 6: Experimental overview of Ant and Barkour. The task here is to reach th
 
 ### 2D car
 
-The state $x \in {\mathbb{R}}^{3}$ comprises 2D positions and heading angle. The control $u \in {\mathbb{R}}^{2}$ consists of transitional and angular velocities. The discretization interval is 0.02 s. To investigate the effect of the MPC look-ahead horizon, we tested short (50 steps) and long (70 steps) horizons.
+The state $x\in\mathbb{R}^{3}$ comprises 2D positions and heading angle. The control $u\in\mathbb{R}^{2}$ consists of transitional and angular velocities. The discretization interval is 0.02 s. To investigate the effect of the MPC look-ahead horizon, we tested short (50 steps) and long (70 steps) horizons.
 
 ### Quadrotor
 
-The state $x \in {\mathbb{R}}^{12}$ includes 3D positions, Euler angles, and their time derivatives. The control $u \in {\mathbb{R}}^{4}$ is the thrust force generated by four rotors. We follow the dynamics established in Luukkonen. The discretization interval is 0.01 s. We have short (50 steps) and long (70 steps) horizons as in the case of the 2D car.
+The state $x\in\mathbb{R}^{12}$ includes 3D positions, Euler angles, and their time derivatives. The control $u\in\mathbb{R}^{4}$ is the thrust force generated by four rotors. We follow the dynamics established in Luukkonen. The discretization interval is 0.01 s. We have short (50 steps) and long (70 steps) horizons as in the case of the 2D car.
 
 ### Ant
 
-The Ant has four legs, with two joints. The state $x \in {\mathbb{R}}^{29}$ contains the 3D position and orientation of the body in the quaternion, the angles of the legs, and their time derivatives. The control $u \in {\mathbb{R}}^{8}$ is torque applied to the joints. The control loop runs at 0.01 s with a simulation step of 0.002 s, integrating 5 substeps per control cycle.
+The Ant has four legs, with two joints. The state $x\in\mathbb{R}^{29}$ contains the 3D position and orientation of the body in the quaternion, the angles of the legs, and their time derivatives. The control $u\in\mathbb{R}^{8}$ is torque applied to the joints. The control loop runs at 0.01 s with a simulation step of 0.002 s, integrating 5 substeps per control cycle.
 
 ### Barkour
 
-The quadruped has state $x \in {\mathbb{R}}^{37}$ comprising the 3D position, the body quaternion, and the three joint angles for each of the four legs, including the abductors, hips, and knees. The control $u \in {\mathbb{R}}^{12}$ is the command for the joint angles of the legs relative to the default angles that correspond to the standing posture. The control loop runs at 0.02 s with a simulation step of 0.006 s, integrating 3 substeps per control cycle.
+The quadruped has state $x\in\mathbb{R}^{37}$ comprising the 3D position, the body quaternion, and the three joint angles for each of the four legs, including the abductors, hips, and knees. The control $u\in\mathbb{R}^{12}$ is the command for the joint angles of the legs relative to the default angles that correspond to the standing posture. The control loop runs at 0.02 s with a simulation step of 0.006 s, integrating 3 substeps per control cycle.
 
 We note that despite the higher dimensionality of the quadruped compared to the Ant, the use of a position-based (or angle-based) control interface provides a more structured search space, especially for MPPI. Position-level actions effectively abstract away the high-frequency dynamics and stability issues of torque-level control. This allows MPPI to discover task-relevant trajectories more efficiently. Typically, with torque-based control, many trajectories are wasted because random torque cannot even let robots stand stably. With position-based control, the optimizer can search for candidate trajectories within quasi-static equilibrium poses; therefore, the search space is significantly reduced to a region of low-cost configurations.
 
@@ -397,7 +288,7 @@ Consequently, we utilize a Bayesian hyperparameter optimization framework, speci
 
 For the tuning process, we define a high-level objective that prioritizes early entry into the target region and remaining within it for a prescribed duration, while penalizing the failure to reach the target within the specified time steps.
 
-We use a fixed number of modes/trajectories $N = 8$ in ME-DDP variants. The samples/trajectories of MPPIs vary with the complexity of the system. For multimodal policies of MPPI, i.e., MG- and SV-MPPI, we use the same number of modes $N = 8$ and distribute an equal number of particles per mode.
+We use a fixed number of modes/trajectories $N=8$ in ME-DDP variants. The samples/trajectories of MPPIs vary with the complexity of the system. For multimodal policies of MPPI, i.e., MG- and SV-MPPI, we use the same number of modes $N=8$ and distribute an equal number of particles per mode.
 
 ### 2D Car and Quadrotor
 
@@ -419,21 +310,11 @@ To mitigate the issue, we introduce coupled weights of position and yaw during t
 
 In our experiments, we observed a divergence in how optimizers responded to this coupling. While the coupling significantly improved the qualitative trajectory quality (realistic gait) of the DDP-based solvers, it led to a degeneration in the success rate of MPPIs. Consequently, while MPPI can achieve comparable or even higher performance in unconstrained scenarios, it produces physically controversial behaviors that are less suitable for realistic hardware deployment than DDPs.
 
-All (Including Infeasible Trajectories)
-
-Decouple position and yaw weights of the cost during tuning.
+All (Including Infeasible Trajectories) Decouple position and yaw weights of the cost during tuning.
 
 Table 1: Benchmark results comparing optimization-based ME-DDP variants and sampling-based MPPI baselines. The results are categorized into feasible and all (including infeasible) trajectories. Success rate shows the percentage of the trajectories that reach the goal. Time is the average first time step when the trajectory enter the goal region and stays there for ten time steps. Path is the average trajectory length. Violation is constraint violation computed over infeasible trajectories. The arrow ↑ indicates a higher value is preferred, while ↓ indicates a lower value is preferred.
 
-(a) Sparse Environment for 2D Car
-
-(b) Dense Environment for 2D Car
-
-(c) Sparse Environment for Quadrotor
-
-(d) Dense Environment for Quadrotor
-
-Figure 8: Trajectory comparisons for 2D Car and Quadrotor environments. Within each panel, the left image shows DDP, and the right shows MPPI.
+(a) Sparse Environment for 2D Car (b) Dense Environment for 2D Car (c) Sparse Environment for Quadrotor (d) Dense Environment for Quadrotor Figure 8: Trajectory comparisons for 2D Car and Quadrotor environments. Within each panel, the left image shows DDP, and the right shows MPPI.
 
 Figure 9: Result of Ant experiments. Trajectories get stuck at poor local minima, and three distinctive trajectories that successfully reach the target via SV-DDP are presented.
 
@@ -445,7 +326,7 @@ To capture the stochastic nature of the algorithms, we run ten trials per enviro
 
 ### Performance
 
-Table. 1 shows the statistics of the results. We have two categories of results based on the constraint violation. The first group is feasible trajectories. This group includes trials where the system successfully reached the goal region (defined by an $L_{2}$ norm less than $0.3$) while maintaining a maximum obstacle constraint violation of less than $10^{- 6}$. For this group, we report the Success rate \[%\], the mean time step to steady state denoted as Time. This metric is defined as the first time step the agent enters and remains in the goal region for at least 10 consecutive steps. Finally, we report the mean path length denoted as Path. The second group relaxes the requirement of constraint satisfaction. This group represents a broader set of trials that reached the goal but allowed for constraint violations. In addition to the three metrics mentioned above, we provide the average constraint violation (Violation). We have the movies of the 2D car in [extension 1](2606.00737v1/anc/extension1.mp4), Quadrotor in [extension 2](2606.00737v1/anc/extension2.mp4), Ant in [extension 3](2606.00737v1/anc/extension3.mp4), and Barkour in [extension 4](2606.00737v1/anc/extension4.mp4). For Barkour, we also provide the results for MPPIs without position-yaw coupling as described in the Parameter Tuning and Optimization section.
+Table. 1 shows the statistics of the results. We have two categories of results based on the constraint violation. The first group is feasible trajectories. This group includes trials where the system successfully reached the goal region (defined by an $L_{2}$ norm less than $0.3$) while maintaining a maximum obstacle constraint violation of less than $10^{-6}$. For this group, we report the Success rate \[%\], the mean time step to steady state denoted as Time. This metric is defined as the first time step the agent enters and remains in the goal region for at least 10 consecutive steps. Finally, we report the mean path length denoted as Path. The second group relaxes the requirement of constraint satisfaction. This group represents a broader set of trials that reached the goal but allowed for constraint violations. In addition to the three metrics mentioned above, we provide the average constraint violation (Violation). We have the movies of the 2D car in [extension 1](2606.00737v1/anc/extension1.mp4), Quadrotor in [extension 2](2606.00737v1/anc/extension2.mp4), Ant in [extension 3](2606.00737v1/anc/extension3.mp4), and Barkour in [extension 4](2606.00737v1/anc/extension4.mp4). For Barkour, we also provide the results for MPPIs without position-yaw coupling as described in the Parameter Tuning and Optimization section.
 
 The ME-DDP variants consistently outperform standard deterministic DDP, demonstrating that the exploration mechanism helps optimizers explore and find better local minima.
 
@@ -459,7 +340,7 @@ Table 2: Computational performance benchmark. Comparison of mean execution time 
 
 ### Computational Time
 
-We compare computational performance of the DDP, ME-DDP variants, and UG-MPPI using both 2D car and quadrotor dynamics across two look-ahead horizons ($T_{mpc} = 50$ and $T_{mpc} = 70$). Both algorithms are implemented in JAX Bradbury et al.. Statistics were computed over 200 MPC time steps. As shown in Table 2, MPPI exhibits significantly faster computational speed compared to DDP-based methods. This is because MPPI bypasses the computation of the gradient and Hessian that are required for DDPs during their backward pass. Although the exploration mechanisms in ME-DDP variants introduce additional computational overhead to the normal deterministic DDP, they still meet real-time requirements. Specifically, given the discretization intervals of 20 ms for the 2D car and 10 ms for the quadrotor, the optimization finishes before the next control cycle, ensuring the feasibility of the proposed approach for robotic control. Furthermore, the low execution variance observed across all methods indicates a highly deterministic timing profile, which is critical for maintaining stable control of systems.
+We compare computational performance of the DDP, ME-DDP variants, and UG-MPPI using both 2D car and quadrotor dynamics across two look-ahead horizons ($T_{\rm{mpc}}=50$ and $T_{\rm{mpc}}=70$). Both algorithms are implemented in JAX Bradbury et al.. Statistics were computed over 200 MPC time steps. As shown in Table 2, MPPI exhibits significantly faster computational speed compared to DDP-based methods. This is because MPPI bypasses the computation of the gradient and Hessian that are required for DDPs during their backward pass. Although the exploration mechanisms in ME-DDP variants introduce additional computational overhead to the normal deterministic DDP, they still meet real-time requirements. Specifically, given the discretization intervals of 20 ms for the 2D car and 10 ms for the quadrotor, the optimization finishes before the next control cycle, ensuring the feasibility of the proposed approach for robotic control. Furthermore, the low execution variance observed across all methods indicates a highly deterministic timing profile, which is critical for maintaining stable control of systems.
 
 For the computational benchmark, we focus on the 2D car and quadrotor to ensure that the timings reflect the algorithmic complexity of the optimizers rather than the overhead of the physics engine. Using simple dynamics, we isolate the problem of heavy computation of the propagation of dynamics and other steps in the optimization loop. By doing so, we can provide a clearer assessment of the real-time feasibility of the algorithms.
 
@@ -495,11 +376,7 @@ Instead of physical obstacles, we used virtual representations. For qualitative 
 
 Figure 12: 3D visualization of a hardware experiment.
 
-(a) Environment 1: Forest of obstacles
-
-(b) Environment 2: Forest with poor local minima/deadlocks
-
-Figure 13: Representative resulting trajectories from hardware experiments in two different environments. The drone positions were captured at 0.5 s intervals. Obstacles are colored based on their states. Blue indicates a collision-free, while red denotes a collision verified by ground truth position. In the left panel of (b), the quadrotor is captured at a deadlock.
+(a) Environment 1: Forest of obstacles (b) Environment 2: Forest with poor local minima/deadlocks Figure 13: Representative resulting trajectories from hardware experiments in two different environments. The drone positions were captured at 0.5 s intervals. Obstacles are colored based on their states. Blue indicates a collision-free, while red denotes a collision verified by ground truth position. In the left panel of (b), the quadrotor is captured at a deadlock.
 
 The results of the experiments are provided in Table. 3, and the trajectories of the quadrotor and overlaid obstacle are shown in Fig 13. Environment 1 shown in Fig 13 (a) is a forest of obstacles. As illustrated by the overlaid trajectories, without exploration, the algorithm finds a simple straight path, which acts as a detour to avoid the obstacles. With exploration, on the other hand, it actively explores the cost landscape and discovers shorter, more direct passages through the forest.
 
@@ -517,9 +394,7 @@ This phenomenon explains the higher deadlock rates observed for the MG-ME-DDP. T
 
 Goal with Coll.
 
-Deadlock without Coll.[%]
-
-Table 3: Hardware Performance Analysis. Outcomes are categorized into successful runs and failures with collision. Failures are further distinguished by whether the quadrotor reached the target (Goal with Coll.) or spent too much time on a poor local solution and cannot reach the target with or without collision (Deadlock without Coll./Coll.). The sum of the four outcome categories for each method equals 100 %.
+Deadlock without Coll.[%] Table 3: Hardware Performance Analysis. Outcomes are categorized into successful runs and failures with collision. Failures are further distinguished by whether the quadrotor reached the target (Goal with Coll.) or spent too much time on a poor local solution and cannot reach the target with or without collision (Deadlock without Coll./Coll.). The sum of the four outcome categories for each method equals 100 %.
 
 ## Conclusion
 
@@ -527,9 +402,7 @@ This work builds upon the Maximum Entropy (ME) framework to provide a unified pe
 
 While the core objectives of the ME framework have been previously established, we provide an analytical foundation that clarifies the role of the control Hessian $Q_{uu}$. Specifically, we provide a rigorous way of understanding the physical and mathematical interpretations of sampling from the inverse of $Q_{uu}$, revealing how this mechanism interacts with the non-convex cost landscapes inherent in robotics.
 
-Our benchmarking across four systems in simulation reveals a distinct trade-off between structured optimization and stochastic exploration, advocating for a hybrid optimization approach that moves beyond pure sampling:
-
-Low-Dimensional Systems (2D Car, Quadrotor): In these systems, ME-DDP variants demonstrate the benefits of leveraging local information for optimization and exploration. We found that the local gradient and Hessian provided by the DDP backward pass achieve superior success rate, and more efficient path lengths compared to MPPIs that rely on pure sampling.
+Our benchmarking across four systems in simulation reveals a distinct trade-off between structured optimization and stochastic exploration, advocating for a hybrid optimization approach that moves beyond pure sampling: Low-Dimensional Systems (2D Car, Quadrotor): In these systems, ME-DDP variants demonstrate the benefits of leveraging local information for optimization and exploration. We found that the local gradient and Hessian provided by the DDP backward pass achieve superior success rate, and more efficient path lengths compared to MPPIs that rely on pure sampling.
 
 High-Dimensional Systems (Ant, Barkour): In complex systems, ME-DDP remains highly reliable, maintaining a high overall success rate due to its structured refinement. However, we observed that MPPI is capable of discovering global modes that DDP-based methods may miss. While MPPI can struggle with success rates due to the lack of gradient-based refinement, its exploratory nature offers a unique advantage in discovering non-local solutions.
 
@@ -555,8 +428,6 @@ This article does not contain any studies with human or animal participants.
 
 ### Consent for publication
 
-Not applicable. {dci} The author(s) declared no potential conflicts of interest with respect to the research, authorship, and/or publication of this article. {funding} The author(s) disclosed receipt of the following financial support for the research, authorship, and/or publication of this article:
-
-Akash Ratheesh and Evangelos A. Theodorou were supported by the National Aeronautics and Space Administration under University Leadership Initiative \[grant number 80NSSC22M0070\] and the Army Research Office \[grant number W911NF2010151\].
+Not applicable. {dci} The author(s) declared no potential conflicts of interest with respect to the research, authorship, and/or publication of this article. {funding} The author(s) disclosed receipt of the following financial support for the research, authorship, and/or publication of this article: Akash Ratheesh and Evangelos A. Theodorou were supported by the National Aeronautics and Space Administration under University Leadership Initiative \[grant number 80NSSC22M0070\] and the Army Research Office \[grant number W911NF2010151\].
 
 Minchan Jung was supported by Korea Institute for Advancement of Technology (KIAT) grant funded by the Korea Government (MOTIE), Human Resource Development Program for Industrial Innovation (Global) \[grant number RS-2024-00435406\].

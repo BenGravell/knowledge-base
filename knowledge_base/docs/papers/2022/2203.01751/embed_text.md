@@ -12,9 +12,7 @@ At the core of BITKOMO lies a new relaxed edge collision checking method. Relaxe
 
 Figure 1: Aggregate plot over all our experiments, showing how BITKOMO converges faster than BIT*, while keeping a similar success rate. KOMO is not included, because it fails to find solutions on more than half of our experiments.
 
-To summarize, we make two major contributions:
-
-Relaxed edge collision checking: A method for BIT\* that allows edges partially in collision to be included in the motion tree.
+To summarize, we make two major contributions: Relaxed edge collision checking: A method for BIT\* that allows edges partially in collision to be included in the motion tree.
 
 BITKOMO: A planner integrating BIT\* and KOMO. We integrate sampling and optimization to obtain fast convergence to the global optimum while maintaining the guarantees provided by the sampler.
 
@@ -32,10 +30,6 @@ Our method is complementary, in that we also use the path-proposal method. Howev
 
 We consider a motion planning problem in a configuration space $\mathcal{X} \subset {\mathbb{R}}^{n}$ of the form ($\mathcal{X}_{\text{free}},x_{\text{start}},x_{\text{goal}},c$) where $\mathcal{X}_{\text{free}} \subseteq \mathcal{X}$ is the free configuration space, $x_{\text{start}} \in \mathcal{X}_{\text{free}}$ is the start configuration, $x_{\text{goal}} \in \mathcal{X}_{\text{free}}$ is the goal configuration and $c:{\mathcal{P}\rightarrow{\mathbb{R}}}$ is the cost functional mapping a trajectory $p \in \mathcal{P}$ in the free configuration space to a real number. Our goal is to find a trajectory $p:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{X}_{\text{free}}}$ from ${p{}} = x_{\text{start}}$, to ${p{}} = x_{\text{goal}}$ that is optimal, i.e. the value of $c{(p)}$ is the lowest among all possible paths.
 
-$\min\limits_{p{(t)}}\mspace{21mu}$ $c{({p{(t)}})}$ (1a)
-s.t. ${{p{}} = x_{\text{start}}},{{p{}} = x_{\text{goal}}}$ (1b)
-${{{\forall t} \in {\lbrack 0,1\rbrack}},{{p{(t)}} \in \mathcal{X}_{\text{free}}}}.$ (1c)
-
 In this paper, we focus on path-length optimization, i.e. ${c{(p)}} = {\int_{0}^{1}{{\|{\overset{˙}{p}{(t)}}\|}{dt}}}$. Typical examples of alternative cost functionals are the sum of the velocities squared $\int_{0}^{1}{{\|{\overset{˙}{p}{(t)}}\|}^{2}{dt}}$, and smoothness $\int_{0}^{1}{{\|{\overset{¨}{p}{(t)}}\|}^{2}{dt}}$.
 
 ## BITKOMO
@@ -48,15 +42,7 @@ Figure 2: Overview of BITKOMO, which combines the BIT* architecture with our cus
 
 Our planner (Fig. 2) requires a valid start state ($x_{\text{start}}$), a goal state ($x_{\text{goal}}$) and the full information about the environment ($\mathcal{X}_{\text{free}}$). We also need to provide the Planner Termination condition ($PTC$) and the edge relaxation number ($\delta$). To begin, the BIT\* planner samples a batch of configurations $x \in \mathcal{X}_{\text{free}}$ and builds an edge-implicit Random Geometric Graph (RGG) \Block A in Fig.. The best edge that can possibly improve the cost to goal (as in A\*) is then chosen and passed to the Relaxed Edge Checker \[B\] to carry out the collision checking. The Relaxed Edge Checker performs a validity check and returns the collision penalty ($\mathcal{C}\mathcal{P}$), an integer that provides a proxy measure for the fraction of the edge that is in collision. The planner uses this integer to decide regarding the addition of the edge to the tree. If an improved path to the goal is found, it is passed to the KOMO optimizer \[D\] which locally optimizes the path and, if valid, returns the new cost to the BIT\* planner. BIT\* uses this path cost to prune the unnecessary vertices and edges and carry out a more focused search. When no new edges can be expanded, the Sample function \[C\] is called, which adds another batch of samples to the RGG.
 
-Input 𝒳free, xstart, xgoal, P T C, δ
-8: $X_{\text{uc}}\overset{+}{\leftarrow}\text{Prune\&amp;Sample}{(\mathcal{T},X_{\text{uc}},m,c_{i})}$;
-11: while BestValue (𝒬V) ≤ BestValue (𝒬E) do
-14: E = {vmin, xmin} ← PopBestInQueue (𝒬E);
-17: if 𝒞 𝒫 ≤ δ then ⊳ If true, Edge is used
-19: if EdgeImprovesCost (E,ci,cedge) then
-22: if ci &lt; cmax then ⊳ If path is feasible
-
-Algorithm 1 describes in more detail the different parts of the planner. The highlighted lines are our addition to the BIT\* planner. Blue --- the Relaxed edge collision checking, Orange --- the interface between BIT\* and KOMO.
+Input 𝒳free, xstart, xgoal, P T C, δ 8: $X_{\text{uc}}\overset{+}{\leftarrow}\text{Prune\&Sample}{(\mathcal{T},X_{\text{uc}},m,c_{i})}$; 11: while BestValue (𝒬V) ≤ BestValue (𝒬E) do 14: E = {vmin, xmin} ← PopBestInQueue (𝒬E); 17: if 𝒞 𝒫 ≤ δ then ⊳ If true, Edge is used 19: if EdgeImprovesCost (E, ci, cedge) then 22: if ci < cmax then ⊳ If path is feasible Algorithm 1 describes in more detail the different parts of the planner. The highlighted lines are our addition to the BIT\* planner. Blue --- the Relaxed edge collision checking, Orange --- the interface between BIT\* and KOMO.
 
 ### IV-A1 Initialize (A)
 
@@ -82,17 +68,13 @@ Figure 3: Levels in Edge Checking The edge is first subdivided into nd points an
 
 ### IV-B Relaxed Edge Checking
 
-High dimensional spaces containing narrow passages are challenging for sampling based planners. This is because it is difficult to sample collision free edges through narrow passages. Since KOMO can push paths out of obstacles, we could allow paths partially in collision into the BIT\* tree. However, these edges need to be added with sufficient collision penalty to ensure that BIT\* does not mistake a path in collision to be of a lower cost than the true minima. We also want our collision checker to quickly guess the extent of collision so as to be quick in finding a solution for BIT\*. We solve this problem by introducing Relaxed Edge Checking which returns a number instead of a Boolean which is used to assign a collision penalty (line 18). It returns 0-if edge is collision free, 1-if it fails at the last level, 2-if it fails on the second to last level, and so on. Adding the collision penalty this way also helps our planner to prefer collision free initial paths for optimization as the likelihood of finding a feasible trajectory from a collision-free path is higher.
+High dimensional spaces containing narrow passages are challenging for sampling based planners. This is because it is difficult to sample collision free edges through narrow passages. Since KOMO can push paths out of obstacles, we could allow paths partially in collision into the BIT\* tree. However, these edges need to be added with sufficient collision penalty to ensure that BIT\* does not mistake a path in collision to be of a lower cost than the true minima. We also want our collision checker to quickly guess the extent of collision so as to be quick in finding a solution for BIT\*. We solve this problem by introducing Relaxed Edge Checking which returns a number instead of a Boolean which is used to assign a collision penalty (line 18). It returns 0-if edge is collision free, 1-if it fails at the last level, 2-if it fails on the second to last level, and so . Adding the collision penalty this way also helps our planner to prefer collision free initial paths for optimization as the likelihood of finding a feasible trajectory from a collision-free path is higher.
 
 Suppose for a given resolution, we need to check $n_{d}$ equally spaced points to confirm the edge to be collision-free. The Relaxed Edge Checker conducts a level wise collision checking (see Fig. 3 ‣ IV-A The BITKOMO Algorithm: An overview ‣ IV BITKOMO ‣ Multi-modal optimization for manipulation tasks")) whereby the resolution of checking is increased until the required resolution is reached or a collision is detected. We first check the mid point (level 1), then the quarter points (level 2) and so on by slowly doubling the resolution of checking. If a point fails in the validity check, an integer, collision penalty (${\mathcal{C}\mathcal{P}} = {{\mathcal{L} - \mathcal{L}_{c}} + 1}$) is returned. Where $\mathcal{L} = {\lceil{\log_{2}n_{d}}\rceil}$ is the total number of levels, and $\mathcal{L}_{c}$ is the level of the failed point. This number provides a proxy measure for the fraction of the edge that is in collision.
 
 ### IV-C KOMO
 
-K-Order Markov Optimization (KOMO) is a trajectory optimization framework that represents a path with a discrete sequence of waypoints $\langle{x_{0}\ldotsx_{T}}\rangle$. Cost and constraints are evaluated on, up to $k + 1$ consecutive waypoints (Markov assumption)
-
-$\min\limits_{x_{0:T}}\mspace{21mu}$ $\sum\limits_{t = 0}^{T}{f_{t}{(x_{{t - k}:t})}^{\top}f_{t}{(x_{{t - k}:t})}}$ (2a)
-
-where $x_{{t - k}:t}$ is a $k + 1$ tuple of consecutive states. In our setting, where the goal is to minimize the path length, $k = 1$, and we use, as cost, the sum of squared distances $\sum{\|{x_{t} - x_{t - 1}}\|}^{2}$, which corresponds to ${f_{t}{(x_{t - 1},x_{t})}} = {x_{t} - x_{t - 1}}$.
+K-Order Markov Optimization (KOMO) is a trajectory optimization framework that represents a path with a discrete sequence of waypoints $\langle{x_{0}\ldotsx_{T}}\rangle$. Cost and constraints are evaluated, up to $k + 1$ consecutive waypoints (Markov assumption) where $x_{{t - k}:t}$ is a $k + 1$ tuple of consecutive states. In our setting, where the goal is to minimize the path length, $k = 1$, and we use, as cost, the sum of squared distances $\sum{\|{x_{t} - x_{t - 1}}\|}^{2}$, which corresponds to ${f_{t}{(x_{t - 1},x_{t})}} = {x_{t} - x_{t - 1}}$.
 
 Inequality constraints correspond to collision avoidance and joint limits and equality constraints model the terminal goal condition $x_{T} = x_{\text{goal}}$. The optimization problem is solved with the Augmented Lagrangian algorithm for constrained optimization. The Markov structure, together with second order information, enables very efficient solving, with complexity linear on the number of waypoints and polynomial on the dimension of the configuration space.
 
@@ -102,31 +84,13 @@ BITKOMO maintains the convergence and optimality guarantees of BIT\*. The additi
 
 ## Evaluation
 
-(b) Kuka from shelf
+(b) Kuka from shelf (c) Kuka into box (e) Two Mobile Pandas (f) One Mobile Panda Figure 4: Scenarios used in our experimental evaluation. See the supplementary video for the solution trajectories.
 
-(c) Kuka into box
-
-(e) Two Mobile Pandas
-
-(f) One Mobile Panda
-
-Figure 4: Scenarios used in our experimental evaluation. See the supplementary video for the solution trajectories.
-
-(a) Disc Robot in Rooms
-
-(b) Kuka from shelf
-
-(c) Kuka into the box
-
-(e) Two Mobile Pandas
-
-(f) One Mobile Panda
-
-Figure 5: Results: Success rates and best cost plots for BITKOMO, BIT*, FMT* and KOMO on the 6 different example environments.
+(a) Disc Robot in Rooms (b) Kuka from shelf (c) Kuka into the box (e) Two Mobile Pandas (f) One Mobile Panda Figure 5: Results: Success rates and best cost plots for BITKOMO, BIT*, FMT* and KOMO on the 6 different example environments.
 
 ### V-A Scenarios
 
-We evaluate our algorithm on 6 different robotic scenarios^11^1 [https://github.com//mt-multimodal_optimization/tree/IROS_2022](https://github.com//mt-multimodal_optimization/tree/IROS_2022). In all scenarios, the robot moves from the initial configuration (solid color) to the goal configuration (translucent color) (Fig. 4). The trajectories computed by BITKOMO and the baseline algorithms are shown in the supplementary video^22^2[https://www.youtube.com/watch?v=HveYWl4wMAI](https://www.youtube.com/watch?v=HveYWl4wMAI). We emphasize the challenges of each problem with the keywords: narrow passage, not informative heuristic and high-dimensional.
+We evaluate our algorithm on 6 different robotic scenarios^11^1 In all scenarios, the robot moves from the initial configuration (solid color) to the goal configuration (translucent color) (Fig. 4). The trajectories computed by BITKOMO and the baseline algorithms are shown in the supplementary video^22^2 We emphasize the challenges of each problem with the keywords: narrow passage, not informative heuristic and high-dimensional.
 
 Disc Robot in Rooms: A Disc Robot needs to move from the center of one room to another (Fig. 4(a)). The difficulty is that, to go to the other room, the robot first needs to come out of the starting room and then move to the target room. Challenges: narrow passages and not informative heuristic.
 
@@ -148,9 +112,7 @@ For the KOMO planner we use the sum of squares of the distances between waypoint
 
 ### V-C Metrics
 
-We evaluate the planners on 2 different metrics:
-
-Success rate (%): The % of runs that have found a feasible solution at time $t$. This metric gives information about how fast the planner finds the first feasible path.
+We evaluate the planners on 2 different metrics: Success rate (%): The % of runs that have found a feasible solution at time $t$. This metric gives information about how fast the planner finds the first feasible path.
 
 Cost: The average best cost of the planner at time $t$. This metric gives us an understanding about how the best cost solution of a planner evolves over time and the practical convergence speed before the timeout.
 

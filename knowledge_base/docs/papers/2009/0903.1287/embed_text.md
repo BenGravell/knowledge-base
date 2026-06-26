@@ -16,21 +16,11 @@ The organization of the paper is as follows. Section 2 is devoted to mathematica
 
 ### Nonnegativity and sum of squares
 
-We denote by ${\mathbb{K}}{\lbrack x\rbrack}: = {\mathbb{K}}{\lbrack x_{1},\ldots,x_{n}\rbrack}$ the ring of polynomials in $n$ variables with coefficients in the field $\mathbb{K}$. Throughout the paper, we will have ${\mathbb{K}} = {\mathbb{R}}$ or ${\mathbb{K}} = {\mathbb{Q}}$. A polynomial ${p{(x)}} \in {{\mathbb{R}}{\lbrack x\rbrack}}$ is said to be nonnegative or positive semidefinite (psd) if ${p{(x)}} \geq 0$ for all $x \in {\mathbb{R}}^{n}$. Clearly, a necessary condition for a polynomial to be psd is for its total degree to be even. We say that $p{(x)}$ is a sum of squares (sos), if there exist polynomials ${q_{1}{(x)}},\ldots,{q_{m}{(x)}}$ such that
-
-It is clear that $p{(x)}$ being sos implies that $p{(x)}$ is psd. In 1888, David Hilbert proved that the converse is true for a polynomial in $n$ variables and of degree $d$ *only* in the following cases:
-
-$n = 1$ (univariate polynomials of any degree)
-
-$d = 2$ (quadratic polynomials in any number of variables)
-
-Hilbert showed that in all other cases there exist polynomials that are psd but not sos. Explicit examples of such polynomials appeared nearly 80 years later, starting with the celebrated example of Motzkin, followed by more examples by Robinson, Choi and Lam, and Lax-Lax and Schmüdgen. See for an outstanding exposition of these counterexamples.
+We denote by ${\mathbb{K}}{\lbrack x\rbrack}: = {\mathbb{K}}{\lbrack x_{1},\ldots,x_{n}\rbrack}$ the ring of polynomials in $n$ variables with coefficients in the field $\mathbb{K}$. Throughout the paper, we will have ${\mathbb{K}} = {\mathbb{R}}$ or ${\mathbb{K}} = {\mathbb{Q}}$. A polynomial ${p{(x)}} \in {{\mathbb{R}}{\lbrack x\rbrack}}$ is said to be nonnegative or positive semidefinite (psd) if ${p{(x)}} \geq 0$ for all $x \in {\mathbb{R}}^{n}$. Clearly, a necessary condition for a polynomial to be psd is for its total degree to be even. We say that $p{(x)}$ is a sum of squares (sos), if there exist polynomials ${q_{1}{(x)}},\ldots,{q_{m}{(x)}}$ such that It is clear that $p{(x)}$ being sos implies that $p{(x)}$ is psd. In 1888, David Hilbert proved that the converse is true for a polynomial in $n$ variables and of degree $d$ *only* in the following cases: $n = 1$ (univariate polynomials of any degree) $d = 2$ (quadratic polynomials in any number of variables) Hilbert showed that in all other cases there exist polynomials that are psd but not sos. Explicit examples of such polynomials appeared nearly 80 years later, starting with the celebrated example of Motzkin, followed by more examples by Robinson, Choi and Lam, and Lax-Lax and Schmüdgen. See for an outstanding exposition of these counterexamples.
 
 A polynomial $p{(x)}$ of degree $d$ in $n$ variables has $l = \binom{n + d}{d}$ coefficients and can therefore be identified with the $l$-tuple of its coefficients, which we denote by $\overset{\rightarrow}{p} \in {\mathbb{R}}^{l}$. A polynomial where all the monomials have the same degree is called a *form*. A form $p{(x)}$ of degree $d$ is a homogenous function of degree $d$ (since it satisfies ${p{({\lambdax})}} = {\lambda^{d}p{(x)}}$), and has $\binom{{n + d} - 1}{d}$ coefficients. The set of forms in $n$ variables of degree $d$ is denoted by $\mathcal{H}_{n,d}$. It is easy to show that if a form of degree $d$ is sos, then $d$ is even, and the polynomials $q_{i}$ in the sos decomposition are forms of degree $d/2$. We also denote the set of psd (resp. sos) forms of degree $d$ in $n$ variables by $P_{n,d}$ (resp. $\Sigma_{n,d}$). Both $P_{n,d}$ and $\Sigma_{n,d}$ are closed convex cones, and we have the relation $\Sigma_{n,d} \subseteq P_{n,d} \subset \mathcal{H}_{n,d}$.
 
-Any form of degree $d$ in $n$ variables can be dehomogenized into a polynomial of degree $\leq d$ in $n - 1$ variables by setting $x_{n} = 1$. Conversely, any polynomial $p$ of degree $d$ in $n$ variables can be homogenized into a form $p_{h}$ of degree $d$ in $n + 1$ variables, by adding a new variable $y$, and letting
-
-The properties of being psd and sos are preserved under homogenization and dehomogenization.
+Any form of degree $d$ in $n$ variables can be dehomogenized into a polynomial of degree $\leq d$ in $n - 1$ variables by setting $x_{n} = 1$. Conversely, any polynomial $p$ of degree $d$ in $n$ variables can be homogenized into a form $p_{h}$ of degree $d$ in $n + 1$ variables, by adding a new variable $y$, and letting The properties of being psd and sos are preserved under homogenization and dehomogenization.
 
 An important related problem is Hilbert's 17th problem, which asks if every psd form must be a sum of squares of rational functions. In 1927, Artin answered Hilbert's question in the affirmative. This result implies that if a polynomial $p{(x)}$ is psd, then there must exist an sos polynomial $g{(x)}$, such that $p{(x)}g{(x)}$ is sos. Moreover, Reznick showed in that if $p{(x)}$ is *positive definite*, one can always take ${g{(x)}} = {({\sum_{i}x_{i}^{2}})}^{r}$, for sufficiently large $r$. We will make use of this key fact in the derivation of our example.
 
@@ -38,35 +28,23 @@ To make the ideas presented so far more concrete, we end this section by discuss
 
 ### Example 2.1
 
-The Motzkin polynomial
-
-is historically the first known example of a polynomial that is psd but not sos. Positive semidefiniteness follows from the arithmetic-geometric inequality, and the nonexistence of an sos decomposition can be shown by some clever algebraic manipulations (see for details). We can homogenize this polynomial and obtain the Motzkin form
-
-which belongs to $P_{3,6}\backslash\Sigma_{3,6}$ as expected. An alternative proof of nonnegativity of $M_{h}$ (resp. $M$) is obtained by showing that $M_{h}{(x)}{({x_{1}^{2} + x_{2}^{2} + x_{3}^{2}})}$ (resp. $M{(x)}{({x_{1}^{2} + x_{2}^{2} + 1})}$) is sos. An explicit sos decomposition can be found in.
+The Motzkin polynomial is historically the first known example of a polynomial that is psd but not sos. Positive semidefiniteness follows from the arithmetic-geometric inequality, and the nonexistence of an sos decomposition can be shown by some clever algebraic manipulations (see for details). We can homogenize this polynomial and obtain the Motzkin form which belongs to $P_{3,6}\backslash\Sigma_{3,6}$ as expected. An alternative proof of nonnegativity of $M_{h}$ (resp. $M$) is obtained by showing that $M_{h}{(x)}{({x_{1}^{2} + x_{2}^{2} + x_{3}^{2}})}$ (resp. $M{(x)}{({x_{1}^{2} + x_{2}^{2} + 1})}$) is sos. An explicit sos decomposition can be found.
 
 In the sequel, we will explain how we can give an alternative proof of the fact that the Motzkin polynomial is not sos, by appealing to sos-programming duality.
 
 ### Sum of squares, semidefinite programming, and duality
 
-Deciding nonnegativity of polynomials is an important problem that arises in many areas of applied and computational mathematics. Unfortunately, this problem is known to be NP-hard even when the degree of the polynomial is equal to four,. On the other hand, deciding whether a given polynomial admits an sos decomposition turns out to be a tractable problem. This tractability stems from the underlying convexity of the problem as first pointed out in. More specifically, it was shown in that one can reduce the problem of deciding whether a polynomial is sos to feasibility of a *semidefinite program* (SDP). Semidefinite programs are a well-studied subclass of convex optimization problems that can be efficiently solved in polynomial time using interior point algorithms. Because our space is limited, we refrain from further discussing SDPs and refer the interested reader to the review papers. The main theorem that establishes the link between sum of squares and semidefinite programming is the following.
+Deciding nonnegativity of polynomials is an important problem that arises in many areas of applied and computational mathematics. Unfortunately, this problem is known to be NP-hard even when the degree of the polynomial is equal to four,. On the other hand, deciding whether a given polynomial admits an sos decomposition turns out to be a tractable problem. This tractability stems from the underlying convexity of the problem as first pointed out . More specifically, it was shown in that one can reduce the problem of deciding whether a polynomial is sos to feasibility of a *semidefinite program* (SDP). Semidefinite programs are a well-studied subclass of convex optimization problems that can be efficiently solved in polynomial time using interior point algorithms. Because our space is limited, we refrain from further discussing SDPs and refer the interested reader to the review papers. The main theorem that establishes the link between sum of squares and semidefinite programming is the following.
 
-### Theorem 2.1 (\[20\],\[21\])
+### Theorem 2.1
 
-A multivariate polynomial $p{(x)}$ in $n$ variables and of degree $2d$ is a sum of squares if and only if there exists a positive semidefinite matrix $Q$ (often called the Gram matrix) such that
+A multivariate polynomial $p{(x)}$ in $n$ variables and of degree $2d$ is a sum of squares if and only if there exists a positive semidefinite matrix $Q$ (often called the Gram matrix) such that where $z$ is the vector of monomials of degree up to $d$ Given a polynomial $p{(x)}$, by expanding the right hand side of (4. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex")) and matching coefficients of $p$, we obtain linear constraints on the entries of $Q$. We also have the constraint that $Q$ must be a positive semidefinite (PSD^11^1To avoid potential confusion, we use the abbreviation psd for positive semidefinite polynomials and PSD for positive semidefinite matrices. We also denote a PSD matrix $A$ with the standard notation $A \succeq 0$.) matrix. Therefore, the set described by these constraints is the intersection of an affine subspace with the cone of PSD matrices. This is exactly the structure of the feasible set of a semidefinite program. Since the entries of the vector of monomials $z$ can be algebraically dependent, the matrix $Q$ in the representation (4. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex")) is not in general unique. The size of the matrix $Q$ depends on the size of the vector of monomials. When there is no sparsity to be exploited $Q$ will have dimensions $\binom{n + d}{d} \times \binom{n + d}{d}$. If the polynomial $p{(x)}$ is homogeneous of degree $2d$, then it suffices to consider in (4. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex")) a vector $z$ of monomials of degree exactly $d$. This will reduce the size of $Q$ to $\binom{{n + d} - 1}{d} \times \binom{{n + d} - 1}{d}$.
 
-where $z$ is the vector of monomials of degree up to $d$
-
-Given a polynomial $p{(x)}$, by expanding the right hand side of (4. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex")) and matching coefficients of $p$, we obtain linear constraints on the entries of $Q$. We also have the constraint that $Q$ must be a positive semidefinite (PSD^11^1To avoid potential confusion, we use the abbreviation psd for positive semidefinite polynomials and PSD for positive semidefinite matrices. We also denote a PSD matrix $A$ with the standard notation $A \succeq 0$.) matrix. Therefore, the set described by these constraints is the intersection of an affine subspace with the cone of PSD matrices. This is exactly the structure of the feasible set of a semidefinite program. Since the entries of the vector of monomials $z$ can be algebraically dependent, the matrix $Q$ in the representation (4. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex")) is not in general unique. The size of the matrix $Q$ depends on the size of the vector of monomials. When there is no sparsity to be exploited $Q$ will have dimensions $\binom{n + d}{d} \times \binom{n + d}{d}$. If the polynomial $p{(x)}$ is homogeneous of degree $2d$, then it suffices to consider in (4. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex")) a vector $z$ of monomials of degree exactly $d$. This will reduce the size of $Q$ to $\binom{{n + d} - 1}{d} \times \binom{{n + d} - 1}{d}$.
-
-The conversion step of going from an sos decomposition problem to an SDP problem is fully algorithmic and has been implemented in software packages such as SOSTOOLS and YALMIP. For instance, we can input a polynomial $p{(x)}$ into SOSTOOLS and (if $p{(x)}$ is sos) it will return a matrix $Q$ and a vector of monomials $z$. Since $Q$ is PSD, one can compute its Cholesky factorization $Q = {V^{T}V}$, which immediately gives rise to an explicit sos decomposition
-
-Solutions returned from interior point algorithms are numerical approximations computed via floating point manipulations. In many applications in mathematics where the goal is to formally prove a theorem (as is the case in this paper), it is required to get an exact algebraic solution. What we mean by this is that given a polynomial ${p{(x)}} \in {{\mathbb{Q}}{\lbrack x\rbrack}}$, i.e., a polynomial with rational coefficients, we would like to compute a *rational sos decomposition*, i.e., a decomposition only consisting of squares of polynomials in ${\mathbb{Q}}{\lbrack x\rbrack}$. This issue has been studied in detail in where it is shown that the existence of a rational sos decomposition is equivalent to the existence of a Gram matrix with rational entries. SOSTOOLS is endowed with a feature that computes rational decompositions. The work in proposes an efficient mixed symbolic-numerical approach for this purpose and has been separately implemented in the package SOS.m2 for the computer algebra system Macaulay 2.
+The conversion step of going from an sos decomposition problem to an SDP problem is fully algorithmic and has been implemented in software packages such as SOSTOOLS and YALMIP. For instance, we can input a polynomial $p{(x)}$ into SOSTOOLS and (if $p{(x)}$ is sos) it will return a matrix $Q$ and a vector of monomials $z$. Since $Q$ is PSD, one can compute its Cholesky factorization $Q = {V^{T}V}$, which immediately gives rise to an explicit sos decomposition Solutions returned from interior point algorithms are numerical approximations computed via floating point manipulations. In many applications in mathematics where the goal is to formally prove a theorem (as is the case in this paper), it is required to get an exact algebraic solution. What we mean by this is that given a polynomial ${p{(x)}} \in {{\mathbb{Q}}{\lbrack x\rbrack}}$, i.e., a polynomial with rational coefficients, we would like to compute a *rational sos decomposition*, i.e., a decomposition only consisting of squares of polynomials in ${\mathbb{Q}}{\lbrack x\rbrack}$. This issue has been studied in detail in where it is shown that the existence of a rational sos decomposition is equivalent to the existence of a Gram matrix with rational entries. SOSTOOLS is endowed with a feature that computes rational decompositions. The work in proposes an efficient mixed symbolic-numerical approach for this purpose and has been separately implemented in the package SOS.m2 for the computer algebra system Macaulay 2.
 
 Putting the issue of exact computation aside, there are two other key aspects of sum of squares programming that we would like to highlight. First, it is not difficult to see that the same methodology can be used to *search* over sos polynomials in a convex family of polynomials or even optimize a linear functional over them. This idea will be crucial in Section 4 when we are searching for our desired polynomial through sos-programming.
 
-The second valuable feature of sos-programming is that when the semidefinite program arising from Theorem 2.1. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex") is infeasible, we get a *certificate* that the polynomial is *not* sos (though it might still be psd). This certificate is readily given to us by a feasible solution of the dual semidefinite program. By definition, the dual cone $\Sigma_{n,d}^{\ast}$ of the sum of squares cone $\Sigma_{n,d}$ is the set of all linear functionals $\mu$ that take nonnegative values on it, i.e.,
-
-Here, the dual space $\mathcal{H}_{n,d}^{\ast}$ denotes the space of all linear functionals on $\mathcal{H}_{n,d}$, and $\langle.,.\rangle$ represents the pairing between elements of the primal and the dual space. If a polynomial is not sos, we can find a dual functional $\mu \in \Sigma_{n,d}^{\ast}$ that separates it from the closed convex cone $\Sigma_{n,d}$. The basic idea behind this is the well known separating hyperplane theorem in convex analysis; see e.g.. In Section 3, we will see a concrete example of the use of duality when we prove that our polynomial is not sos-convex. For a more thorough treatment of the duality theory in semidefinite and sum of squares programming, we refer to reader to references and, respectively.
+The second valuable feature of sos-programming is that when the semidefinite program arising from Theorem 2.1. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex") is infeasible, we get a *certificate* that the polynomial is *not* sos (though it might still be psd). This certificate is readily given to us by a feasible solution of the dual semidefinite program. By definition, the dual cone $\Sigma_{n,d}^{\ast}$ of the sum of squares cone $\Sigma_{n,d}$ is the set of all linear functionals $\mu$ that take nonnegative values on it, i.e., Here, the dual space $\mathcal{H}_{n,d}^{\ast}$ denotes the space of all linear functionals on $\mathcal{H}_{n,d}$, and $\langle.,.\rangle$ represents the pairing between elements of the primal and the dual space. If a polynomial is not sos, we can find a dual functional $\mu \in \Sigma_{n,d}^{\ast}$ that separates it from the closed convex cone $\Sigma_{n,d}$. The basic idea behind this is the well known separating hyperplane theorem in convex analysis; see e.g.. In Section 3, we will see a concrete example of the use of duality when we prove that our polynomial is not sos-convex. For a more thorough treatment of the duality theory in semidefinite and sum of squares programming, we refer to reader to references and, respectively.
 
 ### Sum of squares matrices and sos-convexity
 
@@ -82,25 +60,17 @@ A polynomial matrix ${{P{(x)}} \in {{\mathbb{R}}{\lbrack x\rbrack}^{m \times m}}
 
 ### Proof
 
-One direction is trivial: if $P{(x)}$ admits the factorization ${M^{T}{(x)}M{(x)}},$ then the scalar polynomial ${y^{T}M^{T}{(x)}M{(x)}y} = {{({M{(x)}y})}^{T}{({M{(x)}y})}}$ is clearly sos. For the reverse direction see. ∎
+One direction is trivial: if $P{(x)}$ admits the factorization ${M^{T}{(x)}M{(x)}},$ then the scalar polynomial ${y^{T}M^{T}{(x)}M{(x)}y} = {{({M{(x)}y})}^{T}{({M{(x)}y})}}$ is clearly sos. For the reverse direction see. ∎ Lemma 2.3 enables us to easily check whether a given polynomial matrix is an sos-matrix with the machinery explained in Section 2.2. Remarkably, in the univariate case ($x \in {\mathbb{R}}$), any PSD polynomial matrix ${P{(x)}} \in {{\mathbb{R}}{\lbrack x\rbrack}^{m \times m}}$ is an sos-matrix; see e.g.. For more details about univariate polynomial matrices, references to the literature, as well as an efficient eigenvalue-based method for finding their sos decomposition, we refer the reader to.
 
-Lemma 2.3 enables us to easily check whether a given polynomial matrix is an sos-matrix with the machinery explained in Section 2.2. Remarkably, in the univariate case ($x \in {\mathbb{R}}$), any PSD polynomial matrix ${P{(x)}} \in {{\mathbb{R}}{\lbrack x\rbrack}^{m \times m}}$ is an sos-matrix; see e.g.. For more details about univariate polynomial matrices, references to the literature, as well as an efficient eigenvalue-based method for finding their sos decomposition, we refer the reader to.
+In the multivariate case, however, not every PSD polynomial matrix must be an sos-matrix. The first counterexample is due to Choi. Even though Choi did not have polynomial matrices in mind, in he showed that not every psd biquadratic form is a sum of squares of bilinear forms. His counterexample can be rewritten as the following polynomial matrix which is PSD for all $x \in {\mathbb{R}}^{3}$ but is not an sos-matrix.
 
-In the multivariate case, however, not every PSD polynomial matrix must be an sos-matrix. The first counterexample is due to Choi. Even though Choi did not have polynomial matrices in mind, in he showed that not every psd biquadratic form is a sum of squares of bilinear forms. His counterexample can be rewritten as the following polynomial matrix
+We will now specialize polynomial matrices to Hessians, and discuss convexity of polynomials. It is well known that a polynomial $p{(x)}: = p{(x_{1},\ldots,x_{n})}$ is convex if and only if its Hessian is PSD for all $x \in {\mathbb{R}}^{n}$, i.e., is a PSD polynomial matrix.
 
-which is PSD for all $x \in {\mathbb{R}}^{3}$ but is not an sos-matrix.
-
-We will now specialize polynomial matrices to Hessians, and discuss convexity of polynomials. It is well known that a polynomial $p{(x)}: = p{(x_{1},\ldots,x_{n})}$ is convex if and only if its Hessian
-
-is PSD for all $x \in {\mathbb{R}}^{n}$, i.e., is a PSD polynomial matrix.
-
-### Definition 2.4 (\[9\])
+### Definition 2.4
 
 A polynomial $p{(x)}$ is *sos-convex* if its Hessian $H{(x)}$ is an sos-matrix.
 
-Even though we know that not every PSD polynomial matrix is an sos-matrix, it has been speculated that because of the special structure of the Hessian as the matrix of the second derivatives, convexity and sos-convexity of polynomials could perhaps be equivalent. We will show in the next section that this is not the case. Note that the example of Choi in does not serve as a counterexample. The polynomial matrix $C{(x)}$ in is not a valid Hessian, i.e., it cannot be the matrix of the second derivatives of any polynomial. If this was the case, the third partial derivatives would commute. However, we have in particular
-
-In, Choi, Lam, and Reznick generalize the earlier results of Choi and provide more examples of psd multiforms that are not sos. Some of their examples can be rewritten as PSD polynomial matrices that are not sos-matrices. In a similar fashion, we can show that these matrices also fail to be valid Hessians.
+Even though we know that not every PSD polynomial matrix is an sos-matrix, it has been speculated that because of the special structure of the Hessian as the matrix of the second derivatives, convexity and sos-convexity of polynomials could perhaps be equivalent. We will show in the next section that this is not the case. Note that the example of Choi in does not serve as a counterexample. The polynomial matrix $C{(x)}$ in is not a valid Hessian, i.e., it cannot be the matrix of the second derivatives of any polynomial. If this was the case, the third partial derivatives would commute. However, we have in particular In, Choi, Lam, and Reznick generalize the earlier results of Choi and provide more examples of psd multiforms that are not sos. Some of their examples can be rewritten as PSD polynomial matrices that are not sos-matrices. In a similar fashion, we can show that these matrices also fail to be valid Hessians.
 
 ## A polynomial that is convex but not sos-convex
 
@@ -112,15 +82,9 @@ If ${P{(x)}} \in {{\mathbb{R}}{\lbrack x\rbrack}^{m \times m}}$ is an sos-matrix
 
 ### Proof
 
-We first prove that $\det{(P)}$ is sos. By Definition 2.2, we have ${P{(x)}} = {M^{T}{(x)}M{(x)}}$ for some $s \times m$ polynomial matrix $M{(x)}$. If $s = m$, we have
+We first prove that $\det{(P)}$ is sos. By Definition 2.2, we have ${P{(x)}} = {M^{T}{(x)}M{(x)}}$ for some $s \times m$ polynomial matrix $M{(x)}$. If $s = m$, we have and the result is immediate. If $s > m$, the result follows from the Cauchy-Binet formula^33^3Given matrices $A$ and $B$ of size $m \times s$ and $s \times m$ respectively, the Cauchy-Binet formula states that $${{\det{({AB})}} = {\sum\limits_{S}{\det{{(A_{S})}{\det{(B_{S})}}}}}},$$ where $S$ is a subset of $\{ 1,\ldots,s\}$ with $m$ elements, $A_{S}$ denotes the $m \times m$ matrix whose columns are the columns of $A$ with index from $S$, and similarly $B_{S}$ denotes the $m \times m$ matrix whose rows are the rows of $B$ with index from $S$.. We have Finally, when $s < m$, $\det{(P)}$ is zero which is trivially sos. In fact, the Cauchy-Binet formula also holds for $s = m$ and $s < m$, but we have separated these cases for clarity of presentation.
 
-and the result is immediate. If $s > m$, the result follows from the Cauchy-Binet formula^33^3Given matrices $A$ and $B$ of size $m \times s$ and $s \times m$ respectively, the Cauchy-Binet formula states that $${{\det{({AB})}} = {\sum\limits_{S}{\det{{(A_{S})}{\det{(B_{S})}}}}}},$$ where $S$ is a subset of $\{ 1,\ldots,s\}$ with $m$ elements, $A_{S}$ denotes the $m \times m$ matrix whose columns are the columns of $A$ with index from $S$, and similarly $B_{S}$ denotes the $m \times m$ matrix whose rows are the rows of $B$ with index from $S$.. We have
-
-Finally, when $s < m$, $\det{(P)}$ is zero which is trivially sos. In fact, the Cauchy-Binet formula also holds for $s = m$ and $s < m$, but we have separated these cases for clarity of presentation.
-
-Next, we need to prove that the smaller minors of $P$ are also sos. Define ${\mathcal{M} = {\{ 1,\ldots,m\}}},$ and let $I$ and $J$ be nonempty subsets of $\mathcal{M}$. Denote by $P_{IJ}$ a sub-block of $P$ with row indices from $I$ and column indices from $J$. It is easy to see that
-
-Therefore, $P_{JJ}$ is an sos-matrix itself. By the proceeding argument $\det{(P_{JJ})}$ must be sos, and hence all the principal minors are sos. ∎
+Next, we need to prove that the smaller minors of $P$ are also sos. Define ${\mathcal{M} = {\{ 1,\ldots,m\}}},$ and let $I$ and $J$ be nonempty subsets of $\mathcal{M}$. Denote by $P_{IJ}$ a sub-block of $P$ with row indices from $I$ and column indices from $J$. It is easy to see that Therefore, $P_{JJ}$ is an sos-matrix itself. By the proceeding argument $\det{(P_{JJ})}$ must be sos, and hence all the principal minors are sos. ∎
 
 ### Remark 3.1
 
@@ -130,43 +94,15 @@ We are now ready to state our main result.
 
 ### Theorem 3.2
 
-There exists a polynomial that is convex but not sos-convex. In particular, the trivariate form of degree 8 given by
-
-has these properties.
+There exists a polynomial that is convex but not sos-convex. In particular, the trivariate form of degree 8 given by has these properties.
 
 ### Proof
 
-Let $H{(x)}$ denote the Hessian of $p{(x)}$. Convexity follows from the fact that
+Let $H{(x)}$ denote the Hessian of $p{(x)}$. Convexity follows from the fact that for some polynomial matrix $M{(x)}$. Equivalently, is a sum of squares in ${\mathbb{R}}{\lbrack x;y\rbrack}$, which shows that $H{(x)}$ is a PSD polynomial matrix. In the Appendix, we provide an explicit sos representation in terms of rational Gram matrices for the polynomial. This representation was found using SOSTOOLS along with the SDP solver SeDuMi.
 
-for some polynomial matrix $M{(x)}$. Equivalently,
+To prove that $p{(x)}$ is not sos-convex, by Lemma 3.1 it suffices to show that is not sos (though it must be psd because of convexity). Define the subspace $\mathcal{S} \subset \mathcal{H}_{3,6}$ as which are the trivariate sextic forms containing only the monomials. Note that $H_{1,1}$ belongs to $\mathcal{S}$. We will prove that $H_{1,1}$ is not sos by presenting a dual functional $\xi$ that separates $H_{1,1}$ from $\Sigma_{3,6} \cap \mathcal{S}$.
 
-is a sum of squares in ${\mathbb{R}}{\lbrack x;y\rbrack}$, which shows that $H{(x)}$ is a PSD polynomial matrix. In the Appendix, we provide an explicit sos representation in terms of rational Gram matrices for the polynomial. This representation was found using SOSTOOLS along with the SDP solver SeDuMi.
-
-To prove that $p{(x)}$ is not sos-convex, by Lemma 3.1 it suffices to show that
-
-is not sos (though it must be psd because of convexity). Define the subspace $\mathcal{S} \subset \mathcal{H}_{3,6}$ as
-
-which are the trivariate sextic forms containing only the monomials in. Note that $H_{1,1}$ belongs to $\mathcal{S}$. We will prove that $H_{1,1}$ is not sos by presenting a dual functional $\xi$ that separates $H_{1,1}$ from $\Sigma_{3,6} \cap \mathcal{S}$.
-
-Consider the vector of coefficients^44^4As a trivariate form of degree $6$, $H_{1,1}$ should have $28$ coefficients. We refrain from showing the coefficients that are zero since our analysis is done in the lower dimensional subspace $\mathcal{S}$. of $H_{1,1}$ with the ordering as written in:
-
-Using the same ordering, we can represent our dual functional $\xi$ with the vector
-
-which will serve as a separating hyperplane. We have
-
-On the other hand, we claim that for any form $w \in {\Sigma_{3,6} \cap \mathcal{S}}$, we should have
-
-Indeed, if $w$ is sos, by Theorem 2.1. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex") it can be written in the form
-
-for some $Q \succeq 0$, and a vector of monomials
-
-that includes all monomials of degree $3$ except for $x_{2}^{3}$, which is not required. It is not difficult to see that
-
-where by ${{({zz^{T}})}|}_{c}$ we mean a matrix where each monomial in $zz^{T}$ is replaced with the corresponding element of the vector $c$ (or zero, if the monomial is not in $\mathcal{S}$). This yields the matrix
-
-and we can easily check that it is positive definite. Therefore, equation along with the fact that $Q$ is positive semidefinite implies that holds. This completes the proof. ∎
-
-We end this section with a few remarks on some of the properties of the polynomial $p{(x)}$ in.
+Consider the vector of coefficients^44^4As a trivariate form of degree $6$, $H_{1,1}$ should have $28$ coefficients. We refrain from showing the coefficients that are zero since our analysis is done in the lower dimensional subspace $\mathcal{S}$. of $H_{1,1}$ with the ordering as written: Using the same ordering, we can represent our dual functional $\xi$ with the vector which will serve as a separating hyperplane. We have On the other hand, we claim that for any form $w \in {\Sigma_{3,6} \cap \mathcal{S}}$, we should have Indeed, if $w$ is sos, by Theorem 2.1. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex") it can be written in the form for some $Q \succeq 0$, and a vector of monomials that includes all monomials of degree $3$ except for $x_{2}^{3}$, which is not required. It is not difficult to see that where by ${{({zz^{T}})}|}_{c}$ we mean a matrix where each monomial in $zz^{T}$ is replaced with the corresponding element of the vector $c$ (or zero, if the monomial is not in $\mathcal{S}$). This yields the matrix and we can easily check that it is positive definite. Therefore, equation along with the fact that $Q$ is positive semidefinite implies that holds. This completes the proof. ∎ We end this section with a few remarks on some of the properties of the polynomial $p{(x)}$.
 
 ### Remark 3.2
 
@@ -178,9 +114,7 @@ Because of strict convexity and the fact that $H_{1,1}$ is *strictly* separated 
 
 ### Remark 3.4
 
-As explained in Section 2.1, we can dehomogenize the form in into a polynomial in two variables by letting
-
-The bivariate polynomial $p_{dh}$ has degree $8$ and we can check that it is still convex but not sos-convex. It is interesting to note that $p_{dh}$ is an example with the minimum possible number of variables since we know that all convex univariate polynomials are sos-convex. As for minimality in the degree, we do not know if an example with lower degree exists. However, we should note that a bivariate form of degree $4$ cannot be convex but not sos-convex. The reason is that the entries of the Hessian of such polynomial would be bivariate quadratic forms. It is known that a matrix with such entries is PSD if and only if it is an sos-matrix.
+As explained in Section 2.1, we can dehomogenize the form in into a polynomial in two variables by letting The bivariate polynomial $p_{dh}$ has degree $8$ and we can check that it is still convex but not sos-convex. It is interesting to note that $p_{dh}$ is an example with the minimum possible number of variables since we know that all convex univariate polynomials are sos-convex. As for minimality in the degree, we do not know if an example with lower degree exists. However, we should note that a bivariate form of degree $4$ cannot be convex but not sos-convex. The reason is that the entries of the Hessian of such polynomial would be bivariate quadratic forms. It is known that a matrix with such entries is PSD if and only if it is an sos-matrix.
 
 ### Remark 3.5
 
@@ -198,38 +132,25 @@ In, Helton and Nie prove that if a nonnegative polynomial is sos-convex, then it
 
 As we mentioned in Section 2.2, one of the main strengths of sos-programming is in its ability to *search* over sos polynomials in a convex family of polynomials. Our main example in has in fact been found by solving an sos-program. In this section, we explain how this has been exactly done.
 
-The task of finding a polynomial $p{(x)}$ that is convex but not sos-convex is equivalent to finding a polynomial matrix $H{(x)}$ that is a *valid Hessian* (i.e., it is a matrix of second derivatives), and satisfies the following requirement on the scalar polynomial $y^{T}H{(x)}y$ in $\lbrack x;y\rbrack$:
-
-Indeed, if such a matrix $H{(x)}$ is found, the desired polynomial $p{(x)}$ can be recovered from it by integration. Unfortunately, a constraint of type that requires a polynomial to be psd but *not* sos cannot be easily handled, since it is a non-convex constraint. This is easy to see from a geometric viewpoint, since as Theorem 2.1. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex") suggests, an sos-program can be converted to an equivalent semidefinite program. We know that the feasible set of a semidefinite program is always a convex set. On the other hand, for a fixed degree and dimension, the set of psd polynomials that are not sos is generally non-convex. Nevertheless, we are going to see that by making use of dual functionals of the sos cone along with Reznick's result on Hilbert's 17th problem, we can formulate an sos-program that searches over a *convex subset* of the set of polynomials that are psd but not sos. The idea behind our algorithm closely resembles the proof of Theorem 3.2.
+The task of finding a polynomial $p{(x)}$ that is convex but not sos-convex is equivalent to finding a polynomial matrix $H{(x)}$ that is a *valid Hessian* (i.e., it is a matrix of second derivatives), and satisfies the following requirement on the scalar polynomial $y^{T}H{(x)}y$ in $\lbrack x;y\rbrack$: Indeed, if such a matrix $H{(x)}$ is found, the desired polynomial $p{(x)}$ can be recovered from it by integration. Unfortunately, a constraint of type that requires a polynomial to be psd but *not* sos cannot be easily handled, since it is a non-convex constraint. This is easy to see from a geometric viewpoint, since as Theorem 2.1. ‣ 2.2 Sum of squares, semidefinite programming, and duality ‣ 2 Background ‣ A convex polynomial that is not sos-convex") suggests, an sos-program can be converted to an equivalent semidefinite program. We know that the feasible set of a semidefinite program is always a convex set. On the other hand, for a fixed degree and dimension, the set of psd polynomials that are not sos is generally non-convex. Nevertheless, we are going to see that by making use of dual functionals of the sos cone along with Reznick's result on Hilbert's 17th problem, we can formulate an sos-program that searches over a *convex subset* of the set of polynomials that are psd but not sos. The idea behind our algorithm closely resembles the proof of Theorem 3.2.
 
 ### The algorithm
 
 The sos-program which has led to our main result in can be written in pseudo-code as follows.
 
-1:Parameterize p (x) as a form of degree 8 in 3 variables.
-2:Compute the Hessian ${H{(x)}} = \frac{\partial^{2}p}{\partial x^{2}}$.
-3:Impose the constraint
-
-for some integer r ≥ 1.
-4:Impose the constraint
-
-for some (carefully chosen) dual functional μ ∈ Σ3, 6*.
+1:Parameterize p (x) as a form of degree 8 in 3 variables. 2:Compute the Hessian ${H{(x)}} = \frac{\partial^{2}p}{\partial x^{2}}$. 3:Impose the constraint for some integer r ≥ 1. 4:Impose the constraint for some (carefully chosen) dual functional μ ∈ Σ3, 6*.
 
 The decision variables of this sos-program are the coefficients of the polynomial $p{(x)}$ that also appear in the entries of the Hessian matrix $H{(x)}$. The scalar $r$ and the dual functional $\mu$ must be fixed *a priori* as explained in the sequel. Note that the constraints and are linear in the decision variables and indeed the feasible set described by these constraints is a convex set.
 
 We claim that if this sos-program is feasible, the solution $p{(x)}$ will be convex but not sos-convex. The requirement of $H{(x)}$ being a valid Hessian is met by construction since $H{(x)}$ is obtained by twice differentiating a polynomial. It is also easy to see that if the constraint in is satisfied, then $y^{T}H{(x)}y$ will be psd. The same implication would hold if instead of ${({x_{1}^{2} + x_{2}^{2} + x_{3}^{2}})}^{r}$ we used any other positive definite polynomial. As discussed in Section 2.1, the reason for using this particular form is due to the result of Reznick, which states that if $y^{T}H{(x)}y$ is positive definite, then must be satisfied for sufficiently large $r$. In our case, it was sufficient to take $r = 1$.
 
-In order to guarantee that $y^{T}H{(x)}y$ is not sos, by Lemma 3.1 it suffices to require at least one of the principal minors of $H{(x)}$ not to be sos (though they must all be psd because of and Remark 3.1). The constraint in is imposing this requirement on the first diagonal element $H_{1,1}$. Since $p{(x)}$ is a form of degree $8$ in $3$ variables, $H_{1,1}$ will be a form of degree $6$ in $3$ variables. The role of the dual functional $\mu \in \Sigma_{3,6}^{\ast}$ in is to separate $H_{1,1}$ from $\Sigma_{3,6}$. Once an ordering on the monomials of $H_{1,1}$ is fixed, the inequality in can be written as
-
-where $b \in {\mathbb{R}}^{28}$ represents our separating hyperplane and must be fixed *a priori*. We explain next our specific choice of the dual functional $\mu$.
+In order to guarantee that $y^{T}H{(x)}y$ is not sos, by Lemma 3.1 it suffices to require at least one of the principal minors of $H{(x)}$ not to be sos (though they must all be psd because of and Remark 3.1). The constraint in is imposing this requirement on the first diagonal element $H_{1,1}$. Since $p{(x)}$ is a form of degree $8$ in $3$ variables, $H_{1,1}$ will be a form of degree $6$ in $3$ variables. The role of the dual functional $\mu \in \Sigma_{3,6}^{\ast}$ in is to separate $H_{1,1}$ from $\Sigma_{3,6}$. Once an ordering on the monomials of $H_{1,1}$ is fixed, the inequality in can be written as where $b \in {\mathbb{R}}^{28}$ represents our separating hyperplane and must be fixed *a priori*. We explain next our specific choice of the dual functional $\mu$.
 
 ### Finding a separating hyperplane
 
 There are several ways to obtain a separating hyperplane for $\Sigma_{3,6}$. In particular, we can find a dual functional that separates the Motzkin form in from $\Sigma_{3,6}$. This can be done in at least a couple of different ways. For example, we can formulate a semidefinite program that requires the Motzkin form to be sos. This program is clearly infeasible. A feasible solution to its dual semidefinite program will give us the desired separating hyperplane. Most SDP solvers, such as SeDuMi, use primal-dual interior point algorithms to solve an SDP. Therefore, once the primal SDP is infeasible, a dual feasible solution can readily be recovered from the solver.
 
-Another way to obtain a separating hyperplane for the Motzkin form $M_{h}{(x)}$ is to find its (Euclidean) projection $M_{h}^{p}{(x)}$ onto the cone $\Sigma_{3,6}$. Since the projection is done onto a convex set, the hyperplane tangent to $\Sigma_{3,6}$ at $M_{h}^{p}{(x)}$ will be supporting $\Sigma_{3,6}$. The projection $M_{h}^{p}{(x)}$ can be obtained by searching for an sos polynomial that is closest in the $2$-norm of the coefficients to the Motzkin form. This search can be formulated as the following sos-program:
-
-Here, $q{(x)}$ is parameterized as a degree $6$ form in $3$ variables. The objective function in can be converted to a semidefinite constraint using standard tricks; see e.g..
+Another way to obtain a separating hyperplane for the Motzkin form $M_{h}{(x)}$ is to find its (Euclidean) projection $M_{h}^{p}{(x)}$ onto the cone $\Sigma_{3,6}$. Since the projection is done onto a convex set, the hyperplane tangent to $\Sigma_{3,6}$ at $M_{h}^{p}{(x)}$ will be supporting $\Sigma_{3,6}$. The projection $M_{h}^{p}{(x)}$ can be obtained by searching for an sos polynomial that is closest in the $2$-norm of the coefficients to the Motzkin form. This search can be formulated as the following sos-program: Here, $q{(x)}$ is parameterized as a degree $6$ form in $3$ variables. The objective function in can be converted to a semidefinite constraint using standard tricks; see e.g..
 
 We have used SOSTOOLS and SeDuMi to obtain a feasible solution to SOS-Program 1 with $r = 1$ and the dual function $\mu$ computed using the projection approach described above. In order to end up with the form in which has integer coefficients, some post-processing has been done on this feasible solution. This procedure includes truncation of the coefficients and some linear coordinate transformations.
 
@@ -237,7 +158,7 @@ We shall end our discussion with a couple of remarks.
 
 ### Remark 4.1
 
-If the constraints and the objective function of a semidefinite program possess some type of symmetry, the same symmetry will generally be inherited in the solution returned by interior point algorithms. For example, consider the sos-program in. The Motzkin form $M_{h}{(x)}$ is symmetric in $x_{1}$ and $x_{2}$; see. Therefore, it turns out that the optimal solution $M_{h}^{p}{(x)}$ is also symmetric in $x_{1}$ and $x_{2}$. On the other hand, our main example $p{(x)}$ in and its dehomogenized version $p_{dh}{(x)}$ in are not symmetric in $x_{1}$ and $x_{2}$. Even though constraint and the dual functional $b$ possess this symmetry, the symmetry is being broken by imposing constraint on the second partial derivative with respect to $x_{1}$.
+If the constraints and the objective function of a semidefinite program possess some type of symmetry, the same symmetry will generally be inherited in the solution returned by interior point algorithms. For example, consider the sos-program . The Motzkin form $M_{h}{(x)}$ is symmetric in $x_{1}$ and $x_{2}$; see. Therefore, it turns out that the optimal solution $M_{h}^{p}{(x)}$ is also symmetric in $x_{1}$ and $x_{2}$. On the other hand, our main example $p{(x)}$ in and its dehomogenized version $p_{dh}{(x)}$ in are not symmetric in $x_{1}$ and $x_{2}$. Even though constraint and the dual functional $b$ possess this symmetry, the symmetry is being broken by imposing constraint on the second partial derivative with respect to $x_{1}$.
 
 ### Remark 4.2
 

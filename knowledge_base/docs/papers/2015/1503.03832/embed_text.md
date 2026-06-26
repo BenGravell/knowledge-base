@@ -50,21 +50,15 @@ The following section describes this triplet loss and how it can be learned effi
 
 Figure 3: The Triplet Loss minimizes the distance between an anchor and a positive, both of which have the same identity, and maximizes the distance between the anchor and a negative of a different identity.
 
-The embedding is represented by ${f{(x)}} \in {\mathbb{R}}^{d}$. It embeds an image $x$ into a $d$-dimensional Euclidean space. Additionally, we constrain this embedding to live on the $d$-dimensional hypersphere, *i.e*. ${\|{f{(x)}}\|}_{2} = 1$. This loss is motivated in in the context of nearest-neighbor classification. Here we want to ensure that an image $x_{i}^{a}$ (*anchor*) of a specific person is closer to all other images $x_{i}^{p}$ (*positive*) of the same person than it is to any image $x_{i}^{n}$ (*negative*) of any other person. This is visualized in Figure 3.
+The embedding is represented by ${f{(x)}} \in {\mathbb{R}}^{d}$. It embeds an image $x$ into a $d$-dimensional Euclidean space. Additionally, we constrain this embedding to live on the $d$-dimensional hypersphere, *i.e*. ${\|{f{(x)}}\|}_{2} = 1$. This loss is motivated in in the context of nearest-neighbor classification. Here we want to ensure that an image $x_{i}^{a}$ (*anchor*) of a specific person is closer to all other images $x_{i}^{p}$ (*positive*) of the same person than it is to any image $x_{i}^{n}$ (*negative*) of any other person. This is visualized in Figure 3. where $\alpha$ is a margin that is enforced between positive and negative pairs. $\mathcal{T}$ is the set of all possible triplets in the training set and has cardinality $N$.
 
-where $\alpha$ is a margin that is enforced between positive and negative pairs. $\mathcal{T}$ is the set of all possible triplets in the training set and has cardinality $N$.
-
-The loss that is being minimized is then $L =$
-
-Generating all possible triplets would result in many triplets that are easily satisfied (*i.e*. fulfill the constraint in Eq. ). These triplets would not contribute to the training and result in slower convergence, as they would still be passed through the network. It is crucial to select hard triplets, that are active and can therefore contribute to improving the model. The following section talks about the different approaches we use for the triplet selection.
+The loss that is being minimized is then $L =$ Generating all possible triplets would result in many triplets that are easily satisfied (*i.e*. fulfill the constraint in Eq.). These triplets would not contribute to the training and result in slower convergence, as they would still be passed through the network. It is crucial to select hard triplets, that are active and can therefore contribute to improving the model. The following section talks about the different approaches we use for the triplet selection.
 
 ### Triplet Selection
 
 In order to ensure fast convergence it is crucial to select triplets that violate the triplet constraint in Eq.. This means that, given $x_{i}^{a}$, we want to select an $x_{i}^{p}$ (*hard positive*) such that ${argmax}_{x_{i}^{p}}\left\| {{f{(x_{i}^{a})}} - {f{(x_{i}^{p})}}} \right\|_{2}^{2}$ and similarly $x_{i}^{n}$ (*hard negative*) such that ${argmin}_{x_{i}^{n}}\left\| {{f{(x_{i}^{a})}} - {f{(x_{i}^{n})}}} \right\|_{2}^{2}$.
 
-It is infeasible to compute the $argmin$ and $argmax$ across the whole training set. Additionally, it might lead to poor training, as mislabelled and poorly imaged faces would dominate the hard positives and negatives. There are two obvious choices that avoid this issue:
-
-Generate triplets offline every n steps, using the most recent network checkpoint and computing the $argmin$ and $argmax$ on a subset of the data.
+It is infeasible to compute the $argmin$ and $argmax$ across the whole training set. Additionally, it might lead to poor training, as mislabelled and poorly imaged faces would dominate the hard positives and negatives. There are two obvious choices that avoid this issue: Generate triplets offline every n steps, using the most recent network checkpoint and computing the $argmin$ and $argmax$ on a subset of the data.
 
 Generate triplets online. This can be done by selecting the hard positive/negative exemplars from within a mini-batch.
 
@@ -76,45 +70,39 @@ Instead of picking the hardest positive, we use all anchor-positive pairs in a m
 
 We also explored the offline generation of triplets in conjunction with the online generation and it may allow the use of smaller batch sizes, but the experiments were inconclusive.
 
-Selecting the hardest negatives can in practice lead to bad local minima early on in training, specifically it can result in a collapsed model (*i.e*. ${f{(x)}} = 0$). In order to mitigate this, it helps to select $x_{i}^{n}$ such that
-
-We call these negative exemplars *semi-hard*, as they are further away from the anchor than the positive exemplar, but still hard because the squared distance is close to the anchor-positive distance. Those negatives lie inside the margin $\alpha$.
+Selecting the hardest negatives can in practice lead to bad local minima early on in training, specifically it can result in a collapsed model (*i.e*. ${f{(x)}} = 0$). In order to mitigate this, it helps to select $x_{i}^{n}$ such that We call these negative exemplars *semi-hard*, as they are further away from the anchor than the positive exemplar, but still hard because the squared distance is close to the anchor-positive distance. Those negatives lie inside the margin $\alpha$.
 
 As mentioned before, correct triplet selection is crucial for fast convergence. On the one hand we would like to use small mini-batches as these tend to improve convergence during Stochastic Gradient Descent (SGD). On the other hand, implementation details make batches of tens to hundreds of exemplars more efficient. The main constraint with regards to the batch size, however, is the way we select hard relevant triplets from within the mini-batches. In most experiments we use a batch size of around 1,800 exemplars.
 
 ### Deep Convolutional Networks
 
-Table 1: NN1. This table show the structure of our Zeiler&amp;Fergus based model with 1 × 1 convolutions inspired by. The input and output sizes are described in r o w s × c o l s × # f i l t e r s. The kernel is specified as r o w s × c o l s, s t r i d e and the maxout pooling size as p = 2.
+Table 1: NN1. This table show the structure of our Zeiler&Fergus based model with 1 × 1 convolutions inspired . The input and output sizes are described in r o w s × c o l s × # f i l t e r s. The kernel is specified as r o w s × c o l s, s t r i d e and the maxout pooling size as p = 2.
 
 In all our experiments we train the CNN using Stochastic Gradient Descent (SGD) with standard backprop and AdaGrad. In most experiments we start with a learning rate of $0.05$ which we lower to finalize the model. The models are initialized from random, similar to, and trained on a CPU cluster for 1,000 to 2,000 hours. The decrease in the loss (and increase in accuracy) slows down drastically after 500h of training, but additional training can still significantly improve performance. The margin $\alpha$ is set to $0.2$.
 
 We used two types of architectures and explore their trade-offs in more detail in the experimental section. Their practical differences lie in the difference of parameters and FLOPS. The best model may be different depending on the application. *E.g*. a model running in a datacenter can have many parameters and require a large number of FLOPS, whereas a model running on a mobile phone needs to have few parameters, so that it can fit into memory. All our models use rectified linear units as the non-linear activation function.
 
-The first category, shown in Table 1, adds $1 \times 1 \times d$ convolutional layers, as suggested in, between the standard convolutional layers of the Zeiler&Fergus architecture and results in a model 22 layers deep. It has a total of 140 million parameters and requires around 1.6 billion FLOPS per image.
+The first category, shown in Table 1, adds $1 \times 1 \times d$ convolutional layers, as suggested , between the standard convolutional layers of the Zeiler&Fergus architecture and results in a model 22 layers deep. It has a total of 140 million parameters and requires around 1.6 billion FLOPS per image.
 
 The second category we use is based on GoogLeNet style Inception models. These models have $20 \times$ fewer parameters (around 6.6M-7.5M) and up to $5 \times$ fewer FLOPS (between 500M-1.6B). Some of these models are dramatically reduced in size (both depth and number of filters), so that they can be run on a mobile phone. One, NNS1, has 26M parameters and only requires 220M FLOPS per image. The other, NNS2, has 4.3M parameters and 20M FLOPS. Table 2 describes NN2 our largest network in detail. NN3 is identical in architecture but has a reduced input size of 160x160. NN4 has an input size of only 96x96, thereby drastically reducing the CPU requirements (285M FLOPS vs 1.6B for NN2). In addition to the reduced input size it does not use 5x5 convolutions in the higher layers as the receptive field is already too small by then. Generally we found that the 5x5 convolutions can be removed throughout with only a minor drop in accuracy. Figure 4 compares all our models.
 
 ## × 1
+
 ## × 3 reduce
+
 ## × 3
+
 ## × 5 reduce
+
 ## × 5
 
-max pool + norm
-
-norm + max pool
-
-Table 2: NN2. Details of the NN2 Inception incarnation. This model is almost identical to the one described in. The two major differences are the use of L2 pooling instead of max pooling (m), where specified. I.e. instead of taking the spatial max the L2 norm is computed. The pooling is always 3 × 3 (aside from the final average pooling) and in parallel to the convolutional modules inside each Inception module. If there is a dimensionality reduction after the pooling it is denoted with p. 1 × 1, 3 × 3, and 5 × 5 pooling are then concatenated to get the final output.
+max pool + norm norm + max pool Table 2: NN2. Details of the NN2 Inception incarnation. This model is almost identical to the one described. The two major differences are the use of L2 pooling instead of max pooling (m), where specified. I.e. instead of taking the spatial max the L2 norm is computed. The pooling is always 3 × 3 (aside from the final average pooling) and in parallel to the convolutional modules inside each Inception module. If there is a dimensionality reduction after the pooling it is denoted with p. 1 × 1, 3 × 3, and 5 × 5 pooling are then concatenated to get the final output.
 
 ## Datasets and Evaluation
 
 We evaluate our method on four datasets and with the exception of Labelled Faces in the Wild and YouTube Faces we evaluate our method on the face verification task. *I.e*. given a pair of two face images a squared $L_{2}$ distance threshold $D{(x_{i},x_{j})}$ is used to determine the classification of *same* and *different*. All faces pairs $(i,j)$ of the same identity are denoted with $\mathcal{P}_{\text{same}}$, whereas all pairs of different identities are denoted with $\mathcal{P}_{\text{diff}}$.
 
-We define the set of all *true accepts* as
-
-These are the face pairs $(i,j)$ that were correctly classified as *same* at threshold $d$. Similarly
-
-is the set of all pairs that was incorrectly classified as *same* (*false accept*).
+We define the set of all *true accepts* as These are the face pairs $(i,j)$ that were correctly classified as *same* at threshold $d$. Similarly is the set of all pairs that was incorrectly classified as *same* (*false accept*).
 
 The validation rate ${VAL}{(d)}$ and the false accept rate ${FAR}{(d)}$ for a given face distance $d$ are then defined as
 
@@ -146,15 +134,9 @@ We also looked into the accuracy trade-off with regards to the number of model p
 
 ### Effect of CNN Model
 
-Figure 5: Network Architectures. This plot shows the complete ROC for the four different models on our personal photos test set from section 4.2. The sharp drop at 10 e-4 FAR can be explained by noise in the groundtruth labels. The models in order of performance are: NN2: 224 × 224 input Inception based model; NN1: Zeiler&amp;Fergus based network with 1 × 1 convolutions; NNS1: small Inception style model with only 220M FLOPS; NNS2: tiny Inception model with only 20M FLOPS.
+Figure 5: Network Architectures. This plot shows the complete ROC for the four different models on our personal photos test set from section 4.2. The sharp drop at 10 e-4 FAR can be explained by noise in the groundtruth labels. The models in order of performance are: NN2: 224 × 224 input Inception based model; NN1: Zeiler&Fergus based network with 1 × 1 convolutions; NNS1: small Inception style model with only 220M FLOPS; NNS2: tiny Inception model with only 20M FLOPS.
 
-NN1 (Zeiler&amp;Fergus 220 × 220)
-
-NNS1 (mini Inception 165 × 165)
-
-NNS2 (tiny Inception 140 × 116)
-
-Table 3: Network Architectures. This table compares the performance of our model architectures on the hold out test set (see section 4.1). Reported is the mean validation rate VAL at 10 e-3 false accept rate. Also shown is the standard error of the mean across the five test splits.
+NNS1 (mini Inception 165 × 165) NNS2 (tiny Inception 140 × 116) Table 3: Network Architectures. This table compares the performance of our model architectures on the hold out test set (see section 4.1). Reported is the mean validation rate VAL at 10 e-3 false accept rate. Also shown is the standard error of the mean across the five test splits.
 
 We now discuss the performance of our four selected models in more detail. On the one hand we have our traditional Zeiler&Fergus based architecture with $1 \times 1$ convolutions (see Table 1). On the other hand we have Inception based models that dramatically reduce the model size. Overall, in the final performance the top models of both architectures perform comparably. However, some of our Inception based models, such as NN3, still achieve good performance while significantly reducing both the FLOPS and the model size.
 
@@ -188,14 +170,11 @@ Table 6 shows the impact of large amounts of training data. Due to time constrai
 
 ### Performance on LFW
 
-False accept False reject
-Figure 6: LFW errors. This shows all pairs of images that were incorrectly classified on LFW. Only eight of the 13 false rejects shown here are actual errors the other five are mislabeled in LFW.
+False accept False reject Figure 6: LFW errors. This shows all pairs of images that were incorrectly classified on LFW. Only eight of the 13 false rejects shown here are actual errors the other five are mislabeled in LFW.
 
 We evaluate our model on LFW using the standard protocol for *unrestricted, labeled outside data*. Nine training splits are used to select the $L_{2}$-distance threshold. Classification (*same* or *different*) is then performed on the tenth test split. The selected optimal threshold is $1.242$ for all test splits except split eighth ($1.256$).
 
-Our model is evaluated in two modes:
-
-Fixed center crop of the LFW provided thumbnail.
+Our model is evaluated in two modes: Fixed center crop of the LFW provided thumbnail.
 
 A proprietary face detector (similar to Picasa ) is run on the provided LFW thumbnails. If it fails to align the face (this happens for two images), the LFW alignment is used.
 

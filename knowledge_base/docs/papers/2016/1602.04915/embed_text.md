@@ -2,11 +2,7 @@
 
 Saddle points have long been regarded as a tremendous obstacle for continuous optimization. There are many well known examples when worst case initialization of gradient descent provably converge to saddle points \[20, Section 1.2.3\], and hardness results which show that finding even a *local* minimizer of non-convex functions is NP-Hard in the worst case. However, such worst-case analyses have not daunted practitioners, and high quality solutions of continuous optimization problems are readily found by a variety of simple algorithms. Building on tools from the theory of dynamical systems, this paper demonstrates that, under very mild regularity conditions, saddle points are indeed of little concern for the gradient method.
 
-More precisely, let $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ be twice continuously differentiable, and consider the classic gradient method with constant step size $\alpha$:
-
-We call $x$ a critical point of $f$ if ${{\nabla f}{(x)}} = 0$, and say that $f$ satisfies the strict saddle property if each critical point $x$ of $f$ is either a local minimizer, or a "strict saddle", i.e, ${\nabla^{2}f}{(x)}$ has at least one strictly negative eigenvalue. We prove:
-
-> If $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ is twice continuously differentiable and satisfies the strict saddle property, then gradient descent (Equation 1) with a random initialization and sufficiently small constant step size converges to a local minimizer or negative infinity almost surely.
+More precisely, let $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ be twice continuously differentiable, and consider the classic gradient method with constant step size $\alpha$: We call $x$ a critical point of $f$ if ${{\nabla f}{(x)}} = 0$, and say that $f$ satisfies the strict saddle property if each critical point $x$ of $f$ is either a local minimizer, or a "strict saddle", i.e, ${\nabla^{2}f}{(x)}$ has at least one strictly negative eigenvalue. We prove: > If $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ is twice continuously differentiable and satisfies the strict saddle property, then gradient descent (Equation 1) with a random initialization and sufficiently small constant step size converges to a local minimizer or negative infinity almost surely.
 
 Here, by sufficiently small, we simply mean less than the inverse of the Lipschitz constant of the gradient. As we discuss below, such step sizes are standard for the gradient method. We remark that the strict saddle assumption is necessary in the worst case, due to hardness results regarding testing the local optimality of functions whose Hessians are highly degenerate at critical points (e.g, quartic polynomials).
 
@@ -30,11 +26,7 @@ The rest of the paper is organized as follows. Section 2 introduces the notation
 
 ## Preliminaries
 
-Throughout the paper, we will use $f$ to denote a real-valued function in $C^{2}$, the space of twice-continuously differentiable functions, and $g$ to denote the corresponding gradient map with step size $\alpha$,
-
-The Jacobian of $g$ is given by ${Dg{(x)}_{ij}} = {\frac{\partial g_{i}}{\partial x_{j}}{(x)}}$, or ${Dg{(x)}} = {I - {\alpha{\nabla^{2}f}{(x)}}}$. In addition to being $C^{2}$, our main regularity assumption on $f$ is that it has a Lipschitz gradient:
-
-The $k$-fold composition of the gradient map $g^{k}{(x)}$ corresponds to performing $k$ steps of gradient descent initialized at $x$. The iterates of gradient descent will be denoted $x_{k}:={g^{k}{(x_{0})}}$. All the probability statements are with respect to $\nu$, the distribution of $x_{0}$, which we assume is absolutely continuous with respect to Lebesgue measure.
+Throughout the paper, we will use $f$ to denote a real-valued function in $C^{2}$, the space of twice-continuously differentiable functions, and $g$ to denote the corresponding gradient map with step size $\alpha$, The Jacobian of $g$ is given by ${Dg{(x)}_{ij}} = {\frac{\partial g_{i}}{\partial x_{j}}{(x)}}$, or ${Dg{(x)}} = {I - {\alpha{\nabla^{2}f}{(x)}}}$. In addition to being $C^{2}$, our main regularity assumption on $f$ is that it has a Lipschitz gradient: The $k$-fold composition of the gradient map $g^{k}{(x)}$ corresponds to performing $k$ steps of gradient descent initialized at $x$. The iterates of gradient descent will be denoted $x_{k}:={g^{k}{(x_{0})}}$. All the probability statements are with respect to $\nu$, the distribution of $x_{0}$, which we assume is absolutely continuous with respect to Lebesgue measure.
 
 A fixed point of the gradient map $g$ is a critical point of the function $f$. Critical points can be saddle points, local minima, or local maxima. In this paper, we will study the critical points of $f$ via the fixed points of $g$, and then apply dynamical systems theory to $g$.
 
@@ -62,22 +54,13 @@ The global stable set $W^{s}{(x^{\ast})}$ of a critical point $x^{\ast}$ is the 
 
 ## Intuition
 
-To illustrate why gradient descent does not converge to saddle points, consider the case of a non-convex quadratic, ${f{(x)}} = {\frac{1}{2}x^{T}Hx}$. Without loss of generality, assume $H = {\operatorname{\mathbf{d}\mathbf{i}\mathbf{a}\mathbf{g}}{(\lambda_{1},\ldots,\lambda_{n})}}$ with ${\lambda_{1},\ldots,\lambda_{k}} > 0$ and ${\lambda_{k + 1},\ldots,\lambda_{n}} < 0$. $x^{\ast} = 0$ is the unique critical point of this function and the Hessian at $x^{\ast}$ is $H$. Note that gradient descent initialized from $x_{0}$ has iterates
-
-where $e_{i}$ denote the standard basis vectors. This iteration resembles power iteration with the matrix $I - {\alphaH}$.
+To illustrate why gradient descent does not converge to saddle points, consider the case of a non-convex quadratic, ${f{(x)}} = {\frac{1}{2}x^{T}Hx}$. Without loss of generality, assume $H = {\operatorname{\mathbf{d}\mathbf{i}\mathbf{a}\mathbf{g}}{(\lambda_{1},\ldots,\lambda_{n})}}$ with ${\lambda_{1},\ldots,\lambda_{k}} > 0$ and ${\lambda_{k + 1},\ldots,\lambda_{n}} < 0$. $x^{\ast} = 0$ is the unique critical point of this function and the Hessian at $x^{\ast}$ is $H$. Note that gradient descent initialized from $x_{0}$ has iterates where $e_{i}$ denote the standard basis vectors. This iteration resembles power iteration with the matrix $I - {\alphaH}$.
 
 The gradient method is guaranteed to converge with a constant step size provided $0 < \alpha < \frac{2}{L}$. For this quadratic $f$, $L$ is equal to $\max{|\lambda_{i}|}$. Suppose $\alpha < {1/L}$, a slightly stronger condition. Then we will have ${({1 - {\alpha\lambda_{i}}})} < 1$ for $i \leq k$ and ${({1 - {\alpha\lambda_{i}}})} > 1$ for $i > k$. If $x_{0} \in E_{s}:={{span}{(e_{1},\ldots,e_{k})}}$, then $x_{k}$ converges to the saddle point at $0$ since ${({1 - {\alpha\lambda_{i}}})}^{k + 1}\rightarrow 0$. However, if $x_{0}$ has a component outside $E_{s}$ then gradient descent diverges to $\infty$. For this simple quadratic function, we see that the global stable set (attractive set) of $0$ is the subspace $E_{s}$. Now, if we choose our initial point at random, the probability of that point landing in $E_{s}$ is zero.
 
-As an example of this phenomena for a non-quadratic function, consider the following example from \[20, Section 1.2.3\]. Letting ${f{(x,y)}} = {{{\frac{1}{2}x^{2}} + {\frac{1}{4}y^{4}}} - {\frac{1}{2}y^{2}}}$, the corresponding gradient mapping is
+As an example of this phenomena for a non-quadratic function, consider the following example from \[20, Section 1.2.3\]. Letting ${f{(x,y)}} = {{{\frac{1}{2}x^{2}} + {\frac{1}{4}y^{4}}} - {\frac{1}{2}y^{2}}}$, the corresponding gradient mapping is The critical points are The points $z_{2}$ and $z_{3}$ are isolated local minima, and $z_{1}$ is a saddle point.
 
-The critical points are
-
-The points $z_{2}$ and $z_{3}$ are isolated local minima, and $z_{1}$ is a saddle point.
-
-Gradient descent initialized from any point of the form $\begin{bmatrix}
-\end{bmatrix}$ converges to the saddle point $z_{1}$. Any other initial point either diverges, or converges to a local minimum, so the stable set of $z_{1}$ is the $x$-axis, which is a zero measure set in $\mathbf{R}^{2}$. By computing the Hessian,
-
-we find that ${\nabla^{2}f}{(z_{1})}$ has one positive eigenvalue with eigenvector that spans the $x$-axis, thus agreeing with our above characterization of the stable set. If the initial point is chosen randomly, there is zero probability of initializing on the $x$-axis and thus zero probability of converging to the saddle point $z_{1}$.
+Gradient descent initialized from any point of the form $\begin{bmatrix} \end{bmatrix}$ converges to the saddle point $z_{1}$. Any other initial point either diverges, or converges to a local minimum, so the stable set of $z_{1}$ is the $x$-axis, which is a zero measure set in $\mathbf{R}^{2}$. By computing the Hessian, we find that ${\nabla^{2}f}{(z_{1})}$ has one positive eigenvalue with eigenvector that spans the $x$-axis, thus agreeing with our above characterization of the stable set. If the initial point is chosen randomly, there is zero probability of initializing on the $x$-axis and thus zero probability of converging to the saddle point $z_{1}$.
 
 In the general case, the local stable set $W_{loc}^{s}{(x^{\ast})}$ of a critical point $x^{\ast}$ is well-approximated by the span of the eigenvectors corresponding to positive eigenvalues. By an application of Taylor's theorem, one can see that if the initial point $x_{0}$ is uniformly random in a small neighborhood around $x^{\ast}$, then the probability of initializing in the span of these eigenvectors is zero whenever there is a negative eigenvalue. Thus, gradient descent initialized at $x_{0}$ will leave the neighborhood. The primary difficulty is that $x_{0}$ is randomly distributed over the entire domain, not a small neighborhood around $x^{\ast}$, and Taylor's theorem does not provide any global guarantees.
 
@@ -91,9 +74,7 @@ We now state and prove our main theorem, making our intuition rigorous.
 
 ### Theorem 4.1
 
-Let $f$ be a $C^{2}$ function and $x^{\ast}$ be a strict saddle. Assume that $0 < \alpha < \frac{1}{L}$, then
-
-That is, the gradient method never converges to saddle points, provided the step size is not chosen aggressively. Greedy methods that use precise line search may still get stuck at stationary points. However, a short-step gradient method will only converge to minimizers.
+Let $f$ be a $C^{2}$ function and $x^{\ast}$ be a strict saddle. Assume that $0 < \alpha < \frac{1}{L}$, then That is, the gradient method never converges to saddle points, provided the step size is not chosen aggressively. Greedy methods that use precise line search may still get stuck at stationary points. However, a short-step gradient method will only converge to minimizers.
 
 ### Remark 4.2
 
@@ -103,9 +84,9 @@ Note that even for the convex functions method, a constant step size slightly le
 
 When $\lim_{k}x_{k}$ does not exist, the above theorem is trivially true.
 
-To prove Theorem 4.1, our primary tool will be the theory of Invariant Manifolds. Specifically, we will use Stable-Center Manifold theorem developed in, which allows for a local characterization of the stable set. Recall that a map $g:{X\rightarrow Y}$ is a diffeomorphism if $g$ is a bijection, and $g$ and $g^{- 1}$ are continuously differentiable.
+To prove Theorem 4.1, our primary tool will be the theory of Invariant Manifolds. Specifically, we will use Stable-Center Manifold theorem developed , which allows for a local characterization of the stable set. Recall that a map $g:{X\rightarrow Y}$ is a diffeomorphism if $g$ is a bijection, and $g$ and $g^{- 1}$ are continuously differentiable.
 
-### Theorem 4.4 (Theorem III.7, \[24\])
+### Theorem 4.4 (Theorem III.7, )
 
 Let $0$ be a fixed point for the $C^{r}$ local diffeomorphism $\phi:{U\rightarrow E}$, where $U$ is a neighborhood of $0$ in the Banach space $E$. Suppose that $E = {E_{s} \oplus E_{u}}$, where $E_{s}$ is the span of the eigenvectors corresponding to eigenvalues less than or equal to $1$ of $D\phi{}$, and $E_{u}$ is the span of the eigenvectors corresponding to eigenvalues greater than $1$ of $D\phi{}$. Then there exists a $C^{r}$ embedded disk $W_{loc}^{cs}$ that is tangent to $E_{s}$ at $0$ called the *local stable center manifold*. Moreover, there exists a neighborhood $B$ of $0$, such that ${{\phi{(W_{loc}^{cs})}} \cap B} \subset W_{loc}^{cs}$, and ${\cap_{k = 0}^{\infty}{\phi^{- k}{(B)}}} \subset W_{loc}^{cs}$.
 
@@ -119,21 +100,13 @@ The gradient mapping $g$ with step size $\alpha < \frac{1}{L}$ is a diffeomorphi
 
 We will prove this proposition below. But let us first continue to apply the stable manifold theorem. Note that ${Dg{(x)}} = {I - {\alpha{\nabla^{2}f}{(x)}}}$. Thus, the set $W_{loc}^{cs}$ is a manifold of dimension equal to the number of non-negative eigenvalues of the ${\nabla^{2}f}{(x)}$. Note that by the strict saddle assumption, this manifold has strictly positive codimension and hence has measure zero.
 
-Let $B$ be the neighborhood of $x^{\ast}$ promised by the Stable Manifold Theorem. If $x$ converges to $x^{\ast}$ under the gradient map, then there exists a $T$ such that ${g^{t}{(x)}} \in B$ for all $t \geq T$. This means that ${g^{t}{(x)}} \in {\cap_{k = 0}^{\infty}{g^{- k}{(B)}}}$, and hence, ${g^{t}{(x)}} \in W_{loc}^{cs}$. That is, we have shown that
-
-Since diffeomorphisms map sets of measure zero to sets of measure zero, and countable unions of measure zero sets have measure zero, we conclude that $W^{s}$ has measure zero. That is, we have proven Theorem 4.1.
+Let $B$ be the neighborhood of $x^{\ast}$ promised by the Stable Manifold Theorem. If $x$ converges to $x^{\ast}$ under the gradient map, then there exists a $T$ such that ${g^{t}{(x)}} \in B$ for all $t \geq T$. This means that ${g^{t}{(x)}} \in {\cap_{k = 0}^{\infty}{g^{- k}{(B)}}}$, and hence, ${g^{t}{(x)}} \in W_{loc}^{cs}$. That is, we have shown that Since diffeomorphisms map sets of measure zero to sets of measure zero, and countable unions of measure zero sets have measure zero, we conclude that $W^{s}$ has measure zero. That is, we have proven Theorem 4.1.
 
 ### Proof of Proposition 4.5
 
-We first check that $g$ is injective from $\mathbf{R}^{n}\rightarrow\mathbf{R}^{n}$ for $\alpha < \frac{1}{L}$. Suppose that there exist $x$ and $y$ such that ${g{(x)}} = {g{(y)}}$. Then we would have ${x - y} = {\alpha{({{{\nabla f}{(x)}} - {{\nabla f}{(y)}}})}}$ and hence
+We first check that $g$ is injective from $\mathbf{R}^{n}\rightarrow\mathbf{R}^{n}$ for $\alpha < \frac{1}{L}$. Suppose that there exist $x$ and $y$ such that ${g{(x)}} = {g{(y)}}$. Then we would have ${x - y} = {\alpha{({{{\nabla f}{(x)}} - {{\nabla f}{(y)}}})}}$ and hence Since ${\alphaL} < 1$, this means $x = y$.
 
-Since ${\alphaL} < 1$, this means $x = y$.
-
-To show the gradient map is surjective, we will construct an explicit inverse function. The inverse of the gradient mapping is given by performing the proximal point algorithm on the function $- f$. The proximal point mapping of $- f$ centered at $y$ is given by
-
-For $\alpha < \frac{1}{L}$, the function above is strongly convex with respect to $x$, so there is a unique minimizer. Let $x_{y}$ be the unique minimizer, then by KKT conditions,
-
-Hence, $x_{y}$ is mapped to $y$ by the gradient map.
+To show the gradient map is surjective, we will construct an explicit inverse function. The inverse of the gradient mapping is given by performing the proximal point algorithm on the function $- f$. The proximal point mapping of $- f$ centered at $y$ is given by For $\alpha < \frac{1}{L}$, the function above is strongly convex with respect to $x$, so there is a unique minimizer. Let $x_{y}$ be the unique minimizer, then by KKT conditions, Hence, $x_{y}$ is mapped to $y$ by the gradient map.
 
 We have already shown that $g$ is a bijection, and continuously differentiable. Since ${Dg{(x)}} = {I - {\alpha{\nabla^{2}f}{(x)}}}$ is invertible for $\alpha < \frac{1}{L}$, the inverse function theorem guarantees $g^{- 1}$ is continuously differentiable, completing the proof that $g$ is a diffeomorphism.
 
@@ -157,11 +130,9 @@ Assume the same conditions as Theorem 4.6 and $\lim_{k}x_{k}$ exists, thien ${\P
 
 ### Proof
 
-Using the previous theorem, ${\Pr{({{\lim_{k}x_{k}} \in C})}} = 0$. Since $\lim_{k}x_{k}$ exists and there is zero probability of converging to a saddle, then ${\Pr{({{\lim_{k}x_{k}} = x^{\ast}})}} = 1$, where $x^{\ast}$ is a local minimizer. ∎
+Using the previous theorem, ${\Pr{({{\lim_{k}x_{k}} \in C})}} = 0$. Since $\lim_{k}x_{k}$ exists and there is zero probability of converging to a saddle, then ${\Pr{({{\lim_{k}x_{k}} = x^{\ast}})}} = 1$, where $x^{\ast}$ is a local minimizer. ∎ We now discuss two sufficient conditions for $\lim_{k}x_{k}$ to exist. The following proposition prevents $x_{k}$ from escaping to $\infty$, by enforcing that $f$ has compact sublevel sets, $\{ x:{{f{(x)}} \leq c}\}$. This is true for any coercive function, ${\lim_{{\| x\|}\rightarrow\infty}{f{(x)}}} = \infty$, which holds in most machine learning applications since $f$ is usually a loss function.
 
-We now discuss two sufficient conditions for $\lim_{k}x_{k}$ to exist. The following proposition prevents $x_{k}$ from escaping to $\infty$, by enforcing that $f$ has compact sublevel sets, $\{ x:{{f{(x)}} \leq c}\}$. This is true for any coercive function, ${\lim_{{\| x\|}\rightarrow\infty}{f{(x)}}} = \infty$, which holds in most machine learning applications since $f$ is usually a loss function.
-
-### Proposition 4.9 (Proposition 12.4.4 of \[17\])
+### Proposition 4.9 (Proposition 12.4.4 of )
 
 Assume that $f$ is continuously differentiable, has isolated critical points, and compact sublevel sets, then $\lim_{k}x_{k}$ exists and that limit is a critical point of $f$.
 
@@ -169,11 +140,9 @@ The second sufficient condition for $\lim_{k}x_{k}$ to exist is based on the Loj
 
 ### Definition 4.10 (Lojasiewicz Gradient Inequality)
 
-A critical point $x^{\ast}$ is satisfies the Lojasiewicz gradient inequality if there exists a neighborhood $U$, ${m,\epsilon} > 0$, and $0 \leq a < 1$ such that
+A critical point $x^{\ast}$ is satisfies the Lojasiewicz gradient inequality if there exists a neighborhood $U$, ${m,\epsilon} > 0$, and $0 \leq a < 1$ such that for all x in $\{{x \in U}:{{f{(x^{\ast})}} < {f{(x)}} < {{f{(x^{\ast})}} + \epsilon}}\}$.
 
-for all x in $\{{x \in U}:{{f{(x^{\ast})}} < {f{(x)}} < {{f{(x^{\ast})}} + \epsilon}}\}$.
-
-The Lojasiewicz inequality is very general as discussed in. In fact every analytic function satisfies the Lojasiewicz inequality. Also if the solution is $\mu$-strongly convex in a neighborhood, then the Lojasiewicz inequality is satisfied with parameters $a = \frac{1}{2}$, and $m = \sqrt{2\mu}$.
+The Lojasiewicz inequality is very general as discussed . In fact every analytic function satisfies the Lojasiewicz inequality. Also if the solution is $\mu$-strongly convex in a neighborhood, then the Lojasiewicz inequality is satisfied with parameters $a = \frac{1}{2}$, and $m = \sqrt{2\mu}$.
 
 ### Proposition 4.11
 
@@ -183,15 +152,11 @@ Furthermore if $x^{\ast}$ satisfies the Lojasiewicz gradient inequality for $0 <
 
 ### Proof
 
-The first part of the theorem follows from, which shows that $\lim_{k}x_{k}$ exists. By Theorem 4.8, $\lim_{k}x_{k}$ is a local minimizer $x^{\ast}$. Without loss of generality, we may assume that ${f{(x^{\ast})}} = 0$ by shifting the function.
+The first part of the theorem follows , which shows that $\lim_{k}x_{k}$ exists. By Theorem 4.8, $\lim_{k}x_{k}$ is a local minimizer $x^{\ast}$. Without loss of generality, we may assume that ${f{(x^{\ast})}} = 0$ by shifting the function.
 
 Define $e_{k} = {\sum_{j = k}^{\infty}\left\| {x_{j + 1} - x_{j}} \right\|}$, and since $e_{k} \geq \left\| {x_{k} - x^{\ast}} \right\|$ it suffices to upper bound $e_{k}$.
 
-Since we have established that $x_{k}$ converges, for $k$ large enough we can use the gradient inequality and ${{\nabla f}{(x_{k})}} = \frac{x_{k} - x_{k + 1}}{\alpha}$:
-
-Define $\beta = \frac{2}{{({m\alpha})}^{1/a}{({1 - a})}}$ and $d = \frac{a}{1 - a}$. First consider the case $0 \leq a \leq \frac{1}{2}$, then $d \leq 1$. Thus,
-
-where the last inequality uses $e_{k} < 1$ and $d \leq 1$.
+Since we have established that $x_{k}$ converges, for $k$ large enough we can use the gradient inequality and ${{\nabla f}{(x_{k})}} = \frac{x_{k} - x_{k + 1}}{\alpha}$: Define $\beta = \frac{2}{{({m\alpha})}^{1/a}{({1 - a})}}$ and $d = \frac{a}{1 - a}$. First consider the case $0 \leq a \leq \frac{1}{2}$, then $d \leq 1$. Thus, where the last inequality uses $e_{k} < 1$ and $d \leq 1$.
 
 For $\frac{1}{2} < a < 1$, we have established $e_{k + 1} \leq {e_{k} - {\frac{1}{\beta^{d}}e_{k}^{d}}}$. We show by induction that $e_{k + 1} \leq \frac{C}{{({k + 1})}^{{({1 - a})}/{({{2a} - 1})}}}$. The inductive hypothesis guarantees us $e_{k} \leq \frac{C}{k^{{({1 - a})}/{({{2a} - 1})}}}$, so
 
@@ -205,6 +170,4 @@ Another important piece of future work would be relaxing the conditions on isola
 
 It is also important to understand how stringent the strict saddle assumption is. Will a perturbation of a function always satisfy the strict saddle property? provide very general sufficient conditions for a random function to be Morse, meaning the eigenvalues at critical points are non-zero, which implies the strict saddle condition. These conditions rely on checking the density of ${\nabla^{2}f}{(x)}$ has full support conditioned on the event that ${{\nabla f}{(x)}} = 0$. This can be explicitly verified for functions $f$ that arise from learning problems.
 
-However, we note that there are very difficult unconstrained optimization problems where the strict saddle condition fails. Perhaps the simplest is optimization of quartic polynomials. Indeed, checking if $0$ is a local minimizer of the quartic
-
-is equivalent to checking whether the matrix $Q = {\lbrack q_{ij}\rbrack}$ is co-positive, a co-NP complete problem. For this $f$, the Hessian at $x = 0$ is zero. Interestingly, the strict saddle property failing is analogous in dynamical systems to the existence of a *slow manifold* where complex dynamics may emerge. Slow manifolds give rise to metastability, bifurcation, and other chaotic dynamics, and it would be intriguing to see how the analysis of chaotic systems could be applied to understand the behavior of optimization algorithms around these difficult critical points.
+However, we note that there are very difficult unconstrained optimization problems where the strict saddle condition fails. Perhaps the simplest is optimization of quartic polynomials. Indeed, checking if $0$ is a local minimizer of the quartic is equivalent to checking whether the matrix $Q = {\lbrack q_{ij}\rbrack}$ is co-positive, a co-NP complete problem. For this $f$, the Hessian at $x = 0$ is zero. Interestingly, the strict saddle property failing is analogous in dynamical systems to the existence of a *slow manifold* where complex dynamics may emerge. Slow manifolds give rise to metastability, bifurcation, and other chaotic dynamics, and it would be intriguing to see how the analysis of chaotic systems could be applied to understand the behavior of optimization algorithms around these difficult critical points.

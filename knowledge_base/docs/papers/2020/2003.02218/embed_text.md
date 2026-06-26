@@ -4,9 +4,7 @@ Deep learning has shown remarkable success across a variety of machine learning 
 
 In this work we take a step toward addressing these questions. We present a dynamical mechanism that allows deep networks trained using SGD to find flat minima and achieve superior performance. Our theoretical predictions agree well with empirical results in a variety of deep learning settings. In many cases we are able to predict the regime of learning rates where optimal performance is achieved. Figure 1 summarizes our main results. This work builds on several existing results, which we now review.
 
-\begin{overpic}[width=216.81pt,trim=0.0pt 158.5925pt 0.0pt 0.0pt,clip]{figures/fig1.pdf} \put(-1.0,2.0){\small(a)} \end{overpic}
-\begin{overpic}[width=216.81pt,trim=0.0pt -5.01874pt 0.0pt 158.5925pt,clip]{figures/fig1.pdf} \put(-1.0,2.0){\small(b)} \end{overpic}
-Figure 1: A summary of our main results. (a) A visualization of gradient descent dynamics derived in our theoretical setup. A 2D slice of parameter space is shown, where lighter color indicates higher loss and dots represents points visited during optimization. Initially, the loss grows rapidly while local curvature decreases. Once curvature is sufficiently low, gradient descent converges to a flat minimum. We call this the catapult effect. See Figures 2 and S1 for more details. (b) Confirmation of our theoretical predictions in a practical deep learning setting. Line shows the test accuracy of a Wide ResNet trained on CIFAR-10 as a function of learning rate, each trained for a fixed number of steps. Dashed lines show our predictions for the boundaries of the large learning rate regime (the catapult phase), where we expect optimal performance to occur. Maximal performance is achieved between the dashed lines, confirming our predictions. See Section 3 for details.
+\begin{overpic}[width=216.81pt,trim=0.0pt 158.5925pt 0.0pt 0.0pt,clip]{figures/fig1.pdf} \put(-1.0,2.0){\small(a)} \end{overpic} \begin{overpic}[width=216.81pt,trim=0.0pt -5.01874pt 0.0pt 158.5925pt,clip]{figures/fig1.pdf} \put(-1.0,2.0){\small(b)} \end{overpic} Figure 1: A summary of our main results. (a) A visualization of gradient descent dynamics derived in our theoretical setup. A 2D slice of parameter space is shown, where lighter color indicates higher loss and dots represents points visited during optimization. Initially, the loss grows rapidly while local curvature decreases. Once curvature is sufficiently low, gradient descent converges to a flat minimum. We call this the catapult effect. See Figures 2 and S1 for more details. (b) Confirmation of our theoretical predictions in a practical deep learning setting. Line shows the test accuracy of a Wide ResNet trained on CIFAR-10 as a function of learning rate, each trained for a fixed number of steps. Dashed lines show our predictions for the boundaries of the large learning rate regime (the catapult phase), where we expect optimal performance to occur. Maximal performance is achieved between the dashed lines, confirming our predictions. See Section 3 for details.
 
 ### Large learning rate SGD improves generalization
 
@@ -48,31 +46,19 @@ When the learning rate is above the maximum learning rate of the model, the loss
 
 We now present our main theoretical result, an analysis of gradient descent dynamics for a neural network with large but finite width.
 
-Given a network function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ with model parameters $\theta \in {\mathbb{R}}^{p}$, and a training set ${\{{(x_{\alpha},y_{\alpha})}\}}_{\alpha = 1}^{m}$, the MSE loss is
+Given a network function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ with model parameters $\theta \in {\mathbb{R}}^{p}$, and a training set ${\{{(x_{\alpha},y_{\alpha})}\}}_{\alpha = 1}^{m}$, the MSE loss is The NTK $\Theta:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}}$ is defined by We denote by $\lambda$ the maximum eigenvalue of the kernel. In large width models, $\lambda$ provides a local measure of the loss landscape curvature that is similar to the top eigenvalue of the Hessian.
 
-The NTK $\Theta:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}}$ is defined by
-
-We denote by $\lambda$ the maximum eigenvalue of the kernel. In large width models, $\lambda$ provides a local measure of the loss landscape curvature that is similar to the top eigenvalue of the Hessian.
-
-In this section, we will consider a network with one hidden layer and linear activations, where the network function $f$ is given by
-
-Here $n$ is the width (number of neurons in the hidden layer), $v \in {\mathbb{R}}^{n}$ and $u \in {\mathbb{R}}^{n \times d}$ are the model parameters (collectively denoted $\theta$), and $x \in {\mathbb{R}}^{d}$ is the training input. At initialization, the weights are drawn from $\mathcal{N}{}$.
+In this section, we will consider a network with one hidden layer and linear activations, where the network function $f$ is given by Here $n$ is the width (number of neurons in the hidden layer), $v \in {\mathbb{R}}^{n}$ and $u \in {\mathbb{R}}^{n \times d}$ are the model parameters (collectively denoted $\theta$), and $x \in {\mathbb{R}}^{d}$ is the training input. At initialization, the weights are drawn from $\mathcal{N}{}$.
 
 ### Warmup: a simplified model
 
-Before analyzing the dynamics of the model, we analyze a simpler setting which captures the most important aspects of the full solution. Consider a dataset with 1D inputs, and with a single training sample $x = 1$ with label $y = 0$. The network function evaluated on this input is then $f = {n^{- {1/2}}v^{T}u}$, with ${u,v} \in {\mathbb{R}}^{n}$, and the loss is $L = {f^{2}/2}$. The gradient descent equations at training step $t$ are
-
-Next, consider the update equations in function space. These can be written in terms of the Neural Tangent Kernel. For this model, the kernel evaluated on the training set is a scalar which is equal to $\lambda$, its top eigenvalue, and is given by
-
-At initialization, both $f^{2}$ and $\lambda$ scale as $n^{0} = 1$ with width. The following update equations for $f$ and $\lambda$ at step $t$ can be derived from.
+Before analyzing the dynamics of the model, we analyze a simpler setting which captures the most important aspects of the full solution. Consider a dataset with 1D inputs, and with a single training sample $x = 1$ with label $y = 0$. The network function evaluated on this input is then $f = {n^{- {1/2}}v^{T}u}$, with ${u,v} \in {\mathbb{R}}^{n}$, and the loss is $L = {f^{2}/2}$. The gradient descent equations at training step $t$ are Next, consider the update equations in function space. These can be written in terms of the Neural Tangent Kernel. For this model, the kernel evaluated on the training set is a scalar which is equal to $\lambda$, its top eigenvalue, and is given by At initialization, both $f^{2}$ and $\lambda$ scale as $n^{0} = 1$ with width. The following update equations for $f$ and $\lambda$ at step $t$ can be derived.
 
 It is important to note that these are the exact update equations for this model, and that no higher-order terms were neglected. We now analyze these dynamical equations assuming the width $n$ is large. Two learning rates that will be important in the analysis are $\eta_{crit} = {2/\lambda_{0}}$ and $\eta_{\max} = {4/\lambda_{0}}$. In terms of the notation introduced above, the architecture-dependent constant that determines that maximum learning rate in this model is $c_{{act}.} = 4$.
 
 ### Lazy phase
 
-Taking the strict infinite width limit, equations and become
-
-When $\eta < \eta_{crit}$, $\lambda$ remains constant throughout training. This is a special case of NTK dynamics, where the kernel is constant and the network evolves as a linear model. The function and the loss both shrink to zero because the multiplicative factor obeys ${|{1 - {\eta\lambda_{t}}}|} < 1$. This convergence happens in ${\mathcal{O}{(n^{0})}} = {\mathcal{O}{}}$ steps.
+Taking the strict infinite width limit, equations and become When $\eta < \eta_{crit}$, $\lambda$ remains constant throughout training. This is a special case of NTK dynamics, where the kernel is constant and the network evolves as a linear model. The function and the loss both shrink to zero because the multiplicative factor obeys ${|{1 - {\eta\lambda_{t}}}|} < 1$. This convergence happens in ${\mathcal{O}{(n^{0})}} = {\mathcal{O}{}}$ steps.
 
 ### Catapult phase
 
@@ -90,7 +76,7 @@ In the catapult phase, the kernel at the end of training is smaller by an order 
 
 Figure 2 illustrates the dynamics in the catapult phase. For learning rates $\eta_{crit} < \eta < \eta_{\max}$ we observe the catapult effect: the loss goes up before converging to zero. The curvature exhibits the expected sharp transitions as a function of the learning rate: it is constant in the lazy phase, decreases in the catapult phase, and diverges for $\eta > \eta_{\max}$.
 
-Figure 2: Empirical results for the gradient descent dynamics of the warmup model with n = 103, for which ηcrit ≈ 1. (a) Training loss for different learning rates. (b) Maximum NTK eigenvalue as a function of time. For η &gt; 1, λt decreases rapidly to a fixed value. (c) Maximum NTK eigenvalue at t = 25/η. The shaded area indicates learning rates for which training diverges empirically. The results are presented as a function of t ⋅ η (rather than t) for convenience.
+Figure 2: Empirical results for the gradient descent dynamics of the warmup model with n = 103, for which ηcrit ≈ 1. (a) Training loss for different learning rates. (b) Maximum NTK eigenvalue as a function of time. For η > 1, λt decreases rapidly to a fixed value. (c) Maximum NTK eigenvalue at t = 25/η. The shaded area indicates learning rates for which training diverges empirically. The results are presented as a function of t ⋅ η (rather than t) for convenience.
 
 ### Divergent phase
 

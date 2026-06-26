@@ -44,7 +44,7 @@ Unlike the multiquery planners, ABIT\* builds a problem-specific approximation o
 
 BIT\* is an anytime, single-query planner that almost-surely asymptotically finds an optimal solution to a (continuously valued) planning problem. It focuses its approximation of the state space to the region that can improve the current solution using informed sampling. This approximation is separated from the search by sampling batches of states and viewing them as an increasingly dense edge-implicit RGG.
 
-This perspective enables BIT\* to perform a series of informed graph-searches in which RGG edges are processed in order of their potential solution quality. This is achieved by sorting an edge queue according to the sum of the current cost-to-come from the start to the edge's parent state, an estimate of the edge cost, and an estimate of the cost-to-go from the edge's child state to a goal. BIT\* performs these searches efficiently by reusing information from both previous searches and approximations similar to incremental search algorithms, e.g. LPA\*. Full details are in.
+This perspective enables BIT\* to perform a series of informed graph-searches in which RGG edges are processed in order of their potential solution quality. This is achieved by sorting an edge queue according to the sum of the current cost-to-come from the start to the edge's parent state, an estimate of the edge cost, and an estimate of the cost-to-go from the edge's child state to a goal. BIT\* performs these searches efficiently by reusing information from both previous searches and approximations similar to incremental search algorithms, e.g. LPA\*. Full details are .
 
 BIT\*'s separation of approximation and search provides a direction for better single-query, almost-surely asymptotically optimal planning algorithms. ABIT\* builds on this separation by using more advanced graph-search techniques. It accelerates anytime performance without duplicating search effort, similar to anytime repairing graph-search algorithms, and avoids wasting effort to find the resolution-optimal solution in an approximation that will change, similar to truncated incremental graph-search algorithms.
 
@@ -62,32 +62,7 @@ The function $\hat{h}:{X\rightarrow{\mathbb{R}}_{\geq 0}^{\infty}}$ represents a
 
 Let $A$ be any set and let $B$ and $C$ be subsets of $A$, i.e., ${B,C} \subseteq A$. The notation $B\overset{+}{\leftarrow}C$ is used for $B\leftarrow{B \cup C}$ and $B\overset{-}{\leftarrow}C$ for $B\leftarrow{B \smallsetminus C}$. The cardinality of a set is denoted by $| \cdot |$ and the minimum of an empty set is taken to be infinity. The Lebesgue measure of a set is denoted by $\lambda{( \cdot )}$, and the Lebesgue measure of an $n$-dimensional unit ball by $\zeta_{n}$. The number of states per batch is denoted by $m$.
 
-1 V ← {xstart}; E ← ⌀; 𝒯 ← (V,E); Xunconnected ← Xgoal
-2 q ← |V| + |Xunconnected|; εinfl ← ∞; εtrunc ← ∞
-4 𝒬 ← expand ({xstart},𝒯,Xunconnected,∞)
-8 prune (𝒯,Xunconnected,Xgoal)
-9 $X_{unconnected}\overset{+}{\leftarrow}\text{sample}\left( m,X_{goal} \right)$
-11 𝒬 ← expand ({xstart},𝒯,Xunconnected,r (q))
-14 $\mathcal{Q}\overset{+}{\leftarrow}\text{expand}\left( V_{inconsistent},\mathcal{T},X_{unconnected},{r(q)} \right)$
-16 εinfl ← update_inflation_factor ()
-17 εtrunc ← update_truncation_factor ()
-19 mark_search_unfinished ()
-22 $\left( \mathbf{x}_{p},\mathbf{x}_{c} \right)\leftarrow{\underset{{(\mathbf{x}_{i},\mathbf{x}_{j})} \in \mathcal{Q}}{\arg\min}\left\{ {{g_{\mathcal{T}}\left( \mathbf{x}_{i} \right)} + {\hat{c}\left( \mathbf{x}_{i},\mathbf{x}_{j} \right)} + {\varepsilon_{infl}\hat{h}\left( \mathbf{x}_{j} \right)}} \right\}}$
-24 $\mathcal{Q}\overset{-}{\leftarrow}\left( \mathbf{x}_{p},\mathbf{x}_{c} \right)$
-27 $V_{inconsistent}\overset{+}{\leftarrow}\mathbf{x}_{c}$
-30 $\mathcal{Q}\overset{+}{\leftarrow}\text{expand}\left( \left\{ \mathbf{x}_{c} \right\},\mathcal{T},X_{unconnected},{r(q)} \right)$
-31 $V_{closed}\overset{+}{\leftarrow}\mathbf{x}_{c}$
-34 else if ${\varepsilon_{trunc}\left( {{g_{\mathcal{T}}{(\mathbf{x}_{p})}} + {\hat{c}{(\mathbf{x}_{p},\mathbf{x}_{c})}} + {\hat{h}{(\mathbf{x}_{c})}}} \right)} \leq {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}{(\mathbf{x})}} \right\}}$
-36 if ${{g_{\mathcal{T}}{(\mathbf{x}_{p})}} + {c{(\mathbf{x}_{p},\mathbf{x}_{c})}} + {\hat{h}{(\mathbf{x}_{c})}}} &lt; {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}{(\mathbf{x})}} \right\}}$
-39 $E\overset{-}{\leftarrow}\left\{ {\left( \mathbf{x}_{prev},\mathbf{x}_{c} \right) \in E} \right\}$
-42 $X_{unconnected}\overset{-}{\leftarrow}\mathbf{x}_{c}$
-43 $V\overset{+}{\leftarrow}\mathbf{x}_{c}$
-45 $E\overset{+}{\leftarrow}\left( \mathbf{x}_{p},\mathbf{x}_{c} \right)$
-47 $V_{inconsistent}\overset{+}{\leftarrow}\mathbf{x}_{c}$
-50 $\mathcal{Q}\overset{+}{\leftarrow}\text{expand}\left( \left\{ \mathbf{x}_{c} \right\},\mathcal{T},X_{unconnected},{r(q)} \right)$
-51 $V_{closed}\overset{+}{\leftarrow}\mathbf{x}_{c}$
-57 else mark_search_finished ()
-Algorithm 1 ABIT(xstart,Xgoal,m)
+1 V ← {xstart}; E ← ⌀; 𝒯 ← (V, E); Xunconnected ← Xgoal 2 q ← |V|+|Xunconnected|; εinfl ← ∞; εtrunc ← ∞ 4 𝒬 ← expand ({xstart}, 𝒯, Xunconnected, ∞) 8 prune (𝒯, Xunconnected, Xgoal) 9 $X_{unconnected}\overset{+}{\leftarrow}\text{sample}\left(m,X_{goal} \right)$ 11 𝒬 ← expand ({xstart}, 𝒯, Xunconnected, r (q)) 14 $\mathcal{Q}\overset{+}{\leftarrow}\text{expand}\left(V_{inconsistent},\mathcal{T},X_{unconnected},{r(q)} \right)$ 16 εinfl ← update_inflation_factor 17 εtrunc ← update_truncation_factor 19 mark_search_unfinished 22 $\left(\mathbf{x}_{p},\mathbf{x}_{c} \right)\leftarrow{\underset{{(\mathbf{x}_{i},\mathbf{x}_{j})} \in \mathcal{Q}}{\arg\min}\left\{ {{g_{\mathcal{T}}\left(\mathbf{x}_{i} \right)} + {\hat{c}\left(\mathbf{x}_{i},\mathbf{x}_{j} \right)} + {\varepsilon_{infl}\hat{h}\left(\mathbf{x}_{j} \right)}} \right\}}$ 24 $\mathcal{Q}\overset{-}{\leftarrow}\left(\mathbf{x}_{p},\mathbf{x}_{c} \right)$ 27 $V_{inconsistent}\overset{+}{\leftarrow}\mathbf{x}_{c}$ 30 $\mathcal{Q}\overset{+}{\leftarrow}\text{expand}\left(\left\{ \mathbf{x}_{c} \right\},\mathcal{T},X_{unconnected},{r(q)} \right)$ 31 $V_{closed}\overset{+}{\leftarrow}\mathbf{x}_{c}$ 34 else if ${\varepsilon_{trunc}\left({{g_{\mathcal{T}}{(\mathbf{x}_{p})}} + {\hat{c}{(\mathbf{x}_{p},\mathbf{x}_{c})}} + {\hat{h}{(\mathbf{x}_{c})}}} \right)} \leq {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}{(\mathbf{x})}} \right\}}$ 36 if ${{g_{\mathcal{T}}{(\mathbf{x}_{p})}} + {c{(\mathbf{x}_{p},\mathbf{x}_{c})}} + {\hat{h}{(\mathbf{x}_{c})}}} < {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}{(\mathbf{x})}} \right\}}$ 39 $E\overset{-}{\leftarrow}\left\{ {\left(\mathbf{x}_{prev},\mathbf{x}_{c} \right) \in E} \right\}$ 42 $X_{unconnected}\overset{-}{\leftarrow}\mathbf{x}_{c}$ 43 $V\overset{+}{\leftarrow}\mathbf{x}_{c}$ 45 $E\overset{+}{\leftarrow}\left(\mathbf{x}_{p},\mathbf{x}_{c} \right)$ 47 $V_{inconsistent}\overset{+}{\leftarrow}\mathbf{x}_{c}$ 50 $\mathcal{Q}\overset{+}{\leftarrow}\text{expand}\left(\left\{ \mathbf{x}_{c} \right\},\mathcal{T},X_{unconnected},{r(q)} \right)$ 51 $V_{closed}\overset{+}{\leftarrow}\mathbf{x}_{c}$ 57 else mark_search_finished Algorithm 1 ABIT*(xstart, Xgoal, m)
 
 ### III-B Initialization (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques"))
 
@@ -95,9 +70,7 @@ ABIT\* starts by initializing the search tree with the start state as its root. 
 
 ### III-C Approximation (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques"))
 
-ABIT\* uses informed sampling to focus its RGG approximation on the relevant region of the state space. The accuracy of this approximation increases with the number of sampled states but so does its complexity. This complexity is reduced by pruning states that cannot improve the current solution (line 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques") and Alg. 3 ‣ III Advanced Batch Informed Trees (ABIT*) ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")) and shrinking the connection radius as more states are sampled. The radius, $r$, is updated as in, using the measure of the informed set, as in,
-
-where $q$ is the number of sampled states in the informed set, $\eta > 1$ is a tuning parameter, and $n$ is the state space dimension. Faster-decreasing radii are provided in but are not used in this paper to isolate the reasons for ABIT\*'s improved performance relative to existing algorithms.
+ABIT\* uses informed sampling to focus its RGG approximation on the relevant region of the state space. The accuracy of this approximation increases with the number of sampled states but so does its complexity. This complexity is reduced by pruning states that cannot improve the current solution (line 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques") and Alg. 3 ‣ III Advanced Batch Informed Trees (ABIT*) ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")) and shrinking the connection radius as more states are sampled. The radius, $r$, is updated as, using the measure of the informed set, as, where $q$ is the number of sampled states in the informed set, $\eta > 1$ is a tuning parameter, and $n$ is the state space dimension. Faster-decreasing radii are provided in but are not used in this paper to isolate the reasons for ABIT\*'s improved performance relative to existing algorithms.
 
 ### III-D Search (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques"))
 
@@ -107,17 +80,7 @@ An edge that passes these checks improves the cost-to-come of the child state an
 
 After adding an edge, the child state is expanded unless it has already been expanded during the current search, in which case it is added to the set of inconsistent vertices (lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")--1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")).
 
-3 $E_{out}\overset{+}{\leftarrow}\left\{ {\left( \mathbf{x}_{p},\mathbf{x}_{c} \right) \in E} \right\}$
-5 if ${{\hat{g}{(\mathbf{x}_{p})}} + {\hat{c}{(\mathbf{x}_{p},\mathbf{x}_{c})}} + {\hat{h}{(\mathbf{x}_{c})}}} \leq {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}{(\mathbf{x})}} \right\}}$
-7 $E_{out}\overset{+}{\leftarrow}\left( \mathbf{x}_{p},\mathbf{x}_{c} \right)$
-Algorithm 2 expand({xi},𝒯,Xunconnected,r)
-
-1 $X_{unconnected}\overset{-}{\leftarrow}\left\{ {\mathbf{x} \in X_{unconnected}} \middle| {{\hat{f}{(\mathbf{x})}} \geq {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}{(\mathbf{x})}} \right\}}} \right\}$
-2 $V\overset{-}{\leftarrow}\left\{ {\mathbf{x} \in V} \middle| {{\hat{f}(\mathbf{x})} &gt; {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}(\mathbf{x})} \right\}}} \right\}$
-3 $E\overset{-}{\leftarrow}\left\{ {\left( \mathbf{x}_{p},\mathbf{x}_{c} \right) \in E} \middle| {{\hat{f}\left( \mathbf{x}_{p} \right)} &gt; {{\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}(\mathbf{x})} \right\}}{\mathbf{o}\mathbf{r}}\hat{f}\left( \mathbf{x}_{c} \right)} &gt; {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}(\mathbf{x})} \right\}}} \right\}$
-4 $X_{unconnected}\overset{+}{\leftarrow}\left\{ {\mathbf{x}_{c} \in V} \middle| {{\nexists\mathbf{x}_{p}} \in {V\text{~s.~t.~}\left( \mathbf{x}_{p},\mathbf{x}_{c} \right)} \in E} \right\}$
-5 $V\overset{-}{\leftarrow}\left\{ {\mathbf{x}_{c} \in V} \middle| {{\nexists\mathbf{x}_{p}} \in {V\text{~s.~t.~}\left( \mathbf{x}_{p},\mathbf{x}_{c} \right)} \in E} \right\}$
-Algorithm 3 prune (𝒯,Xunconnected,Xgoal)
+3 $E_{out}\overset{+}{\leftarrow}\left\{ {\left(\mathbf{x}_{p},\mathbf{x}_{c} \right) \in E} \right\}$ 5 if ${{\hat{g}{(\mathbf{x}_{p})}} + {\hat{c}{(\mathbf{x}_{p},\mathbf{x}_{c})}} + {\hat{h}{(\mathbf{x}_{c})}}} \leq {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}{(\mathbf{x})}} \right\}}$ 7 $E_{out}\overset{+}{\leftarrow}\left(\mathbf{x}_{p},\mathbf{x}_{c} \right)$ Algorithm 2 expand({xi}, 𝒯, Xunconnected, r) 1 $X_{unconnected}\overset{-}{\leftarrow}\left\{ {\mathbf{x} \in X_{unconnected}} \middle| {{\hat{f}{(\mathbf{x})}} \geq {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}{(\mathbf{x})}} \right\}}} \right\}$ 2 $V\overset{-}{\leftarrow}\left\{ {\mathbf{x} \in V} \middle| {{\hat{f}(\mathbf{x})} > {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}(\mathbf{x})} \right\}}} \right\}$ 3 $E\overset{-}{\leftarrow}\left\{ {\left(\mathbf{x}_{p},\mathbf{x}_{c} \right) \in E} \middle| {{\hat{f}\left(\mathbf{x}_{p} \right)} > {{\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}(\mathbf{x})} \right\}}{\mathbf{o}\mathbf{r}}\hat{f}\left(\mathbf{x}_{c} \right)} > {\min\limits_{\mathbf{x} \in X_{goal}}\left\{ {g_{\mathcal{T}}(\mathbf{x})} \right\}}} \right\}$ 4 $X_{unconnected}\overset{+}{\leftarrow}\left\{ {\mathbf{x}_{c} \in V} \middle| {{\nexists\mathbf{x}_{p}} \in {V\text{~s.~t.~}\left(\mathbf{x}_{p},\mathbf{x}_{c} \right)} \in E} \right\}$ 5 $V\overset{-}{\leftarrow}\left\{ {\mathbf{x}_{c} \in V} \middle| {{\nexists\mathbf{x}_{p}} \in {V\text{~s.~t.~}\left(\mathbf{x}_{p},\mathbf{x}_{c} \right)} \in E} \right\}$ Algorithm 3 prune (𝒯, Xunconnected, Xgoal)
 
 ### III-E Approximation, Inflation, and Truncation Update Policies
 
@@ -147,23 +110,9 @@ ATD\* can handle improved and worsened state connections, but adding states and 
 
 ATD\*'s vertex queue is first converted to a compatible edge queue and it is then shown that ATD\*'s termination criterion is stricter than that of ABIT\*.
 
-ATD\* computes a sort key for every state, $\mathbf{x}$, in its queue,
+ATD\* computes a sort key for every state, $\mathbf{x}$, in its queue, The cost-to-come label, $g_{p}{\lbrack\mathbf{x}\rbrack}$, is recursively defined as where $X_{p}{(\mathbf{x})}$ denotes the discovered potential parents of $\mathbf{x}$ and the base case is ${g_{p}{\lbrack\mathbf{x}_{start}\rbrack}} = 0$. ATD\* processes vertices in its vertex queue, $\mathcal{Q}_{{ATD}^{\ast}}^{V}$, in order of ascending key values, Whenever a better connection to a state in the queue is found, the key of this state is updated and the queue is resorted.
 
-The cost-to-come label, $g_{p}{\lbrack\mathbf{x}\rbrack}$, is recursively defined as
-
-where $X_{p}{(\mathbf{x})}$ denotes the discovered potential parents of $\mathbf{x}$ and the base case is ${g_{p}{\lbrack\mathbf{x}_{start}\rbrack}} = 0$. ATD\* processes vertices in its vertex queue, $\mathcal{Q}_{{ATD}^{\ast}}^{V}$, in order of ascending key values,
-
-Whenever a better connection to a state in the queue is found, the key of this state is updated and the queue is resorted.
-
-The queue could alternatively contain multiple instances of the same state, each with a different parent and key value. Selecting the minimum from this queue would ensure that the best discovered connection for each state is considered first. This would be equivalent to an edge version of ATD\* where the next connection from the edge queue, $\mathcal{Q}_{{ATD}^{\ast}}^{E}$, is
-
-ATD\*'s inner loop terminates if for any goal $\mathbf{x}_{goal} \in X_{goal}$
-
-ABIT\*'s search terminates if for any goal $\mathbf{x}_{goal} \in X_{goal}$
-
-This is less strict, as the heuristic, $\hat{c}$, is admissible, the inflation factor, $\varepsilon_{infl}$, is greater than or equal to one, and for all states, $\mathbf{x}_{i} \in X$, it holds that ${g_{p}{\lbrack\mathbf{x}_{i}\rbrack}} \geq {g_{\mathcal{T}}{(\mathbf{x}_{i})}}$ as rewirings can only improve the cost-to-come to states. ABIT\* therefore considers at least all edges that ATD\* would consider. ∎
-
-Figure 2: A 2D illustration of the simulated planning problems used in Section V. The state space, X ⊂ ℝn, is bounded by a hypercube of width two for both problems. Ten different instantiations of the random rectangles experiment were tested. The results are presented in Fig. 3.
+The queue could alternatively contain multiple instances of the same state, each with a different parent and key value. Selecting the minimum from this queue would ensure that the best discovered connection for each state is considered first. This would be equivalent to an edge version of ATD\* where the next connection from the edge queue, $\mathcal{Q}_{{ATD}^{\ast}}^{E}$, is ATD\*'s inner loop terminates if for any goal $\mathbf{x}_{goal} \in X_{goal}$ ABIT\*'s search terminates if for any goal $\mathbf{x}_{goal} \in X_{goal}$ This is less strict, as the heuristic, $\hat{c}$, is admissible, the inflation factor, $\varepsilon_{infl}$, is greater than or equal to one, and for all states, $\mathbf{x}_{i} \in X$, it holds that ${g_{p}{\lbrack\mathbf{x}_{i}\rbrack}} \geq {g_{\mathcal{T}}{(\mathbf{x}_{i})}}$ as rewirings can only improve the cost-to-come to states. ABIT\* therefore considers at least all edges that ATD\* would consider. ∎ Figure 2: A 2D illustration of the simulated planning problems used in Section V. The state space, X ⊂ ℝn, is bounded by a hypercube of width two for both problems. Ten different instantiations of the random rectangles experiment were tested. The results are presented in Fig. 3.
 
 ## Experimental Results
 
@@ -195,4 +144,4 @@ An inflated heuristic biases ABIT\*'s search towards the goal and finds initial 
 
 ABIT\* also shows the benefits of using advanced graph-search techniques in sampling-based planning on real-world path planning problems posed by Axel, a NASA/JPL-Caltech rover specialized for navigation on challenging terrain.
 
-Information on the OMPL implementation of ABIT\* is available at [https://robotic-esp.com/code/](https://robotic-esp.com/code/).
+Information on the OMPL implementation of ABIT\* is available at

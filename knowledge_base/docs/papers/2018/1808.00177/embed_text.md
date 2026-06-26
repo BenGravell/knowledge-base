@@ -26,7 +26,7 @@ More details on our hardware setup are available in Appendix B.
 
 ### Simulation
 
-We simulate the physical system with the MuJoCo physics engine, and we use Unity^11^1Unity game engine website: [https://unity3d.com/](https://unity3d.com/) to render the images for training the vision based pose estimator. Our model of the Shadow Dexterous Hand is based on the one used in the OpenAI Gym robotics environments but has been improved to match the physical system more closely through calibration (see Appendix C.3 for details).
+We simulate the physical system with the MuJoCo physics engine, and we use Unity^11^1Unity game engine website: to render the images for training the vision based pose estimator. Our model of the Shadow Dexterous Hand is based on the one used in the OpenAI Gym robotics environments but has been improved to match the physical system more closely through calibration (see Appendix C.3 for details).
 
 Despite our calibration efforts, the simulation is still a rough approximation of the physical setup. For example, our model directly applies torque to joints instead of tendon-based actuation and uses rigid body contact models instead of deformable body contact models. Modeling these and other effects seen in the real world is difficult or impossible in a rigid body simulator. These differences cause a \"reality gap\" and make it unlikely for a policy trained in a simulation with these inaccuracies to transfer well.
 
@@ -52,20 +52,7 @@ To better mimic the kind of noise we expect to experience in reality, we add Gau
 
 Physical parameters like friction are randomized at the beginning of every episode and held fixed. Many parameters are centered on values found during model calibration in an effort to make the simulation distribution match reality more closely. Table 1 lists all physics parameters that are randomized.
 
-Scaling factor range
-Additive term range
-
-object and robot link masses
-
-surface friction coefficients
-
-robot joint damping coefficients
-
-actuator force gains (P term)
-
-gravity vector (each coordinate)
-
-Table 1: Ranges of physics parameter randomizations.
+Scaling factor range Additive term range object and robot link masses surface friction coefficients robot joint damping coefficients actuator force gains (P term) gravity vector (each coordinate) Table 1: Ranges of physics parameter randomizations.
 
 ### Unmodeled effects
 
@@ -85,17 +72,7 @@ Many of the randomizations we employ persist across an episode, and thus it shou
 
 The policy is trained with Proximal Policy Optimiztion (PPO). We provide background on reinforcement learning and PPO in greater detail in Appendix A. PPO requires the training of two networks --- a policy network, which maps observations to actions, and a value network, which predicts the discounted sum of future rewards starting from a given state. Both networks have the same architecture but have independent parameters. Since the value network is only used during training, we use an Asymmetric Actor-Critic approach. Asymmetric Actor-Critic exploits the fact that the value network can have access to information that is not available on the real robot system.^22^2This includes noiseless observation and additional observations like joint angles and angular velocities, which we cannot sense reliably but which are readily available in simulation during training. This potentially simplifies the problem of learning good value estimates since less information needs to be inferred. The list of inputs fed to both networks can be found in Table 2.
 
-×333We accidentally did not include the current object orientation in the policy observations but found that it makes little difference since this information is indirectly available through the relative target orientation.
-
-relative target orientation
-
-hand joints angles
-
-hand joints velocities
-
-object angular velocity
-
-Table 2: Observations of the policy and value networks, respectively.
+×333We accidentally did not include the current object orientation in the policy observations but found that it makes little difference since this information is indirectly available through the relative target orientation. relative target orientation hand joints angles hand joints velocities object angular velocity Table 2: Observations of the policy and value networks, respectively.
 
 ### Actions and Rewards
 
@@ -147,23 +124,13 @@ We observe another interesting parallel between humans and our policy in finger 
 
 During experiments on the physical robot we noticed that the most common failure mode was dropping the object while rotating the wrist pitch joint down. Moreover, the vertical joint was the most common source of robot breakages, probably because it handles the biggest load. Given these difficulties, we also trained a policy with the wrist pitch joint locked.^55^5We had trouble training in this environment from scratch, so we fine-tuned a policy trained in the original environment instead. We noticed that not only does this policy transfer better to the physical robot but it also seems to handle the object much more deliberately with many of the above grasps emerging frequently in this setting. Other failure modes that we observed were dropping the object shortly after the start of a trial (which may be explained by incorrectly identifying some aspect of the environment) and getting stuck because the edge of an object got caught in a screw hole (which we do not model).
 
-We encourage the reader to watch the accompanying video to get a better sense of the learned behaviors.^66^6Real-time video of $50$ successful consecutive rotations: [https://youtu.be/DKe8FumoD4E](https://youtu.be/DKe8FumoD4E)
+We encourage the reader to watch the accompanying video to get a better sense of the learned behaviors.^66^6Real-time video of $50$ successful consecutive rotations:
 
 ### Quantitative Results
 
 In this section we evaluate our results quantitatively. To do so, we measure the number of *consecutive* successful rotations until the object is either dropped, a goal has not been achieved within 80 seconds, or until $50$ rotations are achieved. All results are available in Table 3.
 
-Individual trials (sorted)
-
-Block (state, locked wrist)
-
-Octagonal prism (state)
-
-Block (state, locked wrist)
-
-Octagonal prism (state)
-
-Table 3: The number of successful consecutive rotations in simulation and on the physical robot. All policies were trained on environments with all randomizations enabled. We performed 100 trials in simulation and 10 trails per policy on the physical robot. Each trial terminates when the object is dropped, 50 rotations are achieved or a timeout is reached. For physical trials, results were taken at different times on the physical robot.
+Individual trials (sorted) Block (state, locked wrist) Octagonal prism (state) Block (state, locked wrist) Octagonal prism (state) Table 3: The number of successful consecutive rotations in simulation and on the physical robot. All policies were trained on environments with all randomizations enabled. We performed 100 trials in simulation and 10 trails per policy on the physical robot. Each trial terminates when the object is dropped, 50 rotations are achieved or a timeout is reached. For physical trials, results were taken at different times on the physical robot.
 
 Our results allow us to directly compare the performance of each task in simulation and on the real robot. For instance, manipulating a block in simulation achieves a median of $50$ successes while the median on the physical setup is $13$. This is the overall trend that we observe: Even though randomizations and calibration narrow the reality gap, it still exists and performance on the real system is worse than in simulation. We discuss the importance of individual randomizations in greater detail in Section 6.3.
 
@@ -181,23 +148,9 @@ Figure 8: Performance when training in environments with groups of randomization
 
 In Section 3.2 we detail a list of parameters we randomize and effects we add that are not already modeled in the simulator. In this section we show that these additions to the simulator are vital for transfer. We train 5 separate RL policies in environments with various randomizations held out: all randomizations (baseline), no observation noise, no unmodeled effects, no physics randomizations, and no randomizations (basic simulator, i.e. no domain randomization).
 
-Adding randomizations or effects to the simulation does not come without cost; in Figure 8 we show the training performance in simulation for each environment plotted over wall-clock time. Policies trained in environments with a more difficult set of randomizations, e.g. all randomizations and no observation noise, converge much slower and therefore require more compute and simulated experience to train in. However, when deploying these policies on the real robot we find that training with randomizations is critical for transfer. Table 4 summarizes our results. Specifically, we find that training with all randomizations leads to a median of $13$ consecutive goals achieved, while policies trained with no randomizations, no physics randomizations, and no unmodeled effects achieve only median of $0$, $2$, and $2$ consecutive goals, respectively.
+Adding randomizations or effects to the simulation does not come without cost; in Figure 8 we show the training performance in simulation for each environment plotted over wall-clock time. Policies trained in environments with a more difficult set of randomizations, e.g. all randomizations and no observation noise, converge much slower and therefore require more compute and simulated experience to train . However, when deploying these policies on the real robot we find that training with randomizations is critical for transfer. Table 4 summarizes our results. Specifically, we find that training with all randomizations leads to a median of $13$ consecutive goals achieved, while policies trained with no randomizations, no physics randomizations, and no unmodeled effects achieve only median of $0$, $2$, and $2$ consecutive goals, respectively.
 
-Individual trials (sorted)
-
-All randomizations (state)
-
-No observation noise (state)
-
-No physics randomizations (state)
-
-No unmodeled effects (state)
-
-All randomizations (vision)
-
-No observation noise (vision)
-
-Table 4: The number of successful consecutive rotations on the physical robot of 5 policies trained separately in environments with different randomizations held out. The first 5 rows use PhaseSpace for object pose estimation and were run on the same robot at the same time. Trials for each row were interleaved in case the state of the robot changed during the trials. The last two rows were measured at a different time from the first 5 and used the vision model to estimate the object pose.
+Individual trials (sorted) All randomizations (state) No observation noise (state) No physics randomizations (state) No unmodeled effects (state) All randomizations (vision) No observation noise (vision) Table 4: The number of successful consecutive rotations on the physical robot of 5 policies trained separately in environments with different randomizations held out. The first 5 rows use PhaseSpace for object pose estimation and were run on the same robot at the same time. Trials for each row were interleaved in case the state of the robot changed during the trials. The last two rows were measured at a different time from the first 5 and used the vision model to estimate the object pose.
 
 When holding out *observation noise* randomizations, the performance gap is less clear than for the other randomization groups. We believe that is because our motion capture system has very little noise. However, we still include this randomization because it is important when the vision and control policies are composed. In this case, the pose estimate of the object is much more noisy, and, therefore, training with observation noise should be more important. The results in Table 4 suggest that this is indeed the case, with a drop from median performance of $11.5$ to $3.5$ if the observation noise randomizations are withheld.
 
@@ -213,15 +166,7 @@ Figure 9: Performance when comparing LSTM and feed forward (FF) policy and value
 
 To investigate the importance of memory-augmented policies for transfer, we evaluate the same three network architectures as described above on the physical robot. Table 5 summarizes the results. Our results show that having a policy with access to memory yields a higher median of successful rotations, suggesting that the policy may use memory to adapt to the current environment.^77^7When training in an environment with no randomizations, the FF and LSTM policy converge to the same performance in the same amount of time. This shows that a FF policy has the capacity and observations to solve the non-randomized task but cannot solve it reliably with all randomizations, plausibly because it cannot adapt to the environment. Qualitatively we also find that FF policies often get stuck and then run out of time.
 
-Individual trials (sorted)
-
-LSTM policy / LSTM value (state)
-
-FF policy / LSTM value (state)
-
-FF policy / FF value (state)
-
-Table 5: The number of successful consecutive rotations on the physical robot of 3 policies with different network architectures trained on an environment with all randomizations. Results for each row were collected at different times on the physical robot.
+Individual trials (sorted) LSTM policy / LSTM value (state) FF policy / LSTM value (state) FF policy / FF value (state) Table 5: The number of successful consecutive rotations on the physical robot of 3 policies with different network architectures trained on an environment with all randomizations. Results for each row were collected at different times on the physical robot.
 
 ### Sample Complexity & Scale
 
@@ -233,17 +178,13 @@ Figure 10: We show performance in simulation when varying the amount of compute 
 
 In Table 3 we show that we can combine a vision-based pose estimator and the control policy to successfully transfer to the real robot without embedding sensors in the target object. To better understand why this is possible, we evaluate the precision of the pose estimator on both synthetic and real data. Evaluating the system in simulation is easy because we can generate the necessary data and have access to the precise object's pose to compare against. In contrast, real images had to be collected by running a state-based policy on our robot platform. We use PhaseSpace to estimate the object's pose, which is therefore subject to errors. The resulting collected test set consists of $992$ real samples.^88^8A sample contains 3 images of the same scene. We removed a few samples that had no object in them after it being dropped. For simulation, we use test sets rendered using Unity and MuJoCo. The MuJoCo renderer was not used during training, thus the evaluation can be also considered as an instance of sim-to-sim transfer. Table 6 summarizes our results.
 
-Rendered images (Unity)
-
-Rendered images (MuJoCo)
-
-Table 6: Performance of a vision based pose estimator on synthetic and real data.
+Rendered images (Unity) Rendered images (MuJoCo) Table 6: Performance of a vision based pose estimator on synthetic and real data.
 
 Our results show that the model achieves low error for both rotation and position prediction when tested on synthetic data.^99^9For comparison, PhaseSpace is rated for a position accuracy of around $20$ $\mu$m but requires markers and a complex setup. On the images rendered with MuJoCo, there is only a slight increase in error, suggesting successful sim-to-sim transfer. The error further increases on the real data, which is due to the gap between simulation and reality but also because the ground truth is more challenging to obtain due to noise, occlusions, imperfect marker placement, and delayed sensor readings. Despite that the prediction error is bigger than the observation noise used during policy training (Table 7), the vision-based policy performs well on the physical robot (Table 3).
 
 ## Related Work
 
-In order to make it easier to understand the state-of-the-art in dexterous in-hand manipulation we gathered a representative set of videos from related work, and created a playlist^1010^10Related work playlist: [https://bit.ly/2uOK21Q](https://bit.ly/2uOK21Q) out of them.
+In order to make it easier to understand the state-of-the-art in dexterous in-hand manipulation we gathered a representative set of videos from related work, and created a playlist^1010^10Related work playlist: out of them.
 
 ### Dexterous Manipulation
 

@@ -10,17 +10,13 @@ In Section 2 we formulate the problem and discusses a policy gradient approach t
 
 ## Problem formulation
 
-Consider the discrete-time linear quadratic regulator with multiplicative noise (LQRm) optimal control problem
-
-where $x_{t} \in {\mathbb{R}}^{n}$ is the system state, $u_{t} \in {\mathbb{R}}^{m}$ is the control input, $x_{0}$ is randomly distributed according to $\mathcal{P}$, expectation is with respect to $x_{0},\delta_{it},\gamma_{jt}$, and $Q \succeq 0$ and $R \succ 0$. The dynamics incorporate multiplicative noise terms modeled by the mutually independent and i.i.d. (over time) zero-mean random variables $\delta_{it}$ and $\gamma_{jt}$, which have variance $\alpha_{i}$ and $\beta_{j}$, respectively. The matrices $A_{i} \in {\mathbb{R}}^{n \times n}$ and $B_{i} \in {\mathbb{R}}^{n \times m}$ specify how each noise term affects the system dynamics and input matrices. The goal is to determine an optimal closed-loop feedback policy $\pi$ with $u_{t} = {\pi{(x_{t})}}$. We assume that the problem data $A$, $B$, $\alpha_{i}$, $A_{i}$, $\beta_{j}$, and $B_{j}$ are such that the optimal value of the problem exists and is finite. Feasibility of this problem is ensured if the system is mean-square stabilizable.
+Consider the discrete-time linear quadratic regulator with multiplicative noise (LQRm) optimal control problem | | | $\underset{\pi\in\Pi}{\text{min}}$ | | ${{J{(\pi)}} = {{\mathbb{E}}{\sum\limits_{t = 0}^{\infty}{({{x_{t}^{T}Qx_{t}} + {u_{t}^{T}Ru_{t}}})}}}},$ | | \(1\) | where $x_{t} \in {\mathbb{R}}^{n}$ is the system state, $u_{t} \in {\mathbb{R}}^{m}$ is the control input, $x_{0}$ is randomly distributed according to $\mathcal{P}$, expectation is with respect to $x_{0},\delta_{it},\gamma_{jt}$, and $Q \succeq 0$ and $R \succ 0$. The dynamics incorporate multiplicative noise terms modeled by the mutually independent and i.i.d. (over time) zero-mean random variables $\delta_{it}$ and $\gamma_{jt}$, which have variance $\alpha_{i}$ and $\beta_{j}$, respectively. The matrices $A_{i} \in {\mathbb{R}}^{n \times n}$ and $B_{i} \in {\mathbb{R}}^{n \times m}$ specify how each noise term affects the system dynamics and input matrices. The goal is to determine an optimal closed-loop feedback policy $\pi$ with $u_{t} = {\pi{(x_{t})}}$. We assume that the problem data $A$, $B$, $\alpha_{i}$, $A_{i}$, $\beta_{j}$, and $B_{j}$ are such that the optimal value of the problem exists and is finite. Feasibility of this problem is ensured if the system is mean-square stabilizable.
 
 ### Definition 1 (Mean-square stability)
 
 The system in is stable in the mean-square sense if ${\lim_{t\rightarrow\infty}{{\mathbb{E}}{\lbrack{x_{t}x_{t}^{T}}\rbrack}}} = 0$ for any given initial covariance ${\mathbb{E}}x_{0}x_{0}^{T}$.
 
-We are ultimately interested in the problem
-
-where $J_{\text{reg}}{(\pi)}$ is a sparsity-promoting regularizer of the policy $\pi$ and $\gamma$ specifies the importance of sparsity. The regularizer ideally would measure the number of actuators, sensors, or actuator-sensor links, but for computational tractability will be replaced by other functions defined later. We begin by discussing the solution for $\gamma = 0$.
+We are ultimately interested in the problem where $J_{\text{reg}}{(\pi)}$ is a sparsity-promoting regularizer of the policy $\pi$ and $\gamma$ specifies the importance of sparsity. The regularizer ideally would measure the number of actuators, sensors, or actuator-sensor links, but for computational tractability will be replaced by other functions defined later. We begin by discussing the solution for $\gamma = 0$.
 
 ### Optimal control via value iteration
 
@@ -30,25 +26,11 @@ This can be solved via value iteration, and the optimal gain matrix is
 
 ### Optimal control via policy gradient
 
-For a fixed mean-square stabilizing linear state feedback policy $u_{t} = {Kx_{t}}$, there exists a positive semidefinite cost matrix $P_{K}$ which characterizes the cost by
-
-and is the solution to the generalized Lyapunov equation
-
-Furthermore, there exists a positive semidefinite infinite-horizon aggregate state covariance matrix
-
-which is the solution to the generalized Lyapunov equation
-
-where $\Sigma_{0} = {\underset{x_{0}}{\mathbb{E}}\left\lbrack {x_{0}x_{0}^{T}} \right\rbrack}$. Thus, we have
-
-This leads to the idea of performing gradient descent on $J$ (i.e., policy gradient) to find the optimal gain matrix:
-
-for a fixed step size $\eta$. In this work we consider only the case where the model parameters are known, but the methods presented are immediately usable in the model-unknown case by estimating the gradient from trajectory data. The policy gradient for linear state feedback policies applied to the LQRm problem has the following form:
+For a fixed mean-square stabilizing linear state feedback policy $u_{t} = {Kx_{t}}$, there exists a positive semidefinite cost matrix $P_{K}$ which characterizes the cost by and is the solution to the generalized Lyapunov equation Furthermore, there exists a positive semidefinite infinite-horizon aggregate state covariance matrix which is the solution to the generalized Lyapunov equation where $\Sigma_{0} = {\underset{x_{0}}{\mathbb{E}}\left\lbrack {x_{0}x_{0}^{T}} \right\rbrack}$. Thus, we have This leads to the idea of performing gradient descent on $J$ (i.e., policy gradient) to find the optimal gain matrix: for a fixed step size $\eta$. In this work we consider only the case where the model parameters are known, but the methods presented are immediately usable in the model-unknown case by estimating the gradient from trajectory data. The policy gradient for linear state feedback policies applied to the LQRm problem has the following form:
 
 ### Lemma 2
 
-The LQRm policy gradient is given by
-
-The proof is omitted due to space constraints and can be found in our technical report (see Gravell et al. ).
+The LQRm policy gradient is given by The proof is omitted due to space constraints and can be found in our technical report (see Gravell et al.).
 
 ### Gradient domination
 
@@ -62,11 +44,7 @@ The LQRm cost $J{(K)}$ satisfies the gradient domination condition
 
 ### Lemma 4 (Gradient descent, convergence rate)
 
-Using the policy gradient step update
-
-with step size $0 < \eta \leq c_{pg}$ gives global convergence to the optimal $K^{\ast}$ at a linear rate described by
-
-where $c_{\text{pg}}$ is a constant which is polynomial in the parameters $A$, $B$, $B_{j}$, $Q$, $R$, $J{(K^{})}$.
+Using the policy gradient step update with step size $0 < \eta \leq c_{pg}$ gives global convergence to the optimal $K^{\ast}$ at a linear rate described by where $c_{\text{pg}}$ is a constant which is polynomial in the parameters $A$, $B$, $B_{j}$, $Q$, $R$, $J{(K^{})}$.
 
 ## Sparse control design
 
@@ -74,31 +52,17 @@ Entrywise, row, and column sparsity in $K$ correspond to actuator-sensor communi
 
 ### Insufficiency of naive hard thresholding
 
-The most naïve method of inducing sparsity is hard thresholding of the ARE solution as $K_{ij} = {0\text{~if~}{|K_{ij}|}} < r$. However, in general this is not useful since the resulting gains may not be stabilizing. Consider the following example system without multiplicative noise:
-
-where $I_{n}$ is an $n \times n$ identity matrix. Imposing a hard threshold of $0.4$ on the ARE solution results in
-
-which gives a closed-loop state transition matrix $A + {BK}$ with an eigenvalue of $1.048223$ outside the unit circle. By contrast, by working with the regularized LQRm cost the optimal gains are always guaranteed to be stabilizing; even in the limit as the regularization weight $\rightarrow\infty$ the sparsity increases until the sparsest stabilizing solution is obtained. In practice, using a small step size helps ensure that each iterate remains inside the domain of $J{(K)}$.
+The most naïve method of inducing sparsity is hard thresholding of the ARE solution as $K_{ij} = {0\text{~if~}{|K_{ij}|}} < r$. However, in general this is not useful since the resulting gains may not be stabilizing. Consider the following example system without multiplicative noise: where $I_{n}$ is an $n \times n$ identity matrix. Imposing a hard threshold of $0.4$ on the ARE solution results in which gives a closed-loop state transition matrix $A + {BK}$ with an eigenvalue of $1.048223$ outside the unit circle. By contrast, by working with the regularized LQRm cost the optimal gains are always guaranteed to be stabilizing; even in the limit as the regularization weight $\rightarrow\infty$ the sparsity increases until the sparsest stabilizing solution is obtained. In practice, using a small step size helps ensure that each iterate remains inside the domain of $J{(K)}$.
 
 ### Regularization
 
 Certain types of regularization are well-known to be capable of inducing sparsity in the solutions to optimization problems. Perhaps the most basic and well-known is $l_{1}$-norm regularization which operates on a vector of decision variables; see Tibshirani for the seminal LASSO problem for sparse least-squares model selection and Hassibi et al. for sparse control design. In the case of a convex objective, increasing the regularization weight tends to increase sparsity by moving the global minimum onto the coordinate axes. Once the regularized problem has been solved, a sparsity pattern can easily be identified from the (near-)zero entries. In the current work we consider only the problem of identifying sparsity patterns, however an additional "polishing" step which involves re-solving the LQRm problem under the sparsity pattern can be performed to further improve the LQRm cost, as in Lin et al..
 
-Entrywise sparsity is induced by the vector $l_{1}$-norm
-
-Row and column sparsity are induced by using matrix row and column norms respectively defined as
-
-where ${\| K^{r,i}\|}_{\infty}$ and ${\| K^{c,i}\|}_{\infty}$ are the maximum absolute values of the $i^{th}$ row and column respectively of $K$. Row and column sparsity are also induced by the row and column group LASSO
-
-where ${\| K^{r,i}\|}_{\infty}$ and ${\| K^{c,i}\|}_{\infty}$ are the vector $l_{2}$-norms of the $i^{th}$ row and column respectively of $K$. Combined row and column sparsity can be induced by the row and column sparse group LASSO
-
-or by various other weighted combinations of entrywise, row, and column norms. We refer to ${\| K\|}_{M}$ as a generic nondifferentiable sparsity-inducing regularizer.
+Entrywise sparsity is induced by the vector $l_{1}$-norm Row and column sparsity are induced by using matrix row and column norms respectively defined as where ${\| K^{r,i}\|}_{\infty}$ and ${\| K^{c,i}\|}_{\infty}$ are the maximum absolute values of the $i^{th}$ row and column respectively of $K$. Row and column sparsity are also induced by the row and column group LASSO where ${\| K^{r,i}\|}_{\infty}$ and ${\| K^{c,i}\|}_{\infty}$ are the vector $l_{2}$-norms of the $i^{th}$ row and column respectively of $K$. Combined row and column sparsity can be induced by the row and column sparse group LASSO or by various other weighted combinations of entrywise, row, and column norms. We refer to ${\| K\|}_{M}$ as a generic nondifferentiable sparsity-inducing regularizer.
 
 ### Stationary point characterization
 
-Before proceeding, we must point out an important consequence of regularizing the LQRm cost. The sum of a convex function and a gradient dominated function is not gradient dominated in general, and in fact can have multiple local minima. For example, consider the scalar function
-
-where $x^{2}$ is strongly convex and $4{({{({x - 8})}^{2} + {3{\sin^{2}{({x - 8})}}}})}$ is gradient dominated. But $f{(x)}$ has two local minima at $x = 5.372$ and $x = 7.459$ and therefore is not gradient dominated.
+Before proceeding, we must point out an important consequence of regularizing the LQRm cost. The sum of a convex function and a gradient dominated function is not gradient dominated in general, and in fact can have multiple local minima. For example, consider the scalar function where $x^{2}$ is strongly convex and $4{({{({x - 8})}^{2} + {3{\sin^{2}{({x - 8})}}}})}$ is gradient dominated. But $f{(x)}$ has two local minima at $x = 5.372$ and $x = 7.459$ and therefore is not gradient dominated.
 
 As a result any local first-order search procedure, such as those used by our algorithms, will not be guaranteed to find the global minimum. We conjecture that for the regularized LQRm problem there are at most two local minima, one associated with the LQRm cost and one associated with the regularization which tends to be more sparse. If this is so then choosing the initial point carefully may help the local search find the desired (sparser) local minimum. For open-loop mean-square systems, this motivates using zero gains as the initial condition. Likewise, in both the open-loop mean-square stable and unstable cases, an effective heuristic is to use the solution to a highly regularized problem instance to "warm start" another nearby problem instance with reduced regularization weight.
 
@@ -118,13 +82,7 @@ Another issue is that there is no guarantee of feasibility of each next step; it
 
 ### Proximal policy gradient
 
-Proximal gradient methods have become a preferred way to solve optimization problems of the form
-
-where $f{(x)}$ has a Lipschitz continuous gradient and $g{(x)}$ is convex and nondifferentiable, as is the case when $g{(x)}$ is a sparsity-inducing regularizer. The proximal gradient method update is
-
-where the proximity operator is defined as
-
-Much of the existing literature examines the case where $f{(x)}$ is convex, in which case gradient descent is guaranteed to converge. The proximal operator has closed-form expressions for ${\| K\|}_{1}$ and ${\| K\|}_{glr}$ called soft thresholding and block soft thresholding (see Parikh et al. ). Thus to solve we also use a proximal policy gradient algorithm:
+Proximal gradient methods have become a preferred way to solve optimization problems of the form where $f{(x)}$ has a Lipschitz continuous gradient and $g{(x)}$ is convex and nondifferentiable, as is the case when $g{(x)}$ is a sparsity-inducing regularizer. The proximal gradient method update is where the proximity operator is defined as Much of the existing literature examines the case where $f{(x)}$ is convex, in which case gradient descent is guaranteed to converge. The proximal operator has closed-form expressions for ${\| K\|}_{1}$ and ${\| K\|}_{glr}$ called soft thresholding and block soft thresholding (see Parikh et al.). Thus to solve we also use a proximal policy gradient algorithm:
 
 ### Algorithm 2 (Proximal policy gradient update)
 
@@ -140,17 +98,7 @@ Another algorithm for solving is gradient descent:
 
 Here we use differentiable Huber-type losses ${\| K\|}_{M,h,\phi}$ in place of nondifferentiable regularizers, which replace linear corners with quadratic tips for decision variable values smaller than a specified threshold. Although the solutions produced are not exactly sparse, in practice entries are sufficiently close to zero to identify the sparsity pattern. Furthermore, by iteratively decreasing the threshold the solutions can be made arbitrarily close to truly sparse.
 
-We define the Huber function of a scalar $a$ as
-
-and the $p$-Huber function (like a $p$-norm) of a vector $b$ as
-
-We define the vector Huber loss as
-
-the Huber row and column norms as
-
-and the Huber row and column group LASSO as
-
-Subgradients of two regularizers and the gradients of their differentiable counterparts are given in Table 1.
+We define the Huber function of a scalar $a$ as and the $p$-Huber function (like a $p$-norm) of a vector $b$ as We define the vector Huber loss as the Huber row and column norms as and the Huber row and column group LASSO as Subgradients of two regularizers and the gradients of their differentiable counterparts are given in Table 1.
 
 Table 1: Regularizer (sub)gradients
 
@@ -164,25 +112,15 @@ Figure 1: Sparsity patterns for low noise, subgradient descent on the l1-norm re
 
 Figure 2: Sparsity patterns for low noise, subgradient descent on the row group LASSO regularized LQRm cost.
 
-(a) Low noise setting
+(a) Low noise setting (b) High noise setting Figure 3: LQRm cost vs. sparsity with l1-norm regularization.
 
-(b) High noise setting
-
-Figure 3: LQRm cost vs. sparsity with l1-norm regularization.
-
-(a) LQRm cost vs. sparsity
-
-(b) Wall clock time vs. γ
-
-Figure 4: Algorithm comparisons for the low noise setting with row group LASSO regularization.
+(a) LQRm cost vs. sparsity (b) Wall clock time vs. γ Figure 4: Algorithm comparisons for the low noise setting with row group LASSO regularization.
 
 As seen in Fig. 4, the first iteration had the longest compute time since successive iterations benefited from favorable initial conditions from warm-starting. The compute time increased as the regularization weight was increased and a larger number of smaller steps were required to accommodate the increasing gradient magnitude.
 
 From our empirical studies, the three methods presented all gave very similar results with similar efficacy; arbitrarily entrywise and row sparse mean-square stabilizing solutions were obtained for the low noise setting after a reasonable amount of computation time. Similarly, very sparse solutions for the high noise setting were obtained.
 
-Python code which implements the algorithms and generates the figures reported in this work can be found in the GitHub repository at [https://github.com/TSummersLab/polgrad-multinoise/](https://github.com/TSummersLab/polgrad-multinoise/).
-
-The code was run on a desktop PC with a quad-core Intel i7 6700K 4.0GHz CPU, 16GB RAM.
+Python code which implements the algorithms and generates the figures reported in this work can be found in the GitHub repository at The code was run on a desktop PC with a quad-core Intel i7 6700K 4.0GHz CPU, 16GB RAM.
 
 ## Concluding Remarks
 

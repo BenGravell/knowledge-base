@@ -2,11 +2,9 @@
 
 A rising challenge in NLP is long-form question-answering (LFQA), in which a paragraph-length answer is generated in response to an open-ended question. LFQA systems have the potential to become one of the main ways people learn about the world, but currently lag behind human performance. Existing work tends to focus on two core components of the task, information retrieval and synthesis.
 
-In this work we leverage existing solutions to these components: we outsource document retrieval to the Microsoft Bing Web Search API,^11^1[https://www.microsoft.com/en-us/bing/apis/bing-web-search-api](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api) and utilize unsupervised pre-training to achieve high-quality synthesis by fine-tuning GPT-3. Instead of trying to improve these ingredients, we focus on combining them using more faithful training objectives. Following Stiennon et al., we use human feedback to directly optimize answer quality, allowing us to achieve performance competitive with humans.
+In this work we leverage existing solutions to these components: we outsource document retrieval to the Microsoft Bing Web Search API,^11^1 and utilize unsupervised pre-training to achieve high-quality synthesis by fine-tuning GPT-3. Instead of trying to improve these ingredients, we focus on combining them using more faithful training objectives. Following Stiennon et al., we use human feedback to directly optimize answer quality, allowing us to achieve performance competitive with humans.
 
-We make two key contributions:
-
-We create a text-based web-browsing environment that a fine-tuned language model can interact with. This allows us to improve both retrieval and synthesis in an end-to-end fashion using general methods such as imitation learning and reinforcement learning.
+We make two key contributions: We create a text-based web-browsing environment that a fine-tuned language model can interact. This allows us to improve both retrieval and synthesis in an end-to-end fashion using general methods such as imitation learning and reinforcement learning.
 
 We generate answers with references: passages extracted by the model from web pages while browsing. This is crucial for allowing labelers to judge the factual accuracy of answers, without engaging in a difficult and subjective process of independent research.
 
@@ -20,34 +18,17 @@ We evaluate our best model in three different ways. First, we compare our model'
 
 How can I train the crows in my neighborhood to bring me gifts?
 
-From Gifts From Crows | Outside My Window (www.birdsoutsidemywindow.org)
-&gt; Many animals give gifts to members of their own species but crows and
-other corvids are the only ones known to give gifts to humans.
+From Gifts From Crows | Outside My Window (www.birdsoutsidemywindow.org) > Many animals give gifts to members of their own species but crows and other corvids are the only ones known to give gifts to humans.
 
-Search how to train crows to bring you gifts
-Click Gifts From Crows | Outside My Window www.birdsoutsidemywindow.org
+Search how to train crows to bring you gifts Click Gifts From Crows | Outside My Window www.birdsoutsidemywindow.org Search results: how to train crows to bring you gifts 0How to Make Friends With Crows - PetHelpfulpethelpful.com If you did this a few times, your crows would learn your new place, but as I said, I’m not sure if they will follow or visit you there since it’s probably not in their territory. The other option is simply to make new crow friends with the crows that live in your new neighborhood.
 
-Search results for: how to train crows to bring you gifts
-
-0How to Make Friends With Crows - PetHelpfulpethelpful.com
-If you did this a few times, your crows would learn your new place, but
-as I said, I’m not sure if they will follow or visit you there since it’s
-probably not in their territory. The other option is simply to make new
-crow friends with the crows that live in your new neighborhood.
-
-1Gifts From Crows | Outside My Windowwww.birdsoutsidemywindow.org
-The partial piece of apple may have been left behind when the crow was
-startled rather than as a gift. If the crows bring bright objects youll
-know for sure that its a gift because its not something they eat.
-Brandi Williams says: May 28, 2020 at 7:19 am.
+1Gifts From Crows | Outside My Windowwww.birdsoutsidemywindow.org The partial piece of apple may have been left behind when the crow was startled rather than as a gift. If the crows bring bright objects youll know for sure that its a gift because its not something they eat. Brandi Williams says: May 28, 2020 at 7:19 am.
 
 (b) Corresponding text given to the model.
 
 Figure 1: An observation from our text-based web-browsing environment, as shown to human demonstrators (left) and models (right). The web page text has been abridged for illustrative purposes.
 
-The remainder of the paper is structured as follows:
-
-In Section 2, we describe our text-based web-browsing environment and how our models interact with it.
+The remainder of the paper is structured as follows: In Section 2, we describe our text-based web-browsing environment and how our models interact with it.
 
 In Section 3, we explain our data collection and training methods in more detail.
 
@@ -63,30 +44,7 @@ Previous work on question-answering such as REALM and RAG has focused on improvi
 
 For this approach, we designed a text-based web-browsing environment. The language model is prompted with a written summary of the current state of the environment, including the question, the text of the current page at the current cursor location, and some other information (see Figure 1(1(b))). In response to this, the model must issue one of the commands given in Table 1, which performs an action such as running a Bing search, clicking on a link, or scrolling around. This process is then repeated with a fresh context (hence, the only memory of previous steps is what is recorded in the summary).
 
-Send &lt;query&gt; to the Bing API and display a search results page
-
-Clicked on link &lt;link ID&gt;
-Follow the link with the given ID to a new page
-
-Find in page: &lt;text&gt;
-Find the next occurrence of &lt;text&gt; and scroll to it
-
-If &lt;text&gt; is found in the current page, add it as a reference
-
-Scroll down a number of times
-
-Scroll up a number of times
-
-Scroll to the top of the page
-
-Go to the previous page
-
-End browsing and move to answering phase
-
-End: &lt;Nonsense, Controversial&gt;
-End browsing and skip answering phase
-
-Table 1: Actions the model can take. If a model generates any other text, it is considered to be an invalid action. Invalid actions still count towards the maximum, but are otherwise ignored.
+Send <query> to the Bing API and display a search results page Clicked on link <link ID> Follow the link with the given ID to a new page Find in page: <text> Find the next occurrence of <text> and scroll to it If <text> is found in the current page, add it as a reference Scroll down a number of times Scroll up a number of times Scroll to the top of the page Go to the previous page End browsing and move to answering phase End: <Nonsense, Controversial> End browsing and skip answering phase Table 1: Actions the model can take. If a model generates any other text, it is considered to be an invalid action. Invalid actions still count towards the maximum, but are otherwise ignored.
 
 While the model is browsing, one of the actions it can take is to quote an extract from the current page. When this is performed, the page title, domain name and extract are recorded to be used later as a reference. Browsing then continues until either the model issues a command to end browsing, the maximum number of actions has been reached, or the maximum total length of references has been reached. At this point, as long as there is at least one reference, the model is prompted with the question and the references, and must compose its final answer.
 

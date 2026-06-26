@@ -4,15 +4,7 @@ Numerical linear algebra (NLA) is one of the great achievements of scientific co
 
 ### Classical numerical linear algebra
 
-NLA definitively treats several major classes of problems, including
-
-solution of dense and sparse linear systems;
-
-orthogonalization, least-squares, and Tikhonov regularization;
-
-determination of eigenvalues, eigenvectors, and invariant subspaces;
-
-singular value decomposition (SVD) and total least-squares.
+NLA definitively treats several major classes of problems, including solution of dense and sparse linear systems; orthogonalization, least-squares, and Tikhonov regularization; determination of eigenvalues, eigenvectors, and invariant subspaces; singular value decomposition (SVD) and total least-squares.
 
 In spite of this catalog of successes, important challenges remain. The sheer scale of certain datasets (terabytes and beyond) makes them impervious to classical NLA algorithms. Modern computing architectures (GPUs, multi-core CPUs, massively distributed systems) are powerful, but this power can only be unleashed by algorithms that minimize data movement and that are designed ab initio with parallel computation in mind. New ways to organize and present data (out-of-core, distributed, streaming) also demand alternative techniques.
 
@@ -28,9 +20,7 @@ Nevertheless, in the 1980s, randomized algorithms started to make inroads into N
 
 Starting in the late 1990s, researchers in theoretical computer science identified other ways to apply probabilistic algorithms in NLA. ? and ? showed that randomized embeddings allow for computations on streaming data with limited storage. (?) and (?) proposed Monte Carlo methods for low-rank matrix approximation. (?), (?), and (?) wrote the first statement of theoretical principles for randomized NLA. ? showed how subspace embeddings support linear algebra computations.
 
-In the mid-2000s, numerical analysts introduced practical randomized algorithms for low-rank matrix approximation and least-squares problems. This work includes the first computational evidence that randomized algorithms outperform classical NLA algorithms for particular classes of problems. Early contributions include (?, ?, ?, ?). These papers inspired later work, such as (?, ?, ?), that has made a direct impact in applications
-
-Parallel with the advances in numerical analysis, a tide of enthusiasm for randomized algorithms has flooded into cognate fields. In particular, stochastic gradient descent (?) has become a standard algorithm for solving large optimization problems in machine learning.
+In the mid-2000s, numerical analysts introduced practical randomized algorithms for low-rank matrix approximation and least-squares problems. This work includes the first computational evidence that randomized algorithms outperform classical NLA algorithms for particular classes of problems. Early contributions include (?, ?, ?, ?). These papers inspired later work, such as (?, ?, ?), that has made a direct impact in applications Parallel with the advances in numerical analysis, a tide of enthusiasm for randomized algorithms has flooded into cognate fields. In particular, stochastic gradient descent (?) has become a standard algorithm for solving large optimization problems in machine learning.
 
 At the time of writing, in late 2019, randomized algorithms have joined the mainstream of NLA. They now appear in major reference works and textbooks (?, ?). Key methods are being incorporated into standard software libraries (?, ?, ?).
 
@@ -46,11 +36,7 @@ From an engineering point of view, randomization has another crucial advantage: 
 
 ### Algorithm design considerations
 
-Before we decide what algorithm to use for a linear algebra computation, we must ask how we are permitted to interact with the data. A recurring theme of this survey is that randomization allows us to reorganize algorithms so that they control whichever computational resource is the most scarce (flops, communication, matrix entry evaluation, etc.). Let us illustrate with some representative examples:
-
-Streaming computations ("single-view"): There is rising demand for algorithms that can treat matrices that are so large that they cannot be stored at all; other applications involve matrices that are presented dynamically. In the streaming setting, the input matrix $\mathbf{A}$ is given by a sequence of simple linear updates that can viewed only once:
-
-We must discard each innovation ${\mathbf{H}}_{i}$ after it has been processed. As it happens, the *only* type of algorithm that can handle the model (1.1) is one based on randomized linear dimension reduction (?). Our survey describes a number of algorithms that can operate in the streaming setting; see Sections 4, 5, 14, and 15.
+Before we decide what algorithm to use for a linear algebra computation, we must ask how we are permitted to interact with the data. A recurring theme of this survey is that randomization allows us to reorganize algorithms so that they control whichever computational resource is the most scarce (flops, communication, matrix entry evaluation, etc.). Let us illustrate with some representative examples: Streaming computations ("single-view"): There is rising demand for algorithms that can treat matrices that are so large that they cannot be stored at all; other applications involve matrices that are presented dynamically. In the streaming setting, the input matrix $\mathbf{A}$ is given by a sequence of simple linear updates that can viewed only once: We must discard each innovation ${\mathbf{H}}_{i}$ after it has been processed. As it happens, the *only* type of algorithm that can handle the model (1.1) is one based on randomized linear dimension reduction (?). Our survey describes a number of algorithms that can operate in the streaming setting; see Sections 4, 5, 14, and 15.
 
 Dense matrices stored in RAM: One traditional computational model for NLA assumes that the input matrix is stored in fast memory, so that any entry can quickly be read and/or overwritten as needed. The ability of CPUs to perform arithmetic operations keeps growing rapidly, but memory latency has not kept up. Thus, it has become essential to formulate blocked algorithms that operate on submatrices. Section 16 shows how randomization can help.
 

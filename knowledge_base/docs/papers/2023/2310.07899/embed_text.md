@@ -36,13 +36,7 @@ We formulate the problem in the manner of a POMDP (Partially Observable Markov D
 
 ### Reward Generation
 
-During the pretraining phase, we supply the RoboCLIP reward to the agent in a sparse manner at the end of each episode. This is done by storing the video of an episode of the interaction of the agent with the environment into a buffer as seen in Figure 1. A sequence of observations of length $128$ are saved in a buffer corresponding to the length of the episode. S3D is trained on videos length $32$ frames and therefore the episode video is subsequently downsampled to result in a video of length $T = 32$. The video is subsequently center-cropped to result in frames of size $$. This is done to ensure that the episode video is preprocessed to match the specifications of the HowTo100M preprocessing used to train the S3D model. Thus the tensor of a sequence of $T$ observations $\mathbf{o}_{0:T}$ is encoded as the latent video vector $\mathbf{z}^{v}$ using
-
-The task specification is also encoded into the same space. If it is defined using natural language, the language encoder in S3D encodes a sequence of $K$ textual tokens $\mathbf{d}_{0:K}$ into the latent space using:
-
-If the task description is in the form of a video of length $K$, then we preprocess and encode it using the video-encoder in S3D just as in Equation 1. For intermediate timesteps, i.e., timesteps other than the final one in an episode, the reward supplied to the agent is zero. Subsequently, at the end of the episode, the similarity score between the encoded task descriptor $\mathbf{z}^{d}$ and the encoded video of the episode $\mathbf{z}^{v}$ is used as reward $r^{\text{RoboCLIP}}{(T)}$. Thus the reward is:
-
-where $\mathbf{z}^{d} \cdot \mathbf{z}^{v}$ corresponds to the scalar product between vectors $\mathbf{z}^{d}$ and $\mathbf{z}^{v}$.
+During the pretraining phase, we supply the RoboCLIP reward to the agent in a sparse manner at the end of each episode. This is done by storing the video of an episode of the interaction of the agent with the environment into a buffer as seen in Figure 1. A sequence of observations of length $128$ are saved in a buffer corresponding to the length of the episode. S3D is trained on videos length $32$ frames and therefore the episode video is subsequently downsampled to result in a video of length $T = 32$. The video is subsequently center-cropped to result in frames of size $$. This is done to ensure that the episode video is preprocessed to match the specifications of the HowTo100M preprocessing used to train the S3D model. Thus the tensor of a sequence of $T$ observations $\mathbf{o}_{0:T}$ is encoded as the latent video vector $\mathbf{z}^{v}$ using The task specification is also encoded into the same space. If it is defined using natural language, the language encoder in S3D encodes a sequence of $K$ textual tokens $\mathbf{d}_{0:K}$ into the latent space using: If the task description is in the form of a video of length $K$, then we preprocess and encode it using the video-encoder in S3D just as in Equation 1. For intermediate timesteps, i.e., timesteps other than the final one in an episode, the reward supplied to the agent is zero. Subsequently, at the end of the episode, the similarity score between the encoded task descriptor $\mathbf{z}^{d}$ and the encoded video of the episode $\mathbf{z}^{v}$ is used as reward $r^{\text{RoboCLIP}}{(T)}$. Thus the reward is: where $\mathbf{z}^{d} \cdot \mathbf{z}^{v}$ corresponds to the scalar product between vectors $\mathbf{z}^{d}$ and $\mathbf{z}^{v}$.
 
 ### Agent Training
 
@@ -50,9 +44,7 @@ Using $r^{\text{RoboCLIP}}$ defined above, we then train an agent online in the 
 
 ## Experiments
 
-We test out each of the hypotheses defined in Section 1 on simulated robotic environments. Specifically, we ask the following questions:
-
-Do existing pretrained VLMs semantically align with robotic manipulation environments?
+We test out each of the hypotheses defined in Section 1 on simulated robotic environments. Specifically, we ask the following questions: Do existing pretrained VLMs semantically align with robotic manipulation environments?
 
 Can we utilize natural language to generate reward functions?
 
@@ -122,9 +114,7 @@ We compare the performance of the policy trained with these rewards to GAIL and 
 
 Using videos to specify a task description is possible when either there is access to a robot for teleoperation as in Section 4.3 or a human can demonstrate a behavior in their own environment as in Section 4.4. When these are not the case, a viable alternative is to utilize multimodal demonstrations. For example, consider a scenario where the required task is to push a drawer to close it, but only a demonstration for pushing a button is available. In this situation, being able to edit the video of the off-task demonstration is useful. This way, one can direct the agent to move its end-effectors to push the drawer instead of the button.
 
-We do this by algebraically modifying the encoding of the video demonstration:
-
-where $\mathbf{z}^{\text{edited}}{(\text{push drawer})}$ is the vector used to generate rewards in the Drawer-Close environment, $\mathbf{z}^{video}{(\text{push button})}$ is the vector of the encoding of the video of the robot pushing a button, $\mathbf{z}^{text}{(\text{button})}$ is the encoding of the string button and $\mathbf{z}^{text}{(\text{drawer})}$ is the encoding of the string drawer. As can be seen in Figure 8, defining rewards in such a multimodal manner results in a higher zero-shot score than the dense task reward and also pretraining on the string-only task reward.
+We do this by algebraically modifying the encoding of the video demonstration: where $\mathbf{z}^{\text{edited}}{(\text{push drawer})}$ is the vector used to generate rewards in the Drawer-Close environment, $\mathbf{z}^{video}{(\text{push button})}$ is the vector of the encoding of the video of the robot pushing a button, $\mathbf{z}^{text}{(\text{button})}$ is the encoding of the string button and $\mathbf{z}^{text}{(\text{drawer})}$ is the encoding of the string drawer. As can be seen in Figure 8, defining rewards in such a multimodal manner results in a higher zero-shot score than the dense task reward and also pretraining on the string-only task reward.
 
 ### Finetuning
 

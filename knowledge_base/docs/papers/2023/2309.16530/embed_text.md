@@ -1,10 +1,6 @@
 ## Introduction
 
-We revisit the classical problem of smooth convex optimization: solve ${\min_{x \in {\mathbb{R}}^{d}}f}{(x)}$ where $f$ is convex and $M$-smooth (i.e., its gradient is $M$-Lipschitz). A celebrated result is that with a prudent choice of stepsizes $\{\alpha_{t}\}$, the gradient descent algorithm (GD)
-
-solves such a convex optimization problem to arbitrary accuracy from any initialization $x_{0}$. How quickly does GD converge? The mainstream approach (see e.g., the textbooks among many others) is to use a constant stepsize schedule $\alpha_{t} \equiv \overline{\alpha} \in {}$ since this ensures
-
-where $x^{\ast}$ denotes any minimizer of $f$, $f^{\ast}:={f{(x^{\ast})}}$ denotes the corresponding minimal value, and $c$ is a small constant, e.g., $c = \frac{1}{4}$ for $\overline{\alpha} = 1$.
+We revisit the classical problem of smooth convex optimization: solve ${\min_{x \in {\mathbb{R}}^{d}}f}{(x)}$ where $f$ is convex and $M$-smooth (i.e., its gradient is $M$-Lipschitz). A celebrated result is that with a prudent choice of stepsizes $\{\alpha_{t}\}$, the gradient descent algorithm (GD) solves such a convex optimization problem to arbitrary accuracy from any initialization $x_{0}$. How quickly does GD converge? The mainstream approach (see e.g., the textbooks among many others) is to use a constant stepsize schedule $\alpha_{t} \equiv \overline{\alpha} \in {}$ since this ensures where $x^{\ast}$ denotes any minimizer of $f$, $f^{\ast}:={f{(x^{\ast})}}$ denotes the corresponding minimal value, and $c$ is a small constant, e.g., $c = \frac{1}{4}$ for $\overline{\alpha} = 1$.
 
 The main question posed in Part I was: can we accelerate the convergence of GD without changing the algorithm---just by judiciously choosing the stepsizes? Here we continue to investigate this question, now in the setting of smooth convex optimization. Note that this is markedly different from classical approaches to acceleration---starting from Nesterov's seminal result of 1983, those approaches modify the basic GD algorithm by adding momentum, internal dynamics, or other additional building blocks beyond just changing the stepsizes. For this reason, we do not discuss that line of work in detail, and instead refer to for a recent survey of this mainstream approach to acceleration, and to for a full discussion of the relations between these approaches.
 
@@ -14,21 +10,13 @@ Figure 1: Silver Stepsize schedule {α0, α1, α2, …}. See (2.1) for the defin
 
 This paper provides a concise, self-contained proof that the Silver Stepsize Schedule proposed in Part I directly applies to smooth (non-strongly) convex optimization. This leads to faster convergence rates of GD for smooth convex optimization, as already pointed out in \[3, §1.1.4\].
 
-In this setting, the Silver Stepsize Schedule is particularly simple. For any integer $n = {2^{k} - 1}$, we recursively construct the schedule $h_{{2n} + 1}$ of length ${2n} + 1$ from the schedule $h_{n}$ of length $n$ via
+In this setting, the Silver Stepsize Schedule is particularly simple. For any integer $n = {2^{k} - 1}$, we recursively construct the schedule $h_{{2n} + 1}$ of length ${2n} + 1$ from the schedule $h_{n}$ of length $n$ via where $\rho:={1 + \sqrt{2}}$ denotes the silver ratio, and $h_{1}:={\lbrack\sqrt{2}\rbrack}$. This results in the simple pattern $\lbrack\sqrt{2},\;2,\sqrt{2},{\;1 + \sqrt{2}},\ldots\rbrack$ as depicted in Figure 1. This schedule is exactly the Silver Stepsize Schedule from in the limit that the strong convexity parameter vanishes (see Remark 2.2. ‣ 2 Silver Stepsize Schedule ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization") for details), and bears similarities to those; see §1.2.
 
-where $\rho:={1 + \sqrt{2}}$ denotes the silver ratio, and $h_{1}:={\lbrack\sqrt{2}\rbrack}$. This results in the simple pattern $\lbrack\sqrt{2},\;2,\sqrt{2},{\;1 + \sqrt{2}},\ldots\rbrack$ as depicted in Figure 1. This schedule is exactly the Silver Stepsize Schedule from in the limit that the strong convexity parameter vanishes (see Remark 2.2. ‣ 2 Silver Stepsize Schedule ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization") for details), and bears similarities to those in; see §1.2.
-
-We show that these stepsizes yield an improved convergence rate (1.2) where $\frac{c}{n}$ is replaced by
-
-This bound gives the correct asymptotic scaling of $r_{k}$ since the inequality is asymptotically tight.
+We show that these stepsizes yield an improved convergence rate (1.2) where $\frac{c}{n}$ is replaced by This bound gives the correct asymptotic scaling of $r_{k}$ since the inequality is asymptotically tight.
 
 ### Theorem 1.1 (Main result)
 
-For any horizon $n = {2^{k} - 1}$, any dimension $d$, any $M$-smooth convex function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$, and any initialization $x_{0} \in {\mathbb{R}}^{d}$,
-
-where $x^{\ast}$ denotes any minimizer of $f$, and $x_{n}$ denotes the output of $n$ steps of GD using the Silver Stepsize Schedule. In particular, in order to achieve error ${{f{(x_{n})}} - f^{\ast}} \leqslant \varepsilon$, it suffices to run GD for
-
-We make several remarks. 1) This rate $n^{- {\log_{2}\rho}} \approx n^{- 1.2716}$ is intermediate between the textbook unaccelerated rate $n^{- 1}$ and the accelerated rate $n^{- 2}$ due to Nesterov in 1983; see Figure 2 for a visualization. 2) The Silver Stepsize Schedule is independent of the horizon, see §2. 3) We conjecture that, up to a constant factor, the rate $r_{k}$ is optimal among all possible stepsize schedules. This will be addressed in the forthcoming Part III.
+For any horizon $n = {2^{k} - 1}$, any dimension $d$, any $M$-smooth convex function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$, and any initialization $x_{0} \in {\mathbb{R}}^{d}$, where $x^{\ast}$ denotes any minimizer of $f$, and $x_{n}$ denotes the output of $n$ steps of GD using the Silver Stepsize Schedule. In particular, in order to achieve error ${{f{(x_{n})}} - f^{\ast}} \leqslant \varepsilon$, it suffices to run GD for We make several remarks. 1) This rate $n^{- {\log_{2}\rho}} \approx n^{- 1.2716}$ is intermediate between the textbook unaccelerated rate $n^{- 1}$ and the accelerated rate $n^{- 2}$ due to Nesterov in 1983; see Figure 2 for a visualization. 2) The Silver Stepsize Schedule is independent of the horizon, see §2. 3) We conjecture that, up to a constant factor, the rate $r_{k}$ is optimal among all possible stepsize schedules. This will be addressed in the forthcoming Part III.
 
 Figure 2: Upper bound on the optimality gap f (xn) − f*, as a function of the number of iterations n. The three plots correspond to the rates O (n−1) for the standard constant stepsize 1/M [14, Corollary 2.1.2], O (n−log2ρ) ≈ O (n−1.2716) for the Silver Stepsize Schedule (Theorem 1.1), and O (n−2) for Nesterov acceleration [14, Theorem 2.2.2].
 
@@ -40,9 +28,9 @@ Beginning with Altschuler's 2018 MS thesis, a line of work designed time-varying
 
 In 2022, Das Gupta et al. combined Branch & Bound techniques with the PESTO SDP of to develop algorithms that perform this search numerically, and as an example computed good approximate schedules in the convex setting for larger values of $n$ up to $50$. They observed a fit of roughly $O{(n^{- 1.178})}$ and suggested from this that the asymptotic rate may be faster than the textbook rate $O{(n^{- 1})}$.
 
-In July 2023, Grimmer showed how to prove asymptotic rates for the (non-strongly) convex setting by periodically cycling through finite schedules. While in the strongly convex setting composing progress from different cycles just amounts to multiplying contraction rates, in the non-strongly convex setting this can be more subtle depending on the approach.^11^1Cf., our recursive gluing approach, which is a simple way of composing progress that unifies the convex (in §3) and strongly convex settings (in Paper I). This is why our analysis is so compact and completely bypasses the machinery of straightforward patterns. See Remark 3.1. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). To deal with this, he introduced the notion of straightforward stepsize patterns and obtained a constant-factor improvement over the textbook unaccelerated rate by cycling through approximate schedules of length $n = 127$. From these numerics, he conjectured that further optimizing stepsizes might lead to an asymptotic rate of $O{({({n{\log n}})}^{- 1})}$, a milder improvement than that conjectured by.
+In July 2023, Grimmer showed how to prove asymptotic rates for the (non-strongly) convex setting by periodically cycling through finite schedules. While in the strongly convex setting composing progress from different cycles just amounts to multiplying contraction rates, in the non-strongly convex setting this can be more subtle depending on the approach.^11^1Cf., our recursive gluing approach, which is a simple way of composing progress that unifies the convex (in §3) and strongly convex settings (in Paper I). This is why our analysis is so compact and completely bypasses the machinery of straightforward patterns. See Remark 3.1. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). To deal with this, he introduced the notion of straightforward stepsize patterns and obtained a constant-factor improvement over the textbook unaccelerated rate by cycling through approximate schedules of length $n = 127$. From these numerics, he conjectured that further optimizing stepsizes might lead to an asymptotic rate of $O{({({n{\log n}})}^{- 1})}$, a milder improvement than that conjectured .
 
-In September 2023, two concurrent papers appeared. Altschuler and Parrilo was Part I: there we proposed the Silver Stepsize Schedule of arbitrary size to prove asymptotic acceleration for the strongly convex setting. This improved the textbook unaccelerated rate $\Theta{(\kappa)}$ to ${\Theta{(\kappa^{\log_{2}\rho})}} \approx {\Theta{(\kappa^{0.7864})}}$ where $\kappa$ is the condition number. We conjectured and provided partial evidence that these rates are optimal among all possible stepsize schedules. This result was achieved by introducing the technique of recursive gluing to establish multi-step descent, which we make use of here. The other paper was Grimmer et al.. By utilizing a certain non-periodic sequence of increasingly large stepsizes and building upon the "straightforwardness" machinery in, they proved the rate $O{(n^{- 1.0245})}$ for the convex setting in v1, later improved to $O{(n^{- 1.0564})}$ in v2.
+In September 2023, two concurrent papers appeared. Altschuler and Parrilo was Part I: there we proposed the Silver Stepsize Schedule of arbitrary size to prove asymptotic acceleration for the strongly convex setting. This improved the textbook unaccelerated rate $\Theta{(\kappa)}$ to ${\Theta{(\kappa^{\log_{2}\rho})}} \approx {\Theta{(\kappa^{0.7864})}}$ where $\kappa$ is the condition number. We conjectured and provided partial evidence that these rates are optimal among all possible stepsize schedules. This result was achieved by introducing the technique of recursive gluing to establish multi-step descent, which we make use of here. The other paper was Grimmer et al.. By utilizing a certain non-periodic sequence of increasingly large stepsizes and building upon the "straightforwardness" machinery , they proved the rate $O{(n^{- 1.0245})}$ for the convex setting in v1, later improved to $O{(n^{- 1.0564})}$ in v2.
 
 The results in Part I were stated for the strongly convex setting. As pointed out throughout that paper, this is not a restriction because on the one hand those results immediately imply analogously accelerated rates ${\Theta{(n^{- {\log_{2}\rho}})}} \approx {\Theta{(n^{- 1.2716})}}$ for the convex setting via a standard black-box reduction; and on the other hand, this reduction can be bypassed by re-doing the analysis for the convex setting since all the core conceptual ideas extend directly \[3, §1.1.4\]. The present paper provides these details.
 
@@ -62,9 +50,7 @@ The Silver Stepsize Schedule is defined recursively in (1.3). Here we mention an
 
 ### Definition 2.1 (Silver Stepsize Schedule for smooth convex optimization)
 
-For $t \in {\{ 0,1,2,\ldots\}}$, the $t$-th stepsize of the Silver Stepsize Schedule is
-
-This schedule is non-monotonic, fractal-like, and has increasingly large spikes that grow exponentially (by a factor of $\rho$) yet become exponentially less frequent (by a factor of $2$). See Figure 1. It can also be easily implemented^22^2For instance, in Python the command \[1+rho\*\*((k & -k).bit_length()-2) for k in range\] generates the first $63$ steps of the Silver Schedule shown in Figure 1. in any computer language.
+For $t \in {\{ 0,1,2,\ldots\}}$, the $t$-th stepsize of the Silver Stepsize Schedule is This schedule is non-monotonic, fractal-like, and has increasingly large spikes that grow exponentially (by a factor of $\rho$) yet become exponentially less frequent (by a factor of $2$). See Figure 1. It can also be easily implemented^22^2For instance, in Python the command \[1+rho\*\*((k & -k).bit_length-2) for k in range\] generates the first $63$ steps of the Silver Schedule shown in Figure 1. in any computer language.
 
 ### Remark 2.2 (Limit of Silver Stepsize Schedules in the strongly convex case)
 
@@ -84,13 +70,9 @@ The base case $k = 1$ is trivial. The inductive step follows from the recursion 
 
 Here we prove that the Silver Stepsize Schedule has convergence rate $r_{k}$ for smooth convex optimization. The analysis closely mirrors the strongly convex setting in Part I: we prove the advantage of time-varying stepsizes via multi-step descent rather than iterating the greedy 1-step bound, show multi-step descent by exploiting long-range consistency conditions along the GD trajectory, certify multi-step descent via recursive gluing, and recursively glue by combining the same three components in the same way. In the interest of brevity, we refer to for a detailed discussion of all these concepts.
 
-Briefly, the idea behind multi-step descent is that it is essential to capture how different iterations affect other iterations' progress. We do this by exploiting long-range consistency conditions between the iterates along GD's trajectory, as encoded by the co-coercivities
+Briefly, the idea behind multi-step descent is that it is essential to capture how different iterations affect other iterations' progress. We do this by exploiting long-range consistency conditions between the iterates along GD's trajectory, as encoded by the co-coercivities The significance of these co-coercivities is that the constraints ${\{{Q_{ij} \geqslant 0}\}}_{i \neq j \in {\{ 0,1,\ldots,n, \ast \}}}$ are necessary and sufficient for the existence of a $1$-smooth convex function $f$ satisfying $f_{i} = {f{(x_{i})}}$ and $g_{i} = {{\nabla f}{(x_{i})}}$ for each $i \in {\{ 0,1,\ldots,n, \ast \}}$. In other words, the co-coercivity conditions ${\{{Q_{ij} \geqslant 0}\}}_{i \neq j \in {\{ 0,1,\ldots,n, \ast \}}}$ generate all possible long-range consistency constraints on the objective function $f$. Or, said another way, the co-coercivity conditions generate all possible valid inequalities with which one can prove convergence rates for GD. For a further discussion, see \[3, §2.2\].
 
-The significance of these co-coercivities is that the constraints ${\{{Q_{ij} \geqslant 0}\}}_{i \neq j \in {\{ 0,1,\ldots,n, \ast \}}}$ are necessary and sufficient for the existence of a $1$-smooth convex function $f$ satisfying $f_{i} = {f{(x_{i})}}$ and $g_{i} = {{\nabla f}{(x_{i})}}$ for each $i \in {\{ 0,1,\ldots,n, \ast \}}$. In other words, the co-coercivity conditions ${\{{Q_{ij} \geqslant 0}\}}_{i \neq j \in {\{ 0,1,\ldots,n, \ast \}}}$ generate all possible long-range consistency constraints on the objective function $f$. Or, said another way, the co-coercivity conditions generate all possible valid inequalities with which one can prove convergence rates for GD. For a further discussion, see \[3, §2.2\].
-
-Concretely, to prove Theorem 1.1. ‣ 1.1 Contribution ‣ 1 Introduction ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"), we exhibit explicit non-negative multipliers $\lambda_{ij}$ satisfying
-
-where we use the shorthand $c_{k}:=\frac{1}{2r_{k}}$. Since ${\sum_{ij}{\lambda_{ij}Q_{ij}}} \geqslant 0$ for any $1$-smooth convex function, and since ${\|{x_{n} - {c_{k}g_{n}} - x^{\ast}}\|}^{2} \geqslant 0$ trivially as it is a square, this immediately implies the desired rate
+Concretely, to prove Theorem 1.1. ‣ 1.1 Contribution ‣ 1 Introduction ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"), we exhibit explicit non-negative multipliers $\lambda_{ij}$ satisfying where we use the shorthand $c_{k}:=\frac{1}{2r_{k}}$. Since ${\sum_{ij}{\lambda_{ij}Q_{ij}}} \geqslant 0$ for any $1$-smooth convex function, and since ${\|{x_{n} - {c_{k}g_{n}} - x^{\ast}}\|}^{2} \geqslant 0$ trivially as it is a square, this immediately implies the desired rate
 
 ### Remark 3.1 (The importance of a composable formulation)
 
@@ -98,41 +80,23 @@ We emphasize that while there are several alternative formulations to (3.2) that
 
 ### Example 3.2 ($n = 0$)
 
-For $n = 0$, the identity (3.2) is
-
-Here, $r_{0} = \frac{1}{2}$, $c_{0} = 1$, and the only non-zero multiplier is $\lambda_{\ast 0} = 1$.
+For $n = 0$, the identity (3.2) is Here, $r_{0} = \frac{1}{2}$, $c_{0} = 1$, and the only non-zero multiplier is $\lambda_{\ast 0} = 1$.
 
 ### Example 3.3 ($n = 1$)
 
-For $n = 1$, the identity (3.2) is
-
-For larger horizons $n$, we construct $\lambda_{ij}$ via the recursive gluing technique of. See Figure 3. Below, we say that the multipliers ${\{\sigma_{ij}\}}_{{i,j} \in {\{ 0,\ldots,n, \ast \}}}$ satisfy the $\ast$-sparsity property if $\sigma_{i \ast} = 0$ for all $i < n$. This is satisfied by construction and simplifies part of the proof (isolated in Lemma 3.5. ‣ 3.1 Helper lemmas ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization")).
+For $n = 1$, the identity (3.2) is For larger horizons $n$, we construct $\lambda_{ij}$ via the recursive gluing technique of. See Figure 3. Below, we say that the multipliers ${\{\sigma_{ij}\}}_{{i,j} \in {\{ 0,\ldots,n, \ast \}}}$ satisfy the $\ast$-sparsity property if $\sigma_{i \ast} = 0$ for all $i < n$. This is satisfied by construction and simplifies part of the proof (isolated in Lemma 3.5. ‣ 3.1 Helper lemmas ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization")).
 
 Figure 3: Components of the recursively glued certificate in Theorem 3.4, illustrated here for combining two copies of the n = 3 certificate (shaded) to create the 2 n + 1 = 7 certificate. The structure of this recursive gluing is identical to the strongly convex setting from Part I, modulo re-indexing for horizons of the form n = 2k − 1 rather than 2k.
 
 ### Theorem 3.4 (Recursive gluing)
 
-Let $n = {2^{k} - 1}$. Suppose ${\{\sigma_{ij}\}}_{{i,j} \in {\{ 0,\ldots,n, \ast \}}}$ satisfies $\ast$-sparsity and certifies the $n$-step rate, i.e.,
-
-Then there exists ${\{\lambda_{ij}\}}_{{i,j} \in {\{ 0,\ldots,{{2n} + 1}, \ast \}}}$ that satisfies $\ast$-sparsity and certifies the ${2n} + 1$-step rate, i.e.,
-
-Moreover, this certificate is explicitly given by
-
-The "gluing component" $\Theta$ is defined as
-
-The "rank-one correction" $\Xi$ is zero except the entries ${\{\Xi_{ij}\}}_{{i \in {\{ n,{{2n} + 1}, \ast \}}},{j \in {\{{n + 1},\ldots,{2n}\}}}}$ which are
-
-The "sparse correction" $\Delta$ is zero except the entries ${\{\Delta_{ij}\}}_{i \neq j \in {\{ n,{{2n} + 1}, \ast \}}}$ which are
-
-We remark that using this recursion, one can also write out the $n$-step certificate directly. The value of each multiplier then depends on the binary expansion of its indices.
+Let $n = {2^{k} - 1}$. Suppose ${\{\sigma_{ij}\}}_{{i,j} \in {\{ 0,\ldots,n, \ast \}}}$ satisfies $\ast$-sparsity and certifies the $n$-step rate, i.e., Then there exists ${\{\lambda_{ij}\}}_{{i,j} \in {\{ 0,\ldots,{{2n} + 1}, \ast \}}}$ that satisfies $\ast$-sparsity and certifies the ${2n} + 1$-step rate, i.e., Moreover, this certificate is explicitly given by The "gluing component" $\Theta$ is defined as The "rank-one correction" $\Xi$ is zero except the entries ${\{\Xi_{ij}\}}_{{i \in {\{ n,{{2n} + 1}, \ast \}}},{j \in {\{{n + 1},\ldots,{2n}\}}}}$ which are The "sparse correction" $\Delta$ is zero except the entries ${\{\Delta_{ij}\}}_{i \neq j \in {\{ n,{{2n} + 1}, \ast \}}}$ which are We remark that using this recursion, one can also write out the $n$-step certificate directly. The value of each multiplier then depends on the binary expansion of its indices.
 
 This recursive gluing immediately implies the main result of the paper, Theorem 1.1. ‣ 1.1 Contribution ‣ 1 Introduction ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization").
 
 ### Proof of Theorem 1.1. ‣ 1.1 Contribution ‣ 1 Introduction ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization")
 
-It suffices to prove (3.2); we prove this by induction. The base case $n = 1$ is Example 3.3. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). The inductive step is Theorem 3.4. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). ∎
-
-The rest of the section is dedicated to proving Theorem 3.4. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). We first isolate two helper lemmas in §3.1, and then we combine them to prove the result in §3.2 ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). For notational simplicity, henceforth we assume $x^{\ast} = 0$; this is without loss of generality after translating.
+It suffices to prove (3.2); we prove this by induction. The base case $n = 1$ is Example 3.3. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). The inductive step is Theorem 3.4. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). ∎ The rest of the section is dedicated to proving Theorem 3.4. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). We first isolate two helper lemmas in §3.1, and then we combine them to prove the result in §3.2 ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). For notational simplicity, henceforth we assume $x^{\ast} = 0$; this is without loss of generality after translating.
 
 ### Helper lemmas
 
@@ -144,19 +108,13 @@ $\sigma_{n \ast} = {\rho^{k} - 1}$, $\sigma_{\ast n} = \frac{1}{2r_{k}}$, and $\
 
 ### Proof
 
-Expand both sides of the identity (3.4. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization")) using the $\ast$-sparsity assumption, the definition of the co-coercivities, and the definition of GD, i.e., $x_{t} = {x_{0} - {\sum_{s = 0}^{t - 1}{\alpha_{s}g_{s}}}}$. Matching coefficients for the $\langle x_{0},g_{t}\rangle$ terms yields the claimed formulas for $\sigma_{\ast t}$. Matching coefficients for the $f^{\ast}$ term gives the identity $\sigma_{n \ast} = {{\sum_{j = 0}^{n}\sigma_{\ast j}} - \frac{1}{2r_{k}}}$. This equals $\rho^{k} - 1$ by Lemma 2.3. ‣ 2 Silver Stepsize Schedule ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). ∎
-
-The next two lemmas are more substantial. These help us verify (3.5. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"))---which consists of a linear form in all ${2n} + 3$ function values and a quadratic form in all ${2n} + 3$ gradients and iterates. Naïvely verifying such an identity requires checking $\Theta{(n)}$ coefficients for the linear form and $\Theta{(n^{2})}$ coefficients for the quadratic form. The following two lemmas show that due to the recursive construction of the Silver Stepsize Schedule and the gluing, these forms only affect the indices $n,{{2n} + 1}, \ast$. This reduces verifying the rate certificate (3.5. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization")) to checking only $\Theta{}$ coefficients, as detailed below in §3.2 ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). Below, for shorthand, let $F_{ij}:={2{({f_{i} - f_{j}})}}$ and $P_{ij}:={{2{\langle g_{j},{x_{j} - x_{i}}\rangle}} - {\|{g_{i} - g_{j}}\|}^{2}}$ denote the linear and quadratic components of $Q_{ij}$, respectively. For bookkeeping purposes, we use $3$-dimensional vectors and $4 \times 4$ matrices to denote the coefficients of these forms.
+Expand both sides of the identity (3.4. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization")) using the $\ast$-sparsity assumption, the definition of the co-coercivities, and the definition of GD, i.e., $x_{t} = {x_{0} - {\sum_{s = 0}^{t - 1}{\alpha_{s}g_{s}}}}$. Matching coefficients for the $\langle x_{0},g_{t}\rangle$ terms yields the claimed formulas for $\sigma_{\ast t}$. Matching coefficients for the $f^{\ast}$ term gives the identity $\sigma_{n \ast} = {{\sum_{j = 0}^{n}\sigma_{\ast j}} - \frac{1}{2r_{k}}}$. This equals $\rho^{k} - 1$ by Lemma 2.3. ‣ 2 Silver Stepsize Schedule ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). ∎ The next two lemmas are more substantial. These help us verify (3.5. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"))---which consists of a linear form in all ${2n} + 3$ function values and a quadratic form in all ${2n} + 3$ gradients and iterates. Naïvely verifying such an identity requires checking $\Theta{(n)}$ coefficients for the linear form and $\Theta{(n^{2})}$ coefficients for the quadratic form. The following two lemmas show that due to the recursive construction of the Silver Stepsize Schedule and the gluing, these forms only affect the indices $n,{{2n} + 1}, \ast$. This reduces verifying the rate certificate (3.5. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization")) to checking only $\Theta{}$ coefficients, as detailed below in §3.2 ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"). Below, for shorthand, let $F_{ij}:={2{({f_{i} - f_{j}})}}$ and $P_{ij}:={{2{\langle g_{j},{x_{j} - x_{i}}\rangle}} - {\|{g_{i} - g_{j}}\|}^{2}}$ denote the linear and quadratic components of $Q_{ij}$, respectively. For bookkeeping purposes, we use $3$-dimensional vectors and $4 \times 4$ matrices to denote the coefficients of these forms.
 
 ### Lemma 3.6 (Succinct linear forms)
 
 Let $u:={\lbrack f_{n},f_{{2n} + 1},f^{\ast}\rbrack}^{T}$, and let ${e,s,\ell} \in {\mathbb{R}}^{3}$ be the vectors defined in Appendix A.1 ‣ Appendix A Deferred proof details ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization").
 
-Gluing error. ${\frac{f^{\ast} - f_{{2n} + 1}}{r_{k + 1}} - {\sum_{ij}{\Theta_{ij}F_{ij}}}} = {\langle e,u\rangle}$
-
-Sparse correction. ${\sum_{ij}{\Delta_{ij}F_{ij}}} = {\langle s,u\rangle}$
-
-Rank-one correction. ${\sum_{ij}{\Xi_{ij}F_{ij}}} = {\langle\ell,u\rangle}$
+Gluing error. ${\frac{f^{\ast} - f_{{2n} + 1}}{r_{k + 1}} - {\sum_{ij}{\Theta_{ij}F_{ij}}}} = {\langle e,u\rangle}$ Sparse correction. ${\sum_{ij}{\Delta_{ij}F_{ij}}} = {\langle s,u\rangle}$ Rank-one correction. ${\sum_{ij}{\Xi_{ij}F_{ij}}} = {\langle\ell,u\rangle}$
 
 ### Proof
 
@@ -166,9 +124,7 @@ Expand the definition of co-coercivities, simplify the rank-one correction using
 
 Let $v:={\lbrack x_{n},g_{n},x_{{2n} + 1},g_{{2n} + 1}\rbrack}^{T}$, and let $E$, $S$, $L$ be the $4 \times 4$ matrices defined in Appendix A.2 ‣ Appendix A Deferred proof details ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization").
 
-Sparse correction. ${\sum_{ij}{\Delta_{ij}P_{ij}}} = {\langle S,{vv^{T}}\rangle}$
-
-Rank-one correction. ${\sum_{ij}{\Xi_{ij}P_{ij}}} = {\langle L,{vv^{T}}\rangle}$
+Sparse correction. ${\sum_{ij}{\Delta_{ij}P_{ij}}} = {\langle S,{vv^{T}}\rangle}$ Rank-one correction. ${\sum_{ij}{\Xi_{ij}P_{ij}}} = {\langle L,{vv^{T}}\rangle}$
 
 ### Proof
 

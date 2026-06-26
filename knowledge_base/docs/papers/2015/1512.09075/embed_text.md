@@ -2,9 +2,7 @@
 
 Many reinforcement learning (RL) research papers contain paragraphs that define Markov decision processes (MDPs). These paragraphs take up space that could otherwise be used to present more useful content. In this paper we specify a notation for MDPs that can be used by other papers. Declaring the use this notation using a single sentence can replace several paragraphs of notational specifications in other papers. Importantly, the notation that we define is a common foundation that appears in many RL papers, and is not meant to be a complete notation for an entire paper.
 
-We refer to our notation as the Markov Decision Process Notation, version 1 or MDPNv1. It can be invoked in research papers with the sentence:
-
-> "We use the notational standard MDPNv1."
+We refer to our notation as the Markov Decision Process Notation, version 1 or MDPNv1. It can be invoked in research papers with the sentence: > "We use the notational standard MDPNv1."
 
 This sentence denotes that the notation specified in this document should be inserted at the current location. One challenge with this system is that any reasonably complete notation will define a large subset of the commonly used mathematical symbols, some of which an author may wish to use with a meaning other than that specified in MDPNv1. To overcome this problem, definitions that occur after the sentence invoking MDPNv1 can modify or overwrite the definitions in MDPNv1.
 
@@ -12,7 +10,7 @@ For example, an author may write "We assume that the state and action sets are f
 
 This paper is not an introduction to RL. It assumes that the reader is already familiar with the basic concepts of RL, as covered by Sutton and Barto. Also, we try to minimize the number of assumptions that we make. This means that authors using our notation will have to specify their own assumptions, rather than specify which of our assumptions must be removed.
 
-Billy Okal has provided a style file for MDPNv1 at [https://github.com/makokal/MDPN](https://github.com/makokal/MDPN). Not only does this style file allow you to easily switch between the different notational variants defined below, but using it allows you to change the notation used in your paper by modifying the style file rather than by editing every equation individually.
+Billy Okal has provided a style file for MDPNv1 at Not only does this style file allow you to easily switch between the different notational variants defined below, but using it allows you to change the notation used in your paper by modifying the style file rather than by editing every equation individually.
 
 ## Discrete and Continuous Random Variables
 
@@ -22,23 +20,11 @@ We therefore introduce an abuse of notation into MDPNv1: notationally, we treat 
 
 ## Markov Decision Process Notation, Version 1 (MDPNv1)
 
-Let a Markov decision process (MDP) be a tuple, $(\mathcal{S},\mathcal{A},\mathcal{R},P,R,d_{0},\gamma)$, where
+Let a Markov decision process (MDP) be a tuple, $(\mathcal{S},\mathcal{A},\mathcal{R},P,R,d_{0},\gamma)$, where We use $t \in {\mathbb{N}}_{\geq 0}$ to denote the time step, where ${\mathbb{N}}_{\geq 0}$ denotes the natural numbers including zero. $\mathcal{S}$ is the set of possible states that the agent can be, and is called the state set. The state of the environment at time $t$ is a random variable that we denote by $S_{t}$. We will typically use $s$ to denote an element of the state set. $\mathcal{A}$ is the set of possible actions that the agent can select between, and is called the action set. The action chosen by the agent at time $t$ is a random variable that we denote by $A_{t}$. We will typically use $a$ to denote a specific element of the action set. $\mathcal{R} \subseteq {{\mathbb{R}} \cup {\{{- \infty},\infty\}}}$ is the set of possible rewards that the agent can receive, and is called the reward set. The reward provided to the agent at time $t$ is a random variable that we denote by $R_{t}$. We will typically use $r$ to denote an element of the reward set. Let $r_{\text{min}}$ and $r_{\text{max}}$ be the infimum and supremum of $\mathcal{R}$, respectively. $P:{{\mathcal{S} \times \mathcal{A} \times \mathcal{S}}\rightarrow{\lbrack 0,1\rbrack}}$ is called the transition function. For all ${(s,a,s',t)} \in {\mathcal{S} \times \mathcal{A} \times \mathcal{S} \times {\mathbb{N}}_{\geq 0}}$, let ${P{(s,a,s')}} ≔ {\Pr{({S_{t + 1} = \left. s' \middle| S_{t} \right. = s},{A_{t} = a})}}$.^11^1Notice that we use $≔$ to denote "is defined to be". That is, $P$ characterizes the distribution over states at time $t + 1$ given the state and action at time $t$. We introduce a Markov assumption: the distribution over $S_{t + 1}$ is independent of all prior events given $S_{t}$ and $A_{t}$. That is, the distribution over states at time $t + 1$ is fully determined by the state and action at time $t$, and this distribution is characterized by $P$.
 
-We use $t \in {\mathbb{N}}_{\geq 0}$ to denote the time step, where ${\mathbb{N}}_{\geq 0}$ denotes the natural numbers including zero.
+We allow three alternate notations for $P$. First, let ${P{(\left. s' \middle| {s,a} \right.)}} ≔ {P{(s,a,s')}}$. This form takes approximately the same amount of space, but makes it more clear that $P$ is a conditional distribution over the next state given the current state and action. Second, let ${P_{s}^{a}{(s')}} ≔ {P{(s,a,s')}}$. This notation moves terms into subscripts and superscripts in order to save some space. Third, let $P_{s,s'}^{a} ≔ {P{(s,a,s')}}$. This final form is particularly useful when space is limited. Although the author is allowed to select between the four notations for $P$, the use of $P$ should be consistent within each paper. $R$ is called the reward function. For all ${(s,a,s',t,r)} \in {\mathcal{S} \times \mathcal{A} \times \mathcal{S} \times {\mathbb{N}}_{\geq 0} \times \mathcal{R}}$, let ${R{(s,a,s',r)}} ≔ {\Pr{({R_{t} = \left. r \middle| S_{t} \right. = s},{A_{t} = a},{S_{t + 1} = s'})}}$. That is, $R$ characterizes the distribution over rewards at time $t$ given ${S_{t},A_{t}},$ and $S_{t + 1}$. We introduce another Markov assumption: the distribution of $R_{t}$ is independent of all prior events given ${S_{t},A_{t}},$ and $S_{t + 1}$. Also notice that the reward function, $R$, has no subscripts or superscripts, unlike the visually similar reward at time $t$, $R_{t}$.
 
-$\mathcal{S}$ is the set of possible states that the agent can be in, and is called the state set. The state of the environment at time $t$ is a random variable that we denote by $S_{t}$. We will typically use $s$ to denote an element of the state set.
-
-$\mathcal{A}$ is the set of possible actions that the agent can select between, and is called the action set. The action chosen by the agent at time $t$ is a random variable that we denote by $A_{t}$. We will typically use $a$ to denote a specific element of the action set.
-
-$\mathcal{R} \subseteq {{\mathbb{R}} \cup {\{{- \infty},\infty\}}}$ is the set of possible rewards that the agent can receive, and is called the reward set. The reward provided to the agent at time $t$ is a random variable that we denote by $R_{t}$. We will typically use $r$ to denote an element of the reward set. Let $r_{\text{min}}$ and $r_{\text{max}}$ be the infimum and supremum of $\mathcal{R}$, respectively.
-
-$P:{{\mathcal{S} \times \mathcal{A} \times \mathcal{S}}\rightarrow{\lbrack 0,1\rbrack}}$ is called the transition function. For all ${(s,a,s^{\prime},t)} \in {\mathcal{S} \times \mathcal{A} \times \mathcal{S} \times {\mathbb{N}}_{\geq 0}}$, let ${P{(s,a,s^{\prime})}} ≔ {\Pr{({S_{t + 1} = \left. s^{\prime} \middle| S_{t} \right. = s},{A_{t} = a})}}$.^11^1Notice that we use $≔$ to denote "is defined to be". That is, $P$ characterizes the distribution over states at time $t + 1$ given the state and action at time $t$. We introduce a Markov assumption: the distribution over $S_{t + 1}$ is independent of all prior events given $S_{t}$ and $A_{t}$. That is, the distribution over states at time $t + 1$ is fully determined by the state and action at time $t$, and this distribution is characterized by $P$.
-
-We allow three alternate notations for $P$. First, let ${P{(\left. s^{\prime} \middle| {s,a} \right.)}} ≔ {P{(s,a,s^{\prime})}}$. This form takes approximately the same amount of space, but makes it more clear that $P$ is a conditional distribution over the next state given the current state and action. Second, let ${P_{s}^{a}{(s^{\prime})}} ≔ {P{(s,a,s^{\prime})}}$. This notation moves terms into subscripts and superscripts in order to save some space. Third, let $P_{s,s^{\prime}}^{a} ≔ {P{(s,a,s^{\prime})}}$. This final form is particularly useful when space is limited. Although the author is allowed to select between the four notations for $P$, the use of $P$ should be consistent within each paper.
-
-$R$ is called the reward function. For all ${(s,a,s^{\prime},t,r)} \in {\mathcal{S} \times \mathcal{A} \times \mathcal{S} \times {\mathbb{N}}_{\geq 0} \times \mathcal{R}}$, let ${R{(s,a,s^{\prime},r)}} ≔ {\Pr{({R_{t} = \left. r \middle| S_{t} \right. = s},{A_{t} = a},{S_{t + 1} = s^{\prime}})}}$. That is, $R$ characterizes the distribution over rewards at time $t$ given ${S_{t},A_{t}},$ and $S_{t + 1}$. We introduce another Markov assumption: the distribution of $R_{t}$ is independent of all prior events given ${S_{t},A_{t}},$ and $S_{t + 1}$. Also notice that the reward function, $R$, has no subscripts or superscripts, unlike the visually similar reward at time $t$, $R_{t}$.
-
-As with $P$, we allow for several alternate notations for $R$ that the author is free to select from. Let ${R{(\left. r \middle| {s,a,s^{\prime}} \right.)}} ≔ {R_{s,s^{\prime}}^{a}{(r)}} ≔ R_{s,s^{\prime}}^{a,r} ≔ {R{(s,a,s^{\prime},r)}}$.
+As with $P$, we allow for several alternate notations for $R$ that the author is free to select . Let ${R{(\left. r \middle| {s,a,s'} \right.)}} ≔ {R_{s,s'}^{a}{(r)}} ≔ R_{s,s'}^{a,r} ≔ {R{(s,a,s',r)}}$.
 
 We call $d_{0}:{\mathcal{S}\rightarrow{\lbrack 0,1\rbrack}}$ the initial state distribution, since ${d_{0}{(s)}} ≔ {\Pr{({S_{0} = s})}}$ for all $s \in \mathcal{S}$.
 
@@ -66,22 +52,6 @@ Although there are many other terms that we could include in MDPNv1, we have dec
 
 In this section we demonstrate how to use the style file accompanying this text.
 
-The package can be included using any of three options: alpha, beta, kappa.
-
-[⬇](data:text/plain;base64,ICAgICUgLi4uCiAgICBcdXNlcGFja2FnZVthbHBoYV17bWRwbn0gICUgTW9zdCB2ZXJib3NlCiAgICAlXHVzZXBhY2thZ2VbYmV0YV17bWRwbn0gICUgQ29tcHJlc3NlZAogICAgJVx1c2VwYWNrYWdlW2thcHBhXXttZHBufSAgJSBNb3N0IGNvbXByZXNzZWQKICAgICUgLi4u){download=""}
-
-2 \\usepackage\[alpha\]{mdpn} % Most verbose
-
-3 %\\usepackage\[beta\]{mdpn} % Compressed
-
-4 %\\usepackage\[kappa\]{mdpn} % Most compressed
-
-You can use any of the defined commands in text as:
-
-[⬇](data:text/plain;base64,ICAgICUgLi4uCiAgICBTb21lIHRleHQgJFxjb21tYW5kJCwgZm9yIGV4YW1wbGUgJFxzc2V0JCBmb3Igc3RhdGUgc2V0CiAgICAlIC4uLg==){download=""}
-
-2 Some text \$\\command\$, for example \$\\sset\$ for state set
-
-Some of the commands require a specific number of arguments that should be provided in the order indicated. For example \\T requires three arguments: the current state $s$, current action $a$ and next state $s^{\prime}$. So, \\T{s}{a}{s'} will produce $P{({s^{\prime} \mid {s,a}})}$.
+The package can be included using any of three options: alpha, beta, kappa. [⬇](data:text/plain;base64,ICAgICUgLi4uCiAgICBcdXNlcGFja2FnZVthbHBoYV17bWRwbn0gICUgTW9zdCB2ZXJib3NlCiAgICAlXHVzZXBhY2thZ2VbYmV0YV17bWRwbn0gICUgQ29tcHJlc3NlZAogICAgJVx1c2VwYWNrYWdlW2thcHBhXXttZHBufSAgJSBNb3N0IGNvbXByZXNzZWQKICAgICUgLi4u){download=""} 2 \\usepackage\[alpha\]{mdpn} % Most verbose 3 %\\usepackage\[beta\]{mdpn} % Compressed 4 %\\usepackage\[kappa\]{mdpn} % Most compressed You can use any of the defined commands in text as: [⬇](data:text/plain;base64,ICAgICUgLi4uCiAgICBTb21lIHRleHQgJFxjb21tYW5kJCwgZm9yIGV4YW1wbGUgJFxzc2V0JCBmb3Igc3RhdGUgc2V0CiAgICAlIC4uLg==){download=""} 2 Some text \$\\command\$, for example \$\\sset\$ for state set Some of the commands require a specific number of arguments that should be provided in the order indicated. For example \\T requires three arguments: the current state $s$, current action $a$ and next state $s'$. So, \\T{s}{a}{s'} will produce $P{({s' \mid {s,a}})}$.
 
 Most of the commands allow usual modifications such as subscripts and superscripts. For example, \\pp (which denotes a parametrised policy) can be modified to \\pp\_{sub} to yield $\pi{({a \mid {s,{\mathbf{θ}}}})}_{sub}$.

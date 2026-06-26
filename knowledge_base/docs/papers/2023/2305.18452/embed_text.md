@@ -12,9 +12,7 @@ The development of diffusion models has shown to be remarkably successful in ima
 
 In this paper we describe a traffic scene generation architecture we refer to as "Scene Diffusion". Following, there are two parts to our model architecture: an autoencoder which is trained first, and a diffusion model which is trained second on the latent embeddings from the autoencoder. We use a novel combination of diffusion and object detection to directly output discrete bounding boxes for agents.
 
-The contributions of our work are:
-
-We propose a novel end-to-end differentiable architecture based on latent diffusion and object detection for generating driving scenes.
+The contributions of our work are: We propose a novel end-to-end differentiable architecture based on latent diffusion and object detection for generating driving scenes.
 
 We evaluate the generalization capabilities of our scene generation model across different geographical regions qualitatively and quantitatively.
 
@@ -22,7 +20,7 @@ We evaluate the generalization capabilities of our scene generation model across
 
 Our goal is to develop a generative model to produce driving scenes conditioned on map data. In this work a driving scene consists of a map and a set of agents, where each agent is described by an oriented bounding box.
 
-The map is represented as a multi-channel birds' eye view image $m \in {\mathbb{R}}^{C_{m} \times H \times W}$ similar to that described in. This map image contains information about the road geometry, regions of interest (e.g. driveways, crosswalks, parking spots), and traffic light states.
+The map is represented as a multi-channel birds' eye view image $m \in {\mathbb{R}}^{C_{m} \times H \times W}$ similar to that described . This map image contains information about the road geometry, regions of interest (e.g. driveways, crosswalks, parking spots), and traffic light states.
 
 The agents are also represented as a multi-channel birds' eye view image $x \in {\mathbb{R}}^{C_{x} \times H \times W}$, also similar to. In addition to a binary channel representing whether a pixel is occupied we also use channels that fill each agent's bounding box with the sine and cosine of the agent's heading to disambiguate the orientation of each box. This image $x$ is used to represent scenes during training and is not used for inference. An example of $x$ and $m$ is shown in Fig. 1.
 
@@ -34,19 +32,15 @@ The architecture of the scene autoencoder is adapted from that of. The main modi
 
 ### III-A Conditional Variational Autoencoder
 
-The agent image $x$ is processed by an encoder $\mathcal{E}{(x)}$ to obtain a mean and standard deviation ${z_{\mu},z_{\sigma}} \in {\mathbb{R}}^{C^{\prime} \times H^{\prime} \times W^{\prime}}$, where $H^{\prime} = {H/2^{f}}$ and $W^{\prime} = {W/2^{f}}$ for some down-sampling count $f \in {\mathbb{N}}$.
+The agent image $x$ is processed by an encoder $\mathcal{E}{(x)}$ to obtain a mean and standard deviation ${z_{\mu},z_{\sigma}} \in {\mathbb{R}}^{C' \times H' \times W'}$, where $H' = {H/2^{f}}$ and $W' = {W/2^{f}}$ for some down-sampling count $f \in {\mathbb{N}}$.
 
 From these parameters, a latent embedding is obtained using the reparametrization trick: $z = {z_{\mu} + {z_{\sigma}\epsilon}}$ where $\epsilon \sim {\mathcal{N}(0,\mathbf{I})}$. This latent embedding is then given to a decoder $\mathcal{D}$ along with $m$. The decoder output is $y = {\mathcal{D}{(z;m)}}$.
 
-To train the VAE, a reconstruction loss $\mathcal{L}_{\text{rec}}{(y,x)}$ is applied between the decoder output and the original encoder inputs $x$. A KL regularization loss is applied to the latent embedding distributions,
-
-The final loss for the VAE is a weighted combination of these two losses:
-
-One of the key adaptations to go from images to driving scenes is to change the output representation of the decoder and the reconstruction loss to train it. The exact structure of $y$ and $\mathcal{L}_{\text{rec}}$ is described in the sections below.
+To train the VAE, a reconstruction loss $\mathcal{L}_{\text{rec}}{(y,x)}$ is applied between the decoder output and the original encoder inputs $x$. A KL regularization loss is applied to the latent embedding distributions, The final loss for the VAE is a weighted combination of these two losses: One of the key adaptations to go from images to driving scenes is to change the output representation of the decoder and the reconstruction loss to train it. The exact structure of $y$ and $\mathcal{L}_{\text{rec}}$ is described in the sections below.
 
 ### III-B Oriented Bounding Boxes
 
-We aim to produce an anchor-free one-to-one object detector that will produce a single oriented bounding box per agent without needing heuristic post-processing to construct boxes as in. However, the approach of is not immediately applicable to *oriented* bounding box detection because differentiable IoU loss is not tractable for rotated bounding boxes.
+We aim to produce an anchor-free one-to-one object detector that will produce a single oriented bounding box per agent without needing heuristic post-processing to construct boxes as . However, the approach of is not immediately applicable to *oriented* bounding box detection because differentiable IoU loss is not tractable for rotated bounding boxes.
 
 Our simplified detection problem setting (we provide perfectly rendered boxes with channels clearly indicating the correct orientation of the box) allows us to use a more straight-forward approach compared to prior works performing oriented object detection in more challenging settings.
 
@@ -54,9 +48,7 @@ Our simplified detection problem setting (we provide perfectly rendered boxes wi
 
 In the decoder output $y$, each pixel represents one bounding box. Note that the pixel dimensions of $y$ can be different from those of $x$; in practice we use a lower resolution for $y$ to reduce computational and memory requirements.
 
-Let $b$ be the feature vector for one pixel in $y$. The pixel location defines the 2D reference point ${r{(b)}} \in {\mathbb{R}}^{2}$ used to locate the box in space. There are seven channels of $b$ to define the probability, shape, and orientation of the box: $(l,\theta_{c},\theta_{s},d_{\text{front}},d_{\text{left}},d_{\text{back}},d_{\text{right}})$
-
-The first channel $l$ is a sigmoid logit that defines the probability for the box. The next two channels represent the cosine ($\theta_{c}$) and sine ($\theta_{s}$) of the box orientation. By predicting sine and cosine values we avoid having an arbitrary discontinuity in the expected model output (e.g. between $- \pi$ and $\pi$).
+Let $b$ be the feature vector for one pixel in $y$. The pixel location defines the 2D reference point ${r{(b)}} \in {\mathbb{R}}^{2}$ used to locate the box in space. There are seven channels of $b$ to define the probability, shape, and orientation of the box: $(l,\theta_{c},\theta_{s},d_{\text{front}},d_{\text{left}},d_{\text{back}},d_{\text{right}})$ The first channel $l$ is a sigmoid logit that defines the probability for the box. The next two channels represent the cosine ($\theta_{c}$) and sine ($\theta_{s}$) of the box orientation. By predicting sine and cosine values we avoid having an arbitrary discontinuity in the expected model output (e.g. between $- \pi$ and $\pi$).
 
 Four more channels represent the log of the distances from the pixel center to the front ($d_{\text{front}}$), left ($d_{\text{left}}$), back ($d_{\text{back}}$), and right ($d_{\text{right}}$) sides of the box. These parameters are demonstrated in Fig. 2.
 
@@ -70,13 +62,9 @@ The classification cost can be immediately applied to our setting. Our bounding 
 
 The L1 cost is also easy to apply. For each pair of predicted box and ground truth box we compute the correct box parameters to match the ground truth box from the predicted box's pixel center. For the log distance terms we clip the distance in cases where the distance is negative (i.e. the pixel is outside the box). We then apply an L1 loss on the cosine, sine, and four log distance terms of the box representation.
 
-Several works have attempted to approximate IoU for oriented bounding boxes in a differentiable way. Given the simplified detection setting in this work (our input consists of clean, perfect rectangles with unambiguous orientations), we propose a simpler alternative that is tractable for oriented bounding boxes and describes the spatial alignment of the two boxes. We apply a vertex cost term as the average L2 norm between each pair of vertices.
+Several works have attempted to approximate IoU for oriented bounding boxes in a differentiable way. Given the simplified detection setting in this work (our input consists of clean, perfect rectangles with unambiguous orientations), we propose a simpler alternative that is tractable for oriented bounding boxes and describes the spatial alignment of the two boxes. We apply a vertex cost term as the average L2 norm between each pair of vertices. where $\text{vert}_{v}{(b)}$ computes the $v^{\text{th}}$ vertex of the box (front left, front right, back left, and back right). We find that this vertex cost is important in matching, as the L1 loss may prefer a good box for an adjacent vehicle (which gets good L1 loss for all but the left and right distance parameters) over a not-so-good box that aligns spatially with the ground truth box in question.
 
-where $\text{vert}_{v}{(b)}$ computes the $v^{\text{th}}$ vertex of the box (front left, front right, back left, and back right). We find that this vertex cost is important in matching, as the L1 loss may prefer a good box for an adjacent vehicle (which gets good L1 loss for all but the left and right distance parameters) over a not-so-good box that aligns spatially with the ground truth box in question.
-
-The final matching cost is a weighted combination of these three costs
-
-Given these matching costs, we assign one predicted box $b_{i{(j)}}$ to each ground truth box $g_{j}$.
+The final matching cost is a weighted combination of these three costs Given these matching costs, we assign one predicted box $b_{i{(j)}}$ to each ground truth box $g_{j}$.
 
 A binary cross-entropy loss $\mathcal{L}_{\text{cls}}$ is used for the predicted box probabilities $p{(b_{i})}$ and an indicator $\mathbb{1}\left\lbrack \exists j:i{(j)} = i \right\rbrack$ for whether $b_{i}$ was assigned to some ground truth box. L1 and vertex losses are simply the corresponding matching costs applied between each pair $g_{j}$ and $b_{i{(j)}}$. Note that the parameters defining box shape are only regressed for predicted boxes that are matched to a ground truth box, while the box logit is trained for all predicted boxes. The overall detection loss is a weighted combination of the classification, L1, and vertex loss terms. The weighting coefficients do not need to be the same as that used for the matching cost.
 
@@ -84,7 +72,7 @@ Figure 2: Depiction of the bounding box parametrization. (a) shows the reference
 
 ## SCENE DIFFUSION
 
-After the scene autoencoder is trained, we use the frozen encoder and decoder to train a diffusion model on the latent embeddings as in. However, for the actual diffusion algorithm we use EDM with the addition of image conditional data. Fig. 1(b) shows the architecture for diffusion training and Fig. 1(c) shows the architecture for inference.
+After the scene autoencoder is trained, we use the frozen encoder and decoder to train a diffusion model on the latent embeddings as . However, for the actual diffusion algorithm we use EDM with the addition of image conditional data. Fig. 1(b) shows the architecture for diffusion training and Fig. 1(c) shows the architecture for inference.
 
 Figure 3: Driving scenes generated from a variety of map locations. A single model trained on the full dataset is able to produce a wide range of scenes. Generating multiple scenes with the same map image and different initial diffusion seeds produces distinct driving situations.
 
@@ -94,23 +82,15 @@ Let $\hat{z} = {\mathcal{E}{(x)}}$ be a latent embedding obtained from the froze
 
 During training we sample $\sigma$ according to a log normal distribution; i.e. ${\log\sigma} \sim {\mathcal{N}\left( P_{\mu},P_{\sigma}^{2} \right)}$ with hyperparameters $P_{\mu}$ and $P_{\sigma}$.
 
-We create a noisy version of the embeddings $z = {\hat{z} + {\sigma\epsilon}}$ where $\epsilon \in {\mathbb{R}}^{C^{\prime} \times H^{\prime} \times W^{\prime}}$ is sampled from the standard normal distribution. We then train the denoising model $\mathcal{M}$ to correct for the noise conditioned on map data $m$ and the noise level $\sigma$ by minimizing the reconstruction loss:
+We create a noisy version of the embeddings $z = {\hat{z} + {\sigma\epsilon}}$ where $\epsilon \in {\mathbb{R}}^{C' \times H' \times W'}$ is sampled from the standard normal distribution. We then train the denoising model $\mathcal{M}$ to correct for the noise conditioned on map data $m$ and the noise level $\sigma$ by minimizing the reconstruction loss: where $\lambda$, $c_{\text{in}}$, $c_{\text{skip}}$, and $c_{\text{out}}$ are scalar functions of $\sigma$ as defined.
 
-where $\lambda$, $c_{\text{in}}$, $c_{\text{skip}}$, and $c_{\text{out}}$ are scalar functions of $\sigma$ as defined in.
-
-Given a noisy sample $z$, we can estimate the denoised version $\hat{z}$ by
-
-The L2 norm on the latent space treats all directions equally, but some will be more or less important for the decoder. To capture this, we apply an additional reconstruction loss
-
-where $\mathcal{D}$ is the frozen decoder and $\mathcal{L}_{\text{rec}}$ is the same reconstruction loss used for the autoencoder in Sec. III-A.
+Given a noisy sample $z$, we can estimate the denoised version $\hat{z}$ by The L2 norm on the latent space treats all directions equally, but some will be more or less important for the decoder. To capture this, we apply an additional reconstruction loss where $\mathcal{D}$ is the frozen decoder and $\mathcal{L}_{\text{rec}}$ is the same reconstruction loss used for the autoencoder in Sec. III-A.
 
 The final loss for the denoising model is a weighted combination of these two losses:
 
 ### IV-B Inference
 
-To generate new samples given a map image $m$, an initial noisy sample $z \sim {\mathcal{N}{(0,{\sigma_{\text{max}}^{2}\mathbf{I}})}}$ is drawn for some large noise level $\sigma_{\text{max}}$. This sample is then iteratively refined according to the reverse process ODE as described in. Due to the manner in which the denoising model $\mathcal{M}$ is trained, the gradient of the log probability ${{{\nabla_{z}\log}p}{(z;m,\sigma)}} = {\left( {{M{(z;m,\sigma)}} - z} \right)/\sigma^{2}}$. Thus, the ODE simplifies to
-
-After the sample has been integrated from $\sigma_{\text{max}}$ to 0, it is passed through the decoder to get the final output $y = {\mathcal{D}{(z,m)}}$.
+To generate new samples given a map image $m$, an initial noisy sample $z \sim {\mathcal{N}{(0,{\sigma_{\text{max}}^{2}\mathbf{I}})}}$ is drawn for some large noise level $\sigma_{\text{max}}$. This sample is then iteratively refined according to the reverse process ODE as described. Due to the manner in which the denoising model $\mathcal{M}$ is trained, the gradient of the log probability ${{{\nabla_{z}\log}p}{(z;m,\sigma)}} = {\left({{M{(z;m,\sigma)}} - z} \right)/\sigma^{2}}$. Thus, the ODE simplifies to After the sample has been integrated from $\sigma_{\text{max}}$ to 0, it is passed through the decoder to get the final output $y = {\mathcal{D}{(z,m)}}$.
 
 ## EXPERIMENTAL RESULTS
 
@@ -128,11 +108,11 @@ The birds' eye view images are $H = W = 256$ pixels in height and width and cove
 
 ### V-A2 Model Architecture
 
-In the autoencoder, we use the same encoder architecture as with $f = 3$ downsampling layers so that the output latent embedding is $H^{\prime} = W^{\prime} = 32$ pixels in height and width. The encoder and decoder use 32, 64, 128, and 128 channels at the 0x, 1x, 2x, and 3x downsampled feature levels, respectively. We use a latent channel dimension of $C^{\prime} = 4$.
+In the autoencoder, we use the same encoder architecture as with $f = 3$ downsampling layers so that the output latent embedding is $H' = W' = 32$ pixels in height and width. The encoder and decoder use 32, 64, 128, and 128 channels at the 0x, 1x, 2x, and 3x downsampled feature levels, respectively. We use a latent channel dimension of $C' = 4$.
 
 For the decoder, we first use the same architecture as the encoder to downsample the map image to the same pixel dimension as the latent embedding. However, we also save feature maps at each level of downsampling. We then concatenate the compressed map data with the latent embedding from the encoder and use a modified version of the decoder from where we add skip connections in each upsampling block to the corresponding feature map from the map downsampling network. The decoder does not upsample all the way to the original encoder input size, and instead outputs bounding box detections at 64 x 64 pixels. This is a high enough resolution to consistently have a pixel within each vehicle, while low enough to avoid memory issues during training.
 
-In the denoising model we first use the same architecture as the autoencoder's encoder to process the conditional map image down to the same pixel size as the latent embedding. The processed map data is concatenated with the latent embedding and processed by a time-conditioned Unet as in. The Unet uses 64, 128, and 256 layers in three levels of features. At the lowest resolution layer it uses self-attention with 8 heads. Each resolution layer uses 2 residual blocks.
+In the denoising model we first use the same architecture as the autoencoder's encoder to process the conditional map image down to the same pixel size as the latent embedding. The processed map data is concatenated with the latent embedding and processed by a time-conditioned Unet as . The Unet uses 64, 128, and 256 layers in three levels of features. At the lowest resolution layer it uses self-attention with 8 heads. Each resolution layer uses 2 residual blocks.
 
 We threshold the boxes generated by the decoder based on the generated box probabilities. We use a probability threshold of $90\%$, although we observe that almost all generated boxes have probability either above 97% or below 40%.
 
@@ -142,7 +122,7 @@ For training the autoencoder, we use the Adam optimizer with a learning rate of 
 
 For training the diffusion model, we use $P_{\mu} = {- 0.5}$ and $P_{\sigma} = 1$. The loss weight $\beta_{y} = 0.2$. We use an AdamW optimizer with a learning rate of 3e-4 and weight decay of 1e-5.
 
-For inference we use 100 timesteps and select a noise schedule with $\rho = 7$ from.
+For inference we use 100 timesteps and select a noise schedule with $\rho = 7$ .
 
 TABLE I: MMD2 metric on agent positions evaluated across regions. Models trained on a single region perform the best on scenes from that region. The model trained on all four regions is able to come close to the performance of the region-specific models.
 
@@ -150,11 +130,9 @@ TABLE II: MMD2 metric on agent heading evaluated across regions. We observe a si
 
 ### V-B Metrics
 
-To determine whether the data produced under our learned models matches the training data used to train the model, we can examine whether the training distribution matches the synthesized data distribution. Since we do not have access to the actual distribution implicit in the diffusion model, we compare the distributions of the samples using the mean maximum discrepancy (MMD) under a Gaussian kernel. Given two distributions $p,q$ over ${\mathbb{R}}^{d}$,
+To determine whether the data produced under our learned models matches the training data used to train the model, we can examine whether the training distribution matches the synthesized data distribution. Since we do not have access to the actual distribution implicit in the diffusion model, we compare the distributions of the samples using the mean maximum discrepancy (MMD) under a Gaussian kernel. Given two distributions $p,q$ over ${\mathbb{R}}^{d}$, where $k$ is a Gaussian kernel.
 
-where $k$ is a Gaussian kernel.
-
-We apply this metric to the agent center positions and their heading vectors (i.e. a unit vector in the direction the agent is facing). We compute this metric between individual pairs of scenes using the same map location and average across the dataset as in. This metric quantifies how well the distribution of generated scenes matches the given data sample at the same map location.
+We apply this metric to the agent center positions and their heading vectors (i.e. a unit vector in the direction the agent is facing). We compute this metric between individual pairs of scenes using the same map location and average across the dataset as . This metric quantifies how well the distribution of generated scenes matches the given data sample at the same map location.
 
 ### V-C Generating Driving Scenes
 
@@ -190,11 +168,7 @@ Our work adapts a different technique from image synthesis, latent diffusion, to
 
 ### VI-B Diffusion for Image Synthesis
 
-Diffusion models have become quite popular for generating images. Many works have explored conditioning the diffusion model on other image or text data (e.g. ).
-
-uses an autoencoder to compress images to a latent embedding and then applies diffusion to model the data distribution in that latent space. This decouples the output representation with the diffusion representation, allowing the diffusion model to focus on the semantic structure of the image while the decoder handles perceptual details.
-
-proposes a simplified algorithm for both training and inference using diffusion models. Their approach improves performance in image synthesis and simplifies the hyperparameters required.
+Diffusion models have become quite popular for generating images. Many works have explored conditioning the diffusion model on other image or text data (e.g.). uses an autoencoder to compress images to a latent embedding and then applies diffusion to model the data distribution in that latent space. This decouples the output representation with the diffusion representation, allowing the diffusion model to focus on the semantic structure of the image while the decoder handles perceptual details. proposes a simplified algorithm for both training and inference using diffusion models. Their approach improves performance in image synthesis and simplifies the hyperparameters required.
 
 ### VI-C Object Detection
 

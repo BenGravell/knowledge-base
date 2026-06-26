@@ -12,19 +12,13 @@ More specifically, our first contribution is the introduction of *kMP-db-A\**, a
 
 ## Problem Description
 
-We consider a robot with state $\mathbf{x} = {\lbrack\mathbf{x}^{t},\mathbf{x}^{r}\rbrack} \in \mathcal{X} \subset {{\mathbb{R}}^{d_{w}} \times {\mathbb{R}}^{d_{x} - d_{w}}}$, where the first $d_{w}$ dimensions indicate the translation in the workspace ($d_{w} \in {\{ 2,3\}}$) of the robot and the remaining $d_{x} - d_{w}$ dimensions may contain orientation or derivatives. The robot can be actuated by controlling actions $\mathbf{u} \in \mathcal{U} \subset {\mathbb{R}}^{d_{u}}$. We consider dynamics that are *translation invariant*, with
-
-where $\mathbf{f}$ only depends on $\mathbf{x}^{r}$ and not on $\mathbf{x}^{t}$. In order to employ gradient-based optimization, we assume that we can compute the Jacobian of $\mathbf{f}$ with respect to $\mathbf{x}^{r}$ and $\mathbf{u}$.
+We consider a robot with state $\mathbf{x} = {\lbrack\mathbf{x}^{t},\mathbf{x}^{r}\rbrack} \in \mathcal{X} \subset {{\mathbb{R}}^{d_{w}} \times {\mathbb{R}}^{d_{x} - d_{w}}}$, where the first $d_{w}$ dimensions indicate the translation in the workspace ($d_{w} \in {\{ 2,3\}}$) of the robot and the remaining $d_{x} - d_{w}$ dimensions may contain orientation or derivatives. The robot can be actuated by controlling actions $\mathbf{u} \in \mathcal{U} \subset {\mathbb{R}}^{d_{u}}$. We consider dynamics that are *translation invariant*, with where $\mathbf{f}$ only depends on $\mathbf{x}^{r}$ and not on $\mathbf{x}^{t}$. In order to employ gradient-based optimization, we assume that we can compute the Jacobian of $\mathbf{f}$ with respect to $\mathbf{x}^{r}$ and $\mathbf{u}$.
 
 The robot is operating in a workspace $\mathcal{W} \subseteq {\mathbb{R}}^{d_{w}}$ that indicates the free space for safe navigation. The free state space then becomes $\mathcal{X}_{free} = \left. \{{\mathbf{x} = {\lbrack\mathbf{x}^{t},\mathbf{x}^{r}\rbrack} \in \mathcal{X}} \middle| {\mathbf{x}^{t} \in \mathcal{W}}\} \right.$.
 
-Almost all generic kinodynamic motion planners assume a discrete-time formulation with zero-order hold, i.e., the applied action remains constant during a timestep. We can then frame the dynamics Eq. 1 as
+Almost all generic kinodynamic motion planners assume a discrete-time formulation with zero-order hold, i.e., the applied action remains constant during a timestep. We can then frame the dynamics Eq. 1 as using a small timestep $\Deltat$ so that the Euler approximation holds sufficiently well.
 
-using a small timestep $\Deltat$ so that the Euler approximation holds sufficiently well.
-
-Let $\mathbf{X} = {\langle\mathbf{x}_{0},\mathbf{x}_{1},\ldots,\mathbf{x}_{T}\rangle}$ be a sequence of states sampled at times $0,{\Deltat},\ldots,{T\Deltat}$ and $\mathbf{U} = {\langle\mathbf{u}_{0},\mathbf{u}_{1},\ldots,\mathbf{u}_{T - 1}\rangle}$ be a sequence of actions applied to the system for times ${\lbrack 0,{\Deltat})},{\lbrack{\Deltat},{2\Deltat})},\ldots,{\lbrack{{({T - 1})}\Deltat},{T\Deltat})}$. Then our goal of moving the robot from its start state to a goal state can be framed as the following optimization problem:
-
-where $\mathbf{x}_{s} \in \mathcal{X}$ is the start state and $\mathbf{x}_{f} \in \mathcal{X}$ is the goal state. The objective function $J$ is application specific; we will focus on time-optimal trajectories, i.e., ${J{(\mathbf{U},\mathbf{X},T)}} = {T\Deltat}$.
+Let $\mathbf{X} = {\langle\mathbf{x}_{0},\mathbf{x}_{1},\ldots,\mathbf{x}_{T}\rangle}$ be a sequence of states sampled at times $0,{\Deltat},\ldots,{T\Deltat}$ and $\mathbf{U} = {\langle\mathbf{u}_{0},\mathbf{u}_{1},\ldots,\mathbf{u}_{T - 1}\rangle}$ be a sequence of actions applied to the system for times ${\lbrack 0,{\Deltat})},{\lbrack{\Deltat},{2\Deltat})},\ldots,{\lbrack{{({T - 1})}\Deltat},{T\Deltat})}$. Then our goal of moving the robot from its start state to a goal state can be framed as the following optimization problem: where $\mathbf{x}_{s} \in \mathcal{X}$ is the start state and $\mathbf{x}_{f} \in \mathcal{X}$ is the goal state. The objective function $J$ is application specific; we will focus on time-optimal trajectories, i.e., ${J{(\mathbf{U},\mathbf{X},T)}} = {T\Deltat}$.
 
 ### Example 1
 
@@ -58,20 +52,11 @@ Our general approach is shown in Algorithm 1. We assume that we have access to a
 
 ### Definition 1
 
-A *motion primitive* is a tuple $\langle\mathbf{X},\mathbf{U},T,c\rangle$ with
-
-Typically, at least some of these are computed offline (e.g., using an optimization-based kinodynamic planner), while others can also be generated online. There is no requirement on the optimality of each motion primitive, although *optimal motion primitives*, where $J$ is minimized for the respective start and goal states, are beneficial in our setting.
+A *motion primitive* is a tuple $\langle\mathbf{X},\mathbf{U},T,c\rangle$ with | | $\mathbf{X}$ | $= {\langle\mathbf{x}_{0},\ldots,\mathbf{x}_{T}\rangle}$ | ${\mathbf{x}_{0}^{t} = \mathbf{0}},{\mathbf{x}_{k} \in \mathcal{X}}$ | | \(4\) | | | $\mathbf{U}$ | $= {\langle\mathbf{u}_{0},\ldots,\mathbf{u}_{T - 1}\rangle}$ | $\mathbf{u}_{k} \in \mathcal{U}$ | | | | | $\mathbf{x}_{k + 1}$ | $= {{step}{(\mathbf{x}_{k},\mathbf{u}_{k})}}$ | ${\forall k} \in {\{ 0,\ldots,{T - 1}\}}$ | | | Typically, at least some of these are computed offline (e.g., using an optimization-based kinodynamic planner), while others can also be generated online. There is no requirement on the optimality of each motion primitive, although *optimal motion primitives*, where $J$ is minimized for the respective start and goal states, are beneficial in our setting.
 
 Our kinodynamic planning approach iteratively improves the solution. In every iteration, the following steps are executed: i) the set of used motion primitives grows and the bound that limits the maximum magnitude of discontinuous jumps that a solution may have is computed (Algorithms 1 to 1); ii) our discrete planner, db-A\*, computes an initial solution that may include a bounded violation of some constraints (Algorithm 1); iii) the result of db-A\* warm-starts an optimization-based formulation (Algorithm 1); and iv) additional motion primitives are extracted from the optimization (Algorithm 1).
 
-⊳ Set of motion primitives
-⊳ Solution cost bound
-5 Xd, Ud, Td← db-A*(xs, xf, 𝒳free, ℳ, δ, cmax)
-6 if Xd, Ud successfully computed then
-8 if X, U successfully computed then
-⊳ New solution found
-cmax ← min (cmax,J (X,U,T))
-Algorithm 1 kMP-db-A*: Kinodynamic Motion Planning with db-A*
+⊳ Set of motion primitives ⊳ Solution cost bound 5 Xd, Ud, Td← db-A*(xs, xf, 𝒳free, ℳ, δ, cmax) 6 if Xd, Ud successfully computed then 8 if X, U successfully computed then ⊳ New solution found cmax ← min (cmax, J (X, U, T)) Algorithm 1 kMP-db-A*: Kinodynamic Motion Planning with db-A*
 
 ### IV-A db-A\*: Discontinuity-bounded A\*
 
@@ -79,15 +64,7 @@ In the following, we rely on a user-specified *metric* $d:{{\mathcal{X} \times \
 
 ### Definition 2
 
-Sequences $\mathbf{X} = {\langle\mathbf{x}_{0},\ldots,\mathbf{x}_{T}\rangle}$, $\mathbf{U} = {\langle\mathbf{u}_{0},\ldots,\mathbf{u}_{T - 1}\rangle}$ are *$\delta$-discontinuity-bounded* solutions to Eq. 3 iff the following conditions hold:
-
-${{d{(\mathbf{x}_{k + 1},{{step}{(\mathbf{x}_{k},\mathbf{u}_{k})}})}} \leq \delta}\quad{k \in {\{ 0,\ldots,{T - 1}\}}}$ (5a)
-${\mathbf{u}_{k} \in \mathcal{U}}\mspace{21mu}{{\forall k} \in {\{ 0,\ldots,{T - 1}\}}}$ (5b)
-${\mathbf{x}_{k} \in \mathcal{X}_{free}}\mspace{21mu}{{\forall k} \in {\{ 0,\ldots,T\}}}$ (5c)
-${d{(\mathbf{x}_{0},\mathbf{x}_{s})}} \leq \delta$ (5d)
-${{d{(\mathbf{x}_{T},\mathbf{x}_{f})}} \leq \delta}.$ (5e)
-
-Intuitively, Definition 2 enforces that the sequences connect the start and goal states with a bounded error $\delta$ in the dynamics, which corresponds to "stitching" primitives together. By the definition of a metric space, $\mathbf{X}$ and $\mathbf{U}$ fulfill all constraints of Eq. 3 if $\delta = 0$.
+Sequences $\mathbf{X} = {\langle\mathbf{x}_{0},\ldots,\mathbf{x}_{T}\rangle}$, $\mathbf{U} = {\langle\mathbf{u}_{0},\ldots,\mathbf{u}_{T - 1}\rangle}$ are *$\delta$-discontinuity-bounded* solutions to Eq. 3 iff the following conditions hold: Intuitively, Definition 2 enforces that the sequences connect the start and goal states with a bounded error $\delta$ in the dynamics, which corresponds to "stitching" primitives together. By the definition of a metric space, $\mathbf{X}$ and $\mathbf{U}$ fulfill all constraints of Eq. 3 if $\delta = 0$.
 
 Our approach to compute such sequences is *discontinuity-bounded A\** (db-A\*), see Algorithm 2. Db-A\* is, like A\*, an informed search that relies on a *heuristic* $h:{\mathcal{X}\rightarrow{\mathbb{R}}}$ to explore an implicitly defined directed graph efficiently. Nodes in the graph represent states and an edge between nodes indicates a $\delta$-bounded motion that connects the states.
 
@@ -95,18 +72,7 @@ The algorithm keeps track of nodes to explore using a *priority queue*, which is
 
 Unlike A\*, we consider two states to be identical for nonzero $\delta$ values. The major changes of db-A\* from A\* are highlighted in Algorithm 2. We use the notation $\mathbf{x} \oplus m$ to indicate that a motion $m$ is applied to state $\mathbf{x}$; that is, we shift $m$ by the translational part of $\mathbf{x}$. For efficient search, we adopt two k-d trees (rather than a hashmap in A\*). Namely, we use $\mathcal{T}_{m}$ (Algorithm 2) to index the start states of all provided motion primitives, which can be done once at the beginning. In order to reuse the same distance metric $d$, we use the translation-invariance property and set $\mathbf{x}^{t}$ of a given state $\mathbf{x}$ to $\mathbf{0}$. This data structure allows us to efficiently find suitable motions extending from a given state (Algorithm 2). The second k-d tree $\mathcal{T}_{n}$ (Algorithm 2) contains the states of all explored nodes and grows dynamically (Algorithm 2). It is used to find nearby previously explored states (Algorithm 2) in order to limit the graph size and enable rewiring. The discontinuity with a magnitude of up to $\delta$ may occur in two cases. First, when we select suitable motion primitives for expansion (Algorithm 2) and second, when we prune a potential new node in favor of already existing states (Algorithm 2). The tradeoff between the two can be selected by a user-specified parameter $\alpha \in {}$. For most search-based algorithms, collision checking is achieved using a binary occupancy grid, which makes the choice of the grid size a critical decision. Instead, we rely on broadphase collision checking. The required data structures can be efficiently precomputed for the environment and each motion primitive. For the collision check in Algorithm 2, we only need to shift the data structure for the selected motion primitive, before executing the broadphase collision check.
 
-Input: xs, xf, 𝒳free, ℳ, δ, cmax
-⊳ Use start states of motions (excl. position)
-⊳ capture explored vertices (incl. position)
-𝒪 ← {Node(x:xs,g:0,h:h(xs),p:None,a:None)}
-⊳ Initialize open priority queue
-⊳ Find applicable motion primitives with discontinuity up to α δ
-⊳ entire motion is not collision-free
-⊳ tentative g score for this action
-⊳ find already explored nodes within (1−α) δ
-⊳ This motion is better than a known motion
-
-We now discuss the theoretical properties of db-A\*.
+Input: xs, xf, 𝒳free, ℳ, δ, cmax ⊳ Use start states of motions (excl. position) ⊳ capture explored vertices (incl. position) 𝒪 ← {Node(x: xs, g: 0, h: h(xs), p: None, a: None)} ⊳ Initialize open priority queue ⊳ Find applicable motion primitives with discontinuity up to α δ ⊳ entire motion is not collision-free ⊳ tentative g score for this action ⊳ find already explored nodes within (1 − α) δ ⊳ This motion is better than a known motion We now discuss the theoretical properties of db-A\*.
 
 ### Theorem 1
 
@@ -116,7 +82,7 @@ Sequences $\mathbf{X}$ and $\mathbf{U}$ returned by db-A\* (Algorithm 2) are a $
 
 Algorithm 2 only returns a sequence in Algorithm 2. Due to the condition in Algorithm 2, Eq. 5e holds.
 
-By Definition 1, we have ${d{(\mathbf{x}_{k + 1},{{step}{(\mathbf{x}_{k},\mathbf{u}_{k})}})}} = 0 \leq \delta$, $\mathbf{u}_{k} \in \mathcal{U}$, and $\mathbf{x}_{k} \in \mathcal{X}$ for each motion primitive $m \in \mathcal{M}$. Thus, Eq. 5b holds. During the search, we expand motions whose start states are at most $\alpha\delta$ away from the current state $n.\mathbf{x}$ (Algorithm 2). There are two cases. First, the motion corresponds to an edge leaving from the current state $n.\mathbf{x}$ (Algorithm 2), in which case we have $d{(m^{0},n.\mathbf{x})} \leq \alpha\delta$, where $m^{0}$ is the (translated) first state of motion $m$. Second, the motion becomes an edge leaving from some neighbor state $n^{\prime}.\mathbf{x}$ that is at most ${({1 - \alpha})}\delta$ away from $n.\mathbf{x}$ (Algorithm 2), in which case we have $d{(m^{0},n^{\prime}.\mathbf{x})} \leq \alpha\delta + {(1 - \alpha)}\delta = \delta$, using the triangle inequality of our metric space. Thus, Eq. 5a holds for all edges.
+By Definition 1, we have ${d{(\mathbf{x}_{k + 1},{{step}{(\mathbf{x}_{k},\mathbf{u}_{k})}})}} = 0 \leq \delta$, $\mathbf{u}_{k} \in \mathcal{U}$, and $\mathbf{x}_{k} \in \mathcal{X}$ for each motion primitive $m \in \mathcal{M}$. Thus, Eq. 5b holds. During the search, we expand motions whose start states are at most $\alpha\delta$ away from the current state $n.\mathbf{x}$ (Algorithm 2). There are two cases. First, the motion corresponds to an edge leaving from the current state $n.\mathbf{x}$ (Algorithm 2), in which case we have $d{(m^{0},n.\mathbf{x})} \leq \alpha\delta$, where $m^{0}$ is the (translated) first state of motion $m$. Second, the motion becomes an edge leaving from some neighbor state $n'.\mathbf{x}$ that is at most ${({1 - \alpha})}\delta$ away from $n.\mathbf{x}$ (Algorithm 2), in which case we have $d{(m^{0},n'.\mathbf{x})} \leq \alpha\delta + {(1 - \alpha)}\delta = \delta$, using the triangle inequality of our metric space. Thus, Eq. 5a holds for all edges.
 
 We already know that $\mathbf{x}_{k} \in \mathcal{X}$. Motions are only used as edges, if the entire motion is in $\mathcal{X}_{free}$ (Algorithm 2), thus Eq. 5c holds. Finally, Eq. 5d holds because $\mathcal{O}$ is initialized with $\mathbf{x}_{s}$ (Algorithm 2) and Eq. 5a holds. ∎
 
@@ -126,15 +92,11 @@ Db-A\* is incomplete and suboptimal if $\delta > 0$.
 
 ### Proof
 
-Consider an example where a robot has to move through a narrow door to navigate to an adjacent room. Even if a $\delta$-discontinuity-bounded solution for the problem exists, db-A\* may not find it, because motions are added in a random order and only if no other node is within ${({1 - \alpha})}\delta$ (Algorithm 2). Since db-A\* is incomplete, it cannot guarantee that no better $\delta$-discontinuity-bounded solution exists, once it finds one. ∎
-
-We note that Remark 1 uses a very strong definition of completeness in continuous state space. Other possible definitions include *$\delta$-robust completeness*; we leave the analysis regarding that property to future work. For the purpose of this paper, it is important to recognize that the strong properties of A\* hold in the limit, i.e., as $\delta\rightarrow 0$.
+Consider an example where a robot has to move through a narrow door to navigate to an adjacent room. Even if a $\delta$-discontinuity-bounded solution for the problem exists, db-A\* may not find it, because motions are added in a random order and only if no other node is within ${({1 - \alpha})}\delta$ (Algorithm 2). Since db-A\* is incomplete, it cannot guarantee that no better $\delta$-discontinuity-bounded solution exists, once it finds one. ∎ We note that Remark 1 uses a very strong definition of completeness in continuous state space. Other possible definitions include *$\delta$-robust completeness*; we leave the analysis regarding that property to future work. For the purpose of this paper, it is important to recognize that the strong properties of A\* hold in the limit, i.e., as $\delta\rightarrow 0$.
 
 ### IV-B Kinodynamic Optimization
 
-For the Optimization subroutine, we rely on *$k$-Order Motion Optimization* (KOMO), which solves the following optimization problem:
-
-Here, $\mathbf{x}_{{l - k}:l}$ denotes the sequence $\mathbf{x}_{l - k},\mathbf{x}_{{l - k} + 1},\ldots,\mathbf{x}_{l}$ and the inequality constraints $\mathbf{g}_{l}$ and equality constraints $\mathbf{h}_{l}$ only depend on the current and up to $k$ prior states. This $k$-order Markov assumption allows us to solve the nonlinear optimization problem efficiently e.g., using the augmented Lagrangian method, because $k$ is typically small (1 to 3).
+For the Optimization subroutine, we rely on *$k$-Order Motion Optimization* (KOMO), which solves the following optimization problem: Here, $\mathbf{x}_{{l - k}:l}$ denotes the sequence $\mathbf{x}_{l - k},\mathbf{x}_{{l - k} + 1},\ldots,\mathbf{x}_{l}$ and the inequality constraints $\mathbf{g}_{l}$ and equality constraints $\mathbf{h}_{l}$ only depend on the current and up to $k$ prior states. This $k$-order Markov assumption allows us to solve the nonlinear optimization problem efficiently e.g., using the augmented Lagrangian method, because $k$ is typically small (1 to 3).
 
 When using the Euler approximation in Eq. 2, we can transform Eq. 3 for a given $T$ into Eq. 6 by encoding the dynamics, start, and goal constraints using $\mathbf{h}_{l}$ and the action and state constraints into $\mathbf{g}_{l}$. Since $\mathbf{U}$ is not a decision variable in this formulation, the dynamics constraint has to be encoded by using state constraints or by augmenting the state space. We note that if $T$ and $\Deltat$ are fixed and $J = {T\Deltat}$, we can use any $\hat{J}$ to optimize in the nullspace of $J$. This allows us to include arbitrary regularization terms (in our case, smoothness) to guide the optimization and improve the convergence and success rate of the optimizer.
 
@@ -144,9 +106,7 @@ When no estimate of $T$ is available, we can use a linear search over $T$. For s
 
 ### IV-C Motion Primitive Generation
 
-Instead of sampling control sequences at random, we solve two-point boundary value problems with random start and goal configurations in free space with nonlinear optimization, which results in a superior primitive distribution. Specifically, we generate motion primitives offline using the following steps. First, random sampling of a start and goal configuration in free space; second, solving Eq. 6 using linear search over $T$; and third, splitting the resulting motion into multiple pieces of a desired length. We sort the primitives using an iterative greedy method that approximately minimizes the dispersion. Let $\mathcal{M}$ be the set of all motions, $\mathcal{M}_{s}$ be the set of sorted motions, and $\mathcal{M}_{r} = {\mathcal{M} \smallsetminus \mathcal{M}_{s}}$ be the set of remaining motions. We initialize $\mathcal{M}_{s} = {\{{{\operatorname{argmax}_{m \in \mathcal{M}}d}{(m^{0},m^{f})}}\}}$, where $m^{0}$ refers to the initial state of the motion and $m^{f}$ to the final state of the motion. Then, we add an element to $\mathcal{M}_{s}$ in each iteration selected by
-
-Thus, we pick the motion in each iteration that maximizes the minimum distance to other, already picked motions.
+Instead of sampling control sequences at random, we solve two-point boundary value problems with random start and goal configurations in free space with nonlinear optimization, which results in a superior primitive distribution. Specifically, we generate motion primitives offline using the following steps. First, random sampling of a start and goal configuration in free space; second, solving Eq. 6 using linear search over $T$; and third, splitting the resulting motion into multiple pieces of a desired length. We sort the primitives using an iterative greedy method that approximately minimizes the dispersion. Let $\mathcal{M}$ be the set of all motions, $\mathcal{M}_{s}$ be the set of sorted motions, and $\mathcal{M}_{r} = {\mathcal{M} \smallsetminus \mathcal{M}_{s}}$ be the set of remaining motions. We initialize $\mathcal{M}_{s} = {\{{{\operatorname{argmax}_{m \in \mathcal{M}}d}{(m^{0},m^{f})}}\}}$, where $m^{0}$ refers to the initial state of the motion and $m^{f}$ to the final state of the motion. Then, we add an element to $\mathcal{M}_{s}$ in each iteration selected by Thus, we pick the motion in each iteration that maximizes the minimum distance to other, already picked motions.
 
 For AddPrimitives we add motions from the precomputed sequence $\mathcal{M}_{s}$. Additional motions can be generated online using the same procedure.
 
@@ -162,15 +122,11 @@ Formally, we can follow \[6, Th. 3\] to establish almost surely asymptotic optim
 
 ### Theorem 2
 
-The kMP-db-A\* motion planner in Algorithm 1 is asymptotically optimal, i.e.
-
-where $c_{n}$ is the best cost in iteration $n$ and $c^{\ast}$ is the optimal cost.
+The kMP-db-A\* motion planner in Algorithm 1 is asymptotically optimal, i.e. where $c_{n}$ is the best cost in iteration $n$ and $c^{\ast}$ is the optimal cost.
 
 ### Proof
 
-We closely follow \[6, Th. 3\]. Let $S_{1},\ldots,S_{n}$ be random variables denoting the suboptimality $c_{n} - c \ast$. In every iteration of Algorithm 1 we either reduce the cost if we find a new solution, or we remain with the same cost, i.e., $c_{n + 1} \leq c_{n}$. Each iteration, we add more motion primitives and thus reduce $\delta$. Using the assumption of the non-zero probability for our Optimization method to find a solution, we have ${E{\lbrack\left. S_{n} \middle| s_{n - 1} \right.\rbrack}} \leq {{({1 - \omega})}s_{n - 1}}$, i.e., in expectation the solution improves by a constant amount $\omega > 0$ every iteration. Then, we have
-
-With the Markov inequality we have ${P{({S_{n} > \epsilon})}} \leq {{E{\lbrack S_{n}\rbrack}}/\epsilon} = {{{({1 - \omega})}^{n - 1}E{\lbrack S_{1}\rbrack}}/\epsilon}$, which approaches 0 as $n\rightarrow\infty$. ∎
+We closely follow \[6, Th. 3\]. Let $S_{1},\ldots,S_{n}$ be random variables denoting the suboptimality $c_{n} - c \ast$. In every iteration of Algorithm 1 we either reduce the cost if we find a new solution, or we remain with the same cost, i.e., $c_{n + 1} \leq c_{n}$. Each iteration, we add more motion primitives and thus reduce $\delta$. Using the assumption of the non-zero probability for our Optimization method to find a solution, we have ${E{\lbrack\left. S_{n} \middle| s_{n - 1} \right.\rbrack}} \leq {{({1 - \omega})}s_{n - 1}}$, i.e., in expectation the solution improves by a constant amount $\omega > 0$ every iteration. Then, we have With the Markov inequality we have ${P{({S_{n} > \epsilon})}} \leq {{E{\lbrack S_{n}\rbrack}}/\epsilon} = {{{({1 - \omega})}^{n - 1}E{\lbrack S_{1}\rbrack}}/\epsilon}$, which approaches 0 as $n\rightarrow\infty$. ∎
 
 ## Experimental Results
 
@@ -182,7 +138,7 @@ Unicycle ($1^{\text{st}}$ order) has a 3-dimensional state space ${\lbrack x,y,\
 
 Unicycle ($2^{\text{nd}}$ order) has a 5-dimensional state space ${\lbrack x,y,\theta,v,\omega\rbrack} \in \mathcal{X} \subset {\mathbb{R}}^{5}$, a 2-dimensional ${\lbrack\overset{˙}{v},\overset{˙}{\omega}\rbrack} \in \mathcal{U} \subset {\mathbb{R}}^{2}$ control space, and dynamics defined in \[30, Eq. (13.46)\]. Our version (v0) uses $v \in {{\lbrack{- 0.5},0.5\rbrack}{m/s}}$, $\omega \in {{\lbrack{- 0.5},0.5\rbrack}{{rad}/s}}$, $\overset{˙}{v} \in {{\lbrack{- 0.25},0.25\rbrack}{m/s^{2}}}$, and $\overset{˙}{\omega} \in {{\lbrack{- 0.25},0.25\rbrack}{{rad}/s^{2}}}$.
 
-Car with trailer has a 4-dimensional state space ${\lbrack x,y,\theta_{0},\theta_{1}\rbrack} \in \mathcal{X} \subset {\mathbb{R}}^{4}$, a 2-dimensional ${\lbrack v,\phi\rbrack} \in \mathcal{U} \subset {\mathbb{R}}^{2}$ control space, and dynamics and visualization given in \[30, Eq. (13.19), Fig. 13.6\]. We add an additional constraint ${|{\angle{(\theta_{0},\theta_{1})}}|} < {\pi/4}$ that avoids that the angle between the car and the trailer exceeds a threshold. Our version (v0) uses $v \in {{\lbrack{- 0.1},0.5\rbrack}{m/s}}$, $\phi \in {\lbrack{- {\pi/3}},{\pi/3}\rbrack}$, $L = {0.25\ m}$, and $d_{1} = {0.5\ m}$, where $L$ and $d_{1}$ are defined in.
+Car with trailer has a 4-dimensional state space ${\lbrack x,y,\theta_{0},\theta_{1}\rbrack} \in \mathcal{X} \subset {\mathbb{R}}^{4}$, a 2-dimensional ${\lbrack v,\phi\rbrack} \in \mathcal{U} \subset {\mathbb{R}}^{2}$ control space, and dynamics and visualization given in \[30, Eq. (13.19), Fig. 13.6\]. We add an additional constraint ${|{\angle{(\theta_{0},\theta_{1})}}|} < {\pi/4}$ that avoids that the angle between the car and the trailer exceeds a threshold. Our version (v0) uses $v \in {{\lbrack{- 0.1},0.5\rbrack}{m/s}}$, $\phi \in {\lbrack{- {\pi/3}},{\pi/3}\rbrack}$, $L = {0.25\ m}$, and $d_{1} = {0.5\ m}$, where $L$ and $d_{1}$ are defined .
 
 Quadrotor has a 13-dimensional state space (pose and first order derivatives using a Quaternion representation), a 4-dimensional control space (force for each of the four motors), and dynamics defined in \[31, Eq. \]. We use the parameters of the Crazyflie quadrotor with limits on the motor forces, velocity, and angular velocity. Note that the low thrust-to-weight ratio of $1.4$ is very challenging for kinodynamic motion planning and that problem settings with a harsh initial condition prevent the use of specialized methods.
 
@@ -192,25 +148,21 @@ We use ${\Deltat} = {0.1\ s}$ for all dynamical systems except the quadrotor, wh
 
 For most of the dynamical systems, we consider three environments (see Fig. 2), which are inspired by the common use-cases in the related literature. For the v2 unicycle, we use the *wall* environment as shown in Fig. 1. For the quadrotor, we use an *empty* environment without obstacles. The scenario requires the quadrotor to recover from a harsh initial condition with an upside-down initial rotation and nonzero initial first derivatives. All environments only use simple geometric box shapes for efficient collision checking. The environments are bounded, where the bounds only limit the translational part of the state, i.e., parts of the robots are allowed to be outside. One such example is visible in the park solution of Fig. 2.
 
-Figure 2: Example environments park, kink, and bugtrap (left to right) for the car with trailer dynamics. The start state is indicated in filled blue, the goal with a blue outline, and a near-optimal solution of the (x,y)-part of the state as computed by kMP-db-A* as a time-colored line.
+Figure 2: Example environments park, kink, and bugtrap (left to right) for the car with trailer dynamics. The start state is indicated in filled blue, the goal with a blue outline, and a near-optimal solution of the (x, y)-part of the state as computed by kMP-db-A* as a time-colored line.
 
 ### V-C Algorithms
 
-geom. RRT*+KOMO
+geom. RRT*+KOMO car with trailer TABLE I: Benchmark results comparing success rate (p), time for the first found solution (tst), the cost of the first found solution (Jst), and the cost of the solution after 5 min (Jf). Time and cost are the median over 10 trials. Best results are bold.
 
-car with trailer
-
-TABLE I: Benchmark results comparing success rate (p), time for the first found solution (tst), the cost of the first found solution (Jst), and the cost of the solution after 5 min (Jf). Time and cost are the median over 10 trials. Best results are bold.
-
-For a search-based approach, we rely on SBPL^11^1[https://github.com/sbpl/sbpl](https://github.com/sbpl/sbpl) (Search-based Planning Library), a commonly used C++ library with integration in the Robot Operating System (ROS). SBPL contains an example for unicycles, although the used dynamics do not match the ones from \[30, eq. 13.18\]. Thus, we generate our own primitives using the formulation in Section IV-B. Moreover, we make minor adjustments to the heuristic to enable time-optimal anytime planning using the provided implementation of ARA\* in SBPL. Due to limits in SBPL^22^2The official documentation states: "\[For custom scenarios\], you will have to implement your own environment (a very involved topic that might be covered in the future)." [http://sbpl.net/node/47](http://sbpl.net/node/47), we limit our evaluation to the v0 first order unicycle.
+For a search-based approach, we rely on SBPL^11^1 (Search-based Planning Library), a commonly used C++ library with integration in the Robot Operating System (ROS). SBPL contains an example for unicycles, although the used dynamics do not match the ones from \[30, eq. 13.18\]. Thus, we generate our own primitives using the formulation in Section IV-B. Moreover, we make minor adjustments to the heuristic to enable time-optimal anytime planning using the provided implementation of ARA\* in SBPL. Due to limits in SBPL^22^2The official documentation states: "\[For custom scenarios\], you will have to implement your own environment (a very involved topic that might be covered in the future)." we limit our evaluation to the v0 first order unicycle.
 
 For a sampling-based approach, we rely on OMPL (Open Motion Planning Library), a widely used C++ library with integration in ROS through MoveIt. OMPL implements several kinodynamic planners, including SST\*, which we use. As part of this work, we contribute minor changes to allow time as an optimization objective. Since sampling-based kinodynamic approaches cannot reach a goal state, we use a goal region instead that we verify to be small enough such that an optimizer can find an exact solution.
 
-For an optimization-based approach, we rely on RAI^33^3[https://github.com/MarcToussaint/rai](https://github.com/MarcToussaint/rai) (Robotic AI), a C++ library that implements KOMO and nonlinear optimization algorithms. For each of the dynamical systems, we implement the appropriate constraints and their derivative computation. In case of the trailer and the quadrotor, we add parts of the actions as decision variables (angle $\phi$ and motor forces, respectively); otherwise the decision variables are the state sequences only. As an initial guess, we use a geometric solution as found by RRT\* of OMPL. We then use the modified binary search method as outlined in Section IV-B. This combination of *geometric RRT\*+KOMO* is anytime like the other approaches we compare to.
+For an optimization-based approach, we rely on RAI^33^3 (Robotic AI), a C++ library that implements KOMO and nonlinear optimization algorithms. For each of the dynamical systems, we implement the appropriate constraints and their derivative computation. In case of the trailer and the quadrotor, we add parts of the actions as decision variables (angle $\phi$ and motor forces, respectively); otherwise the decision variables are the state sequences only. As an initial guess, we use a geometric solution as found by RRT\* of OMPL. We then use the modified binary search method as outlined in Section IV-B. This combination of *geometric RRT\*+KOMO* is anytime like the other approaches we compare to.
 
 For db-A\*, we implement Algorithm 2 in C++ using the data structures provided in OMPL to represent states and for nearest neighbor computation. Algorithm 1 is implemented in Python that executes C++ binaries for subroutines when necessary. As heuristic $h$, we use Euclidean distance divided by the upper bound of the speed. For the AddPrimitives function, we precompute $10\, 000$ motion primitives for most dynamical systems ($30\, 000$ for the quadrotor) and only add a subset per iteration. Generating the primitives took about $8\ h$ per dynamical system utilizing all CPU cores.
 
-The benchmark infrastructure is written in Python and all tuning parameters can be found in the open-source repository^44^4[https://github.com/IMRCLab/kinodynamic-motion-planning-benchmark](https://github.com/IMRCLab/kinodynamic-motion-planning-benchmark). Collision checking is done using FCL (Flexible Collision Library) in all cases. All approaches use the Euler integration Eq. 2, although KOMO uses an implicit formulation by design.
+The benchmark infrastructure is written in Python and all tuning parameters can be found in the open-source repository^44^4 Collision checking is done using FCL (Flexible Collision Library) in all cases. All approaches use the Euler integration Eq. 2, although KOMO uses an implicit formulation by design.
 
 ### V-D Benchmark
 

@@ -10,7 +10,7 @@ Among them, Dong et al. has demonstrated that a CNN can be used to learn a mappi
 
 While SRCNN successfully introduced a deep learning technique into the super-resolution (SR) problem, we find its limitations in three aspects: first, it relies on the context of small image regions; second, training converges too slowly; third, the network only works for a single scale.
 
-Figure 1: Our VDSR improves PSNR for scale factor × 2 on dataset Set5 in comparison to the state-of-the-art methods (SRCNN uses the public slower implementation using CPU). VDSR outperforms SRCNN by a large margin (0.87 dB).
+Figure 1: Our VDSR improves PSNR for scale factor ×2 on dataset Set5 in comparison to the state-of-the-art methods (SRCNN uses the public slower implementation using CPU). VDSR outperforms SRCNN by a large margin (0.87 dB).
 
 In this work, we propose a new method to practically resolve the issues.
 
@@ -92,31 +92,11 @@ For this reason, we also train a multi-scale model. With this approach, paramete
 
 Data preparation is similar to SRCNN with some differences. Input patch size is now equal to the size of the receptive field and images are divided into sub-images with no overlap. A mini-batch consists of 64 sub-images, where sub-images from different scales can be in the same batch.
 
-We implement our model using the MatConvNet^11^1[http://www.vlfeat.org/matconvnet/](http://www.vlfeat.org/matconvnet/) package.
+We implement our model using the MatConvNet^11^1 package.
 
-(a) Test Scale Factor 2
+(a) Test Scale Factor 2 (b) Test Scale Factor 3 (c) Test Scale Factor 4 Figure 3: Depth vs Performance (a) Initial learning rate 0.1 (b) Initial learning rate 0.01 (c) Initial learning rate 0.001 Table 1: Performance table (PSNR) for residual and non-residual networks (‘Set5’ dataset, × 2). Residual networks rapidly approach their convergence within 10 epochs.
 
-(b) Test Scale Factor 3
-
-(c) Test Scale Factor 4
-
-Figure 3: Depth vs Performance
-
-(a) Initial learning rate 0.1
-
-(b) Initial learning rate 0.01
-
-(c) Initial learning rate 0.001
-
-Table 1: Performance table (PSNR) for residual and non-residual networks (‘Set5’ dataset, × 2). Residual networks rapidly approach their convergence within 10 epochs.
-
-(a) Initial learning rate 0.1
-
-(b) Initial learning rate 0.01
-
-(c) Initial learning rate 0.001
-
-Figure 4: Performance curve for residual and non-residual networks. Two networks are tested under ‘Set5’ dataset with scale factor 2. Residual networks quickly reach state-of-the-art performance within a few epochs, whereas non-residual networks (which models high-resolution image directly) take many epochs to reach maximum performance. Moreover, the final accuracy is higher for residual networks.
+(a) Initial learning rate 0.1 (b) Initial learning rate 0.01 (c) Initial learning rate 0.001 Figure 4: Performance curve for residual and non-residual networks. Two networks are tested under ‘Set5’ dataset with scale factor 2. Residual networks quickly reach state-of-the-art performance within a few epochs, whereas non-residual networks (which models high-resolution image directly) take many epochs to reach maximum performance. Moreover, the final accuracy is higher for residual networks.
 
 Table 2: Scale Factor Experiment. Several models are trained with different scale sets. Quantitative evaluation (PSNR) on dataset ‘Set5’ is provided for scale factors 2,3 and 4. Red color indicates that test scale is included during training. Models trained with multiple scales perform well on the trained scales.
 
@@ -150,14 +130,7 @@ Figure 6: Super-resolution results of “148026” (B100) with scale factor ×3.
 
 Figure 7: Super-resolution results of “38092” (B100) with scale factor ×3. The horn in the image is sharp in the result of VDSR.
 
-PSNR/SSIM/time
-PSNR/SSIM/time
-PSNR/SSIM/time
-PSNR/SSIM/time
-PSNR/SSIM/time
-PSNR/SSIM/time
-
-Table 3: Average PSNR/SSIM for scale factor ×2, ×3 and ×4 on datasets Set5 B100 and Urban100. Red color indicates the best performance and blue color indicates the second best performance.
+PSNR/SSIM/time PSNR/SSIM/time PSNR/SSIM/time PSNR/SSIM/time PSNR/SSIM/time PSNR/SSIM/time Table 3: Average PSNR/SSIM for scale factor ×2, ×3 and ×4 on datasets Set5 B100 and Urban100. Red color indicates the best performance and blue color indicates the second best performance.
 
 ### Residual-Learning
 

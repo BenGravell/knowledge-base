@@ -4,19 +4,13 @@ Despite its many successes, deep learning remains poorly understood. In contrast
 
 ## Path Kernels
 
-A kernel machine is a model of the form
+A kernel machine is a model of the form where $x$ is the query data point, the sum is over training data points $x_{i}$, $g$ is an optional nonlinearity, the $a_{i}$'s and $b$ are learned parameters, and the kernel $K$ measures the similarity of its arguments. In supervised learning, $a_{i}$ is typically a linear function of $y_{i}^{\ast}$, the known output for $x_{i}$. Kernels may be predefined or learned. Kernel machines, also known as support vector machines, are one of the most developed and widely used machine learning methods. In the last decade, however, they have been eclipsed by deep networks, also known as neural networks and multilayer perceptrons, which are composed of multiple layers of nonlinear functions. Kernel machines can be viewed as neural networks with one hidden layer, with the kernel as the nonlinearity. For example, a Gaussian kernel machine is a radial basis function network. But a deep network would seem to be irreducible to a kernel machine, since it can represent some functions exponentially more compactly than a shallow one.
 
-where $x$ is the query data point, the sum is over training data points $x_{i}$, $g$ is an optional nonlinearity, the $a_{i}$'s and $b$ are learned parameters, and the kernel $K$ measures the similarity of its arguments. In supervised learning, $a_{i}$ is typically a linear function of $y_{i}^{\ast}$, the known output for $x_{i}$. Kernels may be predefined or learned. Kernel machines, also known as support vector machines, are one of the most developed and widely used machine learning methods. In the last decade, however, they have been eclipsed by deep networks, also known as neural networks and multilayer perceptrons, which are composed of multiple layers of nonlinear functions. Kernel machines can be viewed as neural networks with one hidden layer, with the kernel as the nonlinearity. For example, a Gaussian kernel machine is a radial basis function network. But a deep network would seem to be irreducible to a kernel machine, since it can represent some functions exponentially more compactly than a shallow one.
+Whether a representable function is actually learned, however, depends on the learning algorithm. Most deep networks, and indeed most machine learning models, are trained using variants of gradient descent. Given an initial parameter vector $w_{0}$ and a loss function $L = {\sum_{i}{L{(y_{i}^{\ast},y_{i})}}}$, gradient descent repeatedly modifies the model's parameters $w$ by subtracting the loss's gradient from them, scaled by the learning rate $\epsilon$: The process terminates when the gradient is zero and the loss is therefore at an optimum (or saddle point). Remarkably, we have found that learning by gradient descent is a strong enough constraint that the end result is guaranteed to be approximately a kernel machine, regardless of the number of layers or other architectural features of the model.
 
-Whether a representable function is actually learned, however, depends on the learning algorithm. Most deep networks, and indeed most machine learning models, are trained using variants of gradient descent. Given an initial parameter vector $w_{0}$ and a loss function $L = {\sum_{i}{L{(y_{i}^{\ast},y_{i})}}}$, gradient descent repeatedly modifies the model's parameters $w$ by subtracting the loss's gradient from them, scaled by the learning rate $\epsilon$:
+Specifically, the kernel machines that result from gradient descent use what we term a path kernel. If we take the learning rate to be infinitesimally small, the path kernel between two data points is simply the integral of the dot product of the model's gradients at the two points over the path taken by the parameters during gradient descent: where $c{(t)}$ is the path. Intuitively, the path kernel measures how similarly the model at the two data points varies during learning. The more similar the variation for $x$ and $x'$, the higher the weight of $x'$ in predicting $y$. Fig. 1 illustrates this graphically.
 
-The process terminates when the gradient is zero and the loss is therefore at an optimum (or saddle point). Remarkably, we have found that learning by gradient descent is a strong enough constraint that the end result is guaranteed to be approximately a kernel machine, regardless of the number of layers or other architectural features of the model.
-
-Specifically, the kernel machines that result from gradient descent use what we term a path kernel. If we take the learning rate to be infinitesimally small, the path kernel between two data points is simply the integral of the dot product of the model's gradients at the two points over the path taken by the parameters during gradient descent:
-
-where $c{(t)}$ is the path. Intuitively, the path kernel measures how similarly the model at the two data points varies during learning. The more similar the variation for $x$ and $x^{\prime}$, the higher the weight of $x^{\prime}$ in predicting $y$. Fig. 1 illustrates this graphically.
-
-Figure 1: How the path kernel measures similarity between examples. In this two-dimensional illustration, as the weights follow a path on the plane during training, the model’s gradients (vectors on the weight plane) for x, x1 and x2 vary along it. The kernel K (x,x1) is the integral of the dot product of the gradients ∇wy (x) and ∇wy (x1) over the path, and similarly for K (x,x2). Because on average over the weight path ∇wy (x) ⋅ ∇wy (x1) is greater than ∇wy (x) ⋅ ∇wy (x2), y1 has more influence than y2 in predicting y, all else being equal.
+Figure 1: How the path kernel measures similarity between examples. In this two-dimensional illustration, as the weights follow a path on the plane during training, the model’s gradients (vectors on the weight plane) for x, x1 and x2 vary along it. The kernel K (x, x1) is the integral of the dot product of the gradients ∇wy (x) and ∇wy (x1) over the path, and similarly for K (x, x2). Because on average over the weight path ∇wy (x) ⋅ ∇wy (x1) is greater than ∇wy (x) ⋅ ∇wy (x2), y1 has more influence than y2 in predicting y, all else being equal.
 
 Our result builds on the concept of neural tangent kernel, recently introduced to analyze the behavior of deep networks. The neural tangent kernel is the integrand of the path kernel when the model is a multilayer perceptron. Because of this, and since a sum of positive definite kernels is also a positive definite kernel, the known conditions for positive definiteness of neural tangent kernels extend to path kernels. A positive definite kernel is equivalent to a dot product in a derived feature space, which greatly simplifies its analysis.
 
@@ -24,36 +18,17 @@ We now present our main result. For simplicity, in the derivations below we assu
 
 ### Definition 1
 
-The tangent kernel associated with function $f_{w}{(x)}$ and parameter vector $v$ is\
-${K_{f,v}^{g}{(x,x^{\prime})}} = {{{{\nabla_{w}f_{w}}{(x)}} \cdot {\nabla_{w}f_{w}}}{(x^{\prime})}}$, with the gradients taken at $v$.
+The tangent kernel associated with function $f_{w}{(x)}$ and parameter vector $v$ is\${K_{f,v}^{g}{(x,x')}} = {{{{\nabla_{w}f_{w}}{(x)}} \cdot {\nabla_{w}f_{w}}}{(x')}}$, with the gradients taken at $v$.
 
 ### Definition 2
 
-The path kernel associated with function $f_{w}{(x)}$ and curve $c{(t)}$ in parameter space is ${K_{f,c}^{p}{(x,x^{\prime})}} = {\int_{c{(t)}}{K_{f,{w{(t)}}}^{g}{(x,x^{\prime})}{dt}}}$.
+The path kernel associated with function $f_{w}{(x)}$ and curve $c{(t)}$ in parameter space is ${K_{f,c}^{p}{(x,x')}} = {\int_{c{(t)}}{K_{f,{w{(t)}}}^{g}{(x,x')}{dt}}}$.
 
 ### Theorem 1
 
-Suppose the model $y = {f_{w}{(x)}}$, with $f$ a differentiable function of $w$, is learned from a training set ${\{{(x_{i},y_{i}^{\ast})}\}}_{i = 1}^{m}$ by gradient descent with differentiable loss function $L = {\sum_{i}{L{(y_{i}^{\ast},y_{i})}}}$ and learning rate $\epsilon$. Then
+Suppose the model $y = {f_{w}{(x)}}$, with $f$ a differentiable function of $w$, is learned from a training set ${\{{(x_{i},y_{i}^{\ast})}\}}_{i = 1}^{m}$ by gradient descent with differentiable loss function $L = {\sum_{i}{L{(y_{i}^{\ast},y_{i})}}}$ and learning rate $\epsilon$. Then where $K{(x,x_{i})}$ is the path kernel associated with $f_{w}{(x)}$ and the path taken by the parameters during gradient descent, $a_{i}$ is the average $- {\partial{L/{\partial y_{i}}}}$ along the path weighted by the corresponding tangent kernel, and $b$ is the initial model.
 
-where $K{(x,x_{i})}$ is the path kernel associated with $f_{w}{(x)}$ and the path taken by the parameters during gradient descent, $a_{i}$ is the average $- {\partial{L/{\partial y_{i}}}}$ along the path weighted by the corresponding tangent kernel, and $b$ is the initial model.
-
-Proof In the $\epsilon\rightarrow 0$ limit, the gradient descent equation, which can also be written as
-
-where $L$ is the loss function, becomes the differential equation
-
-(This is known as a gradient flow.) Then for any differentiable function of the weights $y$,
-
-where $d$ is the number of parameters. Replacing ${{dw_{j}}/d}t$ by its gradient descent expression:
-
-Applying the additivity of the loss and the chain rule of differentiation:
-
-Let ${L^{\prime}{(y_{i}^{\ast},y_{i})}} = {\partial{L/{\partial y_{i}}}}$, the loss derivative for the $i$th output. Applying this and Definition 1:
-
-Let $y_{0}$ be the initial model, prior to gradient descent. Then for the final model $y$:
-
-where $c{(t)}$ is the path taken by the parameters during gradient descent. Multiplying and dividing by $\int_{c{(t)}}{K_{f,{w{(t)}}}^{g}{(x,x_{i})}{dt}}$:
-
-Let ${\overline{L^{\prime}}{(y_{i}^{\ast},y_{i})}} = {\int_{c{(t)}}{{K_{f,{w{(t)}}}^{g}{(x,x_{i})}L^{\prime}{(y_{i}^{\ast},y_{i})}{dt}}/{\int_{c{(t)}}{K_{f,{w{(t)}}}^{g}{(x,x_{i})}{dt}}}}}$, the average loss derivative weighted by similarity to $x$. Applying this and Definition 2:
+Proof In the $\epsilon\rightarrow 0$ limit, the gradient descent equation, which can also be written as where $L$ is the loss function, becomes the differential equation (This is known as a gradient flow.) Then for any differentiable function of the weights $y$, where $d$ is the number of parameters. Replacing ${{dw_{j}}/d}t$ by its gradient descent expression: Applying the additivity of the loss and the chain rule of differentiation: Let ${L'{(y_{i}^{\ast},y_{i})}} = {\partial{L/{\partial y_{i}}}}$, the loss derivative for the $i$th output. Applying this and Definition 1: Let $y_{0}$ be the initial model, prior to gradient descent. Then for the final model $y$: where $c{(t)}$ is the path taken by the parameters during gradient descent. Multiplying and dividing by $\int_{c{(t)}}{K_{f,{w{(t)}}}^{g}{(x,x_{i})}{dt}}$: Let ${\overline{L^{\prime}}{(y_{i}^{\ast},y_{i})}} = {\int_{c{(t)}}{{K_{f,{w{(t)}}}^{g}{(x,x_{i})}L'{(y_{i}^{\ast},y_{i})}{dt}}/{\int_{c{(t)}}{K_{f,{w{(t)}}}^{g}{(x,x_{i})}{dt}}}}}$, the average loss derivative weighted by similarity to $x$. Applying this and Definition 2:
 
 ### Remark 1
 
@@ -61,16 +36,15 @@ This differs from typical kernel machines in that the $a_{i}$'s and $b$ depend o
 
 ### Remark 2
 
-Theorem 1 can equally well be proved using the loss-weighted path kernel $K_{f,c,L}^{lp} = {\int_{c{(t)}}{L^{\prime}{(y_{i}^{\ast},y_{i})}K_{f,{w{(t)}}}^{g}{(x,x_{i})}{dt}}}$, in which case $a_{i} = {- 1}$ for all $i$.
+Theorem 1 can equally well be proved using the loss-weighted path kernel $K_{f,c,L}^{lp} = {\int_{c{(t)}}{L'{(y_{i}^{\ast},y_{i})}K_{f,{w{(t)}}}^{g}{(x,x_{i})}{dt}}}$, in which case $a_{i} = {- 1}$ for all $i$.
 
 ### Remark 3
 
-In least-squares regression, ${L^{\prime}{(y_{i}^{\ast},y_{i})}} = {y_{i} - y_{i}^{\ast}}$. When learning a classifier by minimizing cross-entropy, the standard practice in deep learning, the function to be estimated is the conditional probability of the class, $p_{i}$, the loss is $- {\sum_{i = 1}^{m}{\ln p_{i}}}$, and the loss derivative for the $i$th output is $- {1/p_{i}}$. Similar expressions hold for modeling a joint distribution by minimizing negative log likelihood, with $p_{i}$ as the probability of the data point.
+In least-squares regression, ${L'{(y_{i}^{\ast},y_{i})}} = {y_{i} - y_{i}^{\ast}}$. When learning a classifier by minimizing cross-entropy, the standard practice in deep learning, the function to be estimated is the conditional probability of the class, $p_{i}$, the loss is $- {\sum_{i = 1}^{m}{\ln p_{i}}}$, and the loss derivative for the $i$th output is $- {1/p_{i}}$. Similar expressions hold for modeling a joint distribution by minimizing negative log likelihood, with $p_{i}$ as the probability of the data point.
 
 ### Remark 4
 
-Adding a regularization term $R{(w)}$ to the loss function simply adds\
-$- {\int_{c{(t)}}{\sum_{j = 1}^{d}{{({\partial{y/{\partial w_{j}}}})}{({\partial{R/{\partial w_{j}}}})}}}}$ to $b$.
+Adding a regularization term $R{(w)}$ to the loss function simply adds\$- {\int_{c{(t)}}{\sum_{j = 1}^{d}{{({\partial{y/{\partial w_{j}}}})}{({\partial{R/{\partial w_{j}}}})}}}}$ to $b$.
 
 ### Remark 5
 

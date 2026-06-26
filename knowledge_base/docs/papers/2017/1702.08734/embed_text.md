@@ -12,21 +12,13 @@ Our paper focuses on methods based on product quantization (PQ) codes, as these 
 
 There are many implementations of similarity search on GPUs, but mostly with binary codes, small datasets, or exhaustive search. To the best of our knowledge, only the work by Wieschollek et al. appears suitable for billion-scale datasets with quantization codes. This is the prior state of the art on GPUs, which we compare against in Section 6.4.
 
-This paper makes the following contributions:
-
-a GPU $k$-selection algorithm, operating in fast register memory and flexible enough to be fusable with other kernels, for which we provide a complexity analysis;
-
-a near-optimal algorithmic layout for exact and approximate $k$-nearest neighbor search on GPU;
-
-a range of experiments that show that these improvements outperform previous art by a large margin on mid- to large-scale nearest-neighbor search tasks, in single or multi-GPU configurations.
+This paper makes the following contributions: a GPU $k$-selection algorithm, operating in fast register memory and flexible enough to be fusable with other kernels, for which we provide a complexity analysis; a near-optimal algorithmic layout for exact and approximate $k$-nearest neighbor search on GPU; a range of experiments that show that these improvements outperform previous art by a large margin on mid- to large-scale nearest-neighbor search tasks, in single or multi-GPU configurations.
 
 The paper is organized as follows. Section 2 introduces the context and notation. Section 3 reviews GPU architecture and discusses problems appearing when using it for similarity search. Section 4 introduces one of our main contributions, *i.e.*, our k-selection method for GPUs, while Section 5 provides details regarding the algorithm computation layout. Finally, Section 6 provides extensive experiments for our approach, compares it to the state of the art, and shows concrete use cases for image collections.
 
 ## Problem statement
 
-We are concerned with similarity search in vector collections. Given the query vector $x \in {\mathbb{R}}^{d}$ and the collection^22^2To avoid clutter in 0-based indexing, we use the array notation $0:\ell$ to denote the range $\{ 0,\ldots,{\ell - 1}\}$ inclusive. ${\lbrack y_{i}\rbrack}_{{i = 0}:\ell}{({y_{i} \in {\mathbb{R}}^{d}})}$, we search:
-
-i.e., we search the $k$ nearest neighbors of $x$ in terms of L2 distance. The L2 distance is used most often, as it is optimized by design when learning several embeddings (*e.g.*, ), due to its attractive linear algebra properties.
+We are concerned with similarity search in vector collections. Given the query vector $x \in {\mathbb{R}}^{d}$ and the collection^22^2To avoid clutter in 0-based indexing, we use the array notation $0:\ell$ to denote the range $\{ 0,\ldots,{\ell - 1}\}$ inclusive. ${\lbrack y_{i}\rbrack}_{{i = 0}:\ell}{({y_{i} \in {\mathbb{R}}^{d}})}$, we search: i.e., we search the $k$ nearest neighbors of $x$ in terms of L2 distance. The L2 distance is used most often, as it is optimized by design when learning several embeddings (*e.g.*,), due to its attractive linear algebra properties.
 
 The lowest distances are collected by $k$-selection. For an array ${\lbrack a_{i}\rbrack}_{{i = 0}:\ell}$, $k$-selection finds the $k$ lowest valued elements ${\lbrack a_{s_{i}}\rbrack}_{{i = 0}:k}$, $a_{s_{i}} \leq a_{s_{i + 1}}$, along with the indices ${\lbrack s_{i}\rbrack}_{{i = 0}:k}$, $0 \leq s_{i} < \ell$, of those elements from the input array. The $a_{i}$ will be 32-bit floating point values; the $s_{i}$ are 32- or 64-bit integers. Other comparators are sometimes desired; *e.g.*, for cosine similarity we search for *highest* values. The order between equivalent keys $a_{s_{i}} = a_{s_{j}}$ is not specified.
 
@@ -36,23 +28,13 @@ Typically, searches are performed in batches of $n_{q}$ query vectors ${\lbrack 
 
 ### Exact search
 
-The exact solution computes the full pairwise distance matrix $D = {\lbrack{\|{x_{j} - y_{i}}\|}_{2}^{2}\rbrack}_{{j = 0}:{{n_{q},i} = 0}:\ell} \in {\mathbb{R}}^{n_{q} \times \ell}$. In practice, we use the decomposition
-
-The two first terms can be precomputed in one pass over the matrices $X$ and $Y$ whose rows are the $\lbrack x_{j}\rbrack$ and $\lbrack y_{i}\rbrack$. The bottleneck is to evaluate $\langle x_{j},y_{i}\rangle$, equivalent to the matrix multiplication $XY^{\top}$. The $k$-nearest neighbors for each of the $n_{q}$ queries are $k$-selected along each row of $D$.
+The exact solution computes the full pairwise distance matrix $D = {\lbrack{\|{x_{j} - y_{i}}\|}_{2}^{2}\rbrack}_{{j = 0}:{{n_{q},i} = 0}:\ell} \in {\mathbb{R}}^{n_{q} \times \ell}$. In practice, we use the decomposition The two first terms can be precomputed in one pass over the matrices $X$ and $Y$ whose rows are the $\lbrack x_{j}\rbrack$ and $\lbrack y_{i}\rbrack$. The bottleneck is to evaluate $\langle x_{j},y_{i}\rangle$, equivalent to the matrix multiplication $XY^{\top}$. The $k$-nearest neighbors for each of the $n_{q}$ queries are $k$-selected along each row of $D$.
 
 ### Compressed-domain search
 
-From now on, we focus on approximate nearest-neighbor search. We consider, in particular, the IVFADC indexing structure. The IVFADC index relies on two levels of quantization, and the database vectors are encoded. The database vector $y$ is approximated as:
+From now, we focus on approximate nearest-neighbor search. We consider, in particular, the IVFADC indexing structure. The IVFADC index relies on two levels of quantization, and the database vectors are encoded. The database vector $y$ is approximated as: where $q_{1}:{{\mathbb{R}}^{d}\rightarrow\mathcal{C}_{1} \subset {\mathbb{R}}^{d}}$ and $q_{2}:{{\mathbb{R}}^{d}\rightarrow\mathcal{C}_{2} \subset {\mathbb{R}}^{d}}$ are quantizers; *i.e.*, functions that output an element from a finite set. Since the sets are finite, $q{(y)}$ is encoded as the index of $q_{1}{(y)}$ and that of $q_{2}{({y - {q_{1}{(y)}}})}$. The first-level quantizer is a coarse quantizer and the second level fine quantizer encodes the residual vector after the first level.
 
-where $q_{1}:{{\mathbb{R}}^{d}\rightarrow\mathcal{C}_{1} \subset {\mathbb{R}}^{d}}$ and $q_{2}:{{\mathbb{R}}^{d}\rightarrow\mathcal{C}_{2} \subset {\mathbb{R}}^{d}}$ are quantizers; *i.e.*, functions that output an element from a finite set. Since the sets are finite, $q{(y)}$ is encoded as the index of $q_{1}{(y)}$ and that of $q_{2}{({y - {q_{1}{(y)}}})}$. The first-level quantizer is a coarse quantizer and the second level fine quantizer encodes the residual vector after the first level.
-
-The Asymmetric Distance Computation (ADC) search method returns an approximate result:
-
-For IVFADC the search is not exhaustive. Vectors for which the distance is computed are pre-selected depending on the first-level quantizer $q_{1}$:
-
-The multi-probe parameter $\tau$ is the number of coarse-level centroids we consider. The quantizer operates a nearest-neighbor search with exact distances, in the set of reproduction values. Then, the IVFADC search computes
-
-Hence, IVFADC relies on the same distance estimations as the two-step quantization of ADC, but computes them only on a subset of vectors.
+The Asymmetric Distance Computation (ADC) search method returns an approximate result: For IVFADC the search is not exhaustive. Vectors for which the distance is computed are pre-selected depending on the first-level quantizer $q_{1}$: The multi-probe parameter $\tau$ is the number of coarse-level centroids we consider. The quantizer operates a nearest-neighbor search with exact distances, in the set of reproduction values. Then, the IVFADC search computes Hence, IVFADC relies on the same distance estimations as the two-step quantization of ADC, but computes them only on a subset of vectors.
 
 The corresponding data structure, the *inverted file*, groups the vectors $y_{i}$ into $|\mathcal{C}_{1}|$ *inverted lists* $\mathcal{I}_{1},\ldots,\mathcal{I}_{|\mathcal{C}_{1}|}$ with homogeneous $q_{1}{(y_{i})}$. Therefore, the most memory-intensive operation is computing $L_{IVFADC}$, and boils down to linearly scanning $\tau$ inverted lists.
 
@@ -130,18 +112,7 @@ We want to keep intermediate state in the fastest memory: the register file. The
 
 We use an in-register sorting primitive as a building block. Sorting networks are commonly used on SIMD architectures, as they exploit vector parallelism. They are easily implemented on the GPU, and we build sorting networks with lane-stride register arrays.
 
-We use a variant of Batcher's bitonic sorting network, which is a set of parallel merges on an array of size $2^{k}$. Each merge takes $s$ arrays of length $t$ ($s$ and $t$ a power of 2) to $s/2$ arrays of length $2t$, using $\log_{2}{(t)}$ parallel steps. A bitonic sort applies this merge recursively: to sort an array of length $\ell$, merge $\ell$ arrays of length $1$ to $\ell/2$ arrays of length $2$, to $\ell/4$ arrays of length $4$, successively to $1$ sorted array of length $\ell$, leading to $\frac{1}{2}{(\log_{2}{(\ell)}^{2} + \log_{2}{(\ell)})}$ parallel merge steps.
-
-parallel for i ← 0: min (ℓL,ℓR) do
-⊳ inverted 1st stage; inputs are already sorted
-⊳ If ℓL = ℓR and a power-of-2, these are equivalent
-h ← 2⌈log2ℓ⌉ − 1 ⊳ largest power-of-2 &lt; ℓ
-⊳ Implemented with warp shuffle butterfly
-if p = left then ⊳ left side recursion
-else⊳ right side recursion
-Algorithm 1 Odd-size merging network
-
-Figure 1: Odd-size network merging arrays of sizes 5 and 3. Bullets indicate parallel compare/swap. Dashed lines are elided elements or comparisons.
+We use a variant of Batcher's bitonic sorting network, which is a set of parallel merges on an array of size $2^{k}$. Each merge takes $s$ arrays of length $t$ ($s$ and $t$ a power of 2) to $s/2$ arrays of length $2t$, using $\log_{2}{(t)}$ parallel steps. A bitonic sort applies this merge recursively: to sort an array of length $\ell$, merge $\ell$ arrays of length $1$ to $\ell/2$ arrays of length $2$, to $\ell/4$ arrays of length $4$, successively to $1$ sorted array of length $\ell$, leading to $\frac{1}{2}{(\log_{2}{(\ell)}^{2} + \log_{2}{(\ell)})}$ parallel merge steps. parallel for i ← 0: min (ℓL, ℓR) do ⊳ inverted 1st stage; inputs are already sorted ⊳ If ℓL = ℓR and a power-of-2, these are equivalent h ← 2⌈log2ℓ⌉ − 1 ⊳ largest power-of-2 < ℓ ⊳ Implemented with warp shuffle butterfly if p = left then ⊳ left side recursion else⊳ right side recursion Algorithm 1 Odd-size merging network Figure 1: Odd-size network merging arrays of sizes 5 and 3. Bullets indicate parallel compare/swap. Dashed lines are elided elements or comparisons.
 
 ### Odd-size merging and sorting networks
 
@@ -153,9 +124,7 @@ The odd size algorithm is derived by considering arrays to be padded to the next
 
 The compare-swap is implemented using warp shuffles on a lane-stride register array. Swaps with a stride a multiple of 32 occur directly within a lane as the lane holds both elements locally. Swaps of stride $\leq 16$ or a non-multiple of 32 occur with warp shuffles. In practice, used array lengths are multiples of 32 as they are held in lane-stride arrays.
 
-Algorithm 2 Odd-size sorting network
-
-Algorithm 2 extends the merge to a full sort. Assuming no structure present in the input data, $\frac{1}{2}{({\left\lceil {\log_{2}{(\ell)}} \right\rceil^{2} + \left\lceil {\log_{2}{(\ell)}} \right\rceil})}$ parallel steps are required for sorting data of length $\ell$.
+Algorithm 2 Odd-size sorting network Algorithm 2 extends the merge to a full sort. Assuming no structure present in the input data, $\frac{1}{2}{({\left\lceil {\log_{2}{(\ell)}} \right\rceil^{2} + \left\lceil {\log_{2}{(\ell)}} \right\rceil})}$ parallel steps are required for sorting data of length $\ell$.
 
 ### WarpSelect
 
@@ -167,30 +136,17 @@ Figure 2: Overview of WarpSelect. The input values stream in on the left, and th
 
 Our approach (Algorithm 3 and Figure 2) operates on values, with associated indices carried along (omitted from the description for simplicity). It selects the $k$ least values that come from global memory, or from intermediate value registers if fused into another kernel providing the values. Let ${\lbrack a_{i}\rbrack}_{{i = 0}:\ell}$ be the sequence provided for selection.
 
-The elements (on the left of Figure 2) are processed in groups of 32, the warp size. Lane $j$ is responsible for processing $\{ a_{j},a_{32 + j},\ldots\}$; thus, if the elements come from global memory, the reads are contiguous and coalesced into a minimal number of memory transactions.
-
-insert a into our [Tij]i = 0: t
-⊳ Reinterpret thread queues as lane-stride array
-⊳ concatenate and sort thread queues
-⊳ Reinterpret lane-stride array as thread queues
-⊳ Back in thread queue order, invariant restored
-Algorithm 3 WarpSelect pseudocode for lane j
+The elements (on the left of Figure 2) are processed in groups of 32, the warp size. Lane $j$ is responsible for processing $\{ a_{j},a_{32 + j},\ldots\}$; thus, if the elements come from global memory, the reads are contiguous and coalesced into a minimal number of memory transactions. insert a into our [Tij]i = 0: t ⊳ Reinterpret thread queues as lane-stride array ⊳ concatenate and sort thread queues ⊳ Reinterpret lane-stride array as thread queues ⊳ Back in thread queue order, invariant restored Algorithm 3 WarpSelect pseudocode for lane j
 
 ### Data structures
 
-Each lane $j$ maintains a small queue of $t$ elements in registers, called the thread queues ${\lbrack T_{i}^{j}\rbrack}_{{i = 0}:t}$, ordered from largest to smallest ($T_{i}^{j} \geq T_{i + 1}^{j}$). The choice of $t$ is made relative to $k$, see Section 4.3. The thread queue is a first-level filter for new values coming in. If a new $a_{{32i} + j}$ is greater than the largest key currently in the queue, $T_{0}^{j}$, it is guaranteed that it won't be in the $k$ smallest final results.
+Each lane $j$ maintains a small queue of $t$ elements in registers, called the thread queues ${\lbrack T_{i}^{j}\rbrack}_{{i = 0}:t}$, ordered from largest to smallest ($T_{i}^{j} \geq T_{i + 1}^{j}$). The choice of $t$ is made relative to $k$, see Section 4.3. The thread queue is a first-level filter for new values coming . If a new $a_{{32i} + j}$ is greater than the largest key currently in the queue, $T_{0}^{j}$, it is guaranteed that it won't be in the $k$ smallest final results.
 
 The warp shares a lane-stride register array of $k$ smallest seen elements, ${\lbrack W_{i}\rbrack}_{{i = 0}:k}$, called the warp queue. It is ordered from smallest to largest ($W_{i} \leq W_{i + 1}$); if the requested $k$ is not a multiple of 32, we round it up. This is a second level data structure that will be used to maintain all of the $k$ smallest warp-wide seen values. The thread and warp queues are initialized to maximum sentinel values, e.g., $+ \infty$.
 
 ### Update
 
-The three invariants maintained are:
-
-all per-lane $T_{0}^{j}$ are not in the min-$k$
-
-all per-lane $T_{0}^{j}$ are greater than all warp queue keys $W_{i}$
-
-all $a_{i}$ seen so far in the min-$k$ are contained in either some lane's thread queue (${\lbrack T_{i}^{j}\rbrack}_{{i = 0}:{{t,j} = 0}:32}$), or in the warp queue.
+The three invariants maintained are: all per-lane $T_{0}^{j}$ are not in the min-$k$ all per-lane $T_{0}^{j}$ are greater than all warp queue keys $W_{i}$ all $a_{i}$ seen so far in the min-$k$ are contained in either some lane's thread queue (${\lbrack T_{i}^{j}\rbrack}_{{i = 0}:{{t,j} = 0}:32}$), or in the warp queue.
 
 Lane $j$ receives a new $a_{{32i} + j}$ and attempts to insert it into its thread queue. If $a_{{32i} + j} > T_{0}^{j}$, then the new pair is by definition not in the $k$ minimum, and can be rejected.
 
@@ -214,13 +170,7 @@ A final sort and merge is made of the thread and warp queues, after which the wa
 
 ### Complexity and parameter selection
 
-For each incoming group of 32 elements, WarpSelect can perform 1, 2 or 3 constant-time operations, all happening in warp-wide parallel time:
-
-read 32 elements, compare to all thread queue heads $T_{0}^{j}$, cost $C_{1}$, happens $N_{1}$ times;
-
-if ${\exists j} \in {\{ 0,\ldots,31\}}$, $a_{{32n} + j} < T_{0}^{j}$, perform insertion sort on those specific thread queues, cost $C_{2} = {\mathcal{O}{(t)}}$, happens $N_{2}$ times;
-
-if ${{\exists j},T_{0}^{j}} < W_{k - 1}$, sort and merge queues, cost $C_{3} = \mathcal{O}{(t\log{(32t)}^{2} + k\log{(\max{(k,32t)})})}$, happens $N_{3}$ times.
+For each incoming group of 32 elements, WarpSelect can perform 1, 2 or 3 constant-time operations, all happening in warp-wide parallel time: read 32 elements, compare to all thread queue heads $T_{0}^{j}$, cost $C_{1}$, happens $N_{1}$ times; if ${\exists j} \in {\{ 0,\ldots,31\}}$, $a_{{32n} + j} < T_{0}^{j}$, perform insertion sort on those specific thread queues, cost $C_{2} = {\mathcal{O}{(t)}}$, happens $N_{2}$ times; if ${{\exists j},T_{0}^{j}} < W_{k - 1}$, sort and merge queues, cost $C_{3} = \mathcal{O}{(t\log{(32t)}^{2} + k\log{(\max{(k,32t)})})}$, happens $N_{3}$ times.
 
 Thus, the total cost is ${N_{1}C_{1}} + {N_{2}C_{2}} + {N_{3}C_{3}}$. $N_{1} = {\ell/32}$, and on random data drawn independently, $N_{2} = {\mathcal{O}{({k{\log{(\ell)}}})}}$ and $N_{3} = {\mathcal{O}{({{k{\log{(\ell)}}}/t})}}$, see the Appendix for a full derivation. Hence, the trade-off is to balance a cost in $N_{2}C_{2}$ and one in $N_{3}C_{3}$. The practical choice for $t$ given $k$ and $\ell$ was made by experiment on a variety of $k$-NN data. For $k \leq 32$, we use $t = 2$, $k \leq 128$ uses $t = 3$, $k \leq 256$ uses $t = 4$, and $k \leq 1024$ uses $t = 8$, all irrespective of $\ell$.
 
@@ -232,25 +182,15 @@ This section explains how IVFADC, one of the indexing methods originally built u
 
 We briefly come back to the exhaustive search method, often referred to as exact brute-force. It is interesting on its own for exact nearest neighbor search in small datasets. It is also a component of many indexes in the literature. In our case, we use it for the IVFADC coarse quantizer $q_{1}$.
 
-As stated in Section 2, the distance computation boils down to a matrix multiplication. We use optimized GEMM routines in the cuBLAS library to calculate the $- {2{\langle x_{j},y_{i}\rangle}}$ term for L2 distance, resulting in a partial distance matrix $D^{\prime}$. To complete the distance calculation, we use a fused $k$-selection kernel that adds the ${\| y_{i}\|}^{2}$ term to each entry of the distance matrix and immediately submits the value to $k$-selection in registers. The ${\| x_{j}\|}^{2}$ term need not be taken into account before $k$-selection. Kernel fusion thus allows for only 2 passes (GEMM write, $k$-select read) over $D^{\prime}$, compared to other implementations that may require 3 or more. Row-wise $k$-selection is likely not fusable with a well-tuned GEMM kernel, or would result in lower overall efficiency.
+As stated in Section 2, the distance computation boils down to a matrix multiplication. We use optimized GEMM routines in the cuBLAS library to calculate the $- {2{\langle x_{j},y_{i}\rangle}}$ term for L2 distance, resulting in a partial distance matrix $D'$. To complete the distance calculation, we use a fused $k$-selection kernel that adds the ${\| y_{i}\|}^{2}$ term to each entry of the distance matrix and immediately submits the value to $k$-selection in registers. The ${\| x_{j}\|}^{2}$ term need not be taken into account before $k$-selection. Kernel fusion thus allows for only 2 passes (GEMM write, $k$-select read) over $D'$, compared to other implementations that may require 3 or more. Row-wise $k$-selection is likely not fusable with a well-tuned GEMM kernel, or would result in lower overall efficiency.
 
-As $D^{\prime}$ does not fit in GPU memory for realistic problem sizes, the problem is tiled over the batch of queries, with $t_{q} \leq n_{q}$ queries being run in a single tile. Each of the $\left\lceil {n_{q}/t_{q}} \right\rceil$ tiles are independent problems, but we run two in parallel on different streams to better occupy the GPU, so the effective memory requirement of $D$ is $\mathcal{O}{({2\ellt_{q}})}$. The computation can similarly be tiled over $\ell$. For very large input coming from the CPU, we support buffering with pinned memory to overlap CPU to GPU copy with GPU compute.
+As $D'$ does not fit in GPU memory for realistic problem sizes, the problem is tiled over the batch of queries, with $t_{q} \leq n_{q}$ queries being run in a single tile. Each of the $\left\lceil {n_{q}/t_{q}} \right\rceil$ tiles are independent problems, but we run two in parallel on different streams to better occupy the GPU, so the effective memory requirement of $D$ is $\mathcal{O}{({2\ellt_{q}})}$. The computation can similarly be tiled over $\ell$. For very large input coming from the CPU, we support buffering with pinned memory to overlap CPU to GPU copy with GPU compute.
 
 ### IVFADC indexing
 
 ### PQ lookup tables
 
-At its core, the IVFADC requires computing the distance from a vector to a set of product quantization reproduction values. By developing Equation for a database vector $y$, we obtain:
-
-If we decompose the residual vectors left after $q_{1}$ as:
-
-then the distance is rewritten as:
-
-Each quantizer $q^{1},\ldots,q^{b}$ has 256 reproduction values, so when $x$ and $q_{1}{(y)}$ are known all distances can be precomputed and stored in tables $T_{1},\ldots,T_{b}$ each of size 256. Computing the sum consists of $b$ look-ups and additions. Comparing the cost to compute $n$ distances:
-
-Explicit computation: $n \times d$ mutiply-adds;
-
-With lookup tables: $256 \times d$ multiply-adds and $n \times b$ lookup-adds.
+At its core, the IVFADC requires computing the distance from a vector to a set of product quantization reproduction values. By developing Equation for a database vector $y$, we obtain: If we decompose the residual vectors left after $q_{1}$ as: then the distance is rewritten as: Each quantizer $q^{1},\ldots,q^{b}$ has 256 reproduction values, so when $x$ and $q_{1}{(y)}$ are known all distances can be precomputed and stored in tables $T_{1},\ldots,T_{b}$ each of size 256. Computing the sum consists of $b$ look-ups and additions. Comparing the cost to compute $n$ distances: Explicit computation: $n \times d$ mutiply-adds; With lookup tables: $256 \times d$ multiply-adds and $n \times b$ lookup-adds.
 
 This is the key to the efficiency of the product quantizer. In our GPU implementation, $b$ is any multiple of 4 up to 64. The codes are stored as sequential groups of $b$ bytes per vector within lists.
 
@@ -258,15 +198,7 @@ This is the key to the efficiency of the product quantizer. In our GPU implement
 
 When scanning over the elements of the inverted list $\mathcal{I}_{L}$ (where by definition $q_{1}{(y)}$ is constant), the look-up table method can be applied, as the query $x$ and $q_{1}{(y)}$ are known.
 
-Moreover, the computation of the tables $T_{1}\ldotsT_{b}$ is further optimized. The expression of ${\|{x - {q{(y)}}}\|}_{2}^{2}$ in Equation can be decomposed as:
-
-The objective is to minimize inner loop computations. The computations we can do in advance and store in lookup tables are as follows:
-
-Term 1 is independent of the query. It can be precomputed from the quantizers, and stored in a table $\mathcal{T}$ of size ${|\mathcal{C}_{1}|} \times 256 \times b$;
-
-Term 2 is the distance to $q_{1}$'s reproduction value. It is thus a by-product of the first-level quantizer $q_{1}$;
-
-Term 3 can be computed independently of the inverted list. Its computation costs $d \times 256$ multiply-adds.
+Moreover, the computation of the tables $T_{1}\ldotsT_{b}$ is further optimized. The expression of ${\|{x - {q{(y)}}}\|}_{2}^{2}$ in Equation can be decomposed as: The objective is to minimize inner loop computations. The computations we can do in advance and store in lookup tables are as follows: Term 1 is independent of the query. It can be precomputed from the quantizers, and stored in a table $\mathcal{T}$ of size ${|\mathcal{C}_{1}|} \times 256 \times b$; Term 2 is the distance to $q_{1}$'s reproduction value. It is thus a by-product of the first-level quantizer $q_{1}$; Term 3 can be computed independently of the inverted list. Its computation costs $d \times 256$ multiply-adds.
 
 This decomposition is used to produce the lookup tables $T_{1}\ldotsT_{b}$ used during the scan of the inverted list. For a single query, computing the $\tau \times b$ tables from scratch costs $\tau \times d \times 256$ multiply-adds, while this decomposition costs $256 \times d$ multiply-adds and $\tau \times b \times 256$ additions. On the GPU, the memory usage of $\mathcal{T}$ can be prohibitive, so we enable the decomposition only when memory is a not a concern.
 
@@ -286,16 +218,7 @@ A single warp could be dedicated to $k$-selection of each $t_{q}$ set of lists, 
 
 ### Fused kernel
 
-As with exact search, we experimented with a kernel that dedicates a single block to scanning all $\tau$ lists for a single query, with $k$-selection fused with distance computation. This is possible as WarpSelect does not fight for the shared memory resource which is severely limited. This reduces global memory write-back, since almost all intermediate results can be eliminated. However, unlike $k$-selection overhead for exact computation, a significant portion of the runtime is the gather from the $T_{i}$ in shared memory and linear scanning of the $\mathcal{I}_{i}$ from global memory; the write-back is not a dominant contributor. Timing for the fused kernel is improved by at most 15%, and for some problem sizes would be subject to lower parallelism and worse performance without subsequent decomposition. Therefore, and for reasons of implementation simplicity, we do not use this layout.
-
-function ivfpq-search([x1, …, xnq], ℐ1, …, ℐ|𝒞1|)
-for i ← 0: nq do ⊳ batch quantization of Section 5.1
-Compute term 3 (see Section 5.2)
-for L in LIVFi do ⊳ τ loops
-Compute distance tables T1, …, Tb
-⊳ distance estimation, Equation
-Ri← k-select smallest distances d from L
-Algorithm 4 IVFPQ batch search routine
+As with exact search, we experimented with a kernel that dedicates a single block to scanning all $\tau$ lists for a single query, with $k$-selection fused with distance computation. This is possible as WarpSelect does not fight for the shared memory resource which is severely limited. This reduces global memory write-back, since almost all intermediate results can be eliminated. However, unlike $k$-selection overhead for exact computation, a significant portion of the runtime is the gather from the $T_{i}$ in shared memory and linear scanning of the $\mathcal{I}_{i}$ from global memory; the write-back is not a dominant contributor. Timing for the fused kernel is improved by at most 15%, and for some problem sizes would be subject to lower parallelism and worse performance without subsequent decomposition. Therefore, and for reasons of implementation simplicity, we do not use this layout. function ivfpq-search([x1, …, xnq], ℐ1, …, ℐ|𝒞1|) for i ← 0: nq do ⊳ batch quantization of Section 5.1 Compute term 3 (see Section 5.2) for L in LIVFi do ⊳ τ loops Compute distance tables T1, …, Tb ⊳ distance estimation, Equation Ri← k-select smallest distances d from L Algorithm 4 IVFPQ batch search routine
 
 ### Multi-GPU parallelism
 
@@ -333,7 +256,7 @@ WarpSelect is influenced by fgknn, but has several improvements: all state is ma
 
 The exact search method with $k = 1$ can be used by a $k$-means clustering method in the assignment stage, to assign $n_{q}$ training vectors to $|\mathcal{C}_{1}|$ centroids. Despite the fact that it does not use the IVFADC and $k = 1$ selection is trivial (a parallel reduction is used for the $k = 1$ case, not WarpSelect), $k$-means is a good benchmark for the clustering used to train the quantizer $q_{1}$.
 
-We apply the algorithm on MNIST8m images. The 8.1M images are graylevel digits in 28x28 pixels, linearized to vectors of 784-d. We compare this $k$-means implementation to the GPU $k$-means of BIDMach, which was shown to be more efficient than several distributed $k$-means implementations that require dozens of machines^33^3BIDMach numbers from https://github.com/BIDData/BIDMach/wiki/Benchmarks\\#KMeans. Both algorithms were run for 20 iterations. Table 1 shows that our implementation is more than 2$\times$ faster, although both are built upon cuBLAS. Our implementation receives some benefit from the $k$-selection fusion into L2 distance computation. For multi-GPU execution via replicas, the speedup is close to linear for large enough problems (3.16$\times$ for 4 GPUs with 4096 centroids). Note that this benchmark is somewhat unrealistic, as one would typically sub-sample the dataset randomly when so few centroids are requested.
+We apply the algorithm on MNIST8m images. The 8.1M images are graylevel digits in 28x28 pixels, linearized to vectors of 784-d. We compare this $k$-means implementation to the GPU $k$-means of BIDMach, which was shown to be more efficient than several distributed $k$-means implementations that require dozens of machines^33^3BIDMach numbers from Both algorithms were run for 20 iterations. Table 1 shows that our implementation is more than 2$\times$ faster, although both are built upon cuBLAS. Our implementation receives some benefit from the $k$-selection fusion into L2 distance computation. For multi-GPU execution via replicas, the speedup is close to linear for large enough problems (3.16$\times$ for 4 GPUs with 4096 centroids). Note that this benchmark is somewhat unrealistic, as one would typically sub-sample the dataset randomly when so few centroids are requested.
 
 ## centroids
 
@@ -347,15 +270,9 @@ We can also compare to, an approximate CPU method that clusters $10^{8}$ 128-d v
 
 ### Exact nearest neighbor search
 
-We consider a classical dataset used to evaluate nearest neighbor search: Sift1M. Its characteristic sizes are $\ell = 10^{6}$, $d = 128$, $n_{q} = 10^{4}$. Computing the partial distance matrix $D^{\prime}$ costs ${n_{q} \times \ell \times d} = 1.28$ Tflop, which runs in less than one second on current GPUs. Figure 4 shows the cost of the distance computations against the cost of our tiling of the GEMM for the $- {2\left\langle x_{j},y_{i} \right\rangle}$ term of Equation 2 and the peak possible $k$-selection performance on the distance matrix of size $n_{q} \times \ell$, which additionally accounts for reading the tiled result matrix $D^{\prime}$ at peak memory bandwidth.
+We consider a classical dataset used to evaluate nearest neighbor search: Sift1M. Its characteristic sizes are $\ell = 10^{6}$, $d = 128$, $n_{q} = 10^{4}$. Computing the partial distance matrix $D'$ costs ${n_{q} \times \ell \times d} = 1.28$ Tflop, which runs in less than one second on current GPUs. Figure 4 shows the cost of the distance computations against the cost of our tiling of the GEMM for the $- {2\left\langle x_{j},y_{i} \right\rangle}$ term of Equation 2 and the peak possible $k$-selection performance on the distance matrix of size $n_{q} \times \ell$, which additionally accounts for reading the tiled result matrix $D'$ at peak memory bandwidth.
 
-In addition to our method from Section 5, we include times from the two GPU libraries evaluated for $k$-selection performance in Section 6.1. We make several observations:
-
-for $k$-selection, the naive algorithm that sorts the full result array for each query using `thrust::sort_by_key` is more than $10 \times$ slower than the comparison methods;
-
-L2 distance and $k$-selection cost is dominant for all but our method, which has 85 % of the peak possible performance, assuming GEMM usage and our tiling of the partial distance matrix $D^{\prime}$ on top of GEMM is close to optimal. The cuBLAS GEMM itself has low efficiency for small reduction sizes ($d = 128$);
-
-Our fused L2/$k$-selection kernel is important. Our same exact algorithm without fusion (requiring an additional pass through $D^{\prime}$) is at least 25% slower.
+In addition to our method from Section 5, we include times from the two GPU libraries evaluated for $k$-selection performance in Section 6.1. We make several observations: for $k$-selection, the naive algorithm that sorts the full result array for each query using `thrust::sort_by_key` is more than $10 \times$ slower than the comparison methods; L2 distance and $k$-selection cost is dominant for all but our method, which has 85 % of the peak possible performance, assuming GEMM usage and our tiling of the partial distance matrix $D'$ on top of GEMM is close to optimal. The cuBLAS GEMM itself has low efficiency for small reduction sizes ($d = 128$); Our fused L2/$k$-selection kernel is important. Our same exact algorithm without fusion (requiring an additional pass through $D'$) is at least 25% slower.
 
 Figure 4: Exact search k-NN time for the SIFT1M dataset with varying k on 1 Titan X GPU.
 
@@ -389,11 +306,7 @@ An example usage of our similarity search method is to construct a $k$-nearest n
 
 We evaluate the trade-off between speed, precision and memory on two datasets: 95 million images from the Yfcc100M dataset and Deep1B. For Yfcc100M, we compute CNN descriptors as the one-before-last layer of a ResNet, reduced to $d$ = 128 with PCA.
 
-The evaluation measures the trade-off between:
-
-Speed: How much time it takes to build the IVFADC index from scratch and construct the whole $k$-NN graph ($k = 10$) by searching nearest neighbors for all vectors in the dataset. Thus, this is an end-to-end test that includes indexing as well as search time;
-
-Quality: We sample 10,000 images for which we compute the exact nearest neighbors. Our accuracy measure is the fraction of 10 found nearest neighbors that are within the ground-truth 10 nearest neighbors.
+The evaluation measures the trade-off between: Speed: How much time it takes to build the IVFADC index from scratch and construct the whole $k$-NN graph ($k = 10$) by searching nearest neighbors for all vectors in the dataset. Thus, this is an end-to-end test that includes indexing as well as search time; Quality: We sample 10,000 images for which we compute the exact nearest neighbors. Our accuracy measure is the fraction of 10 found nearest neighbors that are within the ground-truth 10 nearest neighbors.
 
 For Yfcc100M, we use a coarse quantizer ($2^{16}$ centroids), and consider $m =$ 16, 32 and 64 byte PQ encodings for each vector. For Deep1B, we pre-process the vectors to $d = 120$ via OPQ, use ${|\mathcal{C}_{1}|} = 2^{18}$ and consider $m =$ 20, 40. For a given encoding, we vary $\tau$ from 1 to 256, to obtain trade-offs between efficiency and quality, as seen in Figure 5.
 
@@ -407,9 +320,7 @@ The largest GPU $k$-NN graph construction we found is a brute-force construction
 
 ### Using the k-NN graph
 
-When a $k$-NN graph has been constructed for an image dataset, we can find paths in the graph between any two images, provided there is a single connected component (this is the case). For example, we can search the shortest path between two images of flowers, by propagating neighbors from a starting image to a destination image. Denoting by $S$ and $D$ the source and destination images, and $d_{ij}$ the distance between nodes, we search the path $P = {\{ p_{1},\ldots,p_{n}\}}$ with $p_{1} = S$ and $p_{n} = D$ such that
-
-i.e., we want to favor smooth transitions. An example result is shown in Figure 6 from Yfcc100M^44^4The mapping from vectors to images is not available for Deep1B. It was obtained after 20 seconds of propagation in a $k$-NN graph with $k = 15$ neighbors. Since there are many flower images in the dataset, the transitions are smooth.
+When a $k$-NN graph has been constructed for an image dataset, we can find paths in the graph between any two images, provided there is a single connected component (this is the case). For example, we can search the shortest path between two images of flowers, by propagating neighbors from a starting image to a destination image. Denoting by $S$ and $D$ the source and destination images, and $d_{ij}$ the distance between nodes, we search the path $P = {\{ p_{1},\ldots,p_{n}\}}$ with $p_{1} = S$ and $p_{n} = D$ such that i.e., we want to favor smooth transitions. An example result is shown in Figure 6 from Yfcc100M^44^4The mapping from vectors to images is not available for Deep1B. It was obtained after 20 seconds of propagation in a $k$-NN graph with $k = 15$ neighbors. Since there are many flower images in the dataset, the transitions are smooth.
 
 ## Conclusion
 

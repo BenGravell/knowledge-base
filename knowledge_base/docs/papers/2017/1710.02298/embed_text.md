@@ -14,7 +14,7 @@ Reinforcement learning addresses the problem of an agent learning to act in an e
 
 ### Agents and environments
 
-At each discrete time step $t = {0,1,{2\ldots}}$, the environment provides the agent with an observation $S_{t}$, the agent responds by selecting an action $A_{t}$, and then the environment provides the next reward $R_{t + 1}$, discount $\gamma_{t + 1}$, and state $S_{t + 1}$. This interaction is formalized as a Markov Decision Process, or MDP, which is a tuple $\langle\mathcal{S},\mathcal{A},T,r,\gamma\rangle$, where $\mathcal{S}$ is a finite set of states, $\mathcal{A}$ is a finite set of actions, $T{(s,a,s^{\prime})} = P{\lbrack S_{t + 1} = s^{\prime} \mid S_{t} = s,A_{t} = a\rbrack}$ is the (stochastic) transition function, ${r{(s,a)}} = {{\mathbb{E}}{\lbrack{{{R_{t + 1} \mid S_{t}} = s},{A_{t} = a}}\rbrack}}$ is the reward function, and $\gamma \in {\lbrack 0,1\rbrack}$ is a discount factor. In our experiments MDPs will be episodic with a constant $\gamma_{t} = \gamma$, except on episode termination where $\gamma_{t} = 0$, but the algorithms are expressed in the general form.
+At each discrete time step $t = {0,1,{2\ldots}}$, the environment provides the agent with an observation $S_{t}$, the agent responds by selecting an action $A_{t}$, and then the environment provides the next reward $R_{t + 1}$, discount $\gamma_{t + 1}$, and state $S_{t + 1}$. This interaction is formalized as a Markov Decision Process, or MDP, which is a tuple $\langle\mathcal{S},\mathcal{A},T,r,\gamma\rangle$, where $\mathcal{S}$ is a finite set of states, $\mathcal{A}$ is a finite set of actions, $T{(s,a,s')} = P{\lbrack S_{t + 1} = s' \mid S_{t} = s,A_{t} = a\rbrack}$ is the (stochastic) transition function, ${r{(s,a)}} = {{\mathbb{E}}{\lbrack{{{R_{t + 1} \mid S_{t}} = s},{A_{t} = a}}\rbrack}}$ is the reward function, and $\gamma \in {\lbrack 0,1\rbrack}$ is a discount factor. In our experiments MDPs will be episodic with a constant $\gamma_{t} = \gamma$, except on episode termination where $\gamma_{t} = 0$, but the algorithms are expressed in the general form.
 
 On the agent side, action selection is given by a policy $\pi$ that defines a probability distribution over actions for each state. From the state $S_{t}$ encountered at time $t$, we define the discounted return $G_{t} = {\sum_{k = 0}^{\infty}{\gamma_{t}^{(k)}R_{t + k + 1}}}$ as the discounted sum of future rewards collected by the agent, where the discount for a reward $k$ steps in the future is given by the product of discounts before that time, $\gamma_{t}^{(k)} = {\prod_{i = 1}^{k}\gamma_{t + i}}$. An agent aims to maximize the expected discounted return by finding a good policy.
 
@@ -24,9 +24,7 @@ The policy may be learned directly, or it may be constructed as a function of so
 
 Large state and/or action spaces make it intractable to learn Q value estimates for each state and action pair independently. In deep reinforcement learning, we represent the various components of agents, such as policies $\pi{(s,a)}$ or values $q{(s,a)}$, with deep (i.e., multi-layer) neural networks. The parameters of these networks are trained by gradient descent to minimize some suitable loss function.
 
-In DQN (?) deep networks and reinforcement learning were successfully combined by using a convolutional neural net to approximate the action values for a given state $S_{t}$ (which is fed as input to the network in the form of a stack of raw pixel frames). At each step, based on the current state, the agent selects an action $\epsilon$-greedily with respect to the action values, and adds a transition ($S_{t},A_{t},R_{t + 1},\gamma_{t + 1},S_{t + 1}$) to a replay memory buffer (?), that holds the last million transitions. The parameters of the neural network are optimized by using stochastic gradient descent to minimize the loss
-
-where $t$ is a time step randomly picked from the replay memory. The gradient of the loss is back-propagated only into the parameters $\theta$ of the online network (which is also used to select actions); the term $\overline{\theta}$ represents the parameters of a target network; a periodic copy of the online network which is not directly optimized. The optimization is performed using RMSprop (?), a variant of stochastic gradient descent, on mini-batches sampled uniformly from the experience replay. This means that in the loss above, the time index $t$ will be a random time index from the last million transitions, rather than the current time. The use of experience replay and target networks enables relatively stable learning of Q values, and led to super-human performance on several Atari games.
+In DQN (?) deep networks and reinforcement learning were successfully combined by using a convolutional neural net to approximate the action values for a given state $S_{t}$ (which is fed as input to the network in the form of a stack of raw pixel frames). At each step, based on the current state, the agent selects an action $\epsilon$-greedily with respect to the action values, and adds a transition ($S_{t},A_{t},R_{t + 1},\gamma_{t + 1},S_{t + 1}$) to a replay memory buffer (?), that holds the last million transitions. The parameters of the neural network are optimized by using stochastic gradient descent to minimize the loss where $t$ is a time step randomly picked from the replay memory. The gradient of the loss is back-propagated only into the parameters $\theta$ of the online network (which is also used to select actions); the term $\overline{\theta}$ represents the parameters of a target network; a periodic copy of the online network which is not directly optimized. The optimization is performed using RMSprop (?), a variant of stochastic gradient descent, on mini-batches sampled uniformly from the experience replay. This means that in the loss above, the time index $t$ will be a random time index from the last million transitions, rather than the current time. The use of experience replay and target networks enables relatively stable learning of Q values, and led to super-human performance on several Atari games.
 
 ## Extensions to DQN
 
@@ -34,63 +32,43 @@ DQN has been an important milestone, but several limitations of this algorithm a
 
 ### Double Q-learning
 
-Conventional Q-learning is affected by an overestimation bias, due to the maximization step in Equation 1, and this can harm learning. Double Q-learning (?), addresses this overestimation by decoupling, in the maximization performed for the bootstrap target, the selection of the action from its evaluation. It is possible to effectively combine this with DQN (?), using the loss
-
-This change was shown to reduce harmful overestimations that were present for DQN, thereby improving performance.
+Conventional Q-learning is affected by an overestimation bias, due to the maximization step in Equation 1, and this can harm learning. Double Q-learning (?), addresses this overestimation by decoupling, in the maximization performed for the bootstrap target, the selection of the action from its evaluation. It is possible to effectively combine this with DQN (?), using the loss This change was shown to reduce harmful overestimations that were present for DQN, thereby improving performance.
 
 ### Prioritized replay
 
-DQN samples uniformly from the replay buffer. Ideally, we want to sample more frequently those transitions from which there is much to learn. As a proxy for learning potential, prioritized experience replay (?) samples transitions with probability $p_{t}$ relative to the last encountered absolute TD error:
-
-where $\omega$ is a hyper-parameter that determines the shape of the distribution. New transitions are inserted into the replay buffer with maximum priority, providing a bias towards recent transitions. Note that stochastic transitions might also be favoured, even when there is little left to learn about them.
+DQN samples uniformly from the replay buffer. Ideally, we want to sample more frequently those transitions from which there is much to learn. As a proxy for learning potential, prioritized experience replay (?) samples transitions with probability $p_{t}$ relative to the last encountered absolute TD error: where $\omega$ is a hyper-parameter that determines the shape of the distribution. New transitions are inserted into the replay buffer with maximum priority, providing a bias towards recent transitions. Note that stochastic transitions might also be favoured, even when there is little left to learn about them.
 
 ### Dueling networks
 
-The dueling network is a neural network architecture designed for value based RL. It features two streams of computation, the value and advantage streams, sharing a convolutional encoder, and merged by a special aggregator (?). This corresponds to the following factorization of action values:
-
-where $\xi$, $\eta$, and $\psi$ are, respectively, the parameters of the shared encoder $f_{\xi}$, of the value stream $v_{\eta}$, and of the advantage stream $a_{\psi}$; and $\theta = {\{\xi,\eta,\psi\}}$ is their concatenation.
+The dueling network is a neural network architecture designed for value based RL. It features two streams of computation, the value and advantage streams, sharing a convolutional encoder, and merged by a special aggregator (?). This corresponds to the following factorization of action values: where $\xi$, $\eta$, and $\psi$ are, respectively, the parameters of the shared encoder $f_{\xi}$, of the value stream $v_{\eta}$, and of the advantage stream $a_{\psi}$; and $\theta = {\{\xi,\eta,\psi\}}$ is their concatenation.
 
 ### Multi-step learning
 
-Q-learning accumulates a single reward and then uses the greedy action at the next step to bootstrap. Alternatively, forward-view multi-step targets can be used (?). We define the truncated $n$-step return from a given state $S_{t}$ as
-
-A multi-step variant of DQN is then defined by minimizing the alternative loss,
-
-Multi-step targets with suitably tuned $n$ often lead to faster learning (?).
+Q-learning accumulates a single reward and then uses the greedy action at the next step to bootstrap. Alternatively, forward-view multi-step targets can be used (?). We define the truncated $n$-step return from a given state $S_{t}$ as A multi-step variant of DQN is then defined by minimizing the alternative loss, Multi-step targets with suitably tuned $n$ often lead to faster learning (?).
 
 ### Distributional RL
 
 We can learn to approximate the distribution of returns instead of the expected return. Recently Bellemare, Dabney, and Munos proposed to model such distributions with probability masses placed on a discrete support $\mathbf{z}$, where $\mathbf{z}$ is a vector with $N_{\text{atoms}} \in {\mathbb{N}}^{+}$ *atoms*, defined by $z^{i} = {v_{\min} + {{({i - 1})}\frac{v_{\max} - v_{\min}}{N_{\text{atoms}} - 1}}}$ for $i \in {\{ 1,\ldots,N_{\text{atoms}}\}}$. The approximating distribution $d_{t}$ at time $t$ is defined on this support, with the probability mass $p_{\theta}^{i}{(S_{t},A_{t})}$ on each atom $i$, such that $d_{t} = {({\mathbf{z}},{{\mathbf{p}}_{\theta}{(S_{t},A_{t})}})}$. The goal is to update $\theta$ such that this distribution closely matches the actual distribution of returns.
 
-To learn the probability masses, the key insight is that return distributions satisfy a variant of Bellman's equation. For a given state $S_{t}$ and action $A_{t}$, the distribution of the returns under the optimal policy $\pi^{\ast}$ should match a target distribution defined by taking the distribution for the next state $S_{t + 1}$ and action $a_{t + 1}^{\ast} = {\pi^{\ast}{(S_{t + 1})}}$, contracting it towards zero according to the discount, and shifting it by the reward (or distribution of rewards, in the stochastic case). A distributional variant of Q-learning is then derived by first constructing a new support for the target distribution, and then minimizing the Kullbeck-Leibler divergence between the distribution $d_{t}$ and the target distribution $d_{t}^{\prime} \equiv {({R_{t + 1} + {\gamma_{t + 1}{\mathbf{z}}}},{{\mathbf{p}}_{\overline{\theta}}{(S_{t + 1},{\overline{a}}_{t + 1}^{\ast})}})}$,
-
-Here $\Phi_{\mathbf{z}}$ is a L2-projection of the target distribution onto the fixed support $\mathbf{z}$, and ${\overline{a}}_{t + 1}^{\ast} = {{{\arg\max}_{a}q_{\overline{\theta}}}{(S_{t + 1},a)}}$ is the greedy action with respect to the mean action values ${q_{\overline{\theta}}{(S_{t + 1},a)}} = {{\mathbf{z}}^{\top}{\mathbf{p}}_{\theta}{(S_{t + 1},a)}}$ in state $S_{t + 1}$.
+To learn the probability masses, the key insight is that return distributions satisfy a variant of Bellman's equation. For a given state $S_{t}$ and action $A_{t}$, the distribution of the returns under the optimal policy $\pi^{\ast}$ should match a target distribution defined by taking the distribution for the next state $S_{t + 1}$ and action $a_{t + 1}^{\ast} = {\pi^{\ast}{(S_{t + 1})}}$, contracting it towards zero according to the discount, and shifting it by the reward (or distribution of rewards, in the stochastic case). A distributional variant of Q-learning is then derived by first constructing a new support for the target distribution, and then minimizing the Kullbeck-Leibler divergence between the distribution $d_{t}$ and the target distribution $d_{t}' \equiv {({R_{t + 1} + {\gamma_{t + 1}{\mathbf{z}}}},{{\mathbf{p}}_{\overline{\theta}}{(S_{t + 1},{\overline{a}}_{t + 1}^{\ast})}})}$, Here $\Phi_{\mathbf{z}}$ is a L2-projection of the target distribution onto the fixed support $\mathbf{z}$, and ${\overline{a}}_{t + 1}^{\ast} = {{{\arg\max}_{a}q_{\overline{\theta}}}{(S_{t + 1},a)}}$ is the greedy action with respect to the mean action values ${q_{\overline{\theta}}{(S_{t + 1},a)}} = {{\mathbf{z}}^{\top}{\mathbf{p}}_{\theta}{(S_{t + 1},a)}}$ in state $S_{t + 1}$.
 
 As in the non-distributional case, we can use a frozen copy of the parameters $\overline{\theta}$ to construct the target distribution. The parametrized distribution can be represented by a neural network, as in DQN, but with $N_{\text{atoms}} \times N_{\text{actions}}$ outputs. A softmax is applied independently for each action dimension of the output to ensure that the distribution for each action is appropriately normalized.
 
 ### Noisy Nets
 
-The limitations of exploring using $\epsilon$-greedy policies are clear in games such as Montezuma's Revenge, where many actions must be executed to collect the first reward. Noisy Nets (?) propose a noisy linear layer that combines a deterministic and noisy stream,
-
-where $\epsilon^{b}$ and $\epsilon^{w}$ are random variables, and $\odot$ denotes the element-wise product. This transformation can then be used in place of the standard linear ${\mathbf{y}} = {{\mathbf{b}} + {\text{W}{\mathbf{x}}}}$. Over time, the network can learn to ignore the noisy stream, but will do so at different rates in different parts of the state space, allowing state-conditional exploration with a form of self-annealing.
+The limitations of exploring using $\epsilon$-greedy policies are clear in games such as Montezuma's Revenge, where many actions must be executed to collect the first reward. Noisy Nets (?) propose a noisy linear layer that combines a deterministic and noisy stream, where $\epsilon^{b}$ and $\epsilon^{w}$ are random variables, and $\odot$ denotes the element-wise product. This transformation can then be used in place of the standard linear ${\mathbf{y}} = {{\mathbf{b}} + {\text{W}{\mathbf{x}}}}$. Over time, the network can learn to ignore the noisy stream, but will do so at different rates in different parts of the state space, allowing state-conditional exploration with a form of self-annealing.
 
 ## The Integrated Agent
 
 In this paper we integrate all the aforementioned components into a single integrated agent, which we call Rainbow.
 
-First, we replace the 1-step distributional loss with a multi-step variant. We construct the target distribution by contracting the value distribution in $S_{t + n}$ according to the cumulative discount, and shifting it by the truncated $n$-step discounted return. This corresponds to defining the target distribution as $d_{t}^{(n)} = {({R_{t}^{(n)} + {\gamma_{t}^{(n)}{\mathbf{z}}}},{{\mathbf{p}}_{\overline{\theta}}{(S_{t + n},a_{t + n}^{\ast})}})}$. The resulting loss is
-
-where, again, $\Phi_{\mathbf{z}}$ is the projection onto $\mathbf{z}$.
+First, we replace the 1-step distributional loss with a multi-step variant. We construct the target distribution by contracting the value distribution in $S_{t + n}$ according to the cumulative discount, and shifting it by the truncated $n$-step discounted return. This corresponds to defining the target distribution as $d_{t}^{(n)} = {({R_{t}^{(n)} + {\gamma_{t}^{(n)}{\mathbf{z}}}},{{\mathbf{p}}_{\overline{\theta}}{(S_{t + n},a_{t + n}^{\ast})}})}$. The resulting loss is where, again, $\Phi_{\mathbf{z}}$ is the projection onto $\mathbf{z}$.
 
 We combine the multi-step distributional loss with double Q-learning by using the greedy action in $S_{t + n}$ selected according to the *online network* as the bootstrap action $a_{t + n}^{\ast}$, and evaluating such action using the *target network*.
 
-In standard proportional prioritized replay (?) the absolute TD error is used to prioritize the transitions. This can be computed in the distributional setting, using the mean action values. However, in our experiments all distributional Rainbow variants prioritize transitions by the KL loss, since this is what the algorithm is minimizing:
+In standard proportional prioritized replay (?) the absolute TD error is used to prioritize the transitions. This can be computed in the distributional setting, using the mean action values. However, in our experiments all distributional Rainbow variants prioritize transitions by the KL loss, since this is what the algorithm is minimizing: The KL loss as priority might be more robust to noisy stochastic environments because the loss can continue to decrease even when the returns are not deterministic.
 
-The KL loss as priority might be more robust to noisy stochastic environments because the loss can continue to decrease even when the returns are not deterministic.
-
-The network architecture is a dueling network architecture adapted for use with return distributions. The network has a shared representation $f_{\xi}{(s)}$, which is then fed into a value stream $v_{\eta}$ with $N_{\text{atoms}}$ outputs, and into an advantage stream $a_{\xi}$ with $N_{\text{atoms}} \times N_{\text{actions}}$ outputs, where $a_{\xi}^{i}{({f_{\xi}{(s)}},a)}$ will denote the output corresponding to atom $i$ and action $a$. For each atom $z^{i}$, the value and advantage streams are aggregated, as in dueling DQN, and then passed through a softmax layer to obtain the normalised parametric distributions used to estimate the returns' distributions:
-
-where $\phi = {f_{\xi}{(s)}}$ and ${{\overline{a}}_{\psi}^{i}{(s)}} = {\frac{1}{N_{\text{actions}}}{\sum_{a^{\prime}}{a_{\psi}^{i}{(\phi,a^{\prime})}}}}$.
+The network architecture is a dueling network architecture adapted for use with return distributions. The network has a shared representation $f_{\xi}{(s)}$, which is then fed into a value stream $v_{\eta}$ with $N_{\text{atoms}}$ outputs, and into an advantage stream $a_{\xi}$ with $N_{\text{atoms}} \times N_{\text{actions}}$ outputs, where $a_{\xi}^{i}{({f_{\xi}{(s)}},a)}$ will denote the output corresponding to atom $i$ and action $a$. For each atom $z^{i}$, the value and advantage streams are aggregated, as in dueling DQN, and then passed through a softmax layer to obtain the normalised parametric distributions used to estimate the returns' distributions: where $\phi = {f_{\xi}{(s)}}$ and ${{\overline{a}}_{\psi}^{i}{(s)}} = {\frac{1}{N_{\text{actions}}}{\sum_{a'}{a_{\psi}^{i}{(\phi,a')}}}}$.
 
 We then replace all linear layers with their noisy equivalent described in Equation. Within these noisy linear layers we use factorised Gaussian noise (?) to reduce the number of independent noise variables.
 
@@ -104,23 +82,13 @@ We now describe the methods and setup used for configuring and evaluating the le
 
 We evaluated all agents on 57 Atari 2600 games from the arcade learning environment (?). We follow the training and evaluation procedures of ? (?) and van Hasselt et al. (?). The average scores of the agent are evaluated during training, every 1M steps in the environment, by suspending learning and evaluating the latest agent for 500K frames. Episodes are truncated at 108K frames (or 30 minutes of simulated play), as in van Hasselt et al. (?).
 
-Agents' scores are normalized, per game, so that 0% corresponds to a random agent and 100% to the average score of a human expert. Normalized scores can be aggregated across all Atari levels to compare the performance of different agents. It is common to track the *median* human normalized performance across all games. We also consider the number of games where the agent's performance is above some fraction of human performance, to disentangle where improvements in the median come from. The *mean* human normalized performance is potentially less informative, as it is dominated by a few games (e.g., Atlantis) where agents achieve scores orders of magnitude higher than humans do.
+Agents' scores are normalized, per game, so that 0% corresponds to a random agent and 100% to the average score of a human expert. Normalized scores can be aggregated across all Atari levels to compare the performance of different agents. It is common to track the *median* human normalized performance across all games. We also consider the number of games where the agent's performance is above some fraction of human performance, to disentangle where improvements in the median come . The *mean* human normalized performance is potentially less informative, as it is dominated by a few games (e.g., Atlantis) where agents achieve scores orders of magnitude higher than humans do.
 
 Besides tracking the median performance as a function of environment steps, at the end of training we re-evaluate the best agent snapshot using two different testing regimes. In the no-ops starts regime, we insert a random number (up to 30) of no-op actions at the beginning of each episode (as we do also in training). In the human starts regime, episodes are initialized with points randomly sampled from the initial portion of human expert trajectories (?); the difference between the two regimes indicates the extent to which the agent has over-fit to its own trajectories.
 
 Due to space constraints, we focus on aggregate results across games. However, in the appendix we provide full learning curves for all games and all agents, as well as detailed comparison tables of raw and normalized scores, in both the no-op and human starts testing regimes.
 
-Min history to start learning
-
-Adam learning rate
-
-Target Network Period
-
-Prioritization importance sampling β
-
-Distributional min/max values
-
-Table 1: Rainbow hyper-parameters
+Min history to start learning Adam learning rate Target Network Period Prioritization importance sampling β Distributional min/max values Table 1: Rainbow hyper-parameters
 
 ### Hyper-parameter tuning
 
@@ -150,7 +118,7 @@ In the final evaluations of the agent, after the end of training, Rainbow achiev
 
 Table 2: Median normalized scores of the best agent snapshots for Rainbow and baselines. For methods marked with an asterisk, the scores come from the corresponding publication. DQN’s scores comes from the dueling networks paper, since DQN’s paper did not report scores for all 57 games. The others scores come from our own implementations.
 
-In Figure 2 (top row) we plot the number of games where an agent has reached some specified level of human normalized performance. From left to right, the subplots show on how many games the different agents have achieved 20%, 50%, 100%, 200% and 500% human normalized performance. This allows us to identify where the overall improvements in performance come from. Note that the gap in performance between Rainbow and other agents is apparent at all levels of performance: the Rainbow agent is improving scores on games where the baseline agents were already good, as well as improving in games where baseline agents are still far from human performance.
+In Figure 2 (top row) we plot the number of games where an agent has reached some specified level of human normalized performance. From left to right, the subplots show on how many games the different agents have achieved 20%, 50%, 100%, 200% and 500% human normalized performance. This allows us to identify where the overall improvements in performance come . Note that the gap in performance between Rainbow and other agents is apparent at all levels of performance: the Rainbow agent is improving scores on games where the baseline agents were already good, as well as improving in games where baseline agents are still far from human performance.
 
 ### Learning speed
 

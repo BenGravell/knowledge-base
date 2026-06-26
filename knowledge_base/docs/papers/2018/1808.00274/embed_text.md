@@ -18,7 +18,7 @@ The constituent aspects of the multimotion estimation problem are often referred
 
 Discrete multimotion estimation is the problem of estimating all the motions, including the camera, in a scene from a set of point observations at each time step. It both estimates the motions as a series of discrete $SE$ transforms and associates the observed tracklets with the estimated motions.
 
-Dynamic environments consist of the static background, a moving observer, i.e., the camera, and one or more independent, third-party motions. The pose of a motion, $\ell$, at each discrete time, $k$, is represented as a coordinate frame, ${\underset{\rightarrow}{\mathcal{F}}}_{\ell_{k}}$, and related to a privileged initial pose through an $SE$ transform, $\mathbf{T}_{\ell{}_{}^{}_{1}}$ (Fig. 2a: Simultaneous Estimation of Camera and Third-Party Motions")). A sequence of these transforms over a set of $K$ frames constitutes the trajectory of the motion, $T_{\ell} ≔ \left( \mathbf{T}_{\ell{}_{}^{}\ell_{1}} \right)_{k = {1\ldotsK}}$. Likewise, a sequence of observations of a point, $j$, by a moving camera, $C$, over multiple frames forms a tracklet, $p^{j} ≔ \left( \mathbf{p}_{C_{k}}^{j_{k}C_{k}} \right)_{k = {1\ldotsK}}$, where $C_{k}$ refers to the observing camera frame at time $k$ (Fig. 2b: Simultaneous Estimation of Camera and Third-Party Motions")). Tracklets moving with a common trajectory can be grouped into bulk motions as $\mathcal{P}_{\ell} ≔ \left\{ p^{j} \right\}_{1\ldotsN}$.
+Dynamic environments consist of the static background, a moving observer, i.e., the camera, and one or more independent, third-party motions. The pose of a motion, $\ell$, at each discrete time, $k$, is represented as a coordinate frame, ${\underset{\rightarrow}{\mathcal{F}}}_{\ell_{k}}$, and related to a privileged initial pose through an $SE$ transform, $\mathbf{T}_{\ell{{}_{k}^{}\ell}_{1}}$ (Fig. 2a: Simultaneous Estimation of Camera and Third-Party Motions")). A sequence of these transforms over a set of $K$ frames constitutes the trajectory of the motion, $T_{\ell} ≔ \left( \mathbf{T}_{\ell{{}_{k}^{},}\ell_{1}} \right)_{k = {1\ldotsK}}$. Likewise, a sequence of observations of a point, $j$, by a moving camera, $C$, over multiple frames forms a tracklet, $p^{j} ≔ \left( \mathbf{p}_{C_{k}}^{j_{k}C_{k}} \right)_{k = {1\ldotsK}}$, where $C_{k}$ refers to the observing camera frame at time $k$ (Fig. 2b: Simultaneous Estimation of Camera and Third-Party Motions")). Tracklets moving with a common trajectory can be grouped into bulk motions as $\mathcal{P}_{\ell} ≔ \left\{ p^{j} \right\}_{1\ldotsN}$.
 
 Motions estimated from these measurements are *egocentric*. They can be represented as *geocentric* motions after identifying one motion as the camera, $T_{C}$.
 
@@ -88,39 +88,31 @@ The stereo MVO pipeline (Fig. 5: Simultaneous Estimation of Camera and Third-Par
 
 The multimotion engine segments tracklets by their observed motion, which is a combination of camera and object motions. In the absence of *a priori* information about the scene, each group of tracklets is used to estimate a camera egomotion by assuming those tracklets belong to a static object. These camera egomotion *hypotheses* can later be converted into estimates of the camera and object motions by identifying the static part of the scene (e.g., as in VO).
 
-The segmentation and estimation are posed as a multilabeling problem where a a label, $\ell$, represents the egomotion hypothesis, ${}_{}^{}{}_{}^{}$, calculated from a group of tracklets, $\mathcal{P}_{\ell} \subseteq \mathcal{P}$. These labels are assigned by minimizing a cost function over a graph of all observed tracklets (Section III-A: Simultaneous Estimation of Camera and Third-Party Motions")). New labels are proposed for each disconnected component of a label's subgraph through a multiframe RANSAC procedure (Section III-B: Simultaneous Estimation of Camera and Third-Party Motions")). Motion labels are assigned to minimize the reprojection residual of the associated trajectory and maximize the label smoothness in the graph (Section III-C: Simultaneous Estimation of Camera and Third-Party Motions")). An outlier label, $\mathcal{O}$, is assigned to points whose motions are not well explained by any other label. Redundant and oversegmented labels are then merged (Section III-D: Simultaneous Estimation of Camera and Third-Party Motions")).
+The segmentation and estimation are posed as a multilabeling problem where a a label, $\ell$, represents the egomotion hypothesis, ${}_{}^{\ell}T_{C}^{}$, calculated from a group of tracklets, $\mathcal{P}_{\ell} \subseteq \mathcal{P}$. These labels are assigned by minimizing a cost function over a graph of all observed tracklets (Section III-A: Simultaneous Estimation of Camera and Third-Party Motions")). New labels are proposed for each disconnected component of a label's subgraph through a multiframe RANSAC procedure (Section III-B: Simultaneous Estimation of Camera and Third-Party Motions")). Motion labels are assigned to minimize the reprojection residual of the associated trajectory and maximize the label smoothness in the graph (Section III-C: Simultaneous Estimation of Camera and Third-Party Motions")). An outlier label, $\mathcal{O}$, is assigned to points whose motions are not well explained by any other label. Redundant and oversegmented labels are then merged (Section III-D: Simultaneous Estimation of Camera and Third-Party Motions")).
 
 The algorithm iterates this process until label convergence. The final labels are then sanitized and any remaining outliers are rejected (Section III-E: Simultaneous Estimation of Camera and Third-Party Motions")) before a final, full-batch estimation of each label (Section III-F: Simultaneous Estimation of Camera and Third-Party Motions")). Egocentric or geocentric trajectories are found by selecting a label to represent the motion of the camera (Section III-G: Simultaneous Estimation of Camera and Third-Party Motions")).
 
 ### III-A Graph Construction
 
-The rigid-body assumption is approximated through a geometric neighborhood graph, $\mathcal{N}$. Each vertex of the graph represents an observed tracklet and is connected to its $k$-nearest-neighbors. The distance between two vertices is defined as the maximum distance in image space between those image tracklets over the entire batch,
-
-where $\mathbf{s}( \cdot )$ applies the nonlinear perspective camera projection. This allows for edges between features that are consistently close while not connecting features that are ever far apart or that never coexist in a frame. This connectivity forms the basis for label generation and assignment.
+The rigid-body assumption is approximated through a geometric neighborhood graph, $\mathcal{N}$. Each vertex of the graph represents an observed tracklet and is connected to its $k$-nearest-neighbors. The distance between two vertices is defined as the maximum distance in image space between those image tracklets over the entire batch, where $\mathbf{s}(\cdot)$ applies the nonlinear perspective camera projection. This allows for edges between features that are consistently close while not connecting features that are ever far apart or that never coexist in a frame. This connectivity forms the basis for label generation and assignment.
 
 ### III-B Label Proposal
 
-The label set, $\mathcal{L}$, must dynamically grow and adapt to correctly converge in a given scene. To accomplish this, new labels are generated by splitting label support groups whenever their tracklets' motions could more accurately be explained by multiple trajectories. A potential new label, $\ell^{\prime}$, is generated for each fully-disjoint component of the subgraph defined by the label's support, $\mathcal{N}_{\ell^{\prime}} \subseteq \mathcal{N}_{\ell} \subseteq \mathcal{N}$. This ensures a level of spatial smoothness while allowing new labels to be proposed from large label supports comprised of tracklets from spatially or temporally distinct motions in the scene.
+The label set, $\mathcal{L}$, must dynamically grow and adapt to correctly converge in a given scene. To accomplish this, new labels are generated by splitting label support groups whenever their tracklets' motions could more accurately be explained by multiple trajectories. A potential new label, $\ell'$, is generated for each fully-disjoint component of the subgraph defined by the label's support, $\mathcal{N}_{\ell'} \subseteq \mathcal{N}_{\ell} \subseteq \mathcal{N}$. This ensures a level of spatial smoothness while allowing new labels to be proposed from large label supports comprised of tracklets from spatially or temporally distinct motions in the scene.
 
 The new label proposals are generated by computing both the dominant motion of the given points and the segmentation between inliers and outliers of that motion. This single-motion segmentation and estimation problem is solved by applying RANSAC in a frame-to-frame fashion, similar to standard VO systems.
 
-Three tracklets are sampled from those visible in the current, $k$, and previous, $k - 1$, frames to estimate the $SE{}$ transform between the two frames ${}_{}^{\ell^{\prime}}{}_{C_{k},C_{k - 1}}^{}$. The proposed transform is evaluated according to how many tracklet reprojection residuals,
-
-are within a given threshold error, $e_{th}$. This process is repeated many times and the transform with the largest inlier set is appended to the proposed trajectory hypothesis, ${}_{}^{\ell^{\prime}}{}_{}^{}$.
+Three tracklets are sampled from those visible in the current, $k$, and previous, $k - 1$, frames to estimate the $SE{}$ transform between the two frames ${}_{}^{\ell'}\mathbf{T}_{C_{k},C_{k - 1}}^{}$. The proposed transform is evaluated according to how many tracklet reprojection residuals, are within a given threshold error, $e_{th}$. This process is repeated many times and the transform with the largest inlier set is appended to the proposed trajectory hypothesis, ${}_{}^{\ell'}T_{C}^{}$.
 
 Any tracklets found to be outliers of the newly estimated models are appended to the outlier label, $\mathcal{O}$. New labels are generated from the outlier label last.
 
 ### III-C Label Assignment
 
-Each tracklet, $p \in \mathcal{P}$, is assigned a label, $\ell \in \mathcal{L}$, to minimize the energy functional,
-
-where $\ell(p)$ gives the label currently assigned to $p$. The energy functional combines the residual error, the label smoothness, and the label complexity term, using a user-selected proportionality parameter, $\lambda$.
+Each tracklet, $p \in \mathcal{P}$, is assigned a label, $\ell \in \mathcal{L}$, to minimize the energy functional, where $\ell(p)$ gives the label currently assigned to $p$. The energy functional combines the residual error, the label smoothness, and the label complexity term, using a user-selected proportionality parameter, $\lambda$.
 
 ### Residual
 
-The residual term penalizes labels that poorly describe the observed data. It is defined as the sum of the residual errors of applying the label trajectories to tracklets. The residual for each point-label pair is defined as
-
-where $e_{k}$ as defined in Eq. 1: Simultaneous Estimation of Camera and Third-Party Motions").
+The residual term penalizes labels that poorly describe the observed data. It is defined as the sum of the residual errors of applying the label trajectories to tracklets. The residual for each point-label pair is defined as where $e_{k}$ as defined in Eq. 1: Simultaneous Estimation of Camera and Third-Party Motions").
 
 ### Smoothness
 
@@ -132,19 +124,17 @@ The complexity term encourages a compact solution by penalizing the use of many 
 
 ### Outliers
 
-The outlier label, $\mathcal{O}$, is designed to be attractive to all points whose motions are not well explained by existing labels. The residual energy of the outlier label decays exponentially with that of the best-fitting label,
-
-where $\alpha$ and $\beta$ are tuning parameters. Points that are well-explained by an extant label will have high outlier data cost. The label cost, $\gamma_{\mathcal{O}}$, for the outlier label is zero as outliers are assumed to always exist.
+The outlier label, $\mathcal{O}$, is designed to be attractive to all points whose motions are not well explained by existing labels. The residual energy of the outlier label decays exponentially with that of the best-fitting label, where $\alpha$ and $\beta$ are tuning parameters. Points that are well-explained by an extant label will have high outlier data cost. The label cost, $\gamma_{\mathcal{O}}$, for the outlier label is zero as outliers are assumed to always exist.
 
 Given the current label set, $\alpha$-expansion (e.g., PEARL ) or convex optimization (e.g., CORAL ) assigns a label to each tracklet to minimize the residual and smoothness energies of Eq. 2: Simultaneous Estimation of Camera and Third-Party Motions"). The minimization can result in an oversegmentation due to outliers and poorly estimated intermediate trajectories. Model merging is therefore used to improve the motion estimation.
 
 ### III-D Label Merging
 
-Two labels, $\ell$ and $\ell^{\prime}$, may be merged if relabeling all $\mathcal{P}_{\ell^{\prime}}$ as $\ell$ would decrease the total energy of Eq. 2: Simultaneous Estimation of Camera and Third-Party Motions"). This occurs when the increase in residual error due to reduced overfitting is less than the cost of using the label, $\gamma_{\ell^{\prime}}$, and any change in smoothness.
+Two labels, $\ell$ and $\ell'$, may be merged if relabeling all $\mathcal{P}_{\ell'}$ as $\ell$ would decrease the total energy of Eq. 2: Simultaneous Estimation of Camera and Third-Party Motions"). This occurs when the increase in residual error due to reduced overfitting is less than the cost of using the label, $\gamma_{\ell'}$, and any change in smoothness.
 
 Only the periods during which the two labels' supports overlap are considered because there is no cost for applying a new label to portions of the batch in which the tracklets do not exist. When more than one merge would reduce the total energy, the one that results in the greatest decrease in cost is chosen. Merging continues until no more merges would reduce (2: Simultaneous Estimation of Camera and Third-Party Motions")). The outlier label, $\mathcal{O}$, is excluded from merging.
 
-The merging stage only considers label pairs with tracklets adjacent in $\mathcal{N}$, i.e., those where $\mathcal{N}_{\ell}$ is connected to $\mathcal{N}_{\ell^{\prime}}$. If they are disconnected, merging the two supports would be undone by the splitting routine (Section III-B: Simultaneous Estimation of Camera and Third-Party Motions")). If the two support sets are connected then the new label will persist until the next labeling stage.
+The merging stage only considers label pairs with tracklets adjacent in $\mathcal{N}$, i.e., those where $\mathcal{N}_{\ell}$ is connected to $\mathcal{N}_{\ell'}$. If they are disconnected, merging the two supports would be undone by the splitting routine (Section III-B: Simultaneous Estimation of Camera and Third-Party Motions")). If the two support sets are connected then the new label will persist until the next labeling stage.
 
 The algorithm iterates the label splitting, assignment, and merging (Sections III-B: Simultaneous Estimation of Camera and Third-Party Motions") to III-D: Simultaneous Estimation of Camera and Third-Party Motions")) until the labels converge or a maximum number of iterations have been reached. The final label set is then sanitized (Section III-E: Simultaneous Estimation of Camera and Third-Party Motions")) before being used to estimate the final trajectory hypotheses (Section III-F: Simultaneous Estimation of Camera and Third-Party Motions")).
 
@@ -154,57 +144,29 @@ The final labels are sanitized to refine the segmentation output and remove nois
 
 ### III-F Final Model Estimation
 
-For each label, an egomotion hypothesis, ${}_{}^{}{}_{}^{}$, is estimated to explain the motion of the tracklets, $\mathcal{P}_{\ell}$, using bundle adjustment. This paper follows the single-motion approach described by Barfoot to estimate the trajectory of each label in an egocentric frame.
+For each label, an egomotion hypothesis, ${}_{}^{\ell}T_{C}^{}$, is estimated to explain the motion of the tracklets, $\mathcal{P}_{\ell}$, using bundle adjustment. This paper follows the single-motion approach described by Barfoot to estimate the trajectory of each label in an egocentric frame.
 
-The system state, $\mathbf{x}$, of each label is defined to include both the estimated pose transforms, ${}_{}^{} ≔ \left( {{}_{}^{}{}_{C_{k}C_{1}}^{}} \right)_{k = {2\ldotsK}}$, and the landmark points, $\left\{ \mathbf{p}_{C_{1}}^{j_{1}C_{1}} \right\}_{j = {1\ldots{|\mathcal{P}_{\ell}|}}}$. The state $\mathbf{x}_{jk} ≔ \left\{ {{}_{}^{}{}_{C_{k}C_{1}}^{}},\mathbf{p}_{C_{1}}^{j_{1}C_{1}} \right\}$ is defined for each pair of transforms and points belonging to label $\ell$.
+The system state, $\mathbf{x}$, of each label is defined to include both the estimated pose transforms, ${{}_{}^{\ell}T} ≔ \left( {{}_{}^{\ell}\mathbf{T}_{C_{k}C_{1}}^{}} \right)_{k = {2\ldotsK}}$, and the landmark points, $\left\{ \mathbf{p}_{C_{1}}^{j_{1}C_{1}} \right\}_{j = {1\ldots{|\mathcal{P}_{\ell}|}}}$. The state $\mathbf{x}_{jk} ≔ \left\{ {{}_{}^{\ell}\mathbf{T}_{C_{k}C_{1}}^{}},\mathbf{p}_{C_{1}}^{j_{1}C_{1}} \right\}$ is defined for each pair of transforms and points belonging to label $\ell$.
 
-Each observation, $\mathbf{y}_{jk}$, of point $\mathbf{p}^{j}$ at pose ${}_{}^{}{}_{C_{k}C_{1}}^{}$ is modeled as
+Each observation, $\mathbf{y}_{jk}$, of point $\mathbf{p}^{j}$ at pose ${}_{}^{\ell}\mathbf{T}_{C_{k}C_{1}}^{}$ is modeled as The measurement model, $\mathbf{g}(\cdot)$, encompasses both the motion model, $\mathbf{z}(\cdot)$, which applies $SE{}$ transforms to observed points, and the sensor model, $\mathbf{s}(\cdot)$, derived from the perspective camera model. The model assumes additive Gaussian noise, $\mathbf{n}_{jk}$, with zero mean and covariance $\mathbf{R}_{jk}$. The least-squares cost function is defined as the difference between the measurement model and the observations, This cost is linearized about an operating point, $\mathbf{x}_{op}$, and then minimized using Gauss-Newton. The operating point is perturbed according to the transform perturbations, $\{{\mathbf{\epsilon}_{k} \in {\mathbb{R}}^{6}}\}$, and landmark perturbations, $\{{{\mathbf{ζ}}_{j} \in {\mathbb{R}}^{3}}\}$, which together form the full state perturbation, $\delta\mathbf{x}$. An indicator matrix $\mathbf{P}_{jk}$ is defined such that ${\delta\mathbf{x}_{jk}} = {\mathbf{P}_{jk}\delta\mathbf{x}}$. See for more detail.
 
-The measurement model, $\mathbf{g}( \cdot )$, encompasses both the motion model, $\mathbf{z}( \cdot )$, which applies $SE{}$ transforms to observed points, and the sensor model, $\mathbf{s}( \cdot )$, derived from the perspective camera model. The model assumes additive Gaussian noise, $\mathbf{n}_{jk}$, with zero mean and covariance $\mathbf{R}_{jk}$. The least-squares cost function is defined as the difference between the measurement model and the observations,
+(a) Top-left swinging box (b) Top-right swinging and rotating box (c) Bottom-left swinging box (d) Bottom-right rotating box Figure 6: The translational and rotational errors for the estimated motion of each object over the length of the estimation window as compared to ground-truth trajectory data. Errors are reported in an arbitrary geocentric frame with the z-axis up, and the arbitrary x- and y-axes. Both the top-left block (a) and the bottom-left block (c) partially left the camera frustum near the beginning of the segment which resulted in gaps in the trajectory estimates for those blocks.
 
-This cost is linearized about an operating point, $\mathbf{x}_{op}$, and then minimized using Gauss-Newton. The operating point is perturbed according to the transform perturbations, $\{{\mathbf{\epsilon}_{k} \in {\mathbb{R}}^{6}}\}$, and landmark perturbations, $\{{{\mathbf{ζ}}_{j} \in {\mathbb{R}}^{3}}\}$, which together form the full state perturbation, $\delta\mathbf{x}$. An indicator matrix $\mathbf{P}_{jk}$ is defined such that ${\delta\mathbf{x}_{jk}} = {\mathbf{P}_{jk}\delta\mathbf{x}}$. See for more detail.
-
-(a) Top-left swinging box
-
-(b) Top-right swinging and rotating box
-
-(c) Bottom-left swinging box
-
-(d) Bottom-right rotating box
-
-Figure 6: The translational and rotational errors for the estimated motion of each object over the length of the estimation window as compared to ground-truth trajectory data. Errors are reported in an arbitrary geocentric frame with the z-axis up, and the arbitrary x- and y-axes. Both the top-left block (a) and the bottom-left block (c) partially left the camera frustum near the beginning of the segment which resulted in gaps in the trajectory estimates for those blocks.
-
-The error function is linearized using $\mathbf{G}_{jk}$, the Jacobian of the measurement function, $\mathbf{g}( \cdot )$,
-
-where the matrix operator $( \cdot )^{\odot}$ is defined in. The cost function can then be linearized using
-
-The optimal perturbation, $\delta\mathbf{x}^{\ast}$, for minimizing the cost function, $J$, is the solution to ${\mathbf{A}\delta\mathbf{x}^{\ast}} = \mathbf{b}$. Each element of the state is then updated according to
-
-where the vector operator $( \cdot )^{\land}$ is defined in. The cost function is then relinearized about the updated operating point and the process iterates until convergence.
+The error function is linearized using $\mathbf{G}_{jk}$, the Jacobian of the measurement function, $\mathbf{g}(\cdot)$, where the matrix operator $(\cdot)^{\odot}$ is defined. The cost function can then be linearized using The optimal perturbation, $\delta\mathbf{x}^{\ast}$, for minimizing the cost function, $J$, is the solution to ${\mathbf{A}\delta\mathbf{x}^{\ast}} = \mathbf{b}$. Each element of the state is then updated according to where the vector operator $(\cdot)^{\land}$ is defined. The cost function is then relinearized about the updated operating point and the process iterates until convergence.
 
 ### III-G Egocentric and Geocentric Trajectories
 
 ### Egocentric
 
-Egocentric motions are expressed in the moving camera frame, ${\underset{\rightarrow}{\mathcal{F}}}_{C_{k}}$. The egocentric motion of the camera is identity by definition and the egocentric motions of the scene are given by
-
-One of these motions is the egocentric motion of the static world *caused* by the camera motion.
+Egocentric motions are expressed in the moving camera frame, ${\underset{\rightarrow}{\mathcal{F}}}_{C_{k}}$. The egocentric motion of the camera is identity by definition and the egocentric motions of the scene are given by One of these motions is the egocentric motion of the static world *caused* by the camera motion.
 
 ### Geocentric
 
-Geocentric motions are expressed in some earth-attached frame. The geocentric motion of the camera is given by the hypothesis motion estimated from the static background,
-
-where the static label may be selected by heuristics as in VO (e.g., label support size).
+Geocentric motions are expressed in some earth-attached frame. The geocentric motion of the camera is given by the hypothesis motion estimated from the static background, where the static label may be selected by heuristics as in VO (e.g., label support size).
 
 Figure 7: The translational and rotational errors for the egomotion of the camera over its path compared to ground-truth trajectory data. Errors are reported in the egocentric camera frame with the z-axis along the optical axis, and the y-axis down.
 
-The geocentric motions of the rest of the scene are given by
-
-where $\mathbf{F}_{\ell_{k}\ell_{1}}$ is the object deformation matrix and is assumed to be identity, (i.e., rigid body). The initial transform,
-
-relates the camera to the center of motion of each object, $\mathbf{r}_{\ell_{1}}^{C_{1}\ell_{1}}$. The object center is calculated from the centroid of all points, $\mathcal{P}_{\ell}$, projected into the first observed frame,
-
-where $t_{j}$ is the first frame where $p^{j}$ is observed, and $\mathbf{C}_{\ell_{1}C_{1}}$ is arbitrary and assumed to be identity. This averaging allows the centroid estimate to adjust as new points are observed due to rotation or occlusion.
+The geocentric motions of the rest of the scene are given by where $\mathbf{F}_{\ell_{k}\ell_{1}}$ is the object deformation matrix and is assumed to be identity, (i.e., rigid body). The initial transform, relates the camera to the center of motion of each object, $\mathbf{r}_{\ell_{1}}^{C_{1}\ell_{1}}$. The object center is calculated from the centroid of all points, $\mathcal{P}_{\ell}$, projected into the first observed frame, where $t_{j}$ is the first frame where $p^{j}$ is observed, and $\mathbf{C}_{\ell_{1}C_{1}}$ is arbitrary and assumed to be identity. This averaging allows the centroid estimate to adjust as new points are observed due to rotation or occlusion.
 
 ## Experiments and Results
 

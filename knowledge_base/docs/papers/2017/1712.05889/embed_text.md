@@ -1,8 +1,6 @@
 ## Introduction
 
-Over the past two decades, many organizations have been collecting---and aiming to exploit---ever-growing quantities of data. This has led to the development of a plethora of frameworks for distributed data analysis, including batch, streaming, and graph processing systems. The success of these frameworks has made it possible for organizations to analyze large data sets as a core part of their business or scientific strategy, and has ushered in the age of "Big Data.​"
-
-More recently, the scope of data-focused applications has expanded to encompass more complex artificial intelligence (AI) or machine learning (ML) techniques. The paradigm case is that of *supervised learning*, where data points are accompanied by labels, and where the workhorse technology for mapping data points to labels is provided by deep neural networks. The complexity of these deep networks has led to another flurry of frameworks that focus on the training of deep neural networks and their use in prediction. These frameworks often leverage specialized hardware (e.g., GPUs and TPUs), with the goal of reducing training time in a batch setting. Examples include TensorFlow, MXNet, and PyTorch.
+Over the past two decades, many organizations have been collecting---and aiming to exploit---ever-growing quantities of data. This has led to the development of a plethora of frameworks for distributed data analysis, including batch, streaming, and graph processing systems. The success of these frameworks has made it possible for organizations to analyze large data sets as a core part of their business or scientific strategy, and has ushered in the age of "Big Data.​" More recently, the scope of data-focused applications has expanded to encompass more complex artificial intelligence (AI) or machine learning (ML) techniques. The paradigm case is that of *supervised learning*, where data points are accompanied by labels, and where the workhorse technology for mapping data points to labels is provided by deep neural networks. The complexity of these deep networks has led to another flurry of frameworks that focus on the training of deep neural networks and their use in prediction. These frameworks often leverage specialized hardware (e.g., GPUs and TPUs), with the goal of reducing training time in a batch setting. Examples include TensorFlow, MXNet, and PyTorch.
 
 The promise of AI is, however, far broader than classical supervised learning. Emerging AI applications must increasingly operate in dynamic environments, react to changes in the environment, and take sequences of actions to accomplish long-term goals. They must aim not only to exploit the data gathered, but also to explore the space of possible actions. These broader requirements are naturally framed within the paradigm of *reinforcement learning* (RL). RL deals with learning to operate continuously within an uncertain environment based on delayed and limited feedback. RL-based systems have already yielded remarkable results, such as Google's AlphaGo beating a human world champion, and are beginning to find their way into dialogue systems, UAVs, and robotic manipulation.
 
@@ -20,9 +18,7 @@ To meet the performance requirements, Ray distributes two components that are ty
 
 While Ray supports serving, training, and simulation in the context of RL applications, this does not mean that it should be viewed as a replacement for systems that provide solutions for these workloads in other contexts. In particular, Ray does not aim to substitute for serving systems like Clipper and TensorFlow Serving, as these systems address a broader set of challenges in deploying models, including model management, testing, and model composition. Similarly, despite its flexibility, Ray is not a substitute for generic data-parallel frameworks, such as Spark, as it currently lacks the rich functionality and APIs (e.g., straggler mitigation, query optimization) that these frameworks provide.
 
-We make the following contributions:
-
-We design and build the first distributed framework that unifies training, simulation, and serving---necessary components of emerging RL applications.
+We make the following contributions: We design and build the first distributed framework that unifies training, simulation, and serving---necessary components of emerging RL applications.
 
 To support these workloads, we unify the actor and task-parallel abstractions on top of a dynamic task execution engine.
 
@@ -38,7 +34,7 @@ We begin by considering the basic components of an RL system and fleshing out th
 
 Figure 2: Typical RL pseudocode for learning a policy.
 
-To learn a policy, an agent typically employs a two-step process: *policy evaluation* and policy improvement. To evaluate the policy, the agent interacts with the environment (e.g., with a simulation of the environment) to generate *trajectories*, where a trajectory consists of a sequence of (state, reward) tuples produced by the current policy. Then, the agent uses these trajectories to improve the policy; i.e., to update the policy in the direction of the gradient that maximizes the reward. Figure 2 shows an example of the pseudocode used by an agent to learn a policy. This pseudocode evaluates the policy by invoking rollout(environment, policy) to generate trajectories. ${\mathbf{t}\mathbf{r}\mathbf{a}\mathbf{i}\mathbf{n}}\_{\mathbf{p}\mathbf{o}\mathbf{l}\mathbf{i}\mathbf{c}\mathbf{y}}{()}$ then uses these trajectories to improve the current policy via policy.update(trajectories). This process repeats until the policy converges.
+To learn a policy, an agent typically employs a two-step process: *policy evaluation* and policy improvement. To evaluate the policy, the agent interacts with the environment (e.g., with a simulation of the environment) to generate *trajectories*, where a trajectory consists of a sequence of (state, reward) tuples produced by the current policy. Then, the agent uses these trajectories to improve the policy; i.e., to update the policy in the direction of the gradient that maximizes the reward. Figure 2 shows an example of the pseudocode used by an agent to learn a policy. This pseudocode evaluates the policy by invoking rollout(environment, policy) to generate trajectories. ${\mathbf{t}\mathbf{r}\mathbf{a}\mathbf{i}\mathbf{n}}_{\mathbf{p}\mathbf{o}\mathbf{l}\mathbf{i}\mathbf{c}\mathbf{y}}{}$ then uses these trajectories to improve the current policy via policy.update(trajectories). This process repeats until the policy converges.
 
 Thus, a framework for RL applications must provide efficient support for training, serving, and *simulation* (Figure 1). Next, we briefly describe these workloads.
 
@@ -50,63 +46,27 @@ Finally, most existing RL applications use *simulations* to evaluate the policy-
 
 In contrast with supervised learning, in which training and serving can be handled separately by different systems, in RL *all three of these workloads are tightly coupled in a single application*, with stringent latency requirements between them. Currently, no framework supports this coupling of workloads. In theory, multiple specialized frameworks could be stitched together to provide the overall capabilities, but in practice, the resulting data movement and latency between systems is prohibitive in the context of RL. As a result, researchers and practitioners have been building their own one-off systems.
 
-This state of affairs calls for the development of new distributed frameworks for RL that can efficiently support training, serving, and simulation. In particular, such a framework should satisfy the following requirements:
-
-Fine-grained, heterogeneous computations. The duration of a computation can range from milliseconds (e.g., taking an action) to hours (e.g., training a complex policy). Additionally, training often requires heterogeneous hardware (e.g., CPUs, GPUs, or TPUs).
+This state of affairs calls for the development of new distributed frameworks for RL that can efficiently support training, serving, and simulation. In particular, such a framework should satisfy the following requirements: Fine-grained, heterogeneous computations. The duration of a computation can range from milliseconds (e.g., taking an action) to hours (e.g., training a complex policy). Additionally, training often requires heterogeneous hardware (e.g., CPUs, GPUs, or TPUs).
 
 Flexible computation model. RL applications require both stateless and stateful computations. Stateless computations can be executed on any node in the system, which makes it easy to achieve load balancing and movement of computation to data, if needed. Thus stateless computations are a good fit for fine-grained simulation and data processing, such as extracting features from images or videos. In contrast stateful computations are a good fit for implementing parameter servers, performing repeated computation on GPU-backed data, or running third-party simulators that do not expose their state.
 
-Dynamic execution. Several components of RL applications require dynamic execution, as the order in which computations finish is not always known in advance (e.g., the order in which simulations finish), and the results of a computation can determine future computations (e.g., the results of a simulation will determine whether we need to perform more simulations).
+Dynamic execution. Several components of RL applications require dynamic execution, as the order in which computations finish is not always known in advance (e.g., the order in which simulations finish), and the results of a computation can determine future computations (e.g., the results of a simulation will determine whether we need to perform more simulations). futures = f.remote (args) Execute function f remotely. f.remote can take objects or futures as inputs and returns one or more futures. This is non-blocking. objects = ray.get (futures) Return the values associated with one or more futures. This is blocking. ready _ futures = ray.wait (futures, k, timeout) Return the futures whose corresponding tasks have completed as soon as either k have completed or the timeout expires. actor = Class.remote (args) Instantiate class C l a s s as a remote actor, and return a handle to it. Call a method futures = actor.method.remote (args) on the remote actor and return one or more futures. Both are non-blocking.
 
-futures = f.remote (args)
-Execute function f remotely. f.remote () can take objects or futures as inputs
-
-and returns one or more futures. This is non-blocking.
-
-objects = ray.get (futures)
-Return the values associated with one or more futures. This is blocking.
-
-ready _ futures = ray.wait (futures,k,timeout)
-Return the futures whose corresponding tasks have completed as soon as either
-
-k have completed or the timeout expires.
-
-actor = Class.remote (args)
-Instantiate class C l a s s as a remote actor, and return a handle to it. Call a method
-
-futures = actor.method.remote (args)
-on the remote actor and return one or more futures. Both are non-blocking.
-
-Table 1: Ray API
-
-Fine-grained load balancing
-Coarse-grained load balancing
-
-Support for object locality
-Poor locality support
-
-High overhead for small updates
-Low overhead for small updates
-
-Efficient failure handling
-Overhead from checkpointing
-
-Table 2: Tasks vs. actors tradeoffs.
+Table 1: Ray API Fine-grained load balancing Coarse-grained load balancing Support for object locality Poor locality support High overhead for small updates Low overhead for small updates Efficient failure handling Overhead from checkpointing Table 2: Tasks vs. actors tradeoffs.
 
 We make two final comments. First, to achieve high utilization in large clusters, such a framework must handle millions of tasks per second.^\*\*^\*Assume 5ms single-core tasks and a cluster of 200 32-core nodes. This cluster can run ${{({{{1s}/5}ms})} \times 32 \times 200} = 1.28$M tasks/sec. Second, such a framework is not intended for implementing deep neural networks or complex simulators from scratch. Instead, it should enable seamless integration with existing simulators and deep learning frameworks.
 
 ## Programming and Computation Model
 
-@ray.remotedef create_policy(): # Initialize the policy randomly. return policy@ray.remote(num_gpus=1)class Simulator(object): def __init__(self): # Initialize the environment. self.env = Environment() def rollout(self, policy, num_steps): observations = [] observation = self.env.current_state() for _ in range(num_steps): action = policy(observation) observation = self.env.step(action) observations.append(observation) return observations@ray.remote(num_gpus=2)def update_policy(policy, *rollouts): # Update the policy. return policy@ray.remotedef train_policy(): # Create a policy. policy_id = create_policy.remote() # Create 10 actors. simulators = [Simulator.remote() for _ in range] # Do 100 steps of training. for _ in range: # Perform one rollout on each actor. rollout_ids = [s.rollout.remote(policy_id) for s in simulators] # Update the policy with the rollouts. policy_id = update_policy.remote(policy_id, *rollout_ids) return ray.get(policy_id)
-Figure 3: Python code implementing the example in Figure 2 in Ray. Note that @ray.remote indicates remote functions and actors. Invocations of remote functions and actor methods return futures, which can be passed to subsequent remote functions or actor methods to encode task dependencies. Each actor has an environment object self.env shared between all of its methods.
+@ray.remotedef create_policy: # Initialize the policy randomly. return policy@ray.remote(num_gpus=1)class Simulator(object): def __init__(self): # Initialize the environment. self.env = Environment def rollout(self, policy, num_steps): observations = observation = self.env.current_state for _ in range(num_steps): action = policy(observation) observation = self.env.step(action) observations.append(observation) return observations@ray.remote(num_gpus=2)def update_policy(policy, *rollouts): # Update the policy. return policy@ray.remotedef train_policy: # Create a policy. policy_id = create_policy.remote # Create 10 actors. simulators = [Simulator.remote for _ in range] # Do 100 steps of training. for _ in range: # Perform one rollout on each actor. rollout_ids = [s.rollout.remote(policy_id) for s in simulators] # Update the policy with the rollouts. policy_id = update_policy.remote(policy_id, *rollout_ids) return ray.get(policy_id) Figure 3: Python code implementing the example in Figure 2 in Ray. Note that @ray.remote indicates remote functions and actors. Invocations of remote functions and actor methods return futures, which can be passed to subsequent remote functions or actor methods to encode task dependencies. Each actor has an environment object self.env shared between all of its methods.
 
-Figure 4: The task graph corresponding to an invocation of train_policy.remote() in Figure 3. Remote function calls and the actor method calls correspond to tasks in the task graph. The figure shows two actors. The method invocations for each actor (the tasks labeled A1 i and A2 i) have stateful edges between them indicating that they share the mutable actor state. There are control edges from train_policy to the tasks that it invokes. To train multiple policies in parallel, we could call train_policy.remote() multiple times.
+Figure 4: The task graph corresponding to an invocation of train_policy.remote in Figure 3. Remote function calls and the actor method calls correspond to tasks in the task graph. The figure shows two actors. The method invocations for each actor (the tasks labeled A1 i and A2 i) have stateful edges between them indicating that they share the mutable actor state. There are control edges from train_policy to the tasks that it invokes. To train multiple policies in parallel, we could call train_policy.remote multiple times.
 
 Ray implements a dynamic task graph computation model, i.e., it models an application as a graph of dependent tasks that evolves during execution. On top of this model, Ray provides both an actor and a task-parallel programming abstraction. This unification differentiates Ray from related systems like CIEL, which only provides a task-parallel abstraction, and from Orleans or Akka, which primarily provide an actor abstraction.
 
 ### Programming Model
 
-Tasks. A *task* represents the execution of a remote function on a stateless worker. When a remote function is invoked, a *future* representing the result of the task is returned immediately. Futures can be retrieved using ${\mathbf{r}\mathbf{a}\mathbf{y}}.{{\mathbf{g}\mathbf{e}\mathbf{t}}{()}}$ and passed as arguments into other remote functions without waiting for their result. This allows the user to express parallelism while capturing data dependencies. Table 1 shows Ray's API.
+Tasks. A *task* represents the execution of a remote function on a stateless worker. When a remote function is invoked, a *future* representing the result of the task is returned immediately. Futures can be retrieved using ${\mathbf{r}\mathbf{a}\mathbf{y}}.{{\mathbf{g}\mathbf{e}\mathbf{t}}{}}$ and passed as arguments into other remote functions without waiting for their result. This allows the user to express parallelism while capturing data dependencies. Table 1 shows Ray's API.
 
 Remote functions operate on immutable objects and are expected to be *stateless* and side-effect free: their outputs are determined solely by their inputs. This implies idempotence, which simplifies fault tolerance through function re-execution on failure.
 
@@ -114,7 +74,7 @@ Actors. An *actor* represents a stateful computation. Each actor exposes methods
 
 Table 2 summarizes the properties of tasks and actors. Tasks enable fine-grained load balancing through leveraging load-aware scheduling at task granularity, input data locality, as each task can be scheduled on the node storing its inputs, and low recovery overhead, as there is no need to checkpoint and recover intermediate state. In contrast, actors provide much more efficient fine-grained updates, as these updates are performed on internal rather than external state, which typically requires serialization and deserialization. For example, actors can be used to implement parameter servers and GPU-based iterative computations (e.g., training). In addition, actors can be used to wrap third-party simulators and other opaque handles that are hard to serialize.
 
-To satisfy the requirements for heterogeneity and flexibility (Section 2), we augment the API in three ways. First, to handle concurrent tasks with heterogeneous durations, we introduce ${\mathbf{r}\mathbf{a}\mathbf{y}}.{{\mathbf{w}\mathbf{a}\mathbf{i}\mathbf{t}}{()}}$, which waits for the first $k$ available results, instead of waiting for all results like ${\mathbf{r}\mathbf{a}\mathbf{y}}.{{\mathbf{g}\mathbf{e}\mathbf{t}}{()}}$. Second, to handle resource-heterogeneous tasks, we enable developers to specify resource requirements so that the Ray scheduler can efficiently manage resources. Third, to improve flexibility, we enable nested remote functions, meaning that remote functions can invoke other remote functions. This is also critical for achieving high scalability (Section 4), as it enables multiple processes to invoke remote functions in a distributed fashion.
+To satisfy the requirements for heterogeneity and flexibility (Section 2), we augment the API in three ways. First, to handle concurrent tasks with heterogeneous durations, we introduce ${\mathbf{r}\mathbf{a}\mathbf{y}}.{{\mathbf{w}\mathbf{a}\mathbf{i}\mathbf{t}}{}}$, which waits for the first $k$ available results, instead of waiting for all results like ${\mathbf{r}\mathbf{a}\mathbf{y}}.{{\mathbf{g}\mathbf{e}\mathbf{t}}{}}$. Second, to handle resource-heterogeneous tasks, we enable developers to specify resource requirements so that the Ray scheduler can efficiently manage resources. Third, to improve flexibility, we enable nested remote functions, meaning that remote functions can invoke other remote functions. This is also critical for achieving high scalability (Section 4), as it enables multiple processes to invoke remote functions in a distributed fashion.
 
 ### Computation Model
 
@@ -134,9 +94,7 @@ Figure 5: Ray’s architecture consists of two parts: an application layer and a
 
 ### Application Layer
 
-The application layer consists of three types of processes:
-
-Driver: A process executing the user program.
+The application layer consists of three types of processes: Driver: A process executing the user program.
 
 Worker: A stateless process that executes tasks (remote functions) invoked by a driver or another worker. Workers are started automatically and assigned tasks by the system layer. When a remote function is declared, the function is automatically published to all workers. A worker executes tasks serially, with no local state maintained across tasks.
 
@@ -178,41 +136,25 @@ For simplicity, our object store does not support distributed objects, i.e., eac
 
 ### Implementation
 
-Ray is an active open source project^††^†[https://github.com/ray-project/ray](https://github.com/ray-project/ray) developed at the University of California, Berkeley. Ray fully integrates with the Python environment and is easy to install by simply running pip install ray. The implementation comprises $\approx 40$K lines of code (LoC), 72% in C++ for the system layer, 28% in Python for the application layer. The GCS uses one Redis key-value store per shard, with entirely single-key operations. GCS tables are sharded by object and task IDs to scale, and every shard is chain-replicated for fault tolerance. We implement both the local and global schedulers as event-driven, single-threaded processes. Internally, local schedulers maintain cached state for local object metadata, tasks waiting for inputs, and tasks ready for dispatch to a worker. To transfer large objects between different object stores, we stripe the object across multiple TCP connections.
+Ray is an active open source project^††^† developed at the University of California, Berkeley. Ray fully integrates with the Python environment and is easy to install by simply running pip install ray. The implementation comprises $\approx 40$K lines of code (LoC), 72% in C++ for the system layer, 28% in Python for the application layer. The GCS uses one Redis key-value store per shard, with entirely single-key operations. GCS tables are sharded by object and task IDs to scale, and every shard is chain-replicated for fault tolerance. We implement both the local and global schedulers as event-driven, single-threaded processes. Internally, local schedulers maintain cached state for local object metadata, tasks waiting for inputs, and tasks ready for dispatch to a worker. To transfer large objects between different object stores, we stripe the object across multiple TCP connections.
 
-(a) Executing a task remotely
-
-(b) Returning the result of a remote task
-
-Figure 7: An end-to-end example that adds a and b and returns c. Solid lines are data plane operations and dotted lines are control plane operations. (a) The function add() is registered with the GCS by node 1 (N 1), invoked on N 1, and executed on N 2. (b) N 1 gets add()’s result using ray.get(). The Object Table entry for c is created in step 4 and updated in step 6 after c is copied to N 1.
+(a) Executing a task remotely (b) Returning the result of a remote task Figure 7: An end-to-end example that adds a and b and returns c. Solid lines are data plane operations and dotted lines are control plane operations. (a) The function add is registered with the GCS by node 1 (N 1), invoked on N 1, and executed on N 2. (b) N 1 gets add’s result using ray.get. The Object Table entry for c is created in step 4 and updated in step 6 after c is copied to N 1.
 
 ### Putting Everything Together
 
-Figure 7 illustrates how Ray works end-to-end with a simple example that adds two objects $a$ and $b$, which could be scalars or matrices, and returns result $c$. The remote function add() is automatically registered with the GCS upon initialization and distributed to every worker in the system (step 0 in Figure 7a).
+Figure 7 illustrates how Ray works end-to-end with a simple example that adds two objects $a$ and $b$, which could be scalars or matrices, and returns result $c$. The remote function add is automatically registered with the GCS upon initialization and distributed to every worker in the system (step 0 in Figure 7a).
 
-Figure 7a shows the step-by-step operations triggered by a driver invoking add.remote($a,b$), where $a$ and $b$ are stored on nodes $N1$ and $N2$, respectively. The driver submits add($a$, $b$) to the local scheduler (step 1), which forwards it to a global scheduler (step 2).^‡‡^‡Note that $N1$ could also decide to schedule the task locally. Next, the global scheduler looks up the locations of add($a$, $b$)'s arguments in the GCS (step 3) and decides to schedule the task on node $N2$, which stores argument $b$ (step 4). The local scheduler at node $N2$ checks whether the local object store contains add($a$, $b$)'s arguments (step 5). Since the local store doesn't have object $a$, it looks up $a$'s location in the GCS (step 6). Learning that $a$ is stored at $N1$, $N2$'s object store replicates it locally (step 7). As all arguments of add() are now stored locally, the local scheduler invokes add() at a local worker (step 8), which accesses the arguments via shared memory (step 9).
+Figure 7a shows the step-by-step operations triggered by a driver invoking add.remote($a,b$), where $a$ and $b$ are stored on nodes $N1$ and $N2$, respectively. The driver submits add($a$, $b$) to the local scheduler (step 1), which forwards it to a global scheduler (step 2).^‡‡^‡Note that $N1$ could also decide to schedule the task locally. Next, the global scheduler looks up the locations of add($a$, $b$)'s arguments in the GCS (step 3) and decides to schedule the task on node $N2$, which stores argument $b$ (step 4). The local scheduler at node $N2$ checks whether the local object store contains add($a$, $b$)'s arguments (step 5). Since the local store doesn't have object $a$, it looks up $a$'s location in the GCS (step 6). Learning that $a$ is stored at $N1$, $N2$'s object store replicates it locally (step 7). As all arguments of add are now stored locally, the local scheduler invokes add at a local worker (step 8), which accesses the arguments via shared memory (step 9).
 
-Figure 7b shows the step-by-step operations triggered by the execution of ray.get() at $N1$, and of add() at $N2$, respectively. Upon ray.get($id_{c}$)'s invocation, the driver checks the local object store for the value $c$, using the future $id_{c}$ returned by add() (step 1). Since the local object store doesn't store $c$, it looks up its location in the GCS. At this time, there is no entry for $c$, as $c$ has not been created yet. As a result, $N1$'s object store registers a callback with the Object Table to be triggered when $c$'s entry has been created (step 2). Meanwhile, at $N2$, add() completes its execution, stores the result $c$ in the local object store (step 3), which in turn adds $c$'s entry to the GCS (step 4). As a result, the GCS triggers a callback to $N1$'s object store with $c$'s entry (step 5). Next, $N1$ replicates $c$ from $N2$ (step 6), and returns $c$ to ray.get() (step 7), which finally completes the task.
+Figure 7b shows the step-by-step operations triggered by the execution of ray.get at $N1$, and of add at $N2$, respectively. Upon ray.get($id_{c}$)'s invocation, the driver checks the local object store for the value $c$, using the future $id_{c}$ returned by add (step 1). Since the local object store doesn't store $c$, it looks up its location in the GCS. At this time, there is no entry for $c$, as $c$ has not been created yet. As a result, $N1$'s object store registers a callback with the Object Table to be triggered when $c$'s entry has been created (step 2). Meanwhile, at $N2$, add completes its execution, stores the result $c$ in the local object store (step 3), which in turn adds $c$'s entry to the GCS (step 4). As a result, the GCS triggers a callback to $N1$'s object store with $c$'s entry (step 5). Next, $N1$ replicates $c$ from $N2$ (step 6), and returns $c$ to ray.get (step 7), which finally completes the task.
 
 While this example involves a large number of RPCs, in many cases this number is much smaller, as most tasks are scheduled locally, and the GCS replies are cached by the global and local schedulers.
 
 ## Evaluation
 
-In our evaluation, we study the following questions:
+In our evaluation, we study the following questions: How well does Ray meet the latency, scalability, and fault tolerance requirements listed in Section 2? (Section 5.1) What overheads are imposed on distributed primitives (e.g., allreduce) written using Ray's API? (Section 5.1) In the context of RL workloads, how does Ray compare against specialized systems for training, serving, and simulation? (Section 5.2) What advantages does Ray provide for RL applications, compared to custom systems? (Section 5.3) All experiments were run on Amazon Web Services. Unless otherwise stated, we use m4.16xlarge CPU instances and p3.16xlarge GPU instances.
 
-How well does Ray meet the latency, scalability, and fault tolerance requirements listed in Section 2? (Section 5.1)
-
-What overheads are imposed on distributed primitives (e.g., allreduce) written using Ray's API? (Section 5.1)
-
-In the context of RL workloads, how does Ray compare against specialized systems for training, serving, and simulation? (Section 5.2)
-
-What advantages does Ray provide for RL applications, compared to custom systems? (Section 5.3)
-
-All experiments were run on Amazon Web Services. Unless otherwise stated, we use m4.16xlarge CPU instances and p3.16xlarge GPU instances.
-
-(a) Ray locality scheduling
-
-Figure 8: (a) Tasks leverage locality-aware placement. 1000 tasks with a random object dependency are scheduled onto one of two nodes. With locality-aware policy, task latency remains independent of the size of task inputs instead of growing by 1-2 orders of magnitude. (b) Near-linear scalability leveraging the GCS and bottom-up distributed scheduler. Ray reaches 1 million tasks per second throughput with 60 nodes. x ∈ {70, 80, 90} omitted due to cost.
+(a) Ray locality scheduling Figure 8: (a) Tasks leverage locality-aware placement. 1000 tasks with a random object dependency are scheduled onto one of two nodes. With locality-aware policy, task latency remains independent of the size of task inputs instead of growing by 1-2 orders of magnitude. (b) Near-linear scalability leveraging the GCS and bottom-up distributed scheduler. Ray reaches 1 million tasks per second throughput with 60 nodes. x ∈ {70, 80, 90} omitted due to cost.
 
 ### Microbenchmarks
 
@@ -240,9 +182,7 @@ Recovering from task failures. In Figure 11(a) ‣ Figure 11 ‣ 5.1 Microbenchm
 
 Recovering from actor failures. By encoding actor method calls as stateful edges directly in the dependency graph, we can reuse the same object reconstruction mechanism as in Figure 11(a) ‣ Figure 11 ‣ 5.1 Microbenchmarks ‣ 5 Evaluation ‣ Ray: A Distributed Framework for Emerging AI Applications") to provide transparent fault tolerance for *stateful computation*. Ray additionally leverages user-defined checkpoint functions to bound the reconstruction time for actors (Figure 11(b) ‣ Figure 11 ‣ 5.1 Microbenchmarks ‣ 5 Evaluation ‣ Ray: A Distributed Framework for Emerging AI Applications")). With minimal overhead, checkpointing enables only 500 methods to be re-executed, versus 10k re-executions without checkpointing. In the future, we hope to further reduce actor reconstruction time, e.g., by allowing users to annotate methods that do not mutate state.
 
-(b) Ray scheduler ablation
-
-Figure 12: (a) Mean execution time of allreduce on 16 m4.16xl nodes. Each worker runs on a distinct node. Ray* restricts Ray to 1 thread for sending and 1 thread for receiving. (b) Ray’s low-latency scheduling is critical for allreduce.
+(b) Ray scheduler ablation Figure 12: (a) Mean execution time of allreduce on 16 m4.16xl nodes. Each worker runs on a distinct node. Ray* restricts Ray to 1 thread for sending and 1 thread for receiving. (b) Ray’s low-latency scheduling is critical for allreduce.
 
 Allreduce. Allreduce is a distributed communication primitive important to many machine learning workloads. Here, we evaluate whether Ray can natively support a ring allreduce implementation with low enough overhead to match existing implementations. We find that Ray completes allreduce across 16 nodes on 100MB in $\sim$`<!-- -->`{=html}200ms and 1GB in $\sim$`<!-- -->`{=html}1200ms, surprisingly outperforming OpenMPI (v1.10), a popular MPI implementation, by 1.5$\times$ and 2$\times$ respectively (Figure 12(a) ‣ Figure 12 ‣ 5.1 Microbenchmarks ‣ 5 Evaluation ‣ Ray: A Distributed Framework for Emerging AI Applications")). We attribute Ray's performance to its use of multiple threads for network transfers, taking full advantage of the 25Gbps connection between nodes on AWS, whereas OpenMPI sequentially sends and receives data on a single thread. For smaller objects, OpenMPI outperforms Ray by switching to a lower overhead algorithm, an optimization we plan to implement in the future.
 
@@ -274,13 +214,7 @@ Table 3: Throughput comparisons for Clipper, a dedicated serving system, and Ray
 
 Simulators used in RL produce results with variable lengths ("timesteps") that, due to the tight loop with training, must be used as soon as they are available. The task heterogeneity and timeliness requirements make simulations hard to support efficiently in BSP-style systems. To demonstrate, we compare an MPI implementation that submits $3n$ parallel simulation runs on $n$ cores in 3 rounds, with a global barrier between rounds^§§^§Note that experts *can* use MPI's asynchronous primitives to get around barriers---at the expense of increased program complexity ---we nonetheless chose such an implementation to simulate BSP., to a Ray program that issues the same $3n$ tasks while concurrently gathering simulation results back to the driver. Table 4 shows that both systems scale well, yet Ray achieves up to 1.8$\times$ throughput. This motivates a programming model that can dynamically spawn and collect the results of fine-grained simulation tasks.
 
-System, programming model
-
-MPI, bulk synchronous
-
-Ray, asynchronous tasks
-
-Table 4: Timesteps per second for the Pendulum-v0 simulator in OpenAI Gym. Ray allows for better utilization when running heterogeneous simulations at scale.
+System, programming model MPI, bulk synchronous Ray, asynchronous tasks Table 4: Timesteps per second for the Pendulum-v0 simulator in OpenAI Gym. Ray allows for better utilization when running heterogeneous simulations at scale.
 
 ### RL Applications
 
@@ -324,7 +258,7 @@ Cilk is a parallel programming language whose work-stealing scheduler achieves p
 
 Building Ray has been a long journey. It started two years ago with a Spark library to perform distributed training and simulations. However, the relative inflexibility of the BSP model, the high per-task overhead, and the lack of an actor abstraction led us to develop a new system. Since we released Ray roughly one year ago, several hundreds of people have used it and several companies are running it in production. Here we discuss our experience developing and using Ray, and some early user feedback.
 
-API. In designing the API, we have emphasized minimalism. Initially we started with a basic *task* abstraction. Later, we added the wait() primitive to accommodate rollouts with heterogeneous durations and the *actor* abstraction to accommodate third-party simulators and amortize the overhead of expensive initializations. While the resulting API is relatively low-level, it has proven both powerful and simple to use. We have already used this API to implement many state-of-the-art RL algorithms on top of Ray, including A3C, PPO, DQN, ES, DDPG, and Ape-X. In most cases it took us just a few tens of lines of code to port these algorithms to Ray. Based on early user feedback, we are considering enhancing the API to include higher level primitives and libraries, which could also inform scheduling decisions.
+API. In designing the API, we have emphasized minimalism. Initially we started with a basic *task* abstraction. Later, we added the wait primitive to accommodate rollouts with heterogeneous durations and the *actor* abstraction to accommodate third-party simulators and amortize the overhead of expensive initializations. While the resulting API is relatively low-level, it has proven both powerful and simple to use. We have already used this API to implement many state-of-the-art RL algorithms on top of Ray, including A3C, PPO, DQN, ES, DDPG, and Ape-X. In most cases it took us just a few tens of lines of code to port these algorithms to Ray. Based on early user feedback, we are considering enhancing the API to include higher level primitives and libraries, which could also inform scheduling decisions.
 
 Limitations. Given the workload generality, specialized optimizations are hard. For example, we must make scheduling decisions without full knowledge of the computation graph. Scheduling optimizations in Ray might require more complex runtime profiling. In addition, storing lineage for each task requires the implementation of garbage collection policies to bound storage costs in the GCS, a feature we are actively developing.
 

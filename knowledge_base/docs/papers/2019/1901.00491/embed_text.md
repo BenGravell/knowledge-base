@@ -4,16 +4,15 @@ The double integrator is a mathematical model for a point mass, typically ideali
 
 Due to its simplicity, optimal control of the double integrator is studied virtually in every course of lectures on optimal control theory. In the teaching of optimal control theory and its applications, although the minimum-energy, minimum-effort and minimum-time control of the double integrator are widely studied, minimization of total variation is not even considered, presumably because a maximum principle for the control minimizing its total variation does not exist.
 
-\psfrag{u}{u(t)}\psfrag{x10}{x1 = s0}\psfrag{x1}{x1(t):= y(t)}\psfrag{x2}{x2(t):= ẏ(t)}\includegraphics[width=284.52756pt]{car1.eps}
-Figure 1: A simplified physical model of a car as a point mass.
+\psfrag{u}{u(t)}\psfrag{x10}{x1 = s0}\psfrag{x1}{x1(t):= y(t)}\psfrag{x2}{x2(t):= ẏ(t)}\includegraphics[width=284.52756pt]{car1.eps} Figure 1: A simplified physical model of a car as a point mass.
 
 The double integrator model is so simple that an analytical solution can be worked out easily for the problem of energy minimization. Moreover, for the case of minimum-time control, where the control variable is bound-constrained, the optimal control can simply be shown to be bang--bang with at most one switching, i.e., the control variable switches from one bound to the other, and it does so at most once. The control structure can also be worked out easily in the case of minimum-effort control, where the $L^{1}$-norm of the control function is minimized. In summary, optimal control of the double integrator yields simple but rich-enough examples for illustrations of some key aspects of the theory of optimal control.
 
-Total variation of a function can be broadly described as the total vertical distance traversed by the graph of the function (a precise definition is to be given in Section 3.1). A small total variation in the control function is obviously desirable, as it would make the control system easier to design and implement, resulting in, for example, smaller or lighter motors for a robot or a spacecraft.
+Total variation of a function can be broadly described as the total vertical distance traversed by the graph of the function (a precise definition is to be given in Section 3.1). A small total variation in the control function is obviously desirable, as it would make the control system easier to design and implement, resulting , for example, smaller or lighter motors for a robot or a spacecraft.
 
 Although there is a lack of theory and results for the pure minimization of total variation, it is often imposed in addition to the minimization of another functional, for instance, energy or duration of time. This is done in the earlier works, where the optimal control problem is discretized directly by assuming piecewise-constant optimal control variables. This discretization simplifies the expression for the total variation in control; however, optimality conditions for the original (continuous-time) problem cannot be derived or verified, because of the discretization itself.
 
-Total variation is widely used as a regularization term in more general optimization problems such as imaging and signal processing (see and the references therein). It has also relatively recently been used as a regularization term for parameter estimation in linear quadratic control. A bound on the total variation in the control is derived for minimum-time linear control problems in, although the total variation itself is not incorporated into the minimization problem.
+Total variation is widely used as a regularization term in more general optimization problems such as imaging and signal processing (see and the references therein). It has also relatively recently been used as a regularization term for parameter estimation in linear quadratic control. A bound on the total variation in the control is derived for minimum-time linear control problems , although the total variation itself is not incorporated into the minimization problem.
 
 In the present article, in addition to the minimization of energy, we consider the minimization of the total variation in the control variable of the double integrator. In other words, we aim to study simultaneous minimization of energy and total variation, giving rise to multi-objective optimization and the study of the set of all trade-off/compromise solutions called the Pareto front. Optimal control problems which involve total variation have not been studied yet from the viewpoint of multi-objective optimal control.
 
@@ -21,7 +20,7 @@ In this paper, we use a tutorial approach. First, in Section 2, we introduce the
 
 In Section 3, we define the total variation of a function and state the energy and total variation minimization problem, by appending the total variation in control as a weighted term to the energy functional. Next, we augment the state variable vector, so that the problem can be rewritten and posed as an optimal control problem in standard form. We derive optimality conditions, and discuss the problem as a multi-objective optimal control problem. By means of asymptotic analysis, we derive an optimal solution for the pure total variation minimization problem. These kinds of results on total variation do not exist in the literature.
 
-In Section 4, via an example instance of the problem, we illustrate the results given in Section 3. In particular, we provide, via a URL link in, a video illustration of the multi-objective solutions on the Pareto front, so that evolution of the solutions as the weight of total variation is varied can be animated and observed.
+In Section 4, via an example instance of the problem, we illustrate the results given in Section 3. In particular, we provide, via a URL link , a video illustration of the multi-objective solutions on the Pareto front, so that evolution of the solutions as the weight of total variation is varied can be animated and observed.
 
 Finally, in Section 5, we offer concluding remarks and provide various relevant open problems.
 
@@ -31,80 +30,35 @@ Consider the car as a point unit mass, moving on a frictionless planar ground in
 
 Let $x_{1}:=y$ and $x_{2}:=\overset{˙}{y}$. The problem of minimizing the energy of the car, which starts at a position ${x_{1}{}} = s_{0}$ with a velocity ${x_{2}{}} = v_{0}$ and finishes at the final position ${x_{1}{}} = s_{f}$ with velocity ${x_{2}{}} = v_{f}$, within one unit of time, can be posed as follows.
 
-Here, the functions $x_{1}$ and $x_{2}$ are referred to as the state variables and $u$ the control variable. As a first step in writing the conditions of optimality for this optimization problem, define the Hamiltonian function $H$ for Problem (Pe) in the usual way as
-
-where ${\lambda{(t)}}:={({\lambda_{1}{(t)}},{\lambda_{2}{(t)}})} \in {IR^{2}}$ is the adjoint variable (or costate) vector such that (see )
-
-The equations in simply reduce to
-
-where ${\overline{\lambda}}_{1}$ and $c$ are real constants. By calculus of variations, or the maximum principle with an unconstrained control variable (see ), if $u$ is optimal, then
-
-Substituting $u{(t)}$ in into the differential equations and solving these equations by also utilizing the boundary conditions in Problem (Pe), one gets the analytical solution
-
-for all $t \in {\lbrack 0,1\rbrack}$, where
-
-We note that the position variable $x_{1}{(t)}$ of the car is a cubic polynomial of time. Therefore, the minimum-energy control solution, despite being so simple, constitutes a building block for the problem of finding a cubic spline interpolant passing through a given set of points.
+Here, the functions $x_{1}$ and $x_{2}$ are referred to as the state variables and $u$ the control variable. As a first step in writing the conditions of optimality for this optimization problem, define the Hamiltonian function $H$ for Problem (Pe) in the usual way as where ${\lambda{(t)}}:={({\lambda_{1}{(t)}},{\lambda_{2}{(t)}})} \in {IR^{2}}$ is the adjoint variable (or costate) vector such that (see) The equations in simply reduce to where ${\overline{\lambda}}_{1}$ and $c$ are real constants. By calculus of variations, or the maximum principle with an unconstrained control variable (see), if $u$ is optimal, then Substituting $u{(t)}$ in into the differential equations and solving these equations by also utilizing the boundary conditions in Problem (Pe), one gets the analytical solution for all $t \in {\lbrack 0,1\rbrack}$, where We note that the position variable $x_{1}{(t)}$ of the car is a cubic polynomial of time. Therefore, the minimum-energy control solution, despite being so simple, constitutes a building block for the problem of finding a cubic spline interpolant passing through a given set of points.
 
 ## Minimization of Total Variation
 
 ### Total variation of a function
 
-The total variation of a function $u:{{\lbrack t_{0},t_{f}\rbrack}\rightarrow{IR}}$ is defined as
+The total variation of a function $u:{{\lbrack t_{0},t_{f}\rbrack}\rightarrow{IR}}$ is defined as where the supremum is taken over all partitions of the interval $\lbrack t_{0},t_{f}\rbrack$ (see). Here, $N \in {\{ 1,2,3,\ldots\}}$ is arbitrary as is the choice of the values $t_{1},\cdots,t_{N - 1}$ in $\lbrack t_{0},t_{f}\rbrack$ which, however, must satisfy. The function $u$ is said to be of bounded variation on $\lbrack t_{0},t_{f}\rbrack$, if $\operatorname{TV}{(u)}$ is finite. If $u$ is absolutely continuous on $\lbrack t_{0},t_{f}\rbrack$, in other words, $u \in {W^{1,1}{({\lbrack t_{0},t_{f}\rbrack};{IR})}}$, then where $\overset{˙}{u}:={{{du}/d}t}$. Practically speaking, $\operatorname{TV}{(u)}$ as given in represents the total distance traversed by the projection of the $u{(t)}$ vs. $t$ graph along the vertical $u{(t)}$ axis. Figure 2 illustrates this interpretation with ${u{(t)}} = {\sin t}$ over $\lbrack 0,{{3\pi}/2}\rbrack$, where clearly ${\operatorname{TV}{(u)}} = 3$.
 
-where the supremum is taken over all partitions
-
-of the interval $\lbrack t_{0},t_{f}\rbrack$ (see ). Here, $N \in {\{ 1,2,3,\ldots\}}$ is arbitrary as is the choice of the values $t_{1},\cdots,t_{N - 1}$ in $\lbrack t_{0},t_{f}\rbrack$ which, however, must satisfy. The function $u$ is said to be of bounded variation on $\lbrack t_{0},t_{f}\rbrack$, if $\operatorname{TV}{(u)}$ is finite. If $u$ is absolutely continuous on $\lbrack t_{0},t_{f}\rbrack$, in other words, $u \in {W^{1,1}{({\lbrack t_{0},t_{f}\rbrack};{IR})}}$, then
-
-where $\overset{˙}{u}:={{{du}/d}t}$. Practically speaking, $\operatorname{TV}{(u)}$ as given in represents the total distance traversed by the projection of the $u{(t)}$ vs. $t$ graph along the vertical $u{(t)}$ axis. Figure 2 illustrates this interpretation with ${u{(t)}} = {\sin t}$ over $\lbrack 0,{{3\pi}/2}\rbrack$, where clearly ${\operatorname{TV}{(u)}} = 3$.
-
-\psfrag{u}{u(t)}\psfrag{t}{t}\includegraphics[width=284.52756pt]{sint.eps}
-Figure 2: Graph of u (t) = sin t over [0, 3 π/2], illustrating that TV (u) = 3.
+\psfrag{u}{u(t)}\psfrag{t}{t}\includegraphics[width=284.52756pt]{sint.eps} Figure 2: Graph of u (t) = sin t over [0, 3 π/2], illustrating that TV (u) = 3.
 
 ### Minimum-Total-Variation Control of the Double Integrator
 
 Recall that in the case when one has Problem (Pe), minimizing only the energy, the solution is as given in --. So, clearly ${\operatorname{TV}{(u)}} = {6{|{{2{({s_{f} - s_{0}})}} - v_{f} - v_{0}}|}}$.
 
-We consider optimal control problems where we aim to minimize the total variation in the control variables in addition to the energy functional.
-
-where $\alpha > 0$ is referred to as the weight. We assume that $u$ is absolutely continuous on $\lbrack 0,1\rbrack$, in other words, $u \in {W^{1,1}{({\lbrack 0,1\rbrack})}}$. Then we define the new control variable ${v{(t)}}:={\overset{˙}{u}{(t)}}$ for a.e. $t \in {\lbrack 0,1\rbrack}$. Using, Problem (Ptv) can now be reformulated by incorporating the new variable as
-
-In this augmented form of the problem, $u$ becomes a new state variable.
+We consider optimal control problems where we aim to minimize the total variation in the control variables in addition to the energy functional. where $\alpha > 0$ is referred to as the weight. We assume that $u$ is absolutely continuous on $\lbrack 0,1\rbrack$, in other words, $u \in {W^{1,1}{({\lbrack 0,1\rbrack})}}$. Then we define the new control variable ${v{(t)}}:={\overset{˙}{u}{(t)}}$ for a.e. $t \in {\lbrack 0,1\rbrack}$. Using, Problem (Ptv) can now be reformulated by incorporating the new variable as In this augmented form of the problem, $u$ becomes a new state variable.
 
 ### Optimality Conditions
 
-The Hamiltonian function for Problem (Paug) is given by
-
-where ${\lambda{(t)}} = {({\lambda_{1}{(t)}},{\lambda_{2}{(t)}})} \in {IR^{2}}$ and ${\eta{(t)}} \in {IR}$ are adjoint variables defined by (see )
-
-where ${\overline{\lambda}}_{1}$ and $c$ are real constants. Note that, although the expressions in are respectively the same as those in, the real constants ${\overline{\lambda}}_{1}$ and $c$ in this case depend on the value of $\alpha$ and so are different in general.
+The Hamiltonian function for Problem (Paug) is given by where ${\lambda{(t)}} = {({\lambda_{1}{(t)}},{\lambda_{2}{(t)}})} \in {IR^{2}}$ and ${\eta{(t)}} \in {IR}$ are adjoint variables defined by (see) where ${\overline{\lambda}}_{1}$ and $c$ are real constants. Note that, although the expressions in are respectively the same as those, the real constants ${\overline{\lambda}}_{1}$ and $c$ in this case depend on the value of $\alpha$ and so are different in general.
 
 Next we state the maximum principle (see \[15, Theorem 1.5.1\]) for our setting as follows.
 
-Maximum Principle. Suppose that ${x_{1},x_{2},u} \in {W^{1,1}{({\lbrack 0,1\rbrack};{IR})}}$ and $v \in {L^{1}{({\lbrack 0,1\rbrack};{IR})}}$ solve Problem (Paug). Then there exist functions ${\lambda_{1},\lambda_{2},\eta} \in {W^{1,1}{(0,t_{f};{IR})}}$ such that${({\lambda_{1}{(t)}},{\lambda_{2}{(t)}},{\eta{(t)}})} \neq \mathbf{0}$, for every $t \in {\lbrack 0,1\rbrack}$, and, in addition to the state differential equations and other constraints given in Problem (Paug) and the adjoint differential equations in --, the following condition holds:
-
-Condition implies that
-
-for a.e. $t \in {\lbrack 0,1\rbrack}$. Note that ${|{\eta_{i}{(t)}}|} > \alpha$ is not allowed by the maximum principle, as otherwise one would get ${v{(t)}} = {- \infty}$.
+Maximum Principle. Suppose that ${x_{1},x_{2},u} \in {W^{1,1}{({\lbrack 0,1\rbrack};{IR})}}$ and $v \in {L^{1}{({\lbrack 0,1\rbrack};{IR})}}$ solve Problem (Paug). Then there exist functions ${\lambda_{1},\lambda_{2},\eta} \in {W^{1,1}{(0,t_{f};{IR})}}$ such that${({\lambda_{1}{(t)}},{\lambda_{2}{(t)}},{\eta{(t)}})} \neq \mathbf{0}$, for every $t \in {\lbrack 0,1\rbrack}$, and, in addition to the state differential equations and other constraints given in Problem (Paug) and the adjoint differential equations in --, the following condition holds: Condition implies that for a.e. $t \in {\lbrack 0,1\rbrack}$. Note that ${|{\eta_{i}{(t)}}|} > \alpha$ is not allowed by the maximum principle, as otherwise one would get ${v{(t)}} = {- \infty}$.
 
 In view of, when ${- \alpha} < {\eta{(t)}} < \alpha$, a.e. $t \in {\lbrack 0,1\rbrack}$, the original control $u{(t)}$ is (possibly piecewise) constant. What if ${|{\eta{(t)}}|} \equiv \alpha$ over a subinterval of $\lbrack 0,1\rbrack$? If so, then we refer to the optimal control in this subinterval as singular control, which we elaborate further next.
 
-Singular control. If there exist $s_{1}$ and $s_{2}$ such that ${|{\eta{(t)}}|} = \alpha$ for every $t \in {\lbrack s_{1},s_{2}\rbrack} \subset {\lbrack 0,t_{f}\rbrack}$ (in fact, one has either ${\eta{(t)}} = \alpha$ or ${\eta{(t)}} = {- \alpha}$ for every $t \in {\lbrack s_{1},s_{2}\rbrack}$, because of the continuity of $\eta$), then the control variable $v{(t)}$ for every $t \in {\lbrack s_{1},s_{2}\rbrack}$ is said to be singular. A candidate for a singular optimal control $v{(t)}$ might be obtained by observing that, since $\eta{(t)}$ is constant over $\lbrack s_{1},s_{2}\rbrack$, one will have ${\overset{˙}{\eta}{(t)}} = {\overset{¨}{\eta}{(t)}} = 0$ for every $t \in {\lbrack s_{1},s_{2}\rbrack}$. By using, this observation yields
+Singular control. If there exist $s_{1}$ and $s_{2}$ such that ${|{\eta{(t)}}|} = \alpha$ for every $t \in {\lbrack s_{1},s_{2}\rbrack} \subset {\lbrack 0,t_{f}\rbrack}$ (in fact, one has either ${\eta{(t)}} = \alpha$ or ${\eta{(t)}} = {- \alpha}$ for every $t \in {\lbrack s_{1},s_{2}\rbrack}$, because of the continuity of $\eta$), then the control variable $v{(t)}$ for every $t \in {\lbrack s_{1},s_{2}\rbrack}$ is said to be singular. A candidate for a singular optimal control $v{(t)}$ might be obtained by observing that, since $\eta{(t)}$ is constant over $\lbrack s_{1},s_{2}\rbrack$, one will have ${\overset{˙}{\eta}{(t)}} = {\overset{¨}{\eta}{(t)}} = 0$ for every $t \in {\lbrack s_{1},s_{2}\rbrack}$. By using, this observation yields for all $t \in {\lbrack s_{1},s_{2}\rbrack}$.
 
-for all $t \in {\lbrack s_{1},s_{2}\rbrack}$.
-
-Optimal control. With the incorporation of the singular control, and by the continuity of the adjoint variable $\eta$, can be rewritten as
-
-for all $t \in {\lbrack 0,1\rbrack}$. Note that $v{(t)}$ in is piecewise-constant and so $u{(t)}$ is piecewise-linear and continuous in $t$. Then, by, $\eta{(t)}$ is continuous and piecewise-quadratic in $t$. Note in particular that, differentiating both sides of the ODE in, using $\overset{˙}{u} = v$ and substituting, one gets
-
-The expression in and the boundary conditions in imply that there will be at most two junction points, $0 < t_{1} < t_{2} < 1$, for $\eta{(t)}$. Namely, either ${\eta{(t)}} = \alpha$ or ${\eta{(t)}} = {- \alpha}$, for $t_{1} \leq t < t_{2}$, and $\eta{(t)}$ is quadratic in $t$, for $0 \leq t < t_{1}$ and $t_{2} \leq t \leq 1$, with the same constant second derivative ${\overline{\lambda}}_{1}$. In other words,
-
-Then from $\overset{˙}{u} = v$ and continuity of $u$, one gets
-
-where ${\overline{u}}_{1}$ and ${\overline{u}}_{3}$ are unknown constants. Subsequently, $c = {{- {{\overline{\lambda}}_{1}t_{1}}} + {\overline{u}}_{1}}$,
-
-Note that ${\lim_{t\rightarrow t_{1}^{-}}{\eta{(t)}}} = {\lim_{t\rightarrow t_{2}^{+}}{\eta{(t)}}}$ (both equal to $\alpha$ or $- \alpha$), which, after simple algebraic manipulations, yields
-
-We also note that ${\lim_{t\rightarrow t_{1}^{-}}{\eta{(t)}}} = {- {{{\overline{\lambda}}_{1}t_{1}^{2}}/2}} = {\mp \alpha}$, i.e.,
+Optimal control. With the incorporation of the singular control, and by the continuity of the adjoint variable $\eta$, can be rewritten as for all $t \in {\lbrack 0,1\rbrack}$. Note that $v{(t)}$ in is piecewise-constant and so $u{(t)}$ is piecewise-linear and continuous in $t$. Then,, $\eta{(t)}$ is continuous and piecewise-quadratic in $t$. Note in particular that, differentiating both sides of the ODE, using $\overset{˙}{u} = v$ and substituting, one gets The expression in and the boundary conditions in imply that there will be at most two junction points, $0 < t_{1} < t_{2} < 1$, for $\eta{(t)}$. Namely, either ${\eta{(t)}} = \alpha$ or ${\eta{(t)}} = {- \alpha}$, for $t_{1} \leq t < t_{2}$, and $\eta{(t)}$ is quadratic in $t$, for $0 \leq t < t_{1}$ and $t_{2} \leq t \leq 1$, with the same constant second derivative ${\overline{\lambda}}_{1}$. In other words, Then from $\overset{˙}{u} = v$ and continuity of $u$, one gets where ${\overline{u}}_{1}$ and ${\overline{u}}_{3}$ are unknown constants. Subsequently, $c = {{- {{\overline{\lambda}}_{1}t_{1}}} + {\overline{u}}_{1}}$, Note that ${\lim_{t\rightarrow t_{1}^{-}}{\eta{(t)}}} = {\lim_{t\rightarrow t_{2}^{+}}{\eta{(t)}}}$ (both equal to $\alpha$ or $- \alpha$), which, after simple algebraic manipulations, yields We also note that ${\lim_{t\rightarrow t_{1}^{-}}{\eta{(t)}}} = {- {{{\overline{\lambda}}_{1}t_{1}^{2}}/2}} = {\mp \alpha}$, i.e.,
 
 ### Lemma 1
 
@@ -114,15 +68,9 @@ Proof. The proof is furnished by the fact that $0 < t_{1} < t_{2} < 1$ and. $\sq
 
 ### Multi-Objective Optimal Control
 
-Problem (Ptv), or equivalently Problem (Paug), concerns a simultaneous minimization of two objectives, which can simply be written as
+Problem (Ptv), or equivalently Problem (Paug), concerns a simultaneous minimization of two objectives, which can simply be written as Problem (Pmo) is referred to as a multi-objective, or vector, optimal control problem, with $\mathcal{U}$ representing the feasible, or admissible, set of all control functions satisfying the differential equation constraints and the boundary conditions---see and the references therein. The set of all solutions of is usually infinite, consisting of all trade-off, or Pareto, solutions. Broadly speaking, a Pareto solution is a solution where one cannot improve the value of one objective functional without making the other worse. The set of all Pareto solutions in the $\varphi_{1}\varphi_{2}$-plane (or the value space) is referred to as the Pareto front of Problem (Pmo). An example of a Pareto front is given in Figure 3(a) (see details in Section 4).
 
-Problem (Pmo) is referred to as a multi-objective, or vector, optimal control problem, with $\mathcal{U}$ representing the feasible, or admissible, set of all control functions satisfying the differential equation constraints and the boundary conditions---see and the references therein. The set of all solutions of is usually infinite, consisting of all trade-off, or Pareto, solutions. Broadly speaking, a Pareto solution is a solution where one cannot improve the value of one objective functional without making the other worse. The set of all Pareto solutions in the $\varphi_{1}\varphi_{2}$-plane (or the value space) is referred to as the Pareto front of Problem (Pmo). An example of a Pareto front is given in Figure 3(a) (see details in Section 4).
-
-For solving, a typical approach is to consider a scalarization of the vector objective and so reduce Problem (Pmo) to a single-objective optimal control problem. Note that $\varphi_{1}$ and $\varphi_{2}$ are convex and the constraint set represents linear differential equations and linear boundary conditions. Therefore we can use the weighted-sum scalarization (see ):
-
-where $\alpha_{1} \in {}$. Since $\alpha_{1} \neq 0$, we can define $\alpha:={{({1 - \alpha_{1}})}/\alpha_{1}}$ and write
-
-with $\alpha \in {(0,\infty)}$. We note that Problems (Ps1) and (Ps2) are equivalent and that Problem (Ps2) is in the same form as Problem (Ptv).
+For solving, a typical approach is to consider a scalarization of the vector objective and so reduce Problem (Pmo) to a single-objective optimal control problem. Note that $\varphi_{1}$ and $\varphi_{2}$ are convex and the constraint set represents linear differential equations and linear boundary conditions. Therefore we can use the weighted-sum scalarization (see): where $\alpha_{1} \in {}$. Since $\alpha_{1} \neq 0$, we can define $\alpha:={{({1 - \alpha_{1}})}/\alpha_{1}}$ and write with $\alpha \in {(0,\infty)}$. We note that Problems (Ps1) and (Ps2) are equivalent and that Problem (Ps2) is in the same form as Problem (Ptv).
 
 In this case, the individual functionals in can be calculated using and, in terms of the unknown parameters $t_{1}$, ${\overline{u}}_{1}$ and ${\overline{u}}_{3}$, as follows.
 
@@ -136,11 +84,9 @@ Once $t_{1}$ is determined as a solution of, the parameters ${\overline{\lambda}
 
 ### Lemma 2 (Existence and uniqueness of the solution of a cubic equation)
 
-Let $c$ be a real constant. Then the equation
+Let $c$ be a real constant. Then the equation has a unique solution for $c > 0$, and has no solution for $c < 0$, over the interval $(0,{1/2})$.
 
-has a unique solution for $c > 0$, and has no solution for $c < 0$, over the interval $(0,{1/2})$.
-
-(ii) Suppose $c < 0$. Then ${f_{c}{}} = 1 > 0$. Since the only zero $f_{0}$ has is $1/2$ in the interval $\lbrack 0,{1/2}\rbrack$, and ${f_{c}^{\prime}{(t)}} > {f_{0}^{\prime}{(t)}}$ for all $t \in {(0,{1/2})}$, $f_{c}$ has no zero in $\lbrack 0,{1/2}\rbrack$. $\square$
+(ii) Suppose $c < 0$. Then ${f_{c}{}} = 1 > 0$. Since the only zero $f_{0}$ has is $1/2$ in the interval $\lbrack 0,{1/2}\rbrack$, and ${f_{c}'{(t)}} > {f_{0}'{(t)}}$ for all $t \in {(0,{1/2})}$, $f_{c}$ has no zero in $\lbrack 0,{1/2}\rbrack$. $\square$
 
 ### Remark 1
 
@@ -148,29 +94,15 @@ Lemma 1 states that $t_{1} \in {(0,{1/2})}$, and Lemma 2 ‣ 3.5 Solution ‣ 3 
 
 ### Theorem 1 (Solution of Problem (Ptv))
 
-The solution to Problem (Paug) is unique and given by the expressions for the optimal control variable in, and the state variables in --, where the parameter $t_{1}$ is the solution of the cubic in (37 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) on the interval $(0,{1/2})$, with $c = \overline{c}$ such that
-
-the parameter ${\overline{\lambda}}_{1}$ given by
-
-and the parameters ${\overline{u}}_{1}$ and ${\overline{u}}_{3}$ given by --. As a result, the optimal total variation is given by
-
-Proof. By Lemma 2 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation") with $c = \overline{c} > 0$, there exist a unique $t_{1} \in {(0,{1/2})}$ which solves (37 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) and satisfies the optimality condition in Lemma 1. Recall again Lemma 2 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation") that, for $c < 0$, (37 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) has no solution in $(0,{1/2})$. Therefore, in, we use the plus sign when ${({v_{f} + v_{0} + {2{({s_{0} - s_{f}})}}})} > 0$, and the minus sign when ${({v_{f} + v_{0} + {2{({s_{0} - s_{f}})}}})} < 0$. Subsequently, this argument transforms into (37 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) with $c = \overline{c}$. Furthermore, the $\pm$ sign in is replaced by $\operatorname{sgn}{(\overline{c})}$ accordingly, yielding ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")). The rest of the theorem follows from direct substitutions. $\square$
+The solution to Problem (Paug) is unique and given by the expressions for the optimal control variable, and the state variables in --, where the parameter $t_{1}$ is the solution of the cubic in (37 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) on the interval $(0,{1/2})$, with $c = \overline{c}$ such that the parameter ${\overline{\lambda}}_{1}$ given by and the parameters ${\overline{u}}_{1}$ and ${\overline{u}}_{3}$ given by --. As a result, the optimal total variation is given by Proof. By Lemma 2 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation") with $c = \overline{c} > 0$, there exist a unique $t_{1} \in {(0,{1/2})}$ which solves (37 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) and satisfies the optimality condition in Lemma 1. Recall again Lemma 2 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation") that, for $c < 0$, (37 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) has no solution in $(0,{1/2})$. Therefore,, we use the plus sign when ${({v_{f} + v_{0} + {2{({s_{0} - s_{f}})}}})} > 0$, and the minus sign when ${({v_{f} + v_{0} + {2{({s_{0} - s_{f}})}}})} < 0$. Subsequently, this argument transforms into (37 ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) with $c = \overline{c}$. Furthermore, the $\pm$ sign in is replaced by $\operatorname{sgn}{(\overline{c})}$ accordingly, yielding ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")). The rest of the theorem follows from direct substitutions. $\square$
 
 ### Asymptotic Solution (as ${\mathbf{α}}\rightarrow\mathbf{\infty}$)
 
-As mentioned in the Introduction, it is not possible to write down the necessary conditions of optimality for the minimization of the total variation in the control variable alone. Nevertheless, an analytic solution of Problem (Ptv) can still be obtained by studying the asymptotic behaviour of the solutions when $\alpha\rightarrow\infty$. In this case, Equation becomes ${{{4t_{1}^{3}} - {6t_{1}^{2}}} + 1} = 0$, which has three real roots: 1/2 and ${({1 \pm \sqrt{3}})}/2$. This means that, in $(0,{1/2})$, $t_{1}\rightarrow{1/2}$. Then, by, $t_{2}\rightarrow{1/2}$. Moreover, from Equation, ${\overline{\lambda}}_{1}\rightarrow{\pm \infty}$. However, these limit values of $t_{1}$ and ${\overline{\lambda}}_{1}$ make the expression in indeterminate. Therefore, we need to write the asymptotic expressions for the state variables (with $t_{1} = t_{2} = {1/2}$), in order to proceed:
-
-Now we can state the result, as $\alpha\rightarrow\infty$, in the following theorem.
+As mentioned in the Introduction, it is not possible to write down the necessary conditions of optimality for the minimization of the total variation in the control variable alone. Nevertheless, an analytic solution of Problem (Ptv) can still be obtained by studying the asymptotic behaviour of the solutions when $\alpha\rightarrow\infty$. In this case, Equation becomes ${{{4t_{1}^{3}} - {6t_{1}^{2}}} + 1} = 0$, which has three real roots: 1/2 and ${({1 \pm \sqrt{3}})}/2$. This means that, in $(0,{1/2})$, $t_{1}\rightarrow{1/2}$. Then,, $t_{2}\rightarrow{1/2}$. Moreover, from Equation, ${\overline{\lambda}}_{1}\rightarrow{\pm \infty}$. However, these limit values of $t_{1}$ and ${\overline{\lambda}}_{1}$ make the expression in indeterminate. Therefore, we need to write the asymptotic expressions for the state variables (with $t_{1} = t_{2} = {1/2}$), in order to proceed: Now we can state the result, as $\alpha\rightarrow\infty$, in the following theorem.
 
 ### Theorem 2 (Asymptotic minimum total variation)
 
-The unique asymptotic optimal control variable $u{(t)}$ of Problem (Ptv), as $\alpha\rightarrow\infty$, is piecewise constant with a single switching at $t = {1/2}$, namely
-
-Consequently, the asymptotic optimal total variation is given by
-
-Proof. The boundary conditions ${x_{1}{}} = s_{f}$ and ${x_{2}{}} = v_{f}$ using (40 ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation"))--(41 ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) yield, after manipulations,
-
-the solution of which is ${\overline{u}}_{1} = {{4{({s_{f} - s_{0}})}} - v_{f} - {3v_{0}}}$ and ${\overline{u}}_{3} = {{{3v_{f}} + v_{0}} - {4{({s_{f} - s_{0}})}}}$, as required by (42 ‣ 3.6 Asymptotic Solution (as 𝜶→∞) ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")). The switching time, $t = t_{1} = {1/2}$, is found as explained in the first paragraph of this subsection 3.6 ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation"). The expression in (43 ‣ 3.6 Asymptotic Solution (as 𝜶→∞) ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) is obtained by simply substituting the solutions for ${\overline{u}}_{1}$ and ${\overline{u}}_{3}$ above into $\operatorname{TV} = {|{{\overline{u}}_{1} - {\overline{u}}_{3}}|}$. $\square$
+The unique asymptotic optimal control variable $u{(t)}$ of Problem (Ptv), as $\alpha\rightarrow\infty$, is piecewise constant with a single switching at $t = {1/2}$, namely Consequently, the asymptotic optimal total variation is given by Proof. The boundary conditions ${x_{1}{}} = s_{f}$ and ${x_{2}{}} = v_{f}$ using (40 ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation"))--(41 ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) yield, after manipulations, the solution of which is ${\overline{u}}_{1} = {{4{({s_{f} - s_{0}})}} - v_{f} - {3v_{0}}}$ and ${\overline{u}}_{3} = {{{3v_{f}} + v_{0}} - {4{({s_{f} - s_{0}})}}}$, as required by (42 ‣ 3.6 Asymptotic Solution (as 𝜶→∞) ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")). The switching time, $t = t_{1} = {1/2}$, is found as explained in the first paragraph of this subsection 3.6 ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation"). The expression in (43 ‣ 3.6 Asymptotic Solution (as 𝜶→∞) ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation")) is obtained by simply substituting the solutions for ${\overline{u}}_{1}$ and ${\overline{u}}_{3}$ above into $\operatorname{TV} = {|{{\overline{u}}_{1} - {\overline{u}}_{3}}|}$. $\square$
 
 ### Remark 2
 
@@ -180,15 +112,9 @@ Recall that when no minimization of the total variation in control is done, i.e.
 
 To demonstrate the results in Theorems 1) ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation") and 2 ‣ 3.6 Asymptotic Solution (as 𝜶→∞) ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation"), as well as illustrate what the Pareto front looks like using the expressions in --, we consider a particular instance when $s_{0} = 0$, $s_{f} = 0$, $v_{0} = 1$ and $v_{f} = 0$. In view of the interpretation of the double integrator dynamics provided in the Introduction, this particular instance means that the car with an initial unit velocity is required to come to rest in the same position where it started the motion.
 
-The minimum energy solution can be obtained directly, after substituting $s_{0} = 0$, $s_{f} = 0$, $v_{0} = 1$ and $v_{f} = 0$ into --, as
+The minimum energy solution can be obtained directly, after substituting $s_{0} = 0$, $s_{f} = 0$, $v_{0} = 1$ and $v_{f} = 0$ into --, as for $t \in {\lbrack 0,1\rbrack}$. In this case, clearly, ${\operatorname{TV}{(u)}} = 6$.
 
-for $t \in {\lbrack 0,1\rbrack}$. In this case, clearly, ${\operatorname{TV}{(u)}} = 6$.
-
-\psfrag{a1}{\smallα = 10−6}\psfrag{a2}{\smallα = 0.05}\psfrag{a3}{\smallα = 0.4}\psfrag{a4}{\hskip 2.84526pt\smallα = 106}\psfrag{f1}{φ1}\psfrag{f2}{φ2}\includegraphics[width=227.62204pt]{Pareto.eps}
-(a) The Pareto front
-\psfrag{u}{u(t)}\psfrag{t}{t}\psfrag{a0}{\smallα = 10−6}\psfrag{a5}{\smallα = 106}\includegraphics[width=241.84842pt]{u.eps}
-(b) The control variable
-Figure 3: The Pareto front and the control variable for the multi-objective problem, with s0 = 0, sf = 0, v0 = 1 and vf = 0.
+\psfrag{a1}{\smallα = 10−6}\psfrag{a2}{\smallα = 0.05}\psfrag{a3}{\smallα = 0.4}\psfrag{a4}{\hskip 2.84526pt\smallα = 106}\psfrag{f1}{φ1}\psfrag{f2}{φ2}\includegraphics[width=227.62204pt]{Pareto.eps} (a) The Pareto front \psfrag{u}{u(t)}\psfrag{t}{t}\psfrag{a0}{\smallα = 10−6}\psfrag{a5}{\smallα = 106}\includegraphics[width=241.84842pt]{u.eps} (b) The control variable Figure 3: The Pareto front and the control variable for the multi-objective problem, with s0 = 0, sf = 0, v0 = 1 and vf = 0.
 
 Figure 3 depicts the full Pareto front, as well as the optimal control variable for the parameter values $\alpha = 10^{- 6}$, 0.05, 0.4 and $10^{6}$. In drawing the graphs, first, Theorem 1) ‣ 3.5 Solution ‣ 3 Minimization of Total Variation ‣ Optimal Control of the Double Integrator with Minimum Total Variation") has been used: the unknown parameters $t_{1}$, ${\overline{\lambda}}_{1}$, ${\overline{u}}_{1}$, ${\overline{u}}_{3}$ (and $t_{2} = {1 - t_{1}}$). Then $u{(t)}$, $\varphi_{1}{(u)}$ and $\varphi_{2}{(u)}$ have been computed as given in and --, respectively.
 
@@ -204,10 +130,6 @@ Finally, with ${\overline{u}}_{1} = {- 3}$ and ${\overline{u}}_{3} = 1$, the asy
 
 We have derived the unique solution to the optimal control problem of simultaneous minimization of energy and total variation in control for the double integrator. We obtained analytic expressions for the construction of the Pareto front. We have shown that the unique asymptotic optimal control function, for the minimization of the total variation alone, is piecewise constant with one switching at the midpoint of the time horizon. We computed the two constant levels of the asymptotic control function analytically. Subsequently, we have proved that the asymptotic optimal total variation is exactly $2/3$ of the total variation of the minimum-energy control. These results seem to be the first of their kind in the literature concerning optimal control with minimum total variation, even for a system as simple as the double integrator.
 
-The minimum-energy control problem which we have also considered is a special case of a general linear quadratic control problem. An approach similar to the one employed in the current paper can be employed for the more general linear quadratic control (or linear quadratic programming) problem where one is additionally concerned with the minimization of total variation, namely the problem
-
-The time horizon in Problem (LQPTV) has been set to be $\lbrack 0,1\rbrack$, but, without loss of generality, it can be taken to be any interval $\lbrack t_{0},t_{f}\rbrack$, with $t_{0}$ and $t_{f}$ specified. The state variable vector ${x{(t)}} \in {IR^{n}}$ and the control variable vector ${u{(t)}} \in {IR^{m}}$. The time-varying matrices $A:{{\lbrack 0,1\rbrack}\rightarrow{IR^{n \times n}}}$ and $B:{{\lbrack 0,1\rbrack}\rightarrow{IR^{n \times m}}}$ are continuous, $Q:{{\lbrack 0,1\rbrack}\rightarrow{IR^{n \times n}}}$ is symmetric positive definite and continuous in $t$, and $R:{{\lbrack 0,1\rbrack}\rightarrow{IR^{m \times m}}}$ is positive definite and continuous in $t$. The initial and terminal states are specified as $x_{0}$ and $x_{f}$, respectively. Since there are more than just one control variable, i.e., ${u{(t)}} = {({{\overline{u}}_{1}{(t)}},\ldots,{u_{m}{(t)}})} \in {IR^{m}}$, the total variation in can be generalized for this case as
-
-It should be noted that the problem we have studied in the current paper fits into the above problem description (LQPTV) with $n = 2$, $m = 1$, $Q = 0$ and $R = 1$, and the appropriate constant system and control matrices $A$ and $B$.
+The minimum-energy control problem which we have also considered is a special case of a general linear quadratic control problem. An approach similar to the one employed in the current paper can be employed for the more general linear quadratic control (or linear quadratic programming) problem where one is additionally concerned with the minimization of total variation, namely the problem The time horizon in Problem (LQPTV) has been set to be $\lbrack 0,1\rbrack$, but, without loss of generality, it can be taken to be any interval $\lbrack t_{0},t_{f}\rbrack$, with $t_{0}$ and $t_{f}$ specified. The state variable vector ${x{(t)}} \in {IR^{n}}$ and the control variable vector ${u{(t)}} \in {IR^{m}}$. The time-varying matrices $A:{{\lbrack 0,1\rbrack}\rightarrow{IR^{n \times n}}}$ and $B:{{\lbrack 0,1\rbrack}\rightarrow{IR^{n \times m}}}$ are continuous, $Q:{{\lbrack 0,1\rbrack}\rightarrow{IR^{n \times n}}}$ is symmetric positive definite and continuous in $t$, and $R:{{\lbrack 0,1\rbrack}\rightarrow{IR^{m \times m}}}$ is positive definite and continuous in $t$. The initial and terminal states are specified as $x_{0}$ and $x_{f}$, respectively. Since there are more than just one control variable, i.e., ${u{(t)}} = {({{\overline{u}}_{1}{(t)}},\ldots,{u_{m}{(t)}})} \in {IR^{m}}$, the total variation in can be generalized for this case as It should be noted that the problem we have studied in the current paper fits into the above problem description (LQPTV) with $n = 2$, $m = 1$, $Q = 0$ and $R = 1$, and the appropriate constant system and control matrices $A$ and $B$.
 
 The general linear quadratic problem is a convex problem, so the weighted-sum scalarization can still be used (see ) when it is combined with the minimization of total variation. However, for a generalization to nonconvex problems, a scalarization different from the weighted-sum scalarization needs to be considered. This requires specialized numerical techniques in obtaining a solution---see and the pertaining discussion therein for problems which also have constraints on the state and control variables.

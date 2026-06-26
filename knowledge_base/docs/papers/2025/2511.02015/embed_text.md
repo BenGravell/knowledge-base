@@ -42,29 +42,11 @@ As with most optimization methods, SVGD requires gradient computations to functi
 
 ### III-A MPPI
 
-In this paper, we build upon the original derivation of MPPI . We consider the stochastic optimal control problem for the general, discrete-time dynamic system operating in a continuous space
-
-where $x_{t},v_{t}$ represent system state and controls at time $t$ and $F$ denotes the system dynamics. Additionally, $v_{t}$ is assumed to be normally distributed $v_{t} \sim {N{(u_{t},\sigma^{2})}}$ where $u_{t}$ represents a targeted input, and $\sigma^{2}$ represents some process noise. We then aim to optimize some control trajectory $U = {(u_{0},u_{1},\ldots,u_{T - 1})}$ of length $T$ via
-
-where $\mathcal{L}{(x_{t},u_{t})}$ and $\phi{(x_{T})}$ represent running and terminal cost functions respectively, defined as
-
-where $R,Q,Q_{T}$ represent weight matrices for action costs, running state costs, and terminal state costs. We can then define $S{(\tau)}$, a cost-to-go function, as dependent on an entirely trajectory such that
-
-where $\tau$ represents a trajectory in the form
-
-To optimize, we first must generate a set of $K$ sample trajectories to minimize KL-Divergence towards some optimal trajectory. This process is done by sampling a zero-mean Gaussian distribution $\varepsilon$ with some variance $\sigma^{2}$, and adding it to some initial guess of a trajectory $u$. These trajectories are rolled out and have their costs computed. Then, the original MPPI derivation yields that for these sample trajectories, each with its own cost-to-go, we can approximate $u^{\ast}$ via an iterative update for $K$ samples
-
-where $w_{k}$ represents a weight for the $k$-th trajectory with cost $S_{k}$, solved as
-
-where $\beta = {\min_{k \in {\mathbb{K}}}{(S_{k})}}$. Note that there are several MPPI variations that apply filtering to the update step as well, which in some cases may improve system performance.
+In this paper, we build upon the original derivation of MPPI. We consider the stochastic optimal control problem for the general, discrete-time dynamic system operating in a continuous space where $x_{t},v_{t}$ represent system state and controls at time $t$ and $F$ denotes the system dynamics. Additionally, $v_{t}$ is assumed to be normally distributed $v_{t}\sim N(u_{t},\sigma^{2})$ where $u_{t}$ represents a targeted input, and $\sigma^{2}$ represents some process noise. We then aim to optimize some control trajectory $U=(u_{0},u_{1},...,u_{T-1})$ of length $T$ via where $\mathcal{L}(x_{t},u_{t})$ and $\phi(x_{T})$ represent running and terminal cost functions respectively, defined as where $R,Q,Q_{T}$ represent weight matrices for action costs, running state costs, and terminal state costs. We can then define $S(\tau)$, a cost-to-go function, as dependent on an entirely trajectory such that where $\tau$ represents a trajectory in the form To optimize, we first must generate a set of $K$ sample trajectories to minimize KL-Divergence towards some optimal trajectory. This process is done by sampling a zero-mean Gaussian distribution $\varepsilon$ with some variance $\sigma^{2}$, and adding it to some initial guess of a trajectory $u$. These trajectories are rolled out and have their costs computed. Then, the original MPPI derivation yields that for these sample trajectories, each with its own cost-to-go, we can approximate $u^{*}$ via an iterative update for $K$ samples where $w_{k}$ represents a weight for the $k$-th trajectory with cost $S_{k}$, solved as where $\beta=\min_{k\in\mathbb{K}}(S_{k})$. Note that there are several MPPI variations that apply filtering to the update step as well, which in some cases may improve system performance.
 
 ### III-B SVGD
 
-Similar to MPPI, SVGD attempts to optimize some particle set by minimizing KL-Divergence. For a set of particles ${\{\theta^{i}\}}_{i = 1}^{k}$It follows the iterative update rule of
-
-where $\epsilon$ represents a step size, and $\phi^{\ast}{( \cdot )}$ defines the optimal perturbation to reduce KL-divergence via kernel functions, and can be approximated for a set of $K$ particles via
-
-where $k{( \cdot )}$ represents a valid kernel function. The first term is a scaled gradient log-likelihood of the particle's posterior, which drives the particles towards an optimal state. The second term is a repulsive force that prevents mode collapse and allows greater sample coverage. A full derivation can be found , with a high-level explanation .
+Similar to MPPI, SVGD attempts to optimize some particle set by minimizing KL-Divergence. For a set of particles $\{\theta^{i}\}_{i=1}^{k}$It follows the iterative update rule of where $\epsilon$ represents a step size, and $\phi^{*}(\cdot)$ defines the optimal perturbation to reduce KL-divergence via kernel functions, and can be approximated for a set of $K$ particles via where $k(\cdot)$ represents a valid kernel function. The first term is a scaled gradient log-likelihood of the particle's posterior, which drives the particles towards an optimal state. The second term is a repulsive force that prevents mode collapse and allows greater sample coverage. A full derivation can be found, with a high-level explanation.
 
 ### III-C SOPPI
 
@@ -74,23 +56,9 @@ SOPPI uses the same cost structure as normal implementations of MPPI as seen in 
 
 To start, SOPPI performs a single step of MPPI (i.e., one timestep in the environment) to gain a set of samples. SVGD is then applied to that step's samples to optimize their distribution towards an optimal cost. Specifically, SOPPI uses the same cost as our base MPPI implementation, Equation 3, however, for all but the last time-step, the terminal cost is undefined. So, the cost function reverts to Equation 1, as only one time step is evaluated.
 
-After these updates, we can derive a cost-likelihood function $\mathcal{L}_{s}$ for SOPPI from the MPPI costs to represent our trajectory's distribution, such that
+After these updates, we can derive a cost-likelihood function $\mathcal{L}_{s}$ for SOPPI from the MPPI costs to represent our trajectory's distribution, such that Thus, the gradient of the log likelihood as listed in Equation 6 is simply the negative scaled gradient of our cost function. Additionally, we use a standard radial-basis (RBF) kernel parameterized by $\sigma$ defined as From these equations, we compute the SVGD update for SOPPI defined in 6, and apply it to the sampled action particles immediately for an online update. Then, we re-compute the rollout with the new actions, continuing the MPPI process as normal. This process is repeated throughout some horizon, after which the weighting defined in equations 4 and 5 are used to select an optimal trajectory. This process effectively creates sequential sub-problems with a lower search dimension than if the entire trajectory were searched at once. The entire algorithm is depicted in Algorithm 1.
 
-Thus, the gradient of the log likelihood as listed in Equation 6 is simply the negative scaled gradient of our cost function. Additionally, we use a standard radial-basis (RBF) kernel parameterized by $\sigma$ defined as
-
-From these equations, we compute the SVGD update for SOPPI defined in 6, and apply it to the sampled action particles immediately for an online update. Then, we re-compute the rollout with the new actions, continuing the MPPI process as normal. This process is repeated throughout some horizon, after which the weighting defined in equations 4 and 5 are used to select an optimal trajectory. This process effectively creates sequential sub-problems with a lower search dimension than if the entire trajectory were searched at once. The entire algorithm is depicted in Algorithm 1.
-
-Data: K: Number of samples
-M: Number of SVGD Updates
-Ui n i t: Initial control sequence
-
-while task not completed do
-Ssk ← ℒ (xtk + 1,vtk);
-${{\hat{\phi}}^{\ast}{(v)}}\leftarrow{\frac{1}{K}{\sum_{j = 1}^{K}\left\lbrack {{- {k{(v^{j},v)}{\nabla_{v_{t}^{k}}S_{s}^{k}}}} + {{\nabla_{v^{j}}k}{(v^{j},v)}}} \right\rbrack}}$;
-
-$w_{k}\leftarrow\frac{\exp{({- {\frac{1}{\lambda}{({S_{k} - \beta})}}})}}{\sum_{j = 1}^{k}{\exp{({- {\frac{1}{\lambda}{({S_{j} - \beta})}}})}}}$;
-$u^{\ast}\leftarrow{u + {\sum_{k = 1}^{K}{w_{k}\varepsilon^{k}}}}$;
-$U_{init}\leftarrow\begin{bmatrix}
+Data: K: Number of samples M: Number of SVGD Updates Uinit: Initial control sequence while task not completed do Ssk ← ℒ(xtk + 1, vtk); $\hat{\phi}^{*}(v)\leftarrow\frac{1}{K}\sum_{j=1}^{K}\big[-k(v^{j},v)\nabla_{v^{k}_{t}}S_{s}^{k}+\nabla_{v^{j}}k(v^{j},v)\big]$; $w_{k}\leftarrow\frac{\exp(-\frac{1}{\lambda}(S_{k}-\beta))}{\sum_{j=1}^{k}\exp(-\frac{1}{\lambda}(S_{j}-\beta))}$; $u^{*}\leftarrow u+\sum_{k=1}^{K}w_{k}\varepsilon^{k}$; $U_{init}\leftarrow\begin{bmatrix}u_{1:N}^{*}&0\end{bmatrix}$;
 
 ## Experiments
 
@@ -98,20 +66,11 @@ We conducted a series of simulation experiments and, similar to other works, com
 
 ### IV-A Cart Pole
 
-For the cart-pole swing-up task, we used an analytical dynamics model with an upright pole angle of $\theta = 0$, and the starting, downward pole angle as $\theta = \pi$. The cart's lateral ($x$) position starts and ends at $x = 0$. Visualizations of the cart-pole system are depicted in Figure 2.
+For the cart-pole swing-up task, we used an analytical dynamics model with an upright pole angle of $\theta=0$, and the starting, downward pole angle as $\theta=\pi$. The cart's lateral ($x$) position starts and ends at $x=0$. Visualizations of the cart-pole system are depicted in Figure 2.
 
 Figure 3: Cart-Pole response for a horizon (H) of 80 steps (1.6 seconds) and 500 and 1,000 particles (K).
 
-P-value (SOPPI K=500 better than MPPI K=1,000)
-
-P-value (SOPPI K=500 better than Stein MPC K=1,000)
-
-P-value (SOPPI K=500 better than SVG-MPPI K=1,000)
-
-Note: ts, x and ts, θ represent settling times of x and θ, followed by criteria: a meter range for x or percentage of the step range (π) for θ.
-† Two out of five trials did not converge;
-
-TABLE I: Cart Inverted Pendulum System Response for a Horizon (H) of 80 steps or 1.6 seconds, and various particle counts (K). Statistically significant (95%) results are bolded.
+P-value (SOPPI K=500 better than MPPI K=1,000) P-value (SOPPI K=500 better than Stein MPC K=1,000) P-value (SOPPI K=500 better than SVG-MPPI K=1,000) Note: ts, x and ts, θ represent settling times of x and θ, followed by criteria: a meter range for x or percentage of the step range (π) for θ. † Two out of five trials did not converge; TABLE I: Cart Inverted Pendulum System Response for a Horizon (H) of 80 steps or 1.6 seconds, and various particle counts (K). Statistically significant (95%) results are bolded.
 
 We performed a range of tests on all four algorithms focusing on varying sample count and horizon timesteps. From these tests, we present results at a horizon of 80 timesteps or 1.6 seconds, and at 500 and 1000 particles to demonstrate differences in particle efficiency between the algorithms. Additionally, for the gradient based algorithms, we present results with a learning rate of $0.05$ over $100$ iterations. All remaining hyper-parameters and costs were identical across tests. Numerical results from these tests can be noted in Table I depicting settling times $t_{s}$ for both $x$ and $\theta$ for multiple criteria (for example, 0.25 m on $x$ or $5\%$ of the $\theta$ range), and Figure 3 depicts visual results. Additionally, Table I contains statistical results from a Welch's t-test, indicating statistical significance between the trials.
 
@@ -127,45 +86,23 @@ Lastly, these trends hold when comparing the 500 particle count version of SOPPI
 
 To increase the complexity of the system over the cart-pole, we elected to test the algorithm on a simulated planar pushing task on a block with a Franka Panda arm based on Berenson et al.. Since this system is the most stable of those tested, we elected to run trials with noise injected into the gradients as well, to highlight the capabilities of each algorithm to handle uncertainty.
 
-To simplify the dynamics at runtime while maintaining gradients, we trained a recurrent neural network to approximate the next state from a MuJoCo simulation, given a current state and action. In this formulation, states represent the block's pose $\mathbf{x} = \begin{bmatrix}
-\end{bmatrix}^{\top} \in {\text{SE}{}}$ and actions $\mathbf{u} = \begin{bmatrix}
-\end{bmatrix}^{\top} \in {\mathbb{R}}^{3}$ are represented by $p$ corresponding to the lower edge pushing location of the block, $\phi$ corresponding to the pushing angle, and $\ell$ corresponding to the pushing length as a fraction of the maximum allowed length (0.1 m in this case). In all tests, the arm was tasked with pushing the block from the pose $\lbrack 0.4,0,\frac{\pi}{5}\rbrack$ to $\lbrack 0.8,0,0\rbrack$.
+To simplify the dynamics at runtime while maintaining gradients, we trained a recurrent neural network to approximate the next state from a MuJoCo simulation, given a current state and action. In this formulation, states represent the block's pose $\mathbf{x}=\begin{bmatrix}x&y&\theta\end{bmatrix}^{\top}\in\text{SE}$ and actions $\mathbf{u}=\begin{bmatrix}p&\phi&\ell\end{bmatrix}^{\top}\in\mathbb{R}^{3}$ are represented by $p$ corresponding to the lower edge pushing location of the block, $\phi$ corresponding to the pushing angle, and $\ell$ corresponding to the pushing length as a fraction of the maximum allowed length (0.1 m in this case). In all tests, the arm was tasked with pushing the block from the pose $[0.4,0,\frac{\pi}{5}]$ to $[0.8,0,0]$.
 
 Since this task was inherently more stable than the cart-pole task, we elected for a shorter horizon and higher end sample count, 10 time steps (0.2 seconds) and 1000 samples, for both MPPI and SOPPI. All other hyper-parameters and cost functions were identical between trials for all 4 algorithms. Table II and Figure 5 depict numeric results, and Figure 4 depicts visuals of the state transitions.
 
 Figure 4: Pushing task visualization of the Franka arm pushing a block (white) to a target pose (green). Events are sequenced in ascending numerical order.
 
-Figure 5: Median trial pushing distance error compared between algorithms
-
-Mean End Distance Error (mm)
-Standard Deviation of End Distance (mm)
-
-Noisy Stein MPC
-
-Noisy SOPPI (ours)
-
-TABLE II: Steady State Distance Errors for the pushing task
-
-Overall, from Table II we note that the mean steady-state response errors on the pushing direction are slightly better with SOPPI than MPPI and much better with SOPPI than any other method, with or without noise. Errors in the lateral direction and desired angle are quite similar across all systems, with the exception of a larger lateral error in MPPI. From Figure 5, SOPPI reaches steady state slightly faster than MPPI, but compared to other methods, SOPPI and MPPI do not overshoot. Given the reach of the arm, an overshoot is unrecoverable, as the arm physically cannot reach the other side of the block. Hence, SOPPI and MPPI act more cautiously than the other algorithms, especially in the case of added noise. Stein MPC and SVG-MPPI both overshoot significantly with noise added to the gradients, whereas SOPPI has little change in performance. Combined with the cart-pole results, we can empirically note that SOPPI better handles uncertain gradients than some other direct optimization methods. Simulations often simplify dynamics, and thus their gradients, compared to the real-world, so successful performance under uncertainty is quite important for operation on real systems. Experiments for the 2D walker further highlight successful operation under gradient noise.
+Figure 5: Median trial pushing distance error compared between algorithms Mean End Distance Error (mm) Standard Deviation of End Distance (mm) Noisy Stein MPC Noisy SOPPI (ours) TABLE II: Steady State Distance Errors for the pushing task Overall, from Table II we note that the mean steady-state response errors on the pushing direction are slightly better with SOPPI than MPPI and much better with SOPPI than any other method, with or without noise. Errors in the lateral direction and desired angle are quite similar across all systems, with the exception of a larger lateral error in MPPI. From Figure 5, SOPPI reaches steady state slightly faster than MPPI, but compared to other methods, SOPPI and MPPI do not overshoot. Given the reach of the arm, an overshoot is unrecoverable, as the arm physically cannot reach the other side of the block. Hence, SOPPI and MPPI act more cautiously than the other algorithms, especially in the case of added noise. Stein MPC and SVG-MPPI both overshoot significantly with noise added to the gradients, whereas SOPPI has little change in performance. Combined with the cart-pole results, we can empirically note that SOPPI better handles uncertain gradients than some other direct optimization methods. Simulations often simplify dynamics, and thus their gradients, compared to the real-world, so successful performance under uncertainty is quite important for operation on real systems. Experiments for the 2D walker further highlight successful operation under gradient noise.
 
 ### IV-C 2D Walker Task
 
-Lastly, we implement the same algorithms on the Walker2D gymnasium environment, which is commonly used in the reinforcement-learning community. However, due to the unstable dynamics of the system's 6 joints, we implement a cost structure similar to, wherein we apply a reference input trajectory around some known gait. Since this system is well studied in the RL community, we trained a Proximal Policy Optimization (PPO) model to generate reference gait, from the Stable Baselines3 package. Additionally, our cost structure was modified from 1 to
-
-where $u_{ref}$ was computed by the PPO model, rolling out from the current state with its own generated actions. To prevent collapsing the distribution on the reference input, we ensure that $Q$ has a much higher magnitude than $R$ so that states weight the cost function more than the inputs. During sampling, we also modified the initial input for the last time step to be the output of the PPO model at the next to last time step's states. So the last line of Algorithm 1 becomes
-
-For gradients, we trained another recurrent neural network to approximate the dynamics of the system for a single step (the duration of gradients required). However, we used MuJoCo simulations for rollouts, as given the chaotic nature of the walker robot, we found MuJoco to be more accurate over a long-horizon. This issue could be reduced with more training and data, but was not required for SOPPI to function. Regardless, there will always be some degree of error in a learned dynamics system, and gradients usually explode or vanish over a long enough horizon, so these issues will exist in some capacity. Managing these simulated gradients is an active field of research, particularly with differentiable simulation. SOPPI is one such approach to apply control in spite of these issues, as evidenced by its performance.
+Lastly, we implement the same algorithms on the Walker2D gymnasium environment, which is commonly used in the reinforcement-learning community. However, due to the unstable dynamics of the system's 6 joints, we implement a cost structure similar to, wherein we apply a reference input trajectory around some known gait. Since this system is well studied in the RL community, we trained a Proximal Policy Optimization (PPO) model to generate reference gait, from the Stable Baselines3 package. Additionally, our cost structure was modified from 1 to where $u_{ref}$ was computed by the PPO model, rolling out from the current state with its own generated actions. To prevent collapsing the distribution on the reference input, we ensure that $Q$ has a much higher magnitude than $R$ so that states weight the cost function more than the inputs. During sampling, we also modified the initial input for the last time step to be the output of the PPO model at the next to last time step's states. So the last line of Algorithm 1 becomes For gradients, we trained another recurrent neural network to approximate the dynamics of the system for a single step (the duration of gradients required). However, we used MuJoCo simulations for rollouts, as given the chaotic nature of the walker robot, we found MuJoco to be more accurate over a long-horizon. This issue could be reduced with more training and data, but was not required for SOPPI to function. Regardless, there will always be some degree of error in a learned dynamics system, and gradients usually explode or vanish over a long enough horizon, so these issues will exist in some capacity. Managing these simulated gradients is an active field of research, particularly with differentiable simulation. SOPPI is one such approach to apply control in spite of these issues, as evidenced by its performance.
 
 Lastly, we tuned our cost matrix, $Q$ to prioritize maximizing the height of the walker's torso, and added forward kinematic costs which incentivized the robot's feet to be further apart. Both modifications led to more stable, continued steps. We conducted eight trials for each algorithm with all hyper-parameters and cost functions equal. We elected for a 50 time-step horizon and 1,000 samples for each case. The results of these trials are depicted in Table II, with visuals of the system walking depicted in Figure 6. We consider the metric of "walking time" to denote the stable duration, and consider the end of walking time as the last peak of torso height before the torso falls below 1 meter.
 
 Figure 6: Sample 2D walker gait from initial position. Events are sequenced in ascending numerical order.
 
-Mean Walking Time
-Median Walking Time
-
-TABLE III: Walker Task Walking Time. Longer times indicate further distance traveled upright
-
-In our experiments, we observe that on average, SOPPI trials were able to walk longer than trials of the other algorithms tested, although not indefinitely. Typically, a trial failed (denoted by the walker falling to the ground) by either a slip or stall in momentum, which we believe to be caused by failure to sample a valid trajectory. Thus, we believe that with the improved sampling of SOPPI, the walker is overall more stable and better able to maintain its upright position.
+Mean Walking Time Median Walking Time TABLE III: Walker Task Walking Time. Longer times indicate further distance traveled upright In our experiments, we observe that on average, SOPPI trials were able to walk longer than trials of the other algorithms tested, although not indefinitely. Typically, a trial failed (denoted by the walker falling to the ground) by either a slip or stall in momentum, which we believe to be caused by failure to sample a valid trajectory. Thus, we believe that with the improved sampling of SOPPI, the walker is overall more stable and better able to maintain its upright position.
 
 The Stein MPC and SVG-MPPI algorithms however, are not at all successful. They try to optimize over an entire horizon (x in this case), but given the chaotic nature of the system and accumulated errors on the learned dynamics, cannot optimize successfully. However, in SOPPI's case, the single step optimization improves upon MPPI where the other methods could not, leading to much better results.
 

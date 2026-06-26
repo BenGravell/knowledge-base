@@ -2,7 +2,7 @@
 
 The value of Monte Carlo Tree Search (MCTS) for achieving maximal test-time performance in games such as Go and Hex has long been known. More recent works have also shown that incorporating planning into the training of reinforcement learning (RL) agents with Expert Iteration (ExIt) allows a pure RL approach to achieve state-of-the-art performance tabula rasa in many classical board games.
 
-However, MCTS builds an explicit search tree, storing visit counts and value estimates at each node - in other words, creating a tabular value function. To be effective, this requires that nodes in the search tree are visited multiple times. This is true in many classical board games, but many real world problems have large branching factors that make MCTS hard to use. Large branching factors can be caused by very large action spaces, or chance nodes. In the case of large action spaces, a prior policy can be used to discount weak actions, reducing the effective branching factor. Stochastic transitions are harder to deal with, as prior policies cannot be used to reduce the branching factor at chance nodes.
+However, MCTS builds an explicit search tree, storing visit counts and value estimates at each node - in other words, creating a tabular value function. To be effective, this requires that nodes in the search tree are visited multiple times. This is true in many classical board games, but many real world problems have large branching factors that make MCTS hard to use. Large branching factors can be caused by very large action spaces, or chance nodes. In the case of large action spaces, a prior policy can be used to discount weak actions, reducing the effective branching factor. Stochastic transitions are harder to deal , as prior policies cannot be used to reduce the branching factor at chance nodes.
 
 In contrast, Monte Carlo Search (MCS) algorithms have no such requirement. Whereas MCTS uses value estimates in each node to adapt the simulation policy, MCS algorithms have a fixed simulation policy throughout the search. However, because MCS does not improve the quality of simulations during search, it produces significantly weaker play than MCTS.
 
@@ -38,7 +38,7 @@ At each node we store $n{(s)}$, the number of iterations in which the node has b
 
 The simulation policy depends on these statistics, as well as prior information in the form of a policy learnt offline. The most commonly used simulation policies are variants of the UCT formula, which trades exploration and exploitation within the tree search.
 
-When an action $a$ in a state $s_{L}$ is chosen that takes us to a position $s^{\prime}$ not yet in the search tree, we perform an expansion, adding $s^{\prime}$ to the tree as a child of $s_{L}$. We estimate the value of the state $s^{\prime}$, either with a Monte Carlo rollout following some default policy, or, in more recent works, with a neural-network value estimate. This reward signal is propagated through the tree (a backup), with each node and edge updating statistics for visit counts $n{(s)}$, $n{(s,a)}$ and total returns $r{(s,a)}$.
+When an action $a$ in a state $s_{L}$ is chosen that takes us to a position $s'$ not yet in the search tree, we perform an expansion, adding $s'$ to the tree as a child of $s_{L}$. We estimate the value of the state $s'$, either with a Monte Carlo rollout following some default policy, or, in more recent works, with a neural-network value estimate. This reward signal is propagated through the tree (a backup), with each node and edge updating statistics for visit counts $n{(s)}$, $n{(s,a)}$ and total returns $r{(s,a)}$.
 
 ### Monte Carlo Search
 
@@ -48,7 +48,7 @@ When used to select an action at $s_{0}$, the first action from $s_{0}$ can be c
 
 When an accurate value function is available, we can stop simulations before the end of the episode, and bootstrap from the estimated value of the state at which we stopped. This is known as truncated Monte Carlo simulation.
 
-Compared to MCTS, MCS does not adapt its simulation policy. We can convert an MCTS algorthm to a very similar MCS algorithm by, at every node except the root node $s_{0}$, replacing the adaptive UCT formula with a policy that samples from the original policy $\pi$.
+Compared to MCTS, MCS does not adapt its simulation policy. We can convert an MCTS algorthm to a very similar MCS algorithm , at every node except the root node $s_{0}$, replacing the adaptive UCT formula with a policy that samples from the original policy $\pi$.
 
 ### Expert Iteration
 
@@ -68,15 +68,9 @@ Instead, we use policy gradient RL to train the simulation policy. Our simulatio
 
 Because evaluating our simulation policy is expensive, we do not simulate to a terminal state, but instead use truncated Monte Carlo simulation. Choosing when to truncate a simulation is not necessarily simple, the best choice may depend on the MDP itself. If simulations are too short, they may fail to contain new information, or not give a long enough horizon search. Too long simulations will be wasteful.
 
-Reasonable strategies could include simulating for a fixed horizon $H$; or for a gradually increasing horizon $H{(n)}$ on the $n$th simulation; or simulating until a threshold on the probability density of the action sequence is reached, to induce deeper search down the principle variation. For Hex, we use the same strategy as employed by MCTS algorithms: running each simulation until the action sequence of the simulation is unique.^11^1Noting that an alternative would be needed in domains with very large action spaces
+Reasonable strategies could include simulating for a fixed horizon $H$; or for a gradually increasing horizon $H{(n)}$ on the $n$th simulation; or simulating until a threshold on the probability density of the action sequence is reached, to induce deeper search down the principle variation. For Hex, we use the same strategy as employed by MCTS algorithms: running each simulation until the action sequence of the simulation is unique.^11^1Noting that an alternative would be needed in domains with very large action spaces Once we reach a final state for the simulation $s_{L}$ after $t$ steps, we estimate the value of this state using the global value network $V$, and use this estimate to update the simulation policy parameters $\theta$ using Reinforce: Where $\alpha$ is a learning rate. In Hex, values are scaled between -1 and 1, for other problems, a non-zero baseline may be necessary. These updates can be seen as fine-tuning the global policy to the current sub-game.
 
-Once we reach a final state for the simulation $s_{L}$ after $t$ steps, we estimate the value of this state using the global value network $V$, and use this estimate to update the simulation policy parameters $\theta$ using Reinforce:
-
-Where $\alpha$ is a learning rate. In Hex, values are scaled between -1 and 1, for other problems, a non-zero baseline may be necessary. These updates can be seen as fine-tuning the global policy to the current sub-game.
-
-Because the root node is visited in every simulation, as with MCS, we can use a bandit-based approach to select the first action $a_{0}$ of each simulation. We adopt the PUCT formula for this, greedily choosing the action that maximises:
-
-Where $c_{puct}$ is a hyperparameter. $Q{(s_{0},a)}$ is the average return from all simulations so far that started with the action $a$. $\pi{(s_{0},a)}$ is the original global policy at $s_{0}$. Every subsequent action of the simulation $a_{1:t}$ is sampled from $\pi_{sim}$.
+Because the root node is visited in every simulation, as with MCS, we can use a bandit-based approach to select the first action $a_{0}$ of each simulation. We adopt the PUCT formula for this, greedily choosing the action that maximises: Where $c_{puct}$ is a hyperparameter. $Q{(s_{0},a)}$ is the average return from all simulations so far that started with the action $a$. $\pi{(s_{0},a)}$ is the original global policy at $s_{0}$. Every subsequent action of the simulation $a_{1:t}$ is sampled from $\pi_{sim}$.
 
 ### Parameter Freezing during Online Adaptation
 
@@ -108,19 +102,9 @@ For all search algorithms, simulations are completed in batches of 32, with virt
 
 ### Description of the Neural Networks
 
-To show general applicability, we test using multiple different global neural networks, trained with different variants of Expert Iteration. In each case, we tune the PGS learning rate before testing, and compare PGS to MCS and MCTS using the same neural network. The networks used are:
+To show general applicability, we test using multiple different global neural networks, trained with different variants of Expert Iteration. In each case, we tune the PGS learning rate before testing, and compare PGS to MCS and MCTS using the same neural network. The networks used are: A residual neural network for 9x9 Hex trained on the dataset generated in the distributed training run from Anthony et al.
 
-A residual neural network for 9x9 Hex trained on the dataset generated in the distributed training run from Anthony et al.
-
-The network at the end of training for our version of AlphaZero (see section 5) applied to 9x9 Hex
-
-A network from early in training with Policy Gradient Search Expert Iteration (PGS-ExIt, section 5), applied to 9x9 Hex i.e. at epoch 10 of 450
-
-A network from approximately half way through training with PGS-ExIt on 9x9 Hex, i.e. at epoch 230 of 450
-
-The network at the end of training with PGS-ExIt applied to 9x9 Hex, i.e. at epoch 450 of 450
-
-The network at the end of training with our version of AlphaZero, applied to 13x13 Hex
+The network at the end of training for our version of AlphaZero (see section 5) applied to 9x9 Hex A network from early in training with Policy Gradient Search Expert Iteration (PGS-ExIt, section 5), applied to 9x9 Hex i.e. at epoch 10 of 450 A network from approximately half way through training with PGS-ExIt on 9x9 Hex, i.e. at epoch 230 of 450 The network at the end of training with PGS-ExIt applied to 9x9 Hex, i.e. at epoch 450 of 450 The network at the end of training with our version of AlphaZero, applied to 13x13 Hex
 
 ### Results
 
@@ -128,9 +112,7 @@ For each neural network, we ran a round-robin tournament between the raw neural 
 
 Each searcher used 800 search iterations per move, with no pondering between moves. Elo ratings were calculated using BayesElo, with the scale shifted so the mean estimate for the raw neural network's Elo was 0 in each case, giving a different Elo scale for each tournament. Results are presented in the table below, along with the values of $\alpha$ used in PGS.
 
-NN NN Elo MCS Elo MCTS Elo PGS Elo PGS $\alpha$ PGS-UF Elo PGS-UF $\alpha$
-
-In all cases, all search algorithms significantly outperformed the raw neural network. Most differences between the search algorithms are smaller, but overall trends are clear: on average PGS is $\sim 65$ Elo stronger than MCS, and MCTS is $\sim 20$ Elo stronger than PGS. PGS without freezing parameters (PGS-UF) was found to be weaker than PGS, even disregarding the additional computational cost.
+NN NN Elo MCS Elo MCTS Elo PGS Elo PGS $\alpha$ PGS-UF Elo PGS-UF $\alpha$ In all cases, all search algorithms significantly outperformed the raw neural network. Most differences between the search algorithms are smaller, but overall trends are clear: on average PGS is $\sim 65$ Elo stronger than MCS, and MCTS is $\sim 20$ Elo stronger than PGS. PGS without freezing parameters (PGS-UF) was found to be weaker than PGS, even disregarding the additional computational cost.
 
 We also tested how the performance of the different search algorithms scales with different numbers of search iterations, in a range from 200 to 1600 search iterations per move, our results are plotted in figure 2. In both cases we see that the adaptive search algorithms, PGS and MCTS, scale much more effectively with number of search iterations than does MCS.
 
@@ -144,9 +126,7 @@ One motivation of this work is the value of online planning algorithms during tr
 
 ### Expert Iteration Setup
 
-We closely follow the self-play and distillation schemes of AlphaZero, which we summarise here. Data is generated via self-play of the expert search algorithm on multiple workers. Whenever a game is finished, all states $s_{i}$ from the game are added to a replay buffer, with the game result $z$ and expert search policy ${p{(s_{i},a)}} = {{{n{(s_{i},a)}}/n}{(s_{i})}}$ for each state. Asynchronously, the neural network is trained on the data in the replay buffer. ^22^2Asynchronous training and data generation was implemented with Ray
-
-For the first 30 moves of each self-play game, the expert takes actions according to the search distribution, i.e. ${\pi_{expert}{(s,a)}} = {{{n{(s,a)}}/n}{(s)}}$. Thereafter actions are chosen greedily. At the root node, Dirichlet noise is added to the prior policy in the PUCT formula: ${\pi^{\prime}{(s_{0},a)}} = {{0.75\pi{(s_{0},a)}} + {0.25\eta}}$, $\eta \sim {Dir{(0.12)}}$. In $90\%$ of games, resignation is used: if the average return of search simulations from the current state is below a resignation threshold, the game is resigned. In the other $10\%$ of games no resignation is used, these games are used to calculate a threshold with a false positive rate below $5\%$.
+We closely follow the self-play and distillation schemes of AlphaZero, which we summarise here. Data is generated via self-play of the expert search algorithm on multiple workers. Whenever a game is finished, all states $s_{i}$ from the game are added to a replay buffer, with the game result $z$ and expert search policy ${p{(s_{i},a)}} = {{{n{(s_{i},a)}}/n}{(s_{i})}}$ for each state. Asynchronously, the neural network is trained on the data in the replay buffer. ^22^2Asynchronous training and data generation was implemented with Ray For the first 30 moves of each self-play game, the expert takes actions according to the search distribution, i.e. ${\pi_{expert}{(s,a)}} = {{{n{(s,a)}}/n}{(s)}}$. Thereafter actions are chosen greedily. At the root node, Dirichlet noise is added to the prior policy in the PUCT formula: ${\pi'{(s_{0},a)}} = {{0.75\pi{(s_{0},a)}} + {0.25\eta}}$, $\eta \sim {Dir{(0.12)}}$. In $90\%$ of games, resignation is used: if the average return of search simulations from the current state is below a resignation threshold, the game is resigned. In the other $10\%$ of games no resignation is used, these games are used to calculate a threshold with a false positive rate below $5\%$.
 
 The replay buffer stored the 10,000,000 most recent states. The neural network was trained with a batch size of 1024, optimised with fixed learning rate of 0.01. We used momentum with a momentum parameter of 0.9. A cross-entropy loss was used for optimising the policy, mean square error for optimising the value function, and an L2 weight regulariser with weight $10^{- 4}$ was used.
 
@@ -176,7 +156,7 @@ Previous works have applied model-free Reinforcement Learning algorithms to trai
 
 ## Discussion and Future Work
 
-In this work, we have presented Policy Gradient Search, a search algorithm for online planning that does not require an explicit search tree. We have shown that PGS is an effective planning algorithm. In our tests, it was slightly weaker than, but competitive with, MCTS, while significantly outperforming MCS for test-time decision making, in both 9x9 and 13x13 Hex.
+In this work, we have presented Policy Gradient Search, a search algorithm for online planning that does not require an explicit search tree. We have shown that PGS is an effective planning algorithm. In our tests, it was slightly weaker than, but competitive , MCTS, while significantly outperforming MCS for test-time decision making, in both 9x9 and 13x13 Hex.
 
 PGS is also effective during training when used within the Expert Iteration framework, resulting in the first competitive Hex agent trained tabula rasa without use of a search tree. In contrast, similar Reinforce algorithm alone was previously been found to not be competitve with an ExIt algorithm that used MCTS experts.
 

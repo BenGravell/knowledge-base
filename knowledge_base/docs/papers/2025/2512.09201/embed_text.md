@@ -10,9 +10,7 @@ To address these limitations, we introduce a framework that marries a highly exp
 
 To achieve parsimonious assemblies, an expressive primitive must be paired with an equally effective inference algorithm. We propose Residual Primitive Fitting (ResFit), an unsupervised procedure that tightly interleaves global shape analysis with local primitive optimization to better navigate the highly non-convex reconstruction loss. Instead of optimizing a large set of primitives jointly from scratch, ResFit first analyzes the input geometry to propose initial structures based on global cues. These primitives are then refined via gradient descent to conform to the local geometry. The resulting assembly is subtracted from the target shape, and the process repeats on the unexplained residual. By alternating between proposing global structure and optimizing local parameters, ResFit allows these two signals to mutually inform each other, producing assemblies that are both compact and high-fidelity.
 
-Our approach sets a new state-of-the-art on diverse 3D benchmarks. It consistently produces higher-fidelity reconstructions---improving IoU by over 9 points---while using nearly half the primitives of prior work, demonstrating a fundamental shift in the fidelity-parsimony frontier. These results are enabled by our two primary contributions:
-
-The SuperFrustum: A single compact analytic primitive that spans a wide range of canonical volumetric forms while remaining differentiable and suitable for gradient-based optimization.
+Our approach sets a new state-of-the-art on diverse 3D benchmarks. It consistently produces higher-fidelity reconstructions---improving IoU by over 9 points---while using nearly half the primitives of prior work, demonstrating a fundamental shift in the fidelity-parsimony frontier. These results are enabled by our two primary contributions: The SuperFrustum: A single compact analytic primitive that spans a wide range of canonical volumetric forms while remaining differentiable and suitable for gradient-based optimization.
 
 Residual Primitive Fitting (ResFit): An unsupervised inference procedure that alternates between global shape analysis and local primitive optimization to produce compact and accurate assemblies.
 
@@ -32,9 +30,7 @@ In parallel, the graphics and demoscene communities have explored unified analyt
 
 Figure 3: ResFit infers parsimonious assemblies by interleaving shape analysis and primitive optimization. Shape decomposition provides initial primitives, which are refined with decomposition-aware optimization. Residual unexplained volumes are then extracted and seeded with new primitives.
 
-We define the primitive assembly inference task as follows: given a 3D shape $x$, our goal is to infer a primitive assembly $z$ composed of analytic primitives whose execution $E{(z)}$ reconstructs the input shape. Each program $z$ defines a sequence of primitives ${\{ f_{\theta_{i}}\}}_{i = 1}^{|z|}$ combined through compositional operators to yield a closed surface $E{(z)}$. Following Occam's razor, we seek programs that are both accurate and compact. Formally, we aim to maximize the following objective:
-
-where $\mathcal{R}$ measures the reconstruction accuracy between the input shape $x$ and the program execution $E{(z)}$, $|z|$ denotes the program complexity (or number of primitives in the program), and $\alpha$ controls the trade-off between accuracy and compactness. Maximizing $\mathcal{O}$ thus favors concise programs that explain the geometry with a small set of expressive parts.
+We define the primitive assembly inference task as follows: given a 3D shape $x$, our goal is to infer a primitive assembly $z$ composed of analytic primitives whose execution $E(z)$ reconstructs the input shape. Each program $z$ defines a sequence of primitives $\{f_{\theta_{i}}\}_{i=1}^{|z|}$ combined through compositional operators to yield a closed surface $E(z)$. Following Occam's razor, we seek programs that are both accurate and compact. Formally, we aim to maximize the following objective: where $\mathcal{R}$ measures the reconstruction accuracy between the input shape $x$ and the program execution $E(z)$, $|z|$ denotes the program complexity (or number of primitives in the program), and $\alpha$ controls the trade-off between accuracy and compactness. Maximizing $\mathcal{O}$ thus favors concise programs that explain the geometry with a small set of expressive parts.
 
 We now summarize the components of our method. Section 3.1 introduces ResFit, our iterative fitting procedure. Section 3.2 defines SuperFrustum, the unified analytic primitive used in all assemblies. Section 3.3 describes our MSD-based initialization strategy, and Section 3.4 details the optimization process that balances geometric fidelity with parsimony.
 
@@ -50,19 +46,11 @@ Several design choices ensure that the iterative loop can correct both over- and
 
 ### Expressive, Editable & Optimizable Primitive
 
-S. quadrics [Paschalidou2019CVPR]
+S. quadrics [Paschalidou2019CVPR] Alg. Surf [Yavartanoo_2021_ICCV] An ideal primitive for inverse graphics must be *expressive* enough for diverse forms, *editable* via intuitive controls, and robustly *optimizable*. As existing families often fall short, we introduce SuperFrusta, a unified analytic primitive designed to meet all three desiderata.
 
-Alg. Surf [Yavartanoo_2021_ICCV]
+A SuperFrustum is the zero-level set of a signed distance function with parameters $\theta=(\mathbf{s},r,d,t,b,o)$. These 8 scalars intuitively control anisotropic scale ($\mathbf{s}$), profile rounding ($r$), dilation ($d$), taper ($t$), bulge ($b$), and onion/shell thickness ($o$), as shown in Fig. 2 (further implementation details and the reference code are provided in the supplementary). Its continuous, piecewise-$C^{1}$ formulation spans a wide range of shapes including cuboids, cylinders, cones, and tori, and is differentiable almost everywhere, enabling stable gradient-based fitting.
 
-An ideal primitive for inverse graphics must be *expressive* enough for diverse forms, *editable* via intuitive controls, and robustly *optimizable*. As existing families often fall short, we introduce SuperFrusta, a unified analytic primitive designed to meet all three desiderata.
-
-A SuperFrustum is the zero-level set of a signed distance function
-
-with parameters $\theta = {(\mathbf{s},r,d,t,b,o)}$. These 8 scalars intuitively control anisotropic scale ($\mathbf{s}$), profile rounding ($r$), dilation ($d$), taper ($t$), bulge ($b$), and onion/shell thickness ($o$), as shown in Fig. 2 (further implementation details and the reference code are provided in the supplementary). Its continuous, piecewise-$C^{1}$ formulation spans a wide range of shapes including cuboids, cylinders, cones, and tori, and is differentiable almost everywhere, enabling stable gradient-based fitting.
-
-The complete primitive assembly $z = {E{(z)}}$ is formed by composing transformed SuperFrusta. Each instance $i$ has a pose $(R_{i},t_{i})$ and shape parameters $\theta_{i}$, yielding a signed distance ${g_{i}{(\mathbf{p})}} = {f{({R_{i}^{\top}{({\mathbf{p} - t_{i}})}};\theta_{i})}}$. The final implicit field $\mathcal{F}$ is obtained by recursively applying a smooth union operator $U$:
-
-where $\beta_{k}$ controls blend sharpness. The final surface is the zero level set of $\mathcal{F}$.
+The complete primitive assembly $z=E(z)$ is formed by composing transformed SuperFrusta. Each instance $i$ has a pose $(R_{i},t_{i})$ and shape parameters $\theta_{i}$, yielding a signed distance $g_{i}(\mathbf{p})=f(R_{i}^{\top}(\mathbf{p}-t_{i});\theta_{i})$. The final implicit field $\mathcal{F}$ is obtained by recursively applying a smooth union operator $U$: | | $\displaystyle\mathcal{F}_{1}(\mathbf{p})$ | $\displaystyle=g_{1}(\mathbf{p}),$ | | \(4\) | | | $\displaystyle\mathcal{F}_{k+1}(\mathbf{p})$ | $\displaystyle=U\!\big(\mathcal{F}_{k}(\mathbf{p}),\,g_{k+1}(\mathbf{p});\,\beta_{k}\big),$ | | | where $\beta_{k}$ controls blend sharpness. The final surface is the zero level set of $\mathcal{F}$.
 
 ### Shape Decomposition for SuperFrusta
 
@@ -70,11 +58,7 @@ ResFit initializes primitives from the volumetric regions produced by a shape de
 
 MSD is an iterative "peel the thickest part first" technique. At each step, it finds the largest connected region of roughly uniform thickness, extracts it, removes it from the shape, and repeats on the residual. This process yields a thickness-ordered set of volumetric regions for primitive initialization, as shown in Figure 4.
 
-Formally, given a signed distance field $f{(\mathbf{p})}$, each iteration $k$ identifies the thickest interior region $\Gamma_{k}$ by finding the connected component (cc) that survives erosion up to a radius $|\tau|$:
-
-The threshold $\tau \leq 0$ is the minimum value such that ${Vol}{(\Gamma_{k})}$ meets a volume fraction $\kappa$. To recover its full spatial extent, we dilate $\Gamma_{k}$ back by the same radius, $R_{k} = {\Gamma_{k} \oplus B_{|\tau|}}$. This part $R_{k}$ is recorded and subtracted from the shape by updating the residual field:
-
-Repeating this process produces a sequence of candidate regions $\{ R_{k}\}$ ordered by decreasing thickness.
+Formally, given a signed distance field $f(\mathbf{p})$, each iteration $k$ identifies the thickest interior region $\Gamma_{k}$ by finding the connected component (cc) that survives erosion up to a radius $|\tau|$: The threshold $\tau\leq 0$ is the minimum value such that $\mathrm{Vol}(\Gamma_{k})$ meets a volume fraction $\kappa$. To recover its full spatial extent, we dilate $\Gamma_{k}$ back by the same radius, $R_{k}=\Gamma_{k}\oplus B_{|\tau|}$. This part $R_{k}$ is recorded and subtracted from the shape by updating the residual field: Repeating this process produces a sequence of candidate regions $\{R_{k}\}$ ordered by decreasing thickness.
 
 MSD offers two key advantages over ACD \[acd_lien_2007, coacd_wei_2022\] for this task. First, ACD's convexity constraint over-partitions non-convex structures that a single SuperFrustum can model, such as the bent and hollow forms shown in Figure 4 (bottom). Second, MSD is substantially more robust to the noisy surface artifacts present in the residual volumes generated during our iterative fitting loop, making it better suited for ResFit.
 
@@ -84,27 +68,17 @@ For each decomposed part volume, we instantiate a SuperFrustum. We initialize it
 
 We optimize the assembly parameters to maximize the objective $\mathcal{O}$ (Eq. 1) in two stages. First, a differentiable phase minimizes a corresponding loss via gradient descent. Second, a discrete pruning phase removes primitives that degrade $\mathcal{O}$. The differentiable loss comprises three components addressing reconstruction fidelity, program parsimony, and program quality.
 
-Reconstruction. The reconstruction loss is a differentiable surrogate for $\mathcal{R}$ in Eq. 2. We supervise the predicted occupancy field ${\hat{o}{(\mathbf{p})}} = {\sigma{({- {\beta\mathcal{F}{(\mathbf{p})}}})}}$ of the current assembly against the ground-truth occupancy $o{(\mathbf{p})}$. Samples $\mathbf{p}$ are drawn uniformly from the shape's volume and densely near its surface. To better reconstruct thin, high-curvature structures, each point is weighted by the principal curvature $\kappa{(\mathbf{p})}$ of the target mesh. The loss is evaluated only within a spatial mask $\mathcal{M} = {\{\mathbf{p}\mid{{\mathcal{F}{(\mathbf{p})}} < \tau}\}}$ to focus optimization on signals from the assembly's vicinity.
+Reconstruction. The reconstruction loss is a differentiable surrogate for $\mathcal{R}$ in Eq. 2. We supervise the predicted occupancy field $\hat{o}(\mathbf{p})=\sigma(-\beta\,\mathcal{F}(\mathbf{p}))$ of the current assembly against the ground-truth occupancy $o(\mathbf{p})$. Samples $\mathbf{p}$ are drawn uniformly from the shape's volume and densely near its surface. To better reconstruct thin, high-curvature structures, each point is weighted by the principal curvature $\kappa(\mathbf{p})$ of the target mesh. The loss is evaluated only within a spatial mask $\mathcal{M}=\{\mathbf{p}\mid\mathcal{F}(\mathbf{p})<\tau\}$ to focus optimization on signals from the assembly's vicinity.
 
-Parsimony. To encourage compact assemblies, each primitive $i$ is assigned a stochastic existence variable $q_{i} \in {}$ sampled via a Gumbel-Softmax distribution. Its signed distance field is then modulated as ${{f_{i}^{\ast}{(\mathbf{p})}} = {{q_{i}f_{i}{(\mathbf{p})}} + {({1 - q_{i}})}}},$ which smoothly erodes primitives with low existence probability. The parsimony loss penalizes the expected number of active primitives: ${\mathcal{L}_{\text{count}} = {\sum_{i}q_{i}}}.$
+| | $\displaystyle w(\mathbf{p})$ | $\displaystyle=1+\sigma(\kappa(\mathbf{p})),$ | | \(7\) | | | $\displaystyle\mathcal{L}_{\text{rec}}$ | $\displaystyle=\frac{1}{|\mathcal{M}|}\sum_{\mathbf{p}\in\mathcal{M}}w(\mathbf{p})\big(\hat{o}(\mathbf{p})-o(\mathbf{p})\big)^{2}.$ | | | Parsimony. To encourage compact assemblies, each primitive $i$ is assigned a stochastic existence variable $q_{i}\in$ sampled via a Gumbel-Softmax distribution. Its signed distance field is then modulated as $f_{i}^{*}(\mathbf{p})=q_{i}\,f_{i}(\mathbf{p})+(1-q_{i}),$ which smoothly erodes primitives with low existence probability. The parsimony loss penalizes the expected number of active primitives: $\mathcal{L}_{\text{count}}=\sum_{i}q_{i}.$ Quality. To improve editability and prevent geometrically entangled or overly blended assemblies, we add a structural regularizer that combines overlap and smooth-union consistency losses: where $\hat{o}_{i}$ is the occupancy of primitive $i$. The $\mathcal{L}_{\text{overlap}}$ term penalizes regions where multiple primitives are simultaneously active, discouraging redundant coverage. The $\mathcal{L}_{\text{union}}$ term penalizes regions that are occupied by the smooth union assembly but not by any of the independent primitives, discouraging excessive blending.
 
-Quality. To improve editability and prevent geometrically entangled or overly blended assemblies, we add a structural regularizer that combines overlap and smooth-union consistency losses:
-
-where ${\hat{o}}_{i}$ is the occupancy of primitive $i$. The $\mathcal{L}_{\text{overlap}}$ term penalizes regions where multiple primitives are simultaneously active, discouraging redundant coverage. The $\mathcal{L}_{\text{union}}$ term penalizes regions that are occupied by the smooth union assembly but not by any of the independent primitives, discouraging excessive blending.
-
-The total differentiable loss is the weighted sum of these components:
-
-Pruning. After the differentiable optimization converges, a discrete pruning step further simplifies the assembly. Primitives with negligible volume or contribution are tested for removal, and deletions are greedily accepted if they improve the primary objective $\mathcal{O}$.
+The total differentiable loss is the weighted sum of these components: Pruning. After the differentiable optimization converges, a discrete pruning step further simplifies the assembly. Primitives with negligible volume or contribution are tested for removal, and deletions are greedily accepted if they improve the primary objective $\mathcal{O}$.
 
 ## Experiments
 
 #Prims (↓)
 
-MPS [marchingprim_Liu_2023CVPR]
-
-MPS [marchingprim_Liu_2023CVPR]
-
-Table 1: Evaluation on 3DGen-Prim [3dgenbench_zhang_2025] and Toys4K [toy4k_Stojanov_2021] datasets. Our method achieves the best reconstruction and program quality scores simultaneously—improving IOU by 6–9 points while using roughly half as many primitives. Gold = best, Silver = second best.
+MPS [marchingprim_Liu_2023CVPR] MPS [marchingprim_Liu_2023CVPR] Table 1: Evaluation on 3DGen-Prim [3dgenbench_zhang_2025] and Toys4K [toy4k_Stojanov_2021] datasets. Our method achieves the best reconstruction and program quality scores simultaneously—improving IOU by 6–9 points while using roughly half as many primitives. Gold = best, Silver = second best.
 
 Datasets. We evaluate on two datasets capturing generated and real-world assets. As the *3DGen-Prim* dataset \[lightsq_wang_2025\] is not public, we recreate it using 510 prompts from 3DGen-Bench \[3dgenbench_zhang_2025\] with the Hunyuan3D-2.1 \[hunyuan3d_tencent_2025\] generator. Our second dataset contains 500 geometrically diverse shapes from Toys4K \[toy4k_Stojanov_2021\], selected via farthest-point sampling.
 
@@ -112,13 +86,13 @@ Metrics. We evaluate *reconstruction accuracy* and *program quality*. For accura
 
 Baselines. We compare our method against two state-of-the-art approaches. *Primitive Anything (PA)*\[primitiveanything_ye_2025\] is a learning-based method trained on a large dataset of manually annotated shapes to predict assemblies of cuboids, cylinders, and ellipsoids from point cloud inputs. Following the original work, we also report its test-time optimization variant, *PA (TTO)*, which refines its predictions using Chamfer Distance. *Marching Primitives (MPS)*\[marchingprim_Liu_2023CVPR\] serves as a strong optimization-based baseline that directly optimizes a superquadric-based assembly from an SDF grid to achieve state-of-the-art reconstruction fidelity. We run MPS at 128 voxel resolution to match our input. We omit comparisons to methods outperformed by MPS \[ems_liu_2022, superdec_fedele_2025\] or those without public code \[lightsq_wang_2025, extrusionprimitive_wang_2025\].
 
-Implementation Details. All experiments use a fixed set of hyperparameters unless stated otherwise. ResFit runs for a maximum of 10 fitting rounds or until convergence, with each round applying 7 iterations of MSD. The high-level objective $\mathcal{O}$ (Eq. 1) combines curvature-weighted surface IoU with a program-length penalty ($\alpha = 10^{- 3}$). During optimization, the loss weights are set to $\lambda_{\text{count}} = 10^{- 3}$ and $\lambda_{\text{qual}} = 10^{- 2}$ (Eq. 8). Additional optimization details and ablations are provided in the supplementary material.
+Implementation Details. All experiments use a fixed set of hyperparameters unless stated otherwise. ResFit runs for a maximum of 10 fitting rounds or until convergence, with each round applying 7 iterations of MSD. The high-level objective $\mathcal{O}$ (Eq. 1) combines curvature-weighted surface IoU with a program-length penalty ($\alpha=10^{-3}$). During optimization, the loss weights are set to $\lambda_{\text{count}}=10^{-3}$ and $\lambda_{\text{qual}}=10^{-2}$ (Eq. 8). Additional optimization details and ablations are provided in the supplementary material.
 
 ### Parsimonious High fidelity Assemblies
 
-Table 1 summarizes the reconstruction and program quality metrics on both datasets. Across all reconstruction measures, our method improves IoU scores by $+ 6.1$ points on 3DGen-Prim and $+ 9.3$ points on Toys4K over prior work. We attribute this performance to the expressivity of the SuperFrustum primitive and the iterative analysis-optimization loop of ResFit.
+Table 1 summarizes the reconstruction and program quality metrics on both datasets. Across all reconstruction measures, our method improves IoU scores by $+6.1$ points on 3DGen-Prim and $+9.3$ points on Toys4K over prior work. We attribute this performance to the expressivity of the SuperFrustum primitive and the iterative analysis-optimization loop of ResFit.
 
-These reconstruction gains are accompanied by improved program quality. Our assemblies use approximately half as many primitives as Marching Primitives while reducing volumetric overlap by over $3 \times$. The inferred primitives also demonstrate high semantic coherence: our method achieves the lowest *IntraPrim* scores, indicating high semantic purity within primitives, and among the highest *InterPrim* scores, reflecting meaningful distinctions between parts. These results demonstrate that ResFit produces assemblies that are simultaneously more accurate, compact, and semantically interpretable.
+These reconstruction gains are accompanied by improved program quality. Our assemblies use approximately half as many primitives as Marching Primitives while reducing volumetric overlap by over $3\times$. The inferred primitives also demonstrate high semantic coherence: our method achieves the lowest *IntraPrim* scores, indicating high semantic purity within primitives, and among the highest *InterPrim* scores, reflecting meaningful distinctions between parts. These results demonstrate that ResFit produces assemblies that are simultaneously more accurate, compact, and semantically interpretable.
 
 Qualitative comparisons in Figure 5 corroborate these findings. Our assemblies exhibit higher geometric fidelity and are more interpretable, using a compact set of non-overlapping, semantically aligned primitives. In contrast, baseline reconstructions can show lower fidelity on complex structures and tend to produce assemblies with greater primitive overlap.
 
@@ -142,7 +116,7 @@ Table 3: Fitting and decomposition ablation: ResFit, which interleaves analysis 
 
 ### Timing
 
-On the Toys4K test set, the full ten-round version of ResFit takes 652.6 s per shape on average. However, even a two-round variant offers a strong quality--time trade-off: it runs in 184.1 s while achieving 86.54 IOU with only 15.54 primitives. This matches---and slightly exceeds---the reconstruction accuracy of MPS at $256^{3}$ resolution (86.30 IOU) while using *over $5 \times$ fewer* primitives and a comparable runtime (194.6 s). PA (58.3 s) and MPS (37.9 s at $128^{3}$) are faster but produce lower-quality assemblies. We note that ResFit is not yet optimized for speed; dedicated CUDA kernels for SuperFrustum may reduce runtime.
+On the Toys4K test set, the full ten-round version of ResFit takes 652.6 s per shape on average. However, even a two-round variant offers a strong quality--time trade-off: it runs in 184.1 s while achieving 86.54 IOU with only 15.54 primitives. This matches---and slightly exceeds---the reconstruction accuracy of MPS at $256^{3}$ resolution (86.30 IOU) while using *over $5\times$ fewer* primitives and a comparable runtime (194.6 s). PA (58.3 s) and MPS (37.9 s at $128^{3}$) are faster but produce lower-quality assemblies. We note that ResFit is not yet optimized for speed; dedicated CUDA kernels for SuperFrustum may reduce runtime.
 
 ## Applications
 
@@ -152,7 +126,7 @@ Our representation enables several downstream uses that combine visual quality, 
 
 Our primitives are simultaneously compact, editable, and capable of high-fidelity reconstruction, allowing them to serve directly as deployable 3D assets. To produce textured assemblies, we associate each primitive with a local 2D spherical texture map that we optimize against the target textured mesh. The resulting textured assemblies can be directly deployed in real-time sphere traced scenes, while remaining editable (see Fig. 6).
 
-Figure 6: Assigning per-primitive spherical 2D textures &amp; optimizing it against a textured mesh, begets Edtiable &amp; Deployable assets.
+Figure 6: Assigning per-primitive spherical 2D textures & optimizing it against a textured mesh, begets Edtiable & Deployable assets.
 
 #Prims
 

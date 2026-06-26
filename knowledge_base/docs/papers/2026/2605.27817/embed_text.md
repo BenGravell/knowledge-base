@@ -36,9 +36,7 @@ In this section, we first articulate the central technical challenge of using a 
 
 ### The Video-to-Action Problem
 
-A video world model $\pi_{vid}$ produces a visual plan in pixel space: given an observation history $\mathbf{o}_{\leq t}$ and a goal $g$, it samples
-
-Robots, however, do not act in pixels; they execute embodiment-specific commands such as position, velocity, or torque commands. The central question for the Video Model-IDM direction is therefore: how do we recover actions ${\hat{\mathbf{a}}}_{t:{{t + M} - 1}}$ from video frames?
+A video world model $\pi_{\mathrm{vid}}$ produces a visual plan in pixel space: given an observation history $\mathbf{o}_{\leq t}$ and a goal $g$, it samples Robots, however, do not act in pixels; they execute embodiment-specific commands such as position, velocity, or torque commands. The central question for the Video Model-IDM direction is therefore: how do we recover actions $\hat{\mathbf{a}}_{t:t+M-1}$ from video frames?
 
 ### Desidarata: Faithfulness, data-efficiency, and scaling with DoFs
 
@@ -46,33 +44,25 @@ A good IDM should, first and foremost, be faithful: its inferred actions should 
 
 ### IDMs require careful designs
 
-Current IDMs come in two flavors. The first is hand-crafted methods based on retargeting or 3D representations. The second is direct parameterization via a neural network that learns to regress ${\hat{\mathbf{a}}}_{t}$ from the image pair $({\hat{\mathbf{o}}}_{t},{\hat{\mathbf{o}}}_{t + 1})$ end-to-end. Such an approach, which we call a Direct IDM (D-IDM), has value in its simplicity. However, under limited data and complex embodiments, a more structured IDM may be needed to satisfy the previous criteria. In Section 4 we show empirically that unstructured D-IDMs may sacrifice *faithfulness* under (i) data constraints and (ii) increasing action dimension.
+Current IDMs come in two flavors. The first is hand-crafted methods based on retargeting or 3D representations. The second is direct parameterization via a neural network that learns to regress $\hat{\mathbf{a}}_{t}$ from the image pair $(\hat{\mathbf{o}}_{t},\hat{\mathbf{o}}_{t+1})$ end-to-end. Such an approach, which we call a Direct IDM (D-IDM), has value in its simplicity. However, under limited data and complex embodiments, a more structured IDM may be needed to satisfy the previous criteria. In Section 4 we show empirically that unstructured D-IDMs may sacrifice *faithfulness* under (i) data constraints and (ii) increasing action dimension.
 
 ### The Jacobian Inverse Dynamics Model
 
 ### The embodiment Jacobian
 
-The problem of relating infinitesimal actions to motion is solved in classical robotics by the embodiment Jacobian. Let $\mathbf{a} \in {\mathbb{R}}^{n}$ denote the robot's action vector and $\mathbf{x}_{i} \in {\mathbb{R}}^{3}$ the 3D location of body point $i$. At a given state---observed as $\mathbf{o}$---the embodiment Jacobian
-
-(Eq. 2) is the local linear map from action perturbations to 3D point motion: ${\delta\mathbf{x}_{i}} \approx {\mathbf{J}_{i}{(\mathbf{o})}\delta\mathbf{a}}$. However, 3D points are never observed directly, making such a Jacobian difficult to learn directly.
+The problem of relating infinitesimal actions to motion is solved in classical robotics by the embodiment Jacobian. Let $\mathbf{a}\in\mathbb{R}^{n}$ denote the robot's action vector and $\mathbf{x}_{i}\in\mathbb{R}^{3}$ the 3D location of body point $i$. At a given state---observed as $\mathbf{o}$---the embodiment Jacobian (Eq. 2) is the local linear map from action perturbations to 3D point motion: $\delta\mathbf{x}_{i}\approx\mathbf{J}_{i}(\mathbf{o})\,\delta\mathbf{a}$. However, 3D points are never observed directly, making such a Jacobian difficult to learn directly.
 
 ### Image-space Jacobian field
 
-This motivates predicting the Jacobian directly in image space, with $\mathbf{o}$ itself as the conditioning variable. Given a single image $\mathbf{o} \in {\mathbb{R}}^{H \times W \times 3}$, an image-conditioned transformer $\mathbf{J}_{\theta}$ outputs a dense field
-
-which assigns to every pixel $\mathbf{p}$ a $2 \times n$ matrix that linearizes how an action increment ${\delta\mathbf{a}} \in {\mathbb{R}}^{n}$ moves that pixel:
-
-where $\delta\mathbf{p}$ is the per-pixel measurement of the observation change $\delta\mathbf{o}$, obtained in practice from an off-the-shelf optical-flow estimator (Eq. 5). Prior work parameterized this Jacobian as a *3D* field, lifting per-pixel motion to 3D via volume rendering of a NeRF-style scene representation; we drop the 3D scene representation, which lets us scale $\mathbf{J}_{\theta}$ as a single, large image-conditioned transformer. At test time, we recover the action by inverting Eq. 4.
+This motivates predicting the Jacobian directly in image space, with $\mathbf{o}$ itself as the conditioning variable. Given a single image $\mathbf{o}\in\mathbb{R}^{H\times W\times 3}$, an image-conditioned transformer $\mathbf{J}_{\theta}$ outputs a dense field which assigns to every pixel $\mathbf{p}$ a $2{\times}n$ matrix that linearizes how an action increment $\delta\mathbf{a}\in\mathbb{R}^{n}$ moves that pixel: where $\delta\mathbf{p}$ is the per-pixel measurement of the observation change $\delta\mathbf{o}$, obtained in practice from an off-the-shelf optical-flow estimator (Eq. 5). Prior work parameterized this Jacobian as a *3D* field, lifting per-pixel motion to 3D via volume rendering of a NeRF-style scene representation; we drop the 3D scene representation, which lets us scale $\mathbf{J}_{\theta}$ as a single, large image-conditioned transformer. At test time, we recover the action by inverting Eq. 4.
 
 ### Joint forward-inverse training objective
 
-We train $\mathbf{J}_{\theta}$ on a dataset of $(\mathbf{o}_{t},{\delta\mathbf{a}_{t}},\mathbf{o}_{t + 1})$ tuples. For each tuple, we extract a dense optical flow field $\mathbf{v}_{t} \in {\mathbb{R}}^{H \times W \times 2}$ between $\mathbf{o}_{t}$ and $\mathbf{o}_{t + 1}$ using off-the-shelf motion estimators. We supervise $\mathbf{J}_{\theta}$ with a joint forward-inverse loss combining the per-pixel Charbonnier objective ${\rho{(x)}} = \sqrt{x^{2} + \varepsilon^{2}}$ on the predicted pixel motion with an action-reconstruction term using a $\lambda$-regularized pseudoinverse $\mathbf{J}_{\theta}^{\dagger,\lambda}$:
-
-with $w_{\text{a}} = 0.3$; see App. B for training details.
+We train $\mathbf{J}_{\theta}$ on a dataset of $(\mathbf{o}_{t},\,\delta\mathbf{a}_{t},\,\mathbf{o}_{t+1})$ tuples. For each tuple, we extract a dense optical flow field $\mathbf{v}_{t}\in\mathbb{R}^{H\times W\times 2}$ between $\mathbf{o}_{t}$ and $\mathbf{o}_{t+1}$ using off-the-shelf motion estimators. We supervise $\mathbf{J}_{\theta}$ with a joint forward-inverse loss combining the per-pixel Charbonnier objective $\rho(x){=}\sqrt{x^{2}+\varepsilon^{2}}$ on the predicted pixel motion with an action-reconstruction term using a $\lambda$-regularized pseudoinverse $\mathbf{J}_{\theta}^{\dagger,\lambda}$: with $w_{\text{a}}=0.3$; see App. B for training details.
 
 ### From forward model to IDM
 
-At inference, we are given two consecutive predicted frames $({\hat{\mathbf{o}}}_{t},{\hat{\mathbf{o}}}_{t + 1})$ from the video planner. We extract their optical flow $\mathbf{v}_{t}$ with the same off-the-shelf motion estimator used in training and recover the action via the $\lambda$-regularized pseudoinverse:
+At inference, we are given two consecutive predicted frames $(\hat{\mathbf{o}}_{t},\hat{\mathbf{o}}_{t+1})$ from the video planner. We extract their optical flow $\mathbf{v}_{t}$ with the same off-the-shelf motion estimator used in training and recover the action via the $\lambda$-regularized pseudoinverse:
 
 ### Video World Model as a Closed-Loop Robot Planner
 
@@ -86,9 +76,7 @@ We instantiate the planner from a pretrained video model and lightly adapt it to
 
 ### Executing on a visual chunk
 
-Although the planner generates $M$ future frames, the controller commits to executing only the first $K$ predicted frames. The Jacobian IDM converts this committed prefix into a chunk of robot actions by applying Eq. 6 independently to every pair of adjacent frames, using the current observation $\mathbf{o}_{t}$ as the anchor:
-
-yielding a chunk length of $K$ actions. This allows the planner to reason over a longer visual look-ahead while the controller stays grounded through frequent feedback. Consistent with prior findings on action chunking, we observe that this chunking improves performance; we ablate the choice of $K$ in Fig. 8.
+Although the planner generates $M$ future frames, the controller commits to executing only the first $K$ predicted frames. The Jacobian IDM converts this committed prefix into a chunk of robot actions by applying Eq. 6 independently to every pair of adjacent frames, using the current observation $\mathbf{o}_{t}$ as the anchor: yielding a chunk length of $K$ actions. This allows the planner to reason over a longer visual look-ahead while the controller stays grounded through frequent feedback. Consistent with prior findings on action chunking, we observe that this chunking improves performance; we ablate the choice of $K$ in Fig. 8.
 
 ### Closed-loop replanning
 
@@ -128,11 +116,11 @@ The closed-loop results above rely on *faithful* video-to-action translation. We
 
 ### Experiment Setup
 
-We compare our J-IDM against blackbox D-IDM approaches. In particular, we test against two models: one which takes in a pair of images (i.e. $\mathbf{o}_{t}$ and $\mathbf{o}_{t + 1}$) and another which takes in an image and the optical flow between the two images. All models are kept at the same parameter count, trained on the same data, and share the same architecture with the exception of the decoding head. The flow-conditioned model serves as an ablation of our approach, since it has the same input-output behavior, but lacks our structured representation. The image-pair model is our best-effort replication of UniPi. Because we use a different architecture to ensure a fair comparison, we refer to this baseline as UniPi\*. More details can be found in Appendix B.3.
+We compare our J-IDM against blackbox D-IDM approaches. In particular, we test against two models: one which takes in a pair of images (i.e. $\mathbf{o}_{t}$ and $\mathbf{o}_{t+1}$) and another which takes in an image and the optical flow between the two images. All models are kept at the same parameter count, trained on the same data, and share the same architecture with the exception of the decoding head. The flow-conditioned model serves as an ablation of our approach, since it has the same input-output behavior, but lacks our structured representation. The image-pair model is our best-effort replication of UniPi. Because we use a different architecture to ensure a fair comparison, we refer to this baseline as UniPi\*. More details can be found in Appendix B.3.
 
 ### J-IDMs are performant under data and complexity constraints
 
-A controlled 2D "toy finger" study (Fig. 5) sweeps degrees of freedom and self-play data quantity. The structured parameterization brings two benefits over an unstructured regressor: at fixed data, J-IDM is the only model preserving faithful reconstruction as DoFs grow (Fig. 5a,b); and at fixed DoFs ($=$`<!-- -->`{=html}5), it is approximately $2 \times$ more data-efficient (Fig. 5c).
+A controlled 2D "toy finger" study (Fig. 5) sweeps degrees of freedom and self-play data quantity. The structured parameterization brings two benefits over an unstructured regressor: at fixed data, J-IDM is the only model preserving faithful reconstruction as DoFs grow (Fig. 5a,b); and at fixed DoFs ($=$`<!-- -->`{=html}5), it is approximately $2\times$ more data-efficient (Fig. 5c).
 
 ### Faithful translation results in higher success rates
 
@@ -140,9 +128,7 @@ This fidelity carries downstream. In Tab. 2, J-IDM achieves the lowest action-re
 
 Table 1: Closed-loop results in simulated environments. Each cell reports success rate / task progress (%, ↑). J-IDM yields higher closed-loop success than a UniPi*-style direct inverse-dynamics baseline across planar pushing, 7-DoF arm manipulation, and 16-DoF dexterous manipulation.
 
-Action reconstruction MSE ↓
-
-Table 2: Action reconstruction for video-to-action translation. Reconstruction MSE on held-out visual transitions. Jacobian IDM achieves the lowest MSE on Allegro-Sim, PushT-Sim, and 5-joint fingers, and remains competitive on Panda-Sim. Best / second-best.
+Action reconstruction MSE ↓ Table 2: Action reconstruction for video-to-action translation. Reconstruction MSE on held-out visual transitions. Jacobian IDM achieves the lowest MSE on Allegro-Sim, PushT-Sim, and 5-joint fingers, and remains competitive on Panda-Sim. Best / second-best.
 
 ### VERA and other Robotic Foundation Models
 

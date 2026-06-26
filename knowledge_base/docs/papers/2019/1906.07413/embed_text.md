@@ -20,7 +20,7 @@ Most existing algorithms for learning imbalanced datasets can be divided in to t
 
 Re-sampling. There are two types of re-sampling techniques: over-sampling the minority classes (see e.g., and references therein) and under-sampling the frequent classes (see, e.g., and the references therein.) The downside of under-sampling is that it discards a large portion of the data and thus is not feasible when data imbalance is extreme. Over-sampling is effective in a lot of cases but can lead to over-fitting of the minority classes. Stronger data augmentation for minority classes can help alleviate the over-fitting.
 
-Re-weighting. Cost-sensitive re-weighting assigns (adaptive) weights for different classes or even different samples. The vanilla scheme re-weights classes proportionally to the inverse of their frequency. Re-weighting methods tend to make the optimization of deep models difficult under extreme data imbalanced settings and large-scale scenarios. Cui et al. observe that re-weighting by inverse class frequency yields poor performance on frequent classes, and thus propose re-weighting by the inverse effective number of samples. This is the main prior work that we empirically compare with.
+Re-weighting. Cost-sensitive re-weighting assigns (adaptive) weights for different classes or even different samples. The vanilla scheme re-weights classes proportionally to the inverse of their frequency. Re-weighting methods tend to make the optimization of deep models difficult under extreme data imbalanced settings and large-scale scenarios. Cui et al. observe that re-weighting by inverse class frequency yields poor performance on frequent classes, and thus propose re-weighting by the inverse effective number of samples. This is the main prior work that we empirically compare .
 
 Another line of work assigns weights to each sample based on their individual properties. Focal loss down-weights the well-classified examples; Li et al. suggests an improved technique which down-weights examples with either very small gradients or large gradients because examples with small gradients are well-classified and those with large gradients tend to be outliers.
 
@@ -44,53 +44,31 @@ Meta-learning. Meta-learning is also used in improving the performance on imbala
 
 We assume the input space is ${\mathbb{R}}^{d}$ and the label space is $\{ 1,\ldots,k\}$. Let $x$ denote the input and $y$ denote the corresponding label. We assume that the class-conditional distribution $\mathcal{P}{({x \mid y})}$ is the same at training and test time. Let $\mathcal{P}_{j}$ denote the class-conditional distribution, i.e. $\mathcal{P}_{j} = {\mathcal{P}{({{x \mid y} = j})}}$. We will use $\mathcal{P}_{\text{bal}}$ to denote the balanced test distribution which first samples a class uniformly and then samples data from $\mathcal{P}_{j}$.
 
-For a model $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{k}}$ that outputs $k$ logits, we use $L_{\text{bal}}{\lbrack f\rbrack}$ to denote the standard 0-1 test error on the balanced data distribution:
+For a model $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{k}}$ that outputs $k$ logits, we use $L_{\text{bal}}{\lbrack f\rbrack}$ to denote the standard 0-1 test error on the balanced data distribution: Similarly, the error $L_{j}$ for class $j$ is defined as ${L_{j}{\lbrack f\rbrack}} = {\Pr_{{(x,y)} \sim \mathcal{P}_{j}}{\lbrack{{f{(x)}_{y}} < {{\max_{\ell \neq y}f}{(x)}_{\ell}}}\rbrack}}$. Suppose we have a training dataset ${\{{(x_{i},y_{i})}\}}_{i = 1}^{n}$. Let $n_{j}$ be the number of examples in class $j$. Let $S_{j} = {\{ i:{y_{i} = j}\}}$ denote the example indices corresponding to class $j$.
 
-Similarly, the error $L_{j}$ for class $j$ is defined as ${L_{j}{\lbrack f\rbrack}} = {\Pr_{{(x,y)} \sim \mathcal{P}_{j}}{\lbrack{{f{(x)}_{y}} < {{\max_{\ell \neq y}f}{(x)}_{\ell}}}\rbrack}}$. Suppose we have a training dataset ${\{{(x_{i},y_{i})}\}}_{i = 1}^{n}$. Let $n_{j}$ be the number of examples in class $j$. Let $S_{j} = {\{ i:{y_{i} = j}\}}$ denote the example indices corresponding to class $j$.
-
-Define the margin of an example $(x,y)$ as
-
-Define the training margin for class $j$ as:
-
-We consider the separable cases (meaning that all the training examples are classified correctly) because neural networks are often over-parameterized and can fit the training data well. We also note that the minimum margin of all the classes, $\gamma_{\min} = {\min{\{\gamma_{1},\ldots,\gamma_{k}\}}}$, is the classical notion of training margin studied in the past.
+Define the margin of an example $(x,y)$ as Define the training margin for class $j$ as: We consider the separable cases (meaning that all the training examples are classified correctly) because neural networks are often over-parameterized and can fit the training data well. We also note that the minimum margin of all the classes, $\gamma_{\min} = {\min{\{\gamma_{1},\ldots,\gamma_{k}\}}}$, is the classical notion of training margin studied in the past.
 
 ### Fine-grained generalization error bounds
 
-Let $\mathcal{F}$ be the family of hypothesis class. Let $\text{C}{(\mathcal{F})}$ be some proper complexity measure of the hypothesis class $\mathcal{F}$. There is a large body of recent work on measuring the complexity of neural networks (see and references therein), and our discussion below is orthogonal to the precise choices. When the training distribution and the test distribution are the same, the typical generalization error bounds scale in ${\text{C}{(\mathcal{F})}}/\sqrt{n}$. That is, in our case, if the test distribution is also imbalanced as the training distribution, then
-
-Note that the bound is oblivious to the label distribution, and only involves the minimum margin across all examples and the total number of data points. We extend such bounds to the setting with balanced test distribution by considering the margin of each class. As we will see, the more fine-grained bound below allows us to design new training loss function that is customized to the imbalanced dataset.
+Let $\mathcal{F}$ be the family of hypothesis class. Let $\text{C}{(\mathcal{F})}$ be some proper complexity measure of the hypothesis class $\mathcal{F}$. There is a large body of recent work on measuring the complexity of neural networks (see and references therein), and our discussion below is orthogonal to the precise choices. When the training distribution and the test distribution are the same, the typical generalization error bounds scale in ${\text{C}{(\mathcal{F})}}/\sqrt{n}$. That is, in our case, if the test distribution is also imbalanced as the training distribution, then Note that the bound is oblivious to the label distribution, and only involves the minimum margin across all examples and the total number of data points. We extend such bounds to the setting with balanced test distribution by considering the margin of each class. As we will see, the more fine-grained bound below allows us to design new training loss function that is customized to the imbalanced dataset.
 
 ### Theorem 1 (Informal and simplified version of Theorem 2)
 
-With high probability ($1 - n^{- 5}$) over the randomness of the training data, the error $L_{j}$ for class $j$ is bounded by
-
-where we use $\lesssim$ to hide constant factors. As a direct consequence,
+With high probability ($1 - n^{- 5}$) over the randomness of the training data, the error $L_{j}$ for class $j$ is bounded by where we use $\lesssim$ to hide constant factors. As a direct consequence,
 
 ### Class-distribution-aware margin trade-off
 
 The generalization error bound (4. ‣ Fine-grained generalization error bounds. ‣ 3.1 Theoretical Motivations ‣ 3 Main Approach ‣ Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss")) for each class suggests that if we wish to improve the generalization of minority classes (those with small $n_{j}$'s), we should aim to enforce bigger margins $\gamma_{j}$'s for them. However, enforcing bigger margins for minority classes may hurt the margins of the frequent classes. What is the optimal trade-off between the margins of the classes? An answer for the general case may be difficult, but fortunately we can obtain the optimal trade-off for the binary classification problem.
 
-With $k = 2$ classes, we aim to optimize the balanced generalization error bound provided in (5. ‣ Fine-grained generalization error bounds. ‣ 3.1 Theoretical Motivations ‣ 3 Main Approach ‣ Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss")), which can be simplified to (by removing the low order term $\frac{\log n}{\sqrt{n_{j}}}$ and the common factor $\text{C}{(\mathcal{F})}$)
-
-At the first sight, because $\gamma_{1}$ and $\gamma_{2}$ are complicated functions of the weight matrices, it appears difficult to understand the optimal margins. However, we can figure out the relative scales between $\gamma_{1}$ and $\gamma_{2}$. Suppose ${\gamma_{1},\gamma_{2}} > 0$ minimize the equation above, we observe that any $\gamma_{1}^{\prime} = {\gamma_{1} - \delta}$ and $\gamma_{2}^{\prime} = {\gamma_{2} + \delta}$ (for $\delta \in {({- \gamma_{2}},\gamma_{1})}$) can be realized by the same weight matrices with a shifted bias term (See Figure 1 for an illustration). Therefore, for $\gamma_{1},\gamma_{2}$ to be optimal, they should satisfy
-
-The equation above implies that
-
-for some constant $C$. Please see a detailed derivation in the Section A.
+With $k = 2$ classes, we aim to optimize the balanced generalization error bound provided in (5. ‣ Fine-grained generalization error bounds. ‣ 3.1 Theoretical Motivations ‣ 3 Main Approach ‣ Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss")), which can be simplified to (by removing the low order term $\frac{\log n}{\sqrt{n_{j}}}$ and the common factor $\text{C}{(\mathcal{F})}$) At the first sight, because $\gamma_{1}$ and $\gamma_{2}$ are complicated functions of the weight matrices, it appears difficult to understand the optimal margins. However, we can figure out the relative scales between $\gamma_{1}$ and $\gamma_{2}$. Suppose ${\gamma_{1},\gamma_{2}} > 0$ minimize the equation above, we observe that any $\gamma_{1}' = {\gamma_{1} - \delta}$ and $\gamma_{2}' = {\gamma_{2} + \delta}$ (for $\delta \in {({- \gamma_{2}},\gamma_{1})}$) can be realized by the same weight matrices with a shifted bias term (See Figure 1 for an illustration). Therefore, for $\gamma_{1},\gamma_{2}$ to be optimal, they should satisfy The equation above implies that for some constant $C$. Please see a detailed derivation in the Section A.
 
 Fast rate vs slow rate, and the implication on the choice of margins. The bound in Theorem 1. ‣ Fine-grained generalization error bounds. ‣ 3.1 Theoretical Motivations ‣ 3 Main Approach ‣ Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss") may not necessarily be tight. The generalization bounds that scale in $1/\sqrt{n}$ (or $1/\sqrt{n_{i}}$ here with imbalanced classes) are generally referred to the "slow rate" and those that scale in $1/n$ are referred to the "fast rate". With deep neural networks and when the model is sufficiently big enough, it is possible that some of these bounds can be improved to the fast rate. See for some recent development. In those cases, we can derive the optimal trade-off of the margin to be $n_{i} \propto n_{i}^{- {1/3}}$.
 
 ### Label-Distribution-Aware Margin Loss
 
-Inspired by the trade-off between the class margins in Section 3.1 for two classes, we propose to enforce a class-dependent margin for multiple classes of the form
+Inspired by the trade-off between the class margins in Section 3.1 for two classes, we propose to enforce a class-dependent margin for multiple classes of the form We will design a soft margin loss function to encourage the network to have the margins above. Let $(x,y)$ be an example and $f$ be a model. For simplicity, we use $z_{j} = {f{(x)}_{j}}$ to denote the $j$-th output of the model for the $j$-th class.
 
-We will design a soft margin loss function to encourage the network to have the margins above. Let $(x,y)$ be an example and $f$ be a model. For simplicity, we use $z_{j} = {f{(x)}_{j}}$ to denote the $j$-th output of the model for the $j$-th class.
-
-The most natural choice would be a multi-class extension of the hinge loss:
-
-Here $C$ is a hyper-parameter to be tuned. In order to tune the margin more easily, we effectively normalize the logits (the input to the loss function) by normalizing last hidden activation to $\ell_{2}$ norm 1, and normalizing the weight vectors of the last fully-connected layer to $\ell_{2}$ norm 1, following the previous work. Empirically, the non-smoothness of hinge loss may pose difficulties for optimization. The smooth relaxation of the hinge loss is the following cross-entropy loss with enforced margins:
-
-In the previous work where the training set is usually balanced, the margin $\Delta_{y}$ is chosen to be a label independent constant $C$, whereas our margin depends on the label distribution.
+The most natural choice would be a multi-class extension of the hinge loss: Here $C$ is a hyper-parameter to be tuned. In order to tune the margin more easily, we effectively normalize the logits (the input to the loss function) by normalizing last hidden activation to $\ell_{2}$ norm 1, and normalizing the weight vectors of the last fully-connected layer to $\ell_{2}$ norm 1, following the previous work. Empirically, the non-smoothness of hinge loss may pose difficulties for optimization. The smooth relaxation of the hinge loss is the following cross-entropy loss with enforced margins: In the previous work where the training set is usually balanced, the margin $\Delta_{y}$ is chosen to be a label independent constant $C$, whereas our margin depends on the label distribution.
 
 Remark: Attentive readers may find the loss $\mathcal{L}_{\text{LDAM}}$ somewhat reminiscent of the re-weighting because in the binary classification case --- where the model outputs a single real number which is passed through a sigmoid to be converted into a probability, --- both the two approaches change the gradient of an example by a scalar factor. However, we remark two key differences: the scalar factor introduced by the re-weighting only depends on the class, whereas the scalar introduced by $\mathcal{L}_{\text{LDAM}}$ also depends on the output of the model; for multiclass classification problems, the proposed loss $\mathcal{L}_{\text{LDAM}}$ affects the gradient of the example in a more involved way than only introducing a scalar factor. Moreover, recent work has shown that, under separable assumptions, the logistical loss, with weak regularization or without regularization, gives the max margin solution, which is in turn not effected by any re-weighting by its definition. This further suggests that the loss $\mathcal{L}_{\text{LDAM}}$ and the re-weighting may complement each other, as we have seen in the experiments. (Re-weighting would affect the margin in the non-separable data case, which is left for future work.)
 
@@ -102,16 +80,7 @@ We observe empirically that re-weighting and re-sampling are both inferior to th
 
 Inspired by this, we develop a deferred re-balancing training procedure (Algorithm 1), which first trains using vanilla ERM with the LDAM loss before annealing the learning rate, and then deploys a re-weighted LDAM loss with a smaller learning rate. Empirically, the first stage of training leads to a good initialization for the second stage of training with re-weighted losses. Because the loss is non-convex and the learning rate in the second stage is relatively small, the second stage does not move the weights very far. Interestingly, with our LDAM loss and deferred re-balancing training, the vanilla re-weighting scheme (which re-weights by the inverse of the number of examples in each class) works as well as the re-weighting scheme introduced in prior work. We also found that with our re-weighting scheme and LDAM, we are less sensitive to early stopping than.
 
-1:Dataset 𝒟 = {(xi,yi)}i = 1n. A parameterized model fθ
-2:Initialize the model parameters θ randomly
-4: ℬ ← SampleMiniBatch (𝒟,m) ⊳ a mini-batch of m examples
-5: ${\mathcal{L}{(f_{\theta})}}\leftarrow{\frac{1}{m}{\sum_{{(x,y)} \in \mathcal{B}}{\mathcal{L}_{\text{LDAM}}{({(x,y)};f_{\theta})}}}}$
-6: fθ ← fθ − α ∇θℒ (fθ) ⊳ one SGD step
-7: Optional: α ← α/τ ⊳ anneal learning rate by a factor τ if necessary
-10: ℬ ← SampleMiniBatch (𝒟,m) ⊳ A mini-batch of m examples
-11: ${\mathcal{L}{(f_{\theta})}}\leftarrow{\frac{1}{m}{\sum_{{(x,y)} \in \mathcal{B}}{{n_{y}^{- 1} \cdot \mathcal{L}_{\text{LDAM}}}{({(x,y)};f_{\theta})}}}}$ ⊳ standard re-weighting by frequency
-12: $f_{\theta}\leftarrow{f_{\theta} - {\alpha\frac{1}{\sum_{{(x,y)} \in \mathcal{B}}n_{y}^{- 1}}{\nabla_{\theta}\mathcal{L}}{(f_{\theta})}}}$ ⊳ one SGD step with re-normalized learning rate
-Algorithm 1 Deferred Re-balancing Optimization with LDAM Loss
+1:Dataset 𝒟 = {(xi, yi)}i = 1n. A parameterized model fθ 2:Initialize the model parameters θ randomly 4: ℬ ← SampleMiniBatch (𝒟, m) ⊳ a mini-batch of m examples 5: ${\mathcal{L}{(f_{\theta})}}\leftarrow{\frac{1}{m}{\sum_{{(x,y)} \in \mathcal{B}}{\mathcal{L}_{\text{LDAM}}{({(x,y)};f_{\theta})}}}}$ 6: fθ ← fθ − α ∇θℒ (fθ) ⊳ one SGD step 7: Optional: α ← α/τ ⊳ anneal learning rate by a factor τ if necessary 10: ℬ ← SampleMiniBatch (𝒟, m) ⊳ A mini-batch of m examples 11: ${\mathcal{L}{(f_{\theta})}}\leftarrow{\frac{1}{m}{\sum_{{(x,y)} \in \mathcal{B}}{{n_{y}^{- 1} \cdot \mathcal{L}_{\text{LDAM}}}{({(x,y)};f_{\theta})}}}}$ ⊳ standard re-weighting by frequency 12: $f_{\theta}\leftarrow{f_{\theta} - {\alpha\frac{1}{\sum_{{(x,y)} \in \mathcal{B}}n_{y}^{- 1}}{\nabla_{\theta}\mathcal{L}}{(f_{\theta})}}}$ ⊳ one SGD step with re-normalized learning rate Algorithm 1 Deferred Re-balancing Optimization with LDAM Loss
 
 ## Experiments
 
@@ -131,10 +100,7 @@ When two of these methods can be combined, we will concatenate the acronyms with
 
 IMDB review dataset consists of 50,000 movie reviews for binary sentiment classification. The original dataset contains an evenly distributed number of positive and negative reviews. We manually created an imbalanced training set by removing 90% of negative reviews. We train a two-layer bidirectional LSTM with Adam optimizer. The results are reported in Table 1.
 
-Error on positive reviews
-Error on negative reviews
-
-Table 1: Top-1 validation errors on imbalanced IMDB review dataset. Our proposed approach LDAM-DRW outperforms the baselines.
+Error on positive reviews Error on negative reviews Table 1: Top-1 validation errors on imbalanced IMDB review dataset. Our proposed approach LDAM-DRW outperforms the baselines.
 
 ### Experimental results on CIFAR
 
@@ -158,9 +124,7 @@ We further verify the effectiveness of our method on large-scale imbalanced data
 
 Figure 2: Per-class top-1 error on CIFAR-10 with step imbalance (ρ = 100, μ = 0.5). Classes 0-F to 4-F are frequent classes, and the rest are minority classes. Under this extremely imbalanced setting RW suffers from under-fitting, while RS over-fits on minority examples. On the contrary, the proposed algorithm exhibits great generalization on minority classes while keeping the performance on frequent classes almost unaffected. This suggests we succeeded in regularizing minority classes more strongly.
 
-Figure 3: Imbalanced training errors (dotted lines) and balanced test errors (solid lines) on CIFAR-10 with long-tailed imbalance (ρ = 100). We anneal decay the learning rate at epoch 160 for all algorithms. Our DRW schedule uses ERM before annealing the learning rate and thus performs worse than RW and RS before that point, as expected. However, it outperforms the others significantly after annealing the learning rate. See Section 4.4 for more analysis. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-Evaluating generalization on minority classes. To better understand the improvement of our algorithms, we show per-class errors of different methods in Figure 3 on imbalanced CIFAR-10. Please see the caption there for discussions.
+Figure 3: Imbalanced training errors (dotted lines) and balanced test errors (solid lines) on CIFAR-10 with long-tailed imbalance (ρ = 100). We anneal decay the learning rate at epoch 160 for all algorithms. Our DRW schedule uses ERM before annealing the learning rate and thus performs worse than RW and RS before that point, as expected. However, it outperforms the others significantly after annealing the learning rate. See Section 4.4 for more analysis. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Evaluating generalization on minority classes. To better understand the improvement of our algorithms, we show per-class errors of different methods in Figure 3 on imbalanced CIFAR-10. Please see the caption there for discussions.
 
 Evaluating deferred re-balancing schedule. We compare the learning curves of deferred re-balancing schedule with other baselines in Figure 3. In Figure 6 of Section C.3, we further show that even though ERM in the first stage has slightly worse or comparable balanced test error compared to RW and RS, in fact the features (the last-but-one layer activations) learned by ERM are better than those by RW and RS. This agrees with our intuition that the second stage of DRW, starting from better features, adjusts the decision boundary and locally fine-tunes the features.
 

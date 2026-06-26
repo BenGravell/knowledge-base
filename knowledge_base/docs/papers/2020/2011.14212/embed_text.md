@@ -6,9 +6,7 @@ As an alternative, so-called "model-free" methods may also be used, which do not
 
 Between the fully model-based system identification approaches and the fully model-free policy optimization approaches lies another category of methods, which we denote as value function approximation methods. These methods attempt to estimate value functions then compute policies which are optimal with respect to these value functions. This class of methods includes approximate dynamic programming, exemplified by approximate value iteration, which estimates state-value functions, and approximate policy iteration, which estimates state-action value functions. In particular, for LQR problems, approximate policy iteration was studied by \[Bradtke et al.Bradtke, Ydstie, and Barto, Krauth et al.Krauth, Tu, and Recht\] and by \[Fazel et al.Fazel, Ge, Kakade, and Mesbahi, Bu et al.Bu, Mesbahi, and Mesbahi\] under the guise of a quasi-Newton method. For LQ games, approximate policy iteration was studied by \[Al-Tamimi et al.Al-Tamimi, Lewis, and Abu-Khalaf\] under the guise of Q-learning, and by \[Luo et al.Luo, Yang, and Liu, Gravell et al.Gravell, Ganapathy, and Summers\]. Note that approximate policy iteration is sometimes called quasi-Newton or Q-learning.
 
-In stochastic optimal control, the functional Bellman equation gives a sufficient and necessary condition for optimality of a control policy (\[Bellman\]). It has been long-known, but perhaps underappreciated, that application of Newton's method to find the root of the functional Bellman equation in stochastic optimal control is equivalent to the dynamic programming algorithm of policy iteration (\[Puterman and Brumelle, Madani\]). In this most general setting, conditions for and rates of convergence are available (\[Puterman and Brumelle, Madani\]), but may be difficult or impossible to verify in practice. Furthermore, even representing the value functions and policies and executing the policy iteration updates may be intractable. This motivates the basic approximation of such problems by linear dynamics and quadratic costs over finite-dimensional, infinite-cardinality state and action spaces. In linear-quadratic problems, the Bellman equation becomes a matrix algebraic Riccati equation, and application of the Newton method to the Riccati equation yields the well-known Kleinman-Hewer algorithm.^11^1\[Kleinman\] introduced this for continuous-time systems, and \[Hewer\] studied it for discrete-time systems. The Newton method has many variations devised to improve the convergence rate and information efficiency, including higher-order methods (such as Halley (\[Cuyt and Rall\]), super-Halley (\[Gutiérrez and Hernández\]), and Chebyshev (\[Argyros and Chen\])), and multi-point methods (\[Traub\]), which compute derivatives at multiple points and of which the midpoint method is the simplest member. Some of these have been applied to solving Riccati equations by \[Anderson, Guo and Laub, Damm and Hinrichsen, Freiling and Hochhaus, Hernández-Verón and Romero\], but without consideration of the situation when the dynamics are not perfectly known. Our main contributions are:
-
-We present a midpoint policy iteration algorithm to solve linear quadratic optimal control problems when the dynamics are both known (Algorithm 1) and unknown (Algorithm 4).
+In stochastic optimal control, the functional Bellman equation gives a sufficient and necessary condition for optimality of a control policy (\[Bellman\]). It has been long-known, but perhaps underappreciated, that application of Newton's method to find the root of the functional Bellman equation in stochastic optimal control is equivalent to the dynamic programming algorithm of policy iteration (\[Puterman and Brumelle, Madani\]). In this most general setting, conditions for and rates of convergence are available (\[Puterman and Brumelle, Madani\]), but may be difficult or impossible to verify in practice. Furthermore, even representing the value functions and policies and executing the policy iteration updates may be intractable. This motivates the basic approximation of such problems by linear dynamics and quadratic costs over finite-dimensional, infinite-cardinality state and action spaces. In linear-quadratic problems, the Bellman equation becomes a matrix algebraic Riccati equation, and application of the Newton method to the Riccati equation yields the well-known Kleinman-Hewer algorithm.^11^1\[Kleinman\] introduced this for continuous-time systems, and \[Hewer\] studied it for discrete-time systems. The Newton method has many variations devised to improve the convergence rate and information efficiency, including higher-order methods (such as Halley (\[Cuyt and Rall\]), super-Halley (\[Gutiérrez and Hernández\]), and Chebyshev (\[Argyros and Chen\])), and multi-point methods (\[Traub\]), which compute derivatives at multiple points and of which the midpoint method is the simplest member. Some of these have been applied to solving Riccati equations by \[Anderson, Guo and Laub, Damm and Hinrichsen, Freiling and Hochhaus, Hernández-Verón and Romero\], but without consideration of the situation when the dynamics are not perfectly known. Our main contributions are: We present a midpoint policy iteration algorithm to solve linear quadratic optimal control problems when the dynamics are both known (Algorithm 1) and unknown (Algorithm 4).
 
 We demonstrate that the method converges, and does so at a faster *cubic* rate than standard policy iteration or policy gradient, which converge at quadratic and linear rates, respectively.
 
@@ -18,103 +16,43 @@ We present numerical experiments that illustrate and demonstrate the effectivene
 
 ## Preliminaries
 
-The infinite-horizon average-cost time-invariant linear quadratic regulator (LQR) problem is
+The infinite-horizon average-cost time-invariant linear quadratic regulator (LQR) problem is where $x_{t} \in {\mathbb{R}}^{n}$ is the system state, $u_{t} \in {\mathbb{R}}^{m}$ is the control input, and $w_{t}$ is i.i.d. process noise with zero mean and covariance matrix $W$. The state-to-state system matrix $A \in {\mathbb{R}}^{n \times n}$ and input-to-state system matrix $B \in {\mathbb{R}}^{n \times m}$ may or may not be known; we present algorithms for both settings. The optimization is over the space $\Pi$ of (measurable) history dependent feedback policies $\pi = {\{\pi_{t}\}}_{t = 0}^{\infty}$ with $u_{t} = {\pi_{t}{(x_{0:t},u_{0:{t - 1}})}}$. The penalty weight matrix has blocks $Q_{xx}$, $Q_{uu}$, $Q_{xu} = Q_{ux}^{}$ which quadratically penalize deviations of the state, input, and product of state and input from the origin, respectively. We assume the pair $(A,B)$ is stabilizable, the pair $(A,Q_{xx}^{1/2})$ is detectable, and the penalty matrices satisfy the definiteness condition $Q \succ 0$, in order to ensure feasibility of the problem (see \[Anderson and Moore\]). An LQR problem is fully described by the tuple of problem data $(A,B,Q)$, which are fixed after problem definition. In general, operators denoted by uppercase calligraphic letters depend on the problem data $(A,B,Q)$, but we will not explicitly notate this for brevity; dependence on other parameters will be denoted explicitly by functional arguments. We index over time in the evolution of a dynamical system with the letter $t$, and index over iterations of an algorithm with the letter $k$.
 
-where $x_{t} \in {\mathbb{R}}^{n}$ is the system state, $u_{t} \in {\mathbb{R}}^{m}$ is the control input, and $w_{t}$ is i.i.d. process noise with zero mean and covariance matrix $W$. The state-to-state system matrix $A \in {\mathbb{R}}^{n \times n}$ and input-to-state system matrix $B \in {\mathbb{R}}^{n \times m}$ may or may not be known; we present algorithms for both settings. The optimization is over the space $\Pi$ of (measurable) history dependent feedback policies $\pi = {\{\pi_{t}\}}_{t = 0}^{\infty}$ with $u_{t} = {\pi_{t}{(x_{0:t},u_{0:{t - 1}})}}$. The penalty weight matrix
-
-has blocks $Q_{xx}$, $Q_{uu}$, $Q_{xu} = Q_{ux}^{}$ which quadratically penalize deviations of the state, input, and product of state and input from the origin, respectively. We assume the pair $(A,B)$ is stabilizable, the pair $(A,Q_{xx}^{1/2})$ is detectable, and the penalty matrices satisfy the definiteness condition $Q \succ 0$, in order to ensure feasibility of the problem (see \[Anderson and Moore\]). An LQR problem is fully described by the tuple of problem data $(A,B,Q)$, which are fixed after problem definition. In general, operators denoted by uppercase calligraphic letters depend on the problem data $(A,B,Q)$, but we will not explicitly notate this for brevity; dependence on other parameters will be denoted explicitly by functional arguments. We index over time in the evolution of a dynamical system with the letter $t$, and index over iterations of an algorithm with the letter $k$.
-
-Dynamic programming can be used to show that the optimal policy that solves is linear state-feedback
-
-where the gain matrix $K = {\mathcal{K}{(P)}}$ is expressed through the linear-fractional operator $\mathcal{K}$
-
-and $P$ is the optimal value matrix found by solving the algebraic Riccati equation (ARE)
-
-where $\mathcal{R}$ is the quadratic-fractional Riccati operator
-
-The optimal gain and value matrix operators can be expressed more compactly as
-
-where $\mathcal{H}$ is the state-action value matrix operator
-
-The discrete-time Lyapunov equation with matrix $F$ and symmetric matrix $S$ is
-
-whose solution we denote by $X = {\text{DLYAP}{(F,S)}}$, which is unique if $F$ is Schur stable.
+Dynamic programming can be used to show that the optimal policy that solves is linear state-feedback where the gain matrix $K = {\mathcal{K}{(P)}}$ is expressed through the linear-fractional operator $\mathcal{K}$ and $P$ is the optimal value matrix found by solving the algebraic Riccati equation (ARE) where $\mathcal{R}$ is the quadratic-fractional Riccati operator The optimal gain and value matrix operators can be expressed more compactly as where $\mathcal{H}$ is the state-action value matrix operator The discrete-time Lyapunov equation with matrix $F$ and symmetric matrix $S$ is whose solution we denote by $X = {\text{DLYAP}{(F,S)}}$, which is unique if $F$ is Schur stable.
 
 ### Derivatives of the Riccati operator
 
-The first total derivative ^22^2In infinite dimensions, the first total derivative is called the *Fréchet* derivative, and the first directional derivative is called the *Gateaux* derivative. As we are only considering finite-dimensional systems, we do not need the full generality of these objects. of the Riccati operator evaluated at point $P \in {\mathbb{S}}^{n}$ is denoted as ${\mathcal{R}^{\prime}{(P)}} \in {{\mathbb{S}}^{n} \times {\mathbb{S}}^{n}}$. With a slight abuse of notation, the first directional derivative of the Riccati operator evaluated at point $P$ in direction $X$ is denoted as ${\mathcal{R}^{\prime}{(P,X)}} \in {\mathbb{S}}^{n}$. Computation of the first directional derivative is straightforward and follows e.g. the derivation given by \[Luo et al.Luo, Yang, and Liu\]. The general limit definition of this derivative is
-
-Notice that since $\mathcal{R}:{{\mathbb{S}}^{n}\rightarrow{\mathbb{S}}^{n}}$ it follows that ${\mathcal{R}^{\prime}{( \cdot, \cdot )}}:{{{\mathbb{S}}^{n} \times {\mathbb{S}}^{n}}\rightarrow{\mathbb{S}}^{n}}$. In evaluating the first directional derivative, it will be useful note that
-
-The first derivative is then
-
-At this point it will be useful to evaluate the following expressions:
-
-where we used the rule for a derivative of a matrix inverse e.g. as in \[Selby\]. Continuing with the first derivative,
-
-where we used the product rule for matrix derivatives.
+The first total derivative ^22^2In infinite dimensions, the first total derivative is called the *Fréchet* derivative, and the first directional derivative is called the *Gateaux* derivative. As we are only considering finite-dimensional systems, we do not need the full generality of these objects. of the Riccati operator evaluated at point $P \in {\mathbb{S}}^{n}$ is denoted as ${\mathcal{R}'{(P)}} \in {{\mathbb{S}}^{n} \times {\mathbb{S}}^{n}}$. With a slight abuse of notation, the first directional derivative of the Riccati operator evaluated at point $P$ in direction $X$ is denoted as ${\mathcal{R}'{(P,X)}} \in {\mathbb{S}}^{n}$. Computation of the first directional derivative is straightforward and follows e.g. the derivation given by \[Luo et al.Luo, Yang, and Liu\]. The general limit definition of this derivative is Notice that since $\mathcal{R}:{{\mathbb{S}}^{n}\rightarrow{\mathbb{S}}^{n}}$ it follows that ${\mathcal{R}'{(\cdot, \cdot)}}:{{{\mathbb{S}}^{n} \times {\mathbb{S}}^{n}}\rightarrow{\mathbb{S}}^{n}}$. In evaluating the first directional derivative, it will be useful note that The first derivative is then At this point it will be useful to evaluate the following expressions: where we used the rule for a derivative of a matrix inverse e.g. as in \[Selby\]. Continuing with the first derivative, where we used the product rule for matrix derivatives.
 
 ### Identities
 
-Considering two symmetric matrices $P,X$ and the related gains
-
-Thus the Riccati operator $\mathcal{R}{(P)}$ can be rewritten as
-
-and the derivative $\mathcal{R}^{\prime}{(X,P)}$ can be written using as
-
-and we have the identity
-
-In the case of $X = P$, identity specializes to
+Considering two symmetric matrices $P,X$ and the related gains Thus the Riccati operator $\mathcal{R}{(P)}$ can be rewritten as and the derivative $\mathcal{R}'{(X,P)}$ can be written using as and we have the identity In the case of $X = P$, identity specializes to
 
 ## Generic Newton methods
 
-First we consider finding a solution to the equation ${f{(x)}} = 0$ where $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$, whose total derivative at a point $x$ is ${f^{\prime}{(x)}} \in {\mathbb{R}}^{n \times n}$. The methods under consideration can be understood and derived as the numerical integration of the following Newton-Leibniz integral from the second fundamental theorem of calculus:
+First we consider finding a solution to the equation ${f{(x)}} = 0$ where $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$, whose total derivative at a point $x$ is ${f'{(x)}} \in {\mathbb{R}}^{n \times n}$. The methods under consideration can be understood and derived as the numerical integration of the following Newton-Leibniz integral from the second fundamental theorem of calculus:
 
 ### Newton method
 
-The Newton method, due originally in heavily modified form to \[Newton, Raphson\] and originally in the general differential form to \[Simpson\] (see the historical notes of \[Kollerstrom, Deuflhard\]), begins with an initial guess $x_{0}$ then proceeds with iterations
+The Newton method, due originally in heavily modified form to \[Newton, Raphson\] and originally in the general differential form to \[Simpson\] (see the historical notes of \[Kollerstrom, Deuflhard\]), begins with an initial guess $x_{0}$ then proceeds with iterations until convergence. Intuitively, the Newton method forms a linear approximation ${f{(x_{k})}} + {f'{(x_{k})}{({x - x_{k}})}}$ to the function $f$ at $x_{k}$, and assigns the point where the linear approximation crosses $0$ as the next iterate. The Newton method can be derived from by using left rectangular integration.
 
-until convergence. Intuitively, the Newton method forms a linear approximation ${f{(x_{k})}} + {f^{\prime}{(x_{k})}{({x - x_{k}})}}$ to the function $f$ at $x_{k}$, and assigns the point where the linear approximation crosses $0$ as the next iterate. The Newton method can be derived from by using left rectangular integration.
-
-The Newton update can be rearranged into the Newton equation
-
-where the left-hand side is recognized as the *directional derivative* of $f$ evaluated at point $x_{k}$ in direction $x_{k + 1} - x_{k}$. This rearrangement implies that the Newton method *does not require explicit evaluation of the entire total derivative $f^{\prime}{(x_{k})}$* so long as a suitable direction $x_{k + 1} - x_{k}$ can be found which solves the Newton equation. This will become important in the LQR setting as we use this fact to avoid notating and computing large order-4 tensors.
+The Newton update can be rearranged into the Newton equation where the left-hand side is recognized as the *directional derivative* of $f$ evaluated at point $x_{k}$ in direction $x_{k + 1} - x_{k}$. This rearrangement implies that the Newton method *does not require explicit evaluation of the entire total derivative $f'{(x_{k})}$* so long as a suitable direction $x_{k + 1} - x_{k}$ can be found which solves the Newton equation. This will become important in the LQR setting as we use this fact to avoid notating and computing large order-4 tensors.
 
 This technique uses derivative information at a single point and is known to achieve quadratic convergence in a neighborhood of the root (\[Kantorovich\]). In the setting of both continuous- and discrete-time LQR, this algorithm is known to achieve quadratic convergence globally, as shown by \[Kleinman, Hewer, Bu et al.Bu, Mesbahi, and Mesbahi\].
 
 ### Mid-point Newton method
 
-The midpoint Newton method, due originally to \[Traub\], begins with an initial guess $x_{0}$ then proceeds with iterations
+The midpoint Newton method, due originally to \[Traub\], begins with an initial guess $x_{0}$ then proceeds with iterations until convergence. The midpoint Newton method can be derived from by using midpoint rectangular integration. Intuitively, much like the Newton method, the midpoint Newton method forms a linear approximation ${f{(x_{k})}} + {f'{(x_{k}^{M})}{({x - x_{k}})}}$ to the function $f$ at $x_{k}$, and assigns the point where the linear approximation crosses $0$ as the next iterate. The distinction is that the slope of the linear approximation is not evaluated at $x_{k}$ as in the Newton method, but rather at the midpoint $x_{k}^{M} = {\frac{1}{2}{({x_{k} + x_{k + 1}^{N}})}}$ where $x_{k + 1}^{N}$ is the Newton iterate.
 
-until convergence. The midpoint Newton method can be derived from by using midpoint rectangular integration. Intuitively, much like the Newton method, the midpoint Newton method forms a linear approximation ${f{(x_{k})}} + {f^{\prime}{(x_{k}^{M})}{({x - x_{k}})}}$ to the function $f$ at $x_{k}$, and assigns the point where the linear approximation crosses $0$ as the next iterate. The distinction is that the slope of the linear approximation is not evaluated at $x_{k}$ as in the Newton method, but rather at the midpoint $x_{k}^{M} = {\frac{1}{2}{({x_{k} + x_{k + 1}^{N}})}}$ where $x_{k + 1}^{N}$ is the Newton iterate.
-
-The updates can be rearranged into the Newton equations
-
-where the left-hand side of the first equation is recognized as the *directional derivative* of $f$ evaluated at point $x_{k}$ in direction $x_{k + 1}^{N} - x_{k}$; the second equation is of the same form. This rearrangement implies that the midpoint Newton method *does not require explicit evaluation of the entire total derivative $f^{\prime}{(x_{k})}$* so long as a suitable direction $x_{k + 1} - x_{k}$ can be found which solves the Newton equation. This will become important in the LQR setting as we use this fact to avoid notating and computing large order-4 tensors.
+The updates can be rearranged into the Newton equations where the left-hand side of the first equation is recognized as the *directional derivative* of $f$ evaluated at point $x_{k}$ in direction $x_{k + 1}^{N} - x_{k}$; the second equation is of the same form. This rearrangement implies that the midpoint Newton method *does not require explicit evaluation of the entire total derivative $f'{(x_{k})}$* so long as a suitable direction $x_{k + 1} - x_{k}$ can be found which solves the Newton equation. This will become important in the LQR setting as we use this fact to avoid notating and computing large order-4 tensors.
 
 Each iteration in this technique uses derivative information at two points, $x_{k}$ and $x_{k}^{M}$. This method has been shown to achieve cubic convergence in a neighborhood of the root by \[Nedzhibov, Homeier, Babajee and Dauhoo\].
 
 ## Exact midpoint policy iteration
 
-We now consider application of the midpoint Newton method to the Riccati equation. Although could be brought to the vector form ${f{(x)}} = 0$ by vectorization with $x = {{svec}{(P)}}$ and ${f{(x)}} = {{svec}{({\mathcal{R}{({{smat}{(x)}})}})}}$, it will be simpler to leave the equations in matrix form, which is possible due to the special form of the Newton-type updates, which only involve directional derivatives (and not total derivatives). Applying the midpoint Newton update to yields
+We now consider application of the midpoint Newton method to the Riccati equation. Although could be brought to the vector form ${f{(x)}} = 0$ by vectorization with $x = {{svec}{(P)}}$ and ${f{(x)}} = {{svec}{({\mathcal{R}{({{smat}{(x)}})}})}}$, it will be simpler to leave the equations in matrix form, which is possible due to the special form of the Newton-type updates, which only involve directional derivatives (and not total derivatives). Applying the midpoint Newton update to yields The updates can be rearranged into the Newton equations and further by linearity of $\mathcal{R}'{(\cdot,X)}$ in $X$ to Recalling the expression for $\mathcal{R}'$in for the left-hand sides and applying the identities in and to the right-hand sides, these become the Lyapunov equations These updates are collected in the full midpoint policy iteration in Algorithm 1.
 
-The updates can be rearranged into the Newton equations
-
-and further by linearity of $\mathcal{R}^{\prime}{( \cdot,X)}$ in $X$ to
-
-Recalling the expression for $\mathcal{R}^{\prime}$in for the left-hand sides and applying the identities in and to the right-hand sides, these become the Lyapunov equations
-
-These updates are collected in the full midpoint policy iteration in Algorithm 1.
-
-0: System matrices A, B, penalty matrix Q, initial stabilizing gain K0, tolerance ε
-1: Initialize: k = 0, P−1 = ∞ In, and P0 = DLYAP (F,S) where F = A + B K0 and ${S = {\begin{bmatrix}
-\end{bmatrix}Q\begin{bmatrix}
-4: Compute FN = A + B Kk, and ${S^{N} = {\begin{bmatrix}
-\end{bmatrix}Q\begin{bmatrix}
-6: Compute $M_{k} = {\frac{1}{2}{({P_{k} + P_{k + 1}^{N}})}}$ and Lk = 𝒦 (Mk).
-7: Compute FM = A + B Lk, and${S^{M} = {{{\begin{bmatrix}
-\end{bmatrix}Q\begin{bmatrix}
-Algorithm 1 Exact midpoint policy iteration (MPI)
+0: System matrices A, B, penalty matrix Q, initial stabilizing gain K0, tolerance ε 1: Initialize: k = 0, P−1 = ∞ In, and P0 = DLYAP (F, S) where F = A + B K0 and ${S = {\begin{bmatrix} \end{bmatrix}Q\begin{bmatrix} 4: Compute FN = A + B Kk, and ${S^{N} = {\begin{bmatrix} \end{bmatrix}Q\begin{bmatrix} 6: Compute $M_{k} = {\frac{1}{2}{({P_{k} + P_{k + 1}^{N}})}}$ and Lk = 𝒦 (Mk). 7: Compute FM = A + B Lk, and${S^{M} = {{{\begin{bmatrix} \end{bmatrix}Q\begin{bmatrix} Algorithm 1 Exact midpoint policy iteration (MPI)
 
 ### Proposition 4.1
 
@@ -124,49 +62,13 @@ Consider Exact Midpoint Policy Iteration in Algorithm 1. For any feasible proble
 
 By the assumptions on $(A,B,Q)$, the closed-loop matrix under the optimal gain satisfies ${\rho{({A + {BK^{\ast}}})}} < 1$. Since the spectral radius of the closed-loop matrix $A + {BK}$ is continuous with respect to (each entry of) the gain $K$ (see \[Tyrtyshnikov\]), it follows that there exists a radius $\varepsilon_{0} > 0$ and ball $\mathcal{B}_{0} = {\{ K:{{\|{K - K^{\ast}}\|} < \varepsilon_{0}}\}}$ around the optimal gain $K^{\ast}$ within which any gain $K$ is stabilizing.
 
-For use later, define the following quantities and operators in terms of the system data $(A,B,Q)$ and gain $K$. Let $P$ be the solution to
+For use later, define the following quantities and operators in terms of the system data $(A,B,Q)$ and gain $K$. Let $P$ be the solution to where $F = {A + {BK}}$ and $S = {\begin{bmatrix} \end{bmatrix}Q\begin{bmatrix} \end{bmatrix}^{}}$. Let $K^{N} = {\mathcal{K}{(P)}}$. Let $P^{N}$ be the solution to where $F^{N} = {A + {BK^{N}}}$ and $S^{N} = {\begin{bmatrix} \end{bmatrix}Q\begin{bmatrix} \end{bmatrix}^{}}$. Let $P^{M} = {\frac{1}{2}{({P + P^{N}})}}$. Let $K^{M} = {\mathcal{K}{(P^{M})}}$ and $F^{M} = {A + {BK^{M}}}$. Define the operator Now, at the optimal gain $K = K^{\ast} = {\mathcal{R}{(P^{\ast})}}$, we have that $K^{N} = K^{M} = K^{\ast}$ and $P^{N} = P^{M} = P^{\ast}$ where $P^{\ast}$ solves the Riccati equation ${\mathcal{R}{(P^{\ast})}} = 0$. Therefore, By inspection of all the preceding relevant quantities, $\mathcal{Y}{(K)}$ is continuous with respect to $K$, and therefore there exists a radius $\varepsilon_{1} > 0$ and ball $\mathcal{B}_{1} = {\{ K:{{\|{K - K^{\ast}}\|} < \varepsilon_{1}}\}}$ around the optimal gain $K^{\ast}$ within which any gain $K$ satisfies ${\mathcal{Y}{(K)}} \succ 0$. Define $\varepsilon = {\min{(\varepsilon_{0},\varepsilon_{1})}}$ and likewise $\mathcal{B} = {\{ K:{{\|{K - K^{\ast}}\|} < \varepsilon}\}}$.
 
-where $F = {A + {BK}}$ and $S = {\begin{bmatrix}
-\end{bmatrix}Q\begin{bmatrix}
-\end{bmatrix}^{}}$. Let $K^{N} = {\mathcal{K}{(P)}}$. Let $P^{N}$ be the solution to
+Consider an arbitrary matrix $P$ computed from an arbitrary gain $K$ within $\mathcal{B}$ as the solution to the Lyapunov equation which is well defined since $K$ is stabilizing and $Q \succ 0$. Define the set Theorem 2 of \[Homeier\] requires that the inverse $\mathcal{R}{(P)}^{- 1}$ exist everywhere in $\mathcal{B}$; however the proof of Theorem 2 of \[Homeier\] only uses this assumption in order to ensure that solutions to the Newton equations and exist and are unique. Therefore, it suffices to prove just that solutions to the Newton equations and exist and are unique for any $P$ in $\mathcal{P}$. Write the first Newton equation as Using the expression, this can be rewritten as where $K^{N} = {\mathcal{K}{(P)}}$. By e.g. \[Bertsekas et al.Bertsekas, Bertsekas, Bertsekas, and Bertsekas\] the matrix ${- {\mathcal{R}{(P)}}} \succ 0$ (this is related to convergence of value iteration). Also, because $K^{N} = {\mathcal{K}{(P)}}$ we may apply the Wonham-like identity developed in \[Hewer\] which shows that the gain $K^{N}$ is stabilizing i.e. $A + {BK^{N}}$ is Schur stable. Therefore the solution to is unique and well defined (and positive definite).
 
-where $F^{N} = {A + {BK^{N}}}$ and $S^{N} = {\begin{bmatrix}
-\end{bmatrix}Q\begin{bmatrix}
-\end{bmatrix}^{}}$. Let $P^{M} = {\frac{1}{2}{({P + P^{N}})}}$. Let $K^{M} = {\mathcal{K}{(P^{M})}}$ and $F^{M} = {A + {BK^{M}}}$. Define the operator
+Similarly, write the second Newton equation as where $P^{M} = {\frac{1}{2}{({P + P^{N}})}}$ and $P^{N}$ solves the first Newton equation, equivalently where $S^{N} = {\begin{bmatrix} \end{bmatrix}Q\begin{bmatrix} \end{bmatrix}^{}}$. Using the expression, the second Newton equation can be further rewritten as where $K^{M} = {\mathcal{K}{(P^{M})}}$. Again, by e.g. \[Bertsekas et al.Bertsekas, Bertsekas, Bertsekas, and Bertsekas\] the matrix ${- {\mathcal{R}{(P)}}} \succ 0$. By construction $P^{M} = {\frac{1}{2}{({P + P^{N}})}}$, so combining the expressions and using $K^{M} = {\mathcal{K}{(P^{M})}}$ and the Wonham-like identity of \[Hewer\] again we obtain which shows that the gain $K^{M}$ is stabilizing i.e. $A + {BK^{M}}$ is Schur stable. Therefore the solution to is unique and well defined (and positive definite). Since $P$ in $\mathcal{P}$ was arbitrary, we have proved the assertion that solutions to the Newton equations and exist and are unique for any $P$ in $\mathcal{P}$. Furthermore, $P^{+}$ equivalently solves the Lyapunov equation where the positive definiteness of $S^{+}$ follows by the restriction of $K$ to $\mathcal{B}_{1}$, and therefore $P^{+}$ proves stability of $K^{M}$.
 
-Now, at the optimal gain $K = K^{\ast} = {\mathcal{R}{(P^{\ast})}}$, we have that $K^{N} = K^{M} = K^{\ast}$ and $P^{N} = P^{M} = P^{\ast}$ where $P^{\ast}$ solves the Riccati equation ${\mathcal{R}{(P^{\ast})}} = 0$. Therefore,
-
-By inspection of all the preceding relevant quantities, $\mathcal{Y}{(K)}$ is continuous with respect to $K$, and therefore there exists a radius $\varepsilon_{1} > 0$ and ball $\mathcal{B}_{1} = {\{ K:{{\|{K - K^{\ast}}\|} < \varepsilon_{1}}\}}$ around the optimal gain $K^{\ast}$ within which any gain $K$ satisfies ${\mathcal{Y}{(K)}} \succ 0$. Define $\varepsilon = {\min{(\varepsilon_{0},\varepsilon_{1})}}$ and likewise $\mathcal{B} = {\{ K:{{\|{K - K^{\ast}}\|} < \varepsilon}\}}$.
-
-Consider an arbitrary matrix $P$ computed from an arbitrary gain $K$ within $\mathcal{B}$ as the solution to the Lyapunov equation
-
-which is well defined since $K$ is stabilizing and $Q \succ 0$. Define the set
-
-Theorem 2 of \[Homeier\] requires that the inverse $\mathcal{R}{(P)}^{- 1}$ exist everywhere in $\mathcal{B}$; however the proof of Theorem 2 of \[Homeier\] only uses this assumption in order to ensure that solutions to the Newton equations and exist and are unique. Therefore, it suffices to prove just that solutions to the Newton equations and exist and are unique for any $P$ in $\mathcal{P}$. Write the first Newton equation as
-
-Using the expression, this can be rewritten as
-
-where $K^{N} = {\mathcal{K}{(P)}}$. By e.g. \[Bertsekas et al.Bertsekas, Bertsekas, Bertsekas, and Bertsekas\] the matrix ${- {\mathcal{R}{(P)}}} \succ 0$ (this is related to convergence of value iteration). Also, because $K^{N} = {\mathcal{K}{(P)}}$ we may apply the Wonham-like identity developed in \[Hewer\]
-
-which shows that the gain $K^{N}$ is stabilizing i.e. $A + {BK^{N}}$ is Schur stable. Therefore the solution to is unique and well defined (and positive definite).
-
-Similarly, write the second Newton equation as
-
-where $P^{M} = {\frac{1}{2}{({P + P^{N}})}}$ and $P^{N}$ solves the first Newton equation, equivalently
-
-where $S^{N} = {\begin{bmatrix}
-\end{bmatrix}Q\begin{bmatrix}
-\end{bmatrix}^{}}$. Using the expression, the second Newton equation can be further rewritten as
-
-where $K^{M} = {\mathcal{K}{(P^{M})}}$. Again, by e.g. \[Bertsekas et al.Bertsekas, Bertsekas, Bertsekas, and Bertsekas\] the matrix ${- {\mathcal{R}{(P)}}} \succ 0$. By construction $P^{M} = {\frac{1}{2}{({P + P^{N}})}}$, so combining the expressions
-
-and using $K^{M} = {\mathcal{K}{(P^{M})}}$ and the Wonham-like identity of \[Hewer\] again we obtain
-
-which shows that the gain $K^{M}$ is stabilizing i.e. $A + {BK^{M}}$ is Schur stable. Therefore the solution to is unique and well defined (and positive definite). Since $P$ in $\mathcal{P}$ was arbitrary, we have proved the assertion that solutions to the Newton equations and exist and are unique for any $P$ in $\mathcal{P}$. Furthermore, $P^{+}$ equivalently solves the Lyapunov equation
-
-where the positive definiteness of $S^{+}$ follows by the restriction of $K$ to $\mathcal{B}_{1}$, and therefore $P^{+}$ proves stability of $K^{M}$.
-
-Theorem 2 of \[Homeier\] also requires that $\mathcal{R}$ be sufficiently smooth with bounded derivatives up to third order in $\mathcal{B}$. Any $P \in \mathcal{P}$ is positive definite and bounded above since $P$ solves and $K \in \mathcal{K}$ is stable. Also, by assumption we have $Q_{uu} \succ 0$. Therefore, the term ${Q_{uu} + {B^{}PB}} \succeq Q_{uu} \succ 0$ so its inverse is well defined and bounded above. By examination of and it is evident that $\mathcal{R}$ and $\mathcal{R}^{\prime}$ are analytic functions with upper bounds by the preceding arguments. Higher-order derivatives of $\mathcal{R}$ follow similar Lyapunov equations as $\mathcal{R}^{\prime}$ and are thus also upper bounded on $\mathcal{P}$.
+Theorem 2 of \[Homeier\] also requires that $\mathcal{R}$ be sufficiently smooth with bounded derivatives up to third order in $\mathcal{B}$. Any $P \in \mathcal{P}$ is positive definite and bounded above since $P$ solves and $K \in \mathcal{K}$ is stable. Also, by assumption we have $Q_{uu} \succ 0$. Therefore, the term ${Q_{uu} + {B^{}PB}} \succeq Q_{uu} \succ 0$ so its inverse is well defined and bounded above. By examination of and it is evident that $\mathcal{R}$ and $\mathcal{R}'$ are analytic functions with upper bounds by the preceding arguments. Higher-order derivatives of $\mathcal{R}$ follow similar Lyapunov equations as $\mathcal{R}'$ and are thus also upper bounded on $\mathcal{P}$.
 
 The assumptions of Theorem 2 of \[Homeier\] are satisfied, and thus we conclude that the iterates converge ${\|{P_{k + 1} - P^{\ast}}\|} < {c{\|{P_{k} - P^{\ast}}\|}}$ for some $c \in {\lbrack 0,1)}$ and do so at a cubic rate ${\|{P_{k + 1} - P^{\ast}}\|} \leq {\mathcal{O}\left( {\|{P_{k} - P^{\ast}}\|}^{3} \right)}$. Consider $K_{k} = K$ so $P_{k + 1} = P^{+}$, and $L_{k} = K^{M}$. Since $K_{k + 1} = {\mathcal{K}{(P_{k + 1})}}$ and $P_{k + 1}$ proves stability of a gain matrix $K^{M}$, this implies Schur stability of every $A + {BK_{k}}$ (using the Wonham-like identity of \[Hewer\]). Likewise, since the sequence of $P_{k}$ approach the limit $P^{\ast}$ and $K_{k} = {\mathcal{K}{(P_{k})}}$, the sequence of $K_{k}$ approach the limit $K^{\ast}$. Since ${\|{K_{k} - K^{\ast}}\|} = {\|{{\mathcal{K}{(P_{k})}} - {\mathcal{K}{(P^{\ast})}}}\|} = {\mathcal{O}{({\|{P_{k} - P^{\ast}}\|})}}$, we conclude the same cubic convergence result holds for $K_{k}$.
 
@@ -176,30 +78,11 @@ In the model-free setting we do not have access to the dynamics matrices $(A,B)$
 
 ### State-action value estimation
 
-First, we connect the matrix $H$ with the (relative) state-action value ($\mathcal{Q}$) function, which determines the (relative) cost of starting in state $x = x_{0}$, taking action $u = u_{0}$, then following the policy $u_{t} = {Kx_{t}}$ thereafter:
+First, we connect the matrix $H$ with the (relative) state-action value ($\mathcal{Q}$) function, which determines the (relative) cost of starting in state $x = x_{0}$, taking action $u = u_{0}$, then following the policy $u_{t} = {Kx_{t}}$ thereafter: where $H = {\mathcal{H}{(P)}}$ and $P$ is the solution to From this expression it is clear that a state-input trajectory, or "rollout," $\mathcal{D} = {\{ x_{t},u_{t}\}}_{t = 0}^{\ell}$ must satisfy this cost relationship, which can be used to estimate $H$. In particular, least-squares temporal difference learning for $\mathcal{Q}$-functions (LSTDQ) was originally introduced by \[Lagoudakis and Parr\] and analyzed by \[Abbasi-Yadkori et al.Abbasi-Yadkori, Lazic, and Szepesvári, Krauth et al.Krauth, Tu, and Recht\], and is known to be a consistent and unbiased estimator of $H$. Following the development of \[Krauth et al.Krauth, Tu, and Recht\], the LSTDQ estimator is summarized in Algorithm 2.
 
-where $H = {\mathcal{H}{(P)}}$ and $P$ is the solution to
+0: Rollout 𝒟 = {xt, ut}t = 0ℓ, gain matrix Keval, penalty matrix Q, noise covariance W. 1: Compute augmented rollout {zt, vt, ct}t = 0ℓ where ${{z_{t} = \begin{bmatrix} \end{bmatrix}},{{v_{t} = \begin{bmatrix} 2: Use feature map ϕ (z) = svec(z z) and noise quantity $\psi = {{svec}\left({\begin{bmatrix} \end{bmatrix}W\begin{bmatrix} \end{bmatrix}^{}} \right)}$ and compute the parameter estimate ${\hat{\Theta} = {\left({\sum_{t = 1}^{\ell}{\phi{(z_{t})}{({{{\phi{(z_{t})}} - {\phi{(v_{t + 1})}}} + \psi})}^{}}} \right)^{\dagger}{\sum_{t = 1}^{\ell}{\phi{(z_{t})}c_{t}}}}}.$ Algorithm 2 LSTDQ: Least-squares temporal difference learning for Q-functions We collect rollouts to feed into Algorithm 2 via Algorithm 3, i.e. by initializing the state with $x_{0}$ drawn from the given initial state distribution $\mathcal{X}_{0}$, then generating control inputs according to $u_{t} = {{K^{\text{play}}x_{t}} + u_{t}^{\text{explore}}}$ where $K^{\text{play}}$ is a stabilizing gain matrix, and $u_{t}^{\text{explore}}$ is an exploration noise drawn from a distribution $\mathcal{U}_{t}$, assumed Gaussian in this work, to ensure persistence of excitation.
 
-From this expression it is clear that a state-input trajectory, or "rollout," $\mathcal{D} = {\{ x_{t},u_{t}\}}_{t = 0}^{\ell}$ must satisfy this cost relationship, which can be used to estimate $H$. In particular, least-squares temporal difference learning for $\mathcal{Q}$-functions (LSTDQ) was originally introduced by \[Lagoudakis and Parr\] and analyzed by \[Abbasi-Yadkori et al.Abbasi-Yadkori, Lazic, and Szepesvári, Krauth et al.Krauth, Tu, and Recht\], and is known to be a consistent and unbiased estimator of $H$. Following the development of \[Krauth et al.Krauth, Tu, and Recht\], the LSTDQ estimator is summarized in Algorithm 2.
-
-0: Rollout 𝒟 = {xt, ut}t = 0ℓ, gain matrix Keval, penalty matrix Q, noise covariance W.
-1: Compute augmented rollout {zt, vt, ct}t = 0ℓ where ${{z_{t} = \begin{bmatrix}
-\end{bmatrix}},{{v_{t} = \begin{bmatrix}
-2: Use feature map ϕ (z) = svec(z z) and noise quantity $\psi = {{svec}\left( {\begin{bmatrix}
-\end{bmatrix}W\begin{bmatrix}
-\end{bmatrix}^{}} \right)}$ and compute the parameter estimate ${\hat{\Theta} = {\left( {\sum_{t = 1}^{\ell}{\phi{(z_{t})}{({{{\phi{(z_{t})}} - {\phi{(v_{t + 1})}}} + \psi})}^{}}} \right)^{\dagger}{\sum_{t = 1}^{\ell}{\phi{(z_{t})}c_{t}}}}}.$
-Algorithm 2 LSTDQ: Least-squares temporal difference learning for Q-functions
-
-We collect rollouts to feed into Algorithm 2 via Algorithm 3, i.e. by initializing the state with $x_{0}$ drawn from the given initial state distribution $\mathcal{X}_{0}$, then generating control inputs according to $u_{t} = {{K^{\text{play}}x_{t}} + u_{t}^{\text{explore}}}$ where $K^{\text{play}}$ is a stabilizing gain matrix, and $u_{t}^{\text{explore}}$ is an exploration noise drawn from a distribution $\mathcal{U}_{t}$, assumed Gaussian in this work, to ensure persistence of excitation.
-
-0: Gain Kplay, rollout length ℓ, initial state distribution 𝒳0, exploration distributions {𝒰t}t = 0ℓ.
-3: Sample exploratory control input utexplore ∼ 𝒰t and disturbance wt ∼ W
-4: Generate control input ut = Kplay xt + utexplore
-5: Record state xt and input ut
-6: Update state according to xt + 1 = A xt + B ut + wt
-Algorithm 3 ROLLOUT: Rollout collection
-
-Note that LSTDQ is an off-policy method, and thus the gain $K^{\text{play}}$ used to generate the data in Algorithm 3 and the gain $K^{\text{eval}}$ whose state-action value matrix is estimated in Algorithm 2 need not be identical. We will use this fact in the next section to give an off-policy, offline (OFF) and on-policy, online (ON) version of our algorithm. Likewise, the penalty matrix $Q$ used in Algorithm 2 need not be the same as the one in the original problem statement, which is critical to developing the model-free midpoint update in the next section.
+0: Gain Kplay, rollout length ℓ, initial state distribution 𝒳0, exploration distributions {𝒰t}t = 0ℓ. 3: Sample exploratory control input utexplore ∼ 𝒰t and disturbance wt ∼ W 4: Generate control input ut = Kplay xt + utexplore 5: Record state xt and input ut 6: Update state according to xt + 1 = A xt + B ut + wt Algorithm 3 ROLLOUT: Rollout collection Note that LSTDQ is an off-policy method, and thus the gain $K^{\text{play}}$ used to generate the data in Algorithm 3 and the gain $K^{\text{eval}}$ whose state-action value matrix is estimated in Algorithm 2 need not be identical. We will use this fact in the next section to give an off-policy, offline (OFF) and on-policy, online (ON) version of our algorithm. Likewise, the penalty matrix $Q$ used in Algorithm 2 need not be the same as the one in the original problem statement, which is critical to developing the model-free midpoint update in the next section.
 
 ### Derivation of approximate midpoint policy iteration
 
@@ -207,42 +90,11 @@ We have shown that estimates of the state-action value matrix $H$ can be obtaine
 
 In approximate policy iteration, we can simply form the estimate ${\hat{H}}_{k}$ using LSTDQ (see \[Krauth et al.Krauth, Tu, and Recht\]). For approximate midpoint policy iteration, the form of ${\hat{H}}_{k}$ is more complicated and requires multiple steps. To derive approximate midpoint policy iteration, we will re-order some of the steps in the loop of Algorithm 1. Specifically, move the gain calculation in step 3 to the end after step 9. We will also replace explicit computation of the value function matrices with estimation of state-action value matrices, i.e. subsume the pairs of steps 4, 5 and 8,9 into single steps, and work with $H$ instead of $P$. Thus, at the beginning of each iteration we have in hand an estimated state-action value matrix ${\hat{H}}_{k}$ and gain matrix ${\hat{K}}_{k}$ satisfying ${\hat{K}}_{k} = {- {{\hat{H}}_{{uu},k}^{- 1}{\hat{H}}_{{ux},k}}}$.
 
-First we translate steps 4, 5, 6, and 7 to a model-free version. Working backwards starting with step 7, in order to estimate $L_{k}$, it suffices to estimate $\mathcal{H}{(M_{k})}$ since $L_{k} = {- {\mathcal{H}{(M_{k})}_{uu}^{- 1}\mathcal{H}{(M_{k})}_{ux}}}$. In order to find $\mathcal{H}{(M_{k})}$, notice that the operator $\mathcal{H}{(X)}$ is linear in $X$, so
+First we translate steps 4, 5, 6, and 7 to a model-free version. Working backwards starting with step 7, in order to estimate $L_{k}$, it suffices to estimate $\mathcal{H}{(M_{k})}$ since $L_{k} = {- {\mathcal{H}{(M_{k})}_{uu}^{- 1}\mathcal{H}{(M_{k})}_{ux}}}$. In order to find $\mathcal{H}{(M_{k})}$, notice that the operator $\mathcal{H}{(X)}$ is linear in $X$, so Therefore we can estimate $\mathcal{H}{(M_{k})}$ by estimating $\mathcal{H}{(P_{k})}$ and $\mathcal{H}{(P_{k + 1}^{N})}$ separately and taking their midpoint. Since the estimate ${\hat{H}}_{k}$ of $\mathcal{H}{(P_{k})}$ is known from the prior iteration, what remains is to find an estimate ${\hat{H}}_{k + 1}^{N}$ of $\mathcal{H}{(P_{k + 1}^{N})}$ by and estimating ${\hat{H}}_{k + 1}^{N} = {\text{LSTDQ}{(\mathcal{D}^{N},{\hat{K}}_{k},Q)}}$.\Then we form the estimated gain ${\hat{L}}_{k} = {- {{\hat{H}}_{{uu},k}^{M}{{}_{}^{- 1}{\hat{H}}_{{ux},k}^{M}}}}$ where ${\hat{H}}_{k}^{M} = {\frac{1}{2}{({{\hat{H}}_{k} + {\hat{H}}_{k + 1}^{N}})}}$.
 
-Therefore we can estimate $\mathcal{H}{(M_{k})}$ by estimating $\mathcal{H}{(P_{k})}$ and $\mathcal{H}{(P_{k + 1}^{N})}$ separately and taking their midpoint. Since the estimate ${\hat{H}}_{k}$ of $\mathcal{H}{(P_{k})}$ is known from the prior iteration, what remains is to find an estimate ${\hat{H}}_{k + 1}^{N}$ of $\mathcal{H}{(P_{k + 1}^{N})}$ by
+Now we translate steps 8, 9, and 2 to a model-free version. Working backwards, starting with step 2, in order to estimate $K_{k + 1}$, it suffices to find an estimate ${\hat{H}}_{k + 1}$ of matrix $\mathcal{H}{(P_{k + 1})}$ since $K_{k + 1} = {- {\mathcal{H}{(P_{k + 1})}_{uu}^{- 1}\mathcal{H}{(P_{k + 1})}_{ux}}}$. From steps 8 and 9, we want to estimate Comparing the two arguments to $\text{DLYAP}{(\cdot, \cdot)}$ in and, we desire both Clearly it suffices to take $K = L_{k}$. Notice that, critically, all quantities in $S^{M}$ on the right-hand side of have been estimated already, i.e. ${\hat{K}}_{k}$, ${\hat{L}}_{k}$, ${\hat{H}}_{k}$ have been calculated already and Substituting $K = L_{k}$ in and comparing coefficients, it suffices to estimate $Q^{M}$ by At this point, establish the rollout $\mathcal{D}^{M}$ either by Then the matrix ${\hat{H}}_{k + 1}^{O} = {\text{LSTDQ}{(\mathcal{D}^{M},{\hat{L}}_{k},{\hat{Q}}^{M})}}$ estimates which is easily found by offsetting $H_{k + 1}^{O}$ as estimates $H_{k + 1}$. One further consideration to address is the initial estimate ${\hat{H}}_{0}$; since we do not have a prior iterate to use, we simply collect $\mathcal{D} = {\text{ROLLOUT}{({\hat{K}}_{0},\ell,\mathcal{X}_{0},{\{\mathcal{U}_{t}\}}_{t = 0}^{\ell})}}$ and estimate ${\hat{H}}_{0} = {\text{LSTDQ}{(\mathcal{D},{\hat{K}}_{0},Q)}}$ i.e. the first iteration will be a standard approximate policy iteration/Newton step. Importantly, the initial gain ${\hat{K}}_{0}$ must stabilize the system so that the value functions are finite-valued. Also, although a convergence criterion such as ${\|{{\hat{H}}_{k} - {\hat{H}}_{k - 1}}\|} > \varepsilon$ could be used, it is more straightforward to use a fixed number of iterations $N$ so that the influence of stochastic errors in ${\hat{H}}_{k}$ does not lead to premature termination of the program. Likewise, a schedule of increasing rollout lengths $\ell$ could be used for the (ON) variant to achieve increasing accuracy, but finding a meaningful schedule which properly matches the fast convergence rate of the algorithm requires more extensive analysis. The full set of updates are compiled in Algorithm 4.
 
-and estimating ${\hat{H}}_{k + 1}^{N} = {\text{LSTDQ}{(\mathcal{D}^{N},{\hat{K}}_{k},Q)}}$.\
-Then we form the estimated gain ${\hat{L}}_{k} = {- {{\hat{H}}_{{uu},k}^{M}{{}_{}^{- 1}\left. H \right.\hat{}_{{ux},k}^{}}}}$ where ${\hat{H}}_{k}^{M} = {\frac{1}{2}{({{\hat{H}}_{k} + {\hat{H}}_{k + 1}^{N}})}}$.
-
-Now we translate steps 8, 9, and 2 to a model-free version. Working backwards, starting with step 2, in order to estimate $K_{k + 1}$, it suffices to find an estimate ${\hat{H}}_{k + 1}$ of matrix $\mathcal{H}{(P_{k + 1})}$ since $K_{k + 1} = {- {\mathcal{H}{(P_{k + 1})}_{uu}^{- 1}\mathcal{H}{(P_{k + 1})}_{ux}}}$. From steps 8 and 9, we want to estimate
-
-Comparing the two arguments to $\text{DLYAP}{( \cdot, \cdot )}$ in and, we desire both
-
-Clearly it suffices to take $K = L_{k}$ in. Notice that, critically, all quantities in $S^{M}$ on the right-hand side of have been estimated already, i.e. ${\hat{K}}_{k}$, ${\hat{L}}_{k}$, ${\hat{H}}_{k}$ have been calculated already and
-
-Substituting $K = L_{k}$ in and comparing coefficients, it suffices to estimate $Q^{M}$ by
-
-At this point, establish the rollout $\mathcal{D}^{M}$ either by
-
-Then the matrix ${\hat{H}}_{k + 1}^{O} = {\text{LSTDQ}{(\mathcal{D}^{M},{\hat{L}}_{k},{\hat{Q}}^{M})}}$ estimates
-
-which is easily found by offsetting $H_{k + 1}^{O}$ as
-
-estimates $H_{k + 1}$. One further consideration to address is the initial estimate ${\hat{H}}_{0}$; since we do not have a prior iterate to use, we simply collect $\mathcal{D} = {\text{ROLLOUT}{({\hat{K}}_{0},\ell,\mathcal{X}_{0},{\{\mathcal{U}_{t}\}}_{t = 0}^{\ell})}}$ and estimate ${\hat{H}}_{0} = {\text{LSTDQ}{(\mathcal{D},{\hat{K}}_{0},Q)}}$ i.e. the first iteration will be a standard approximate policy iteration/Newton step. Importantly, the initial gain ${\hat{K}}_{0}$ must stabilize the system so that the value functions are finite-valued. Also, although a convergence criterion such as ${\|{{\hat{H}}_{k} - {\hat{H}}_{k - 1}}\|} > \varepsilon$ could be used, it is more straightforward to use a fixed number of iterations $N$ so that the influence of stochastic errors in ${\hat{H}}_{k}$ does not lead to premature termination of the program. Likewise, a schedule of increasing rollout lengths $\ell$ could be used for the (ON) variant to achieve increasing accuracy, but finding a meaningful schedule which properly matches the fast convergence rate of the algorithm requires more extensive analysis. The full set of updates are compiled in Algorithm 4.
-
-0: Penalty Q, gain K̂0, number of iterations N, rollout length ℓ, distributions 𝒳0, {𝒰t}t = 0ℓ.
-3: Estimate value matrix Ĥ0 = LSTDQ (𝒟,K0,Q).
-5: Set 𝒟N = 𝒟 (OFF), or collect 𝒟N = ROLLOUT (K̂k,ℓ,𝒳0,{𝒰t}t = 0ℓ) (ON)
-6: Estimate value matrix Ĥk + 1N = LSTDQ (𝒟N,K̂k,Q).
-7: Form the midpoint value estimate ${{\hat{H}}_{k}^{M} = {\frac{1}{2}{({{\hat{H}}_{k} + {\hat{H}}_{k + 1}^{N}})}}}.$
-8: Compute the midpoint gain ${{\hat{L}}_{k} = {- {{\hat{H}}_{{uu},k}^{M}{{}_{}^{- 1}\left. H \right.\hat{}_{{ux},k}^{}}}}}.$
-9: Set 𝒟M = 𝒟 (OFF), or collect 𝒟M = ROLLOUT (L̂k,ℓ,𝒳0,{𝒰t}t = 0ℓ) (ON)
-10: Estimate Ĥk + 1O = LSTDQ (𝒟M,L̂k,Q̂M) where ${Q^{M} = {\begin{bmatrix}
-\end{bmatrix}^{}{\hat{H}}_{k}\begin{bmatrix}
-\end{bmatrix}} &amp; 0 \\
-\end{bmatrix} - {({{\hat{H}}_{k} - Q})}}}.$
-11: Compute the estimated value matrix Ĥk + 1 = Ĥk + 1O + (Q−Q̂M).
-12: Compute the gain K̂k + 1 = −Ĥu u, k + 1−1 Ĥu x, k + 1.
+0: Penalty Q, gain K̂0, number of iterations N, rollout length ℓ, distributions 𝒳0, {𝒰t}t = 0ℓ. 3: Estimate value matrix Ĥ0 = LSTDQ (𝒟, K0, Q). 5: Set 𝒟N = 𝒟 (OFF), or collect 𝒟N = ROLLOUT (K̂k, ℓ, 𝒳0, {𝒰t}t = 0ℓ) (ON) 6: Estimate value matrix Ĥk + 1N = LSTDQ (𝒟N, K̂k, Q). 7: Form the midpoint value estimate ${{\hat{H}}_{k}^{M} = {\frac{1}{2}{({{\hat{H}}_{k} + {\hat{H}}_{k + 1}^{N}})}}}.$ 8: Compute the midpoint gain L̂k = −Ĥu u, kM −1Ĥu x, kM. 9: Set 𝒟M = 𝒟 (OFF), or collect 𝒟M = ROLLOUT (L̂k, ℓ, 𝒳0, {𝒰t}t = 0ℓ) (ON) 10: Estimate Ĥk + 1O = LSTDQ (𝒟M, L̂k, Q̂M) where ${Q^{M} = {\begin{bmatrix} \end{bmatrix}^{}{\hat{H}}_{k}\begin{bmatrix} \end{bmatrix} - {({{\hat{H}}_{k} - Q})}}}.$ 11: Compute the estimated value matrix Ĥk + 1 = Ĥk + 1O + (Q − Q̂M). 12: Compute the gain K̂k + 1 = −Ĥu u, k + 1−1 Ĥu x, k + 1.
 
 Algorithm 4 Approximate midpoint policy iteration (AMPI)
 
@@ -256,23 +108,13 @@ The claim follows by Proposition 4.1 and the fact that LSTDQ is a consistent est
 
 ## Numerical experiments
 
-In this section we compare the empirical performance of proposed midpoint policy iteration (MPI) with standard policy iteration (PI), as well as their approximate versions (AMPI) and (API). In all experiments, regardless of whether the exact or approximate algorithm is used, we evaluated the value matrix $P_{k}$ associated to the policy gains $K_{k}$ at each iteration $k$ on the true system, i.e. the solution to $P_{k} = {\text{DLYAP}\left( {A + {BK_{k}}},{\begin{bmatrix}
-\end{bmatrix}Q\begin{bmatrix}
-\end{bmatrix}^{}} \right)}$. We then normalized the deviation $\|{P_{k} - P^{\ast}}\|$, where $P^{\ast}$ solves the Riccati equation, by the quantity $\| P^{\ast}\|$. This gives a meaningful metric to compare different suboptimal gains. We also elected to focus on the off-policy version (OFF) of AMPI and API in order to achieve a more direct and fair comparison between the midpoint and standard methods; each is given access to precisely the same sample data and initial policy, so differences in convergence are entirely due to the algorithms. Nevertheless, similar results were observed in the on-policy online setting (ON), albeit with more variation between Monte Carlo runs due to differing sample data. Python code which implements the proposed algorithms and reproduces the experimental results is available at \\urlhttps://github.com/TSummersLab/midpoint-policy-iteration.
+In this section we compare the empirical performance of proposed midpoint policy iteration (MPI) with standard policy iteration (PI), as well as their approximate versions (AMPI) and (API). In all experiments, regardless of whether the exact or approximate algorithm is used, we evaluated the value matrix $P_{k}$ associated to the policy gains $K_{k}$ at each iteration $k$ on the true system, i.e. the solution to $P_{k} = {\text{DLYAP}\left({A + {BK_{k}}},{\begin{bmatrix} \end{bmatrix}Q\begin{bmatrix} \end{bmatrix}^{}} \right)}$. We then normalized the deviation $\|{P_{k} - P^{\ast}}\|$, where $P^{\ast}$ solves the Riccati equation, by the quantity $\| P^{\ast}\|$. This gives a meaningful metric to compare different suboptimal gains. We also elected to focus on the off-policy version (OFF) of AMPI and API in order to achieve a more direct and fair comparison between the midpoint and standard methods; each is given access to precisely the same sample data and initial policy, so differences in convergence are entirely due to the algorithms. Nevertheless, similar results were observed in the on-policy online setting (ON), albeit with more variation between Monte Carlo runs due to differing sample data. Python code which implements the proposed algorithms and reproduces the experimental results is available at
 
 ### Representative example
 
-Here we consider one of the simplest tasks in the control discipline: regulating an inertial mass using a force input. The stochastic continuous-time dynamics of the second-order system are
+Here we consider one of the simplest tasks in the control discipline: regulating an inertial mass using a force input. The stochastic continuous-time dynamics of the second-order system are with mass $\mu > 0$, state $x \in {\mathbb{R}}^{2}$ where the first state is the position and the second state is the velocity, force input $u \in {\mathbb{R}}$, and ${dw} \in {\mathbb{R}}^{2}$ is a Wiener process with covariance $W_{c} \succeq 0$. Forward-Euler discretization of the continuous-time dynamics with sampling time $\Deltat$ yields the discrete-time dynamics with $w_{t} \sim {\mathcal{N}{(0,W)}}$ with $W = {{\Deltat} \cdot W_{c}}$. We used $\mu = 1$, ${\Deltat} = 0.01$, $W_{c} = {0.01I_{2}}$, $Q = I_{3}$. The initial gain was chosen by perturbing the optimal gain $K^{\ast}$ in a random direction such that the initial relative error ${{\|{P_{k} - P^{\ast}}\|}/{\| P^{\ast}\|}} = 10$; in particular the initial gain was $K_{0} = \begin{bmatrix} \end{bmatrix}$. For the approximate algorithms, we used the hyperparameters $\ell = 300$, $\mathcal{X}_{0} = {\mathcal{N}{(0,I_{2})}}$, $\mathcal{U}_{t} = {\mathcal{N}{(0,I_{2})}}$ for $t = {0,1,\ldots,\ell}$.
 
-with mass $\mu > 0$, state $x \in {\mathbb{R}}^{2}$ where the first state is the position and the second state is the velocity, force input $u \in {\mathbb{R}}$, and ${dw} \in {\mathbb{R}}^{2}$ is a Wiener process with covariance $W_{c} \succeq 0$. Forward-Euler discretization of the continuous-time dynamics with sampling time $\Deltat$ yields the discrete-time dynamics
-
-with $w_{t} \sim {\mathcal{N}{(0,W)}}$ with $W = {{\Deltat} \cdot W_{c}}$. We used $\mu = 1$, ${\Deltat} = 0.01$, $W_{c} = {0.01I_{2}}$, $Q = I_{3}$. The initial gain was chosen by perturbing the optimal gain $K^{\ast}$ in a random direction such that the initial relative error ${{\|{P_{k} - P^{\ast}}\|}/{\| P^{\ast}\|}} = 10$; in particular the initial gain was $K_{0} = \begin{bmatrix}
-\end{bmatrix}$. For the approximate algorithms, we used the hyperparameters $\ell = 300$, $\mathcal{X}_{0} = {\mathcal{N}{(0,I_{2})}}$, $\mathcal{U}_{t} = {\mathcal{N}{(0,I_{2})}}$ for $t = {0,1,\ldots,\ell}$.
-
-The results of applying midpoint policy iteration and the standard policy iteration are plotted in Figure LABEL:fig:inertial_mass_convergence. Clearly MPI and AMPI converge more quickly to the (approximate) optimal policy than PI and API, with MPI converging to machine precision in 7 iterations vs 9 iterations for PI, and AMPI converging to noise precision in 6 iterations vs 8 iterations for API.
-
-fig:inertial_mass_convergence
-Figure 1: Relative value error ∥Pk − P*∥/∥P*∥ vs iteration count k using PI and MPI on the inertial mass control problem.
+The results of applying midpoint policy iteration and the standard policy iteration are plotted in Figure LABEL:fig:inertial_mass_convergence. Clearly MPI and AMPI converge more quickly to the (approximate) optimal policy than PI and API, with MPI converging to machine precision in 7 iterations vs 9 iterations for PI, and AMPI converging to noise precision in 6 iterations vs 8 iterations for API. fig:inertial_mass_convergence Figure 1: Relative value error ∥Pk − P*∥/∥P*∥ vs iteration count k using PI and MPI on the inertial mass control problem.
 
 ### Randomized examples
 
@@ -290,22 +132,7 @@ In sub-Figures LABEL:fig:plot_error_monte_carlo_true_scatter (b), LABEL:fig:plot
 
 From Figure LABEL:fig:plot_error_monte_carlo_true_scatter (a), it is clear that MPI achieves extremely fast convergence to the optimal gain, with the relative error being less than $10^{- 13}$, essentially machine precision, on almost all problem instances after just 5 iterations. From Figure LABEL:fig:plot_error_monte_carlo_true_scatter (b), we see that MPI achieves significantly lower error than PI on iteration counts $2,3,4,5$ for almost all problem instances. The relative differences in error on iteration counts $6,7$ are due to machine precision error and are negligible for the purposes of comparison i.e. after 6 iterations both algorithms have effectively converged to the same solution.
 
-We observe very similar results using the approximate algorithms. From Figure LABEL:fig:plot_error_monte_carlo_false_scatter (a), it is clear that AMPI achieves extremely fast convergence to a good approximation of the optimal gain, with the relative error being less than $10^{- 6}$ on almost all problem instances after just 4 iterations. From Figure LABEL:fig:plot_error_monte_carlo_false_scatter (b), we see that AMPI achieves significantly lower error than API on iteration counts $2,3,4,5$ for almost all problem instances; recall that Algorithm 4 takes a standard PI step on the first iteration, explaining the identical performance on $k = 1$. Similar trends are observed in Figure LABEL:fig:plot_error_monte_carlo_false_scatter_on with the online variant (ON), but the variation is much greater. Nevertheless, AMPI provides a clear advantage on iteration counts $2,3,4,5$, beating API in terms of relative error most of the time.
-
-fig:plot_error_monte_carlo_true_scatter \subfigure[Relative error using MPI]
-
-\subfigure[Ratio of relative errors using MPI/PI]
-Figure 2: (a) Relative value error ∥Pk − P*∥/∥P*∥ using MPI and (b) ratio of relative error using MPI divided by that using PI.
-
-fig:plot_error_monte_carlo_false_scatter \subfigure[Relative error using AMPI (OFF)]
-
-\subfigure[Ratio of relative errors using AMPI/API (OFF)]
-Figure 3: (a) Relative value error ∥Pk − P*∥/∥P*∥ using AMPI and (b) ratio of relative error using AMPI divided by that using API, all with the offline algorithm variant (OFF).
-
-fig:plot_error_monte_carlo_false_scatter_on \subfigure[Relative error using AMPI (ON)]
-
-\subfigure[Ratio of relative errors using AMPI/API (ON)]
-Figure 4: (a) Relative value error ∥Pk − P*∥/∥P*∥ using AMPI and (b) ratio of relative error using AMPI divided by that using API, all with the offline algorithm variant (ON).
+We observe very similar results using the approximate algorithms. From Figure LABEL:fig:plot_error_monte_carlo_false_scatter (a), it is clear that AMPI achieves extremely fast convergence to a good approximation of the optimal gain, with the relative error being less than $10^{- 6}$ on almost all problem instances after just 4 iterations. From Figure LABEL:fig:plot_error_monte_carlo_false_scatter (b), we see that AMPI achieves significantly lower error than API on iteration counts $2,3,4,5$ for almost all problem instances; recall that Algorithm 4 takes a standard PI step on the first iteration, explaining the identical performance on $k = 1$. Similar trends are observed in Figure LABEL:fig:plot_error_monte_carlo_false_scatter_on with the online variant (ON), but the variation is much greater. Nevertheless, AMPI provides a clear advantage on iteration counts $2,3,4,5$, beating API in terms of relative error most of the time. fig:plot_error_monte_carlo_true_scatter \subfigure[Relative error using MPI] \subfigure[Ratio of relative errors using MPI/PI] Figure 2: (a) Relative value error ∥Pk − P*∥/∥P*∥ using MPI and (b) ratio of relative error using MPI divided by that using PI. fig:plot_error_monte_carlo_false_scatter \subfigure[Relative error using AMPI (OFF)] \subfigure[Ratio of relative errors using AMPI/API (OFF)] Figure 3: (a) Relative value error ∥Pk − P*∥/∥P*∥ using AMPI and (b) ratio of relative error using AMPI divided by that using API, all with the offline algorithm variant (OFF). fig:plot_error_monte_carlo_false_scatter_on \subfigure[Relative error using AMPI (ON)] \subfigure[Ratio of relative errors using AMPI/API (ON)] Figure 4: (a) Relative value error ∥Pk − P*∥/∥P*∥ using AMPI and (b) ratio of relative error using AMPI divided by that using API, all with the offline algorithm variant (ON).
 
 ## Conclusions and future work
 

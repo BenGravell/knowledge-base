@@ -12,7 +12,7 @@ In this paper we look at this task with a new lens and define specific criteria 
 
 ### Data Selection
 
-Finding hard examples has been used to train models more effectively. In an active training set is maintained and is iteratively updated during training by removing easy examples and adding harder ones based on, e.g., classification margins. In hard examples are mined online at ROI level for object detection task. However such methods deal with data that is already labeled.
+Finding hard examples has been used to train models more effectively. In an active training set is maintained and is iteratively updated during training by removing easy examples and adding harder ones based , e.g., classification margins. In hard examples are mined online at ROI level for object detection task. However such methods deal with data that is already labeled.
 
 Data selection has been studied in the active learning literature where batches of unlabeled data are selected for labeling by iteratively training a model on the labeled set and finding informative unlabeled data. Uncertainty-based methods select difficult examples by considering entropy in predicted distributions, uncertainty across a model ensemble or the estimated loss of each example. To avoid training a full model multiple times, proposed to use a simpler model as a proxy to perform efficient data selection. The proxy model can be either a simpler architecture or the original model trained with fewer iterations. Diversity-based approaches aim to select a subset of the unlabeled pool that best represents the entire dataset. describes an scalable production system for active learning in object detection where various scoring and sampling strategies are compared.
 
@@ -44,33 +44,21 @@ We formulate the snippet selection as an optimization problem where first intere
 
 ### Selecting Challenging Scenarios
 
-In order to identify a set of challenging scenarios, we first rank the snippets using a scoring function $g$. In particular, we utilize a linear combination of the complexity measures as our "interestingness" score for a given snippet $s$
-
-where $E{(s)}$ is the vector of complexity measures.
+In order to identify a set of challenging scenarios, we first rank the snippets using a scoring function $g$. In particular, we utilize a linear combination of the complexity measures as our "interestingness" score for a given snippet $s$ where $E{(s)}$ is the vector of complexity measures.
 
 It is important to mention that what is considered to be challenging/interesting depends on the target task. F or example, imagine a scenario where the SDV is stopped at a busy intersection with a red light. As there are many interactions between actors, this is an interesting scenario for the tasks of perception and motion forecasting, however, for motion planning, this scenario may not be very useful as the SDV is not moving. On the other hand, there can be many scenarios where the SDV needs to interact with one or two actors of interest in an empty intersection, making this scenario interesting for planning and motion forecasting tasks, but not for detection. Therefore, we use different weight vector $w$ when ranking the snippets for each specific task.
 
-We assume there are $n$ tasks and the goal is to select ${{c_{i},i} = 1},{\ldots,n}$ snippets for each task $i$. Therefore we will have the following optimization:
-
-where $\Psi$ is the set of all snippets, $w_{i}$ corresponds to the complexity weight vector specific for task $i$. The constraints simply makes sure there are no overlapping snippet within or across selected sets. Note that for our experiments, we consider two tasks: perception and motion forecasting (i.e. prediction). However, we still consider motion planning when we consider the distribution of the data, since as the downstream task it will have indirect affect on both perception and motion forecasting performance. We choose the weight vector for each task is tuned empirically.
+We assume there are $n$ tasks and the goal is to select ${{c_{i},i} = 1},{\ldots,n}$ snippets for each task $i$. Therefore we will have the following optimization: where $\Psi$ is the set of all snippets, $w_{i}$ corresponds to the complexity weight vector specific for task $i$. The constraints simply makes sure there are no overlapping snippet within or across selected sets. Note that for our experiments, we consider two tasks: perception and motion forecasting (i.e. prediction). However, we still consider motion planning when we consider the distribution of the data, since as the downstream task it will have indirect affect on both perception and motion forecasting performance. We choose the weight vector for each task is tuned empirically.
 
 We solve this optimization problem by first ranking all the snippets and then iteratively picking the next most "interesting" snippet from the queue and removing any overlapping one from the candidate set. We repeat this process for a fix number of iterations until we have reached a fixed budget.
 
 ### Selecting Diverse Scenarios
 
-Limiting the data selection to only challenging scenarios will not necessarily lead to a diverse dataset, or to a complete set of scenarios that we might encounter in the real world. The goal of this additional selection step is to identify a set of snippets that ensures completeness and diversity. We quantize the dissimilarity between snippets as a function of their difference in the complexity measures, where in order to get geo-diversity we expand the complexity vectors with the latitude and longitude coordinates of the frames. We then iteratively look for the snippet that is farthest from the current selected set and added to the set to be labeled. In particular, at each iteration we select
+Limiting the data selection to only challenging scenarios will not necessarily lead to a diverse dataset, or to a complete set of scenarios that we might encounter in the real world. The goal of this additional selection step is to identify a set of snippets that ensures completeness and diversity. We quantize the dissimilarity between snippets as a function of their difference in the complexity measures, where in order to get geo-diversity we expand the complexity vectors with the latitude and longitude coordinates of the frames. We then iteratively look for the snippet that is farthest from the current selected set and added to the set to be labeled. In particular, at each iteration we select where $\Psi$ is the set of all unlabeled snippets, $\mathcal{S}$ is the set of already selected snippets, and $d$ is a dissimilarity function.
 
-where $\Psi$ is the set of all unlabeled snippets, $\mathcal{S}$ is the set of already selected snippets, and $d$ is a dissimilarity function.
+In order to capture diversity at a granular level, we have define the maximum difference between the closest pair, as our dissimilarity function between snippets where $k$, $l$ index over the frames of the $s_{i}$ and $s_{j}$ snippets respectively. The the full process of data selection is depicted in Algorithm 1.
 
-In order to capture diversity at a granular level, we have define the maximum difference between the closest pair, as our dissimilarity function between snippets
-
-where $k$, $l$ index over the frames of the $s_{i}$ and $s_{j}$ snippets respectively. The the full process of data selection is depicted in Algorithm 1.
-
-1:procedure Select(Ψ, E, weight vectors wi for each task, desired number of snippets ki for each task, desired number of diverse snippets kd i v)
-3:⊳ Select challenging scnarios
-5: for each task j do
-9:⊳ Select diverse scnarios
-Algorithm 1 Data Selection
+1:procedure Select(Ψ, E, weight vectors wi for each task, desired number of snippets ki for each task, desired number of diverse snippets kd i v) 3:⊳ Select challenging scnarios 5: for each task j do 9:⊳ Select diverse scnarios Algorithm 1 Data Selection
 
 ### Complexity Measures
 
@@ -84,9 +72,7 @@ We utilize a diverse set of complexity measures related to the static part of th
 
 ### Geometry and topology of driving paths
 
-We define driving paths as a plane curve in ${\mathbb{R}}^{2}$, representing the center-line of the map lanes. A driving path of constant curvature is a straight line or a circle and a vehicle can follow such path simply with a constant steering wheel. On the other hand, paths with variable curvature require more complex steering as shown in Figure 1. We use this intuition to define the complexity of a path. Specifically, we represent a path, $C{(s)}$, as a finite set of $K$ way points sampled along its arc-length, $s$: $\mathcal{C} = \left\{ {C{(s_{i})}} \middle| {{0 \leq s \leq 1},{i = {0,\ldots,K}}} \right\}$. Using a finite-difference method, the curvature (and rate of change in curvature) can be computed for each way point, resulting in the set: $\mathcal{K}_{\mathcal{C}} = \left\{ {\kappa{(s_{i})}} \middle| {{0 \leq s \leq 1},{i = {0,\ldots,K}}} \right\}$. Finally, we propose to use the mean of curvature $\mu{(\mathcal{K}_{\mathcal{C}})}$, and the mean of its derivative, $\mu{({\overset{˙}{\mathcal{K}}}_{\mathcal{C}})}$, as the measure of complexity of the curve:
-
-The driving paths in the map can cross each other creating scenes where vehicles can have potentially conflicting goals, and hence interesting. We measure such complexity by $E^{\text{crossing}} = {\sum_{c}v_{c}}$ as with $v_{c}$ being the number of times a driving path $c$ is crossed by other lanes. Figure 1 shows various examples of lanes and their complexity measures.
+We define driving paths as a plane curve in ${\mathbb{R}}^{2}$, representing the center-line of the map lanes. A driving path of constant curvature is a straight line or a circle and a vehicle can follow such path simply with a constant steering wheel. On the other hand, paths with variable curvature require more complex steering as shown in Figure 1. We use this intuition to define the complexity of a path. Specifically, we represent a path, $C{(s)}$, as a finite set of $K$ way points sampled along its arc-length, $s$: $\mathcal{C} = \left\{ {C{(s_{i})}} \middle| {{0 \leq s \leq 1},{i = {0,\ldots,K}}} \right\}$. Using a finite-difference method, the curvature (and rate of change in curvature) can be computed for each way point, resulting in the set: $\mathcal{K}_{\mathcal{C}} = \left\{ {\kappa{(s_{i})}} \middle| {{0 \leq s \leq 1},{i = {0,\ldots,K}}} \right\}$. Finally, we propose to use the mean of curvature $\mu{(\mathcal{K}_{\mathcal{C}})}$, and the mean of its derivative, $\mu{({\overset{˙}{\mathcal{K}}}_{\mathcal{C}})}$, as the measure of complexity of the curve: The driving paths in the map can cross each other creating scenes where vehicles can have potentially conflicting goals, and hence interesting. We measure such complexity by $E^{\text{crossing}} = {\sum_{c}v_{c}}$ as with $v_{c}$ being the number of times a driving path $c$ is crossed by other lanes. Figure 1 shows various examples of lanes and their complexity measures.
 
 ### Intersections, traffic-lights, and signage
 
@@ -106,23 +92,17 @@ Other important aspects of a scenario are how crowded the scene is as well as th
 
 ### Crowdedness
 
-We measure the number of objects in an ROI around the SDV to capture how crowded a traffic scene is, using the following:
-
-where $\mathcal{D}_{t}$ is the set of detections in frame $f_{t}$. We measure this separately for static and dynamic actors to have more granular information. Note that this does not measure how the object can potentially interact with SDV which will be covered by different complexity measures.
+We measure the number of objects in an ROI around the SDV to capture how crowded a traffic scene is, using the following: where $\mathcal{D}_{t}$ is the set of detections in frame $f_{t}$. We measure this separately for static and dynamic actors to have more granular information. Note that this does not measure how the object can potentially interact with SDV which will be covered by different complexity measures.
 
 ### Class and spatial diversity
 
-Many interesting interactions can happen when there are multiple types of actors in a traffic scene. Some classes of actors (e.g. bicyclists) are orders of magnitude more rare than others (e.g., vehicles). We thus measure the diversity of actors by:
-
-where ${}_{}^{}{}_{}^{}$ is the set of detections that belong to class $c$ in frame $f_{t}$. Figure 2 shows various traffic scenes and their actor class diversity measure. In addition we measure the variance of the distance to the SDV for those actors.
+Many interesting interactions can happen when there are multiple types of actors in a traffic scene. Some classes of actors (e.g. bicyclists) are orders of magnitude more rare than others (e.g., vehicles). We thus measure the diversity of actors: where ${}_{c}^{}\mathcal{D}_{t}^{}$ is the set of detections that belong to class $c$ in frame $f_{t}$. Figure 2 shows various traffic scenes and their actor class diversity measure. In addition we measure the variance of the distance to the SDV for those actors.
 
 ### Path and speed diversity
 
-Up to now we have introduced measures related to the existence of certain actors. However, it is important to take into account how those actors move. Similar to the complexity of the driving-paths in, we use the curvature of the path that each actor took, along with its first derivative to measure the complexity of the actor's behavior. This measure can capture many interesting events. For example a vehicle that is making a lane-change follows a path with high curvature change. Similarly, pedestrians the change the direction of their motion will lead to high path complexity. Such behaviors of actors will serve as rich examples for training prediction models.
+Up to now we have introduced measures related to the existence of certain actors. However, it is important to take into account how those actors move. Similar to the complexity of the driving-paths , we use the curvature of the path that each actor took, along with its first derivative to measure the complexity of the actor's behavior. This measure can capture many interesting events. For example a vehicle that is making a lane-change follows a path with high curvature change. Similarly, pedestrians the change the direction of their motion will lead to high path complexity. Such behaviors of actors will serve as rich examples for training prediction models.
 
-The variation in the speed of actors can also add to the complexity of the traffic scene indicating an interesting interaction of an actor with another one, a traffic-control element, or can simply show an intention to change path. We define a measures reflecting the speed variance of an actor as well as the variance of the mean speed of all actors in a given scene:
-
-where $\omega_{i}$ is a discreet speeds computed for the $i^{\text{th}}$ actor and $\Omega$ is the set of average speeds for all the actors.
+The variation in the speed of actors can also add to the complexity of the traffic scene indicating an interesting interaction of an actor with another one, a traffic-control element, or can simply show an intention to change path. We define a measures reflecting the speed variance of an actor as well as the variance of the mean speed of all actors in a given scene: where $\omega_{i}$ is a discreet speeds computed for the $i^{\text{th}}$ actor and $\Omega$ is the set of average speeds for all the actors.
 
 ### SDV Maneuvers
 
@@ -158,11 +138,7 @@ For the perception task, we use mean average precision (mAP) to compare models. 
 
 ### Active Learning Baseline (AL)
 
-We compare our dataset curation method against an uncertainty-based active learning approach. More specifically, we select snippets with high entropy predictions generated by a trained prediction model. We use a prediction model with the same backbone as ILVM. However, in order to compute entropy easily, the header is replaced with a simplified model that outputs a distribution $p{(y)}$ with an independent 2D Gaussian for each actor $i$ and time-step $t$,
-
-Afterwards, for each frame, we can compute the entropy of the output distribution as,
-
-and sum the entropies across all frames in a snippet to obtain a final uncertainty score. Given the size of the base set $\Psi$, it is infeasible to iteratively re-train and re-score all examples more than once. Therefore, we train the prediction model initially on a random subset of $250$ snippets and then select the remaining snippets with the highest entropies to obtain datasets of size 1k and 3k snippets. Specific model details are available in the supplementary materials.
+We compare our dataset curation method against an uncertainty-based active learning approach. More specifically, we select snippets with high entropy predictions generated by a trained prediction model. We use a prediction model with the same backbone as ILVM. However, in order to compute entropy easily, the header is replaced with a simplified model that outputs a distribution $p{(y)}$ with an independent 2D Gaussian for each actor $i$ and time-step $t$, Afterwards, for each frame, we can compute the entropy of the output distribution as, and sum the entropies across all frames in a snippet to obtain a final uncertainty score. Given the size of the base set $\Psi$, it is infeasible to iteratively re-train and re-score all examples more than once. Therefore, we train the prediction model initially on a random subset of $250$ snippets and then select the remaining snippets with the highest entropies to obtain datasets of size 1k and 3k snippets. Specific model details are available in the supplementary materials.
 
 ### Results
 

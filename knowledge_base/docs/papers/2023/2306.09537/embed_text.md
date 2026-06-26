@@ -4,13 +4,9 @@ Deep reinforcement learning (RL) has shown promise in developing agile control p
 
 We describe a simulator, QuadSwarm, to facilitate research in single and multi-robot RL for quadrotors that addresses the aforementioned issues. Specifically, QuadSwarm supports five main ingredients required to enable the development of RL control policies for real quadrotors: $(i)$ A reasonably accurate physics model of a popular existing hardware platform, Crazyflie 2.x, and sufficient domain randomization to account for unmodeled effects; $({ii})$ Supports per-rotor thrust control; $({iii})$ Fast single-threaded throughput, highly parallelizable, and scales with additional compute; $({iv})$ A diverse collection of learning scenarios for single and multi-quadrotor teams; $(v)$ 100$\%$ written in Python, which simplifies further development and experimentation.
 
-Figure 1: QuadSwarm visualization: 8 quadrotors heading toward a common goal location
+Figure 1: QuadSwarm visualization: 8 quadrotors heading toward a common goal location We evaluate the speed of QuadSwarm on a machine with AMD Ryzen 7 2700X CPU (16 CPU cores). QuadSwarm achieves $>$`<!-- -->`{=html}48,500 simulation samples per second (SPS) in an environment with a single quadrotor and $>$`<!-- -->`{=html}62,000 SPS in an environment with eight quadrotors, enabling collision simulation. In the environment with eight quadrotors, QuadSwarm receives eight samples per simulation step, which speeds up simulation even though additional computation is required for collision. We have demonstrated zero-shot transferability of RL control policies onto real hardware utilizing QuadSwarm in a single and multi-quadrotor scenarios.
 
-We evaluate the speed of QuadSwarm on a machine with AMD Ryzen 7 2700X CPU (16 CPU cores). QuadSwarm achieves $>$`<!-- -->`{=html}48,500 simulation samples per second (SPS) in an environment with a single quadrotor and $>$`<!-- -->`{=html}62,000 SPS in an environment with eight quadrotors, enabling collision simulation. In the environment with eight quadrotors, QuadSwarm receives eight samples per simulation step, which speeds up simulation even though additional computation is required for collision. We have demonstrated zero-shot transferability of RL control policies onto real hardware utilizing QuadSwarm in a single and multi-quadrotor scenarios.
-
-Unified Reward Func
-
-TABLE I: Features Comparing QuadSwarm with Other Simulators that Applicable for Deep RL Research
+Unified Reward Func TABLE I: Features Comparing QuadSwarm with Other Simulators that Applicable for Deep RL Research
 
 ## Related Work
 
@@ -40,9 +36,7 @@ Figure 2: QuadSwarm Simulator Overview
 
 ### III-A Quadrotor Dynamics
 
-We use the following quadrotor dynamics:
-
-where $\overset{¨}{x}$ is linear acceleration, $g$ is the gravity vector, $\mathbf{R}$ is the rotation matrix, $f$ is the total thrust force in the body frame, $m$ is the mass, ${\mathbf{ω}}_{\times}$ is the skew matrix of the $\omega$, $\mathbf{I}$ is the inertia matrix, $\tau$ is the total torque, $\tau_{p}$ is the torque along z-axis, $\tau_{th}$ is the torque produced by motor trusts.
+We use the following quadrotor dynamics: where $\overset{¨}{x}$ is linear acceleration, $g$ is the gravity vector, $\mathbf{R}$ is the rotation matrix, $f$ is the total thrust force in the body frame, $m$ is the mass, ${\mathbf{ω}}_{\times}$ is the skew matrix of the $\omega$, $\mathbf{I}$ is the inertia matrix, $\tau$ is the total torque, $\tau_{p}$ is the torque along z-axis, $\tau_{th}$ is the torque produced by motor trusts.
 
 The action of quadrotor $i$ is $a_{i} \in {\mathbb{R}}^{4}$, which represents the normalized thrust provided by each motor. Following, QuadSwarm models several aspects of real hardware in order to prevent policies from overfitting to the simulator and to facilitate sim2real transfer.
 
@@ -60,7 +54,7 @@ The final thrusts provided by each motor $f^{(t)} \in {\mathbb{R}}^{4}$ is const
 
 ### III-B Collision Simulation and Aerodynamics
 
-Modeling accurate collisions is important for learning robust collision-avoidance policies but is a non-trivial task. In this section, we outline simple collision models used by default in QuadSwarm that is implemented in a modular way and can easily be swapped with a different collision model. Although these models are simple, in, we demonstrated they are good enough to train successful policies.
+Modeling accurate collisions is important for learning robust collision-avoidance policies but is a non-trivial task. In this section, we outline simple collision models used by default in QuadSwarm that is implemented in a modular way and can easily be swapped with a different collision model. Although these models are simple, , we demonstrated they are good enough to train successful policies.
 
 ### III-B1 Quadrotor to Quadrotor
 
@@ -78,19 +72,15 @@ We consider two situations of quadrotor interaction with the ground. When the qu
 
 ### III-B4 Downwash
 
-Our downwash model is a simplified version of the model proposed in. We only model downwash effects when two quadrotors overlap in the $xy$ plane and within a pre-defined distance along the $z$ axis.
+Our downwash model is a simplified version of the model proposed . We only model downwash effects when two quadrotors overlap in the $xy$ plane and within a pre-defined distance along the $z$ axis.
 
 Where $\delta_{pos}$ is the relative distance between quadrotors, $\overset{˙}{\omega}$ is the change rate of angular velocity, which is used to simulate the aerodynamic disturbances, and ${k1},{k2},{b1}$ are constants, $\epsilon_{d},\epsilon_{\omega d}$ are Gaussian noise.
 
 ### III-C Observations
 
-The observations of quadrotor $i$ are:
+The observations of quadrotor $i$ are: where $\delta_{xi}$ represents the relative position between the quadrotor $i$ and its goal, $\overset{\sim}{x_{i⁢1}},\overset{\sim}{v_{i⁢1}}$ represent the relative position and relative velocity to the closest quadrotor, $\overset{\sim}{x_{i⁢K}},\overset{\sim}{v_{i⁢K}}$ represent the relative position and relative velocity to the Kth closest quadrotor. K is a hyperparameter. In the single quadrotor environment, $K$ is set to 0.
 
-where $\delta_{xi}$ represents the relative position between the quadrotor $i$ and its goal, $\overset{\sim}{x_{i⁢1}},\overset{\sim}{v_{i⁢1}}$ represent the relative position and relative velocity to the closest quadrotor, $\overset{\sim}{x_{i⁢K}},\overset{\sim}{v_{i⁢K}}$ represent the relative position and relative velocity to the Kth closest quadrotor. K is a hyperparameter. In the single quadrotor environment, $K$ is set to 0.
-
-To increase zero-shot sim-to-real transfer ability, we add sensor noise to the observations:
-
-where $U$ represents the uniform distribution, $\mathcal{N}$ represents the Gaussian distribution, $\epsilon_{x}$ is the position noise, $\epsilon_{v}$ is the linear velocity noise, $\epsilon_{\omega}$ is the angular velocity noise.
+To increase zero-shot sim-to-real transfer ability, we add sensor noise to the observations: where $U$ represents the uniform distribution, $\mathcal{N}$ represents the Gaussian distribution, $\epsilon_{x}$ is the position noise, $\epsilon_{v}$ is the linear velocity noise, $\epsilon_{\omega}$ is the angular velocity noise.
 
 ### III-D Training Scenarios
 
@@ -102,9 +92,7 @@ Uniformly sample a geometric formation from the pool and randomly place it in th
 
 ### III-D2 Dynamic formations
 
-Change the positions and/or the geometric formation of goals after a random period of time within an episode. There are four variants:
-
-Dynamic goals: regenerate the positions and the geometric formation of goals after a random period of time.
+Change the positions and/or the geometric formation of goals after a random period of time within an episode. There are four variants: Dynamic goals: regenerate the positions and the geometric formation of goals after a random period of time.
 
 Swap goals: keep the geometric formation but shuffle the positions of goals after a random period of time.
 
@@ -118,9 +106,7 @@ Quadrotor(s) pursue one moving goal. We parameterize the trajectories in two way
 
 ### III-E Reward Components
 
-We provide diverse reward components in the simulator. There are two groups of reward components. One is based on the quadrotor's state, and the other is based on the interactions with other objects. All $\alpha$ below are constants.
-
-where reward components based on the distance to the goal, linear velocity, the normal vector in the z-axis, angular velocity, actions, change of actions, rotation, and yaw.
+We provide diverse reward components in the simulator. There are two groups of reward components. One is based on the quadrotor's state, and the other is based on the interactions with other objects. All $\alpha$ below are constants. where reward components based on the distance to the goal, linear velocity, the normal vector in the z-axis, angular velocity, actions, change of actions, rotation, and yaw.
 
 Interaction with Other Objects: We use a weighted combination of indicator functions for the conditions when the quadrotor hits the floor, stays on the floor, hits a wall, hits the ceiling, or hits other quadrotors. We also use a weighted combination of the relative distance between quadrotors for the condition when quadrotors are close to each other.
 
@@ -132,9 +118,7 @@ We integrate Sample Factory, a fast RL library, with QuadSwarm to decrease the w
 
 To balance speed, readability, and flexibility, we decide to: $(i)$ use Python to implement the minimum requirements of physics simulation and rendering, $({ii})$ use Numba, a just-in-time compiler that is able to translate Python and NumPy code into machine code to speed up physics simulations, and $({iii})$ decouple rendering from physics simulations.
 
-Figure 3: Simulation Speed: gym-pybullet-drones vs QuadSwarm
-
-We evaluate simulation speed on a machine with AMD Ryzen 7 2700X CPU (16 CPU cores). To fairly compare QuadSwarm with gym-pybullet-drones, we set both simulators with 100 Hz control frequency, 200 Hz simulation frequency, and 15 seconds episode duration time. In an environment with multiple quadrotors, each quadrotor has the same observation space, thus QuadSwarm receives multiple samples per simulation step.
+Figure 3: Simulation Speed: gym-pybullet-drones vs QuadSwarm We evaluate simulation speed on a machine with AMD Ryzen 7 2700X CPU (16 CPU cores). To fairly compare QuadSwarm with gym-pybullet-drones, we set both simulators with 100 Hz control frequency, 200 Hz simulation frequency, and 15 seconds episode duration time. In an environment with multiple quadrotors, each quadrotor has the same observation space, thus QuadSwarm receives multiple samples per simulation step.
 
 Fig. 3 shows the simulation speed comparison between gym-pybullet-drones and QuadSwarm. In a single quadrotor setting, QuadSwarm approaches 48,589 SPS - $\sim$`<!-- -->`{=html}2.2x faster than gym-pybullet-drones. With multiple quadrotors and collision simulation, QuadSwarm approaches the fastest simulation speed, 62,042 SPS, when the number of quadrotors is eight - $\sim$`<!-- -->`{=html}2.0x faster than gym-pybullet-drones.
 

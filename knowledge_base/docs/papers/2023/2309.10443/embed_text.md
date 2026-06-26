@@ -8,9 +8,7 @@ The majority of imitation-based planning models follow the success of prediction
 
 Imitation learning is also known to have compounding errors. Perturbation-based augmentations are a commonly employed strategy to instruct the planner on recovering from deviations. We conduct comprehensive experiments exploring various augmentation techniques, including history perturbation, state perturbation, and future correction. Additionally, we demonstrate the indispensability of proper normalization for the effectiveness of augmentation. Furthermore, we identify an ignored imitation gap within current learning frameworks and illustrate its potential impact.
 
-Finally, by combining our findings, we provide a pure learning-based baseline model that demonstrates strong performance against state-of-the-art competitors on our standardized nuPlan benchmark. Our contributions are summarized as follows:
-
-We perform an in-depth investigation on necessary features for ego planning, yielding counter-intuitive results contrary to mainstream practices. Furthermore, we introduced an effective attention-based state dropout encoder that attains the highest overall performance.
+Finally, by combining our findings, we provide a pure learning-based baseline model that demonstrates strong performance against state-of-the-art competitors on our standardized nuPlan benchmark. Our contributions are summarized as follows: We perform an in-depth investigation on necessary features for ego planning, yielding counter-intuitive results contrary to mainstream practices. Furthermore, we introduced an effective attention-based state dropout encoder that attains the highest overall performance.
 
 We conducted a comprehensive array of experiments involving various augmentation techniques, thereby elucidating an effective strategy to mitigate compounding errors. Additionally, we identified an overlooked imitation gap in current learning frameworks.
 
@@ -20,9 +18,7 @@ By combining our findings, we provide an open baseline model with strong perform
 
 ### Imitation-based planners
 
-are highly favored among learning-based planners due to their ease of convergence and typical scalability with data. They can be categorized into two distinct groups based on their input types:
-
-1\) End-to-end. End-to-end (E2E) methods directly produce future trajectories using raw sensor inputs. Leveraging the closed-loop CARLA benchmark and the collaborative efforts of the open-source community, E2E methods have achieved remarkable advancements within a short span of time: evolving from initial basic CNN-based approaches (LBC, CILRS ) to encompass multi-modal fusion (Transfuser, NEAT, MMFN, Interfuser, ThinkTwice ), as well as incorporating integrated perception and planning strategies (LAV, ST-P3, VAD ). However, due to limitations posed by the simulated environment, these methods typically function at low vehicle speeds, and the behavior of the simulated traffic agents lacks realism and diversity. Emerging and intriguing research, such as data-driven traffic simulation and realistic sensor emulation, holds the potential to mitigate these issues.
+are highly favored among learning-based planners due to their ease of convergence and typical scalability with data. They can be categorized into two distinct groups based on their input types: 1\) End-to-end. End-to-end (E2E) methods directly produce future trajectories using raw sensor inputs. Leveraging the closed-loop CARLA benchmark and the collaborative efforts of the open-source community, E2E methods have achieved remarkable advancements within a short span of time: evolving from initial basic CNN-based approaches (LBC, CILRS) to encompass multi-modal fusion (Transfuser, NEAT, MMFN, Interfuser, ThinkTwice), as well as incorporating integrated perception and planning strategies (LAV, ST-P3, VAD). However, due to limitations posed by the simulated environment, these methods typically function at low vehicle speeds, and the behavior of the simulated traffic agents lacks realism and diversity. Emerging and intriguing research, such as data-driven traffic simulation and realistic sensor emulation, holds the potential to mitigate these issues.
 
 2\) Mid-to-mid. These approaches utilize post-perception outcomes as input and can directly learn from recorded real-world data. Chauffernet introduces the synthesis of perturbed trajectories to mitigate covariate shift, a practice that becomes common in subsequent studies. further augment the training data with on-policy rollouts. Several works have demonstrated the capability to operate real vehicles (SafetyNet, UrbanDriver, SafetyPathNet ). Many include a post-optimizer (DIPP, GameFormer, hotplan, pegasus ) to enhance the planner's robustness. All the abovementioned methods except hotplan use AV's history motion. Our study focuses on this category and provides an in-depth investigation of several critical design choices based on standardized data and benchmarks.
 
@@ -60,9 +56,7 @@ For all experiments, we standardize the data split for training and evaluation. 
 
 ### III-A Input feature makes a difference
 
-This section aims to address the following questions: Is historical motion data essential for planning? If not, do all current states of autonomous vehicles contribute to improving the planner's performance? To address these inquiries, we conducted an investigation involving two sets of variants derived from our baseline model. The results on -random and -hard benchmarks are presented in Table I. Among the two historical variants, one shares its history encoder with other traffic agents, while the other employs a distinct history encoder for the ego vehicle's past motion. In the case of state-only models, we scrutinized several pivotal state variables essential for conventional planners, encompassing vehicle pose, velocity, acceleration, and steering angle. Based on the experimental results, we have the following findings:
-
-Figure 2: The left side shows the planning trajectory of the state6 model by adjusting AV’s steering angle from 0.15 to 0.5 rad. The right side illustrates the magnitude of the gradient concerning the trajectory endpoint’s position in relation to the AV’s kinematic states.
+This section aims to address the following questions: Is historical motion data essential for planning? If not, do all current states of autonomous vehicles contribute to improving the planner's performance? To address these inquiries, we conducted an investigation involving two sets of variants derived from our baseline model. The results on -random and -hard benchmarks are presented in Table I. Among the two historical variants, one shares its history encoder with other traffic agents, while the other employs a distinct history encoder for the ego vehicle's past motion. In the case of state-only models, we scrutinized several pivotal state variables essential for conventional planners, encompassing vehicle pose, velocity, acceleration, and steering angle. Based on the experimental results, we have the following findings: Figure 2: The left side shows the planning trajectory of the state6 model by adjusting AV’s steering angle from 0.15 to 0.5 rad. The right side illustrates the magnitude of the gradient concerning the trajectory endpoint’s position in relation to the AV’s kinematic states.
 
 Figure 3: Illustration of the attention-based state dropout encoder.
 
@@ -100,17 +94,9 @@ TABLE IV: Exprimental results of the log-replay planner (perfect imitation) with
 
 Within the most popular imitation learning frameworks, models imitate the logged expert's footprints from the dataset. We argue that this learning framework gives rise to a concealed gap in imitation, potentially leading to notable performance degradation. As illustrated in Figure 5, the recorded trajectory, commonly known as the expert trajectory, serves as the ground truth during the training of the imitation-based planner. The generated imitated trajectory is subsequently processed by the downstream tracker and the underlying system dynamics, yielding the final trajectory of the AV. Nevertheless, owing to the lack of knowledge about the tracker and dynamics during training, the actual trajectory may substantially deviate from the recorded trajectory, even when imitation is flawless. This assertion finds support in the experimental findings presented in Table IV. Notably, the NR-CLS of the Log-replay + LQR method on -hard exhibits a significant decrease of $5.65$ in comparison to perfect tracking.
 
-Lon. Acc. limit
-$\mathbb{1}\left( {\overset{˙}{v} &gt; 2.4} \right)$
+Lon. Acc. limit $\mathbb{1}\left({\overset{˙}{v} > 2.4} \right)$ $\mathbb{1}\left({{\|\overset{¨}{v}\|} > 4.0} \right)$ $\mathbb{1}\left({{\|\overset{˙}{\theta}\|} > 0.95} \right)$ TABLE V: The reward terms and expression of the RL adapter. Action u contains acceleration and steering rate. v and θ refers to the longitudinal and heading angle of the AV.
 
-$\mathbb{1}\left( {{\|\overset{¨}{v}\|} &gt; 4.0} \right)$
-
-$\mathbb{1}\left( {{\|\overset{˙}{\theta}\|} &gt; 0.95} \right)$
-
-TABLE V: The reward terms and expression of the RL adapter. Action u contains acceleration and steering rate. v and θ refers to the longitudinal and heading angle of the AV.
-
-TABLE VI: Comparison with state-of-the-arts. The runtime includes feature extraction and model inference based on Python code.
-† indicates these methods’ final output trajectory relies on rule-based strategies or post-optimization.
+TABLE VI: Comparison with state-of-the-arts. The runtime includes feature extraction and model inference based on Python code. † indicates these methods’ final output trajectory relies on rule-based strategies or post-optimization.
 
 ### RL Adapter
 
@@ -124,7 +110,7 @@ Integrating our findings, we propose a fully learning-based baseline planning mo
 
 ### Methods
 
-We compare PlanTF's performance with several state-of-the-art planners. RasterModel is a CNN-based planner provided in. UrbanDriver is a vectorized planner based on PointNet-based polyline encoders and Transformer. Here we use its open-loop re-implementation and history perturbation is employed during training. GameFormer is a DETR-like interactive prediction and planning framework based on the level-k game, which incorporates a post-optimizer to generate the final trajectory. PDM\* is the winning solution of the 2023 nuPlan Planning Challenge. PDM-Closed is a purely rule-based approach that ensembles the IDM with different hyperparameters. PDM-Hybrid is a variant of PDM-closed that adds an offset predictor to improve its open-loop prediction performance. PDM-Open is the pure learning component without the IDM-based planner. Results are reproduced using their publicly available code and trained on our standard 1M data split.
+We compare PlanTF's performance with several state-of-the-art planners. RasterModel is a CNN-based planner provided . UrbanDriver is a vectorized planner based on PointNet-based polyline encoders and Transformer. Here we use its open-loop re-implementation and history perturbation is employed during training. GameFormer is a DETR-like interactive prediction and planning framework based on the level-k game, which incorporates a post-optimizer to generate the final trajectory. PDM\* is the winning solution of the 2023 nuPlan Planning Challenge. PDM-Closed is a purely rule-based approach that ensembles the IDM with different hyperparameters. PDM-Hybrid is a variant of PDM-closed that adds an offset predictor to improve its open-loop prediction performance. PDM-Open is the pure learning component without the IDM-based planner. Results are reproduced using their publicly available code and trained on our standard 1M data split.
 
 ### Results
 
@@ -138,11 +124,11 @@ In this study, we systematically examine several crucial design aspects of imita
 
 Despite pushing the boundaries of pure imitation-based planners, our method is constrained by the fundamental mismatch between open-loop training and closed-loop testing. Incorporating closed-loop information and system dynamics into the training process constitutes our future research direction.
 
-### Additional results on Val14 benchmark
+### Additional results on benchmark
 
 We present the comparative results (Table. VII) on the benchmark. contains 1180 scenarios from 14 scenario types.
 
-TABLE VII: Comparision to SOTAs on the benchmark. The results of other methods are taken from.
+TABLE VII: Comparision to SOTAs on the benchmark. The results of other methods are taken .
 
 ### Ablation on the state dropout rate
 

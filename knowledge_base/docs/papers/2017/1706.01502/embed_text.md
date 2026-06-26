@@ -10,9 +10,7 @@ In this paper, we design new algorithms that build on the $Q$-ensemble approach 
 
 ### Notation
 
-We model reinforcement learning as a Markov decision process (MDP). We define an MDP as $(\mathcal{S},\mathcal{A},T,R,p_{0},\gamma)$, in which both the state space $\mathcal{S}$ and action space $\mathcal{A}$ are discrete, $T:{{\mathcal{S} \times \mathcal{A} \times \mathcal{S}}\mapsto{\mathbb{R}}_{+}}$ is the transition distribution, $R:{{\mathcal{S} \times \mathcal{A}}\mapsto{\mathbb{R}}}$ is the reward function, and $\gamma \in {(0,1\rbrack}$ is a discount factor, and $p_{0}$ is the initial state distribution. We denote a transition experience as $\tau = {(s,a,r,s^{\prime})}$ where $s^{\prime} \sim {T{(\left. s^{\prime} \middle| {s,a} \right.)}}$ and $r = {R{(s,a)}}$. A policy $\pi:{\mathcal{S}\mapsto\mathcal{A}}$ specifies the action taken after observing a state. We denote the $Q$-function for policy $\pi$ as ${Q^{\pi}{(s,a)}}:={{\mathbb{E}}_{\pi}\left\lbrack {\left. {\sum_{t = 0}^{\infty}{\gamma^{t}r_{t}}} \middle| s_{0} \right. = s},{a_{0} = a} \right\rbrack}$. The optimal $Q^{\ast}$-function corresponds to taking the optimal policy
-
-and satisfies the Bellman equation
+We model reinforcement learning as a Markov decision process (MDP). We define an MDP as $(\mathcal{S},\mathcal{A},T,R,p_{0},\gamma)$, in which both the state space $\mathcal{S}$ and action space $\mathcal{A}$ are discrete, $T:{{\mathcal{S} \times \mathcal{A} \times \mathcal{S}}\mapsto{\mathbb{R}}_{+}}$ is the transition distribution, $R:{{\mathcal{S} \times \mathcal{A}}\mapsto{\mathbb{R}}}$ is the reward function, and $\gamma \in {(0,1\rbrack}$ is a discount factor, and $p_{0}$ is the initial state distribution. We denote a transition experience as $\tau = {(s,a,r,s')}$ where $s' \sim {T{(\left. s' \middle| {s,a} \right.)}}$ and $r = {R{(s,a)}}$. A policy $\pi:{\mathcal{S}\mapsto\mathcal{A}}$ specifies the action taken after observing a state. We denote the $Q$-function for policy $\pi$ as ${Q^{\pi}{(s,a)}}:={{\mathbb{E}}_{\pi}\left\lbrack {\left. {\sum_{t = 0}^{\infty}{\gamma^{t}r_{t}}} \middle| s_{0} \right. = s},{a_{0} = a} \right\rbrack}$. The optimal $Q^{\ast}$-function corresponds to taking the optimal policy and satisfies the Bellman equation
 
 ### Exploration in reinforcement learning
 
@@ -28,11 +26,7 @@ Earlier works on Bayesian reinforcement learning include Dearden et al.. Dearden
 
 Inspired by PSRL, but wanting to reduce computational cost, prior work developed approximate methods. Osband et al. proposed randomized least-square value iteration for linearly-parameterized value functions. Bootstrapped DQN Osband et al. applies to $Q$-functions parameterized by deep neural networks. Bootstrapped DQN (Osband et al. ) maintains a $Q$-ensemble, represented by a multi-head neural net structure to parameterize $K \in {\mathbb{N}}_{+}$ $Q$-functions. This multi-head structure shares the convolution layers but includes multiple "heads", each of which defines a $Q$-function $Q_{k}$.
 
-Bootstrapped DQN diversifies the $Q$-ensemble through two mechanisms. The first mechanism is independent initialization. The second mechanism applies different samples to train each $Q$-function. These $Q$-functions can be trained simultaneously by combining their loss functions with the help of a random mask $m_{\tau} \in {\mathbb{R}}_{+}^{K}$
-
-where $y_{\tau}^{Q_{k}}$ is the target of the $k$th $Q$-function. Thus, the transition $\tau$ updates $Q_{k}$ only if $m_{\tau}^{k}$ is nonzero. To avoid the overestimation issue in DQN, bootstrapped DQN calculates the target value $y_{\tau}^{Q_{k}}$ using the approach of Double DQN (Van Hasselt et al. ), such that the current $Q_{k}{( \cdot;\theta_{t})}$ network determines the optimal action and the target network $Q_{k}{( \cdot;\theta^{-})}$ estimates the value
-
-In their experiments on Atari games, Osband et al. set the mask $m_{\tau} = {(1,\ldots,1)}$ such that all $\{ Q_{k}\}$ are trained with the same samples and their only difference is initialization. Bootstrapped DQN picks one $Q_{k}$ uniformly at random at the start of an episode and follows the greedy action $a_{t} = {{\operatorname{argmax}_{a}Q_{k}}{(s_{t},a)}}$ for the whole episode.
+Bootstrapped DQN diversifies the $Q$-ensemble through two mechanisms. The first mechanism is independent initialization. The second mechanism applies different samples to train each $Q$-function. These $Q$-functions can be trained simultaneously by combining their loss functions with the help of a random mask $m_{\tau} \in {\mathbb{R}}_{+}^{K}$ where $y_{\tau}^{Q_{k}}$ is the target of the $k$th $Q$-function. Thus, the transition $\tau$ updates $Q_{k}$ only if $m_{\tau}^{k}$ is nonzero. To avoid the overestimation issue in DQN, bootstrapped DQN calculates the target value $y_{\tau}^{Q_{k}}$ using the approach of Double DQN (Van Hasselt et al.), such that the current $Q_{k}{(\cdot;\theta_{t})}$ network determines the optimal action and the target network $Q_{k}{(\cdot;\theta^{-})}$ estimates the value In their experiments on Atari games, Osband et al. set the mask $m_{\tau} = {(1,\ldots,1)}$ such that all $\{ Q_{k}\}$ are trained with the same samples and their only difference is initialization. Bootstrapped DQN picks one $Q_{k}$ uniformly at random at the start of an episode and follows the greedy action $a_{t} = {{\operatorname{argmax}_{a}Q_{k}}{(s_{t},a)}}$ for the whole episode.
 
 ## Approximating Bayesian $\mathbf{Q}$-learning with $\mathbf{Q}$-Ensembles
 
@@ -40,93 +34,35 @@ Ignoring computational costs, the ideal Bayesian approach to reinforcement learn
 
 ### Bayesian update for ${\mathbf{Q}}^{\ast}$
 
-An MDP is specified by the transition probability $T$ and the reward function $R$. Unlike prior works outlined in Section 2.3 which learned the posterior of the MDP, we will consider the joint distribution over $(Q^{\ast},T)$. Note that $R$ can be recovered from $Q^{\ast}$ given $T$. So $(Q^{\ast},T)$ determines a unique MDP. In this section, we assume that the agent samples $(s,a)$ according to a fixed distribution. The corresponding reward $r$ and next state $s^{\prime}$ given by the MDP append to $(s,a)$ to form a transition $\tau = {(s,a,r,{s’})}$, for updating the posterior of $(Q^{\ast},T)$. Recall that the $Q^{\ast}$-function satisfies the Bellman equation
-
-Denote the joint prior distribution as $p{(Q^{\ast},T)}$ and the posterior as $\overset{\sim}{p}$. We apply Bayes' formula to expand the posterior:
-
-where $Z{(\tau)}$ is a normalizing constant and the second equality is because $s$ and $a$ are sampled randomly from $\mathcal{S}$ and $\mathcal{A}$. Next, we calculate the two conditional probabilities in. First,
-
-where the first equality is because given $T$, $Q^{\ast}$ does not influence the transition. Second,
-
-where $\mathbb{1}_{\{ \cdot \}}$ is the indicator function and in the last equation we abbreviate it as $\mathbb{1}{(Q^{\ast},T)}$. Substituting and into, we obtain the joint posterior of $Q^{\ast}$ and $T$ after observing an additional randomly sampled transition $\tau$
-
-We point out that the exact $Q^{\ast}$-posterior update is intractable in high-dimensional RL due to the large space of $(Q^{\ast},T)$.
+An MDP is specified by the transition probability $T$ and the reward function $R$. Unlike prior works outlined in Section 2.3 which learned the posterior of the MDP, we will consider the joint distribution over $(Q^{\ast},T)$. Note that $R$ can be recovered from $Q^{\ast}$ given $T$. So $(Q^{\ast},T)$ determines a unique MDP. In this section, we assume that the agent samples $(s,a)$ according to a fixed distribution. The corresponding reward $r$ and next state $s'$ given by the MDP append to $(s,a)$ to form a transition $\tau = {(s,a,r,{s’})}$, for updating the posterior of $(Q^{\ast},T)$. Recall that the $Q^{\ast}$-function satisfies the Bellman equation Denote the joint prior distribution as $p{(Q^{\ast},T)}$ and the posterior as $\overset{\sim}{p}$. We apply Bayes' formula to expand the posterior: where $Z{(\tau)}$ is a normalizing constant and the second equality is because $s$ and $a$ are sampled randomly from $\mathcal{S}$ and $\mathcal{A}$. Next, we calculate the two conditional probabilities. First, where the first equality is because given $T$, $Q^{\ast}$ does not influence the transition. Second, where $\mathbb{1}_{\{ \cdot \}}$ is the indicator function and in the last equation we abbreviate it as $\mathbb{1}{(Q^{\ast},T)}$. Substituting and into, we obtain the joint posterior of $Q^{\ast}$ and $T$ after observing an additional randomly sampled transition $\tau$ We point out that the exact $Q^{\ast}$-posterior update is intractable in high-dimensional RL due to the large space of $(Q^{\ast},T)$.
 
 ### $\mathbf{Q}$-learning with $\mathbf{Q}$-ensembles
 
 In this section, we make several approximations to the $Q^{\ast}$-posterior update and derive a tractable algorithm. First, we approximate the prior of $Q^{\ast}$ by sampling $K \in {\mathbb{N}}_{+}$ independently initialized $Q^{\ast}$-functions ${\{ Q_{k}\}}_{k = 1}^{K}$. Next, we update them as more transitions are sampled. The resulting $\{ Q_{k}\}$ approximate samples drawn from the posterior. The agent chooses the action by taking a majority vote from the actions determined by each $Q_{k}$. We display our method, Ensemble Voting, in Algorithm 1.
 
-We derive the update rule for $\{ Q_{k}\}$ after observing a new transition $\tau = {(s,a,r,s^{\prime})}$. At iteration $i$, given $Q^{\ast} = Q_{k,i}$ the joint probability of $(Q^{\ast},T)$ factors into
+We derive the update rule for $\{ Q_{k}\}$ after observing a new transition $\tau = {(s,a,r,s')}$. At iteration $i$, given $Q^{\ast} = Q_{k,i}$ the joint probability of $(Q^{\ast},T)$ factors into Substitute into and we obtain the corresponding posterior for each $Q_{k,{i + 1}}$ at iteration $i + 1$ as We first derive a lower bound of the the posterior $\overset{\sim}{p}{(\left. Q_{k,{i + 1}} \middle| \tau \right.)}$: where we apply a limit representation of the indicator function in the third equation. The fourth equation is due to the bounded convergence theorem. The inequality is Jensen's inequality. The last equation replaces the limit with an indicator function.
 
-Substitute into and we obtain the corresponding posterior for each $Q_{k,{i + 1}}$ at iteration $i + 1$ as
+A sufficient condition for is to maximize the lower-bound of the posterior distribution in by ensuring the indicator function in to hold. We can replace with the following update However, is not tractable because the expectation in is taken with respect to the posterior $\overset{\sim}{p}{(\left. T \middle| {Q_{k,i},\tau} \right.)}$ of the transition $T$. To overcome this challenge, we approximate the posterior update by reusing the one-sample next state $s'$ from $\tau$ such that Instead of updating the posterior after each transition, we use an experience replay buffer $B$ to store observed transitions and sample a minibatch $B_{mini}$ of transitions $(s,a,r,s')$ for each update. In this case, the batched update of each $Q_{k,i}$ to $Q_{k,{i + 1}}$ becomes a standard Bellman update For stability, Algorithm 1 also uses a target network for each $Q_{k}$ as in Double DQN in the batched update. We point out that the action choice of Algorithm 1 is exploitation only. In the next section, we propose two exploration strategies.
 
-We first derive a lower bound of the the posterior $\overset{\sim}{p}{(\left. Q_{k,{i + 1}} \middle| \tau \right.)}$:
-
-where we apply a limit representation of the indicator function in the third equation. The fourth equation is due to the bounded convergence theorem. The inequality is Jensen's inequality. The last equation replaces the limit with an indicator function.
-
-A sufficient condition for is to maximize the lower-bound of the posterior distribution in by ensuring the indicator function in to hold. We can replace with the following update
-
-However, is not tractable because the expectation in is taken with respect to the posterior $\overset{\sim}{p}{(\left. T \middle| {Q_{k,i},\tau} \right.)}$ of the transition $T$. To overcome this challenge, we approximate the posterior update by reusing the one-sample next state $s^{\prime}$ from $\tau$ such that
-
-Instead of updating the posterior after each transition, we use an experience replay buffer $B$ to store observed transitions and sample a minibatch $B_{mini}$ of transitions $(s,a,r,s^{\prime})$ for each update. In this case, the batched update of each $Q_{k,i}$ to $Q_{k,{i + 1}}$ becomes a standard Bellman update
-
-For stability, Algorithm 1 also uses a target network for each $Q_{k}$ as in Double DQN in the batched update. We point out that the action choice of Algorithm 1 is exploitation only. In the next section, we propose two exploration strategies.
-
-1:Input: K ∈ ℕ+ copies of independently initialized Q*-functions {Qk}k = 1K.
-2:Let B be a replay buffer storing transitions for training
-3:for each episode do do
-4: Obtain initial state from environment s0
-5: for step t = 1, … until end of episode do
-6: Pick an action according to at = MajorityVote ({argmaxaQk (st,a)}k = 1K)
-7: Execute at. Receive state st + 1 and reward rt from the environment
-8: Add (st,at,rt,st + 1) to replay buffer B
-9: At learning interval, sample random minibatch and update {Qk}
-Algorithm 1 Ensemble Voting
+1:Input: K ∈ ℕ+ copies of independently initialized Q*-functions {Qk}k = 1K. 2:Let B be a replay buffer storing transitions for training 3:for each episode do do 4: Obtain initial state from environment s0 5: for step t = 1, … until end of episode do 6: Pick an action according to at = MajorityVote ({argmaxaQk (st, a)}k = 1K) 7: Execute. Receive state st + 1 and reward rt from the environment 8: Add (st,, rt, st + 1) to replay buffer B 9: At learning interval, sample random minibatch and update {Qk} Algorithm 1 Ensemble Voting
 
 ## UCB Exploration Strategy Using $\mathbf{Q}$-Ensembles
 
-In this section, we propose optimism-based exploration by adapting the UCB algorithms (Auer et al., Audibert et al. ) from the bandit setting. The UCB algorithms maintain an upper-confidence bound for each arm, such that the expected reward from pulling each arm is smaller than this bound with high probability. At every time step, the agent optimistically chooses the arm with the highest UCB. Auer et al. constructed the UCB based on empirical reward and the number of times each arm is chosen. Audibert et al. incorporated the empirical variance of each arm's reward into the UCB, such that at time step $t$, an arm $A_{t}$ is pulled according to
+In this section, we propose optimism-based exploration by adapting the UCB algorithms (Auer et al., Audibert et al.) from the bandit setting. The UCB algorithms maintain an upper-confidence bound for each arm, such that the expected reward from pulling each arm is smaller than this bound with high probability. At every time step, the agent optimistically chooses the arm with the highest UCB. Auer et al. constructed the UCB based on empirical reward and the number of times each arm is chosen. Audibert et al. incorporated the empirical variance of each arm's reward into the UCB, such that at time step $t$, an arm $A_{t}$ is pulled according to where ${\hat{r}}_{i,t}$ and ${\hat{V}}_{i,t}$ are the empirical reward and variance of arm $i$ at time $t$, $n_{i,t}$ is the number of times arm $i$ has been pulled up to time $t$, and $c_{1},c_{2}$ are positive constants.
 
-where ${\hat{r}}_{i,t}$ and ${\hat{V}}_{i,t}$ are the empirical reward and variance of arm $i$ at time $t$, $n_{i,t}$ is the number of times arm $i$ has been pulled up to time $t$, and $c_{1},c_{2}$ are positive constants.
-
-We extend the intuition of UCB algorithms to the RL setting. Using the outputs of the $\{ Q_{k}\}$ functions, we construct a UCB by adding the empirical standard deviation $\overset{\sim}{\sigma}{(s_{t},a)}$ of ${\{{Q_{k}{(s_{t},a)}}\}}_{k = 1}^{K}$ to the empirical mean $\overset{\sim}{\mu}{(s_{t},a)}$ of ${\{{Q_{k}{(s_{t},a)}}\}}_{k = 1}^{K}$. The agent chooses the action that maximizes this UCB
-
-where $\lambda \in {\mathbb{R}}_{+}$ is a hyperparameter.
+We extend the intuition of UCB algorithms to the RL setting. Using the outputs of the $\{ Q_{k}\}$ functions, we construct a UCB by adding the empirical standard deviation $\overset{\sim}{\sigma}{(s_{t},a)}$ of ${\{{Q_{k}{(s_{t},a)}}\}}_{k = 1}^{K}$ to the empirical mean $\overset{\sim}{\mu}{(s_{t},a)}$ of ${\{{Q_{k}{(s_{t},a)}}\}}_{k = 1}^{K}$. The agent chooses the action that maximizes this UCB where $\lambda \in {\mathbb{R}}_{+}$ is a hyperparameter.
 
 We present Algorithm 2, which incorporates the UCB exploration. The hyperparemeter $\lambda$ controls the degrees of exploration. In Section 5, we compare the performance of our algorithms on Atari games using a consistent set of parameters.
 
-1:Input: Value function networks Q with K outputs {Qk}k = 1K. Hyperparameter λ.
-2:Let B be a replay buffer storing experience for training.
-3:for each episode do
-4: Obtain initial state from environment s0
-5: for step t = 1, … until end of episode do
-6: Pick an action according to $a_{t} \in {\operatorname{argmax}_{a}\left\{ {{\overset{\sim}{\mu}{(s_{t},a)}} + {{\lambda \cdot \overset{\sim}{\sigma}}{(s_{t},a)}}} \right\}}$
-7: Receive state st + 1 and reward rt from environment, having taken action at
-8: Add (st,at,rt,st + 1) to replay buffer B
-9: At learning interval, sample random minibatch and update {Qk} according to
-Algorithm 2 UCB Exploration with Q-Ensembles
+1:Input: Value function networks Q with K outputs {Qk}k = 1K. Hyperparameter λ. 2:Let B be a replay buffer storing experience for training. 3:for each episode do 4: Obtain initial state from environment s0 5: for step t = 1, … until end of episode do 6: Pick an action according to $a_{t} \in {\operatorname{argmax}_{a}\left\{ {{\overset{\sim}{\mu}{(s_{t},a)}} + {{\lambda \cdot \overset{\sim}{\sigma}}{(s_{t},a)}}} \right\}}$ 7: Receive state st + 1 and reward rt from environment, having taken action at 8: Add (st,, rt, st + 1) to replay buffer B 9: At learning interval, sample random minibatch and update {Qk} according to Algorithm 2 UCB Exploration with Q-Ensembles
 
 ## Experiment
 
-In this section, we conduct experiments to answer the following questions:
-
-does Ensemble Voting, Algorithm 1, improve upon existing algorithms including Double DQN and bootstrapped DQN?
-
-is the proposed UCB exploration strategy of Algorithm 2 effective in improving learning compared to Algorithm 1?
-
-how does UCB exploration compare with prior exploration methods such as the count-based exploration method of Bellemare et al. ?
+In this section, we conduct experiments to answer the following questions: does Ensemble Voting, Algorithm 1, improve upon existing algorithms including Double DQN and bootstrapped DQN? is the proposed UCB exploration strategy of Algorithm 2 effective in improving learning compared to Algorithm 1? how does UCB exploration compare with prior exploration methods such as the count-based exploration method of Bellemare et al. ?
 
 We evaluate the algorithms on each Atari game of the Arcade Learning Environment (Bellemare et al. ). We use the multi-head neural net architecture of Osband et al.. We fix the common hyperparameters of all algorithms based on a well-tuned double DQN implementation, which uses the Adam optimizer (Kingma and Ba ), different learning rate and exploration schedules compared to Mnih et al.. Appendix A tabulates the hyperparameters. The number of $\{ Q_{k}\}$ functions is $K = 10$. Experiments are conducted on the OpenAI Gym platform (Brockman et al. ) and trained with $40$ million frames and $2$ trials on each game.
 
-We take the following directions to evaluate the performance of our algorithms:
-
-we compare Algorithm 1 against Double DQN and bootstrapped DQN,
-
-we isolate the impact of UCB exploration by comparing Algorithm 2 with $\lambda = 0.1$, denoted as ucb exploration, against Algorithm 1.
-
-we compare Algorithm 1 and Algorithm 2 with the count-based exploration method of Bellemare et al..
-
-we aggregate the comparison according to different categories of games, to understand when our methods are suprior.
+We take the following directions to evaluate the performance of our algorithms: we compare Algorithm 1 against Double DQN and bootstrapped DQN, we isolate the impact of UCB exploration by comparing Algorithm 2 with $\lambda = 0.1$, denoted as ucb exploration, against Algorithm 1. we compare Algorithm 1 and Algorithm 2 with the count-based exploration method of Bellemare et al.. we aggregate the comparison according to different categories of games, to understand when our methods are suprior.
 
 Figure 1 compares the normalized learning curves of all algorithms across Atari games. Overall, Ensemble Voting, Algorithm 1, outperforms both Double DQN and bootstrapped DQN. With exploration, ucb exploration improves further by outperforming Ensemble Voting.
 

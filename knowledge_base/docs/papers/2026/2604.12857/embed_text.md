@@ -34,9 +34,7 @@ For each methodological category, we selected 7--15 representative papers based 
 
 The survey is organized around a taxonomy that follows three main axes. These axes reflect key differences in problem formulation and in how models are used in simulation. Figure 2 provides an overview of the full taxonomy, and the section structure follows the same organization.
 
-Figure 2: Taxonomy of AI methods for modeling mixed-autonomy traffic
-
-The first axis distinguishes *single-agent* and *multi-agent* methods. Single-agent methods (Section 4) focus on learning the behavior of one agent, and they treat other agents as part of the environment. Multi-agent methods (Section 5) model interactions explicitly and aim to capture coupled decision-making among agents. Within multi-agent methods, we separate joint trajectory forecasting from interactive simulation methods. We then divide interactive simulation into centralized approaches, where one learned model produces the next states for all agents, and decentralized approaches, where each agent has its own policy and scene-level behavior results from their coupled execution.
+Figure 2: Taxonomy of AI methods for modeling mixed-autonomy traffic The first axis distinguishes *single-agent* and *multi-agent* methods. Single-agent methods (Section 4) focus on learning the behavior of one agent, and they treat other agents as part of the environment. Multi-agent methods (Section 5) model interactions explicitly and aim to capture coupled decision-making among agents. Within multi-agent methods, we separate joint trajectory forecasting from interactive simulation methods. We then divide interactive simulation into centralized approaches, where one learned model produces the next states for all agents, and decentralized approaches, where each agent has its own policy and scene-level behavior results from their coupled execution.
 
 The second axis distinguishes *agent-level* and *environment-level* methods. Agent-level methods (Sections 4--5) output agent actions or trajectories, which define behavior in the scene. Environment-level methods (Section 6) model how the world evolves and provide the conditions under which behavior models operate. In this part, we cover generative world models and traffic scenario generation methods.
 
@@ -62,54 +60,11 @@ While this simplification may not capture full multi-agent interaction complexit
 
 In the following sub-sections, we review single-agent methods and summarize their main assumptions, modeling choices, and key characteristics. A comparative summary of these methods is provided in Table 2.
 
-Imitation Learning / Behavior Cloning
-Expert demonstrations (supervised)
-Simple and scalable; direct data-to-policy mapping; strong baselines with large datasets
-Covariate shift and compounding errors; causal confusion; limited robustness to out-of-distribution states
-ALVINN, PilotNet, CIL, ChauffeurNet, DAgger, TransFuser, Urban Driver
-
-Logged trajectories (supervised)
-Multi-modal forecasting; mature standardized benchmarks; captures distributional structure of future motion
-Marginal prediction; non-reactive; displacement metrics miss interactive quality
-CoverNet, MultiPath, TNT, DenseTNT, LaPred, PRIME, MID
-
-Reward signal (trial-and-error)
-Discovers novel strategies via exploration; no expert demonstrations needed; inherently reactive
-Sample inefficiency; reward engineering difficulty; safety during exploration; sim-to-real gap
-Kendall et al., Roach, BC-SAC, Think2Drive, HAIM-DRL, Safe RL
-
-IRL / Adversarial Imitation
-Expert demos (adversarial matching)
-Recovers interpretable reward functions; robust to compounding errors; captures driving preferences
-Training instability; mode collapse; sensitivity to discriminator design; scaling difficulty
-MaxEnt IRL, GAIL, Kuefler et al., PS-GAIL, AIRL, RAIL
-
-End-to-End Learned Planners
-Expert demos + perception labels
-Joint perception–planning; end-to-end gradient flow; unified architecture
-Ego-status bias; open-loop metric gap; limited closed-loop generalization
-NMP, UniAD, VAD, SparseDrive, InterFuser, ThinkTwice, NAVSIM
-
-Model-Based Policy Learning
-Learned world model + reward
-Sample-efficient via imagination; decouples dynamics learning from policy optimization
-Model bias; compounding errors in imagined rollouts; sensitive to model accuracy
-World Models, Dreamer, DreamerV3, MILE, AdaWM, Imagine-2-Drive
-
-Foundation Model Approaches
-Pretrained LLM/VLM + prompts
-Commonsense reasoning; interpretable chain-of-thought; instruction-following capabilities
-Latency bottleneck; grounding gap; hallucination risk; impractical for multi-agent at scale
-Agent-Driver, DiLu, LanguageMPC, GPT-Driver, DriveGPT4
-
-Loop: OL = open-loop, CL = closed-loop. Methods listed under both can operate in either mode depending on deployment context.
-Table 2: Summary of single-agent behavior modeling methods for mixed autonomy traffic simulation.
+Imitation Learning / Behavior Cloning Expert demonstrations (supervised) Simple and scalable; direct data-to-policy mapping; strong baselines with large datasets Covariate shift and compounding errors; causal confusion; limited robustness to out-of-distribution states ALVINN, PilotNet, CIL, ChauffeurNet, DAgger, TransFuser, Urban Driver Logged trajectories (supervised) Multi-modal forecasting; mature standardized benchmarks; captures distributional structure of future motion Marginal prediction; non-reactive; displacement metrics miss interactive quality CoverNet, MultiPath, TNT, DenseTNT, LaPred, PRIME, MID Reward signal (trial-and-error) Discovers novel strategies via exploration; no expert demonstrations needed; inherently reactive Sample inefficiency; reward engineering difficulty; safety during exploration; sim-to-real gap Kendall et al., Roach, BC-SAC, Think2Drive, HAIM-DRL, Safe RL IRL / Adversarial Imitation Expert demos (adversarial matching) Recovers interpretable reward functions; robust to compounding errors; captures driving preferences Training instability; mode collapse; sensitivity to discriminator design; scaling difficulty MaxEnt IRL, GAIL, Kuefler et al., PS-GAIL, AIRL, RAIL End-to-End Learned Planners Expert demos + perception labels Joint perception–planning; end-to-end gradient flow; unified architecture Ego-status bias; open-loop metric gap; limited closed-loop generalization NMP, UniAD, VAD, SparseDrive, InterFuser, ThinkTwice, NAVSIM Model-Based Policy Learning Learned world model + reward Sample-efficient via imagination; decouples dynamics learning from policy optimization Model bias; compounding errors in imagined rollouts; sensitive to model accuracy World Models, Dreamer, DreamerV3, MILE, AdaWM, Imagine-2-Drive Foundation Model Approaches Pretrained LLM/VLM + prompts Commonsense reasoning; interpretable chain-of-thought; instruction-following capabilities Latency bottleneck; grounding gap; hallucination risk; impractical for multi-agent at scale Agent-Driver, DiLu, LanguageMPC, GPT-Driver, DriveGPT4 Loop: OL = open-loop, CL = closed-loop. Methods listed under both can operate in either mode depending on deployment context. Table 2: Summary of single-agent behavior modeling methods for mixed autonomy traffic simulation.
 
 ### Imitation Learning
 
-Imitation learning (IL) methods enable agents to directly learn driving behavior by observing expert demonstrations from real-world datasets. The simplest and most widely used form, behavior cloning (BC), frames the problem as supervised learning: given a dataset $\mathcal{D} = {\{{(s_{i},a_{i})}\}}_{i = 1}^{N}$ of $N$ state-action pairs collected from expert demonstrations, BC learns a policy $\pi_{\theta}$ parameterized by $\theta$ by minimizing the empirical loss:
-
-where $\ell{( \cdot, \cdot )}$ is typically mean squared error for continuous actions or cross-entropy for discrete actions. In driving contexts, the state $s_{i}$ commonly includes sensor inputs or bird's-eye view representations along with vehicle state and contextual data. The action $a_{i}$ comprises control commands (steering, throttle, brake) or planned trajectory waypoints. Imitation learning can operate in both open-loop and closed-loop settings: in open-loop mode, a trained policy generates a fixed trajectory from an initial observation without environmental feedback; in closed-loop mode, the policy is queried at each simulation step, receiving updated observations and producing reactive behavior. For mixed autonomy simulation, IL enables driver models that replicate behavioral patterns from naturalistic driving datasets, and when deployed across multiple independent instances, these models can populate simulated environments with diverse, human-like traffic participants.
+Imitation learning (IL) methods enable agents to directly learn driving behavior by observing expert demonstrations from real-world datasets. The simplest and most widely used form, behavior cloning (BC), frames the problem as supervised learning: given a dataset $\mathcal{D}=\{(s_{i},a_{i})\}_{i=1}^{N}$ of $N$ state-action pairs collected from expert demonstrations, BC learns a policy $\pi_{\theta}$ parameterized by $\theta$ by minimizing the empirical loss: where $\ell(\cdot,\cdot)$ is typically mean squared error for continuous actions or cross-entropy for discrete actions. In driving contexts, the state $s_{i}$ commonly includes sensor inputs or bird's-eye view representations along with vehicle state and contextual data. The action $a_{i}$ comprises control commands (steering, throttle, brake) or planned trajectory waypoints. Imitation learning can operate in both open-loop and closed-loop settings: in open-loop mode, a trained policy generates a fixed trajectory from an initial observation without environmental feedback; in closed-loop mode, the policy is queried at each simulation step, receiving updated observations and producing reactive behavior. For mixed autonomy simulation, IL enables driver models that replicate behavioral patterns from naturalistic driving datasets, and when deployed across multiple independent instances, these models can populate simulated environments with diverse, human-like traffic participants.
 
 Imitation learning for automated driving began with ALVINN, which showed that neural networks could map raw camera images directly to steering commands. PilotNet scaled this idea with deep CNNs trained on large datasets and demonstrated that end-to-end policies could generalize across diverse road conditions. A key limitation of these reactive approaches, that is the inability to reason about goals, was addressed by Conditional Imitation Learning (CIL). CIL conditions the policy on high-level navigation commands through a branched architecture and enables goal-directed behavior. ChauffeurNet moved away from raw sensor input to mid-level bird's-eye view representations and introduced trajectory perturbation as a form of data augmentation to reduce distributional shift. "Learning by Cheating" proposed a two-stage, teacher-student training paradigm in which a privileged agent with access to ground-truth environment information supervises a purely vision-based sensorimotor agent. Their framework substantially outperforming prior methods on the CARLA and NoCrash benchmarks. TransFuser then brought multi-modal perception into this framework by fusing camera and LiDAR features through transformer attention at multiple resolutions.
 
@@ -121,7 +76,7 @@ Despite its simplicity and scalability, imitation learning faces several persist
 
 ### Trajectory Prediction
 
-Trajectory prediction forecasts future positions of agents given observed motion history and environmental context. Although both trajectory prediction and imitation learning learn from recorded expert data and can produce future waypoints as output, they differ in role and training objective. An imitation learning policy is trained as an actor that produces actions for an agent to execute. A trajectory prediction model is trained as a passive observer that forecasts where other agents will be; because it does not act, it does not compound its own errors across time steps in the same way. When a trajectory prediction model is deployed in closed-loop by re-querying it at each time step, it is operationally equivalent to an imitation learning policy, but without the training-time mechanisms, such as DAgger or adversarial correction, that handle the resulting distributional mismatch. Single-agent trajectory prediction models learn a conditional distribution over future trajectories: $P{({Y \mid {X,C}})}$, where $X = {\{ x_{1},x_{2},\ldots,x_{T_{h}}\}}$ represents the observed trajectory over history horizon $T_{h}$, $C$ encodes contextual information, and $Y = {\{ y_{1},y_{2},\ldots,y_{T_{f}}\}}$ denotes the predicted future trajectory over forecast horizon $T_{f}$. These models are predominantly evaluated in open-loop settings, where predicted trajectories are compared against ground-truth recordings using displacement metrics.
+Trajectory prediction forecasts future positions of agents given observed motion history and environmental context. Although both trajectory prediction and imitation learning learn from recorded expert data and can produce future waypoints as output, they differ in role and training objective. An imitation learning policy is trained as an actor that produces actions for an agent to execute. A trajectory prediction model is trained as a passive observer that forecasts where other agents will be; because it does not act, it does not compound its own errors across time steps in the same way. When a trajectory prediction model is deployed in closed-loop by re-querying it at each time step, it is operationally equivalent to an imitation learning policy, but without the training-time mechanisms, such as DAgger or adversarial correction, that handle the resulting distributional mismatch. Single-agent trajectory prediction models learn a conditional distribution over future trajectories: $P(Y\mid X,C)$, where $X=\{x_{1},x_{2},\ldots,x_{T_{h}}\}$ represents the observed trajectory over history horizon $T_{h}$, $C$ encodes contextual information, and $Y=\{y_{1},y_{2},\ldots,y_{T_{f}}\}$ denotes the predicted future trajectory over forecast horizon $T_{f}$. These models are predominantly evaluated in open-loop settings, where predicted trajectories are compared against ground-truth recordings using displacement metrics.
 
 Foundational approaches established key paradigms for encoding agent history, scene context, and multi-modal output. CoverNet treats prediction as classification over a fixed set of trajectory anchors derived from expert data. An important aspect is multimodality: at any decision point, an agent may turn left, go straight, or turn right, each representing a valid future. MultiPath extended CoverNet with learnable anchor trajectories corresponding to distinct behavioral modes to enable efficient multi-modal predictions. Goal-conditioned approaches improve accuracy for long-horizon predictions by decomposing the task into two sequential stages: the model first predicts a plausible goal location, such as a target position or waypoint, and then generates a trajectory conditioned on that endpoint. This two-stage structure anchors the trajectory to a specific destination, which constrains the prediction space and reduces the uncertainty that accumulates in free rollouts over long time horizons. TNT and DenseTNT predict target goal locations or probability distributions from lane centerlines and generate trajectories conditioned on selected endpoints. Similarly, LaPred leveraged lane-aware representations to structure predictions in highway and urban environments.
 
@@ -131,9 +86,7 @@ Despite significant progress, single-agent trajectory prediction faces fundament
 
 ### Reinforcement Learning
 
-Reinforcement learning (RL) provides a framework for learning driving policies through trial-and-error interaction with the environment, guided by reward signals rather than relying on labeled data. In RL, an agent observes state $s_{t}$ at time step $t$, executes action $a_{t}$ according to policy $\pi_{\theta}{(\left. a_{t} \middle| s_{t} \right.)}$ parameterized by $\theta$, receives scalar reward $r_{t}$, and transitions to new state $s_{t + 1}$. The objective is to maximize expected cumulative discounted reward:
-
-where $\gamma \in {\lbrack 0,1\rbrack}$ is the discount factor and the expectation is taken over trajectories generated by policy $\pi_{\theta}$. For automated driving, reward functions encode objectives such as progress toward goal, lane keeping, collision avoidance, and passenger comfort. Unlike imitation learning, which requires expert demonstrations, RL discovers policies through exploration. This is a strength enabling discovery of novel strategies but also a drawback as it requires extensive interaction with the environment to learn a robust policy. RL methods are inherently closed-loop because the agent continuously receives environmental feedback and adapts its actions.
+Reinforcement learning (RL) provides a framework for learning driving policies through trial-and-error interaction with the environment, guided by reward signals rather than relying on labeled data. In RL, an agent observes state $s_{t}$ at time step $t$, executes action $a_{t}$ according to policy $\pi_{\theta}(a_{t}|s_{t})$ parameterized by $\theta$, receives scalar reward $r_{t}$, and transitions to new state $s_{t+1}$. The objective is to maximize expected cumulative discounted reward: where $\gamma\in$ is the discount factor and the expectation is taken over trajectories generated by policy $\pi_{\theta}$. For automated driving, reward functions encode objectives such as progress toward goal, lane keeping, collision avoidance, and passenger comfort. Unlike imitation learning, which requires expert demonstrations, RL discovers policies through exploration. This is a strength enabling discovery of novel strategies but also a drawback as it requires extensive interaction with the environment to learn a robust policy. RL methods are inherently closed-loop because the agent continuously receives environmental feedback and adapts its actions.
 
 Foundational work demonstrated RL viability for increasingly complex driving tasks. Kendall et al. achieved the first successful deep RL application to real-world driving by training DDPG agents for lane following using monocular camera input. Toromanoff et al. introduced implicit affordances combined with Rainbow-IQN-Apex, achieving the first RL agent capable of end-to-end urban driving including traffic light detection. Zhang et al. introduced Roach, an RL expert trained using PPO that serves as a superior "coach" for imitation learning. Waymo's BC-SAC combined behavior cloning initialization with Soft Actor-Critic on over 100,000 miles of real-world data and showed that RL reward signals significantly improve robustness in challenging scenarios. More recently, Li et al. proposed Think2Drive, a model-based RL approach using latent world models, which illustrates the potential of imagination-based policy learning for driving. Safety-aware formulations have also emerged as viable paradigms. Shalev-Shwartz et al. introduced hard safety constraints into RL driving policies, and Wen et al. developed Parallel Constrained Policy Optimization to enforce safety constraints during training. Recently, human-in-the-loop approaches offer complementary efficiency gains. HAIM-DRL treats humans as AI mentors providing sparse interventions during training to guide the exploration toward safer and more efficient policies.
 
@@ -141,13 +94,9 @@ Sample efficiency in RL is a primary concern. RL training requires millions of e
 
 ### Inverse Reinforcement Learning and Adversarial Imitation Learning
 
-Inverse reinforcement learning (IRL) infers reward functions from expert demonstrations by assuming that observed behavior is approximately optimal with respect to unknown rewards. Unlike behavior cloning, which directly maps states to actions, IRL recovers the underlying objectives driving expert behavior, and therefore, enables generalization to novel states by optimizing the recovered rewards. Also, unlike standard RL, which requires manually specifying reward functions, IRL extracts these objectives from data, which is a significant advantage for driving, where human preferences involve complex trade-offs between speed, comfort, safety, and social norms. Mathematically, given expert demonstrations $\mathcal{D}_{E} = {\{{(s_{i},a_{i})}\}}_{i = 1}^{N}$, IRL seeks to find reward function $r_{\phi}$ parameterized by $\phi$ such that the expert policy outperforms alternatives:
+Inverse reinforcement learning (IRL) infers reward functions from expert demonstrations by assuming that observed behavior is approximately optimal with respect to unknown rewards. Unlike behavior cloning, which directly maps states to actions, IRL recovers the underlying objectives driving expert behavior, and therefore, enables generalization to novel states by optimizing the recovered rewards. Also, unlike standard RL, which requires manually specifying reward functions, IRL extracts these objectives from data, which is a significant advantage for driving, where human preferences involve complex trade-offs between speed, comfort, safety, and social norms. Mathematically, given expert demonstrations $\mathcal{D}_{E}=\{(s_{i},a_{i})\}_{i=1}^{N}$, IRL seeks to find reward function $r_{\phi}$ parameterized by $\phi$ such that the expert policy outperforms alternatives: where $\pi_{E}$ denotes the expert policy and the expectation is over trajectories. However, this formulation is inherently ill-posed, which means that many reward functions can explain the same behavior. Maximum Entropy IRL resolves this ambiguity by selecting reward functions that make the expert demonstrations most likely under maximum entropy trajectory distributions.
 
-where $\pi_{E}$ denotes the expert policy and the expectation is over trajectories. However, this formulation is inherently ill-posed, which means that many reward functions can explain the same behavior. Maximum Entropy IRL resolves this ambiguity by selecting reward functions that make the expert demonstrations most likely under maximum entropy trajectory distributions.
-
-Adversarial imitation learning methods reframe the imitation problem as a two-player game: a policy generates behavior while a discriminator tries to distinguish it from expert demonstrations. Generative Adversarial Imitation Learning GAIL bypasses explicit reward recovery by directly matching the learner's state-action occupancy measure to that of the expert. Instead, it directly trains the policy to produce the same distribution of (state, action) pairs that the expert visits. The discriminator is what drives this. it learns to tell the policy's behavior apart from the expert's, and the policy is trained to fool it, which pushes the two distributions closer together. The GAIL objective is:
-
-where $D_{\psi}$ is a discriminator parameterized by $\psi$ distinguishing expert from learner state-action pairs, and $\mathcal{H}{(\pi_{\theta})}$ denotes the entropy of policy $\pi_{\theta}$, weighted by $\lambda > 0$. Adversarial Inverse Reinforcement Learning (AIRL) extends this framework by structuring the discriminator to recover a disentangled reward function that transfers across environments with different dynamics. For mixed autonomy simulation, these methods are particularly valuable as they learn interpretable reward functions capturing human driving preferences and enable generation of realistic and diverse traffic agent behaviors without requiring hand-crafted reward engineering.
+Adversarial imitation learning methods reframe the imitation problem as a two-player game: a policy generates behavior while a discriminator tries to distinguish it from expert demonstrations. Generative Adversarial Imitation Learning GAIL bypasses explicit reward recovery by directly matching the learner's state-action occupancy measure to that of the expert. Instead, it directly trains the policy to produce the same distribution of (state, action) pairs that the expert visits. The discriminator is what drives this. it learns to tell the policy's behavior apart from the expert's, and the policy is trained to fool it, which pushes the two distributions closer together. The GAIL objective is: | | $\displaystyle\min_{\pi_{\theta}}\max_{D_{\psi}}$ | $\displaystyle\mathbb{E}_{\pi_{\theta}}\left[\log D_{\psi}(s,a)\right]$ | | \(4\) | | | | $\displaystyle+\mathbb{E}_{\pi_{E}}\left[\log(1-D_{\psi}(s,a))\right]-\lambda\mathcal{H}(\pi_{\theta})$ | | | where $D_{\psi}$ is a discriminator parameterized by $\psi$ distinguishing expert from learner state-action pairs, and $\mathcal{H}(\pi_{\theta})$ denotes the entropy of policy $\pi_{\theta}$, weighted by $\lambda>0$. Adversarial Inverse Reinforcement Learning (AIRL) extends this framework by structuring the discriminator to recover a disentangled reward function that transfers across environments with different dynamics. For mixed autonomy simulation, these methods are particularly valuable as they learn interpretable reward functions capturing human driving preferences and enable generation of realistic and diverse traffic agent behaviors without requiring hand-crafted reward engineering.
 
 IRL and adversarial IL methods are inherently closed-loop during training, as the learner must interact with the environment to generate trajectories for discriminator comparison. Once a reward function is recovered, it can be used to train new policies via standard RL in closed-loop settings, or the GAIL-trained policy itself can serve as a closed-loop simulation agent. However, recovered reward functions can also be applied in open-loop contexts, for instance, to score or rank pre-generated trajectory candidates without environmental feedback.
 
@@ -157,9 +106,7 @@ For simulation applications, especially in the context of mixed autonomy traffic
 
 ### End-to-End Learned Planners
 
-End-to-end learned planners represent a major paradigm within single-agent AV behavior modeling, directly mapping sensor observations to planned trajectories through unified differentiable architectures. By jointly learning perception, prediction, and planning, these systems produce driving policies that can serve as the automated ego vehicle in mixed autonomy simulation, as alternative to rule-based autopilots in tools like CARLA or SUMO. While end-to-end planners are often trained using imitation learning objectives, they are treated as a distinct section in this survey because they are defined by their architectural scope and can be trained with IL, RL, or hybrid objectives. However, IL is defined by its learning signal, that is mimicking expert behavior, and applies regardless of architecture. End-to-end planners learn a mapping:
-
-where $I$ represents sensor inputs, $M$ denotes map information, $E$ captures ego vehicle state, and $\tau = {\{ y_{1},y_{2},\ldots,y_{T_{p}}\}}$ is the planned trajectory over planning horizon $T_{p}$. The policy $\pi_{\theta}$ is parameterized by neural network weights $\theta$. These models can be evaluated in either open-loop mode or closed-loop mode.
+End-to-end learned planners represent a major paradigm within single-agent AV behavior modeling, directly mapping sensor observations to planned trajectories through unified differentiable architectures. By jointly learning perception, prediction, and planning, these systems produce driving policies that can serve as the automated ego vehicle in mixed autonomy simulation, as alternative to rule-based autopilots in tools like CARLA or SUMO. While end-to-end planners are often trained using imitation learning objectives, they are treated as a distinct section in this survey because they are defined by their architectural scope and can be trained with IL, RL, or hybrid objectives. However, IL is defined by its learning signal, that is mimicking expert behavior, and applies regardless of architecture. End-to-end planners learn a mapping: where $I$ represents sensor inputs, $M$ denotes map information, $E$ captures ego vehicle state, and $\tau=\{y_{1},y_{2},\ldots,y_{T_{p}}\}$ is the planned trajectory over planning horizon $T_{p}$. The policy $\pi_{\theta}$ is parameterized by neural network weights $\theta$. These models can be evaluated in either open-loop mode or closed-loop mode.
 
 NMP established the foundational idea that planning quality depends on rich intermediate scene representations, encoding LiDAR and HD maps into learned cost volumes that score candidate trajectories. TransFuser and InterFuser demonstrated that multi-modal transformer fusion across camera and LiDAR streams produces interpretable, safety-aware AV behavior. ST-P3 introduced spatial-temporal feature learning that tightly couples scene understanding with trajectory generation. A pivotal contribution, UniAD, introduced a planning-oriented philosophy by hierarchically organizing tracking, mapping, motion forecasting, and occupancy prediction to facilitate planning. It established the paradigm that intermediate task supervision improves planning quality. VAD and SparseDrive demonstrated that efficient vectorized and sparse representations can sustain high behavioral quality, a property that matters for simulation deployments where computational budget is shared across many concurrently running agents. ThinkTwice addressed the refinement problem by conditioning trajectory generation on imagined future scenes and produced more consistent and anticipatory AV behavior. PP&P contributed the complementary insight that inspectable intermediate representations enable verification of what the agent perceives before its behavioral decisions are executed. This property is particularly important for simulation-based AV testing workflows.
 
@@ -169,11 +116,7 @@ End-to-end planners have shown impressive benchmark performance; however, recent
 
 ### Model-Based Policy Learning
 
-Model-based policy learning trains driving policies by leveraging learned dynamics models, also known as "world models", to predict how the environment evolves under candidate actions, rather than requiring direct interaction with the environment for every policy update. A common formulation introduces latent state $z_{t}$ summarizing observation history, using encoder $e_{\theta}$ mapping observations to latent states and latent transition model $p_{\theta}$ modeling dynamics in latent space:
-
-where $o_{\leq t} = {\{ o_{1},o_{2},\ldots,o_{t}\}}$ denotes the observation history up to time $t$, and $a_{t}$ is the action taken at time $t$. The ego policy $\pi_{\phi}{({a_{t} \mid z_{t}})}$ parameterized by $\phi$ is optimized by rolling out imagined trajectories in latent space and maximizing expected return:
-
-where $H$ is the imagination horizon, $r{(z_{t},a_{t})}$ is a reward function operating on latent states, and the expectation is over latent rollouts generated by the learned dynamics model and policy. This separates learning predictive models of the world from learning policies through imagination within those models. Compared to model-free RL, which requires direct environment interaction for every gradient step, policy improvement here happens through simulated rollouts inside learned models, which substantially improves sample efficiency but makes performance sensitive to model accuracy and bias.
+Model-based policy learning trains driving policies by leveraging learned dynamics models, also known as "world models", to predict how the environment evolves under candidate actions, rather than requiring direct interaction with the environment for every policy update. A common formulation introduces latent state $z_{t}$ summarizing observation history, using encoder $e_{\theta}$ mapping observations to latent states and latent transition model $p_{\theta}$ modeling dynamics in latent space: where $o_{\leq t}=\{o_{1},o_{2},\ldots,o_{t}\}$ denotes the observation history up to time $t$, and $a_{t}$ is the action taken at time $t$. The ego policy $\pi_{\phi}(a_{t}\mid z_{t})$ parameterized by $\phi$ is optimized by rolling out imagined trajectories in latent space and maximizing expected return: where $H$ is the imagination horizon, $r(z_{t},a_{t})$ is a reward function operating on latent states, and the expectation is over latent rollouts generated by the learned dynamics model and policy. This separates learning predictive models of the world from learning policies through imagination within those models. Compared to model-free RL, which requires direct environment interaction for every gradient step, policy improvement here happens through simulated rollouts inside learned models, which substantially improves sample efficiency but makes performance sensitive to model accuracy and bias.
 
 Model-based approaches are fundamentally closed-loop methods. The learned world model provides the feedback loop during imagination-based training, and the resulting policy is deployed as a reactive agent that conditions actions on current observations. However, the world model itself can also be used in open-loop fashion, for instance, to generate multiple candidate future trajectories under different action sequences for offline scoring or trajectory ranking without environmental feedback. The key distinction from the generative world models surveyed in Section 6.1 is functional rather than architectural: here the world model serves as a *training substrate* for a specific ego policy, whereas Section 6.1 covers world models deployed as *reusable simulation infrastructure* serving multiple downstream applications including policy evaluation, synthetic data generation, and counterfactual testing. Some model families, such as latent dynamics models and autoregressive token predictors, could appear in both contexts.
 
@@ -185,9 +128,7 @@ World models and model-based approaches are becoming increasingly popular, but t
 
 Foundation model approaches leverage large pretrained models, such as large language models (LLMs) or vision-language models (VLMs), as high-level decision-making or reasoning modules for ego vehicles. The key idea is that pretraining on internet-scale data provides these models with commonsense reasoning, semantic understanding, and instruction-following capabilities that are difficult to acquire from driving data alone.
 
-A generic formulation treats the foundation model as a conditional decision function over structured scene representations:
-
-where $o_{\leq t}$ denotes the observation history, $m$ represents the map context, $g$ encodes navigation goals or mission specifications, $\mathcal{P}{( \cdot )}$ is a prompt builder that structures these inputs into a format suitable for the foundation model, $\mathcal{M}_{t}$ denotes memory or retrieved knowledge at time $t$, and $f_{\theta}$ is the pretrained foundation model parameterized by $\theta$. The output $y_{t}$ can take several forms: discrete maneuver decisions (e.g., "change lane left," "yield to pedestrian"), constraints or cost weights for downstream optimizers, or draft trajectory waypoints. Foundation model approaches can operate in both open-loop and closed-loop settings. However, the computational cost of LLM inference poses a significant bottleneck for real-time closed-loop deployment, and most current systems operate at reduced frequency or with asynchronous decision-making.
+A generic formulation treats the foundation model as a conditional decision function over structured scene representations: where $o_{\leq t}$ denotes the observation history, $m$ represents the map context, $g$ encodes navigation goals or mission specifications, $\mathcal{P}(\cdot)$ is a prompt builder that structures these inputs into a format suitable for the foundation model, $\mathcal{M}_{t}$ denotes memory or retrieved knowledge at time $t$, and $f_{\theta}$ is the pretrained foundation model parameterized by $\theta$. The output $y_{t}$ can take several forms: discrete maneuver decisions (e.g., "change lane left," "yield to pedestrian"), constraints or cost weights for downstream optimizers, or draft trajectory waypoints. Foundation model approaches can operate in both open-loop and closed-loop settings. However, the computational cost of LLM inference poses a significant bottleneck for real-time closed-loop deployment, and most current systems operate at reduced frequency or with asynchronous decision-making.
 
 This class of models has become very popular in recent years. Agent-Driver proposes an LLM-centered driving agent equipped with tool libraries (for perception and prediction queries), memory modules storing past experiences, and explicit chain-of-thought reasoning steps to yield interpretable decisions. DiLu develops a knowledge-driven framework by combining LLMs with explicit Reasoning and Reflection modules. The Reasoning module generates decisions from scene descriptions, and the Reflection module evaluates outcomes and accumulates experience memory. This enables closed-loop improvement through self-correction. LanguageMPC uses LLMs as high-level decision-makers that output situation-dependent parameters, such as target speed and desired lane, mapped into actionable commands through Model Predictive Control; effectively using LLMs to select or adapt control objectives while preserving the optimization structure and constraint satisfaction guarantees of MPC.
 
@@ -207,61 +148,7 @@ Multi-agent methods explicitly model multiple traffic participants and their int
 
 We organize multi-agent methods along two architectural axes. The first distinguishes *joint trajectory forecasting* (Section 5.1), which predicts coordinated futures for multiple agents. The second divides interactive simulation into *centralized* approaches (Section 5.2), where a single joint model produces globally consistent scene evolution, and *decentralized* approaches (Section 5.3), where independent per-agent policies yield emergent coordination. We further discuss the emerging role of foundation models for multi-agent coordination (Section 5.4). Table 3 provides a summary of methods and studies reviewed in this section.
 
-Joint Trajectory Forecasting (predominantly open-loop)
-
-Joint Trajectory Prediction
-Predicts joint future trajectories for multiple agents; uses graph networks, attention, or transformers to model inter-agent dependencies
-Captures inter-agent dependencies; multi-modal outputs; strong benchmark performance; joint consistency
-Does not model reactive feedback; joint consistency not guaranteed under marginal losses; gap to interactive simulation
-Social LSTM, Social GAN, DESIRE, Trajectron++, PRECOG, VectorNet, LaneGCN, Scene Transformer, HiVT, MTR++, GameFormer
-
-Centralized Neural Simulation (closed-loop)
-
-Models multi-agent evolution via iterative denoising; samples from learned joint trajectory distributions with guidance for controllability
-High diversity; multi-modal generation; controllable via guidance; collision-aware sampling
-Slow sampling (iterative denoising); hard constraint satisfaction difficult; closed-loop stability over long horizons
-MotionDiffuser, CTG, CTG++
-
-Discretizes motion into tokens; casts simulation as conditional language modeling with next-token prediction
-Scalable transformer architectures; handles variable agent counts; real-time inference possible
-Discretization error; compounding token mistakes; serialization order asymmetry; constraint satisfaction requires constrained decoding
-MotionLM, Trajeglish, BehaviorGPT, SMART
-
-Single learned model produces globally consistent scene updates via continuous regression; rolls forward step-by-step
-Global scene consistency; captures multi-agent dependencies; computationally efficient; responds to ego deviations
-Long-horizon drift; limited multi-modality (point estimates); counterfactual validity concerns from passive logs
-
-Decentralized Simulation (closed-loop)
-
-Each agent learns a decentralized policy; CTDE paradigm for training; self-play creates automatic curriculum
-Emergent coordination; robustness through competition; automatic difficulty scaling
-Non-stationarity; credit assignment difficulty; reward specification; may converge to non-human equilibria
-Safe MARL, Flow, Nocturne, Data-Reg. Self-Play, Robust Self-Play
-
-Multi-Agent Imitation / GAIL
-Decentralized policies trained to match expert interaction patterns via adversarial discrimination
-Reproduces human interaction styles; scalable via parameter sharing; captures emergent behaviors
-Training instability with global discriminators; diversity collapse; irrelevant interaction misguidance
-PS-GAIL, RAIL/Burn-InfoGAIL, Symphony, DecompGAIL
-
-Models interaction as strategic reasoning; Nash or Stackelberg equilibria capture anticipation and mutual influence
-Principled interaction modeling; captures strategic behavior; interpretable equilibrium concepts
-Utility specification difficulty; equilibrium selection ambiguity; computational cost; bounded rationality needed
-Kita, Sadigh et al., iLQGames, GameFormer, Level-k, BeTop
-
-Hybrid Data-Driven Agents
-Combines imitation learning base with RL fine-tuning or return conditioning; controllable behavior knobs
-Balances realism and controllability; behavior steering via conditioning; stable closed-loop rollouts
-Controllability can leave data support; reward misspecification; calibration of latent controls
-TrafficBots, TrafficBots V1.5, CtRL-Sim, TrajGen
-
-Agentic Foundation-Model Coordination (decentralized, centralized, or hierarchical)
-
-Agentic Foundation-Model Coordination
-LLM/VLM agents with communication, memory, and reflection modules coordinate multi-vehicle behavior; architectures could be decentralized, centralized, and hierarchical
-Semantic reasoning; emergent social norms; interpretable decisions; flexible coordination
-Grounding difficulty; temporal inconsistency; scalability bottleneck; verification of joint outputs
-AgentsCoDriver, KoMA, CCMA, Wang et al.
+Joint Trajectory Forecasting (predominantly open-loop) Joint Trajectory Prediction Predicts joint future trajectories for multiple agents; uses graph networks, attention, or transformers to model inter-agent dependencies Captures inter-agent dependencies; multi-modal outputs; strong benchmark performance; joint consistency Does not model reactive feedback; joint consistency not guaranteed under marginal losses; gap to interactive simulation Social LSTM, Social GAN, DESIRE, Trajectron++, PRECOG, VectorNet, LaneGCN, Scene Transformer, HiVT, MTR++, GameFormer Centralized Neural Simulation (closed-loop) Models multi-agent evolution via iterative denoising; samples from learned joint trajectory distributions with guidance for controllability High diversity; multi-modal generation; controllable via guidance; collision-aware sampling Slow sampling (iterative denoising); hard constraint satisfaction difficult; closed-loop stability over long horizons MotionDiffuser, CTG, CTG++ Discretizes motion into tokens; casts simulation as conditional language modeling with next-token prediction Scalable transformer architectures; handles variable agent counts; real-time inference possible Discretization error; compounding token mistakes; serialization order asymmetry; constraint satisfaction requires constrained decoding MotionLM, Trajeglish, BehaviorGPT, SMART Single learned model produces globally consistent scene updates via continuous regression; rolls forward step-by-step Global scene consistency; captures multi-agent dependencies; computationally efficient; responds to ego deviations Long-horizon drift; limited multi-modality (point estimates); counterfactual validity concerns from passive logs Decentralized Simulation (closed-loop) Each agent learns a decentralized policy; CTDE paradigm for training; self-play creates automatic curriculum Emergent coordination; robustness through competition; automatic difficulty scaling Non-stationarity; credit assignment difficulty; reward specification; may converge to non-human equilibria Safe MARL, Flow, Nocturne, Data-Reg. Self-Play, Robust Self-Play Multi-Agent Imitation / GAIL Decentralized policies trained to match expert interaction patterns via adversarial discrimination Reproduces human interaction styles; scalable via parameter sharing; captures emergent behaviors Training instability with global discriminators; diversity collapse; irrelevant interaction misguidance PS-GAIL, RAIL/Burn-InfoGAIL, Symphony, DecompGAIL Models interaction as strategic reasoning; Nash or Stackelberg equilibria capture anticipation and mutual influence Principled interaction modeling; captures strategic behavior; interpretable equilibrium concepts Utility specification difficulty; equilibrium selection ambiguity; computational cost; bounded rationality needed Kita, Sadigh et al., iLQGames, GameFormer, Level-k, BeTop Hybrid Data-Driven Agents Combines imitation learning base with RL fine-tuning or return conditioning; controllable behavior knobs Balances realism and controllability; behavior steering via conditioning; stable closed-loop rollouts Controllability can leave data support; reward misspecification; calibration of latent controls TrafficBots, TrafficBots V1.5, CtRL-Sim, TrajGen Agentic Foundation-Model Coordination (decentralized, centralized, or hierarchical) Agentic Foundation-Model Coordination LLM/VLM agents with communication, memory, and reflection modules coordinate multi-vehicle behavior; architectures could be decentralized, centralized, and hierarchical Semantic reasoning; emergent social norms; interpretable decisions; flexible coordination Grounding difficulty; temporal inconsistency; scalability bottleneck; verification of joint outputs AgentsCoDriver, KoMA, CCMA, Wang et al.
 
 Table 3: Summary of multi-agent interaction methods for mixed autonomy traffic simulation.
 
@@ -269,9 +156,7 @@ Table 3: Summary of multi-agent interaction methods for mixed autonomy traffic s
 
 Joint trajectory forecasting models predict the conditional distribution of future motion for multiple agents simultaneously and explicitly capture inter-agent dependencies that single-agent prediction methods (Section 4.2) ignore.
 
-Mathematically, given past states for $N$ agents and map context $m$, the goal is to learn:
-
-where $X^{i} = {\{ x_{1}^{i},x_{2}^{i},\ldots,x_{T_{h}}^{i}\}}$ represents the observed trajectory history for agent $i$ over horizon $T_{h}$, $Y^{i} = {\{ y_{1}^{i},y_{2}^{i},\ldots,y_{T_{f}}^{i}\}}$ denotes the predicted future trajectory for agent $i$ over forecast horizon $T_{f}$, and $Y^{1:N} = {\{ Y^{1},Y^{2},\ldots,Y^{N}\}}$ denotes the joint future for all agents. The critical distinction from single-agent trajectory prediction is how inter-agent dependencies are modeled within the joint distribution $P{({Y^{1:N} \mid {X^{1:N},m}})}$. Factorizing this as $\prod_{i = 1}^{N}{P{({Y^{i} \mid {X^{1:N},m}})}}$ (predicting each agent independently given shared context) captures contextual influence but not the constraint that future trajectories must be jointly consistent. True joint prediction instead models correlations across agents, producing consistent and collision-free future trajectories, where, for instance, one agent yielding is paired with another proceeding. This joint consistency is essential for simulation.
+Mathematically, given past states for $N$ agents and map context $m$, the goal is to learn: where $X^{i}=\{x_{1}^{i},x_{2}^{i},\ldots,x_{T_{h}}^{i}\}$ represents the observed trajectory history for agent $i$ over horizon $T_{h}$, $Y^{i}=\{y_{1}^{i},y_{2}^{i},\ldots,y_{T_{f}}^{i}\}$ denotes the predicted future trajectory for agent $i$ over forecast horizon $T_{f}$, and $Y^{1:N}=\{Y^{1},Y^{2},\ldots,Y^{N}\}$ denotes the joint future for all agents. The critical distinction from single-agent trajectory prediction is how inter-agent dependencies are modeled within the joint distribution $P(Y^{1:N}\mid X^{1:N},m)$. Factorizing this as $\prod_{i=1}^{N}P(Y^{i}\mid X^{1:N},m)$ (predicting each agent independently given shared context) captures contextual influence but not the constraint that future trajectories must be jointly consistent. True joint prediction instead models correlations across agents, producing consistent and collision-free future trajectories, where, for instance, one agent yielding is paired with another proceeding. This joint consistency is essential for simulation.
 
 Joint trajectory forecasting models are predominantly evaluated in open-loop settings, comparing predicted trajectories against ground-truth recordings using displacement metrics such as minADE and minFDE. However, they can also be deployed in closed-loop simulation by re-querying the model at each time step with updated observations. However, this receding-horizon approach introduces challenges around temporal consistency because the model is not trained to maintain coherent behavior across successive re-invocations. This dual-use nature makes joint forecasting a bridge between pure prediction and interactive simulation.
 
@@ -291,11 +176,7 @@ Centralized simulation models scene evolution through a single learned model tha
 
 ### Diffusion-Based Simulators
 
-Diffusion-based methods generate realistic multi-agent traffic by starting from random noise and gradually refining it into plausible joint trajectories. The approach defines a denoising process over a joint trajectory tensor $\mathbf{Y} \in {\mathbb{R}}^{N \times T_{f} \times d}$ stacking future states for all $N$ agents over a short forecast horizon $T_{f}$ in $d$-dimensional state space. Let $\mathbf{Y}^{}$ denote the clean joint trajectory and $\mathbf{Y}^{(n)}$ denote the noised version at diffusion step $n$. The forward process progressively corrupts trajectories by adding Gaussian noise, and the model learns to reverse this corruption. The training objective minimizes:
-
-where $\epsilon \sim {\mathcal{N}{(0,I)}}$ is the noise added to trajectories, $\epsilon_{\theta}$ is a learned noise prediction network, $n$ indexes diffusion steps (distinct from simulation time $t$), $m$ represents map context, and $c$ denotes conditioning signals including initial scene state and ego actions. At inference, the model samples from Gaussian noise and iteratively denoises:
-
-where $\alpha_{n}$ and ${\overline{\alpha}}_{n}$ are noise schedule parameters at diffusion step $n$, $\sigma_{n}$ is the noise level, and $\mathbf{z} \sim {\mathcal{N}{(0,I)}}$. The model can be steered toward desired behaviors in two ways: by training it with specific conditions baked into $c$, or by nudging the denoising process at inference time using gradient-based guidance toward goals like collision avoidance. For closed-loop simulation, the model is re-run at every timestep with the latest scene state as input, so traffic agents continuously react to what the ego vehicle does.
+Diffusion-based methods generate realistic multi-agent traffic by starting from random noise and gradually refining it into plausible joint trajectories. The approach defines a denoising process over a joint trajectory tensor $\mathbf{Y}\in\mathbb{R}^{N\times T_{f}\times d}$ stacking future states for all $N$ agents over a short forecast horizon $T_{f}$ in $d$-dimensional state space. Let $\mathbf{Y}^{}$ denote the clean joint trajectory and $\mathbf{Y}^{(n)}$ denote the noised version at diffusion step $n$. The forward process progressively corrupts trajectories by adding Gaussian noise, and the model learns to reverse this corruption. The training objective minimizes: where $\epsilon\sim\mathcal{N}(0,I)$ is the noise added to trajectories, $\epsilon_{\theta}$ is a learned noise prediction network, $n$ indexes diffusion steps (distinct from simulation time $t$), $m$ represents map context, and $c$ denotes conditioning signals including initial scene state and ego actions. At inference, the model samples from Gaussian noise and iteratively denoises: where $\alpha_{n}$ and $\bar{\alpha}_{n}$ are noise schedule parameters at diffusion step $n$, $\sigma_{n}$ is the noise level, and $\mathbf{z}\sim\mathcal{N}(0,I)$. The model can be steered toward desired behaviors in two ways: by training it with specific conditions baked into $c$, or by nudging the denoising process at inference time using gradient-based guidance toward goals like collision avoidance. For closed-loop simulation, the model is re-run at every timestep with the latest scene state as input, so traffic agents continuously react to what the ego vehicle does.
 
 In this class of models, CTG demonstrates diffusion generating socially consistent multi-agent trajectories with controllability through conditioning signals. CTG++ extends with language conditioning to enable semantically specified scene evolution valuable for scenario-based testing. MotionDiffuser, while primarily being a forecasting model (discussed in Section 5.1), demonstrated architectural principles (joint diffusion over all agents with constraint-based guidance) that directly inform the design of diffusion-based simulators. Building on these foundations, diffusion-based approaches have been extended with increasingly expressive controllability interfaces for scenario-level generation, including differentiable cost function guidance and language-based conditioning. These controllable synthesis methods are discussed in Section 6.2.1 as they serve primarily a scenario generation role.
 
@@ -303,9 +184,7 @@ The primary challenge for diffusion-based simulators is computational cost. Iter
 
 ### Token-Based and Autoregressive Simulators
 
-Token-based simulators discretize continuous agent motion into sequences of discrete tokens, which is basically recasting multi-agent simulation as conditional sequence modeling analogous to language generation. This formulation leverages the scalability and expressiveness of transformer architectures developed for natural language processing by applying them to the structured sequential prediction problem of traffic evolution. Let $\mathcal{V}$ denote a learned vocabulary of motion tokens obtained through vector quantization of trajectory segments, and let $z_{t}^{i} \in \mathcal{V}$ represent the discretized motion token for agent $i$ at time $t$. Given map context $m$ encoding road geometry and topology, an autoregressive simulator learns the conditional distribution over the next-step tokens for all $N$ agents, factorized over a serialization of tokens within the timestep:
-
-where $z_{\leq t}^{1:N}$ denotes all motion tokens up to time $t$ for all agents, and $z_{t + 1}^{({< j})}$ denotes tokens already generated at timestep $t + 1$ before serial position $j$. This intra-timestep factorization is critical. Later tokens in the serialization are conditioned on earlier tokens within the same timestep, which implicitly models within-step agent interactions through the autoregressive ordering. Training uses standard cross-entropy next-token prediction over the full sequence. For closed-loop simulation, tokens are sampled sequentially at each timestep, decoded back to continuous states through the inverse of the vector quantization mapping, and the process iterates with the decoded states forming the conditioning for the next step.
+Token-based simulators discretize continuous agent motion into sequences of discrete tokens, which is basically recasting multi-agent simulation as conditional sequence modeling analogous to language generation. This formulation leverages the scalability and expressiveness of transformer architectures developed for natural language processing by applying them to the structured sequential prediction problem of traffic evolution. Let $\mathcal{V}$ denote a learned vocabulary of motion tokens obtained through vector quantization of trajectory segments, and let $z_{t}^{i}\in\mathcal{V}$ represent the discretized motion token for agent $i$ at time $t$. Given map context $m$ encoding road geometry and topology, an autoregressive simulator learns the conditional distribution over the next-step tokens for all $N$ agents, factorized over a serialization of tokens within the timestep: where $z_{\leq t}^{1:N}$ denotes all motion tokens up to time $t$ for all agents, and $z_{t+1}^{(<j)}$ denotes tokens already generated at timestep $t+1$ before serial position $j$. This intra-timestep factorization is critical. Later tokens in the serialization are conditioned on earlier tokens within the same timestep, which implicitly models within-step agent interactions through the autoregressive ordering. Training uses standard cross-entropy next-token prediction over the full sequence. For closed-loop simulation, tokens are sampled sequentially at each timestep, decoded back to continuous states through the inverse of the vector quantization mapping, and the process iterates with the decoded states forming the conditioning for the next step.
 
 MotionLM introduced the paradigm of discretizing trajectories into motion tokens and training autoregressive transformers for joint multi-agent futures. Trajeglish refined this approach by modeling traffic as next-token prediction with fine spatial resolution and explicit accounting for intra-timestep agent interactions through careful serialization ordering. BehaviorGPT proposed next-patch prediction (NP3), where multi-step motion patches are predicted as single units rather than individual tokens. This diminishes the "copying shortcut" problem where models learn to simply repeat the previous token rather than generating meaningful motion updates. SMART extended the tokenization framework with explicit road tokens encoding map structure within the same vocabulary by using decoder-only transformers. It demonstrates scalability across datasets, cross-dataset generalization, and real-time inference capability.
 
@@ -321,21 +200,15 @@ The challenges in regression-based reactive methods is the gap between short-hor
 
 ### Decentralized Multi-Agent Methods
 
-Decentralized multi-agent simulation assigns each traffic participant its own policy, letting scene-level behavior emerge from the coupled execution of independent decision-makers. Formally, this setting is modeled as a Markov game (also called stochastic game) with $N$ agents, global state space $\mathcal{S}$, per-agent action spaces ${\{\mathcal{A}^{i}\}}_{i = 1}^{N}$, per-agent observation functions, and transition dynamics:
-
-where $s_{t} \in \mathcal{S}$ is the global state, $a_{t}^{i} \in \mathcal{A}^{i}$ is the action of agent $i$, and $p$ represents the environment transition dynamics that depend on all agents' joint actions. It is worth noting that while the world's transition depends on all joint actions, each agent's policy can only condition on its own observations. Each agent $i$ selects actions based on local observations: $a_{t}^{i} \sim \pi_{\theta_{i}}{( \cdot \mid o_{t}^{i})}$, where $o_{t}^{i}$ is agent $i$'s (partial) observation of $s_{t}$. The key architectural distinction from centralized simulation (Section 5.2) is that no single model jointly determines all agents' next states.
+Decentralized multi-agent simulation assigns each traffic participant its own policy, letting scene-level behavior emerge from the coupled execution of independent decision-makers. Formally, this setting is modeled as a Markov game (also called stochastic game) with $N$ agents, global state space $\mathcal{S}$, per-agent action spaces $\{\mathcal{A}^{i}\}_{i=1}^{N}$, per-agent observation functions, and transition dynamics: where $s_{t}\in\mathcal{S}$ is the global state, $a_{t}^{i}\in\mathcal{A}^{i}$ is the action of agent $i$, and $p$ represents the environment transition dynamics that depend on all agents' joint actions. It is worth noting that while the world's transition depends on all joint actions, each agent's policy can only condition on its own observations. Each agent $i$ selects actions based on local observations: $a_{t}^{i}\sim\pi_{\theta_{i}}(\cdot\mid o_{t}^{i})$, where $o_{t}^{i}$ is agent $i$'s (partial) observation of $s_{t}$. The key architectural distinction from centralized simulation (Section 5.2) is that no single model jointly determines all agents' next states.
 
 When deployed reactively, decentralized methods operate in a closed-loop fashion, as each agent conditions its actions on current observations. However, they can equally be trained via open-loop objectives such as behavior cloning or maximum likelihood, and evaluated through fixed-horizon rollouts without external intervention. The subsubsections below organize decentralized approaches by how agent policies are obtained, that is through reward optimization (MARL), demonstration matching (imitation and adversarial learning), strategic reasoning (game theory), or combination of these approaches (hybrid methods).
 
 ### Multi-Agent Reinforcement Learning and Self-Play
 
-Multi-agent reinforcement learning (MARL) learns decentralized driving policies by optimizing expected return in Markov games. Each agent $i$ has its own reward function $r_{i}$ and learns policy $\pi_{\theta_{i}}$ to maximize expected cumulative discounted return:
+Multi-agent reinforcement learning (MARL) learns decentralized driving policies by optimizing expected return in Markov games. Each agent $i$ has its own reward function $r_{i}$ and learns policy $\pi_{\theta_{i}}$ to maximize expected cumulative discounted return: where $\gamma\in$ is the discount factor and the expectation is over joint trajectories generated by all agent policies simultaneously. The fundamental difficulty is that each agent's optimization landscape depends on all other agents' evolving policies, which creates a non-stationary learning problem where the environment effectively changes as co-learners update their behavior.
 
-where $\gamma \in {\lbrack 0,1\rbrack}$ is the discount factor and the expectation is over joint trajectories generated by all agent policies simultaneously. The fundamental difficulty is that each agent's optimization landscape depends on all other agents' evolving policies, which creates a non-stationary learning problem where the environment effectively changes as co-learners update their behavior.
-
-A dominant paradigm for managing this non-stationarity is *centralized training with decentralized execution* (CTDE). During training, each agent has access to a centralized critic $Q_{\phi_{i}}{(s_{t},a_{t}^{1},\ldots,a_{t}^{N})}$ parameterized by $\phi_{i}$ that observes the global state and all agents' actions, providing more stable value estimates than would be possible from local observations alone. At execution time, each agent acts using only its local observation:
-
-This asymmetry (global information for learning, local information for acting) enables agents to internalize the effects of other agents' behavior during training while remaining deployable in partially observed settings. Self-play, a special formulation of MARL where agents train against copies of themselves or a population of past policy checkpoints, provides an automatic curriculum: as policies improve, the training environment becomes correspondingly more challenging and produce increasingly robust interaction strategies.
+A dominant paradigm for managing this non-stationarity is *centralized training with decentralized execution* (CTDE). During training, each agent has access to a centralized critic $Q_{\phi_{i}}(s_{t},a_{t}^{1},\ldots,a_{t}^{N})$ parameterized by $\phi_{i}$ that observes the global state and all agents' actions, providing more stable value estimates than would be possible from local observations alone. At execution time, each agent acts using only its local observation: This asymmetry (global information for learning, local information for acting) enables agents to internalize the effects of other agents' behavior during training while remaining deployable in partially observed settings. Self-play, a special formulation of MARL where agents train against copies of themselves or a population of past policy checkpoints, provides an automatic curriculum: as policies improve, the training environment becomes correspondingly more challenging and produce increasingly robust interaction strategies.
 
 Foundational work established MARL's viability for traffic applications. Shalev-Shwartz et al. proposed a safety-oriented multi-agent formulation that decomposes driving into learned high-level "desires" (e.g., target lane, desired speed) and constraint-satisfying trajectory planners that ensure feasibility and aims to address the challenge that unconstrained RL policies may produce physically implausible or dangerous actions. Flow provided a computational framework for studying mixed autonomy traffic through MARL and demonstrates that even small penetration rates of RL-controlled vehicles can produce emergent improvements in traffic throughput. Nocturne introduced a purpose-built multi-agent driving environment designed for MARL research by featuring 2D partially observed scenarios running at over 2,000 steps per second. This efficiency enables the large-scale experiments (millions of episodes) that MARL algorithms require. Building on the need for high-throughput multi-agent environments, recent simulators, such as GPUDrive and PufferDrive achieve substantially higher efficiency and flexibility.
 
@@ -347,9 +220,7 @@ One of the main challenges for MARL in driving simulation is non-stationarity an
 
 Multi-agent imitation learning extends the imitation and adversarial methods discussed for single agents (Section 4.4) to decentralized multi-agent settings. The key difference from single-agent adversarial imitation is that the discriminator must evaluate *joint* behavior and see if the collection of agents' actions matches the distributional properties of real multi-agent traffic.
 
-Given expert demonstrations $\mathcal{D}_{E} = {\{{(s_{j},a_{j}^{1:N})}\}}_{j = 1}^{M}$ containing $M$ samples of global states $s_{j}$ and joint actions $a_{j}^{1:N} = {\{ a_{j}^{1},\ldots,a_{j}^{N}\}}$ for all $N$ agents, the goal is to learn per-agent policies ${\{\pi_{\theta_{i}}\}}_{i = 1}^{N}$ whose joint rollouts are indistinguishable from expert behavior. In the multi-agent GAIL formulation, the objective is:
-
-where $D_{\psi}$ is a discriminator evaluating joint state-action tuples, $\pi_{E}$ represents the expert's joint behavior, and $\mathcal{H}{(\pi_{\theta_{i}})}$ is the entropy of agent $i$'s policy weighted by $\lambda > 0$. Training typically follows the CTDE paradigm. The discriminator operates on global state-action tuples during training, while execution remains decentralized with each agent acting from local observations $a_{t}^{i} \sim \pi_{\theta_{i}}{( \cdot \mid o_{t}^{i})}$.
+Given expert demonstrations $\mathcal{D}_{E}=\{(s_{j},a_{j}^{1:N})\}_{j=1}^{M}$ containing $M$ samples of global states $s_{j}$ and joint actions $a_{j}^{1:N}=\{a_{j}^{1},\ldots,a_{j}^{N}\}$ for all $N$ agents, the goal is to learn per-agent policies $\{\pi_{\theta_{i}}\}_{i=1}^{N}$ whose joint rollouts are indistinguishable from expert behavior. In the multi-agent GAIL formulation, the objective is: | | $\displaystyle\min_{\{\pi_{\theta_{i}}\}}\max_{D_{\psi}}$ | $\displaystyle\mathbb{E}_{\pi_{\theta}}\left[\log D_{\psi}(s,a^{1:N})\right]$ | | \(16\) | | | | $\displaystyle+\mathbb{E}_{\pi_{E}}\left[\log(1-D_{\psi}(s,a^{1:N}))\right]-\lambda\sum_{i=1}^{N}\mathcal{H}(\pi_{\theta_{i}})$ | | | where $D_{\psi}$ is a discriminator evaluating joint state-action tuples, $\pi_{E}$ represents the expert's joint behavior, and $\mathcal{H}(\pi_{\theta_{i}})$ is the entropy of agent $i$'s policy weighted by $\lambda>0$. Training typically follows the CTDE paradigm. The discriminator operates on global state-action tuples during training, while execution remains decentralized with each agent acting from local observations $a_{t}^{i}\sim\pi_{\theta_{i}}(\cdot\mid o_{t}^{i})$.
 
 PS-GAIL first scaled adversarial imitation to multi-agent driving by introducing parameter sharing across agents. All agents use the same policy network conditioned on agent-specific context. Parameter sharing is combined with curriculum learning that progressively increases rollout horizons during training to improve long-horizon interaction stability. The extended version systematized this framework by adding Reward Augmented Imitation Learning (RAIL) for injecting domain knowledge (e.g., lane-keeping and speed maintenance rewards alongside the adversarial signal) and Burn-InfoGAIL for disentangling latent driving style factors. Symphony addressed a key failure mode of multi-agent adversarial learning, which is diversity collapse where all agents converge to similar behavior. This is achieved by combining imitation learning with discriminator-guided parallel beam search during rollout and hierarchical goal mechanisms that maintain distinct agent intents over long horizons. DecompGAIL identified another failure mode specific to multi-agent settings: "irrelevant interaction misguidance", where a global discriminator penalizes an agent for behavior that appears unrealistic only because of *other* agents' errors. The solution decomposes discrimination into ego-map components (evaluating map compliance independently) and ego-neighbor components (evaluating interaction realism separately) to prevent irrelevant signals from destabilizing individual agent learning.
 
@@ -359,13 +230,7 @@ Counterfactual validity is still the most fundamental concern about multi-agent 
 
 Game-theoretic models formalize driving interaction as strategic reasoning among decision-makers with coupled objectives and provide a principled framework for understanding phenomena such as yielding, merging negotiation, and implicit coordination at unsignalized intersections. While MARL also operates in the Markov game framework, the key distinction is that MARL learns policies through trial-and-error interaction, whereas game-theoretic approaches compute or approximate equilibrium solutions analytically without requiring extensive simulation experience.
 
-Mathematically, each agent $i$ seeks to optimize its utility $J_{i}$ that depends on all agents' strategies:
-
-where $T$ is the interaction horizon. A Nash equilibrium is a joint policy $(\pi_{1}^{\ast},\ldots,\pi_{N}^{\ast})$ where no agent can improve its utility by unilateral deviation:
-
-In Stackelberg formulations, which is natural for modeling ego-vehicle planning among reactive human drivers, the ego vehicle acts as leader, choosing its policy $\pi^{\text{ego}}$ while anticipating that other agents will best-respond:
-
-where $\text{BR}_{- \text{ego}}{(\pi^{\text{ego}})}$ denotes the collection of best-response policies for all non-ego agents given the leader's policy. Computing best responses requires solving each follower's optimization problem given the leader's committed strategy, making the Stackelberg formulation a bilevel optimization.
+Mathematically, each agent $i$ seeks to optimize its utility $J_{i}$ that depends on all agents' strategies: where $T$ is the interaction horizon. A Nash equilibrium is a joint policy $(\pi_{1}^{*},\ldots,\pi_{N}^{*})$ where no agent can improve its utility by unilateral deviation: In Stackelberg formulations, which is natural for modeling ego-vehicle planning among reactive human drivers, the ego vehicle acts as leader, choosing its policy $\pi^{\text{ego}}$ while anticipating that other agents will best-respond: where $\text{BR}_{-\text{ego}}(\pi^{\text{ego}})$ denotes the collection of best-response policies for all non-ego agents given the leader's policy. Computing best responses requires solving each follower's optimization problem given the leader's committed strategy, making the Stackelberg formulation a bilevel optimization.
 
 Game-theoretic approaches can operate in both open-loop and closed-loop modes. Open-loop game solutions compute complete strategy profiles (sequences of actions) before execution, suitable for short-horizon interactions where replanning is unnecessary. Closed-loop (feedback) strategies condition actions on the current state at each timestep and produce reactive policies that adapt to the evolving interaction.
 
@@ -387,9 +252,7 @@ The central tension in hybrid approaches is between controllability and realism.
 
 Foundation model approaches, introduced for single-agent ego planning in Section 4.7, are increasingly explored for multi-agent coordination as reasoning layers that mediate interactions across multiple traffic participants. The foundation model in this context is aimed at maintaining temporal and inter-agent consistency across multiple simultaneous reasoning processes, avoiding producing over-coordinated behaviors that would be unrealistic without explicit vehicle-to-vehicle communication, and scaling its reasoning across variable numbers of participants with heterogeneous intents.
 
-The general formulation treats the foundation model as producing high-level decisions for agent $i$ conditioned on multi-agent scene context:
-
-where $o_{t}^{1:N}$ represents observations for all $N$ agents, $m$ denotes map context, $g^{1:N}$ represents goals for all agents, $h_{t}^{1:N}$ denotes intent or high-level plan representations, $\mathcal{P}{( \cdot )}$ is a prompt builder structuring multi-agent context, $\mathcal{M}_{t}^{i}$ represents memory or retrieved knowledge for agent $i$, and $y_{t}^{i}$ is the high-level decision output subsequently grounded into a control action $a_{t}^{i} = {\mathcal{C}^{i}{(y_{t}^{i},s_{t}^{i})}}$ through a low-level controller $\mathcal{C}^{i}$. An important design tension concerns the information structure. Providing each agent's model with observations of all other agents $o_{t}^{1:N}$ enables globally informed reasoning but is unrealistic. Systems sharing full scene information risk producing coordination that implicitly assumes omniscience or communication. Therefore, restricting each agent to local observations $o_{t}^{i}$ is more faithful to real driving although it limits the model's reasoning about distant or occluded agents.
+The general formulation treats the foundation model as producing high-level decisions for agent $i$ conditioned on multi-agent scene context: where $o_{t}^{1:N}$ represents observations for all $N$ agents, $m$ denotes map context, $g^{1:N}$ represents goals for all agents, $h_{t}^{1:N}$ denotes intent or high-level plan representations, $\mathcal{P}(\cdot)$ is a prompt builder structuring multi-agent context, $\mathcal{M}_{t}^{i}$ represents memory or retrieved knowledge for agent $i$, and $y_{t}^{i}$ is the high-level decision output subsequently grounded into a control action $a_{t}^{i}=\mathcal{C}^{i}(y_{t}^{i},s_{t}^{i})$ through a low-level controller $\mathcal{C}^{i}$. An important design tension concerns the information structure. Providing each agent's model with observations of all other agents $o_{t}^{1:N}$ enables globally informed reasoning but is unrealistic. Systems sharing full scene information risk producing coordination that implicitly assumes omniscience or communication. Therefore, restricting each agent to local observations $o_{t}^{i}$ is more faithful to real driving although it limits the model's reasoning about distant or occluded agents.
 
 In this class of models, AgentsCoDriver formulates multi-vehicle collaborative driving as a Decentralized Partially Observable Markov Decision Process (Dec-POMDP) and equips each LLM-based agent with five modules: observation, reasoning engine, cognitive memory, reinforcement reflection, and communication. The communication module allows agents to determine *when* to communicate (based on potential trajectory conflicts) and *what* to convey (via an LLM-instantiated message generator). This provides a principled framework for selective information sharing rather than broadcasting the global state. The reinforcement reflection module evaluates outcomes and updates experience memory to enable a form of lifelong learning across episodes. KoMA proposes a knowledge-driven framework where multiple LLM-powered agents analyze surrounding vehicles' behaviors to infer intentions. A multi-step planning module structures reasoning through a goal--plan--action hierarchy. KoMA demonstrates that structured multi-agent reasoning with shared knowledge substantially outperforms single-agent LLM approaches in highway merging scenarios.
 
@@ -411,54 +274,17 @@ The realism-controllability trade-off is an interesting area to explore. Test en
 
 Sections 4--5 addressed how individual agents and groups of agents make decisions and generate trajectories. This section shifts focus to the *environment side* of the simulation loop. The key architectural distinction from agent-level methods is that the modeling target is the environment state itself---observations, occupancy fields, or complete scene configurations---rather than individual agent actions or policies. We organize this section into generative world models (Section 6.1), which learn environment dynamics from data, and traffic scenario generation (Section 6.2), which constructs initial conditions and test configurations for simulation. It is worth noting that many of the methodological paradigms, especially in traffic scenario generation, are shared with methods presented in multi-agent and single-agent sections; however, the goal here is not to model how agents behave but to construct and generate the environments in which they are trained and tested. Table 4 provides a summary of paradigms discussed in this section.
 
-Generative World Models
-
-Video-Based &amp; Latent World Models
-Multi-view images; latent tokens; video frames
-Learns action-conditioned video or latent generation via autoregressive token prediction or latent diffusion; produces future visual observations for end-to-end evaluation
-Photorealistic rollouts; end-to-end stack evaluation; controllable via actions, text, and structured inputs; emergent scene dynamics
-Long-horizon drift; high computational cost; causal consistency under intervention not guaranteed; image quality metrics miss driving-critical correctness
-GAIA-1, GAIA-2, Drive-WM, DriveDreamer, DriveDreamer-2, Vista, Copilot4D, MUVO, DrivingWorld, GenAD
-
-Occupancy-Based World Models
-3D/4D semantic occupancy grids; BEV fields
-Predicts future semantic occupancy conditioned on ego actions via autoregressive or diffusion generation in voxel or triplane space
-Geometric and semantic structure; directly supports planning cost evaluation; captures free-space and drivable-area evolution
-No agent identity or intent; compounding topology errors; memory-intensive voxel grids; expensive 4D labels
-OccWorld, OccSora, DOME, T3Former, I2-World, Drive-OccWorld, OccLLaMA
-
-Traffic Scenario Generation
-
-Scene Initialization &amp; Scenario Synthesis
-Static scene layouts; multi-agent trajectories; map + traffic configurations
-Generates traffic configurations ranging from static actor placements to full dynamic scenarios; controllable methods expose control interfaces (language, temporal logic, guidance functions, retrieval tags) for steerable generation
-Data-driven scene diversity; user-specified controllability; intuitive language interfaces; compositional control; supports scenario augmentation and targeted testing
-Realism–control trade-off; stronger constraints push off data manifold; unstandardized control interfaces; scene initialization methods lack dynamic validation; limited closed-loop validation
-SceneGen, TrafficGen, DriveSceneGen, CTG, CTG++, Scenario Diffusion, LCTGen, ChatSim, RealGen
-
-Safety-Critical Generation &amp; Adversarial Falsification
-Scenario parameters; adversarial agent trajectories; safety-critical multi-agent configurations
-Discovers failure-inducing scenarios via optimization-based search (RL adversaries, importance sampling, fuzzing) or safety-targeted generative synthesis (guided diffusion, latent-space optimization with learned traffic priors)
-Efficient failure discovery; targeted stress testing; identifies safety-critical edge cases; generative methods maintain realism via learned priors; complements naturalistic evaluation
-Validity–criticality trade-off; adversarial drift to implausible scenarios; coverage gaps; failure finding ≠ risk estimation; guided generation provides soft not hard constraint satisfaction
-AST, Accelerated Eval., STRIVE, KING, AdvDiffuser, CAT, AV-FUZZER, CCDiff, CaDRE, BridgeGen, MADS
-
-Output Space indicates the primary representation generated by each method family. Generative world models produce environment-level observations, while scenario generation methods produce simulation inputs (initial conditions, agent configurations, and trajectory specifications).
-Table 4: Summary of neural simulation environment and scene generation methods for mixed autonomy traffic simulation.
+Generative World Models Video-Based & Latent World Models Multi-view images; latent tokens; video frames Learns action-conditioned video or latent generation via autoregressive token prediction or latent diffusion; produces future visual observations for end-to-end evaluation Photorealistic rollouts; end-to-end stack evaluation; controllable via actions, text, and structured inputs; emergent scene dynamics Long-horizon drift; high computational cost; causal consistency under intervention not guaranteed; image quality metrics miss driving-critical correctness GAIA-1, GAIA-2, Drive-WM, DriveDreamer, DriveDreamer-2, Vista, Copilot4D, MUVO, DrivingWorld, GenAD Occupancy-Based World Models 3D/4D semantic occupancy grids; BEV fields Predicts future semantic occupancy conditioned on ego actions via autoregressive or diffusion generation in voxel or triplane space Geometric and semantic structure; directly supports planning cost evaluation; captures free-space and drivable-area evolution No agent identity or intent; compounding topology errors; memory-intensive voxel grids; expensive 4D labels OccWorld, OccSora, DOME, T3Former, I2-World, Drive-OccWorld, OccLLaMA Traffic Scenario Generation Scene Initialization & Scenario Synthesis Static scene layouts; multi-agent trajectories; map + traffic configurations Generates traffic configurations ranging from static actor placements to full dynamic scenarios; controllable methods expose control interfaces (language, temporal logic, guidance functions, retrieval tags) for steerable generation Data-driven scene diversity; user-specified controllability; intuitive language interfaces; compositional control; supports scenario augmentation and targeted testing Realism–control trade-off; stronger constraints push off data manifold; unstandardized control interfaces; scene initialization methods lack dynamic validation; limited closed-loop validation SceneGen, TrafficGen, DriveSceneGen, CTG, CTG++, Scenario Diffusion, LCTGen, ChatSim, RealGen Safety-Critical Generation & Adversarial Falsification Scenario parameters; adversarial agent trajectories; safety-critical multi-agent configurations Discovers failure-inducing scenarios via optimization-based search (RL adversaries, importance sampling, fuzzing) or safety-targeted generative synthesis (guided diffusion, latent-space optimization with learned traffic priors) Efficient failure discovery; targeted stress testing; identifies safety-critical edge cases; generative methods maintain realism via learned priors; complements naturalistic evaluation Validity–criticality trade-off; adversarial drift to implausible scenarios; coverage gaps; failure finding ≠ risk estimation; guided generation provides soft not hard constraint satisfaction AST, Accelerated Eval., STRIVE, KING, AdvDiffuser, CAT, AV-FUZZER, CCDiff, CaDRE, BridgeGen, MADS Output Space indicates the primary representation generated by each method family. Generative world models produce environment-level observations, while scenario generation methods produce simulation inputs (initial conditions, agent configurations, and trajectory specifications). Table 4: Summary of neural simulation environment and scene generation methods for mixed autonomy traffic simulation.
 
 ### Generative World Models
 
-Driving world models learn data-driven simulators of how the environment evolves under ego vehicle actions and optional control variables. A common formulation is an action-conditioned transition model:
-
-where $o_{t}$ is an observation (multi-camera images, LiDAR, BEV features, or learned latent), $o_{\leq t} = {\{ o_{1},o_{2},\ldots,o_{t}\}}$ denotes observation history up to time $t$, $a_{t}$ is an action or planned motion, $a_{\leq t} = {\{ a_{1},a_{2},\ldots,a_{t}\}}$ denotes action history, $c$ represents structured conditioning such as map context, agent states, or high-level commands, and $\theta$ represents model parameters. Modern driving world models often factorize generation through tokenizers and generative backbones (autoregressive next-token prediction or diffusion in latent space), which helps scale to long horizons and high-dimensional outputs.
+Driving world models learn data-driven simulators of how the environment evolves under ego vehicle actions and optional control variables. A common formulation is an action-conditioned transition model: where $o_{t}$ is an observation (multi-camera images, LiDAR, BEV features, or learned latent), $o_{\leq t}=\{o_{1},o_{2},\ldots,o_{t}\}$ denotes observation history up to time $t$, $a_{t}$ is an action or planned motion, $a_{\leq t}=\{a_{1},a_{2},\ldots,a_{t}\}$ denotes action history, $c$ represents structured conditioning such as map context, agent states, or high-level commands, and $\theta$ represents model parameters. Modern driving world models often factorize generation through tokenizers and generative backbones (autoregressive next-token prediction or diffusion in latent space), which helps scale to long horizons and high-dimensional outputs.
 
 World models function as general-purpose environment simulators that can serve multiple downstream applications. For behavior modeling specifically, generative world models enable three capabilities that traditional simulators lack: *imagination-based training*, where behavioral policies can be optimized through rollouts inside the learned model without requiring access to the real environment or a hand-crafted simulator; *closed-loop evaluation*, where learned behavior models are tested against environment responses that reflect data-driven dynamics rather than scripted rules; and *data augmentation*, where the world model generates novel scenarios that expand the training distribution for behavior models beyond what is available in recorded logs.
 
 ### Video-Based and Latent World Models
 
-Video-based world models treat driving simulation as conditional video generation, producing future visual observations conditioned on actions and structured controls. Let $o_{t} \in {\mathbb{R}}^{C \times H \times W}$ denote a multi-view observation at time $t$. The observation is encoded into a latent representation $z_{t} \in {\mathbb{R}}^{d}$ or discrete tokens. In autoregressive form with discrete tokenization, let $z_{t} = {\{ z_{t,1},z_{t,2},\ldots,z_{t,K_{t}}\}}$ represent $K_{t}$ tokens at time $t$ from vocabulary $\mathcal{V}$. The autoregressive world model learns:
-
-where $z_{{< t}, \cdot}$ denotes all tokens before time $t$, $z_{t,{< k}}$ denotes tokens at time $t$ before position $k$, and $u$ aggregates control variables (ego actions $a^{\text{ego}}$, map context $m$, semantic constraints $c$). In diffusion form, models denoise latent representations conditioned on past observations and controls. The key differentiator from occupancy-based models discussed in the next section is targeting view-level appearance and temporal coherence directly, which is useful for training and evaluating end-to-end autonomy stacks that operate on raw sensor inputs.
+Video-based world models treat driving simulation as conditional video generation, producing future visual observations conditioned on actions and structured controls. Let $o_{t}\in\mathbb{R}^{C\times H\times W}$ denote a multi-view observation at time $t$. The observation is encoded into a latent representation $z_{t}\in\mathbb{R}^{d}$ or discrete tokens. In autoregressive form with discrete tokenization, let $z_{t}=\{z_{t,1},z_{t,2},\ldots,z_{t,K_{t}}\}$ represent $K_{t}$ tokens at time $t$ from vocabulary $\mathcal{V}$. The autoregressive world model learns: where $z_{<t,\cdot}$ denotes all tokens before time $t$, $z_{t,<k}$ denotes tokens at time $t$ before position $k$, and $u$ aggregates control variables (ego actions $a^{\text{ego}}$, map context $m$, semantic constraints $c$). In diffusion form, models denoise latent representations conditioned on past observations and controls. The key differentiator from occupancy-based models discussed in the next section is targeting view-level appearance and temporal coherence directly, which is useful for training and evaluating end-to-end autonomy stacks that operate on raw sensor inputs.
 
 GAIA-1 demonstrated that large-scale generative models can produce controllable scenario generation with emergent understanding of scene dynamics, geometry, and agent interactions. GAIA-2 extends this foundation with latent diffusion and achieved multi-camera consistency, fine-grained control over agent configurations and environmental factors, and geographic diversity across multiple countries. GAIA-2 and its successor GAIA-3 enable the generation of safety-critical scenarios that are rare in naturalistic data but essential for behavior model evaluation. Drive-WM demonstrated that world models can directly serve planning by rolling out futures under different maneuvers and scoring with image-based rewards. This established a pathway from world model predictions to behavioral decisions. DriveDreamer proposed diffusion-based world models trained on real-world data with structured constraints (3D bounding boxes, HD maps, ego actions) to improve controllability. Its extension, DriveDreamer-2 added LLM interfaces converting natural language user intent into trajectories for customized driving video generation. Vista emphasized high fidelity and versatile controllability for generalizable driving world models by demonstrating long-horizon action-conditioned video prediction across diverse driving domains.
 
@@ -468,9 +294,7 @@ While these video-level world models produce visually compelling rollouts, their
 
 ### Occupancy-Based World Models
 
-Occupancy-based world models represent environment state using semantic occupancy fields (typically 3D voxel grids or BEV representations with height) and learn to predict future evolution conditioned on ego action. Let $O_{t} \in {\{ 1,\ldots,C\}}^{H \times W \times Z}$ denote semantic occupancy at time $t$, where $H$, $W$, and $Z$ are spatial dimensions and $C$ is the number of semantic classes (road, vehicle, pedestrian, background). An occupancy world model learns:
-
-where $O_{1:t}$ represents occupancy history and $a_{t:{{t + T_{f}} - 1}}$ denotes future ego actions over forecast horizon $T_{f}$. Compared with video world models, occupancy models trade pixel-level realism for geometric and semantic structure closer to planning cost functions, such as free space, drivable area, dynamic occupancy.
+Occupancy-based world models represent environment state using semantic occupancy fields (typically 3D voxel grids or BEV representations with height) and learn to predict future evolution conditioned on ego action. Let $O_{t}\in\{1,\dots,C\}^{H\times W\times Z}$ denote semantic occupancy at time $t$, where $H$, $W$, and $Z$ are spatial dimensions and $C$ is the number of semantic classes (road, vehicle, pedestrian, background). An occupancy world model learns: where $O_{1:t}$ represents occupancy history and $a_{t:t+T_{f}-1}$ denotes future ego actions over forecast horizon $T_{f}$. Compared with video world models, occupancy models trade pixel-level realism for geometric and semantic structure closer to planning cost functions, such as free space, drivable area, dynamic occupancy.
 
 OccWorld learns scene tokenizers for 3D occupancy using GPT-like spatiotemporal transformers to autoregressively generate future scene tokens jointly with ego motion, which established the foundational autoregressive paradigm for occupancy prediction. The other paradigm, diffusion-based approaches, improve generation fidelity and controllability. OccSora treats 4D occupancy generation as a core simulation primitive using diffusion-style generation for long sequences with semantic structure, and DOME uses continuous occupancy latents via an occupancy VAE with spatiotemporal diffusion transformers and trajectory-based resampling for strengthened controllability. Efficiency-focused architectures address the computational cost of dense 3D prediction. T^3^Former compresses 3D occupancy into triplanes and predicts triplane deltas autoregressively for real-time rollouts. $I^{2}$-World decouples tokenization into intra-frame and inter-frame components, which reduces redundancy. Drive-OccWorld intends to Connecting occupancy world models to planning and foundation-model interfaces. It adapts vision-centric 4D occupancy forecasting for end-to-end planning by evaluating candidate trajectories against occupancy-based cost functions. OccLLaMA introduces unified occupancy-language-action modeling for dynamics modeling, language conditioning, and multi-task outputs. It jointly tokenizes 3D occupancy, natural language instructions, and ego actions into a shared discrete token space, which enables a single model to simultaneously predict future scene states and plan actions. This unified token representation allows language commands to directly condition occupancy rollouts that bridges scene understanding and decision-making within a single generative framework.
 
@@ -490,7 +314,7 @@ Scene initialization methods generate the starting conditions for simulation wit
 
 ### Controllable scenario synthesis
 
-Controllable scenario synthesis learns generative distributions over scenarios by exposing *control variables* that steer generated outcomes. Assume a scenario consisting of HD map $m$ and multi-agent trajectories $\tau = {\{\tau^{1},\ldots,\tau^{N}\}}$, controllable synthesis learns the conditional distribution, $p_{\theta}{({\tau \mid {m,c}})}$, where $c$ encodes user intent or constraints, which can take multiple forms, such as semantic tokens, behavior tags, goal endpoints, interaction types, rule specifications, or natural language descriptions. Control is applied either by explicit conditioning during training or through guided sampling that biases generation toward satisfying constraints via auxiliary score functions.
+Controllable scenario synthesis learns generative distributions over scenarios by exposing *control variables* that steer generated outcomes. Assume a scenario consisting of HD map $m$ and multi-agent trajectories $\tau=\{\tau^{1},\ldots,\tau^{N}\}$, controllable synthesis learns the conditional distribution, $p_{\theta}(\tau\mid m,c)$, where $c$ encodes user intent or constraints, which can take multiple forms, such as semantic tokens, behavior tags, goal endpoints, interaction types, rule specifications, or natural language descriptions. Control is applied either by explicit conditioning during training or through guided sampling that biases generation toward satisfying constraints via auxiliary score functions.
 
 In this class, CTG proposes conditional diffusion with sampling-time guidance using differentiable constraints including temporal-logic specifications, demonstrating that diffusion models can generate socially consistent multi-agent trajectories while offering controllability through differentiable cost function guidance. In practice, users may specify constraints such as collision avoidance or goal reaching, and the reverse diffusion process is steered toward satisfying them without retraining. CTG++ extends this framework with language-based conditioning to translate natural language scenario descriptions into guidance signals that steer multi-agent trajectory generation. Scenario Diffusion frames controllability through conditioning tokens and map context using latent diffusion. These foundational controllable generation mechanisms support several safety-critical generation methods discussed in Section 6.2.2, where the same architectural principles are specialized toward adversarial and failure-inducing objectives.
 
@@ -534,79 +358,21 @@ The data-driven methods surveyed in Sections 4 to 6 optimize for trajectory accu
 
 This section reviews methods that incorporate validated theories from cognitive psychology, human factors, and traffic physics into learning-based behavior models. We organize the discussion around three complementary perspectives: how drivers decide under uncertainty (Section 7.1), how they perceive, attend to, and evaluate the driving environment including risk assessment and trust toward other agents (Section 7.2), and how physical priors can be encoded into neural architectures to enforce dynamic plausibility (Section 7.3). We conclude with a discussion of integration challenges and promising directions for bridging cognitive and data-driven paradigms (Section 7.4). Table 5 provides a summary of the reviewed methods and studies in this section.
 
-Bounded Rationality and Decision-Making Models
+Bounded Rationality and Decision-Making Models Prospect-Theoretic Decision Models Cumulative Prospect Theory (CPT); Prospect Balancing Replaces expected utility with S-shaped value function and nonlinear probability weighting; captures loss aversion and overweighting of rare catastrophic outcomes in driving decisions Interpretable style variation via CPT parameters; reproduces conservative/aggressive profiles without separate rewards; psychologically validated Parameter calibration from driving data is difficult; limited to single-decision settings; does not model temporal dynamics of choices Tversky & Kahneman, Schmidt et al., Sun et al.
 
-Prospect-Theoretic Decision Models
-Cumulative Prospect Theory (CPT); Prospect Balancing
-Replaces expected utility with S-shaped value function and nonlinear probability weighting; captures loss aversion and overweighting of rare catastrophic outcomes in driving decisions
-Interpretable style variation via CPT parameters; reproduces conservative/aggressive profiles without separate rewards; psychologically validated
-Parameter calibration from driving data is difficult; limited to single-decision settings; does not model temporal dynamics of choices
-Tversky &amp; Kahneman, Schmidt et al., Sun et al.
+Risk Allostasis & Homeostatic Models Risk Allostasis Theory; Task-Capability Interface Drivers adjust behavior to maintain a subjective target risk level rather than optimizing utility; explains systematic deviations from time-optimal behavior High fidelity to naturalistic car-following and speed choice; captures risk compensation effects; simple parameterization Target risk level is latent and hard to estimate; limited to longitudinal control; does not explain strategic interaction Fuller, Mohammadian et al., Kashifi Drift-Diffusion Models (DDMs) Sequential Sampling; Evidence Accumulation Decision variable accumulates noisy perceptual evidence toward boundaries; models the temporal dynamics and variability of gap acceptance, braking, and yielding decisions Captures full RT distribution, including dangerous late decisions; perceptual inputs (looming, TTC) as natural drift rates; differentiable neural implementations Binary decisions only; limited multi-alternative extensions; requires careful specification of evidence signals; calibration from naturalistic data is challenging Ratcliff, Markkula et al., Zgonnikov et al., McDonald et al., Fengler et al.
 
-Risk Allostasis &amp; Homeostatic Models
-Risk Allostasis Theory; Task-Capability Interface
-Drivers adjust behavior to maintain a subjective target risk level rather than optimizing utility; explains systematic deviations from time-optimal behavior
-High fidelity to naturalistic car-following and speed choice; captures risk compensation effects; simple parameterization
-Target risk level is latent and hard to estimate; limited to longitudinal control; does not explain strategic interaction
-Fuller, Mohammadian et al., Kashifi
+Cognitive Hierarchy; Behavioral Game Theory Agents have heterogeneous strategic depth: level-0 follows heuristics, level-k best-responds to level-(k − 1); models realistic variation in anticipatory reasoning Principled heterogeneity in interactive behavior; avoids full-rationality assumption; calibratable from observed interactions Requires specifying level-0 heuristic; distribution over levels is scenario-dependent; computational cost grows with k Stahl & Wilson, Chong et al., Li et al.
 
-Drift-Diffusion Models (DDMs)
-Sequential Sampling; Evidence Accumulation
-Decision variable accumulates noisy perceptual evidence toward boundaries; models the temporal dynamics and variability of gap acceptance, braking, and yielding decisions
-Captures full RT distribution, including dangerous late decisions; perceptual inputs (looming, TTC) as natural drift rates; differentiable neural implementations
-Binary decisions only; limited multi-alternative extensions; requires careful specification of evidence signals; calibration from naturalistic data is challenging
-Ratcliff, Markkula et al., Zgonnikov et al., McDonald et al., Fengler et al.
+Cognitive Architectures, Attention, Risk Perception, and Trust Models Cognitive Architectures (ACT-R, SOAR) ACT-R; SOAR; Production Systems Unified computational theories of perception, memory, and motor execution with constrained processing resources; predict realistic latencies and error modes from cognitive bottlenecks Interpretable parameters with psychological meaning; predict error modes (inattention, overload); principled generalization to novel scenarios; validated against human data Hand-crafted production rules; operate in simplified environments; difficult to scale to high-fidelity scenarios; limited continuous control Anderson, Salvucci, Cao et al., Ebadi et al., Laird, Zhou et al.
 
-Cognitive Hierarchy; Behavioral Game Theory
-Agents have heterogeneous strategic depth: level-0 follows heuristics, level-k best-responds to level-(k−1); models realistic variation in anticipatory reasoning
-Principled heterogeneity in interactive behavior; avoids full-rationality assumption; calibratable from observed interactions
-Requires specifying level-0 heuristic; distribution over levels is scenario-dependent; computational cost grows with k
-Stahl &amp; Wilson, Chong et al., Li et al.
+Attention & Gaze Prediction Selective Attention; Visual Saliency; Foveal–Peripheral Processing Models where human drivers look using learned gaze maps combining bottom-up saliency and top-down task cues; weights features by predicted attention for downstream models Prevents causal confusion; provides explainability; captures perceptual biases; large-scale gaze datasets available Gaze ≠ attention (covert shifts missed); dataset bias toward normal driving; limited integration with closed-loop control Palazzi et al., Xia et al., Fang et al., Kultrera et al.
 
-Cognitive Architectures, Attention, Risk Perception, and Trust Models
+Brain-Inspired & Affordance Models Ecological Perception; Multiple Resource Theory; Cognitive Control Hypothesis Spiking neural networks mimic visual cortex; affordance-based representations extract driving-relevant variables; resource theory predicts dual-task interference and distraction effects Robust to high-speed/low-latency scenarios; interpretable intermediate affordances; validated dual-task degradation predictions (R2 > 0.90) SNNs lack mature training frameworks; affordance definition requires domain expertise; resource models calibrated from lab, not naturalistic settings Ma et al., Chen et al., Wickens, Horrey & Wickens, Engström et al.
 
-Cognitive Architectures (ACT-R, SOAR)
-ACT-R; SOAR; Production Systems
-Unified computational theories of perception, memory, and motor execution with constrained processing resources; predict realistic latencies and error modes from cognitive bottlenecks
-Interpretable parameters with psychological meaning; predict error modes (inattention, overload); principled generalization to novel scenarios; validated against human data
-Hand-crafted production rules; operate in simplified environments; difficult to scale to high-fidelity scenarios; limited continuous control
-Anderson, Salvucci, Cao et al., Ebadi et al., Laird, Zhou et al.
+Risk Fields & Potential-Based Models Driving Safety Field; Artificial Potential Fields Surrounding objects and road elements emit repulsive potentials; trajectories minimize cumulative risk exposure; learned risk fields capture subjective risk perception differing from objective TTC Implicit safety guarantees; reduced data requirements; captures subjective risk biases (overestimation of head-, underestimation of lateral); interpretable field visualization Risk field calibration is driver-specific; limited to reactive control; does not model strategic anticipation; field superposition assumptions may be simplistic Trust Dynamics in Human–AV Interaction Trust Calibration; Three-Layer Trust Model Models how human drivers adjust behavior based on evolving trust toward AVs; captures dispositional, situational, and learned trust influencing headway, gap acceptance, and interaction willingness Essential for mixed autonomy transition modeling; ML-based prediction from physiological and behavioral features; captures asymmetric trust repair after failures Trust is latent and difficult to measure at scale; models calibrated from simulator studies, not naturalistic driving; limited integration with trajectory-level behavior models Lee & See, Hoff & Bashir, Ayoub et al., Kaufman et al.
 
-Attention &amp; Gaze Prediction
-Selective Attention; Visual Saliency; Foveal–Peripheral Processing
-Models where human drivers look using learned gaze maps combining bottom-up saliency and top-down task cues; weights features by predicted attention for downstream models
-Prevents causal confusion; provides explainability; captures perceptual biases; large-scale gaze datasets available
-Gaze ≠ attention (covert shifts missed); dataset bias toward normal driving; limited integration with closed-loop control
-Palazzi et al., Xia et al., Fang et al., Kultrera et al.
-
-Brain-Inspired &amp; Affordance Models
-Ecological Perception; Multiple Resource Theory; Cognitive Control Hypothesis
-Spiking neural networks mimic visual cortex; affordance-based representations extract driving-relevant variables; resource theory predicts dual-task interference and distraction effects
-Robust to high-speed/low-latency scenarios; interpretable intermediate affordances; validated dual-task degradation predictions (R2 &gt; 0.90)
-SNNs lack mature training frameworks; affordance definition requires domain expertise; resource models calibrated from lab, not naturalistic settings
-Ma et al., Chen et al., Wickens, Horrey &amp; Wickens, Engström et al.
-
-Risk Fields &amp; Potential-Based Models
-Driving Safety Field; Artificial Potential Fields
-Surrounding objects and road elements emit repulsive potentials; trajectories minimize cumulative risk exposure; learned risk fields capture subjective risk perception differing from objective TTC
-Implicit safety guarantees; reduced data requirements; captures subjective risk biases (overestimation of head-, underestimation of lateral); interpretable field visualization
-Risk field calibration is driver-specific; limited to reactive control; does not model strategic anticipation; field superposition assumptions may be simplistic
-
-Trust Dynamics in Human–AV Interaction
-Trust Calibration; Three-Layer Trust Model
-Models how human drivers adjust behavior based on evolving trust toward AVs; captures dispositional, situational, and learned trust influencing headway, gap acceptance, and interaction willingness
-Essential for mixed autonomy transition modeling; ML-based prediction from physiological and behavioral features; captures asymmetric trust repair after failures
-Trust is latent and difficult to measure at scale; models calibrated from simulator studies, not naturalistic driving; limited integration with trajectory-level behavior models
-Lee &amp; See, Hoff &amp; Bashir, Ayoub et al., Kaufman et al.
-
-Physics-Informed Deep Learning (PIDL)
-IDM; OVM; FVDM; Car-Following Theory
-Encodes classical traffic flow models as structural priors or regularization in neural networks; combines physics rigor with data-driven flexibility for car-following and trajectory prediction
-Outperforms pure physics and pure neural models; strong in sparse-data regimes; enforces kinematic plausibility; distributional estimates via PIDL-GAN
-Limited to longitudinal models (car-following); physics priors may be too rigid for complex urban scenarios; fusion strategy selection is ad hoc
-
-Theory Basis indicates the primary cognitive, psychological, or physical theory grounding each method family. Methods are organized by whether they address decision-making under uncertainty, cognitive processing and evaluation including risk perception and trust, or physical and kinematic constraints.
-Table 5: Summary of cognitive and physics-informed AI methods for mixed autonomy traffic simulation.
+Physics-Informed Deep Learning (PIDL) IDM; OVM; FVDM; Car-Following Theory Encodes classical traffic flow models as structural priors or regularization in neural networks; combines physics rigor with data-driven flexibility for car-following and trajectory prediction Outperforms pure physics and pure neural models; strong in sparse-data regimes; enforces kinematic plausibility; distributional estimates via PIDL-GAN Limited to longitudinal models (car-following); physics priors may be too rigid for complex urban scenarios; fusion strategy selection is ad hoc Theory Basis indicates the primary cognitive, psychological, or physical theory grounding each method family. Methods are organized by whether they address decision-making under uncertainty, cognitive processing and evaluation including risk perception and trust, or physical and kinematic constraints. Table 5: Summary of cognitive and physics-informed AI methods for mixed autonomy traffic simulation.
 
 ### Bounded Rationality and Decision-Making Models
 
@@ -668,9 +434,7 @@ To summarize, cognitive and physics-informed methods provide value that purely d
 
 ## CHRONOLOGICAL LANDSCAPE OF AI METHODS FOR DRIVING BEHAVIOR MODELING
 
-Figure 3: Timeline of model development in driving simulation and virtual evaluation
-
-Figure 3 presents a timeline view of the AI methods reviewed in this survey, organized by methodological family and mapped to the period in which key contributions emerged. The timeline reveals three broad eras of development. The foundational era was marked by pioneering but mainly isolated efforts, most notably early neural network--based imitation learning and recurrent architectures for trajectory prediction. The transformers era brought a convergence of advances: transformer-based architectures permeated nearly every methodological family simultaneously, from prediction and imitation learning to multi-agent reinforcement learning and reactive simulation, while latent world models and traffic scenario generation methods also matured during this period. The most recent generative AI era is characterized by an explosion in both breadth and diversity of approaches: diffusion-based simulation, occupancy and video world models, LLM/VLM-based planning, game-theoretic prediction, and controllable scenario generation all emerged in a compressed timeframe.
+Figure 3: Timeline of model development in driving simulation and virtual evaluation Figure 3 presents a timeline view of the AI methods reviewed in this survey, organized by methodological family and mapped to the period in which key contributions emerged. The timeline reveals three broad eras of development. The foundational era was marked by pioneering but mainly isolated efforts, most notably early neural network--based imitation learning and recurrent architectures for trajectory prediction. The transformers era brought a convergence of advances: transformer-based architectures permeated nearly every methodological family simultaneously, from prediction and imitation learning to multi-agent reinforcement learning and reactive simulation, while latent world models and traffic scenario generation methods also matured during this period. The most recent generative AI era is characterized by an explosion in both breadth and diversity of approaches: diffusion-based simulation, occupancy and video world models, LLM/VLM-based planning, game-theoretic prediction, and controllable scenario generation all emerged in a compressed timeframe.
 
 Three patterns in this evolution are particularly noteworthy. First, there is a clear top-down temporal cascade across abstraction levels: agent-level methods such as imitation and prediction matured earliest, followed by environment-level approaches like simulation and world models, and most recently by foundation model methods that attempt to unify perception, reasoning, and planning. Second, the timeline illustrates an accelerating methodological convergence. While early work in each family developed largely in isolation, recent methods increasingly draw on shared architectural building blocks (e.g., transformers, diffusion processes) and blur traditional boundaries between prediction, planning, and simulation. This convergence suggests that the field is moving toward more holistic frameworks. However, the cognitive and physics-informed methods seem to follow a distinct developmental trajectory compared to the data-driven families. Rather than advancing through architectural innovations (from RNNs to transformers to diffusion models), this family evolved from established theoretical foundations in psychology, human factors, and traffic flow theory toward computational integration with deep learning. This dual evolution highlights a maturing field that must reconcile the rapid scalability of data-driven architectures with the slower but more principled development of theory-grounded models to achieve truly realistic mixed autonomy simulation.
 
@@ -680,25 +444,15 @@ For learning-based behavior models in mixed autonomy traffic, the core question 
 
 ### Open-Loop Evaluation Metrics
 
-Open-loop evaluation compares predicted trajectories or actions against ground-truth recordings without environmental feedback. Given predicted trajectory $\hat{\mathbf{Y}} = {\{{\hat{y}}_{1},\ldots,{\hat{y}}_{T}\}}$ and ground-truth $\mathbf{Y} = {\{ y_{1},\ldots,y_{T}\}}$ over prediction horizon $T$, standard metrics quantify displacement accuracy, multi-modal coverage, and probabilistic calibration.
+Open-loop evaluation compares predicted trajectories or actions against ground-truth recordings without environmental feedback. Given predicted trajectory $\hat{\mathbf{Y}}=\{\hat{y}_{1},\ldots,\hat{y}_{T}\}$ and ground-truth $\mathbf{Y}=\{y_{1},\ldots,y_{T}\}$ over prediction horizon $T$, standard metrics quantify displacement accuracy, multi-modal coverage, and probabilistic calibration.
 
 ### Displacement metrics
 
-The most widely adopted metrics measure Euclidean distance between predictions and ground-truth. Average Displacement Error (ADE) computes the mean L2 distance across all predicted timesteps:
-
-Final Displacement Error (FDE) measures accuracy at the prediction horizon endpoint:
-
-For multi-modal predictions generating $K$ trajectory hypotheses ${\{{\hat{\mathbf{Y}}}^{(k)}\}}_{k = 1}^{K}$, the minimum variants select the best-matching mode:
-
-Common choices include $K \in {\{ 1,5,6,10\}}$ depending on benchmark conventions.
+The most widely adopted metrics measure Euclidean distance between predictions and ground-truth. Average Displacement Error (ADE) computes the mean L2 distance across all predicted timesteps: Final Displacement Error (FDE) measures accuracy at the prediction horizon endpoint: For multi-modal predictions generating $K$ trajectory hypotheses $\{\hat{\mathbf{Y}}^{(k)}\}_{k=1}^{K}$, the minimum variants select the best-matching mode: Common choices include $K\in\{1,5,6,10\}$ depending on benchmark conventions.
 
 ### Miss rate and probabilistic metrics
 
-Miss Rate (MR) measures the fraction of predictions where no hypothesis falls within distance threshold $\delta$ of ground-truth:
-
-Typical thresholds include $\delta = 2.0$m for the Waymo Open Motion Dataset. The Brier minimum FDE used in Argoverse 2 jointly evaluates displacement and probability calibration:
-
-where $p_{k}$ is the predicted probability for mode $k$. For methods outputting trajectory distributions, Negative Log-Likelihood (NLL) measures how well the predicted distribution covers ground-truth. Soft mAP from the Waymo Motion Prediction Challenge adapts object detection Average Precision to trajectory forecasting, using soft assignment based on distance thresholds across multiple horizons and incorporating precision-recall curves over semantic trajectory modes.
+Miss Rate (MR) measures the fraction of predictions where no hypothesis falls within distance threshold $\delta$ of ground-truth: Typical thresholds include $\delta=2.0$m for the Waymo Open Motion Dataset. The Brier minimum FDE used in Argoverse 2 jointly evaluates displacement and probability calibration: where $p_{k}$ is the predicted probability for mode $k$. For methods outputting trajectory distributions, Negative Log-Likelihood (NLL) measures how well the predicted distribution covers ground-truth. Soft mAP from the Waymo Motion Prediction Challenge adapts object detection Average Precision to trajectory forecasting, using soft assignment based on distance thresholds across multiple horizons and incorporating precision-recall curves over semantic trajectory modes.
 
 ### Map and kinematic compliance
 
@@ -710,13 +464,9 @@ Closed-loop evaluation deploys models as interactive agents within simulation by
 
 ### Safety metrics
 
-Collision Rate (CR) measures the fraction of episodes involving collisions:
+Collision Rate (CR) measures the fraction of episodes involving collisions: where $N_{\text{ep}}$ is number of episodes.
 
-where $N_{\text{ep}}$ is number of episodes.
-
-Post-Encroachment Time (PET) measures the time gap between consecutive occupancy of the same conflict region by different agents, and is commonly used to quantify intersection conflicts:
-
-where $R$ denotes a conflict region, $t_{i}^{\text{exit}}{(R)}$ is the time agent $i$ exits $R$, and $t_{j}^{\text{enter}}{(R)}$ is the time agent $j$ enters $R$ (with $i$ being the first agent to traverse $R$ and $j$ the second).
+Post-Encroachment Time (PET) measures the time gap between consecutive occupancy of the same conflict region by different agents, and is commonly used to quantify intersection conflicts: where $R$ denotes a conflict region, $t^{\text{exit}}_{i}(R)$ is the time agent $i$ exits $R$, and $t^{\text{enter}}_{j}(R)$ is the time agent $j$ enters $R$ (with $i$ being the first agent to traverse $R$ and $j$ the second).
 
 ### Progress and task completion
 
@@ -724,7 +474,7 @@ Route Completion Rate measures the fraction of intended route successfully trave
 
 ### Comfort and rule compliance
 
-Longitudinal Jerk and Lateral Acceleration measure ride comfort through motion smoothness. Metrics are typically reported as maximum values or fraction of time exceeding comfort thresholds (e.g., jerk $> 4$ m/s^3^, lateral acceleration $> 3$ m/s^2^). Traffic rule adherence is evaluated through Red Light Violation Rate, Speed Limit Compliance, and Lane Violation Rate, aggregated into composite Traffic Rule Score.
+Longitudinal Jerk and Lateral Acceleration measure ride comfort through motion smoothness. Metrics are typically reported as maximum values or fraction of time exceeding comfort thresholds (e.g., jerk $>4$ m/s^3^, lateral acceleration $>3$ m/s^2^). Traffic rule adherence is evaluated through Red Light Violation Rate, Speed Limit Compliance, and Lane Violation Rate, aggregated into composite Traffic Rule Score.
 
 ### Multi-Agent and Interaction Metrics
 
@@ -736,13 +486,7 @@ Scene Collision Rate measures collisions between any pair of simulated agents (e
 
 ### Interaction realism
 
-The Waymo Open Sim Agents Challenge (WOSAC) introduced metrics specifically targeting behavioral realism for simulation agents. The Realism Meta-Metric combines multiple distributional comparisons between simulated and real traffic, computed via negative log-likelihood of logged futures under densities estimated from model rollouts. The NLL objective WOSAC aims to approximate is:
-
-To avoid scoring the full high-dimensional future $\mathbf{o}_{{\geq 1},i}$, WOSAC parameterizes scenarios using a set of component measurements and computes a time-series likelihood for each component metric $m$ as an average (in log-space) over time, masked by validity $v_{t}$:
-
-After obtaining component metrics for each measurement, WOSAC aggregates them into a single composite metric $M^{K}$:
-
-where $N$ is the number of scenarios, $M = 9$ is the number of component metrics, and $K = 32$ is the number of stochastic rollouts. The metric aggregates three categories: Kinematic Metrics comparing distributions of linear speed, linear acceleration magnitude, angular speed, and angular acceleration magnitude; Interactive Metrics comparing TTC distributions, distance to nearest object, and collision likelihood; and Map-Based Metrics comparing distance to road edge, road departure frequency, and off-road rate. Collisions and road departures are typically double-weighted to emphasize safety.
+The Waymo Open Sim Agents Challenge (WOSAC) introduced metrics specifically targeting behavioral realism for simulation agents. The Realism Meta-Metric combines multiple distributional comparisons between simulated and real traffic, computed via negative log-likelihood of logged futures under densities estimated from model rollouts. The NLL objective WOSAC aims to approximate is: To avoid scoring the full high-dimensional future $\mathbf{o}_{\geq 1,i}$, WOSAC parameterizes scenarios using a set of component measurements and computes a time-series likelihood for each component metric $m$ as an average (in log-space) over time, masked by validity $v_{t}$: After obtaining component metrics for each measurement, WOSAC aggregates them into a single composite metric $M^{K}$: where $N$ is the number of scenarios, $M=9$ is the number of component metrics, and $K=32$ is the number of stochastic rollouts. The metric aggregates three categories: Kinematic Metrics comparing distributions of linear speed, linear acceleration magnitude, angular speed, and angular acceleration magnitude; Interactive Metrics comparing TTC distributions, distance to nearest object, and collision likelihood; and Map-Based Metrics comparing distance to road edge, road departure frequency, and off-road rate. Collisions and road departures are typically double-weighted to emphasize safety.
 
 ### Interaction-specific evaluation
 
@@ -760,119 +504,13 @@ Early trajectory datasets such as NGSIM established foundational benchmarks for 
 
 Modern large-scale datasets have shifted toward multimodal sensor fusion and standardized benchmarking. The Waymo Open Motion Dataset (WOMD) provides over 570 hours of driving data across six U.S. cities with high-fidelity trajectory annotations, HD maps, and curated interactive splits emphasizing multi-agent scenarios. Argoverse 2 offers 250,000 motion forecasting scenarios with 3D lane boundaries and ground height information, while nuScenes provides diverse urban driving with full sensor suite annotations. For closed-loop planning evaluation, nuPlan represents a paradigm shift by offering 1,282 hours of data with scenario taxonomies, reactive simulation capabilities, and planning-specific metrics across four cities with distinct driving cultures. These datasets collectively enable the training and rigorous evaluation of the behavior modeling methods reviewed in this survey, with dataset selection depending on the target task (prediction vs. planning vs. simulation), required scenario diversity, and evaluation paradigm (open-loop vs. closed-loop).
 
-Drone-Based Trajectory Datasets
-
-Foundational; car-following analysis
-
-High precision (&lt;10 cm); 5,600 lane changes
-
-Urban intersections (4 sites)
-Vehicles, cyclists, pedestrians
-Naturalistic intersection behavior
-
-Vehicles, cyclists, pedestrians
-Complex interaction patterns
-
-Urban CBD (congested)
-Cars, taxis, buses, PTWs, medium/heavy vehicles
-Swarm of 10 drones over 5 days; dense multimodal trajectories over large urban network
-
-Highway ramps (7 sites)
-Merging and lane change scenarios
-
-USA, China, Germany
-Mixed (roundabouts, intersections, highways)
-International; adversarial &amp; cooperative scenarios; semantic maps
-
-Vehicle-Mounted Sensor Datasets (Motion Forecasting)
-
-Vehicles, pedestrians, cyclists
-Full sensor suite; 23 classes; 3D annotations
-
-First large-scale; HD maps with centerlines
-
-3D lane boundaries; ground height; 6s prediction
-
-Waymo Open Motion
-Vehicles, pedestrians, cyclists
-Interactive split; realism meta-metric; WOSAC benchmark
-
-Palo Alto (USA)
-Vehicles, pedestrians, cyclists
-Semantic maps; large scale
-
-Planning and Closed-Loop Evaluation Datasets
-
-Boston, Pittsburgh, Las Vegas, Singapore
-Vehicles, pedestrians, cyclists
-Closed-loop benchmark; reactive agents; planning metrics
-
-Motion planning benchmark; formal specifications
-
-Table 6: Major publicly available datasets for trajectory prediction, behavior modeling, and planning in automated driving. Duration indicates total recording time; scenarios indicates number of extracted segments for benchmarking where applicable.
+Drone-Based Trajectory Datasets Foundational; car-following analysis High precision (<10 cm); 5,600 lane changes Urban intersections (4 sites) Vehicles, cyclists, pedestrians Naturalistic intersection behavior Vehicles, cyclists, pedestrians Complex interaction patterns Urban CBD (congested) Cars, taxis, buses, PTWs, medium/heavy vehicles Swarm of 10 drones over 5 days; dense multimodal trajectories over large urban network Highway ramps (7 sites) Merging and lane change scenarios USA, China, Germany Mixed (roundabouts, intersections, highways) International; adversarial & cooperative scenarios; semantic maps Vehicle-Mounted Sensor Datasets (Motion Forecasting) Vehicles, pedestrians, cyclists Full sensor suite; 23 classes; 3D annotations First large-scale; HD maps with centerlines 3D lane boundaries; ground height; 6s prediction Waymo Open Motion Vehicles, pedestrians, cyclists Interactive split; realism meta-metric; WOSAC benchmark Palo Alto (USA) Vehicles, pedestrians, cyclists Semantic maps; large scale Planning and Closed-Loop Evaluation Datasets Boston, Pittsburgh, Las Vegas, Singapore Vehicles, pedestrians, cyclists Closed-loop benchmark; reactive agents; planning metrics Motion planning benchmark; formal specifications Table 6: Major publicly available datasets for trajectory prediction, behavior modeling, and planning in automated driving. Duration indicates total recording time; scenarios indicates number of extracted segments for benchmarking where applicable.
 
 ### Simulation Tools
 
 Table 7 summarizes widely used simulation tools for developing and evaluating learning-based driving methods. Tool selection depends on the target application, required fidelity level, dataset compatibility, and computational constraints. High-throughput state-level simulators (GPUDrive, Waymax, Nocturne) are most suitable for methods requiring billions of environment steps, typical in reinforcement learning, self-play, and large-scale ablations. Sensor-level simulators (CARLA, AWSIM, Isaac Sim) are preferred when contributions depend on perception realism, sensor modeling, or full autonomy stack integration. Traffic-level simulators (SUMO, CityFlow) support network-wide analysis and mixed autonomy penetration studies. Neural sensor simulators (UniSim, VISTA) generate realistic sensor outputs from real driving logs, which allows closed-loop evaluation under counterfactual scenarios.
 
-State-Level / Data-Driven Simulators
-
-Learned policies, rule-based
-Very high (GPU-native, 1M+ steps/s)
-
-Motion planning, prediction evaluation
-Log replay, IDM, learned
-High (JAX/GPU/TPU batching)
-
-Planning benchmark and evaluation
-IDM, log replay, learned (SMART)
-
-Log replay, learned (BC baseline)
-High (C++ core, &gt;2k steps/s)
-
-High (vectorized environments)
-
-Procedural, WOMD, nuScenes, nuPlan, Lyft
-Rule-based (IDM), log replay
-
-Multi-agent RL, social driving
-NGSIM, Argoverse, WOMD, SUMO
-Social agents, rule-based, log replay
-
-Traffic flow, mixed autonomy
-Car-following (Krauss, IDM)
-High (large-scale networks)
-
-RL for traffic control
-
-Traffic signal optimization
-
-End-to-end driving, perception
-Custom, OpenDRIVE maps
-Autopilot (rule-based), traffic manager
-
-Autoware stack testing
-
-Moderate (GPU rendering)
-
-Vehicle dynamics, crash testing
-
-Neural / Data-Driven Sensor Simulators
-
-Data-driven policy learning
-Custom logs (MIT AVT)
-Log-based with viewpoint synthesis
-
-Closed-loop counterfactual testing
-PandaSet, custom logs
-Neural reconstruction, actor manipulation
-Moderate (GPU inference)
-
-Scenario Engines and Benchmarks
-
-Motion planning benchmark
-
-Table 7: Simulation tools commonly used with learning-based driving methods. Simulation level indicates output granularity: sensor (camera/LiDAR images), state (bounding boxes, trajectories), or traffic (aggregate flow). Background agents refers to how non-ego vehicles are modeled during simulation.
+State-Level / Data-Driven Simulators Learned policies, rule-based Very high (GPU-native, 1M+ steps/s) Motion planning, prediction evaluation Log replay, IDM, learned High (JAX/GPU/TPU batching) Planning benchmark and evaluation IDM, log replay, learned (SMART) Log replay, learned (BC baseline) High (C++ core, >2k steps/s) High (vectorized environments) Procedural, WOMD, nuScenes, nuPlan, Lyft Rule-based (IDM), log replay Multi-agent RL, social driving NGSIM, Argoverse, WOMD, SUMO Social agents, rule-based, log replay Traffic flow, mixed autonomy Car-following (Krauss, IDM) High (large-scale networks) RL for traffic control Traffic signal optimization End-to-end driving, perception Custom, OpenDRIVE maps Autopilot (rule-based), traffic manager Autoware stack testing Moderate (GPU rendering) Vehicle dynamics, crash testing Neural / Data-Driven Sensor Simulators Data-driven policy learning Custom logs (MIT AVT) Log-based with viewpoint synthesis Closed-loop counterfactual testing PandaSet, custom logs Neural reconstruction, actor manipulation Moderate (GPU inference) Scenario Engines and Benchmarks Motion planning benchmark Table 7: Simulation tools commonly used with learning-based driving methods. Simulation level indicates output granularity: sensor (camera/LiDAR images), state (bounding boxes, trajectories), or traffic (aggregate flow). Background agents refers to how non-ego vehicles are modeled during simulation.
 
 ## DISCUSSION
 

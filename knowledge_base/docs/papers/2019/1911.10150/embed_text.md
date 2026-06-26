@@ -36,15 +36,7 @@ We implement PointPainting with three state of the art lidar-only methods that h
 
 ### Contributions
 
-Our main contribution is a novel fusion method, PointPainting, that augments the point cloud with image semantics. Through extensive experimentation we show that PointPainting is:
-
-general -- achieving significant improvements when used with 3 top lidar-only methods on the KITTI and nuScenes benchmarks;
-
-accurate -- the painted version of PointRCNN achieves state of the art on the KITTI benchmark;
-
-robust -- the painted versions of PointRCNN and PointPillars improved performance on *all classes* on the KITTI and nuScenes *test* sets, respectively.
-
-fast -- low latency fusion can be achieved by pipelining the image and lidar processing steps.
+Our main contribution is a novel fusion method, PointPainting, that augments the point cloud with image semantics. Through extensive experimentation we show that PointPainting is: general -- achieving significant improvements when used with 3 top lidar-only methods on the KITTI and nuScenes benchmarks; accurate -- the painted version of PointRCNN achieves state of the art on the KITTI benchmark; robust -- the painted versions of PointRCNN and PointPillars improved performance on *all classes* on the KITTI and nuScenes *test* sets, respectively. fast -- low latency fusion can be achieved by pipelining the image and lidar processing steps.
 
 Figure 4: Qualitative analysis of KITTI results. We created four different comparison figures. For each comparison, the upper left is the original point cloud, while the upper right is the painted point cloud with the segmentation outputs used to color car (orange), cyclist (red) and pedestrian (blue) points. PointPillars / Painted PointPillars predicted 3D bounding boxes are displayed on the both the input point cloud (upper left / right) and projected into the image (lower left / right). The orientation of boxes is shown by a line connecting the bottom center to the front of the box.
 
@@ -60,20 +52,9 @@ In this paper, the segmentation scores for our KITTI experiments are generated f
 
 ### PointPainting
 
-Lidar point cloud L ∈ ℝN, D with N points and D ≥ 3.
-Segmentation scores S ∈ ℝW, H, C with C classes.
-Homogenous transformation matrix T ∈ ℝ4, 4.
-Painted lidar points P ∈ ℝN, D + C
-for $\overset{\rightarrow}{l}$ ∈ L do
-${\overset{\rightarrow}{l}}_{image} = \text{PROJECT}{(M,T,{\overset{\rightarrow}{l}}_{xyz}}$) ⊳ ${\overset{\rightarrow}{l}}_{image} \in {\mathbb{R}}^{2}$
-$\overset{\rightarrow}{s} = {S{\lbrack{{\overset{\rightarrow}{l}}_{image}{\lbrack 0\rbrack}},{{\overset{\rightarrow}{l}}_{image}{\lbrack 1\rbrack}},:\rbrack}}$ ⊳ $\overset{\rightarrow}{s} \in {\mathbb{R}}^{C}$
-$\overset{\rightarrow}{p} = {\text{Concatenate}{(\overset{\rightarrow}{l},\overset{\rightarrow}{s})}}$ ⊳ $\overset{\rightarrow}{p} \in {\mathbb{R}}^{D + C}$
+Lidar point cloud L ∈ ℝN, D with N points and D ≥ 3. Segmentation scores S ∈ ℝW, H, C with C classes. Homogenous transformation matrix T ∈ ℝ4, 4. Painted lidar points P ∈ ℝN, D + C for $\overset{\rightarrow}{l}$ ∈ L do ${\overset{\rightarrow}{l}}_{image} = \text{PROJECT}{(M,T,{\overset{\rightarrow}{l}}_{xyz}}$) ⊳ ${\overset{\rightarrow}{l}}_{image} \in {\mathbb{R}}^{2}$ $\overset{\rightarrow}{s} = {S{\lbrack{{\overset{\rightarrow}{l}}_{image}{\lbrack 0\rbrack}},{{\overset{\rightarrow}{l}}_{image}{\lbrack 1\rbrack}},:\rbrack}}$ ⊳ $\overset{\rightarrow}{s} \in {\mathbb{R}}^{C}$ $\overset{\rightarrow}{p} = {\text{Concatenate}{(\overset{\rightarrow}{l},\overset{\rightarrow}{s})}}$ ⊳ $\overset{\rightarrow}{p} \in {\mathbb{R}}^{D + C}$ Table 2: Results on the KITTI test BEV detection benchmark. We see that Painted PointRCNN sets a new state of the art (69.86 mAP) in BEV detection performance. The modalities are lidar (L), images (I), and maps (M). The delta is the difference due to Painting, ie Painted PointRCNN minus PointRCNN. The corresponding 3D results are included in Table 8 in the Supplementary Material.
 
-Table 2: Results on the KITTI test BEV detection benchmark. We see that Painted PointRCNN sets a new state of the art (69.86 mAP) in BEV detection performance. The modalities are lidar (L), images (I), and maps (M). The delta is the difference due to Painting, ie Painted PointRCNN minus PointRCNN. The corresponding 3D results are included in Table 8 in the Supplementary Material.
-
-Here we provide details on the painting algorithm. Each point in the lidar point cloud is ($x$, $y$, $z$, $r$) or ($x$, $y$, $z$, $r$, $t$) for KITTI and nuScenes respectively, where $x$, $y$, $z$ are the spatial location of each lidar point, $r$ is the reflectance, and $t$ is the relative timestamp of the lidar point (applicable when using multiple lidar sweeps ). The lidar points are transformed by a homogenous transformation followed by a projection into the image. For KITTI this transformation is given by $T_{{camera}\leftarrow{lidar}}$. The nuScenes transformation requires extra care since the lidar and cameras operate at different frequencies. The complete transformation is:
-
-with transforms: lidar frame to the ego-vehicle frame; ego frame at time of lidar capture, $t_{l}$, to ego frame at the image capture time, $t_{c}$; and ego frame to camera frame. Finally, the camera matrix, $M$, projects the points into the image.
+Here we provide details on the painting algorithm. Each point in the lidar point cloud is ($x$, $y$, $z$, $r$) or ($x$, $y$, $z$, $r$, $t$) for KITTI and nuScenes respectively, where $x$, $y$, $z$ are the spatial location of each lidar point, $r$ is the reflectance, and $t$ is the relative timestamp of the lidar point (applicable when using multiple lidar sweeps). The lidar points are transformed by a homogenous transformation followed by a projection into the image. For KITTI this transformation is given by $T_{{camera}\leftarrow{lidar}}$. The nuScenes transformation requires extra care since the lidar and cameras operate at different frequencies. The complete transformation is: with transforms: lidar frame to the ego-vehicle frame; ego frame at time of lidar capture, $t_{l}$, to ego frame at the image capture time, $t_{c}$; and ego frame to camera frame. Finally, the camera matrix, $M$, projects the points into the image.
 
 The output of the segmentation network is $C$ class scores, where for KITTI $C = 4$ (car, pedestrian, cyclist, background) and for nuScenes $C = 11$ (10 detection classes plus background). Once the lidar points are projected into the image, the segmentation scores for the relevant pixel, ($h$, $w$), are appended to the lidar point to create the painted lidar point. Note, if the field of view of two cameras overlap, there will be some points that will project on two images simultaneously and we randomly choose the segmentation score vector from one of the two images. Another strategy can be to choose the more discriminative score vector by comparing their entropies or the margin between the top two scores. However, we leave that for future studies.
 
@@ -105,11 +86,11 @@ Here we provide more details on the semantics networks.
 
 ### KITTI
 
-For experiments on KITTI, we used the DeepLabv3+ network^11^1https://github.com/NVIDIA/semantic-segmentation. The network was first pretrained on Mapillary, then finetuned on Cityscapes, and finally finetuned again on KITTI pixelwise sem. seg.. Note that the class definition of cyclist differs between KITTI sem. seg. and object detection: in detection a cyclist is defined as rider $+$ bike, while in sem. seg. a cyclist is defined as only the rider with bike a separate class. There was therefore a need to map bikes which had a rider to the cyclist class, while supressing parked bikes to background. We did this after painting by mapping all points painted with the bike class within a $1m$ radius of a rider to the cyclist class; the rest to background.
+For experiments on KITTI, we used the DeepLabv3+ network^11^1 The network was first pretrained on Mapillary, then finetuned on Cityscapes, and finally finetuned again on KITTI pixelwise sem. seg.. Note that the class definition of cyclist differs between KITTI sem. seg. and object detection: in detection a cyclist is defined as rider $+$ bike, while in sem. seg. a cyclist is defined as only the rider with bike a separate class. There was therefore a need to map bikes which had a rider to the cyclist class, while supressing parked bikes to background. We did this after painting by mapping all points painted with the bike class within a $1m$ radius of a rider to the cyclist class; the rest to background.
 
 ### nuScenes
 
-There was no public semantic segmentation method available on nuScenes so we trained a custom network using the nuImages dataset.^22^2We used an early access version; https://www.nuscenes.org/images. nuImages consists of $100$k images annotated with 2D bounding boxes and segmentation labels for all nuScenes classes. The segmentation network uses a ResNet backbone to generate features at strides $8$ to $64$ for a FCN segmentation head that predicts the nuScenes segmentation scores.
+There was no public semantic segmentation method available on nuScenes so we trained a custom network using the nuImages dataset.^22^2We used an early access version; nuImages consists of $100$k images annotated with 2D bounding boxes and segmentation labels for all nuScenes classes. The segmentation network uses a ResNet backbone to generate features at strides $8$ to $64$ for a FCN segmentation head that predicts the nuScenes segmentation scores.
 
 ### Lidar Network Details
 
@@ -117,7 +98,7 @@ We perform experiments using three different lidar networks: PointPillars, Voxel
 
 ### KITTI
 
-We used the publicly released code for PointPillars^33^3https://github.com/nutonomy/second.pytorch, VoxelNet^44^4https://github.com/traveller59/second.pytorch and PointRCNN^55^5https://github.com/sshaoshuai/PointRCNN and decorate the point cloud with the sem. seg. scores for $4$ classes. This changes the original decorated point cloud dimensions from $9\rightarrow 13$, $7\rightarrow 11$, and $4\rightarrow 8$ for PointPillars, VoxelNet, and PointRCNN respectively. For PointPillars, the new encoder has $$ channels, while for VoxelNet it has ${},{}$ channels. The $8$ dimensional painted point cloud for PointRCNN is given as input to both the encoder and the region pooling layer. No other changes were made to the public experimental configurations.
+We used the publicly released code for PointPillars^33^3 VoxelNet^44^4 and PointRCNN^55^5 and decorate the point cloud with the sem. seg. scores for $4$ classes. This changes the original decorated point cloud dimensions from $9\rightarrow 13$, $7\rightarrow 11$, and $4\rightarrow 8$ for PointPillars, VoxelNet, and PointRCNN respectively. For PointPillars, the new encoder has $$ channels, while for VoxelNet it has ${},{}$ channels. The $8$ dimensional painted point cloud for PointRCNN is given as input to both the encoder and the region pooling layer. No other changes were made to the public experimental configurations.
 
 ### nuScenes
 
@@ -146,8 +127,6 @@ Here we compare PointPainting with state of the art KITTI test results. The KITT
 As shown in Table 2, PointPainting leads to a robust improvement on the test set for PointRCNN: the average precision increases for every single class across all strata. Painted PointRCNN establishes new state of the art performance on mAP and cyclist AP.
 
 Based on the consistency of Painted PointRCNN improvements between val and test ($+ 2.73$ and $+ 2.94$ respectively), and the generality of PointPainting (Table 1), it is reasonable to believe that other methods in Table 2 would decidedly improve with PointPainting. The strength, generality, robustness, and flexibility of PointPainting suggests that it is the leading method for image-lidar fusion.
-
-Lidar &amp; Images
 
 Table 4: nuScenes test results. Detection performance is measured by nuScenes detection score (NDS) and mean average precision (mAP).
 

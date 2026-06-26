@@ -12,9 +12,7 @@ Another potential application is in time-critical applications such as embedded 
 
 ### A special case
 
-As previously noted, exponential stability certificates are often conservative when they are derived from $L_{2}$ gain bounds. However, it is well known that exponential stability can be proven directly in some special cases. To illustrate this fact, consider a discrete linear time-invariant (LTI) plant $G$ with state-space realization $(A,B,C,D)$. Suppose $G$ is connected in feedback with a passive nonlinearity $\Delta$. A sufficient condition for BIBO stability is that there exists a positive definite matrix $P \succ 0$ and a scalar $\lambda \geq 0$ satisfying the linear matrix inequality (LMI)
-
-If we define ${V{(x)}}{: =}{x^{\mathsf{T}}Px}$, then implies that $V$ decreases along trajectories: ${V{(x_{k + 1})}} \leq {V{(x_{k})}}$ for all $k$. BIBO stability then follows from positivity and boundedness of $V$. But observe that when holds, we may replace the right-hand side by $- {\varepsilonP}$ for some $\varepsilon > 0$ sufficiently small. We then conclude that ${V{(x_{k + 1})}} \leq {{({1 - \varepsilon})}V{(x_{k})}}$ for all $k$ and exponential stability follows. We can then maximize $\varepsilon$ subject to feasibility of to further improve the rate bound.
+As previously noted, exponential stability certificates are often conservative when they are derived from $L_{2}$ gain bounds. However, it is well known that exponential stability can be proven directly in some special cases. To illustrate this fact, consider a discrete linear time-invariant (LTI) plant $G$ with state-space realization $(A,B,C,D)$. Suppose $G$ is connected in feedback with a passive nonlinearity $\Delta$. A sufficient condition for BIBO stability is that there exists a positive definite matrix $P \succ 0$ and a scalar $\lambda \geq 0$ satisfying the linear matrix inequality (LMI) If we define ${V{(x)}}{: =}{x^{\mathsf{T}}Px}$, then implies that $V$ decreases along trajectories: ${V{(x_{k + 1})}} \leq {V{(x_{k})}}$ for all $k$. BIBO stability then follows from positivity and boundedness of $V$. But observe that when holds, we may replace the right-hand side by $- {\varepsilonP}$ for some $\varepsilon > 0$ sufficiently small. We then conclude that ${V{(x_{k + 1})}} \leq {{({1 - \varepsilon})}V{(x_{k})}}$ for all $k$ and exponential stability follows. We can then maximize $\varepsilon$ subject to feasibility of to further improve the rate bound.
 
 Unfortunately, the simple trick shown above does not work in the general IQC setting due to the different role played by $P$ in the associated LMI. The LMI used in IQC theory comes from the Kalman-Yakubovich-Popov (KYP) lemma and although it is structurally similar to, $P$ is not positive definite in general and $V$ may not decrease along trajectories.
 
@@ -28,11 +26,11 @@ It is noted in that BIBO stability often implies exponential stability. In parti
 
 Other proofs of exponential stability have appeared in the literature for specific classes of nonlinearities. Some examples include, which treat sector-bounded nonlinearities, and, which treats nonlinearities satisfying a Popov IQC. These works exploit LMI modifications akin to the one shown with earlier in this section.
 
-The sequel is inspired by the recent paper, which presents an approach for proving the robust exponential stability of optimization algorithms. The approach of uses a time-domain formulation of IQCs modified to handle exponential stability. In contrast, the present work develops the aforementioned exponential stability modification entirely in the frequency domain and clarifies its connection to the seminal IQC results in.
+The sequel is inspired by the recent paper, which presents an approach for proving the robust exponential stability of optimization algorithms. The approach of uses a time-domain formulation of IQCs modified to handle exponential stability. In contrast, the present work develops the aforementioned exponential stability modification entirely in the frequency domain and clarifies its connection to the seminal IQC results .
 
 ## Notation and preliminaries
 
-We adopt a setup analogous to the one used in, with the exception that we will work in discrete time rather than continuous time. The conjugate transpose of a vector $v \in {\mathbb{C}}^{n}$ is denoted $v^{\ast}$. The unit circle in the complex plane is denoted ${\mathbb{T}}{: =}\left\{ {z \in {\mathbb{C}}} \middle| {{|z|} = 1} \right\}$ The $z$-transform of a time-domain signal $x{: =}{(x_{0},x_{1},\ldots)}$ is denoted $\hat{x}{(z)}$ and defined as ${\hat{x}{(z)}}{: =}{\sum_{k = 0}^{\infty}{x_{k}z^{- k}}}$.
+We adopt a setup analogous to the one used , with the exception that we will work in discrete time rather than continuous time. The conjugate transpose of a vector $v \in {\mathbb{C}}^{n}$ is denoted $v^{\ast}$. The unit circle in the complex plane is denoted ${\mathbb{T}}{: =}\left\{ {z \in {\mathbb{C}}} \middle| {{|z|} = 1} \right\}$ The $z$-transform of a time-domain signal $x{: =}{(x_{0},x_{1},\ldots)}$ is denoted $\hat{x}{(z)}$ and defined as ${\hat{x}{(z)}}{: =}{\sum_{k = 0}^{\infty}{x_{k}z^{- k}}}$.
 
 A Hermitian positive definite (semidefinite) matrix $M$ is denoted $M \succ 0$ ($M \succeq 0$). Function composition is denoted ${{({g \circ f})}{(x)}}:={g{({f{(x)}})}}$. A sequence $u = {(u_{0},u_{1},\ldots)}$ is said to be in $\ell_{2}$ if ${\sum_{k = 0}^{\infty}{|u_{k}|}^{2}} < \infty$. A sequence $u_{k}$ is said to be in $\ell_{2}^{\rho}$ for some $\rho \in {}$ if the sequence $({\rho^{- k}u_{k}})$ is in $\ell_{2}$, i.e. ${\sum_{k = 0}^{\infty}{\rho^{- {2k}}{|u_{k}|}^{2}}} < \infty$. Note that $\ell_{2}^{\rho} \subset \ell_{2}$. Let $\mathcal{R}\mathcal{H}_{\infty}^{m \times n}$ be the set of $m \times n$ matrices whose elements are proper rational functions with real coefficients analytic on the closed unit disk.
 
@@ -40,29 +38,15 @@ Consider the standard setup of Fig. 1. The block $G$ contains the known LTI part
 
 Figure 1: Linear time-invariant system G in feedback with a nonlinearity Δ.
 
-The interconnection is said to be *well-posed* if the map ${(v,w)}\mapsto{(e,f)}$ has a causal inverse. The interconnection is said to be BIBO stable if, in addition, there exists some $\gamma > 0$ such that when $G$ is initialized with zero state,
-
-for all square-summable inputs $f$ and $e$, and where $\parallel \cdot \parallel$ denotes the $\ell_{2}$ norm. Finally, the interconnection is *exponentially stable* if there exists some $\rho \in {}$ and $c > 0$ such that if $f = 0$ and $e = 0$, the state $x_{k}$ of $G$ will decay exponentially with rate $\rho$. That is,
-
-We now present the classical IQC definition and stability result, which will be modified in the sequel to guarantee exponential convergence. These results are the discrete-time analog of the main IQC results of Megretski and Rantzer.
+The interconnection is said to be *well-posed* if the map ${(v,w)}\mapsto{(e,f)}$ has a causal inverse. The interconnection is said to be BIBO stable if, in addition, there exists some $\gamma > 0$ such that when $G$ is initialized with zero state, for all square-summable inputs $f$ and $e$, and where $\parallel \cdot \parallel$ denotes the $\ell_{2}$ norm. Finally, the interconnection is *exponentially stable* if there exists some $\rho \in {}$ and $c > 0$ such that if $f = 0$ and $e = 0$, the state $x_{k}$ of $G$ will decay exponentially with rate $\rho$. That is, We now present the classical IQC definition and stability result, which will be modified in the sequel to guarantee exponential convergence. These results are the discrete-time analog of the main IQC results of Megretski and Rantzer.
 
 ### Definition 1 (IQC)
 
-Signals $y \in \ell_{2}$ and $u \in \ell_{2}$ with associated $z$-transforms $\hat{y}{(z)}$ and $\hat{u}{(z)}$ satisfy the *IQC* defined by a Hermitian complex-valued function $\Pi$ if
-
-A bounded operator $\Delta$ satisfies the IQC defined by $\Pi$ if (2. ‣ 2 Notation and preliminaries ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) holds for all $y \in \ell_{2}$ with $u = {\Delta{(y)}}$. We also define ${IQC}{({\Pi{(z)}})}$ to be the set of all $\Delta$ that satisfy the IQC defined by $\Pi$.
+Signals $y \in \ell_{2}$ and $u \in \ell_{2}$ with associated $z$-transforms $\hat{y}{(z)}$ and $\hat{u}{(z)}$ satisfy the *IQC* defined by a Hermitian complex-valued function $\Pi$ if A bounded operator $\Delta$ satisfies the IQC defined by $\Pi$ if (2. ‣ 2 Notation and preliminaries ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) holds for all $y \in \ell_{2}$ with $u = {\Delta{(y)}}$. We also define ${IQC}{({\Pi{(z)}})}$ to be the set of all $\Delta$ that satisfy the IQC defined by $\Pi$.
 
 ### Theorem 2 (Stability result)
 
-Let ${G{(z)}} \in {\mathcal{R}\mathcal{H}_{\infty}^{m \times n}}$ and let $\Delta$ be a bounded causal operator. Suppose that:
-
-for every $\tau \in {\lbrack 0,1\rbrack}$, the interconnection of $G$ and $\tau\Delta$ is well-posed.
-
-for every $\tau \in {\lbrack 0,1\rbrack}$, we have ${\tau\Delta} \in {{IQC}{({\Pi{(z)}})}}$.
-
-there exists $\varepsilon > 0$ such that
-
-Then, the feedback interconnection of $G$ and $\Delta$ is stable.
+Let ${G{(z)}} \in {\mathcal{R}\mathcal{H}_{\infty}^{m \times n}}$ and let $\Delta$ be a bounded causal operator. Suppose that: for every $\tau \in {\lbrack 0,1\rbrack}$, the interconnection of $G$ and $\tau\Delta$ is well-posed. for every $\tau \in {\lbrack 0,1\rbrack}$, we have ${\tau\Delta} \in {{IQC}{({\Pi{(z)}})}}$. there exists $\varepsilon > 0$ such that Then, the feedback interconnection of $G$ and $\Delta$ is stable.
 
 ## Frequency-domain condition
 
@@ -92,21 +76,13 @@ Ideally, we would like to find a suitable redefinition of the IQC for this trans
 
 ### Definition 6 ($\rho$-IQC)
 
-Signals $y \in \ell_{2}^{\rho}$ and $u \in \ell_{2}^{\rho}$ with associated $z$-transforms $\hat{y}{(z)}$ and $\hat{u}{(z)}$ satisfy the *$\rho$-IQC* defined by a Hermitian complex-valued function $\Pi$ if
+Signals $y \in \ell_{2}^{\rho}$ and $u \in \ell_{2}^{\rho}$ with associated $z$-transforms $\hat{y}{(z)}$ and $\hat{u}{(z)}$ satisfy the *$\rho$-IQC* defined by a Hermitian complex-valued function $\Pi$ if A bounded operator $\Delta$ satisfies the $\rho$-IQC defined by $\Pi$ if (3. ‣ 3 Frequency-domain condition ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) holds for all $y \in \ell_{2}^{\rho}$ with $u = {\Delta{(y)}}$. We also define ${IQC}{({\Pi{(z)}},\rho)}$ to be the set of all $\Delta$ that satisfy the $\rho$-IQC defined by $\Pi$.
 
-A bounded operator $\Delta$ satisfies the $\rho$-IQC defined by $\Pi$ if (3. ‣ 3 Frequency-domain condition ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) holds for all $y \in \ell_{2}^{\rho}$ with $u = {\Delta{(y)}}$. We also define ${IQC}{({\Pi{(z)}},\rho)}$ to be the set of all $\Delta$ that satisfy the $\rho$-IQC defined by $\Pi$.
-
-Note that the concept of a $\rho$-IQC generalizes that of a regular IQC. Indeed, we have ${{IQC}{({\Pi{(z)}},1)}} = {{IQC}{({\Pi{(z)}})}}$. The restriction of $u \in \ell_{2}^{\rho}$ and $y \in \ell_{2}^{\rho}$ corresponds to the restriction of $u \in \ell_{2}$ and $y \in \ell_{2}$ in the classical definition of IQC. Now equipped with $\rho$-IQCs, we can relate $\Delta^{\prime}$ in Fig. 3 to $\Delta$ in Fig. 1.
+Note that the concept of a $\rho$-IQC generalizes that of a regular IQC. Indeed, we have ${{IQC}{({\Pi{(z)}},1)}} = {{IQC}{({\Pi{(z)}})}}$. The restriction of $u \in \ell_{2}^{\rho}$ and $y \in \ell_{2}^{\rho}$ corresponds to the restriction of $u \in \ell_{2}$ and $y \in \ell_{2}$ in the classical definition of IQC. Now equipped with $\rho$-IQCs, we can relate $\Delta'$ in Fig. 3 to $\Delta$ in Fig. 1.
 
 ### Proposition 7
 
-Let $\Delta$ be a nonlinearity, and let $\Pi$ be a Hermitian complex-valued function. As in Fig. 3, define $\Delta^{\prime}{: =}{\rho_{-} \circ {({\Delta \circ \rho_{+}})}}$. Then the following statements are equivalent.
-
-$\Delta \in {{IQC}{({\Pi{(z)}},\rho)}}$
-
-$\Delta^{\prime} \in {{IQC}{({\Pi{({\rhoz})}})}}$
-
-Proof. We define the discrete Fourier transform of the input and output of $\Delta$ as $\hat{y}{(z)}$ and $\hat{u}{(z)}$, respectively. Then, from the definition of $\rho_{+}$ and $\rho_{-}$, we have that ${\hat{w}{(z)}} = {\hat{u}{({\rhoz})}}$ and ${\hat{v}{(z)}} = {\hat{y}{({\rhoz})}}$. Substituting into the IQC definition (2. ‣ 2 Notation and preliminaries ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")), we obtain (3. ‣ 3 Frequency-domain condition ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) as required.
+Let $\Delta$ be a nonlinearity, and let $\Pi$ be a Hermitian complex-valued function. As in Fig. 3, define $\Delta'{: =}{\rho_{-} \circ {({\Delta \circ \rho_{+}})}}$. Then the following statements are equivalent. $\Delta \in {{IQC}{({\Pi{(z)}},\rho)}}$ $\Delta' \in {{IQC}{({\Pi{({\rhoz})}})}}$ Proof. We define the discrete Fourier transform of the input and output of $\Delta$ as $\hat{y}{(z)}$ and $\hat{u}{(z)}$, respectively. Then, from the definition of $\rho_{+}$ and $\rho_{-}$, we have that ${\hat{w}{(z)}} = {\hat{u}{({\rhoz})}}$ and ${\hat{v}{(z)}} = {\hat{y}{({\rhoz})}}$. Substituting into the IQC definition (2. ‣ 2 Notation and preliminaries ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")), we obtain (3. ‣ 3 Frequency-domain condition ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) as required.
 
 Proposition 7 is illustrated in Fig. 4.
 
@@ -116,23 +92,13 @@ We now state our main result, an exponential stability theorem analogous to the 
 
 ### Theorem 8 (Exponential stability)
 
-Fix $\rho \in {}$. Let ${G{({\rhoz})}} \in {\mathcal{R}\mathcal{H}_{\infty}^{m \times n}}$ and let $\Delta$ be a bounded causal operator. Suppose that:
+Fix $\rho \in {}$. Let ${G{({\rhoz})}} \in {\mathcal{R}\mathcal{H}_{\infty}^{m \times n}}$ and let $\Delta$ be a bounded causal operator. Suppose that: for every $\tau \in {\lbrack 0,1\rbrack}$, the interconnection of $G$ and $\tau\Delta$ is well-posed. for every $\tau \in {\lbrack 0,1\rbrack}$, we have ${\tau\Delta} \in {{IQC}{({\Pi{(z)}},\rho)}}$. there exists $\varepsilon > 0$ such that Then, the interconnection of $G$ and $\Delta$ shown in Fig. 1 is exponentially stable with rate $\rho$.
 
-for every $\tau \in {\lbrack 0,1\rbrack}$, the interconnection of $G$ and $\tau\Delta$ is well-posed.
-
-for every $\tau \in {\lbrack 0,1\rbrack}$, we have ${\tau\Delta} \in {{IQC}{({\Pi{(z)}},\rho)}}$.
-
-there exists $\varepsilon > 0$ such that
-
-Then, the interconnection of $G$ and $\Delta$ shown in Fig. 1 is exponentially stable with rate $\rho$.
-
-Proof. Roughly, we apply Theorem 2. ‣ 2 Notation and preliminaries ‣ Exponential Convergence Bounds using Integral Quadratic Constraints") to the interconnection in Fig. 3 with operators $G^{\prime}$ and $\Delta^{\prime}$ and IQC $\Pi{({\rhoz})}$.
+Proof. Roughly, we apply Theorem 2. ‣ 2 Notation and preliminaries ‣ Exponential Convergence Bounds using Integral Quadratic Constraints") to the interconnection in Fig. 3 with operators $G'$ and $\Delta'$ and IQC $\Pi{({\rhoz})}$.
 
 Since Fig. 1 and Fig. 3 have the same interconnection structure, well-posedness is equivalent.
 
-Due to the equivalence of IQCs in Proposition 7,
-
-This is condition iii) of Theorem 2. ‣ 2 Notation and preliminaries ‣ Exponential Convergence Bounds using Integral Quadratic Constraints") using $G^{\prime}$ and $\Delta^{\prime}$.
+Due to the equivalence of IQCs in Proposition 7, This is condition iii) of Theorem 2. ‣ 2 Notation and preliminaries ‣ Exponential Convergence Bounds using Integral Quadratic Constraints") using $G'$ and $\Delta'$.
 
 Thus, these three conditions ensure BIBO stability of the system in Fig. 3. We then apply Proposition 5 to arrive at exponential stability of Fig. 1.
 
@@ -142,37 +108,21 @@ As in the classical IQC setting, to guarantee stability, the frequency-domain in
 
 ### Definition 9
 
-We say $\Pi$ has a *factorization* $(\Psi,M)$ if
-
-where $\Psi$ is a stable linear time-invariant system, $M$ is a constant Hermitian matrix, and $\Psi{(z)}^{\ast}$ denotes the conjugate transpose of $\Psi{(z)}$.
+We say $\Pi$ has a *factorization* $(\Psi,M)$ if where $\Psi$ is a stable linear time-invariant system, $M$ is a constant Hermitian matrix, and $\Psi{(z)}^{\ast}$ denotes the conjugate transpose of $\Psi{(z)}$.
 
 ### Remark 10
 
-If $\Pi{(z)}$ has a factorization $(\Psi,M)$ and $\Psi{({\rhoz})}$ is stable, then (3. ‣ 3 Frequency-domain condition ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) is equivalent to
+If $\Pi{(z)}$ has a factorization $(\Psi,M)$ and $\Psi{({\rhoz})}$ is stable, then (3. ‣ 3 Frequency-domain condition ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) is equivalent to This follows immediately from Parseval's theorem.
 
-This follows immediately from Parseval's theorem.
-
-The KYP lemma, stated below, is attributed to Kalman, Yakubovich, and Popov. A simple proof and further references can be found in.
+The KYP lemma, stated below, is attributed to Kalman, Yakubovich, and Popov. A simple proof and further references can be found .
 
 ### Lemma 11 (Discrete-time KYP Lemma)
 
-Given matrices $A,B$ and a Hermitian matrix $M$, and assuming $A$ has no eigenvalues on the unit circle, the FDI
-
-holds for all $z \in {\mathbb{T}}$ if and only if there exists a solution $P = P^{\mathsf{T}}$ and $\lambda \geq 0$ to the LMI
+Given matrices $A,B$ and a Hermitian matrix $M$, and assuming $A$ has no eigenvalues on the unit circle, the FDI holds for all $z \in {\mathbb{T}}$ if and only if there exists a solution $P = P^{\mathsf{T}}$ and $\lambda \geq 0$ to the LMI
 
 ### Corollary 12
 
-Suppose the realization of $G$ is given by $(A,B,C,D)$ and assume $\Pi$ has a factorization $(\Psi,M)$, where the realization of $\Psi$ is given by
-
-Then (4. ‣ 3 Frequency-domain condition ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) is equivalent to the existence of $P = P^{\mathsf{T}}$ and $\lambda \geq 0$ such that
-
-where $(\hat{A},\hat{B},\hat{C},\hat{D})$ are given by
-
-Proof. A similar result is proven in, which we repeat here for completeness.
-
-where $\star$ denotes the repeated part of the quadratic form. Similarly, we have
-
-If $\rho^{- 1}\hat{A}$ has no eigenvalues on the unit circle, we may then invoke Lemma 11. ‣ 4 Computation ‣ Exponential Convergence Bounds using Integral Quadratic Constraints") (applied to $\rho^{- 1}\hat{A}$, $\rho^{- 1}\hat{B}$, and the appropriate $M$ term) and multiply through by $\rho^{2}$ to show that (4. ‣ 3 Frequency-domain condition ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) is equivalent to the existence of $P = P^{\mathsf{T}}$ and $\lambda \geq 0$ such that holds, as required.
+Suppose the realization of $G$ is given by $(A,B,C,D)$ and assume $\Pi$ has a factorization $(\Psi,M)$, where the realization of $\Psi$ is given by Then (4. ‣ 3 Frequency-domain condition ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) is equivalent to the existence of $P = P^{\mathsf{T}}$ and $\lambda \geq 0$ such that where $(\hat{A},\hat{B},\hat{C},\hat{D})$ are given by Proof. A similar result is proven, which we repeat here for completeness. where $\star$ denotes the repeated part of the quadratic form. Similarly, we have If $\rho^{- 1}\hat{A}$ has no eigenvalues on the unit circle, we may then invoke Lemma 11. ‣ 4 Computation ‣ Exponential Convergence Bounds using Integral Quadratic Constraints") (applied to $\rho^{- 1}\hat{A}$, $\rho^{- 1}\hat{B}$, and the appropriate $M$ term) and multiply through by $\rho^{2}$ to show that (4. ‣ 3 Frequency-domain condition ‣ Exponential Convergence Bounds using Integral Quadratic Constraints")) is equivalent to the existence of $P = P^{\mathsf{T}}$ and $\lambda \geq 0$ such that holds, as required.
 
 With the advent of fast interior-point methods to solve LMIs, the feasibility of the LMI can be quickly ascertained for any fixed $\rho^{2}$. Since the size of the LMI is on the order of the size of the system $G$ and the IQC $\Pi$, most practical linear systems lead to relatively small LMIs.
 
@@ -188,11 +138,7 @@ In this section, we show some classes of nonlinearities that can be described by
 
 ### Pointwise IQCs
 
-A nonlinearity $\Delta$ satisfies a pointwise IQC with a factorization $(\Psi,M)$ if ${z_{k}^{\mathsf{T}}Mz_{k}} \geq 0$ for each $k$. In other words, the IQC holds pointwise in time. In this case, $\Delta$ also satisfies the associated $\rho$-IQC for all $\rho \leq 1$. Examples of pointwise IQCs include the $\gamma$ *norm-bounded IQC*
-
-and the *$\lbrack\alpha,\beta\rbrack$ sector bounded IQC*, given by
-
-Note that the norm-bounded IQC is a special case of the sector IQC with the sector $\lbrack{- \gamma},\gamma\rbrack$. These IQCs hold even if $\Delta$ is time-varying.
+A nonlinearity $\Delta$ satisfies a pointwise IQC with a factorization $(\Psi,M)$ if ${z_{k}^{\mathsf{T}}Mz_{k}} \geq 0$ for each $k$. In other words, the IQC holds pointwise in time. In this case, $\Delta$ also satisfies the associated $\rho$-IQC for all $\rho \leq 1$. Examples of pointwise IQCs include the $\gamma$ *norm-bounded IQC* and the *$\lbrack\alpha,\beta\rbrack$ sector bounded IQC*, given by Note that the norm-bounded IQC is a special case of the sector IQC with the sector $\lbrack{- \gamma},\gamma\rbrack$. These IQCs hold even if $\Delta$ is time-varying.
 
 ### Zames-Falb IQCs
 
@@ -202,23 +148,17 @@ This relation states that the chord joining input-output pairs of $\Delta$ has a
 
 ### Proposition 14
 
-A nonlinearity $\Delta$ that is static and slope-restricted on $\lbrack\alpha,\beta\rbrack$ satisfies the Zames-Falb IQC
-
-where $H{(z)}$ is any proper transfer function with impulse response $h{: =}{(h_{0},h_{1},\ldots)}$ that satisfies ${\| h\|}_{1} \leq 1$ and $h_{k} \geq 0$ for all $k$.
+A nonlinearity $\Delta$ that is static and slope-restricted on $\lbrack\alpha,\beta\rbrack$ satisfies the Zames-Falb IQC where $H{(z)}$ is any proper transfer function with impulse response $h{: =}{(h_{0},h_{1},\ldots)}$ that satisfies ${\| h\|}_{1} \leq 1$ and $h_{k} \geq 0$ for all $k$.
 
 Proof. See for example.
 
 ### Remark 15
 
-The Zames-Falb IQC admits the factorization
-
-In general, for a given fixed $\rho$, only a subset of the Zames-Falb IQCs will be $\rho$-IQCs. We now give a characterization of this subset.
+The Zames-Falb IQC admits the factorization In general, for a given fixed $\rho$, only a subset of the Zames-Falb IQCs will be $\rho$-IQCs. We now give a characterization of this subset.
 
 ### Theorem 16 (Zames-Falb $\rho$-IQC)
 
-Suppose $\Delta$ is static and slope-restricted on $\lbrack\alpha,\beta\rbrack$. Then $\Delta \in {{IQC}{({\Pi{(z)}},\rho)}}$ where $\Pi$ is the Zames-Falb IQC and $H$ satisfies the additional constraint
-
-Proof. The proof involves rewriting the IQC as a discrete-time sum which can be split into parts that can separately be shown to be nonnegative. See the Appendix for the full proof.
+Suppose $\Delta$ is static and slope-restricted on $\lbrack\alpha,\beta\rbrack$. Then $\Delta \in {{IQC}{({\Pi{(z)}},\rho)}}$ where $\Pi$ is the Zames-Falb IQC and $H$ satisfies the additional constraint Proof. The proof involves rewriting the IQC as a discrete-time sum which can be split into parts that can separately be shown to be nonnegative. See the Appendix for the full proof.
 
 ### Multiple IQCs
 
@@ -226,13 +166,11 @@ Much like how multiple IQCs can give more precise $L_{2}$ gain bounds, multiple 
 
 Figure 5: LTI system G in feedback with the static nonlinearity Δ (x) = b arctan (x).
 
-Since this nonlinearity is static, in the $\lbrack 0,b\rbrack$ sector, and $\lbrack 0,b\rbrack$ slope-restricted, it satisfies the following $\rho$-IQCs
-
-where we can choose any $k = {1,2,\ldots}$.
+Since this nonlinearity is static, in the $\lbrack 0,b\rbrack$ sector, and $\lbrack 0,b\rbrack$ slope-restricted, it satisfies the following $\rho$-IQCs where we can choose any $k = {1,2,\ldots}$.
 
 ### A tight bound
 
-For our first example, we analyzed the following LTI system^11^1This example was inspired by the continuous time example given in, which showed that adding more IQCs yields better $L_{2}$ gain bounds.
+For our first example, we analyzed the following LTI system^11^1This example was inspired by the continuous time example given , which showed that adding more IQCs yields better $L_{2}$ gain bounds.
 
 We solved the feasibility LMI using MATLAB together with the CVX package to find the fastest guaranteed rate of convergence. We searched over positive linear combinations of subsets of the IQCs --. Fig. 6 shows the rate bounds achieved as a function of which IQCs were used. For the particular choice $b = 1$, Fig. 7 shows sample state trajectories.
 
@@ -246,9 +184,7 @@ Figure 7: State decay over time of the system G1 (z) in feedback as in Fig. 5 wi
 
 ### A loose bound
 
-The $\rho$-IQC approach does not always achieve tight bounds as in the previous example. Consider the same problem as before but this time using
-
-The rate bounds for various $\rho$-IQCs are shown in Fig. 8. This time, we again observe that using more IQCs achieves better rate bounds, but the bound is not tight even after using six IQCs.
+The $\rho$-IQC approach does not always achieve tight bounds as in the previous example. Consider the same problem as before but this time using The rate bounds for various $\rho$-IQCs are shown in Fig. 8. This time, we again observe that using more IQCs achieves better rate bounds, but the bound is not tight even after using six IQCs.
 
 Figure 8: Upper bounds on the exponential convergence rate ρ for the system G2 (z) given in in feedback as in Fig. 5. As we include more ρ-IQCs, we can certify tighter bounds.
 

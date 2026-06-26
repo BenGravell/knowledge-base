@@ -48,27 +48,21 @@ For each time step, the input tokens are interleaved in the following order: tex
 
 When modeling discrete input data with a sequence model, there is a trade-off between the sequence length and the vocabulary size. The sequence length refers to the number of discrete tokens that are needed to describe the data. The vocabulary size corresponds to the number of possible values a single token can take. For language, there are two obvious choices for tokens: characters and words. When using character-level tokens, the input data has a longer sequence length, and each individual token belongs to a smaller vocabulary, but conveys little meaning. When using word-level tokens, the input data has a shorter sequence length, and each token contains a lot of semantics but the vocabulary is extremely large. Most language models use byte-pair encoding (or equivalent) as a trade-off between character-level and word-level tokenization.
 
-Likewise for video, we would like to reduce the sequence length of the input, while possibly making the vocabulary larger, but with tokens that are more semantically meaningful than raw pixels. We do this with a discrete image autoencoder. There are two objectives we would like to achieve in this first stage:
+Likewise for video, we would like to reduce the sequence length of the input, while possibly making the vocabulary larger, but with tokens that are more semantically meaningful than raw pixels. We do this with a discrete image autoencoder. There are two objectives we would like to achieve in this first stage: Compress the information from raw pixels to make the sequence modeling problem tractable. Images contain a lot of redundant and noisy information. We would like to reduce the sequence length needed to describe the input data.
 
-Compress the information from raw pixels to make the sequence modeling problem tractable. Images contain a lot of redundant and noisy information. We would like to reduce the sequence length needed to describe the input data.
+Guide the compression towards meaningful representations, such as semantics, instead of high-frequency signals. The resulting input space for the world model will be simpler to compose , and less dominated by high-frequency signals that can considerably slow down the learning process.
 
-Guide the compression towards meaningful representations, such as semantics, instead of high-frequency signals. The resulting input space for the world model will be simpler to compose with, and less dominated by high-frequency signals that can considerably slow down the learning process.
-
-We reduce the sequence length of the input data by downsampling each input image by a factor $D = 16$ in both height and width. Each image $\mathbf{x}_{t}$ of size $H \times W$ is described by $n = {\frac{H}{D} \times \frac{W}{D}}$ tokens with a vocabulary size $K$. Inspired by, we guide the compression towards meaningful representations by regressing to the latent features of a pre-trained DINO model, a self-supervised image model that is known to contain semantic information. See Figure 3 for a qualitative example.
+We reduce the sequence length of the input data by downsampling each input image by a factor $D = 16$ in both height and width. Each image $\mathbf{x}_{t}$ of size $H \times W$ is described by $n = {\frac{H}{D} \times \frac{W}{D}}$ tokens with a vocabulary size $K$. Inspired , we guide the compression towards meaningful representations by regressing to the latent features of a pre-trained DINO model, a self-supervised image model that is known to contain semantic information. See Figure 3 for a qualitative example.
 
 The discrete autoencoder is a fully convolutional 2D U-Net. The encoder $E_{\theta}$ quantizes the image features using nearest neighbor look-up from a learnable embedding table, resulting in image tokens $\mathbf{z}_{t} = {E_{\theta}{(\mathbf{x}_{t})}}$. Note that the decoder is only used to train the image autoencoder, solely the discrete encoder $E_{\theta}$ is part of the final GAIA-1 model. Due to the decoder being trained on single images it lacks temporal consistency when decoding to a video. For this reason we also train a video decoder that is described in Section 2.4.
 
-The training losses for the image autoencoder are the following:
+The training losses for the image autoencoder are the following: Image reconstruction loss. The image reconstruction loss is a weighted sum of $L_{1}$, $L_{2}$, perceptual loss $L_{\text{perceptual}}$, and GAN loss $L_{\text{GAN}}$.
 
-Image reconstruction loss. The image reconstruction loss is a weighted sum of $L_{1}$, $L_{2}$, perceptual loss $L_{\text{perceptual}}$, and GAN loss $L_{\text{GAN}}$.
-
-Quantization loss. To update the embedding vectors, we use the embedding loss and the commitment loss from. We adopted the linear projection of the embedding and $L_{2}$ normalization from as we found this helped increase vocabulary usage.
+Quantization loss. To update the embedding vectors, we use the embedding loss and the commitment loss . We adopted the linear projection of the embedding and $L_{2}$ normalization from as we found this helped increase vocabulary usage.
 
 Inductive bias loss. The quantized image features are encouraged to match the image features of a pre-trained DINO model with a cosine similarity loss. Distilling the information from DINO into the learned tokens is important as it allows them to benefit from the inductive biases of this model.
 
-(b) Base VQ-GAN tokens
-
-Figure 3: Increasing semantic content of image tokens through DINO distillation. Visualization shows the top 3 PCA components of token embeddings mapped to RGB values. DINO-distilled tokens corresponding to a semantic class (e.g. vehicle, road, or sky) have similar embeddings.
+(b) Base VQ-GAN tokens Figure 3: Increasing semantic content of image tokens through DINO distillation. Visualization shows the top 3 PCA components of token embeddings mapped to RGB values. DINO-distilled tokens corresponding to a semantic class (e.g. vehicle, road, or sky) have similar embeddings.
 
 ### World Model
 
@@ -90,21 +84,7 @@ To train our video diffusion decoder for multiple inference tasks we take inspir
 
 Figure 4: Video decoder training tasks. Each task is defined by masking ground truth images and context tokens. We pass noise as input for frames we want to predict. Tokens are provided for predicted frames except for video interpolation task where the diffusion process is guided solely by image context.
 
-The video decoder is trained on the noise prediction objective. More specifically, we use the $\mathbf{v}$-parameterization as proposed in because it avoided unnatural color shifts and maintained long-term consistency as similarly found in. In practice, we use a weighted average of $L_{1}$ and $L_{2}$ losses. The video decoder loss $L_{\text{video}}$ is:
-
-$\epsilon_{\theta}$ is the denoising video model.
-
-$\epsilon$ is the denoising target, which uses the $\mathbf{v}$-parameterization.
-
-$t^{\prime} \sim {U{}}$ is the sampled discrete diffusion time.
-
-$\mathbf{x} = {(\mathbf{x}_{1},\ldots,\mathbf{x}_{T^{\prime}})}$ is a video sequence of length $T^{\prime}$.
-
-$\mathbf{x}^{t^{\prime}} = {{\alpha_{t^{\prime}}\mathbf{x}} + {\sigma_{t^{\prime}}\epsilon}}$ represents the noised video, with $\alpha_{t^{\prime}}$ and $\sigma_{t^{\prime}}$ functions of $t^{\prime}$ that define the noise schedule.
-
-$\mathbf{z} = {(\mathbf{z}_{1},\ldots,\mathbf{z}_{T^{\prime}})} = {E_{\theta}{(\mathbf{x})}}$ is the sequence of conditioning image tokens.
-
-$\mathbf{m} = {(\mathbf{m}_{1},\ldots,\mathbf{m}_{T^{\prime}})}$ is a sequence of image masks as specified by the training task (see Figure 4).
+The video decoder is trained on the noise prediction objective. More specifically, we use the $\mathbf{v}$-parameterization as proposed in because it avoided unnatural color shifts and maintained long-term consistency as similarly found. In practice, we use a weighted average of $L_{1}$ and $L_{2}$ losses. The video decoder loss $L_{\text{video}}$ is: $\epsilon_{\theta}$ is the denoising video model. $\epsilon$ is the denoising target, which uses the $\mathbf{v}$-parameterization. $t' \sim {U{}}$ is the sampled discrete diffusion time. $\mathbf{x} = {(\mathbf{x}_{1},\ldots,\mathbf{x}_{T'})}$ is a video sequence of length $T'$. $\mathbf{x}^{t'} = {{\alpha_{t'}\mathbf{x}} + {\sigma_{t'}\epsilon}}$ represents the noised video, with $\alpha_{t'}$ and $\sigma_{t'}$ functions of $t'$ that define the noise schedule. $\mathbf{z} = {(\mathbf{z}_{1},\ldots,\mathbf{z}_{T'})} = {E_{\theta}{(\mathbf{x})}}$ is the sequence of conditioning image tokens. $\mathbf{m} = {(\mathbf{m}_{1},\ldots,\mathbf{m}_{T'})}$ is a sequence of image masks as specified by the training task (see Figure 4).
 
 ## Data
 
@@ -140,7 +120,7 @@ The model was trained for 100k steps in 15 days, with 2.5k of linear warm-up and
 
 ### Video Decoder
 
-The video decoder (2.6B) was trained on sequences of $T^{\prime} = 7$ images of resolution ${H \times W} = {288 \times 512}$ sampled from the dataset at either $6.25\ {Hz}$, $12.5\ {Hz}$ or $25\ {Hz}$. The training tasks (Figure 4) were sampled with equal probability. We used a cosine $\beta$-noise schedule.
+The video decoder (2.6B) was trained on sequences of $T' = 7$ images of resolution ${H \times W} = {288 \times 512}$ sampled from the dataset at either $6.25\ {Hz}$, $12.5\ {Hz}$ or $25\ {Hz}$. The training tasks (Figure 4) were sampled with equal probability. We used a cosine $\beta$-noise schedule.
 
 The video decoder was optimized with AdamW and a learning rate of $5 \times 10^{- 5}$, weight decay $0.01$, beta coefficients $(0.9,0.99)$, norm gradient clipping $1.0$. The model was trained for 300k steps in 15 days, with 2.5k of linear warm-up and 5k of cosine decay to a final learning rate of $1 \times 10^{- 6}$. We used a weighted average of $L_{1}$ and $L_{2}$ losses with weights $\lambda_{L_{1}} = 0.1$ and $\lambda_{L_{2}} = 1.0$. The batch size was 64 split across 32 A100 80GB GPUs. We used an exponential moving average for the parameters with a decay of $0.999$. The training strategy was also Deepspeed ZeRO-2 with activation checkpointing.
 
@@ -168,29 +148,19 @@ By substituting the unconditioned logits with those conditioned on another text 
 
 We found it was important to schedule the scale factor used for guidance over tokens as well as frames. Scheduling over tokens allows some to be sampled with high guidance (hence adhering strongly to the prompt) and others to be sampled with low guidance (hence increasing sample diversity). Scheduling over frames allows for controlling the transition from earlier frames as well as mitigating compounding guidance over subsequent consecutive frames. In Figure 7 we show an example guidance schedule over twelve frames. Typically we used a schedule that sampled tokens with linearly decreasing guidance over tokens and we lowered the guidance over future frames with a cosine decay, with or without an initial plateau. We note that guidance scale and schedule are hyperparameters to be tuned to particular use cases.
 
-(a) Guidance scale factor
-
-Figure 7: Classifier-free guidance.
+(a) Guidance scale factor Figure 7: Classifier-free guidance.
 
 ### Video Decoder
 
-To decode a sequence of generated tokens from the world model, we use the following video decoding method:
+To decode a sequence of generated tokens from the world model, we use the following video decoding method: Decode the first $T' = 7$ frames, conditioned on the corresponding $T'$ image tokens.
 
-Decode the first $T^{\prime} = 7$ frames, conditioned on the corresponding $T^{\prime}$ image tokens.
-
-Autoregressively decode the next $T^{\prime} - 2$ frames, using 2 past overlapping frames as image context, and the following $T^{\prime} - 2$ image tokens.
+Autoregressively decode the next $T' - 2$ frames, using 2 past overlapping frames as image context, and the following $T' - 2$ image tokens.
 
 Repeat the autoregressive process until the $N$ frames have been generated at $6.25\ {Hz}$.
 
-Temporally upsample the $N$ frames from $6.25\ {Hz}$ to $12.5\ {Hz}$
+Temporally upsample the $N$ frames from $6.25\ {Hz}$ to $12.5\ {Hz}$ Temporally upsample the ${2N} - 1$ frames from $12.5\ {Hz}$ to $25.0\ {Hz}$ We use the DDIM sampler with $50$ diffusion steps. During autoregressive decoding, we see a trade-off between reflecting token information content in the generated video and temporal consistency. To balance between these two objectives, we calculate a weighted average of the two tasks. where function $\epsilon_{\theta}^{\pi}{(\mathbf{x}^{t'},t',\mathbf{z},\mathbf{m})}$ denoises each frame individually as images and function $\epsilon_{\theta}{(\mathbf{x}^{t'},t',\mathbf{z},\mathbf{m})}$ denoises the sequence of frames jointly as a video. In practice, we simply switch on and off the temporal layers. We apply this weighted average randomly for each diffusion step with probability $p = 0.25$ and weight $w = 0.5$.
 
-Temporally upsample the ${2N} - 1$ frames from $12.5\ {Hz}$ to $25.0\ {Hz}$
-
-We use the DDIM sampler with $50$ diffusion steps. During autoregressive decoding, we see a trade-off between reflecting token information content in the generated video and temporal consistency. To balance between these two objectives, we calculate a weighted average of the two tasks.
-
-where function $\epsilon_{\theta}^{\pi}{(\mathbf{x}^{t^{\prime}},t^{\prime},\mathbf{z},\mathbf{m})}$ denoises each frame individually as images and function $\epsilon_{\theta}{(\mathbf{x}^{t^{\prime}},t^{\prime},\mathbf{z},\mathbf{m})}$ denoises the sequence of frames jointly as a video. In practice, we simply switch on and off the temporal layers. We apply this weighted average randomly for each diffusion step with probability $p = 0.25$ and weight $w = 0.5$.
-
-While exploring different inference approaches for video decoding we found that decoding video frames autoregressively backwards starting from the end of the sequence led to more stable objects and less flickering on the horizon. In our overall video decoding method, we thus decode the last $T^{\prime}$ frames and autoregressively decodes the remaining frames backward from there.
+While exploring different inference approaches for video decoding we found that decoding video frames autoregressively backwards starting from the end of the sequence led to more stable objects and less flickering on the horizon. In our overall video decoding method, we thus decode the last $T'$ frames and autoregressively decodes the remaining frames backward from there.
 
 ## Scaling
 
@@ -212,9 +182,7 @@ Figure 9: Images generated by GAIA-1, highlighting the diversity of the generate
 
 ## Capabilities and Emerging Properties
 
-In this section we showcase the capabilities and emerging properties of GAIA-1 through a series of qualitative examples. The comprehensive list of video examples can be found [here](https://www.youtube.com/playlist?list=PL5ksjZd5b6SI-6MQi6ghoD-GilTPmsQIf). Figure 9 shows the variety of scenarios that can be generated by our model. As evidenced by the examples presented in the rest of this section, GAIA-1 exhibits a level of understanding and summarization of the generative rules of the world through the following emergent properties:
-
-Learning high-level structures and scene dynamics: it generates coherent scenes with objects positioned in plausible locations and exhibiting realistic object interactions, such as traffic lights, rules of the road, give ways, etc. This suggests that the model is not just memorizing statistical patterns but is understanding the underlying rules that govern the arrangement and behavior of objects in the world (see Section 7.1).
+In this section we showcase the capabilities and emerging properties of GAIA-1 through a series of qualitative examples. The comprehensive list of video examples can be found here. Figure 9 shows the variety of scenarios that can be generated by our model. As evidenced by the examples presented in the rest of this section, GAIA-1 exhibits a level of understanding and summarization of the generative rules of the world through the following emergent properties: Learning high-level structures and scene dynamics: it generates coherent scenes with objects positioned in plausible locations and exhibiting realistic object interactions, such as traffic lights, rules of the road, give ways, etc. This suggests that the model is not just memorizing statistical patterns but is understanding the underlying rules that govern the arrangement and behavior of objects in the world (see Section 7.1).
 
 Generalization and creativity: it can generate novel and diverse videos that go beyond specific instances in the training set. It can produce unique combinations of objects, movements, and scenes that were not explicitly present in the training data, demonstrating remarkable extrapolation capabilities. This demonstrates a certain level of generalization and creativity, which suggests an understanding of the underlying generative rules that govern video sequences (see Section 7.2).
 

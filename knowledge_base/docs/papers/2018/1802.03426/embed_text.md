@@ -30,9 +30,9 @@ The construction of fuzzy topological representations can be broken down into tw
 
 ### Uniform distribution of data on a manifold and geodesic approximation
 
-The first step of our algorithm is to approximate the manifold we assume the data (approximately) lies on. The manifold may be known apriori (as simply ${\mathbb{R}}^{n}$) or may need to be inferred from the data. Suppose the manifold is not known in advance and we wish to approximate geodesic distance on it. Let the input data be $X = {\{ X_{1},\ldots,X_{N}\}}$. As in the work of Belkin and Niyogi on Laplacian eigenmaps, for theoretical reasons it is beneficial to assume the data is uniformly distributed on the manifold, and even if that assumption is not made (e.g ) results are only valid in the limit of infinite data. In practice, finite real world data is rarely so nicely behaved. However, if we assume that the manifold has a Riemannian metric not inherited from the ambient space, we can find a metric such that the data is approximately uniformly distributed with regard to that metric.
+The first step of our algorithm is to approximate the manifold we assume the data (approximately) lies . The manifold may be known apriori (as simply ${\mathbb{R}}^{n}$) or may need to be inferred from the data. Suppose the manifold is not known in advance and we wish to approximate geodesic distance on it. Let the input data be $X = {\{ X_{1},\ldots,X_{N}\}}$. As in the work of Belkin and Niyogi on Laplacian eigenmaps, for theoretical reasons it is beneficial to assume the data is uniformly distributed on the manifold, and even if that assumption is not made (e.g ) results are only valid in the limit of infinite data. In practice, finite real world data is rarely so nicely behaved. However, if we assume that the manifold has a Riemannian metric not inherited from the ambient space, we can find a metric such that the data is approximately uniformly distributed with regard to that metric.
 
-Formally, let $\mathcal{M}$ be the manifold we assume the data to lie on, and let $g$ be the Riemannian metric on $\mathcal{M}$. Thus, for each point $p \in \mathcal{M}$ we have $g_{p}$, an inner product on the tangent space $T_{p}\mathcal{M}$.
+Formally, let $\mathcal{M}$ be the manifold we assume the data to lie , and let $g$ be the Riemannian metric on $\mathcal{M}$. Thus, for each point $p \in \mathcal{M}$ we have $g_{p}$, an inner product on the tangent space $T_{p}\mathcal{M}$.
 
 ### Lemma 1
 
@@ -46,7 +46,7 @@ In essence, by creating a custom distance for each $X_{i}$, we can ensure the va
 
 ### Fuzzy topological representation
 
-We will use functors between the relevant categories to convert from metric spaces to fuzzy topological representations. This will provide a means to merge the incompatible local views of the data. The topological structure of choice is that of simplicial sets. For more details on simplicial sets we refer the reader to or. Our approach draws heavily upon the work of Michael Barr and David Spivak in, and many of the definitions and theorems below are drawn or adapted from those sources. We assume familiarity with the basics of category theory. For an introduction to category theory readers may consult or.
+We will use functors between the relevant categories to convert from metric spaces to fuzzy topological representations. This will provide a means to merge the incompatible local views of the data. The topological structure of choice is that of simplicial sets. For more details on simplicial sets we refer the reader to or. Our approach draws heavily upon the work of Michael Barr and David Spivak , and many of the definitions and theorems below are drawn or adapted from those sources. We assume familiarity with the basics of category theory. For an introduction to category theory readers may consult or.
 
 To start we will review the definitions for simplicial sets. Simplicial sets provide a combinatorial approach to the study of topological spaces. They are related to the simpler notion of simplicial complexes -- which construct topological spaces by gluing together simple building blocks called simplices -- but are more general. Simplicial sets are most easily defined purely abstractly in the language of category theory.
 
@@ -60,15 +60,7 @@ Following standard category theoretic notation, $\mathbf{\Delta}^{\text{op}}$ de
 
 A *simplicial set* is a functor from $\mathbf{\Delta}^{\text{op}}$ to *Sets*, the category of sets; that is, a contravariant functor from $\mathbf{\Delta}$ to *Sets*.
 
-Given a simplicial set ${X:{\mathbf{\Delta}^{\text{op}}\rightarrow{\mathbf{S}\mathbf{e}\mathbf{t}\mathbf{s}}}},$ it is common to denote the set $X{({\lbrack n\rbrack})}$ as $X_{n}$ and refer to the elements of the set as the $n$-simplices of $X$. The simplest possible examples of simplicial sets are the *standard simplices* $\Delta^{n}$, defined as the representable functors $\hom_{\mathbf{\Delta}}{( \cdot,{\lbrack n\rbrack})}$. It follows from the Yoneda lemma that there is a natural correspondence between $n$-simplices of $X$ and morphisms $\Delta^{n}\rightarrow X$ in the category of simplicial sets, and it is often helpful to think in these terms. Thus for each $x \in X_{n}$ we have a corresponding morphism $x:{\Delta^{n}\rightarrow X}$. By the density theorem and employing a minor abuse of notation we then have
-
-There is a standard covariant functor $| \cdot |:\mathbf{\Delta}\rightarrow{\mathbf{T}\mathbf{o}\mathbf{p}}$ mapping from the category $\mathbf{\Delta}$ to the category of topological spaces that sends $\lbrack n\rbrack$ to the standard $n$-simplex ${|\Delta^{n}|} \subset {\mathbb{R}}^{n + 1}$ defined as
-
-with the standard subspace topology. If $X:{\mathbf{\Delta}^{\text{op}}\rightarrow{\mathbf{S}\mathbf{e}\mathbf{t}\mathbf{s}}}$ is a simplicial set then we can construct the realization of $X$ (denoted $|X|$) as the colimit
-
-and thus associate a topological space with a given simplicial set. Conversely given a topological space $Y$ we can construct an associated simplicial set $S{(Y)}$, called the singular set of $Y$, by defining
-
-It is a standard result of classical homotopy theory that the realization functor and singular set functors form an adjunction, and provide the standard means of translating between topological spaces and simplicial sets. Our goal will be to adapt these powerful classical results to the case of finite metric spaces.
+Given a simplicial set ${X:{\mathbf{\Delta}^{\text{op}}\rightarrow{\mathbf{S}\mathbf{e}\mathbf{t}\mathbf{s}}}},$ it is common to denote the set $X{({\lbrack n\rbrack})}$ as $X_{n}$ and refer to the elements of the set as the $n$-simplices of $X$. The simplest possible examples of simplicial sets are the *standard simplices* $\Delta^{n}$, defined as the representable functors $\hom_{\mathbf{\Delta}}{(\cdot,{\lbrack n\rbrack})}$. It follows from the Yoneda lemma that there is a natural correspondence between $n$-simplices of $X$ and morphisms $\Delta^{n}\rightarrow X$ in the category of simplicial sets, and it is often helpful to think in these terms. Thus for each $x \in X_{n}$ we have a corresponding morphism $x:{\Delta^{n}\rightarrow X}$. By the density theorem and employing a minor abuse of notation we then have There is a standard covariant functor $| \cdot |:\mathbf{\Delta}\rightarrow{\mathbf{T}\mathbf{o}\mathbf{p}}$ mapping from the category $\mathbf{\Delta}$ to the category of topological spaces that sends $\lbrack n\rbrack$ to the standard $n$-simplex ${|\Delta^{n}|} \subset {\mathbb{R}}^{n + 1}$ defined as with the standard subspace topology. If $X:{\mathbf{\Delta}^{\text{op}}\rightarrow{\mathbf{S}\mathbf{e}\mathbf{t}\mathbf{s}}}$ is a simplicial set then we can construct the realization of $X$ (denoted $|X|$) as the colimit and thus associate a topological space with a given simplicial set. Conversely given a topological space $Y$ we can construct an associated simplicial set $S{(Y)}$, called the singular set of $Y$, by defining It is a standard result of classical homotopy theory that the realization functor and singular set functors form an adjunction, and provide the standard means of translating between topological spaces and simplicial sets. Our goal will be to adapt these powerful classical results to the case of finite metric spaces.
 
 We draw significant inspiration from Spivak, specifically, where he extends the classical theory of singular sets and topological realization to fuzzy singular sets and metric realization. To develop this theory here we will first outline a categorical presentation of fuzzy sets, due to, that will make extending classical simplicial sets to fuzzy simplicial sets most natural.
 
@@ -96,43 +88,23 @@ Alternatively, a fuzzy simplicial set can be viewed as a sheaf over $\mathbf{\De
 
 ### Definition 6
 
-An *extended-pseudo-metric space* $(X,d)$ is a set $X$ and a map $d:{{X \times X}\rightarrow{{\mathbb{R}}_{\geq 0} \cup {\{\infty\}}}}$ such that
-
-${d{(x,y)}} \geqslant 0$, and $x = y$ implies ${d{(x,y)}} = 0$;
-
-The category of extended-pseudo-metric spaces $\mathbf{E}\mathbf{P}\mathbf{M}\mathbf{e}\mathbf{t}$ has as objects extended-pseudo-metric spaces and non-expansive maps as morphisms. We denote the subcategory of finite extended-pseudo-metric spaces $\mathbf{F}\mathbf{i}\mathbf{n}\mathbf{E}\mathbf{P}\mathbf{M}\mathbf{e}\mathbf{t}$.
+An *extended-pseudo-metric space* $(X,d)$ is a set $X$ and a map $d:{{X \times X}\rightarrow{{\mathbb{R}}_{\geq 0} \cup {\{\infty\}}}}$ such that ${d{(x,y)}} \geqslant 0$, and $x = y$ implies ${d{(x,y)}} = 0$; The category of extended-pseudo-metric spaces $\mathbf{E}\mathbf{P}\mathbf{M}\mathbf{e}\mathbf{t}$ has as objects extended-pseudo-metric spaces and non-expansive maps as morphisms. We denote the subcategory of finite extended-pseudo-metric spaces $\mathbf{F}\mathbf{i}\mathbf{n}\mathbf{E}\mathbf{P}\mathbf{M}\mathbf{e}\mathbf{t}$.
 
 The choice of non-expansive maps in Definition 6 is due to Spivak, but we note that it closely mirrors the work of Carlsson and Memoli in on topological methods for clustering as applied to finite metric spaces. This choice is significant since pure isometries are too strict and do not provide large enough Hom-sets.
 
-In Spivak constructs a pair of adjoint functors, $\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ and $\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}$ between the categories sFuzz and EPMet. These functors are the natural extension of the classical realization and singular set functors from algebraic topology. The functor $\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ is defined in terms of standard fuzzy simplices $\Delta_{< a}^{n}$ as
+In Spivak constructs a pair of adjoint functors, $\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ and $\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}$ between the categories sFuzz and EPMet. These functors are the natural extension of the classical realization and singular set functors from algebraic topology. The functor $\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ is defined in terms of standard fuzzy simplices $\Delta_{< a}^{n}$ as similarly to the classical realization functor $| \cdot |$. The metric on ${\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}}{(\Delta_{< a}^{n})}$ is simply inherited from ${\mathbb{R}}^{n + 1}$. A morphism $\Delta_{< a}^{n}\rightarrow\Delta_{< b}^{m}$ exists only if $a \leq b$, and is determined by a $\mathbf{\Delta}$ morphism $\sigma:{{\lbrack n\rbrack}\rightarrow{\lbrack m\rbrack}}$. The action of $\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ on such a morphism is given by the map Such a map is clearly non-expansive since $0 \leq a \leq b \leq 1$ implies that ${{\log{(b)}}/{\log{(a)}}} \leq 1$.
 
-similarly to the classical realization functor $| \cdot |$. The metric on ${\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}}{(\Delta_{< a}^{n})}$ is simply inherited from ${\mathbb{R}}^{n + 1}$. A morphism $\Delta_{< a}^{n}\rightarrow\Delta_{< b}^{m}$ exists only if $a \leq b$, and is determined by a $\mathbf{\Delta}$ morphism $\sigma:{{\lbrack n\rbrack}\rightarrow{\lbrack m\rbrack}}$. The action of $\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ on such a morphism is given by the map
-
-Such a map is clearly non-expansive since $0 \leq a \leq b \leq 1$ implies that ${{\log{(b)}}/{\log{(a)}}} \leq 1$.
-
-We then extend this to a general simplicial set $X$ via colimits, defining
-
-Since the functor $\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ preserves colimits, it follows that there exists a right adjoint functor. Again, analogously to the classical case, we find the right adjoint, denoted $\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}$, is defined for an extended pseudo metric space $Y$ in terms of its action on the category $\mathbf{\Delta} \times I$:
-
-For our case we are only interested in finite metric spaces. To correspond with this we consider the subcategory of bounded fuzzy simplicial sets Fin-sFuzz. We therefore use the analogous adjoint pair $\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ and $\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}$. Formally we define the finite fuzzy realization functor as follows:
+We then extend this to a general simplicial set $X$ via colimits, defining Since the functor $\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ preserves colimits, it follows that there exists a right adjoint functor. Again, analogously to the classical case, we find the right adjoint, denoted $\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}$, is defined for an extended pseudo metric space $Y$ in terms of its action on the category $\mathbf{\Delta} \times I$: For our case we are only interested in finite metric spaces. To correspond with this we consider the subcategory of bounded fuzzy simplicial sets Fin-sFuzz. We therefore use the analogous adjoint pair $\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ and $\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}$. Formally we define the finite fuzzy realization functor as follows:
 
 ### Definition 7
 
-Define the functor ${\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}}:{\text{Fin-sFuzz}\rightarrow{\mathbf{F}\mathbf{i}\mathbf{n}\mathbf{E}\mathbf{P}\mathbf{M}\mathbf{e}\mathbf{t}}}$ by setting
-
-and then defining
-
-Similar to Spivak's construction, the action of $\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ on a map $\Delta_{< a}^{n}\rightarrow\Delta_{< b}^{m}$, where $a \leq b$ defined by $\sigma:{\Delta^{n}\rightarrow\Delta^{m}}$, is given by
-
-which is a non-expansive map since $a \leq b$ implies $d_{a} \geq d_{b}$.
+Define the functor ${\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}}:{\text{Fin-sFuzz}\rightarrow{\mathbf{F}\mathbf{i}\mathbf{n}\mathbf{E}\mathbf{P}\mathbf{M}\mathbf{e}\mathbf{t}}}$ by setting and then defining Similar to Spivak's construction, the action of $\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ on a map $\Delta_{< a}^{n}\rightarrow\Delta_{< b}^{m}$, where $a \leq b$ defined by $\sigma:{\Delta^{n}\rightarrow\Delta^{m}}$, is given by which is a non-expansive map since $a \leq b$ implies $d_{a} \geq d_{b}$.
 
 Since $\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{R}\mathsf{e}\mathsf{a}\mathsf{l}$ preserves colimits it admits a right adjoint, the fuzzy singular set functor $\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}$. We can then define the (finite) fuzzy singular set functor in terms of the action of its image on $\mathbf{\Delta} \times I$, analogously to $\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}$.
 
 ### Definition 8
 
-Define the functor ${\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}}:{{\mathbf{F}\mathbf{i}\mathbf{n}\mathbf{E}\mathbf{P}\mathbf{M}\mathbf{e}\mathbf{t}}\rightarrow\text{Fin-sFuzz}}$ by
-
-We then have the following theorem.
+Define the functor ${\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}}:{{\mathbf{F}\mathbf{i}\mathbf{n}\mathbf{E}\mathbf{P}\mathbf{M}\mathbf{e}\mathbf{t}}\rightarrow\text{Fin-sFuzz}}$ by We then have the following theorem.
 
 ### Theorem 1
 
@@ -150,13 +122,9 @@ Combining all of the above we can define the fuzzy topological representation of
 
 ### Definition 9
 
-Let $X = {\{ X_{1},\ldots,X_{N}\}}$ be a dataset in ${\mathbb{R}}^{n}$. Let ${\{{(X,d_{i})}\}}_{i = {1\ldotsN}}$ be a family of extended-pseudo-metric spaces with common carrier set $X$ such that
+Let $X = {\{ X_{1},\ldots,X_{N}\}}$ be a dataset in ${\mathbb{R}}^{n}$. Let ${\{{(X,d_{i})}\}}_{i = {1\ldotsN}}$ be a family of extended-pseudo-metric spaces with common carrier set $X$ such that where $\rho$ is the distance to the nearest neighbor of $X_{i}$ and $d_{\mathcal{M}}$ is geodesic distance on the manifold $\mathcal{M}$, either known apriori, or approximated as per Lemma 1.
 
-where $\rho$ is the distance to the nearest neighbor of $X_{i}$ and $d_{\mathcal{M}}$ is geodesic distance on the manifold $\mathcal{M}$, either known apriori, or approximated as per Lemma 1.
-
-The fuzzy topological representation of $X$ is
-
-The (fuzzy set) union provides the means to merge together the different metric spaces. This provides a single fuzzy simplicial set as the global representation of the manifold formed by patching together the many local representations.
+The fuzzy topological representation of $X$ is The (fuzzy set) union provides the means to merge together the different metric spaces. This provides a single fuzzy simplicial set as the global representation of the manifold formed by patching together the many local representations.
 
 Given the ability to construct such topological structures, either from a known manifold, or by learning the metric structure of the manifold, we can perform dimension reduction by simply finding low dimensional representations that closely match the topological structure of the source data. We now consider the task of finding such a low dimensional representation.
 
@@ -168,21 +136,17 @@ Given fuzzy simplicial set representations of $X$ and $Y$, a means of comparison
 
 ### Definition 10
 
-The cross entropy $C$ of two fuzzy sets $(A,\mu)$ and $(A,\nu)$ is defined as
-
-Similar to t-SNE we can optimize the embedding $Y$ with respect to fuzzy set cross entropy $C$ by using stochastic gradient descent. However, this requires a differentiable fuzzy singular set functor. If the expected minimum distance between points is zero the fuzzy singular set functor is differentiable for these purposes, however for any non-zero value we need to make a differentiable approximation (chosen from a suitable family of differentiable functions).
+The cross entropy $C$ of two fuzzy sets $(A,\mu)$ and $(A,\nu)$ is defined as Similar to t-SNE we can optimize the embedding $Y$ with respect to fuzzy set cross entropy $C$ by using stochastic gradient descent. However, this requires a differentiable fuzzy singular set functor. If the expected minimum distance between points is zero the fuzzy singular set functor is differentiable for these purposes, however for any non-zero value we need to make a differentiable approximation (chosen from a suitable family of differentiable functions).
 
 This completes the algorithm: by using manifold approximation and patching together local fuzzy simplicial set representations we construct a topological representation of the high dimensional data. We then optimize the layout of data in a low dimensional space to minimize the error between the two topological representations.
 
-We note that in this case we restricted attention to comparisons of the 1-skeleton of the fuzzy simplicial sets. One can extend this to $\ell$-skeleta by defining a cost function $C_{\ell}$ as
-
-where $X_{i}$ denotes the fuzzy set of $i$-simplices of $X$ and the $\lambda_{i}$ are suitably chosen real valued weights. While such an approach will capture the overall topological structure more accurately, it comes at non-negligible computational cost due to the increasingly large numbers of higher dimensional simplices. For this reason current implementations restrict to the 1-skeleton at this time.
+We note that in this case we restricted attention to comparisons of the 1-skeleton of the fuzzy simplicial sets. One can extend this to $\ell$-skeleta by defining a cost function $C_{\ell}$ as where $X_{i}$ denotes the fuzzy set of $i$-simplices of $X$ and the $\lambda_{i}$ are suitably chosen real valued weights. While such an approach will capture the overall topological structure more accurately, it comes at non-negligible computational cost due to the increasingly large numbers of higher dimensional simplices. For this reason current implementations restrict to the 1-skeleton at this time.
 
 ## Computational View of UMAP
 
 To understand what computations the UMAP algorithm is actually making from a practical point of view, a less theoretical and more computational description may be helpful for the reader. This description of the algorithm lacks the motivation for a number of the choices made. For that motivation please see Section 2.
 
-The theoretical description of the algorithm works in terms of fuzzy simplicial sets. Computationally this is only tractable for the one skeleton which can ultimately be described as a weighted graph. This means that, from a practical computational perspective, UMAP can ultimately be described in terms of, construction of, and operations on, weighted graphs. In particular this situates UMAP in the class of k-neighbour based graph learning algorithms such as Laplacian Eigenmaps, Isomap and t-SNE.
+The theoretical description of the algorithm works in terms of fuzzy simplicial sets. Computationally this is only tractable for the one skeleton which can ultimately be described as a weighted graph. This means that, from a practical computational perspective, UMAP can ultimately be described in terms of, construction of, and operations , weighted graphs. In particular this situates UMAP in the class of k-neighbour based graph learning algorithms such as Laplacian Eigenmaps, Isomap and t-SNE.
 
 As with other k-neighbour graph based algorithms, UMAP can be described in two phases. In the first phase a particular weighted k-neighbour graph is constructed. In the second phase a low dimensional layout of this graph is computed. The differences between all algorithms in this class amount to specific details in how the graph is constructed and how the layout is computed. The theoretical basis for UMAP as described in Section 2 provides novel approaches to both of these phases, and provides clear motivation for the choices involved.
 
@@ -200,9 +164,7 @@ The topological theory of Section 2 is driven by these axioms, particularly the 
 
 As highlighted in Appendix C any algorithm that attempts to use a mathematical structure akin to a k-neighbour graph to approximate a manifold must follow a similar basic structure.
 
-Construct a weighted k-neighbour graph
-
-Apply some transform on the edges to ambient local distance.
+Construct a weighted k-neighbour graph Apply some transform on the edges to ambient local distance.
 
 Deal with the inherent asymmetry of the k-neighbour graph.
 
@@ -218,33 +180,21 @@ We theoretically justify using the choice of using a k-neighbour graph to repres
 
 The first phase of UMAP can be thought of as the construction of a weighted k-neighbour graph. Let $X = {\{ x_{1},\ldots,x_{N}\}}$ be the input dataset, with a metric (or dissimilarity measure) $d:{{X \times X}\rightarrow{\mathbb{R}}_{\geq 0}}$. Given an input hyper-parameter $k$, for each $x_{i}$ we compute the set $\{ x_{i_{1}},\ldots,x_{i_{k}}\}$ of the $k$ nearest neighbors of $x_{i}$ under the metric $d$. This computation can be performed via any nearest neighbour or approximate nearest neighbour search algorithm. For the purposes of our UMAP implemenation we prefer to use the nearest neighbor descent algorithm of.
 
-For each $x_{i}$ we will define $\rho_{i}$ and $\sigma_{i}$. Let
-
-and set $\sigma_{i}$ to be the value such that
-
-The selection of $\rho_{i}$ derives from the local-connectivity constraint described in Section 2.2. In particular it ensures that $x_{i}$ connects to at least one other data point with an edge of weight 1; this is equivalent to the resulting fuzzy simplicial set being locally connected at $x_{i}$. In practical terms this significantly improves the representation on very high dimensional data where other algorithms such as t-SNE begin to suffer from the curse of dimensionality.
+For each $x_{i}$ we will define $\rho_{i}$ and $\sigma_{i}$. Let and set $\sigma_{i}$ to be the value such that The selection of $\rho_{i}$ derives from the local-connectivity constraint described in Section 2.2. In particular it ensures that $x_{i}$ connects to at least one other data point with an edge of weight 1; this is equivalent to the resulting fuzzy simplicial set being locally connected at $x_{i}$. In practical terms this significantly improves the representation on very high dimensional data where other algorithms such as t-SNE begin to suffer from the curse of dimensionality.
 
 The selection of $\sigma_{i}$ corresponds to (a smoothed) normalisation factor, defining the Riemannian metric local to the point $x_{i}$ as described in Section 2.1.
 
-We can now define a weighted directed graph $\overline{G} = {(V,E,w)}$. The vertices $V$ of $\overline{G}$ are simply the set $X$. We can then form the set of directed edges $E = {\{{(x_{i},x_{i_{j}})}\mid{{1 \leq j \leq k},{1 \leq i \leq N}}\}}$, and define the weight function $w$ by setting
+We can now define a weighted directed graph $\overline{G} = {(V,E,w)}$. The vertices $V$ of $\overline{G}$ are simply the set $X$. We can then form the set of directed edges $E = {\{{(x_{i},x_{i_{j}})}\mid{{1 \leq j \leq k},{1 \leq i \leq N}}\}}$, and define the weight function $w$ by setting For a given point $x_{i}$ there exists an induced graph of $x_{i}$ and outgoing edges incident on $x_{i}$. This graph is the 1-skeleton of the fuzzy simplicial set associated to the metric space local to $x_{i}$ where the local metric is defined in terms of $\rho_{i}$ and $\sigma_{i}$. The weight associated to the edge is the membership strength of the corresponding 1-simplex within the fuzzy simplicial set, and is derived from the adjunction of Theorem 1 using the right adjoint (nearest inverse) of the geometric realization of a fuzzy simplicial set. Intuitively one can think of the weight of an edge as akin to the probability that the given edge exists. Section 2 demonstrates why this construction faithfully captures the topology of the data. Given this set of local graphs (represented here as a single directed graph) we now require a method to combine them into a unified topological representation. We note that while patching together incompatible finite metric spaces is challenging, by using Theorem 1 to convert to a fuzzy simplicial set representation, the combining operation becomes natural.
 
-For a given point $x_{i}$ there exists an induced graph of $x_{i}$ and outgoing edges incident on $x_{i}$. This graph is the 1-skeleton of the fuzzy simplicial set associated to the metric space local to $x_{i}$ where the local metric is defined in terms of $\rho_{i}$ and $\sigma_{i}$. The weight associated to the edge is the membership strength of the corresponding 1-simplex within the fuzzy simplicial set, and is derived from the adjunction of Theorem 1 using the right adjoint (nearest inverse) of the geometric realization of a fuzzy simplicial set. Intuitively one can think of the weight of an edge as akin to the probability that the given edge exists. Section 2 demonstrates why this construction faithfully captures the topology of the data. Given this set of local graphs (represented here as a single directed graph) we now require a method to combine them into a unified topological representation. We note that while patching together incompatible finite metric spaces is challenging, by using Theorem 1 to convert to a fuzzy simplicial set representation, the combining operation becomes natural.
-
-Let $A$ be the weighted adjacency matrix of $\overline{G}$, and consider the symmetric matrix
-
-where $\circ$ is the Hadamard (or pointwise) product. This formula derives from the use of the probabilistic t-conorm used in unioning the fuzzy simplicial sets. If one interprets the value of $A_{ij}$ as the probability that the directed edge from $x_{i}$ to $x_{j}$ exists, then $B_{ij}$ is the probability that at least one of the two directed edges (from $x_{i}$ to $x_{j}$ and from $x_{j}$ to $x_{i}$) exists. The UMAP graph $G$ is then an undirected weighted graph whose adjacency matrix is given by $B$. Section 2 explains this construction in topological terms, providing the justification for why this construction provides an appropriate fuzzy topological representation of the data -- that is, this construction captures the underlying geometric structure of the data in a faithful way.
+Let $A$ be the weighted adjacency matrix of $\overline{G}$, and consider the symmetric matrix where $\circ$ is the Hadamard (or pointwise) product. This formula derives from the use of the probabilistic t-conorm used in unioning the fuzzy simplicial sets. If one interprets the value of $A_{ij}$ as the probability that the directed edge from $x_{i}$ to $x_{j}$ exists, then $B_{ij}$ is the probability that at least one of the two directed edges (from $x_{i}$ to $x_{j}$ and from $x_{j}$ to $x_{i}$) exists. The UMAP graph $G$ is then an undirected weighted graph whose adjacency matrix is given by $B$. Section 2 explains this construction in topological terms, providing the justification for why this construction provides an appropriate fuzzy topological representation of the data -- that is, this construction captures the underlying geometric structure of the data in a faithful way.
 
 ### Graph Layout
 
 In practice UMAP uses a force directed graph layout algorithm in low dimensional space. A force directed graph layout utilizes of a set of attractive forces applied along edges and a set of repulsive forces applied among vertices. Any force directed layout algorithm requires a description of both the attractive and repulsive forces. The algorithm proceeds by iteratively applying attractive and repulsive forces at each edge or vertex. This amounts to a non-convex optimization problem. Convergence to a local minima is guaranteed by slowly decreasing the attractive and repulsive forces in a similar fashion to that used in simulated annealing.
 
-In UMAP the attractive force between two vertices $i$ and $j$ at coordinates $\mathbf{y}_{\mathbf{i}}$ and $\mathbf{y}_{\mathbf{j}}$ respectively, is determined by:
+In UMAP the attractive force between two vertices $i$ and $j$ at coordinates $\mathbf{y}_{\mathbf{i}}$ and $\mathbf{y}_{\mathbf{j}}$ respectively, is determined: where $a$ and $b$ are hyper-parameters.
 
-where $a$ and $b$ are hyper-parameters.
-
-Repulsive forces are computed via sampling due to computational constraints. Thus, whenever an attractive force is applied to an edge, one of that edge's vertices is repulsed by a sampling of other vertices. The repulsive force is given by
-
-$\epsilon$ is a small number to prevent division by zero (0.001 in the current implementation).
+Repulsive forces are computed via sampling due to computational constraints. Thus, whenever an attractive force is applied to an edge, one of that edge's vertices is repulsed by a sampling of other vertices. The repulsive force is given by $\epsilon$ is a small number to prevent division by zero (0.001 in the current implementation).
 
 The algorithm can be initialized randomly but in practice, since the symmetric Laplacian of the graph $G$ is a discrete approximation of the Laplace-Beltrami operator of the manifold, we can use a spectral layout to initialize the embedding. This provides both faster convergence and greater stability within the algorithm.
 
@@ -256,70 +206,23 @@ Having completed a theoretical description of the approach, we now turn our atte
 
 ### Algorithm description
 
-In overview the UMAP algorithm is relatively straightforward (see Algorithm 1). When performing a fuzzy union over local fuzzy simplicial sets we have found it most effective to work with the probabilistic t-conorm (as one would expect if treating membership strengths as a probability that the simplex exists). The individual functions for constructing the local fuzzy simplicial sets, determining the spectral embedding, and optimizing the embedding with regard to fuzzy set cross entropy, are described in more detail below.
-
-function UMAP(X, n, d, min-dist, n-epochs)
+In overview the UMAP algorithm is relatively straightforward (see Algorithm 1). When performing a fuzzy union over local fuzzy simplicial sets we have found it most effective to work with the probabilistic t-conorm (as one would expect if treating membership strengths as a probability that the simplex exists). The individual functions for constructing the local fuzzy simplicial sets, determining the spectral embedding, and optimizing the embedding with regard to fuzzy set cross entropy, are described in more detail below. function UMAP(X, n, d, min-dist, n-epochs)
 
 ## Construct the relevant weighted graph
+
 top-rep ← ⋃x ∈ Xfs-set [x] # We recommend the probabilistic t-conorm
 
 ## Perform optimization of the graph layout
-Y← OptimizeEmbedding(top-rep, Y, min-dist, n-epochs)
-Algorithm 1 UMAP algorithm
 
-The inputs to Algorithm 1 are: $X$, the dataset to have its dimension reduced; $n$, the neighborhood size to use for local metric approximation; $d$, the dimension of the target reduced space; min-dist, an algorithmic parameter controlling the layout; and n-epochs, controlling the amount of optimization work to perform.
+Y← OptimizeEmbedding(top-rep, Y, min-dist, n-epochs) Algorithm 1 UMAP algorithm The inputs to Algorithm 1 are: $X$, the dataset to have its dimension reduced; $n$, the neighborhood size to use for local metric approximation; $d$, the dimension of the target reduced space; min-dist, an algorithmic parameter controlling the layout; and n-epochs, controlling the amount of optimization work to perform.
 
-Algorithm 2 describes the construction of local fuzzy simplicial sets. To represent fuzzy simplicial sets we work with the fuzzy set images of $\lbrack 0\rbrack$ and $\lbrack 1\rbrack$ (i.e. the 1-skeleton), which we denote as $\text{fs-set}_{0}$ and $\text{fs-set}_{1}$. One can work with higher order simplices as well, but the current implementation does not. We can construct the fuzzy simplicial set local to a given point $x$ by finding the $n$ nearest neighbors, generating the appropriate normalised distance on the manifold, and then converting the finite metric space to a simplicial set via the functor $\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}$, which translates into exponential of the negative distance in this case.
-
-knn, knn-dists ← ApproxNearestNeighbors(X, x, n)
-ρ← knn-dists # Distance to nearest neighbor
-σ← SmoothKNNDist(knn-dists, n, ρ) # Smooth approximator to knn-distance
-for all y∈ knn do
-fs-set1 ← fs-set1 ∪ ([x, y],exp (−dx, y))
-Algorithm 2 Constructing a local fuzzy simplicial set
-
-Rather than directly using the distance to the $n^{\text{th}}$ nearest neighbor as the normalization, we use a smoothed version of knn-distance that fixes the cardinality of the fuzzy set of 1-simplices to a fixed value. We selected $\log_{2}{(n)}$ for this purpose based on empirical experiments. This is described briefly in Algorithm 3.
-
-function SmoothKNNDist(knn-dists, n, ρ)
-Binary search for σ such that ${\sum_{i = 1}^{n}{\exp{({- {{({\text{knn-dists}_{i} - \rho})}/\sigma}})}}} = {\log_{2}{(n)}}$
-Algorithm 3 Compute the normalizing factor for distances σ
-
-Spectral embedding is performed by considering the 1-skeleton of the global fuzzy topological representation as a weighted graph and using standard spectral methods on the symmetric normalized Laplacian. This process is described in Algorithm 4.
-
-function SpectralEmbedding(top-rep, d)
-A← 1-skeleton of top-rep expressed as a weighted adjacency matrix
-D← degree matrix for the graph A
-evec← Eigenvectors of L (sorted)
-Y ← evec[1..d + 1] # 0-base indexing assumed
-Algorithm 4 Spectral embedding for initialization
-
-The final major component of UMAP is the optimization of the embedding through minimization of the fuzzy set cross entropy. Recall that fuzzy set cross entropy, with respect given membership functions $\mu$ and $\nu$, is given by
-
-The first sum depends only on $\mu$ which takes fixed values during the optimization, thus the minimization of cross entropy depends only on the second sum, so we seek to minimize
-
-Following both and, we take a sampling based approach to the optimization. We sample 1-simplices with probability $\mu{(a)}$ and update according to the value of $\nu{(a)}$, which handles the term $\mu{(a)}{\log{({\nu{(a)}})}}$. The term ${({1 - {\mu{(a)}}})}{\log{({1 - {\nu{(a)}}})}}$ requires negative sampling -- rather than computing this over all potential simplices we randomly sample potential 1-simplices and assume them to be a negative example (i.e. with membership strength 0) and update according to the value of $1 - {\nu{(a)}}$. In contrast to the above formulation provides a vertex sampling distribution of
-
-for negative samples, which can be reasonably approximated by a uniform distribution for sufficiently large data sets.
+Algorithm 2 describes the construction of local fuzzy simplicial sets. To represent fuzzy simplicial sets we work with the fuzzy set images of $\lbrack 0\rbrack$ and $\lbrack 1\rbrack$ (i.e. the 1-skeleton), which we denote as $\text{fs-set}_{0}$ and $\text{fs-set}_{1}$. One can work with higher order simplices as well, but the current implementation does not. We can construct the fuzzy simplicial set local to a given point $x$ by finding the $n$ nearest neighbors, generating the appropriate normalised distance on the manifold, and then converting the finite metric space to a simplicial set via the functor $\mathsf{F}\mathsf{i}\mathsf{n}\mathsf{S}\mathsf{i}\mathsf{n}\mathsf{g}$, which translates into exponential of the negative distance in this case. knn, knn-dists ← ApproxNearestNeighbors(X, x, n) ρ← knn-dists # Distance to nearest neighbor σ← SmoothKNNDist(knn-dists, n, ρ) # Smooth approximator to knn-distance for all y∈ knn do fs-set1 ← fs-set1 ∪ ([x, y], exp (−dx, y)) Algorithm 2 Constructing a local fuzzy simplicial set Rather than directly using the distance to the $n^{\text{th}}$ nearest neighbor as the normalization, we use a smoothed version of knn-distance that fixes the cardinality of the fuzzy set of 1-simplices to a fixed value. We selected $\log_{2}{(n)}$ for this purpose based on empirical experiments. This is described briefly in Algorithm 3. function SmoothKNNDist(knn-dists, n, ρ) Binary search for σ such that ${\sum_{i = 1}^{n}{\exp{({- {{({\text{knn-dists}_{i} - \rho})}/\sigma}})}}} = {\log_{2}{(n)}}$ Algorithm 3 Compute the normalizing factor for distances σ Spectral embedding is performed by considering the 1-skeleton of the global fuzzy topological representation as a weighted graph and using standard spectral methods on the symmetric normalized Laplacian. This process is described in Algorithm 4. function SpectralEmbedding(top-rep, d) A← 1-skeleton of top-rep expressed as a weighted adjacency matrix D← degree matrix for the graph A evec← Eigenvectors of L (sorted) Y ← evec[1..d + 1] # 0-base indexing assumed Algorithm 4 Spectral embedding for initialization The final major component of UMAP is the optimization of the embedding through minimization of the fuzzy set cross entropy. Recall that fuzzy set cross entropy, with respect given membership functions $\mu$ and $\nu$, is given by The first sum depends only on $\mu$ which takes fixed values during the optimization, thus the minimization of cross entropy depends only on the second sum, so we seek to minimize Following both and, we take a sampling based approach to the optimization. We sample 1-simplices with probability $\mu{(a)}$ and update according to the value of $\nu{(a)}$, which handles the term $\mu{(a)}{\log{({\nu{(a)}})}}$. The term ${({1 - {\mu{(a)}}})}{\log{({1 - {\nu{(a)}}})}}$ requires negative sampling -- rather than computing this over all potential simplices we randomly sample potential 1-simplices and assume them to be a negative example (i.e. with membership strength 0) and update according to the value of $1 - {\nu{(a)}}$. In contrast to the above formulation provides a vertex sampling distribution of for negative samples, which can be reasonably approximated by a uniform distribution for sufficiently large data sets.
 
 It therefore only remains to find a differentiable approximation to $\nu{(a)}$ for a given 1-simplex $a$ so that gradient descent can be applied for optimization. This is done as follows:
 
 ### Definition 11
 
-Define $\Phi:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\lbrack 0,1\rbrack}}$, a smooth approximation of the membership strength of a 1-simplex between two points in ${\mathbb{R}}^{d}$, as
-
-where $a$ and $b$ are chosen by non-linear least squares fitting against the curve $\Psi:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\lbrack 0,1\rbrack}}$ where
-
-The optimization process is now executed by stochastic gradient descent as given by Algorithm 5.
-
-function OptimizeEmbedding(top-rep, Y, min-dist, n-epochs)
-Fit Φ from Ψ defined by min-dist
-for all ([a, b],p) ∈ top-rep1 do
-if Random( ) ≤ p then # Sample simplex with probability p
-c ← random sample from Y
-
-Algorithm 5 Optimizing the embedding
-
-This completes the UMAP algorithm.
+Define $\Phi:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\lbrack 0,1\rbrack}}$, a smooth approximation of the membership strength of a 1-simplex between two points in ${\mathbb{R}}^{d}$, as where $a$ and $b$ are chosen by non-linear least squares fitting against the curve $\Psi:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\lbrack 0,1\rbrack}}$ where The optimization process is now executed by stochastic gradient descent as given by Algorithm 5. function OptimizeEmbedding(top-rep, Y, min-dist, n-epochs) Fit Φ from Ψ defined by min-dist for all ([a, b], p) ∈ top-rep1 do if Random ≤ p then # Sample simplex with probability p c ← random sample from Y Algorithm 5 Optimizing the embedding This completes the UMAP algorithm.
 
 ### Implementation
 
@@ -329,21 +232,11 @@ Efficient approximate $k$-nearest-neighbor computation can be achieved via the N
 
 In optimizing the embedding under the provided objective function, we follow work of; making use of probabilistic edge sampling and negative sampling. This provides a very efficient approximate stochastic gradient descent algorithm since there is no normalization requirement. Furthermore, since the normalized Laplacian of the fuzzy graph representation of the input data is a discrete approximation of the Laplace-Betrami operator of the manifold \[\[, see\]\]belkin2002laplacian, belkin2003laplacian, we can provide a suitable initialization for stochastic gradient descent by using the eigenvectors of the normalized Laplacian. The amount of optimization work required will scale with the number of edges in the fuzzy graph (assuming a fixed negative sampling rate), resulting in a complexity of $O{({kN})}$.
 
-Combining these techniques results in highly efficient embeddings, which we will discuss in Section 5. The overall complexity is bounded by the approximate nearest neighbor search complexity and, as mentioned above, is empirically approximately $O{(N^{1.14})}$. A reference implementation can be found at [https://github.com/lmcinnes/umap](https://github.com/lmcinnes/umap), and an R implementation can be found at [https://github.com/jlmelville/uwot](https://github.com/jlmelville/uwot).
-
-For simplicity these experiments were carried out on a single core version of our algorithm. It should be noted that at the time of this publication that both Nearest-Neighbour-Descent and SGD have been parallelized and thus the python reference implementation can be significantly accelerated. Our intention in this paper was to introduce the underlying theory behind our UMAP algorithm and we felt that parallel vs single core discussions would distract from our intent.
+Combining these techniques results in highly efficient embeddings, which we will discuss in Section 5. The overall complexity is bounded by the approximate nearest neighbor search complexity and, as mentioned above, is empirically approximately $O{(N^{1.14})}$. A reference implementation can be found at and an R implementation can be found at For simplicity these experiments were carried out on a single core version of our algorithm. It should be noted that at the time of this publication that both Nearest-Neighbour-Descent and SGD have been parallelized and thus the python reference implementation can be significantly accelerated. Our intention in this paper was to introduce the underlying theory behind our UMAP algorithm and we felt that parallel vs single core discussions would distract from our intent.
 
 ### Hyper-parameters
 
-As described in Algorithm 1, the UMAP algorithm takes four hyper-parameters:
-
-$n$, the number of neighbors to consider when approximating the local metric;
-
-$d$, the target embedding dimension;
-
-min-dist, the desired separation between close points in the embedding space; and
-
-n-epochs, the number of training epochs to use when optimizing the low dimensional representation.
+As described in Algorithm 1, the UMAP algorithm takes four hyper-parameters: $n$, the number of neighbors to consider when approximating the local metric; $d$, the target embedding dimension; min-dist, the desired separation between close points in the embedding space; and n-epochs, the number of training epochs to use when optimizing the low dimensional representation.
 
 The effects of the parameters $d$ and n-epochs are largely self-evident, and will not be discussed in further detail here. In contrast the effects of the number of neighbors $n$ and of min-dist are less clear.
 
@@ -365,19 +258,7 @@ Figure 3: Variation of UMAP hyperparameters n and min-dist result in different e
 
 ## Practical Efficacy
 
-While the strong mathematical foundations of UMAP were the motivation for its development, the algorithm must ultimately be judged by its practical efficacy. In this section we examine the fidelity and performance of low dimensional embeddings of multiple diverse real world data sets under UMAP. The following datasets were considered:
-
-Pen digits is a set of 1797 grayscale images of digits entered using a digitiser tablet. Each image is an 8x8 image which we treat as a single 64 dimensional vector, assumed to be in Euclidean vector space.\
-COIL 20 is a set of 1440 greyscale images consisting of 20 objects under 72 different rotations spanning 360 degrees. Each image is a 128x128 image which we treat as a single 16384 dimensional vector for the purposes of computing distance between images.\
-COIL 100 is a set of 7200 colour images consisting of 100 objects under 72 different rotations spanning 360 degrees. Each image consists of 3 128x128 intensity matrices (one for each color channel). We treat this as a single 49152 dimensional vector for the purposes of computing distance between images.\
-Mouse scRNA-seq is profiled gene expression data for 20,921 cells from an adult mouse. Each sample consists of a vector of 26,774 measurements.\
-Statlog (Shuttle) is a NASA dataset consisting of various data associated to the positions of radiators in the space shuttle, including a timestamp. The dataset has 58000 points in a 9 dimensional feature space.\
-MNIST is a dataset of 28x28 pixel grayscale images of handwritten digits. There are 10 digit classes (0 through 9) and 70000 total images. This is treated as 70000 different 784 dimensional vectors.\
-F-MNIST or Fashion MNIST is a dataset of 28x28 pixel grayscale images of fashion items (clothing, footwear and bags). There are 10 classes and 70000 total images. As with MNIST this is treated as 70000 different 784 dimensional vectors.\
-Flow cytometry is a dataset of flow cytometry measurements of CDT4 cells comprised of 1,000,000 samples, each with 17 measurements.\
-GoogleNews word vectors is a dataset of 3 million words and phrases derived from a sample of Google News documents and embedded into a 300 dimensional space via word2vec.\
-
-For all the datasets except GoogleNews we use Euclidean distance between vectors. For GoogleNews, as per, we use cosine distance (or angular distance in t-SNE which does support non-metric distances, in contrast to UMAP).
+While the strong mathematical foundations of UMAP were the motivation for its development, the algorithm must ultimately be judged by its practical efficacy. In this section we examine the fidelity and performance of low dimensional embeddings of multiple diverse real world data sets under UMAP. The following datasets were considered: Pen digits is a set of 1797 grayscale images of digits entered using a digitiser tablet. Each image is an 8x8 image which we treat as a single 64 dimensional vector, assumed to be in Euclidean vector space.\COIL 20 is a set of 1440 greyscale images consisting of 20 objects under 72 different rotations spanning 360 degrees. Each image is a 128x128 image which we treat as a single 16384 dimensional vector for the purposes of computing distance between images.\COIL 100 is a set of 7200 colour images consisting of 100 objects under 72 different rotations spanning 360 degrees. Each image consists of 3 128x128 intensity matrices (one for each color channel). We treat this as a single 49152 dimensional vector for the purposes of computing distance between images.\Mouse scRNA-seq is profiled gene expression data for 20,921 cells from an adult mouse. Each sample consists of a vector of 26,774 measurements.\Statlog (Shuttle) is a NASA dataset consisting of various data associated to the positions of radiators in the space shuttle, including a timestamp. The dataset has 58000 points in a 9 dimensional feature space.\MNIST is a dataset of 28x28 pixel grayscale images of handwritten digits. There are 10 digit classes (0 through 9) and 70000 total images. This is treated as 70000 different 784 dimensional vectors.\F-MNIST or Fashion MNIST is a dataset of 28x28 pixel grayscale images of fashion items (clothing, footwear and bags). There are 10 classes and 70000 total images. As with MNIST this is treated as 70000 different 784 dimensional vectors.\Flow cytometry is a dataset of flow cytometry measurements of CDT4 cells comprised of 1,000,000 samples, each with 17 measurements.\GoogleNews word vectors is a dataset of 3 million words and phrases derived from a sample of Google News documents and embedded into a 300 dimensional space via word2vec.\For all the datasets except GoogleNews we use Euclidean distance between vectors. For GoogleNews, as per, we use cosine distance (or angular distance in t-SNE which does support non-metric distances, in contrast to UMAP).
 
 ### Qualitative Comparison of Multiple Algorithms
 
@@ -415,9 +296,7 @@ As evidenced by this comparison UMAP provides largely comparable perfomance in e
 
 Since UMAP makes use of both stochastic approximate nearest neighbor search, and stochastic gradient descent with negative sampling for optimization, the resulting embedding is necessarily different from run to run, and under sub-sampling of the data. This is potentially a concern for a variety of uses cases, so establishing some measure of how stable UMAP embeddings are, particularly under sub-sampling, is of interest. In this subsection we compare the stability under subsampling of UMAP, LargeVis and t-SNE (the three stochastic dimension reduction techniques considered).
 
-To measure the stability of an embedding we make use of the normalized Procrustes distance to measure the distance between two potentially comparable distributions. Given two datasets $X = {\{ x_{1},\ldots,x_{N}\}}$ and $Y = {\{ y_{1},\ldots,y_{N}\}}$ such that $x_{i}$ corresponds to $y_{i}$, we can define the Procustes distance between the datasets $d_{P}{(X,Y)}$ in the following manner. Determine $Y^{\prime} = {\{{}_{}^{},\ldots,{}_{}^{}\}}$ the optimal translation, uniform scaling, and rotation of $Y$ that minimizes the squared error $\sum_{i = 1}^{N}{({x_{i} - {}_{}^{}})}^{2}$, and define
-
-Since any measure that makes use of distances in the embedding space is potentially sensitive to the extent or scale of the embedding, we normalize the data before computing the Procrustes distance by dividing by the average norm of the embedded dataset. In Figure 7 we visualize the results of using Procrustes alignment of embedding of sub-samples for both UMAP and t-SNE, demonstrating how Procrustes distance can measure the stability of the overall structure of the embedding.
+To measure the stability of an embedding we make use of the normalized Procrustes distance to measure the distance between two potentially comparable distributions. Given two datasets $X = {\{ x_{1},\ldots,x_{N}\}}$ and $Y = {\{ y_{1},\ldots,y_{N}\}}$ such that $x_{i}$ corresponds to $y_{i}$, we can define the Procustes distance between the datasets $d_{P}{(X,Y)}$ in the following manner. Determine $Y' = {\{ y_{1}',\ldots,y_{N}'\}}$ the optimal translation, uniform scaling, and rotation of $Y$ that minimizes the squared error $\sum_{i = 1}^{N}{({x_{i} - y_{i}'})}^{2}$, and define Since any measure that makes use of distances in the embedding space is potentially sensitive to the extent or scale of the embedding, we normalize the data before computing the Procrustes distance by dividing by the average norm of the embedded dataset. In Figure 7 we visualize the results of using Procrustes alignment of embedding of sub-samples for both UMAP and t-SNE, demonstrating how Procrustes distance can measure the stability of the overall structure of the embedding.
 
 Figure 7: Procrustes based alignment of a 10% subsample (red) against the full dataset (blue) for the flow cytometry dataset for both UMAP and t-SNE.
 
@@ -485,11 +364,7 @@ Figure 13: Visualization of 30,000,000 integers as represented by binary vectors
 
 Figure 14: Visualization of 30,000,000 integers as represented by binary vectors of prime divisibility, colored by integer value of the point (larger values are green or yellow, smaller values are blue or purple).
 
-(a) Upper right spiral
-
-(b) Lower right spiral and starbursts
-
-Figure 15: Zooming in on various regions of the integer embedding reveals further layers of fine structure have been preserved.
+(a) Upper right spiral (b) Lower right spiral and starbursts Figure 15: Zooming in on various regions of the integer embedding reveals further layers of fine structure have been preserved.
 
 ## Weaknesses
 
@@ -501,7 +376,7 @@ One of the core assumptions of UMAP is that there exists manifold structure in t
 
 UMAP is derived from the axiom that local distance is of more importance than long range distances (similar to techniques like t-SNE and LargeVis). UMAP therefore concerns itself primarily with accurately representing local structure. While we believe that UMAP can capture more global structure than these other techniques, it remains true that if global structure is of primary interest then UMAP may not be the best choice for dimension reduction. Multi-dimensional scaling specifically seeks to preserve the full distance matrix of the data, and as such is a good candidate when all scales of structure are of equal importance. PHATE is a good example of a hybrid approach that begins with local structure information and makes use of MDS to attempt to preserve long scale distances as well. It should be noted that these techniques are more computationally intensive and thus rely on landmarking approaches for scalability.
 
-It should also be noted that a significant contributor to UMAP's relative global structure preservation is derived from the Laplacian Eigenmaps initialization (which, in turn, followed from the theoretical foundations). This was noted in, for example,. The authors of that paper demonstrate that t-SNE, with similar initialization, can perform equivalently to UMAP in a particular measure of global structure preservation. However, the objective function derived for UMAP (cross-entropy) is significantly different from that of t-SNE (KL-divergence), in how it penalizes failures to preserve non-local and global structure, and is also a significant contributor^66^6The authors would like to thank Nikolay Oskolkov for his article ([tSNE vs. UMAP: Global Structure](https://towardsdatascience.com/tsne-vs-umap-global-structure-4d8045acba17)) which does an excellent job of highlighting these aspects from an empirical and theoretical basis..
+It should also be noted that a significant contributor to UMAP's relative global structure preservation is derived from the Laplacian Eigenmaps initialization (which, in turn, followed from the theoretical foundations). This was noted , for example,. The authors of that paper demonstrate that t-SNE, with similar initialization, can perform equivalently to UMAP in a particular measure of global structure preservation. However, the objective function derived for UMAP (cross-entropy) is significantly different from that of t-SNE (KL-divergence), in how it penalizes failures to preserve non-local and global structure, and is also a significant contributor^66^6The authors would like to thank Nikolay Oskolkov for his article (tSNE vs. UMAP: Global Structure) which does an excellent job of highlighting these aspects from an empirical and theoretical basis..
 
 It is worth noting that, in combining the local simplicial set structures, pure nearest neighbor structure in the high dimensional space is not explicitly preserved. In particular it introduces so called "reverse-nearest-neighbors" into the classical knn-graph. This, combined with the fact that UMAP is preserving topology rather than pure metric structures, mean that UMAP will not perform as well as some methods on quality measures based on metric structure preservation -- particularly methods, such as MDS -- which are explicitly designed to optimize metric structure preservation.
 

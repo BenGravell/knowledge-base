@@ -8,9 +8,7 @@ Despite this promise, current real-world E2E driving datasets, such as NAVSIM \[
 
 In this paper, we introduce the newly released Waymo Open Dataset for End-to-End Driving (WOD-E2E), which explicitly focuses on long-tail situations. As shown in Figure 1, WOD-E2E features rare real-world scenarios, which occur with a frequency of less than 0.03%. We provide 4,021 challenging driving segments comprising approximately 12 hours in total, where each segment contains 8 surrounding cameras covering a 360-degree field of view, high-level routing information, ego vehicle position history, and 5s of its future trajectory. These driving segments are collected from a mixture of autonomous and manual driving. Moreover, we observe that previous open-loop metrics often fail to adequately evaluate the driving performance in these long-tail scenarios. The popular Average Distance Error (ADE) or L2 error metric captures only the error between a prediction and a single future ground truth trajectory, despite the driving behavior being inherently multi-modal, where multiple reasonable future trajectories are possible. Predictive metrics, such as PDMS scores \[Dauner2024NEURIPS\], require annotated positions and future trajectories of road agents to calculate collision rates, and thus become impractical in many long-tail scenarios involving novel or hard-to-detect objects (e.g., the flock of birds shown in Figure 1). Furthermore, off-road behaviors typically incur high penalties in PDMS, yet in numerous safety-critical long-tail scenarios, an autonomous vehicle might reasonably deviate partially off-road to avoid an emergency. To address these limitations, WOD-E2E dataset also includes a subset of human driving preference labels, providing expert ratings on multiple potential trajectories in each example. Leveraging these labels, we propose a novel open-loop evaluation metric, the Rater Feedback Score (RFS), to better evaluate the E2E driving performance in an open-loop setting.
 
-We conduct rigorous studies with robust baseline models to verify the dataset and RFS. Since the dataset release, we have garnered significant interest from the research community, with numerous methods already submitted and evaluated on our public leaderboard. The diversity of these top-performing methods, employing approaches such as MLLMs \[pal2025poutinevisionlanguagetrajectorypretraining, wang2025hmvlm\], diffusion models \[liao2025diffusiondrive\], and CNN/ViT with GRU/MLP architectures \[ParkSwinTrajectoryTR\], further underscores the utility of the WOD-E2E dataset and its promise to drive further advances in end-to-end autonomous driving research. Our contribution can be summarized as:
-
-We introduce WOD-E2E, a new open dataset focusing on long-tail scenarios for benchmarking end-to-end autonomous driving systems. It contains 4,021 challenging driving segments, totaling approximately 12 hours of data and representing real-world long-tail scenarios occurring with a frequency of less than 0.03% in daily driving.
+We conduct rigorous studies with robust baseline models to verify the dataset and RFS. Since the dataset release, we have garnered significant interest from the research community, with numerous methods already submitted and evaluated on our public leaderboard. The diversity of these top-performing methods, employing approaches such as MLLMs \[pal2025poutinevisionlanguagetrajectorypretraining, wang2025hmvlm\], diffusion models \[liao2025diffusiondrive\], and CNN/ViT with GRU/MLP architectures \[ParkSwinTrajectoryTR\], further underscores the utility of the WOD-E2E dataset and its promise to drive further advances in end-to-end autonomous driving research. Our contribution can be summarized as: We introduce WOD-E2E, a new open dataset focusing on long-tail scenarios for benchmarking end-to-end autonomous driving systems. It contains 4,021 challenging driving segments, totaling approximately 12 hours of data and representing real-world long-tail scenarios occurring with a frequency of less than 0.03% in daily driving.
 
 We propose Rater Feedback Score (RFS), a novel and human-aligned open-loop metric. RFS is designed to better assess E2E driving performance in long-tail scenarios, addressing the limitations of traditional open-loop metrics like ADE and PDMS.
 
@@ -22,9 +20,7 @@ In the remainder of this paper, we first discuss relate works in Section 2. In S
 
 ### End-to-end autonomous driving research
 
-The paradigm of E2E autonomous driving, directly mapping raw sensor inputs to control outputs, continues to be a vibrant area of research, seeking to overcome the complexities in traditional modular pipelines \[hwang2025emma, xie2025s4\]. Recent works have significantly advanced the capabilities of E2E systems, particularly through the use of foundation models. Overall, the current methods can be divided into three categories:
-
-*Bird's-Eye-View (BEV) Based E2E Planner:* This type of method aims to fuse information from multiple sensors into a single, comprehensive BEV representation, from which both perception and planning tasks can be directly performed. UniAD \[hu2023uniad\] exemplifies this by propagating BEV queries from its perception module to downstream tasks such as tracking, motion forecasting, and occupancy prediction, ultimately enabling end-to-end planning. Similarly, BEV-Planner \[li2024bevplanner\] focuses on learning an explicit planning policy directly from BEV features, demonstrating how dense BEV representations can facilitate robust end-to-end control. These approaches move beyond explicit intermediate perception outputs for planning. Overall, these unified BEV-centric methods offer advantages in terms of computational efficiency and coherence by providing a consistent spatial understanding across various driving sub-tasks.
+The paradigm of E2E autonomous driving, directly mapping raw sensor inputs to control outputs, continues to be a vibrant area of research, seeking to overcome the complexities in traditional modular pipelines \[hwang2025emma, xie2025s4\]. Recent works have significantly advanced the capabilities of E2E systems, particularly through the use of foundation models. Overall, the current methods can be divided into three categories: *Bird's-Eye-View (BEV) Based E2E Planner:* This type of method aims to fuse information from multiple sensors into a single, comprehensive BEV representation, from which both perception and planning tasks can be directly performed. UniAD \[hu2023uniad\] exemplifies this by propagating BEV queries from its perception module to downstream tasks such as tracking, motion forecasting, and occupancy prediction, ultimately enabling end-to-end planning. Similarly, BEV-Planner \[li2024bevplanner\] focuses on learning an explicit planning policy directly from BEV features, demonstrating how dense BEV representations can facilitate robust end-to-end control. These approaches move beyond explicit intermediate perception outputs for planning. Overall, these unified BEV-centric methods offer advantages in terms of computational efficiency and coherence by providing a consistent spatial understanding across various driving sub-tasks.
 
 *Multi-modal Large Language Model Based E2E Planner:* A prominent trend involves leveraging Multimodal Large Language Models (MLLMs) to imbue E2E driving systems with enhanced reasoning capabilities and world knowledge. DriveGPT4 \[xu2024drivegpt4\] utilizes LLMs to both explain vehicle actions and predict control signals in an iterative question-and-answer format. DriveVLM \[tian2024drivevlm\] applies chain-of-thought for end-to-end driving, while VLP \[pan2024vlp\] applies the reasoning of MLLMs directly on the Bird's-Eye-View (BEV) space. EMMA \[hwang2025emma\] leverages Gemini to process multiple driving tasks, including planning, 3D detection, and road understanding, within a unified language space. OpenEMMA \[xing2025openemma\] and LightEMMA \[qiao2025lightemma\] follow a similar paradigm to build an open-source and lightweight version, respectively. Additionally, S4-Driver \[xie2025s4\] proposes to lift the vision tokens from MLLMs to a 3D space.
 
@@ -80,9 +76,7 @@ Figure 2: High-level routing input. Ground-truth vehicle trajectories over futur
 
 ### Ego Status
 
-Each driving segment includes ego vehicle status information, comprising:
-
-Past Trajectory: The ego vehicle's past 4-second trajectory, aligned with the current camera timestamp, is provided as waypoints \[(x1, y1), (x2, y2),...\] at 4Hz frequency. All waypoints are in vehicle coordinates.
+Each driving segment includes ego vehicle status information, comprising: Past Trajectory: The ego vehicle's past 4-second trajectory, aligned with the current camera timestamp, is provided as waypoints \[(x1, y1), (x2, y2),...\] at 4Hz frequency. All waypoints are in vehicle coordinates.
 
 Velocity and Acceleration: The ego vehicle's velocity and acceleration, aligned with its past trajectory, are also provided.
 
@@ -108,9 +102,7 @@ The figure clearly demonstrates the long-tailed focus of our dataset. We can see
 
 ### Mining Strategy
 
-We have access to a very large database containing diverse, real-world driving logs that span millions of miles. The vast majority of this data, however, consists of nominal scenarios. To effectively extract only the long-tail scenarios, we developed an efficient mining strategy that combines rule-based heuristics and MLLMs. Firstly, we categorized all driving logs into 11 different categories:
-
-Construction: Scenarios involving construction zones.
+We have access to a very large database containing diverse, real-world driving logs that span millions of miles. The vast majority of this data, however, consists of nominal scenarios. To effectively extract only the long-tail scenarios, we developed an efficient mining strategy that combines rule-based heuristics and MLLMs. Firstly, we categorized all driving logs into 11 different categories: Construction: Scenarios involving construction zones.
 
 Intersection: Scenarios with complex interactions at intersections.
 
@@ -136,26 +128,13 @@ The detailed mining criteria for each category are shown in Table 1. These crite
 
 Figure 4: Comprehensive data distribution analysis. This figure illustrates the key characteristics of the WOD-E2E dataset across three critical dimensions. Top Left: Distribution of service areas by city. Bottom Left: Distribution of scenario clusters and their breakdowns by road type. Right: Distribution of driving behaviors.
 
-• Driving route changes due to road closures from a construction zone. • Uniformed pedestrians directing traffic. • Abnormal road surface conditions due to construction.
-• Unprotected maneuvers with limited visibility or heavy traffic interactions. • Complex interactions at stop sign intersections. • Interactions with other traffic-violating agents at traffic light intersections. • Interactions with rails and cable cars at intersections.
+• Driving route changes due to road closures from a construction zone. • Uniformed pedestrians directing traffic. • Abnormal road surface conditions due to construction. • Unprotected maneuvers with limited visibility or heavy traffic interactions. • Complex interactions at stop sign intersections. • Interactions with other traffic-violating agents at traffic light intersections. • Interactions with rails and cable cars at intersections.
 
-• Pedestrians crossing with low visibility due to occlusion or weather. • Emergent behavior required to avoid collisions with pedestrians exhibiting unexpected behaviors. • Pedestrians performing unsafe maneuvers specific to the autonomous vehicle.
-• Cyclists losing control nearby. • Interactions with a group of cyclists.
+• Pedestrians crossing with low visibility due to occlusion or weather. • Emergent behavior required to avoid collisions with pedestrians exhibiting unexpected behaviors. • Pedestrians performing unsafe maneuvers specific to the autonomous vehicle. • Cyclists losing control nearby. • Interactions with a group of cyclists.
 
-Foreign Object Debris
+Foreign Object Debris • Oncoming agent cuts across the ego vehicle’s trajectory. • An agent in a neighboring lane cuts across the ego vehicle’s lane aggressively. • Interactions with animals on road • Debris that can causes damage on the ADV’s path, such as large box, glass debris, and metal debris • Abnormal road condition, such as flooded road, fire on the roadside,severely and degraded road.
 
-• Oncoming agent cuts across the ego vehicle’s trajectory. • An agent in a neighboring lane cuts across the ego vehicle’s lane aggressively.
-• Interactions with animals on road • Debris that can causes damage on the ADV’s path, such as large box, glass debris, and metal debris • Abnormal road condition, such as flooded road, fire on the roadside,severely and degraded road.
-
-Single Lane Maneuvers
-
-• Nudge maneuvers to overtake blocked agents in the current lane • Lane merging maneuvers on freeway • Other agents in the other lane get too close to ADV that could cause hazards
-• Overtake maneuvers in narrow single lane roads • Interactions with open-door vehicle in a narrow single lane road
-
-• Emergency vehicles blocking road due to accidents or construction • Pull-over required due to the emergency vehicles
-• Leveraging Gemini to search over the database to find scenarios containing certain long-tail objects
-
-Table 1: Mining criteria for each long-tail scenario category.
+Single Lane Maneuvers • Nudge maneuvers to overtake blocked agents in the current lane • Lane merging maneuvers on freeway • Other agents in the other lane get too close to ADV that could cause hazards • Overtake maneuvers in narrow single lane roads • Interactions with open-door vehicle in a narrow single lane road • Emergency vehicles blocking road due to accidents or construction • Pull-over required due to the emergency vehicles • Leveraging Gemini to search over the database to find scenarios containing certain long-tail objects Table 1: Mining criteria for each long-tail scenario category.
 
 ### Case Study
 
@@ -187,9 +166,7 @@ Figure 5: An illustration of how a critical frame is selected. The human raters 
 
 The critical moment is defined as the specific frame where a critical event emerges, requiring the vehicle to make an important driving decision. These decisions can include actions like slowing down, nudging, or giving way to other vehicles in the scene. An example can be found in Figure 5.
 
-We instruct our labelers to follow a three-step process for selecting the precise moment:
-
-High-level Understanding: Labelers must first scan the entire video to understand the critical event within the segment and identify the correct driving decision to be made.
+We instruct our labelers to follow a three-step process for selecting the precise moment: High-level Understanding: Labelers must first scan the entire video to understand the critical event within the segment and identify the correct driving decision to be made.
 
 Moment Selection Based on Visual Cues: Labelers must then find the earliest moment where the critical event is visually apparent in the camera feed. They are instructed to select the frame where the autonomous vehicle has already started taking action to avoid reaction bias introduced by the history motion information. This is typically the frame where the target behavior is most clearly exhibited, such as the initial moment of a lane change or the point of start braking.
 
@@ -205,11 +182,9 @@ Our trajectory selection process employs a two-step approach that leverages both
 
 The sampled trajectory candidates, along with the selected critical scenario, are sent to trained human raters under a rigorous manual grading process.
 
-Scenario Representation: The selected long-tail scenarios are represented within a visualization tool to ensure effective and precise labeling. Each scenario is $\mathbf{2}\mathbf{0}$ seconds long and includes comprehensive data, such as mapping elements, camera images, and annotations for all on-road agents. Candidate trajectories are also plotted directly in this environment. Labelers can easily navigate different timestamps to precisely visualize how each candidate trajectory interacts with the logged future behavior of other road agents or static map elements. This capability is crucial for informed decision-making.
+Scenario Representation: The selected long-tail scenarios are represented within a visualization tool to ensure effective and precise labeling. Each scenario is $\mathbf{20}$ seconds long and includes comprehensive data, such as mapping elements, camera images, and annotations for all on-road agents. Candidate trajectories are also plotted directly in this environment. Labelers can easily navigate different timestamps to precisely visualize how each candidate trajectory interacts with the logged future behavior of other road agents or static map elements. This capability is crucial for informed decision-making.
 
-Trajectory Selection and Grading Criteria: Within a selected scenario, raters first select three diverse trajectories from the available candidates. This selection must include at least one trajectory that is considered optimal or appropriate behavior, while the other two should represent different behavioral modes that may be sub-optimal. The labelers then rate these three trajectories based on five distinct dimensions:
-
-Safety: Whether the trajectory results in collisions, near-misses, or other unsafe conditions.
+Trajectory Selection and Grading Criteria: Within a selected scenario, raters first select three diverse trajectories from the available candidates. This selection must include at least one trajectory that is considered optimal or appropriate behavior, while the other two should represent different behavioral modes that may be sub-optimal. The labelers then rate these three trajectories based on five distinct dimensions: Safety: Whether the trajectory results in collisions, near-misses, or other unsafe conditions.
 
 Legality: Whether the trajectory complies with all traffic laws and regulations, including proper behavior around emergency vehicles.
 
@@ -219,9 +194,7 @@ Braking Necessity: Whether the trajectory includes unnecessary, sudden, or overl
 
 Efficiency: Whether the trajectory demonstrates efficient progress, avoiding unnecessary lane changes, hesitations, or over-reactions to distant or irrelevant agents.
 
-Scoring Mechanism: Trajectories are scored on a scale from 0 (worst) to 10 (perfect). Each trajectory is initialized with a base score of $\mathbf{1}\mathbf{0}$ points. Points are then deducted based on violations of the grading criteria:
-
-Major infractions: A deduction of $\mathbf{2}$ points is applied for violations related to safety, reaction time, or legal violations.
+Scoring Mechanism: Trajectories are scored on a scale from 0 (worst) to 10 (perfect). Each trajectory is initialized with a base score of $\mathbf{10}$ points. Points are then deducted based on violations of the grading criteria: Major infractions: A deduction of $\mathbf{2}$ points is applied for violations related to safety, reaction time, or legal violations.
 
 Minor infractions: A deduction of $\mathbf{1}$ point is applied for violations related to braking necessity or efficiency.
 
@@ -233,17 +206,11 @@ Figure 6: Human rating distribution among 3 candidate trajectories in the WOD-E2
 
 ### Rater Feedback Score
 
-The Rater Feedback Score (RFS) is a metric designed to evaluate the quality of a model's predicted trajectory with the reference of multiple human-annotated trajectories. The WOD-E2E dataset includes 3 reference trajectories generated by human raters, each assigned a score $s_{rater}$ in $\lbrack 0,10\rbrack$.
+The Rater Feedback Score (RFS) is a metric designed to evaluate the quality of a model's predicted trajectory with the reference of multiple human-annotated trajectories. The WOD-E2E dataset includes 3 reference trajectories generated by human raters, each assigned a score $s_{\mathrm{rater}}$ in $$.
 
-The RFS is designed to see how much the model's prediction is aligned with three rated trajectories by considering trust regions, as illustrated in Figure 7. A trust region is defined around each rater trajectory at evaluation times $t$ in $\{ 3,5\}$ seconds. This region represents the rectangular space within specified longitudinal and lateral distance thresholds from the rater trajectory at a given time $t$.
+The RFS is designed to see how much the model's prediction is aligned with three rated trajectories by considering trust regions, as illustrated in Figure 7. A trust region is defined around each rater trajectory at evaluation times $t$ in $\{3,5\}$ seconds. This region represents the rectangular space within specified longitudinal and lateral distance thresholds from the rater trajectory at a given time $t$.
 
-The base thresholds follows WOMD \[ettinger2021large\], and they are set as ${{\overline{\tau}}_{lat} = 1.0},{{\overline{\tau}}_{lng} = 4.0}$ at $t = 3$ and ${{\overline{\tau}}_{lat} = 1.8},{{\overline{\tau}}_{lng} = 7.2}$ at $t = 5$, where the longitudinal threshold ${\overline{\tau}}_{lng}$ is always set to be 4 times larger than the lateral threshold ${\overline{\tau}}_{lat}$. These base thresholds are scaled based on the initial speed $v$ (m/s) of the rater trajectory. The scaling function is a piece-wise linear function of $v$:
-
-The final thresholds at $t = {3,5}$ are determined by
-
-For distance errors $\Delta_{lng}$ (longitudinal) and $\Delta_{lat}$ (lateral) and the final thresholds, the score from each rater feedback trajectory is defined by
-
-Intuitively, we assign either the flat score $s_{rater}$, if a predicted trajectory is within the trust region, or the score exponentially decayed from $s_{rater}$. Then, the final score is determined by choosing the maximum score over all rater specified trajectories, followed by averaging over $t = {3,5}$ and flooring with $4$.
+The base thresholds follows WOMD \[ettinger2021large\], and they are set as $\bar{\tau}_{\mathrm{lat}}=1.0,\bar{\tau}_{\mathrm{lng}}=4.0$ at $t=3$ and $\bar{\tau}_{\mathrm{lat}}=1.8,\bar{\tau}_{\mathrm{lng}}=7.2$ at $t=5$, where the longitudinal threshold $\bar{\tau}_{\mathrm{lng}}$ is always set to be 4 times larger than the lateral threshold $\bar{\tau}_{\mathrm{lat}}$. These base thresholds are scaled based on the initial speed $v$ (m/s) of the rater trajectory. The scaling function is a piece-wise linear function of $v$: The final thresholds at $t=3,5$ are determined by For distance errors $\Delta_{\mathrm{lng}}$ (longitudinal) and $\Delta_{\mathrm{lat}}$ (lateral) and the final thresholds, the score from each rater feedback trajectory is defined by Intuitively, we assign either the flat score $s_{\mathrm{rater}}$, if a predicted trajectory is within the trust region, or the score exponentially decayed from $s_{\mathrm{rater}}$. Then, the final score is determined by choosing the maximum score over all rater specified trajectories, followed by averaging over $t=3,5$ and flooring with $4$.
 
 Figure 7: Rater Feedback Score Mechanism. This figure illustrates how the RFS evaluates a model’s Predicted Trajectory (Blue) against three human-rated reference trajectories. The predicted score is based on the highest-rated reference trajectory it aligns with within the defined trust region.
 
@@ -255,7 +222,7 @@ Figure 8: WOD-E2E leaderboard submission results. Left: We summarize the results
 
 ### Baseline Model Setup
 
-We use a highly simplified version of EMMA \[hwang2025emma\], which we call NaiveEMMA, as our baseline model. The architecture of NaiveEMMA is illustrated in Figure 9. NaiveEMMA is finetuned directly from Gemini Flash \[comanici2025gemini\] and has not been trained on any internal driving datasets: it is finetuned exclusively on the released WOD-E2E training split. The model consumes a combined image from all eight cameras at the current timestep, concatenated into a single $768 \times 768$ resolution image. It also takes in 3 seconds of past ego-status history and the high-level routing input. Crucially, it does not use past camera frames. Note that NaiveEMMA omits several advanced components of the original EMMA model, specifically generalist task training mixtures, Chain-of-Thought reasoning, and any test-time scaling methods.
+We use a highly simplified version of EMMA \[hwang2025emma\], which we call NaiveEMMA, as our baseline model. The architecture of NaiveEMMA is illustrated in Figure 9. NaiveEMMA is finetuned directly from Gemini Flash \[comanici2025gemini\] and has not been trained on any internal driving datasets: it is finetuned exclusively on the released WOD-E2E training split. The model consumes a combined image from all eight cameras at the current timestep, concatenated into a single $768\times 768$ resolution image. It also takes in 3 seconds of past ego-status history and the high-level routing input. Crucially, it does not use past camera frames. Note that NaiveEMMA omits several advanced components of the original EMMA model, specifically generalist task training mixtures, Chain-of-Thought reasoning, and any test-time scaling methods.
 
 Figure 9: Architecture of NaiveEMMA, which serves as the challenge leaderboard baseline. NaiveEMMA is a highly simplified version of EMMA [hwang2025emma], fine-tuned from Gemini Flash [comanici2025gemini]. The model takes as input all 8 camera images, 3 seconds of past ego-status history, and the high-level routing input. It then predicts the future trajectory in 5 seconds
 
@@ -265,9 +232,7 @@ Figure 9: Architecture of NaiveEMMA, which serves as the challenge leaderboard b
 
 We train several models based on NaiveEMMA and evaluate RFS on an internal test split. This test split contains long-tailed scenarios similar to the WOD-E2E test split. This experiment controls for several factors that are expected to improve model quality in long-tail settings: exposure to long-tailed scenarios via the WOD-E2E training split, multi-camera inputs to reason about surroundings, and test-time scaling to handle scenario ambiguities. RFS aligns with these intuitions, assigning higher scores to models that utilize more of these features (Table 2).
 
-+ test-time scaling (multi sampling)
-
-Table 2: RFS assigns higher scores to models that are better-equipped to handle long-tailed scenarios. Evaluation is performed on an internal test split.
++ test-time scaling (multi sampling) Table 2: RFS assigns higher scores to models that are better-equipped to handle long-tailed scenarios. Evaluation is performed on an internal test split.
 
 (a) The model predicted future trajectory (blue) aligns well with one of the rater specified trajectories. The corresponding flat scores are assigned as the predictions fall within the trust region.
 
@@ -295,9 +260,7 @@ Swin-Trajectory \[ParkSwinTrajectoryTR\] is a lightweight, MLP-based model. It u
 
 DiffusionLTF and UniPlan are both Diffusion-based models built on the DiffusionDrive \[liao2025diffusiondrive\] architecture. Their primary difference lies in the training datasets used: DiffusionLTF utilizes WOD-E2E, CARLA \[dosovitskiy2017carla\], NAVSIM \[Dauner2024NEURIPS\], and WOD-Perception \[sun2020scalability\], whereas UniPlan is trained on WOD-E2E and nuPlan \[caesar2021nuplan\]. They achieve comparable performance, with RFS scores of 7.717 and 7.779, respectively.
 
-Poutine \[pal2025poutinevisionlanguagetrajectorypretraining\], HMVLM \[wang2025hmvlm\], and AutoVLA \[zhou2025autovla\] are all MLLM-based models that use Qwen2.5 as their backbone. They share a similar problem formulation, taking camera images and ego states as input modalities and outputting future waypoints as text. Additionally, all three models utilize Chain-of-Thought (CoT) reasoning before generating a trajectory. Despite these similarities, their results show a significant performance gap, with AutoVLA achieving an RFS of 7.556, HMVLM 7.736, and Poutine 7.986. The primary differences among these methods stem :
-
-Training data sources: AutoVLA uses a combination of WOD-E2E, nuPlan, and nuScenes. In contrast, HMVLM is trained exclusively on WOD-E2E, whereas Poutine uses a blend of WOD-E2E and the CoVLA dataset.
+Poutine \[pal2025poutinevisionlanguagetrajectorypretraining\], HMVLM \[wang2025hmvlm\], and AutoVLA \[zhou2025autovla\] are all MLLM-based models that use Qwen2.5 as their backbone. They share a similar problem formulation, taking camera images and ego states as input modalities and outputting future waypoints as text. Additionally, all three models utilize Chain-of-Thought (CoT) reasoning before generating a trajectory. Despite these similarities, their results show a significant performance gap, with AutoVLA achieving an RFS of 7.556, HMVLM 7.736, and Poutine 7.986. The primary differences among these methods stem: Training data sources: AutoVLA uses a combination of WOD-E2E, nuPlan, and nuScenes. In contrast, HMVLM is trained exclusively on WOD-E2E, whereas Poutine uses a blend of WOD-E2E and the CoVLA dataset.
 
 CoT captioning style These three models employ different methods for generating reasoning captions and use distinct prompt templates.
 

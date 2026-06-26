@@ -1,8 +1,6 @@
 ## Introduction
 
-Humans develop a mental model of the world based on what they are able to perceive with their limited senses. The decisions and actions we make are based on this internal model. Jay Wright Forrester, the father of system dynamics, described a mental model as:
-
-The image of the world around us, which we carry in our head, is just a model. Nobody in his head imagines all the world, government or country. He has only selected concepts, and relationships between them, and uses those to represent the real system.
+Humans develop a mental model of the world based on what they are able to perceive with their limited senses. The decisions and actions we make are based on this internal model. Jay Wright Forrester, the father of system dynamics, described a mental model as: The image of the world around us, which we carry in our head, is just a model. Nobody in his head imagines all the world, government or country. He has only selected concepts, and relationships between them, and uses those to represent the real system.
 
 Figure 1: A World Model, from Scott McCloud’s Understanding Comics.
 
@@ -48,7 +46,7 @@ Figure 6: RNN with a Mixture Density Network output layer. The MDN outputs the p
 
 In our approach, we approximate $p{(z)}$ as a mixture of Gaussian distribution, and train the RNN to output the probability distribution of the next latent vector $z_{t + 1}$ given the current and past information made available to it.
 
-More specifically, the RNN will model $P{(\left. z_{t + 1} \middle| {a_{t},z_{t},h_{t}} \right.)}$, where $a_{t}$ is the action taken at time $t$ and $h_{t}$ is the hidden state of the RNN at time $t$. During sampling, we can adjust a temperature parameter $\tau$ to control model uncertainty, as done in -- we will find adjusting $\tau$ to be useful for training our controller later on.
+More specifically, the RNN will model $P{(\left. z_{t + 1} \middle| {a_{t},z_{t},h_{t}} \right.)}$, where $a_{t}$ is the action taken at time $t$ and $h_{t}$ is the hidden state of the RNN at time $t$. During sampling, we can adjust a temperature parameter $\tau$ to control model uncertainty, as done in -- we will find adjusting $\tau$ to be useful for training our controller later .
 
 Figure 7: SketchRNN is an example of a MDN-RNN used to predict the next pen strokes of a sketch drawing. We use a similar model to predict the next latent vector zt.
 
@@ -58,29 +56,13 @@ This approach is known as a Mixture Density Network combined with a RNN (MDN-RNN
 
 The Controller (C) model is responsible for determining the course of actions to take in order to maximize the expected cumulative reward of the agent during a rollout of the environment. In our experiments, we deliberately make C as simple and small as possible, and trained separately from V and M, so that most of our agent's complexity resides in the world model (V and M).
 
-C is a simple single layer linear model that maps $z_{t}$ and $h_{t}$ directly to action $a_{t}$ at each time step:
-
-In this linear model, $W_{c}$ and $b_{c}$ are the weight matrix and bias vector that maps the concatenated input vector $\lbrack{z_{t}h_{t}}\rbrack$ to the output action vector $a_{t}$.
+C is a simple single layer linear model that maps $z_{t}$ and $h_{t}$ directly to action $a_{t}$ at each time step: In this linear model, $W_{c}$ and $b_{c}$ are the weight matrix and bias vector that maps the concatenated input vector $\lbrack{z_{t}h_{t}}\rbrack$ to the output action vector $a_{t}$.
 
 ### Putting V, M, and C Together
 
-The following flow diagram illustrates how V, M, and C interacts with the environment:
+The following flow diagram illustrates how V, M, and C interacts with the environment: Figure 8: Flow diagram of our Agent model. The raw observation is first processed by V at each time step t to produce zt. The input into C is this latent vector zt concatenated with M’s hidden state ht at each time step. C will then output an action vector at for motor control, and will affect the environment. M will then take the current zt and action at as an input to update its own hidden state to produce ht + 1 to be used at time t + 1.
 
-Figure 8: Flow diagram of our Agent model. The raw observation is first processed by V at each time step t to produce zt. The input into C is this latent vector zt concatenated with M’s hidden state ht at each time step. C will then output an action vector at for motor control, and will affect the environment. M will then take the current zt and action at as an input to update its own hidden state to produce ht + 1 to be used at time t + 1.
-
-Below is the pseudocode for how our agent model is used in the OpenAI Gym environment:
-
-def rollout(controller):
-’’’ env, rnn, vae are ’’’
-obs = env.reset()
-h = rnn.initial_state()
-while not done:
-z = vae.encode(obs)
-obs, reward, done = env.step(a)
-cumulative_reward += reward
-return cumulative_reward
-
-Running this function on a given controller C will return the cumulative reward during a rollout.
+Below is the pseudocode for how our agent model is used in the OpenAI Gym environment: def rollout(controller): ’’’ env, rnn, vae are ’’’ obs = env.reset h = rnn.initial_state while not done: z = vae.encode(obs) obs, reward, done = env.step(a) cumulative_reward += reward return cumulative_reward Running this function on a given controller C will return the cumulative reward during a rollout.
 
 This minimal design for C also offers important practical benefits. Advances in deep learning provided us with the tools to train large, sophisticated models efficiently, provided we can define a well-behaved, differentiable loss function. Our V and M models are designed to be trained efficiently with the backpropagation algorithm using modern GPU accelerators, so we would like most of the model's complexity, and model parameters to reside in V and M. The number of parameters of C, a linear model, is minimal in comparison. This choice allows us to explore more unconventional ways to train C -- for example, even using evolution strategies (ES) to tackle more challenging RL tasks where the credit assignment problem is difficult.
 
@@ -114,9 +96,7 @@ In the online version of this article, one can load randomly chosen screenshots 
 
 ### Procedure
 
-To summarize the Car Racing experiment, below are the steps taken:
-
-Collect 10,000 rollouts from a random policy.
+To summarize the Car Racing experiment, below are the steps taken: Collect 10,000 rollouts from a random policy.
 
 Train VAE (V) to encode frames into $z \in \mathcal{R}^{32}$.
 
@@ -134,29 +114,17 @@ Figure 11: Limiting our controller to see only zt, but not ht results in wobbly 
 
 Although the agent is still able to navigate the race track in this setting, we notice it wobbles around and misses the tracks on sharper corners. This handicapped agent achieved an average score of 632 $\pm$ 251 over 100 random trials, in line with the performance of other agents on OpenAI Gym's leaderboard and traditional Deep RL methods such as A3C. Adding a hidden layer to C's policy network helps to improve the results to 788 $\pm$ 141, but not quite enough to solve this environment.
 
-Full World Model (V and M)
-
-The representation $z_{t}$ provided by our V model only captures a representation at a moment in time and does not have much predictive power. In contrast, M is trained to do one thing, and to do it really well, which is to predict $z_{t + 1}$. Since M's prediction of $z_{t + 1}$ is produced from the RNN's hidden state $h_{t}$ at time $t$, this vector is a good candidate for the set of learned features we can give to our agent. Combining $z_{t}$ with $h_{t}$ gives our controller C a good representation of both the current observation, and what to expect in the future.
+Full World Model (V and M) The representation $z_{t}$ provided by our V model only captures a representation at a moment in time and does not have much predictive power. In contrast, M is trained to do one thing, and to do it really well, which is to predict $z_{t + 1}$. Since M's prediction of $z_{t + 1}$ is produced from the RNN's hidden state $h_{t}$ at time $t$, this vector is a good candidate for the set of learned features we can give to our agent. Combining $z_{t}$ with $h_{t}$ gives our controller C a good representation of both the current observation, and what to expect in the future.
 
 Figure 12: Driving is more stable if we give our controller access to both zt and ht.
 
-We see that allowing the agent to access the both $z_{t}$ and $h_{t}$ greatly improves its driving capability. The driving is more stable, and the agent is able to seemingly attack the sharp corners effectively. Furthermore, we see that in making these fast reflexive driving decisions during a car race, the agent does not need to plan ahead and roll out hypothetical scenarios of the future. Since $h_{t}$ contain information about the probability distribution of the future, the agent can just query the RNN instinctively to guide its action decisions. Like a seasoned Formula One driver or the baseball player discussed earlier, the agent can instinctively predict when and where to navigate in the heat of the moment.
-
-ceobillionaire (Gym Leaderboard)
-
-V model with hidden layer
-
-Full World Model
-
-Table 1: CarRacing-v0 scores achieved using various methods.
+We see that allowing the agent to access the both $z_{t}$ and $h_{t}$ greatly improves its driving capability. The driving is more stable, and the agent is able to seemingly attack the sharp corners effectively. Furthermore, we see that in making these fast reflexive driving decisions during a car race, the agent does not need to plan ahead and roll out hypothetical scenarios of the future. Since $h_{t}$ contain information about the probability distribution of the future, the agent can just query the RNN instinctively to guide its action decisions. Like a seasoned Formula One driver or the baseball player discussed earlier, the agent can instinctively predict when and where to navigate in the heat of the moment. ceobillionaire (Gym Leaderboard) V model with hidden layer Full World Model Table 1: CarRacing-v0 scores achieved using various methods.
 
 Our agent is able to achieve a score of 906 $\pm$ 21 over 100 random trials, effectively solving the task and obtaining new state of the art results. Previous attempts using Deep RL methods obtained average scores of 591--652 range, and the best reported solution on the leaderboard obtained an average score of 838 $\pm$ 11 over 100 random trials. Traditional Deep RL methods often require pre-processing of each frame, such as employing edge-detection, in addition to stacking a few recent frames into the input. In contrast, our world model takes in a stream of raw RGB pixel images and directly learns a spatial-temporal representation. To our knowledge, our method is the first reported solution to solve this task.
 
 ### Car Racing Dreams
 
-Since our world model is able to model the future, we are also able to have it come up with hypothetical car racing scenarios on its own. We can ask it to produce the probability distribution of $z_{t + 1}$ given the current states, sample a $z_{t + 1}$ and use this sample as the real observation. We can put our trained C back into this hallucinated environment generated by M. The following image from an interactive demo in the online version of this article shows how our world model can be used to hallucinate the car racing environment:
-
-Figure 13: Our agent driving inside of its own dream world. Here, we deploy our trained policy into a fake environment generated by the MDN-RNN, and rendered using the VAE’s decoder. In the demo, one can override the agent’s actions as well as adjust τ to control the uncertainty of the environment generated by M.
+Since our world model is able to model the future, we are also able to have it come up with hypothetical car racing scenarios on its own. We can ask it to produce the probability distribution of $z_{t + 1}$ given the current states, sample a $z_{t + 1}$ and use this sample as the real observation. We can put our trained C back into this hallucinated environment generated by M. The following image from an interactive demo in the online version of this article shows how our world model can be used to hallucinate the car racing environment: Figure 13: Our agent driving inside of its own dream world. Here, we deploy our trained policy into a fake environment generated by the MDN-RNN, and rendered using the VAE’s decoder. In the demo, one can override the agent’s actions as well as adjust τ to control the uncertainty of the environment generated by M.
 
 ## VizDoom Experiment
 
@@ -172,7 +140,7 @@ The agent must learn to avoid fireballs shot by monsters from the other side of 
 
 ### Procedure
 
-The setup of our VizDoom experiment is largely the same as the Car Racing task, except for a few key differences. In the Car Racing task, M is only trained to model the next $z_{t}$. Since we want to build a world model we can train our agent in, our M model here will also predict whether the agent dies in the next frame (as a binary event $done_{t}$, or $d_{t}$ for short), in addition to the next frame $z_{t}$.
+The setup of our VizDoom experiment is largely the same as the Car Racing task, except for a few key differences. In the Car Racing task, M is only trained to model the next $z_{t}$. Since we want to build a world model we can train our agent , our M model here will also predict whether the agent dies in the next frame (as a binary event $done_{t}$, or $d_{t}$ for short), in addition to the next frame $z_{t}$.
 
 Since the M model can predict the $done$ state in addition to the next observation, we now have all of the ingredients needed to make a full RL environment. We first build an OpenAI Gym environment interface by wrapping a gym.Env interface over our M if it were a real Gym environment, and then train our agent inside of this virtual environment instead of using the actual environment.
 
@@ -180,14 +148,11 @@ In this simulation, we do not need the V model to encode any real pixel frames d
 
 This virtual environment has an identical interface to the real environment, so after the agent learns a satisfactory policy in the virtual environment, we can easily deploy this policy back into the actual environment to see how well the policy transfers over.
 
-To summarize the Take Cover experiment, below are the steps taken:
-
-Collect 10,000 rollouts from a random policy.
+To summarize the Take Cover experiment, below are the steps taken: Collect 10,000 rollouts from a random policy.
 
 Train VAE (V) to encode each frame into a latent vector $z \in \mathcal{R}^{64}$, and use V to convert the images collected from into the latent space representation.
 
-Train MDN-RNN (M) to model\
-$P{(z_{t + 1},\left. d_{t + 1} \middle| {a_{t},z_{t},h_{t}} \right.)}$.
+Train MDN-RNN (M) to model\$P{(z_{t + 1},\left. d_{t + 1} \middle| {a_{t},z_{t},h_{t}} \right.)}$.
 
 Define Controller (C) as $a_{t} = {W_{c}{\lbrack{z_{t}h_{t}}\rbrack}}$.
 
@@ -207,7 +172,7 @@ For instance, if the agent selects the left action, the M model learns to move t
 
 Unlike the actual game environment, however, we note that it is possible to add extra uncertainty into the virtual environment, thus making the game more challenging in the dream environment. We can do this by increasing the temperature $\tau$ parameter during the sampling process of $z_{t + 1}$. By increasing the uncertainty, our dream environment becomes more difficult compared to the actual environment. The fireballs may move more randomly in a less predictable path compared to the actual game. Sometimes the agent may even die due to sheer misfortune, without explanation.
 
-We find agents that perform well in higher temperature settings generally perform better in the normal setting. In fact, increasing $\tau$ helps prevent our controller from taking advantage of the imperfections of our world model -- we will discuss this in more depth later on.
+We find agents that perform well in higher temperature settings generally perform better in the normal setting. In fact, increasing $\tau$ helps prevent our controller from taking advantage of the imperfections of our world model -- we will discuss this in more depth later .
 
 ### Transfer Policy to Actual Environment
 
@@ -231,7 +196,7 @@ And since we are using the M model to generate a virtual dream environment for o
 
 Figure 18: Agent discovers an adversarial policy to automatically extinguish fireballs after they are fired during some rollouts.
 
-This weakness could be the reason that many previous works that learn dynamics models of RL environments but do not actually use those models to fully replace the actual environments. Like in the M model proposed in, the dynamics model is a deterministic model, making the model easily exploitable by the agent if it is not perfect. Using Bayesian models, as in PILCO, helps to address this issue with the uncertainty estimates to some extent, however, they do not fully solve the problem. Recent work combines the model-based approach with traditional model-free RL training by first initializing the policy network with the learned policy, but must subsequently rely on model-free methods to fine-tune this policy in the actual environment.
+This weakness could be the reason that many previous works that learn dynamics models of RL environments but do not actually use those models to fully replace the actual environments. Like in the M model proposed , the dynamics model is a deterministic model, making the model easily exploitable by the agent if it is not perfect. Using Bayesian models, as in PILCO, helps to address this issue with the uncertainty estimates to some extent, however, they do not fully solve the problem. Recent work combines the model-based approach with traditional model-free RL training by first initializing the policy network with the learned policy, but must subsequently rely on model-free methods to fine-tune this policy in the actual environment.
 
 In Learning to Think, it is acceptable that the RNN M is not always a reliable predictor. A (potentially evolution-based) RNN C can in principle learn to ignore a flawed M, or exploit certain useful parts of M for arbitrary computational purposes including hierarchical planning etc. This is not what we do here though -- our present approach is still closer to some of the older systems, where a RNN M is used to predict and plan ahead step by step. Unlike this early work, however, we use evolution for C (like in Learning to Think) rather than traditional RL combined with RNNs, which has the advantage of both simplicity and generality.
 
@@ -243,9 +208,7 @@ For instance, if we set the temperature parameter to a very low value of $\tau =
 
 Note again, however, that the simpler and more robust approach in Learning to Think does not insist on using M for step by step planning. Instead, C can learn to use M's subroutines (parts of M's weight matrix) for arbitrary computational purposes but can also learn to ignore M when M is useless and when ignoring M yields better performance. Nevertheless, at least in our present C--M variant, M's predictions are essential for teaching C, more like in some of the early C--M systems, but combined with evolution or black box optimization.
 
-By making the temperature $\tau$ an adjustable parameter of the M model, we can see the effect of training the C model on hallucinated virtual environments with different levels of uncertainty, and see how well they transfer over to the actual environment. We experimented with varying the temperature of the virtual environment and observing the resulting average score over 100 random rollouts of the actual environment after training the agent inside of the virtual environment with a given temperature:
-
-Table 2: Take Cover scores at various temperature settings.
+By making the temperature $\tau$ an adjustable parameter of the M model, we can see the effect of training the C model on hallucinated virtual environments with different levels of uncertainty, and see how well they transfer over to the actual environment. We experimented with varying the temperature of the virtual environment and observing the resulting average score over 100 random rollouts of the actual environment after training the agent inside of the virtual environment with a given temperature: Table 2: Take Cover scores at various temperature settings.
 
 We see that while increasing the temperature of the M model makes it more difficult for the C model to find adversarial policies, increasing it too much will make the virtual environment too difficult for the agent to learn anything, hence in practice it is a hyperparameter we can tune. The temperature also affects the types of strategies the agent discovers. For example, although the best score obtained is 1092 $\pm$ 556 with $\tau = 1.15$, increasing $\tau$ a notch to 1.30 results in a lower score but at the same time a less risky strategy with a lower variance of returns. For comparison, the best score on the OpenAI Gym leaderboard is 820 $\pm$ 58.
 
@@ -253,9 +216,7 @@ We see that while increasing the temperature of the M model makes it more diffic
 
 In our experiments, the tasks are relatively simple, so a reasonable world model can be trained using a dataset collected from a random policy. But what if our environments become more sophisticated? In any difficult environment, only parts of the world are made available to the agent only after it learns how to strategically navigate through its world.
 
-For more complicated tasks, an iterative training procedure is required. We need our agent to be able to explore its world, and constantly collect new observations so that its world model can be improved and refined over time. An iterative training procedure is as follows:
-
-Initialize M, C with random model parameters.
+For more complicated tasks, an iterative training procedure is required. We need our agent to be able to explore its world, and constantly collect new observations so that its world model can be improved and refined over time. An iterative training procedure is as follows: Initialize M, C with random model parameters.
 
 Rollout to actual environment $N$ times. Save all actions $a_{t}$ and observations $x_{t}$ during rollouts to storage.
 
@@ -265,7 +226,7 @@ Go back to if task has not been completed.
 
 We have shown that one iteration of this training loop was enough to solve simple tasks. For more difficult tasks, we need our controller in Step 2 to actively explore parts of the environment that is beneficial to improve its world model. An exciting research direction is to look at ways to incorporate artificial curiosity and intrinsic motivation and information seeking abilities in an agent to encourage novel exploration. In particular, we can augment the reward function based on improvement in compression quality.
 
-In the present approach, since M is a MDN-RNN that models a probability distribution for the next frame, if it does a poor job, then it means the agent has encountered parts of the world that it is not familiar with. Therefore we can adapt and reuse M's training loss function to encourage curiosity. By flipping the sign of M's loss function in the actual environment, the agent will be encouraged to explore parts of the world that it is not familiar with. The new data it collects may improve the world model.
+In the present approach, since M is a MDN-RNN that models a probability distribution for the next frame, if it does a poor job, then it means the agent has encountered parts of the world that it is not familiar . Therefore we can adapt and reuse M's training loss function to encourage curiosity. By flipping the sign of M's loss function in the actual environment, the agent will be encouraged to explore parts of the world that it is not familiar . The new data it collects may improve the world model.
 
 The iterative training procedure requires the M model to not only predict the next observation $x$ and $done$, but also predict the action and reward for the next time step. This may be required for more difficult tasks. For instance, if our agent needs to learn complex motor skills to walk around its environment, the world model will learn to imitate its own C model that has already learned to walk. After difficult motor skills, such as walking, is absorbed into a large world model with lots of capacity, the smaller C model can rely on the motor skills already absorbed by the world model and focus on learning more higher level skills to navigate itself using the motor skills it had already learned.
 
@@ -289,7 +250,7 @@ Video game environments are also popular in model-based RL research as a testbed
 
 The works mentioned above use FNNs to predict the next video frame. We may want to use models that can capture longer term time dependencies. RNNs are powerful models suitable for sequence modelling. In a lecture called Hallucination with RNNs, Graves demonstrated the ability of RNNs to learn a probabilistic model of Atari game environments. He trained RNNs to learn the structure of such a game and then showed that they can hallucinate similar game levels on its own.
 
-Using RNNs to develop internal models to reason about the future has been explored as early as 1990 in a paper called Making the World Differentiable, and then further explored in. A more recent paper called Learning to Think presented a unifying framework for building a RNN-based general problem solver that can learn a world model of its environment and also learn to reason about the future using this model. Subsequent works have used RNN-based models to generate many frames into the future, and also as an internal model to reason about the future.
+Using RNNs to develop internal models to reason about the future has been explored as early as 1990 in a paper called Making the World Differentiable, and then further explored . A more recent paper called Learning to Think presented a unifying framework for building a RNN-based general problem solver that can learn a world model of its environment and also learn to reason about the future using this model. Subsequent works have used RNN-based models to generate many frames into the future, and also as an internal model to reason about the future.
 
 In this work, we used evolution strategies to train our controller, as it offers many benefits. For instance, we only need to provide the optimizer with the final cumulative reward, rather than the entire history. ES is also easy to parallelize -- we can launch many instances of rollout with different solutions to many workers and quickly compute a set of cumulative rewards in parallel. Recent works have confirmed that ES is a viable alternative to traditional Deep RL methods on many strong baselines.
 
@@ -299,7 +260,7 @@ Before the popularity of Deep RL methods, evolution-based algorithms have been s
 
 Figure 21: Ancient drawing of a RNN-based controller interacting with an environment.
 
-We have demonstrated the possibility of training an agent to perform tasks entirely inside of its simulated latent space dream world. This approach offers many practical benefits. For instance, running computationally intensive game engines require using heavy compute resources for rendering the game states into image frames, or calculating physics not immediately relevant to the game. We may not want to waste cycles training an agent in the actual environment, but instead train the agent as many times as we want inside its simulated environment. Training agents in the real world is even more expensive, so world models that are trained incrementally to simulate reality may prove to be useful for transferring policies back to the real world. Our approach may complement sim2real approaches outlined in.
+We have demonstrated the possibility of training an agent to perform tasks entirely inside of its simulated latent space dream world. This approach offers many practical benefits. For instance, running computationally intensive game engines require using heavy compute resources for rendering the game states into image frames, or calculating physics not immediately relevant to the game. We may not want to waste cycles training an agent in the actual environment, but instead train the agent as many times as we want inside its simulated environment. Training agents in the real world is even more expensive, so world models that are trained incrementally to simulate reality may prove to be useful for transferring policies back to the real world. Our approach may complement sim2real approaches outlined .
 
 Furthermore, we can take advantage of deep learning frameworks to accelerate our world model simulations using GPUs in a distributed environment. The benefit of implementing the world model as a fully differentiable recurrent computation graph also means that we may be able to train our agents in the dream directly using the backpropagation algorithm to fine-tune its policy to maximize an objective function.
 

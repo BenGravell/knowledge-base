@@ -8,53 +8,23 @@ Some previous work on entropy regularized reinforcement learning (e.g., O'Donogh
 
 ## Bandit Setting
 
-Let's consider a bandit problem with a discrete or continuous action space: at each timestep the agent chooses an action $a$, and the reward $r$ is sampled according to $P{(\left. r \middle| a \right.)}$, where $P$ is unknown to the agent. Let ${\overline{r}{(a)}} = {{\mathbb{E}}\left\lbrack r \middle| a \right\rbrack}$, and let $\pi$ denote a policy, where $\pi{(a)}$ is the probability of action $a$. Then, the expected per-timestep reward of the policy $\pi$ is ${{\mathbb{E}}_{a \sim \pi}\lbrack r\rbrack} = {\sum_{a}{\pi{(a)}\overline{r}{(a)}}}$ or $\int{{da}\pi{(a)}\overline{r}{(a)}}$. Let's suppose we are maximizing $\eta{(\pi)}$, an entropy-regularized version of this objective:
+Let's consider a bandit problem with a discrete or continuous action space: at each timestep the agent chooses an action $a$, and the reward $r$ is sampled according to $P{(\left. r \middle| a \right.)}$, where $P$ is unknown to the agent. Let ${\overline{r}{(a)}} = {{\mathbb{E}}\left\lbrack r \middle| a \right\rbrack}$, and let $\pi$ denote a policy, where $\pi{(a)}$ is the probability of action $a$. Then, the expected per-timestep reward of the policy $\pi$ is ${{\mathbb{E}}_{a \sim \pi}\lbrack r\rbrack} = {\sum_{a}{\pi{(a)}\overline{r}{(a)}}}$ or $\int{{da}\pi{(a)}\overline{r}{(a)}}$. Let's suppose we are maximizing $\eta{(\pi)}$, an entropy-regularized version of this objective: where $\overline{\pi}$ is some "reference" policy, $\tau$ is a "temperature" parameter, and $D_{KL}$ is the Kullback-Leibler divergence. Note that the temperature $\tau$ can be eliminated by rescaling the rewards. However, we will leave it so that our calculations are checkable through dimensional analysis, and to make the temperature-dependence more explicit.
 
-where $\overline{\pi}$ is some "reference" policy, $\tau$ is a "temperature" parameter, and $D_{KL}$ is the Kullback-Leibler divergence. Note that the temperature $\tau$ can be eliminated by rescaling the rewards. However, we will leave it so that our calculations are checkable through dimensional analysis, and to make the temperature-dependence more explicit.
+First, let us calculate the policy $\pi$ that maximizes $\eta$. We claim that $\eta{(\pi)}$ is maximized by $\pi_{\overline{r}}^{\mathcal{B}}$, defined as To derive this, consider the KL divergence between $\pi$ and $\pi_{\overline{r}}^{\mathcal{B}}$: Rearranging and multiplying by $\tau$, Clearly the left-hand side is maximized (with respect to $\pi$) when the KL term on the right-hand side is minimized (as the other term does not depend on $\pi$), and $D_{KL}\left\lbrack \pi\parallel\pi_{\overline{r}}^{\mathcal{B}} \right\rbrack$ is minimized at $\pi = \pi_{\overline{r}}^{\mathcal{B}}$.
 
-First, let us calculate the policy $\pi$ that maximizes $\eta$. We claim that $\eta{(\pi)}$ is maximized by $\pi_{\overline{r}}^{\mathcal{B}}$, defined as
-
-To derive this, consider the KL divergence between $\pi$ and $\pi_{\overline{r}}^{\mathcal{B}}$:
-
-Rearranging and multiplying by $\tau$,
-
-Clearly the left-hand side is maximized (with respect to $\pi$) when the KL term on the right-hand side is minimized (as the other term does not depend on $\pi$), and $D_{KL}\left\lbrack \pi\parallel\pi_{\overline{r}}^{\mathcal{B}} \right\rbrack$ is minimized at $\pi = \pi_{\overline{r}}^{\mathcal{B}}$.
-
-The preceding calculation gives us the optimal policy when $\overline{r}$ is known, but in the entropy-regularized bandit problem, it is initially unknown, and the agent learns about it by sampling. There are two approaches for solving the entropy-regularized bandit problem:
-
-A direct, policy-based approach, where we incrementally update the agent's policy $\pi$ based on stochastic gradient ascent on $\eta$.
+The preceding calculation gives us the optimal policy when $\overline{r}$ is known, but in the entropy-regularized bandit problem, it is initially unknown, and the agent learns about it by sampling. There are two approaches for solving the entropy-regularized bandit problem: A direct, policy-based approach, where we incrementally update the agent's policy $\pi$ based on stochastic gradient ascent on $\eta$.
 
 An indirect, value-based approach, where we learn an action-value function $q_{\theta}$ that estimates and approximates $\overline{r}$, and we define $\pi$ based on our current estimate of $q_{\theta}$.
 
-For the policy-based approach, we can obtain unbiased estimates the gradient of $\eta$. For a parameterized policy $\pi_{\theta}$, the gradient is given by
+For the policy-based approach, we can obtain unbiased estimates the gradient of $\eta$. For a parameterized policy $\pi_{\theta}$, the gradient is given by We can obtain an unbiased gradient estimate using a single sample $(a,r)$.
 
-We can obtain an unbiased gradient estimate using a single sample $(a,r)$.
+In the indirect, value-based approach approach, it is natural to use a squared-error loss: Taking the gradient of this loss, with respect to the parameters of $q_{\theta}$, we get Soon, we will calculate the relationship between this loss gradient and the policy gradient from Equation 7.
 
-In the indirect, value-based approach approach, it is natural to use a squared-error loss:
+In the indirect, value-based approach, a natural choice for policy $\pi$ is the one that would be optimal if $q_{\theta} = \overline{r}$. Let's denote this policy, called the Boltzmann policy, by $\pi_{q_{\theta}}^{\mathcal{B}}$, where It will be convenient to introduce a bit of notation for the normalizing factor; namely, we define the scalar Then the Boltzmann policy can be written as Note that the term $\tau{\log{\mathbb{E}}_{a \sim \overline{\pi}}}\left\lbrack {\exp{({{\overline{r}{(a)}}/\tau})}} \right\rbrack$, appeared earlier in Equation 6). Repeating the calculation from Equation 2 through Equation 6, but with $q_{\theta}$ instead of $\overline{r}$, Hence, $v_{\theta}$ is an estimate of $\eta{(\pi_{q_{\theta}}^{\mathcal{B}})}$, plugging in $q_{\theta}$ for $\overline{r}$.
 
-Taking the gradient of this loss, with respect to the parameters of $q_{\theta}$, we get
+Now we shall show the connection between the gradient of the squared-error loss (Equation 9) and the policy gradient (Equation 7). Rearranging Equation 12, we can write $q_{\theta}$ in terms of $v_{\theta}$ and the Boltzmann policy $\pi_{q_{\theta}}^{\mathcal{B}}$: Let's substitute this expression for $q_{\theta}$ into the squared-error loss gradient (Equation 9).
 
-Soon, we will calculate the relationship between this loss gradient and the policy gradient from Equation 7.
-
-In the indirect, value-based approach, a natural choice for policy $\pi$ is the one that would be optimal if $q_{\theta} = \overline{r}$. Let's denote this policy, called the Boltzmann policy, by $\pi_{q_{\theta}}^{\mathcal{B}}$, where
-
-It will be convenient to introduce a bit of notation for the normalizing factor; namely, we define the scalar
-
-Then the Boltzmann policy can be written as
-
-Note that the term $\tau{\log{\mathbb{E}}_{a \sim \overline{\pi}}}\left\lbrack {\exp{({{\overline{r}{(a)}}/\tau})}} \right\rbrack$, appeared earlier in Equation 6). Repeating the calculation from Equation 2 through Equation 6, but with $q_{\theta}$ instead of $\overline{r}$,
-
-Hence, $v_{\theta}$ is an estimate of $\eta{(\pi_{q_{\theta}}^{\mathcal{B}})}$, plugging in $q_{\theta}$ for $\overline{r}$.
-
-Now we shall show the connection between the gradient of the squared-error loss (Equation 9) and the policy gradient (Equation 7). Rearranging Equation 12, we can write $q_{\theta}$ in terms of $v_{\theta}$ and the Boltzmann policy $\pi_{q_{\theta}}^{\mathcal{B}}$:
-
-Let's substitute this expression for $q_{\theta}$ into the squared-error loss gradient (Equation 9).
-
-Note that we have not yet decided on a sampling distribution $\pi$. Henceforth, we'll assume actions were sampled by $\pi = \pi_{q_{\theta}}^{\mathcal{B}}$. Also, note the derivative of the KL-divergence:
-
-Continuing from Equation 17 but setting $\pi = \pi_{q_{\theta}}^{\mathcal{B}}$,
-
-Hence, the gradient of the squared error for our action-value function can be broken into two parts: the first part is the policy gradient of the Boltzmann policy corresponding to $q_{\theta}$, the second part arises from a squared error objective, where we are fitting $v_{\theta}$ to the entropy-augmented expected reward $\overline{r}{(a)} - \tau D_{KL}\left\lbrack \pi_{q_{\theta}}^{\mathcal{B}}\parallel\overline{\pi} \right\rbrack$.
+Note that we have not yet decided on a sampling distribution $\pi$. Henceforth, we'll assume actions were sampled by $\pi = \pi_{q_{\theta}}^{\mathcal{B}}$. Also, note the derivative of the KL-divergence: Continuing from Equation 17 but setting $\pi = \pi_{q_{\theta}}^{\mathcal{B}}$, Hence, the gradient of the squared error for our action-value function can be broken into two parts: the first part is the policy gradient of the Boltzmann policy corresponding to $q_{\theta}$, the second part arises from a squared error objective, where we are fitting $v_{\theta}$ to the entropy-augmented expected reward $\overline{r}{(a)} - \tau D_{KL}\left\lbrack \pi_{q_{\theta}}^{\mathcal{B}}\parallel\overline{\pi} \right\rbrack$.
 
 Soon we will derive an equivalent interpretation of $Q$-function regression in the MDP setting, where we are approximating the state-value function $Q^{\pi,\gamma}$. However, we first need to introduce an entropy-regularized version of the reinforcement learning problem.
 
@@ -64,132 +34,73 @@ We shall consider an entropy-regularized version of the reinforcement learning p
 
 ### Value Functions
 
-We are obliged to alter our definitions of value functions to include the new KL penalty terms. We shall define the state-value function as the expected return:
-
-and we shall define the $Q$-function as
-
-Note that this $Q$-function does not include the first KL penalty term, which does not depend on the action $a_{0}$. This definition makes some later expressions simpler, and it leads to the following relationship between $Q_{\pi}$ and $V_{\pi}$:
-
-which follows from matching terms in the sums in Equations 24 and 25.
+We are obliged to alter our definitions of value functions to include the new KL penalty terms. We shall define the state-value function as the expected return: and we shall define the $Q$-function as Note that this $Q$-function does not include the first KL penalty term, which does not depend on the action $a_{0}$. This definition makes some later expressions simpler, and it leads to the following relationship between $Q_{\pi}$ and $V_{\pi}$: which follows from matching terms in the sums in Equations 24 and 25.
 
 ### Boltzmann Policy
 
-In standard reinforcement learning, the "greedy policy" for $Q$ is defined as ${{\lbrack{\mathcal{G}Q}\rbrack}{(s)}} = {{{\arg\max}_{a}Q}{(s,a)}}$. With entropy regularization, we need to alter our notion of a greedy policy, as the optimal policy is stochastic. Since $Q_{\pi}$ omits the first entropy term, it is natural to define the following stochastic policy, which is called the Boltzmann policy, and is analogous to the greedy policy:
+In standard reinforcement learning, the "greedy policy" for $Q$ is defined as ${{\lbrack{\mathcal{G}Q}\rbrack}{(s)}} = {{{\arg\max}_{a}Q}{(s,a)}}$. With entropy regularization, we need to alter our notion of a greedy policy, as the optimal policy is stochastic. Since $Q_{\pi}$ omits the first entropy term, it is natural to define the following stochastic policy, which is called the Boltzmann policy, and is analogous to the greedy policy: where the second equation is analogous to Equation 2 from the bandit setting.
 
-where the second equation is analogous to Equation 2 from the bandit setting.
-
-Also analogously to the bandit setting, it is natural to define $V_{Q}$ (a function of $Q$) as
-
-Under this definition, it also holds that
-
-in analogy with Equation 13. Hence, $V_{Q}{(s)}$ can be interpreted as an estimate of the expected entropy-augmented return, under the Boltzmann policy $\pi_{Q}^{\mathcal{B}}$.
+Also analogously to the bandit setting, it is natural to define $V_{Q}$ (a function of $Q$) as Under this definition, it also holds that in analogy with Equation 13. Hence, $V_{Q}{(s)}$ can be interpreted as an estimate of the expected entropy-augmented return, under the Boltzmann policy $\pi_{Q}^{\mathcal{B}}$.
 
 Another way to interpret the Boltzmann policy is as the exponentiated advantage function. Defining the advantage function as ${A_{Q}{(s,a)}} = {{Q{(s,a)}} - {V_{Q}{(s)}}}$, Equation 30 implies that $\frac{\pi_{Q}^{\mathcal{B}}{(\left. a \middle| s \right.)}}{\overline{\pi}{(\left. a \middle| s \right.)}} = {\exp{({{A_{Q}{(s,a)}}/\tau})}}$.
 
 ### Fixed-Policy Backup Operators
 
-The $\mathcal{T}_{\pi}$ operators (for $Q$ and $V$) in standard reinforcement learning correspond to computing the expected return with a one-step lookahead: they take the expectation over one step of dynamics, and then fall back on the value function at the next timestep. We can easily generalize these operators to the entropy-regularized setting. We define
-
-Repeatedly applying the $\mathcal{T}_{\pi}$ operator ${{(\mathcal{T}_{\pi}^{n}V = \underset{n\text{~times}}{\underbrace{\mathcal{T}_{\pi}{(\mathcal{T}_{\pi}{(\ldots\mathcal{T}_{\pi}}}}}{(V)})})})$ corresponds to computing the expected return with a multi-step lookahead. That is, repeatedly expanding the definition of $\mathcal{T}_{\pi}$, we obtain
-
-As a sanity check, note that in both equations, the left-hand side and right-hand side correspond to estimates of the total discounted return $\sum_{t = 0}^{\infty}{\gamma^{t}{({r_{t} - {\tau{KL}_{t}}})}}$.
+The $\mathcal{T}_{\pi}$ operators (for $Q$ and $V$) in standard reinforcement learning correspond to computing the expected return with a one-step lookahead: they take the expectation over one step of dynamics, and then fall back on the value function at the next timestep. We can easily generalize these operators to the entropy-regularized setting. We define Repeatedly applying the $\mathcal{T}_{\pi}$ operator ${{(\mathcal{T}_{\pi}^{n}V = \underset{n\text{~times}}{\underbrace{\mathcal{T}_{\pi}{(\mathcal{T}_{\pi}{(\ldots\mathcal{T}_{\pi}}}}}{(V)})})})$ corresponds to computing the expected return with a multi-step lookahead. That is, repeatedly expanding the definition of $\mathcal{T}_{\pi}$, we obtain As a sanity check, note that in both equations, the left-hand side and right-hand side correspond to estimates of the total discounted return $\sum_{t = 0}^{\infty}{\gamma^{t}{({r_{t} - {\tau{KL}_{t}}})}}$.
 
 The right-hand side of these backup formulas can be rewritten using "Bellman error" terms $\delta_{t}$. To rewrite the state-value ($V$) backup, define
 
 ### Boltzmann Backups
 
-We can define another set of backup operators corresponding to the Boltzmann policy, ${\pi{(\left. a \middle| s \right.)}} \propto {\overline{\pi}{(\left. a \middle| s \right.)}{\exp{({{Q{(s,a)}}/\tau})}}}$. We define the following Boltzmann backup operator:
+We can define another set of backup operators corresponding to the Boltzmann policy, ${\pi{(\left. a \middle| s \right.)}} \propto {\overline{\pi}{(\left. a \middle| s \right.)}{\exp{({{Q{(s,a)}}/\tau})}}}$. We define the following Boltzmann backup operator: where the simplification from $(\ast)$ to $(\ast \ast)$ follows from the same calculation that we performed in the bandit setting (Equations 11 and 13).
 
-where the simplification from $( \ast )$ to $( \ast \ast )$ follows from the same calculation that we performed in the bandit setting (Equations 11 and 13).
+The $n$-step operator $\mathcal{T}_{\pi}^{n}$ for $Q$-functions also simplifies in the case that we are executing the Boltzmann policy. Starting with the equation for $\mathcal{T}_{\pi}^{n}Q$ (Equation 35) and setting $\pi = \pi_{Q}^{\mathcal{B}}$, and then using Equation 31 to rewrite the expected $Q$-function terms in terms of $V_{Q}$, we obtain From now, let's denote this $n$-step backup operator by $\mathcal{T}_{\pi^{\mathcal{B}},n}$. (Note $T_{\pi_{Q}^{\mathcal{B}},n} \neq {\mathcal{T}^{n}Q}$, even though ${\mathcal{T}_{\pi_{Q}^{\mathcal{B}},1}Q} = {\mathcal{T}Q}$, because $\mathcal{T}_{\pi_{Q}^{\mathcal{B}}}$ depends on $Q$.)
 
-The $n$-step operator $\mathcal{T}_{\pi}^{n}$ for $Q$-functions also simplifies in the case that we are executing the Boltzmann policy. Starting with the equation for $\mathcal{T}_{\pi}^{n}Q$ (Equation 35) and setting $\pi = \pi_{Q}^{\mathcal{B}}$, and then using Equation 31 to rewrite the expected $Q$-function terms in terms of $V_{Q}$, we obtain
-
-From now on, let's denote this $n$-step backup operator by $\mathcal{T}_{\pi^{\mathcal{B}},n}$. (Note $T_{\pi_{Q}^{\mathcal{B}},n} \neq {\mathcal{T}^{n}Q}$, even though ${\mathcal{T}_{\pi_{Q}^{\mathcal{B}},1}Q} = {\mathcal{T}Q}$, because $\mathcal{T}_{\pi_{Q}^{\mathcal{B}}}$ depends on $Q$.)
-
-One can similarly define the TD($\lambda$) version of this backup operator
-
-One can straightforwardly verify by comparing terms that it satisfies
+One can similarly define the TD($\lambda$) version of this backup operator One can straightforwardly verify by comparing terms that it satisfies
 
 ### Soft $Q$-Learning
 
-The Boltzmann backup operators defined in the preceding section can be used to define practical variants of $Q$-learning that can be used with nonlinear function approximation. These methods, which optimize the entropy-augmented return, will be called soft $Q$-learning. Following Mnih et al., modern implementations of $Q$-learning, and $n$-step $Q$-learning (see Mnih et al. ) update the $Q$-function incrementally to compute the backup against a fixed target $Q$-function, which we'll call $\underset{¯}{Q}$. In the interval between each target network update, the algorithm is approximately performing the backup operation $Q\leftarrow{\mathcal{T}\underset{¯}{Q}}$ ($1$-step) or $Q\leftarrow{\mathcal{T}_{\pi_{\underset{¯}{Q}}^{\mathcal{B}},n}\underset{¯}{Q}}$ ($n$-step). To perform this approximate minimization, the algorithms minimize the least squares loss
-
-In one-step $Q$-learning (Equation 45), $y_{t}$ is an unbiased estimator of ${\lbrack{\mathcal{T}Q}\rbrack}{(s_{t},a_{t})}$, regardless of what behavior policy was used to collect the data. In $n$-step $Q$-learning (Equation 46), for $n > 1$, $y_{t}$ is only an unbiased estimator of ${\lbrack{\mathcal{T}_{\pi_{\underset{¯}{Q}}^{\mathcal{B}},n}\underset{¯}{Q}}\rbrack}{(s_{t},a_{t})}$ if actions $a_{t},a_{t + 1},\ldots,a_{{t + d} - 1}$ are sampled using $\pi_{\underset{¯}{Q}}^{\mathcal{B}}$.
+The Boltzmann backup operators defined in the preceding section can be used to define practical variants of $Q$-learning that can be used with nonlinear function approximation. These methods, which optimize the entropy-augmented return, will be called soft $Q$-learning. Following Mnih et al., modern implementations of $Q$-learning, and $n$-step $Q$-learning (see Mnih et al.) update the $Q$-function incrementally to compute the backup against a fixed target $Q$-function, which we'll call $\underset{¯}{Q}$. In the interval between each target network update, the algorithm is approximately performing the backup operation $Q\leftarrow{\mathcal{T}\underset{¯}{Q}}$ ($1$-step) or $Q\leftarrow{\mathcal{T}_{\pi_{\underset{¯}{Q}}^{\mathcal{B}},n}\underset{¯}{Q}}$ ($n$-step). To perform this approximate minimization, the algorithms minimize the least squares loss | | $L{(Q)}$ | ${= {{{\mathbb{E}}_{t,s_{t},a_{t}}\left\lbrack {\frac{1}{2}{({{Q{(s_{t},a_{t})}} - y_{t}})}^{2}} \right\rbrack},\text{where}}}\quad$ | | \(44\) | | | $y_{t}$ | ${= {r_{t} + {\gammaV_{\underset{¯}{Q}}{(s_{t + 1})}}}}\qquad$ | 1-step $Q$-learning | | \(45\) | | | $y_{t}$ | ${= {{\tau{KL}_{t}} + {\sum\limits_{d = 0}^{n - 1}{\gamma^{d}{({r_{t + d} - {\tau{KL}_{t + d}}})}}} + {\gamma^{n}V_{\underset{¯}{Q}}{(s_{t + n})}}}}\qquad$ | $n$-step $Q$-learning | | \(46\) | In one-step $Q$-learning (Equation 45), $y_{t}$ is an unbiased estimator of ${\lbrack{\mathcal{T}Q}\rbrack}{(s_{t},a_{t})}$, regardless of what behavior policy was used to collect the data. In $n$-step $Q$-learning (Equation 46), for $n > 1$, $y_{t}$ is only an unbiased estimator of ${\lbrack{\mathcal{T}_{\pi_{\underset{¯}{Q}}^{\mathcal{B}},n}\underset{¯}{Q}}\rbrack}{(s_{t},a_{t})}$ if actions $a_{t},a_{t + 1},\ldots,a_{{t + d} - 1}$ are sampled using $\pi_{\underset{¯}{Q}}^{\mathcal{B}}$.
 
 ### Policy Gradients
 
-Entropy regularization is often used in policy gradient algorithms, with gradient estimators of the form
+Entropy regularization is often used in policy gradient algorithms, with gradient estimators of the form However, these are not proper estimators of the entropy-augmented return $\sum_{t}{({r_{t} - {\tau{KL}_{t}}})}$, since they don't account for how actions affect entropy at future timesteps. Intuitively, one can think of the KL terms as a cost for "mental effort". Equation 48 only accounts for the instantaneous effect of actions on mental effort, not delayed effects.
 
-However, these are not proper estimators of the entropy-augmented return $\sum_{t}{({r_{t} - {\tau{KL}_{t}}})}$, since they don't account for how actions affect entropy at future timesteps. Intuitively, one can think of the KL terms as a cost for "mental effort". Equation 48 only accounts for the instantaneous effect of actions on mental effort, not delayed effects.
-
-To compute proper gradient estimators, we need to include the entropy terms in the return. We will define the discounted policy gradient in the following two equivalent ways---first, in terms of the empirical return; second, in terms of the value functions $V_{\pi}$ and $Q_{\pi}$:
-
-In the special case of a finite-horizon problem---i.e., $r_{t} = {KL}_{t} = 0$ for all $t \geq T$---the undiscounted ($\gamma = 1$) return is finite, and it is meaningful to compute its gradient. In this case, $g_{1}{(\pi_{\theta})}$ equals the undiscounted policy gradient:
-
-This result is obtained directly by considering the stochastic computation graph for the loss (Schulman et al. ), shown in the figure on the right. The edges from $\theta$ to the KL loss terms lead to the $\nabla_{\theta}D_{KL}\left\lbrack \pi_{\theta}\parallel\overline{\pi} \right\rbrack{(s_{t})}$ terms in the gradient; the edges to the stochastic actions $a_{t}$ lead to the ${{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a_{t} \middle| s_{t} \right.)}{\sum_{t = d}^{T - 1}{({r_{t + d} - {\tau{KL}_{t + d}}})}}$ terms in the gradient.
+To compute proper gradient estimators, we need to include the entropy terms in the return. We will define the discounted policy gradient in the following two equivalent ways---first, in terms of the empirical return; second, in terms of the value functions $V_{\pi}$ and $Q_{\pi}$: In the special case of a finite-horizon problem---i.e., $r_{t} = {KL}_{t} = 0$ for all $t \geq T$---the undiscounted ($\gamma = 1$) return is finite, and it is meaningful to compute its gradient. In this case, $g_{1}{(\pi_{\theta})}$ equals the undiscounted policy gradient: This result is obtained directly by considering the stochastic computation graph for the loss (Schulman et al.), shown in the figure on the right. The edges from $\theta$ to the KL loss terms lead to the $\nabla_{\theta}D_{KL}\left\lbrack \pi_{\theta}\parallel\overline{\pi} \right\rbrack{(s_{t})}$ terms in the gradient; the edges to the stochastic actions $a_{t}$ lead to the ${{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a_{t} \middle| s_{t} \right.)}{\sum_{t = d}^{T - 1}{({r_{t + d} - {\tau{KL}_{t + d}}})}}$ terms in the gradient.
 
 Since $g_{1}{(\pi_{\theta})}$ computes the gradient of the entropy-regularized return, one interpretation of $g_{\gamma}{(\pi_{\theta})}$ is that it is an approximation of the undiscounted policy gradient $g_{1}{(\pi_{\theta})}$, but that it allows for lower-variance gradient estimators by ignoring some long-term dependencies. A different interpretation of $g_{\gamma}{(\pi)}$ is that it gives a gradient flow such that $\pi^{\ast} = \pi_{Q_{\ast}}^{\mathcal{B}}$ is the (possibly unique) fixed point.
 
-As in the standard MDP setting, one can define approximations to $g_{\gamma}$ that use a value function to truncate the returns for variance reduction. These approximations can take the form of $n$-step methods (Mnih et al. ) or TD($\lambda$)-like methods (Schulman et al. ), though we will focus on $n$-step returns here. Based on the definition of $g_{\gamma}$ above, the natural choice of variance-reduced estimator is
-
-where $\delta_{t}$ was defined in Equation 36.
+As in the standard MDP setting, one can define approximations to $g_{\gamma}$ that use a value function to truncate the returns for variance reduction. These approximations can take the form of $n$-step methods (Mnih et al.) or TD($\lambda$)-like methods (Schulman et al.), though we will focus on $n$-step returns here. Based on the definition of $g_{\gamma}$ above, the natural choice of variance-reduced estimator is where $\delta_{t}$ was defined in Equation 36.
 
 The state-value function $V$ we use in the above formulas should approximate the entropy augmented return $\sum_{t = 0}^{\infty}{\gamma^{t}{({r_{t} - {\tau{KL}_{t}}})}}$. We can fit $V$ iteratively by approximating the $n$-step backup $V\leftarrow{\mathcal{T}_{\pi}^{n}V}$, by minimizing a squared-error loss
 
 ## Soft $Q$-learning Gradient Equals Policy Gradient
 
-This section shows that the gradient of the squared-error loss from soft $Q$-learning (Section 3.5) equals the policy gradient (in the family of policy gradients described in Section 3.6) plus the gradient of a squared-error term for fitting the value function. We will not make any assumption about the parameterization of the $Q$-function, but we define $V_{\theta}$ and $\pi_{\theta}$ as the following functions of the parameterized $Q$-function $Q_{\theta}$:
+This section shows that the gradient of the squared-error loss from soft $Q$-learning (Section 3.5) equals the policy gradient (in the family of policy gradients described in Section 3.6) plus the gradient of a squared-error term for fitting the value function. We will not make any assumption about the parameterization of the $Q$-function, but we define $V_{\theta}$ and $\pi_{\theta}$ as the following functions of the parameterized $Q$-function $Q_{\theta}$: Here, $\pi_{\theta}$ is the Boltzmann policy for $Q_{\theta}$, and $V_{\theta}$ is the normalizing factor we described above. From these definitions, it follows that the $Q$-function can be written as We will substitute this expression into the squared-error loss function. First, for convenience, let us define $\Delta_{t} = {\sum_{d = 0}^{n - 1}{\gamma^{d}\delta_{t + d}}}$.
 
-Here, $\pi_{\theta}$ is the Boltzmann policy for $Q_{\theta}$, and $V_{\theta}$ is the normalizing factor we described above. From these definitions, it follows that the $Q$-function can be written as
-
-We will substitute this expression into the squared-error loss function. First, for convenience, let us define $\Delta_{t} = {\sum_{d = 0}^{n - 1}{\gamma^{d}\delta_{t + d}}}$.
-
-Now, let's consider the gradient of the $n$-step soft $Q$-learning objective:
-
-Note that the equivalent policy gradient method multiplies the policy gradient by a factor of $\tau$, relative to the value function error. Effectively, the value function error has a coefficient of $\tau^{- 1}$, which is larger than what is typically used in practice (Mnih et al. ). We will analyze this choice of coefficient in the experiments.
+Now, let's consider the gradient of the $n$-step soft $Q$-learning objective: Note that the equivalent policy gradient method multiplies the policy gradient by a factor of $\tau$, relative to the value function error. Effectively, the value function error has a coefficient of $\tau^{- 1}$, which is larger than what is typically used in practice (Mnih et al.). We will analyze this choice of coefficient in the experiments.
 
 ## Soft $Q$-learning and Natural Policy Gradients
 
 The previous section gave a first-order view on the equivalence between policy gradients and soft $Q$-learning; this section gives a second-order, coordinate-free view. As previous work has pointed out, the natural gradient is the solution to a regression problem; here we will explore the relation between that problem and the nonlinear regression in soft $Q$-learning.
 
-The natural gradient is defined as $F^{- 1}g$, where $F$ is the average Fisher information matrix, $F = {{\mathbb{E}}_{{s,a} \sim \pi}\left\lbrack {{({{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a \middle| s \right.)}})}^{T}{({{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a \middle| s \right.)}})}} \right\rbrack}$, and $g$ is the policy gradient estimate $g \propto {{\mathbb{E}}\left\lbrack {{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a \middle| s \right.)}\Delta} \right\rbrack}$, where $\Delta$ is an estimate of the advantage function. As pointed out by Kakade, the natural gradient step can be computed as the solution to a least squares problem. Given timesteps $t = {1,2,\ldots,T}$, define ${\mathbf{ψ}}_{t} = {{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a_{t} \middle| s_{t} \right.)}}$. Define $\mathbf{\Psi}$ as the matrix whose $t^{\text{th}}$ row is ${\mathbf{ψ}}_{t}$, let $\mathbf{\Delta}$ denote the vector whose $t^{\text{th}}$ element is the advantage estimate $\Delta_{t}$, and let $\epsilon$ denote a scalar stepsize parameter. Consider the least squares problem
+The natural gradient is defined as $F^{- 1}g$, where $F$ is the average Fisher information matrix, $F = {{\mathbb{E}}_{{s,a} \sim \pi}\left\lbrack {{({{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a \middle| s \right.)}})}^{T}{({{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a \middle| s \right.)}})}} \right\rbrack}$, and $g$ is the policy gradient estimate $g \propto {{\mathbb{E}}\left\lbrack {{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a \middle| s \right.)}\Delta} \right\rbrack}$, where $\Delta$ is an estimate of the advantage function. As pointed out by Kakade, the natural gradient step can be computed as the solution to a least squares problem. Given timesteps $t = {1,2,\ldots,T}$, define ${\mathbf{ψ}}_{t} = {{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a_{t} \middle| s_{t} \right.)}}$. Define $\mathbf{\Psi}$ as the matrix whose $t^{\text{th}}$ row is ${\mathbf{ψ}}_{t}$, let $\mathbf{\Delta}$ denote the vector whose $t^{\text{th}}$ element is the advantage estimate $\Delta_{t}$, and let $\epsilon$ denote a scalar stepsize parameter. Consider the least squares problem The least-squares solution is $\mathbf{w} = {\epsilon{({\mathbf{\Psi}^{T}\mathbf{\Psi}})}^{- 1}\mathbf{\Psi}^{T}\mathbf{\Delta}}$. Note that ${\mathbb{E}}\left\lbrack {\mathbf{\Psi}^{T}\mathbf{\Psi}} \right\rbrack$ is the Fisher information matrix $F$, and ${\mathbb{E}}\left\lbrack {\mathbf{\Psi}^{T}\mathbf{\Delta}} \right\rbrack$ is the policy gradient $g$, so $\mathbf{w}$ is the estimated natural gradient.
 
-The least-squares solution is $\mathbf{w} = {\epsilon{({\mathbf{\Psi}^{T}\mathbf{\Psi}})}^{- 1}\mathbf{\Psi}^{T}\mathbf{\Delta}}$. Note that ${\mathbb{E}}\left\lbrack {\mathbf{\Psi}^{T}\mathbf{\Psi}} \right\rbrack$ is the Fisher information matrix $F$, and ${\mathbb{E}}\left\lbrack {\mathbf{\Psi}^{T}\mathbf{\Delta}} \right\rbrack$ is the policy gradient $g$, so $\mathbf{w}$ is the estimated natural gradient.
+Now let us interpret the least-squares problem in Equation 66. $\mathbf{\Psi}\mathbf{w}$ is the vector whose $t^{\text{th}}$ row is ${{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a \middle| s \right.)}} \cdot \mathbf{w}$. According to the definition of the gradient, if we perform a parameter update with ${\theta - \theta_{\text{old}}} = {\epsilon\mathbf{w}}$, the change in ${\log\pi_{\theta}}{(\left. a \middle| s \right.)}$ is as follows, to first order in $\epsilon$: Thus, we can interpret the least squares problem (Equation 66) as solving That is, we are adjusting each log-probility ${\log\pi_{\theta_{\text{old}}}}{(\left. a_{t} \middle| s_{t} \right.)}$ by the advantage function $\Delta_{t}$, scaled by $\epsilon$.
 
-Now let us interpret the least-squares problem in Equation 66. $\mathbf{\Psi}\mathbf{w}$ is the vector whose $t^{\text{th}}$ row is ${{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a \middle| s \right.)}} \cdot \mathbf{w}$. According to the definition of the gradient, if we perform a parameter update with ${\theta - \theta_{\text{old}}} = {\epsilon\mathbf{w}}$, the change in ${\log\pi_{\theta}}{(\left. a \middle| s \right.)}$ is as follows, to first order in $\epsilon$:
-
-Thus, we can interpret the least squares problem (Equation 66) as solving
-
-That is, we are adjusting each log-probility ${\log\pi_{\theta_{\text{old}}}}{(\left. a_{t} \middle| s_{t} \right.)}$ by the advantage function $\Delta_{t}$, scaled by $\epsilon$.
-
-In entropy-regularized reinforcement learning, we have an additional term for the gradient of the KL-divergence:
-
-where the second line used the formula for the KL-divergence (Equation 21) and the identity that\
-${{\mathbb{E}}_{a_{t} \sim \pi_{\theta}}\left\lbrack {{{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a_{t} \middle| s_{t} \right.)}} \cdot {const}} \right\rbrack} = 0$ (where the KL term is the constant.) In this case, the corresponding least squares problem (to compute $F^{- 1}g$) is
-
-Now let's consider $Q$-learning. Let's assume that the value function is unchanged by optimization, so $V_{\theta} = V_{\theta_{\text{old}}}$. (Otherwise, the equivalence will not hold, since the value function will try to explain the measured advantage $\Delta$, shrinking the advantage update.)
+In entropy-regularized reinforcement learning, we have an additional term for the gradient of the KL-divergence: where the second line used the formula for the KL-divergence (Equation 21) and the identity that\${{\mathbb{E}}_{a_{t} \sim \pi_{\theta}}\left\lbrack {{{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a_{t} \middle| s_{t} \right.)}} \cdot {const}} \right\rbrack} = 0$ (where the KL term is the constant.) In this case, the corresponding least squares problem (to compute $F^{- 1}g$) is Now let's consider $Q$-learning. Let's assume that the value function is unchanged by optimization, so $V_{\theta} = V_{\theta_{\text{old}}}$. (Otherwise, the equivalence will not hold, since the value function will try to explain the measured advantage $\Delta$, shrinking the advantage update.)
 
 Evidently, we are regressing ${\log\pi_{\theta}}{(\left. a_{t} \middle| s_{t} \right.)}$ towards ${{\log\pi_{\theta_{\text{old}}}}{(\left. a_{t} \middle| s_{t} \right.)}} + {\Delta_{t}/\tau} + {{{KL}{\lbrack\pi_{\theta_{\text{old}}},\overline{\pi}\rbrack}}{(s_{t})}}$. This loss is not equivalent to the natural policy gradient loss that we obtained above.
 
-We can recover the natural policy gradient by instead solving a damped version of the $Q$-function regression problem. Define ${\hat{Q}}_{t}^{\epsilon} = {{{({1 - \epsilon})}Q_{\theta_{\text{old}}}{(s_{t},a_{t})}} + {\epsilon{\hat{Q}}_{t}}}$, i.e., we are interpolating between the old value and the backed-up value.
-
-which exactly matches the expression in the least squares problem in Equation 71, corresponding to entropy-regularized natural policy gradient. Hence, the "damped" $Q$-learning update corresponds to a natural gradient step.
+We can recover the natural policy gradient by instead solving a damped version of the $Q$-function regression problem. Define ${\hat{Q}}_{t}^{\epsilon} = {{{({1 - \epsilon})}Q_{\theta_{\text{old}}}{(s_{t},a_{t})}} + {\epsilon{\hat{Q}}_{t}}}$, i.e., we are interpolating between the old value and the backed-up value. which exactly matches the expression in the least squares problem in Equation 71, corresponding to entropy-regularized natural policy gradient. Hence, the "damped" $Q$-learning update corresponds to a natural gradient step.
 
 ## Experiments
 
-To complement our theoretical analyses, we designed experiments to study the following questions:
-
-Though one-step entropy bonuses are used in PG methods for neural network policies (Williams; Mnih et al. ), how do the entropy-regularized RL versions of policy gradients and $Q$-learning described in Section 3 perform on challenging RL benchmark problems? How does the "proper" entropy-regularized policy gradient method (with entropy in the returns) compare to the naive one (with one-step entropy bonus)? (Section 6.1)
-
-How do the entropy-regularized versions of $Q$-learning (with logsumexp) compare to the standard DQN of Mnih et al. ? (Section 6.2)
-
-The equivalence between PG and soft $Q$-learning is established in expectation, however, the actual gradient estimators are slightly different due to sampling. Furthermore, soft $Q$-learning is equivalent to PG with a particular penalty coefficient on the value function error. Does the equivalence hold under practical conditions? (Section 6.3)
+To complement our theoretical analyses, we designed experiments to study the following questions: Though one-step entropy bonuses are used in PG methods for neural network policies (Williams; Mnih et al.), how do the entropy-regularized RL versions of policy gradients and $Q$-learning described in Section 3 perform on challenging RL benchmark problems? How does the "proper" entropy-regularized policy gradient method (with entropy in the returns) compare to the naive one (with one-step entropy bonus)? (Section 6.1) How do the entropy-regularized versions of $Q$-learning (with logsumexp) compare to the standard DQN of Mnih et al. ? (Section 6.2) The equivalence between PG and soft $Q$-learning is established in expectation, however, the actual gradient estimators are slightly different due to sampling. Furthermore, soft $Q$-learning is equivalent to PG with a particular penalty coefficient on the value function error. Does the equivalence hold under practical conditions? (Section 6.3)
 
 ### A2C on Atari: Naive vs Proper Entropy Bonuses
 
-Here we investigated whether there is an empirical effect of including entropy terms when computing returns, as described in Section 3. In this section, we compare the naive and proper policy gradient estimators:
-
-In the experiments on Atari, we take $\overline{\pi}$ to be the uniform distribution, which gives a standard entropy bonus up to a constant.
+Here we investigated whether there is an empirical effect of including entropy terms when computing returns, as described in Section 3. In this section, we compare the naive and proper policy gradient estimators: In the experiments on Atari, we take $\overline{\pi}$ to be the uniform distribution, which gives a standard entropy bonus up to a constant.
 
 We start with a well-tuned (synchronous, deterministic) version of A3C (Mnih et al. ), henceforth called A2C (advantage actor critic), to optimize the entropy-regularized return. We use the parameter $\tau = 0.01$ and train for $320$ million frames. We did not tune any hyperparameters for the "proper" algorithm---we used the same hyperparameters that had been tuned for the "naive" algorithm.
 
@@ -199,9 +110,7 @@ Figure 1: Atari performance with different RL objectives. EntRL is A2C modified 
 
 ### DQN on Atari: Standard vs Soft
 
-Here we investigated whether soft $Q$-learning (which optimizes the entropy-augmented return) performs differently from standard "hard" $Q$-learning on Atari. We made a one-line change to a DQN implementation:
-
-The difference between the entropy bonus and KL penalty (against uniform) is simply a constant, however, this constant made a big difference in the experiments, since a positive constant added to the reward encourages longer episodes. Note that we use the same epsilon-greedy exploration in all conditions; the only difference is the backup equation used for computing $y_{t}$ and defining the loss function.
+Here we investigated whether soft $Q$-learning (which optimizes the entropy-augmented return) performs differently from standard "hard" $Q$-learning on Atari. We made a one-line change to a DQN implementation: The difference between the entropy bonus and KL penalty (against uniform) is simply a constant, however, this constant made a big difference in the experiments, since a positive constant added to the reward encourages longer episodes. Note that we use the same epsilon-greedy exploration in all conditions; the only difference is the backup equation used for computing $y_{t}$ and defining the loss function.
 
 Figure 2: Different variants of soft Q-learning and standard Q-learning, applied to Atari games. Note that 4 frames = 1 timestep.
 
@@ -211,9 +120,7 @@ The results of two runs on each game are shown in Figure 2. The entropy-bonus ve
 
 Next we investigate if the equivalence between soft $Q$-learning and PG is relevant in practice---we showed above that the gradients are the same in expectation, but their variance might be different, causing different learning dynamics. For these experiments, we modified the gradient update rule used in A2C while making no changes to any algorithmic component, i.e. parallel rollouts, updating parameters every $5$ steps, etc. The $Q$-function was represented as: ${Q_{\theta}{(s,a)}} = {{V_{\theta}{(s)}} + {\tau{\log\pi_{\theta}}{(\left. a \middle| s \right.)}}}$, which can be seen as a form of dueling architecture with $\tau{\log\pi_{\theta}}{(\left. a \middle| s \right.)}$ being the "advantage stream" (Wang et al. ). $V_{\theta},\pi_{\theta}$ are parametrized as the same neural network as A2C, where convolutional layers and the first fully connected layer are shared. $\pi_{\theta}{(\left. a \middle| s \right.)}$ is used as behavior policy.
 
-A2C can be seen as optimizing a combination of a policy surrogate loss and a value function loss, weighted by hyperparameter $c$:
-
-In normal A2C, we have found $c = 0.5$ to be a robust setting that works across multiple environments. On the other hand, our theory suggests that if we use this $Q$-function parametrization, soft $Q$-learning has the same expected gradient as entropy-regularized A2C with a specific weighting $c = \frac{1}{\tau}$. Hence, for the usual entropy bonus coefficient setting $\tau = 0.01$, soft $Q$-learning is implicitly weighting value function loss a lot more than usual A2C setup ($c = 100$ versus $c = 0.5$). We have found that such emphasis on value function ($c = 100$) results in unstable learning for both soft $Q$-learning and entropy-regularized A2C. Therefore, to make $Q$-learning exactly match known good hyperparameters used in A2C, we scale gradients that go into advantage stream by $\frac{1}{\gamma}$ and scale gradients that go into value function stream by $c = 0.5$.
+A2C can be seen as optimizing a combination of a policy surrogate loss and a value function loss, weighted by hyperparameter $c$: In normal A2C, we have found $c = 0.5$ to be a robust setting that works across multiple environments. On the other hand, our theory suggests that if we use this $Q$-function parametrization, soft $Q$-learning has the same expected gradient as entropy-regularized A2C with a specific weighting $c = \frac{1}{\tau}$. Hence, for the usual entropy bonus coefficient setting $\tau = 0.01$, soft $Q$-learning is implicitly weighting value function loss a lot more than usual A2C setup ($c = 100$ versus $c = 0.5$). We have found that such emphasis on value function ($c = 100$) results in unstable learning for both soft $Q$-learning and entropy-regularized A2C. Therefore, to make $Q$-learning exactly match known good hyperparameters used in A2C, we scale gradients that go into advantage stream by $\frac{1}{\gamma}$ and scale gradients that go into value function stream by $c = 0.5$.
 
 Figure 3: Atari performance with policy gradient vs Q-learning update rules. Solid lines are average evaluation return over 3 random seeds and shaded area is one standard deviation.
 
@@ -223,17 +130,9 @@ With the same default A2C hyperparameters, learning curves of PG and QL are almo
 
 Three recent papers have drawn the connection between policy-based methods and value-based methods, which becomes close with entropy regularization.
 
-O'Donoghue et al. begin with a similar motivation as the current paper: that a possible explanation for $Q$-learning and SARSA is that their updates are similar to policy gradient updates. They decompose the $Q$-function into a policy part and a value part, inspired by dueling $Q$-networks (Wang et al. ):
+O'Donoghue et al. begin with a similar motivation as the current paper: that a possible explanation for $Q$-learning and SARSA is that their updates are similar to policy gradient updates. They decompose the $Q$-function into a policy part and a value part, inspired by dueling $Q$-networks (Wang et al.): This form is chosen so that the term multiplying $\tau$ has expectation zero under $\pi$, which is a property that the true advantage function satisfies: ${{\mathbb{E}}_{\pi}\left\lbrack A_{\pi} \right\rbrack} = 0$. Note that our work omits that $S$ term, because it is most natural to define the $Q$-function to not include the first entropy term. The authors show that taking the gradient of the Bellman error of the above $Q$-function leads to a result similar to the policy gradient. They then propose an algorithm called PGQ that mixes together the updates from different prior algorithms.
 
-This form is chosen so that the term multiplying $\tau$ has expectation zero under $\pi$, which is a property that the true advantage function satisfies: ${{\mathbb{E}}_{\pi}\left\lbrack A_{\pi} \right\rbrack} = 0$. Note that our work omits that $S$ term, because it is most natural to define the $Q$-function to not include the first entropy term. The authors show that taking the gradient of the Bellman error of the above $Q$-function leads to a result similar to the policy gradient. They then propose an algorithm called PGQ that mixes together the updates from different prior algorithms.
-
-Nachum et al. also discuss the entropy-regularized reinforcement learning setting, and develop an off-policy method that applies in this setting. Their argument (modified to use our notation and KL penalty instead of entropy bonus) is as follows. The advantage function ${A_{\pi}{(s,a)}} = {{Q_{\pi}{(s,a)}} - {V_{\pi}{(s)}}}$ lets us define a multi-step consistency equation, which holds even if the actions were sampled from a different (suboptimal) policy. In the setting of deterministic dynamics, ${Q_{\pi}{(s_{t},a_{t})}} = {r_{t} + {\gammaV_{\pi}{(s_{t + 1})}}}$, hence
-
-If $\pi$ is the optimal policy (for the discounted, entropy-augmented return), then it is the Boltzmann policy for $Q_{\pi}$, thus
-
-This expression for the advantage can be substituted into Equation 88, giving the consistency equation
-
-which holds when $\pi$ is optimal. The authors define a squared error objective formed from by taking LHS - RHS in Equation 90, and jointly minimize it with respect to the parameters of $\pi$ and $V$. The resulting algorithm is a kind of Bellman residual minimization---it optimizes with respect to the future target values, rather than treating them as fixed Scherrer.
+Nachum et al. also discuss the entropy-regularized reinforcement learning setting, and develop an off-policy method that applies in this setting. Their argument (modified to use our notation and KL penalty instead of entropy bonus) is as follows. The advantage function ${A_{\pi}{(s,a)}} = {{Q_{\pi}{(s,a)}} - {V_{\pi}{(s)}}}$ lets us define a multi-step consistency equation, which holds even if the actions were sampled from a different (suboptimal) policy. In the setting of deterministic dynamics, ${Q_{\pi}{(s_{t},a_{t})}} = {r_{t} + {\gammaV_{\pi}{(s_{t + 1})}}}$, hence If $\pi$ is the optimal policy (for the discounted, entropy-augmented return), then it is the Boltzmann policy for $Q_{\pi}$, thus This expression for the advantage can be substituted into Equation 88, giving the consistency equation which holds when $\pi$ is optimal. The authors define a squared error objective formed from by taking LHS - RHS in Equation 90, and jointly minimize it with respect to the parameters of $\pi$ and $V$. The resulting algorithm is a kind of Bellman residual minimization---it optimizes with respect to the future target values, rather than treating them as fixed Scherrer.
 
 Haarnoja et al. work in the same setting of soft $Q$-learning as the current paper, and they are concerned with tasks with high-dimensional action spaces, where we would like to learn stochastic policies that are multi-modal, and we would like to use $Q$-functions for which there is no closed-form way of sampling from the Boltzmann distribution ${\pi{(\left. a \middle| s \right.)}} \propto {\overline{\pi}{(\left. a \middle| s \right.)}{\exp{({{Q{(s,a)}}/\tau})}}}$. Hence, they use a method called Stein Variational Gradient Descent to derive a procedure that jointly updates the $Q$-function and a policy $\pi$, which approximately samples from the Boltzmann distribution---this resembles variational inference, where one makes use of an approximate posterior distribution.
 

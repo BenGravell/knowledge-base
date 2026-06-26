@@ -32,7 +32,7 @@ Typically a decision maker selects the action that minimizes the expected loss (
 
 ### Definition 1 (Bayes Decision)
 
-Choose any $\ell \in \mathcal{L}_{all}$ with corresponding action space $\mathcal{A}$ and prediction $\hat{p}$, define the Bayes decision function as ${\delta_{\ell}{({\hat{p}{(x)}})}} = {\arg{\inf_{a \in \mathcal{A}}{{\mathbb{E}}_{\hat{Y} \sim {\hat{p}{(x)}}}{\lbrack{\ell{(\hat{Y},a)}}\rbrack}}}}$. For any subset $\mathcal{L} \subset \mathcal{L}_{all}$ denote the set of all Bayes decision functions as ${}_{}^{}{\{\delta_{\ell},\ell \in \mathcal{L}\}}$.
+Choose any $\ell \in \mathcal{L}_{all}$ with corresponding action space $\mathcal{A}$ and prediction $\hat{p}$, define the Bayes decision function as ${\delta_{\ell}{({\hat{p}{(x)}})}} = {\arg{\inf_{a \in \mathcal{A}}{{\mathbb{E}}_{\hat{Y} \sim {\hat{p}{(x)}}}{\lbrack{\ell{(\hat{Y},a)}}\rbrack}}}}$. For any subset $\mathcal{L} \subset \mathcal{L}_{all}$ denote the set of all Bayes decision functions as ${{}_{\mathcal{L}}^{}:=}{\{\delta_{\ell},\ell \in \mathcal{L}\}}$.
 
 ## Calibration: A Decision Making Perspective
 
@@ -42,15 +42,15 @@ In such a setting, the decision makers may be concerned that the off-the-shelf s
 
 ### Decision Calibration
 
-First and foremost, a decision maker wants assurance that making decisions based on the prediction function $\hat{p}$ give low expected loss. In particular, a decision maker with loss $\ell$ wants assurance that the Bayes decision rule $\delta_{\ell}$ is the best decision making strategy, given $\hat{p}$. In other words, she wants $\delta_{\ell}$ to incur a lower loss compared to alternative decision rules. Second, the decision maker wants to know how much loss is going to be incurred (before the actions are deployed and outcomes are revealed); the decision maker does not want to incur any additional loss in surprise that she has not prepared for.
+First and foremost, a decision maker wants assurance that making decisions based on the prediction function $\hat{p}$ give low expected loss. In particular, a decision maker with loss $\ell$ wants assurance that the Bayes decision rule $\delta_{\ell}$ is the best decision making strategy, given $\hat{p}$. In other words, she wants $\delta_{\ell}$ to incur a lower loss compared to alternative decision rules. Second, the decision maker wants to know how much loss is going to be incurred (before the actions are deployed and outcomes are revealed); the decision maker does not want to incur any additional loss in surprise that she has not prepared .
 
 To capture these desiderata we formalize a definition based on the following intuition: suppose a decision maker with some loss function $\ell$ considers a decision rule $\delta \in_{all}$ (that may or may not be the Bayes decision rule), the decision maker should be able to correctly compute the expected loss of using $\delta$ to make decisions, as a function of *the predictions* $\hat{p}$.
 
 ### Definition 2 (Decision Calibration)
 
-For any set of loss functions $\mathcal{L} \subset \mathcal{L}_{all}$ and set of decision rules $\subset {}_{}^{}{\{\Delta^{C}\rightarrow\mathcal{A}\}}$, we say that a prediction $\hat{p}$ is $(\mathcal{L};)$-decision calibrated (with respect to $p^{\ast}$) if ${\forall\ell} \in \mathcal{L}$ and $\delta \in$ with the same action space $\mathcal{A}$ ^22^2We require $\ell$ and $\delta$ to have the same action space $\mathcal{A}$ for type check reasons. Eq.(2. ‣ 3.3 Decision Calibration over Bounded Action Space ‣ 3 Calibration: A Decision Making Perspective ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration")) only has meaning if the loss $\ell$ and decision rule are associated with the same action space $\mathcal{A}$.
+For any set of loss functions $\mathcal{L} \subset \mathcal{L}_{all}$ and set of decision rules $\subset {{}_{all}^{}:=}{\{\Delta^{C}\rightarrow\mathcal{A}\}}$, we say that a prediction $\hat{p}$ is $(\mathcal{L};)$-decision calibrated (with respect to $p^{\ast}$) if ${\forall\ell} \in \mathcal{L}$ and $\delta \in$ with the same action space $\mathcal{A}$ ^22^2We require $\ell$ and $\delta$ to have the same action space $\mathcal{A}$ for type check reasons. Eq.(2. ‣ 3.3 Decision Calibration over Bounded Action Space ‣ 3 Calibration: A Decision Making Perspective ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration")) only has meaning if the loss $\ell$ and decision rule are associated with the same action space $\mathcal{A}$.
 
-In particular, we say $\hat{p}$ is $\mathcal{L}$-decision calibrated if it is $(\mathcal{L};{}_{}^{}$-decision calibrated.
+In particular, we say $\hat{p}$ is $\mathcal{L}$-decision calibrated if it is $(\mathcal{L};{{}_{\mathcal{L}}^{})}$-decision calibrated.
 
 The left hand side of Eq.(2. ‣ 3.3 Decision Calibration over Bounded Action Space ‣ 3 Calibration: A Decision Making Perspective ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration")) is the "simulated" loss where the outcome $\hat{Y}$ is hypothetically drawn from the predicted distribution. The decision maker can compute this just by knowing the input features $X$ and without knowing the outcome $Y$. The right hand side of Eq.(2. ‣ 3.3 Decision Calibration over Bounded Action Space ‣ 3 Calibration: A Decision Making Perspective ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration")) is the true loss that the decision maker incurs in reality if she uses the decision rule $\delta$. Intuitively, the definition captures the idea that the losses in $\mathcal{L}$ and decision rules in do not distinguish between outcomes sampled according to the predicted probability and the true probability; specifically, the definition can be viewed as a concrete instantiation of the framework of *Outcome Indistinguishability*.
 
@@ -60,9 +60,7 @@ In Definition 2. ‣ 3.1 Decision Calibration ‣ 3 Calibration: A Decision Maki
 
 ### Proposition 1
 
-If a prediction function $\hat{p}$ is $\mathcal{L}$-decision calibrated, then it satisfies
-
-No regret states that the Bayes decision rule $\delta_{\ell}$ is not worse than any alternative decision rule $\delta^{\prime} \in_{\mathcal{L}}$. In other words, the decision maker is incentivized to take optimal actions according to their true loss function. That is, using the predictions given by $\hat{p}$, the decision maker cannot improve their actions by using a decision rule $\delta^{\prime}$ that arises from a different loss function $\ell^{\prime} \in \mathcal{L}$.
+If a prediction function $\hat{p}$ is $\mathcal{L}$-decision calibrated, then it satisfies No regret states that the Bayes decision rule $\delta_{\ell}$ is not worse than any alternative decision rule $\delta' \in_{\mathcal{L}}$. In other words, the decision maker is incentivized to take optimal actions according to their true loss function. That is, using the predictions given by $\hat{p}$, the decision maker cannot improve their actions by using a decision rule $\delta'$ that arises from a different loss function $\ell' \in \mathcal{L}$.
 
 Accurate loss estimation states that for the Bayes decision rule $\delta_{\ell}$, the simulated loss on the left hand side (which the decision maker can compute before the outcomes are revealed) equals the true loss on the right hand side. This ensures that the decision maker knows the expected loss that will be incurred over the distribution of individuals and can prepare for it. This is important because in most prediction tasks, the labels $Y$ are revealed with a significant delay or never revealed. For example, the hospital might be unable to follow up on the true outcome of all of its patients.
 
@@ -70,52 +68,21 @@ In practice, the forecaster chooses some set $\mathcal{L}$ to achieve $\mathcal{
 
 ### Decision Calibration Generalizes Existing Notions of Calibration
 
-We show that by varying the choice of loss class $\mathcal{L}$, decision calibration can actually express prior notions of calibration. For example, consider confidence calibration, where among the samples whose the top probability is $\beta$, the top accuracy is indeed $\beta$. Formally, confidence calibration requires that
-
-We show that a prediction function $\hat{p}$ is confidence calibrated if and only if it is $\mathcal{L}_{r}$-decision calibration, where $\mathcal{L}_{r}$ is defined by
-
-Intuitively, loss functions in $\mathcal{L}_{r}$ corresponds to the refrained prediction task: a decision maker chooses between reporting a class label, or reporting "I don't know," denoted $\bot$. She incurs a loss of $0$ for correctly predicting the label $y$, a loss of $1$ for reporting an incorrect class label, and a loss of $\beta < 1$ for reporting "I don't know". If a decision maker's loss function belong to this simple class of losses $\mathcal{L}_{r}$, she can use a confidence calibrated prediction function $\hat{p}$, because the two desiderata (no regret and accurate loss estimation) in Proposition 1 are true for her. However, such "refrained prediction" decision tasks only account for a tiny subset of all possible tasks that are interesting to decision makers. Similarly, classwise calibration is characterized through decision calibration using a class of loss functions that penalizes class-specific false positives and negatives.
+We show that by varying the choice of loss class $\mathcal{L}$, decision calibration can actually express prior notions of calibration. For example, consider confidence calibration, where among the samples whose the top probability is $\beta$, the top accuracy is indeed $\beta$. Formally, confidence calibration requires that We show that a prediction function $\hat{p}$ is confidence calibrated if and only if it is $\mathcal{L}_{r}$-decision calibration, where $\mathcal{L}_{r}$ is defined by Intuitively, loss functions in $\mathcal{L}_{r}$ corresponds to the refrained prediction task: a decision maker chooses between reporting a class label, or reporting "I don't know," denoted $\bot$. She incurs a loss of $0$ for correctly predicting the label $y$, a loss of $1$ for reporting an incorrect class label, and a loss of $\beta < 1$ for reporting "I don't know". If a decision maker's loss function belong to this simple class of losses $\mathcal{L}_{r}$, she can use a confidence calibrated prediction function $\hat{p}$, because the two desiderata (no regret and accurate loss estimation) in Proposition 1 are true for her. However, such "refrained prediction" decision tasks only account for a tiny subset of all possible tasks that are interesting to decision makers. Similarly, classwise calibration is characterized through decision calibration using a class of loss functions that penalizes class-specific false positives and negatives.
 
 In this way, decision calibration clarifies the implications of existing notions of calibration on decision making: relaxed notions of calibration correspond to decision calibration over restricted classes of losses. In general, decision calibration provides a unified view of most existing notions of calibration as the following theorem shows.
 
-Existing Calibration Definitions
-Associated Loss Functions
-
-{\text{Confidence Calibration~}} \\
-{{\Pr{\lbrack{Y = {{{\arg{\max\hat{p}}}{(X)}} \mid {{\max\hat{p}}{(X)}}} = \beta}\rbrack}} = \beta} \\
-{{\forall\beta} \in {\lbrack 0,1\rbrack}}
-$\mathcal{L}_{r}:=\left\{ \begin{array}{lc}
-{{{\ell{(y,a)}} = {{{\mathbb{I}}{({y \neq {a \land a} \neq \bot})}} + {{\beta \cdot {\mathbb{I}}}{({a = \bot})}}}}:} &amp; \\
-{{a \in {\mathcal{Y} \cup {\{\bot\}}}},{{\forall\beta} \in {\lbrack 0,1\rbrack}}} &amp;
-\end{array} \right\}$
-
-{\text{Classwise Calibration~}} \\
-{{{{\mathbb{E}}{\lbrack{{Y_{c} \mid {{\hat{p}}_{c}{(X)}}} = \beta}\rbrack}} = \beta},{{{\forall c} \in {\lbrack C\rbrack}},{{\forall\beta} \in {\lbrack 0,1\rbrack}}}}
-$\mathcal{L}_{cr}:=\left\{ \begin{array}{l}
-{{+ {{\beta_{2} \cdot {\mathbb{I}}}{({y \neq {c \land a} = F})}}}:} \\
-{{a \in {{\{ T,F,\bot\}},{\forall\beta_{1}}}},{{\beta_{2} \in {\mathbb{R}}},{c \in {\lbrack C\rbrack}}}}
-\end{array} \right\}$
-
-{\text{Distribution Calibration~}\ } \\
-{{{{\mathbb{E}}{\lbrack{{Y \mid {\hat{p}{(X)}}} = q}\rbrack}} = q},{{\forall q} \in \Delta^{C}}}
-
-Table 1: A prediction function p̂ satisfies the calibration definitions on the left if and only if it satisfies ℒ-decision calibration for the loss function families on the right (Theorem 1).
+Existing Calibration Definitions Associated Loss Functions {\text{Confidence Calibration~}} \\{{\Pr{\lbrack{Y = {{{\arg{\max\hat{p}}}{(X)}} \mid {{\max\hat{p}}{(X)}}} = \beta}\rbrack}} = \beta} \\{{\forall\beta} \in {\lbrack 0,1\rbrack}} $\mathcal{L}_{r}:=\left\{ \begin{array}{lc} {{{\ell{(y,a)}} = {{{\mathbb{I}}{({y \neq {a \land a} \neq \bot})}} + {{\beta \cdot {\mathbb{I}}}{({a = \bot})}}}}:} & \\{{a \in {\mathcal{Y} \cup {\{\bot\}}}},{{\forall\beta} \in {\lbrack 0,1\rbrack}}} & \end{array} \right\}$ {\text{Classwise Calibration~}} \\{{{{\mathbb{E}}{\lbrack{{Y_{c} \mid {{\hat{p}}_{c}{(X)}}} = \beta}\rbrack}} = \beta},{{{\forall c} \in {\lbrack C\rbrack}},{{\forall\beta} \in {\lbrack 0,1\rbrack}}}} $\mathcal{L}_{cr}:=\left\{ \begin{array}{l} {{+ {{\beta_{2} \cdot {\mathbb{I}}}{({y \neq {c \land a} = F})}}}:} \\{{a \in {{\{ T,F,\bot\}},{\forall\beta_{1}}}},{{\beta_{2} \in {\mathbb{R}}},{c \in {\lbrack C\rbrack}}}} \end{array} \right\}$ {\text{Distribution Calibration~}\ } \\{{{{\mathbb{E}}{\lbrack{{Y \mid {\hat{p}{(X)}}} = q}\rbrack}} = q},{{\forall q} \in \Delta^{C}}} Table 1: A prediction function p̂ satisfies the calibration definitions on the left if and only if it satisfies ℒ-decision calibration for the loss function families on the right (Theorem 1).
 
 ### Theorem 1
 
-\[Calibration Equivalence\] For any true distribution $p^{\ast}$, and for the loss function sets $\mathcal{L}_{r},\mathcal{L}_{cr}$ defined in Table 1, a prediction function $\hat{p}$ is
-
-confidence calibrated iff it is $\mathcal{L}_{r}$-decision calibrated.
-
-classwise calibrated iff it is $\mathcal{L}_{cr}$-decision calibrated.
-
-distribution calibrated iff it is $\mathcal{L}_{\text{all}}$-decision calibrated.
+\[Calibration Equivalence\] For any true distribution $p^{\ast}$, and for the loss function sets $\mathcal{L}_{r},\mathcal{L}_{cr}$ defined in Table 1, a prediction function $\hat{p}$ is confidence calibrated iff it is $\mathcal{L}_{r}$-decision calibrated. classwise calibrated iff it is $\mathcal{L}_{cr}$-decision calibrated. distribution calibrated iff it is $\mathcal{L}_{\text{all}}$-decision calibrated.
 
 For proof of this theorem see Appendix C. In Table 1, confidence and classwise calibration are weak notions of calibration; correspondingly the loss function families $\mathcal{L}_{r}$ and $\mathcal{L}_{\text{cr}}$ are also very restricted.
 
 On the other hand, distribution calibration (i.e. ${{{\mathbb{E}}{\lbrack{{Y \mid {\hat{p}{(X)}}} = q}\rbrack}} = q},{{\forall q} \in \Delta^{C}}$) is equivalent to $\mathcal{L}_{all}$-decision calibration. This means that a distribution calibrated predictor guarantees the no regret and accurate loss estimation properties as in Proposition 1 to a decision maker holding any loss functions. Unfortunately, distribution calibration is very challenging to verify or achieve. To understand the challenges, consider certifying whether a given predictor $\hat{p}$ is distribution calibrated. Because we need to reason about the conditional distribution ${\mathbb{E}}{\lbrack{{Y \mid {\hat{p}{(X)}}} = q}\rbrack}$ for every $q$ that $\hat{p}$ can predict (i.e. the support of $\hat{p}$), the necessary sample complexity grows linearly in the support of $\hat{p}$. Of course, for a trivial predictors that map all inputs $x$ to the same prediction $q_{0}$ (i.e. ${{\hat{p}{(x)}} = q_{0}},{{\forall x} \in \mathcal{X}}$) distribution calibration is easy to certify, but such predictors have no practical use.
 
-Our characterization of distribution calibration further sheds light on why it is so difficult to achieve. $\mathcal{L}_{all}$ consists of all loss function, including all loss functions $\ell:{{\mathcal{Y} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ whose action space $\mathcal{A}$ contains exponentially many elements (e.g. ${|\mathcal{A}|} = 2^{C}$). The corresponding decision rules $\delta \in {}_{\mathcal{L}{all}}^{}\Delta^{C}\rightarrow\mathcal{A}$ may also map $\Delta^{C}$ to exponentially many possible values. Enforcing Definition 2. ‣ 3.1 Decision Calibration ‣ 3 Calibration: A Decision Making Perspective ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration") for such complex loss functions and decision rules is naturally difficult.
+Our characterization of distribution calibration further sheds light on why it is so difficult to achieve. $\mathcal{L}_{all}$ consists of all loss function, including all loss functions $\ell:{{\mathcal{Y} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ whose action space $\mathcal{A}$ contains exponentially many elements (e.g. ${|\mathcal{A}|} = 2^{C}$). The corresponding decision rules $\delta \in {{}_{\mathcal{L}_{all}}^{}:}\Delta^{C}\rightarrow\mathcal{A}$ may also map $\Delta^{C}$ to exponentially many possible values. Enforcing Definition 2. ‣ 3.1 Decision Calibration ‣ 3 Calibration: A Decision Making Perspective ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration") for such complex loss functions and decision rules is naturally difficult.
 
 ### Decision Calibration over Bounded Action Space
 
@@ -123,9 +90,7 @@ In many contexts, directly optimizing for distribution calibration may be overki
 
 ### Definition 3 ($\mathcal{L}^{K}$-Decision Calibration)
 
-Let $\mathcal{L}^{K}$ be the set of all loss functions with $K$ actions $\mathcal{L}^{K} = {\{\ell:{{{\mathcal{Y} \times \mathcal{A}}\rightarrow{\mathbb{R}}},{{|\mathcal{A}|} = K}}\}}$, we say that a prediction $\hat{p}$ is $\mathcal{L}^{K}$-decision calibrated (with respect to $p^{\ast}$) if ${\forall\ell} \in \mathcal{L}^{K}$ and $\delta \in_{\mathcal{L}^{K}}$
-
-The key result (that we show in Section 4) is that $\mathcal{L}^{K}$-decision calibration can be efficiently verified and achieved for all predictors. Specifically, we show that the sample and time complexity necessary to learn $\mathcal{L}^{K}$-decision calibrated predictors depends on the number of actions $K$, not on the support of $\hat{p}$. This is in contrast to the standard approach for establishing distribution calibration, which scales with the support of $\hat{p}$. Before studying the algorithmic aspects of decision calibration, we argue that $\mathcal{L}^{K}$-decision calibration implies similar performance guarantees as distribution calibration to decision makers with bounded actions.
+Let $\mathcal{L}^{K}$ be the set of all loss functions with $K$ actions $\mathcal{L}^{K} = {\{\ell:{{{\mathcal{Y} \times \mathcal{A}}\rightarrow{\mathbb{R}}},{{|\mathcal{A}|} = K}}\}}$, we say that a prediction $\hat{p}$ is $\mathcal{L}^{K}$-decision calibrated (with respect to $p^{\ast}$) if ${\forall\ell} \in \mathcal{L}^{K}$ and $\delta \in_{\mathcal{L}^{K}}$ The key result (that we show in Section 4) is that $\mathcal{L}^{K}$-decision calibration can be efficiently verified and achieved for all predictors. Specifically, we show that the sample and time complexity necessary to learn $\mathcal{L}^{K}$-decision calibrated predictors depends on the number of actions $K$, not on the support of $\hat{p}$. This is in contrast to the standard approach for establishing distribution calibration, which scales with the support of $\hat{p}$. Before studying the algorithmic aspects of decision calibration, we argue that $\mathcal{L}^{K}$-decision calibration implies similar performance guarantees as distribution calibration to decision makers with bounded actions.
 
 ### From decision calibration to distribution calibration
 
@@ -135,12 +100,7 @@ This argument is subtle: on the surface, the idea that decision calibration (whi
 
 ### Proposition 2
 
-Suppose $\hat{p}$ is $\mathcal{L}^{K}$-decision calibrated. Then, for any loss function $\ell \in \mathcal{L}^{K}$, we can construct a predictor ${\hat{p}}_{\ell}$ of support size $\leq K$, such that:
-
-${\hat{p}}_{\ell}$ is distribution calibrated
-
-the optimal decision rule is preserved ${\delta_{\ell}{({{\hat{p}}_{\ell}{(x)}})}} = {\delta_{\ell}{({\hat{p}{(x)}})}}$ for all $x \in \mathcal{X}$;\
-thus, ${{\mathbb{E}}{\lbrack{\ell{(Y,{\delta_{\ell}{({{\hat{p}}_{\ell}{(X)}})}})}}\rbrack}} = {{\mathbb{E}}{\lbrack{\ell{(Y,{\delta_{\ell}{({\hat{p}{(X)}})}})}}\rbrack}}$.
+Suppose $\hat{p}$ is $\mathcal{L}^{K}$-decision calibrated. Then, for any loss function $\ell \in \mathcal{L}^{K}$, we can construct a predictor ${\hat{p}}_{\ell}$ of support size $\leq K$, such that: ${\hat{p}}_{\ell}$ is distribution calibrated the optimal decision rule is preserved ${\delta_{\ell}{({{\hat{p}}_{\ell}{(x)}})}} = {\delta_{\ell}{({\hat{p}{(x)}})}}$ for all $x \in \mathcal{X}$;\thus, ${{\mathbb{E}}{\lbrack{\ell{(Y,{\delta_{\ell}{({{\hat{p}}_{\ell}{(X)}})}})}}\rbrack}} = {{\mathbb{E}}{\lbrack{\ell{(Y,{\delta_{\ell}{({\hat{p}{(X)}})}})}}\rbrack}}$.
 
 Proposition 2 is proved in Appendix C.2.
 
@@ -152,39 +112,27 @@ Decision calibration in Definition 2. ‣ 3.1 Decision Calibration ‣ 3 Calibra
 
 ### Definition 4 (Approximate decision calibration)
 
-A prediction function $\hat{p}$ is $(\mathcal{L},\epsilon$)-decision calibrated (with respect to $p^{\ast}$) if ${\forall\ell} \in \mathcal{L}$ and $\delta \in_{\mathcal{L}}$
-
-Definition 4. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration") is a relaxation of Definition 2. ‣ 3.1 Decision Calibration ‣ 3 Calibration: A Decision Making Perspective ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration"): if a prediction function is $(\mathcal{L},0)$-decision calibrated, then it is $\mathcal{L}$-decision calibrated (Definition 2. ‣ 3.1 Decision Calibration ‣ 3 Calibration: A Decision Making Perspective ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration")).
+A prediction function $\hat{p}$ is $(\mathcal{L},\epsilon$)-decision calibrated (with respect to $p^{\ast}$) if ${\forall\ell} \in \mathcal{L}$ and $\delta \in_{\mathcal{L}}$ Definition 4. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration") is a relaxation of Definition 2. ‣ 3.1 Decision Calibration ‣ 3 Calibration: A Decision Making Perspective ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration"): if a prediction function is $(\mathcal{L},0)$-decision calibrated, then it is $\mathcal{L}$-decision calibrated (Definition 2. ‣ 3.1 Decision Calibration ‣ 3 Calibration: A Decision Making Perspective ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration")).
 
 The main observation in our paper is that for the set of loss functions with $K$ actions, $(\mathcal{L}^{K},\epsilon)$-decision calibration can be verified and achieved with polynomially many samples.
 
 ### Theorem 2 (Main Theorem, informal)
 
-There is an algorithm, such that for any predictor $\hat{p}$ and given polynomially (in $K,C,{1/\epsilon}$) many samples, can with high probability
+There is an algorithm, such that for any predictor $\hat{p}$ and given polynomially (in $K,C,{1/\epsilon}$) many samples, can with high probability correctly decide if $\hat{p}$ satisfies $(\mathcal{L}^{K},\epsilon)$-decision calibration output a new predictor ${\hat{p}}'$ that satisfies $(\mathcal{L}^{K},\epsilon)$-decision calibration without degrading the original predictions (in terms of $L_{2}$ error).
 
-correctly decide if $\hat{p}$ satisfies $(\mathcal{L}^{K},\epsilon)$-decision calibration
-
-output a new predictor ${\hat{p}}^{\prime}$ that satisfies $(\mathcal{L}^{K},\epsilon)$-decision calibration without degrading the original predictions (in terms of $L_{2}$ error).
-
-As with distribution calibration, trivial predictors ${\hat{p}{(x)}} \equiv {{{\mathbb{E}}{\lbrack Y\rbrack}},{\forall x}}$ satisfy $(\mathcal{L}^{K},0)$-decision calibration. To maintain a meaningful prediction function we also require "sharpness" which we measure by $L_{2}$ error. We guarantee that the $L_{2}$ error of ${\hat{p}}^{\prime}$ can only *improve* under post-processing; that is, ${{\mathbb{E}}{\lbrack{\parallel{{{\hat{p}}^{\prime}{(X)}} - Y}\parallel}_{2}^{2}\rbrack}} \leq {{\mathbb{E}}{\lbrack{\parallel{{\hat{p}{(X)}} - Y}\parallel}_{2}^{2}\rbrack}}$. In fact, the algorithm works by iteratively updating the predictions to make progress in $L_{2}$. For rest of this section, we propose concrete algorithms that satisfy Theorem 2. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration").
+As with distribution calibration, trivial predictors ${\hat{p}{(x)}} \equiv {{{\mathbb{E}}{\lbrack Y\rbrack}},{\forall x}}$ satisfy $(\mathcal{L}^{K},0)$-decision calibration. To maintain a meaningful prediction function we also require "sharpness" which we measure by $L_{2}$ error. We guarantee that the $L_{2}$ error of ${\hat{p}}'$ can only *improve* under post-processing; that is, ${{\mathbb{E}}{\lbrack{\parallel{{{\hat{p}}'{(X)}} - Y}\parallel}_{2}^{2}\rbrack}} \leq {{\mathbb{E}}{\lbrack{\parallel{{\hat{p}{(X)}} - Y}\parallel}_{2}^{2}\rbrack}}$. In fact, the algorithm works by iteratively updating the predictions to make progress in $L_{2}$. For rest of this section, we propose concrete algorithms that satisfy Theorem 2. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration").
 
 ### Verification of Decision Calibration
 
-This section focuses on the first part of Theorem 2. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration") where we certify $(\mathcal{L}^{K},\epsilon)$-decision calibration. A naive approach would use samples to directly estimate
-
-and compare it with $\epsilon$. However, the complexity of this optimization problem poses challenges to analysis. We will make several observations to transform this complex optimization problem to a simple problem that resembles linear classification.
+This section focuses on the first part of Theorem 2. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration") where we certify $(\mathcal{L}^{K},\epsilon)$-decision calibration. A naive approach would use samples to directly estimate and compare it with $\epsilon$. However, the complexity of this optimization problem poses challenges to analysis. We will make several observations to transform this complex optimization problem to a simple problem that resembles linear classification.
 
 ### Observation 1
 
-The first observation is that we do not have to take the supremum over $\mathcal{L}^{K}$ because for any choice of $\delta \in$ by simple calculations (details in the Appendix) we have
-
-Intuitively on the right hand side, $\delta$ partitions the probabilities $\Delta^{C}$ based on the optimal decision ${\Delta_{1}:={{\{{q \in {\Delta^{C},{{\mathbb{I}}{({{\delta{(q)}} = 1})}}}}\}},\cdots}},{\Delta_{K}:={\{{q \in {\Delta^{C},{{\mathbb{I}}{({{\delta{(q)}} = K})}}}}\}}}$. For each partition $\Delta_{k}$ we measure the difference between predicted label and true label on average, i.e. we compute ${\mathbb{E}}{\lbrack{{({\hat{Y} - Y})}{\mathbb{I}}{({{\hat{p}{(X)}} \in \Delta_{k}})}}\rbrack}$.
+The first observation is that we do not have to take the supremum over $\mathcal{L}^{K}$ because for any choice of $\delta \in$ by simple calculations (details in the Appendix) we have Intuitively on the right hand side, $\delta$ partitions the probabilities $\Delta^{C}$ based on the optimal decision ${\Delta_{1}:={{\{{q \in {\Delta^{C},{{\mathbb{I}}{({{\delta{(q)}} = 1})}}}}\}},\cdots}},{\Delta_{K}:={\{{q \in {\Delta^{C},{{\mathbb{I}}{({{\delta{(q)}} = K})}}}}\}}}$. For each partition $\Delta_{k}$ we measure the difference between predicted label and true label on average, i.e. we compute ${\mathbb{E}}{\lbrack{{({\hat{Y} - Y})}{\mathbb{I}}{({{\hat{p}{(X)}} \in \Delta_{k}})}}\rbrack}$.
 
 ### Observation 2
 
-We observe that the partitions of $\Delta^{C}$ are defined by linear classification boundaries. Formally, we introduce a new notation for the linear multi-class classification functions
-
-Note that this new classification task is a tool to aid in understanding decision calibration, and bears no relationship with the original prediction task (predicting $Y$ from $X$). Intuitively $w$ defines the weights of a linear classifier; given input features $q \in \Delta^{C}$ and a candidate class $a$, $b_{w}$ outputs an indicator: ${b_{w}{(q,a)}} = 1$ if the optimal decision of $q$ is equal to $a$ and $0$ otherwise.
+We observe that the partitions of $\Delta^{C}$ are defined by linear classification boundaries. Formally, we introduce a new notation for the linear multi-class classification functions Note that this new classification task is a tool to aid in understanding decision calibration, and bears no relationship with the original prediction task (predicting $Y$ from $X$). Intuitively $w$ defines the weights of a linear classifier; given input features $q \in \Delta^{C}$ and a candidate class $a$, $b_{w}$ outputs an indicator: ${b_{w}{(q,a)}} = 1$ if the optimal decision of $q$ is equal to $a$ and $0$ otherwise.
 
 The following equality draws the connection between Eq. and linear classification. The proof is simply a translation from the original notations to the new notations.
 
@@ -192,28 +140,21 @@ The final outcome of our derivations is the following proposition (Proof in Appe
 
 ### Proposition 3
 
-A predictor $\hat{p}$ satisfies $(\mathcal{L}^{K},\epsilon)$-decision calibration if and only if
-
-In words, $\hat{p}$ satisfies decision calibration if and only if there is no linear classification function that can partition $\Delta^{C}$ into $K$ parts, such that the average difference $\hat{Y} - Y$ (or equivalently ${\hat{p}{(X)}} - {p^{\ast}{(X)}}$) in each partition is large. Theorem 2. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration").1 follows naturally because $B^{K}$ has low Radamacher complexity, so the left hand side of Eq. can be accurately estimated with polynomially many samples. For a formal statement and proof see Appendix C.3.
+A predictor $\hat{p}$ satisfies $(\mathcal{L}^{K},\epsilon)$-decision calibration if and only if In words, $\hat{p}$ satisfies decision calibration if and only if there is no linear classification function that can partition $\Delta^{C}$ into $K$ parts, such that the average difference $\hat{Y} - Y$ (or equivalently ${\hat{p}{(X)}} - {p^{\ast}{(X)}}$) in each partition is large. Theorem 2. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration").1 follows naturally because $B^{K}$ has low Radamacher complexity, so the left hand side of Eq. can be accurately estimated with polynomially many samples. For a formal statement and proof see Appendix C.3.
 
 The remaining problem is computation. With unlimited compute, we can upper bound Eq. by brute force search over $B^{K}$; in practice, we use a surrogate objective optimizable with gradient descent. This is the topic of Section 4.4.
 
 ### Recalibration Algorithm
 
-This section discusses the second part of Theorem 2. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration") where we design a post-processing recalibration algorithm. The algorithm is based on the following intuition, inspired by: given a predictor $\hat{p}$ we find the worst $b \in B^{K}$ that violates Eq. (line 3 of Algorithm 1); then, we make an update to $\hat{p}$ to minimize the violation of Eq. for the worst $b$ (line 4,5 of Algorithm 1). This process is be repeated until we get a $(B^{K},\epsilon)$-decision calibrated prediction (line 2). The sketch of the algorithm is shown in Algorithm 1 and the detailed algorithm is in the Appendix.
+This section discusses the second part of Theorem 2. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration") where we design a post-processing recalibration algorithm. The algorithm is based on the following intuition, inspired : given a predictor $\hat{p}$ we find the worst $b \in B^{K}$ that violates Eq. (line 3 of Algorithm 1); then, we make an update to $\hat{p}$ to minimize the violation of Eq. for the worst $b$ (line 4,5 of Algorithm 1). This process is be repeated until we get a $(B^{K},\epsilon)$-decision calibrated prediction (line 2). The sketch of the algorithm is shown in Algorithm 1 and the detailed algorithm is in the Appendix.
 
-1 Input current prediction function p̂, tolerance ϵ. Initialize p̂ = p̂;
-2 for t = 1, 2, ⋯, T until output p̂(T) when it satisfies Eq. do
-3 Find b ∈ BK that maximizes $\sum_{a = 1}^{K}\left. \parallel{\mathbb{E}}\left. \lbrack{(Y - {\hat{p}}^{({t - 1})}{(X)})}b{({\hat{p}}^{({t - 1})}{(X)},a)}\parallel \right. \right.$;
-4 Compute the adjustments da = 𝔼 [(Y−p̂(t−1) (X)) b (p̂(t−1) (X),a)]/𝔼 [b (p̂(t−1) (X),a)];
-5 Set ${\hat{p}}^{(t)}:{x\mapsto{{{\hat{p}}^{({t - 1})}{(x)}} + {\sum_{a = 1}^{K}{{b{({{\hat{p}}^{({t - 1})}{(x)}},a)}} \cdot d_{a}}}}}$ (projecting onto if necessary);
-Algorithm 1 Recalibration algorithm to achieve ℒK decision calibration.
+1 Input current prediction function p̂, tolerance ϵ. Initialize p̂ = p̂; 2 for t = 1, 2, ⋯, T until output p̂(T) when it satisfies Eq. do 3 Find b ∈ BK that maximizes $\sum_{a = 1}^{K}\left. \parallel{\mathbb{E}}\left. \lbrack{(Y - {\hat{p}}^{({t - 1})}{(X)})}b{({\hat{p}}^{({t - 1})}{(X)},a)}\parallel \right. \right.$; 4 Compute the adjustments da = 𝔼 [(Y − p̂(t − 1) (X)) b (p̂(t − 1) (X), a)]/𝔼 [b (p̂(t − 1) (X), a)]; 5 Set ${\hat{p}}^{(t)}:{x\mapsto{{{\hat{p}}^{({t - 1})}{(x)}} + {\sum_{a = 1}^{K}{{b{({{\hat{p}}^{({t - 1})}{(x)}},a)}} \cdot d_{a}}}}}$ (projecting onto if necessary); Algorithm 1 Recalibration algorithm to achieve ℒK decision calibration.
 
 Given a dataset with $N$ samples, the expectations in Algorithm 1 are replaced with empirical averages. The following theorem demonstrates that Algorithm 1 satisfies the conditions stated in Theorem 2. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration").
 
 ### Theorem 2.2
 
-Given any input $\hat{p}$ and tolerance $\epsilon$, Algorithm 1 terminates in $O{({K/\epsilon^{2}})}$ iterations. For any $\lambda > 0$, given $O{({\text{poly}{(K,C,{\log{({1/\delta})}},\lambda)}})}$ samples, with $1 - \delta$ probability Algorithm 1 outputs a $(\mathcal{L}^{K},{\epsilon + \lambda})$-decision calibrated prediction function ${\hat{p}}^{\prime}$ that satisfies ${{\mathbb{E}}{\lbrack{\parallel{{{\hat{p}}^{\prime}{(X)}} - Y}\parallel}_{2}^{2}\rbrack}} \leq {{{\mathbb{E}}{\lbrack{\parallel{{\hat{p}{(X)}} - Y}\parallel}_{2}^{2}\rbrack}} + \lambda}$.
+Given any input $\hat{p}$ and tolerance $\epsilon$, Algorithm 1 terminates in $O{({K/\epsilon^{2}})}$ iterations. For any $\lambda > 0$, given $O{({\text{poly}{(K,C,{\log{({1/\delta})}},\lambda)}})}$ samples, with $1 - \delta$ probability Algorithm 1 outputs a $(\mathcal{L}^{K},{\epsilon + \lambda})$-decision calibrated prediction function ${\hat{p}}'$ that satisfies ${{\mathbb{E}}{\lbrack{\parallel{{{\hat{p}}'{(X)}} - Y}\parallel}_{2}^{2}\rbrack}} \leq {{{\mathbb{E}}{\lbrack{\parallel{{\hat{p}{(X)}} - Y}\parallel}_{2}^{2}\rbrack}} + \lambda}$.
 
 The theorem demonstrates that if we can solve the inner search problem over $B^{K}$, then we can obtain decision calibrated predictions efficiently in samples and computation.
 
@@ -225,23 +166,19 @@ The key motivation behind this relaxation is that ${\overline{b}}_{w} \in {\over
 
 ### Proposition 4
 
-A prediction function $\hat{p}$ is $(\mathcal{L}^{K},\epsilon)$-decision calibrated if it satisfies
-
-We remark that unlike Proposition 3 (which is an "if and only if" statement), Proposition 4 is a "if" statement. This is because the closure of ${\overline{B}}^{K}$ is superset of $B^{K}$, so Eq. implies Eq. but not vice versa.
+A prediction function $\hat{p}$ is $(\mathcal{L}^{K},\epsilon)$-decision calibrated if it satisfies We remark that unlike Proposition 3 (which is an "if and only if" statement), Proposition 4 is a "if" statement. This is because the closure of ${\overline{B}}^{K}$ is superset of $B^{K}$, so Eq. implies Eq. but not vice versa.
 
 ## Empirical Evaluation
 
-^††^Decision calibration is implemented in the torchuq package at https://github.com/ShengjiaZhao/torchuq. Code to reproduce these experiments can be found in following directory of the torchuq package "torchuq/applications/decision_calibration"
+^††^Decision calibration is implemented in the torchuq package at Code to reproduce these experiments can be found in following directory of the torchuq package "torchuq/applications/decision_calibration"
 
 ### Skin Legion Classification
 
-Figure 1: An illustrative example of accurate loss estimation on the HAM10000 dataset. The predictor predicts the probability of 7 skin illness categories (akiec, bcc, …., mel); the hospital decides between two actions (treatment vs. no treatment). Left An example loss function (details not important). Blue indicates low loss and red indicates high loss. For the malignant conditions such as ’akiec’ and ’mel’, no treatment has high loss (red); for the benign conditions such as ’nv’, (unnecessary) treatment has moderate loss. Middle Histogram of predicted loss vs. the true loss. The predicted loss is the loss the hospital expected to incur assuming the predicted probabilities are correct under the Bayes decision rule.The true loss is the loss the hospital actually incurs (after ground-truth outcomes are revealed). We plot the histogram from random train/test splits of the dataset, and observe that the true loss is generally much greater than the predicted loss. Because the hospital might incur loss it didn’t expect or prepare for, the hospital cannot trust the prediction function. Right After applying our recalibration algorithm, the true loss almost matches the predicted loss.
+Figure 1: An illustrative example of accurate loss estimation on the HAM10000 dataset. The predictor predicts the probability of 7 skin illness categories (akiec, bcc, …., mel); the hospital decides between two actions (treatment vs. no treatment). Left An example loss function (details not important). Blue indicates low loss and red indicates high loss. For the malignant conditions such as ’akiec’ and ’mel’, no treatment has high loss (red); for the benign conditions such as ’nv’, (unnecessary) treatment has moderate loss. Middle Histogram of predicted loss vs. the true loss. The predicted loss is the loss the hospital expected to incur assuming the predicted probabilities are correct under the Bayes decision rule.The true loss is the loss the hospital actually incurs (after ground-truth outcomes are revealed). We plot the histogram from random train/test splits of the dataset, and observe that the true loss is generally much greater than the predicted loss. Because the hospital might incur loss it didn’t expect or prepare , the hospital cannot trust the prediction function. Right After applying our recalibration algorithm, the true loss almost matches the predicted loss.
 
 Figure 2: Calibration improves decision loss and its estimation on the HAM10000 skin legion classification dataset. Left The gap between the predicted decision loss and the true decision loss in Eq. on a set of randomly sampled loss functions. We plot both the average gap (orange) and the worst gap (blue) out of all the loss functions. The dotted lines are the validation set performance, and solid lines are the test set performance. With more recalibration steps in Algorithm 1, both the average gap and the worst gap improves. The improvements are greater than Dirichlet recalibration (dashed line) Right The decision loss (averaged across all random loss functions). With more recalibration steps the decision loss also improves slightly.
 
-This experiment materializes our motivating example in the introduction. We aim to show on a real medical prediction dataset, our recalibration algorithm improves both the decision loss and reduces the decision loss estimation error. For the estimation error, as in Definition 4. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration") for any loss function $\ell$ and corresponding Bayes decision rule $\delta_{\ell}$ we measure
-
-In addition to the loss function in Figure 1 (which is motivated by medical domain knowledge), we also consider a set of 500 random loss functions where for each ${y \in \mathcal{Y}},{a \in \mathcal{A}}$, ${\ell{(y,a)}} \sim {\text{Normal}{}}$, and report both the average loss gap and the maximum loss gap across the loss functions.
+This experiment materializes our motivating example in the introduction. We aim to show on a real medical prediction dataset, our recalibration algorithm improves both the decision loss and reduces the decision loss estimation error. For the estimation error, as in Definition 4. ‣ 4.1 Approximate ℒ^𝐾 Decision Calibration is Verifiable and Achievable ‣ 4 Achieving Decision Calibration with PAC Guarantees ‣ Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration") for any loss function $\ell$ and corresponding Bayes decision rule $\delta_{\ell}$ we measure In addition to the loss function in Figure 1 (which is motivated by medical domain knowledge), we also consider a set of 500 random loss functions where for each ${y \in \mathcal{Y}},{a \in \mathcal{A}}$, ${\ell{(y,a)}} \sim {\text{Normal}{}}$, and report both the average loss gap and the maximum loss gap across the loss functions.
 
 ### Setup
 
@@ -281,7 +218,7 @@ Our paper discusses the average decision loss over the population $X$. A stronge
 
 ### Multi-calibration and Outcome Indistinguishability
 
-Calibration have been the focus of many works on fairness, starting with. Multi-calibration has emerged as a noteworthy notion of fairness because it goes beyond "protected" groups, and guarantees calibration for any group that is identifiable within some computational bound. Recently, generalizes multicalibration to outcome indistinguishability (OI). Decision calibration is a special form of OI.
+Calibration have been the focus of many works on fairness, starting . Multi-calibration has emerged as a noteworthy notion of fairness because it goes beyond "protected" groups, and guarantees calibration for any group that is identifiable within some computational bound. Recently, generalizes multicalibration to outcome indistinguishability (OI). Decision calibration is a special form of OI.
 
 ## Conclusion and Discussion
 

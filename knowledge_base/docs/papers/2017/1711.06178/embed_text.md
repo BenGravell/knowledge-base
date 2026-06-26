@@ -10,7 +10,7 @@ These techniques focus on understanding already learned models, rather than find
 
 ### Contributions
 
-In this work, we take steps toward *optimizing* deep models for human-simulatability via a new model complexity penalty function we call *tree regularization*. Tree regularization favors models whose decision boundaries can be well-approximated by small decision-trees, thus penalizing models that would require many calculations to simulate predictions. We first demonstrate how this technique can be used to train simple multi-layer perceptrons to have tree-like decision boundaries. We then focus on time-series applications and show that gated recurrent unit (GRU) models trained with strong tree-regularization reach a high-accuracy-at-low-complexity sweet spot that is not possible with any strength of L1 or L2 regularization. Prediction quality can be further boosted by training new hybrid models -- GRU-HMMs -- which explain the residuals of interpretable discrete HMMs via tree-regularized GRUs. We further show that the approximate decision trees for our tree-regularized deep models are useful for human simulation and interpretability. We demonstrate our approach on a speech recognition task and two medical treatment prediction tasks for patients with sepsis in the intensive care unit (ICU) and for patients with human immunodeficiency virus (HIV). Throughout, we also show that standalone decision trees as a baseline are noticeably less accurate than our tree-regularized deep models. We have released an open-source Python toolbox to allow others to experiment with tree regularization ^11^1https://github.com/dtak/tree-regularization-public.
+In this work, we take steps toward *optimizing* deep models for human-simulatability via a new model complexity penalty function we call *tree regularization*. Tree regularization favors models whose decision boundaries can be well-approximated by small decision-trees, thus penalizing models that would require many calculations to simulate predictions. We first demonstrate how this technique can be used to train simple multi-layer perceptrons to have tree-like decision boundaries. We then focus on time-series applications and show that gated recurrent unit (GRU) models trained with strong tree-regularization reach a high-accuracy-at-low-complexity sweet spot that is not possible with any strength of L1 or L2 regularization. Prediction quality can be further boosted by training new hybrid models -- GRU-HMMs -- which explain the residuals of interpretable discrete HMMs via tree-regularized GRUs. We further show that the approximate decision trees for our tree-regularized deep models are useful for human simulation and interpretability. We demonstrate our approach on a speech recognition task and two medical treatment prediction tasks for patients with sepsis in the intensive care unit (ICU) and for patients with human immunodeficiency virus (HIV). Throughout, we also show that standalone decision trees as a baseline are noticeably less accurate than our tree-regularized deep models. We have released an open-source Python toolbox to allow others to experiment with tree regularization ^11^1
 
 ### Related work
 
@@ -22,9 +22,7 @@ We consider supervised learning tasks given datasets of $N$ labeled examples, wh
 
 ### Simple neural networks
 
-A multi-layer perceptron (MLP) makes predictions ${\hat{y}}_{n}$ of the target $y_{n}$ via a function ${\hat{y}}_{n}{(x_{n},W)}$, where the vector $W$ represents all parameters of the network. Given a data set $\{{(x_{n},y_{n})}\}$, our goal is to learn the parameters $W$ to minimize the objective
-
-For binary targets $y_{n}$, the logistic loss (binary cross entropy) is an effective choice. The regularization term $\Psi{(W)}$ can represent L1 or L2 penalties (e.g. (?; ?; ?)) or our new regularization.
+A multi-layer perceptron (MLP) makes predictions ${\hat{y}}_{n}$ of the target $y_{n}$ via a function ${\hat{y}}_{n}{(x_{n},W)}$, where the vector $W$ represents all parameters of the network. Given a data set $\{{(x_{n},y_{n})}\}$, our goal is to learn the parameters $W$ to minimize the objective For binary targets $y_{n}$, the logistic loss (binary cross entropy) is an effective choice. The regularization term $\Psi{(W)}$ can represent L1 or L2 penalties (e.g. (?; ?; ?)) or our new regularization.
 
 ### Recurrent Neural Networks with Gated Recurrent Units
 
@@ -32,17 +30,11 @@ A recurrent neural network (RNN) takes as input an arbitrary length sequence $x_
 
 Many different variants of the transition function architecture $f$ have been proposed to solve the challenge of capturing long-term dependencies. In this paper, we use gated recurrent units (GRUs) (?), which are simpler than other alternatives such as long short-term memory units (LSTMs) (?). While GRUs are convenient, any differentiable RNN architecture is compatible with our new tree-regularization approach.
 
-Below we describe the evolution of a single GRU sequence, dropping the sequence index $n$ for readability. The GRU transition function $f$ produces the state vector $h_{t} = {\lbrack{h_{t1}\ldotsh_{tK}}\rbrack}$ from a previous state $h_{t - 1}$ and an input vector $x_{t}$, via the following feed-forward architecture:
-
-The internal network nodes include candidate state gates $\overset{\sim}{h}$, update gates $z$ and reset gates $r$ which have the same cardinalty as the state vector $h$. Reset gates allow the network to forget past state vectors when set near zero via the logistic sigmoid nonlinearity $\sigma{( \cdot )}$. Update gates allow the network to either pass along the previous state vector unchanged or use the new candidate state vector instead. This architecture is diagrammed in Figure 1.
+Below we describe the evolution of a single GRU sequence, dropping the sequence index $n$ for readability. The GRU transition function $f$ produces the state vector $h_{t} = {\lbrack{h_{t1}\ldotsh_{tK}}\rbrack}$ from a previous state $h_{t - 1}$ and an input vector $x_{t}$, via the following feed-forward architecture: The internal network nodes include candidate state gates $\overset{\sim}{h}$, update gates $z$ and reset gates $r$ which have the same cardinalty as the state vector $h$. Reset gates allow the network to forget past state vectors when set near zero via the logistic sigmoid nonlinearity $\sigma{(\cdot)}$. Update gates allow the network to either pass along the previous state vector unchanged or use the new candidate state vector instead. This architecture is diagrammed in Figure 1.
 
 Figure 1: Diagram of gated recurrent unit (GRU) used for each timestep our neural time-series model. The orange triangle indicates the predicted output ŷt at time t.
 
-The predicted probability of the binary label $y_{t}$ for time $t$ is a sigmoid transformation of the state at time $t$:
-
-Here, weight vector $w \in {\mathbb{R}}^{K}$ represents the parameters of this output layer. We denote the parameters for the entire GRU-RNN model as $W = {(w,U,V)}$, concatenating all component parameters. We can train GRU-RNN time-series models (hereafter often just called GRUs) via the following loss minimization objective:
-
-where again $\Psi{(W)}$ defines a regularization cost.
+The predicted probability of the binary label $y_{t}$ for time $t$ is a sigmoid transformation of the state at time $t$: Here, weight vector $w \in {\mathbb{R}}^{K}$ represents the parameters of this output layer. We denote the parameters for the entire GRU-RNN model as $W = {(w,U,V)}$, concatenating all component parameters. We can train GRU-RNN time-series models (hereafter often just called GRUs) via the following loss minimization objective: where again $\Psi{(W)}$ defines a regularization cost.
 
 ## Tree Regularization for Deep Models
 
@@ -50,20 +42,13 @@ We now propose a novel *tree regularization* function $\Omega{(W)}$ for the para
 
 Our true-average-path-length cost function $\Omega{(W)}$ is detailed in Alg. 1. It requires two subroutines, TrainTree and PathLength. TrainTree trains a binary decision tree to accurately reproduce the provided labeled examples $\{ x_{n},{\hat{y}}_{n}\}$. We use the DecisionTree module distributed in Python's scikit-learn (?) with post-pruning to simplify the tree. These trees can give probabilistic predictions at each leaf. (Complete decision-tree training details are in the supplement.) Next, PathLength counts how many nodes are needed to make a specific input to an output node in the provided decision tree. In our evaluations, we will apply our average-decision-tree-path-length regularization, or simply "tree regularization," to several neural models.
 
-2:ŷ (⋅,W): binary prediction function, with parameters W
-3:D = {xn}n = 1N: reference dataset with N examples
-6: return $\frac{1}{N}{\sum_{n}{\text{PathLength}{(\text{tree},x_{n})}}}$
-Algorithm 1 Average-Path-Length Cost Function
-
-Alg. 1 defines our average-path-length cost function $\Omega{(W)}$, which can be plugged into the abstract regularization term $\Psi{(W)}$ in the objectives in equations 1 and 4.
+2:ŷ (⋅, W): binary prediction function, with parameters W 3:D = {xn}n = 1N: reference dataset with N examples 6: return $\frac{1}{N}{\sum_{n}{\text{PathLength}{(\text{tree},x_{n})}}}$ Algorithm 1 Average-Path-Length Cost Function Alg. 1 defines our average-path-length cost function $\Omega{(W)}$, which can be plugged into the abstract regularization term $\Psi{(W)}$ in the objectives in equations 1 and 4.
 
 ### Making the Decision-Tree Loss Differentiable
 
 Training decision trees is not differentiable, and thus $\Omega{(W)}$ as defined in Alg. 1 is not differentiable with respect to the network parameters $W$ (unlike standard regularizers such as the L1 or L2 norm). While one could resort to derivative-free optimization techniques (?), gradient descent has been an extremely fast and robust way of training networks (?).
 
-A key technical contribution of our work is introducing and training a *surrogate* regularization function ${\hat{\Omega}{(W)}}:{{\text{supp}{(W)}}\rightarrow{\mathbb{R}}_{+}}$ to map each candidate neural model parameter vector $W$ to an *estimate* of the average-path-length. Our approximate function $\hat{\Omega}$ is implemented as a standalone multi-layer perceptron network and is thus *differentiable*. Let vector $\xi$ of size $k$ denote the parameters of this chosen MLP approximator. We can train $\hat{\Omega}$ to be a good estimator by minimizing a squared error loss function:
-
-where $W_{j}$ are the *entire* set of parameters for our model, $\epsilon > 0$ is a regularization strength, and we assume we have a dataset of $J$ known parameter vectors and their associated true path-lengths: ${\{ W_{j},{\Omega{(W_{j})}}\}}_{j = 1}^{J}$. This dataset can be assembled using the candidate $W$ vectors obtained while training our target neural model $\hat{y}{( \cdot,W)}$, as well as by evaluating $\Omega{(W)}$ for randomly generated $W$. Importantly, one can train the surrogate function $\hat{\Omega}$ in parallel with our network. In the supplement, we show evidence that our surrogate predictor $\hat{\Omega}{( \cdot )}$ tracks the true average path length as we train the target predictor $\hat{y}{( \cdot,W)}$.
+A key technical contribution of our work is introducing and training a *surrogate* regularization function ${\hat{\Omega}{(W)}}:{{\text{supp}{(W)}}\rightarrow{\mathbb{R}}_{+}}$ to map each candidate neural model parameter vector $W$ to an *estimate* of the average-path-length. Our approximate function $\hat{\Omega}$ is implemented as a standalone multi-layer perceptron network and is thus *differentiable*. Let vector $\xi$ of size $k$ denote the parameters of this chosen MLP approximator. We can train $\hat{\Omega}$ to be a good estimator by minimizing a squared error loss function: where $W_{j}$ are the *entire* set of parameters for our model, $\epsilon > 0$ is a regularization strength, and we assume we have a dataset of $J$ known parameter vectors and their associated true path-lengths: ${\{ W_{j},{\Omega{(W_{j})}}\}}_{j = 1}^{J}$. This dataset can be assembled using the candidate $W$ vectors obtained while training our target neural model $\hat{y}{(\cdot,W)}$, as well as by evaluating $\Omega{(W)}$ for randomly generated $W$. Importantly, one can train the surrogate function $\hat{\Omega}$ in parallel with our network. In the supplement, we show evidence that our surrogate predictor $\hat{\Omega}{(\cdot)}$ tracks the true average path length as we train the target predictor $\hat{y}{(\cdot,W)}$.
 
 ### Training the Surrogate Loss
 
@@ -85,17 +70,7 @@ Fig. 2 (b) shows the each trained model as a single point in a 2D fitness space:
 
 The lower panes of Fig. 2 shows these boundaries. Our tree regularization is uniquely able to create axis-aligned functions, because decision trees prefer functions that are axis-aligned splits. These axis-aligned functions require very few nodes but are more effective than L1 and L2 counterparts. The L1 boundary is more sharp, whereas the L2 is more round.
 
-(a) Training Data and Binary Class Labels for 2D Parabola
-
-(b) Prediction quality and complexity as reg. strength λ varies
-
-(c) Decision Boundaries with L1 regularization
-
-(d) Decision Boundaries with L2 regularization
-
-(e) Decision Boundaries Tree regularization
-
-Figure 2: 2D Parabola task: (a) Each training data point in 2D space, overlaid with true parabolic class boundary. (b): Each method’s prediction quality (AUC) and complexity (path length) metrics, across range of regularization strength λ. In the small path length regime between 0 and 5, tree regularization produces models with higher AUC than L1 or L2. (c-e): Decision boundaries (black lines) have qualitatively different shapes for different regularization schemes, as regularization strength λ increases. We color predictions as true positive (red), true negative (yellow), false negative (green), and false positive (blue).
+(a) Training Data and Binary Class Labels for 2D Parabola (b) Prediction quality and complexity as reg. strength λ varies (c) Decision Boundaries with L1 regularization (d) Decision Boundaries with L2 regularization (e) Decision Boundaries Tree regularization Figure 2: 2D Parabola task: (a) Each training data point in 2D space, overlaid with true parabolic class boundary. (b): Each method’s prediction quality (AUC) and complexity (path length) metrics, across range of regularization strength λ. In the small path length regime between 0 and 5, tree regularization produces models with higher AUC than L1 or L2. (c-e): Decision boundaries (black lines) have qualitatively different shapes for different regularization schemes, as regularization strength λ increases. We color predictions as true positive (red), true negative (yellow), false negative (green), and false positive (blue).
 
 ## Tree-Regularized Time-Series Models
 
@@ -105,7 +80,7 @@ We now evaluate our tree-regularization approach on time-series models. We focus
 
 ### Synthetic Task: Signal-and-noise HMM
 
-We generated a toy dataset of $N = 100$ sequences, each with $T = 50$ timesteps. Each timestep has a data vector $x_{nt}$ of 14 binary features and a single binary output label $y_{nt}$. The data comes from two separate HMM processes. First, a "signal" HMM generates the first 7 data dimensions from 5 well-separated states. Second, an independent "noise" HMM generates the remaining 7 data dimensions from a different set of 5 states. Each timestep's output label $y_{nt}$ is produced by a rule involving *both* the signal data and the signal hidden state: the target is 1 at timestep $t$ only if both the first signal state is active and the first observation is turned on. We deliberately designed the generation process so that neither logistic regression with $x$ as features nor an RNN model that makes predictions from hidden states alone can perfectly separate this data.
+We generated a toy dataset of $N = 100$ sequences, each with $T = 50$ timesteps. Each timestep has a data vector $x_{nt}$ of 14 binary features and a single binary output label $y_{nt}$. The data comes from two separate HMM processes. First, a "signal" HMM generates the first 7 data dimensions from 5 well-separated states. Second, an independent "noise" HMM generates the remaining 7 data dimensions from a different set of 5 states. Each timestep's output label $y_{nt}$ is produced by a rule involving *both* the signal data and the signal hidden state: the target is 1 at timestep $t$ only if both the first signal state is active and the first observation is turned . We deliberately designed the generation process so that neither logistic regression with $x$ as features nor an RNN model that makes predictions from hidden states alone can perfectly separate this data.
 
 Figure 3: Toy Signal-and-Noise HMM Task: (a)-(c) Decision trees trained to mimic predictions of GRU models with 25 hidden states at different regularization strengths λ; as expected, increasing λ decreases the size of the learned trees (see supplement for more trees). Decision tree (c) suggests the model learns to predict positive output (blue) if and only if “x == 1 and x == 1 and x == 0”, which is consistent with the true rule we used to generate labels: assign positive label only if first dimension is on (x == 1) and first state is active (emission probabilities for this state: [.5.5.5.5 0 …]). (d) Tree-regularized GRU models reach a sweet spot of small path lengths yet high AUC predictions that alternatives cannot reach at any tested value of λ.
 
@@ -121,13 +96,7 @@ HIV Therapy Outcome (HIV): We use the EuResist Integrated Database (?) for 53 23
 
 Phonetic Speech (TIMIT): We have recordings of 630 speakers of eight major dialects of American English reading ten phonetically rich sentences (?). Each sentence contains time-aligned transcriptions of 60 phonemes. We focus on distinguishing stop phonemes (those that stop the flow of air, such as "b" or "g") from non-stops. Each timestep has one binary label $y_{nt}$ indicating if a stop phoneme occurs or not. Each input $x_{nt}$ has 26 continuous features: the acoustic signal's Mel-frequency cepstral coefficients and derivatives. There are 6 303 sequences, split into 3 697 for training, 925 for validation, and 1 681 for testing. The average length is 614.
 
-(a) TIMIT Stop Phonemes
-
-(c) HIV Therapy Adherence
-
-(d) HIV Therapy Adherence
-
-Figure 5: TIMIT and HIV tasks: Study of different regularization techniques for GRU model with 75 states. Panels (a)-(c) are tradeoff curves showing how AUC predictive power and decision-tree complexity evolve with increasing regularization strength under L1, L2 or tree regularization on both TIMIT and HIV tasks. The GRU is trained to jointly predict 15 binary outcomes for HIV, of which 2 are shown here in Panels (b) - (c). The GRU’s decision tree proxy for HIV Adherence is shown in (d).
+(a) TIMIT Stop Phonemes (c) HIV Therapy Adherence (d) HIV Therapy Adherence Figure 5: TIMIT and HIV tasks: Study of different regularization techniques for GRU model with 75 states. Panels (a)-(c) are tradeoff curves showing how AUC predictive power and decision-tree complexity evolve with increasing regularization strength under L1, L2 or tree regularization on both TIMIT and HIV tasks. The GRU is trained to jointly predict 15 binary outcomes for HIV, of which 2 are shown here in Panels (b) - (c). The GRU’s decision tree proxy for HIV Adherence is shown in (d).
 
 ### Results
 
@@ -159,23 +128,13 @@ While our tree-regularized GRU with 10 states takes 3977 seconds per epoch on TI
 
 When tree regularization is strong (high $\lambda$), the decision trees trained to match the predictions of deep models are stable. For both signal-and-noise and sepsis tasks, multiple runs from different random restarts have nearly identical tree shape and size, perhaps differing by a few nodes. This stability is crucial to building trust in our method. On the signal-and-noise task ($\lambda = 7000$), 7 of 10 independent runs with random initializations resulted in trees of exactly the same structure, and the others closely resembled those sharing the same subtrees and features (more details in supplement).
 
-SEPSIS (In-Hospital Mortality)
-
-SEPSIS (90-Day Mortality)
-
-SEPSIS (Mech. Vent.)
+SEPSIS (In-Hospital Mortality) SEPSIS (90-Day Mortality) SEPSIS (Mech. Vent.)
 
 SEPSIS (Median Vaso.)
 
 SEPSIS (Max Vaso.)
 
-HIV (Therapy Success)
-
-HIV (Poor Adherence)
-
-HIV (AIDS Onset)
-
-Table 1: Fidelity of predictions from our trained deep GRU-RNN and its corresponding decision tree. Fidelity is defined as the percentage of test examples on which the prediction made by a tree agrees with the deep model (?). We used 20 hidden GRU states for signal-and-noise task, 50 states for all others.
+HIV (Therapy Success) HIV (Poor Adherence) HIV (AIDS Onset) Table 1: Fidelity of predictions from our trained deep GRU-RNN and its corresponding decision tree. Fidelity is defined as the percentage of test examples on which the prediction made by a tree agrees with the deep model (?). We used 20 hidden GRU states for signal-and-noise task, 50 states for all others.
 
 ### The deep residual GRU-HMM achieves high AUC with less complexity
 

@@ -18,9 +18,7 @@ Unlike LSTM or RNN, the vanilla Transformer has no recurrence. Instead, it utili
 
 ### Absolute Positional Encoding
 
-In vanilla Transformer, for each position index $t$, encoding vector is given by
-
-where $\omega_{i}$ is the hand-crafted frequency for each dimension. Another way is to learn a set of positional embeddings for each position which is more flexible Kenton and others; Gehring et al..
+In vanilla Transformer, for each position index $t$, encoding vector is given by where $\omega_{i}$ is the hand-crafted frequency for each dimension. Another way is to learn a set of positional embeddings for each position which is more flexible Kenton and others; Gehring et al..
 
 ### Relative Positional Encoding
 
@@ -30,19 +28,11 @@ Besides the absolute and relative positional encodings, there are methods using 
 
 ### Multi-head Attention
 
-With Query-Key-Value (QKV) model, the scaled dot-product attention used by Transformer is given by
-
-where queries $\mathbf{Q} \in \mathcal{R}^{N \times D_{k}}$, keys $\mathbf{K} \in \mathcal{R}^{M \times D_{k}}$, values $\mathbf{V} \in \mathcal{R}^{M \times D_{v}}$, $N,M$ denote the lengths of queries and keys (or values), and $D_{k},D_{v}$ denote the dimensions of keys (or queries) and values. Transformer uses multi-head attention with $H$ different sets of learned projections instead of a single attention function as
-
-where ${{head_{i}} = {Attention{({\mathbf{Q}\mathbf{W}}_{i}^{Q},{\mathbf{K}\mathbf{W}}_{i}^{K},{\mathbf{V}\mathbf{W}}_{i}^{V})}}}.$
+With Query-Key-Value (QKV) model, the scaled dot-product attention used by Transformer is given by where queries $\mathbf{Q} \in \mathcal{R}^{N \times D_{k}}$, keys $\mathbf{K} \in \mathcal{R}^{M \times D_{k}}$, values $\mathbf{V} \in \mathcal{R}^{M \times D_{v}}$, $N,M$ denote the lengths of queries and keys (or values), and $D_{k},D_{v}$ denote the dimensions of keys (or queries) and values. Transformer uses multi-head attention with $H$ different sets of learned projections instead of a single attention function as where ${{head_{i}} = {Attention{({\mathbf{Q}\mathbf{W}}_{i}^{Q},{\mathbf{K}\mathbf{W}}_{i}^{K},{\mathbf{V}\mathbf{W}}_{i}^{V})}}}.$
 
 ### Feed-forward and Residual Network
 
-The feed-forward network is a fully connected module as
-
-where $\mathbf{H}^{\prime}$ is outputs of previous layer, $\mathbf{W}^{1} \in \mathcal{R}^{D_{m} \times D_{f}}$, $\mathbf{W}^{2} \in \mathcal{R}^{D_{f} \times D_{m}}$, $\mathbf{b}^{1} \in \mathcal{R}^{D_{f}}$, $\mathbf{b}^{2} \in \mathcal{R}^{D_{m}}$ are trainable parameters. In a deeper module, a residual connection module followed by a layer normalization module is inserted around each module. That is,
-
-where $SelfAttn{(.)}$ denotes self-attention module and $LayerNorm{(.)}$ denotes the layer normalization operation.
+The feed-forward network is a fully connected module as where $\mathbf{H}'$ is outputs of previous layer, $\mathbf{W}^{1} \in \mathcal{R}^{D_{m} \times D_{f}}$, $\mathbf{W}^{2} \in \mathcal{R}^{D_{f} \times D_{m}}$, $\mathbf{b}^{1} \in \mathcal{R}^{D_{f}}$, $\mathbf{b}^{2} \in \mathcal{R}^{D_{m}}$ are trainable parameters. In a deeper module, a residual connection module followed by a layer normalization module is inserted around each module. That is, where $SelfAttn{(.)}$ denotes self-attention module and $LayerNorm{(.)}$ denotes the layer normalization operation.
 
 Figure 1: Taxonomy of Transformers for time series modeling from the perspectives of network modifications and application domains.
 
@@ -68,10 +58,7 @@ Central to Transformer is the self-attention module. It can be viewed as a fully
 
 As we show in the previous section the self-attention module in the vanilla Transformer has a time and memory complexity of $\mathcal{O}{(N^{2})}$ ($N$ is the input time series length), which becomes the computational bottleneck when dealing with long sequences. Many efficient Transformers were proposed to reduce the quadratic complexity that can be classified into two main categories: explicitly introducing a sparsity bias into the attention mechanism like LogTrans Li et al. and Pyraformer Liu et al.; exploring the low-rank property of the self-attention matrix to speed up the computation, e.g. Informer Zhou et al. and FEDformer Zhou et al.. Table 1 shows both the time and memory complexity of popular Transformers applied to time series modeling, and more details about these models will be discussed in Section 5.
 
-Crossformer Zhang and Yan
-$\mathcal{O}{({\frac{D}{L_{seg}^{2}}N^{2}})}$
-
-Table 1: Complexity comparisons of popular time series Transformers with different attention modules.
+Crossformer Zhang and Yan $\mathcal{O}{({\frac{D}{L_{seg}^{2}}N^{2}})}$ Table 1: Complexity comparisons of popular time series Transformers with different attention modules.
 
 ### Architecture-based Attention Innovation
 

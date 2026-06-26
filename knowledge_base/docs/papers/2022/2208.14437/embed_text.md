@@ -18,9 +18,7 @@ Based on the permutation-equivalent modeling, we design a structured framework w
 
 With all the proposed designs, we present MapTR, an efficient end-to-end online vectorized HD map construction method with unified modeling and architecture. MapTR achieves the best performance and efficiency among existing vectorized map construction approaches on nuScenes dataset. In particular, MapTR-nano runs at real-time inference speed ($25.1$ FPS) on RTX 3090, $8 \times$ faster than the existing state-of-the-art camera-based method while achieving $5.0$ higher mAP. Even compared with the existing state-of-the-art multi-modality method, MapTR-nano achieves $0.7$ higher mAP and $8 \times$ faster inference speed, and MapTR-tiny achieves $13.5$ higher mAP and $3 \times$ faster inference speed. As the visualization shows (Fig. 1), MapTR maintains stable and robust map construction quality in complex and various driving scenes.
 
-Our contributions can be summarized as follows:
-
-We propose a unified permutation-equivalent modeling approach for map elements, *i.e.*, modeling map element as a point set with a group of equivalent permutations, which accurately describes the shape of map element and stabilizes the learning process.
+Our contributions can be summarized as follows: We propose a unified permutation-equivalent modeling approach for map elements, *i.e.*, modeling map element as a point set with a group of equivalent permutations, which accurately describes the shape of map element and stabilizes the learning process.
 
 Based on the novel modeling, we present MapTR, a structured end-to-end framework for efficient online vectorized HD map construction. We design a hierarchical query embedding scheme to flexibly encode instance-level and point-level information, perform hierarchical bipartite matching for map element learning, and supervise the geometrical shape in both point and edge levels with the proposed point2point loss and edge direction loss.
 
@@ -52,13 +50,9 @@ Preliminarily, both polygon and polyline can be represented as an ordered point 
 
 To bridge this gap, MapTR models each map element with $\mathcal{V} = {(V,\Gamma)}$. $V = {\{ v_{j}\}}_{j = 0}^{N_{v} - 1}$ denotes the point set of the map element ($N_{v}$ is the number of points). $\Gamma = {\{\gamma^{k}\}}$ denotes a group of equivalent permutations of the point set $V$, covering all the possible organization sequences.
 
-Figure 3: Illustration of permutation-equivalent modeling of MapTR. Map elements are geometrically abstracted and discretized into polylines and polygons. MapTR models each map element with (V,Γ) (a point set V and a group of equivalent permutations Γ), avoiding the ambiguity and stabilizing the learning process.
+Figure 3: Illustration of permutation-equivalent modeling of MapTR. Map elements are geometrically abstracted and discretized into polylines and polygons. MapTR models each map element with (V, Γ) (a point set V and a group of equivalent permutations Γ), avoiding the ambiguity and stabilizing the learning process.
 
-Specifically, for polyline element (see Fig. 3 (left)), $\Gamma$ includes $2$ kinds of equivalent permutations:
-
-For polygon element (see Fig. 3 (right)), $\Gamma$ includes $2 \times N_{v}$ kinds of equivalent permutations:
-
-By introducing the conception of equivalent permutations, MapTR models map elements in a unified manner and addresses the ambiguity issue. MapTR further introduces hierarchical bipartite matching (see Sec. 3.2 and Sec. 3.3) for map element learning, and designs a structured encoder-decoder Transformer architecture to efficiently predict map elements (see Sec. 3.4).
+Specifically, for polyline element (see Fig. 3 (left)), $\Gamma$ includes $2$ kinds of equivalent permutations: For polygon element (see Fig. 3 (right)), $\Gamma$ includes $2 \times N_{v}$ kinds of equivalent permutations: By introducing the conception of equivalent permutations, MapTR models map elements in a unified manner and addresses the ambiguity issue. MapTR further introduces hierarchical bipartite matching (see Sec. 3.2 and Sec. 3.3) for map element learning, and designs a structured encoder-decoder Transformer architecture to efficiently predict map elements (see Sec. 3.4).
 
 ### Hierarchical Matching
 
@@ -66,23 +60,15 @@ MapTR parallelly infers a fixed-size set of $N$ map elements in a single pass, f
 
 ### Instance-level Matching
 
-First, we need to find an optimal instance-level label assignment $\hat{\pi}$ between predicted map elements $\{{\hat{y}}_{i}\}$ and GT map elements $\{ y_{i}\}$. $\hat{\pi}$ is a permutation of $N$ elements ($\hat{\pi} \in \Pi_{N}$) with the lowest instance-level matching cost:
-
-$\mathcal{L}_{{ins}\_{match}}{({\hat{y}}_{\pi{(i)}},y_{i})}$ is a pair-wise matching cost between prediction ${\hat{y}}_{\pi{(i)}}$ and GT $y_{i}$, which considers both the class label of map element and the position of point set:
-
-$\mathcal{L}_{Focal}{({\hat{p}}_{\pi{(i)}},c_{i})}$ is the class matching cost term, defined as the Focal Loss between predicted classification score ${\hat{p}}_{\pi{(i)}}$ and target class label $c_{i}$. $\mathcal{L}_{position}{({\hat{V}}_{\pi{(i)}},V_{i})}$ is the position matching cost term, which reflects the position correlation between the predicted point set ${\hat{V}}_{\pi{(i)}}$ and the GT point set $V_{i}$ (refer to Sec. B for more details). Hungarian algorithm is utilized to find the optimal instance-level assignment $\hat{\pi}$ following DETR.
+First, we need to find an optimal instance-level label assignment $\hat{\pi}$ between predicted map elements $\{{\hat{y}}_{i}\}$ and GT map elements $\{ y_{i}\}$. $\hat{\pi}$ is a permutation of $N$ elements ($\hat{\pi} \in \Pi_{N}$) with the lowest instance-level matching cost: $\mathcal{L}_{{ins}_{match}}{({\hat{y}}_{\pi{(i)}},y_{i})}$ is a pair-wise matching cost between prediction ${\hat{y}}_{\pi{(i)}}$ and GT $y_{i}$, which considers both the class label of map element and the position of point set: $\mathcal{L}_{Focal}{({\hat{p}}_{\pi{(i)}},c_{i})}$ is the class matching cost term, defined as the Focal Loss between predicted classification score ${\hat{p}}_{\pi{(i)}}$ and target class label $c_{i}$. $\mathcal{L}_{position}{({\hat{V}}_{\pi{(i)}},V_{i})}$ is the position matching cost term, which reflects the position correlation between the predicted point set ${\hat{V}}_{\pi{(i)}}$ and the GT point set $V_{i}$ (refer to Sec. B for more details). Hungarian algorithm is utilized to find the optimal instance-level assignment $\hat{\pi}$ following DETR.
 
 ### Point-level Matching
 
-After instance-level matching, each predicted map element ${\hat{y}}_{\hat{\pi}{(i)}}$ is assigned with a GT map element $y_{i}$. Then for each predicted instance assigned with positive labels ($c_{i} \neq \varnothing$), we perform point-level matching to find an optimal point2point assignment $\hat{\gamma} \in \Gamma$ between predicted point set ${\hat{V}}_{\hat{\pi}{(i)}}$ and GT point set $V_{i}$. $\hat{\gamma}$ is selected among the predefined permutation group $\Gamma$ and with the lowest point-level matching cost:
-
-$D_{Manhattan}{({\hat{v}}_{j},v_{\gamma{(j)}})}$ is the Manhattan distance between the $j$-th point of the predicted point set $\hat{V}$ and the $\gamma{(j)}$-th point of the GT point set $V$.
+After instance-level matching, each predicted map element ${\hat{y}}_{\hat{\pi}{(i)}}$ is assigned with a GT map element $y_{i}$. Then for each predicted instance assigned with positive labels ($c_{i} \neq \varnothing$), we perform point-level matching to find an optimal point2point assignment $\hat{\gamma} \in \Gamma$ between predicted point set ${\hat{V}}_{\hat{\pi}{(i)}}$ and GT point set $V_{i}$. $\hat{\gamma}$ is selected among the predefined permutation group $\Gamma$ and with the lowest point-level matching cost: $D_{Manhattan}{({\hat{v}}_{j},v_{\gamma{(j)}})}$ is the Manhattan distance between the $j$-th point of the predicted point set $\hat{V}$ and the $\gamma{(j)}$-th point of the GT point set $V$.
 
 ### Training Loss
 
-MapTR is trained based on the optimal instance-level and point-level assignment ($\hat{\pi}$ and $\{\hat{\gamma_{i}}\}$). The loss function is composed of three parts, classification loss, point2point loss and edge direction loss:
-
-where $\lambda$, $\alpha$ and $\beta$ are the weights for balancing different loss terms.
+MapTR is trained based on the optimal instance-level and point-level assignment ($\hat{\pi}$ and $\{\hat{\gamma_{i}}\}$). The loss function is composed of three parts, classification loss, point2point loss and edge direction loss: where $\lambda$, $\alpha$ and $\beta$ are the weights for balancing different loss terms.
 
 ### Classification Loss
 
@@ -94,9 +80,7 @@ Point2point loss supervises the position of each predicted point. For each GT in
 
 ### Edge Direction Loss
 
-Point2point loss only supervises the node point of polyline and polygon, not considering the edge (the connecting line between adjacent points). For accurately representing map elements, the direction of the edge is important. Thus, we further design edge direction loss to supervise the geometrical shape in the higher edge level. Specifically, we consider the cosine similarity of the paired predicted edge ${\hat{\mathbf{e}}}_{{\hat{\mathbf{π}}{({\mathbf{i}})}},{\mathbf{j}}}$ and GT edge ${\mathbf{e}}_{{\mathbf{i}},{{\hat{\mathbf{γ}}}_{\mathbf{i}}{({\mathbf{j}})}}}$:
-
-Figure 4: The overall architecture of MapTR. MapTR adopts an encoder-decoder paradigm. The map encoder transforms sensor input to a unified BEV representation. The map decoder adopts a hierarchical query embedding scheme to explicitly encode map elements and performs hierarchical matching based on the permutation-equivalent modeling. MapTR is fully end-to-end. The pipeline is highly structured, compact and efficient.
+Point2point loss only supervises the node point of polyline and polygon, not considering the edge (the connecting line between adjacent points). For accurately representing map elements, the direction of the edge is important. Thus, we further design edge direction loss to supervise the geometrical shape in the higher edge level. Specifically, we consider the cosine similarity of the paired predicted edge ${\hat{\mathbf{e}}}_{{\hat{\mathbf{π}}{({\mathbf{i}})}},{\mathbf{j}}}$ and GT edge ${\mathbf{e}}_{{\mathbf{i}},{{\hat{\mathbf{γ}}}_{\mathbf{i}}{({\mathbf{j}})}}}$: Figure 4: The overall architecture of MapTR. MapTR adopts an encoder-decoder paradigm. The map encoder transforms sensor input to a unified BEV representation. The map decoder adopts a hierarchical query embedding scheme to explicitly encode map elements and performs hierarchical matching based on the permutation-equivalent modeling. MapTR is fully end-to-end. The pipeline is highly structured, compact and efficient.
 
 ### Architecture
 
@@ -112,9 +96,7 @@ The map encoder of MapTR extracts features from images of multiple vehicle-mount
 
 ### Map Decoder
 
-We propose a hierarchical query embedding scheme to explicitly encode each map element. Specifically, we define a set of instance-level queries ${\{ q_{i}^{ins}\}}_{i = 0}^{N - 1}$ and a set of point-level queries ${\{ q_{j}^{pt}\}}_{j = 0}^{N_{v} - 1}$ shared by all instances. Each map element (with index $i$) corresponds to a set of hierarchical queries ${\{ q_{ij}^{hie}\}}_{j = 0}^{N_{v} - 1}$. The hierarchical query of $j$-th point of $i$-th map element is formulated as:
-
-The map decoder contains several cascaded decoder layers which update the hierarchical queries iteratively. In each decoder layer, we adopt MHSA to make hierarchical queries exchange information with each other (both inter-instance and intra-instance). We then adopt Deformable Attention to make hierarchical queries interact with BEV features, inspired by BEVFormer. Each query $q_{ij}^{hie}$ predicts the 2-dimension normalized BEV coordinate $(x_{ij},y_{ij})$ of the reference point $p_{ij}$. We then sample BEV features around the reference points and update queries.
+We propose a hierarchical query embedding scheme to explicitly encode each map element. Specifically, we define a set of instance-level queries ${\{ q_{i}^{ins}\}}_{i = 0}^{N - 1}$ and a set of point-level queries ${\{ q_{j}^{pt}\}}_{j = 0}^{N_{v} - 1}$ shared by all instances. Each map element (with index $i$) corresponds to a set of hierarchical queries ${\{ q_{ij}^{hie}\}}_{j = 0}^{N_{v} - 1}$. The hierarchical query of $j$-th point of $i$-th map element is formulated as: The map decoder contains several cascaded decoder layers which update the hierarchical queries iteratively. In each decoder layer, we adopt MHSA to make hierarchical queries exchange information with each other (both inter-instance and intra-instance). We then adopt Deformable Attention to make hierarchical queries interact with BEV features, inspired by BEVFormer. Each query $q_{ij}^{hie}$ predicts the 2-dimension normalized BEV coordinate $(x_{ij},y_{ij})$ of the reference point $p_{ij}$. We then sample BEV features around the reference points and update queries.
 
 Map elements are usually with irregular shapes and require long-range context. Each map element corresponds to a set of reference points ${\{ p_{ij}\}}_{j = 0}^{N_{v} - 1}$ with flexible and dynamic distribution. The reference points ${\{ p_{ij}\}}_{j = 0}^{N_{v} - 1}$ can adapt to the arbitrary shape of map element and capture informative context for map element learning.
 
@@ -134,9 +116,7 @@ MapTR is trained with $8$ NVIDIA GeForce RTX 3090 GPUs. We adopt AdamW optimizer
 
 In Tab. 1, we compare MapTR with state-of-the-art methods. MapTR-nano runs at real-time inference speed ($25.1$ FPS) on RTX 3090, $8 \times$ faster than the existing state-of-the-art camera-based method (VectorMapNet-C) while achieving $5.0$ higher mAP. Even compared with the existing state-of-the-art multi-modality method, MapTR-nano achieves $0.7$ higher mAP and $8 \times$ faster inference speed, and MapTR-tiny achieves $13.5$ higher mAP and $3 \times$ faster inference speed. MapTR is also a fast converging method, which demonstrate advanced performance with 24-epoch schedule.
 
-Effi-B0 &amp; PointPillars
-
-Table 1: Comparisons with state-of-the-art methods on nuScenes val set. “C” and “L” respectively denotes camera and LiDAR. “Effi-B0” and “PointPillars” respectively correspond to Tan &amp; Le and Lang et al.. The APs of other methods are taken from the paper of VectorMapNet. The FPS of VectorMapNet-C is provided by its authors and measured on RTX 3090. Other FPSs are measured on the same machine with RTX 3090. “-” means that the corresponding results are not available. Even with only camera input, MapTR-tiny significantly outperforms multi-modality counterparts ( + 13.5 mAP). MapTR-nano achieves SOTA camera-based performance and runs at 25.1 FPS, realizing real-time vectorized map construction for the first time.
+Table 1: Comparisons with state-of-the-art methods on nuScenes val set. “C” and “L” respectively denotes camera and LiDAR. “Effi-B0” and “PointPillars” respectively correspond to Tan & Le and Lang et al.. The APs of other methods are taken from the paper of VectorMapNet. The FPS of VectorMapNet-C is provided by its authors and measured on RTX 3090. Other FPSs are measured on the same machine with RTX 3090. “-” means that the corresponding results are not available. Even with only camera input, MapTR-tiny significantly outperforms multi-modality counterparts (+13.5 mAP). MapTR-nano achieves SOTA camera-based performance and runs at 25.1 FPS, realizing real-time vectorized map construction for the first time.
 
 ### Ablation Study
 
@@ -146,7 +126,7 @@ To validate the effectiveness of different designs, we conduct ablation experime
 
 In Tab. 2, we provide ablation experiments to validate the effectiveness of the proposed permutation-equivalent modeling. Compared with vanilla modeling method which imposes a unique permutation to the point set, permutation-equivalent modeling solves the ambiguity of map element and brings an improvement of $5.9$ mAP. For pedestrian crossing, the improvement even reaches $11.9$ AP, proving the superiority in modeling polygon elements. We also visualize the learning process in Fig. 5 to show the stabilization of the proposed modeling.
 
-Table 2: Ablations about modeling method. Vanilla modeling method imposes a unique permutation to the point set, leading to ambiguity. MapTR introduces permutation-equivalent modeling to avoid the ambiguity, which stabilizes the learning process and significantly improves performance ( + 5.9 mAP).
+Table 2: Ablations about modeling method. Vanilla modeling method imposes a unique permutation to the point set, leading to ambiguity. MapTR introduces permutation-equivalent modeling to avoid the ambiguity, which stabilizes the learning process and significantly improves performance ( +5.9 mAP).
 
 ### Effectiveness of Edge Direction Loss
 

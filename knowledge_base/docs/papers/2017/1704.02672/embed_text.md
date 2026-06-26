@@ -44,37 +44,23 @@ Scalars are represented by lower case (e.g., $s$), vectors by lowercase and bold
 
 Consider images of a scene taken by a camera at two views (e.g., Fig. 1). Let $\mathbf{R} \in {\text{SO}{}}$ and $\mathbf{t} \in {\mathbb{R}}^{3}$ respectively represent the relative rotation and translation of the camera frame between the views. Assume that feature points are detected and matched, and their $x$-$y$ coordinates are read from the images. (In practice, the coordinates are in pixels, and should be mapped via the camera calibration matrix to Cartesian coordinates on the image plane.)
 
-For each matched feature point the rigid motion constraint
-
-must hold, in which ${\mathbf{m},\mathbf{n}} \in {\mathbb{R}}^{3}$ are homogeneous coordinates (i.e., a 1 is appended to the $x$-$y$ coordinates) of the feature point in two images. Scalars $u$ and $v$ represent depths of the 3D point at each view, and as shown in Fig. 2, are the projections of the point onto the $z$-axis of the camera coordinate frame. Point coordinates $\mathbf{m}$ and $\mathbf{n}$ are known from the images, and the unknowns in are $u$, $v$, $\mathbf{R}$, and $\mathbf{t}$, which need to be recovered.
+For each matched feature point the rigid motion constraint must hold, in which ${\mathbf{m},\mathbf{n}} \in {\mathbb{R}}^{3}$ are homogeneous coordinates (i.e., a 1 is appended to the $x$-$y$ coordinates) of the feature point in two images. Scalars $u$ and $v$ represent depths of the 3D point at each view, and as shown in Fig. 2, are the projections of the point onto the $z$-axis of the camera coordinate frame. Point coordinates $\mathbf{m}$ and $\mathbf{n}$ are known from the images, and the unknowns in are $u$, $v$, $\mathbf{R}$, and $\mathbf{t}$, which need to be recovered.
 
 Figure 2: Projection of a 3D point onto the image plane at two views.
 
-We need to point out that in the pose estimation problem, translation and depths of the points can only be recovered up to a scale factor. This can be seen from, where any constant multiplied into both hand sides can be absorbed by unknown variables $u,v$, and $\mathbf{t}$.
+We need to point out that in the pose estimation problem, translation and depths of the points can only be recovered up to a scale factor. This can be seen , where any constant multiplied into both hand sides can be absorbed by unknown variables $u,v$, and $\mathbf{t}$.
 
 ### Example 1
 
-Consider pictures shown in Fig. 1, where feature points are matched and their coordinates on the image are determined. For the matched feature point with coordinates $({- 0.1},{- 1.5})$ in the left image and $(0.2,{- 1.2})$ in the right image, from we get
+Consider pictures shown in Fig. 1, where feature points are matched and their coordinates on the image are determined. For the matched feature point with coordinates $({- 0.1},{- 1.5})$ in the left image and $(0.2,{- 1.2})$ in the right image, from we get where scalar $u_{1}$ and $v_{1}$ are the depths of the 3D point at each view. Similarly, for two other matched pairs we can write where subscripts are used to distinguish the depths of the points (scalars $u$ and $v$). Notice that rotation matrix $\mathbf{R}$ and translation vector $\mathbf{t}$ are the same in all equations.
 
-where scalar $u_{1}$ and $v_{1}$ are the depths of the 3D point at each view. Similarly, for two other matched pairs we can write
-
-where subscripts are used to distinguish the depths of the points (scalars $u$ and $v$). Notice that rotation matrix $\mathbf{R}$ and translation vector $\mathbf{t}$ are the same in all equations.
-
-Equation uses the matrix representation of rotation, in which $\mathbf{R}$ is a $3 \times 3$ orthonormal matrix. That is, $\mathbf{R}^{\top} = \mathbf{R}^{- 1}$, and ${\det{(\mathbf{R})}} = 1$. Representing the rotation in the matrix form with orthonormality constraints makes the problem very nonlinear and challenging to solve. Instead, we use quaternions, which represent a rotation by four elements ${w,x,y,z} \in {\mathbb{R}}$ such that ${w^{2} + x^{2} + y^{2} + z^{2}} = 1$. Although can be formulated directly in quaternions, for simplicity and to avoid introducing the quaternion algebra we only mention what is essential to solve the problem here: if ${w,x,y,z} \in {\mathbb{R}}$ are elements of a rotation quaternion, the associated rotation matrix is given by
-
-Quaternions provide a singularity free representation of rotation, and by restricting the first element to nonnegative numbers (i.e., $w \geq 0$), there is a one to one and onto correspondence between rotation matrices and quaternions.
+Equation uses the matrix representation of rotation, in which $\mathbf{R}$ is a $3 \times 3$ orthonormal matrix. That is, $\mathbf{R}^{\top} = \mathbf{R}^{- 1}$, and ${\det{(\mathbf{R})}} = 1$. Representing the rotation in the matrix form with orthonormality constraints makes the problem very nonlinear and challenging to solve. Instead, we use quaternions, which represent a rotation by four elements ${w,x,y,z} \in {\mathbb{R}}$ such that ${w^{2} + x^{2} + y^{2} + z^{2}} = 1$. Although can be formulated directly in quaternions, for simplicity and to avoid introducing the quaternion algebra we only mention what is essential to solve the problem here: if ${w,x,y,z} \in {\mathbb{R}}$ are elements of a rotation quaternion, the associated rotation matrix is given by Quaternions provide a singularity free representation of rotation, and by restricting the first element to nonnegative numbers (i.e., $w \geq 0$), there is a one to one and onto correspondence between rotation matrices and quaternions.
 
 To recover the pose, we first eliminate the unknowns $u,v$ and $\mathbf{t}$, and derive a system of equations in terms of the quaternion elements. From solving this system all rotation solution candidates are found. Subsequently, the translation and depths of the points are recovered. By taking for two different feature points and subtracting the equations, $\mathbf{t}$ can be eliminated. Subsequently, $u$ and $v$ can be eliminated from the resulting equations by noting that they form a null vector for the matrix consisting of the point coordinates and their rotations. The following example illustrates this procedure.
 
 ### Example 2
 
-Consider Example 1. By subtracting and from, respectively, and bringing terms to the left hand side we get
-
-in which the unknown translation $\mathbf{t}$ has been eliminated. We can represent and in the matrix-vector form
-
-which implies that matrix $\mathbf{M} \in {\mathbb{R}}^{6 \times 6}$ has a null vector. Therefore, its determinant must be zero. Calculating determinant of $\mathbf{M}$ with $\mathbf{R}$ given in the parametric form gives
-
-Equation consists of all degree 4 monomials in $w,x,y,z$ (i.e., terms such as $w^{4},{w^{3}x},{w^{2}x^{2}},\ldots$), with coefficients that depend on the feature point coordinates. Note that since $\mathbf{M}$ is a $6 \times 6$ matrix, one may expect its determinant to have degree six monomials, however, due to special structure of $\mathbf{M}$, it is always possible to factor out $w^{2} + x^{2} + y^{2} + z^{2}$ from the determinant expression. Since ${w^{2} + x^{2} + y^{2} + z^{2}} = 1$, the degree four polynomial equation follows.
+Consider Example 1. By subtracting and, respectively, and bringing terms to the left hand side we get in which the unknown translation $\mathbf{t}$ has been eliminated. We can represent and in the matrix-vector form which implies that matrix $\mathbf{M} \in {\mathbb{R}}^{6 \times 6}$ has a null vector. Therefore, its determinant must be zero. Calculating determinant of $\mathbf{M}$ with $\mathbf{R}$ given in the parametric form gives Equation consists of all degree 4 monomials in $w,x,y,z$ (i.e., terms such as $w^{4},{w^{3}x},{w^{2}x^{2}},\ldots$), with coefficients that depend on the feature point coordinates. Note that since $\mathbf{M}$ is a $6 \times 6$ matrix, one may expect its determinant to have degree six monomials, however, due to special structure of $\mathbf{M}$, it is always possible to factor out $w^{2} + x^{2} + y^{2} + z^{2}$ from the determinant expression. Since ${w^{2} + x^{2} + y^{2} + z^{2}} = 1$, the degree four polynomial equation follows.
 
 What we showed in Example 2 was that three matched feature points generate a polynomial equation of the form. This equation is in terms of degree four monomials in $w,x,y,z$. Note that there are 35 such monomials, and their coefficients are in terms of the feature point coordinates. In practice, we do not need to calculate the determinant of $\mathbf{M}$ to find these coefficients. By replacing the feature point coordinates with symbolic expressions the determinant can be computed symbolically, and explicit formulas for the coefficients can be derived. By substituting the numerical values of point coordinates in these formulas the coefficients are calculated directly. Due to the space limitation we do not give the explicit formulas here.
 
@@ -82,74 +68,41 @@ Since any three feature points give a polynomial equation of the form, from $n$ 
 
 ### Example 3
 
-Consider $\binom{6}{3} = 20$ polynomial equations of the form, generated from 6 feature points. These polynomial equations can be represented in the matrix-vector form
+Consider $\binom{6}{3} = 20$ polynomial equations of the form, generated from 6 feature points. These polynomial equations can be represented in the matrix-vector form where the coefficient matrix $\mathbf{A} \in {\mathbb{R}}^{20 \times 35}$ depends on the feature point coordinates, and vector $\mathbf{x} \in {\mathbb{R}}^{35}$ consists of all degree 4 monomials. Our goal is to find all $w,x,y,z$, for which is satisfied.
 
-where the coefficient matrix $\mathbf{A} \in {\mathbb{R}}^{20 \times 35}$ depends on the feature point coordinates, and vector $\mathbf{x} \in {\mathbb{R}}^{35}$ consists of all degree 4 monomials. Our goal is to find all $w,x,y,z$, for which is satisfied.
-
-The problem of recovering the rotation is henceforth equivalent to solving a system of equations of the form, where the goal is to find all $\mathbf{x}$ for which
-
-is satisfied. In, the coefficient matrix $\mathbf{A}$ is known from the feature point coordinates, and vector $\mathbf{x}$ is unknown with entries in degree four monomials of $w,x,y,z$.
+The problem of recovering the rotation is henceforth equivalent to solving a system of equations of the form, where the goal is to find all $\mathbf{x}$ for which is satisfied. In, the coefficient matrix $\mathbf{A}$ is known from the feature point coordinates, and vector $\mathbf{x}$ is unknown with entries in degree four monomials of $w,x,y,z$.
 
 ## The QuEst Algorithm
 
-In what follows we first show how rotation solution candidates can be recovered from 7 and 6 matched feature points. Given a rotation solution candidate, it is then shown how the associated translation vector and depths are recovered. Lastly, we show how the unique solution can be distinguished by discarding the physically infeasible solution candidates. The Matlab implementation of QuEst is accessible at [https://goo.gl/QH5qhw](https://goo.gl/QH5qhw).
-
-We will not discuss why the pose estimation problem has always more than one mathematically feasible solution (e.g., 2 for general points and 4 for coplanar points) since these results are well-known. Interested readers are referred to for further discussion and mathematical proofs on the number of solutions.
+In what follows we first show how rotation solution candidates can be recovered from 7 and 6 matched feature points. Given a rotation solution candidate, it is then shown how the associated translation vector and depths are recovered. Lastly, we show how the unique solution can be distinguished by discarding the physically infeasible solution candidates. The Matlab implementation of QuEst is accessible at We will not discuss why the pose estimation problem has always more than one mathematically feasible solution (e.g., 2 for general points and 4 for coplanar points) since these results are well-known. Interested readers are referred to for further discussion and mathematical proofs on the number of solutions.
 
 ### IV-A Recovering Rotation From 7 Points
 
 Consider the system of equations for 7 matched feature points. Since 7 points generate $\binom{7}{3} = 35$ equations, in this case $\mathbf{A}$ is a $35 \times 35$ matrix. Due to the mathematical multiplicity of solutions however, $\mathbf{A}$ cannot be full rank (otherwise, only one solution exists, which is a contradiction).
 
-Let us arrange the entries of $\mathbf{x} \in {\mathbb{R}}^{35}$ in such that $\mathbf{x} = \begin{bmatrix}
-\end{bmatrix}$, where $\mathbf{x}_{1} \in {\mathbb{R}}^{4}$ and $\mathbf{x}_{2} \in {\mathbb{R}}^{31}$ are defined as
+Let us arrange the entries of $\mathbf{x} \in {\mathbb{R}}^{35}$ in such that $\mathbf{x} = \begin{bmatrix} \end{bmatrix}$, where $\mathbf{x}_{1} \in {\mathbb{R}}^{4}$ and $\mathbf{x}_{2} \in {\mathbb{R}}^{31}$ are defined as Let $\mathbf{A} = {\lbrack{\mathbf{A}_{1}\mathbf{A}_{2}}\rbrack}$, where $\mathbf{A}_{1} \in {\mathbb{R}}^{35 \times 4}$ is the first 4 columns of $\mathbf{A}$, and $\mathbf{A}_{2} \in {\mathbb{R}}^{35 \times 31}$ is the remaining part. Equation is equivalent to from which, by multiplying the pseudo inverse of $\mathbf{A}_{2}$ from the left, we obtain^22^2For a general point configuration $\mathbf{A}_{2}$ has rank 31, and thus ${\mathbf{A}_{2}^{\dagger}\mathbf{A}_{2}} = \mathbf{I}$, where $\mathbf{I}$ is the identity matrix.
 
-Let $\mathbf{A} = {\lbrack{\mathbf{A}_{1}\mathbf{A}_{2}}\rbrack}$, where $\mathbf{A}_{1} \in {\mathbb{R}}^{35 \times 4}$ is the first 4 columns of $\mathbf{A}$, and $\mathbf{A}_{2} \in {\mathbb{R}}^{35 \times 31}$ is the remaining part. Equation is equivalent to
+Let $\overline{\mathbf{B}}:={- {\mathbf{A}_{2}^{\dagger}\mathbf{A}_{1}}} \in {\mathbb{R}}^{31 \times 4}$. The first 4 rows of imply where $\mathbf{B} \in {\mathbb{R}}^{4 \times 4}$ is the matrix consisting of the first 4 rows of $\overline{\mathbf{B}}$. By factoring $x^{3}$ from the left hand side vector and $w^{3}$ from the right hand side vector of we get which is an eigenvalue problem of the form ${\lambda\mathbf{v}} = {\mathbf{B}\mathbf{v}}$, with $\lambda = \frac{x^{3}}{w^{3}}$ and $\mathbf{v} = {\lbrack{wxyz}\rbrack}^{\top}$. Hence, 4 solution candidates are found by calculating the (unit norm) eigenvectors of $\mathbf{B}$.
 
-from which, by multiplying the pseudo inverse of $\mathbf{A}_{2}$ from the left, we obtain^22^2For a general point configuration $\mathbf{A}_{2}$ has rank 31, and thus ${\mathbf{A}_{2}^{\dagger}\mathbf{A}_{2}} = \mathbf{I}$, where $\mathbf{I}$ is the identity matrix.
-
-Let $\overline{\mathbf{B}}:={- {\mathbf{A}_{2}^{\dagger}\mathbf{A}_{1}}} \in {\mathbb{R}}^{31 \times 4}$. The first 4 rows of imply
-
-where $\mathbf{B} \in {\mathbb{R}}^{4 \times 4}$ is the matrix consisting of the first 4 rows of $\overline{\mathbf{B}}$. By factoring $x^{3}$ from the left hand side vector and $w^{3}$ from the right hand side vector of we get
-
-which is an eigenvalue problem of the form ${\lambda\mathbf{v}} = {\mathbf{B}\mathbf{v}}$, with $\lambda = \frac{x^{3}}{w^{3}}$ and $\mathbf{v} = {\lbrack{wxyz}\rbrack}^{\top}$. Hence, 4 solution candidates are found by calculating the (unit norm) eigenvectors of $\mathbf{B}$.
-
-We should mention that the choice of $\mathbf{x}_{1}$ and $\mathbf{x}_{2}$ are somewhat arbitrary. For example, we could have chosen $\mathbf{x}_{2}$ as $\mathbf{x}_{2}:=\begin{bmatrix}
-\end{bmatrix}^{\top}$, and derive a similar eigenvalue problem with $\lambda = \frac{y^{3}}{w^{3}}$. We will later use this fact to distinguish the unique solution.
+We should mention that the choice of $\mathbf{x}_{1}$ and $\mathbf{x}_{2}$ are somewhat arbitrary. For example, we could have chosen $\mathbf{x}_{2}$ as $\mathbf{x}_{2}:=\begin{bmatrix} \end{bmatrix}^{\top}$, and derive a similar eigenvalue problem with $\lambda = \frac{y^{3}}{w^{3}}$. We will later use this fact to distinguish the unique solution.
 
 ### IV-B Recovering Rotation From 6 Points
 
 Consider equation for 6 feature points. Since 6 feature points generate $\binom{6}{3} = 20$ equations, in this case $\mathbf{A}$ is a $20 \times 35$ full rank matrix.
 
-We split $\mathbf{x} \in {\mathbb{R}}^{35}$ into two vectors $\mathbf{x}_{1} \in {\mathbb{R}}^{20}$ and $\mathbf{x}_{2} \in {\mathbb{R}}^{15}$, where $\mathbf{x} = \begin{bmatrix}
-\end{bmatrix}$, $\mathbf{x}_{1}$ is the vector of all monomials that contain a power of $w$ (e.g., $w^{4},{w^{3}x},{w^{3}y},\ldots,{wy^{3}},{wz^{3}}$), and $\mathbf{x}_{2}$ consists of the rest of the monomials (e.g., $x^{4},{x^{3}y},{x^{2}y^{2}},\ldots,{yz^{3}},z^{4}$). Let $\mathbf{A} = {\lbrack{\mathbf{A}_{1}\mathbf{A}_{2}}\rbrack}$, where $\mathbf{A}_{1} \in {\mathbb{R}}^{20 \times 20}$ consists of the first 20 columns of $\mathbf{A}$, and $\mathbf{A}_{2} \in {\mathbb{R}}^{20 \times 15}$ is the remaining part. Equation is equivalent to
+We split $\mathbf{x} \in {\mathbb{R}}^{35}$ into two vectors $\mathbf{x}_{1} \in {\mathbb{R}}^{20}$ and $\mathbf{x}_{2} \in {\mathbb{R}}^{15}$, where $\mathbf{x} = \begin{bmatrix} \end{bmatrix}$, $\mathbf{x}_{1}$ is the vector of all monomials that contain a power of $w$ (e.g., $w^{4},{w^{3}x},{w^{3}y},\ldots,{wy^{3}},{wz^{3}}$), and $\mathbf{x}_{2}$ consists of the rest of the monomials (e.g., $x^{4},{x^{3}y},{x^{2}y^{2}},\ldots,{yz^{3}},z^{4}$). Let $\mathbf{A} = {\lbrack{\mathbf{A}_{1}\mathbf{A}_{2}}\rbrack}$, where $\mathbf{A}_{1} \in {\mathbb{R}}^{20 \times 20}$ consists of the first 20 columns of $\mathbf{A}$, and $\mathbf{A}_{2} \in {\mathbb{R}}^{20 \times 15}$ is the remaining part. Equation is equivalent to from which, by multiplying the pseudo inverse of $\mathbf{A}_{2}$, we obtain Since $\mathbf{x}_{1}$ consists of monomials that have at least one power of $w$, we can factor out $w$ and represent the remaining vector by $\mathbf{v} \in {\mathbb{R}}^{20}$, i.e., $\mathbf{v} = {\frac{1}{w}\mathbf{x}_{1}}$. Thus, can be written as where $\overline{\mathbf{B}}:={- {\mathbf{A}_{2}^{\dagger}\mathbf{A}_{1}}} \in {\mathbb{R}}^{15 \times 20}$.
 
-from which, by multiplying the pseudo inverse of $\mathbf{A}_{2}$, we obtain
-
-Since $\mathbf{x}_{1}$ consists of monomials that have at least one power of $w$, we can factor out $w$ and represent the remaining vector by $\mathbf{v} \in {\mathbb{R}}^{20}$, i.e., $\mathbf{v} = {\frac{1}{w}\mathbf{x}_{1}}$. Thus, can be written as
-
-where $\overline{\mathbf{B}}:={- {\mathbf{A}_{2}^{\dagger}\mathbf{A}_{1}}} \in {\mathbb{R}}^{15 \times 20}$.
-
-Equation allows us to construct an eigenvalue problem of the form ${\lambda\mathbf{v}} = {\mathbf{B}\mathbf{v}}$, with $\mathbf{B} \in {\mathbb{R}}^{20 \times 20}$. Indeed, let us choose $\lambda = \frac{x}{w}$, and consider the eigenvalue problem
-
-The entries of vector $x\mathbf{v}$ either belong to $\mathbf{x}_{2}$ or $\mathbf{x}_{1}$. For entries that belong to $\mathbf{x}_{2}$, the associated rows of $\mathbf{B}$ are chosen from the corresponding rows of $\overline{\mathbf{B}}$ in. For entries that belong to $\mathbf{x}_{1}$, rows of $\mathbf{B}$ are chosen as $\lbrack{0\ldots\, 010\ldots\, 0}\rbrack$. The following example illustrates this procedure.
+Equation allows us to construct an eigenvalue problem of the form ${\lambda\mathbf{v}} = {\mathbf{B}\mathbf{v}}$, with $\mathbf{B} \in {\mathbb{R}}^{20 \times 20}$. Indeed, let us choose $\lambda = \frac{x}{w}$, and consider the eigenvalue problem The entries of vector $x\mathbf{v}$ either belong to $\mathbf{x}_{2}$ or $\mathbf{x}_{1}$. For entries that belong to $\mathbf{x}_{2}$, the associated rows of $\mathbf{B}$ are chosen from the corresponding rows of $\overline{\mathbf{B}}$. For entries that belong to $\mathbf{x}_{1}$, rows of $\mathbf{B}$ are chosen as $\lbrack{0\ldots\, 010\ldots\, 0}\rbrack$. The following example illustrates this procedure.
 
 ### Example 4
 
-Suppose entries of $\mathbf{x}_{1}$ and $\mathbf{x}_{2}$ are arranged as
-
-and assume that from the feature point coordinates we have derived as
-
-From we can construct the eigenvalue problem as
-
-where the first two entries of $x\mathbf{v}$ belong to $\mathbf{x}_{1} = {w\mathbf{v}}$, and hence their associated rows in $\mathbf{B}$ consist of zeros except for a single one entry. The third and last entries of $x\mathbf{v}$ belong to $\mathbf{x}_{2}$, and their associated rows come from $\overline{\mathbf{B}}$ in.
+Suppose entries of $\mathbf{x}_{1}$ and $\mathbf{x}_{2}$ are arranged as and assume that from the feature point coordinates we have derived as From we can construct the eigenvalue problem as where the first two entries of $x\mathbf{v}$ belong to $\mathbf{x}_{1} = {w\mathbf{v}}$, and hence their associated rows in $\mathbf{B}$ consist of zeros except for a single one entry. The third and last entries of $x\mathbf{v}$ belong to $\mathbf{x}_{2}$, and their associated rows come from $\overline{\mathbf{B}}$.
 
 Once the eigenvalue problem is constructed, 20 solution candidates for $\mathbf{v}$ are derived by computing the eigenvectors of $\mathbf{B}$. For each solution candidate, $w,x,y,z$ are found by calculating the third root of the $w^{3},x^{3},y^{3},z^{3}$ entries in $\mathbf{v}$. The recovered solution can be normalized to meet the unit norm constraint ${w^{2} + x^{2} + y^{2} + z^{2}} = 1$. Notice that by choosing $\mathbf{x}_{1}$ or $\lambda$ differently (e.g., $\lambda = \frac{y}{w}$) it is possible to derive different eigenvalue problems of the form.
 
 ### IV-C Recovering Translation and Depths
 
-Once quaternion elements $w,x,y,z$ are recovered, the corresponding rotation matrix $\mathbf{R}$ is given by. Having $\mathbf{R}$, the rigid motion constraint ${{u\mathbf{R}\mathbf{m}} + \mathbf{t}} = {v\mathbf{n}}$ can now be written for all matched feature points, and stacked into the matrix-vector form
-
-where $\mathbf{I} \in {\mathbb{R}}^{3 \times 3}$ is the identity matrix, $k$ is the number feature points, $\mathbf{C} \in {\mathbb{R}}^{{{{3k} \times \, 2}k} + 3}$, and $\mathbf{y} \in {\mathbb{R}}^{{2k} + 3}$. Equation implies that $\mathbf{y}$ is in the null space of $\mathbf{C}$. Thus, $\mathbf{y}$ can be found by calculating the rightmost singular vector of $\mathbf{C}$ (i.e., eigenvector of $\mathbf{C}^{\top}\mathbf{C}$ corresponding to the zero eigenvalue). Notice that $\mathbf{y}$ consists of the translation vector and feature point depths. Therefore, these parameters are recovered simultaneously and with a common scale factor.
+Once quaternion elements $w,x,y,z$ are recovered, the corresponding rotation matrix $\mathbf{R}$ is given. Having $\mathbf{R}$, the rigid motion constraint ${{u\mathbf{R}\mathbf{m}} + \mathbf{t}} = {v\mathbf{n}}$ can now be written for all matched feature points, and stacked into the matrix-vector form where $\mathbf{I} \in {\mathbb{R}}^{3 \times 3}$ is the identity matrix, $k$ is the number feature points, $\mathbf{C} \in {\mathbb{R}}^{{{{3k} \times \, 2}k} + 3}$, and $\mathbf{y} \in {\mathbb{R}}^{{2k} + 3}$. Equation implies that $\mathbf{y}$ is in the null space of $\mathbf{C}$. Thus, $\mathbf{y}$ can be found by calculating the rightmost singular vector of $\mathbf{C}$ (i.e., eigenvector of $\mathbf{C}^{\top}\mathbf{C}$ corresponding to the zero eigenvalue). Notice that $\mathbf{y}$ consists of the translation vector and feature point depths. Therefore, these parameters are recovered simultaneously and with a common scale factor.
 
 ### IV-D The Unique Solution
 
@@ -175,17 +128,13 @@ Each Monte Carlo simulation consists of eight randomly generated 3D points with 
 
 ### V-A Noise Benchmarks
 
-To evaluate the performance under noise, Gaussian noise with zero mean and standard deviation ranging from 0 to 10 pixels is added to all image coordinates. The noise standard deviation is increased by 0.1 pixel increments, and for each noise increment 100 simulations are generated. As mentioned in Section IV-D, the chirality condition is sensitive to noise, so to avoid choosing the wrong solution, the solution candidate that is closest to the ground truth is chosen as the best pose estimate for each algorithm. The estimation error for rotation is defined by
-
-where $\mathbf{q} = {\lbrack{wxyz}\rbrack}^{\top}$ is the rotation estimated from the noisy images, and $\mathbf{q}^{\ast}$ is the ground truth rotation in quaternions. Note that defines a metric on the rotation quaternion space. Similarly, the estimation error for translation is defined by
-
-where $\mathbf{t}_{\mathbf{n}}$ and $\mathbf{t}_{\mathbf{n}}^{\ast}$ are the estimated translation vector and the ground truth, respectively, normalized to have unit norm (because the magnitude of the recovered translation vector can vary depending on the algorithm).
+To evaluate the performance under noise, Gaussian noise with zero mean and standard deviation ranging from 0 to 10 pixels is added to all image coordinates. The noise standard deviation is increased by 0.1 pixel increments, and for each noise increment 100 simulations are generated. As mentioned in Section IV-D, the chirality condition is sensitive to noise, so to avoid choosing the wrong solution, the solution candidate that is closest to the ground truth is chosen as the best pose estimate for each algorithm. The estimation error for rotation is defined by where $\mathbf{q} = {\lbrack{wxyz}\rbrack}^{\top}$ is the rotation estimated from the noisy images, and $\mathbf{q}^{\ast}$ is the ground truth rotation in quaternions. Note that defines a metric on the rotation quaternion space. Similarly, the estimation error for translation is defined by where $\mathbf{t}_{\mathbf{n}}$ and $\mathbf{t}_{\mathbf{n}}^{\ast}$ are the estimated translation vector and the ground truth, respectively, normalized to have unit norm (because the magnitude of the recovered translation vector can vary depending on the algorithm).
 
 Figure 3 shows the mean rotation and translation estimation errors at different noise standard deviations for all algorithms. Since the feature points are randomly generated and are generally non-coplanar, the homography algorithm, which only works for coplanar points, fails to correctly estimate the pose. Essential matrix based algorithms however are not affected. QuESt 6 and 7-point algorithms have the best performance for rotation, while QuESt 6 and QuESt 7 have the best performance for translation estimates. Unlike the 7-point algorithm, translation estimated by QuESt 7 benefits from the extra points and is comparable to QuEst 6. We should mention that for large noise standard deviations (e.g., 10 pixels) the results can be interpreted as how robust an algorithm is to incorrectly matched feature points.
 
 Figure 3: Comparison under Gaussian noise on feature point coordinates when points are in general 3D configuration.
 
-To analyze the performance when points are on critical surfaces, the previous analysis is repeated for coplanar points, where the points are chosen randomly on a bounded plane with uniform distribution. The mean of the rotation and translation estimation errors for noise standard deviation varying from 0 to 2 is shown in Fig. 4. As can be seen from the figure, homography shows the best noise resilience when the standard deviation is small (approximately 1 to 1.5 pixels). This is because the homography algorithm is specifically designed to recover the pose when points are coplanar. QuEst 6 has the next best estimation accuracy. When points are on critical surfaces matrix $\mathbf{A}_{2}$ in loses rank and becomes rank 27. Hence, multiplication by $\mathbf{A}_{2}^{\dagger}$ will not result in, and QuEst 7 fails to recover the pose. On the other hand, $\mathbf{A}_{2}$ used for QuEst 6 in remains full rank due to having smaller dimensions. Lastly, none of the algorithms that are based on the essential matrix can recover the pose in this case, regardless of the number of points used in the algorithm or the magnitude of noise (see for further explanation).
+To analyze the performance when points are on critical surfaces, the previous analysis is repeated for coplanar points, where the points are chosen randomly on a bounded plane with uniform distribution. The mean of the rotation and translation estimation errors for noise standard deviation varying from 0 to 2 is shown in Fig. 4. As can be seen from the figure, homography shows the best noise resilience when the standard deviation is small (approximately 1 to 1.5 pixels). This is because the homography algorithm is specifically designed to recover the pose when points are coplanar. QuEst 6 has the next best estimation accuracy. When points are on critical surfaces matrix $\mathbf{A}_{2}$ in loses rank and becomes rank 27. Hence, multiplication by $\mathbf{A}_{2}^{\dagger}$ will not result , and QuEst 7 fails to recover the pose. On the other hand, $\mathbf{A}_{2}$ used for QuEst 6 in remains full rank due to having smaller dimensions. Lastly, none of the algorithms that are based on the essential matrix can recover the pose in this case, regardless of the number of points used in the algorithm or the magnitude of noise (see for further explanation).
 
 Figure 4: Comparison under Gaussian noise on feature point coordinates when points are in coplanar configuration.
 

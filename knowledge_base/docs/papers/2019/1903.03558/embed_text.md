@@ -6,9 +6,7 @@ Navigating through unknown environments entails repeatedly generating collision-
 
 Decomposing the free space into $P$ overlapping polyhedra along a path connecting a start $A$ to goal $E$ location (see Fig. 1), the usual approach is to divide the total trajectory into $N = P$ intervals. On one hand, this simplifies the problem because no integer variables are needed, as each interval is forced to be in one specific polyhedron. On the other hand, the time allocation problem becomes much harder, as there are $N$ different $dt_{n}$ (time allocated for each interval $n$). The trajectory is also more conservative since the optimizer is only allowed to move the end points of each interval of the trajectory in the overlapping areas. To overcome these two problems, we propose the use of the same $dt$ for all the intervals, and use $N > P$ intervals, encoding the optimization problem as a Mixed Integer Quadratic Program (MIQP). Moreover, and as the minimum feasible $dt$ depends depends on the state of the UAV and on the specific shape of $\mathcal{F}$ and $\mathcal{U}$ at a specific replanning step, we also propose an efficient way to compute a heuristic of this $dt$ using the result obtained in the previous replanning iteration.
 
-In summary, this work has the following contributions:
-
-A framework that ensures feasibility of the entire collision avoidance algorithm and guarantees safety without reducing the nominal flight speed by allowing the local planner to plan in $\mathcal{F} \cup \mathcal{U}$ while always having a safe trajectory in $\mathcal{F}$.
+In summary, this work has the following contributions: A framework that ensures feasibility of the entire collision avoidance algorithm and guarantees safety without reducing the nominal flight speed by allowing the local planner to plan in $\mathcal{F} \cup \mathcal{U}$ while always having a safe trajectory in $\mathcal{F}$.
 
 Reduced conservatism of the MIQP formulation for the interval and time allocation problem of the flight trajectories compared to prior work.
 
@@ -30,9 +28,7 @@ As far as the optimization formulation is concerned, two approaches can be highl
 
 The Fast and Safe Trajectory Planner (FASTER) uses hierarchical architecture where a long-horizon global planner guides a short-horizon local planner to a desired goal location. The global planner used in this work is Jump Point Search (JPS). JPS finds the shortest piecewise linear path between two points in a 3D uniformly-weighted voxel grid, guaranteeing optimality and completeness but running an order of magnitude faster than A\*,.
 
-For the local planner, we distinguish these three different jerk-controlled trajectories (some of the points will be precisely defined later, see Fig. 3):
-
-Whole Trajectory: This trajectory goes from a start location $A$ to goal location $E$, and it is contained in $\mathcal{F} \cup \mathcal{U}$. It has a final stop condition.
+For the local planner, we distinguish these three different jerk-controlled trajectories (some of the points will be precisely defined later, see Fig. 3): Whole Trajectory: This trajectory goes from a start location $A$ to goal location $E$, and it is contained in $\mathcal{F} \cup \mathcal{U}$. It has a final stop condition.
 
 Safe Trajectory: It goes from $R$ to $F$, where $R$ is a point in the Whole Trajectory, and $F$ is any point inside the polyhedra obtained by doing a convex decomposition of $\mathcal{F}$. It is completely contained in $\mathcal{F}$ (free-known space), and it has also a final stop condition to guarantee safety.
 
@@ -40,36 +36,11 @@ Committed Trajectory: This trajectory consists of two pieces: The first part is 
 
 The quadrotor is modeled using triple integrator dynamics with state vector $\mathbf{x}^{T} = \left\lbrack {{\mathbf{x}}^{T}{\overset{˙}{\mathbf{x}}}^{T}{\overset{¨}{\mathbf{x}}}^{T}} \right\rbrack = \left\lbrack {{\mathbf{x}}^{T}{\mathbf{v}}^{T}{\mathbf{a}}^{T}} \right\rbrack$ and control input $\mathbf{u} = \overset{˙˙˙}{\mathbf{x}} = {\mathbf{j}}$ (where $\mathbf{x}$, $\mathbf{v}$, $\mathbf{a}$, and $\mathbf{j}$ are the vehicle's position, velocity, acceleration, and jerk, respectively).
 
-Let ${n = 0}:{N - 1}$ denote the specific interval of the trajectory and ${p = 0}:{P - 1}$ the specific polyhedron. If ${\mathbf{j}}{(t)}$ is constrained to be constant in each interval ${n = 0}:{N - 1}$, then the whole trajectory will be a spline consisting of third degree polynomials. Matching the cubic form of the position for each interval
-
-with the expression of a cubic Bézier curve
-
-we can solve for the four control points ${\mathbf{r}}_{nj}$ $({{j = 0}:3})$ associated with each interval $n$:
-
-Let us denote the sequence of $P$ overlapping polyhedra as ${{{\{{({\mathbf{A}}_{p},{\mathbf{c}}_{p})}\}},p} = 0}:{P - 1}$, and introduce binary variables $b_{np}$ ($P$ variables for each interval ${n = 0}:{N - 1}$). As a Bézier curve is contained in the convex hull of its control points, we can ensure that the whole trajectory will be inside this convex corridor by forcing that all the control points are in the same polyhedron with the constraint $\lbrack{b_{np} = 1\Longrightarrow{\mathbf{r}}_{nj} \in {{\text{polyhedron~}p}{\forall j}}}\rbrack$, and at least in one polyhedron with the constraint ${\sum_{p = 0}^{P - 1}b_{np}} \geq 1$. The optimizer is free to choose in which polyhedron exactly. The complete MIQP solved in each replanning step (using Gurobi, ) for both the Safe and the Whole trajectories is this one:
-
-In the optimization problem above, $dt$ (same for every interval $n$) is computed as
-
-where $T_{v_{i}}$, $T_{a_{i}}$, $T_{j_{i}}$ are solution of the constant-input motions in each axis $i = {x,y,z}$ by applying $v_{max}$, $a_{max}$ and $j_{max}$ respectively. $f \geq 1$ is a factor that is obtained according to the solution of the previous replanning step (see Fig. 2): The optimizer will try values of $f$ (in increasing order) in the interval $\lbrack{f_{{worked},{k - 1}} - \gamma},{f_{{worked},{k - 1}} + \gamma^{\prime}}\rbrack$ until the problem converges. Here, $f_{{worked},{k - 1}}$ is the factor that made the problem feasible in the previous replanning step. Note that, if $f = 1$, then $dt$ is a lower bound on the minimum time per interval required for the problem to be feasible.
+Let ${n = 0}:{N - 1}$ denote the specific interval of the trajectory and ${p = 0}:{P - 1}$ the specific polyhedron. If ${\mathbf{j}}{(t)}$ is constrained to be constant in each interval ${n = 0}:{N - 1}$, then the whole trajectory will be a spline consisting of third degree polynomials. Matching the cubic form of the position for each interval with the expression of a cubic Bézier curve we can solve for the four control points ${\mathbf{r}}_{nj}$ $({{j = 0}:3})$ associated with each interval $n$: Let us denote the sequence of $P$ overlapping polyhedra as ${{{\{{({\mathbf{A}}_{p},{\mathbf{c}}_{p})}\}},p} = 0}:{P - 1}$, and introduce binary variables $b_{np}$ ($P$ variables for each interval ${n = 0}:{N - 1}$). As a Bézier curve is contained in the convex hull of its control points, we can ensure that the whole trajectory will be inside this convex corridor by forcing that all the control points are in the same polyhedron with the constraint $\lbrack{b_{np} = 1\Longrightarrow{\mathbf{r}}_{nj} \in {{\text{polyhedron~}p}{\forall j}}}\rbrack$, and at least in one polyhedron with the constraint ${\sum_{p = 0}^{P - 1}b_{np}} \geq 1$. The optimizer is free to choose in which polyhedron exactly. The complete MIQP solved in each replanning step (using Gurobi,) for both the Safe and the Whole trajectories is this one: In the optimization problem above, $dt$ (same for every interval $n$) is computed as where $T_{v_{i}}$, $T_{a_{i}}$, $T_{j_{i}}$ are solution of the constant-input motions in each axis $i = {x,y,z}$ by applying $v_{max}$, $a_{max}$ and $j_{max}$ respectively. $f \geq 1$ is a factor that is obtained according to the solution of the previous replanning step (see Fig. 2): The optimizer will try values of $f$ (in increasing order) in the interval $\lbrack{f_{{worked},{k - 1}} - \gamma},{f_{{worked},{k - 1}} + \gamma'}\rbrack$ until the problem converges. Here, $f_{{worked},{k - 1}}$ is the factor that made the problem feasible in the previous replanning step. Note that, if $f = 1$, then $dt$ is a lower bound on the minimum time per interval required for the problem to be feasible.
 
 Figure 2: Dynamic adaptation of the factor used to compute the heuristic of the time allocation per interval (d t): For iteration k, the range of factors used is taken around the factor that worked in the iteration k − 1.
 
-Data: Current Position of the UAV L, C o m m i t t e dk − 1, J P Sk − 1, Gt e r m, 𝒪, ℱ, 𝒰, r
-6 Choose point A in C o m m i t t e dk − 1 with offset δ t from L
-7 G← Projection of Gt e r m into map ℳ
-11 J P Sb← Modified J P Sk − 1 such that J P Sk − 1 ∩ 𝒪 = ⌀
-15 $J_{a} = {{{N \cdot d}t_{a}} + \frac{\left\| {JPS_{a}\left( {C\rightarrow G} \right)} \right\|}{v_{max}}}$
-16 $J_{b} = {{{N \cdot d}t_{b}} + \frac{\left\| {JPS_{b}\left( {D\rightarrow G} \right)} \right\|}{v_{max}}}$
-17 ${JPS_{k}}\leftarrow{\underset{\{{JPS_{a,}JPS_{b}}\}}{\text{argmin}}\left\{ J_{a},J_{b} \right\}}$
-21 P o l yw h o l e← Convex Decomposition in 𝒰 ∪ ℱ using J P Si n
-23 W h o l e← MIQP in P o l yw h o l e from A to G using fw h o l e
-25 P o l ys a f e←Convex Decomposition in ℱ using J P Si n, k n o w n
-27 S a f e ← MIQP in P o l ys a f e from R to F using fs a f e
-30 fw h o l e, k← Factor that worked for W h o l e
-31 fs a f e, k← Factor that worked for S a f e
-32 Δ tk← Total replanning time
-
-Figure 3: Illustration for Alg.1. 𝒰 is the unknown space ( ), and 𝒪 are the known obstacles ( ). One unknown obstacle is shown with dotted line.
+Data: Current Position of the UAV L, C o m m i t t e dk − 1, J P Sk − 1, Gt e r m, 𝒪, ℱ, 𝒰, r 6 Choose point A in C o m m i t t e dk − 1 with offset δ t from L 7 G← Projection of Gt e r m into map ℳ 11 J P Sb← Modified J P Sk − 1 such that J P Sk − 1 ∩ 𝒪 = ⌀ 15 $J_{a} = {{{N \cdot d}t_{a}} + \frac{\left\| {JPS_{a}\left({C\rightarrow G} \right)} \right\|}{v_{max}}}$ 16 $J_{b} = {{{N \cdot d}t_{b}} + \frac{\left\| {JPS_{b}\left({D\rightarrow G} \right)} \right\|}{v_{max}}}$ 17 ${JPS_{k}}\leftarrow{\underset{\{{JPS_{a,}JPS_{b}}\}}{\text{argmin}}\left\{ J_{a},J_{b} \right\}}$ 21 P o l yw h o l e← Convex Decomposition in 𝒰 ∪ ℱ using J P Si n 23 W h o l e← MIQP in P o l yw h o l e from A to G using fw h o l e 25 P o l ys a f e←Convex Decomposition in ℱ using J P Si n, k n o w n 27 S a f e ← MIQP in P o l ys a f e from R to F using fs a f e 30 fw h o l e, k← Factor that worked for W h o l e 31 fs a f e, k← Factor that worked for S a f e 32 Δ tk← Total replanning time Figure 3: Illustration for Alg.1. 𝒰 is the unknown space, and 𝒪 are the known obstacles. One unknown obstacle is shown with dotted line.
 
 Figure 4: Choice of the direction to optimize. At t = tk − 1, the JPS solution chosen was J P Sk − 1. At t = tk, JPS is run again to obtain J P Sa, and J P Sk − 1 is modified so that it does not collide with 𝒪, obtaining J P Sb. A heuristic of the cost-to-go in each direction is computed, and the direction with the lowest cost is chosen as the one towards which the local planner will optimize.
 
@@ -79,7 +50,7 @@ The local planner then must decide if the current JPS solution should be used to
 
 The Whole Trajectory (lines 1-1) is obtained as follows. We do the convex decomposition of $\mathcal{U} \cup \mathcal{F}$ around $JPS_{in}$, which is the part of $JPS_{k}$ that is inside the sphere $\mathcal{S}$. This gives a series of overlapping polyhedra that we denote as $Poly_{whole}$. Then, the MIQP in is solved using these polyhedral constraints to obtain the Whole Trajectory.
 
-The Safe Trajectory is computed as in lines 1-1. First we choose the point $R$ along the Whole Trajectory with an offset $\deltat^{\prime}$ from $A$ (this $\deltat^{\prime}$ is computed by multiplying the previous replanning time by $\beta \geq 1$), and run convex decomposition in $\mathcal{F}$ using the part of $JPS_{in}$ that is in $\mathcal{F}$, obtaining the polyhedra $Poly_{safe}$. Then, we solve the MIQP from $R$ to any point $F$ inside $Poly_{safe}$ (this point $F$ is chosen by the optimizer).
+The Safe Trajectory is computed as in lines 1-1. First we choose the point $R$ along the Whole Trajectory with an offset $\deltat'$ from $A$ (this $\deltat'$ is computed by multiplying the previous replanning time by $\beta \geq 1$), and run convex decomposition in $\mathcal{F}$ using the part of $JPS_{in}$ that is in $\mathcal{F}$, obtaining the polyhedra $Poly_{safe}$. Then, we solve the MIQP from $R$ to any point $F$ inside $Poly_{safe}$ (this point $F$ is chosen by the optimizer).
 
 In both of the convex decompositions presented above, one polyhedron is created for each segment of the piecewise linear paths. To obtain a less conservative solution (i.e. bigger polyhedra), we first check the length of segments of the JPS path, creating more vertexes if this length exceeds certain threshold $l_{max}$. Moreover, we truncate the number of segments in the path to ensure that the number of polyhedra found does not exceed a threshold $P_{max}$. This helps reduce the computation times (see Sec. IV).
 
@@ -105,18 +76,11 @@ Figure 6: Timing breakdown for the MIQP and Convex Decomposition of the Whole Tr
 
 The timing breakdown of Alg. 1 as a function of the maximum number of polyhedra $P_{max}$ is shown in Fig. 6. The number of intervals $N$ was 10 for the Whole Trajectory and 7 for the Safe Trajectory. Note that the runtime for the MIQP of the Safe Trajectory is approximately constant as a function of $P_{max}$. This is due to the fact that the Safe Trajectory is planned only in $\mathcal{F}$, and therefore most of the times $P < P_{max}$. For the simulations and hardware experiments presented in this paper, $P_{max} = {2 - 3}$ was used. The runtimes for JPS as a function of the voxel size of the map for the forest simulation are available in Fig. 7 of. All these timing breakdowns were measured using an Intel Core i7-7700HQ 2.8GHz Processor.
 
-Min/Max improvement (%)
-
-TABLE I: Distances obtained in 10 random forest simulations. Improvement percentages are computed for the minimum and the maximum of each column. Some results were provided by the authors of.
-TABLE II: Comparison between and FASTER of flight times in the forest simulation. Results are for 10 random forests.
-TABLE III: Comparison between and FASTER of flight distances and times in a bugtrap simulation.
+Min/Max improvement (%) TABLE I: Distances obtained in 10 random forest simulations. Improvement percentages are computed for the minimum and the maximum of each column. Some results were provided by the authors of. TABLE II: Comparison between and FASTER of flight times in the forest simulation. Results are for 10 random forests. TABLE III: Comparison between and FASTER of flight distances and times in a bugtrap simulation.
 
 Figure 7: UAV used in the experiments. It is equipped with a Qualcomm® SnapDragon Flight, an Intel® NUC and an Intel® RealSense Depth Camera D435.
 
-Figure 8: Composite images of Experiment 1. The UAV must fly from start to goal. Snapshots shown every 670 ms.
-Figure 9: Composite image of Experiment 2. The UAV must fly from start to goal. Snapshots shown every 330 ms.
-Figure 10: Composite image of Experiment 3. The UAV must fly from start to goal. Snapshots shown every 670 ms.
-Figure 11: Composite image of Experiment 4. The UAV must fly from start to goal. Snapshots shown every 670 ms.
+Figure 8: Composite images of Experiment 1. The UAV must fly from start to goal. Snapshots shown every 670 ms. Figure 9: Composite image of Experiment 2. The UAV must fly from start to goal. Snapshots shown every 330 ms. Figure 10: Composite image of Experiment 3. The UAV must fly from start to goal. Snapshots shown every 670 ms. Figure 11: Composite image of Experiment 4. The UAV must fly from start to goal. Snapshots shown every 670 ms.
 
 ### IV-B Hardware
 

@@ -42,11 +42,11 @@ In Section 3.1, we present our video foundation model for generative planning in
 
 ### Latent Diffusion
 
-We begin building our video foundation model following the latent diffusion framework \Brooks et al., [2024; Wan et al., 2025\]. We use a temporally causal 3D variational autoencoder (VAE) to compress a video clip in pixel space into a compact, lower-dimensional latent representation $x$. The VAE encodes each $8 \times 8 \times 4$ spatiotemporal patch into a 16-channel embedding, converting an input of shape $\lbrack{1 + T},3,H,W\rbrack$ into a latent of shape $\lbrack 1 + {\lceil T/4\rceil},16,{\lceil H/4\rceil},{\lceil W/4\rceil}$, where $T + 1$ is the number of frames and $H,W$ are spatial dimensions. The first frame of a video is repeated $4$ times before such compression to allow co-training with single-frame image data, which corresponds to the $1$ in $T + 1$.
+We begin building our video foundation model following the latent diffusion framework \Brooks et al., [2024; Wan et al., 2025\]. We use a temporally causal 3D variational autoencoder (VAE) to compress a video clip in pixel space into a compact, lower-dimensional latent representation $x$. The VAE encodes each $8\times 8\times 4$ spatiotemporal patch into a 16-channel embedding, converting an input of shape $[1+T,3,H,W]$ into a latent of shape $1+\lceil T/4\rceil,16,\lceil H/4\rceil,\lceil W/4\rceil$, where $T+1$ is the number of frames and $H,W$ are spatial dimensions. The first frame of a video is repeated $4$ times before such compression to allow co-training with single-frame image data, which corresponds to the $1$ in $T+1$.
 
-We then freeze the 3D VAE and train a special video diffusion model \Sohl-Dickstein et al., [2015; Ho et al., 2020; Lipman et al., 2022; Peebles and Xie, 2023\] in this compressed latent space using a modified Diffusion Forcing Transformer \Chen et al., [2024a; Song et al., 2025\], a DiT \Peebles and Xie, variant we introduce below, and illustrated in Figure 2. Following the diffusion training recipe, we add Gaussian noise to a clean video latent and train our diffusion model to remove such noise. At sampling time, starting from a latent pre-filled with noise, the model iteratively denoises the latent until obtaining a clean sample. The VAE decoder then decodes this latent into a video sample.
+We then freeze the 3D VAE and train a special video diffusion model \[Sohl-Dickstein et al., [2015; Ho et al., 2020; Lipman et al., 2022; Peebles and Xie, 2023\] in this compressed latent space using a modified Diffusion Forcing Transformer \Chen et al., [2024a; Song et al., 2025\], a DiT \Peebles and Xie, variant we introduce below, and illustrated in Figure 2. Following the diffusion training recipe, we add Gaussian noise to a clean video latent and train our diffusion model to remove such noise. At sampling time, starting from a latent pre-filled with noise, the model iteratively denoises the latent until obtaining a clean sample. The VAE decoder then decodes this latent into a video sample.
 
-Specifically, we train this video diffusion model with the flow matching objective \Lipman et al.,. Under a shifted schedule \Esser et al., that emphasizes higher noise levels, we add noise to an encoded video latent $z_{0}$ by $z_{k} = {{{({1 - k})}z_{0}} + {k\epsilon}}$, where $k$ denotes the chosen noise level, $\epsilon \sim {\mathcal{N}{}}$ and $z_{k}$ is the noisy latent. The model $f_{\theta}$ is trained to predict the flow $\epsilon - z_{0}$ conditioned on the noisy latent $z_{t}$, conditioning $c$ (comprising the input image and text instruction), and noise level $t$, minimizing the matching loss \Lipman et al., $\mathcal{L} = {\|{{f_{\theta}{(z_{k},c,k)}} - {k{({\epsilon - z_{0}})}}}\|}_{2}$.
+Specifically, we train this video diffusion model with the flow matching objective \Lipman et al.,. Under a shifted schedule \Esser et al., that emphasizes higher noise levels, we add noise to an encoded video latent $z_{0}$ by $z_{k}=(1-k)z_{0}+k\epsilon$, where $k$ denotes the chosen noise level, $\epsilon\sim\mathcal{N}$ and $z_{k}$ is the noisy latent. The model $f_{\theta}$ is trained to predict the flow $\epsilon-z_{0}$ conditioned on the noisy latent $z_{t}$, conditioning $c$ (comprising the input image and text instruction), and noise level $t$, minimizing the matching loss \Lipman et al., $\mathcal{L}=||f_{\theta}(z_{k},c,k)-k(\epsilon-z_{0})||_{2}$.
 
 Figure 2: LVP Overview: (a) Overview of the latent video diffusion framework. We first use a temporally causal VAE to encode video clips into compressed 3D latent representations. Then we train a diffusion transformer in this latent space with flow matching objectives. (b) We jointly train image-to-video (I2V) and video-to-video (V2V) with a modified diffusion forcing training strategy. During training, a random context length between 0 and 6 frames is selected, dividing the video into history and future segments. Two independent noise levels are applied to these segments, and the history segment is set to zero noise with a 50% probability. We visualize four representative cases of this noisy training strategy: the top row shows that longer contexts enable V2V training; the second row shows clean first-frame contexts, which exactly aligns with standard I2V training; and the botton two rows show noisy context frames, which improve robustness to out-of-distribution conditioning.
 
@@ -56,7 +56,7 @@ A challenge in the video diffusion model is temporal coherence. In our formulati
 
 Instead of adding a uniform level of noise to all tokens like in legacy video diffusion models, Diffusion Forcing \Chen et al., [2024a\] found that training video diffusion models with different noise levels at different frames has the additional benefit of flexibility and rollout stability. Since all the noise levels are random during training, at test time one can flexibly control the conditioning by selecting the desired noise level.
 
-To learn i2v and v2v with a unified objective, we adopt diffusion forcing and apply different noise levels to context frames versus generated frames. As shown in Figure 2(b), given a diffusion transformer on a fixed number of latent frames, we first randomly sample a history length from $\{ 0,1,2,\ldots,6\}$ latent frames, splitting the video into a history segment and a future segment. We then apply independent noise levels to each segment and feed the resulting noisy video to our model, leaving all other settings unchanged. For example, if one adds zero noise to the first frame or first few frames at training time, the model will find it as a perfectly visible context frame and learn to condition on it; if the history frames have an intermediate noise level, the model treats it as partial information and learns to be robust to out-of-distribution context frames. In this way, we can flexibly condition on a clean first frame or multiple history frames at sampling time, by setting the their noise levels to 0.
+To learn i2v and v2v with a unified objective, we adopt diffusion forcing and apply different noise levels to context frames versus generated frames. As shown in Figure 2(b), given a diffusion transformer on a fixed number of latent frames, we first randomly sample a history length from $\{0,1,2,\ldots,6\}$ latent frames, splitting the video into a history segment and a future segment. We then apply independent noise levels to each segment and feed the resulting noisy video to our model, leaving all other settings unchanged. For example, if one adds zero noise to the first frame or first few frames at training time, the model will find it as a perfectly visible context frame and learn to condition on it; if the history frames have an intermediate noise level, the model treats it as partial information and learns to be robust to out-of-distribution context frames. In this way, we can flexibly condition on a clean first frame or multiple history frames at sampling time, by setting the their noise levels to 0.
 
 Not only does this method eliminate an extra cross-attention to variable-length context tokens, but it's also compatible with existing DiT model weights without architectural changes. Following Song et al., we simply feed different noise level embeddings to different tokens in the DiT architecture, instead of uniform ones. This allows us to train a Diffusion Forcing model on top of the weights of a pre-trained video foundation model, WAN 2.1 14B \Wan et al.,. Following the practice of WAN 2.1 14B, we cross-attend to the CLIP features of the first frame as well as the text embeddings extracted by the UMT5 \Chung et al., encoder. Because Diffusion Forcing achieves context frame conditioning in a cleaner way, we remove WAN's mask and guidance channels used for image conditioning.
 
@@ -66,15 +66,7 @@ In addition to flexible conditioning and compatibility with legacy weights, our 
 
 Classifier-Free Guidance (CFG) \Ho and Salimans, is known to improve visual quality and conditioning adherence in visual generative models. WAN 2.1 utilizes a text-CFG that combines the output of a text-conditional diffusion model and that of an unconditional one. However, this still yields unsatisfactory motion fidelity and weak image conditioning as shown in Figure 5.
 
-LVP adopts history guidance \Song et al. a CFG variant that performs guidance on any amount of context frames. Let $x_{k}$ denote the future segment to be diffused at noise level $k$ and $c_{\text{text}}$ the task instruction. As our model is trained with Diffusion Forcing, we can flexibly condition on a provided history segment $x_{\text{hist}}$ at sampling time by setting its noise level to zero, be it a single frame or a context video:
-
-Similarly, we can set the noise level of context frames to the maximum to fully mask out the context frames and obtain the unconditional score:
-
-To perform history guidance, we sample with the combined score
-
-Just as text-based CFG enhances adherence to text instruction, history guidance enhances adherence to context images. During sampling, we combine both history guidance and text-based CFG to generate videos that adhere to both text and context frames by sampling with the score
-
-This combined guidance technique can significantly enhance the plan quality compared to traditional text-based guidance, yielding physically viable plans with strong instruction following.
+LVP adopts history guidance \Song et al. a CFG variant that performs guidance on any amount of context frames. Let $x_{k}$ denote the future segment to be diffused at noise level $k$ and $c_{\text{text}}$ the task instruction. As our model is trained with Diffusion Forcing, we can flexibly condition on a provided history segment $x_{\text{hist}}$ at sampling time by setting its noise level to zero, be it a single frame or a context video: Similarly, we can set the noise level of context frames to the maximum to fully mask out the context frames and obtain the unconditional score: To perform history guidance, we sample with the combined score Just as text-based CFG enhances adherence to text instruction, history guidance enhances adherence to context images. During sampling, we combine both history guidance and text-based CFG to generate videos that adhere to both text and context frames by sampling with the score | | $\displaystyle s_{\text{final}}=$ | $\displaystyle(1+w_{\text{hist}})\nabla\log{p(x_{k}|x_{\text{hist}},c_{\text{text}})}-w_{\text{hist}}\nabla\log{p(x_{k}|c_{\text{text}})}+$ | | \(4\) | | | | $\displaystyle(1+w_{\text{text}})\nabla\log{p(x_{k}|x_{\text{hist}},c_{\text{text}})}-w_{\text{text}}\nabla\log{p(x_{k}|x_{\text{hist}})}$ | | | This combined guidance technique can significantly enhance the plan quality compared to traditional text-based guidance, yielding physically viable plans with strong instruction following.
 
 ### Autoregressive Extension for Multi-Stage Planning
 
@@ -82,9 +74,7 @@ Due to the flexible history conditioning, our model can extend a previously gene
 
 ### Training Details
 
-We train the model in two stages to progressively improve its visual planning capability and visual quality:
-
-Continue pretraining. Starting from Wan I2V 14B weights, we discard the weights that handle the extra masking and image guidance channels. We train on the full dataset for 60k steps with a batch size of 128, for a total of 200B tokens. At this stage, the model captures rich dynamics and strong instruction-following behavior, but the generated videos often exhibit excessive camera motion, which hinders smooth deployments on robots.
+We train the model in two stages to progressively improve its visual planning capability and visual quality: Continue pretraining. Starting from Wan I2V 14B weights, we discard the weights that handle the extra masking and image guidance channels. We train on the full dataset for 60k steps with a batch size of 128, for a total of 200B tokens. At this stage, the model captures rich dynamics and strong instruction-following behavior, but the generated videos often exhibit excessive camera motion, which hinders smooth deployments on robots.
 
 Low camera motion finetuning. To reduce unwanted camera motion, we curate a smaller subset from Ego4D, Epic-Kitchens, and Panda datasets by selecting clips with a much lower average optical flow magnitude, and finetune for an additional 10k steps. This stage effectively suppresses camera drift and improves overall temporal smoothness and visual stability.
 
@@ -116,9 +106,7 @@ Rather than naively aligning frame rates or trimming a video clip to a target le
 
 ### Quality Filtering
 
-After temporal alignment, we first discard clips that are low-resolution, too short, too long, or poorly lit. We then apply some additional filters to focus the model on embodied motion planning:
-
-Filtering rapid camera motions. Many egocentric videos exhibit rapid camera rotations, leading to large background shifts and high training loss. These distract the model from learning meaningful foreground object motions. To mitigate this, we filter videos using optical flow statistics.
+After temporal alignment, we first discard clips that are low-resolution, too short, too long, or poorly lit. We then apply some additional filters to focus the model on embodied motion planning: Filtering rapid camera motions. Many egocentric videos exhibit rapid camera rotations, leading to large background shifts and high training loss. These distract the model from learning meaningful foreground object motions. To mitigate this, we filter videos using optical flow statistics.
 
 Ensuring visible embodiment. To avoid ambiguity, we require the embodiment (hand or robot gripper) to be clearly visible in the first frame. We use object detectors to automatically filter out clips where the embodiment is absent.
 
@@ -148,31 +136,29 @@ Our action extraction pipeline supports retargeting generated human hand video t
 
 We reconstruct an accurate and temporally aligned hand pose as first step for motion retargeting. To do so, we first predict hand pose in each video frame independently using image-based hand reconstruction model:*HaMeR* \Pavlakos et al. then align and refine the predicted human hand with a dynamic scene reconstruction model, *MegaSAM* \Li et al.,.
 
-Per-frame Hand Pose Estimation. For each input frame $I_{t}$, *HaMeR* predicts MANO \Romero et al., hand vertices $\mathbf{V}_{t}$ and a global wrist orientation $\mathbf{R}_{t} \in {{SO}{}}$ in the camera coordinate frame. While HaMeR provides accurate hand shape and articulation, its per-frame translation estimates tend to drift over time due to the lack of temporal consistency enforcement.
+Per-frame Hand Pose Estimation. For each input frame $I_{t}$, *HaMeR* predicts MANO \Romero et al., hand vertices $\mathbf{V}_{t}$ and a global wrist orientation $\mathbf{R}_{t}\in\mathrm{SO}$ in the camera coordinate frame. While HaMeR provides accurate hand shape and articulation, its per-frame translation estimates tend to drift over time due to the lack of temporal consistency enforcement.
 
-4D Consistent Alignment. We then align the translations of the per-frame reconstructed human hand. Specifically, we leverage a 4D reconstruction model, *MegaSAM* \Li et al. which outputs per-frame depth maps $D_{t}{(u,v)}$, camera intrinsics $\mathbf{K}$, and extrinsics ${\{\mathbf{E}_{t}\}}_{t = 0}^{T - 1}$. After getting per-frame depth and camera pose, we backproject pixels of the hand into 3D, where pixels of the hand $(u_{t},v_{t})$ are obtained by projecting the MANO wrist joint regressed from $\mathbf{V}_{t}$.
+4D Consistent Alignment. We then align the translations of the per-frame reconstructed human hand. Specifically, we leverage a 4D reconstruction model, *MegaSAM* \Li et al. which outputs per-frame depth maps $D_{t}(u,v)$, camera intrinsics $\mathbf{K}$, and extrinsics $\{\mathbf{E}_{t}\}_{t=0}^{T-1}$. After getting per-frame depth and camera pose, we backproject pixels of the hand into 3D, where pixels of the hand $(u_{t},v_{t})$ are obtained by projecting the MANO wrist joint regressed from $\mathbf{V}_{t}$.
 
-We retain HaMeR's orientation $\mathbf{R}_{\mathbf{t}}$ while using the backprojected wrist pointclouds to estimate $\mathbf{T}_{\mathbf{t}}$. This enforces temporal smoothness, resolves monocular scale ambiguity, and significantly improves wrist localization robustness.
+We retain HaMeR's orientation $\mathbf{R_{t}}$ while using the backprojected wrist pointclouds to estimate $\mathbf{T_{t}}$. This enforces temporal smoothness, resolves monocular scale ambiguity, and significantly improves wrist localization robustness.
 
-Temporal Completion and Smoothing. Frames with invalid depth/pixels are marked missing and linearly interpolated in position. Quaternions use SLERP with sign flips to maintain continuity. We then apply a causal Savitzky-Golay filter (window $w$, order $d$) to positions and quaternion components, followed by re-normalization, noted as ${\hat{\mathbf{T}}}_{\mathcal{R}\leftarrow{\mathcal{W},t}}$.
+Temporal Completion and Smoothing. Frames with invalid depth/pixels are marked missing and linearly interpolated in position. Quaternions use SLERP with sign flips to maintain continuity. We then apply a causal Savitzky-Golay filter (window $w$, order $d$) to positions and quaternion components, followed by re-normalization, noted as $\hat{\mathbf{T}}_{\mathcal{R}\leftarrow\mathcal{W},t}$.
 
 ### Robot Finger Motion Retargeting
 
 Given the human hand pose estimated by the previous module, we design retargeting modules that support both multi-finger dexterous hands and parallel-jaw grippers. We introduce multi-finger dexterous hands below and parallel-jaw grippers in Appendix D.6.
 
-To retarget robot finger joints from human hands, we use *Dex-Retargeting* \Qin et al. which first extracts human hand keypoints using an RGB-based detector and then maps them to robot joint configurations by solving a DexPilot-style optimization objective. This produces robot finger joint angles $\mathbf{q}_{t}^{R} \in {\mathbb{R}}^{n_{dof}}$, enabling fine-grained imitation of articulated human manipulation.
+To retarget robot finger joints from human hands, we use *Dex-Retargeting* \Qin et al. which first extracts human hand keypoints using an RGB-based detector and then maps them to robot joint configurations by solving a DexPilot-style optimization objective. This produces robot finger joint angles $\mathbf{q}^{R}_{t}\in\mathbb{R}^{n_{\mathrm{dof}}}$, enabling fine-grained imitation of articulated human manipulation.
 
-We export per-frame wrist SE $\left( {\hat{\mathbf{p}}}_{\mathcal{W},t}^{\mathcal{R}},{\hat{\mathbf{q}}}_{\mathcal{W},t}^{\mathcal{R}},{\hat{\mathbf{T}}}_{\mathcal{R}\leftarrow{\mathcal{W},t}} \right)$ and robot joints $\{\mathbf{q}_{t}^{R}\}$, together with metadata (joint names, DOF). Qualitative checks are performed by rendering the robot hand motions in simulation, see videos in the project website.
+We export per-frame wrist SE $\big(\hat{\mathbf{p}}^{\mathcal{R}}_{\mathcal{W},t},\hat{\mathbf{q}}^{\mathcal{R}}_{\mathcal{W},t},\hat{\mathbf{T}}_{\mathcal{R}\leftarrow\mathcal{W},t}\big)$ and robot joints $\{\mathbf{q}^{R}_{t}\}$, together with metadata (joint names, DOF). Qualitative checks are performed by rendering the robot hand motions in simulation, see videos in the project website.
 
 ### Real-Robot Execution
 
-Given the human wrist trajectories ${\{\mathbf{P}_{t}\}}_{t = 0}^{T - 1}$ and the robot finger joint trajectories ${\{\mathbf{q}_{t}\}}_{t = 0}^{T - 1}$ estimated by the preceding modules (both expressed in the camera coordinates of the first video frame), our goal is to execute the motion on a physical robot. We first rotate the wrist poses into the robot control frame, then use the resulting wrist translations and orientations to solve the inverse kinematics (IK) for the arm (using cuRoboSundaralingam et al. ), while the finger trajectories directly drive the robot hand joints.
+Given the human wrist trajectories $\{\mathbf{P}_{t}\}_{t=0}^{T-1}$ and the robot finger joint trajectories $\{\mathbf{q}_{t}\}_{t=0}^{T-1}$ estimated by the preceding modules (both expressed in the camera coordinates of the first video frame), our goal is to execute the motion on a physical robot. We first rotate the wrist poses into the robot control frame, then use the resulting wrist translations and orientations to solve the inverse kinematics (IK) for the arm (using cuRoboSundaralingam et al. ), while the finger trajectories directly drive the robot hand joints.
 
-Camera-to-Robot Alignment. Let $\mathcal{C}_{0}$ denote the coordinate frame of the first camera, $\mathcal{M}$ the MANO hand frame, and $\mathcal{R}$ the robot control frame. We align the recovered wrist poses from $\mathcal{C}_{0}$ to $\mathcal{R}$ via an extrinsic calibration. In practice, this reduces to applying a fixed rotation $\mathbf{M} \in {{SO}{}}$ that unifies the axes of $\mathcal{C}_{0}$ and $\mathcal{R}$:
+Camera-to-Robot Alignment. Let $\mathcal{C}_{0}$ denote the coordinate frame of the first camera, $\mathcal{M}$ the MANO hand frame, and $\mathcal{R}$ the robot control frame. We align the recovered wrist poses from $\mathcal{C}_{0}$ to $\mathcal{R}$ via an extrinsic calibration. In practice, this reduces to applying a fixed rotation $\mathbf{M}\!\in\!\mathrm{SO}$ that unifies the axes of $\mathcal{C}_{0}$ and $\mathcal{R}$: where $\mathbf{p}^{\mathcal{C}_{0}}_{\mathcal{W},t}$ and $\mathbf{R}^{\mathcal{C}_{0}}_{\mathcal{W},t}$ are the wrist translation and rotation at time $t$ in $\mathcal{C}_{0}$. We then assemble the wrist pose $\mathbf{T}_{\mathcal{R}\leftarrow\mathcal{W},t}\!\in\!\mathrm{SE}$ and its quaternion parameterization $\mathbf{q}^{\mathcal{R}}_{\mathcal{W},t}$ for downstream control.
 
-where $\mathbf{p}_{\mathcal{W},t}^{\mathcal{C}_{0}}$ and $\mathbf{R}_{\mathcal{W},t}^{\mathcal{C}_{0}}$ are the wrist translation and rotation at time $t$ in $\mathcal{C}_{0}$. We then assemble the wrist pose $\mathbf{T}_{\mathcal{R}\leftarrow{\mathcal{W},t}} \in {{SE}{}}$ and its quaternion parameterization $\mathbf{q}_{\mathcal{W},t}^{\mathcal{R}}$ for downstream control.
-
-Robot Wrist and Finger Execution. With the wrist trajectory expressed in $\mathcal{R}$, we use cuRoboSundaralingam et al. to solve IK and obtain arm joint trajectories that follow ${\{\mathbf{p}_{\mathcal{W},t}^{\mathcal{R}},\mathbf{R}_{\mathcal{W},t}^{\mathcal{R}}\}}_{t = 0}^{T - 1}$. In parallel, the finger joint sequence ${\{\mathbf{q}_{t}\}}_{t = 0}^{T - 1}$ is sent directly to the robot hand controller. Finally, the robot control API executes these synchronized arm and hand trajectories to complete the task.
+Robot Wrist and Finger Execution. With the wrist trajectory expressed in $\mathcal{R}$, we use cuRoboSundaralingam et al. to solve IK and obtain arm joint trajectories that follow $\{\mathbf{p}^{\mathcal{R}}_{\mathcal{W},t},\,\mathbf{R}^{\mathcal{R}}_{\mathcal{W},t}\}_{t=0}^{T-1}$. In parallel, the finger joint sequence $\{\mathbf{q}_{t}\}_{t=0}^{T-1}$ is sent directly to the robot hand controller. Finally, the robot control API executes these synchronized arm and hand trajectories to complete the task.
 
 ## Evaluating task-level generalization
 
@@ -214,11 +200,7 @@ We ask third-party annotators to score all the generated videos and report both 
 
 For all models, performance decreases monotonically from Level 1 to Level 4, reflecting the increasing difficulty of each criterion. While pretrained Wan 2.1 achieves relatively high scores on Level 1 (correct contact), its performance drops sharply on Levels 2--4, indicating that it can initiate the correct interaction but fails to produce coherent, task-complete motion trajectories. In contrast, our model achieves significantly higher scores across all levels, with the largest gains at Levels 3 and 4, indicating better generalization in producing coherent, physically consistent motion planning under in-the-wild conditions. Notably, our model attains a 59.3% success rate at Level 3 (Task Complete) on the third-party test set, highlighting its ability to perform coherent and semantically grounded motion planning for unseen tasks in unseen environments. In addition, in Figure 7, we illustrate how our model is able to rollout long video plans.
 
-Level 1: Correct contact
-Level 2: End state
-Level 3: Task complete
-
-Table 2: Video Plan Evaluation. Evaluation on 100 in-the-wild manipulation prompts collected from third-party participants. We report the average success rate (Average) and Best@4 for each level. Our method achieves substantially higher success at Levels 3–4 than the baselines, indicating stronger generation of coherent, task-complete plans in in-the-wild settings.
+Level 1: Correct contact Level 2: End state Level 3: Task complete Table 2: Video Plan Evaluation. Evaluation on 100 in-the-wild manipulation prompts collected from third-party participants. We report the average success rate (Average) and Best@4 for each level. Our method achieves substantially higher success at Levels 3–4 than the baselines, indicating stronger generation of coherent, task-complete plans in in-the-wild settings.
 
 ### Evaluating Real-World Robot Manipulation
 
@@ -228,31 +210,7 @@ The previous experiment demonstrates that our large video planner exhibits stron
 
 We conduct experiments on two distinct robot morphologies: a Franka Emika Arm with a parallel-jaw gripper and a G1 Arm equipped with an Inspire dexterous hand. Each platform is tested on task sets that highlight different manipulation capabilities. For the dexterous hand, we further evaluate challenging novel tasks such as opening a door, opening a box, and scooping coffee beans, as shown in the right columns of Figure 8.
 
-Task Set and Tasks
-
-Task Group A: w/ Parallel Gripper
-
-Task Group B: w/ Dexterous Hands
-
-Press Elevator Button
-
-Sweep Tennis Ball into Bucket
-
-Scoop Coffee Beans (b)
-
-Tear off Clear Tape (b)
-
-Task Group C: Out-of-distribution Set
-
-Pick Objects (OOD Object1)
-
-Pick A into B (OOD Object1)
-
-Pick Objects (OOD Scene2)
-
-Pick A into B (OOD Scene2)
-
-Figure 8: Robot Execution Evaluation. Left: Comparison of Task Success Across Methods on Franka Arm with Parallel-Jew Gripper and G1 with Inspire Hands. 1 denotes tests on OOD objects; 2 denotes scenes that differ substantially from the training videos. Right: Visualization of the robot tasks and experiments.
+Task Set and Tasks Task Group A: w/ Parallel Gripper Task Group B: w/ Dexterous Hands Press Elevator Button Sweep Tennis Ball into Bucket Scoop Coffee Beans (b) Tear off Clear Tape (b) Task Group C: Out-of-distribution Set Pick Objects (OOD Object1) Pick A into B (OOD Object1) Pick Objects (OOD Scene2) Pick A into B (OOD Scene2) Figure 8: Robot Execution Evaluation. Left: Comparison of Task Success Across Methods on Franka Arm with Parallel-Jew Gripper and G1 with Inspire Hands. 1 denotes tests on OOD objects; 2 denotes scenes that differ substantially from the training videos. Right: Visualization of the robot tasks and experiments.
 
 Figure 9: Zero Shot Robot Manipulation with LVP. The model generates videos for diverse tasks, enabling zero-shot execution on both a dexterous hand and a parallel-jaw gripper.
 
@@ -262,9 +220,7 @@ Humanoid with Dexterous Hand As reported in Task Group B of Table 8, this set ta
 
 ### Baselines
 
-We compare our method against several state-of-the-art vision-language-action baselines:
-
-$\pi_{0}$ \Black et al., [2024b\]: We evaluate $\pi_{0}$ model by loading the released checkpoint and directly testing its generalization to our benchmark tasks, following the standard usage protocol.
+We compare our method against several state-of-the-art vision-language-action baselines: $\pi_{0}$ \Black et al., [2024b\]: We evaluate $\pi_{0}$ model by loading the released checkpoint and directly testing its generalization to our benchmark tasks, following the standard usage protocol.
 
 OpenVLA \Kim et al.,: We include OpenVLA with its released checkpoint as a baseline, evaluating its performance on our task sets without additional fine-tuning.
 

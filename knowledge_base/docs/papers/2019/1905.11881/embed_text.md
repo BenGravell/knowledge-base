@@ -10,9 +10,7 @@ By identifying a a new smoothness condition through experiments and then using i
 
 ### Contributions
 
-In light of the above background, the main contributions of this paper are the following:
-
-Inspired and supported by neural network training experiments, we introduce a new smoothness condition that allows the local smoothness constant to increase with the gradient norm. This condition is *strictly weaker* than the pervasive Lipschitz-gradient assumption.
+In light of the above background, the main contributions of this paper are the following: Inspired and supported by neural network training experiments, we introduce a new smoothness condition that allows the local smoothness constant to increase with the gradient norm. This condition is *strictly weaker* than the pervasive Lipschitz-gradient assumption.
 
 We provide a convergence rate for clipped GD under our smoothness assumption (Theorem 3).
 
@@ -28,15 +26,11 @@ In this section, we motivate and develop a relaxed smoothness condition that is 
 
 ### Function smoothness (Lipschitz gradients)
 
-Recall that $f$ denotes the objective function that we want to minimize. We say that $f$ is $L$-smooth if
-
-For twice differentiable functions, condition (1 ‣ 2 A New Relaxed Smoothness Condition ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity")) is equivalent to ${{\|{{\nabla^{2}f}{(x)}}\|} \leq L},{{\forall x} \in {\mathbb{R}}^{d}}$. This smoothness condition enables many important theoretical results. For example, Carmon et al. show that GD with $h = {1/L}$ is up to a constant optimal for optimizing smooth nonconvex functions.
+Recall that $f$ denotes the objective function that we want to minimize. We say that $f$ is $L$-smooth if For twice differentiable functions, condition (1 ‣ 2 A New Relaxed Smoothness Condition ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity")) is equivalent to ${{\|{{\nabla^{2}f}{(x)}}\|} \leq L},{{\forall x} \in {\mathbb{R}}^{d}}$. This smoothness condition enables many important theoretical results. For example, Carmon et al. show that GD with $h = {1/L}$ is up to a constant optimal for optimizing smooth nonconvex functions.
 
 But the usual $L$-smoothness assumption (1 ‣ 2 A New Relaxed Smoothness Condition ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity")) also has its limitations. Assuming existence of a global constant $L$ that upper bounds the variation of the gradient is very restrictive. For example, simple polynomials such as ${f{(x)}} = x^{3}$ break the assumption. One workaround is to assume that $L$ exists in a compact region, and either prove that the iterates do not escape the region or run projection-based algorithms. However, such assumptions can make $L$ very large and slow down the theoretical convergence rate. In Section 4, we will show that a slow rate is unavoidable for gradient descent with fixed step size, whereas clipped gradient descent can greatly improve the dependency on $L$.
 
-The above limitations force fixed-step gradient descent (which is tailored for Lipschitz smooth functions) to converge slowly in many tasks. In Figure 1 ‣ 2 A New Relaxed Smoothness Condition ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity"), we plot the estimated function smoothness at different iterations during training neural networks. We find that function smoothness varies greatly at different iterations. From Figure 1 ‣ 2 A New Relaxed Smoothness Condition ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity"), we further find that local smoothness positively correlates with the full gradient norm, especially in the language modeling experiment. A natural question is:
-
-> Can we find a fine-grained smoothness condition under which we can design theoretically and empirically fast algorithms at the same time?
+The above limitations force fixed-step gradient descent (which is tailored for Lipschitz smooth functions) to converge slowly in many tasks. In Figure 1 ‣ 2 A New Relaxed Smoothness Condition ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity"), we plot the estimated function smoothness at different iterations during training neural networks. We find that function smoothness varies greatly at different iterations. From Figure 1 ‣ 2 A New Relaxed Smoothness Condition ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity"), we further find that local smoothness positively correlates with the full gradient norm, especially in the language modeling experiment. A natural question is: > Can we find a fine-grained smoothness condition under which we can design theoretically and empirically fast algorithms at the same time?
 
 To answer this question, we introduce the relaxed smoothness condition in the next section, which is developed on the basis of extensive experiments--- Figure 1 ‣ 2 A New Relaxed Smoothness Condition ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity") provides an illustrative example.
 
@@ -48,9 +42,7 @@ We observe strong positive correlation between function smoothness and gradient 
 
 ### Definition 1
 
-A second order differentiable function $f$ is $(L_{0},L_{1})$-smooth if
-
-Definition 1 *strictly relaxes* the usual (and widely used) $L$-smoothness. There are two ways to interpret the relaxation: First, when we focus on a compact region, we can balance the constants $L_{0}$ and $L_{1}$ such that $L_{0} \ll L$ while $L_{1} \ll L$. Second, there exist functions that are $(L_{0},L_{1})$-smooth globally, but not $L$-smooth. Hence the constant $L$ for $L$-smoothness gets larger as the compact set increases but $L_{0}$ and $L_{1}$ stay fixed. An example is given in Lemma 2.
+A second order differentiable function $f$ is $(L_{0},L_{1})$-smooth if Definition 1 *strictly relaxes* the usual (and widely used) $L$-smoothness. There are two ways to interpret the relaxation: First, when we focus on a compact region, we can balance the constants $L_{0}$ and $L_{1}$ such that $L_{0} \ll L$ while $L_{1} \ll L$. Second, there exist functions that are $(L_{0},L_{1})$-smooth globally, but not $L$-smooth. Hence the constant $L$ for $L$-smoothness gets larger as the compact set increases but $L_{0}$ and $L_{1}$ stay fixed. An example is given in Lemma 2.
 
 ### Remark 1
 
@@ -62,17 +54,13 @@ Let $f$ be the univariate polynomial ${f{(x)}} = {\sum_{i = 1}^{d}{a_{i}x^{i}}}$
 
 ### Proof
 
-The first claim follows from ${\lim_{x\rightarrow\infty}\left| \frac{f^{\prime}{(x)}}{f^{\operatorname{\prime\prime}}{(x)}} \right|} = {\lim_{x\rightarrow{- \infty}}\left| \frac{f^{\prime}{(x)}}{f^{\operatorname{\prime\prime}}{(x)}} \right|} = \infty$. The second claim follows by the unboundedness of $f^{\operatorname{\prime\prime}}{(x)}$. ∎
+The first claim follows from ${\lim_{x\rightarrow\infty}\left| \frac{f'{(x)}}{f^{\operatorname{\prime\prime}}{(x)}} \right|} = {\lim_{x\rightarrow{- \infty}}\left| \frac{f'{(x)}}{f^{\operatorname{\prime\prime}}{(x)}} \right|} = \infty$. The second claim follows by the unboundedness of $f^{\operatorname{\prime\prime}}{(x)}$. ∎
 
 ### Smoothness in neural networks
 
 We saw that our smoothness condition relaxes the traditional smoothness assumption and is motivated empirically (Figure 1 ‣ 2 A New Relaxed Smoothness Condition ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity")). Below we develop some intuition for this phenomenon. We conjecture that the proposed positive correlation results from the common components in expressions of the gradient and the Hessian. We illustrate the reasoning behind this conjecture by considering an $\ell$-layer linear network with quadratic loss---a similar computation also holds for nonlinear networks.
 
-The $L_{2}$ regression loss of a deep linear network is ${\mathcal{L}{(Y,{f{(X)}})}}:={\|{Y - {W_{\ell}\cdotsW_{1}X}}\|}^{2}$, where $Y$ denotes labels, $X$ denotes the input data matrix, and $W_{i}$ denotes the weights in the $i^{\text{th}}$ layer. By, we know that
-
-where ${vec}{( \cdot )}$ flattens a matrix in ${\mathbb{R}}^{m \times n}$ into a vector in ${\mathbb{R}}^{mn}$; $\otimes$ denotes the Kronecker product. For constants $i,j$ such that $\ell \geq j > i > 0$, the second order derivative
-
-When $j = i$, the second term equals $0$. Based on the above expressions, we notice that the gradient norm and Hessian norm may be positively correlated due to the following two observations. First, the gradient and the Hessian share many components such as the matrix product of weights across layers. Second, if one naively upper bounds the norm using Cauchy-Schwarz, then both upper-bounds would be monotonically increasing with respect to $\| W_{i}\|$ and ${\|{{f{(X)}} - Y}\|}.$
+The $L_{2}$ regression loss of a deep linear network is ${\mathcal{L}{(Y,{f{(X)}})}}:={\|{Y - {W_{\ell}\cdotsW_{1}X}}\|}^{2}$, where $Y$ denotes labels, $X$ denotes the input data matrix, and $W_{i}$ denotes the weights in the $i^{\text{th}}$ layer. By, we know that where ${vec}{(\cdot)}$ flattens a matrix in ${\mathbb{R}}^{m \times n}$ into a vector in ${\mathbb{R}}^{mn}$; $\otimes$ denotes the Kronecker product. For constants $i,j$ such that $\ell \geq j > i > 0$, the second order derivative When $j = i$, the second term equals $0$. Based on the above expressions, we notice that the gradient norm and Hessian norm may be positively correlated due to the following two observations. First, the gradient and the Hessian share many components such as the matrix product of weights across layers. Second, if one naively upper bounds the norm using Cauchy-Schwarz, then both upper-bounds would be monotonically increasing with respect to $\| W_{i}\|$ and ${\|{{f{(X)}} - Y}\|}.$
 
 ## Problems setup and algorithms
 
@@ -92,37 +80,21 @@ The function $f$ is twice differentiable.
 
 The function $f$ is $(L_{0},L_{1})$-smooth, i.e., there exist positive constants $L_{0}$ and $L_{1}$ such that ${\|{{\nabla^{2}f}{(x)}}\|} \leq {L_{0} + {L_{1}{\|{{\nabla f}{(x)}}\|}}}$---see condition.
 
-The first assumption is standard. Twice differentiability in Assumption 2 can relaxed to first-order differentiability by modifying the definition of $(L_{0},L_{1})$-smoothness as
-
-The above inequality implies ${\nabla f}{(x)}$ is locally Lipschitz, and hence almost everywhere differentiable. Therefore, all our results can go through by handling the integrations more carefully. But to avoid complications and simplify exposition, we assume that the function is twice differentiable.
+The first assumption is standard. Twice differentiability in Assumption 2 can relaxed to first-order differentiability by modifying the definition of $(L_{0},L_{1})$-smoothness as The above inequality implies ${\nabla f}{(x)}$ is locally Lipschitz, and hence almost everywhere differentiable. Therefore, all our results can go through by handling the integrations more carefully. But to avoid complications and simplify exposition, we assume that the function is twice differentiable.
 
 To further relax the global assumptions, by showing that GD and clipped GD are monotonically decreasing in function value, we require the above assumptions to hold just in a neighborhood determined by the sublevel set $\mathcal{S}$^11^1The constant "$1$" in the expression is arbitrary and can be replaced by any fixed positive constant. for a given initialization $x_{0}$, where
 
 ### Gradient descent algorithms
 
-In this section, we review a few well-known variants of gradient based algorithms that we analyze. We start with the ordinary *gradient descent* with a fixed step size $\eta$,
+In this section, we review a few well-known variants of gradient based algorithms that we analyze. We start with the ordinary *gradient descent* with a fixed step size $\eta$, This algorithm (pedantically, its stochastic version) is widely used in neural network training. Many modifications of it have been proposed to stabilize or accelerate training. One such technique of particular importance is *clipped gradient descent*, which performs the following updates: Another algorithm that is less common in practice but has attracted theoretical interest is *normalized gradient descent*. The updates for normalized GD method can be written as The stochastic version of the above algorithms replace the gradient with a stochastic estimator.
 
-This algorithm (pedantically, its stochastic version) is widely used in neural network training. Many modifications of it have been proposed to stabilize or accelerate training. One such technique of particular importance is *clipped gradient descent*, which performs the following updates:
-
-Another algorithm that is less common in practice but has attracted theoretical interest is *normalized gradient descent*. The updates for normalized GD method can be written as
-
-The stochastic version of the above algorithms replace the gradient with a stochastic estimator.
-
-We note that Clipped GD and NGD are almost equivalent. Indeed, for any given $\eta_{n}$ and $\beta$, if we set ${\gamma\eta_{c}} = \eta_{n}$ and $\eta_{c} = {\eta_{n}/\beta}$, then we have
-
-Therefore, clipped GD is equivalent to NGD up to a constant factor in the step size choice. Consequently, the nonconvex convergence rates in Section 4 and Section 4.2 for clipped GD also apply to NGD. We omit repeating the theorem statements and the analysis for conciseness.
+We note that Clipped GD and NGD are almost equivalent. Indeed, for any given $\eta_{n}$ and $\beta$, if we set ${\gamma\eta_{c}} = \eta_{n}$ and $\eta_{c} = {\eta_{n}/\beta}$, then we have Therefore, clipped GD is equivalent to NGD up to a constant factor in the step size choice. Consequently, the nonconvex convergence rates in Section 4 and Section 4.2 for clipped GD also apply to NGD. We omit repeating the theorem statements and the analysis for conciseness.
 
 ## Theoretical analysis
 
 In this section, we analyze the oracle complexities of GD and clipped GD under our relaxed smoothness condition. All the proofs are in the appendix. We highlight the key theoretical challenges that needed to overcome in Appendix B (e.g., due to absence of Lipschitz-smoothness, already the first-step of analysis, the so-called "descent lemma" fails).
 
-Since we are analyzing the global iteration complexity, let us recall the formal definition being used. We follow the notation from Carmon et al.. For a deterministic sequence ${\{ x_{k}\}}_{k \in {\mathbb{N}}}$, define the complexity of ${\{ x_{k}\}}_{k \in {\mathbb{N}}}$ for a function $f$ as
-
-For a random process ${\{ x_{k}\}}_{k \in {\mathbb{N}}}$, we define the complexity of ${\{ x_{k}\}}_{k \in {\mathbb{N}}}$ for function $f$ as
-
-In particular, if the condition is never satisfied, then the complexity is $\infty$. Given an algorithm $A_{\theta}$, where $\theta$ denotes hyperparameters such as step size and momentum coefficient, we denote $A_{\theta}{\lbrack f,x_{0}\rbrack}$ as the sequence of (potentially stochastic) iterates generated by $A$ when operating on $f$ with initialization $x_{0}$. Finally, we define the iteration complexity of an algorithm class parameterized by $p$ hyperparameters, $\mathcal{A} = {\{ A_{\theta}\}}_{\theta \in {\mathbb{R}}^{p}}$ on a function class $\mathcal{F}$ as
-
-The definition in the stochastic setting simply replaces the expression with the expression. In the rest of the paper, "iteration complexity" refers to the quantity defined above.
+Since we are analyzing the global iteration complexity, let us recall the formal definition being used. We follow the notation from Carmon et al.. For a deterministic sequence ${\{ x_{k}\}}_{k \in {\mathbb{N}}}$, define the complexity of ${\{ x_{k}\}}_{k \in {\mathbb{N}}}$ for a function $f$ as For a random process ${\{ x_{k}\}}_{k \in {\mathbb{N}}}$, we define the complexity of ${\{ x_{k}\}}_{k \in {\mathbb{N}}}$ for function $f$ as In particular, if the condition is never satisfied, then the complexity is $\infty$. Given an algorithm $A_{\theta}$, where $\theta$ denotes hyperparameters such as step size and momentum coefficient, we denote $A_{\theta}{\lbrack f,x_{0}\rbrack}$ as the sequence of (potentially stochastic) iterates generated by $A$ when operating on $f$ with initialization $x_{0}$. Finally, we define the iteration complexity of an algorithm class parameterized by $p$ hyperparameters, $\mathcal{A} = {\{ A_{\theta}\}}_{\theta \in {\mathbb{R}}^{p}}$ on a function class $\mathcal{F}$ as The definition in the stochastic setting simply replaces the expression with the expression. In the rest of the paper, "iteration complexity" refers to the quantity defined above.
 
 ### Convergence in the deterministic setting
 
@@ -130,9 +102,7 @@ In this section, we present the convergence rates for GD and clipped GD under de
 
 ### Theorem 3
 
-Let $\mathcal{F}$ denote the class of functions that satisfy Assumptions 1, 2, and 3-smoothness). ‣ 3 Problems setup and algorithms ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity") in set $\mathcal{S}$ defined in. Recall $f^{\ast}$ is a global lower bound for function value. With ${{\eta_{c} = \frac{1}{10L_{0}}},{\gamma = {\min{\{\frac{1}{\eta_{c}},\frac{1}{10L_{1}\eta_{c}}\}}}}},$ we can prove that the iteration complexity of clipped GD (Algorithm 5) is upper bounded by
-
-The proof of Theorem 3 is included in Appendix C.
+Let $\mathcal{F}$ denote the class of functions that satisfy Assumptions 1, 2, and 3-smoothness). ‣ 3 Problems setup and algorithms ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity") in set $\mathcal{S}$ defined. Recall $f^{\ast}$ is a global lower bound for function value. With ${{\eta_{c} = \frac{1}{10L_{0}}},{\gamma = {\min{\{\frac{1}{\eta_{c}},\frac{1}{10L_{1}\eta_{c}}\}}}}},$ we can prove that the iteration complexity of clipped GD (Algorithm 5) is upper bounded by The proof of Theorem 3 is included in Appendix C.
 
 Now, we discuss the convergence of vanilla GD. The standard GD is known to converge to first order $\epsilon$-stationary points in $\mathcal{O}{({{({L{({{f{(x_{0})}} - f^{\ast}})}})}\epsilon^{- 2}})}$ iterations for ${(L,0)} -$smooth nonconvex functions. By Theorem 1 of Carmon et al., this rate is up to a constant optimal.
 
@@ -140,15 +110,11 @@ However, we will show below that gradient descent is suboptimal under our relaxe
 
 ### Assumption 4
 
-Given an initialization $x_{0}$, we assume that
-
-This assumption is in fact *necessary*, as our next theorem reveals.
+Given an initialization $x_{0}$, we assume that This assumption is in fact *necessary*, as our next theorem reveals.
 
 ### Theorem 4
 
-Let $\mathcal{F}$ be the class of objectives satisfying Assumptions 1, 2, 3-smoothness). ‣ 3 Problems setup and algorithms ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity"), and 4 with fixed constants $L_{0} \geq 1$, $L_{1} \geq 1$, $M > 1$. The iteration complexity for the fixed-step gradient descent algorithms parameterized by step size $h$ is at least
-
-The proof can be found in Appendix D.
+Let $\mathcal{F}$ be the class of objectives satisfying Assumptions 1, 2, 3-smoothness). ‣ 3 Problems setup and algorithms ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity"), and 4 with fixed constants $L_{0} \geq 1$, $L_{1} \geq 1$, $M > 1$. The iteration complexity for the fixed-step gradient descent algorithms parameterized by step size $h$ is at least The proof can be found in Appendix D.
 
 ### Remark 5
 
@@ -158,9 +124,7 @@ Below, we provide an iteration upper bound for the fixed-step gradient descent u
 
 ### Theorem 6
 
-Suppose assumptions 1, 2, 3-smoothness). ‣ 3 Problems setup and algorithms ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity") and 4 hold in set $\mathcal{S}$ defined in. If we pick parameters such that $h = \frac{1}{({2{({{ML_{1}} + L_{0}})}})}$, then we can prove that the iteration complexity of GD with a fixed step size defined in Algorithm 4 is upper bounded by
-
-Please refer to Appendix E for the proof. Theorem 6 shows that gradient descent with a fixed step size converges in $\mathcal{O}{({{{({{ML_{1}} + L_{0}})}{({{f{(x_{0})}} - f^{\ast}})}}/\epsilon^{2}})}$ iterations. This suggests that the lower bound in Remark 5 is tight up to a log factor in $M$.
+Suppose assumptions 1, 2, 3-smoothness). ‣ 3 Problems setup and algorithms ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity") and 4 hold in set $\mathcal{S}$ defined. If we pick parameters such that $h = \frac{1}{({2{({{ML_{1}} + L_{0}})}})}$, then we can prove that the iteration complexity of GD with a fixed step size defined in Algorithm 4 is upper bounded by Please refer to Appendix E for the proof. Theorem 6 shows that gradient descent with a fixed step size converges in $\mathcal{O}{({{{({{ML_{1}} + L_{0}})}{({{f{(x_{0})}} - f^{\ast}})}}/\epsilon^{2}})}$ iterations. This suggests that the lower bound in Remark 5 is tight up to a log factor in $M$.
 
 ### Convergence in the stochastic setting
 
@@ -176,15 +140,11 @@ The main result of this section is the following convergence guarantee for stoch
 
 ### Theorem 7
 
-Let Assumptions 1--3-smoothness). ‣ 3 Problems setup and algorithms ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity") and 5 hold globally with $L_{1} > 0$. Let $h = {\min\left\{ \frac{1}{16\etaL_{1}{({{\| g_{k}\|} + \tau})}},\eta \right\}}$ where $\eta = {\min\left\{ \frac{1}{20L_{0}},\frac{1}{128L_{1}\tau},\frac{1}{\sqrt{T}} \right\}}$. Then we can show that iteration complexity for stochastic clipped GD after of update is upper bounded by
-
-In comparison, we have the following upper bound for ordinary SGD.
+Let Assumptions 1--3-smoothness). ‣ 3 Problems setup and algorithms ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity") and 5 hold globally with $L_{1} > 0$. Let $h = {\min\left\{ \frac{1}{16\etaL_{1}{({{\| g_{k}\|} + \tau})}},\eta \right\}}$ where $\eta = {\min\left\{ \frac{1}{20L_{0}},\frac{1}{128L_{1}\tau},\frac{1}{\sqrt{T}} \right\}}$. Then we can show that iteration complexity for stochastic clipped GD after of update is upper bounded by In comparison, we have the following upper bound for ordinary SGD.
 
 ### Theorem 8
 
-Let Assumptions 1--3-smoothness). ‣ 3 Problems setup and algorithms ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity"), and 5 hold globally with $L_{1} > 0$. Let $h = {\min\left\{ \frac{1}{\sqrt{T}},\frac{1}{L_{1}{({M + \tau})}} \right\}}$. Then the iteration complexity for the stochastic version of GD is upper bounded by
-
-We cannot provide a lower bound for this algorithm. In fact, lower bound is not known for SGD even in the global smoothness setting. However, the deterministic lower bound in Theorem 4 is still valid, though probably loose. Therefore, the convergence of SGD still requires additional assumption and can again be arbitrarily slower compared to clipped SGD when $M$ is large.
+Let Assumptions 1--3-smoothness). ‣ 3 Problems setup and algorithms ‣ Why gradient clipping accelerates training: A theoretical justification for adaptivity"), and 5 hold globally with $L_{1} > 0$. Let $h = {\min\left\{ \frac{1}{\sqrt{T}},\frac{1}{L_{1}{({M + \tau})}} \right\}}$. Then the iteration complexity for the stochastic version of GD is upper bounded by We cannot provide a lower bound for this algorithm. In fact, lower bound is not known for SGD even in the global smoothness setting. However, the deterministic lower bound in Theorem 4 is still valid, though probably loose. Therefore, the convergence of SGD still requires additional assumption and can again be arbitrarily slower compared to clipped SGD when $M$ is large.
 
 ## Experiments
 
@@ -214,7 +174,7 @@ Figure 3: Gradient norm vs smoothness on log scale for training. The dot color i
 
 Figure 4: Training and validation loss obtained with different training methods for LSTM and ResNet training. The validation loss plots the cross entropy. The training loss additionally includes the weight regularization term. In the legend, ‘lr30clip0.25’ denotes that clipped SGD uses step size 30 and that the L2 norm of the stochastic gradient is clipped by 0.25. In ResNet training, we threshold the stochastic gradient norm at 0.25 when clipping is applied.
 
-In this section, we summarize our empirical findings on the positive correlation between gradient norm and local smoothness. We then show that clipping accelerates convergence during neural network training. Our experiments are based on two tasks: language modeling and image classification. We run language modeling on the Penn Treebank (PTB) dataset with AWD-LSTM models ^22^2Part of the code is available at [https://github.com/JingzhaoZhang/why-clipping-accelerates](https://github.com/JingzhaoZhang/why-clipping-accelerates). We train on the dataset. Details about the smoothness estimation and experimental setups are in Appendix H. An additional synthetic experiment is discussed in Appendix I.
+In this section, we summarize our empirical findings on the positive correlation between gradient norm and local smoothness. We then show that clipping accelerates convergence during neural network training. Our experiments are based on two tasks: language modeling and image classification. We run language modeling on the Penn Treebank (PTB) dataset with AWD-LSTM models ^22^2Part of the code is available at We train on the dataset. Details about the smoothness estimation and experimental setups are in Appendix H. An additional synthetic experiment is discussed in Appendix I.
 
 First, our experiments test whether the local smoothness constant increases with the gradient norm, as suggested by the relaxed smoothness conditions defined in (Section 2). To do so, we evaluate both quantities at points generated by the optimization procedure. We then scatter the local smoothness constants against the gradient norms in Figure 2 and Figure 3. Note that the plots are on a log-scale. A linear scale plot is shown in Appendix Figure 5.
 
@@ -230,6 +190,4 @@ Much progress has been made to close the gap between upper and lower oracle comp
 
 Our work aims to close this gap. Specifically, we propose a relaxed smoothness assumption that is supported by empirical evidence. We analyze a simple but widely used optimization technique known as gradient clipping and provide theoretical guarantees that clipping can accelerate gradient descent. This phenomenon aligns remarkably well with empirical observations.
 
-There is still much to be explored in this direction. First, though our smoothness condition relaxes the usual Lipschitz assumption, it is unclear if there is an even better condition that also matches the experimental observations while also enabling a clean theoretical analysis. Second, we only study convergence of clipped gradient descent. Studying the convergence properties of other techniques such as momentum, coordinate-wise learning rates (more generally, preconditioning), and variance reduction is also interesting. Finally, the most important question is: *"can we design fast algorithms based on relaxed conditions that achieve faster convergence in neural network training?"*
-
-Our experiments also have noteworthy implications. First, though advocating clipped gradient descent in ResNet training is not a main point of this work, it is interesting to note that gradient descent and clipped gradient descent with large step sizes can achieve a similar *test performance* as momentum-SGD. Second, we learned that the performance of the baseline algorithm can actually beat some recently proposed algorithms. Therefore, when we design or learn about new algorithms, we need to pay extra attention to check whether the baseline algorithms are properly tuned.
+There is still much to be explored in this direction. First, though our smoothness condition relaxes the usual Lipschitz assumption, it is unclear if there is an even better condition that also matches the experimental observations while also enabling a clean theoretical analysis. Second, we only study convergence of clipped gradient descent. Studying the convergence properties of other techniques such as momentum, coordinate-wise learning rates (more generally, preconditioning), and variance reduction is also interesting. Finally, the most important question is: *"can we design fast algorithms based on relaxed conditions that achieve faster convergence in neural network training?"* Our experiments also have noteworthy implications. First, though advocating clipped gradient descent in ResNet training is not a main point of this work, it is interesting to note that gradient descent and clipped gradient descent with large step sizes can achieve a similar *test performance* as momentum-SGD. Second, we learned that the performance of the baseline algorithm can actually beat some recently proposed algorithms. Therefore, when we design or learn about new algorithms, we need to pay extra attention to check whether the baseline algorithms are properly tuned.

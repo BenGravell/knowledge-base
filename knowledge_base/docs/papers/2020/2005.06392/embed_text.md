@@ -16,15 +16,7 @@ The remainder of the paper is organized as follows. After introducing notation a
 
 ## Notations and Settings
 
-For a finite set $\mathcal{X}$, we use $\Delta{(\mathcal{X})}$ to denote the set of probability distributions over $\mathcal{X}$. A finite Markov decision process (MDP) $\mathcal{M} = {(\mathcal{S},\mathcal{A},\mathcal{P},r,\gamma)}$ is determined by a finite state space $\mathcal{S}$, a finite action space $\mathcal{A}$, transition function $\mathcal{P}:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\Delta{(\mathcal{S})}}}$, reward function $r:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$, and discount factor $\gamma \in {\lbrack 0,1)}$. Given a policy $\pi:{\mathcal{S}\rightarrow{\Delta{(\mathcal{A})}}}$, the value of state $s$ under $\pi$ is defined as
-
-We also let ${V^{\pi}{(\rho)}} ≔ {\mathbb{E}_{s \sim \rho}\left\lbrack {V^{\pi}{(s)}} \right\rbrack}$, where $\rho \in {\Delta{(\mathcal{S})}}$ is an initial state distribution. The state-action value of $\pi$ at ${(s,a)} \in {\mathcal{S} \times \mathcal{A}}$ is defined as
-
-We let ${A^{\pi}{(s,a)}} ≔ {{Q^{\pi}{(s,a)}} - {V^{\pi}{(s)}}}$ be the so-called advantage function of $\pi$. The (discounted) state distribution of $\pi$ is defined as
-
-and we let ${d_{\rho}^{\pi}{(s)}} ≔ {\mathbb{E}_{s_{0} \sim \rho}\left\lbrack {d_{s_{0}}^{\pi}{(s)}} \right\rbrack}$. Given $\rho$, there exists an optimal policy $\pi^{\ast}$ such that
-
-We denote ${V^{\ast}{(\rho)}} ≔ {V^{\pi^{\ast}}{(\rho)}}$ for conciseness. Since $\mathcal{S} \times \mathcal{A}$ is finite, for convenience, without loss of generality, we assume that the one step reward lies in the $\lbrack 0,1\rbrack$ interval:
+For a finite set $\mathcal{X}$, we use $\Delta{(\mathcal{X})}$ to denote the set of probability distributions over $\mathcal{X}$. A finite Markov decision process (MDP) $\mathcal{M} = {(\mathcal{S},\mathcal{A},\mathcal{P},r,\gamma)}$ is determined by a finite state space $\mathcal{S}$, a finite action space $\mathcal{A}$, transition function $\mathcal{P}:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\Delta{(\mathcal{S})}}}$, reward function $r:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$, and discount factor $\gamma \in {\lbrack 0,1)}$. Given a policy $\pi:{\mathcal{S}\rightarrow{\Delta{(\mathcal{A})}}}$, the value of state $s$ under $\pi$ is defined as We also let ${V^{\pi}{(\rho)}} ≔ {\mathbb{E}_{s \sim \rho}\left\lbrack {V^{\pi}{(s)}} \right\rbrack}$, where $\rho \in {\Delta{(\mathcal{S})}}$ is an initial state distribution. The state-action value of $\pi$ at ${(s,a)} \in {\mathcal{S} \times \mathcal{A}}$ is defined as We let ${A^{\pi}{(s,a)}} ≔ {{Q^{\pi}{(s,a)}} - {V^{\pi}{(s)}}}$ be the so-called advantage function of $\pi$. The (discounted) state distribution of $\pi$ is defined as and we let ${d_{\rho}^{\pi}{(s)}} ≔ {\mathbb{E}_{s_{0} \sim \rho}\left\lbrack {d_{s_{0}}^{\pi}{(s)}} \right\rbrack}$. Given $\rho$, there exists an optimal policy $\pi^{\ast}$ such that We denote ${V^{\ast}{(\rho)}} ≔ {V^{\pi^{\ast}}{(\rho)}}$ for conciseness. Since $\mathcal{S} \times \mathcal{A}$ is finite, for convenience, without loss of generality, we assume that the one step reward lies in the $\lbrack 0,1\rbrack$ interval:
 
 ### Assumption 1 (Bounded reward)
 
@@ -34,25 +26,21 @@ The softmax transform of a vector exponentiates the components of the vector and
 
 ### Softmax transform
 
-Given the function $\theta:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$, the softmax transform of $\theta$ is defined as $\pi_{\theta}{( \cdot |s)} ≔ {softmax}{(\theta{(s, \cdot )})}$, where for all $a \in \mathcal{A}$,
-
-Due to its origin in logistic regression, we call the values $\theta{(s,a)}$ the *logit* values and the function $\theta$ itself a logit function. We also extend this notation to the case when there are no states: For $\theta:{{\lbrack K\rbrack}\rightarrow{\mathbb{R}}}$, we define $\pi_{\theta} ≔ {{softmax}{(\theta)}}$ using ${\pi_{\theta}{(a)}} = {{\exp{\{{\theta{(a)}}\}}}/{\sum_{a^{\prime}}{\exp{\{{\theta{(a^{\prime})}}\}}}}}$ ($a \in {\lbrack K\rbrack}$).
+Given the function $\theta:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$, the softmax transform of $\theta$ is defined as $\pi_{\theta}{(\cdot |s)} ≔ {softmax}{(\theta{(s, \cdot)})}$, where for all $a \in \mathcal{A}$, Due to its origin in logistic regression, we call the values $\theta{(s,a)}$ the *logit* values and the function $\theta$ itself a logit function. We also extend this notation to the case when there are no states: For $\theta:{{\lbrack K\rbrack}\rightarrow{\mathbb{R}}}$, we define $\pi_{\theta} ≔ {{softmax}{(\theta)}}$ using ${\pi_{\theta}{(a)}} = {{\exp{\{{\theta{(a)}}\}}}/{\sum_{a'}{\exp{\{{\theta{(a')}}\}}}}}$ ($a \in {\lbrack K\rbrack}$).
 
 ### H matrix
 
-Given any distribution $\pi$ over $\lbrack K\rbrack$, let ${H{(\pi)}} ≔ {{\text{diag}{(\pi)}} - {\pi\pi^{\top}}} \in {\mathbb{R}}^{K \times K}$, where ${\text{diag}{(x)}} \in {\mathbb{R}}^{K \times K}$ is the diagonal matrix that has $x \in {\mathbb{R}}^{K}$ at its diagonal. The $H$ matrix will play a central role in our analysis because $H{(\pi_{\theta})}$ is the Jacobian of the $\theta\mapsto\pi_{\theta}:={{softmax}{(\theta)}}$ map that maps ${\mathbb{R}}^{\lbrack K\rbrack}$ to the $({K - 1})$-simplex:
-
-Here, we are using the standard convention that derivatives give row-vectors. Finally, we recall the definition of smoothness from convex analysis:
+Given any distribution $\pi$ over $\lbrack K\rbrack$, let ${H{(\pi)}} ≔ {{\text{diag}{(\pi)}} - {\pi\pi^{\top}}} \in {\mathbb{R}}^{K \times K}$, where ${\text{diag}{(x)}} \in {\mathbb{R}}^{K \times K}$ is the diagonal matrix that has $x \in {\mathbb{R}}^{K}$ at its diagonal. The $H$ matrix will play a central role in our analysis because $H{(\pi_{\theta})}$ is the Jacobian of the $\theta\mapsto\pi_{\theta}:={{softmax}{(\theta)}}$ map that maps ${\mathbb{R}}^{\lbrack K\rbrack}$ to the $({K - 1})$-simplex: Here, we are using the standard convention that derivatives give row-vectors. Finally, we recall the definition of smoothness from convex analysis:
 
 ### Smoothness
 
-A function $f:{\Theta\rightarrow{\mathbb{R}}}$ with $\Theta \subset {\mathbb{R}}^{d}$ is $\beta$-smooth (w.r.t. $\ell_{2}$ norm, $\beta > 0$) if for all $\theta$, $\theta^{\prime} \in \Theta$,
+A function $f:{\Theta\rightarrow{\mathbb{R}}}$ with $\Theta \subset {\mathbb{R}}^{d}$ is $\beta$-smooth (w.r.t. $\ell_{2}$ norm, $\beta > 0$) if for all $\theta$, $\theta' \in \Theta$,
 
 ## Policy Gradient
 
 Policy gradient is a special policy search method. In policy search, one considers a family of policies parametrized by finite-dimensional parameter vectors, reducing the search for a good policy to searching in the space of parameters. This search is usually accomplished by making incremental changes (additive updates) to the parameters. Representative policy-based RL methods include REINFORCE, natural policy gradient, deterministic policy gradient, and trust region policy optimization. In policy gradient methods, the parameters are updated by following the gradient of the map that maps policy parameters to values. Under mild conditions, the gradient can be reexpressed in a convenient form in terms of the policy's action-value function and the gradients of the policy parametrization:
 
-### Theorem 1 (Policy gradient theorem (Sutton et al., 2000))
+### Theorem 1 (Policy gradient theorem )
 
 Fix a map $\theta\mapsto{\pi_{\theta}{(\left. a \middle| s \right.)}}$ that for any $(s,a)$ is differentiable and fix an initial distribution $\mu \in {\Delta{(\mathcal{S})}}$. Then,
 
@@ -60,18 +48,11 @@ Fix a map $\theta\mapsto{\pi_{\theta}{(\left. a \middle| s \right.)}}$ that for 
 
 We focus on the policy gradient method that uses the softmax parametrization. Since we consider the tabular case, the policy is then parametrized using the logit $\theta:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ function and $\pi_{\theta}{( \cdot |s)} = {softmax}{(\theta{(s, \cdot )})}$. The vanilla form of policy gradient for this case is shown in Algorithm 1.
 
-Input: Learning rate η &gt; 0.
-Initialize logit θ1 (s,a) for all (s,a).
-$\theta_{t + 1}\leftarrow{\theta_{t} + {\eta \cdot \frac{\partial{V^{\pi_{\theta_{t}}}{(\mu)}}}{\partial\theta_{t}}}}$.
-Algorithm 1 Policy Gradient Method
-
-With some calculation, Theorem 1). ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") can be used to show that the gradient takes the following special form in this case:
+Input: Learning rate η > 0. Initialize logit θ1 (s, a) for all (s, a). $\theta_{t + 1}\leftarrow{\theta_{t} + {\eta \cdot \frac{\partial{V^{\pi_{\theta_{t}}}{(\mu)}}}{\partial\theta_{t}}}}$. Algorithm 1 Policy Gradient Method With some calculation, Theorem 1). ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") can be used to show that the gradient takes the following special form in this case:
 
 ### Lemma 1
 
-Softmax policy gradient w.r.t. $\theta$ is
-
-Due to space constraints, the proof of this, as well as of all the remaining results are given in the appendix. While this lemma was known, we included a proof for the sake of completeness.
+Softmax policy gradient w.r.t. $\theta$ is Due to space constraints, the proof of this, as well as of all the remaining results are given in the appendix. While this lemma was known, we included a proof for the sake of completeness.
 
 Recently, Agarwal et al. showed that softmax policy gradient asymptotically converges to $\pi^{\ast}$, i.e., ${V^{\pi_{\theta_{t}}}{(\rho)}}\rightarrow{V^{\ast}{(\rho)}}$ as $t\rightarrow\infty$ provided that ${\mu{(s)}} > 0$ holds for all states $s \in \mathcal{S}$. We strengthen this result to show that the rate of convergence (in terms of value sub-optimality) is $O{({1/t})}$. The next section is devoted to this result. For better accessibility, we start with the result for the bandit case which presents an opportunity to explaining the main ideas underlying our result in a clean fashion.
 
@@ -79,17 +60,13 @@ Recently, Agarwal et al. showed that softmax policy gradient asymptotically conv
 
 ### The Instructive Case of Bandits
 
-As promised, in this section we consider "bandit case": In particular, assume that the MDP has a single state and the discount factor $\gamma$ is zero: $\gamma = 0$. In this case, Eq. 1 reduces to maximizing the expected reward,
-
-With $\pi_{\theta} = {{softmax}{(\theta)}}$, even in this simple setting, the objective is non-concave in $\theta$, as shown by a simple example:
+As promised, in this section we consider "bandit case": In particular, assume that the MDP has a single state and the discount factor $\gamma$ is zero: $\gamma = 0$. In this case, Eq. 1 reduces to maximizing the expected reward, With $\pi_{\theta} = {{softmax}{(\theta)}}$, even in this simple setting, the objective is non-concave in $\theta$, as shown by a simple example:
 
 ### Proposition 1
 
 On some problems, $\theta\mapsto{\mathbb{E}_{a \sim \pi_{\theta}}{\lbrack{r{(a)}}\rbrack}}$ is a non-concave function over ${\mathbb{R}}^{K}$.
 
-As $\gamma = 0$ and there is a single state, Lemma 1 simplifies to
-
-Putting things together, we see that in this case the update in Algorithm 1 takes the following form:
+As $\gamma = 0$ and there is a single state, Lemma 1 simplifies to Putting things together, we see that in this case the update in Algorithm 1 takes the following form:
 
 ### Update 1 (Softmax policy gradient, expected reward)
 
@@ -105,23 +82,17 @@ Smoothness alone (as is also well known) is not sufficient to guarantee that gra
 
 ### Lemma 3 (Non-uniform Łojasiewicz)
 
-Assume $r$ has one unique maximizing action $a^{\ast}$. Let $\pi^{\ast} = {{\arg\max}_{\pi \in \Delta}{\pi^{\top}r}}$. Then,
-
-The weakness of this inequality is that the right-hand side scales with $\pi_{\theta}{(a^{\ast})}$ -- hence we call it non-uniform. As a result, Lemma 3. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") is not very useful if $\pi_{\theta_{t}}{(a^{\ast})}$, the optimal action's probability, becomes very small during the updates.
+Assume $r$ has one unique maximizing action $a^{\ast}$. Let $\pi^{\ast} = {{\arg\max}_{\pi \in \Delta}{\pi^{\top}r}}$. Then, The weakness of this inequality is that the right-hand side scales with $\pi_{\theta}{(a^{\ast})}$ -- hence we call it non-uniform. As a result, Lemma 3. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") is not very useful if $\pi_{\theta_{t}}{(a^{\ast})}$, the optimal action's probability, becomes very small during the updates.
 
 Nevertheless, the inequality still suffices to get an following intermediate result. The proof of this result combines smoothness and the Łojasiewicz inequality we derived.
 
 ### Lemma 4 (Pseudo-rate)
 
-Let $c_{t} = {{\min_{1 \leq s \leq t}\pi_{\theta_{s}}}{(a^{\ast})}}$. Using Update 1. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with $\eta = {2/5}$, for all $t \geq 1$,
-
-In the remainder of this section we assume that $\eta = {2/5}$.
+Let $c_{t} = {{\min_{1 \leq s \leq t}\pi_{\theta_{s}}}{(a^{\ast})}}$. Using Update 1. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with $\eta = {2/5}$, for all $t \geq 1$, In the remainder of this section we assume that $\eta = {2/5}$.
 
 ### Remark 1
 
-The value of $\pi_{\theta_{t}}{(a^{\ast})}$, while it is nonzero (and so is $c_{t}$) can be small (e.g., because of the choice of $\theta_{1}$). Consequently, its minimum $c_{t}$ can be quite small and the upper bound in Lemma 4. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") can be large, or even vacuous. The dependence of the previous result on $\pi_{\theta_{t}}{(a^{\ast})}$ comes from Lemma 3. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods"). As it turns out, it is not possible to eliminate or improve the dependence on $\pi_{\theta}{(a^{\ast})}$ in Lemma 3. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods"). To see this consider $r = {}^{\top}$, $\pi_{\theta} = {({2\epsilon},{{1/2} - {2\epsilon}},{1/2})}$ where $\epsilon > 0$ is small number. By algebra, ${{({\pi^{\ast} - \pi_{\theta}})}^{\top}r} = {1 - {2\epsilon}} > {1/2}$, $\frac{d\pi_{\theta}^{\top}r}{d\theta} = {({{2\epsilon} - {4\epsilon^{2}}},{{- \epsilon} + {4\epsilon^{2}}},{- \epsilon})}^{\top}$, $\left\| \frac{d\pi_{\theta}^{\top}r}{d\theta} \right\|_{2} = {\epsilon \cdot \sqrt{{6 - {24\epsilon}} + {32\epsilon^{2}}}} \leq {3\epsilon}$. Hence, for any constant $C > 0$,
-
-which means for any Łojasiewicz-type inequality, $C$ necessarily depends on $\epsilon$ and hence on ${\pi_{\theta}{(a^{\ast})}} = {2\epsilon}$.
+The value of $\pi_{\theta_{t}}{(a^{\ast})}$, while it is nonzero (and so is $c_{t}$) can be small (e.g., because of the choice of $\theta_{1}$). Consequently, its minimum $c_{t}$ can be quite small and the upper bound in Lemma 4. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") can be large, or even vacuous. The dependence of the previous result on $\pi_{\theta_{t}}{(a^{\ast})}$ comes from Lemma 3. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods"). As it turns out, it is not possible to eliminate or improve the dependence on $\pi_{\theta}{(a^{\ast})}$ in Lemma 3. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods"). To see this consider $r = {}^{\top}$, $\pi_{\theta} = {({2\epsilon},{{1/2} - {2\epsilon}},{1/2})}$ where $\epsilon > 0$ is small number. By algebra, ${{({\pi^{\ast} - \pi_{\theta}})}^{\top}r} = {1 - {2\epsilon}} > {1/2}$, $\frac{d\pi_{\theta}^{\top}r}{d\theta} = {({{2\epsilon} - {4\epsilon^{2}}},{{- \epsilon} + {4\epsilon^{2}}},{- \epsilon})}^{\top}$, $\left\| \frac{d\pi_{\theta}^{\top}r}{d\theta} \right\|_{2} = {\epsilon \cdot \sqrt{{6 - {24\epsilon}} + {32\epsilon^{2}}}} \leq {3\epsilon}$. Hence, for any constant $C > 0$, which means for any Łojasiewicz-type inequality, $C$ necessarily depends on $\epsilon$ and hence on ${\pi_{\theta}{(a^{\ast})}} = {2\epsilon}$.
 
 The necessary dependence on $\pi_{\theta_{t}}{(a^{\ast})}$ makes it clear that Lemma 4. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") is insufficient to conclude a $O{({1/t})}$ rate. since $c_{t}$ may vanish faster than $O{({1/t})}$ as $t$ increases. Our next result eliminates this possibility. In particular, the result follows from the asymptotic convergence result of Agarwal et al. which states that ${\pi_{\theta_{t}}{(a^{\ast})}}\rightarrow 1$ as $t\rightarrow\infty$. From this and because ${\pi_{\theta}{(a)}} > 0$ for any $\theta \in {\mathbb{R}}^{K}$ and action $a$, we conclude that $\pi_{\theta_{t}}{(a^{\ast})}$ remains bounded away from zero during the course of the updates:
 
@@ -141,9 +112,7 @@ With Lemmas 4. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rat
 
 ### Theorem 2 (Arbitrary initialization)
 
-Using Update 1. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with $\eta = {2/5}$, for all $t \geq 1$,
-
-where $c = {\inf_{t \geq 1}{\pi_{\theta_{t}}{(a^{\ast})}}} > 0$ is a constant that depends on $r$ and $\theta_{1}$, but it does not depend on the time $t$.
+Using Update 1. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with $\eta = {2/5}$, for all $t \geq 1$, where $c = {\inf_{t \geq 1}{\pi_{\theta_{t}}{(a^{\ast})}}} > 0$ is a constant that depends on $r$ and $\theta_{1}$, but it does not depend on the time $t$.
 
 Proposition 2 suggests that one should set $\theta_{1}$ so that $\pi_{\theta_{1}}$ is uniform. Using this initialization, we can show that ${\inf_{t \geq 1}{\pi_{\theta_{t}}{(a^{\ast})}}} \geq {1/K}$, strengthening Theorem 2. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods"):
 
@@ -159,9 +128,7 @@ In general it is difficult to characterize how the constant $C$ in Theorem 2. �
 
 ### Lemma 6
 
-Let ${r{}} > {r{}} > {r{}}$. Then, $a^{\ast} = 1$ and ${\inf_{t \geq 1}{\pi_{\theta_{t}}{(a^{\ast})}}} = {{\min_{1 \leq t \leq t_{0}}\pi_{\theta_{t}}}{}}$, where
-
-Note that the smaller ${r{}} - {r{}}$ and $\pi_{\theta_{1}}{}$ are, the larger $t_{0}$ is, which potentially means $c$ in Theorem 2. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") can be smaller.
+Let ${r{}} > {r{}} > {r{}}$. Then, $a^{\ast} = 1$ and ${\inf_{t \geq 1}{\pi_{\theta_{t}}{(a^{\ast})}}} = {{\min_{1 \leq t \leq t_{0}}\pi_{\theta_{t}}}{}}$, where Note that the smaller ${r{}} - {r{}}$ and $\pi_{\theta_{1}}{}$ are, the larger $t_{0}$ is, which potentially means $c$ in Theorem 2. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") can be smaller.
 
 ### Visualization
 
@@ -173,15 +140,11 @@ When the optimal action is non-unique, the arguments need to be slightly modifie
 
 ### General MDPs
 
-For general MDPs, the optimization problem takes the form
-
-Here, as before, $\pi_{\theta}{( \cdot |s)} = {softmax}{(\theta{(s, \cdot )})}$, $s \in \mathcal{S}$. Following Agarwal et al., the values here are defined with respect to an initial state distribution $\rho$ which may not be the same as the initial state distribution $\mu$ used in the gradient updates (cf. Algorithm 1), allowing for greater flexibility in our analysis. While the initial state distributions do not play any role in the bandit case, here, in the multi-state case, they have a strong influence. In particular, for the rest of this section, we will assume that the initial state distribution $\mu$ used in the gradient updates is bounded away from zero:
+For general MDPs, the optimization problem takes the form Here, as before, $\pi_{\theta}{(\cdot |s)} = {softmax}{(\theta{(s, \cdot)})}$, $s \in \mathcal{S}$. Following Agarwal et al., the values here are defined with respect to an initial state distribution $\rho$ which may not be the same as the initial state distribution $\mu$ used in the gradient updates (cf. Algorithm 1), allowing for greater flexibility in our analysis. While the initial state distributions do not play any role in the bandit case, here, in the multi-state case, they have a strong influence. In particular, for the rest of this section, we will assume that the initial state distribution $\mu$ used in the gradient updates is bounded away from zero:
 
 ### Assumption 2 (Sufficient exploration)
 
-The initial state distribution satisfies ${{\min_{s}\mu}{(s)}} > 0$.
-
-2. ‣ 3.2.2 General MDPs ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") was also adapted by Agarwal et al., which ensures "sufficient exploration" in the sense that the occupancy measure $d_{\mu}^{\pi}$ of any policy $\pi$ when started from $\mu$ will be guaranteed to be positive over the whole state space. Agarwal et al. asked whether this assumption is necessary for convergence to global optimality.
+The initial state distribution satisfies ${{\min_{s}\mu}{(s)}} > 0$. 2. ‣ 3.2.2 General MDPs ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") was also adapted by Agarwal et al., which ensures "sufficient exploration" in the sense that the occupancy measure $d_{\mu}^{\pi}$ of any policy $\pi$ when started from $\mu$ will be guaranteed to be positive over the whole state space. Agarwal et al. asked whether this assumption is necessary for convergence to global optimality.
 
 ### Proposition 3
 
@@ -213,9 +176,7 @@ Using Lemmas 7. ‣ 3.2.2 General MDPs ‣ 3.2 Convergence Rates ‣ 3 Policy Gr
 
 ### Theorem 4
 
-Let 2. ‣ 3.2.2 General MDPs ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") hold and let ${\{\theta_{t}\}}_{t \geq 1}$ be generated using Algorithm 1 with $\eta = {{({1 - \gamma})}^{3}/8}$, $c$ the positive constant from Lemma 9. Then, for all $t \geq 1$,
-
-As far as we know, this is the first convergence-rate result for softmax policy gradient for MDPs.
+Let 2. ‣ 3.2.2 General MDPs ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") hold and let ${\{\theta_{t}\}}_{t \geq 1}$ be generated using Algorithm 1 with $\eta = {{({1 - \gamma})}^{3}/8}$, $c$ the positive constant from Lemma 9. Then, for all $t \geq 1$, As far as we know, this is the first convergence-rate result for softmax policy gradient for MDPs.
 
 ### Remark 3
 
@@ -227,17 +188,11 @@ Agarwal et al. considered relative-entropy regularization in policy gradient to 
 
 ### Maximum Entropy RL
 
-In entropy regularized RL, or sometimes called maximum entropy RL, near-deterministic policies are penalized, which is achieved by modifying the value of a policy $\pi$ to
-
-where ${\mathbb{H}}{(\rho,\pi)}$ is the "discounted entropy", defined as
-
-and $\tau \geq 0$, the "temperature", determines the strength of the penalty.^33^3 To better align with naming conventions in information-theory, discounted entropy should be rather called the discounted action-entropy rate as entropy itself in the literature on Markov chain information theory would normally refer to the entropy of the stationary distribution of the chain, while entropy rate refers to what is being used here. Clearly, the value of any policy can be obtained by adding an entropy penalty to the rewards (as proposed originally by Williams & Peng ). Hence, similarly to Lemma 1, one can obtain the following expression for the gradient of the entropy regularized objective under the softmax policy parametrization:
+In entropy regularized RL, or sometimes called maximum entropy RL, near-deterministic policies are penalized, which is achieved by modifying the value of a policy $\pi$ to where ${\mathbb{H}}{(\rho,\pi)}$ is the "discounted entropy", defined as and $\tau \geq 0$, the "temperature", determines the strength of the penalty.^33^3 To better align with naming conventions in information-theory, discounted entropy should be rather called the discounted action-entropy rate as entropy itself in the literature on Markov chain information theory would normally refer to the entropy of the stationary distribution of the chain, while entropy rate refers to what is being used here. Clearly, the value of any policy can be obtained by adding an entropy penalty to the rewards (as proposed originally by Williams & Peng). Hence, similarly to Lemma 1, one can obtain the following expression for the gradient of the entropy regularized objective under the softmax policy parametrization:
 
 ### Lemma 10
 
-It holds that for all $(s,a)$,
-
-where ${\overset{\sim}{A}}^{\pi_{\theta}}{(s,a)}$ is the "soft" advantage function defined as
+It holds that for all $(s,a)$, where ${\overset{\sim}{A}}^{\pi_{\theta}}{(s,a)}$ is the "soft" advantage function defined as
 
 ### Convergence Rates
 
@@ -245,11 +200,7 @@ As in the non-regularized case, to gain insight, we first consider MDPs with a s
 
 ### Bandit Case
 
-In the one-state case with $\gamma = 0$, Eq. 15 reduces to maximizing the entropy-regularized reward,
-
-Again, Eq. 20 is a non-concave function of $\theta$. In this case, regularized policy gradient reduces to
-
-where $H{(\pi_{\theta})}$ is the same as in Eq. 6. Using the above gradient in Algorithm 1 we have the following update rule:
+In the one-state case with $\gamma = 0$, Eq. 15 reduces to maximizing the entropy-regularized reward, Again, Eq. 20 is a non-concave function of $\theta$. In this case, regularized policy gradient reduces to where $H{(\pi_{\theta})}$ is the same as in Eq. 6. Using the above gradient in Algorithm 1 we have the following update rule:
 
 ### Update 2 (Softmax policy gradient, maximum entropy reward)
 
@@ -269,17 +220,13 @@ Our alternative idea is to show that Update 2. ‣ 4.2.1 Bandit Case ‣ 4.2 Con
 
 ### Lemma 11 (Non-uniform contraction)
 
-Using Update 2. ‣ 4.2.1 Bandit Case ‣ 4.2 Convergence Rates ‣ 4 Entropy Regularized Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with ${\tau\eta} \leq 1$, ${\forall t} > 0$,
-
-where $\zeta_{t} ≔ {{\tau\theta_{t}} - r - {\frac{{({{\tau\theta_{t}} - r})}^{\top}\mathbf{1}}{K} \cdot \mathbf{1}}}$.
+Using Update 2. ‣ 4.2.1 Bandit Case ‣ 4.2 Convergence Rates ‣ 4 Entropy Regularized Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with ${\tau\eta} \leq 1$, ${\forall t} > 0$, where $\zeta_{t} ≔ {{\tau\theta_{t}} - r - {\frac{{({{\tau\theta_{t}} - r})}^{\top}\mathbf{1}}{K} \cdot \mathbf{1}}}$.
 
 This lemma immediately implies the following bound:
 
 ### Lemma 12
 
-Using Update 2. ‣ 4.2.1 Bandit Case ‣ 4.2 Convergence Rates ‣ 4 Entropy Regularized Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with ${\tau\eta} \leq 1$, ${\forall t} > 0$,
-
-Similarly to Lemma 5, we can show that the minimum action probability can be lower bounded by its initial value.
+Using Update 2. ‣ 4.2.1 Bandit Case ‣ 4.2 Convergence Rates ‣ 4 Entropy Regularized Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with ${\tau\eta} \leq 1$, ${\forall t} > 0$, Similarly to Lemma 5, we can show that the minimum action probability can be lower bounded by its initial value.
 
 ### Lemma 13
 
@@ -289,15 +236,11 @@ A closed-form expression for $c$ is given in the appendix. Note that when $\tau 
 
 ### Theorem 5
 
-Using Update 2. ‣ 4.2.1 Bandit Case ‣ 4.2 Convergence Rates ‣ 4 Entropy Regularized Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with $\eta \leq {1/\tau}$, for all $t \geq 1$,
-
-where ${\overset{\sim}{\delta}}_{t} ≔ {{{}_{}^{}\left( {r - {\tau{\log\pi_{\tau}^{\ast}}}} \right)} - {\pi_{\theta_{t}}^{\top}\left( {r - {\tau{\log\pi_{\theta_{t}}}}} \right)}}$ and $c > 0$ is from Lemma 13.
+Using Update 2. ‣ 4.2.1 Bandit Case ‣ 4.2 Convergence Rates ‣ 4 Entropy Regularized Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with $\eta \leq {1/\tau}$, for all $t \geq 1$, where ${\overset{\sim}{\delta}}_{t} ≔ {{\pi_{\tau}^{\ast \top}\left({r - {\tau{\log\pi_{\tau}^{\ast}}}} \right)} - {\pi_{\theta_{t}}^{\top}\left({r - {\tau{\log\pi_{\theta_{t}}}}} \right)}}$ and $c > 0$ is from Lemma 13.
 
 ### General MDPs
 
-For general MDPs, the problem is to maximize ${\overset{\sim}{V}}^{\pi_{\theta}}{(\rho)}$ in Eq. 15. The softmax optimal policy $\pi_{\tau}^{\ast}$ is known to satisfy the following consistency conditions:
-
-Using a somewhat lengthy calculation, we show that the discounted entropy in Eq. 16 is smooth:
+For general MDPs, the problem is to maximize ${\overset{\sim}{V}}^{\pi_{\theta}}{(\rho)}$ in Eq. 15. The softmax optimal policy $\pi_{\tau}^{\ast}$ is known to satisfy the following consistency conditions: Using a somewhat lengthy calculation, we show that the discounted entropy in Eq. 16 is smooth:
 
 ### Lemma 14 (Smoothness)
 
@@ -307,9 +250,7 @@ Our next key result shows that the augmented value function ${\overset{\sim}{V}}
 
 ### Lemma 15 (Non-uniform Łojasiewicz)
 
-Suppose ${\mu{(s)}} > 0$ for all state $s \in \mathcal{S}$. Then,
-
-The main difference to the previous versions of the non-uniform Łojasiewicz inequality is that the sub-optimality gap appears under the square root. For small sub-optimality gaps this means that the gradient must be larger -- a stronger "signal". Next, we show that action probabilities are still uniformly bounded away from zero:
+Suppose ${\mu{(s)}} > 0$ for all state $s \in \mathcal{S}$. Then, The main difference to the previous versions of the non-uniform Łojasiewicz inequality is that the sub-optimality gap appears under the square root. For small sub-optimality gaps this means that the gradient must be larger -- a stronger "signal". Next, we show that action probabilities are still uniformly bounded away from zero:
 
 ### Lemma 16
 
@@ -319,9 +260,7 @@ With Lemmas 14. ‣ 4.2.2 General MDPs ‣ 4.2 Convergence Rates ‣ 4 Entropy R
 
 ### Theorem 6
 
-Suppose ${\mu{(s)}} > 0$ for all state $s$. Using Algorithm 1 with the entropy regularized objective and softmax parametrization and $\eta = {{({1 - \gamma})}^{3}/{({8 + {\tau{({4 + {8{\log A}}})}}})}}$, there exists a constant $C > 0$ such that for all $t \geq 1$,
-
-The value of the constant $C$ in this theorem appears in the proof of the result in the appendix in a closed form.
+Suppose ${\mu{(s)}} > 0$ for all state $s$. Using Algorithm 1 with the entropy regularized objective and softmax parametrization and $\eta = {{({1 - \gamma})}^{3}/{({8 + {\tau{({4 + {8{\log A}}})}}})}}$, there exists a constant $C > 0$ such that for all $t \geq 1$, The value of the constant $C$ in this theorem appears in the proof of the result in the appendix in a closed form.
 
 ### Controlling the Bias
 
@@ -333,9 +272,7 @@ Note that for any fixed $\tau > 0$, ${\pi_{\tau}^{\ast}{(a^{\ast})}} \geq {\pi_{
 
 ### Theorem 7
 
-Denote $\Delta = {{r{(a^{\ast})}} - {{\max_{a \neq a^{\ast}}r}{(a)}}} > 0$. Using Update 2. ‣ 4.2.1 Bandit Case ‣ 4.2 Convergence Rates ‣ 4 Entropy Regularized Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") for $t_{1} \in {O{({e^{1/\tau} \cdot {\log{(\frac{\tau + 1}{\Delta})}}})}}$ iterations and then Update 1. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") for $t_{2} \geq 1$ iterations, we have,
-
-where $t = {t_{1} + t_{2}}$, and $C \in {\lbrack{1/K},1)}$.
+Denote $\Delta = {{r{(a^{\ast})}} - {{\max_{a \neq a^{\ast}}r}{(a)}}} > 0$. Using Update 2. ‣ 4.2.1 Bandit Case ‣ 4.2 Convergence Rates ‣ 4 Entropy Regularized Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") for $t_{1} \in {O{({e^{1/\tau} \cdot {\log{(\frac{\tau + 1}{\Delta})}}})}}$ iterations and then Update 1. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") for $t_{2} \geq 1$ iterations, we have, where $t = {t_{1} + t_{2}}$, and $C \in {\lbrack{1/K},1)}$.
 
 This approach removes the nasty dependence on the choice of the initial parameters. While this dependence is also removed if we initialize with the uniform policy, uniform initialization is insufficient if only noisy estimates of the gradients are available. However, we leave the study of this case for future work. An obvious problem with this approach is that $\Delta$ is unknown. This can be helped by exiting the first phase when we detect "convergence" e.g. by detecting that the relative change of the policy is small.
 
@@ -351,9 +288,7 @@ The rationale for the scaling factor is that it allows one to prove a variant of
 
 ### Theorem 8
 
-Using Update 3 with $\tau_{t} = \frac{\alpha \cdot \Delta}{\log t}$ for $t \geq 2$, where $\alpha > 0$, and $\eta_{t} = {1/\tau_{t}}$, we have, for all $t \geq 1$,
-
-where $C ≔ \frac{2{({{\tau_{1}{\|\theta_{1}\|}_{\infty}} + 1})}\sqrt{K}}{\alpha \cdot \Delta}$.
+Using Update 3 with $\tau_{t} = \frac{\alpha \cdot \Delta}{\log t}$ for $t \geq 2$, where $\alpha > 0$, and $\eta_{t} = {1/\tau_{t}}$, we have, for all $t \geq 1$, where $C ≔ \frac{2{({{\tau_{1}{\|\theta_{1}\|}_{\infty}} + 1})}\sqrt{K}}{\alpha \cdot \Delta}$.
 
 The final rates then depend on how fast ${\min_{a}\pi_{\theta_{t}}}{(a)}$ diminishes as function of $t$. We conjecture that the rate in some cases degenerates to $O{(\frac{\log t}{t^{1/\alpha}})}$, which is strictly faster than $O{({1/t})}$ in non-regularized case when $\alpha \in {}$ and is observed in simulations in the appendix. We leave it as an open problem to study decaying entropy in general MDPs.
 
@@ -369,21 +304,15 @@ The purpose of this section is to establish that the $O{({1/t})}$ rates establis
 
 ### Lemma 17 (Reversed Łojasiewicz)
 
-Take any $r \in {\lbrack 0,1\rbrack}^{K}$. Denote $\Delta = {{r{(a^{\ast})}} - {{\max_{a \neq a^{\ast}}r}{(a)}}} > 0$. Then,
-
-Using this result gives the desired lower bound:
+Take any $r \in {\lbrack 0,1\rbrack}^{K}$. Denote $\Delta = {{r{(a^{\ast})}} - {{\max_{a \neq a^{\ast}}r}{(a)}}} > 0$. Then, Using this result gives the desired lower bound:
 
 ### Theorem 9 (Lower bound)
 
-Take any $r \in {\lbrack 0,1\rbrack}^{K}$. For large enough $t \geq 1$, using Update 1. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with learning rate $\eta_{t} \in {(0,1\rbrack}$,
-
-Note that Theorem 9. ‣ 5.1 Lower Bounds ‣ 5 Does Entropy Regularization Really Help? ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") is a special case of general MDPs. Next, we strengthen this result and show that the $\Omega{({1/t})}$ lower bound also holds for *any* MDP:
+Take any $r \in {\lbrack 0,1\rbrack}^{K}$. For large enough $t \geq 1$, using Update 1. ‣ 3.2.1 The Instructive Case of Bandits ‣ 3.2 Convergence Rates ‣ 3 Policy Gradient ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") with learning rate $\eta_{t} \in {(0,1\rbrack}$, Note that Theorem 9. ‣ 5.1 Lower Bounds ‣ 5 Does Entropy Regularization Really Help? ‣ On the Global Convergence Rates of Softmax Policy Gradient Methods") is a special case of general MDPs. Next, we strengthen this result and show that the $\Omega{({1/t})}$ lower bound also holds for *any* MDP:
 
 ### Theorem 10 (Lower bound)
 
-Take any MDP. For large enough $t \geq 1$, using Algorithm 1 with $\eta_{t} \in {(0,1\rbrack}$,
-
-where $\Delta^{\ast} ≔ {\min_{{s \in \mathcal{S}},{a \neq {a^{\ast}{(s)}}}}{\{{{Q^{\ast}{(s,{a^{\ast}{(s)}})}} - {Q^{\ast}{(s,a)}}}\}}} > 0$ is the optimal value gap of the MDP.
+Take any MDP. For large enough $t \geq 1$, using Algorithm 1 with $\eta_{t} \in {(0,1\rbrack}$, where $\Delta^{\ast} ≔ {\min_{{s \in \mathcal{S}},{a \neq {a^{\ast}{(s)}}}}{\{{{Q^{\ast}{(s,{a^{\ast}{(s)}})}} - {Q^{\ast}{(s,a)}}}\}}} > 0$ is the optimal value gap of the MDP.
 
 ### Remark 5
 
@@ -397,9 +326,7 @@ To gain further insight into how entropy regularization helps, we introduce the 
 
 ### Definition 1 (Non-uniform Łojasiewicz degree)
 
-A function $f:{\mathcal{X}\rightarrow{\mathbb{R}}}$ has Łojasiewicz degree $\xi \in {\lbrack 0,1\rbrack}$ if^44^4In literature, $C$ cannot depend on $x$. Based on the examples we have seen, we relax this requirement.
-
-${\forall x} \in \mathcal{X}$, where ${C{(x)}} > 0$ holds for all $x \in \mathcal{X}$.
+A function $f:{\mathcal{X}\rightarrow{\mathbb{R}}}$ has Łojasiewicz degree $\xi \in {\lbrack 0,1\rbrack}$ if^44^4In literature, $C$ cannot depend on $x$. Based on the examples we have seen, we relax this requirement. ${\forall x} \in \mathcal{X}$, where ${C{(x)}} > 0$ holds for all $x \in \mathcal{X}$.
 
 The uniform degree, where $C{(x)}$ is a positive constant, has previously been connected to convergence speed in the optimization literature. Bárta studied this effect for first-, while Nesterov & Polyak; Zhou et al. studied this for second-order methods. As noted beforehand, a larger degree (smaller exponent of the sub-optimality) is expected to improve the convergence speed of algorithms that rely on gradient information. Intuitively, we expect this to continue to hold for the non-uniform Łojasiewicz degree as well. With this, we now study what Łojasiewicz degrees can one obtain with and without entropy regularization.
 

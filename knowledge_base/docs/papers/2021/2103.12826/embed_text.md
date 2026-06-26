@@ -2,13 +2,13 @@
 
 A core component of any autonomous system is *motion planning*, which finds feasible motions that satisfy task requirements (e.g., reaching the goal, satisfying some motion constraint, etc.). There are many motion planning software system for general manipulators; a popular library for motion planning is MoveIt, which is built on top of the ubiquitous Robot Operating System (ros) framework. MoveIt has four key advantages: it is widely adopted in industry and research, it is easy to setup for new robots and over 150 robots are already available, it is easy to integrate with a ros system, and it has a large and vibrant open source community. However, due to MoveIt's massive scope and abstract architecture, many tasks are challenging for both engineers and researchers. For example, it can be difficult to evaluate and develop planning algorithms, extend a planner's functionality, extract low-level information from planners, or use a planner within the scope of a broader planning algorithm, e.g., task and motion planning.
 
-This paper introduces *Robowflex*, a software library designed to simplify the use of MoveIt for industrial and research applications of motion planning. *Robowflex* is a high-level api to easily manipulate robots, collision environments, planning requests, and motion planners. *Robowflex* "wraps" the underlying MoveIt library within a c++ interface that provides many utilities that simplify the use and evaluation of motion planners. Moreover, *Robowflex* provides direct access to the implementation (that is, not through ros messaging). The key advantage of this approach is the ability to 1) develop self-contained scripts to evaluate motion planning, 2) retain the capability of easy system integration through ros when necessary, and 3) implement integrated algorithms that use motion planning extensively (e.g., task and motion planning). *Robowflex* also integrates other libraries, e.g., the Open Motion Planning Library (ompl), dart, ros Industrial's Tesseract, and visualization with Blender. For example, these integrations enable comparison of MoveIt's rrtConnect against Tesseract's TrajOpt on the same scene in a single, short script. We demonstrate the usefulness of *Robowflex* in several example use-cases, such as benchmarking for motion planning experiments and an industry-focused use-case of evaluating Robonaut 2 walking from nasa. *Robowflex* is open-source^11^1[https://github.com/KavrakiLab/robowflex](https://github.com/KavrakiLab/robowflex), documented online^22^2[https://kavrakilab.github.io/robowflex/](https://kavrakilab.github.io/robowflex/), and has already been used in a number of publications.
+This paper introduces *Robowflex*, a software library designed to simplify the use of MoveIt for industrial and research applications of motion planning. *Robowflex* is a high-level api to easily manipulate robots, collision environments, planning requests, and motion planners. *Robowflex* "wraps" the underlying MoveIt library within a c++ interface that provides many utilities that simplify the use and evaluation of motion planners. Moreover, *Robowflex* provides direct access to the implementation (that is, not through ros messaging). The key advantage of this approach is the ability to 1) develop self-contained scripts to evaluate motion planning, 2) retain the capability of easy system integration through ros when necessary, and 3) implement integrated algorithms that use motion planning extensively (e.g., task and motion planning). *Robowflex* also integrates other libraries, e.g., the Open Motion Planning Library (ompl), dart, ros Industrial's Tesseract, and visualization with Blender. For example, these integrations enable comparison of MoveIt's rrtConnect against Tesseract's TrajOpt on the same scene in a single, short script. We demonstrate the usefulness of *Robowflex* in several example use-cases, such as benchmarking for motion planning experiments and an industry-focused use-case of evaluating Robonaut 2 walking from nasa. *Robowflex* is open-source^11^1 documented online^22^2 and has already been used in a number of publications.
 
 ## Background
 
-*Robowflex* is built around MoveIt, a widely-used^33^3[https://moveit.ros.org/moveit/ros/2020/07/24/moveit-research-roundup.html] software library designed to provide motion planning to ros enabled robots. MoveIt has been successfully used with many robots, such as the PR2, Fetch, and nasa's Robonaut 2. MoveIt also provides a setup assistant to easily configure new robots for motion planning. MoveIt provides default motion planning plugins such as sampling-based motion planning through ompl and trajectory optimization (e.g., ).
+*Robowflex* is built around MoveIt, a widely-used^33^3 software library designed to provide motion planning to ros enabled robots. MoveIt has been successfully used with many robots, such as the PR2, Fetch, and nasa's Robonaut 2. MoveIt also provides a setup assistant to easily configure new robots for motion planning. MoveIt provides default motion planning plugins such as sampling-based motion planning through ompl and trajectory optimization (e.g., ).
 
-Typically^44^4[https://ros-planning.github.io/moveit_tutorials/](https://ros-planning.github.io/moveit_tutorials/), users interact with MoveIt through the provided MoveGroup program, which leverages MoveIt's plugin-based architecture to provide a flexible, configurable motion planning service. While convenient for basic motion planning, MoveGroup falls short when used outside this scope. For more advanced applications of motion planning, such as profiling or evaluating detailed aspects of a motion planner, changing parameters or components of a planner, or extracting more information from planners, it is insufficient. To edit or improve the capabilities of MoveIt, users must either edit or create plugin classes, which can be complicated for those who are unfamiliar with MoveIt's internal structure. Moreover, if users just want to use MoveIt as a library, there are many parameters to load and configure (e.g., urdf, srdf, joint limits, kinematics plugins, planner configurations, etc.). *Robowflex* provides a MoveGroup-like interface as a high-level api, while also providing full access to underlying data, enabling access to these underlying structures to either modify or inspect^55^5Note that *MoveIt*cpp ([https://ros-planning.github.io/moveit_tutorials/doc/moveit_cpp/moveitcpp_tutorial.html](https://ros-planning.github.io/moveit_tutorials/doc/moveit_cpp/moveitcpp_tutorial.html)) and [https://github.com/PickNikRobotics/moveit_boilerplate](https://github.com/PickNikRobotics/moveit_boilerplate) provide simple interfaces to load MoveIt structures internally, but lack the abstraction, isolation, io support, and support modules provided by *Robowflex*..
+Typically^44^4 users interact with MoveIt through the provided MoveGroup program, which leverages MoveIt's plugin-based architecture to provide a flexible, configurable motion planning service. While convenient for basic motion planning, MoveGroup falls short when used outside this scope. For more advanced applications of motion planning, such as profiling or evaluating detailed aspects of a motion planner, changing parameters or components of a planner, or extracting more information from planners, it is insufficient. To edit or improve the capabilities of MoveIt, users must either edit or create plugin classes, which can be complicated for those who are unfamiliar with MoveIt's internal structure. Moreover, if users just want to use MoveIt as a library, there are many parameters to load and configure (e.g., urdf, srdf, joint limits, kinematics plugins, planner configurations, etc.). *Robowflex* provides a MoveGroup-like interface as a high-level api, while also providing full access to underlying data, enabling access to these underlying structures to either modify or inspect^55^5Note that *MoveIt*cpp and provide simple interfaces to load MoveIt structures internally, but lack the abstraction, isolation, io support, and support modules provided by *Robowflex*..
 
 *Robowflex* aims to support motion planning research, such as developing new *sampling-based algorithms*. A popular motion planning library used by many frameworks is the Open Motion Planning Library (ompl), and support of ompl is paramount for many benchmarking applications. However, augmenting or customizing ompl is difficult for real robotic systems, due to the difficulty of accessing the internals of the library through interfaces such as MoveIt. *Robowflex* provides low-level access to ompl, which is essential for rapid development and testing of novel motion planning techniques. Moreover, it is possible to develop novel planners within the *Robowflex* framework that are not tied to MoveIt or ompl.
 
@@ -60,65 +60,21 @@ Commonly, the kinematics and geometry of a robot are described using the Univers
 
 *Robowflex* takes care of all the necessary legwork to load and configure a robot without the need for a launch file. Moreover, *Robowflex* enables loading multiple robots within the same program, and duplicating robots if necessary---with default MoveIt, this process can become convoluted. An example of loading a robot is shown in Fig. 1.
 
-4 std::make_shared&lt;rx::Robot&gt;("wam7");
-6 "package://barrett_model/robots/wam_7dof_wam_bhand.urdf.xacro", // urdf
-7 "package://barrett_wam_moveit_config/config/wam7_hand.srdf", // srdf
-8 "package://barrett_wam_moveit_config/config/joint_limits.yaml", // joint limits
-9 "package://barrett_wam_moveit_config/config/kinematics.yaml" // kinematics
-Figure 1: Loading a robot (here, a Barrett WAM® arm) in Robowflex.
+4 std::make_shared<rx::Robot>("wam7"); 6 "package://barrett_model/robots/wam_7dof_wam_bhand.urdf.xacro", // urdf 7 "package://barrett_wam_moveit_config/config/wam7_hand.srdf", // srdf 8 "package://barrett_wam_moveit_config/config/joint_limits.yaml", // joint limits 9 "package://barrett_wam_moveit_config/config/kinematics.yaml" // kinematics Figure 1: Loading a robot (here, a Barrett WAM® arm) in Robowflex.
 
 ### III-C Collision Environment
 
-The robot can be used to initialize a planning scene, which contains the collision geometry of the environment. The scene can be used for adding and moving collision objects and computing collisions and distance to collision. For example, scenes can be loaded from yaml files, which encode full planning scenes:
-
-[⬇](data:text/plain;base64,IGF1dG8gc2NlbmUgPSBzdGQ6Om1ha2Vfc2hhcmVkPHJ4OjpTY2VuZT4od2FtNyk7CiBzY2VuZS0+ZnJvbVlBTUxGaWxlKCAvLwogICJwYWNrYWdlOi8vcm9ib3dmbGV4X2xpYnJhcnkveWFtbC9zY2VuZS55bWwiKTs=){download=""}
-
-1 auto scene = std$::$make_shared\<rx$::$Scene\>(wam7);
-
-2 scene$\rightarrow$fromYAMLFile( //
-
-3 \"package://robowflex_library/yaml/scene.yml\");
-
-Scenes also support adding collision objects programatically:
-
-[⬇](data:text/plain;base64,IGF1dG8gc2NlbmUgPSBzdGQ6Om1ha2Vfc2hhcmVkPHJ4OjpTY2VuZT4od2FtNyk7CiBhdXRvIGdlb21ldHJ5ID0gLy8KICAgcng6Okdlb21ldHJ5OjptYWtlQ3lsaW5kZXIoMC4wMjUsIDAuMSk7CiBhdXRvIHBvc2UgPSAvLwogICByeDo6VEY6OmNyZWF0ZVBvc2VYWVooIC8vCiAgICAgLTAuMjY4LCAtMC44MjYsIDEuMzEzLCAgICAvLyBwb3NpdGlvbgogICAgICAgICAwLiwgICAgIDAuLCAgICAwLikpOyAgLy8gWFlaIEV1bGVyCiBzY2VuZS0+dXBkYXRlQ29sbGlzaW9uT2JqZWN0KCAvLwogICAiY3lsaW5kZXIiLCBnZW9tZXRyeSwgcG9zZSk7){download=""}
-
-1 auto scene = std$::$make_shared\<rx$::$Scene\>(wam7);
-
-8 scene$\rightarrow$updateCollisionObject( //
-
-9 \"cylinder\", geometry, pose);
-
-Note that many scenes can be loaded simultaneously, can be copied and modified, and saved and loaded to and from disk.
+The robot can be used to initialize a planning scene, which contains the collision geometry of the environment. The scene can be used for adding and moving collision objects and computing collisions and distance to collision. For example, scenes can be loaded from yaml files, which encode full planning scenes: [⬇](data:text/plain;base64,IGF1dG8gc2NlbmUgPSBzdGQ6Om1ha2Vfc2hhcmVkPHJ4OjpTY2VuZT4od2FtNyk7CiBzY2VuZS0+ZnJvbVlBTUxGaWxlKCAvLwogICJwYWNrYWdlOi8vcm9ib3dmbGV4X2xpYnJhcnkveWFtbC9zY2VuZS55bWwiKTs=){download=""} 1 auto scene = std$::$make_shared\<rx$::$Scene\>(wam7); 2 scene$\rightarrow$fromYAMLFile(//3 \"package://robowflex_library/yaml/scene.yml\"); Scenes also support adding collision objects programatically: [⬇](data:text/plain;base64,IGF1dG8gc2NlbmUgPSBzdGQ6Om1ha2Vfc2hhcmVkPHJ4OjpTY2VuZT4od2FtNyk7CiBhdXRvIGdlb21ldHJ5ID0gLy8KICAgcng6Okdlb21ldHJ5OjptYWtlQ3lsaW5kZXIoMC4wMjUsIDAuMSk7CiBhdXRvIHBvc2UgPSAvLwogICByeDo6VEY6OmNyZWF0ZVBvc2VYWVooIC8vCiAgICAgLTAuMjY4LCAtMC44MjYsIDEuMzEzLCAgICAvLyBwb3NpdGlvbgogICAgICAgICAwLiwgICAgIDAuLCAgICAwLikpOyAgLy8gWFlaIEV1bGVyCiBzY2VuZS0+dXBkYXRlQ29sbGlzaW9uT2JqZWN0KCAvLwogICAiY3lsaW5kZXIiLCBnZW9tZXRyeSwgcG9zZSk7){download=""} 1 auto scene = std$::$make_shared\<rx$::$Scene\>(wam7); 8 scene$\rightarrow$updateCollisionObject(//9 \"cylinder\", geometry, pose); Note that many scenes can be loaded simultaneously, can be copied and modified, and saved and loaded to and from disk.
 
 ### III-D Motion Planner
 
-MoveIt uses a plugin-based system to load motion planning pipelines^66^6[https://ros-planning.github.io/moveit_tutorials/doc/motion_planning_pipeline/motion_planning_pipeline_tutorial.html](https://ros-planning.github.io/moveit_tutorials/doc/motion_planning_pipeline/motion_planning_pipeline_tutorial.html), which consist of adapters that filter and process both the planning request and output trajectory found by a motion planner. *Robowflex* provides an implementation to access any pipeline, and helpers for common plugins such as the default ompl planning pipeline plugin. To specify a planning request, a helper class is provided which simplifies the design of complex goal and path constraints, as well as setting start and goal states. This helper class can also save and load motion planning requests to yaml files, for later evaluation or setup. Many planners can be loaded simultaneously and used in tandem. Moreover, *Robowflex* supports inserting new planners, either through MoveIt's api or its own.
+MoveIt uses a plugin-based system to load motion planning pipelines^66^6 which consist of adapters that filter and process both the planning request and output trajectory found by a motion planner. *Robowflex* provides an implementation to access any pipeline, and helpers for common plugins such as the default ompl planning pipeline plugin. To specify a planning request, a helper class is provided which simplifies the design of complex goal and path constraints, as well as setting start and goal states. This helper class can also save and load motion planning requests to yaml files, for later evaluation or setup. Many planners can be loaded simultaneously and used in tandem. Moreover, *Robowflex* supports inserting new planners, either through MoveIt's api or its own.
 
 ### III-E Example Script
 
-1 // Create a default Fetch robot.
-2 auto fetch = std::make_shared&lt;rx::FetchRobot&gt;();
-5 // Create an empty scene.
-6 auto scene = std::make_shared&lt;rx::Scene&gt;(fetch);
-8 // Create the default planner for the Fetch.
-10 std::make_shared&lt; //
-11 rx::OMPL::FetchOMPLPipelinePlanner&gt;(fetch);
-14 // Create a motion planning request.
-16 planner, "arm_with_torso");
-18 // Set the start state.
-19 fetch→setGroupState("arm_with_torso",
-24 // Set the goal state.
-25 fetch→setGroupState("arm_with_torso",
-30 // Set the desired planner.
-31 request.setConfig("RRTConnect");
-34 auto result = planner→plan( //
-35 scene, request.getRequest());
-Figure 2: A code snippet demonstrating basic motion planning on a Fetch robot, from a “stow” position of the arm to an “unfurled” position. Note this does not use any ros messages, similar to the internals of MoveIt’s MoveGroup program.
+1 // Create a default Fetch robot. 2 auto fetch = std::make_shared<rx::FetchRobot>; 5 // Create an empty scene. 6 auto scene = std::make_shared<rx::Scene>(fetch); 8 // Create the default planner for the Fetch. 10 std::make_shared< //11 rx::OMPL::FetchOMPLPipelinePlanner>(fetch); 14 // Create a motion planning request. 16 planner, "arm_with_torso"); 18 // Set the start state. 19 fetch→setGroupState("arm_with_torso", 24 // Set the goal state. 25 fetch→setGroupState("arm_with_torso", 30 // Set the desired planner. 31 request.setConfig("RRTConnect"); 34 auto result = planner→plan(//35 scene, request.getRequest); Figure 2: A code snippet demonstrating basic motion planning on a Fetch robot, from a “stow” position of the arm to an “unfurled” position. Note this does not use any ros messages, similar to the internals of MoveIt’s MoveGroup program.
 
-Fig. 2 shows a simple script for motion planning with *Robowflex* using the Fetch robot. The robot is loaded on line 2---*Robowflex* comes with some preconfigured robots. An empty planning scene for the robot is created on line 6. The standard ompl planner for the Fetch is created and initialized in lines 9 to 12. A simple request, which unfurls the Fetch's arm from the stow position to an extended position, is created in lines 15 to 31. Finally, motion planning occurs on line 34. A version of this script is available in the repository^77^7[https://github.com/KavrakiLab/robowflex/blob/master/robowflex_library/scripts/fetch_test.cpp](https://github.com/KavrakiLab/robowflex/blob/master/robowflex_library/scripts/fetch_test.cpp).
-
-This simple script is akin to basic planning using the MoveIt's MoveGroupInterface class^88^8[https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html](https://ros-planning.github.io/moveit_tutorials/doc/move_group_interface/move_group_interface_tutorial.html). The critical difference is that, rather than having to use roslaunch to run an instance of the MoveGroup program and then communicate plans over ros messages, all of MoveIt's internal structures are loaded in the *Robowflex* program^99^9See [https://ros-planning.github.io/moveit_tutorials/doc/motion_planning_api/motion_planning_api_tutorial.html](https://ros-planning.github.io/moveit_tutorials/doc/motion_planning_api/motion_planning_api_tutorial.html) for how this could be done without *Robowflex*. Also, see footnote 5 for other helper classes that can set up planning without *Robowflex*.. Providing access to these structures within a single program is a key benefit of *Robowflex*. The scripting paradigm offered by *Robowflex* is more amenable to rapid testing and scripting than MoveGroup, which is designed primarily to be a "live" component of a ros system extant in some world.
+Fig. 2 shows a simple script for motion planning with *Robowflex* using the Fetch robot. The robot is loaded on line 2---*Robowflex* comes with some preconfigured robots. An empty planning scene for the robot is created on line 6. The standard ompl planner for the Fetch is created and initialized in lines 9 to 12. A simple request, which unfurls the Fetch's arm from the stow position to an extended position, is created in lines 15 to 31. Finally, motion planning occurs on line 34. A version of this script is available in the repository^77^7 This simple script is akin to basic planning using the MoveIt's MoveGroupInterface class^88^8 The critical difference is that, rather than having to use roslaunch to run an instance of the MoveGroup program and then communicate plans over ros messages, all of MoveIt's internal structures are loaded in the *Robowflex* program^99^9See for how this could be done without *Robowflex*. Also, see footnote 5 for other helper classes that can set up planning without *Robowflex*.. Providing access to these structures within a single program is a key benefit of *Robowflex*. The scripting paradigm offered by *Robowflex* is more amenable to rapid testing and scripting than MoveGroup, which is designed primarily to be a "live" component of a ros system extant in some world.
 
 ### III-F Integrations
 
@@ -128,41 +84,13 @@ This simple script is akin to basic planning using the MoveIt's MoveGroupInterfa
 
 The *Robowflex* ompl module provides deeper access for motion planning to the default MoveIt ompl motion planning plugin. This includes extracting the underlying ompl setup for a given planning problem, which enables users to modify the behavior of ompl planning without having to recompile either the MoveIt planning plugin or ompl. An example script for how to extract and customize the underlying ompl planner used by MoveIt is shown in Fig. 3. With *Robowflex*, it easy to use a custom planner or feature in ompl, as compared to integrating a new planner into MoveIt (e.g., this was done in ).
 
-1 // Create an OMPL planner
-3 std::make_shared&lt; //
-4 rx::OMPL::OMPLInterfacePlanner&gt;(fetch);
-6 // Extract underlying OMPL structures
-8 planner→getPlanningContext(scene, request);
-9 auto ss = context→getOMPLSimpleSetup();
-11 // Customize OMPL planner
-13 auto space = ss→getStateSpace();
-Figure 3: A code snippet demonstrating how to use the Robowflex ompl integration to access internal ompl features.
+1 // Create an OMPL planner 3 std::make_shared< //4 rx::OMPL::OMPLInterfacePlanner>(fetch); 6 // Extract underlying OMPL structures 8 planner→getPlanningContext(scene, request); 9 auto ss = context→getOMPLSimpleSetup; 11 // Customize OMPL planner 13 auto space = ss→getStateSpace; Figure 3: A code snippet demonstrating how to use the Robowflex ompl integration to access internal ompl features.
 
 ### dart Integration
 
 The *Robowflex* dart module provides an alternative to MoveIt, by modeling robots and scenes in the dart framework with bidirectional conversion to/from MoveIt constructs. The module provides an implementation of motion planning through ompl, including motion planning with manifold constraints. Moreover, this module provides an easy way to plan for multi-robot systems, allowing arbitrary composition of MoveIt enabled robots. This capability was used by the multi-robot task-motion planning framework discussed in Sec. IV-B. An example script demonstrating the dart module is given shown in Fig. 4.
 
-1 namespace rd = robowflex::darts;
-3 // Convert MoveIt robot to Dart
-4 auto fetch1 = std::make_shared&lt;rd::Robot&gt;(fetch);
-6 // Copy the Fetch for multi-robot planning
-7 auto fetch2 = fetch1→cloneRobot("other");
-8 fetch2→setDof; // Offset on X-axis
-10 // Combine kinematic structures into a world
-11 auto world = std::make_shared&lt;rd::World&gt;();
-12 world→addRobot(fetch1);
-13 world→addRobot(fetch2);
-15 // Plan using planning groups from both robots
-16 rd::PlanBuilder builder(world);
-17 builder.addGroup("fetch", "arm_with_torso");
-18 builder.addGroup("other", "arm_with_torso");
-20 // Set start configuration for both robots
-27 // Set goal configuration and setup planning
-28 auto goal = builder.setGoalConfiguration({ //
-32 builder.setGoal(goal);
-35 // Solve using OMPL
-36 auto result = builder.ss→solve(30.0);
-Figure 4: A code snippet demonstrating Robowflex’s dart module for multi-robot motion planning. Here, the Fetch robot that was loaded in the prior script (Fig. 2) is converted to dart and copied, created a multi-robot system. A plan is generated in the composite space of both robots.
+1 namespace rd = robowflex::darts; 3 // Convert MoveIt robot to Dart 4 auto fetch1 = std::make_shared<rd::Robot>(fetch); 6 // Copy the Fetch for multi-robot planning 7 auto fetch2 = fetch1→cloneRobot("other"); 8 fetch2→setDof; // Offset on X-axis 10 // Combine kinematic structures into a world 11 auto world = std::make_shared<rd::World>; 12 world→addRobot(fetch1); 13 world→addRobot(fetch2); 15 // Plan using planning groups from both robots 16 rd::PlanBuilder builder(world); 17 builder.addGroup("fetch", "arm_with_torso"); 18 builder.addGroup("other", "arm_with_torso"); 20 // Set start configuration for both robots 27 // Set goal configuration and setup planning 28 auto goal = builder.setGoalConfiguration({ //32 builder.setGoal(goal); 35 // Solve using OMPL 36 auto result = builder.ss→solve(30.0); Figure 4: A code snippet demonstrating Robowflex’s dart module for multi-robot motion planning. Here, the Fetch robot that was loaded in the prior script (Fig. 2) is converted to dart and copied, created a multi-robot system. A plan is generated in the composite space of both robots.
 
 Figure 5: A Fetch robot and planning scene rendered in Blender using Robowflex’s visualization module.
 
@@ -176,7 +104,7 @@ The *Robowflex* MoveGroup module provides an easy connection to a live instance 
 
 ### Visualization with Blender
 
-The *Robowflex* visualization module makes it easy to render robots within Blender, a tool for 3D modeling and animation. An example rendered still is shown in Fig. 5. Moreover, it is easy to animate motion plans generated by *Robowflex* to create appealing visualizations and videos^1010^10[https://kavrakilab.github.io/robowflex/md\_\_home_runner_work_robowflex_robowflex_robowflex_visualization_README.html](https://kavrakilab.github.io/robowflex/md__home_runner_work_robowflex_robowflex_robowflex_visualization_README.html). This module has also been used to generate figures in.
+The *Robowflex* visualization module makes it easy to render robots within Blender, a tool for 3D modeling and animation. An example rendered still is shown in Fig. 5. Moreover, it is easy to animate motion plans generated by *Robowflex* to create appealing visualizations and videos^1010^10 This module has also been used to generate figures .
 
 ## Example Use-Cases
 
@@ -184,29 +112,11 @@ Crucial to the particular use-cases listed here as well as many others, *Robowfl
 
 ### IV-A Benchmarking Motion Planners
 
-Figure 6: Example benchmarking results from 200 runs of rrt*, an asymptotically optimal algorithm, on the Fetch. The “best cost” path (here, shortest path length) is displayed over time. This progress property of the planner is captured by Robowflex’s benchmarking, using the planner from the ompl module. This plot was generated with Planner Arena121212http://plannerarena.org/, which accepts ompl benchmark output for interactive plotting.
+Figure 6: Example benchmarking results from 200 runs of rrt*, an asymptotically optimal algorithm, on the Fetch. The “best cost” path (here, shortest path length) is displayed over time. This progress property of the planner is captured by Robowflex’s benchmarking, using the planner from the ompl module. This plot was generated with Planner Arena121212, which accepts ompl benchmark output for interactive plotting.
 
-A core use-case for *Robowflex* is benchmarking motion planners in a variety of planning scenes. The task of evaluating motion planners on realistic robots in many environments, extracting detailed planner information, and collating all collected data is difficult. *Robowflex* provides a benchmarking tool that enables easy benchmarking of different planners, scenes, and requests. The tool enables configurable benchmark output in a number of formats. For example, a default format provided is the ompl benchmark log output, so output is compatible with the standard ompl benchmarking suite and tools. In addition, recall that *Robowflex* supports loading both environments and requests from disk, making it easy to craft datasets for evaluation. As new planners are developed, targeted benchmarking can be done for many planner properties, a contribution to the motion planning community due to the difficulty of setting up consistent benchmarking criteria. For example, the following could be added after line 31 of Fig. 2 to benchmark the motion planning request:
+A core use-case for *Robowflex* is benchmarking motion planners in a variety of planning scenes. The task of evaluating motion planners on realistic robots in many environments, extracting detailed planner information, and collating all collected data is difficult. *Robowflex* provides a benchmarking tool that enables easy benchmarking of different planners, scenes, and requests. The tool enables configurable benchmark output in a number of formats. For example, a default format provided is the ompl benchmark log output, so output is compatible with the standard ompl benchmarking suite and tools. In addition, recall that *Robowflex* supports loading both environments and requests from disk, making it easy to craft datasets for evaluation. As new planners are developed, targeted benchmarking can be done for many planner properties, a contribution to the motion planning community due to the difficulty of setting up consistent benchmarking criteria. For example, the following could be added after line 31 of Fig. 2 to benchmark the motion planning request: [⬇](data:text/plain;base64,ICByeDo6UHJvZmlsZXI6Ok9wdGlvbnMgb3B0aW9uczsKICByeDo6RXhwZXJpbWVudCBleHBlcmltZW50KCAvLwogICAgImV4YW1wbGUiLCAgLy8gTmFtZSBvZiBleHBlcmltZW50CiAgICBvcHRpb25zLCAgICAvLyBPcHRpb25zIGZvciBpbnRlcm5hbCBwcm9maWxlcgogICAgNjAuMCwgICAgICAgLy8gUXVlcnkgdGltZW91dAogICAgMTAwKTsgICAgICAgLy8gTnVtYmVyIG9mIHRyaWFscwoKICBleHBlcmltZW50LmFkZFF1ZXJ5KCJwbGFubmVyIiwKICAgIHNjZW5lLCBwbGFubmVyLCByZXF1ZXN0LT5nZXRSZXF1ZXN0KCkpOwoKICBhdXRvICpkYXRhc2V0ID0gZXhwZXJpbWVudC5iZW5jaG1hcmsoKTsKICByeDo6T01QTFBsYW5EYXRhU2V0T3V0cHV0dGVyIG91dHB1dCggLy8KICAgICJiZW5jaG1hcmtfZXhhbXBsZSIpOwogIG91dHB1dC5kdW1wKCpkYXRhc2V0KTs=){download=""} 1 rx$::$Profiler$::$Options options; 3 \"example\", // Name of experiment 4 options, // Options for internal profiler 8 experiment.addQuery(\"planner\", 9 scene, planner, request$\rightarrow$getRequest); 11 auto \*dataset = experiment.benchmark; 14 output.dump(\*dataset); Moreover, benchmarking can capture *progress properties* of a motion planner, if properly exposed. These properties are important for profiling the performance of asymptotically (near-)optimal motion planning algorithms, such as rrt\*. An example is shown in footnote 12. *Robowflex*'s benchmarking was used.
 
-[⬇](data:text/plain;base64,ICByeDo6UHJvZmlsZXI6Ok9wdGlvbnMgb3B0aW9uczsKICByeDo6RXhwZXJpbWVudCBleHBlcmltZW50KCAvLwogICAgImV4YW1wbGUiLCAgLy8gTmFtZSBvZiBleHBlcmltZW50CiAgICBvcHRpb25zLCAgICAvLyBPcHRpb25zIGZvciBpbnRlcm5hbCBwcm9maWxlcgogICAgNjAuMCwgICAgICAgLy8gUXVlcnkgdGltZW91dAogICAgMTAwKTsgICAgICAgLy8gTnVtYmVyIG9mIHRyaWFscwoKICBleHBlcmltZW50LmFkZFF1ZXJ5KCJwbGFubmVyIiwKICAgIHNjZW5lLCBwbGFubmVyLCByZXF1ZXN0LT5nZXRSZXF1ZXN0KCkpOwoKICBhdXRvICpkYXRhc2V0ID0gZXhwZXJpbWVudC5iZW5jaG1hcmsoKTsKICByeDo6T01QTFBsYW5EYXRhU2V0T3V0cHV0dGVyIG91dHB1dCggLy8KICAgICJiZW5jaG1hcmtfZXhhbXBsZSIpOwogIG91dHB1dC5kdW1wKCpkYXRhc2V0KTs=){download=""}
-
-1 rx$::$Profiler$::$Options options;
-
-3 \"example\", // Name of experiment
-
-4 options, // Options for internal profiler
-
-8 experiment.addQuery(\"planner\",
-
-9 scene, planner, request$\rightarrow$getRequest());
-
-11 auto \*dataset = experiment.benchmark();
-
-14 output.dump(\*dataset);
-
-Moreover, benchmarking can capture *progress properties* of a motion planner, if properly exposed. These properties are important for profiling the performance of asymptotically (near-)optimal motion planning algorithms, such as rrt\*. An example is shown in footnote 12. *Robowflex*'s benchmarking was used in.
-
-Compared to MoveIt's built in benchmarking capabilities^1313^13[https://ros-planning.github.io/moveit_tutorials/doc/benchmarking/benchmarking_tutorial.html](https://ros-planning.github.io/moveit_tutorials/doc/benchmarking/benchmarking_tutorial.html), *Robowflex* provides a self-contained means of benchmarking that is more easily extendable. MoveIt's benchmarking requires use of ros Warehouse for constructing benchmark datasets as opposed to *Robowflex*'s simple file storage, and does not easily support planning scenes with obstacle variation, which is important for learning-based methods. For example, take advantage of these two features by running *Robowflex* benchmarking instances in containers federated over many machines. Moreover, *Robowflex* enables creation of custom metrics with access to underlying planner results (e.g,. progress properties are not available in MoveIt, properties of a particular method), and can be run as a single script.
+Compared to MoveIt's built in benchmarking capabilities^1313^13 *Robowflex* provides a self-contained means of benchmarking that is more easily extendable. MoveIt's benchmarking requires use of ros Warehouse for constructing benchmark datasets as opposed to *Robowflex*'s simple file storage, and does not easily support planning scenes with obstacle variation, which is important for learning-based methods. For example, take advantage of these two features by running *Robowflex* benchmarking instances in containers federated over many machines. Moreover, *Robowflex* enables creation of custom metrics with access to underlying planner results (e.g,. progress properties are not available in MoveIt, properties of a particular method), and can be run as a single script.
 
 ### IV-B Task and Motion Planning
 
@@ -218,7 +128,7 @@ One of the strengths of *Robowflex* is motion planning in isolation. That is, be
 
 Figure 8: nasa’s Robonaut 2 inside of a module of the International Space Station, visualized in RViz. For a given step between handrails, many possible configurations are evaluated through Robowflex. Image courtesy of Misha Savchenko and nasa.
 
-*Robowflex* has also been used by nasa for motion planning for Robonaut 2. Robonaut 2 is a highly dexterous system, with many degrees of freedom. One of the many motion planning challenges Robonaut 2 faces is climbing across handrails in the International Space Station, as shown in Fig. 8. To this end, *Robowflex* was used to evaluate potential handrail grasps and the difficulty of motion planning between different grasps to automate walking across the station. *Robowflex* provides the means to use, inspect, and evaluate custom inverse kinematics solvers for Robonaut 2 and to benchmark the variety of handrail grasp configurations and scenes. Additionally, *Robowflex* was used for the Robonaut 2 experiments and figure in. As demonstrated by the examples presented here, the affordances provided by *Robowflex* are general and broadly useful to different members of the robotics community.
+*Robowflex* has also been used by nasa for motion planning for Robonaut 2. Robonaut 2 is a highly dexterous system, with many degrees of freedom. One of the many motion planning challenges Robonaut 2 faces is climbing across handrails in the International Space Station, as shown in Fig. 8. To this end, *Robowflex* was used to evaluate potential handrail grasps and the difficulty of motion planning between different grasps to automate walking across the station. *Robowflex* provides the means to use, inspect, and evaluate custom inverse kinematics solvers for Robonaut 2 and to benchmark the variety of handrail grasp configurations and scenes. Additionally, *Robowflex* was used for the Robonaut 2 experiments and figure . As demonstrated by the examples presented here, the affordances provided by *Robowflex* are general and broadly useful to different members of the robotics community.
 
 ## Discussion
 

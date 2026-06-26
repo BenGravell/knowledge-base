@@ -20,47 +20,27 @@ This section introduces belief space planning and covariance steering as key com
 
 ### II-A Belief space planning
 
-Belief space planning addresses the challenge of making decisions with uncertain robot states where the belief state $b$ is a composite representation of the robot's state and its associated uncertainty. With new input $u$ and observation $z$, the state transition function $\tau$ updates the belief state $b^{^{\prime}} = {\tau{(b,u,z)}}$. Instead of always choosing the shortest path, belief space planners leverage the belief information and search for a more conservative motion plan when the state estimation is uncertain, as shown in figure 1. A significant concern when planning in belief spaces is the computational challenge due to the high dimensionality of belief states. This problem can be addressed by sampling-based algorithms like PRM.
+Belief space planning addresses the challenge of making decisions with uncertain robot states where the belief state $b$ is a composite representation of the robot's state and its associated uncertainty. With new input $u$ and observation $z$, the state transition function $\tau$ updates the belief state $b^{'} = {\tau{(b,u,z)}}$. Instead of always choosing the shortest path, belief space planners leverage the belief information and search for a more conservative motion plan when the state estimation is uncertain, as shown in figure 1. A significant concern when planning in belief spaces is the computational challenge due to the high dimensionality of belief states. This problem can be addressed by sampling-based algorithms like PRM.
 
 The belief-space variant of the PRM is called the Belief Roadmap (BRM). The primary idea of BRM is to sample both configurations and their distributions in the belief state space, test them for feasibility, and then attempt to connect nearby configurations to form a roadmap. The BRM can be mathematically represented as a graph $G = {(V,E)}$ where $V = {\{ b_{i}\}}$ is the set of nodes representing feasible belief states and $E$ is the set of edges indicating belief paths between adjacent nodes. To construct BRM, for each pair of belief nodes $(b_{i},b_{j})$, a local planner attempts to find a feasible path considering both the spatial constraints and the belief evolution. The belief evolution accounts for uncertainty propagation, influenced by robot dynamics and environmental factors. Once the belief roadmap is constructed with the cost associated with traversal and belief uncertainty, an optimal path can be found by graph search algorithms like $A^{\ast}$ and Dijkstra.
 
 ### II-B Covariance steering for control-affine systems
 
-The covariance steering problem for nonlinear systems remains a challenge. Recent progress established in demonstrates an efficient algorithm tailored for control-affine systems. We present the main results in this section. The nonlinear system under consideration is
+The covariance steering problem for nonlinear systems remains a challenge. Recent progress established in demonstrates an efficient algorithm tailored for control-affine systems. We present the main results in this section. The nonlinear system under consideration is where $X_{t} \in {\mathbb{R}}^{n}$ is the state vector, $u_{t} \in {\mathbb{R}}^{p}$ is the input vector and $f{(t,X_{t})}$ is the drift function. The input matrix ${B{(t)}} \in {\mathbb{R}}^{n \times p}$ is assumed to be full rank. $W_{t} \in {\mathbb{R}}^{p}$ represents a standard Wiener process, and $\epsilon > 0$ parameterizes the intensity of the disturbance. The covariance steering problem minimizes the control energy while seeking a state feedback policy to steer state statistics of the system from an initial value to a terminal one. where $\rho_{0}$ ($\rho_{T}$) is a probability distribution with mean $m_{0}$ ($m_{T}$) and covariance $\Sigma_{0}$ ($\Sigma_{T}$).
 
-where $X_{t} \in {\mathbb{R}}^{n}$ is the state vector, $u_{t} \in {\mathbb{R}}^{p}$ is the input vector and $f{(t,X_{t})}$ is the drift function. The input matrix ${B{(t)}} \in {\mathbb{R}}^{n \times p}$ is assumed to be full rank. $W_{t} \in {\mathbb{R}}^{p}$ represents a standard Wiener process, and $\epsilon > 0$ parameterizes the intensity of the disturbance. The covariance steering problem minimizes the control energy while seeking a state feedback policy to steer state statistics of the system from an initial value to a terminal one.
+By leveraging the Girsanov theorem, problem can be transferred into a composite optimization problem which can be solved by the proximal gradient algorithm. From the results established, each proximal gradient iteration with step size $\eta$ amounts to solving the following linear covariance steering problem where ${A_{k}{(t)}},{a_{k}{(t)}}$ are the results from last iteration. Also, ${\overline{x}}_{k}{(t)}$ is the mean trajectory at $k$, ${\hat{A}}_{k}{(t)}$, ${\hat{a}}_{k}{(t)}$ are linearization matrices along ${\overline{x}}_{k}{(t)}$, and ${Q_{k}{(t)}},{r_{k}{(t)}}$ are the weighting matrices.
 
-$\min\limits_{u}$ ${\mathbb{E}}\left\{ {\int_{0}^{T}{{\lbrack{{\frac{1}{2}{\| u_{t}\|}^{2}} + {V{(X_{t})}}}\rbrack}{dt}}} \right\}$ (2c)
-${{X_{0} \sim \rho_{0}},{X_{T} \sim \rho_{T}}},$
-
-where $\rho_{0}$ ($\rho_{T}$) is a probability distribution with mean $m_{0}$ ($m_{T}$) and covariance $\Sigma_{0}$ ($\Sigma_{T}$).
-
-By leveraging the Girsanov theorem, problem can be transferred into a composite optimization problem which can be solved by the proximal gradient algorithm. From the results established in, each proximal gradient iteration with step size $\eta$ amounts to solving the following linear covariance steering problem
-
-$\min\limits_{u}$ ${\mathbb{E}}\left\{ {\int_{0}^{T}{{\lbrack{{\frac{1}{2}{\| u_{t}\|}^{2}} + {\frac{1}{2}X_{t}^{T}Q_{k}{(t)}X_{t}} + {X_{t}^{T}r_{k}{(t)}}}\rbrack}{dt}}} \right\}$ (3c)
-$dX_{t} = \frac{1}{1 + \eta}{\lbrack A_{k}{(t)} + \eta{\hat{A}}_{k}{(t)}\rbrack}X_{t}dt + \frac{1}{1 + \eta}{\lbrack a_{k}{(t)}}$
-$+ \eta{\hat{a}}_{k}{(t)}\rbrack dt + B(t)(u_{t}dt + \sqrt{\epsilon}dW_{t})$
-${{X_{0} \sim \rho_{0}},{X_{T} \sim \rho_{T}}},$
-
-where ${A_{k}{(t)}},{a_{k}{(t)}}$ are the results from last iteration. Also, ${\overline{x}}_{k}{(t)}$ is the mean trajectory at $k$, ${\hat{A}}_{k}{(t)}$, ${\hat{a}}_{k}{(t)}$ are linearization matrices along ${\overline{x}}_{k}{(t)}$, and ${Q_{k}{(t)}},{r_{k}{(t)}}$ are the weighting matrices.
-
-This result bridges the gap between the non-linear covariance steering problem and the linear covariance steering problem. The linear covariance steering problem in 3 enjoys a closed-form feedback solution in the form
-
-where $\Pi{(t)}$ satisfies a coupled Riccati equations. This closed-form solution for the proximal gradient update allows us to solve the covariance steering problem for the control-affine systems with a sublinear rate.
+This result bridges the gap between the non-linear covariance steering problem and the linear covariance steering problem. The linear covariance steering problem in 3 enjoys a closed-form feedback solution in the form where $\Pi{(t)}$ satisfies a coupled Riccati equations. This closed-form solution for the proximal gradient update allows us to solve the covariance steering problem for the control-affine systems with a sublinear rate.
 
 ## Problem formulation
 
-In this work, we consider the motion planning problem under uncertainty. Uncertainty of the robot results from three sources: robot motion, robot state estimation, and environment. In our work, we assume the environment is deterministic and only considers the uncertainty of the robot itself. Robots are nonlinear control-affine systems whose dynamics and sensor models are
-
-Here, the notations follow the above Section 1 and $z{(t)}$ is the observation output with function $h$ and Gaussian noise $v{(t)}$. The dynamics and sensor model can be viewed as the belief transition function of the robot. For the uncertainty that stems from the robot motion and dynamic model, we denote $\Sigma$ as the covariance of the actual robot states $x$, which follows 4. $\Sigma$ describes the influence of noise $W_{t}$ on the ideal robot states which follow the uncorrupted dynamic model.
+In this work, we consider the motion planning problem under uncertainty. Uncertainty of the robot results from three sources: robot motion, robot state estimation, and environment. In our work, we assume the environment is deterministic and only considers the uncertainty of the robot itself. Robots are nonlinear control-affine systems whose dynamics and sensor models are Here, the notations follow the above Section 1 and $z{(t)}$ is the observation output with function $h$ and Gaussian noise $v{(t)}$. The dynamics and sensor model can be viewed as the belief transition function of the robot. For the uncertainty that stems from the robot motion and dynamic model, we denote $\Sigma$ as the covariance of the actual robot states $x$, which follows 4. $\Sigma$ describes the influence of noise $W_{t}$ on the ideal robot states which follow the uncorrupted dynamic model.
 
 For the uncertainty that stems from the state estimation, we denote $P{(t)}$ as the state error-covariance of the estimation error $\overset{\sim}{x}$. It is worth noting that the covariance of the terminal state is required to be larger than the state error-covariance $\Sigma_{T} > {P{(T)}}$ when using state output as feedback. Denote estimated robot states as $\hat{x} = {x - \overset{\sim}{x}}$ and its covariance as $\hat{\Sigma} = {\Sigma - P}$. We hope to steer the state covariance $\Sigma$ by controlling the estimated state covariance $\hat{\Sigma}$. We can state our control problem as for the given waypoints $x_{0},x_{T}$ and their estimated state covariance ${\hat{\Sigma}}_{0},{\hat{\Sigma}}_{T}$, finding a control sequence $u_{t}$ such that 1) control the mean of the robot states from $x_{0}$ to $x_{T}$, 2) control the covariance of the robot states from $\Sigma_{0}$ to terminal covariance $\Sigma_{T}$ via output feedback $\hat{x}$, 3) generate a collision-free mean trajectory and 4) minimize the objective function of expected control energy and a state cost
 
 ## belief space collision-avoiding covariance steering
 
-We hope to build a BRM and solve problem by edge construction and graph search. Constructing edges in belief space is challenging in terms of computation since it involves steering state statistics under safety constraints using partially observable state information. We leverage the proximal gradient algorithm for problem with a collision-avoiding state cost
-
-to achieve the node connection in a BRM. In, ${hinge}{( \cdot )}$ represents the hinge loss function, and $S{( \cdot )}$ is a differentiable signed distance function to the obstacles. We showed in that the proposed proximal gradient algorithm in is effective and efficient in producing collision-free belief space trajectories.
+We hope to build a BRM and solve problem by edge construction and graph search. Constructing edges in belief space is challenging in terms of computation since it involves steering state statistics under safety constraints using partially observable state information. We leverage the proximal gradient algorithm for problem with a collision-avoiding state cost to achieve the node connection in a BRM. In, ${hinge}{(\cdot)}$ represents the hinge loss function, and $S{(\cdot)}$ is a differentiable signed distance function to the obstacles. We showed in that the proposed proximal gradient algorithm in is effective and efficient in producing collision-free belief space trajectories.
 
 ### IV-A Collision avoiding covariance steering
 
@@ -68,75 +48,31 @@ to achieve the node connection in a BRM. In, ${hinge}{( \cdot )}$ represents the
 
 Figure 2: Procedure of edge construction in PGCS-BRM.
 
-By employing the hinge loss function ${hinge}{( \cdot )}$, we can succinctly define our cost function as to penalize risky behaviors and circumvent obstacle collisions. For each iteration of the proximal gradient covariance steering algorithm associated with, rather than detailing the intricate mathematics of deriving the weighting matrices $Q_{k}{(t)}$ and $r_{k}{(t)}$, it suffices to say that they are formulated based on the gradient and Hessian of the cost function. They integrate the effects of system dynamics, control inputs, and uncertainties.
+By employing the hinge loss function ${hinge}{( \cdot )}$, we can succinctly define our cost function as to penalize risky behaviors and circumvent obstacle collisions. For each iteration of the proximal gradient covariance steering algorithm associated , rather than detailing the intricate mathematics of deriving the weighting matrices $Q_{k}{(t)}$ and $r_{k}{(t)}$, it suffices to say that they are formulated based on the gradient and Hessian of the cost function. They integrate the effects of system dynamics, control inputs, and uncertainties.
 
-Upon solving within the paradigm of linear covariance steering, the optimal control policy is formulated as:
-
-This control policy, when injected into the closed-loop process, offers the subsequent update dynamics
-
-From this, we deduce the iterative update rules:
-
-To synchronize the evolution of ${\overline{x}}_{k}{(t)}$ and $\Sigma_{k}{(t)}$ at each iteration $k$, one can employ the aforementioned update rule, ensuring an efficient iterative process.
+Upon solving within the paradigm of linear covariance steering, the optimal control policy is formulated as: This control policy, when injected into the closed-loop process, offers the subsequent update dynamics From this, we deduce the iterative update rules: To synchronize the evolution of ${\overline{x}}_{k}{(t)}$ and $\Sigma_{k}{(t)}$ at each iteration $k$, one can employ the aforementioned update rule, ensuring an efficient iterative process.
 
 In the following discourse, we showcase the state connection algorithm (as presented in Algorithm 1). Given the constructs $A_{k}{(t)}$ and $a_{k}{(t)}$ at the $k^{th}$ iteration, the algorithm commences by propagating the mean trajectory ${\overline{x}}_{k}{(t)}$ and subsequently estimating the state covariance along the path, as represented in Figure 2(a). Leveraging the updated nominal trajectory, the algorithm exploits the control-observation separation principle to compute both the Kalman gain and the state error-covariance $P_{k}{(t)}$.
 
 ### IV-B Steering state statistics using partially-observed output
 
-To initialize the state prediction for each sampled state, we set ${{\hat{x}}_{k}{(t_{0})}} = {{\mathbb{E}}{\lbrack{x_{k}{(t_{0})}}\rbrack}}$ and $P_{k}{(t_{0})}$ is sampled from a proper space. At each iteration, the continuous-time EKF propagates state error covariance $P_{k}{(t)}$ based on the linearized system dynamics model ${A_{k}{(t)}},{a_{k}{(t)}}$ and updates the near-optimal Kalman gain. These steps are coupled in continuous time and governed by the following Riccati equations
+To initialize the state prediction for each sampled state, we set ${{\hat{x}}_{k}{(t_{0})}} = {{\mathbb{E}}{\lbrack{x_{k}{(t_{0})}}\rbrack}}$ and $P_{k}{(t_{0})}$ is sampled from a proper space. At each iteration, the continuous-time EKF propagates state error covariance $P_{k}{(t)}$ based on the linearized system dynamics model ${A_{k}{(t)}},{a_{k}{(t)}}$ and updates the near-optimal Kalman gain. These steps are coupled in continuous time and governed by the following Riccati equations where noise covariance $Q = {\epsilon{\mathbb{I}}_{n}}$ and $F{(t)}$ and $H{(t)}$ represent the Jacobian matrices of the system dynamics function and measurement function, respectively, as The target uncertainty of the robot state is known from the sampling stage. With the uncertainty from sensing calculated, we are able to compute the terminal error covariance of the Kalman filter state and use it as output state feedback to control the covariance of the path in the next iteration. ${{\hat{A}}_{k}{(t)}},{{\hat{a}}_{k}{(t)}}$ represent the Gaussian Markov process approximation of the trajectory at the current iteration, which can be calculated by linearizing the system with respect to the nominal trajectory. ${{\hat{A}}_{k}{(t)}},{{\hat{a}}_{k}{(t)}}$ are used in the construction of cost matrices $Q_{k}{(t)}$ and $r_{k}{(t)}$. Solving the linear covariance steering problem in 3, the optimal control policy ${K_{k}{(t)}},{d_{k}{(t)}}$ is calculated and ${A_{k + 1}{(t)}},{a_{k + 1}{(t)}}$ are updated following, as shown in Figure 2(b).
 
-where noise covariance $Q = {\epsilon{\mathbb{I}}_{n}}$ and $F{(t)}$ and $H{(t)}$ represent the Jacobian matrices of the system dynamics function and measurement function, respectively, as
-
-The target uncertainty of the robot state is known from the sampling stage. With the uncertainty from sensing calculated, we are able to compute the terminal error covariance of the Kalman filter state
-
-and use it as output state feedback to control the covariance of the path in the next iteration.
-
-${{\hat{A}}_{k}{(t)}},{{\hat{a}}_{k}{(t)}}$ represent the Gaussian Markov process approximation of the trajectory at the current iteration, which can be calculated by linearizing the system with respect to the nominal trajectory. ${{\hat{A}}_{k}{(t)}},{{\hat{a}}_{k}{(t)}}$ are used in the construction of cost matrices $Q_{k}{(t)}$ and $r_{k}{(t)}$. Solving the linear covariance steering problem in 3, the optimal control policy ${K_{k}{(t)}},{d_{k}{(t)}}$ is calculated and ${A_{k + 1}{(t)}},{a_{k + 1}{(t)}}$ are updated following, as shown in Figure 2(b).
-
-1: Start state and covariance m0, Σ0, P0
-2: Target state and covariance mT, ΣT
-5: ${{{\overline{x}}_{k}{(t)}},{\Sigma_{k}{(t)}}}\leftarrow{{UpdateTrajectory}{(A_{k},a_{k})}}$;
-6: ${P_{k}{(t)}}\leftarrow{{KalmanGain}{({{\overline{x}}_{k}{(t)}},{P_{k}{}})}}$;
-8: ${{{\hat{A}}_{k}{(t)}},{{\hat{a}}_{k}{(t)}}}\leftarrow{{Linearization}{({{\overline{x}}_{k}{(t)}})}}$;
-Algorithm 1 PGCS State Connection Algorithm
+1: Start state and covariance m0, Σ0, P0 2: Target state and covariance mT, ΣT 5: ${{{\overline{x}}_{k}{(t)}},{\Sigma_{k}{(t)}}}\leftarrow{{UpdateTrajectory}{(A_{k},a_{k})}}$; 6: ${P_{k}{(t)}}\leftarrow{{KalmanGain}{({{\overline{x}}_{k}{(t)}},{P_{k}{}})}}$; 8: ${{{\hat{A}}_{k}{(t)}},{{\hat{a}}_{k}{(t)}}}\leftarrow{{Linearization}{({{\overline{x}}_{k}{(t)}})}}$; Algorithm 1 PGCS State Connection Algorithm
 
 ### IV-C Entropy regularized edge cost
 
-For every trajectory between states, the cost is calculated using the sum of control energy, collision cost, and entropy cost. Entropy cost is defined as
-
-A smaller entropy cost indicates the trajectory allows higher tolerance in the robot uncertainty and requires less sensing and control effort to control the uncertainty. Leveraging the duality between stochastic control and variational inference, the objectives for the linearized system in each step of our edge construction problem formulation is equivalent to an entropy-regularized motion planning
-
-where $J$ denotes a composite cost involving a prior process-induced cost and the collision cost
-
-and $q$ is the joint Gaussian distribution induced by the stochastic process after linearization. In other words, optimizing the problem is equivalently optimizing an entropy-regularized motion planning objective for the path distribution. We found that a trajectory distribution with a smaller entropy cost is safer than one with a higher cost in a probability sense. In the same spirit, we define the total cost for the $\text{i}^{th}$ trajectory $z_{k}^{i}$ is the weighted sum of the control energy along the mean trajectory and the entropy cost
-
-By setting $\alpha$ differently, the planner can return different optimal paths with lower control effort or lower risks.
+For every trajectory between states, the cost is calculated using the sum of control energy, collision cost, and entropy cost. Entropy cost is defined as A smaller entropy cost indicates the trajectory allows higher tolerance in the robot uncertainty and requires less sensing and control effort to control the uncertainty. Leveraging the duality between stochastic control and variational inference, the objectives for the linearized system in each step of our edge construction problem formulation is equivalent to an entropy-regularized motion planning where $J$ denotes a composite cost involving a prior process-induced cost and the collision cost and $q$ is the joint Gaussian distribution induced by the stochastic process after linearization. In other words, optimizing the problem is equivalently optimizing an entropy-regularized motion planning objective for the path distribution. We found that a trajectory distribution with a smaller entropy cost is safer than one with a higher cost in a probability sense. In the same spirit, we define the total cost for the $\text{i}^{th}$ trajectory $z_{k}^{i}$ is the weighted sum of the control energy along the mean trajectory and the entropy cost By setting $\alpha$ differently, the planner can return different optimal paths with lower control effort or lower risks.
 
 ### IV-D Uncertainty-aware State Sampler
 
-We utilize BRM to divide the original problem into several easier state connection subproblems. To leverage the PGCS state connection Algorithm 1, it is important to provide a meaningful covariance to represent the uncertainty for each sample state. Define the distance $d_{obs}$ between an obstacle region $\mathcal{X}_{obs}$ and sampled state $x_{s}$ as the minimum distance from $x$ to any point $p_{obs} \in \mathcal{X}_{obs}$, and the corresponding point in $\mathcal{X}_{obs}$ is the closet point $p_{obs}^{c}$ to $x$. For $n$ dimensional spatial state space, we hope to find $n$ such points $p_{obs}^{c}$ and form a covariance ellipsoid with the center point $x_{s}$. The covariance for spatial states can be calculated from the parameter for this ellipsoid and a given confidence level $P_{conf}$, such that the actual state $x$ distribution satisfies
-
-We assume a constant velocity and covariance at each sampled state. The direction of the velocity can align with the direction of the current node and adjacent node.
+We utilize BRM to divide the original problem into several easier state connection subproblems. To leverage the PGCS state connection Algorithm 1, it is important to provide a meaningful covariance to represent the uncertainty for each sample state. Define the distance $d_{obs}$ between an obstacle region $\mathcal{X}_{obs}$ and sampled state $x_{s}$ as the minimum distance from $x$ to any point $p_{obs} \in \mathcal{X}_{obs}$, and the corresponding point in $\mathcal{X}_{obs}$ is the closet point $p_{obs}^{c}$ to $x$. For $n$ dimensional spatial state space, we hope to find $n$ such points $p_{obs}^{c}$ and form a covariance ellipsoid with the center point $x_{s}$. The covariance for spatial states can be calculated from the parameter for this ellipsoid and a given confidence level $P_{conf}$, such that the actual state $x$ distribution satisfies We assume a constant velocity and covariance at each sampled state. The direction of the velocity can align with the direction of the current node and adjacent node.
 
 ### IV-E Main algorithm
 
 The implementation of the PGCS-BRM algorithm is summarized in Algorithm 2. To calculate the hinge loss of obstacles, a signed distance field is used which, together with the start, and target states, are initialized by the user. Then the uncertainty-aware sampler samples a certain number of states in the state space and their covariance matrices determined by the environment. The main loop starts in line 11, where each feasible sampled state is looped through and whose nearest neighbors are found. The number of neighbors found is determined by a preset neighbor distance and the total number of sampled states. Next, we connect the current state with all its feasible neighbors using the state connection Algorithm 1. For each state pair, the nonlinear covariance steering connection algorithm is run twice to generate two trajectories from two different directions. To ensure the connection algorithm returns a feasible solution, we need the estimated robot state error-covariance $\hat{\Sigma} > 0$.
 
-3: Start state and covariance S ← xi n i t, Σi n i t;
-4: Target state and covariance T ← xt a r g e t, Σt a r g e t;
-14: ${{{\overline{x}}_{ij}{(t)}},{\Sigma_{ij}{(t)}}}\leftarrow{{StateConnection}{(b_{i},b_{j})}}$ 1;
-15: if ${CollisionFree}{({\overline{x}}_{ij})}$ then
-16: $c_{ij}\leftarrow{{Cost}{({{\overline{x}}_{ij}{(t)}},{\Sigma_{ij}{(t)}})}}$;
-17: $G\leftarrow{({{\overline{x}}_{ij}{(t)}},{\Sigma_{ij}{(t)}},c_{ij})}$
-21: ${{{\overline{x}}_{ST}{(t)}},{\Sigma_{ST}{(t)}}}\leftarrow{{SearchPath}{(S,T,G)}}$
-22: return Belief Roadmap G, Path (${\overline{x}}_{ST}{(t)},\Sigma_{ST}{(t)})$
-
-(a) 10 nodes and 24 edges
-
-(b) 20 nodes and 62 edges
-
-(c) 30 nodes and 92 edges
-
-Figure 3: Belief Roadmap planning for a 2D environment. Red dashed ellipsoids represents the estimated state covariances P (t) propagated using, and light blue ellipsoids are the state covariances Σ (t). Notice that PT is expected to be less than ΣT at every end of an edge.
+3: Start state and covariance S ← xi n i t, Σi n i t; 4: Target state and covariance T ← xt a r g e t, Σt a r g e t; 14: ${{{\overline{x}}_{ij}{(t)}},{\Sigma_{ij}{(t)}}}\leftarrow{{StateConnection}{(b_{i},b_{j})}}$ 1; 15: if ${CollisionFree}{({\overline{x}}_{ij})}$ then 16: $c_{ij}\leftarrow{{Cost}{({{\overline{x}}_{ij}{(t)}},{\Sigma_{ij}{(t)}})}}$; 17: $G\leftarrow{({{\overline{x}}_{ij}{(t)}},{\Sigma_{ij}{(t)}},c_{ij})}$ 21: ${{{\overline{x}}_{ST}{(t)}},{\Sigma_{ST}{(t)}}}\leftarrow{{SearchPath}{(S,T,G)}}$ 22: return Belief Roadmap G, Path (${\overline{x}}_{ST}{(t)},\Sigma_{ST}{(t)})$ (a) 10 nodes and 24 edges (b) 20 nodes and 62 edges (c) 30 nodes and 92 edges Figure 3: Belief Roadmap planning for a 2D environment. Red dashed ellipsoids represents the estimated state covariances P (t) propagated using, and light blue ellipsoids are the state covariances Σ (t). Notice that PT is expected to be less than ΣT at every end of an edge.
 
 TABLE I: Time consumption in different graph scales for a robot in 3D environment. We conduct two different experiments for the same number of nodes to show that when the number of nodes are relatively small, the variance in graph construction time is large.
 
@@ -154,17 +90,11 @@ We conducted several numerical experiments to validate the proposed method. All 
 
 Figure 4: Different paths are chosen by different weights on entropy.
 
-To demonstrate how $\alpha$ impacts the returned path and the ability of PGCS-BRM to handle non-linear systems, we conduct experiments on 2-D planning for a risky area. We consider the same nonlinear dynamical system used in
-
-$dx_{2}$ ${= {{{({u - {c_{d}{\parallel x_{2}\parallel}x_{2}}})}dt} + {\sqrt{\epsilon}dW_{t}}}}.$ (11b)
-
-1,000 states are sampled and more than 10,000 trajectories are generated for state connection. In the search phase, $A^{\ast}$, a best-first search algorithm, is deployed to find a path to the given goal state with minimum total cost. In Figure 4(a) and 4(b), we show that by changing the weighting factor $\alpha$, PGCS-BRM is able to build belief graphs and find a path with less control cost or less entropy cost.
+To demonstrate how $\alpha$ impacts the returned path and the ability of PGCS-BRM to handle non-linear systems, we conduct experiments on 2-D planning for a risky area. We consider the same nonlinear dynamical system used in 1,000 states are sampled and more than 10,000 trajectories are generated for state connection. In the search phase, $A^{\ast}$, a best-first search algorithm, is deployed to find a path to the given goal state with minimum total cost. In Figure 4(a) and 4(b), we show that by changing the weighting factor $\alpha$, PGCS-BRM is able to build belief graphs and find a path with less control cost or less entropy cost.
 
 ### V-B Evaluation of Running Time
 
-We compare the proposed method with the CS-BRM method in using a linear double integrator dynamics
-
-We use a map of 5 rectangular obstacles to compare these two methods. In each experiment with a different number of nodes, the same sampling setup is deployed and we used the same start and goal states for the graph building. For PGCS-BRM, each edge building is set to execute 50 iterations of the proximal gradient with step size $\eta = 0.001$ and discretized into 50 timesteps. We recorded the times for constructing the belief space graph after node sampling and repeated each experiment three times. Both algorithms are able to build a belief roadmap, however, due to the high computation cost in performing Monte-Carlo collision checking and solving optimization problems, CS-BRM requires higher computation time. On the other hand, PGCS-BRM is able to penalize collision in the cost function and directly solve the nonlinear covariance steering with a sublinear rate. PGCS-BRM is around 100 times faster and only requires 3.38s to build a roadmap with 30 nodes, compared to CS-BRM which needs 782s on average.
+We compare the proposed method with the CS-BRM method in using a linear double integrator dynamics We use a map of 5 rectangular obstacles to compare these two methods. In each experiment with a different number of nodes, the same sampling setup is deployed and we used the same start and goal states for the graph building. For PGCS-BRM, each edge building is set to execute 50 iterations of the proximal gradient with step size $\eta = 0.001$ and discretized into 50 timesteps. We recorded the times for constructing the belief space graph after node sampling and repeated each experiment three times. Both algorithms are able to build a belief roadmap, however, due to the high computation cost in performing Monte-Carlo collision checking and solving optimization problems, CS-BRM requires higher computation time. On the other hand, PGCS-BRM is able to penalize collision in the cost function and directly solve the nonlinear covariance steering with a sublinear rate. PGCS-BRM is around 100 times faster and only requires 3.38s to build a roadmap with 30 nodes, compared to CS-BRM which needs 782s on average.
 
 Figure 5: Running time comparison of graph construction between PGCS-BRM and CS-BRM. The proposed method is more than 100 times more efficient in graph building.
 

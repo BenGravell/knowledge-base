@@ -12,11 +12,7 @@ We assess the impact of pretraining on performing three different tasks: motion 
 
 In addition to classic motion prediction, we also treat occlusion handling as a separate task to evaluate our proposed framework. In real-world scenarios, occlusions are a common occurrence where one or more agents are partially or entirely obscured from view. Under such circumstances, predicting the motion of the occluded agents become a complex task that can significantly influence the overall performance of the autonomous driving system, especially with occlusions happening over short distances. This is a nontrivial issue that has often not been specifically focused on in practice. For agents whose historical trajectories are partially or heavily occluded, we evaluate the performance of the current state-of-the-art networks with and without masking pretraining in an object-based manner.
 
-Our experimental results indicate that motion prediction benefits from transfer learning for generalization and random masking. Our framework demonstrates effective performance on the Argoverse and NuScenes datasets. Our code will be publicly accessible at [https://github.com/KTH-RPL/RMP](https://github.com/KTH-RPL/RMP).
-
-In this paper, we make the following contributions:
-
-We introduce a pretraining framework for a range of motion-related tasks.
+Our experimental results indicate that motion prediction benefits from transfer learning for generalization and random masking. Our framework demonstrates effective performance on the Argoverse and NuScenes datasets. Our code will be publicly accessible at In this paper, we make the following contributions: We introduce a pretraining framework for a range of motion-related tasks.
 
 We design experiments to validate the effectiveness of random masking.
 
@@ -30,7 +26,7 @@ Motion prediction has recently been explored rapidly with large open datasets an
 
 ### II-B Self-supervised Learning
 
-Self-supervised learning methods have garnered substantial interest across various fields, such as NLP and CV. These methods leverage different tasks to initialize network weights in the pretraining phase. For instance, contrastive learning designs tasks that distinguish between similarities and dissimilarities, utilizing both original data samples and their augmented counterparts. The Masked Autoencoder, proposed by, uses a masking encoder to reconstruct missing pixels in images during the pretraining phase, resulting in better performance and a training speed that is four times faster than training from scratch. This technique has inspired applications in a variety of domains, such as video, 3D point clouds, and visual reinforcement learning in robotics. Self-supervised learning for motion prediction in autonomous driving remains largely unexplored. However, in the past year, a few studies have started investigating this area. Prarthana et al. propose a suite of four pretraining tasks, including lane masking, intersection distance calculation, maneuver classification, and success/failure classification. The work most similar to ours is the recent archive preprint which shows results similar to our own on one of the tasks we tested (prediction). Our work here was developed independently to.
+Self-supervised learning methods have garnered substantial interest across various fields, such as NLP and CV. These methods leverage different tasks to initialize network weights in the pretraining phase. For instance, contrastive learning designs tasks that distinguish between similarities and dissimilarities, utilizing both original data samples and their augmented counterparts. The Masked Autoencoder, proposed , uses a masking encoder to reconstruct missing pixels in images during the pretraining phase, resulting in better performance and a training speed that is four times faster than training from scratch. This technique has inspired applications in a variety of domains, such as video, 3D point clouds, and visual reinforcement learning in robotics. Self-supervised learning for motion prediction in autonomous driving remains largely unexplored. However, in the past year, a few studies have started investigating this area. Prarthana et al. propose a suite of four pretraining tasks, including lane masking, intersection distance calculation, maneuver classification, and success/failure classification. The work most similar to ours is the recent archive preprint which shows results similar to our own on one of the tasks we tested (prediction). Our work here was developed independently to.
 
 ### II-C Conditional Motion Prediction
 
@@ -104,8 +100,7 @@ We have conducted extensive testing to assess the impact of different masking st
 
 To ensure fair comparison between pretraining and training from scratch, we perform experiments over comparable time periods and on identical devices. As an example, the conditional motion prediction results for Argoverse dataset (Fig. 6) show that pretraining achieves better results and converges faster. Our experiments also show that it can learn other tasks from that same pretrained network at a faster rate and to better results.
 
-Method minADE_5 ↓ minADE_10 ↓ Miss Rate↓ (Top 5) GOHOME 1.42 1.15 0.57 THOMAS 1.33 1.04 0.55 PGP 1.27 0.94 0.52 FRM 1.18 0.88 0.48 Autobot (Baseline, w/o ensemble) 1.43 1.05 0.66 Autobot w/ [P] (Ours) 1.38 (3.5%) 0.98 (6.7%) 0.60 (9.1%)
-TABLE II: Performance comparison of different models on nuScenes dataset. Here we use the baseline results of Autobot without ensemble to maintain a fair comparison.
+Method minADE_5 ↓ minADE_10 ↓ Miss Rate↓ (Top 5) GOHOME 1.42 1.15 0.57 THOMAS 1.33 1.04 0.55 PGP 1.27 0.94 0.52 FRM 1.18 0.88 0.48 Autobot (Baseline, w/o ensemble) 1.43 1.05 0.66 Autobot w/ [P] (Ours) 1.38 (3.5%) 0.98 (6.7%) 0.60 (9.1%) TABLE II: Performance comparison of different models on nuScenes dataset. Here we use the baseline results of Autobot without ensemble to maintain a fair comparison.
 
 TABLE III: Prediction performance of different models on Argoverse validation dataset. Note that the results presented have been obtained from our own training runs.
 

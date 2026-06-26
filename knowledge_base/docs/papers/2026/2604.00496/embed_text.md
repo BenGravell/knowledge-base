@@ -14,9 +14,7 @@ In contrast, QuadSoft adopts a constant-curvature continuum approach in a standa
 
 ### I-B Contribution
 
-Building on earlier theoretical work on constant-curvature soft aerial vehicles, this paper focuses on the design, construction, and real-world experimental validation of QuadSoft. The main contributions are:
-
-Continuum Design and Construction: A tendon-driven soft arm based on a constant-curvature approach, enabling smooth in-flight reconfiguration within a standard X-quadrotor configuration---without discrete joints or rigid hinges.
+Building on earlier theoretical work on constant-curvature soft aerial vehicles, this paper focuses on the design, construction, and real-world experimental validation of QuadSoft. The main contributions are: Continuum Design and Construction: A tendon-driven soft arm based on a constant-curvature approach, enabling smooth in-flight reconfiguration within a standard X-quadrotor configuration---without discrete joints or rigid hinges.
 
 Geometric Mapping: A closed-form mapping from servomotor input to arm curvature is derived and experimentally validated, linking tendon actuation to 6-DOF thrust-vectoring capability.
 
@@ -30,9 +28,7 @@ The remainder of this paper is organized as follows. Section II formulates the c
 
 ## Problem Statement
 
-Designing a morphing quadrotor with soft actuated arms introduces a central challenge: enabling in-flight reconfiguration without compromising flight stability. The inherent flexibility of soft structures allows morphological adaptation but also induces deformations and vibrations that can degrade control performance. Furthermore, maintaining a lightweight structure is critical, as additional mass increases the required lift forces, which in turn amplify structural deformations. This challenge is divided into two interconnected subproblems:
-
-Subproblem A --- Mechanical Design: Developing a lightweight, tendon-driven arm mechanism that balances compliance with structural stability to minimize oscillations while allowing sufficient curvature for reconfiguration.
+Designing a morphing quadrotor with soft actuated arms introduces a central challenge: enabling in-flight reconfiguration without compromising flight stability. The inherent flexibility of soft structures allows morphological adaptation but also induces deformations and vibrations that can degrade control performance. Furthermore, maintaining a lightweight structure is critical, as additional mass increases the required lift forces, which in turn amplify structural deformations. This challenge is divided into two interconnected subproblems: Subproblem A --- Mechanical Design: Developing a lightweight, tendon-driven arm mechanism that balances compliance with structural stability to minimize oscillations while allowing sufficient curvature for reconfiguration.
 
 Subproblem B --- Integration and Modeling: Deriving the actuator--curvature--propeller mapping to ensure that morphological changes translate into predictable and controllable motions while preserving baseline stability.
 
@@ -40,25 +36,13 @@ The solution to Subproblem A is detailed in Section IV, while Subproblem B is ad
 
 ## Geometric Mapping of Servomotor to Arm Curvature
 
-The angular position of the propellers with respect to the main body frame can be expressed as a function of the servomotor angle. This relationship arises from the geometric constraints imposed by the tendon-driven arm. Fig. 2 illustrates the relevant variables: $L_{a}$, the fixed arc length determined by the semi-rigid core, and $L_{b}$, the variable length defined by the tendon pulled by the servomotor. Since the total tendon length remains constant (highlighted in purple in Fig. 2), the change in length $\DeltaL_{c}$ caused by a rotation $\alpha$ of the servomotor can be obtained using trigonometry:
+The angular position of the propellers with respect to the main body frame can be expressed as a function of the servomotor angle. This relationship arises from the geometric constraints imposed by the tendon-driven arm. Fig. 2 illustrates the relevant variables: $L_{a}$, the fixed arc length determined by the semi-rigid core, and $L_{b}$, the variable length defined by the tendon pulled by the servomotor. Since the total tendon length remains constant (highlighted in purple in Fig. 2), the change in length $\Delta L_{c}$ caused by a rotation $\alpha$ of the servomotor can be obtained using trigonometry: where $r$ is the radius of the tendon trajectory, $\alpha$ is the servomotor angle, and $K$ is a proportionality constant that accounts for unmodeled effects.
 
-where $r$ is the radius of the tendon trajectory, $\alpha$ is the servomotor angle, and $K$ is a proportionality constant that accounts for unmodeled effects.
-
-The arc lengths $L_{a}$ and $L_{b}$ are related to the arm's angular displacement $\beta$:
-
-where $R$ is the nominal radius of the rigid arc, $R - L_{1}$ corresponds to the effective radius when the tendon is pulled, and $\beta$ is the arm curvature angle. Since $\beta$ is identical in both cases,
-
-From this relation, the effective radius $R$ is expressed as a function of $L_{a}$, $L_{b}$, and $L_{1}$:
-
-Finally, the curvature angle $\beta$ is as follows:
-
-Together, these expressions provide a complete geometric mapping from servomotor input $\alpha$ to arm curvature $\beta$, and thus to the propellers' angular orientation relative to the body frame.
+The arc lengths $L_{a}$ and $L_{b}$ are related to the arm's angular displacement $\beta$: where $R$ is the nominal radius of the rigid arc, $R-L_{1}$ corresponds to the effective radius when the tendon is pulled, and $\beta$ is the arm curvature angle. Since $\beta$ is identical in both cases, From this relation, the effective radius $R$ is expressed as a function of $L_{a}$, $L_{b}$, and $L_{1}$: Finally, the curvature angle $\beta$ is as follows: Together, these expressions provide a complete geometric mapping from servomotor input $\alpha$ to arm curvature $\beta$, and thus to the propellers' angular orientation relative to the body frame.
 
 Figure 2: Schematic of the QuadSoft’s flexible arm, showing the geometric variables used to calculate the bending angle β as a function of the servo motor’s rotation angle α. The lengths La, Lb, Lc, and L3 represent segments of the arm and its base, while β describes the arm’s curvature due to flexibility.
 
-Experimental measurements further showed that $\beta$ can be well approximated by a cubic interpolation of the form:
-
-where the coefficients $(a_{i},b_{i},c_{i},d_{i})$ are obtained via data fitting for each arm.
+Experimental measurements further showed that $\beta$ can be well approximated by a cubic interpolation of the form: where the coefficients $(a_{i},b_{i},c_{i},d_{i})$ are obtained via data fitting for each arm.
 
 Fig. 3(c) illustrates this mapping, showing the experimental $\alpha$--$\beta$ curve along with the operational limits beyond which vehicle lift would be compromised.
 
@@ -76,16 +60,9 @@ The soft arm features a hybrid structure---a flat carbon fiber core embedded in 
 
 Active reconfiguration relies on two antagonistic nylon tendons connecting a base servomotor to a tip pulley (Fig. 3b). Adjusting tendon tension induces continuous positive or negative bending (Fig. 3e). The arm design has a physical bending limit of 28^∘^, since propeller efficiency decreases beyond 25^∘^. This limit is set by the gap between the arm segments, which prevents exceeding the allowable curvature and avoids propeller-arm collisions. By physically constraining the maximum bending angle, the design also mitigates material fatigue. Moreover, adjusting the segment spacing during manufacturing provides a simple parametric means to tune arm compliance. Arm specifications are listed in Table I.
 
-Elastic modulus (MPa)
+Elastic modulus (MPa) Tensile strength (MPa) Flexural modulus (MPa) TABLE I: Specifications of the flexible arms and tendons used in the morphing mechanism of the QuadSoft. These properties ensure lightweight construction, mechanical flexibility, and structural integrity for stable flight.
 
-Tensile strength (MPa)
-Flexural modulus (MPa)
-
-TABLE I: Specifications of the flexible arms and tendons used in the morphing mechanism of the QuadSoft. These properties ensure lightweight construction, mechanical flexibility, and structural integrity for stable flight.
-
-4 × (Motors and propellers)
-
-TABLE II: Mass budget of the proposed soft-Quadrotor, detailing the absolute and relative weight contributions of each component.
+4 × (Motors and propellers) TABLE II: Mass budget of the proposed soft-Quadrotor, detailing the absolute and relative weight contributions of each component.
 
 ### IV-C Electronics Integration
 
@@ -97,13 +74,9 @@ Standard RC telemetry is utilized for wireless manual input and real-time monito
 
 ## Experiments
 
-(b) Position and velocity tracking
+(b) Position and velocity tracking Figure 5: Hover stability experiment with flexible arms. (a) 3D trajectory during take-off, hover, and landing (blue: actual, red dashed: setpoint); Background colors denote the flight modes (green: manual, yellow: hold), and the transition between modes is indicated in red. (b) Position (left) and velocity (right) tracking along x, y, z, showing smooth setpoint following across mode transitions.
 
-Figure 5: Hover stability experiment with flexible arms. (a) 3D trajectory during take-off, hover, and landing (blue: actual, red dashed: setpoint); Background colors denote the flight modes (green: manual, yellow: hold), and the transition between modes is indicated in red. (b) Position (left) and velocity (right) tracking along x, y, z, showing smooth setpoint following across mode transitions.
-
-To evaluate the QuadSoft platform under realistic, unconstrained conditions, we conducted outdoor flight tests subjected to stochastic wind disturbances. Unlike indoor trials that rely on high-precision Motion Capture (MoCap) systems, these outdoor experiments demonstrate the system's operational autonomy using only on-board sensing (IMU/GPS) and a standard, unmodified PX4 control stack. We focused on two critical aspects of soft-rigid hybrid flight:
-
-Baseline Hover Stability: The platform's ability to reject external perturbations and maintain stable setpoints despite the inherent compliance of the soft arms.
+To evaluate the QuadSoft platform under realistic, unconstrained conditions, we conducted outdoor flight tests subjected to stochastic wind disturbances. Unlike indoor trials that rely on high-precision Motion Capture (MoCap) systems, these outdoor experiments demonstrate the system's operational autonomy using only on-board sensing (IMU/GPS) and a standard, unmodified PX4 control stack. We focused on two critical aspects of soft-rigid hybrid flight: Baseline Hover Stability: The platform's ability to reject external perturbations and maintain stable setpoints despite the inherent compliance of the soft arms.
 
 Morphology-Induced Translation: The dynamic response of the vehicle when continuous-curvature arm bending is actively used to generate horizontal displacement without altering the vehicle's global pitch/roll attitude.
 
@@ -119,11 +92,7 @@ Crucially, high-speed footage and telemetry confirmed that passive arm deflectio
 
 The core validation of our continuum approach involved generating horizontal displacement purely through tendon-driven arm actuation. Tests were performed in ALTITUDE HOLD mode, isolating horizontal thrust-vectoring from $z$-axis altitude control.
 
-(b) Position and velocity tracking
-
-(c) Arm curvatures and pitch/roll angles
-
-Figure 6: Morphology-induced translation with tendon activation. (a) 3D trajectory (arrows indicate motion direction; purple dot marks tendon activation). (b) Position and velocity tracking showing steady altitude during translation. (c) Arm curvature angles βi and vehicle attitude (ϕ, θ), confirming the link between continuum actuation and horizontal displacement with minimal attitude coupling.
+(b) Position and velocity tracking (c) Arm curvatures and pitch/roll angles Figure 6: Morphology-induced translation with tendon activation. (a) 3D trajectory (arrows indicate motion direction; purple dot marks tendon activation). (b) Position and velocity tracking showing steady altitude during translation. (c) Arm curvature angles βi and vehicle attitude (ϕ, θ), confirming the link between continuum actuation and horizontal displacement with minimal attitude coupling.
 
 As illustrated in Fig. 6(a) and (b), upon tendon activation, the vehicle achieved smooth $x$--$y$ translation while strictly maintaining its target altitude. A gradual velocity increase coincided precisely with the onset of arm curvature.
 

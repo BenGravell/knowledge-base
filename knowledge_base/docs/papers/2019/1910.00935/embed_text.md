@@ -18,7 +18,7 @@ In contrast to functional array programming languages that are popular in modern
 
 Existing parallel differentiable programming systems provide element-wise operations on arrays of the same shape, e.g. c\[i, j\] = a\[i, j\] + b\[i, j\]. However, many physical simulation operations, such as numerical stencils and particle-grid interactions are not element-wise. Common simulation patterns such as y\[p\[i\] \* 2, j\] = x\[q\[i + j\]\] can only be expressed with unintuitive scatter/gather operations in these existing systems, which are not only inefficient but also hard to develop and maintain. On the other hand, in DiffTaichi, the programmer directly manipulates array elements via arbitrary indexing, thus allowing partial updates of global arrays and making these common simulation patterns naturally expressible. The explicit indexing syntax also makes it easy for the compiler to perform access optimizations.
 
-The three requirements motivated us to design a tailored two-scale automatic differentiation system, which makes DiffTaichi especially suitable for developing complex and high-performance differentiable physical simulators, possibly with neural network controllers (Fig. 1, left). Using our language, we are able to quickly implement and automatically differentiate 10 physical simulators^11^1Our [language, compiler](https://github.com/taichi-dev/taichi), and [simulator code](https://github.com/yuanming-hu/difftaichi) is open-source. All the results in this work can be reproduced by a single Python script. Visual results in this work are presented in the [supplemental video](https://youtu.be/Z1xvAZve9aE)., covering rigid bodies, deformable objects, and fluids (Fig. 1, right). A comprehensive comparison between DiffTaichiand other differentiable programming tools is in Appendix A.
+The three requirements motivated us to design a tailored two-scale automatic differentiation system, which makes DiffTaichi especially suitable for developing complex and high-performance differentiable physical simulators, possibly with neural network controllers (Fig. 1, left). Using our language, we are able to quickly implement and automatically differentiate 10 physical simulators^11^1Our language, compiler, and simulator code is open-source. All the results in this work can be reproduced by a single Python script. Visual results in this work are presented in the supplemental video., covering rigid bodies, deformable objects, and fluids (Fig. 1, right). A comprehensive comparison between DiffTaichiand other differentiable programming tools is in Appendix A.
 
 ## Background: The Taichi Programming Language
 
@@ -34,47 +34,11 @@ Firstly we allocate a set of global tensors to store the simulation state. These
 
 ### Defining Kernels
 
-A mass-spring system is modeled by Hooke's law $\mathbf{F} = {k{({\left. \parallel{\mathbf{x}_{a} - \mathbf{x}_{b}}\parallel \right._{2} - l_{0}})}\frac{\mathbf{x}_{a} - \mathbf{x}_{b}}{\left. \parallel{\mathbf{x}_{a} - \mathbf{x}_{b}}\parallel \right._{2}}}$ where $k$ is the spring stiffness, $\mathbf{F}$ is spring force, $\mathbf{x}_{a}$ and $\mathbf{x}_{b}$ are the positions of two mass points, and $l_{0}$ is the rest length. The following kernel loops over all the springs and scatters forces to mass points:
-
-[⬇](data:text/plain;base64,QHRpLmtlcm5lbApkZWYgYXBwbHlfc3ByaW5nX2ZvcmNlKHQ6IHRpLmkzMik6CiAgIyBLZXJuZWxzIGNhbiBoYXZlIHBhcmFtZXRlcnMuIEhlcmUgdCBpcyBhIHBhcmFtZXRlciB3aXRoIHR5cGUgaW50MzIuCiAgZm9yIGkgaW4gcmFuZ2Uobl9zcHJpbmdzKTogIyBBIHBhcmFsbGVsIGZvciwgcHJlZmVyYWJseSBvbiBHUFUKICAgIGEsIGIgPSBzcHJpbmdfYW5jaG9yX2FbaV0sIHNwcmluZ19hbmNob3JfYltpXQogICAgeF9hLCB4X2IgPSB4W3QgLSAxLCBhXSwgeFt0IC0gMSwgYl0KICAgIGRpc3QgPSB4X2EgLSB4X2IKICAgIGxlbmd0aCA9IGRpc3Qubm9ybSgpICsgMWUtNAogICAgRiA9IChsZW5ndGggLSBzcHJpbmdfbGVuZ3RoW2ldKSAqIHNwcmluZ19zdGlmZm5lc3MgKiBkaXN0IC8gbGVuZ3RoCiAgICAjIEFwcGx5IHNwcmluZyBpbXB1bHNlcyB0byBtYXNzIHBvaW50cy4KICAgIGZvcmNlW3QsIGFdICs9IC1GICMgIis9IiBpcyBhdG9taWMgYnkgZGVmYXVsdAogICAgZm9yY2VbdCwgYl0gKz0gIEY=){download=""}
-
-def apply_spring_force(t: ti.i32):
-
-\# Kernels can have parameters. Here t is a parameter with type int32.
-
-for i in range(n_springs): \# A parallel for, preferably on GPU
-
-a, b = spring_anchor_a\[i\], spring_anchor_b\[i\]
-
-length = dist.norm() + 1e-4
-
-F = (length - spring_length\[i\]) \* spring_stiffness \* dist / length
-
-\# Apply spring impulses to mass points.
-
-force\[t, a\] += -F \# \"+=\" is atomic by default
-
-For each particle $i$, we use semi-implicit Euler time integration with damping: ${{{\mathbf{v}}_{t,i} = {{e^{- {\Deltat\alpha}}{\mathbf{v}}_{{t - 1},i}} + {\frac{\Deltat}{m_{i}}\mathbf{F}_{t,i}}}},{\mathbf{x}_{t,i} = {\mathbf{x}_{{t - 1},i} + {\Deltat{\mathbf{v}}_{t,i}}}}},$ where ${\mathbf{v}}_{t,i},\mathbf{x}_{t,i},m_{i}$ are the velocity, position and mass of particle $i$ at time step $t$, respectively. $\alpha$ is a damping factor. The kernel is as follows:
-
-[⬇](data:text/plain;base64,QHRpLmtlcm5lbApkZWYgdGltZV9pbnRlZ3JhdGUodDogdGkuaTMyKToKICBmb3IgaSBpbiByYW5nZShuX29iamVjdHMpOgogICAgcyA9IG1hdGguZXhwKC1kdCAqIGRhbXBpbmcpICMgQ29tcGlsZS10aW1lIGV2YWx1YXRpb24gc2luY2UgZHQgYW5kIGRhbXBpbmcgYXJlIGNvbnN0YW50cwogICAgdlt0LCBpXSA9IHMgKiB2W3QgLSAxLCBpXSArIGR0ICogZm9yY2VbdCwgaV0gLyBtYXNzICMgbWFzcyA9IDEgaW4gdGhpcyBleGFtcGxlCiAgICB4W3QsIGldID0geFt0IC0gMSwgaV0gKyBkdCAqIHZbdCwgaV0=){download=""}
-
-def time_integrate(t: ti.i32):
-
-for i in range(n_objects):
-
-s = math.exp(-dt \* damping) \# Compile-time evaluation since dt and damping are constants
-
-v\[t, i\] = s \* v\[t - 1, i\] + dt \* force\[t, i\] / mass \# mass = 1 in this example
+A mass-spring system is modeled by Hooke's law $\mathbf{F} = {k{({\left. \parallel{\mathbf{x}_{a} - \mathbf{x}_{b}}\parallel \right._{2} - l_{0}})}\frac{\mathbf{x}_{a} - \mathbf{x}_{b}}{\left. \parallel{\mathbf{x}_{a} - \mathbf{x}_{b}}\parallel \right._{2}}}$ where $k$ is the spring stiffness, $\mathbf{F}$ is spring force, $\mathbf{x}_{a}$ and $\mathbf{x}_{b}$ are the positions of two mass points, and $l_{0}$ is the rest length. The following kernel loops over all the springs and scatters forces to mass points: [⬇](data:text/plain;base64,QHRpLmtlcm5lbApkZWYgYXBwbHlfc3ByaW5nX2ZvcmNlKHQ6IHRpLmkzMik6CiAgIyBLZXJuZWxzIGNhbiBoYXZlIHBhcmFtZXRlcnMuIEhlcmUgdCBpcyBhIHBhcmFtZXRlciB3aXRoIHR5cGUgaW50MzIuCiAgZm9yIGkgaW4gcmFuZ2Uobl9zcHJpbmdzKTogIyBBIHBhcmFsbGVsIGZvciwgcHJlZmVyYWJseSBvbiBHUFUKICAgIGEsIGIgPSBzcHJpbmdfYW5jaG9yX2FbaV0sIHNwcmluZ19hbmNob3JfYltpXQogICAgeF9hLCB4X2IgPSB4W3QgLSAxLCBhXSwgeFt0IC0gMSwgYl0KICAgIGRpc3QgPSB4X2EgLSB4X2IKICAgIGxlbmd0aCA9IGRpc3Qubm9ybSgpICsgMWUtNAogICAgRiA9IChsZW5ndGggLSBzcHJpbmdfbGVuZ3RoW2ldKSAqIHNwcmluZ19zdGlmZm5lc3MgKiBkaXN0IC8gbGVuZ3RoCiAgICAjIEFwcGx5IHNwcmluZyBpbXB1bHNlcyB0byBtYXNzIHBvaW50cy4KICAgIGZvcmNlW3QsIGFdICs9IC1GICMgIis9IiBpcyBhdG9taWMgYnkgZGVmYXVsdAogICAgZm9yY2VbdCwgYl0gKz0gIEY=){download=""} def apply_spring_force(t: ti.i32): \# Kernels can have parameters. Here t is a parameter with type int32. for i in range(n_springs): \# A parallel, preferably on GPU a, b = spring_anchor_a\[i\], spring_anchor_b\[i\] length = dist.norm + 1e-4 F = (length - spring_length\[i\]) \* spring_stiffness \* dist / length \# Apply spring impulses to mass points. force\[t, a\] += -F \# \"+=\" is atomic by default For each particle $i$, we use semi-implicit Euler time integration with damping: ${{{\mathbf{v}}_{t,i} = {{e^{- {\Deltat\alpha}}{\mathbf{v}}_{{t - 1},i}} + {\frac{\Deltat}{m_{i}}\mathbf{F}_{t,i}}}},{\mathbf{x}_{t,i} = {\mathbf{x}_{{t - 1},i} + {\Deltat{\mathbf{v}}_{t,i}}}}},$ where ${\mathbf{v}}_{t,i},\mathbf{x}_{t,i},m_{i}$ are the velocity, position and mass of particle $i$ at time step $t$, respectively. $\alpha$ is a damping factor. The kernel is as follows: [⬇](data:text/plain;base64,QHRpLmtlcm5lbApkZWYgdGltZV9pbnRlZ3JhdGUodDogdGkuaTMyKToKICBmb3IgaSBpbiByYW5nZShuX29iamVjdHMpOgogICAgcyA9IG1hdGguZXhwKC1kdCAqIGRhbXBpbmcpICMgQ29tcGlsZS10aW1lIGV2YWx1YXRpb24gc2luY2UgZHQgYW5kIGRhbXBpbmcgYXJlIGNvbnN0YW50cwogICAgdlt0LCBpXSA9IHMgKiB2W3QgLSAxLCBpXSArIGR0ICogZm9yY2VbdCwgaV0gLyBtYXNzICMgbWFzcyA9IDEgaW4gdGhpcyBleGFtcGxlCiAgICB4W3QsIGldID0geFt0IC0gMSwgaV0gKyBkdCAqIHZbdCwgaV0=){download=""} def time_integrate(t: ti.i32): for i in range(n_objects): s = math.exp(-dt \* damping) \# Compile-time evaluation since dt and damping are constants v\[t, i\] = s \* v\[t - 1, i\] + dt \* force\[t, i\] / mass \# mass = 1 in this example
 
 ### Assembling the Forward Simulator
 
-With these components, we define the forward time integration:
-
-[⬇](data:text/plain;base64,ZGVmIGZvcndhcmQoKToKICBmb3IgdCBpbiByYW5nZSgxLCBzdGVwcyk6CiAgICBhcHBseV9zcHJpbmdfZm9yY2UodCkKICAgIHRpbWVfaW50ZWdyYXRlKHQp){download=""}
-
-for t in range(1, steps):
-
-apply_spring_force(t)
+With these components, we define the forward time integration: [⬇](data:text/plain;base64,ZGVmIGZvcndhcmQoKToKICBmb3IgdCBpbiByYW5nZSgxLCBzdGVwcyk6CiAgICBhcHBseV9zcHJpbmdfZm9yY2UodCkKICAgIHRpbWVfaW50ZWdyYXRlKHQp){download=""} for t in range(1, steps): apply_spring_force(t)
 
 ## Automatically Differentiating Physical Simulators in Taichi
 
@@ -88,9 +52,7 @@ Figure 2: Left: The DiffTaichi system. We reuse some infrastructure (white boxes
 
 ### Assumption
 
-Unlike functional programming languages where immutable output buffers are generated, imperative programming allows programmers to freely modify global tensors. To make automatic differentiation well-defined under this setting, we make the following assumption on imperative kernels:
-
-Global Data Access Rules: 1) If a global tensor element is written more than once, then starting from the second write, the write must come in the form of an atomic add ("accumulation"). 2) No read accesses happen to a global tensor element, until its accumulation is done.
+Unlike functional programming languages where immutable output buffers are generated, imperative programming allows programmers to freely modify global tensors. To make automatic differentiation well-defined under this setting, we make the following assumption on imperative kernels: Global Data Access Rules: 1) If a global tensor element is written more than once, then starting from the second write, the write must come in the form of an atomic add ("accumulation"). 2) No read accesses happen to a global tensor element, until its accumulation is done.
 
 In forward simulators, programmers may make subtle changes to satisfy the rules. For instance, in the mass-spring simulation example, we record the whole history of x and v, instead of keeping only the latest values. The memory consumption issues caused by this can be alleviated via checkpointing, as discussed later in Appendix D.
 
@@ -98,14 +60,13 @@ With these assumptions, kernels will not overwrite the outputs of each other, an
 
 ### Storage Control of Adjoint Tensors
 
-Users can specify the storage of adjoint tensors using the Taichi data structure description language, as if they are primal tensors. We also provide ti.root.lazy_grad() to automatically place the adjoint tensors following the layout of their primals.
+Users can specify the storage of adjoint tensors using the Taichi data structure description language, as if they are primal tensors. We also provide ti.root.lazy_grad to automatically place the adjoint tensors following the layout of their primals.
 
 ### Local AD: Differentiating Taichi Kernels using Source Code Transforms
 
 A typical Taichi kernel consists of multiple levels of for loops and a body block. To make later AD easier, we introduce two basic code transforms to simplify the loop body, as detailed below.
 
-// eliminate mutable var
-Figure 3: Simple IR preprocessing before running the AD source code transform (left to right). Demonstrated in C++. The actual Taichi IR is often more complex. Containing loops are ignored.
+// eliminate mutable var Figure 3: Simple IR preprocessing before running the AD source code transform (left to right). Demonstrated in C++. The actual Taichi IR is often more complex. Containing loops are ignored.
 
 ### Flatten Branching
 
@@ -131,24 +92,21 @@ We construct a tape (Fig. 2, right) of the kernel execution so that gradient ker
 
 ### Learning/Optimization with Gradients
 
-Now we revisit the mass-spring example and make it differentiable for optimization. Suppose the goal is to optimize the rest lengths of the springs so that the triangle area formed by the three springs becomes $0.2$ at the end of the simulation. We first define the loss function:
+Now we revisit the mass-spring example and make it differentiable for optimization. Suppose the goal is to optimize the rest lengths of the springs so that the triangle area formed by the three springs becomes $0.2$ at the end of the simulation. We first define the loss function: def compute_loss(t: ti.i32):
 
-def compute_loss(t: ti.i32):
 ## Triangle area from cross product
+
 loss[None] = ti.sqr(area - target_area)
+
 ## Everything in Taichi is a tensor
+
 ## "loss" is a scalar (0-D tensor), thereby indexed with [None]
 
-The programmer uses ti.Tape to memorize forward kernel launches. It automatically replays the gradients of these kernels in reverse for backpropagation. Initially the springs have lengths $\lbrack 0.1,0.1,0.14\rbrack$, and after optimization the rest lengths are $\lbrack 0.600,0.600,0.529\rbrack$. This means the springs will expand the triangle according to Hooke's law and form a larger triangle: \[Reproduce: mass_spring_simple.py\]
+The programmer uses ti.Tape to memorize forward kernel launches. It automatically replays the gradients of these kernels in reverse for backpropagation. Initially the springs have lengths $\lbrack 0.1,0.1,0.14\rbrack$, and after optimization the rest lengths are $\lbrack 0.600,0.600,0.529\rbrack$. This means the springs will expand the triangle according to Hooke's law and form a larger triangle: \[Reproduce: mass_spring_simple.py\] for iter in range: with ti.Tape(loss): compute_loss(steps - 1) print(’Iter=’, iter) print(’Loss=’,loss[None])
 
-for iter in range:
-with ti.Tape(loss):
-compute_loss(steps - 1)
-print(’Iter=’, iter)
-print(’Loss=’,loss[None])
 ## Gradient descent
-for i in range(n_springs):
-lr * spring_length.grad[i]
+
+for i in range(n_springs): lr * spring_length.grad[i]
 
 ### Complex Kernels
 
@@ -156,7 +114,7 @@ Sometimes the user may want to override the gradients provided by the compiler. 
 
 ## Evaluation
 
-We evaluate DiffTaichi on 10 different physical simulators covering large-scale continuum and small-scale rigid body simulations. All results can be reproduced with the provided script. The dynamic/optimization processes are visualized in the [supplemental video](https://youtu.be/Z1xvAZve9aE). In this section we focus our discussions on three simulators. More details on the simulators are in Appendix E.
+We evaluate DiffTaichi on 10 different physical simulators covering large-scale continuum and small-scale rigid body simulations. All results can be reproduced with the provided script. The dynamic/optimization processes are visualized in the supplemental video. In this section we focus our discussions on three simulators. More details on the simulators are in Appendix E.
 
 ### Differentiable Continuum Mechanics for Elastic Objects \[diffmpm\]
 
@@ -164,7 +122,7 @@ First, we build a differentiable continuum simulation for soft robotics applicat
 
 ### Performance and Productivity
 
-Compared with manual gradient implementations in, getting gradients in DiffTaichi is effortless. As a result, the DiffTaichi implementation is $4.2 \times$ shorter in terms of lines of code, and runs almost as fast; compared with TensorFlow, DiffTaichi code is $1.7 \times$ shorter and $188 \times$ faster (Table 1). The Tensorflow implementation is verbose due to the heavy use of tf.gather_nd/scatter_nd and array transposing and broadcasting.
+Compared with manual gradient implementations , getting gradients in DiffTaichi is effortless. As a result, the DiffTaichi implementation is $4.2 \times$ shorter in terms of lines of code, and runs almost as fast; compared with TensorFlow, DiffTaichi code is $1.7 \times$ shorter and $188 \times$ faster (Table 1). The Tensorflow implementation is verbose due to the heavy use of tf.gather_nd/scatter_nd and array transposing and broadcasting.
 
 ## Lines of Code
 
@@ -188,13 +146,9 @@ Consider the rigid ball example in Fig. 4 (left), where a rigid ball collides wi
 
 In the forward simulation, using a small $\Deltat$ often leads to a reasonable result, as done in many physics simulators. Lowering the initial ball height will increase the final ball height, since there is less distance to travel before the ball hits the ground and more after (see the loss curves in Fig.4, middle right). However, using a naive time integrator, no matter how small $\Deltat$ is, the evaluated gradient of final height w.r.t. initial height will be $1$ instead of $- 1$. This counter-intuitive behavior is due to the fact that time discretization itself is not differentiated by the compiler. Fig. 4 explains this effect in greater detail.
 
-Figure 4: How gradients can go wrong with naive time integrators. For clarity we use a large Δ t here. Left: Since collision detection only happens at multiples of Δ t (2 Δ t in this case), lowering the initial position of the ball (light blue) leads to a lowered final position. Middle Left: By improving the time integrator to support continuous time of impact (TOI), collisions can be detected at any time, e.g. 1.9 Δ t (light red). Now the blue ball ends up higher than the green one. Middle Right: Although the two time integration techniques lead to almost identical forward results (in practice Δ t is small), the naive time integrator gives an incorrect gradient of 1, but adding TOI yields the correct gradient. Please see our supplemental video for a better demonstration. [Reproduce: python3 rigid_body_toi.py] Right: When zooming in, the loss of the naive integrator is decreasing, and the saw-tooth pattern explains the positive gradients. [Reproduce: python3 rigid_body_toi.py zoom]
+Figure 4: How gradients can go wrong with naive time integrators. For clarity we use a large Δ t here. Left: Since collision detection only happens at multiples of Δ t (2 Δ t in this case), lowering the initial position of the ball (light blue) leads to a lowered final position. Middle Left: By improving the time integrator to support continuous time of impact (TOI), collisions can be detected at any time, e.g. 1.9 Δ t (light red). Now the blue ball ends up higher than the green one. Middle Right: Although the two time integration techniques lead to almost identical forward results (in practice Δ t is small), the naive time integrator gives an incorrect gradient of 1, but adding TOI yields the correct gradient. Please see our supplemental video for a better demonstration. [Reproduce: python3 rigid_body_toi.py] Right: When zooming, the loss of the naive integrator is decreasing, and the saw-tooth pattern explains the positive gradients. [Reproduce: python3 rigid_body_toi.py zoom] We propose a simple solution of adding continuous collision resolution (see, for example, Redon et al.), which considers precise time of impact (TOI), to the forward program (Fig. 4, middle left). Although it barely improves the forward simulation (Fig. 4, middle right), the gradient will be corrected effectively (Fig. 4, right). The details of continuous collision detection are in Appendix F. In real-world simulators, we find the TOI technique leads to significant improvement in gradient quality in controller optimization tasks (Fig. 5). Having TOI or not barely affects forward simulation: in the supplemental video, we show that a robot controller optimized in a simulator with TOI, actually works well in a simulator without TOI.
 
-We propose a simple solution of adding continuous collision resolution (see, for example, Redon et al. ), which considers precise time of impact (TOI), to the forward program (Fig. 4, middle left). Although it barely improves the forward simulation (Fig. 4, middle right), the gradient will be corrected effectively (Fig. 4, right). The details of continuous collision detection are in Appendix F. In real-world simulators, we find the TOI technique leads to significant improvement in gradient quality in controller optimization tasks (Fig. 5). Having TOI or not barely affects forward simulation: in the [supplemental video](https://youtu.be/Z1xvAZve9aE), we show that a robot controller optimized in a simulator with TOI, actually works well in a simulator without TOI.
-
-Figure 5: Adding TOI greatly improves gradient and optimization quality. Each experiment is repeated five times. [Reproduce: python3 [mass_spring/rigid_body.py] [1/2] plot &amp;&amp; python3 plot_losses.py]
-
-The takeaway is, differentiating physical simulators does not always yield useful gradients of the physical system being simulated, even if the simulator does forward simulation well. In Appendix G, we discuss some additional gradient issues we have encountered.
+Figure 5: Adding TOI greatly improves gradient and optimization quality. Each experiment is repeated five times. [Reproduce: python3 [mass_spring/rigid_body.py] [1/2] plot && python3 plot_losses.py] The takeaway is, differentiating physical simulators does not always yield useful gradients of the physical system being simulated, even if the simulator does forward simulation well. In Appendix G, we discuss some additional gradient issues we have encountered.
 
 ## Related Work
 

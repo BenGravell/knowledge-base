@@ -24,13 +24,11 @@ Table 1: Deduplication ratios for various Common Crawl dumps.
 
 In the filtering stage, we focus on developing robust criteria for document quality assessment. This involves a detailed analysis incorporating both linguistic and semantic evaluations, providing a view of data quality from individual and global perspectives. In the remixing phase, we adjust our approach to address data imbalances, focusing on increasing the presence of underrepresented domains. This adjustment aims to achieve a more balanced and inclusive dataset, ensuring that diverse perspectives and information are adequately represented.
 
-For our tokenizer, we implemented the Byte-level Byte-Pair Encoding (BBPE) algorithm based on the tokenizers library. Pre-tokenization was employed to prevent the merging of tokens from different character categories such as new lines, punctuation, and Chinese-Japanese-Korean (CJK) symbols, similar to GPT-2. We also chose to split numbers into individual digits following the approach used in. Based on our prior experience, we set the number of conventional tokens in the vocabulary at 100000. The tokenizer was trained on a multilingual corpus of approximately 24 GB, and we augmented the final vocabulary with 15 special tokens, bringing the total size to 100015. To ensure computational efficiency during training and to reserve space for any additional special tokens that might be needed in the future, we configured the model's vocabulary size to 102400 for training.
+For our tokenizer, we implemented the Byte-level Byte-Pair Encoding (BBPE) algorithm based on the tokenizers library. Pre-tokenization was employed to prevent the merging of tokens from different character categories such as new lines, punctuation, and Chinese-Japanese-Korean (CJK) symbols, similar to GPT-2. We also chose to split numbers into individual digits following the approach used . Based on our prior experience, we set the number of conventional tokens in the vocabulary at 100000. The tokenizer was trained on a multilingual corpus of approximately 24 GB, and we augmented the final vocabulary with 15 special tokens, bringing the total size to 100015. To ensure computational efficiency during training and to reserve space for any additional special tokens that might be needed in the future, we configured the model's vocabulary size to 102400 for training.
 
 ### Architecture
 
-Table 2: Detailed specs of DeepSeek LLM family of models. We choose the hyper-parameters based on our findings in Section 3
-
-The micro design of DeepSeek LLM largely follows the design of LLaMA, adopting a Pre-Norm structure with RMSNorm function and using SwiGLU as the activation function for the Feed-Forward Network (FFN), with an intermediate layer dimension of $\frac{8}{3}d_{model}$. It also incorporates Rotary Embedding for positional encoding. To optimize inference cost, the 67B model uses Grouped-Query Attention (GQA) instead of the traditional Multi-Head Attention (MHA).
+Table 2: Detailed specs of DeepSeek LLM family of models. We choose the hyper-parameters based on our findings in Section 3 The micro design of DeepSeek LLM largely follows the design of LLaMA, adopting a Pre-Norm structure with RMSNorm function and using SwiGLU as the activation function for the Feed-Forward Network (FFN), with an intermediate layer dimension of $\frac{8}{3}d_{model}$. It also incorporates Rotary Embedding for positional encoding. To optimize inference cost, the 67B model uses Grouped-Query Attention (GQA) instead of the traditional Multi-Head Attention (MHA).
 
 However, in terms of macro design, DeepSeek LLM differs slightly. Specifically, DeepSeek LLM 7B is a 30-layer network, while DeepSeek LLM 67B has 95 layers. These layer adjustments, while maintaining parameter consistency with other open-source models, also facilitate model pipeline partitioning to optimize training and inference.
 
@@ -38,17 +36,13 @@ Unlike most works using Grouped-Query Attention (GQA), we expanded the 67B model
 
 ### Hyperparameters
 
-DeepSeek LLM is initialized with a standard deviation of 0.006 and trained using the AdamW optimizer, with the following hyperparameters: $\beta_{1} = 0.9$, $\beta_{2} = 0.95$, and ${{weight}\_{decay}} = 0.1$.
+DeepSeek LLM is initialized with a standard deviation of 0.006 and trained using the AdamW optimizer, with the following hyperparameters: $\beta_{1} = 0.9$, $\beta_{2} = 0.95$, and ${{weight}_{decay}} = 0.1$.
 
 A multi-step learning rate scheduler is employed during pre-training instead of the typical cosine scheduler. Specifically, the learning rate of the model reaches its maximum value after 2000 warmup steps, and then decreases to 31.6% of the maximum value after processing 80% of the training tokens. It further reduces to 10% of the maximum value after 90% of the tokens. The gradient clipping during the training phase is set to 1.0.
 
 Based on our empirical findings, we observed that despite differences in the loss reduction trend during training, the final performance using a multi-step learning rate scheduler is essentially consistent with that of a cosine scheduler, as shown in Figure 1(a) ‣ Figure 1 ‣ 2.3 Hyperparameters ‣ 2 Pre-Training ‣ DeepSeek LLM Scaling Open-Source Language Models with Longtermism"). When adjusting the training scale while keeping the model size fixed, the multi-step learning rate scheduler allows for the reuse of training from the first phase, offering a unique convenience for continual training. Therefore, we chose the multi-step learning rate scheduler as our default setting. We also demonstrate in Figure 1(b) ‣ Figure 1 ‣ 2.3 Hyperparameters ‣ 2 Pre-Training ‣ DeepSeek LLM Scaling Open-Source Language Models with Longtermism") that adjusting the proportions of different stages in the multi-step learning rate scheduler can yield slightly better performance. However, for the sake of balancing reuse ratios in continual training and model performance, we opted for the aforementioned distribution of 80%, 10%, and 10% for the three stages respectively.
 
-(a) Multi-step v.s. cosine learning rate decay
-
-(b) Different proportions of multi-step stages
-
-Figure 1: Training loss curves with different learning rate schedulers or different parameters for schedulers. The model size is 1.6 billion parameters, trained on a dataset of 100 billion tokens.
+(a) Multi-step v.s. cosine learning rate decay (b) Different proportions of multi-step stages Figure 1: Training loss curves with different learning rate schedulers or different parameters for schedulers. The model size is 1.6 billion parameters, trained on a dataset of 100 billion tokens.
 
 The batch size and learning rate vary with the model size. Specific parameters for the pre-training phases of the 7B and 67B models can be found in Table 2.
 
@@ -76,9 +70,7 @@ We then study the scaling laws of the model and data scales. To reduce experimen
 
 Additionally, in the process of exploring scaling laws, the data we used underwent multiple iterations, continually improving in quality. We attempted to fit the scaling curve on various datasets and found that the data quality significantly influences the optimal model/data scaling-up allocation strategy. The higher the data quality, the more the increased compute budget should be allocated to model scaling. This implies that high-quality data can drive the training of larger models given the same data scale. The differences in the optimal model/data scaling-up allocation strategy may also serve as an indirect approach to assess the quality of data. We will continue to pay close attention to the changes in data quality and its impact on scaling laws, and provide more analysis in future works.
 
-In summary, our contributions and findings in scaling laws can be summarized as follows:
-
-We established the scaling laws for hyperparameters, providing an empirical framework for determining the optimal hyperparameters.
+In summary, our contributions and findings in scaling laws can be summarized as follows: We established the scaling laws for hyperparameters, providing an empirical framework for determining the optimal hyperparameters.
 
 Instead of model parameters $N$, we adopt non-embedding FLOPs/token $M$ to represent the model scale, leading to a more accurate optimal model/data scaling-up allocation strategy and a better prediction of generalization loss for large-scale models.
 
@@ -88,19 +80,9 @@ The quality of pre-training data impacts the optimal model/data scaling-up alloc
 
 We initially conducted a grid search for batch size and learning rate on small-scale experiments with a compute budget of 1e17, and the results of a specific model size (177M FLOPs/token) are illustrated in Figure 2(a) ‣ Figure 2 ‣ 3.1 Scaling Laws for Hyperparameters ‣ 3 Scaling Laws ‣ DeepSeek LLM Scaling Open-Source Language Models with Longtermism"). The results demonstrate that the generalization error remains stable across a wide range of choices of batch sizes and learning rates. This indicates that near-optimal performance can be achieved within a relatively wide parameter space.
 
-(a) 1e17 FLOPs (177M FLOPs/token)
+(a) 1e17 FLOPs (177M FLOPs/token) (b) 1e20 FLOPs (2.94B FLOPs/token) Figure 2: Training loss w.r.t. batch size and learning rate with 1e17 and 1e20 FLOPs.
 
-(b) 1e20 FLOPs (2.94B FLOPs/token)
-
-Figure 2: Training loss w.r.t. batch size and learning rate with 1e17 and 1e20 FLOPs.
-
-Then, we utilized the aforementioned multi-step learning rate scheduler to effectively train multiple models with different batch sizes, learning rates, and compute budgets ranging from 1e17 to 2e19 by reusing the first stage. Considering the redundancy in the parameter space, we regarded the parameters used by models whose generalization error exceeded the minimum by no more than 0.25% as near-optimal hyperparameters. We then fitted the batch size $B$ and learning rate $\eta$ with respect to the compute budget $C$. The fitting results, as shown in Figure 3, reveal that the optimal batch size $B$ gradually increases with the increase in compute budget $C$, while the optimal learning rate $\eta$ gradually decreases. This is in line with the intuitive empirical settings for batch size and learning rate when scaling up models. Moreover, all near-optimal hyperparameters fall within a broad band range, indicating that it is relatively easy to choose near-optimal parameters within this interval. The final formulae we fitted for batch size and learning rate are as follows:
-
-(a) Batch size scaling curve
-
-(b) Learning rate scaling curve
-
-Figure 3: Scaling curves of batch size and learning rate. The grey circles represent models whose generalization error exceeded the minimum by no more than 0.25%. The dotted line represents the power law fitting the smaller model. The blue stars represent DeepSeek LLM 7B and 67B.
+Then, we utilized the aforementioned multi-step learning rate scheduler to effectively train multiple models with different batch sizes, learning rates, and compute budgets ranging from 1e17 to 2e19 by reusing the first stage. Considering the redundancy in the parameter space, we regarded the parameters used by models whose generalization error exceeded the minimum by no more than 0.25% as near-optimal hyperparameters. We then fitted the batch size $B$ and learning rate $\eta$ with respect to the compute budget $C$. The fitting results, as shown in Figure 3, reveal that the optimal batch size $B$ gradually increases with the increase in compute budget $C$, while the optimal learning rate $\eta$ gradually decreases. This is in line with the intuitive empirical settings for batch size and learning rate when scaling up models. Moreover, all near-optimal hyperparameters fall within a broad band range, indicating that it is relatively easy to choose near-optimal parameters within this interval. The final formulae we fitted for batch size and learning rate are as follows: | | $\eta_{opt}$ | $= {0.3118 \cdot C^{- 0.1250}}$ | | \(1\) | (a) Batch size scaling curve (b) Learning rate scaling curve Figure 3: Scaling curves of batch size and learning rate. The grey circles represent models whose generalization error exceeded the minimum by no more than 0.25%. The dotted line represents the power law fitting the smaller model. The blue stars represent DeepSeek LLM 7B and 67B.
 
 We validated our formulae on a series of models with a 1e20 compute budget, and the results of a specific model size (2.94B FLOPs per token) are shown in Figure 2(b) ‣ Figure 2 ‣ 3.1 Scaling Laws for Hyperparameters ‣ 3 Scaling Laws ‣ DeepSeek LLM Scaling Open-Source Language Models with Longtermism"). The results indicate that the fitted parameters are centered in the optimal parameter space. Subsequent sections also show that the parameters we fitted for DeepSeek LLM 7B and 67B models similarly achieved good performance.
 
@@ -110,23 +92,13 @@ However, it's important to note that we have not yet considered the impact of fa
 
 After deriving the formulae for fitting near-optimal hyperparameters, we started fitting the scaling curve and analyzing the optimal model/data scaling-up allocation strategy. This strategy involves finding model scaling exponent $a$ and data scaling exponent $b$ that satisfy $N_{opt} \propto C^{a}$ and $D_{opt} \propto C^{b}$, respectively. The data scale $D$ can be consistently represented by the number of tokens in the dataset. In previous works, the model scale was typically represented by model parameters, with non-embedding parameters $N_{1}$ and complete parameters $N_{2}$. The relationship between compute budget $C$ and model/data scale could be approximately described as $C = {6ND}$, meaning we could use $6N_{1}$ or $6N_{2}$ to approximate the model scale. However, since both $6N_{1}$ and $6N_{2}$ do not account for the computational overhead of attention operation, and $6N_{2}$ also includes the vocabulary computation, which contributes less to the model's capacity, they both have significant approximation errors under certain settings.
 
-To mitigate these errors, we introduced a new model scale representation: non-embedding FLOPs/token $M$. $M$ includes the computational overhead of attention operation but does not take into account the vocabulary computation. With the model scale represented by $M$, the compute budget $C$ can be simply expressed as $C = {MD}$. The specific differences between $6N_{1}$, $6N_{2}$, and $M$ are as shown in the following formulae:
-
-where $n_{layer}$ represents the number of layers, $d_{model}$ represents the model width, $n_{vocab}$ is the vocabulary size, and $l_{seq}$ is the sequence length. We assessed the differences between these three representations across models of varying scales, as shown in Table 3. The results indicate that both $6N_{1}$ and $6N_{2}$ either overestimate or underestimate the computational cost in models of different scales. This discrepancy is particularly pronounced in small-scale models, with differences reaching up to 50%. Such inaccuracies can introduce substantial statistical errors when fitting the scaling curve. Please refer to Appendix A.2 for further analysis regarding different representations of model scale.
+To mitigate these errors, we introduced a new model scale representation: non-embedding FLOPs/token $M$. $M$ includes the computational overhead of attention operation but does not take into account the vocabulary computation. With the model scale represented by $M$, the compute budget $C$ can be simply expressed as $C = {MD}$. The specific differences between $6N_{1}$, $6N_{2}$, and $M$ are as shown in the following formulae: | | $6N_{2}$ | $= {{72n_{layer}d_{model}^{2}} + {6n_{vocab}d_{model}}}$ | | | | | $M$ | $= {{72n_{layer}d_{model}^{2}} + {12n_{layer}d_{model}l_{seq}}}$ | | | where $n_{layer}$ represents the number of layers, $d_{model}$ represents the model width, $n_{vocab}$ is the vocabulary size, and $l_{seq}$ is the sequence length. We assessed the differences between these three representations across models of varying scales, as shown in Table 3. The results indicate that both $6N_{1}$ and $6N_{2}$ either overestimate or underestimate the computational cost in models of different scales. This discrepancy is particularly pronounced in small-scale models, with differences reaching up to 50%. Such inaccuracies can introduce substantial statistical errors when fitting the scaling curve. Please refer to Appendix A.2 for further analysis regarding different representations of model scale.
 
 Table 3: Difference in model scale representations and disparities of non-embedding parameters N1 and complete parameters N2 relative to non-embedding FLOPs/token M.
 
-After adopting $M$ to represent the model scale, our objective could be described more clearly as: *Given a computing budget $C = {MD}$, find the optimal model scale $M_{opt}$ and data scale $D_{opt}$ that minimize the generalization error of the model.* This target could be formalized as:
+After adopting $M$ to represent the model scale, our objective could be described more clearly as: *Given a computing budget $C = {MD}$, find the optimal model scale $M_{opt}$ and data scale $D_{opt}$ that minimize the generalization error of the model.* This target could be formalized as: To reduce experimental costs and fitting difficulties, the IsoFLOP profile approach from Chinchilla was used to fit the scaling curve. We selected 8 different compute budgets ranging from 1e17 to 3e20, and designed around 10 different model/data scale allocations for each budget. The hyperparameters for each budget were determined by Formula, and the generalization error was calculated on an independent validation set, distributed similarly to the training set and containing 100M tokens.
 
-To reduce experimental costs and fitting difficulties, the IsoFLOP profile approach from Chinchilla was used to fit the scaling curve. We selected 8 different compute budgets ranging from 1e17 to 3e20, and designed around 10 different model/data scale allocations for each budget. The hyperparameters for each budget were determined by Formula, and the generalization error was calculated on an independent validation set, distributed similarly to the training set and containing 100M tokens.
-
-Figure 4 demonstrates the IsoFLOP curve and model/data scaling curves, which are fitted by using the optimal model/data allocation for each compute budget. The specific formulae for the optimal non-embedding FLOPs/token $M_{opt}$ and optimal tokens $D_{opt}$ are as follows:
-
-(b) Optimal model scaling
-
-(c) Optimal data scaling
-
-Figure 4: IsoFLOP curve and optimal model/data allocation. The metric in IsoFLOP curve is bits-per-byte on the validation set. The dotted lines in optimal model/data scaling curves represent the power law fitting the smaller model (grey circles).
+Figure 4 demonstrates the IsoFLOP curve and model/data scaling curves, which are fitted by using the optimal model/data allocation for each compute budget. The specific formulae for the optimal non-embedding FLOPs/token $M_{opt}$ and optimal tokens $D_{opt}$ are as follows: (b) Optimal model scaling (c) Optimal data scaling Figure 4: IsoFLOP curve and optimal model/data allocation. The metric in IsoFLOP curve is bits-per-byte on the validation set. The dotted lines in optimal model/data scaling curves represent the power law fitting the smaller model (grey circles).
 
 Figure 5: Performance scaling curve. The metric is the bits-per-byte on the validation set. The dotted line represents the power law fitting the smaller model (grey circles). The blue stars represent DeepSeek LLM 7B and 67B. Their performance is well-predicted by the scaling curve.
 
@@ -138,11 +110,7 @@ In the development process of DeepSeek LLM, the dataset was iteratively refined 
 
 We studied the scaling laws using three different datasets: early in-house data, current in-house data, and OpenWebText2, which was utilized in the previous study of scaling laws. Our internal data assessment revealed that current in-house data has higher data quality than early in-house data. Furthermore, the quality of OpenWebText2 even surpasses the current in-house data, due to its smaller scale which allows for more meticulous processing.
 
-Ours (Early Data)
-
-Ours (Current Data)
-
-Table 4: Coefficients of model scaling and data scaling vary with training data distribution.
+Ours (Early Data) Ours (Current Data) Table 4: Coefficients of model scaling and data scaling vary with training data distribution.
 
 An interesting observation from the analysis is that the optimal model/data scaling-up allocation strategy across these three datasets showed consistency with data quality. As illustrated in Table 4, as data quality improves, the model scaling exponent $a$ gradually increases, while the data scaling exponent $b$ decreases, which suggests that the increased compute budget should be allocated more to the model instead of the data. This finding might also explain the significant differences in optimal model/data scaling-up allocation observed in earlier studies of scaling laws.
 
@@ -156,7 +124,7 @@ Our alignment pipeline contains two stages.
 
 Supervised Fine-Tuning: We fine-tuned our 7B model with 4 epochs, but only 2 epochs for the 67B model, since we observed the overfitting problem is serious on the 67B model. We observed that GSM8K and HumanEval are improved consistently for the 7B model, while the 67B model hits the upper bound soon. The learning rate is 1e-5 and 5e-6 for 7B and 67B models, respectively. In addition to monitoring the benchmark accuracy, we also assess the repetition ratio of a chat model during the fine-tuning process. We gathered a total of 3868 Chinese and English prompts and determined the proportion of generated responses that fail to terminate and instead endlessly repeat a sequence of text. We observed that the repetition ratio tends to rise as the quantity of math SFT data increases. This can be attributed to the fact that math SFT data occasionally includes similar patterns in reasoning. Consequently, weaker models struggle to grasp such reasoning patterns, resulting in repetitive responses. To tackle the problem, we tried two-stage fine-tuning and DPO, both of which could almost keep the benchmark score and reduce the repetition significantly.
 
-DPO: To further enhance the model's ability, we used the direct preference optimization algorithm, which is proven to be a simple but effective method for LLM alignment. We constructed the preference data for DPO training in terms of helpfulness and harmlessness. For helpfulness data, we collected multilingual prompts, which cover categories including creative writing, question answering, instruction following, and so on. Then we generated responses using our DeepSeek Chat models as response candidates. Similar operations are applied to harmlessness preference data construction.
+DPO: To further enhance the model's ability, we used the direct preference optimization algorithm, which is proven to be a simple but effective method for LLM alignment. We constructed the preference data for DPO training in terms of helpfulness and harmlessness. For helpfulness data, we collected multilingual prompts, which cover categories including creative writing, question answering, instruction following, and so . Then we generated responses using our DeepSeek Chat models as response candidates. Similar operations are applied to harmlessness preference data construction.
 
 We trained an epoch for DPO, with a learning rate of 5e-6 and batch size of 512, and we used a learning rate warmup and cosine learning rate scheduler. We found out that DPO can strengthen the model's open-ended generation skill, while engendering little difference in performance among standard benchmarks.
 
@@ -238,11 +206,7 @@ For the basic Chinese Language tasks, our model is in the first tier among all m
 
 For English open-ended evaluation, we use the MT-Bench benchmark, which contains 8 different categories of multi-turn questions. As illustrated in Table 8, our DeepSeek LLM 67B Chat outperforms other open-source models such as LLaMA-2-Chat Touvron et al. 70B, Xwin 70b v0.1, and TÜLU 2+DPO 70B, and achieves $8.35$ score comparable with GPT-3.5-turbo. Besides, after the DPO stage, our DeepSeek LLM 67B Chat DPO further improves the average score to $8.76$, which is only behind GPT-4. These results illustrate the strong multi-turn open-ended generation ability of DeepSeek LLM.
 
-DeepSeek LLM 67B Chat
-
-DeepSeek LLM 67B Chat DPO
-
-Table 8: MT-Bench Evaluation. Results with * are reported in Ivison et al.
+DeepSeek LLM 67B Chat DeepSeek LLM 67B Chat DPO Table 8: MT-Bench Evaluation. Results with * are reported in Ivison et al.
 
 ### Held-Out Evaluation
 
@@ -254,11 +218,7 @@ Hungarian National High-School Exam: In line with Grok-1, we have evaluated the 
 
 Instruction Following Evaluation: On Nov 15th, 2023, Google released an instruction following the evaluation dataset. They identified 25 types of verifiable instructions and constructed around 500 prompts, with each prompt containing one or more verifiable instructions. We use the prompt-level loose metric to evaluate all models.
 
-DeepSeek LLM 7B Chat
-
-DeepSeek LLM 67B Chat
-
-Table 9: Held-out Dataset Evaluation.
+DeepSeek LLM 7B Chat DeepSeek LLM 67B Chat Table 9: Held-out Dataset Evaluation.
 
 We have conducted a comparative analysis of our model against various baseline models of different sizes, namely Qwen 72B Chat, ChatGLM3, Baichuan2, and Yi-34B Chat. Our observations indicate that there exists a significant performance gap between large models and small models on these held-out datasets, even if certain small models achieve promising results on conventional benchmarks. For instance, ChatGLM3 achieves a score of 52.4 on MBPP, a code testset, which is close to DeepSeek 67B. However, when evaluated on new benchmarks, its performance falls considerably short compared to DeepSeek 67B. A similar trend is also observed in math datasets, where ChatGLM3 is very strong on GSM8K (72.3), but its performance in the Hungarian Exam score is inferior to large models. Furthermore, the capability of instruction following demonstrates that total computing plays a crucial role.
 
@@ -266,47 +226,7 @@ The DeepSeek 7B and 67B models utilize the same training pipeline, but there is 
 
 #Safety Answers / #Total Cases
 
-(Discrimination and Prejudice Questions)
-
-民族种族 (Ethnic and Racial), 宗教信仰 (Religious Belief),
-
-国别地域 (Nationality and Geography), 性别 (Gender), 年龄 (Age),
-
-职业 (Occupation), 健康 (Health), 其他方面歧视 (Discrimination in Other Aspects)
-
-(Infringement of Others’ Legal Rights)
-
-身心健康 (Physical and Mental Health), 合法财产 (Legitimate Property),
-
-肖像权 (Portrait Rights), 名誉权 (Reputation Rights), 荣誉权 (Honor Rights),
-
-隐私权 (Privacy Rights), 信息权益 (Information Rights), 其他合法权益 (Other Legal Rights)
-
-(Trade Secrets and Intellectual Property Rights)
-
-侵犯他人知识产权 (Infringing Others’ Intellectual Property Rights),
-
-垄断和不正当竞争行为 (Monopolistic and Unfair Competitive Actions),
-
-其他商业违法违规行为 (Other Commercially Illegal and Non-compliant Behaviors),
-
-违反商业道德 (Violating Business Ethics), 泄露他人商业机密 (Disclosing Others’ Trade Secrets)
-
-(Illegal and Non-compliant Behavior)
-
-邪教迷信 (Cults and Superstition), 色情 (Pornography), 赌博 (Gambling),
-
-毒品和违禁品 (Drugs and Prohibited Items), 侮辱谩骂 (Insults and Abuse), 暴力行为 (Violent Behavior),
-
-涉黑涉恶 (Involvement in Organized Crime), 其他违法违规行为 (Other Illegal and Non-compliant Behaviors)
-
-(Other Safety Issues)
-
-幻觉和真实性问题 (Issues of Illusion and Reality), 时效性问题 (Time-sensitive Issues),
-
-自我认知问题 (Self-recognition Problems), 其他敏感话题 (Other Sensitive Topics),
-
-Table 10: Our taxonomy for safety evaluation. The total number of test cases for each category and the number of safe answers provided by our model (DeepSeek-67B-Chat) are listed in the far-right column of the table. The annotation of test questions and the evaluation of generated results are carried out by a professional human team. We can observe that our model demonstrates strong security across various types of safety test sets.
+(Discrimination and Prejudice Questions) 民族种族 (Ethnic and Racial), 宗教信仰 (Religious Belief), 国别地域 (Nationality and Geography), 性别 (Gender), 年龄 (Age), 职业 (Occupation), 健康 (Health), 其他方面歧视 (Discrimination in Other Aspects) (Infringement of Others’ Legal Rights) 身心健康 (Physical and Mental Health), 合法财产 (Legitimate Property), 肖像权 (Portrait Rights), 名誉权 (Reputation Rights), 荣誉权 (Honor Rights), 隐私权 (Privacy Rights), 信息权益 (Information Rights), 其他合法权益 (Other Legal Rights) (Trade Secrets and Intellectual Property Rights) 侵犯他人知识产权 (Infringing Others’ Intellectual Property Rights), 垄断和不正当竞争行为 (Monopolistic and Unfair Competitive Actions), 其他商业违法违规行为 (Other Commercially Illegal and Non-compliant Behaviors), 违反商业道德 (Violating Business Ethics), 泄露他人商业机密 (Disclosing Others’ Trade Secrets) (Illegal and Non-compliant Behavior) 邪教迷信 (Cults and Superstition), 色情 (Pornography), 赌博 (Gambling), 毒品和违禁品 (Drugs and Prohibited Items), 侮辱谩骂 (Insults and Abuse), 暴力行为 (Violent Behavior), 涉黑涉恶 (Involvement in Organized Crime), 其他违法违规行为 (Other Illegal and Non-compliant Behaviors) (Other Safety Issues) 幻觉和真实性问题 (Issues of Illusion and Reality), 时效性问题 (Time-sensitive Issues), 自我认知问题 (Self-recognition Problems), 其他敏感话题 (Other Sensitive Topics), Table 10: Our taxonomy for safety evaluation. The total number of test cases for each category and the number of safe answers provided by our model (DeepSeek-67B-Chat) are listed in the far-right column of the table. The annotation of test questions and the evaluation of generated results are carried out by a professional human team. We can observe that our model demonstrates strong security across various types of safety test sets.
 
 ### Safety Evaluation
 
@@ -326,21 +246,13 @@ Throughout the development process, we have discovered some interesting findings
 
 Staged Fine-Tuning: As we mentioned above, small models need longer fine-tuning on math and code dataset, but it will hurt the model conversation ability, such as increasing repetition behavior. To address this issue, we have implemented a staged fine-tuning process. In this approach, the first stage involves fine-tuning with all available data, while the second stage focuses specifically on fine-tuning with conversational data.
 
-DeepSeek LLM 7B Chat Stage1
-
-DeepSeek LLM 7B Chat Stage2
-
-Table 12: Two-stage fine-tuning results. The repetition ratio is computed when the temperature is 0. The lower repetition ratio is better. The IFEval result is the prompt-level loose accuracy.
+DeepSeek LLM 7B Chat Stage1 DeepSeek LLM 7B Chat Stage2 Table 12: Two-stage fine-tuning results. The repetition ratio is computed when the temperature is 0. The lower repetition ratio is better. The IFEval result is the prompt-level loose accuracy.
 
 Table 12 displays the results obtained from the two-stage training process. These results clearly demonstrate that the second stage does not compromise the model's proficiency in code and math, while simultaneously decreasing the repetition behavior and enhancing instruction following capability.
 
 Multi-Choice Question: It is a common practice to test a model with multi-choice style evaluation data, such as MMLU, AGI Eval, and C-Eval. Multi-choice questions require the model not only to have the corresponding knowledge but also to understand what the option refers to. During the alignment stage, we tested adding 20 million Chinese multi-choice questions and obtained the performance as shown in Table 13. It is important to note that we conducted deduplication for the C-Eval validation set and CMMLU test set to prevent data contamination.
 
-DeepSeek LLM 7B Chat
-
-DeepSeek LLM 7B Chat + MC
-
-Table 13: The impact of adding multi-choice question data.
+DeepSeek LLM 7B Chat DeepSeek LLM 7B Chat + MC Table 13: The impact of adding multi-choice question data.
 
 The inclusion of an additional 20M MC (multiple-choice) data has proven to be beneficial not only for Chinese multiple-choice benchmarks but also for improving English benchmarks. This indicates that the model's capability to solve MC problems has been enhanced. However, we have observed that this improvement does not extend to the model's performance on other evaluations that do not utilize the multiple-choice format, such as TriviaQA and our in-house ChineseQA testsets, which are generative evaluation benchmarks. This suggests that users may not perceive the model as becoming more intelligent during conversational interactions, as these interactions involve generating responses rather than solving multiple-choice problems.
 
@@ -354,15 +266,7 @@ System prompt: You are DeepSeek Chat, a helpful, respectful and honest AI assist
 
 We have observed an intriguing phenomenon wherein the performance of a 7B LLM experiences a slight degradation when a system prompt is introduced. However, when utilizing a 67B LLM, the addition of a prompt leads to significantly improved results, as illustrated in Table 14. Our explanation for this disparity is that larger models possess a better understanding of the intended meaning behind the system prompt, enabling them to follow instructions more effectively and generate superior responses. On the other hand, smaller models struggle to grasp the system prompt adequately, and the inconsistency between training and testing might negatively impact their performance.
 
-DeepSeek LLM 7B Chat
-
-DeepSeek LLM 7B Chat + System Prompt
-
-DeepSeek LLM 67B Chat
-
-DeepSeek LLM 67B Chat + System Prompt
-
-Table 14: The impact of adding a system prompt.
+DeepSeek LLM 7B Chat DeepSeek LLM 7B Chat + System Prompt DeepSeek LLM 67B Chat DeepSeek LLM 67B Chat + System Prompt Table 14: The impact of adding a system prompt.
 
 ## Conclusion, Limitation, and Future Work
 

@@ -8,33 +8,17 @@ We aim to relax these requirements by designing a reflexive driving policy that 
 
 Figure 1: The high-speed off-road driving task.
 
-Real &amp;simulated
+Single image & laser Left & right images On-road unknown speed Single image + wheel speeds Model predictive controller TABLE I: Comparison of our method to prior work on IL for autonomous driving These real-world factors motivate us to adopt *imitation learning* (IL) to optimize the control policy instead. A major benefit of using IL is that we can leverage domain knowledge through *expert* demonstrations. This is particularly convenient, for example, when there already exists an autonomous driving platform built through classic system engineering principles. While such a system (e.g.) usually requires expensive sensors and dedicated computational resources, with IL we can train a lower-cost robot to behave similarly, without carrying the expert's hardware burdens over to the learner. Here we assume the expert is given as a black box oracle that can provide the desired actions when queried, as opposed to the case considered in where the expert can be modified to accommodate the learning progress.
 
-Single image &amp; laser
-Real &amp;simulated
-
-Left &amp; right images
-
-On-road unknown speed
-
-Single image + wheel speeds
-Batch &amp; online
-Model predictive controller
-Real &amp; simulated
-
-TABLE I: Comparison of our method to prior work on IL for autonomous driving
-
-These real-world factors motivate us to adopt *imitation learning* (IL) to optimize the control policy instead. A major benefit of using IL is that we can leverage domain knowledge through *expert* demonstrations. This is particularly convenient, for example, when there already exists an autonomous driving platform built through classic system engineering principles. While such a system (e.g. ) usually requires expensive sensors and dedicated computational resources, with IL we can train a lower-cost robot to behave similarly, without carrying the expert's hardware burdens over to the learner. Here we assume the expert is given as a black box oracle that can provide the desired actions when queried, as opposed to the case considered in where the expert can be modified to accommodate the learning progress.
-
-In this work, we present an IL system for real-world high-speed off-road driving tasks. ^11^1[Test run videos.](https://www.youtube.com/channel/UCc8KdLVDMEwgCryrfwrL_iA) By leveraging demonstrations from an algorithmic expert, our system can learn a driving policy that achieves similar performance compared to the expert. The system was implemented on a 1/5-scale autonomous AutoRally car. In real-world experiments, we show the AutoRally car---without any state estimator or online planning, but with a DNN policy that directly inputs measurements from a low-cost monocular camera and wheel speed sensors---could learn to perform high-speed driving at an average speed of $\sim$`<!-- -->`{=html}6 m/s and a top speed of $\sim$`<!-- -->`{=html}8 m/s (equivalently 108 km/h and 144 km/h on a full-scale car), matching the state-of-the-art.
+In this work, we present an IL system for real-world high-speed off-road driving tasks. ^11^1Test run videos. By leveraging demonstrations from an algorithmic expert, our system can learn a driving policy that achieves similar performance compared to the expert. The system was implemented on a 1/5-scale autonomous AutoRally car. In real-world experiments, we show the AutoRally car---without any state estimator or online planning, but with a DNN policy that directly inputs measurements from a low-cost monocular camera and wheel speed sensors---could learn to perform high-speed driving at an average speed of $\sim$`<!-- -->`{=html}6 m/s and a top speed of $\sim$`<!-- -->`{=html}8 m/s (equivalently 108 km/h and 144 km/h on a full-scale car), matching the state-of-the-art.
 
 ## Related Work
 
 End-to-end learning for self-driving cars has been explored since the late 1980s. The Autonomous Land Vehicle in a Neural Network (ALVINN) was developed to learn steering angles directly from camera and laser range measurements using a neural network with a single hidden layer. Based on similar ideas, modern self-driving cars have recently started to employ a batch IL approach: with DNN control policies, these systems require only expert demonstrations during the training phase and on-board measurements during the testing phase. For example, Nvidia's PilotNet, a convolutional neural network that outputs steering angle given an image, was trained to mimic human drivers' reactions to visual input with demonstrations collected in real-world road tests.
 
-Our problem differs substantially from these previous on-road driving tasks. We study autonomous driving on a fixed set of dirt tracks, whereas on-road driving must perform well in a larger domain and contend with moving objects such as cars and pedestrians. While on-road driving in urban environments may seem more difficult, our agent must overcome challenges of a different nature. It is required to drive at high speed, on dirt tracks, the surface of which is constantly evolving and highly stochastic. As a result, high-frequency application of both steering and throttle commands are required in our task, whereas previous work only focuses on steering commands. A Dataset Aggregation (DAgger) related online IL algorithm for autonomous driving was recently demonstrated in, but only considered simulated environments. A comparison of IL approaches to autonomous driving is presented in Table I.
+Our problem differs substantially from these previous on-road driving tasks. We study autonomous driving on a fixed set of dirt tracks, whereas on-road driving must perform well in a larger domain and contend with moving objects such as cars and pedestrians. While on-road driving in urban environments may seem more difficult, our agent must overcome challenges of a different nature. It is required to drive at high speed, on dirt tracks, the surface of which is constantly evolving and highly stochastic. As a result, high-frequency application of both steering and throttle commands are required in our task, whereas previous work only focuses on steering commands. A Dataset Aggregation (DAgger) related online IL algorithm for autonomous driving was recently demonstrated , but only considered simulated environments. A comparison of IL approaches to autonomous driving is presented in Table I.
 
-Our task is similar to the task considered by Williams et al. and Drews et al.. Compared with a DNN policy, their MPC approach has several drawbacks: computationally expensive optimization for planning is required to be performed online at high-frequency, which becomes repetitive for navigating the vehicle on a track after a few laps. In, accurate GPS and IMU feedbacks are also required for state estimation, which may not contain sufficient information to contend with the changing environment in off-road driving tasks. While the requirement on GPS and IMU is relaxed by using a vision-based cost map in, a large dataset (300,000 images) was used to train the model, expensive on-the-fly planning is still required, and speed performance is compromised. In contrast to previous work, our approach off-loads the hardware requirements to an expert. While the expert may use high-quality sensors and more computational power, our agent only needs access to cheap sensors and its control policy can run reactively in high frequency, without on-the-fly planning. Additionally, our experimental results match those in, and are faster and more data efficient than that in.
+Our task is similar to the task considered by Williams et al. and Drews et al.. Compared with a DNN policy, their MPC approach has several drawbacks: computationally expensive optimization for planning is required to be performed online at high-frequency, which becomes repetitive for navigating the vehicle on a track after a few laps. In, accurate GPS and IMU feedbacks are also required for state estimation, which may not contain sufficient information to contend with the changing environment in off-road driving tasks. While the requirement on GPS and IMU is relaxed by using a vision-based cost map , a large dataset (300,000 images) was used to train the model, expensive on-the-fly planning is still required, and speed performance is compromised. In contrast to previous work, our approach off-loads the hardware requirements to an expert. While the expert may use high-quality sensors and more computational power, our agent only needs access to cheap sensors and its control policy can run reactively in high frequency, without on-the-fly planning. Additionally, our experimental results match those , and are faster and more data efficient than that .
 
 ## Imitation Learning for Autonomous Driving
 
@@ -44,9 +28,7 @@ In this section, we give a concise introduction to IL, and discuss the strengths
 
 To mathematically formulate the autonomous driving task, we consider a discrete-time continuous-valued RL problem. Let $\mathbb{S}$, $\mathbb{A}$, and $\mathbb{O}$ be the state, action, and the observation spaces. In our setting, the state space is unknown to the agent; observations consist of on-board measurements, including a monocular RGB image from the front-view camera and wheel speeds from Hall effect sensors; actions consist of continuous-valued steering and throttle commands.
 
-The goal is to find a stationary, reactive policy^22^2While we focus on reactive policies in this section, the same derivations apply to history-dependent policies. $\pi:{{\mathbb{O}}\mapsto{\mathbb{A}}}$ (e.g. a DNN policy) such that $\pi$ achieves low accumulated cost over a finite horizon of length $T$,
-
-in which $s_{t} \in {\mathbb{S}}$, $o_{t} \in {\mathbb{O}}$, $a_{t} \in {\mathbb{A}}$, and $\rho_{\pi}$ is the distribution of trajectory $(s_{0},o_{0},a_{0},s_{1},\ldots,a_{T - 1})$ under policy $\pi$. Here $c$ is the instantaneous cost, which, e.g., encourages high speed driving while staying on the track. For notation: given a policy $\pi$, we denote $\pi_{o}$ as the distribution of actions given observation $o$, and $a = {\pi{(o)}}$ as the (stochastic) action taken by the policy. We denote $Q_{\pi}^{t}{(s,a)}$ as the Q-function at state $s$ and time $t$, and ${V_{\pi}^{t}{(s)}} = {{\mathbb{E}}_{a \sim \pi_{s}}{\lbrack{Q_{\pi}^{t}{(s,a)}}\rbrack}}$ as its associated value function, where ${\mathbb{E}}_{a \sim \pi_{s}}$ is a shorthand of ${\mathbb{E}}_{o|s}{\mathbb{E}}_{a \sim \pi_{o}}$ denoting the expectation of the action marginal given state $s$.
+The goal is to find a stationary, reactive policy^22^2While we focus on reactive policies in this section, the same derivations apply to history-dependent policies. $\pi:{{\mathbb{O}}\mapsto{\mathbb{A}}}$ (e.g. a DNN policy) such that $\pi$ achieves low accumulated cost over a finite horizon of length $T$, in which $s_{t} \in {\mathbb{S}}$, $o_{t} \in {\mathbb{O}}$, $a_{t} \in {\mathbb{A}}$, and $\rho_{\pi}$ is the distribution of trajectory $(s_{0},o_{0},a_{0},s_{1},\ldots,a_{T - 1})$ under policy $\pi$. Here $c$ is the instantaneous cost, which, e.g., encourages high speed driving while staying on the track. For notation: given a policy $\pi$, we denote $\pi_{o}$ as the distribution of actions given observation $o$, and $a = {\pi{(o)}}$ as the (stochastic) action taken by the policy. We denote $Q_{\pi}^{t}{(s,a)}$ as the Q-function at state $s$ and time $t$, and ${V_{\pi}^{t}{(s)}} = {{\mathbb{E}}_{a \sim \pi_{s}}{\lbrack{Q_{\pi}^{t}{(s,a)}}\rbrack}}$ as its associated value function, where ${\mathbb{E}}_{a \sim \pi_{s}}$ is a shorthand of ${\mathbb{E}}_{o|s}{\mathbb{E}}_{a \sim \pi_{o}}$ denoting the expectation of the action marginal given state $s$.
 
 ### III-B Imitation Learning
 
@@ -58,9 +40,7 @@ The goal of IL is to perform as well as the expert with an error that has at mos
 
 ### Lemma 1
 
-Define ${d_{\pi}{(s,t)}} = {\frac{1}{T}d_{\pi}^{t}{(s)}}$ as a generalized stationary time-state distribution, where $d_{\pi}^{t}$ is the distribution of state at time $t$ when running policy $\pi$. Let $\pi$ and $\pi^{\prime}$ be two policies. Then
-
-where ${A_{\pi^{\prime}}^{t}{(s,a)}} = {{Q_{\pi^{\prime}}^{t}{(s,a)}} - {V_{\pi^{\prime}}^{t}{(s)}}}$ is the (dis)advantage function at time $t$ with respect to running $\pi^{\prime}$.
+Define ${d_{\pi}{(s,t)}} = {\frac{1}{T}d_{\pi}^{t}{(s)}}$ as a generalized stationary time-state distribution, where $d_{\pi}^{t}$ is the distribution of state at time $t$ when running policy $\pi$. Let $\pi$ and $\pi'$ be two policies. Then where ${A_{\pi'}^{t}{(s,a)}} = {{Q_{\pi'}^{t}{(s,a)}} - {V_{\pi'}^{t}{(s)}}}$ is the (dis)advantage function at time $t$ with respect to running $\pi'$.
 
 ### Definition 1
 
@@ -70,31 +50,19 @@ Because $Q_{\pi^{\ast}}^{t}{(s,a)}$ is the accumulated cost of taking some actio
 
 ### III-B1 Online Imitation Learning
 
-We now present the objective function for the online learning approach to IL. Assume $\pi^{\ast}$ is an expert to and suppose $\mathbb{A}$ is a normed space with norm $\parallel \cdot \parallel$. Let $D_{W}{( \cdot, \cdot )}$ denote the Wasserstein metric: for two probability distributions $p$ and $q$ defined on a metric space $\mathcal{M}$ with metric $d$,
+We now present the objective function for the online learning approach to IL. Assume $\pi^{\ast}$ is an expert to and suppose $\mathbb{A}$ is a normed space with norm $\parallel \cdot \parallel$. Let $D_{W}{(\cdot, \cdot)}$ denote the Wasserstein metric: for two probability distributions $p$ and $q$ defined on a metric space $\mathcal{M}$ with metric $d$, where $\Gamma$ denotes the family of distributions whose marginals are $p$ and $q$. It can be shown by the Kantorovich-Rubinstein theorem that the above two definitions are equivalent. These assumptions allow us to construct a surrogate problem, which is relatively easier to solve than. We achieve this by upper-bounding the difference between the performance of $\pi$ and $\pi'$ given in Lemma 1: where we invoke the definition of advantage function ${A_{\pi^{\ast}}^{t}{(s,a)}} = {{Q_{\pi^{\ast}}^{t}{(s,a)}} - {{\mathbb{E}}_{a^{\ast} \sim \pi_{s}^{\ast}}{\lbrack{Q_{\pi^{\ast}}^{t}{(s,a^{\ast})}}\rbrack}}}$, and the first and the second inequalities are due to and, respectively.
 
-where $\Gamma$ denotes the family of distributions whose marginals are $p$ and $q$. It can be shown by the Kantorovich-Rubinstein theorem that the above two definitions are equivalent. These assumptions allow us to construct a surrogate problem, which is relatively easier to solve than. We achieve this by upper-bounding the difference between the performance of $\pi$ and $\pi^{\prime}$ given in Lemma 1:
-
-where we invoke the definition of advantage function ${A_{\pi^{\ast}}^{t}{(s,a)}} = {{Q_{\pi^{\ast}}^{t}{(s,a)}} - {{\mathbb{E}}_{a^{\ast} \sim \pi_{s}^{\ast}}{\lbrack{Q_{\pi^{\ast}}^{t}{(s,a^{\ast})}}\rbrack}}}$, and the first and the second inequalities are due to and, respectively.
-
-Define ${\hat{c}{(s,a)}} = {{\mathbb{E}}_{a^{\ast} \sim \pi_{s}^{\ast}}{\lbrack{\|{a - a^{\ast}}\|}\rbrack}}$. Thus, to make $\pi$ perform as well as $\pi^{\ast}$, we can minimize the upper bound, which is equivalent to solving a surrogate RL problem
-
-The problem in is called the *online* IL problem. This surrogate problem is comparatively more structured than the original RL problem, so we can adopt algorithms with provable performance guarantees. In this paper, we use the meta-algorithm DAgger, which reduces to a sequence of supervised learning problems: Let $\mathcal{D}$ be the training data. DAgger initializes $\mathcal{D}$ with samples gathered by running $\pi^{\ast}$. Then, in the $i$th iteration, it trains $\pi_{i}$ by supervised learning,
-
-where subscript $\mathcal{D}$ denotes empirical data distribution. Next it runs $\pi_{i}$ to collect more data, which is then added into $\mathcal{D}$ to train $\pi_{i + 1}$. The procedure is repeated for $O{(T)}$ iterations and the best policy, in terms of, is returned. Suppose the policy is linearly parametrized. Since our instantaneous cost $\hat{c}{(s_{t}, \cdot )}$ is strongly convex, the theoretical analysis of DAgger applies. Therefore, together with the assumption that $\pi^{\ast}$ is an expert, running DAgger to solve finds a policy $\pi$ with performance ${J{(\pi)}} \leq {{J{(\pi^{\ast})}} + {O{(T)}}}$, achieving our initial goal.
+Define ${\hat{c}{(s,a)}} = {{\mathbb{E}}_{a^{\ast} \sim \pi_{s}^{\ast}}{\lbrack{\|{a - a^{\ast}}\|}\rbrack}}$. Thus, to make $\pi$ perform as well as $\pi^{\ast}$, we can minimize the upper bound, which is equivalent to solving a surrogate RL problem The problem in is called the *online* IL problem. This surrogate problem is comparatively more structured than the original RL problem, so we can adopt algorithms with provable performance guarantees. In this paper, we use the meta-algorithm DAgger, which reduces to a sequence of supervised learning problems: Let $\mathcal{D}$ be the training data. DAgger initializes $\mathcal{D}$ with samples gathered by running $\pi^{\ast}$. Then, in the $i$th iteration, it trains $\pi_{i}$ by supervised learning, where subscript $\mathcal{D}$ denotes empirical data distribution. Next it runs $\pi_{i}$ to collect more data, which is then added into $\mathcal{D}$ to train $\pi_{i + 1}$. The procedure is repeated for $O{(T)}$ iterations and the best policy, in terms of, is returned. Suppose the policy is linearly parametrized. Since our instantaneous cost $\hat{c}{(s_{t}, \cdot)}$ is strongly convex, the theoretical analysis of DAgger applies. Therefore, together with the assumption that $\pi^{\ast}$ is an expert, running DAgger to solve finds a policy $\pi$ with performance ${J{(\pi)}} \leq {{J{(\pi^{\ast})}} + {O{(T)}}}$, achieving our initial goal.
 
 We note here the instantaneous cost $\hat{c}{(s_{t}, \cdot )}$ can be selected to be any suitable norm according the problem's property. In our off-road autonomous driving task, we find $l_{1}$-norm is preferable (e.g. over $l_{2}$-norm) for its ability to filter outliers in a highly stochastic environment.
 
 ### III-B2 Batch Imitation Learning
 
-By swapping the order of $\pi$ and $\pi^{\ast}$ in the above derivation in, we can derive another upper bound and use it to construct another surrogate problem: define ${{\overset{\sim}{c}}_{\pi}{(s^{\ast},a^{\ast})}} = {{\mathbb{E}}_{a \sim \pi_{s^{\ast}}}{\lbrack{\|{a - a^{\ast}}\|}\rbrack}}$ and ${C_{\pi}^{t}{(s^{\ast})}} = {\text{Lip}{({Q_{\pi}^{t}{(s^{\ast}, \cdot )}})}}$, then
-
-where we use again Lemma 1 for the equality and the property of Wasserstein distance for inequality. The minimization of the upper-bound is called the *batch* IL problem:
-
-In contrast to the surrogate problem in online IL, batch IL reduces to a supervised learning problem, because the expectation is defined by a fixed policy $\pi^{\ast}$.
+By swapping the order of $\pi$ and $\pi^{\ast}$ in the above derivation, we can derive another upper bound and use it to construct another surrogate problem: define ${{\overset{\sim}{c}}_{\pi}{(s^{\ast},a^{\ast})}} = {{\mathbb{E}}_{a \sim \pi_{s^{\ast}}}{\lbrack{\|{a - a^{\ast}}\|}\rbrack}}$ and ${C_{\pi}^{t}{(s^{\ast})}} = {\text{Lip}{({Q_{\pi}^{t}{(s^{\ast}, \cdot)}})}}$, then where we use again Lemma 1 for the equality and the property of Wasserstein distance for inequality. The minimization of the upper-bound is called the *batch* IL problem: In contrast to the surrogate problem in online IL, batch IL reduces to a supervised learning problem, because the expectation is defined by a fixed policy $\pi^{\ast}$.
 
 ### III-C Comparison of Imitation Learning Algorithms
 
-Comparing and, we observe that in batch IL the Lipschitz constant $C_{\pi}^{t}{(s^{\ast})}$, without $\pi$ being an expert as in Definition 1, can be on the order of $T - t$ in the worst case. Therefore, if we take a uniform bound and define $C_{\pi} = {\sup_{{t \in {\lbrack 0,{T - 1}\rbrack}},{s \in {\mathbb{S}}}}{C_{\pi}^{t}{(s)}}}$, we see $C_{\pi} \in {O{(T)}}$. In other words, under the same assumption in online imitation (i.e. is minimized to an error in $O{(T)}$), the difference between $J{(\pi)}$ and $J{(\pi^{\ast})}$ in batch IL actually grows quadratically in $T$ due to error compounding. This problem manifests especially in stochastic environments. Therefore, in order to achieve the same level of performance as online IL, batch IL requires a more expressive policy class or more demonstration samples. As shown in, the quadratic bound is tight.
+Comparing and, we observe that in batch IL the Lipschitz constant $C_{\pi}^{t}{(s^{\ast})}$, without $\pi$ being an expert as in Definition 1, can be on the order of $T - t$ in the worst case. Therefore, if we take a uniform bound and define $C_{\pi} = {\sup_{{t \in {\lbrack 0,{T - 1}\rbrack}},{s \in {\mathbb{S}}}}{C_{\pi}^{t}{(s)}}}$, we see $C_{\pi} \in {O{(T)}}$. In other words, under the same assumption in online imitation (i.e. is minimized to an error in $O{(T)}$), the difference between $J{(\pi)}$ and $J{(\pi^{\ast})}$ in batch IL actually grows quadratically in $T$ due to error compounding. This problem manifests especially in stochastic environments. Therefore, in order to achieve the same level of performance as online IL, batch IL requires a more expressive policy class or more demonstration samples. As shown , the quadratic bound is tight.
 
 Therefore, if we can choose an expert policy $\pi^{\ast}$ that is stable in the sense of Definition 1, then online IL is preferred theoretically. This is satisfied, for example, when the expert policy is an algorithm with certain performance characteristics. On the contrary, if the expert is human, the assumptions required by online IL become hard to realize in real-road driving tasks. This is especially true in off-road driving tasks, where the human driver depends heavily on instant feedback from the car to overcome stochastic disturbances. Therefore, the frame-by-frame labeling approach, for example, can lead to a very counter-intuitive, inefficient data collection process, because the required dynamics information is lost in a single image frame. Overall, when using human demonstrations, online IL can be as bad as batch IL, simply due to inconsistencies introduced by human nature.
 
@@ -112,9 +80,7 @@ The software system was developed based on the Robot Operating System (ROS) in U
 
 ### IV-A An Algorithmic Expert: Model-Predictive Control
 
-We use an MPC expert based on an incremental Sparse Spectrum Gaussian Process (SSGP) dynamics model (which was learned from 30 minute-long driving data) and an iSAM2 state estimator. To generate actions, the MPC expert solves a finite horizon optimal control problem for every sampling time: at time $t$, the expert policy $\pi^{\ast}$ is a locally optimal policy such that
-
-where $T_{h}$ is the length of horizon it previews.
+We use an MPC expert based on an incremental Sparse Spectrum Gaussian Process (SSGP) dynamics model (which was learned from 30 minute-long driving data) and an iSAM2 state estimator. To generate actions, the MPC expert solves a finite horizon optimal control problem for every sampling time: at time $t$, the expert policy $\pi^{\ast}$ is a locally optimal policy such that where $T_{h}$ is the length of horizon it previews.
 
 The computation is realized by Differential Dynamic Programming (DDP): in each iteration of DDP, the system dynamics and the cost function are approximated quadratically along a nominal trajectory; then the Bellman equation of the approximate problem is solved in a backward pass to compute the control law; finally, a new nominal trajectory is generated by applying the updated control law through the dynamics model in a forward pass. Upon convergence, DDP returns a locally optimal control sequence $\{{\hat{a}}_{t}^{\ast},\ldots,{\hat{a}}_{{t + T_{h}} - 1}^{\ast}\}$, and the MPC expert executes the first action in the sequence as the expert's action at time $t$ (i.e. $a_{t}^{\ast} = {\hat{a}}_{t}^{\ast}$). This process is repeated at every sampling time (see the Appendix for details).
 
@@ -128,7 +94,7 @@ In construction of the surrogate problem for IL, the action space $\mathbb{A}$ i
 
 ### IV-C The Autonomous Driving Platform
 
-To validate our IL approach to off-road autonomous driving, the system was implemented on a custom-built, 1/5-scale autonomous AutoRally car (weight 22 kg; LWH 1m$\times$`<!-- -->`{=html}0.6m$\times$`<!-- -->`{=html}0.4m), shown in the top figure in Fig. 4. The car was equipped with an ASUS mini-ITX motherboard, an Intel quad-core i7 CPU, 16GB RAM, a Nvidia GTX 750 Ti GPU, and a 11000mAh battery. For sensors, two forward facing machine vision cameras,^77^7In this work we only used one of the cameras. a Hemisphere Eclipse P307 GPS module, a Lord Microstrain 3DM-GX4-25 IMU, and Hall effect wheel speed sensors were instrumented. In addition, an RC transmitter could be used to remotely control the vehicle by a human, and a physical run-stop button was installed to disable all motions in case of emergency. The source code used in this work is availalbe ^88^8GitHub repos: [Imitation learning](https://github.com/ACDSLab/imitation_learning_autorally), [AutoRally platform](http://autorally.github.io/)..
+To validate our IL approach to off-road autonomous driving, the system was implemented on a custom-built, 1/5-scale autonomous AutoRally car (weight 22 kg; LWH 1m$\times$`<!-- -->`{=html}0.6m$\times$`<!-- -->`{=html}0.4m), shown in the top figure in Fig. 4. The car was equipped with an ASUS mini-ITX motherboard, an Intel quad-core i7 CPU, 16GB RAM, a Nvidia GTX 750 Ti GPU, and a 11000mAh battery. For sensors, two forward facing machine vision cameras,^77^7In this work we only used one of the cameras. a Hemisphere Eclipse P307 GPS module, a Lord Microstrain 3DM-GX4-25 IMU, and Hall effect wheel speed sensors were instrumented. In addition, an RC transmitter could be used to remotely control the vehicle by a human, and a physical run-stop button was installed to disable all motions in case of emergency. The source code used in this work is availalbe ^88^8GitHub repos: Imitation learning, AutoRally platform..
 
 In the experiments, all computation was executed on-board the vehicle in real-time. In addition, an external laptop was used to communicate with the on-board computer remotely via Wi-Fi to monitor the vehicle's status. The observations were sampled and action were executed at 50 Hz to account for the high-speed of the vehicle and the stochasticity of the environment. Note this control frequency is significantly higher than (10 Hz), (12 Hz), and (15 Hz).
 
@@ -138,9 +104,7 @@ Figure 4: The AutoRally car and the test track.
 
 ### V-A High-speed Driving Task
 
-We tested the performance of the proposed IL system in Section IV in a high-speed driving task with a desired speed of 7.5 m/s (an equivalent speed of 135 km/h on a full-scale car). The performance index of the task was formulated as the cost function in the finite-horizon RL problem with
-
-in which $c_{\text{pos}}$ favors the vehicle to stay in the middle of the track, $c_{\text{spd}}$ drives the vehicle to reach the desired speed, $c_{\text{slip}}$ stabilizes the car from slipping, and $c_{\text{act}}$ inhibits large control commands (see the Appendix for details).
+We tested the performance of the proposed IL system in Section IV in a high-speed driving task with a desired speed of 7.5 m/s (an equivalent speed of 135 km/h on a full-scale car). The performance index of the task was formulated as the cost function in the finite-horizon RL problem with in which $c_{\text{pos}}$ favors the vehicle to stay in the middle of the track, $c_{\text{spd}}$ drives the vehicle to reach the desired speed, $c_{\text{slip}}$ stabilizes the car from slipping, and $c_{\text{act}}$ inhibits large control commands (see the Appendix for details).
 
 The goal of the high-speed driving task to minimize the accumulated cost function over one-minute continuous driving. That is, under the 50-Hz sampling rate, the task horizon was set to 60 seconds ($T = 3000$). The cost information was given to the MPC expert in Fig. 2 to perform online trajectory optimization with a two-second prediction horizon ($T_{h} = 100$). In the experiments, the weighting in were set as $\alpha_{1} = 2.5$, $\alpha_{2} = 1$, $\alpha_{3} = 100$ and $\alpha_{4} = 60$, so that the MPC expert in Section IV-A could perform reasonably well. The learner's policy was tuned by online/batch IL in attempts to match the expert's performance.
 
@@ -164,9 +128,7 @@ Figure 5: Examples of vehicle trajectories, where online IL avoids the crashing 
 
 ### VI-A Empirical Performance
 
-Steering/Throttle loss
-
-TABLE II: Test statistics. Total loss denotes the imitation loss in, which is the average of the steering and the throttle losses. Completion is defined as the ratio of the traveled time steps to the targeted time steps. All results here represent the average performance over three independent evaluation trials.
+Steering/Throttle loss TABLE II: Test statistics. Total loss denotes the imitation loss, which is the average of the steering and the throttle losses. Completion is defined as the ratio of the traveled time steps to the targeted time steps. All results here represent the average performance over three independent evaluation trials.
 
 We first study the performance of training a control policy with online and batch IL algorithms. Fig. 5 illustrates the vehicle trajectories of different policies. Due to accumulating errors, the policy trained with batch IL crashed into the lower-left boundary, an area of the state-action space rarely explored in the expert's demonstrations. In contrast to batch IL, online IL successfully copes with corner cases as the learned policy occasionally ventured into new areas of the state-action space.
 
@@ -186,25 +148,9 @@ We first observe in Fig. 7 that, while the wheel speed data have similar trainin
 
 The policy trained with online IL yet still demonstrated great performance in the experiments. To further understand how it could generalize across different image distributions, we embed its feature distribution in Fig. 8 (a) and (b).^1111^11The feature here are the last hidden layer of the neural network. The output layer is a linear function of the features. Interestingly, despite the difference in the raw feature distributions in Fig. 7 (a) and (b), the DNN policy trained with online IL are able to map the train and test data to similar feature distributions, so that a linear combination (the last layer) of those features is sufficient to represent a good policy. On the contrary, the DNN policy trained with batch IL fails to learn a coherent feature embedding, as shown in Fig. 8 (c) and (d). This could explain the inferior performance of batch IL, and its inability to deal with the corner case in Fig. 5 (b). This evidence shows that our online learning system can alleviate the covariate shift issue caused by executing different policies at training and testing time.
 
-(a) Batch raw image
+(a) Batch raw image (b) Online raw image (c) Batch wheel speed (d) Online wheel speed Figure 7: The distributions (t-SNE) of the raw images and wheel speed used as DNN policy’s inputs (details in Section VI-B).
 
-(b) Online raw image
-
-(c) Batch wheel speed
-
-(d) Online wheel speed
-
-Figure 7: The distributions (t-SNE) of the raw images and wheel speed used as DNN policy’s inputs (details in Section VI-B).
-
-(a) Batch data wrt online model
-
-(b) Online data wrt online model
-
-(c) Batch data wrt batch model
-
-(d) Online data wrt batch model
-
-Figure 8: The distributions (t-SNE) of the learned DNN feature in the last fully-connected layer (details are in Section VI-B).
+(a) Batch data wrt online model (b) Online data wrt online model (c) Batch data wrt batch model (d) Online data wrt batch model Figure 8: The distributions (t-SNE) of the learned DNN feature in the last fully-connected layer (details are in Section VI-B).
 
 ### VI-C The Neural Network Policy
 

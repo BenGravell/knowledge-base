@@ -10,9 +10,7 @@ In this work, we propose a new ostrich musculoskeletal model, illustrated in Fig
 
 ### Building musculoskeletal models
 
-The NeurIPS conference has been hosting recurrent competitions to bridge the gap between biomechanics and reinforcement learning ^11^1[https://www.crowdai.org/challenges/nips-2017-learning-to-run]\
-[https://www.crowdai.org/challenges/nips-2018-ai-for-prosthetics-challenge]\
-[https://www.aicrowd.com/challenges/neurips-2019-learning-to-move-walk-around], where the goal was to make a musculoskeletal human model walk. The challenge used the OpenSim simulator. However, as documented in many of the solutions, the engine was too slow to properly use traditional deep RL methods, which often require millions or billions of samples to find good solutions. Moreover, the model used in the latest challenge was in many ways quite simplistic, actuating only the legs with 22 muscles in total and removing the arms.
+The NeurIPS conference has been hosting recurrent competitions to bridge the gap between biomechanics and reinforcement learning ^11^1, where the goal was to make a musculoskeletal human model walk. The challenge used the OpenSim simulator. However, as documented in many of the solutions, the engine was too slow to properly use traditional deep RL methods, which often require millions or billions of samples to find good solutions. Moreover, the model used in the latest challenge was in many ways quite simplistic, actuating only the legs with 22 muscles in total and removing the arms.
 
 Simulating musculoskeletal animal models is not common outside the field of biomechanics. Most of the efforts are focused on humans because of available resources in anatomical atlases and interest from the entertainment industry and sports. Available full-body animal musculoskeletal models include, for example the chimpanzee and dog. Moreover, for human models, researchers tend to have access to much higher quality motion capture data than for animals, but animal research often have superior empirical measurements of physiological function.
 
@@ -60,11 +58,7 @@ MuJoCo has already been used in a number of popular control domains for reinforc
 
 ### Muscle excitation and activation
 
-In biomechanics and neuroscience, researchers separate muscle excitation and activation. A neural excitation $u$, produced by the nervous system, is responsible for the contraction of muscle fibers via an intermediate state called activation $a$. This intermediate state converts an electrochemical signal to mechanical force output. In MuJoCo, this conversion is modelled as a first-order nonlinear filter:
-
-where $\tau$ is defined as:
-
-$\tau_{a}$, $\tau_{d}$ are time constants for activation and deactivation, equal by default to 10 ms and 40 ms, respectively.
+In biomechanics and neuroscience, researchers separate muscle excitation and activation. A neural excitation $u$, produced by the nervous system, is responsible for the contraction of muscle fibers via an intermediate state called activation $a$. This intermediate state converts an electrochemical signal to mechanical force output. In MuJoCo, this conversion is modelled as a first-order nonlinear filter: where $\tau$ is defined as: $\tau_{a}$, $\tau_{d}$ are time constants for activation and deactivation, equal by default to 10 ms and 40 ms, respectively.
 
 ### Contraction dynamics
 
@@ -72,9 +66,7 @@ The contraction dynamics are implemented using the Hill-type model as shown in f
 
 Figure 4: On the left a diagram of the Hill-type muscle model comprising the 3 components: a contractile element, a passive element and an elastic element. On the right two plots showing the curves for the force-length and force-velocity functions used in the contraction dynamics.
 
-The active contraction dynamics can be summarized by the formula:
-
-where $f_{l}$ is the active force as a function of muscle length, $f_{v}$ is the active force as a function of velocity, and $f_{p}$ is the passive force which is always present regardless of activation. The force-length and force-velocity curves are showed in Figure 4. These functions are built into MuJoCo, capturing the contraction dynamics for basic purposes, and have been validated by the biomechanics community for some conditions.
+The active contraction dynamics can be summarized by the formula: where $f_{l}$ is the active force as a function of muscle length, $f_{v}$ is the active force as a function of velocity, and $f_{p}$ is the passive force which is always present regardless of activation. The force-length and force-velocity curves are showed in Figure 4. These functions are built into MuJoCo, capturing the contraction dynamics for basic purposes, and have been validated by the biomechanics community for some conditions.
 
 All muscle-related quantities in MuJoCo are scaled by the muscle-tendon actuator's resting length. The advantage of this representation is that all muscles behave similarly. MuJoCo does not allow specification of the muscle resting length $L_{0}$ and tendon slack length $LT$ directly, in contrast to OpenSim. This is due to the fact that MuJoCo does not include a stateful elastic component in the muscle model. This is a major compromise in MuJoCo when compared to OpenSim, that allows it to run faster. Instead, the actuator length range $LR$ needs to be specified, which is the minimum and maximum of the sum of muscle and tendon lengths, along with a range $R$ in units of $L_{0}$. In other words, the actuator length range $LR$ defines the interval of values that the actuator is allowed to use during the simulation and the range $R$ is a percentage expressing how much the actuator (here simply called "muscle") can shorten or extend.
 
@@ -190,7 +182,7 @@ Cassie is a bipedal robot produced by Agility Robotics. It has undergone extensi
 
 Figure 13: Ostrich and Cassie markers comparison, and poses from a motion capture clip. The morphology of the two models is similar enough to allow the motion capture data to be reused.
 
-We started with Cassie's MuJoCo model, provided by the Oregon State University Dynamic Robotics Laboratory ^22^2[https://github.com/osudrl/cassie-mujoco-sim](https://github.com/osudrl/cassie-mujoco-sim). The model had to be adjusted to increase its stability and some equality constraints had to be added to ensure that the parts were properly connected with the rods. In order to obtain the robot poses corresponding to the mocap clips, except for the neck, we used the mocap generation pipeline described in subsection 3.4. The only modification was the use of MuJoCo's Jacobian function during the gradient descent step, to satisfy the equality constraints. Surprisingly, Cassie's morphology is close enough to that of an ostrich that the clips can be reproduced fairly accurately, as shown in Figure 13. The resulting dataset provides an interesting set of behaviors achievable with the Cassie robot, including steps that are more natural than those typically found in the literature and demos using this robot.
+We started with Cassie's MuJoCo model, provided by the Oregon State University Dynamic Robotics Laboratory ^22^2 The model had to be adjusted to increase its stability and some equality constraints had to be added to ensure that the parts were properly connected with the rods. In order to obtain the robot poses corresponding to the mocap clips, except for the neck, we used the mocap generation pipeline described in subsection 3.4. The only modification was the use of MuJoCo's Jacobian function during the gradient descent step, to satisfy the equality constraints. Surprisingly, Cassie's morphology is close enough to that of an ostrich that the clips can be reproduced fairly accurately, as shown in Figure 13. The resulting dataset provides an interesting set of behaviors achievable with the Cassie robot, including steps that are more natural than those typically found in the literature and demos using this robot.
 
 Unfortunately, Cassie's model remains quite unstable on the motion capture tracking task, probably due to constraints in the rods and more work would be needed to achieve a satisfactory level of tracking on all clips. However, we also adapted the "run forward" task with more success, as shown in Figure 14.
 

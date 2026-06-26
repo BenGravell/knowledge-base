@@ -2,11 +2,9 @@
 
 Datasets and benchmarks for a variety of perception tasks in autonomous driving have been hugely influential to the computer vision community over the last few years. We are particularly inspired by the impact of KITTI, which opened and connected a plethora of new research directions. However, publicly available datasets for autonomous driving rarely include *map* data, even though detailed maps are critical to the development of real world autonomous systems. Publicly available maps, *e.g*. OpenStreetMap, can be useful, but have limited detail and accuracy.
 
-Intuitively, 3D scene understanding would be easier if maps directly told us which 3D points belong to the road, which belong to static buildings, which lane a tracked object is in, how far it is to the next intersection, etc. But since publicly available datasets do not contain richly-mapped attributes, how to represent and utilize such features is an open research question. Argoverse is the first large-scale autonomous driving dataset with such detailed maps. We investigate the potential utility of these new map features on two tasks -- 3D tracking and motion forecasting, and we offer a significant amount of real-world, annotated data to enable new benchmarks for these problems.
+Intuitively, 3D scene understanding would be easier if maps directly told us which 3D points belong to the road, which belong to static buildings, which lane a tracked object is , how far it is to the next intersection, etc. But since publicly available datasets do not contain richly-mapped attributes, how to represent and utilize such features is an open research question. Argoverse is the first large-scale autonomous driving dataset with such detailed maps. We investigate the potential utility of these new map features on two tasks -- 3D tracking and motion forecasting, and we offer a significant amount of real-world, annotated data to enable new benchmarks for these problems.
 
-Our contributions in this paper include:
-
-We release a large scale 3D tracking dataset with synchronized data from LiDAR, 360^∘^ and stereo cameras sampled across two cities in varied conditions. Unlike other recent datasets, our 360^∘^ is captured at 30fps.
+Our contributions in this paper include: We release a large scale 3D tracking dataset with synchronized data from LiDAR, 360^∘^ and stereo cameras sampled across two cities in varied conditions. Unlike other recent datasets, our 360^∘^ is captured at 30fps.
 
 We provide ground truth 3D track annotations across 15 object classes, with five times as many tracked objects as the KITTI tracking benchmark.
 
@@ -26,8 +24,7 @@ Autonomous Driving Datasets with Trajectory Data. ApolloScape also uses sensor-e
 
 Using Maps for Self-driving Tasks. While high definition (HD) maps are widely used by motion planning systems, few works explore the use of this strong prior in perception systems despite the fact that the three winning entries of the 2007 DARPA Urban Challenge relied on a DARPA-supplied map -- the *Route Network Definition File* (RNDF). Hecker et al. show that end-to-end route planning can be improved by processing rasterized maps from OpenStreetMap and TomTom. Liang et al. demonstrate that using road centerlines and intersection polygons from OpenStreetMap can help infer crosswalk location and direction. Yang et al. show that incorporating ground height and bird's eye view (BEV) road segmentation with LiDAR point information as a model input can improve 3D object detection. Liang et al. show how 3D object detection accuracy can be improved by using mapping (ground height estimation) as an additional task in multi-task learning. Suraj et al. use dashboard-mounted monocular cameras on a fleet of vehicles to build a 3D map via city-scale structure-from-motion for localization of ego-vehicles and trajectory extraction.
 
-Dataset Name Map Extent of Driveable Camera 360∘ Includes # Tracked # Scenes Type Annotated Area Frame Cameras Stereo Objects Lanes Coverage Rate /Scene KITTI None 0 km 0 m2 10 Hz no ✓ 43.67 (train) 50 Oxford RobotCar None 0 km 0 m2 11/16Hz no no 0 100+ H3D None 0 km 0 m2 30 Hz no no 86.02 (train+val+test) 160 Lyft Dataset 111on the currently release training set Raster 0 km 48,690 m2 10 Hz ✓ no 102.34 (train) 180+ nuScenes v1.0 Vector+Raster 133 km 1,115,844 m2 12 Hz ✓ no 75.75 (train+val) 1000 ApolloScape Tracking None 0 km 0 m2 n/a no no 206.16 (train) 103 Waymo Open Dataset None 0 km 0 m2 10 Hz ✓ no 113.68 (train+val) 1000 Argoverse 3D Tracking v1.1 Vector 204 km (MIA) 1,192,073 m2 30 Hz ✓ ✓ 97.81 (train+val+test) 113 (human annotated) +Raster +86 km (PIT) ApolloScape Forecasting None 0 km 0 m2 n/a no no 50.06 (train) 103 Argoverse Forecasting v1.1 Vector 204 km (MIA) 1,192,073 m2 - no no 50.03 (train+val+test) 324,557 (mined trajectories) +Raster +86 km (PIT)
-Table 1: Public self-driving datasets. We compare recent, publicly available self-driving datasets with 3D object annotations for tracking (top) and trajectories for forecasting (bottom). Coverage area for nuScenes is based on its road and sidewalk raster map. Argoverse coverage area is based on our driveable area raster map. Statistics updated September 2019.
+Dataset Name Map Extent of Driveable Camera 360∘ Includes # Tracked # Scenes Type Annotated Area Frame Cameras Stereo Objects Lanes Coverage Rate /Scene KITTI None 0 km 0 m2 10 Hz no ✓ 43.67 (train) 50 Oxford RobotCar None 0 km 0 m2 11/16Hz no no 0 100+ H3D None 0 km 0 m2 30 Hz no no 86.02 (train+val+test) 160 Lyft Dataset 111on the currently release training set Raster 0 km 48,690 m2 10 Hz ✓ no 102.34 (train) 180+ nuScenes v1.0 Vector+Raster 133 km 1,115,844 m2 12 Hz ✓ no 75.75 (train+val) 1000 ApolloScape Tracking None 0 km 0 m2 n/a no no 206.16 (train) 103 Waymo Open Dataset None 0 km 0 m2 10 Hz ✓ no 113.68 (train+val) 1000 Argoverse 3D Tracking v1.1 Vector 204 km (MIA) 1,192,073 m2 30 Hz ✓ ✓ 97.81 (train+val+test) 113 (human annotated) +Raster +86 km (PIT) ApolloScape Forecasting None 0 km 0 m2 n/a no no 50.06 (train) 103 Argoverse Forecasting v1.1 Vector 204 km (MIA) 1,192,073 m2 - no no 50.03 (train+val+test) 324,557 (mined trajectories) +Raster +86 km (PIT) Table 1: Public self-driving datasets. We compare recent, publicly available self-driving datasets with 3D object annotations for tracking (top) and trajectories for forecasting (bottom). Coverage area for nuScenes is based on its road and sidewalk raster map. Argoverse coverage area is based on our driveable area raster map. Statistics updated September 2019.
 
 3D Object Tracking. In traditional approaches for point cloud tracking, segments of points can be accumulated using clustering algorithms such as DBSCAN or connected components of an occupancy grid, and then associated based on some distance function using the Hungarian algorithm. Held et al. utilize probabilistic approaches to point cloud segmentation and tracking. Recent work demonstrates how 3D instance segmentation and 3D motion (in the form of 3D scene flow, or per-point velocity vectors) can be estimated directly on point cloud input with deep networks. Our dataset enables 3D tracking with sensor fusion in a $360^{\circ}$ frame.
 
@@ -85,9 +82,7 @@ Baseline Tracker. Our baseline tracking pipeline clusters LiDAR returns in drive
 
 When no match can be found by Hungarian method for an object, the object pose is maintained using only motion model up to 5 frames before being removed or associated to a new cluster. This enables our tracker to maintain same object ID even if the object is occluded for a short period of time and reappears. If a cluster is not associated with current tracked objects, we initialize a new object ID for it.
 
-The tracker uses the following map attributes:
-
-Driveable area. Since our baseline is focused on vehicle tracking, we constrain our tracker to the driveable area as specified by the map. This driveable area covers any region where it is possible for the vehicle to drive (see Section 3.1). This constraint reduces the opportunities for false positives.
+The tracker uses the following map attributes: Driveable area. Since our baseline is focused on vehicle tracking, we constrain our tracker to the driveable area as specified by the map. This driveable area covers any region where it is possible for the vehicle to drive (see Section 3.1). This constraint reduces the opportunities for false positives.
 
 Ground height. We use map information to remove LiDAR returns on the ground. In contrast to local ground-plane estimation methods, the map-based approach is effective in sloping and uneven environments.
 
@@ -107,11 +102,7 @@ Table 2: Tracking accuracy at different ranges using map for ground removal and 
 
 Table 3: Tracking accuracy comparison at different ranges while using different map attributes. From top to bottom, accuracy for vehicles within 30 m, 50 m, and 100 m.
 
-(a) Without lane information
-
-(b) With lane information
-
-Figure 6: Tracking with orientation snapping. Using lane direction information helps to determine the vehicle orientation for detection and tracking.
+(a) Without lane information (b) With lane information Figure 6: Tracking with orientation snapping. Using lane direction information helps to determine the vehicle orientation for detection and tracking.
 
 ## Motion Forecasting
 
@@ -135,9 +126,7 @@ Predicting the future is difficult. Often, there are several plausible future ac
 
 ### Results
 
-In this section, we evaluate the effect of multimodal predictions, social context, and spatial context (from the vector map) to improve motion forecasting over horizons of 3 seconds into the future. We evaluated the following models:
-
-Constant Velocity: Compute the mean velocity $(v_{xi},v_{yi})$ from $t = {\{ 1,\ldots,T_{obs}\}}$ and then forecast $(x_{i}^{t},y_{i}^{t})$ for $t = {\{ T_{{obs} + 1},\ldots,T_{pred}\}}$ using $(v_{xi},v_{yi})$ as the constant velocity.
+In this section, we evaluate the effect of multimodal predictions, social context, and spatial context (from the vector map) to improve motion forecasting over horizons of 3 seconds into the future. We evaluated the following models: Constant Velocity: Compute the mean velocity $(v_{xi},v_{yi})$ from $t = {\{ 1,\ldots,T_{obs}\}}$ and then forecast $(x_{i}^{t},y_{i}^{t})$ for $t = {\{ T_{{obs} + 1},\ldots,T_{pred}\}}$ using $(v_{xi},v_{yi})$ as the constant velocity.
 
 NN: Nearest Neighbor regression where trajectories are queried by $(x_{i}^{t},y_{i}^{t})$ for $t = {\{ 1,\ldots,T_{obs}\}}$. To make $K$ predictions, we performed a lookup for $K$ Nearest Neighbors.
 
@@ -164,3 +153,7 @@ Figure 8: minFDE for NN+map(prior) m-G,n-C with different values of n (#Centerli
 ## Discussion
 
 Argoverse represents two large-scale datasets for autonomous driving research. The Argoverse datasets are the first such datasets with rich map information such as lane centerlines, ground height, and driveable area. We examine baseline methods for 3D tracking with map-derived context. We also mine one thousand hours of fleet logs to find diverse, real-world object trajectories which constitute our motion forecasting benchmark. We examine baseline forecasting methods and verify that map data can improve accuracy. We maintain a public leaderboard for 3D object tracking and motion forecasting. The sensor data, map data, annotations, and code which make up Argoverse are available at our website *Argoverse.org*.
+
+Acknowledgements. We thank our Argo AI colleagues for their invaluable assistance in supporting Argoverse.
+
+Patsorn Sangkloy is supported by a a Royal Thai Government Scholarship. James Hays receives research funding from Argo AI, which is developing products related to the research described in this paper. In addition, the author serves as a Staff Scientist to Argo AI. The terms of this arrangement have been reviewed and approved by Georgia Tech in accordance with its conflict of interest policies.

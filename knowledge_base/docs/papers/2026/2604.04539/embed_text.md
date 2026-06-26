@@ -8,9 +8,7 @@ However, this regime is becoming less representative of modern robot learning. E
 
 Off-policy RL offers a natural alternative. By reusing diverse experience from a replay buffer, off-policy methods can achieve substantially higher data efficiency than on-policy approaches. This advantage is particularly appealing in high-dimensional robotic tasks, where broader data coverage can support better policy evaluation and improvement. Yet despite this promise, off-policy RL has not become the default choice for sim-to-real transfer, as it often suffers from slow training and instability.
 
-A central challenge is learning an accurate value function from broad replay data. Off-policy methods train a critic $Q_{\theta}$ by minimizing a bootstrapped Bellman objective,
-
-where transitions $(s,a,r,s^{\prime})$ are sampled from a replay buffer $\mathcal{D}$ and $a^{\prime} \sim \pi{( \cdot \mid s^{\prime})}$. In high-dimensional settings, fitting this critic accurately over diverse replay data often requires many gradient updates, which not only increases training time but also compounds estimation errors through repeated bootstrapping, as the critic is optimized toward targets that depend on its own predictions.
+A central challenge is learning an accurate value function from broad replay data. Off-policy methods train a critic $Q_{\theta}$ by minimizing a bootstrapped Bellman objective, where transitions $(s,a,r,s^{\prime})$ are sampled from a replay buffer $\mathcal{D}$ and $a^{\prime}\sim\pi(\cdot\mid s^{\prime})$. In high-dimensional settings, fitting this critic accurately over diverse replay data often requires many gradient updates, which not only increases training time but also compounds estimation errors through repeated bootstrapping, as the critic is optimized toward targets that depend on its own predictions.
 
 In this paper, we present FlashSAC, a fast and stable off-policy RL algorithm built on Soft Actor-Critic. Motivated by scaling trends in supervised learning, FlashSAC sharply reduces the number of gradient updates while compensating with larger models and higher data throughput, improving training efficiency and better matching modern large-scale simulation pipelines. However, larger critics can further exacerbate instability under bootstrapping. To maintain stability, FlashSAC explicitly controls critic update dynamics by bounding weight, feature, and gradient norms, thereby preventing the accumulation of critic errors.
 
@@ -36,7 +34,7 @@ Model-based RL further improves sample efficiency by learning environment dynami
 
 Model-free off-policy algorithms such as DDPG, TD3, and SAC learn policies and value functions directly from replayed experience without explicit dynamics models. Their simplicity and data reuse make them attractive for robotic control. However, as discussed in Section 1, off-policy model-free RL suffers from three persistent challenges: *slow training*, *unstable training dynamics*, and *exploration in high-dimensional action spaces*. The first two challenges stem from the bootstrapped Bellman objective illustrated in Equation 1: fitting a critic over diverse replay data in high-dimensional state-action spaces requires many gradient updates, directly increasing training time. Because critic targets depend on the critic's own predictions, approximation and extrapolation errors at poorly supported state-action pairs compound across updates. The third arises because the maximum-entropy formulation of SAC alone is often insufficient to maintain coherent exploration in high-dimensional action spaces, motivating dedicated noise mechanisms and exploration schemes.
 
-Prior work has primarily addressed each challenge in isolation. To improve *speed*, one line of work scales data throughput via parallel simulation and large replay buffers. For example, FastTD3 and FastSAC achieve strong wall-clock efficiency in humanoid locomotion but relies on small networks ($\sim$`<!-- -->`{=html}0.2M parameters), which limits its asymptotic performance. Scaling to larger networks is difficult in this setting, as increased model capacity exacerbates instability under bootstrapped training.
+Prior work has primarily addressed each challenge in isolation. To improve *speed*, one line of work scales data throughput via parallel simulation and large replay buffers. For example, FastTD3 and FastSAC achieve strong wall-clock efficiency in humanoid locomotion but relies on small networks (${\sim}$`<!-- -->`{=html}0.2M parameters), which limits its asymptotic performance. Scaling to larger networks is difficult in this setting, as increased model capacity exacerbates instability under bootstrapped training.
 
 To improve *stability*, a second line of work constrains value-function sensitivity by bounding feature, weight, and gradient norms, or by other measures such as reinitialization, distillation, ensembling, and alternative critic target networks. These constraints limit error amplification under distribution shift and repeated bootstrapping, enabling training with larger networks that achieve higher asymptotic performance. However, the increased model capacity requires more gradient updates to converge, resulting in slower training in data-rich simulation regimes.
 
@@ -50,29 +48,23 @@ In this section, we introduce the RL framework and algorithmic foundation upon w
 
 ### Markov Decision Process (MDP)
 
-We model robotic control as a discounted Markov Decision Process (MDP), $\mathcal{M} = {(\mathcal{S},\mathcal{A},P,r,\gamma)}$, where $\mathcal{S}$ denotes the state space, $\mathcal{A}$ denotes the continuous action space, $P{(\left. s^{\prime} \middle| {s,a} \right.)}$ denotes the transition dynamics, $r{(s,a)}$ denotes the reward function, and $\gamma \in {\lbrack 0,1)}$ is the discount factor.
+We model robotic control as a discounted Markov Decision Process (MDP), $\mathcal{M}=(\mathcal{S},\mathcal{A},P,r,\gamma)$, where $\mathcal{S}$ denotes the state space, $\mathcal{A}$ denotes the continuous action space, $P(s^{\prime}|s,a)$ denotes the transition dynamics, $r(s,a)$ denotes the reward function, and $\gamma\in0,1)$ is the discount factor.
 
-At each timestep $t$, the agent observes $s_{t} \in \mathcal{S}$, samples an action $a_{t} \in \mathcal{A}$, receives a reward $r_{t} = {r{(s_{t},a_{t})}}$, and transitions to the next state $s_{t + 1} \sim P{( \cdot \mid s_{t},a_{t})}$. The goal is to learn a policy $\pi{(\left. a \middle| s \right.)}$ that maximizes the discounted sum of rewards.
+At each timestep $t$, the agent observes $s_{t}\in\mathcal{S}$, samples an action $a_{t}\in\mathcal{A}$, receives a reward $r_{t}=r(s_{t},a_{t})$, and transitions to the next state $s_{t+1}\sim P(\cdot\mid s_{t},a_{t})$. The goal is to learn a policy $\pi(a|s)$ that maximizes the discounted sum of rewards.
 
 ### Soft Actor Critic (SAC)
 
-FlashSAC builds upon SAC, a widely used off-policy RL algorithm. SAC stores transitions $(s,a,r,s^{\prime})$ collected under past policies in a replay buffer $\mathcal{D}$, and trains the policy using samples drawn from this buffer.
+FlashSAC builds upon SAC \[, a widely used off-policy RL algorithm. SAC stores transitions $(s,a,r,s^{\prime})$ collected under past policies in a replay buffer $\mathcal{D}$, and trains the policy using samples drawn from this buffer.
 
 Beyond maximizing expected return, SAC incorporates an entropy regularization term that encourages exploration. This entropy maximization is particularly important in high-dimensional state--action spaces, where insufficient exploration can lead to poor coverage of the replay buffer and exacerbate approximation and extrapolation errors.
 
-To reduce approximation errors in bootstrapped value learning, SAC commonly employs clipped double Q-learning, maintaining two action-value functions $Q_{\phi_{1}}{(s,a)}$ and $Q_{\phi_{2}}{(s,a)}$. The minimum of the two estimates is used when forming targets, reducing the impact of optimistic value errors.
+To reduce approximation errors in bootstrapped value learning, SAC commonly employs clipped double Q-learning, maintaining two action-value functions $Q_{\phi_{1}}(s,a)$ and $Q_{\phi_{2}}(s,a)$. The minimum of the two estimates is used when forming targets, reducing the impact of optimistic value errors.
 
-Concretely, the policy $\pi_{\theta}{(\left. a \middle| s \right.)}$ is optimized by minimizing
+Concretely, the policy $\pi_{\theta}(a|s)$ is optimized by minimizing where $\alpha>0$ controls the relative importance of entropy.
 
-where $\alpha > 0$ controls the relative importance of entropy.
+Each critic is trained by minimizing a bootstrapped Bellman error using slowly updated target networks $\bar{\phi}_{1}$ and $\bar{\phi}_{2}$, which are updated via exponential moving average: where $\tau\in$ is the target update rate.
 
-Each critic is trained by minimizing a bootstrapped Bellman error using slowly updated target networks ${\overline{\phi}}_{1}$ and ${\overline{\phi}}_{2}$, which are updated via exponential moving average:
-
-where $\tau \in {}$ is the target update rate.
-
-For $i \in {\{ 1,2\}}$, the critic weights $\phi_{i}$ are optimized by minimizing the Bellman loss
-
-where the target value is
+For $i\in\{1,2\}$, the critic weights $\phi_{i}$ are optimized by minimizing the Bellman loss where the target value is
 
 ## FlashSAC
 
@@ -120,11 +112,9 @@ Batch normalization computes statistics per batch, so the predicted Q-values and
 
 ### Distributional Critic with Adaptive Reward Scaling
 
-Following, we represent the Q-value as a categorical distribution over $n_{\text{atom}}$ atoms uniformly spaced on $\lbrack G_{\min},G_{\max}\rbrack$. The network predicts atom probabilities and is trained via cross-entropy loss against the projected Bellman target. This distributional formulation smooths the optimization landscape and reduces sensitivity to noisy targets.
+Following, we represent the Q-value as a categorical distribution over $n_{\text{atom}}$ atoms uniformly spaced on $[G_{\min},G_{\max}]$. The network predicts atom probabilities and is trained via cross-entropy loss against the projected Bellman target. This distributional formulation smooths the optimization landscape and reduces sensitivity to noisy targets.
 
-To keep returns within the distributional critic's fixed support, we normalize rewards directly rather than centering returns or scaling losses. We track the running discounted return variance $\sigma_{t,G}^{2}$ and maximum magnitude $G_{t,\max}$, and scale as:
-
-This bounds effective returns while maintaining a consistent scale throughout training.
+To keep returns within the distributional critic's fixed support, we normalize rewards directly rather than centering returns or scaling losses. We track the running discounted return variance $\sigma^{2}_{t,G}$ and maximum magnitude $G_{t,\max}$, and scale as: This bounds effective returns while maintaining a consistent scale throughout training.
 
 ### Weight Normalization
 
@@ -136,15 +126,13 @@ Off-policy RL can decouple data collection from policy optimization, allowing ex
 
 ### Unified Entropy Target
 
-Maximum-entropy RL with automatic temperature tuning encourages sustained exploration, but requires specifying a target entropy. Standard practice sets this target per task, which is impractical across embodiments with varying action dimensions. We instead parameterize the target entropy via a fixed action standard deviation $\sigma_{\text{tgt}}$. For a Gaussian policy with diagonal covariance, this gives:
-
-which scales linearly with action dimension, ensuring consistent exploration across embodiments without per-task tuning. We set $\sigma_{\text{tgt}} = 0.15$ in all experiments.
+Maximum-entropy RL with automatic temperature tuning encourages sustained exploration, but requires specifying a target entropy. Standard practice sets this target per task, which is impractical across embodiments with varying action dimensions. We instead parameterize the target entropy via a fixed action standard deviation $\sigma_{\text{tgt}}$. For a Gaussian policy with diagonal covariance, this gives: which scales linearly with action dimension, ensuring consistent exploration across embodiments without per-task tuning. We set $\sigma_{\text{tgt}}=0.15$ in all experiments.
 
 ### Noise Repetition
 
 Temporally correlated action noise is commonly used to improve exploration in sparse-reward settings, with pink noise and Ornstein--Uhlenbeck noise being widely used. However, these methods are ill-suited to massively parallel simulations, as they require per-environment correlated-noise processes, which incur substantial computational and memory overhead.
 
-We propose *Noise Repetition*, a lightweight alternative that induces temporal correlation using minimal local state. At each repetition interval, a noise vector $\epsilon \sim {\mathcal{N}{(0,I)}}$ is sampled for action selection and held constant for $k$ consecutive steps. The repetition length $k$ is drawn from a Zeta distribution with probability mass function ${P{(k)}} \propto k^{- s}$, favoring short repeat intervals while occasionally producing long, correlated action sequences.
+We propose *Noise Repetition*, a lightweight alternative that induces temporal correlation using minimal local state. At each repetition interval, a noise vector $\epsilon\sim\mathcal{N}(0,I)$ is sampled for action selection and held constant for $k$ consecutive steps. The repetition length $k$ is drawn from a Zeta distribution with probability mass function $P(k)\propto k^{-s}$, favoring short repeat intervals while occasionally producing long, correlated action sequences.
 
 ## Experiments
 
@@ -158,23 +146,19 @@ Figure 3: \textbfsResults on State-Based RL, GPU-based Simulators. Learning curv
 
 We evaluate on 25 state-based control tasks drawn from four GPU-based simulators: IsaacLab, MuJoCo Playground, ManiSkill3, and Genesis, all of which enable large-scale sample collection at minimal wall-clock cost.
 
-The tasks span a wide range of state--action dimensionalities:
-
-Low-dim (15 tasks): Gripper-based manipulation (Franka) and quadruped locomotion (AnyMal-C/D, Unitree Go2).
+The tasks span a wide range of state--action dimensionalities: Low-dim (15 tasks): Gripper-based manipulation (Franka) and quadruped locomotion (AnyMal-C/D, Unitree Go2).
 
 High-dim (10 tasks): Dexterous manipulation (Allegro, Shadow Hand) and humanoid locomotion (Unitree G1, H1, Booster T1).
 
 A complete task list is provided in § 9.
 
-We compare FlashSAC against strong, widely adopted baselines:
-
-PPO: A highly optimized on-policy implementation from RSL-RL, representative of current best practices in sim-to-real robotic RL.
+We compare FlashSAC against strong, widely adopted baselines: PPO: A highly optimized on-policy implementation from RSL-RL, representative of current best practices in sim-to-real robotic RL.
 
 FastTD3: A wall-clock--optimized off-policy method designed for high throughput simulations.
 
 Whenever available, we report published results; otherwise, we reproduce results using official implementations.
 
-Off-policy methods (FlashSAC and FastTD3) are trained for 50M environment steps. To probe asymptotic performance, PPO is trained for 200M steps, requiring approximately $3 \times$ the compute of FlashSAC. While baseline methods use task-specific hyperparameter tuning, FlashSAC is evaluated using a single unified configuration across all tasks, varying only the discount factor $\gamma$ to match simulator defaults (e.g., $0.99$ for IsaacLab, $0.97$ for Playground).
+Off-policy methods (FlashSAC and FastTD3) are trained for 50M environment steps. To probe asymptotic performance, PPO is trained for 200M steps, requiring approximately $3\times$ the compute of FlashSAC. While baseline methods use task-specific hyperparameter tuning, FlashSAC is evaluated using a single unified configuration across all tasks, varying only the discount factor $\gamma$ to match simulator defaults (e.g., $0.99$ for IsaacLab, $0.97$ for Playground).
 
 ### Experimental Results
 
@@ -194,9 +178,7 @@ Figure 4: \textbfsResults on State-Based RL, CPU-based Simulators. Learning curv
 
 We further evaluate FlashSAC on 40 single-environment, CPU-based continuous-control tasks drawn from four established benchmarks: MuJoCo, DeepMind Control Suite, MyoSuite, and HumanoidBench. Unlike GPU-based simulators, these benchmarks use a single environment instance, placing greater emphasis on sample efficiency rather than wall-clock throughput.
 
-We compare FlashSAC against strong sample-efficient baselines:
-
-PPO: A highly optimized on-policy implementation from RSL-RL, included to assess whether on-policy methods remain viable in the low-sample regime.
+We compare FlashSAC against strong sample-efficient baselines: PPO: A highly optimized on-policy implementation from RSL-RL, included to assess whether on-policy methods remain viable in the low-sample regime.
 
 XQC: A recent off-policy method coupled with batch-normalization designed for high sample efficiency.
 
@@ -220,9 +202,7 @@ These results confirm that the design choices in FlashSAC generalize beyond mass
 
 We extend our evaluation to vision-based control, where high rendering cost and low environment throughput severely limit the number of transitions collected per unit time, making data efficiency critical. We evaluate on 8 tasks from the DMControl Suite, spanning manipulation and mono/bi-pedal locomotion. A complete task list is provided in § 9.
 
-Given the low throughput of visual environments, we focus on off-policy baselines:
-
-DrQ-v2: A DDPG-based method that improves data efficiency through image augmentation.
+Given the low throughput of visual environments, we focus on off-policy baselines: DrQ-v2: A DDPG-based method that improves data efficiency through image augmentation.
 
 MR.Q: An off-policy method that incorporates a dynamics modeling objective to improve representation learning.
 
@@ -296,7 +276,7 @@ Figure 10.(a) shows the effect of varying the entropy target $\sigma_{tgt}$ acro
 
 Figure 10.(b) compares training with and without noise repetition. Disabling noise repeat leads to slower convergence and lower aggregate scores, confirming that temporally correlated exploration is crucial for FlashSAC. Repeating sampled action noise across consecutive steps produces coherent exploratory trajectories rather than uncorrelated perturbations that are quickly averaged out by the dynamics in high-dimensional control tasks.
 
-Figure 10: \textbfsExploration Ablation Results. \textbfs(a) Unified entropy target: The optimal entropy target σt g tlies in the range 0.15 to 0.2 across tasks, enabling a unified setting without task-specific tuning. \textbfs(b) Noise repetition: Repeating action noise accelerates convergence and improves asymptotic performance.
+Figure 10: \textbfsExploration Ablation Results. \textbfs(a) Unified entropy target: The optimal entropy target σtgtlies in the range 0.15 to 0.2 across tasks, enabling a unified setting without task-specific tuning. \textbfs(b) Noise repetition: Repeating action noise accelerates convergence and improves asymptotic performance.
 
 ## Lessons and Opportunities
 

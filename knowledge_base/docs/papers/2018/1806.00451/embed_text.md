@@ -1,20 +1,12 @@
 ## Introduction
 
-Over the past five years, machine learning has become a decidedly experimental field. Driven by a surge of research in deep learning, the majority of published papers has embraced a paradigm where the main justification for a new learning technique is its improved performance on a few key benchmarks. At the same time, there are few explanations as to *why* a proposed technique is a reliable improvement over prior work. Instead, our sense of progress largely rests on a small number of standard benchmarks such as CIFAR-10, ImageNet, or MuJoCo. This raises a crucial question:
-
-*How reliable are our current measures of progress in machine learning?*
-
-Properly evaluating progress in machine learning is subtle. After all, the goal of a learning algorithm is to produce a model that generalizes well to *unseen data*. Since we usually do not have access to the ground truth data distribution, we instead evaluate a model's performance on a separate test set. This is indeed a principled evaluation protocol, *as long as we do not use the test set to select our models.*
-
-Unfortunately, we typically have limited access to new data from the same distribution. It is now commonly accepted to re-use the same test set multiple times throughout the algorithm and model design process. Examples of this practice are abundant and include both tuning hyperparameters (number of layers, etc.) within a single publication, and building on other researchers' work across publications. While there is a natural desire to compare new models to previous results, it is evident that the current research methodology undermines the key assumption that the classifiers are independent of the test set. This mismatch presents a clear danger because the research community could easily be designing models that only work well on the specific test set but actually fail to generalize to new data.
+Over the past five years, machine learning has become a decidedly experimental field. Driven by a surge of research in deep learning, the majority of published papers has embraced a paradigm where the main justification for a new learning technique is its improved performance on a few key benchmarks. At the same time, there are few explanations as to *why* a proposed technique is a reliable improvement over prior work. Instead, our sense of progress largely rests on a small number of standard benchmarks such as CIFAR-10, ImageNet, or MuJoCo. This raises a crucial question: *How reliable are our current measures of progress in machine learning?* Properly evaluating progress in machine learning is subtle. After all, the goal of a learning algorithm is to produce a model that generalizes well to *unseen data*. Since we usually do not have access to the ground truth data distribution, we instead evaluate a model's performance on a separate test set. This is indeed a principled evaluation protocol, *as long as we do not use the test set to select our models.* Unfortunately, we typically have limited access to new data from the same distribution. It is now commonly accepted to re-use the same test set multiple times throughout the algorithm and model design process. Examples of this practice are abundant and include both tuning hyperparameters (number of layers, etc.) within a single publication, and building on other researchers' work across publications. While there is a natural desire to compare new models to previous results, it is evident that the current research methodology undermines the key assumption that the classifiers are independent of the test set. This mismatch presents a clear danger because the research community could easily be designing models that only work well on the specific test set but actually fail to generalize to new data.
 
 ### Reproducibility Study on CIFAR-10
 
 To understand how reliable current progress in machine learning is, we design and conduct a new type of reproducibility study. Its main goal is to measure how well contemporary classifiers generalize to new, truly unseen data from the same distribution. We focus on the standard CIFAR-10 dataset since its transparent creation process makes it particularly well suited to this task. Moreover, CIFAR-10 has been the focus of intense research for almost 10 years now. Due to the competitive nature of this process, it is an excellent test case for investigating whether adaptivity has led to overfitting.
 
-Our study proceeds in three steps:
-
-First, we curate a new test set where we carefully match the *sub*-class distribution of our new test set to the original CIFAR-10 dataset.
+Our study proceeds in three steps: First, we curate a new test set where we carefully match the *sub*-class distribution of our new test set to the original CIFAR-10 dataset.
 
 After collecting about 2000 new images, we evaluate the performance of 30 image classification models on our new test set. The results show two overarching phenomena. On the one hand, there is a significant drop in accuracy from the original test set to our new test set. For instance, VGG and ResNet architectures drop from their well-established 93% accuracy to about 85% on our new test set. On the other hand, we find the performance on the existing test set to be highly predictive of the performance on our new test set. Even small incremental improvements on CIFAR-10 often transfer to truly held-out data.
 
@@ -26,19 +18,11 @@ But our results also cast doubt on the robustness of current classifiers. While 
 
 ## Formal Setup
 
-Before we describe our specific experiment on CIFAR-10, we start with a formal description of our problem of interest. We adopt the standard classification setup and posit the existence of a "true" underlying data distribution $\mathcal{D}$ over labeled examples $(x,y)$. The goal is to find a model $\hat{f}$ that minimizes the population loss
-
-Since we usually do not know the distribution $\mathcal{D}$, we instead measure the performance of a trained classifier via a *test set* $D_{\text{test}}$ drawn from the distribution $\mathcal{D}$:
-
-For a sufficiently large test set $D_{\text{test}}$, standard concentration results show that $L_{D_{\text{test}}}{(\hat{f})}$ is a good approximation of $L_{\mathcal{D}}{(\hat{f})}$ as long as the classifier $\hat{f}$ does not depend on $D_{\text{test}}$. This is arguably the core assumption underlying machine learning since it allows us to argue that our classifier $\hat{f}$ truly *generalizes* (as opposed to say only memorizing the data). So if we collect a new test set $D_{\text{test}}^{\prime}$ from the same distribution $\mathcal{D}$, we would expect that the accuracies match up to confidence intervals given by the inherent sampling error:
-
-However, it is often hard to argue when a new test set is drawn from exactly the same distribution $\mathcal{D}$ since we usually lack a precise definition of this distribution. So to obtain truly i.i.d. test sets, we ideally would have collected a larger initial dataset that we then randomly split into $D_{\text{train}}$, $D_{\text{test}}$, and $D_{\text{test}}^{\prime}$. Unfortunately, we usually do not have such an exact setup to reproduce accuracy numbers on a new test set. In this paper, we instead mimic the data generating distribution $\mathcal{D}$ as closely as possible by repeating the dataset creation process that originally derived $D_{\text{train}}$ and $D_{\text{test}}$ from a larger dataset. While this method does not necessarily generate a test set that is an i.i.d. draw from the original data generating distribution, it is a close approximation.
+Before we describe our specific experiment on CIFAR-10, we start with a formal description of our problem of interest. We adopt the standard classification setup and posit the existence of a "true" underlying data distribution $\mathcal{D}$ over labeled examples $(x,y)$. The goal is to find a model $\hat{f}$ that minimizes the population loss Since we usually do not know the distribution $\mathcal{D}$, we instead measure the performance of a trained classifier via a *test set* $D_{\text{test}}$ drawn from the distribution $\mathcal{D}$: For a sufficiently large test set $D_{\text{test}}$, standard concentration results show that $L_{D_{\text{test}}}{(\hat{f})}$ is a good approximation of $L_{\mathcal{D}}{(\hat{f})}$ as long as the classifier $\hat{f}$ does not depend on $D_{\text{test}}$. This is arguably the core assumption underlying machine learning since it allows us to argue that our classifier $\hat{f}$ truly *generalizes* (as opposed to say only memorizing the data). So if we collect a new test set $D_{\text{test}}'$ from the same distribution $\mathcal{D}$, we would expect that the accuracies match up to confidence intervals given by the inherent sampling error: However, it is often hard to argue when a new test set is drawn from exactly the same distribution $\mathcal{D}$ since we usually lack a precise definition of this distribution. So to obtain truly i.i.d. test sets, we ideally would have collected a larger initial dataset that we then randomly split into $D_{\text{train}}$, $D_{\text{test}}$, and $D_{\text{test}}'$. Unfortunately, we usually do not have such an exact setup to reproduce accuracy numbers on a new test set. In this paper, we instead mimic the data generating distribution $\mathcal{D}$ as closely as possible by repeating the dataset creation process that originally derived $D_{\text{train}}$ and $D_{\text{test}}$ from a larger dataset. While this method does not necessarily generate a test set that is an i.i.d. draw from the original data generating distribution, it is a close approximation.
 
 ## Dataset Creation Methodology
 
-To investigate how well current image classifiers generalize to truly unseen data, we collect a new test set for the CIFAR-10 image classification dataset. There are multiple reasons for this choice:
-
-CIFAR-10 is currently one of the most widely used datasets in machine learning and serves as a test ground for many computer vision methods. A concrete measure of popularity is the fact that CIFAR-10 was the second most common dataset in NIPS 2017 (after MNIST).
+To investigate how well current image classifiers generalize to truly unseen data, we collect a new test set for the CIFAR-10 image classification dataset. There are multiple reasons for this choice: CIFAR-10 is currently one of the most widely used datasets in machine learning and serves as a test ground for many computer vision methods. A concrete measure of popularity is the fact that CIFAR-10 was the second most common dataset in NIPS 2017 (after MNIST).
 
 The dataset creation process for CIFAR-10 is transparent and well documented. Importantly, CIFAR-10 draws from the larger Tiny Images repository that has significantly more fine-grained labels. This makes it possible to conduct an experiment where we minimize various forms of distribution shift in our new test set.
 
@@ -60,7 +44,7 @@ The CIFAR-10 creation process is well-documented. First, the researchers assembl
 
 ### Building the New Test Set
 
-Our overall goal was to create a new test set that is as close as possible to being drawn from the same distribution as the original CIFAR-10 dataset. One crucial aspect here is that the CIFAR-10 dataset did not exhaust any of the Tiny Image keywords it is drawn from. So by collecting new images from the same keywords as CIFAR-10, our new test set can match the sub-class distribution of the original dataset.
+Our overall goal was to create a new test set that is as close as possible to being drawn from the same distribution as the original CIFAR-10 dataset. One crucial aspect here is that the CIFAR-10 dataset did not exhaust any of the Tiny Image keywords it is drawn . So by collecting new images from the same keywords as CIFAR-10, our new test set can match the sub-class distribution of the original dataset.
 
 ### Understanding the Sub-Class Distribution
 
@@ -70,9 +54,7 @@ The keyword distribution can be found in Appendix E. Inspecting this list reveal
 
 ### Collecting New Images
 
-After determining the keywords, we collected corresponding images. To simulate the student / researcher split in the original CIFAR-10 collection procedure, we introduced a similar split among two authors of this paper. Author A took the role of the original student annotators and selected new suitable images for the 250 keywords. In order to ensure a close match between the original and new images for each keyword, we built a user interface that allowed Author A to first look through existing CIFAR-10 images for a given keyword and then select new candidates from the remaining pictures in Tiny Images. Author A followed the labeling guidelines in the original instruction sheet. The number of images Author A selected per keyword was so that our final dataset would contain between 2,000 and 4,000 images. We decided on 2,000 images as a target number for two reasons:
-
-While the original CIFAR-10 test set contains 10,000 images, a test set of size 2,000 is already sufficient for a fairly small confidence interval. In particular, a conservative confidence interval (Clopper-Pearson at confidence level 95%) for accuracy 90% has size about $\pm {1\%}$ with $n =$ 2,000 (to be precise, $\lbrack{88.6\%},{\, 91.3\%}\rbrack$). Since we considered a potential discrepancy between original and new test accuracy only interesting if it was significantly larger than 1%, we decided that a new test set of size 2,000 was large enough for our study.
+After determining the keywords, we collected corresponding images. To simulate the student / researcher split in the original CIFAR-10 collection procedure, we introduced a similar split among two authors of this paper. Author A took the role of the original student annotators and selected new suitable images for the 250 keywords. In order to ensure a close match between the original and new images for each keyword, we built a user interface that allowed Author A to first look through existing CIFAR-10 images for a given keyword and then select new candidates from the remaining pictures in Tiny Images. Author A followed the labeling guidelines in the original instruction sheet. The number of images Author A selected per keyword was so that our final dataset would contain between 2,000 and 4,000 images. We decided on 2,000 images as a target number for two reasons: While the original CIFAR-10 test set contains 10,000 images, a test set of size 2,000 is already sufficient for a fairly small confidence interval. In particular, a conservative confidence interval (Clopper-Pearson at confidence level 95%) for accuracy 90% has size about $\pm {1\%}$ with $n =$ 2,000 (to be precise, $\lbrack{88.6\%},{\, 91.3\%}\rbrack$). Since we considered a potential discrepancy between original and new test accuracy only interesting if it was significantly larger than 1%, we decided that a new test set of size 2,000 was large enough for our study.
 
 As with very infrequent keywords, our goal was to avoid accidentally creating a harder test set. Since some of the Tiny Image keywords have only a limited supply of remaining adequate images, we decided that a smaller target size for the new dataset would reduce bias to include images of more questionable difficulty.
 
@@ -102,39 +84,15 @@ In terms of *relative* error, the models with higher original accuracy tend to h
 
 ### Few Changes in the Relative Order
 
-When sorting the models in order of their original and new accuracy, there are few changes in the overall ranking. Models with comparable original accuracy tend to see a similar decrease in performance. In fact, Figure 2 shows that the relationship between original and new accuracy can be explained well with a linear function derived from a least squares fit. The new accuracy of a model is roughly given by the following formula:
+When sorting the models in order of their original and new accuracy, there are few changes in the overall ranking. Models with comparable original accuracy tend to see a similar decrease in performance. In fact, Figure 2 shows that the relationship between original and new accuracy can be explained well with a linear function derived from a least squares fit. The new accuracy of a model is roughly given by the following formula: On the other hand, it is worth noting that some techniques give a consistently larger increase on the new test set. For instance, adding the Cutout data augmentation to a shake_shake_64d network adds only 0.12% accuracy on the original test set but gives an accuracy increase of about 1.5% on the new test set. Similarly, adding Cutout to a wide_resnet_28_10 classifiers improves the accuracy by about 1% on the original test set and 2.2% on the new test set. As another example, note that increasing the *width* of a ResNet as opposed to its *depth* provides larger benefits on the new test set. shake_shake_64d_cutout wide_resnet_28_10_cutout neural_architecture_search random_features_256k_aug random_features_32k_aug Table 1: Model accuracy on the original CIFAR-10 test set and the new test set, with the gap reported as the difference between the two accuracies. Δ Rank is the relative difference in the ranking from the original test set to the new test set. For example, Δ Rank = −2 means a model dropped in the rankings by two positions on the new test set.
 
-On the other hand, it is worth noting that some techniques give a consistently larger increase on the new test set. For instance, adding the Cutout data augmentation to a shake_shake_64d network adds only 0.12% accuracy on the original test set but gives an accuracy increase of about 1.5% on the new test set. Similarly, adding Cutout to a wide_resnet_28_10 classifiers improves the accuracy by about 1% on the original test set and 2.2% on the new test set. As another example, note that increasing the *width* of a ResNet as opposed to its *depth* provides larger benefits on the new test set.
-
-shake_shake_64d_cutout
-
-wide_resnet_28_10_cutout
-
-neural_architecture_search
-
-random_features_256k_aug
-
-random_features_32k_aug
-
-Table 1: Model accuracy on the original CIFAR-10 test set and the new test set, with the gap reported as the difference between the two accuracies. Δ Rank is the relative difference in the ranking from the original test set to the new test set. For example, Δ Rank = −2 means a model dropped in the rankings by two positions on the new test set.
-
-(b) High accuracy models
-
-Figure 2: Model accuracy on new test set vs. model accuracy on original test set.
+(b) High accuracy models Figure 2: Model accuracy on new test set vs. model accuracy on original test set.
 
 ### Model for the Linear Fit
 
-Though the linear fit observed in Figure 2 rules out that the new test set is identically distributed as the original test set, the linear relationship between the old and new test errors is striking. There are a variety of plausible explanations for this effect. For instance, posit that the original test set is composed of two sub-populations. On the "easy" sub-population, a classifier achieves an accuracy of $a_{0}$. The "hard" sub-population is $\kappa$ times more difficult in the sense that the classification error on these examples is $\kappa$ times larger. Hence the accuracy on this sub-population is $1 - {\kappa{({1 - a_{0}})}}$. If the relative frequencies of these two sub-populations are $p_{1}$ and $p_{2}$, we get the following overall accuracy:
+Though the linear fit observed in Figure 2 rules out that the new test set is identically distributed as the original test set, the linear relationship between the old and new test errors is striking. There are a variety of plausible explanations for this effect. For instance, posit that the original test set is composed of two sub-populations. On the "easy" sub-population, a classifier achieves an accuracy of $a_{0}$. The "hard" sub-population is $\kappa$ times more difficult in the sense that the classification error on these examples is $\kappa$ times larger. Hence the accuracy on this sub-population is $1 - {\kappa{({1 - a_{0}})}}$. If the relative frequencies of these two sub-populations are $p_{1}$ and $p_{2}$, we get the following overall accuracy: which we can rewrite as a simple linear function of $a_{0}$: For the new test set, we also assume a mixture distribution consisting of a different proportion of the same two components, with relative frequencies now $q_{1}$ and $q_{2}$. We can then write the accuracy on the new test set as where we collected terms into a simple linear function as before.
 
-which we can rewrite as a simple linear function of $a_{0}$:
-
-For the new test set, we also assume a mixture distribution consisting of a different proportion of the same two components, with relative frequencies now $q_{1}$ and $q_{2}$. We can then write the accuracy on the new test set as
-
-where we collected terms into a simple linear function as before.
-
-It is now easy to see that the new accuracy is indeed a linear function of the original accuracy:
-
-We remark that we do not see this mixture model as a ground truth explanation, but rather as an illustrative example for how a linear dependency between the original and new test accuracies naturally arises with small distribution shifts between data sets. In reality, the two test sets have a more complex composition with different accuracies on various sub-populations. Nevertheless, this model reveals surprising sensitivities can exist from distribution shift even while relative ordering of classifiers remain constant. We hope that such sensitivities to distribution shift can be experimentally validated in future work.
+It is now easy to see that the new accuracy is indeed a linear function of the original accuracy: We remark that we do not see this mixture model as a ground truth explanation, but rather as an illustrative example for how a linear dependency between the original and new test accuracies naturally arises with small distribution shifts between data sets. In reality, the two test sets have a more complex composition with different accuracies on various sub-populations. Nevertheless, this model reveals surprising sensitivities can exist from distribution shift even while relative ordering of classifiers remain constant. We hope that such sensitivities to distribution shift can be experimentally validated in future work.
 
 ## Explaining the Gap
 
@@ -154,9 +112,7 @@ For completeness, we describe our process for finding near duplicates in detail.
 
 Another conjecture is that we can recover some of the missing accuracy by re-tuning hyperparameters of a model. To this end, we performed a grid search over multiple parameters of a VGG model. We selected three standard hyperparameters known to strongly influence test set performance: initial learning rate, dropout, and weight decay. The vgg16_keras architecture uses different amounts of dropout across different layers of the network, so we chose to tune a multiplicative scaling factor for the amount of dropout, keeping the ratio of dropout across different layers constant.
 
-We initialized a hyperparameter configuration from values tuned to the original test set (learning rate = $0.1$, dropout ratio = $1$, weight decay = ${5e} - 4$), and performed a grid search across the following values:
-
-We ensured that the best performance was never at an extreme point of any of the ranges we tested for an individual hyperparameter. However, we did not find a setting with a significantly better accuracy on the new test set (the biggest improvement was from 85.25% to 85.84%).
+We initialized a hyperparameter configuration from values tuned to the original test set (learning rate = $0.1$, dropout ratio = $1$, weight decay = ${5e} - 4$), and performed a grid search across the following values: We ensured that the best performance was never at an extreme point of any of the ranges we tested for an individual hyperparameter. However, we did not find a setting with a significantly better accuracy on the new test set (the biggest improvement was from 85.25% to 85.84%).
 
 ### Inspecting hard images
 
@@ -172,19 +128,13 @@ We conducted this experiment by randomly drawing a class-balanced split containi
 
 Since cross-validation is a more principled way of measuring a model's generalization ability, we tested if cross-validation on the original CIFAR-10 dataset could predict a model's error on our new test set. We created cross-validation data by randomly dividing the training set into 5 class-balanced splits. We then randomly shuffled together 4 out of the 5 training splits with toe original test set. The leftover held-out split from the training set then became the new test set.
 
-We retrained the models vgg_15_BN_64, wide_resnet_28_10, and shake_shake_64d_cutout on each of the 5 new datasets we created. The accuracies are reported in Table 2. The accuracies on each of the cross validation splits did not vary much from the accuracies on the original test set.
-
-shake_shake_64d_cutout
-
-Table 2: Model Accuracies on cross validation splits
+We retrained the models vgg_15_BN_64, wide_resnet_28_10, and shake_shake_64d_cutout on each of the 5 new datasets we created. The accuracies are reported in Table 2. The accuracies on each of the cross validation splits did not vary much from the accuracies on the original test set. shake_shake_64d_cutout Table 2: Model Accuracies on cross validation splits
 
 ## Discussion
 
 ### Overfitting
 
-Do our experiments reveal overfitting? This is arguably the main question when interpreting our results. To be precise, we first define two notions of overfitting:
-
-Training set overfitting. One way to quantify overfitting is as the difference between the training accuracy and the test accuracy. Note that the deep neural networks in our experiments usually achieve 100% training accuracy. So this notion of overfitting already occurs on the existing dataset.
+Do our experiments reveal overfitting? This is arguably the main question when interpreting our results. To be precise, we first define two notions of overfitting: Training set overfitting. One way to quantify overfitting is as the difference between the training accuracy and the test accuracy. Note that the deep neural networks in our experiments usually achieve 100% training accuracy. So this notion of overfitting already occurs on the existing dataset.
 
 Test set overfitting. Another notion of overfitting is the gap between the test accuracy and the accuracy on the underlying data distribution. By adapting model design choices to the test set, the concern is that we implicitly fit the model to the test set. The test accuracy then loses its validity as an accurate measure of performance on truly unseen data.
 

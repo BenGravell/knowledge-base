@@ -4,9 +4,7 @@ Markov decision problems (MDP) are known to suffer from the curse of dimensional
 
 Let us consider MDP with structural knowledges. Suppose that each state-action pair $(s,a)$ admits a feature vector ${\phi{(s,a)}} \in {\mathbb{R}}^{K}$ that can express the transition dynamics conditioning on $(s,a)$. In practice, the abstract state variable $s$ can be a sequence of historical records or a raw-pixel image, containing much information that is not related to the decision process. More general settings of MDP with structural knowledges have been considered in Azizzadenesheli et al.; Jiang et al. and references therein.
 
-In this paper, we focus on an important and very basic class of structured MDP, where the features can represent transition distributions $P{( \cdot \mid \cdot )}$ through an unknown linear additive model. The feature-based linear transition model is related to the commonly used linear Q-function model. We show that they are essentially equivalent when there is zero Bellman error (a notion introduced in Munos and Szepesvári ). A similar argument has been made in Parr et al.. It also contains as a special case the soft state aggregation model Singh et al.; Duan et al.. In this setting, we will study the theoretic sample complexity for learning a good policy by querying state-transition samples. We also aim to develop efficient policy learning algorithms with provable sample efficiency. We study the following two questions:
-
-Q1: How many observations of state-action-state transitions are necessary for finding an $\epsilon$-optimal policy?
+In this paper, we focus on an important and very basic class of structured MDP, where the features can represent transition distributions $P{(\cdot \mid \cdot)}$ through an unknown linear additive model. The feature-based linear transition model is related to the commonly used linear Q-function model. We show that they are essentially equivalent when there is zero Bellman error (a notion introduced in Munos and Szepesvári). A similar argument has been made in Parr et al.. It also contains as a special case the soft state aggregation model Singh et al.; Duan et al.. In this setting, we will study the theoretic sample complexity for learning a good policy by querying state-transition samples. We also aim to develop efficient policy learning algorithms with provable sample efficiency. We study the following two questions: Q1: How many observations of state-action-state transitions are necessary for finding an $\epsilon$-optimal policy?
 
 Q2: How many samples are sufficient for finding an $\epsilon$-optimal policy with high probability and how to find it?
 
@@ -14,9 +12,7 @@ To answer Q1, an information-theoretic lower bound is provided (Theorem 1. ‣ 3
 
 To answer Q2, we develop Q-learning-like algorithms that take as input state-transition samples and output a parameterized policy. A basic parametric Q-learning algorithm performs approximate value-iteration estimates on a few points of the Q function, so that actual updates happen on the parameters. This idea originates from the phased Q-learning Kearns and Singh and the fitted value iteration Munos and Szepesvári; Antos et al.. Our algorithm is simpler and does not require function fitting. Convergence and approximation error analysis is provided even when the MDP cannot be fully expressed using the features. Despite its simplicity, the basic algorithm has complexity $\overset{\sim}{O}\left( \frac{K}{{({1 - \gamma})}^{7} \cdot \epsilon^{2}} \right)$, which is not sample-optimal.
 
-Furthermore, we develop an accelerated version of parametric Q-learning that involves taking mini-batches, computing confidence bounds, and using monotonicity-preserving and variance reduction techniques. It uses some ideas from fast solvers of tabular MDP Sidford et al.. To fully exploit the monotonicity property of the Bellman operator in the algorithm, we need an additional "anchor" assumption, i.e., there exists a (small) set of state-actions that can represent the remaining ones using convex combinations. The "anchors" can be viewed as vertices of the state-action space, and implies an intrinsic nonnegativity in the feature space which is needed for monotonic policy improvement. We show that the algorithm takes just enough samples per update to keep the value/policy iterates within a sequence of narrow confidence regions that monotonically improve to the near-optimal solutions. It finds an $\epsilon$-optimal policy (regardless of the initial state) with probability at least $1 - \delta$ using
-
-samples. It matches the information-theoretic lower bound up to $\log{( \cdot )}$ factors, thus the algorithm is nearly sample-optimal. If $\gamma = 0.99$, this algorithm is ${({1 - \gamma})}^{- 4} = 10^{8}$ times faster than the basic algorithm.
+Furthermore, we develop an accelerated version of parametric Q-learning that involves taking mini-batches, computing confidence bounds, and using monotonicity-preserving and variance reduction techniques. It uses some ideas from fast solvers of tabular MDP Sidford et al.. To fully exploit the monotonicity property of the Bellman operator in the algorithm, we need an additional "anchor" assumption, i.e., there exists a (small) set of state-actions that can represent the remaining ones using convex combinations. The "anchors" can be viewed as vertices of the state-action space, and implies an intrinsic nonnegativity in the feature space which is needed for monotonic policy improvement. We show that the algorithm takes just enough samples per update to keep the value/policy iterates within a sequence of narrow confidence regions that monotonically improve to the near-optimal solutions. It finds an $\epsilon$-optimal policy (regardless of the initial state) with probability at least $1 - \delta$ using samples. It matches the information-theoretic lower bound up to $\log{(\cdot)}$ factors, thus the algorithm is nearly sample-optimal. If $\gamma = 0.99$, this algorithm is ${({1 - \gamma})}^{- 4} = 10^{8}$ times faster than the basic algorithm.
 
 Our model, algorithms and analyses relate to previous literatures on the sample complexity of tabular MDP, reinforcement learning with function approximation, linear models and etc. A detailed account for the related literatures is given in Section 6. All technical proofs are given in the appendix. To our best knowledge, this work provides the first sample-optimal algorithm and sharp complexity analysis (up to polylog factors) for MDP with linear models.
 
@@ -26,33 +22,17 @@ In this section we introduce the basics of Markov decision process and the featu
 
 ### Preliminaries
 
-In a *discounted Markov decision process* (DMDP or MDP for short), there is a finite set of *states* $\mathcal{S}$, a finite set of *actions* $\mathcal{A}$. Let $S = {|\mathcal{S}|}$ and $A = {|\mathcal{A}|}$. At any state $s \in \mathcal{S}$, an agent is allowed to play an action $a \in \mathcal{A}$. She receives an immediate reward ${r{(s,a)}} \in {\lbrack 0,1\rbrack}$ after playing $a$ at $s$, and then the process will transition to the next state $s^{\prime} \in \mathcal{S}$ with probability $P{(\left. s^{\prime} \middle| {s,a} \right.)}$, where $P$ is the collection of *transition distributions*. The full instance of MDP can be described by the tuple ${M = {(\mathcal{S},\mathcal{A},P,r,\gamma)}}.$ The agent would like to find a *policy* $\pi:{\mathcal{S}\rightarrow\mathcal{A}}$ that maximizes the long-term expected reward starting from every state $s$, i.e.,
+In a *discounted Markov decision process* (DMDP or MDP for short), there is a finite set of *states* $\mathcal{S}$, a finite set of *actions* $\mathcal{A}$. Let $S = {|\mathcal{S}|}$ and $A = {|\mathcal{A}|}$. At any state $s \in \mathcal{S}$, an agent is allowed to play an action $a \in \mathcal{A}$. She receives an immediate reward ${r{(s,a)}} \in {\lbrack 0,1\rbrack}$ after playing $a$ at $s$, and then the process will transition to the next state $s' \in \mathcal{S}$ with probability $P{(\left. s' \middle| {s,a} \right.)}$, where $P$ is the collection of *transition distributions*. The full instance of MDP can be described by the tuple ${M = {(\mathcal{S},\mathcal{A},P,r,\gamma)}}.$ The agent would like to find a *policy* $\pi:{\mathcal{S}\rightarrow\mathcal{A}}$ that maximizes the long-term expected reward starting from every state $s$, i.e., where $\gamma \in {}$ is a discount factor. We call $v^{\pi} \in {\mathbb{R}}^{\mathcal{S}}$ the *value function* of policy $\pi$. A policy $\pi^{\ast}$ is said to be *optimal* if it attains the maximal possible value at every state. In fact, it is known (see e.g. Puterman) that there is a *unique* optimal value function $v^{\ast}$ such that A policy $\pi$ is said to be *$\epsilon$-optimal* if it achieves near-optimal cumulative reward from any initial state, i.e., or equivalently ${\|{v^{\pi} - v^{\ast}}\|}_{\infty} \leq \epsilon$ for short. We denote the Bellman operator $\mathcal{T}:{{\mathbb{R}}^{\mathcal{S}}\rightarrow{\mathbb{R}}^{\mathcal{S}}}$ as A vector $v^{\ast}$ is the optimal value of the DMDP if and only if it satisfies the Bellman equation $v = {\mathcal{T}v}$.
 
-where $\gamma \in {}$ is a discount factor. We call $v^{\pi} \in {\mathbb{R}}^{\mathcal{S}}$ the *value function* of policy $\pi$. A policy $\pi^{\ast}$ is said to be *optimal* if it attains the maximal possible value at every state. In fact, it is known (see e.g. Puterman ) that there is a *unique* optimal value function $v^{\ast}$ such that
-
-A policy $\pi$ is said to be *$\epsilon$-optimal* if it achieves near-optimal cumulative reward from any initial state, i.e.,
-
-or equivalently ${\|{v^{\pi} - v^{\ast}}\|}_{\infty} \leq \epsilon$ for short. We denote the Bellman operator $\mathcal{T}:{{\mathbb{R}}^{\mathcal{S}}\rightarrow{\mathbb{R}}^{\mathcal{S}}}$ as
-
-A vector $v^{\ast}$ is the optimal value of the DMDP if and only if it satisfies the Bellman equation $v = {\mathcal{T}v}$.
-
-The Q-function of a policy $\pi$ is defined as ${Q^{\pi}{(s,a)}} = {{r{(s,a)}} + {\gamma{\sum_{s^{\prime}}{P{(\left. s^{\prime} \middle| {s,a} \right.)}v^{\pi}{(s^{\prime})}}}}}$, and the optimal Q-function is denoted by ${Q^{\ast} = Q^{\pi^{\ast}}}.$ We overload the notation $\mathcal{T}$ to also denote the Bellman operator in the space of Q-functions, i.e., $\mathcal{T}:{{\mathbb{R}}^{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}^{\mathcal{S} \times \mathcal{A}}}$ such that
-
-A vector $Q^{\ast} \in {\mathbb{R}}^{\mathcal{S} \times \mathcal{A}}$ is the optimal Q-function if and only if it satisfies the Bellman equation ${Q = {\mathcal{T}Q}}.$
-
-We use $O$,$\Omega$, $\Theta$ to denote leading orders, and we use $\overset{\sim}{O}$,$\overset{\sim}{\Omega}$, $\overset{\sim}{\Theta}$ to omit polylog factors. We use $\lesssim$ to denote "approximately less than" by ignoring non-leading order terms, constant and polylog factors.
+The Q-function of a policy $\pi$ is defined as ${Q^{\pi}{(s,a)}} = {{r{(s,a)}} + {\gamma{\sum_{s'}{P{(\left. s' \middle| {s,a} \right.)}v^{\pi}{(s')}}}}}$, and the optimal Q-function is denoted by ${Q^{\ast} = Q^{\pi^{\ast}}}.$ We overload the notation $\mathcal{T}$ to also denote the Bellman operator in the space of Q-functions, i.e., $\mathcal{T}:{{\mathbb{R}}^{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}^{\mathcal{S} \times \mathcal{A}}}$ such that A vector $Q^{\ast} \in {\mathbb{R}}^{\mathcal{S} \times \mathcal{A}}$ is the optimal Q-function if and only if it satisfies the Bellman equation ${Q = {\mathcal{T}Q}}.$ We use $O$,$\Omega$, $\Theta$ to denote leading orders, and we use $\overset{\sim}{O}$,$\overset{\sim}{\Omega}$, $\overset{\sim}{\Theta}$ to omit polylog factors. We use $\lesssim$ to denote "approximately less than" by ignoring non-leading order terms, constant and polylog factors.
 
 ### Feature-based Linear Transition Model
 
-We study Markov decision processes with structural knowledges. Suppose that the learning agent is given a set of $K$ feature functions ${\phi_{1},\phi_{2},\ldots,\phi_{K}}:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$. The feature $\phi$ maps the raw state and action $(s,a)$ into the $K$-dimensional vector
-
-Suppose the feature vector $\phi{(s,a)}$ is sufficient to express the future dynamics of the process conditioning on the current raw state and action. In particular, we focus on a basic linear model given below.
+We study Markov decision processes with structural knowledges. Suppose that the learning agent is given a set of $K$ feature functions ${\phi_{1},\phi_{2},\ldots,\phi_{K}}:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$. The feature $\phi$ maps the raw state and action $(s,a)$ into the $K$-dimensional vector Suppose the feature vector $\phi{(s,a)}$ is sufficient to express the future dynamics of the process conditioning on the current raw state and action. In particular, we focus on a basic linear model given below.
 
 ### Definition 1 (Feature-based Linear Transition Model)
 
-Consider a DMDP instance $M = {(\mathcal{S},\mathcal{A},P,r,\gamma)}$ and a feature map ${\phi:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}^{K}}}.$ We say that $M$ admits a linear feature representation $\phi$ if for every $s,a,s^{\prime}$,
-
-for some functions ${{\psi_{1},\ldots,\psi_{K}}:{\mathcal{S}\rightarrow{\mathbb{R}}}}.$ We denote the set of all such MDP instances as $\mathcal{M}^{trans}{(\mathcal{S},\mathcal{A},\gamma,\phi)}$. We denote $\mathcal{M}_{K}^{trans}{(\mathcal{S},\mathcal{A},\gamma)}$ the set of all DMDP instances that admits a $K$-dimensional feature representation.
+Consider a DMDP instance $M = {(\mathcal{S},\mathcal{A},P,r,\gamma)}$ and a feature map ${\phi:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}^{K}}}.$ We say that $M$ admits a linear feature representation $\phi$ if for every $s,a,s'$, for some functions ${{\psi_{1},\ldots,\psi_{K}}:{\mathcal{S}\rightarrow{\mathbb{R}}}}.$ We denote the set of all such MDP instances as $\mathcal{M}^{trans}{(\mathcal{S},\mathcal{A},\gamma,\phi)}$. We denote $\mathcal{M}_{K}^{trans}{(\mathcal{S},\mathcal{A},\gamma)}$ the set of all DMDP instances that admits a $K$-dimensional feature representation.
 
 ### Remark 1 (Independence of rewards)
 
@@ -80,27 +60,21 @@ Next we show that the two models are essentially "equivalent" in terms of expres
 
 ### Definition 2 (Bellman Error)
 
-Let $\mathcal{F} \subset {\mathbb{R}}^{\mathcal{S} \times \mathcal{A}}$ be a class of Q functions. Given the Bellman operator $\mathcal{T}$, the Bellman error of $\mathcal{F}$ is ${{d{({\mathcal{T}\mathcal{F}},\mathcal{F})}} = {\sup_{g \in \mathcal{F}}{\inf_{f \in \mathcal{F}}{\|{f - {\mathcal{T}g}}\|}}}}.$
-
-We show that the linear transition model is equivalent to the linear Q-function model with zero Bellman error.
+Let $\mathcal{F} \subset {\mathbb{R}}^{\mathcal{S} \times \mathcal{A}}$ be a class of Q functions. Given the Bellman operator $\mathcal{T}$, the Bellman error of $\mathcal{F}$ is ${{d{({\mathcal{T}\mathcal{F}},\mathcal{F})}} = {\sup_{g \in \mathcal{F}}{\inf_{f \in \mathcal{F}}{\|{f - {\mathcal{T}g}}\|}}}}.$ We show that the linear transition model is equivalent to the linear Q-function model with zero Bellman error.
 
 ### Proposition 2 (Equivalence to Zero Bellman Error)
 
-Let $M = {(\mathcal{S},\mathcal{A},P,r,\gamma)}$ be an MDP instance with the Bellman operator $\mathcal{T}$. Let $\phi:{\mathbb{R}}^{\mathcal{S} \times \mathcal{A}}$ be a feature map, and let $\mathcal{F} = {\text{Span}{(r,\phi)}}$. If $r \in \mathcal{F}$, then
-
-Suppose $Q^{\pi} \in {\text{Span}{(r,\phi)}}$ for all $\pi$'s. However, value-iteration-based method would still fail if the Bellman operator $\mathcal{T}$ does not preserve the $(r,\phi)$ representation. In contrast, if the Q-functions admit linear representations using $\phi$ but the transition kernel $P$ does not, the Bellman error can be arbitrarily large. The Bellman error may be large even after projection or function fitting - a common source of unstable and oscillating behaviors in approximate dynamic programming Tsitsiklis and Van Roy; Munos and Szepesvári.
+Let $M = {(\mathcal{S},\mathcal{A},P,r,\gamma)}$ be an MDP instance with the Bellman operator $\mathcal{T}$. Let $\phi:{\mathbb{R}}^{\mathcal{S} \times \mathcal{A}}$ be a feature map, and let $\mathcal{F} = {\text{Span}{(r,\phi)}}$. If $r \in \mathcal{F}$, then Suppose $Q^{\pi} \in {\text{Span}{(r,\phi)}}$ for all $\pi$'s. However, value-iteration-based method would still fail if the Bellman operator $\mathcal{T}$ does not preserve the $(r,\phi)$ representation. In contrast, if the Q-functions admit linear representations using $\phi$ but the transition kernel $P$ does not, the Bellman error can be arbitrarily large. The Bellman error may be large even after projection or function fitting - a common source of unstable and oscillating behaviors in approximate dynamic programming Tsitsiklis and Van Roy; Munos and Szepesvári.
 
 ## Information-Theoretic Sample Complexity
 
-Let us study the feature-based MDP model (Definition 1. ‣ 2.2 Feature-based Linear Transition Model ‣ 2 Markov Decision Process, Features, Linear Models ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")). It comes with the structural knowledge that each state-action pair $(s,a)$ can be represented by the feature vector ${\phi{(s,a)}} \in {\mathbb{R}}^{K}$. However, this model can not be parameterized by a small number of parameters. The full transition model with known feature map $\phi$ can not be specified unless all the unknown parameters ${\psi_{k}{(s^{\prime})}},$ for ${s^{\prime} \in S},{k \in {\lbrack K\rbrack}}$ are given. Its model size is ${S \times K},$ which can be arbitrarily large for arbitrarily large $S$.
+Let us study the feature-based MDP model (Definition 1. ‣ 2.2 Feature-based Linear Transition Model ‣ 2 Markov Decision Process, Features, Linear Models ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")). It comes with the structural knowledge that each state-action pair $(s,a)$ can be represented by the feature vector ${\phi{(s,a)}} \in {\mathbb{R}}^{K}$. However, this model can not be parameterized by a small number of parameters. The full transition model with known feature map $\phi$ can not be specified unless all the unknown parameters ${\psi_{k}{(s')}},$ for ${s' \in S},{k \in {\lbrack K\rbrack}}$ are given. Its model size is ${S \times K},$ which can be arbitrarily large for arbitrarily large $S$.
 
 Given the state-action features, we aim to learn a near-optimal parametrized policy using a small number of samples, which hopefully depends on $K$ but not $S$. Suppose that we are given a *generative model* Kakade where the agent is able to query transition samples and reward from any state-action pair ${(s,a)} \in {\mathcal{S} \times \mathcal{A}}$. Such a generative model is commonly available in simulation systems. To this end, we ask how many samples are necessary to obtain an approximate-optimal policy? Our first theorem provides a firm answer.
 
 ### Theorem 1 (Sample Complexity Lower Bound)
 
-Let $M = {(\mathcal{S},\mathcal{A},P,r,\gamma)}$ be an instance of DMDP, and let $\mathcal{A}$ be any algorithm that queries sample transitions of $M$ and outputs a policy. Let $\pi^{\mathcal{A},M,N}$ be the output of $\mathcal{A}$ using $N$ samples. Then
-
-provided $\epsilon \leq \epsilon_{0}$ for some $\epsilon_{0} \geq 0$.
+Let $M = {(\mathcal{S},\mathcal{A},P,r,\gamma)}$ be an instance of DMDP, and let $\mathcal{A}$ be any algorithm that queries sample transitions of $M$ and outputs a policy. Let $\pi^{\mathcal{A},M,N}$ be the output of $\mathcal{A}$ using $N$ samples. Then provided $\epsilon \leq \epsilon_{0}$ for some $\epsilon_{0} \geq 0$.
 
 Theorem 1. ‣ 3 Information-Theoretic Sample Complexity ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features") suggests that, in order to solve the feature-based MDP to precision level $\epsilon$ with probability at least $2/3$, any algorithm needs at least $\overset{\sim}{\Omega}\left( \frac{K}{{({1 - \gamma})}^{3} \cdot \epsilon^{2}} \right)$ sample transitions in the worst case.
 
@@ -112,27 +86,17 @@ We develop a Q-learning algorithm for MDP admitting feature representations prov
 
 ### Algorithm
 
-Recall that phased Q-Learning Kearns and Singh takes the form ${Q{(s,a)}}\leftarrow{{r{(s,a)}} + {\frac{\gamma}{m}\sum_{i = 1}^{m}}}$ $\max_{a^{\prime}}$ $Q{(s_{i}^{\prime},a^{\prime})}$, where $s_{i}^{\prime}$'s are sample states generated from $P{( \cdot \mid s,a)}.$ In the tabular setting, one needs to keep track of all the $Q{(s,a)}$ values.
+Recall that phased Q-Learning Kearns and Singh takes the form ${Q{(s,a)}}\leftarrow{{r{(s,a)}} + {\frac{\gamma}{m}\sum_{i = 1}^{m}}}$ $\max_{a'}$ $Q{(s_{i}',a')}$, where $s_{i}'$'s are sample states generated from $P{( \cdot \mid s,a)}.$ In the tabular setting, one needs to keep track of all the $Q{(s,a)}$ values.
 
-Given the feature map $\phi:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}^{K}}$, we parameterize the Q-functions, value functions and policies using $w \in {\mathbb{R}}^{K}$ by
-
-A scalable learning algorithm should keep track of only the parameters $w$, from which one can decode the high-dimensional value and policy functions according to (1-3).
+Given the feature map $\phi:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}^{K}}$, we parameterize the Q-functions, value functions and policies using $w \in {\mathbb{R}}^{K}$ by A scalable learning algorithm should keep track of only the parameters $w$, from which one can decode the high-dimensional value and policy functions according to (1-3).
 
 Algorithm 1 gives a parametric phased Q-learning method. It queries state-action transitions and makes Q-learning-like updates on the parameter $w$. Each iteration picks a small set of state-action pairs $\mathcal{K}$, and performs approximate value iteration on $\mathcal{K}$. The set $\mathcal{K}$ can be picked almost arbitrarily. To obtain a convergence bound, we assume that the state-action pairs in $\mathcal{K}$ cannot be too alike, i.e., the regularity condition (4. ‣ 4.1 Algorithm ‣ 4 A Basic Parametric Q-Learning Method ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")) holds for some value $L > 0$.
 
 ### Assumption 1 (Representative States and Regularity of Features)
 
-There exists a representative state-action set $\mathcal{K} \subset {\mathcal{S} \times \mathcal{A}}$ with ${|\mathcal{K}|} = K$ and a scalar $L > 0$ such that
+There exists a representative state-action set $\mathcal{K} \subset {\mathcal{S} \times \mathcal{A}}$ with ${|\mathcal{K}|} = K$ and a scalar $L > 0$ such that where $\Phi_{\mathcal{K}} \in {\mathbb{R}}^{K \times K}$ is the collection of row feature vectors $\phi{(s,a)}$ where ${(s,a)} \in \mathcal{K}$ and $L \geq 1$.
 
-where $\Phi_{\mathcal{K}} \in {\mathbb{R}}^{K \times K}$ is the collection of row feature vectors $\phi{(s,a)}$ where ${(s,a)} \in \mathcal{K}$ and $L \geq 1$.
-
-1: Input: A DMDP ℳ = (𝒮,𝒜,P,r,γ) with a generative model
-4: Initialize: $R\leftarrow{\Theta\left\lbrack \frac{\log N}{1 - \gamma} \right\rbrack}$, w ← 0 ∈ ℝK;
-7: Pick a representative set 𝒦 ⊂ 𝒮 × 𝒜 satisfying.
-10: Obtain $\frac{N}{KR}$ samples {s(j)} i.i.d. from P(⋅|s,a);
-11: ${Q\left\lbrack (s,a) \right\rbrack}\leftarrow{\frac{KR}{N}{\sum_{j = 1}^{{N/K}R}{\Pi_{\lbrack 0,{({1 - \gamma})}^{- 1}\rbrack}\left\lbrack {V_{w}\left( s^{(j)} \right)} \right\rbrack}}}$;
-12: ⊳ Π[a, b] projects a number onto [a, b]
-Algorithm 1 Phased Parametric Q-Learning (PPQ-Learning)
+1: Input: A DMDP ℳ = (𝒮, 𝒜, P, r, γ) with a generative model 4: Initialize: $R\leftarrow{\Theta\left\lbrack \frac{\log N}{1 - \gamma} \right\rbrack}$, w ← 0 ∈ ℝK; 7: Pick a representative set 𝒦 ⊂ 𝒮 × 𝒜 satisfying. 10: Obtain $\frac{N}{KR}$ samples {s(j)} i.i.d. from P(⋅|s, a); 11: ${Q\left\lbrack (s,a) \right\rbrack}\leftarrow{\frac{KR}{N}{\sum_{j = 1}^{{N/K}R}{\Pi_{\lbrack 0,{({1 - \gamma})}^{- 1}\rbrack}\left\lbrack {V_{w}\left(s^{(j)} \right)} \right\rbrack}}}$; 12: ⊳ Π[a, b] projects a number onto [a, b] Algorithm 1 Phased Parametric Q-Learning (PPQ-Learning)
 
 ### Error Bound and Sample Complexity
 
@@ -152,9 +116,7 @@ When the feature-based transition model is inexact up to $\xi$ total variation, 
 
 ### Remark 6 (Sample complexity of Algorithm 1)
 
-When the MDP is fully realizable under the features, we have $\xi = 0$. Then the number of samples needed for achieving $\epsilon$ policy error is
-
-It is independent of size of the original state space, but depends linearly on $K$. Its dependence on $\frac{1}{1 - \gamma}$ matches the tabular phased Q-learning Kearns and Singh which has complexity $O{(\frac{SA}{{({1 - \gamma})}^{7}\epsilon^{2}})}$ Sidford et al.. Despite the fact that the MDP model has $S \times K$ unknown parameters, the basic parametric Q-learning method can produce good policies even with small data. However, there remains a gap between the current achievable sample complexity (Theorem 2. ‣ 4.2 Error Bound and Sample Complexity ‣ 4 A Basic Parametric Q-Learning Method ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")) and the lower bound (Theorem 1. ‣ 3 Information-Theoretic Sample Complexity ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")).
+When the MDP is fully realizable under the features, we have $\xi = 0$. Then the number of samples needed for achieving $\epsilon$ policy error is It is independent of size of the original state space, but depends linearly on $K$. Its dependence on $\frac{1}{1 - \gamma}$ matches the tabular phased Q-learning Kearns and Singh which has complexity $O{(\frac{SA}{{({1 - \gamma})}^{7}\epsilon^{2}})}$ Sidford et al.. Despite the fact that the MDP model has $S \times K$ unknown parameters, the basic parametric Q-learning method can produce good policies even with small data. However, there remains a gap between the current achievable sample complexity (Theorem 2. ‣ 4.2 Error Bound and Sample Complexity ‣ 4 A Basic Parametric Q-Learning Method ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")) and the lower bound (Theorem 1. ‣ 3 Information-Theoretic Sample Complexity ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")).
 
 ## Sample-Optimal Parametric Q-Learning
 
@@ -166,9 +128,7 @@ In order to use samples more efficiently, we need to leverage monotonicity of th
 
 ### Assumption 2 (Anchor State-Action Pairs)
 
-There exists a set of anchor state-action pairs $\mathcal{K}$ such that for any ${(s,a)} \in {\mathcal{S} \times \mathcal{A}}$, its feature vector can be represented as a convex combination of the anchors $\{{(s_{k},a_{k})}\mid{k \in \mathcal{K}}\}$:
-
-The anchoring $(s_{k},a_{k})$'s can be viewed as "vertices" of the state-action space. They imply that the transition kernel $P$ admits a nonnegative factorization, which can be seen by transforming $\phi$ linearly such that each anchor corresponds to a unit feature vector. This implicit non-negativity is a key to pointwisely monotonic policy/value updates.
+There exists a set of anchor state-action pairs $\mathcal{K}$ such that for any ${(s,a)} \in {\mathcal{S} \times \mathcal{A}}$, its feature vector can be represented as a convex combination of the anchors $\{{(s_{k},a_{k})}\mid{k \in \mathcal{K}}\}$: The anchoring $(s_{k},a_{k})$'s can be viewed as "vertices" of the state-action space. They imply that the transition kernel $P$ admits a nonnegative factorization, which can be seen by transforming $\phi$ linearly such that each anchor corresponds to a unit feature vector. This implicit non-negativity is a key to pointwisely monotonic policy/value updates.
 
 The notion of "anchor" is a natural analog of the anchor word condition from topic modeling Arora et al. and nonnegative matrix factorization Donoho and Stodden. A similar notion of "anchor state" has been studied in the context of soft state aggregation models to uniquely identify latent meta-states Duan et al.. Under the anchor assumption, without loss of generality, we will assume that $\phi$'s are nonnegative, each $\phi{(s,a)}$ is a vector of probabilities, and there are $K$ anchors with unit feature vectors.
 
@@ -176,59 +136,17 @@ The notion of "anchor" is a natural analog of the anchor word condition from top
 
 We develop a sample-optimal algorithm which is implemented in Algorithm 2. Let us explain the features that enable it to find more accurate policies. Some of the ideas are due to Sidford et al., where they were used to develop fast solvers for the tabular MDP.
 
-Parametrization. For the purpose of preserving monotonicity, Algorithm 2 employs a new parametric form. It uses a collection of parameters $\theta = {\{ w^{(i)}\}}_{i = 1}^{Z}$ instead of a single vector, with $Z = {\overset{\sim}{O}{(\frac{1}{1 - \gamma})}}$. The parameterized policy and value functions take the form
-
-Given $\theta$, one can compute ${V_{\theta}{(s)}},{\pi_{\theta}{(s)}}$ by solving an one-step optimization problem. If $a$ takes continuous values, it needs to solve a nonlinear optimization problem.
+Parametrization. For the purpose of preserving monotonicity, Algorithm 2 employs a new parametric form. It uses a collection of parameters $\theta = {\{ w^{(i)}\}}_{i = 1}^{Z}$ instead of a single vector, with $Z = {\overset{\sim}{O}{(\frac{1}{1 - \gamma})}}$. The parameterized policy and value functions take the form Given $\theta$, one can compute ${V_{\theta}{(s)}},{\pi_{\theta}{(s)}}$ by solving an one-step optimization problem. If $a$ takes continuous values, it needs to solve a nonlinear optimization problem.
 
 Computing confidence bounds. In Step 13 and Step 18, the algorithm computes confidence bounds $\epsilon^{(i,j)}$'s for the estimated values of ${PV_{\theta}}.$ These bounds tightly measure the distance from $V_{\theta}$ to the desired solution path, according to probaiblistic concentration arguments. With these bounds, we can precisely shift our estimator downwards so that certain properties would hold (e.g. monotonicity to be explained later) while not incurring additional error.
 
-Monotonicity preservation. The algorithm guarantees that the following condition holds throughout:
+Monotonicity preservation. The algorithm guarantees that the following condition holds throughout: We call this property the *monotonicity* property, which together with monotonicity of the Bellman operator guarantees that (by an induction proof) Algorithm 2 uses two algorithmic tricks to preserve the monotonicity property throughout the iterations. First, the parametric forms of $V_{\theta}$ and $\pi_{\theta}$ (eq.(5.2)) take the maximum across all previous parameters (indexed by $h = {(i,j)}$). It guarantees that $V_{\theta}$ is monotonically improving throughout the outer and inner iterations. Second, the algorithm shifts all the estimated $V_{\theta}$ downwards by a term corresponding to its confidence bound (last equation of Line 13 and Line 18 of Algorithm 2. ‣ 5.1 Anchor States and Monotonicity ‣ 5 Sample-Optimal Parametric Q-Learning ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")). As a result, the estimated expectation is always smaller than the true expected value. By virtue of the nonnegativity (due to Assumption 2. ‣ 5.1 Anchor States and Monotonicity ‣ 5 Sample-Optimal Parametric Q-Learning ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")), the estimate, $\phi{(s,a)}^{\top}{\overline{w}}^{(i,j)}$, of the exact inner product $P{(\cdot |s,a)}^{\top}V^{(i,{j - 1})}$ for arbitrary $(s,a)$ is also shifted downwards. Then we have By maximizing the lefthandside over $a$, we see that the monotonicity property is preserved inductively. See Lemma 7. ‣ D.3 Monotonicity Preservation ‣ Appendix D Proof of Theorem 3 ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features") for a more detailed proof.
 
-We call this property the *monotonicity* property, which together with monotonicity of the Bellman operator guarantees that (by an induction proof)
+Variance reduction. The algorithm uses an outer loop and an inner loop for approximately iterating the Bellman operator. Each outer iteration performs pre-estimation of a reference vector $PV_{\theta^{(i,0)}}$ (Step 13), which is used throughout the inner loop. For instance, let $\theta^{(i,j)}$ be the parameters at outer iteration $i$ and inner iteration $j$. To obtain an entry $Q^{(i,j)}{(s,a)}$ of the new Q-function, we need to estimate $P{(\cdot |s,a)}^{\top}V_{\theta^{(i,{j - 1})}}$ with sufficient accuracy, so we have Note that the reference $P{(\cdot |s,a)}^{\top}V_{\theta^{(i,0)}}$ is already approximated with high accuracy in Step 13. This allows the inner loop to successively refine the value and policy, while each inner iteration uses a smaller number of sample transitions to estimate the offset $P{(\cdot |s,a)}^{\top}{(V_{\theta^{(i,{j - 1})}} - V_{\theta^{(i,0)}})}$ (Step 18).
 
-Algorithm 2 uses two algorithmic tricks to preserve the monotonicity property throughout the iterations. First, the parametric forms of $V_{\theta}$ and $\pi_{\theta}$ (eq.(5.2)) take the maximum across all previous parameters (indexed by $h = {(i,j)}$). It guarantees that $V_{\theta}$ is monotonically improving throughout the outer and inner iterations. Second, the algorithm shifts all the estimated $V_{\theta}$ downwards by a term corresponding to its confidence bound (last equation of Line 13 and Line 18 of Algorithm 2. ‣ 5.1 Anchor States and Monotonicity ‣ 5 Sample-Optimal Parametric Q-Learning ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")). As a result, the estimated expectation is always smaller than the true expected value. By virtue of the nonnegativity (due to Assumption 2. ‣ 5.1 Anchor States and Monotonicity ‣ 5 Sample-Optimal Parametric Q-Learning ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")), the estimate, $\phi{(s,a)}^{\top}{\overline{w}}^{(i,j)}$, of the exact inner product $P{( \cdot |s,a)}^{\top}V^{(i,{j - 1})}$ for arbitrary $(s,a)$ is also shifted downwards. Then we have
+Putting together the preceding techniques, Algorithm 2 performs carefully controlled Bellman updates so that the estimated value-policy functions monotonically improve to the optimal ones. The algorithm contains $R' = {\Theta{({\log{\lbrack{\epsilon^{- 1}{({1 - \gamma})}^{- 1}}\rbrack}})}}$ many outer loops. Each outer loop (indexed by $i$) starts with a policy ${\|{v^{\ast} - V_{\theta^{(i,0)}}}\|}_{\infty} \lesssim {H/2^{i}}$ and ends with a policy ${\|{v^{\ast} - V_{\theta^{({i + 1},0)}}}\|}_{\infty} \lesssim {H/2^{i + 1}}$.The algorithm takes multiple rounds of mini-batches, where the sample size of each mini-batch is picked just enough to guarantee the accumulation of total error is within $\epsilon$. The algorithm fully exploits the monotonicity property of the Bellman operator as well as the error accumulation in the Markov process (to be explained later in the proof outline).
 
-By maximizing the lefthandside over $a$, we see that the monotonicity property is preserved inductively. See Lemma 7. ‣ D.3 Monotonicity Preservation ‣ Appendix D Proof of Theorem 3 ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features") for a more detailed proof.
-
-Variance reduction. The algorithm uses an outer loop and an inner loop for approximately iterating the Bellman operator. Each outer iteration performs pre-estimation of a reference vector $PV_{\theta^{(i,0)}}$ (Step 13), which is used throughout the inner loop. For instance, let $\theta^{(i,j)}$ be the parameters at outer iteration $i$ and inner iteration $j$. To obtain an entry $Q^{(i,j)}{(s,a)}$ of the new Q-function, we need to estimate $P{( \cdot |s,a)}^{\top}V_{\theta^{(i,{j - 1})}}$ with sufficient accuracy, so we have
-
-Note that the reference $P{( \cdot |s,a)}^{\top}V_{\theta^{(i,0)}}$ is already approximated with high accuracy in Step 13. This allows the inner loop to successively refine the value and policy, while each inner iteration uses a smaller number of sample transitions to estimate the offset $P{( \cdot |s,a)}^{\top}{(V_{\theta^{(i,{j - 1})}} - V_{\theta^{(i,0)}})}$ (Step 18).
-
-Putting together the preceding techniques, Algorithm 2 performs carefully controlled Bellman updates so that the estimated value-policy functions monotonically improve to the optimal ones. The algorithm contains $R^{\prime} = {\Theta{({\log{\lbrack{\epsilon^{- 1}{({1 - \gamma})}^{- 1}}\rbrack}})}}$ many outer loops. Each outer loop (indexed by $i$) starts with a policy ${\|{v^{\ast} - V_{\theta^{(i,0)}}}\|}_{\infty} \lesssim {H/2^{i}}$ and ends with a policy ${\|{v^{\ast} - V_{\theta^{({i + 1},0)}}}\|}_{\infty} \lesssim {H/2^{i + 1}}$.The algorithm takes multiple rounds of mini-batches, where the sample size of each mini-batch is picked just enough to guarantee the accumulation of total error is within $\epsilon$. The algorithm fully exploits the monotonicity property of the Bellman operator as well as the error accumulation in the Markov process (to be explained later in the proof outline).
-
-1: Input: A DMDP ℳ = (𝒮,𝒜,P,r,γ) with anchor state-action pairs 𝒦; feature map ϕ: 𝒮 × 𝒜 → ℝ;
-3: Output: θ ⊂ ℝK with |θ| = Θ [(1−γ)−1 log2ϵ−1]
-5: Initialize: R′ ← Θ (log[ϵ−1 (1−γ)−1]), R ← Θ [R′ (1−γ)−1] ⊳ initialize the numbers of iterations
-6: ${\{ w^{(i,j)},\epsilon^{(i,j)},{\overline{w}}^{(i,j)}\}}_{{i \in {\lbrack 0,R^{\prime}\rbrack}},{j \in {\lbrack 0,R\rbrack}}} \subset {\mathbb{R}}^{K}$ as 0 vectors ⊳ initialize parameters
-7: $m\leftarrow{C \cdot \frac{1}{\epsilon^{2}} \cdot \frac{\log{(R^{\prime}RK\delta^{- 1})}^{4/3}}{{({1 - \gamma})}^{3}}}$, ⊳ mini-batch size for outer loop $m_{1}\leftarrow{C \cdot \frac{\log{({R^{\prime}RK\delta^{- 1}})}}{{({1 - \gamma})}^{2}}}$ for some constant C; ⊳ mini-batch size for inner loop
-8: θ ← {0} ⊂ ℝK ⊳ initialize the output to contain a single 0-vector
-13: Obtain state samples xk, xk, …, xk(m) ∈ 𝒮 from P(⋅|sk,ak) for (sk,ak) ∈ 𝒦. Let
-
-${\leftarrow{\frac{1}{m}{\sum\limits_{\ell = 1}^{m}{V_{\theta^{(i,0)}}\left( x_{k}^{(\ell)} \right)}}}},{{z^{(i,0)}(k)}\leftarrow{\frac{1}{m}{\sum\limits_{\ell = 1}^{m}{V_{\theta^{(i,0)}}^{2}\left( x_{k}^{(\ell)} \right)}}}}$
-
-⊳ empirical esitimate of P𝒦 Vθ(i,0) and P𝒦 Vθ(i,0)2
-
-⊳ empirical esitimate of variance P𝒦 Vθ(i,0)2 − (P𝒦 Vθ(i,0))2
-
-$\leftarrow{\Theta\left\lbrack {\sqrt{{{{\log\left\lbrack {R^{\prime}RK\delta^{- 1}} \right\rbrack} \cdot \sigma^{(i,0)}}(k)} \cdot m^{- 1}} + \left. {{\log\left\lbrack {R^{\prime}RK\delta^{- 1}} \right\rbrack}\left( {1 - \gamma} \right)^{- 1}}/m^{3/4} \right.} \right\rbrack}$
-
-⊳ estimate of the confidence bound of the emprical estimator w(i,0)
-
-← max {0,min {w(i,0) (k) − ϵ(i,0) (k),(1−γ)−1}} ⊳ shift and clip the estimate
-
-18: Obtain state samples xk, xk, …, xk(m1) ∈ 𝒮 from P′(⋅|sk,ak) for (sk,ak) ∈ 𝒦. Let
-
-$\leftarrow{{{\frac{1}{m_{1}}{\sum\limits_{\ell = 1}^{m}\left( {{V_{\theta^{(i,{j - 1})}}\left( x_{k}^{(\ell)} \right)} - {V_{\theta^{(i,0)}}\left( x_{k}^{(\ell)} \right)}} \right)}} + {w^{(i,0)}(k)}}\mspace{30mu}{\rhd {\text{~empirical esitimate of~}{P_{\mathcal{K}}V_{\theta^{(i,{j - 1})}}}}}}$
-
-$\leftarrow{{\epsilon^{(i,0)}(k)} + {\Theta\left( {1 - \gamma} \right)^{- 1}2^{- i}\sqrt{\left. {\log\left( {RR^{\prime}K\delta^{- 1}} \right)}/m_{1} \right.}}}$
-
-⊳ approximate the confidence bound of P𝒦 Vθ(i,j − 1)
-
-← max {0,min {w(i,j) (k) − ϵ(i,j) (k),(1−γ)−1}} ⊳ shift and clip the estimate
-
-20: $\theta^{(i,j)}\leftarrow{\theta^{(i,{j - 1})} \cup {\{{\overline{w}}^{(i,j)}\}}}$ ⊳ attach the newly estimated parameter to θ
-22: θ(i + 1,0) ← θ(i,R) ⊳ prepare the next outer loop
-Algorithm 2 Optimal Phased Parametric Q-Learning (OPPQ-Learning)
+1: Input: A DMDP ℳ = (𝒮, 𝒜, P, r, γ) with anchor state-action pairs 𝒦; feature map ϕ: 𝒮 × 𝒜 → ℝ; 3: Output: θ ⊂ ℝK with |θ| = Θ [(1 − γ)−1 log2ϵ−1] 5: Initialize: R′ ← Θ (log [ϵ−1 (1 − γ)−1]), R ← Θ [R′ (1 − γ)−1] ⊳ initialize the numbers of iterations 6: ${\{ w^{(i,j)},\epsilon^{(i,j)},{\overline{w}}^{(i,j)}\}}_{{i \in {\lbrack 0,R'\rbrack}},{j \in {\lbrack 0,R\rbrack}}} \subset {\mathbb{R}}^{K}$ as 0 vectors ⊳ initialize parameters 7: $m\leftarrow{C \cdot \frac{1}{\epsilon^{2}} \cdot \frac{\log{(R'RK\delta^{- 1})}^{4/3}}{{({1 - \gamma})}^{3}}}$, ⊳ mini-batch size for outer loop $m_{1}\leftarrow{C \cdot \frac{\log{({R'RK\delta^{- 1}})}}{{({1 - \gamma})}^{2}}}$ for some constant C; ⊳ mini-batch size for inner loop 8: θ ← {0} ⊂ ℝK ⊳ initialize the output to contain a single 0-vector 13: Obtain state samples xk, xk, …, xk(m) ∈ 𝒮 from P(⋅|sk, ak) for (sk, ak) ∈ 𝒦. Let ${\leftarrow{\frac{1}{m}{\sum\limits_{\ell = 1}^{m}{V_{\theta^{(i,0)}}\left(x_{k}^{(\ell)} \right)}}}},{{z^{(i,0)}(k)}\leftarrow{\frac{1}{m}{\sum\limits_{\ell = 1}^{m}{V_{\theta^{(i,0)}}^{2}\left(x_{k}^{(\ell)} \right)}}}}$ ⊳ empirical esitimate of P𝒦 Vθ(i, 0) and P𝒦 Vθ(i, 0)2 ⊳ empirical esitimate of variance P𝒦 Vθ(i, 0)2 − (P𝒦 Vθ(i, 0))2 $\leftarrow{\Theta\left\lbrack {\sqrt{{{{\log\left\lbrack {R'RK\delta^{- 1}} \right\rbrack} \cdot \sigma^{(i,0)}}(k)} \cdot m^{- 1}} + \left. {{\log\left\lbrack {R'RK\delta^{- 1}} \right\rbrack}\left({1 - \gamma} \right)^{- 1}}/m^{3/4} \right.} \right\rbrack}$ ⊳ estimate of the confidence bound of the emprical estimator w(i, 0) ← max {0, min {w(i, 0) (k) − ϵ(i, 0) (k), (1 − γ)−1}} ⊳ shift and clip the estimate 18: Obtain state samples xk, xk, …, xk(m1) ∈ 𝒮 from P′(⋅|sk, ak) for (sk, ak) ∈ 𝒦. Let $\leftarrow{{{\frac{1}{m_{1}}{\sum\limits_{\ell = 1}^{m}\left({{V_{\theta^{(i,{j - 1})}}\left(x_{k}^{(\ell)} \right)} - {V_{\theta^{(i,0)}}\left(x_{k}^{(\ell)} \right)}} \right)}} + {w^{(i,0)}(k)}}\mspace{30mu}{\rhd {\text{~empirical esitimate of~}{P_{\mathcal{K}}V_{\theta^{(i,{j - 1})}}}}}}$ $\leftarrow{{\epsilon^{(i,0)}(k)} + {\Theta\left({1 - \gamma} \right)^{- 1}2^{- i}\sqrt{\left. {\log\left({RR'K\delta^{- 1}} \right)}/m_{1} \right.}}}$ ⊳ approximate the confidence bound of P𝒦 Vθ(i, j − 1) ← max {0, min {w(i, j) (k) − ϵ(i, j) (k), (1 − γ)−1}} ⊳ shift and clip the estimate 20: $\theta^{(i,j)}\leftarrow{\theta^{(i,{j - 1})} \cup {\{{\overline{w}}^{(i,j)}\}}}$ ⊳ attach the newly estimated parameter to θ 22: θ(i + 1, 0) ← θ(i, R) ⊳ prepare the next outer loop Algorithm 2 Optimal Phased Parametric Q-Learning (OPPQ-Learning)
 
 ### Optimal Sample Complexity Guarantee
 
@@ -236,27 +154,15 @@ In this section, we analyze the sample complexity of the algorithm provided in t
 
 ### Theorem 3 (Near-Optimal Sample Complexity)
 
-Suppose $M = {(\mathcal{S},\mathcal{A},P,r,\gamma)}$ is an MDP instance admitting the feature representation $\phi:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}^{K}}$. Suppose that Assumption 2. ‣ 5.1 Anchor States and Monotonicity ‣ 5 Sample-Optimal Parametric Q-Learning ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features") holds. Let ${\delta,\epsilon} \in {}$ be parameters. Then Algorithm 2 takes
-
-samples and outputs $\theta$ such that $\pi_{\theta}$ is $\epsilon$-optimal from every initial state with probability at least $1 - \delta$.
+Suppose $M = {(\mathcal{S},\mathcal{A},P,r,\gamma)}$ is an MDP instance admitting the feature representation $\phi:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}^{K}}$. Suppose that Assumption 2. ‣ 5.1 Anchor States and Monotonicity ‣ 5 Sample-Optimal Parametric Q-Learning ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features") holds. Let ${\delta,\epsilon} \in {}$ be parameters. Then Algorithm 2 takes samples and outputs $\theta$ such that $\pi_{\theta}$ is $\epsilon$-optimal from every initial state with probability at least $1 - \delta$.
 
 Theorem 3. ‣ 5.3 Optimal Sample Complexity Guarantee ‣ 5 Sample-Optimal Parametric Q-Learning ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features") is proved through a series of lemmas, which we defer to the appendix. Here we sketch the key ideas.
 
 ### Proof Sketch
 
-Let $H = \frac{1}{1 - \gamma}$ for short. Each outer-loop iteration decreases the policy error upper bound by at least half. Suppose $\theta^{(i,0)}$ is the parameter when the $i$th outer iteration begins, we expect ${{\|{V_{\theta^{(i,0)}} - v^{\ast}}\|}_{\infty} \leq {H/2^{i}}},$ with high probability. Therefore, after $R^{\prime} = {\log{({H/\epsilon})}}$ iterations, we expect ${{\|{V_{\theta^{(R^{\prime},0)}} - v^{\ast}}\|}_{\infty} \leq {H/2^{R^{\prime}}} = {O{(\epsilon)}}}.$
+Let $H = \frac{1}{1 - \gamma}$ for short. Each outer-loop iteration decreases the policy error upper bound by at least half. Suppose $\theta^{(i,0)}$ is the parameter when the $i$th outer iteration begins, we expect ${{\|{V_{\theta^{(i,0)}} - v^{\ast}}\|}_{\infty} \leq {H/2^{i}}},$ with high probability. Therefore, after $R' = {\log{({H/\epsilon})}}$ iterations, we expect ${{\|{V_{\theta^{(R',0)}} - v^{\ast}}\|}_{\infty} \leq {H/2^{R'}} = {O{(\epsilon)}}}.$ Now we analyze how many samples are sufficient within one outer-loop iteration. We show that the final error is mainly due to $\epsilon^{(i,0)}$, which comes from estimating the reference function $V_{\theta^{(i,0)}}$ (Line 13). This error is exemplified in the inner loop since $V_{\theta^{(i,0)}}$ is used repeatedly (line 18).
 
-Now we analyze how many samples are sufficient within one outer-loop iteration. We show that the final error is mainly due to $\epsilon^{(i,0)}$, which comes from estimating the reference function $V_{\theta^{(i,0)}}$ (Line 13). This error is exemplified in the inner loop since $V_{\theta^{(i,0)}}$ is used repeatedly (line 18).
-
-A key step of the proof is to show that the error contributed by $\epsilon^{(i,0)}$ throughout the inner-loop iterations is small. By using the monotonicity property, we can show that
-
-where $\lesssim$ denotes "approximately less than" (ignoring non-leading terms), and $\sigma_{v^{\ast}}:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ is an intrinsic variance function of the MDP:
-
-By using the monotonicity property, we prove by induction:
-
-where ${\sigma_{v^{\ast}}^{\pi^{\ast}}{(s)}} = {\sigma_{v^{\ast}}{(s,{\pi^{\ast}{(s)}})}}$, ${\epsilon_{\pi^{\ast}}^{(i,0)}{(s)}} = {\epsilon^{(i,0)}{(s,{\pi^{\ast}{(s)}})}}$, and $m$ is the mini-batch size. Now we have found a connection between the error accumulation of the algorithm and the intrinsic variance of the MDP. By a form of conditional law of total variance of the Markov process (Lemma 6) and using the convex combination property (Assumption 2. ‣ 5.1 Anchor States and Monotonicity ‣ 5 Sample-Optimal Parametric Q-Learning ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")), one has
-
-Therefore the inner loop accumulates error $\overset{\sim}{O}{(\sqrt{H^{3}/m})}$, so $m = {O{(H^{3})}} = {O{({({1 - \gamma})}^{- 3})}}$ number of samples is enough.
+A key step of the proof is to show that the error contributed by $\epsilon^{(i,0)}$ throughout the inner-loop iterations is small. By using the monotonicity property, we can show that where $\lesssim$ denotes "approximately less than" (ignoring non-leading terms), and $\sigma_{v^{\ast}}:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ is an intrinsic variance function of the MDP: By using the monotonicity property, we prove by induction: where ${\sigma_{v^{\ast}}^{\pi^{\ast}}{(s)}} = {\sigma_{v^{\ast}}{(s,{\pi^{\ast}{(s)}})}}$, ${\epsilon_{\pi^{\ast}}^{(i,0)}{(s)}} = {\epsilon^{(i,0)}{(s,{\pi^{\ast}{(s)}})}}$, and $m$ is the mini-batch size. Now we have found a connection between the error accumulation of the algorithm and the intrinsic variance of the MDP. By a form of conditional law of total variance of the Markov process (Lemma 6) and using the convex combination property (Assumption 2. ‣ 5.1 Anchor States and Monotonicity ‣ 5 Sample-Optimal Parametric Q-Learning ‣ Sample-Optimal Parametric Q-Learning Using Linearly Additive Features")), one has Therefore the inner loop accumulates error $\overset{\sim}{O}{(\sqrt{H^{3}/m})}$, so $m = {O{(H^{3})}} = {O{({({1 - \gamma})}^{- 3})}}$ number of samples is enough.
 
 Finally, we prove by induction that all the desired events happen with sufficiently high probability, so that the iterates improve monotonically to the optimal solution within a sequence of carefully controlled error bars. The total number of outer iterations is nearly constant, therefore the total sample size needed scales with $O{({({1 - \gamma})}^{- 3})}$. ∎
 
@@ -272,9 +178,7 @@ Note that it is possible that the number of anchors is greater than the number o
 
 ### Remark 9 (Significance of ${({1 - \gamma})}^{- 4}$ Improvement)
 
-Let us compare the sample complexities of Algorithms 1, 2. They differ by a multiplicative gap ${({1 - \gamma})}^{- 4}$. Recall that $\gamma \in {}$ is the discount factor. One can view ${({1 - \gamma})}^{- 1} = {1 + \gamma + \gamma^{2} + \cdots}$ as an approximate horizon. If $\gamma = 0.99$, the MDP essentially has $100$ time steps, and
-
-i.e., Algorithm 2 is $10^{8}$ times faster. It only needs a tiny portion ($1/10^{8}$) of the samples as needed by the basic algorithm. We see that clever algorithmic usage of monotonicity and variance structures of the MDP saves big.
+Let us compare the sample complexities of Algorithms 1, 2. They differ by a multiplicative gap ${({1 - \gamma})}^{- 4}$. Recall that $\gamma \in {}$ is the discount factor. One can view ${({1 - \gamma})}^{- 1} = {1 + \gamma + \gamma^{2} + \cdots}$ as an approximate horizon. If $\gamma = 0.99$, the MDP essentially has $100$ time steps, and i.e., Algorithm 2 is $10^{8}$ times faster. It only needs a tiny portion ($1/10^{8}$) of the samples as needed by the basic algorithm. We see that clever algorithmic usage of monotonicity and variance structures of the MDP saves big.
 
 ## Related Literatures
 

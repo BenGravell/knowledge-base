@@ -4,7 +4,7 @@ DL optimization commonly relies on adaptive gradient methods, namely the Adam op
 
 Full matrix preconditioning is impractical for modern deep learning architectures: for instance, the ResNet-50 architecture has over 23 million parameters, requiring more than 2 petabytes to represent its gradient covariance. Thus, diagonal preconditioning methods remain popular. However, previous work has demonstrated state-of-the-art results in some settings, such as large-batch data parallel training, for nondiagonal forms of preconditioning. In particular, Shampoo introduces a factorization of full matrix preconditioning method with adoption in large-scale industrial applications such as training Google's ads click-through-rate model. Furthermore, as hardware evolves, memory efficiency becomes an increasing concern, as "logic improves much faster than wires and SRAM, so logic is relatively free": from TPUv2 to TPUv3, per-chip bfloat16 operations per second improved $2.67 \times$ but memory bandwidth only improved $1.29 \times$. GPUs exhibit a similar pattern for compute and memory increase, at $5 \times$ and $2.2 \times$, for V100 to A100.
 
-Investigation into the Kronecker-factored gradient covariance matrix reveals a concentrated, but changing, spectrum (Fig. 3), suggesting the majority of the spectral mass can be represented by a low-rank matrix, albeit rotating over time. The Frequent Directions (FD) sketch provides a mechanism to track the top eigenvectors without materializing the full covariance matrix, as proposed in. Is a large portion of the spectral mass sufficient to retain the performance of adaptive regularization in theory and practice? In this work, we investigate this hypothesis.
+Investigation into the Kronecker-factored gradient covariance matrix reveals a concentrated, but changing, spectrum (Fig. 3), suggesting the majority of the spectral mass can be represented by a low-rank matrix, albeit rotating over time. The Frequent Directions (FD) sketch provides a mechanism to track the top eigenvectors without materializing the full covariance matrix, as proposed . Is a large portion of the spectral mass sufficient to retain the performance of adaptive regularization in theory and practice? In this work, we investigate this hypothesis.
 
 In the setting of online convex optimization, by applying a dynamic diagonal regularization to the FD sketch, we can recover full-matrix AdaGrad regret up to additive spectral terms under a memory constraint, providing a novel guarantee without curvature assumptions (Sec. 4.1). Rigorously composing our approach with Shampoo (Sec. 4.2) unlocks a second-order algorithm which requires sub-linear memory for its accumulators.
 
@@ -26,18 +26,9 @@ Given a stream of vectors $g_{t} \in {\mathbb{R}}^{d}$, $t \in {\lbrack T\rbrack
 
 For convenience, let $\rho_{1:t}\overset{\text{def}}{=}{\sum_{s = 1}^{t}\rho_{s}}$ be the cumulative escaped mass. For a matrix $X$, we denote its $i$-th leading eigenvalue by $\lambda_{i}{(X)}$. Let $\parallel \cdot \parallel_{F}$ denote the Frobenius norm of a matrix.
 
-0: Invariant that last column of Bt − 1 is 0.
-0: The last column of Bt is 0.
-1: Input: Previous state ${\overline{G}}_{t - 1} = {B_{t - 1}B_{t - 1}^{\top}} \in {\mathbb{R}}^{d \times d}$
-2: Input: New symmetric PSD matrix Mt ∈ ℝd × d.
-3: Eigendecompose ${{\overline{U}}_{t}{{diag}{\lambda^{(t)}{\overline{U}}_{t}^{\top}}}} = {{\overline{G}}_{t - 1} + M_{t}}$ where λ(t) contains descending eigenvalues.
-4: Define Ut as the matrix whose columns are the first ℓ columns of ${\overline{U}}_{t}$, and λ[1: ℓ](t) be its eigenvalues.
-5: Update Bt = Utdiag(λ[1: ℓ](t)−λℓ(t))1/2. λℓ(t), BtBt⊤.
-Algorithm 1 Frequent Directions Update (FD-update)
+0: Invariant that last column of Bt − 1 is 0. 0: The last column of Bt is 0. 1: Input: Previous state ${\overline{G}}_{t - 1} = {B_{t - 1}B_{t - 1}^{\top}} \in {\mathbb{R}}^{d \times d}$ 2: Input: New symmetric PSD matrix Mt ∈ ℝd × d. 3: Eigendecompose ${{\overline{U}}_{t}{{diag}{\lambda^{(t)}{\overline{U}}_{t}^{\top}}}} = {{\overline{G}}_{t - 1} + M_{t}}$ where λ(t) contains descending eigenvalues. 4: Define Ut as the matrix whose columns are the first ℓ columns of ${\overline{U}}_{t}$, and λ[1: ℓ](t) be its eigenvalues. 5: Update Bt = Utdiag(λ[1: ℓ](t) − λℓ(t))1/2. λℓ(t), BtBt⊤. Algorithm 1 Frequent Directions Update (FD-update) The fundamental property of FD is that applying Alg. 1 over a stream of vectors $g_{t}$, with $B_{0} = 0$, the sum of escaped mass $\rho_{t} = \lambda_{\ell}^{(t)}$ can be bounded by the bottom eigenvalues of $G_{T}$, formally given by the following lemma:
 
-The fundamental property of FD is that applying Alg. 1 over a stream of vectors $g_{t}$, with $B_{0} = 0$, the sum of escaped mass $\rho_{t} = \lambda_{\ell}^{(t)}$ can be bounded by the bottom eigenvalues of $G_{T}$, formally given by the following lemma:
-
-### Lemma 1 (Liberty \[16\])
+### Lemma 1 (Liberty )
 
 The cumulative escaped mass $\rho_{1:T}$ can be upper bounded as
 
@@ -63,17 +54,7 @@ Crucially, Adam, which uses linear memory for second moment representations, com
 
 ### Sketching-based Approaches
 
-Regret (general convex)
-
-Full Matrix AdaGrad
-
-Ω(T3/4)111The regret of Ada-FD is expressed in terms of dynamic run-time quantities which do not admit a universal bound in terms of GT; we display its regret for the specific case of Observation 2 instead (a detailed look at its regret is given in Appendix B.3).
-
-$\sqrt{\ell\lambda_{\ell:d}T}$
-
-${{tr}{(G_{T}^{1/2})}} + \sqrt{d{({d - \ell})}\lambda_{\ell:d}}$
-
-Table 1: Memory-efficient adaptive gradient methods, in the OCO setting with dimension d (Sec. 2). We describe the worst-case regret bounds without exp-concavity assumptions, asymptotically, hiding logarithmic factors, treating the decision set diameter as a constant, and assume optimally-tuned hyperparameters. ℓ refers to the controllable preconditioner rank. Note ${{tr}G_{T}^{1/2}} = \sqrt{\min_{H \in \mathcal{H}}{\sum_{t}\left. \parallel\nabla_{t}\parallel \right._{H}^{2}}}$ is the optimal preconditioner’s regret among the class of positive semi-definite, unit-trace matrices, ℋ, and GT is the sum of gradient outer products. We let eigenvalues λi = λi(GT) with $\lambda_{i:j} = {\sum_{m = i}^{j}\lambda_{m}}$.
+Regret (general convex) Full Matrix AdaGrad Ω(T3/4)111The regret of Ada-FD is expressed in terms of dynamic run-time quantities which do not admit a universal bound in terms of GT; we display its regret for the specific case of Observation 2 instead (a detailed look at its regret is given in Appendix B.3). $\sqrt{\ell\lambda_{\ell:d}T}$ ${{tr}{(G_{T}^{1/2})}} + \sqrt{d{({d - \ell})}\lambda_{\ell:d}}$ Table 1: Memory-efficient adaptive gradient methods, in the OCO setting with dimension d (Sec. 2). We describe the worst-case regret bounds without exp-concavity assumptions, asymptotically, hiding logarithmic factors, treating the decision set diameter as a constant, and assume optimally-tuned hyperparameters. ℓ refers to the controllable preconditioner rank. Note ${{tr}G_{T}^{1/2}} = \sqrt{\min_{H \in \mathcal{H}}{\sum_{t}\left. \parallel\nabla_{t}\parallel \right._{H}^{2}}}$ is the optimal preconditioner’s regret among the class of positive semi-definite, unit-trace matrices, ℋ, and GT is the sum of gradient outer products. We let eigenvalues λi = λi(GT) with $\lambda_{i:j} = {\sum_{m = i}^{j}\lambda_{m}}$.
 
 Several works have explored sketching-like approximations to the gradient covariance matrix, but none provide an adaptive bound exploiting fast spectral decay in gradient covariance without additional assumptions (Tbl. 1). In this section, we consider the OCO setting over dimension $d$ (Sec. 2).
 
@@ -99,7 +80,7 @@ In concrete convex examples, Sketchy compares favorably to these approaches (App
 
 Figure 1: Asymptotic memory consumption for representing gradient covariance in adaptive regularization approaches for a single matrix parameter of size n × m. Here, r refers to the GGT history buffer size and k to the approximation rank of FD (both typically set to hundreds). Past sketching approaches like Ada-FD and Radagrad take memory similar to GGT, with r being sketch size; these are all asymptotically superlinear. This figure demonstrates optimizer memory usage in the theoretical OCO setting; in practice for deep learning workloads there are additive O(mn) factors for momentum, the parameters themselves, and grafting parameters for Shampoo and Sketchy.
 
-Perhaps our most compelling application is reducing the memory of Shampoo. Shampoo is an adaptive preconditioning method that takes into account the structure of the parameter space, and thus is more efficient than full matrix AdaGrad. For example, if the parameter is a weight matrix $W$ of size $m \times n$, AdaGrad treats the matrix-shaped parameters as a vector of size $mn$, and the preconditioner has size $m^{2}n^{2}$; Shampoo instead has left and right preconditioners $L,R$ of size $n \times n$ and $m \times m$, respectively, with the preconditioned update $L^{- {1/4}}WR^{- {1/4}}$. Write $\overline{\text{vec}}(W)$ as the vectorized weights, then it is equivalent to ${{({L \otimes R})}\overline{\text{vec}}(W)} = {\overline{\text{vec}}\left( {LWR} \right)}$, where $\otimes$ denotes the Kronecker product. Figure 1 illustrates the updates of AdaGrad and Shampoo, where AdaGrad update uses the entire matrix instead of the diagonal, which is shown in the figure. In other words, Shampoo uses a Kronecker-factored preconditioner, and the factorization preserves the matrix structure of the parameters. Since in DL optimization parameters often have matrix structure, Shampoo has strong empirical performance, and has improved upon state-of-the-art results in large-scale tasks such as language modeling with BERT-Large and image classification on ImageNet in.
+Perhaps our most compelling application is reducing the memory of Shampoo. Shampoo is an adaptive preconditioning method that takes into account the structure of the parameter space, and thus is more efficient than full matrix AdaGrad. For example, if the parameter is a weight matrix $W$ of size $m \times n$, AdaGrad treats the matrix-shaped parameters as a vector of size $mn$, and the preconditioner has size $m^{2}n^{2}$; Shampoo instead has left and right preconditioners $L,R$ of size $n \times n$ and $m \times m$, respectively, with the preconditioned update $L^{- {1/4}}WR^{- {1/4}}$. Write $\overline{\text{vec}}(W)$ as the vectorized weights, then it is equivalent to ${{({L \otimes R})}\overline{\text{vec}}(W)} = {\overline{\text{vec}}\left( {LWR} \right)}$, where $\otimes$ denotes the Kronecker product. Figure 1 illustrates the updates of AdaGrad and Shampoo, where AdaGrad update uses the entire matrix instead of the diagonal, which is shown in the figure. In other words, Shampoo uses a Kronecker-factored preconditioner, and the factorization preserves the matrix structure of the parameters. Since in DL optimization parameters often have matrix structure, Shampoo has strong empirical performance, and has improved upon state-of-the-art results in large-scale tasks such as language modeling with BERT-Large and image classification on ImageNet .
 
 Figure 1 elaborates why the composition of FD and Shampoo is essential to avoid memory consumption asymptotically greater than parameter count for approximate full matrix regularization.
 
@@ -111,24 +92,17 @@ Anil et al. introduces two workarounds for the problem of rectangular matrices b
 
 In this section, we introduce the adaptation of Frequent Directions (FD) to AdaGrad (Sec. 4.1) and Shampoo (Sec. 4.2), the corresponding algorithms and regret guarantees. Additionally, in Sec. 4.3, we modify FD to support exponential moving averages.
 
-The main technical novelty in incorporating Alg. 1 to AdaGrad (Alg. 2) and Shampoo (Alg. 3) is the construction of preconditioning matrices with FD-sketched matrices compensated by the cumulative escaped masses. The insight of such construction lies in the observation that while the FD sketch lower bounds the full preconditioning matrix, the FD sketch compensated with the cumulative escaped masses upper bounds the full preconditioning matrix, as demonstrated in Lemma 10 for AdaGrad and Lemma 14 for Shampoo. The regret guarantee for AdaGrad () and Shampoo () directly depends on the trace of the preconditioning matrices, therefore obtaining upper and lower bounds on the preconditioning matrices allows explicit additive dependence on the cumulative escaped mass. We expect this approach to be reusable for alternative approximation schemes.
+The main technical novelty in incorporating Alg. 1 to AdaGrad (Alg. 2) and Shampoo (Alg. 3) is the construction of preconditioning matrices with FD-sketched matrices compensated by the cumulative escaped masses. The insight of such construction lies in the observation that while the FD sketch lower bounds the full preconditioning matrix, the FD sketch compensated with the cumulative escaped masses upper bounds the full preconditioning matrix, as demonstrated in Lemma 10 for AdaGrad and Lemma 14 for Shampoo. The regret guarantee for AdaGrad and Shampoo directly depends on the trace of the preconditioning matrices, therefore obtaining upper and lower bounds on the preconditioning matrices allows explicit additive dependence on the cumulative escaped mass. We expect this approach to be reusable for alternative approximation schemes.
 
 ### FD for AdaGrad
 
 Our main algorithm in this section is Alg. 2 run with FD (Alg. 1) as the sketching method. ${\overset{\sim}{G}}_{t}^{- {1/2}}$ in Alg. 2 denotes the Moore-Penrose pseudoinverse of the matrix ${\overset{\sim}{G}}_{t}^{1/2}$. Our main algorithm, Sketchy AdaGrad, in this section exploits the FD approach outlined in Alg. 1 as the sketching method in AdaGrad. In particular, at every time step, we pass the newly received subgradient $g_{t}$ into Alg. 1, which updates and maintains a low-rank sketch ${\overline{G}}_{t}$ of the AdaGrad preconditioning matrix $G_{t}$. We keep track of the cumulative escaped mass $\rho_{1:t}$, which we add back to the low-rank sketch to create the Sketchy preconditioner ${\overset{\sim}{G}}_{t}$, with which we perform the regular AdaGrad descent and projection.
 
-1: Input: constraint set 𝒦, step size η, time horizon T.
-2: Initialize x1 ∈ 𝒦, ${\overline{G}}_{0} = {\overset{\sim}{G}}_{0} = 0$.
-4: Play xt, receive gt ∈ ∂ft(xt), suffer cost ft(xt).
-5: Sketch ${(\rho_{t},{\overline{G}}_{t})} = {\texttt{FD-update}{({\overline{G}}_{t - 1},{g_{t}g_{t}^{\top}})}}$.
-6: Update ${\overset{\sim}{G}}_{t} = {{\overline{G}}_{t} + {\rho_{1:t}I}}$, $y_{t + 1} = {x_{t} - {\eta{\overset{\sim}{G}}_{t}^{- {1/2}}g_{t}}}$, and $x_{t + 1} = {\underset{x\in\mathcal{K}}{argmin}{\|{y_{t + 1} - x}\|}_{{\overset{\sim}{G}}_{t}^{1/2}}^{2}}$.
-Algorithm 2 Sketchy AdaGrad (S-AdaGrad)
+1: Input: constraint set 𝒦, step size η, time horizon T. 2: Initialize x1 ∈ 𝒦, ${\overline{G}}_{0} = {\overset{\sim}{G}}_{0} = 0$. 4: Play xt, receive gt ∈ ∂ft(xt), suffer cost ft(xt). 5: Sketch ${(\rho_{t},{\overline{G}}_{t})} = {\texttt{FD-update}{({\overline{G}}_{t - 1},{g_{t}g_{t}^{\top}})}}$. 6: Update ${\overset{\sim}{G}}_{t} = {{\overline{G}}_{t} + {\rho_{1:t}I}}$, $y_{t + 1} = {x_{t} - {\eta{\overset{\sim}{G}}_{t}^{- {1/2}}g_{t}}}$, and $x_{t + 1} = {\underset{x\in\mathcal{K}}{argmin}{\|{y_{t + 1} - x}\|}_{{\overset{\sim}{G}}_{t}^{1/2}}^{2}}$. Algorithm 2 Sketchy AdaGrad (S-AdaGrad)
 
 ### Theorem 3
 
-Define $\Omega_{\ell} = \min_{k < \ell}{(\ell - k)}^{- 1}\sum_{i = {k + 1}}^{d}\lambda_{i}{(G_{T})}$, then with $\eta = \frac{D}{\sqrt{2}}$, Alg. 2 guarantees the following additive regret bound:
-
-where $D$ is the diameter of the constraint set $\mathcal{K}$ if $\mathcal{K}$ is bounded and $\max_{t \in {\lbrack T\rbrack}}{\|{x_{t} - x^{*}}\|}_{2}$ otherwise.
+Define $\Omega_{\ell} = \min_{k < \ell}{(\ell - k)}^{- 1}\sum_{i = {k + 1}}^{d}\lambda_{i}{(G_{T})}$, then with $\eta = \frac{D}{\sqrt{2}}$, Alg. 2 guarantees the following additive regret bound: where $D$ is the diameter of the constraint set $\mathcal{K}$ if $\mathcal{K}$ is bounded and $\max_{t \in {\lbrack T\rbrack}}{\|{x_{t} - x^{*}}\|}_{2}$ otherwise.
 
 ### Proof
 
@@ -140,26 +114,17 @@ We can improve Theorem 3 slightly to
 
 ### Proof
 
-The regret bound above holds under the optimal tuning of the learning rate, which depends on problem quantities that can be unknown a priori. It is possible to design a parameter-free variant of Alg. 2 by using the norm ${\| x\|}_{t} = {({x^{\top}{({{\overset{\sim}{G}}_{t} + I})}^{1/2}x})}^{1/2}$ in the projection step of Alg. 2, as seen in.
+The regret bound above holds under the optimal tuning of the learning rate, which depends on problem quantities that can be unknown a priori. It is possible to design a parameter-free variant of Alg. 2 by using the norm ${\| x\|}_{t} = {({x^{\top}{({{\overset{\sim}{G}}_{t} + I})}^{1/2}x})}^{1/2}$ in the projection step of Alg. 2, as seen .
 
 ### FD for Shampoo
 
 In this section, we adapt FD-update to Shampoo. For simplicity, we optimize over ${\mathbb{R}}^{m \times n}$ in Alg. 3; projection may be handled as in Alg. 2. Similar to Sketchy AdaGrad, Sketchy Shampoo uses the FD approach outlined in Alg. 1 to sketch the left and right preconditioning matrices for Shampoo. In particular, we maintain two parallel sketching streams using Alg. 1 to produce sketches ${\overline{L}}_{t},{\overline{R}}_{t}$ for the left and right preconditioning matrices. We keep track of the cumulative escaped masses $\rho_{1:t}^{L}$ and $\rho_{1:t}^{R}$ from sketching the left and right preconditioning matrices, respectively, and compensate the cumulative escaped mass to create the left and right Sketchy preconditioning matrices ${\overset{\sim}{L}}_{t},{\overset{\sim}{R}}_{t}$.
 
-1: Input: step size η, time horizon T.
-2: Initialize X0 = 0m × n, ${\overset{\sim}{L}}_{0} = {\varepsilon I_{m}}$, ${\overset{\sim}{R}}_{0} = {\varepsilon I_{n}}$, ${\overline{L}}_{0} = 0_{m}$, ${\overline{R}}_{0} = 0_{n}$.
-4: Play Xt, suffer ft(Xt), receive Gt ∈ ∂ft(Xt).
-5: Sketch ${(\rho_{t}^{L},{\overline{L}}_{t})} = {\texttt{FD-update}{({\overline{L}}_{t - 1},{G_{t}G_{t}^{\top}})}}$, ${(\rho_{t}^{R},{\overline{R}}_{t})} = {\texttt{FD-update}{({\overline{R}}_{t - 1},{G_{t}^{\top}G_{t}})}}$.
-6: Update ${\overset{\sim}{L}}_{t} = {{\overline{L}}_{t} + {\rho_{1:t}^{L}I_{m}}}$, ${\overset{\sim}{R}}_{t} = {{\overline{R}}_{t} + {\rho_{1:t}^{R}I_{n}}}$ and $X_{t + 1} = {X_{t} - {\eta{\overset{\sim}{L}}_{t}^{- {1/4}}G_{t}{\overset{\sim}{R}}_{t}^{- {1/4}}}}$.
-Algorithm 3 Sketchy Shampoo (S-Shampoo)
-
-Denote $L_{T}\overset{\text{def}}{=}{{\sum_{t = 1}^{T}{G_{t}G_{t}^{\top}}} + {\varepsilon I}}$ and $R_{T}\overset{\text{def}}{=}{{\sum_{t = 1}^{T}{G_{t}^{\top}G_{t}}} + {\varepsilon I}}$.
+1: Input: step size η, time horizon T. 2: Initialize X0 = 0m × n, ${\overset{\sim}{L}}_{0} = {\varepsilon I_{m}}$, ${\overset{\sim}{R}}_{0} = {\varepsilon I_{n}}$, ${\overline{L}}_{0} = 0_{m}$, ${\overline{R}}_{0} = 0_{n}$. 4: Play Xt, suffer ft(Xt), receive Gt ∈ ∂ft(Xt). 5: Sketch ${(\rho_{t}^{L},{\overline{L}}_{t})} = {\texttt{FD-update}{({\overline{L}}_{t - 1},{G_{t}G_{t}^{\top}})}}$, ${(\rho_{t}^{R},{\overline{R}}_{t})} = {\texttt{FD-update}{({\overline{R}}_{t - 1},{G_{t}^{\top}G_{t}})}}$. 6: Update ${\overset{\sim}{L}}_{t} = {{\overline{L}}_{t} + {\rho_{1:t}^{L}I_{m}}}$, ${\overset{\sim}{R}}_{t} = {{\overline{R}}_{t} + {\rho_{1:t}^{R}I_{n}}}$ and $X_{t + 1} = {X_{t} - {\eta{\overset{\sim}{L}}_{t}^{- {1/4}}G_{t}{\overset{\sim}{R}}_{t}^{- {1/4}}}}$. Algorithm 3 Sketchy Shampoo (S-Shampoo) Denote $L_{T}\overset{\text{def}}{=}{{\sum_{t = 1}^{T}{G_{t}G_{t}^{\top}}} + {\varepsilon I}}$ and $R_{T}\overset{\text{def}}{=}{{\sum_{t = 1}^{T}{G_{t}^{\top}G_{t}}} + {\varepsilon I}}$.
 
 ### Theorem 5
 
-Suppose $G_{1},{\ldots G_{T}}$ have rank at most $r$. Then Alg. 3 run with $\eta = {D/\sqrt{2r}}$ guarantees the following regret bound:
-
-where $D = {\max_{t \in {\lbrack T\rbrack}}{\|{X_{t} - X^{*}}\|}_{F}}$ and $\Omega_{L,\ell},\Omega_{R,\ell}$ are analogous bounds for $\rho_{1:T}^{L},\rho_{1:T}^{R}$ from Lem. 1. ‣ Sketching and the Frequent Directions Method. ‣ 2 Setting and Definitions ‣ Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions").
+Suppose $G_{1},{\ldots G_{T}}$ have rank at most $r$. Then Alg. 3 run with $\eta = {D/\sqrt{2r}}$ guarantees the following regret bound: where $D = {\max_{t \in {\lbrack T\rbrack}}{\|{X_{t} - X^{*}}\|}_{F}}$ and $\Omega_{L,\ell},\Omega_{R,\ell}$ are analogous bounds for $\rho_{1:T}^{L},\rho_{1:T}^{R}$ from Lem. 1. ‣ Sketching and the Frequent Directions Method. ‣ 2 Setting and Definitions ‣ Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions").
 
 ### Proof
 
@@ -181,9 +146,7 @@ We investigate how much of Shampoo's quality our low-memory approach can recover
 
 ### Deep Neural Networks
 
-We evaluate the effectiveness of S-Shampoo as a practical second-order algorithm for training networks, including
-
-ResNet-50 for ImageNet image classification task of ImageNet with random cropping and flipping augmentations.
+We evaluate the effectiveness of S-Shampoo as a practical second-order algorithm for training networks, including ResNet-50 for ImageNet image classification task of ImageNet with random cropping and flipping augmentations.
 
 A 16-layer Conformer model for the audio transcription task, Librispeech.
 

@@ -16,8 +16,7 @@ While our algorithm is motivated by modern machine learning practices, in partic
 
 We implemented Shampoo (in its general tensor form) in Python as a new optimizer in the TensorFlow framework. Shampoo is extremely simple to implement, as most of the computations it performs boil down to standard tensor operations supported out-of-the-box in TensorFlow and similar libraries. Using the Shampoo optimizer is also a straightforward process. Whereas recent optimization methods, such as, need to be aware of the structure of the underlying model, Shampoo only needs to be informed of the tensors involved and their sizes. In our experiments with state-of-the-art deep learning models Shampoo is capable of converging considerably faster than commonly used optimizers. Surprisingly, albeit using more complex update rule, Shampoo's runtime per step is comparable to that of simple methods such as vanilla SGD.
 
-Initialize W1 = 0m × n; L0 = ϵ Im; R0 = ϵ In for t = 1, …, T do Receive loss function ft: ℝm × n ↦ ℝ Compute gradient Gt = ∇ft (Wt) {Gt ∈ ℝm × n} Update preconditioners: Lt = Lt − 1 + Gt GtT Rt = Rt − 1 + GtT Gt Update parameters: Wt + 1 = Wt − η Lt−1/4 Gt Rt−1/4
-Algorithm 1: Shampoo, matrix case.
+Initialize W1 = 0m × n; L0 = ϵ Im; R0 = ϵ In for t = 1, …, T do Receive loss function ft: ℝm × n ↦ ℝ Compute gradient Gt = ∇ft (Wt) {Gt ∈ ℝm × n} Update preconditioners: Lt = Lt − 1 + Gt GtT Rt = Rt − 1 + GtT Gt Update parameters: Wt + 1 = Wt − η Lt−1/4 Gt Rt−1/4 Algorithm 1: Shampoo, matrix case.
 
 ### Shampoo for matrices
 
@@ -39,53 +38,29 @@ We use lowercase letters to denote scalars and vectors and uppercase letters to 
 
 ### Online convex optimization
 
-We use Online Convex Optimization (OCO) as our analysis framework. OCO can be seen as a generalization of stochastic (convex) optimization. In OCO a learner makes predictions in the form of a vector belonging to a convex domain $\mathcal{W} \subseteq {\mathbb{R}}^{d}$ for $T$ rounds. After predicting $w_{t} \in \mathcal{W}$ on round $t$, a convex function $f_{t}:{\mathcal{W}\mapsto{\mathbb{R}}}$ is chosen, potentially in an adversarial or adaptive way based on the learner's past predictions. The learner then suffers a loss $f_{t}{(w_{t})}$ and observes the function $f_{t}$ as feedback. The goal of the learner is to achieve low cumulative loss compared to any fixed vector in the $\mathcal{W}$. Formally, the learner attempts to minimize its *regret*, defined as the quantity
-
-Online convex optimization includes stochastic convex optimization as a special case. Any regret minimizing algorithm can be converted to a stochastic optimization algorithm with convergence rate $O{({\mathcal{R}_{T}/T})}$ using an online-to-batch conversion technique.
+We use Online Convex Optimization (OCO) as our analysis framework. OCO can be seen as a generalization of stochastic (convex) optimization. In OCO a learner makes predictions in the form of a vector belonging to a convex domain $\mathcal{W} \subseteq {\mathbb{R}}^{d}$ for $T$ rounds. After predicting $w_{t} \in \mathcal{W}$ on round $t$, a convex function $f_{t}:{\mathcal{W}\mapsto{\mathbb{R}}}$ is chosen, potentially in an adversarial or adaptive way based on the learner's past predictions. The learner then suffers a loss $f_{t}{(w_{t})}$ and observes the function $f_{t}$ as feedback. The goal of the learner is to achieve low cumulative loss compared to any fixed vector in the $\mathcal{W}$. Formally, the learner attempts to minimize its *regret*, defined as the quantity Online convex optimization includes stochastic convex optimization as a special case. Any regret minimizing algorithm can be converted to a stochastic optimization algorithm with convergence rate $O{({\mathcal{R}_{T}/T})}$ using an online-to-batch conversion technique.
 
 ### Adaptive regularization in online optimization
 
-We next introduce tools from online optimization that our algorithms rely upon. First, we describe an adaptive version of Online Mirror Descent (OMD) in the OCO setting which employs time-dependent regularization. The algorithm proceeds as follows: on each round $t = {1,2,\ldots,T}$, it receives the loss function $f_{t}$ and computes the gradient $g_{t} = {{\nabla f_{t}}{(w_{t})}}$. Then, given a positive definite matrix $H_{t} \succ 0$ it performs an update according to
-
-When $\mathcal{W} = {\mathbb{R}}^{d}$, Eq. 1 is equivalent to a preconditioned gradient step, ${w_{t + 1} = {w_{t} - {\etaH_{t}^{- 1}g_{t}}}}.$ More generally, the update rule can be rewritten as a projected gradient step,
-
-where ${\Pi_{\mathcal{W}}{\lbrack z;H\rbrack}} = {{\arg\min}_{w \in \mathcal{W}}{\|{w - z}\|}_{H}}$ is the projection onto the convex set $\mathcal{W}$ with respect to the norm $\parallel \cdot \parallel_{H}$. The following lemma provides a regret bound for Online Mirror Descent, see for instance.
+We next introduce tools from online optimization that our algorithms rely upon. First, we describe an adaptive version of Online Mirror Descent (OMD) in the OCO setting which employs time-dependent regularization. The algorithm proceeds as follows: on each round $t = {1,2,\ldots,T}$, it receives the loss function $f_{t}$ and computes the gradient $g_{t} = {{\nabla f_{t}}{(w_{t})}}$. Then, given a positive definite matrix $H_{t} \succ 0$ it performs an update according to When $\mathcal{W} = {\mathbb{R}}^{d}$, Eq. 1 is equivalent to a preconditioned gradient step, ${w_{t + 1} = {w_{t} - {\etaH_{t}^{- 1}g_{t}}}}.$ More generally, the update rule can be rewritten as a projected gradient step, where ${\Pi_{\mathcal{W}}{\lbrack z;H\rbrack}} = {{\arg\min}_{w \in \mathcal{W}}{\|{w - z}\|}_{H}}$ is the projection onto the convex set $\mathcal{W}$ with respect to the norm $\parallel \cdot \parallel_{H}$. The following lemma provides a regret bound for Online Mirror Descent, see for instance.
 
 ### Lemma 1
 
-For any sequence of matrices ${H_{1},\ldots,H_{T}} \succ 0$, the regret of online mirror descent is bounded above by,
+For any sequence of matrices ${H_{1},\ldots,H_{T}} \succ 0$, the regret of online mirror descent is bounded above, In order to analyze particular regularization schemes, namely specific strategies for choosing the matrices $H_{1},\ldots,H_{T}$, we need the following lemma, adopted; for completeness, we provide a short proof in Appendix C.
 
-In order to analyze particular regularization schemes, namely specific strategies for choosing the matrices $H_{1},\ldots,H_{T}$, we need the following lemma, adopted from; for completeness, we provide a short proof in Appendix C.
+### Lemma 2 (Gupta et al. )
 
-### Lemma 2 (Gupta et al. \[10\])
-
-Let $g_{1},\ldots,g_{T}$ be a sequence of vectors, and let $M_{t} = {\sum_{s = 1}^{t}{g_{s}g_{s}^{\mathsf{T}}}}$ for $t \geq 1$. Given a function $\Phi$ over PSD matrices, define
-
-(and assume that a minimum is attained for all $t$). Then
+Let $g_{1},\ldots,g_{T}$ be a sequence of vectors, and let $M_{t} = {\sum_{s = 1}^{t}{g_{s}g_{s}^{\mathsf{T}}}}$ for $t \geq 1$. Given a function $\Phi$ over PSD matrices, define (and assume that a minimum is attained for all $t$). Then
 
 ### Kronecker products
 
-We recall the definition of the Kronecker product, the vectorization operation and their calculus. Let $A$ be an $m \times n$ matrix and $B$ be an $m^{\prime} \times n^{\prime}$ matrix. The Kronecker product, denoted $A \otimes B$, is an ${{mm^{\prime}} \times n}n^{\prime}$ block matrix defined as,
-
-For an $m \times n$ matrix $A$ with rows $a_{1},\ldots,a_{m}$, the *vectorization* (or flattening) of $A$ is the ${mn} \times 1$ column vector^22^2This definition is slightly non-standard and differs from the more typical column-major operator ${vec}{()}$; the notation $\overline{vec}{()}$ is used to distinguish it from the latter.
+We recall the definition of the Kronecker product, the vectorization operation and their calculus. Let $A$ be an $m \times n$ matrix and $B$ be an $m' \times n'$ matrix. The Kronecker product, denoted $A \otimes B$, is an ${{mm'} \times n}n'$ block matrix defined as, For an $m \times n$ matrix $A$ with rows $a_{1},\ldots,a_{m}$, the *vectorization* (or flattening) of $A$ is the ${mn} \times 1$ column vector^22^2This definition is slightly non-standard and differs from the more typical column-major operator ${vec}{}$; the notation $\overline{vec}{}$ is used to distinguish it from the latter.
 
 The next lemma collects several properties of the Kronecker product and the $\overline{vec}{( \cdot )}$ operator, that will be used throughout the paper. For proofs and further details, we refer to.
 
 ### Lemma 3
 
-Let $A,A^{\prime},B,B^{\prime}$ be matrices of appropriate dimensions. The following properties hold:
-
-${{({A \otimes B})}{({A^{\prime} \otimes B^{\prime}})}} = {{({AA^{\prime}})} \otimes {({BB^{\prime}})}}$;
-
-${({A \otimes B})}^{\mathsf{T}} = {A^{\mathsf{T}} \otimes B^{\mathsf{T}}}$;
-
-If ${A,B} \succeq 0$, then for any $s \in {\mathbb{R}}$ it holds that ${({A \otimes B})}^{s} = {A^{s} \otimes B^{s}}$, and in particular, if ${A,B} \succ 0$ then ${({A \otimes B})}^{- 1} = {A^{- 1} \otimes B^{- 1}}$;
-
-If $A \succeq A^{\prime}$ and $B \succeq B^{\prime}$ then ${A \otimes B} \succeq {A^{\prime} \otimes B^{\prime}}$, and in particular, if ${A,B} \succeq 0$ then ${A \otimes B} \succeq 0$;
-
-${\operatorname{Tr}{({A \otimes B})}} = {{\operatorname{Tr}{(A)}}{\operatorname{Tr}{(B)}}}$;
-
-${\overline{vec}{({uv^{\mathsf{T}}})}} = {u \otimes v}$ for any two column vectors $u,v$.
+Let $A,A',B,B'$ be matrices of appropriate dimensions. The following properties hold: ${{({A \otimes B})}{({A' \otimes B'})}} = {{({AA'})} \otimes {({BB'})}}$; ${({A \otimes B})}^{\mathsf{T}} = {A^{\mathsf{T}} \otimes B^{\mathsf{T}}}$; If ${A,B} \succeq 0$, then for any $s \in {\mathbb{R}}$ it holds that ${({A \otimes B})}^{s} = {A^{s} \otimes B^{s}}$, and in particular, if ${A,B} \succ 0$ then ${({A \otimes B})}^{- 1} = {A^{- 1} \otimes B^{- 1}}$; If $A \succeq A'$ and $B \succeq B'$ then ${A \otimes B} \succeq {A' \otimes B'}$, and in particular, if ${A,B} \succeq 0$ then ${A \otimes B} \succeq 0$; ${\operatorname{Tr}{({A \otimes B})}} = {{\operatorname{Tr}{(A)}}{\operatorname{Tr}{(B)}}}$; ${\overline{vec}{({uv^{\mathsf{T}}})}} = {u \otimes v}$ for any two column vectors $u,v$.
 
 The following identity connects the Kronecker product and the $\overline{vec}$ operator. It facilitates an efficient computation of a matrix-vector product where the matrix is a Kronecker product of two smaller matrices. We provide its proof for completeness; see Appendix C.
 
@@ -97,11 +72,9 @@ Let $G \in {\mathbb{R}}^{m \times n}$, $L \in {\mathbb{R}}^{m \times m}$ and $R 
 
 Our analysis requires the following result concerning the geometric means of matrices. Recall that by writing $X \succeq 0$ we mean, in particular, that $X$ is a symmetric matrix.
 
-### Lemma 5 (Ando et al. \[3\])
+### Lemma 5 (Ando et al. )
 
-Assume that $0 \preceq X_{i} \preceq Y_{i}$ for all $i = {1,\ldots,n}$. Assume further that all $X_{i}$ commute with each other and all $Y_{i}$ commute with each other. Let ${\alpha_{1},\ldots,\alpha_{n}} \geq 0$ such that ${\sum_{i = 1}^{n}\alpha_{i}} = 1$, then
-
-In words, the (weighted) geometric mean of commuting PSD matrices is operator monotone.
+Assume that $0 \preceq X_{i} \preceq Y_{i}$ for all $i = {1,\ldots,n}$. Assume further that all $X_{i}$ commute with each other and all $Y_{i}$ commute with each other. Let ${\alpha_{1},\ldots,\alpha_{n}} \geq 0$ such that ${\sum_{i = 1}^{n}\alpha_{i}} = 1$, then In words, the (weighted) geometric mean of commuting PSD matrices is operator monotone.
 
 Ando et al. proved a stronger result which does not require the PSD matrices to commute with each other, relying on a generalized notion of geometric mean, but for our purposes the simpler commuting case suffices. We also use the following classic result from matrix theory, attributed to Löwner, which is an immediate consequence of Lemma 5. ‣ 2.4 Matrix inequalities ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization").
 
@@ -115,9 +88,7 @@ In this section we analyze Shampoo in the matrix case. The analysis conveys the 
 
 ### Theorem 7
 
-Assume that the gradients $G_{1},\ldots,G_{T}$ are matrices of rank at most $r$. Then the regret of Algorithm 1 compared to any $W^{\star} \in {\mathbb{R}}^{m \times n}$ is bounded as follows,
-
-Let us make a few comments regarding the bound. First, under mild conditions, each of the trace terms on the right-hand side of the bound scales as $O{(T^{1/4})}$. Thus, the overall scaling of the bound with respect to the number of iterations $T$ is $O{(\sqrt{T})}$, which is the best possible in the context of online (or stochastic) optimization. For example, assume that the functions $f_{t}$ are $1$-Lipschitz with respect to the spectral norm, that is, ${\| G_{t}\|}_{2} \leq 1$ for all $t$. Let us also fix $\epsilon = 0$ for simplicity. Then, ${G_{t}G_{t}^{\mathsf{T}}} \preceq I_{m}$ and ${G_{t}^{\mathsf{T}}G_{t}} \preceq I_{n}$ for all $t$, and so we have ${\operatorname{Tr}{(L_{T}^{1/4})}} \leq {mT^{1/4}}$ and ${\operatorname{Tr}{(R_{T}^{1/4})}} \leq {nT^{1/4}}$. That is, in the worst case, while only assuming convex and Lipschitz losses, the regret of the algorithm is $O{(\sqrt{T})}$.
+Assume that the gradients $G_{1},\ldots,G_{T}$ are matrices of rank at most $r$. Then the regret of Algorithm 1 compared to any $W^{\star} \in {\mathbb{R}}^{m \times n}$ is bounded as follows, Let us make a few comments regarding the bound. First, under mild conditions, each of the trace terms on the right-hand side of the bound scales as $O{(T^{1/4})}$. Thus, the overall scaling of the bound with respect to the number of iterations $T$ is $O{(\sqrt{T})}$, which is the best possible in the context of online (or stochastic) optimization. For example, assume that the functions $f_{t}$ are $1$-Lipschitz with respect to the spectral norm, that is, ${\| G_{t}\|}_{2} \leq 1$ for all $t$. Let us also fix $\epsilon = 0$ for simplicity. Then, ${G_{t}G_{t}^{\mathsf{T}}} \preceq I_{m}$ and ${G_{t}^{\mathsf{T}}G_{t}} \preceq I_{n}$ for all $t$, and so we have ${\operatorname{Tr}{(L_{T}^{1/4})}} \leq {mT^{1/4}}$ and ${\operatorname{Tr}{(R_{T}^{1/4})}} \leq {nT^{1/4}}$. That is, in the worst case, while only assuming convex and Lipschitz losses, the regret of the algorithm is $O{(\sqrt{T})}$.
 
 Second, we note that $D$ in the above bound could in principle grow with the number of iterations $T$ and is not necessarily bounded by a constant. This issue can be easily addressed, for instance, by adding an additional step to the algorithm in which $W_{t}$ is projected $W_{t}$ onto the convex set of matrices whose Frobenius norm is bounded by $D/2$. Concretely, the projection at step $t$ needs to be computed with respect to the norm induced by the pair of matrices $(L_{t},R_{t})$, defined as ${\| A\|}_{t}^{2} = {\operatorname{Tr}{({A^{\mathsf{T}}L_{t}^{1/4}AR_{t}^{1/4}})}}$; it is not hard to verify that the latter indeed defines a norm over ${\mathbb{R}}^{m \times n}$, for any ${L_{t},R_{t}} \succ 0$. Alas, the projection becomes computationally expensive in large scale problems and is rarely performed in practice. We therefore omitted the projection step from Algorithm 1 in favor of a slightly looser bound.
 
@@ -125,9 +96,7 @@ The main step in the proof of the theorem is established in the following lemma.
 
 ### Lemma 8
 
-Assume that ${G_{1},\ldots,G_{T}} \in {\mathbb{R}}^{m \times n}$ are matrices of rank at most $r$. Let $g_{t} = {\overline{vec}{(G_{t})}}$ denote the vectorization of $G_{t}$ for all $t$. Then, for any $\epsilon \geq 0$,
-
-In particular, the lemma shows that the small eigenvalues of the full-matrix preconditioner on the left, which are the most important for effective preconditioning, do not vanish as a result of the implicit approximation. In order to prove Lemma 8 we need the following technical result.
+Assume that ${G_{1},\ldots,G_{T}} \in {\mathbb{R}}^{m \times n}$ are matrices of rank at most $r$. Let $g_{t} = {\overline{vec}{(G_{t})}}$ denote the vectorization of $G_{t}$ for all $t$. Then, for any $\epsilon \geq 0$, In particular, the lemma shows that the small eigenvalues of the full-matrix preconditioner on the left, which are the most important for effective preconditioning, do not vanish as a result of the implicit approximation. In order to prove Lemma 8 we need the following technical result.
 
 ### Lemma 9
 
@@ -135,51 +104,15 @@ Let $G$ be an $m \times n$ matrix of rank at most $r$ and denote $g = {\overline
 
 ### Proof
 
-Write the singular value decomposition $G = {\sum_{i = 1}^{r}{\sigma_{i}u_{i}v_{i}^{\mathsf{T}}}}$, where $\sigma_{i} \geq 0$ for all $i$, and ${u_{1},\ldots,u_{r}} \in {\mathbb{R}}^{m}$ and ${v_{1},\ldots,v_{r}} \in {\mathbb{R}}^{n}$ are orthonormal sets of vectors. Then, $g = {\sum_{i = 1}^{r}{\sigma_{i}{({u_{i} \otimes v_{i}})}}}$ and hence,
-
-Next, we use the fact that for any set of vectors $w_{1},\ldots,w_{r}$,
-
-which holds since given a vector $x$ we can write $\alpha_{i} = {x^{\mathsf{T}}w_{i}}$, and use the convexity of $\alpha\mapsto\alpha^{2}$ to obtain
-
-Using this fact and Lemma 3(i) ‣ Lemma 3. ‣ 2.3 Kronecker products ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") we can rewrite,
-
-Now, since ${GG^{\mathsf{T}}} = {\sum_{i = 1}^{r}{\sigma_{i}^{2}u_{i}u_{i}^{\mathsf{T}}}}$ and ${v_{i}v_{i}^{\mathsf{T}}} \preceq I_{n}$ for all $i$, we have
-
-Similarly, using ${G^{\mathsf{T}}G} = {\sum_{i = 1}^{r}{\sigma_{i}^{2}v_{i}v_{i}^{\mathsf{T}}}}$ and ${u_{i}u_{i}^{\mathsf{T}}} \preceq I_{m}$ for all $i$, we obtain the second matrix inequality. ∎
+Write the singular value decomposition $G = {\sum_{i = 1}^{r}{\sigma_{i}u_{i}v_{i}^{\mathsf{T}}}}$, where $\sigma_{i} \geq 0$ for all $i$, and ${u_{1},\ldots,u_{r}} \in {\mathbb{R}}^{m}$ and ${v_{1},\ldots,v_{r}} \in {\mathbb{R}}^{n}$ are orthonormal sets of vectors. Then, $g = {\sum_{i = 1}^{r}{\sigma_{i}{({u_{i} \otimes v_{i}})}}}$ and hence, Next, we use the fact that for any set of vectors $w_{1},\ldots,w_{r}$, which holds since given a vector $x$ we can write $\alpha_{i} = {x^{\mathsf{T}}w_{i}}$, and use the convexity of $\alpha\mapsto\alpha^{2}$ to obtain Using this fact and Lemma 3(i) ‣ Lemma 3. ‣ 2.3 Kronecker products ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") we can rewrite, Now, since ${GG^{\mathsf{T}}} = {\sum_{i = 1}^{r}{\sigma_{i}^{2}u_{i}u_{i}^{\mathsf{T}}}}$ and ${v_{i}v_{i}^{\mathsf{T}}} \preceq I_{n}$ for all $i$, we have Similarly, using ${G^{\mathsf{T}}G} = {\sum_{i = 1}^{r}{\sigma_{i}^{2}v_{i}v_{i}^{\mathsf{T}}}}$ and ${u_{i}u_{i}^{\mathsf{T}}} \preceq I_{m}$ for all $i$, we obtain the second matrix inequality. ∎
 
 ### Proof of Lemma 8
 
-Let us introduce the following notations to simplify our derivation,
-
-From Lemma 9 we know that,
-
-Now, observe that $I_{m} \otimes B_{n}$ and $A_{m} \otimes I_{n}$ commute with each other. Using Lemma 5. ‣ 2.4 Matrix inequalities ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") followed by Lemma 3(iii) ‣ Lemma 3. ‣ 2.3 Kronecker products ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") and Lemma 3(i) ‣ Lemma 3. ‣ 2.3 Kronecker products ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") yields
-
-which completes the proof. ∎
-
-We can now prove the main result of the section.
+Let us introduce the following notations to simplify our derivation, From Lemma 9 we know that, Now, observe that $I_{m} \otimes B_{n}$ and $A_{m} \otimes I_{n}$ commute with each other. Using Lemma 5. ‣ 2.4 Matrix inequalities ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") followed by Lemma 3(iii) ‣ Lemma 3. ‣ 2.3 Kronecker products ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") and Lemma 3(i) ‣ Lemma 3. ‣ 2.3 Kronecker products ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") yields which completes the proof. ∎ We can now prove the main result of the section.
 
 ### Proof of Theorem 7
 
-Recall the update performed in Algorithm 1,
-
-Note that the pair of left and right preconditioning matrices, $L_{t}^{1/4}$ and $R_{t}^{1/4}$, is equivalent due to Lemma 4 to a single preconditioning matrix $H_{t} = {L_{t}^{1/4} \otimes R_{t}^{1/4}} \in {\mathbb{R}}^{{{mn} \times m}n}$. This matrix is applied to flattened version of the gradient $g_{t} = {\overline{vec}{(G_{t})}}$. More formally, letting $w_{t} = {\overline{vec}{(W_{t})}}$ we have that the update rule of the algorithm is equivalent to,
-
-Hence, we can invoke Lemma 1 in conjuction the fact that $0 \prec H_{1} \preceq \ldots \preceq H_{T}$. The latter follows from Lemma 3(iv) ‣ Lemma 3. ‣ 2.3 Kronecker products ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization"), as $0 \prec L_{1} \preceq \ldots \preceq L_{T}$ and $0 \prec R_{1} \preceq \ldots \preceq R_{T}$. We thus further bound the first term of Lemma 1 by,
-
-for $D = {\max_{t \in {\lbrack T\rbrack}}{\|{w_{t} - w^{\star}}\|}} = {\max_{t \in {\lbrack T\rbrack}}{\|{W_{t} - W^{\star}}\|}_{\mathsf{F}}}$ where $w^{\star} = {\overline{vec}{(W^{\star})}}$ and $H_{0} = 0$. We obtain the regret bound
-
-Let us next bound the sum on the right-hand side of Eq. 4. First, according to Lemma 8 and the monotonicity (in the operator sense) of the square root function $x\mapsto x^{1/2}$ (recall Lemma 6), for the preconditioner $H_{t}$ we have that
-
-On the other hand, invoking Lemma 2. ‣ 2.2 Adaptive regularization in online optimization ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") with the choice of potential
-
-and $M_{t} = {\sum_{s = 1}^{t}{g_{t}g_{t}^{\mathsf{T}}}}$, we get,
-
-To see the last equality, observe that for any symmetric $A \succeq 0$, the function $\operatorname{Tr}{({{AX} + X^{- 1}})}$ is minimized at $X = A^{- {1/2}}$, since ${\nabla_{X}{\operatorname{Tr}{({{AX} + X^{- 1}})}}} = {A - X^{- 2}}$. Hence, Lemma 2. ‣ 2.2 Adaptive regularization in online optimization ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") implies
-
-Using Eq. 5 twice along with Section 3, we obtain
-
-Finally, using the above upper bound in Eq. 4 and choosing $\eta = {D/\sqrt{2r}}$ gives the desired regret bound:
+Recall the update performed in Algorithm 1, Note that the pair of left and right preconditioning matrices, $L_{t}^{1/4}$ and $R_{t}^{1/4}$, is equivalent due to Lemma 4 to a single preconditioning matrix $H_{t} = {L_{t}^{1/4} \otimes R_{t}^{1/4}} \in {\mathbb{R}}^{{{mn} \times m}n}$. This matrix is applied to flattened version of the gradient $g_{t} = {\overline{vec}{(G_{t})}}$. More formally, letting $w_{t} = {\overline{vec}{(W_{t})}}$ we have that the update rule of the algorithm is equivalent to, Hence, we can invoke Lemma 1 in conjuction the fact that $0 \prec H_{1} \preceq \ldots \preceq H_{T}$. The latter follows from Lemma 3(iv) ‣ Lemma 3. ‣ 2.3 Kronecker products ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization"), as $0 \prec L_{1} \preceq \ldots \preceq L_{T}$ and $0 \prec R_{1} \preceq \ldots \preceq R_{T}$. We thus further bound the first term of Lemma 1, for $D = {\max_{t \in {\lbrack T\rbrack}}{\|{w_{t} - w^{\star}}\|}} = {\max_{t \in {\lbrack T\rbrack}}{\|{W_{t} - W^{\star}}\|}_{\mathsf{F}}}$ where $w^{\star} = {\overline{vec}{(W^{\star})}}$ and $H_{0} = 0$. We obtain the regret bound Let us next bound the sum on the right-hand side of Eq. 4. First, according to Lemma 8 and the monotonicity (in the operator sense) of the square root function $x\mapsto x^{1/2}$ (recall Lemma 6), for the preconditioner $H_{t}$ we have that On the other hand, invoking Lemma 2. ‣ 2.2 Adaptive regularization in online optimization ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") with the choice of potential and $M_{t} = {\sum_{s = 1}^{t}{g_{t}g_{t}^{\mathsf{T}}}}$, we get, To see the last equality, observe that for any symmetric $A \succeq 0$, the function $\operatorname{Tr}{({{AX} + X^{- 1}})}$ is minimized at $X = A^{- {1/2}}$, since ${\nabla_{X}{\operatorname{Tr}{({{AX} + X^{- 1}})}}} = {A - X^{- 2}}$. Hence, Lemma 2. ‣ 2.2 Adaptive regularization in online optimization ‣ 2 Background and technical tools ‣ Shampoo: Preconditioned Stochastic Tensor Optimization") implies Using Eq. 5 twice along with Section 3, we obtain Finally, using the above upper bound in Eq. 4 and choosing $\eta = {D/\sqrt{2r}}$ gives the desired regret bound:
 
 ## Shampoo for tensors
 
@@ -187,27 +120,15 @@ In this section we introduce the Shampoo algorithm in its general form, which is
 
 ### Tensors: notation and definitions
 
-A tensor is a multidimensional array. The *order* of a tensor is the number of dimensions (also called modes). For an order-$k$ tensor $A$ of dimension $n_{1} \times \cdots \times n_{k}$, we use the notation $A_{j_{1},\ldots,j_{k}}$ to refer to the single element at position $j_{i}$ on the $i$'th dimension for all $i$ where $1 \leq j_{i} \leq n_{i}$. We also denote
-
-The following definitions are used throughout the section.
+A tensor is a multidimensional array. The *order* of a tensor is the number of dimensions (also called modes). For an order-$k$ tensor $A$ of dimension $n_{1} \times \cdots \times n_{k}$, we use the notation $A_{j_{1},\ldots,j_{k}}$ to refer to the single element at position $j_{i}$ on the $i$'th dimension for all $i$ where $1 \leq j_{i} \leq n_{i}$. We also denote The following definitions are used throughout the section.
 
 A *slice* of an order-$k$ tensor along its $i$'th dimension is a tensor of order $k - 1$ which consists of entries with the same index on the $i$'th dimension. A slice generalizes the notion of rows and columns of a matrix.
 
-An $n_{1} \times \cdots \times n_{k}$ tensor $A$ is of *rank one* if it can be written as an outer product of $k$ vectors of appropriate dimensions. Formally, let $\circ$ denote the vector outer product and and set $A = {u^{1} \circ u^{2} \circ \cdots \circ u^{k}}$ where $u^{i} \in {\mathbb{R}}^{n_{i}}$ for all $i$. Then $A$ is an order-$k$ tensor defined through
+An $n_{1} \times \cdots \times n_{k}$ tensor $A$ is of *rank one* if it can be written as an outer product of $k$ vectors of appropriate dimensions. Formally, let $\circ$ denote the vector outer product and and set $A = {u^{1} \circ u^{2} \circ \cdots \circ u^{k}}$ where $u^{i} \in {\mathbb{R}}^{n_{i}}$ for all $i$. Then $A$ is an order-$k$ tensor defined through The *vectorization* operator flattens a tensor to a column vector in ${\mathbb{R}}^{n}$, generalizing the matrix $\overline{vec}$ operator. For an $n_{1} \times \cdots \times n_{k}$ tensor $A$ with slices $A_{1}^{1},\ldots,A_{n_{1}}^{1}$ along its first dimension, this operation can be defined recursively as follows: where for the base case ($k = 1$), we define ${\overline{vec}{(u)}} = u$ for any column vector $u$.
 
-The *vectorization* operator flattens a tensor to a column vector in ${\mathbb{R}}^{n}$, generalizing the matrix $\overline{vec}$ operator. For an $n_{1} \times \cdots \times n_{k}$ tensor $A$ with slices $A_{1}^{1},\ldots,A_{n_{1}}^{1}$ along its first dimension, this operation can be defined recursively as follows:
+The *matricization* operator ${mat}_{i}{(A)}$ reshapes a tensor $A$ to a matrix by vectorizing the slices of $A$ along the $i$'th dimension and stacking them as rows of a matrix. More formally, for an $n_{1} \times \cdots \times n_{k}$ tensor $A$ with slices $A_{1}^{i},\ldots,A_{n_{i}}^{i}$ along the $i$'th dimension, matricization is defined as the $n_{i} \times n_{- i}$ matrix, The matrix product of an $n_{1} \times \cdots \times n_{k}$ tensor $A$ with an $m \times n_{i}$ matrix $M$ is defined as the $n_{1} \times \cdots \times n_{i - 1} \times m \times n_{i + 1} \times \cdots \times n_{k}$ tensor, denoted $A \times_{i}M$, for which the identity ${{mat}_{i}{({A \times_{i}M})}} = {M{mat}_{i}{(A)}}$ holds. Explicitly, we define $A \times_{i}M$ element-wise as A useful fact, that follows directly from this definition, is that the tensor-matrix product is commutative, in the sense that ${{A \times_{i}M} \times_{i'}M'} = {{A \times_{i'}M'} \times_{i}M}$ for any $i \neq i'$ and matrices $M \in {\mathbb{R}}^{n_{i} \times n_{i}}$, $M' \in {\mathbb{R}}^{n_{i'} \times n_{i'}}$.
 
-where for the base case ($k = 1$), we define ${\overline{vec}{(u)}} = u$ for any column vector $u$.
-
-The *matricization* operator ${mat}_{i}{(A)}$ reshapes a tensor $A$ to a matrix by vectorizing the slices of $A$ along the $i$'th dimension and stacking them as rows of a matrix. More formally, for an $n_{1} \times \cdots \times n_{k}$ tensor $A$ with slices $A_{1}^{i},\ldots,A_{n_{i}}^{i}$ along the $i$'th dimension, matricization is defined as the $n_{i} \times n_{- i}$ matrix,
-
-The matrix product of an $n_{1} \times \cdots \times n_{k}$ tensor $A$ with an $m \times n_{i}$ matrix $M$ is defined as the $n_{1} \times \cdots \times n_{i - 1} \times m \times n_{i + 1} \times \cdots \times n_{k}$ tensor, denoted $A \times_{i}M$, for which the identity ${{mat}_{i}{({A \times_{i}M})}} = {M{mat}_{i}{(A)}}$ holds. Explicitly, we define $A \times_{i}M$ element-wise as
-
-A useful fact, that follows directly from this definition, is that the tensor-matrix product is commutative, in the sense that ${{A \times_{i}M} \times_{i^{\prime}}M^{\prime}} = {{A \times_{i^{\prime}}M^{\prime}} \times_{i}M}$ for any $i \neq i^{\prime}$ and matrices $M \in {\mathbb{R}}^{n_{i} \times n_{i}}$, $M^{\prime} \in {\mathbb{R}}^{n_{i^{\prime}} \times n_{i^{\prime}}}$.
-
-The *contraction* of an $n_{1} \times \cdots \times n_{k}$ tensor $A$ with itself along all but the $i$'th dimension is an $n_{i} \times n_{i}$ matrix defined as $A^{(i)} = {{mat}_{i}{(A)}{mat}_{i}{(A)}^{\mathsf{T}}}$, or more explicitly as
-
-where the sum ranges over all possible indexings $\alpha_{- i}$ of all dimensions $\neq i$.
+The *contraction* of an $n_{1} \times \cdots \times n_{k}$ tensor $A$ with itself along all but the $i$'th dimension is an $n_{i} \times n_{i}$ matrix defined as $A^{(i)} = {{mat}_{i}{(A)}{mat}_{i}{(A)}^{\mathsf{T}}}$, or more explicitly as where the sum ranges over all possible indexings $\alpha_{- i}$ of all dimensions $\neq i$.
 
 ### The algorithm
 
@@ -215,8 +136,7 @@ We can now describe the Shampoo algorithm in the general, order-$k$ tensor case,
 
 The Shampoo algorithm in its general form, presented in Algorithm 2, is analogous to Algorithm 1. It maintains a separate preconditioning matrix $H_{t}^{i}$ (of size $n_{i} \times n_{i}$) corresponding to for each dimension $i \in {\lbrack k\rbrack}$ of the gradient. On step $t$, the $i$'th mode of the gradient $G_{t}$ is then multiplied by the matrix ${(H_{t}^{i})}^{- {1/{2k}}}$ through the tensor-matrix product operator $\times_{i}$. (Recall that the order in which the multiplications are carried out does not affect the end result and can be arbitrary.) After all dimensions have been processed and the preconditioned gradient ${\overset{\sim}{G}}_{t}$ has been obtained, a gradient step is taken.
 
-Initialize: W1 = 0n1 × ⋯ × nk; ∀i ∈ [k]: H0i = ϵ Ini for t = 1, …, T do Receive loss function ft: ℝn1 × ⋯ × nk ↦ ℝ Compute gradient Gt = ∇ft (Wt) {Gt ∈ ℝn1 × ⋯ × nk} ${\overset{\sim}{G}}_{t}\leftarrow G_{t}$ {${\overset{\sim}{G}}_{t}$ is preconditioned gradient} for i = 1, …, k do Hti = Ht − 1i + Gt(i) ${\overset{\sim}{G}}_{t}\leftarrow{{\overset{\sim}{G}}_{t} \times_{i}{(H_{t}^{i})}^{- {1/{2k}}}}$ Update: $W_{t + 1} = {W_{t} - {\eta{\overset{\sim}{G}}_{t}}}$
-Algorithm 2: Shampoo, general tensor case.
+Initialize: W1 = 0n1 × ⋯ × nk; ∀i ∈ [k]: H0i = ϵ Ini for t = 1, …, T do Receive loss function ft: ℝn1 × ⋯ × nk ↦ ℝ Compute gradient Gt = ∇ft (Wt) {Gt ∈ ℝn1 × ⋯ × nk} ${\overset{\sim}{G}}_{t}\leftarrow G_{t}$ {${\overset{\sim}{G}}_{t}$ is preconditioned gradient} for i = 1, …, k do Hti = Ht − 1i + Gt(i) ${\overset{\sim}{G}}_{t}\leftarrow{{\overset{\sim}{G}}_{t} \times_{i}{(H_{t}^{i})}^{- {1/{2k}}}}$ Update: $W_{t + 1} = {W_{t} - {\eta{\overset{\sim}{G}}_{t}}}$ Algorithm 2: Shampoo, general tensor case.
 
 The tensor operations $A^{(i)}$ and $M \times_{i}A$ can be implemented using tensor contraction, which is a standard library function in scientific computing libraries such as Python's NumPy, and is fully supported by modern machine learning frameworks such as TensorFlow. See Section 5 for further details on our implementation of the algorithm in the TensorFlow environment.
 
@@ -224,9 +144,7 @@ We now state the main result of this section.
 
 ### Theorem 10
 
-Assume that for all $i \in {\lbrack k\rbrack}$ and $t = {1,\ldots,T}$ it holds that ${{rank}{({{mat}_{i}{(G_{t})}})}} \leq r_{i}$, and let $r = {({\prod_{i = 1}^{k}r_{i}})}^{1/k}$. Then the regret of Algorithm 2 compared to any $W^{\star} \in {\mathbb{R}}^{n_{1} \times \cdots \times n_{k}}$ is
-
-where $H_{T}^{i} = {{\epsilonI_{n_{i}}} + {\sum_{t = 1}^{T}G_{t}^{(i)}}}$ for all $i \in {\lbrack k\rbrack}$ and $D = {\max_{t \in {\lbrack T\rbrack}}{\|{W_{t} - W^{\star}}\|}_{\mathsf{F}}}$.
+Assume that for all $i \in {\lbrack k\rbrack}$ and $t = {1,\ldots,T}$ it holds that ${{rank}{({{mat}_{i}{(G_{t})}})}} \leq r_{i}$, and let $r = {({\prod_{i = 1}^{k}r_{i}})}^{1/k}$. Then the regret of Algorithm 2 compared to any $W^{\star} \in {\mathbb{R}}^{n_{1} \times \cdots \times n_{k}}$ is where $H_{T}^{i} = {{\epsilonI_{n_{i}}} + {\sum_{t = 1}^{T}G_{t}^{(i)}}}$ for all $i \in {\lbrack k\rbrack}$ and $D = {\max_{t \in {\lbrack T\rbrack}}{\|{W_{t} - W^{\star}}\|}_{\mathsf{F}}}$.
 
 The comments following Theorem 7 regarding the parameter $D$ in the above bound and the lack of projections in the algorithm are also applicable in the general tensor version. Furthermore, as in the matrix case, under standard assumptions each of the trace terms on the right-hand side of the above bound is bounded by $O{(T^{1/{2k}})}$. Therefore, their product, and thereby the overall regret bound, is $O{(\sqrt{T})}$.
 
@@ -240,15 +158,11 @@ Assume that $G_{1},\ldots,G_{T}$ are all order $k$ tensors of dimension $n_{1} \
 
 ### Lemma 12
 
-Let $G$ be an $n_{1} \times \ldots \times n_{k}$ dimensional tensor and $M_{i}$ be an $n_{i} \times n_{i}$ for $i \in {\lbrack k\rbrack}$, then
-
-We defer proofs to Appendix B. The proof of our main theorem now readily follows.
+Let $G$ be an $n_{1} \times \ldots \times n_{k}$ dimensional tensor and $M_{i}$ be an $n_{i} \times n_{i}$ for $i \in {\lbrack k\rbrack}$, then We defer proofs to Appendix B. The proof of our main theorem now readily follows.
 
 ### Proof of Theorem 10
 
-The proof is analogous to that of Theorem 7. For all $t$, let
-
-Similarly to the order-two (matrix) case, and in light of Lemma 12, the update rule of the algorithm is equivalent to ${w_{t + 1} = {w_{t} - {\etaH_{t}^{- 1}g_{t}}}}.$ The rest of the proof is identical to that of the matrix case, using Lemma 11 in place of Lemma 8. ∎
+The proof is analogous to that of Theorem 7. For all $t$, let Similarly to the order-two (matrix) case, and in light of Lemma 12, the update rule of the algorithm is equivalent to ${w_{t + 1} = {w_{t} - {\etaH_{t}^{- 1}g_{t}}}}.$ The rest of the proof is identical to that of the matrix case, using Lemma 11 in place of Lemma 8. ∎
 
 ## Implementation details
 
@@ -282,6 +196,6 @@ Figure 3: Training loss for a residual network on CIFAR-100 (without batchnorm).
 
 ### Language Models
 
-Our next experiment was on the LM1B benchmark for statistical language modeling. We used an Attention model with 9.8M trainable parameters from. This model has a succession of fully connected-layers, with corresponding tensors of order at most $2$, the largest of which is of dimension $$. In this experiment, we simply used the default learning rate of $\eta = 1.0$ for Shampoo. For the other algorithms we explored various different settings of the learning rate. The graph for the test perplexity is shown in Fig. 4.
+Our next experiment was on the LM1B benchmark for statistical language modeling. We used an Attention model with 9.8M trainable parameters . This model has a succession of fully connected-layers, with corresponding tensors of order at most $2$, the largest of which is of dimension $$. In this experiment, we simply used the default learning rate of $\eta = 1.0$ for Shampoo. For the other algorithms we explored various different settings of the learning rate. The graph for the test perplexity is shown in Fig. 4.
 
 Figure 4: Test log-perplexity of an Attention model of Vaswani et al..

@@ -32,18 +32,13 @@ Tiny robots are useful in a diverse range of applications. Table I shows a brief
 
 The tiny robot examples surveyed in Table I demonstrate the effectiveness of co-design between sensors, compute and algorithms. These robots use sensors beyond traditional cameras: tiny lasers, optic flow sensors, light sensors, gas sensors, pressure sensors, and custom-made tiny cameras. The algorithms they use were intentionally designed with the compute constraints in mind, allowing them to run on low-power and low-cost microcontrollers. We expect novel sensors such as event cameras and optic flow sensors, as well as novel compute platforms like the Intel Lohi neuromorphic chip, to greatly improve the performance and capabilities of future tiny robots.
 
-Search &amp; Rescue
-Bitcraze CrazyFlie Quadcopter
-
-Wireless Capsule Endoscope
-
-TABLE I: Emerging Tiny Robot Applications
+Bitcraze CrazyFlie Quadcopter Wireless Capsule Endoscope TABLE I: Emerging Tiny Robot Applications
 
 ## Challenges and Opportunities
 
 Tiny robot learning lies at the intersection of three challenging domains (Fig. 1), making it a proving-ground for ML systems. In this section, we examine four themes arising from the challenges of tiny robot learning, and propose opportunities that they reveal for improving ML system design (Fig. 3).
 
-Starting from the ML computation at the core of the system and moving outward, we focus on: (III-A) the onboard compute; (III-B) the sensors and actuation that represent the inputs and outputs of the robotics computation pipeline; (III-C) the entire end-to-end system including the physical robot platform; and finally, (III-D) the design tools used to re-design the tiny robot learning system for different deployment scenarios.
+Starting from the ML computation at the core of the system and moving outward, we focus : (III-A) the onboard compute; (III-B) the sensors and actuation that represent the inputs and outputs of the robotics computation pipeline; (III-C) the entire end-to-end system including the physical robot platform; and finally, (III-D) the design tools used to re-design the tiny robot learning system for different deployment scenarios.
 
 ### III-A SWAP-Constrained ML Compute for Robotics Applications
 
@@ -63,7 +58,7 @@ Figure 3: Promising research directions revealed by tiny robot learning include 
 
 With cost and SWAP constraints, traditional sensors are often impractical on tiny robot platforms, forcing them to rely on lower-quality sensors. Tiny robots may also have fewer and less-precise actuators than full-size robots. For example, the Spot quadruped has position and force sensors on its legs and 12 degrees of freedom (DoF), while Bittle has no position or force sensors and only 8 DoF. ML techniques can enable complex behaviors on full-sized robots (e.g., quadruped locomotion on difficult terrain ), but with component limitations, tiny robot platforms face an additional hurdle.
 
-*Opportunity:* Low cost proximity and light sensors can replace larger, more costly sensors like cameras or LIDAR by using additional processing, often ML, to achieve the same levels of perception as their higher-quality counterparts. For example, monocular depth estimation can be substituted for wide-baseline stereo cameras. In some cases, the lower dimensional input from, e.g., light or proximity sensors, means that a simple policy can be developed to solve a complex problem. For example, system-specific sensor and algorithm selection can yield lighter computation than traditional mapping and localization using cameras or LIDAR.
+*Opportunity:* Low cost proximity and light sensors can replace larger, more costly sensors like cameras or LIDAR by using additional processing, often ML, to achieve the same levels of perception as their higher-quality counterparts. For example, monocular depth estimation can be substituted for wide-baseline stereo cameras. In some cases, the lower dimensional input , e.g., light or proximity sensors, means that a simple policy can be developed to solve a complex problem. For example, system-specific sensor and algorithm selection can yield lighter computation than traditional mapping and localization using cameras or LIDAR.
 
 ML algorithms can also enable robots to use limited and degraded sensory input to overcome challenges such as motion control with imprecise actuators and a lack of direct position feedback. For example, recent work used a hybrid model-based and learning-based controller to enable a tiny quadruped to walk over uneven terrain, despite tight SWAP and cost constraints on sensing and actuation.
 

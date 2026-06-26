@@ -1,8 +1,6 @@
 ## Introduction
 
-^†††^The order of these two authors is random. See [github.com/hips/author-roulette](github.com/hips/author-roulette)
-
-Machine learning systems abound with hyperparameters. These can be parameters that control model complexity, such as $L_{1}$ and $L_{2}$ penalties, or parameters that specify the learning procedure itself -- step sizes, momentum decay parameters and initialization conditions. Choosing the best hyperparameters is both crucial and frustratingly difficult.
+^†††^The order of these two authors is random. See [github.com/hips/author-roulette](github.com/hips/author-roulette) Machine learning systems abound with hyperparameters. These can be parameters that control model complexity, such as $L_{1}$ and $L_{2}$ penalties, or parameters that specify the learning procedure itself -- step sizes, momentum decay parameters and initialization conditions. Choosing the best hyperparameters is both crucial and frustratingly difficult.
 
 The current gold standard for hyperparameter selection is gradient-free model-based optimization Snoek et al.; Bergstra et al.; Hutter et al.. Hyperparameters are chosen to optimize the validation loss after complete training of the model parameters. These approaches have demonstrated that automatic tuning of hyperparameters can yield state-of-the-art performance. However, in general they are not able to effectively optimize more than 10 to 20 hyperparameters.
 
@@ -34,17 +32,7 @@ Imagine that we could exactly trace a training procedure backwards, starting fro
 
 Stochastic gradient descent (SGD) with momentum (Algorithm 1) can be seen as a physical simulation of a system moving through a series of fixed force fields indexed by time $t$. With exact arithmetic this procedure is reversible. This lets us write Algorithm 2, which reverses the steps in Algorithm 1, interleaved with computations of gradients. It outputs the gradient of a function of the trained weights $f{(\mathbf{w})}$ (such as the validation loss) with respect to the initial weights $\mathbf{w}_{1}$, the learning-rate and momentum schedules, and any other hyperparameters which affect training gradients.
 
-1:input: initial w1, decays γ, learning rates α, loss function L (w,θ,t)
-8:output trained parameters wT
-Algorithm 1 Stochastic gradient descent with momentum
-
-1:input: wT, vT, γ, α, train loss L (w,θ,t), loss f (w)
-4:for t = T counting down to 1 do
-7: gt = ∇wL (wt,θ,t) } exactly reverse gradient descent operations
-15:output gradient of f (wT) w.r.t w1, v1, γ, α and θ
-Algorithm 2 Reverse-mode differentiation of SGD
-
-Computations of steps 11 and 12 both require a Hessian-vector product, but these can be computed exactly by applying RMD to the dot product of the gradient with a vector. Thus the time complexity of reverse SGD is $\mathcal{O}{(T)}$, the same as forward SGD.
+1:input: initial w1, decays γ, learning rates α, loss function L (w, θ, t) 8:output trained parameters wT Algorithm 1 Stochastic gradient descent with momentum 1:input: wT, vT, γ, α, train loss L (w, θ, t), loss f (w) 4:for t = T counting down to 1 do 7: gt = ∇wL (wt, θ, t) } exactly reverse gradient descent operations 15:output gradient of f (wT) w.r.t w1, v1, γ, α and θ Algorithm 2 Reverse-mode differentiation of SGD Computations of steps 11 and 12 both require a Hessian-vector product, but these can be computed exactly by applying RMD to the dot product of the gradient with a vector. Thus the time complexity of reverse SGD is $\mathcal{O}{(T)}$, the same as forward SGD.
 
 ### Reversible learning with finite precision arithmetic
 
@@ -60,21 +48,13 @@ If we want to reverse the dynamics, there is no choice but to store the extra bi
 
 This section gives the technical details of how to efficiently store the information discarded each time the momentum decay operation (Step 8) is applied.
 
-If $\gamma = 0.5$, we can simply store the single bit that falls off at each iteration, and if $\gamma = 0.25$ we could store two bits. But for fine-grained control over $\gamma$ we need a way to store the information lost when we multiply by, say, $\gamma = 0.9$, which will be less than one bit on average. Here we give a procedure which achieves exactly this.
+If $\gamma = 0.5$, we can simply store the single bit that falls off at each iteration, and if $\gamma = 0.25$ we could store two bits. But for fine-grained control over $\gamma$ we need a way to store the information lost when we multiply , say, $\gamma = 0.9$, which will be less than one bit on average. Here we give a procedure which achieves exactly this.
 
 We represent the velocity $\mathbf{v}$ and parameter $\mathbf{w}$ vectors with 64-bit integers. With an implied radix point this can be a fixed-point representation of the reals. We represent $\gamma$ as a rational number, $n/d$. When we divide each $v$ by $d$ we use integer division. In order to be able to reverse the process we just need to store the remainder, $v$ modulo $s$, in some "information buffer", $B$. If $B$ were an integer and $n = 2$, the remainder $r$ would just be a single bit, and we could store it in $B$ by left-shifting $B$'s bits and adding $r$. For arbitrary $n$, we can do the base-$n$ analogue of this operation: multiply $B$ by $n$ and add $r$. Eventually, $B$ will overflow. We need a way to either detect this, store the bits, and start a fresh integer, or else we can just use an arbitrary size integer that grows as needed. (Python's "long" integer type supports this). This procedure allows division by $n$ while storing the remainder in $\log_{2}{(n)}$ bits on average.
 
 When we multiply by the numerator of $n/d$ we don't need to store anything extra, since integer division will bring us back to exactly the same point anyway. But the procedure as it stands would store three bits when $\gamma = {7/8}$, whereas it should store less than one (${\log_{2}{({8/7})}} = 0.19$). Our solution is the following: when we multiply $v$ by $n$, there is an opportunity to add a nonnegative integer smaller than $n$ to the result without affecting the reverse process (integer division by $n$). We can get such an integer from the information buffer by dividing it by $n$ and recording $B$ modulo $n$. We are using the velocity $v$ as an information buffer itself! Algorithm 3 illustrates the entire process.
 
-1:Input: Information buffer i, value c, ratio n/d
-2:i = i × d ⊳ make room for new digit
-3:i = i + (cmodd) ⊳ store digit lost by division
-6:c = c + (imodn) ⊳ add digit from buffer
-7:i = i ÷ n ⊳ shorten information buffer
-8:return updated buffer i, updated value c
-Algorithm 3 Exactly reversible multiplication by a ratio
-
-We could also have used an arithmetic coding scheme for our information buffer. How much does this procedure save us? When $\gamma = 0.98$, we will have to store only $0.029$ bits on average. Compared to storing a new 32-bit integer or floating-point number at each iteration, this reduces memory requirements by a factor of one thousand.
+1:Input: Information buffer i, value c, ratio n/d 2:i = i × d ⊳ make room for new digit 3:i = i + (cmod d) ⊳ store digit lost by division 6:c = c + (imod n) ⊳ add digit from buffer 7:i = i ÷ n ⊳ shorten information buffer 8:return updated buffer i, updated value c Algorithm 3 Exactly reversible multiplication by a ratio We could also have used an arithmetic coding scheme for our information buffer. How much does this procedure save us? When $\gamma = 0.98$, we will have to store only $0.029$ bits on average. Compared to storing a new 32-bit integer or floating-point number at each iteration, this reduces memory requirements by a factor of one thousand.
 
 The standard way to save memory in RMD is checkpointing. Checkpointing stores the entire parameter vector on only a fraction of the training steps, and recomputes the missing steps of the training procedure (forwards) as needed during the backward pass. However, this would require too much memory to be practical for large neural nets trained for thousands of minibatches.
 
@@ -92,8 +72,7 @@ To more directly shed light on good learning rate schedules, we jointly optimize
 
 Because learning schedules can implicitly regularize networks Erhan et al., for example by enforcing early stopping, for this experiment we optimized the learning rate schedules on the training error rather than on the validation set error.
 
-Optimized learning rate schedule
-Figure 2: A learning-rate training schedule for the weights in each layer of a neural network, optimized by hypergradient descent. The optimized schedule starts by taking large steps only in the topmost layer, then takes larger steps in the first layer. All layers take smaller step sizes in the last 10 iterations. Not shown are the schedules for the biases or the momentum, which showed less structure.
+Optimized learning rate schedule Figure 2: A learning-rate training schedule for the weights in each layer of a neural network, optimized by hypergradient descent. The optimized schedule starts by taking large steps only in the topmost layer, then takes larger steps in the first layer. All layers take smaller step sizes in the last 10 iterations. Not shown are the schedules for the biases or the momentum, which showed less structure.
 
 Figure 2 shows the results of optimizing learning rate schedules separately for each layer of a deep neural network. When Bayesian optimization was used to choose a fixed learning rate for all layers and iterations, it chose a learning rate of 2.4.
 
@@ -101,16 +80,13 @@ Figure 2 shows the results of optimizing learning rate schedules separately for 
 
 We experimented with several standard stochastic optimization methods for meta-optimization, including SGD, RMSprop, and minibatch conjugate gradients. The results in this section used Adam, a variant of RMSprop that includes momentum. We typically ran for 50 meta-iterations, and used a meta-step size of 0.04. Figure 3 shows the elementary and meta-learning curves that generated the hyperparameters shown in Figure 2.
 
-Elementary learning curves
-
-Figure 3: Elementary and meta-learning curves. The meta-learning curve shows the training loss at the end of each elementary iteration.
+Elementary learning curves Figure 3: Elementary and meta-learning curves. The meta-learning curve shows the training loss at the end of each elementary iteration.
 
 ### How smooth are hypergradients?
 
 To demonstrate that the hypergradients are smooth with respect to time steps in the training schedule, Figure 4 shows the hypergradient with respect to the step size training schedule at the beginning of training, averaged over 100 random seeds.
 
-Hypergradient at first meta-iteration
-Figure 4: The initial gradient of the cross-validation loss with respect to the training schedule, averaged over 100 random weight initializations and mini batches. Colors correspond to the same layers as in Figure 2.
+Hypergradient at first meta-iteration Figure 4: The initial gradient of the cross-validation loss with respect to the training schedule, averaged over 100 random weight initializations and mini batches. Colors correspond to the same layers as in Figure 2.
 
 ### Optimizing weight initialization scales
 
@@ -132,7 +108,7 @@ Figure 6 shows a set of regularization hyperparameters learned for a logistic re
 
 ### Optimizing training data
 
-We can use Algorithm 2 to take the gradient with respect to any parameter the training procedure depends on. This includes the training data, which can be viewed as just another set of hyperparameters. By chaining gradients through transformations of the data, we can compute gradients of the validation objective with respect to data preprocessing, weighting, or augmentation procedures.
+We can use Algorithm 2 to take the gradient with respect to any parameter the training procedure depends . This includes the training data, which can be viewed as just another set of hyperparameters. By chaining gradients through transformations of the data, we can compute gradients of the validation objective with respect to data preprocessing, weighting, or augmentation procedures.
 
 Figure 7: A dataset generated purely through meta-learning. Each pixel is treated as a hyperparameter, which are all optimized to maximize validation-set performance. Training labels are fixed in order from 0 to 9. Some optimal pixel values are negative.
 
@@ -164,7 +140,7 @@ Figure 9: Results of the Omniglot multitask experiment. Each matrix shows the de
 
 Automatic differentiation (AD) software packages such as Theano are mainstays of deep learning, significantly speeding up development time by providing gradients automatically. Since we required access to the internal logic of RMD in order to implement Algorithm 2, we implemented our own automatic differentiation package for Python, available at [github.com/HIPS/autograd](github.com/HIPS/autograd). This package differentiates standard Numpy code, and can differentiate code containing while loops, branches, and even gradient evaluations.
 
-Code for all experiments in this paper is available at [github.com/HIPS/hypergrad](github.com/HIPS/hypergrad).
+Code for all experiments in
 
 ## Limitations
 
@@ -178,8 +154,7 @@ For example, Pearlmutter showed that large learning rates induce chaotic behavio
 
 Figure 10 illustrates this phenomenon when training a neural network having 2 hidden layers for 50 elementary iterations.
 
-Log learning rate
-Figure 10: Top: Loss after training as a function of learning rate. Bottom: Gradient of loss with respect to learning rate. When the learning rate is high, the gradient becomes uninformative about the medium-term behavior of the function. To maintain stability during meta-learning, we initialize using a small learning rate so as to approach the minimum from the left.
+Log learning rate Figure 10: Top: Loss after training as a function of learning rate. Bottom: Gradient of loss with respect to learning rate. When the learning rate is high, the gradient becomes uninformative about the medium-term behavior of the function. To maintain stability during meta-learning, we initialize using a small learning rate so as to approach the minimum from the left.
 
 We partially addressed this problem in our experiments by initializing learning rates to be relatively small, and stopping meta-optimization when the magnitude of the meta-gradient began to grow.
 

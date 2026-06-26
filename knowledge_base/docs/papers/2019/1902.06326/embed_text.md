@@ -40,7 +40,7 @@ Standard convolutional neural networks perform discrete convolutions and thus as
 
 Instead, we can represent the scene from the bird's eye view (BEV) alone. By reducing the free degrees from 3 to 2, we don't lose information in point cloud as we can still keep the height information as channels along the third dimension (like the RGB channels of 2D images). However, effectively we get a more compact representation since we can apply 2D convolution to the BEV representation. This dimension reduction is reasonable in the context of autonomous driving as the objects of interest are on the same ground. In addition to computation efficiency, BEV representation also have other advantages. It eases the problem of object detection as objects do not overlap with each other (compared with front-view representation). It also keeps the metric space, and thus the network can exploit priors about the physical dimensions of objects.
 
-Commonly used features for voxelized LIDAR representation are occupancy, intensity (reflectance), density, and height feature. In PIXOR, for simplicity we only use occupancy and intensity as the features. In practice, we first define the 3D physical dimension $L \times W \times H$ of the scene that we are interested in. We then compute occupancy feature maps at a grid resolution of $d_{L} \times d_{W} \times d_{H}$, and compute the intensity feature map at a grid resolution of $d_{L} \times d_{W} \times H$. Note that we add two additional channels to occupancy feature maps to cover out-of-range points. The final representation has the shape of $\frac{L}{d_{L}} \times \frac{W}{d_{W}} \times {({\frac{H}{d_{H}} + 3})}$.
+Commonly used features for voxelized LIDAR representation are occupancy, intensity (reflectance), density, and height feature. In PIXOR, for simplicity we only use occupancy and intensity as the features. In practice, we first define the 3D physical dimension $L \times W \times H$ of the scene that we are interested . We then compute occupancy feature maps at a grid resolution of $d_{L} \times d_{W} \times d_{H}$, and compute the intensity feature map at a grid resolution of $d_{L} \times d_{W} \times H$. Note that we add two additional channels to occupancy feature maps to cover out-of-range points. The final representation has the shape of $\frac{L}{d_{L}} \times \frac{W}{d_{W}} \times {({\frac{H}{d_{H}} + 3})}$.
 
 Figure 2: The network architecture of PIXOR.
 
@@ -96,13 +96,7 @@ We compare with 3D object detectors that use LIDAR on KITTI benchmark: VeloFCN, 
 
 Since MV3D is the best approach among all state-of-the-art methods, we'd like to make a more detailed comparison using the AUC based AP metric. We show fine-grained Precision-Recall (PR) curves of both PIXOR and MV3D in Figure 4. From the figure, we get the following observations: PIXOR outperforms MV3D in all IoU thresholds, especially at very high IoU like 0.8 and 0.9, showing that even without using proposal, PIXOR can still get super-accurate object localization, compared to the two-stage proposal based detector MV3D. PIXOR has similar precision with MV3D at low recall rates. However, when it comes to higher recall rates, PIXOR shows huge advantage. At the same precision rate of the end point of MV3D's curve, PIXOR generally has over $5\%$ higher recall rate in all ranges. This shows that dense detector like PIXOR does have an advantage of higher recall rate, compared with two-stage detectors. In the more difficult long range part, PIXOR still shows superiority over MV3D, which justifies our input representation design that reserves the 3D information well and our network architecture design that captures both fine details and regional context.
 
-Table 2: Ablation study of different loss functions. smooth_L1 + decode (f.t.) means that the network is trained with smooth L1 loss first, and then fine-tuned by replacing the smooth L1 loss with decoding loss.
-
-ignore boundary pixels
-
-ignore boundary pixels
-
-Table 3: Ablation study of different data sampling strategies.
+Table 2: Ablation study of different loss functions. smooth_L1 + decode (f.t.) means that the network is trained with smooth L1 loss first, and then fine-tuned by replacing the smooth L1 loss with decoding loss. ignore boundary pixels ignore boundary pixels Table 3: Ablation study of different data sampling strategies.
 
 ### Ablation Study
 

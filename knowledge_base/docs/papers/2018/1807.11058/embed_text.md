@@ -20,9 +20,7 @@ We further present a portable and low-cost distributed robotic platform that con
 
 In order to make the paper self-contained, this comprehensive work contains a summary of the relevant results derived in our previous papers and subsequent extensions after the submission of this manuscript. Specifically, studied the BCB control design under arbitrary switching sensing typologies, presented the initial extension of the BCB control to agents with higher order linear dynamics, presented an augmentation of the BCB control to fix the formation scale with convergence guarantees, and presented the extension to agents with a kinematic unicycle model, particularly for fixed-wing aerial vehicles. Contributions of this work include extension of the BCB control to agents with dynamic unicycle and car models with convergence guarantees even in the presence of unmodeled linear actuator dynamics, and collision avoidance with stability guarantees. These contributions are accompanied by thorough simulation and experimental evaluations on an open-source robotic platform. Our latest extensions expand the BCB control to 3D formations and leverage task assignment to mitigate gridlock scenarios that arise due to the distributed collision avoidance, respectively.
 
-In summary, the main contributions of this paper are
-
-A distributed, provably convergent and robust formation control strategy for vehicles with a large variety of holonomic and nonholonomic dynamics, which eliminates the need for global position measurements, common heading direction, inter-agent communication, and complete sensing graph required in existing formation control literature.
+In summary, the main contributions of this paper are A distributed, provably convergent and robust formation control strategy for vehicles with a large variety of holonomic and nonholonomic dynamics, which eliminates the need for global position measurements, common heading direction, inter-agent communication, and complete sensing graph required in existing formation control literature.
 
 A fully distributed collision avoidance algorithm naturally incorporated in the formation control strategy with stability guarantees.
 
@@ -44,47 +42,25 @@ In this section, we present the distributed formation control strategy introduce
 
 ### III-A Control Strategy
 
-The single-integrator dynamics can be described as
-
-where $q_{i}:={\lbrack x_{i},y_{i}\rbrack}^{\top} \in {\mathbb{R}}^{2}$ is the coordinate of agent $i \in {\mathbb{N}}_{n}$ in a common global coordinate frame (unknown to the agent), and $u_{i} \in {\mathbb{R}}^{2}$ is the control law. To bring the agents to a desired formation, the control law for each agent can be chosen as
-
-where $A_{ij} \in {\mathbb{R}}^{2 \times 2}$ are constant control gain matrices that will be designed later, and each has the form
-
-Thanks to the commutativity property of the $A_{ij}$ matrices, the closed-loop dynamics with coordinates $q_{i}$ and $q_{j}$ expressed in agents' local coordinate frames is identical to the case that coordinates are expressed in a global coordinate frame (for more details see ). The geometric intuition behind the control strategy is explained in the following example.
+The single-integrator dynamics can be described as where $q_{i}:={\lbrack x_{i},y_{i}\rbrack}^{\top} \in {\mathbb{R}}^{2}$ is the coordinate of agent $i \in {\mathbb{N}}_{n}$ in a common global coordinate frame (unknown to the agent), and $u_{i} \in {\mathbb{R}}^{2}$ is the control law. To bring the agents to a desired formation, the control law for each agent can be chosen as where $A_{ij} \in {\mathbb{R}}^{2 \times 2}$ are constant control gain matrices that will be designed later, and each has the form Thanks to the commutativity property of the $A_{ij}$ matrices, the closed-loop dynamics with coordinates $q_{i}$ and $q_{j}$ expressed in agents' local coordinate frames is identical to the case that coordinates are expressed in a global coordinate frame (for more details see). The geometric intuition behind the control strategy is explained in the following example.
 
 Figure 2: Example of three agents with agents 2 and 3 neighbors of agent 1.
 
 ### Example 1
 
-Consider three agents in Fig. 2, where agents 2 and 3 are neighbors of agent 1. Let $q_{2} = {\lbrack 2,\, 3\rbrack}^{\top}$ and $q_{3} = {\lbrack 3,\, 1\rbrack}^{\top}$ denote the position of neighbors in agent 1's local coordinate frame, and assume that control gains for agent 1 are given as
+Consider three agents in Fig. 2, where agents 2 and 3 are neighbors of agent 1. Let $q_{2} = {\lbrack 2,\, 3\rbrack}^{\top}$ and $q_{3} = {\lbrack 3,\, 1\rbrack}^{\top}$ denote the position of neighbors in agent 1's local coordinate frame, and assume that control gains for agent 1 are given as From, the control vector for agent 1 is computed as which is shown in the figure and can be interpreted geometrically as follows. At any instance of time, agent 1 moves along the control vector with the speed equal to the vector's magnitude. Note that due to the special structure of gain matrices $A_{12},A_{13}$, they can be interpreted as scaled rotation matrices that rotate and scale vectors connecting agent 1 to its neighbors. One can see that this action is independent of agent 1's local coordinate frame position and orientation, hence, $q_{1}$ and $q_{2}$ can replaced by their coordinates in a global coordinate frame for analysis.
 
-From, the control vector for agent 1 is computed as
-
-which is shown in the figure and can be interpreted geometrically as follows. At any instance of time, agent 1 moves along the control vector with the speed equal to the vector's magnitude. Note that due to the special structure of gain matrices $A_{12},A_{13}$, they can be interpreted as scaled rotation matrices that rotate and scale vectors connecting agent 1 to its neighbors. One can see that this action is independent of agent 1's local coordinate frame position and orientation, hence, $q_{1}$ and $q_{2}$ can replaced by their coordinates in a global coordinate frame for analysis.
-
-Let $q:={\lbrack q_{1}^{\top},q_{2}^{\top},\ldots,q_{n}^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{2n}$ denote the aggregate state vector of all agents. Using this notation, the closed-loop dynamics under the control strategy can be expressed as
-
-where for $j \notin \mathcal{N}_{i}$ the $A_{ij}$ block is defined as a zero matrix. Note that the $2 \times 2$ diagonal blocks of $A$ are the negative sum of the rest of the blocks on the same row. Hence, $A$ has block Laplacian structure, and it follows that vectors
-
-are in the kernel^11^1If $A \in {\mathbb{R}}^{n \times n}$, the kernel or null space of $A$ is defined as ${\ker{(A)}}:=\left. \{{v \in {\mathbb{R}}^{n}} \middle| {{Av} = 0}\} \right.$. of $A$.
+Let $q:={\lbrack q_{1}^{\top},q_{2}^{\top},\ldots,q_{n}^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{2n}$ denote the aggregate state vector of all agents. Using this notation, the closed-loop dynamics under the control strategy can be expressed as where for $j \notin \mathcal{N}_{i}$ the $A_{ij}$ block is defined as a zero matrix. Note that the $2 \times 2$ diagonal blocks of $A$ are the negative sum of the rest of the blocks on the same row. Hence, $A$ has block Laplacian structure, and it follows that vectors are in the kernel^11^1If $A \in {\mathbb{R}}^{n \times n}$, the kernel or null space of $A$ is defined as ${\ker{(A)}}:=\left. \{{v \in {\mathbb{R}}^{n}} \middle| {{Av} = 0}\} \right.$. of $A$.
 
 Let $q^{\ast} \in {\mathbb{R}}^{2n}$ denote the coordinates of agents at the desired formation (the orientation, translation, and scale of the desired formation can be chosen arbitrarily). Further, let ${\overline{q}}^{\ast} \in {\mathbb{R}}^{2n}$ denote the coordinates of agents when the desired formation is rotated by $90$ degrees about the origin. The following theorem states the conditions that guarantee the convergence of agents to the desired formation.
 
 ### Theorem 1
 
-Consider agents with single-integrator dynamics and control. If the $A_{ij}$'s are chosen such that in
-
-$A$ has null vectors $\mathbf{1},\overline{\mathbf{1}},q^{\ast}$ and ${\overline{q}}^{\ast}$,
-
-Other than the four zero eigenvalues associated with these null vectors, all eigenvalues of $A$ have negative real parts,
-
-then, agents globally converge to the desired formation.
+Consider agents with single-integrator dynamics and control. If the $A_{ij}$'s are chosen such that in $A$ has null vectors $\mathbf{1},\overline{\mathbf{1}},q^{\ast}$ and ${\overline{q}}^{\ast}$, Other than the four zero eigenvalues associated with these null vectors, all eigenvalues of $A$ have negative real parts, then, agents globally converge to the desired formation.
 
 ### Proof
 
-The formal proof can be found in our previous work \[37, Thm. 1\], and is based on the observation that if nonzero eigenvalues of matrix $A$ have negative real parts, all trajectories of the linear system $\overset{˙}{q} = {Aq}$ exponentially converge to the kernel of $A$. The kernel of $A$ is nothing but all rotations, translations, and non-negative scale factors of the desired formation. ∎
-
-Note that in Theorem 1 convergence to the desired formation implies that the formation is achieved up to a rotation and translation in the global coordinate frame, and a non-negative scale factor. As we will discuss in Section VII, in applications where the scale is important, the control can be augmented to attain the desired scale. We should point out that null vectors $\mathbf{1},\overline{\mathbf{1}}$ correspond to the case where all agents coincide, which can be interpreted as the desired formation achieved with the zero scale. It can be shown that the set of initial conditions that converge to this coinciding equilibrium is measure zero. Notice that in practice, trajectories of agents cannot remain on a measure zero set (due to noise, disturbances, etc.), thus, coinciding agents are not of practical concern.
+The formal proof can be found in our previous work \[37, Thm. 1\], and is based on the observation that if nonzero eigenvalues of matrix $A$ have negative real parts, all trajectories of the linear system $\overset{˙}{q} = {Aq}$ exponentially converge to the kernel of $A$. The kernel of $A$ is nothing but all rotations, translations, and non-negative scale factors of the desired formation. ∎ Note that in Theorem 1 convergence to the desired formation implies that the formation is achieved up to a rotation and translation in the global coordinate frame, and a non-negative scale factor. As we will discuss in Section VII, in applications where the scale is important, the control can be augmented to attain the desired scale. We should point out that null vectors $\mathbf{1},\overline{\mathbf{1}}$ correspond to the case where all agents coincide, which can be interpreted as the desired formation achieved with the zero scale. It can be shown that the set of initial conditions that converge to this coinciding equilibrium is measure zero. Notice that in practice, trajectories of agents cannot remain on a measure zero set (due to noise, disturbances, etc.), thus, coinciding agents are not of practical concern.
 
 ### Remark 1
 
@@ -96,9 +72,7 @@ Motion of the ensemble set of agents, during and after getting into formation, c
 
 ### III-B Control Gain Design
 
-Given a desired formation for agents with a universally rigid sensing topology, we present a novel algorithm to find control gain matrices that meet the conditions of Theorem 1. Let $N:={\lbrack q^{\ast},{\overline{q}}^{\ast},\, 1,\overline{\mathbf{1}}\rbrack} \in {\mathbb{R}}^{{2n} \times 4}$ be the set of bases for the kernel of $A$, where $\mathbf{1},\overline{\mathbf{1}}$ are given in, $q^{\ast} \in {\mathbb{R}}^{2n}$ is the coordinates of agents at the desired formation, and ${\overline{q}}^{\ast}{\mathbb{R}}^{2n}$ is the $90^{\circ}$ rotated coordinates about the origin. Let ${USV^{\top}} = N$ be the (full) singular value decomposition (SVD) of $N$, where
-
-with $Q \in {\mathbb{R}}^{{2n} \times {({{2n} - 4})}}$ defined as the last ${2n} - 4$ columns of $U$.
+Given a desired formation for agents with a universally rigid sensing topology, we present a novel algorithm to find control gain matrices that meet the conditions of Theorem 1. Let $N:={\lbrack q^{\ast},{\overline{q}}^{\ast},\, 1,\overline{\mathbf{1}}\rbrack} \in {\mathbb{R}}^{{2n} \times 4}$ be the set of bases for the kernel of $A$, where $\mathbf{1},\overline{\mathbf{1}}$ are given, $q^{\ast} \in {\mathbb{R}}^{2n}$ is the coordinates of agents at the desired formation, and ${\overline{q}}^{\ast}{\mathbb{R}}^{2n}$ is the $90^{\circ}$ rotated coordinates about the origin. Let ${USV^{\top}} = N$ be the (full) singular value decomposition (SVD) of $N$, where with $Q \in {\mathbb{R}}^{{2n} \times {({{2n} - 4})}}$ defined as the last ${2n} - 4$ columns of $U$.
 
 ### Lemma 1
 
@@ -106,26 +80,13 @@ Matrices $A$ and $\overline{A}$ have the same set of nonzero eigenvalues.
 
 Proof of Lemma 1 follows by observing that $U$ is an orthogonal matrix, and ${{range}{(\overline{Q})}} = {{range}{(N)}}$. Therefore $\overline{A}$ is the restriction of $A$ onto the orthogonal complement of ${range}{(N)}$, which removes the zero eigenvalues of $A$.
 
-For an undirected sensing topology, by imposing the constraints $a_{ij} = a_{ji}$, $b_{ij} = {- b_{ji}}$ in matrix $A$ can be designed to be symmetric. Note that from Remark 1 existence of such matrix is guaranteed. In this case, $\overline{A}$ is symmetric, and its eigenvalues are real and can be ordered. Hence, $A$ can be computed by solving the optimization problem
+For an undirected sensing topology, by imposing the constraints $a_{ij} = a_{ji}$, $b_{ij} = {- b_{ji}}$ in matrix $A$ can be designed to be symmetric. Note that from Remark 1 existence of such matrix is guaranteed. In this case, $\overline{A}$ is symmetric, and its eigenvalues are real and can be ordered. Hence, $A$ can be computed by solving the optimization problem where $\lambda_{1}{(\cdot)}$ denote the smallest eigenvalue of a matrix and the last constraint ensures that the solution remains bounded. Note that is a concave maximization problem, and can be formulated as the SDP problem where the first constraint is a linear matrix inequality. The proposed approach for finding stabilizing gain matrix $A$ is summarized in Algorithm 1.
 
-where $\lambda_{1}{( \cdot )}$ denote the smallest eigenvalue of a matrix and the last constraint ensures that the solution remains bounded. Note that is a concave maximization problem, and can be formulated as the SDP problem
+Several effective algorithms for solving SDPs are developed in recent years that can be used to solve problem. CVX is well-suited to solve when the number of agents is less than 50, and it features a relatively simple interface. For scenarios with larger number of agents, customized and more computationally efficient solvers can be leveraged to obtain an answer. In, we presented an ADMM-based customized solver . Table I shows the time required to solve for a random sensing topology in MATLAB using an Intel Core i7-7700K with 16GB RAM. As it can be seen, by using the ADMM-based solver gains for formations of 100 agents can be computed in less than 11 seconds.
 
-where the first constraint is a linear matrix inequality. The proposed approach for finding stabilizing gain matrix $A$ is summarized in Algorithm 1.
+OOM: Out of memory TABLE I: Execution time of the CVX solver used for vs. our customized ADMM solver in for obtaining 2D formation gains for different number of agents. Reported times are in seconds and rounded to two decimals. input: Desired formation coordinates q*. output: Gain matrix A. step 1: Let $N:={\lbrack q^{\ast},{\overline{q}}^{\ast},\, 1,\overline{\mathbf{1}}\rbrack}$. step 2: Compute SVD of N = U S V⊤. step 3: Define Q as the last 2 n − 4 columns of U. step 4: Solve using a SDP solver. Algorithm 1 Formation control gain design.
 
-Several effective algorithms for solving SDPs are developed in recent years that can be used to solve problem. CVX is well-suited to solve when the number of agents is less than 50, and it features a relatively simple interface. For scenarios with larger number of agents, customized and more computationally efficient solvers can be leveraged to obtain an answer. In, we presented an ADMM-based customized solver for. Table I shows the time required to solve for a random sensing topology in MATLAB using an Intel Core i7-7700K with 16GB RAM. As it can be seen, by using the ADMM-based solver gains for formations of 100 agents can be computed in less than 11 seconds.
-
-OOM: Out of memory
-TABLE I: Execution time of the CVX solver used for vs. our customized ADMM solver in for obtaining 2D formation gains for different number of agents. Reported times are in seconds and rounded to two decimals.
-
-input: Desired formation coordinates q*.
-output: Gain matrix A.
-step 1: Let $N:={\lbrack q^{\ast},{\overline{q}}^{\ast},\, 1,\overline{\mathbf{1}}\rbrack}$.
-step 2: Compute SVD of N = U S V⊤.
-step 3: Define Q as the last 2 n − 4 columns of U.
-step 4: Solve using a SDP solver.
-Algorithm 1 Formation control gain design.
-
-It is important to note the distinction between the design phase and implementation in our approach. Designing the control gains by Algorithm 1 is a centralized paradigm (which requires the knowledge of the sensing topology). These gains are transmitted from the base station to agents to be used during the mission. The implementation of our approach is distributed, where agents use the prescribed gains to achieve the desired formation without a need for communication and using only relative/local position measurements. Distributed optimization techniques can solve without relying on the complete knowledge of the sensing topology. An example of such distributed design can be found in. However, these techniques require inter-agent communication, which we avoid in this work.
+It is important to note the distinction between the design phase and implementation in our approach. Designing the control gains by Algorithm 1 is a centralized paradigm (which requires the knowledge of the sensing topology). These gains are transmitted from the base station to agents to be used during the mission. The implementation of our approach is distributed, where agents use the prescribed gains to achieve the desired formation without a need for communication and using only relative/local position measurements. Distributed optimization techniques can solve without relying on the complete knowledge of the sensing topology. An example of such distributed design can be found . However, these techniques require inter-agent communication, which we avoid in this work.
 
 ### III-C Robustness to Perturbations
 
@@ -133,9 +94,7 @@ An important characteristic of the proposed design approach is that the gains fo
 
 ### Theorem 2
 
-Given control gain matrix $A$ designed from, let $R_{i} \in {{SO}{}}$ denote a rotation matrix of $\alpha_{i}$ radians, and $c_{i} \in {\mathbb{R}}$ be a scalar. If $\alpha_{i} \in {\lbrack{{- \frac{\pi}{2}} + \epsilon},{\frac{\pi}{2} - \epsilon}\rbrack}$ for an arbitrary small $\epsilon > 0$, and $c_{i} > 0$, under the perturbed control
-
-single-integrator agents achieve the desired formation.
+Given control gain matrix $A$ designed, let $R_{i} \in {{SO}{}}$ denote a rotation matrix of $\alpha_{i}$ radians, and $c_{i} \in {\mathbb{R}}$ be a scalar. If $\alpha_{i} \in {\lbrack{{- \frac{\pi}{2}} + \epsilon},{\frac{\pi}{2} - \epsilon}\rbrack}$ for an arbitrary small $\epsilon > 0$, and $c_{i} > 0$, under the perturbed control single-integrator agents achieve the desired formation.
 
 We first present and prove the following lemma that is used in the proof of Theorem 2.
 
@@ -145,19 +104,11 @@ Let $R \in {{SO}{}}$ represent a rotation of $\alpha \in {\lbrack{- \pi},\pi)}$ 
 
 ### Proof
 
-Matrix $R \in {{SO}{}}$ can be represented as $R = \begin{bmatrix}
-\end{bmatrix}$, where $c,s$ are shorthand notations for ${\cos{(\alpha)}},{\sin{(\alpha)}}$, respectively. Hence, ${R + R^{\top}} = \begin{bmatrix}
-\end{bmatrix}$, which since for ${|\alpha|} < \frac{\pi}{2}$ we have $c > 0$, and matrix $R + R^{\top}$ is positive definite. ∎
-
-We now present the proof of Theorem 2.
+Matrix $R \in {{SO}{}}$ can be represented as $R = \begin{bmatrix} \end{bmatrix}$, where $c,s$ are shorthand notations for ${\cos{(\alpha)}},{\sin{(\alpha)}}$, respectively. Hence, ${R + R^{\top}} = \begin{bmatrix} \end{bmatrix}$, which since for ${|\alpha|} < \frac{\pi}{2}$ we have $c > 0$, and matrix $R + R^{\top}$ is positive definite. ∎ We now present the proof of Theorem 2.
 
 ### Proof
 
-Under the perturbed control, the aggregate dynamics can be represented by
-
-where $P:={{diag}{({c_{1}R_{1}},{c_{2}R_{2}},\ldots,{c_{n}R_{n}})}} \in {\mathbb{R}}^{{{2n} \times 2}n}$ is a block diagonal matrix that contains the perturbation terms. Consider the Lyapunov function candidate $V:={- {q^{\top}Aq}}$. Note that $V$ is positive semidefinite since by design $A$ is negative semidefinite, and $V = 0$ if and only if $q \in {\ker{(A)}}$. Noting that $A^{\top} = A$, derivative of $V$ along the trajectories of is
-
-Matrix $P^{\top} + P$ is block diagonal and each diagonal block is given by ${c_{i}{({R_{i}^{\top} + R_{i}})}} \in {\mathbb{R}}^{2 \times 2}$. From Lemma 2, we have that if ${|\alpha_{i}|} < \frac{\pi}{2}$ and $c_{i} > 0$ for all $i \in {\{ 1,\ldots,n\}}$, then all diagonal blocks are positive definite. This implies that $P^{\top} + P$ is positive definite, and consequently $\overset{˙}{V} < 0$ for all $q \notin {\ker{(A)}}$. From the Lyapunov stability theory and LaSalle's invariance principle it then follows that all trajectories of converge to the invariant set $q \in {\ker{(A)}}$, which shows that the desired formation is achieved. ∎
+Under the perturbed control, the aggregate dynamics can be represented by where $P:={{diag}{({c_{1}R_{1}},{c_{2}R_{2}},\ldots,{c_{n}R_{n}})}} \in {\mathbb{R}}^{{{2n} \times 2}n}$ is a block diagonal matrix that contains the perturbation terms. Consider the Lyapunov function candidate $V:={- {q^{\top}Aq}}$. Note that $V$ is positive semidefinite since by design $A$ is negative semidefinite, and $V = 0$ if and only if $q \in {\ker{(A)}}$. Noting that $A^{\top} = A$, derivative of $V$ along the trajectories of is Matrix $P^{\top} + P$ is block diagonal and each diagonal block is given by ${c_{i}{({R_{i}^{\top} + R_{i}})}} \in {\mathbb{R}}^{2 \times 2}$. From Lemma 2, we have that if ${|\alpha_{i}|} < \frac{\pi}{2}$ and $c_{i} > 0$ for all $i \in {\{ 1,\ldots,n\}}$, then all diagonal blocks are positive definite. This implies that $P^{\top} + P$ is positive definite, and consequently $\overset{˙}{V} < 0$ for all $q \notin {\ker{(A)}}$. From the Lyapunov stability theory and LaSalle's invariance principle it then follows that all trajectories of converge to the invariant set $q \in {\ker{(A)}}$, which shows that the desired formation is achieved. ∎
 
 ### III-D Robustness to Saturated Input
 
@@ -179,23 +130,11 @@ We first discuss the following Lemma and Corollary:
 
 Lemma 3 can be extended to a positive semidefinite $V$ with the zero set of $Z:={\{{x \in {\mathbb{R}}^{n}}:{{V{(x)}} = 0}\}}$. In this case, if ${{\frac{\partial V}{\partial x}f_{i}{(x)}} < 0},{{\forall x} \notin {Z,{\forall i}}}$, then all trajectories globally uniformly asymptotically converge to $Z$.
 
-To model the input saturation we can define the diagonal matrix $S \in {\mathbb{R}}^{n \times n}$ with diagonal elements
-
-As illustrated in Fig. 3, diagonal elements of $S$ can be considered as functions that saturate any large input to the maximum value $u_{\max}$. The closed-loop dynamics under the saturated input can be expressed in the vector form via
-
-System should be understood as a family of switched dynamical systems, for which the solution is well-defined in the Filippov sense (see Chapter 2 in for more details). To show that this system is uniformly stable, we consider
-
-as a common Lyapunov function candidate for all systems. Note that since $A$ is negative semidefinite, $V$ is a positive semidefinite scalar valued function. Time derivative of $V$ along the trajectory of is
-
-where $S^{\frac{1}{2}}$ is the diagonal matrix with elements given by the square root of diagonal entries of $S$. Note that all diagonal elements of $S$ are strictly positive, hence $S^{\frac{1}{2}}$ is well-defined. Since $V$ is a positive semidefinite, continuously differentiable, and radially unbounded function, from Lemma 3, Corollary 1, and LaSalle's invariance principle it follows that all trajectories of converge to the zero set of $V$, which is the kernel of $A$. Thus, the desired formation is achieved. ∎
-
-Figure 3: Top: The i-th diagonal entry of matrix S. Bottom: The effect of saturation on the control.
+To model the input saturation we can define the diagonal matrix $S \in {\mathbb{R}}^{n \times n}$ with diagonal elements As illustrated in Fig. 3, diagonal elements of $S$ can be considered as functions that saturate any large input to the maximum value $u_{\max}$. The closed-loop dynamics under the saturated input can be expressed in the vector form via System should be understood as a family of switched dynamical systems, for which the solution is well-defined in the Filippov sense (see Chapter 2 in for more details). To show that this system is uniformly stable, we consider as a common Lyapunov function candidate for all systems. Note that since $A$ is negative semidefinite, $V$ is a positive semidefinite scalar valued function. Time derivative of $V$ along the trajectory of is where $S^{\frac{1}{2}}$ is the diagonal matrix with elements given by the square root of diagonal entries of $S$. Note that all diagonal elements of $S$ are strictly positive, hence $S^{\frac{1}{2}}$ is well-defined. Since $V$ is a positive semidefinite, continuously differentiable, and radially unbounded function, from Lemma 3, Corollary 1, and LaSalle's invariance principle it follows that all trajectories of converge to the zero set of $V$, which is the kernel of $A$. Thus, the desired formation is achieved. ∎ Figure 3: Top: The i-th diagonal entry of matrix S. Bottom: The effect of saturation on the control.
 
 ### Remark 3
 
-To reject steady state errors, the control law can be augmented by an integrator term as
-
-where ${k_{0},k_{1}} \in {\mathbb{R}}$ are scalar control gains. It can be shown that if ${k_{0},k_{1}} > 0$, this augmented control rejects constant input/output disturbances (see \[38, Sec. III-D\] for more details).
+To reject steady state errors, the control law can be augmented by an integrator term as where ${k_{0},k_{1}} \in {\mathbb{R}}$ are scalar control gains. It can be shown that if ${k_{0},k_{1}} > 0$, this augmented control rejects constant input/output disturbances (see \[38, Sec. III-D\] for more details).
 
 ### Remark 4
 
@@ -203,19 +142,13 @@ The robustness properties of control, such as robustness to positive scaling and
 
 ## Formation Control for Agents with Higher-order Dynamics
 
-In this section, we extend the single-integrator control strategy to agents with higher-order dynamics. We show how the control gains designed for single-integrator agents in Section III-B can be used directly to control higher-order agents without having to find a new control strategy or redesign the gains by solving a new optimization problem. This means the same formation can be regulated for any type of vehicle using the same gains. We assume that the aggregate higher-order dynamics of all agents can be expressed in the controllable canonical form
+In this section, we extend the single-integrator control strategy to agents with higher-order dynamics. We show how the control gains designed for single-integrator agents in Section III-B can be used directly to control higher-order agents without having to find a new control strategy or redesign the gains by solving a new optimization problem. This means the same formation can be regulated for any type of vehicle using the same gains. We assume that the aggregate higher-order dynamics of all agents can be expressed in the controllable canonical form where $q \in {\mathbb{R}}^{2n}$ is the aggregate position vector of all agents, $q^{(j)} \in {\mathbb{R}}^{2n}$ denotes the $j$'th derivative of $q$, and $I \in {\mathbb{R}}^{n \times n}$ is the identity matrix. Although at first sight may seem restrictive, in fact, it encompasses a large class of agents. This is because by coordinate transformation techniques such as feedback linearization, or approximation techniques such as linearization and gain scheduling, dynamics of many systems can be expressed as.
 
-where $q \in {\mathbb{R}}^{2n}$ is the aggregate position vector of all agents, $q^{(j)} \in {\mathbb{R}}^{2n}$ denotes the $j$'th derivative of $q$, and $I \in {\mathbb{R}}^{n \times n}$ is the identity matrix. Although at first sight may seem restrictive, in fact, it encompasses a large class of agents. This is because by coordinate transformation techniques such as feedback linearization, or approximation techniques such as linearization and gain scheduling, dynamics of many systems can be expressed as.
-
-Given the gain matrix $A$ designed for agents with the single-integrator model, the control for agents with dynamics can be chosen as
-
-where ${k_{0},k_{1},\ldots,k_{m}} \in {\mathbb{R}}$ are scalar control gains, and $u:={\lbrack u_{1}^{\top},u_{2}^{\top},\ldots,u_{n}^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{2n}$ denote the aggregate control vector. Note that can be implemented locally using only the relative measurements (due to the special structure of $A$). Under this control, the closed-loop dynamics is given by
+Given the gain matrix $A$ designed for agents with the single-integrator model, the control for agents with dynamics can be chosen as where ${k_{0},k_{1},\ldots,k_{m}} \in {\mathbb{R}}$ are scalar control gains, and $u:={\lbrack u_{1}^{\top},u_{2}^{\top},\ldots,u_{n}^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{2n}$ denote the aggregate control vector. Note that can be implemented locally using only the relative measurements (due to the special structure of $A$). Under this control, the closed-loop dynamics is given by
 
 ### Theorem 4
 
-If for all nonzero $\mu \in {{eig}{(A)}}$ roots of the polynomial equation
-
-have negative real parts, then under control, agents with dynamics globally converge to the desired formation.
+If for all nonzero $\mu \in {{eig}{(A)}}$ roots of the polynomial equation have negative real parts, then under control, agents with dynamics globally converge to the desired formation.
 
 Before we present the proof of Theorem 4, we present and prove the following Lemma.
 
@@ -225,27 +158,15 @@ Let $p{( \cdot )}$ be a given polynomial. If $\mu$ is an eigenvalue of matrix $A
 
 ### Proof
 
-Let $p{( \cdot )}$ be a polynomial of degree $k$, and consider
-
-where $a_{j}$'s, $j = {0,\ldots,k}$, are coefficients of the polynomial. Since $v$ is an eigenvector, we have ${A^{j}v} = {A^{j - 1}{({Av})}} = {A^{j - 1}{({\muv})}} = {\mu{({A^{j - 1}v})}} = \cdots = {\mu^{j}v}$. Thus, from we get
-
-which concludes the proof. ∎
-
-We now present the proof of Theorem 4.
+Let $p{(\cdot)}$ be a polynomial of degree $k$, and consider where $a_{j}$'s, $j = {0,\ldots,k}$, are coefficients of the polynomial. Since $v$ is an eigenvector, we have ${A^{j}v} = {A^{j - 1}{({Av})}} = {A^{j - 1}{({\muv})}} = {\mu{({A^{j - 1}v})}} = \cdots = {\mu^{j}v}$. Thus, from we get which concludes the proof. ∎ We now present the proof of Theorem 4.
 
 ### Proof
 
-The closed-loop state matrix $E$, defined in, is in the (block) controllable canonical form. From this observation and Lemma 4, the characteristic equation of $E$ is given by
-
-which from the assumption of the theorem implies that the nonzero eigenvalues of $E$ have negative real parts. ∎
-
-To find gains $k_{0},k_{1},\ldots,k_{m}$ that satisfy the condition of Theorem 4, the Routh-Hurwitz criterion can be used.
+The closed-loop state matrix $E$, defined, is in the (block) controllable canonical form. From this observation and Lemma 4, the characteristic equation of $E$ is given by which from the assumption of the theorem implies that the nonzero eigenvalues of $E$ have negative real parts. ∎ To find gains $k_{0},k_{1},\ldots,k_{m}$ that satisfy the condition of Theorem 4, the Routh-Hurwitz criterion can be used.
 
 ### Remark 5
 
-In the above analysis, the control can alternatively be chosen as
-
-In this case, agents do not need measurements of states $q^{},\ldots,q^{(m)}$ for their neighbors (since $A$ is replaced by the identity matrix). Note that can also be implemented using only the local relative measurements.
+In the above analysis, the control can alternatively be chosen as In this case, agents do not need measurements of states $q^{},\ldots,q^{(m)}$ for their neighbors (since $A$ is replaced by the identity matrix). Note that can also be implemented using only the local relative measurements.
 
 ### Remark 6
 
@@ -253,37 +174,13 @@ There are several methods that can be used to determine the relative position of
 
 ### Example 2
 
-Quadrotor dynamics can be described as
-
-$\begin{bmatrix} ${= {{R\begin{bmatrix} (27a)
-\end{bmatrix}$ \end{bmatrix}} - \begin{bmatrix}
-$\begin{bmatrix} ${= {T\begin{bmatrix} (27b)
-\overset{˙}{\varphi} \\ \omega_{x} \\
-\overset{˙}{\theta} \\ \omega_{y} \\
-\overset{˙}{\psi} \omega_{z}
-\end{bmatrix}$ \end{bmatrix}}},$
-$\begin{bmatrix} ${= {{J^{- 1}\begin{bmatrix} (27c)
-\end{bmatrix}$ \end{bmatrix}} - {J^{- 1}\left( {{\begin{bmatrix}
-\end{bmatrix} \times J}\begin{bmatrix}
-\end{bmatrix}} \right)}}},$
-
-where, as illustrated in Fig. 4, ${x,y,z} \in {\mathbb{R}}$ are coordinates of the quadrotor's center of mass in the world frame, $\varphi,\theta,\psi$ are roll, pitch, yaw angles that describe the orientation of the quadrotor body frame in the world frame, $\omega_{x},\omega_{y},\omega_{z}$ are the angular body rates about associated body axes, $g$ is the gravitational constant, $u^{a}$ is a mass-normalized thrust input, and $u^{x},u^{y},u^{z}$ are moment inputs applied to the airframe about corresponding body axes. Further, $J \in {\mathbb{R}}^{3 \times 3}$ is the mass moment of inertia matrix, $R \in {{SO}{}}$ is the rotation matrix parameterized in terms of $z$-$x$-$y$ Euler angles as
-
-where $c,s$ are respectively shorthand notations for ${\cos{( \cdot )}},{\sin{( \cdot )}}$ functions, and
-
-is the transformation matrix that relates the roll, pitch, yaw derivatives to the angular velocities in the body frame.
+Quadrotor dynamics can be described as where, as illustrated in Fig. 4, ${x,y,z} \in {\mathbb{R}}$ are coordinates of the quadrotor's center of mass in the world frame, $\varphi,\theta,\psi$ are roll, pitch, yaw angles that describe the orientation of the quadrotor body frame in the world frame, $\omega_{x},\omega_{y},\omega_{z}$ are the angular body rates about associated body axes, $g$ is the gravitational constant, $u^{a}$ is a mass-normalized thrust input, and $u^{x},u^{y},u^{z}$ are moment inputs applied to the airframe about corresponding body axes. Further, $J \in {\mathbb{R}}^{3 \times 3}$ is the mass moment of inertia matrix, $R \in {{SO}{}}$ is the rotation matrix parameterized in terms of $z$-$x$-$y$ Euler angles as where $c,s$ are respectively shorthand notations for ${\cos{(\cdot)}},{\sin{(\cdot)}}$ functions, and is the transformation matrix that relates the roll, pitch, yaw derivatives to the angular velocities in the body frame.
 
 Figure 4: Illustration of a quadrotor’s body frame in the world frame.
 
-Linearizing dynamics about the hover point $x = y = z = \overset{˙}{x} = \overset{˙}{y} = \overset{˙}{z} = 0$, $\omega_{x} = \omega_{y} = \omega_{z} = 0$, $u^{x} = u^{y} = u^{z} = 0$, and $u^{a} = g$ gives the quadrotor linearized dynamics
+Linearizing dynamics about the hover point $x = y = z = \overset{˙}{x} = \overset{˙}{y} = \overset{˙}{z} = 0$, $\omega_{x} = \omega_{y} = \omega_{z} = 0$, $u^{x} = u^{y} = u^{z} = 0$, and $u^{a} = g$ gives the quadrotor linearized dynamics where $\delta$ represents a small displacement about the equilibrium/linearization point. Since we are interested in 2D formations, we only consider the lateral dynamics along the $x$-$y$ axes, and separately control the quadrotor's altitude by setting $u^{a} = \frac{g}{c_{\varphi}c_{\theta}}$ to stabilize it at a constant altitude.
 
-where $\delta$ represents a small displacement about the equilibrium/linearization point. Since we are interested in 2D formations, we only consider the lateral dynamics along the $x$-$y$ axes, and separately control the quadrotor's altitude by setting $u^{a} = \frac{g}{c_{\varphi}c_{\theta}}$ to stabilize it at a constant altitude.
-
-To represent the dynamics in the canonical form, we define
-
-where subscript $i$ is used to distinguish agents. Using this notation, can be described in the vector form as
-
-are respectively the state and control vectors, and $I \in {\mathbb{R}}^{2 \times 2}$ is the identity matrix. Note that by defining the aggregate position vector as $q = {\lbrack{\deltax_{1}},{\deltay_{1}},\ldots,{\deltax_{n}},{\deltay_{n}}\rbrack}^{\top}$, dynamics of agents can be expressed in the form. This model will be used in the Simulations section to achieve a desired formation.
+To represent the dynamics in the canonical form, we define where subscript $i$ is used to distinguish agents. Using this notation, can be described in the vector form as are respectively the state and control vectors, and $I \in {\mathbb{R}}^{2 \times 2}$ is the identity matrix. Note that by defining the aggregate position vector as $q = {\lbrack{\deltax_{1}},{\deltay_{1}},\ldots,{\deltax_{n}},{\deltay_{n}}\rbrack}^{\top}$, dynamics of agents can be expressed in the form. This model will be used in the Simulations section to achieve a desired formation.
 
 ## Formation Control for Agents with Unicycle Dynamics
 
@@ -291,25 +188,13 @@ Motion profile of many vehicles, e.g., differential drive robots or fixed-wing a
 
 ### V-A Unicycle Dynamics
 
-Consider a unicycle agent located at position ${\lbrack x_{i},y_{i}\rbrack}^{\top} \in {\mathbb{R}}^{2}$ in a global coordinate frame (unknown to the agent), and assume that the unicycle's heading direction makes angle $\theta_{i} \in {\lbrack 0,{\, 2\pi})}$ with the $x$-axis of the global coordinate frame. This scenario is illustrated in Fig. 5. The unicycle dynamics can be described in the global coordinate frame by
+Consider a unicycle agent located at position ${\lbrack x_{i},y_{i}\rbrack}^{\top} \in {\mathbb{R}}^{2}$ in a global coordinate frame (unknown to the agent), and assume that the unicycle's heading direction makes angle $\theta_{i} \in {\lbrack 0,{\, 2\pi})}$ with the $x$-axis of the global coordinate frame. This scenario is illustrated in Fig. 5. The unicycle dynamics can be described in the global coordinate frame by where scalars ${v_{i},\omega_{i}} \in {\mathbb{R}}$ are respectively the linear and angular velocities of the agent. In the unicycle kinematic model, it is assumed that $v_{i}$ and $\omega_{i}$ are control variables and can be changed instantaneously.
 
-where scalars ${v_{i},\omega_{i}} \in {\mathbb{R}}$ are respectively the linear and angular velocities of the agent. In the unicycle kinematic model, it is assumed that $v_{i}$ and $\omega_{i}$ are control variables and can be changed instantaneously.
-
-In the global coordinate frame, the unit norm heading vector of the unicycle, $h_{i} \in {\mathbb{R}}^{2}$, and its perpendicular vector $h_{i}^{\perp} \in {\mathbb{R}}^{2}$, are given by
-
-Seeing that ${\overset{˙}{h}}_{i} = {h_{i}^{\perp}{\overset{˙}{\theta}}_{i}}$, can be equivalently described by
-
-Let $q:={\lbrack q_{1}^{\top},q_{2}^{\top},\ldots,q_{n}^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{2n}$ be the aggregate position vector of all agents, and similarly let $h \in {\mathbb{R}}^{2n}$, $v \in {\mathbb{R}}^{n}$, $\omega \in {\mathbb{R}}^{n}$ be the aggregate heading, linear velocity, and angular velocity vectors, respectively. Using this notation, the motion of all agents can be collectively expressed as
-
-where matrices ${H,H^{\perp}} \in {\mathbb{R}}^{{2n} \times n}$ are defined as
-
-Figure 5: An agent with unicycle dynamics at position (xi,yi) in the global coordinate frame. The agent’s heading is denoted by hi, and makes the angle θi with the global coordinate frame’s x-axis. Scalars vi and ωi are defined as the length of the control vector ui projected on hi and hi⊥, respectively.
+In the global coordinate frame, the unit norm heading vector of the unicycle, $h_{i} \in {\mathbb{R}}^{2}$, and its perpendicular vector $h_{i}^{\perp} \in {\mathbb{R}}^{2}$, are given by Seeing that ${\overset{˙}{h}}_{i} = {h_{i}^{\perp}{\overset{˙}{\theta}}_{i}}$, can be equivalently described by Let $q:={\lbrack q_{1}^{\top},q_{2}^{\top},\ldots,q_{n}^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{2n}$ be the aggregate position vector of all agents, and similarly let $h \in {\mathbb{R}}^{2n}$, $v \in {\mathbb{R}}^{n}$, $\omega \in {\mathbb{R}}^{n}$ be the aggregate heading, linear velocity, and angular velocity vectors, respectively. Using this notation, the motion of all agents can be collectively expressed as where matrices ${H,H^{\perp}} \in {\mathbb{R}}^{{2n} \times n}$ are defined as Figure 5: An agent with unicycle dynamics at position (xi, yi) in the global coordinate frame. The agent’s heading is denoted by hi, and makes the angle θi with the global coordinate frame’s x-axis. Scalars vi and ωi are defined as the length of the control vector ui projected on hi and hi⟂, respectively.
 
 ### V-B Control Strategy
 
-Consider a team of $n$ unicycle agents with dynamics. We seek to assign controls $v_{i}$ and $\omega_{i}$ such that agents autonomously achieve a desired formation. Let $A \in {\mathbb{R}}^{{{2n} \times 2}n}$ be a symmetric gain matrix designed in Section III-B for agents with single-integrator model to achieve the desired formation. Further, let $u_{i}$ given in be the desired holonomic control direction for agent $i$. The proposed control strategy is as follows. Each agent computes the control vector $u_{i}$ and projects it on its local heading and perpendicular heading directions. The projected vectors are then used as the linear and angular velocity commands. In the global coordinate frame, which is unknown to agent, this strategy can be described by
-
-as illustrated in Fig. 5. Implementation of does not rely on a global coordinate system. This is because $h_{i}$ is a unit vector along the direction of vehicle, which is known by the agent locally, and $u_{i}$ is the single-integrator control given in the agent's local coordinate frame.
+Consider a team of $n$ unicycle agents with dynamics. We seek to assign controls $v_{i}$ and $\omega_{i}$ such that agents autonomously achieve a desired formation. Let $A \in {\mathbb{R}}^{{{2n} \times 2}n}$ be a symmetric gain matrix designed in Section III-B for agents with single-integrator model to achieve the desired formation. Further, let $u_{i}$ given in be the desired holonomic control direction for agent $i$. The proposed control strategy is as follows. Each agent computes the control vector $u_{i}$ and projects it on its local heading and perpendicular heading directions. The projected vectors are then used as the linear and angular velocity commands. In the global coordinate frame, which is unknown to agent, this strategy can be described by as illustrated in Fig. 5. Implementation of does not rely on a global coordinate system. This is because $h_{i}$ is a unit vector along the direction of vehicle, which is known by the agent locally, and $u_{i}$ is the single-integrator control given in the agent's local coordinate frame.
 
 ### Theorem 5
 
@@ -317,19 +202,7 @@ Let $A$ be a symmetric gain matrix designed for single-integrator agents. Under 
 
 ### Proof
 
-By replacing the control in, the closed-loop dynamics can be expressed in the vector form by
-
-Since $A$ is symmetric and negative semidefinite, we can consider
-
-as a Lyapunov function candidate. Time derivative of $V$ along the trajectory of is
-
-which implies that the system is stable. To show convergence to the desired formation we use the LaSalle's invariance principle and show that $q$ converges to the kernel of $A$. Since $\overset{˙}{V} = 0$ implies that ${H^{\top}Aq} = 0$, by LaSalle's invariance principle $q$ converges to the largest invariant set in $\left. \{{q \in {\mathbb{R}}^{2n}} \middle| {{H^{\top}Aq} \equiv 0}\} \right.$. Thus, one of the following cases must hold:
-
-${Aq} \neq 0$, ${H^{\top}Aq} \equiv 0$
-
-Case (i) implies that the desired formation is achieved. In case (ii), ${H^{\top}Aq} \equiv 0$ implies that there exists constants ${c_{1},c_{2},\ldots,c_{n}} \in {\mathbb{R}}$, with at least one $c_{i} \neq 0$, such that
-
-Since ${H^{\top}Aq} \equiv 0$, from we get $\overset{˙}{q} \equiv 0$. Thus, $q$ and $Aq$ are constant, and from we conclude that $h_{i}^{\perp}$ (and thus $h_{i}$) is constant for all nonzero $c_{i}$. From the definition of $H^{\perp}$ in, one can see that $H^{\perp}$ has full column rank. Therefore, it does not have a right null vector, and from we have ${H^{\perp \top}Aq} \neq 0$. This shows ${H^{\perp}H^{\perp \top}Aq} \neq 0$, and consequently from we get $\overset{˙}{h} \neq 0$. This implies that the heading vectors are not fixed and rotating, which is a contradiction and shows that case (ii) cannot happen. ∎
+By replacing the control, the closed-loop dynamics can be expressed in the vector form by Since $A$ is symmetric and negative semidefinite, we can consider as a Lyapunov function candidate. Time derivative of $V$ along the trajectory of is which implies that the system is stable. To show convergence to the desired formation we use the LaSalle's invariance principle and show that $q$ converges to the kernel of $A$. Since $\overset{˙}{V} = 0$ implies that ${H^{\top}Aq} = 0$, by LaSalle's invariance principle $q$ converges to the largest invariant set in $\left. \{{q \in {\mathbb{R}}^{2n}} \middle| {{H^{\top}Aq} \equiv 0}\} \right.$. Thus, one of the following cases must hold: ${Aq} \neq 0$, ${H^{\top}Aq} \equiv 0$ Case (i) implies that the desired formation is achieved. In case (ii), ${H^{\top}Aq} \equiv 0$ implies that there exists constants ${c_{1},c_{2},\ldots,c_{n}} \in {\mathbb{R}}$, with at least one $c_{i} \neq 0$, such that Since ${H^{\top}Aq} \equiv 0$, from we get $\overset{˙}{q} \equiv 0$. Thus, $q$ and $Aq$ are constant, and from we conclude that $h_{i}^{\perp}$ (and thus $h_{i}$) is constant for all nonzero $c_{i}$. From the definition of $H^{\perp}$, one can see that $H^{\perp}$ has full column rank. Therefore, it does not have a right null vector, and from we have ${H^{\perp \top}Aq} \neq 0$. This shows ${H^{\perp}H^{\perp \top}Aq} \neq 0$, and consequently from we get $\overset{˙}{h} \neq 0$. This implies that the heading vectors are not fixed and rotating, which is a contradiction and shows that case (ii) cannot happen. ∎
 
 ### Remark 7
 
@@ -349,21 +222,11 @@ Consider the unicycle model and assume that ${v_{\max},\omega_{\max}} > 0$ are t
 
 ### Proof
 
-To model the input saturation we can define the diagonal matrices ${S,E} \in {\mathbb{R}}^{n \times n}$ with diagonal elements
-
-Elements of $S,E$ can be considered as functions that saturate any large input to the maximum allowed values $v_{\max},\omega_{max}$ (cf. Fig. 3 for saturated single-integrator control). The closed-loop dynamics under the saturated input can be expressed in the vector form via
-
-System should be understood as a family of switched dynamical systems, for which we choose $V:={- {\frac{1}{2}q^{\top}Aq}} \geq 0$ as a common Lyapunov function candidate. Time derivative of $V$ along the trajectory of is
-
-Thus, $V$ satisfies conditions of Lemma 3 and Corollary 1, and from LaSalle's invariance principle it follows that all trajectories of converge to the zero set of $V$, which is the set of all desired formations. ∎
+To model the input saturation we can define the diagonal matrices ${S,E} \in {\mathbb{R}}^{n \times n}$ with diagonal elements Elements of $S,E$ can be considered as functions that saturate any large input to the maximum allowed values $v_{\max},\omega_{max}$ (cf. Fig. 3 for saturated single-integrator control). The closed-loop dynamics under the saturated input can be expressed in the vector form via System should be understood as a family of switched dynamical systems, for which we choose $V:={- {\frac{1}{2}q^{\top}Aq}} \geq 0$ as a common Lyapunov function candidate. Time derivative of $V$ along the trajectory of is Thus, $V$ satisfies conditions of Lemma 3 and Corollary 1, and from LaSalle's invariance principle it follows that all trajectories of converge to the zero set of $V$, which is the set of all desired formations. ∎
 
 ### V-D Robustness to Unmodeled Linear Actuator Dynamics
 
-In practice, the linear and angular velocities of a vehicle cannot change instantaneously. The dynamic behavior of these velocities, which is not accounted for in the unicycle model, can be modeled by
-
-where ${s_{i},r_{i}} \in {\mathbb{R}}$ are controls to adjust the linear and angular velocities, and ${a,b,c,d} \in {\mathbb{R}}$ are strictly positive scalars, which depend on the vehicle's inertia, motor dynamics, friction, etc., and are in general unknown. We show that unmodeled velocity dynamics does not affect the convergence of the unicycle control strategy. That is, applying the control
-
-in results in the desired formation.
+In practice, the linear and angular velocities of a vehicle cannot change instantaneously. The dynamic behavior of these velocities, which is not accounted for in the unicycle model, can be modeled by where ${s_{i},r_{i}} \in {\mathbb{R}}$ are controls to adjust the linear and angular velocities, and ${a,b,c,d} \in {\mathbb{R}}$ are strictly positive scalars, which depend on the vehicle's inertia, motor dynamics, friction, etc., and are in general unknown. We show that unmodeled velocity dynamics does not affect the convergence of the unicycle control strategy. That is, applying the control in results in the desired formation.
 
 ### Theorem 7
 
@@ -371,19 +234,9 @@ Let $A$ be a symmetric gain matrix designed for single-integrator agents. Under 
 
 ### Proof
 
-Substituting in gives the closed-loop dynamics in the vector form as
+Substituting in gives the closed-loop dynamics in the vector form as where $v:={\lbrack v_{1},v_{2},{\ldotsv_{n}}\rbrack}^{\top} \in {\mathbb{R}}^{n}$ and $\omega:={\lbrack\omega_{1},\omega_{2},{\ldots\omega_{n}}\rbrack}^{\top} \in {\mathbb{R}}^{n}$ are aggregate linear and angular velocity vectors, respectively. Consider the Lyapunov function candidate Time derivative of $V$ along the trajectory of is Similar to the proof of Theorem 5, we use LaSalle's invariance principle and show that the largest invariant set consists of the desired formations. By setting $\overset{˙}{V} \equiv 0$ to find the invariant sets, from (V-D) we get $v \equiv 0$, which implies that $\overset{˙}{v} \equiv 0$. Consequently, from we should have that ${bH^{\top}Aq} \equiv 0$, which implies one of the following two cases: ${Aq} \neq 0$, ${H^{\top}Aq} \equiv 0$.
 
-where $v:={\lbrack v_{1},v_{2},{\ldotsv_{n}}\rbrack}^{\top} \in {\mathbb{R}}^{n}$ and $\omega:={\lbrack\omega_{1},\omega_{2},{\ldots\omega_{n}}\rbrack}^{\top} \in {\mathbb{R}}^{n}$ are aggregate linear and angular velocity vectors, respectively. Consider the Lyapunov function candidate
-
-Time derivative of $V$ along the trajectory of is
-
-Similar to the proof of Theorem 5, we use LaSalle's invariance principle and show that the largest invariant set consists of the desired formations. By setting $\overset{˙}{V} \equiv 0$ to find the invariant sets, from (V-D) we get $v \equiv 0$, which implies that $\overset{˙}{v} \equiv 0$. Consequently, from we should have that ${bH^{\top}Aq} \equiv 0$, which implies one of the following two cases:
-
-${Aq} \neq 0$, ${H^{\top}Aq} \equiv 0$.
-
-Case (i) implies that the desired formation is achieved, where by replacing ${Aq} \equiv 0$ in the dynamics reduces to
-
-This shows ${\omega,\overset{˙}{h}}\rightarrow 0$, and therefore $\omega$ converges to zero and $h$ converges to a constant value. Thus, the set $\left\{ {{\lbrack q^{\top},v^{\top},g^{\top},\omega^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{6n}}:{{{Aq} = 0},{v = 0}} \right\}$, which consists of the desired formations, is an invariant set.
+Case (i) implies that the desired formation is achieved, where by replacing ${Aq} \equiv 0$ in the dynamics reduces to This shows ${\omega,\overset{˙}{h}}\rightarrow 0$, and therefore $\omega$ converges to zero and $h$ converges to a constant value. Thus, the set $\left\{ {{\lbrack q^{\top},v^{\top},g^{\top},\omega^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{6n}}:{{{Aq} = 0},{v = 0}} \right\}$, which consists of the desired formations, is an invariant set.
 
 We now show that case (ii) cannot be an invariant set. Using a similar reasoning to the proof of Theorem 5, from $v \equiv 0$, ${H^{\top}Aq} \equiv 0$, and dynamics one can conclude that in this case $q$, $Aq$, and $h$ are all constant and nonidentical to zero. Further, ${H^{\perp \top}Aq} ≢ 0$, which from implies that $\overset{˙}{\omega} ≢ 0$ and hence $\omega ≢ 0$. This, together with $H^{\perp}$ having full column rank implies that $\overset{˙}{h} ≢ 0$, which is a contradiction to $h$ being constant. This shows that case (ii) is not an invariant set, which concludes the proof. ∎
 
@@ -393,37 +246,21 @@ In, we assumed that $a,b,c,d$ have the same value for all agents. This assumptio
 
 ### Remark 10
 
-In, the assumption ${a,c} > 0$ implies that agents are zero-input stable, which often holds in practice. However, for ${a,c} < 0$ the control can be modified using the velocity feedback as
-
-where $k_{s} \in {\mathbb{R}}$ is a positive control gain. Using similar analysis to the proof of Theorem 7, one can show that if $k_{s}$ is chosen such that ${a + {k_{s}b}} > 0$, the agents converge to the desired formation. Lastly, with multiplying $s_{i},r_{i}$ by the sign of $b,d$, respectively, the assumption ${b,d} > 0$ can be relaxed to only knowing the sign of these parameters.
+In, the assumption ${a,c} > 0$ implies that agents are zero-input stable, which often holds in practice. However, for ${a,c} < 0$ the control can be modified using the velocity feedback as where $k_{s} \in {\mathbb{R}}$ is a positive control gain. Using similar analysis to the proof of Theorem 7, one can show that if $k_{s}$ is chosen such that ${a + {k_{s}b}} > 0$, the agents converge to the desired formation. Lastly, with multiplying $s_{i},r_{i}$ by the sign of $b,d$, respectively, the assumption ${b,d} > 0$ can be relaxed to only knowing the sign of these parameters.
 
 ## Formation Control for Agents with Car Dynamics
 
 Cars are another common platform for which attaining a desired formation is often of interest (e.g., in intelligent transportation systems). In this section, we present a control strategy for agents with both front and rear-wheel drive car model. We then show that the convergence is not affected when the input is saturated, and the control is robust to unmodeled dynamics. Similar to previous section, henceforth we assume that a symmetric negative semi-definite control gain matrix $A$ is designed by solving the optimization problem.
 
-Figure 6: A car at position (xi,yi) in the global coordinate frame. The agent’s heading is denoted by hi, and makes the angle θi with the global coordinate frame’s x-axis. The front wheels’ steering direction is along the vector gi, which makes the angle δi with the x-axis.
+Figure 6: A car at position (xi, yi) in the global coordinate frame. The agent’s heading is denoted by hi, and makes the angle θi with the global coordinate frame’s x-axis. The front wheels’ steering direction is along the vector gi, which makes the angle δi with the x-axis.
 
 ### VI-A Control Strategy for Front-Wheel Drive Car
 
-Consider an agent with the front-wheel drive car model as illustrated in Fig. 6. The motion of this agent can be described by the dynamics
+Consider an agent with the front-wheel drive car model as illustrated in Fig. 6. The motion of this agent can be described by the dynamics where ${x_{i},y_{i}} \in {\mathbb{R}}^{2}$ are the coordinates of the front axle's center, $v_{i} \in {\mathbb{R}}$ is the driving velocity, $\theta_{i} \in {\lbrack 0,{\, 2\pi})}$ is the heading angle, $\varphi_{i} \in {\lbrack 0,{\, 2\pi})}$ is the steering angle, $\omega_{i}$ is the steering velocity, and $l \in {\mathbb{R}}$ is the wheelbase. In this kinematic model, it is assumed that $v_{i}$ and $\omega_{i}$ are inputs and can be controlled directly. By defining one can alternatively write as Note that to simplify the notation, we have assumed that $l$ is identical for all agents. This does not affect the generality of the following results, and one can carry the following analysis with a different $l$ for each agent.
 
-where ${x_{i},y_{i}} \in {\mathbb{R}}^{2}$ are the coordinates of the front axle's center, $v_{i} \in {\mathbb{R}}$ is the driving velocity, $\theta_{i} \in {\lbrack 0,{\, 2\pi})}$ is the heading angle, $\varphi_{i} \in {\lbrack 0,{\, 2\pi})}$ is the steering angle, $\omega_{i}$ is the steering velocity, and $l \in {\mathbb{R}}$ is the wheelbase. In this kinematic model, it is assumed that $v_{i}$ and $\omega_{i}$ are inputs and can be controlled directly. By defining
+To derive an alternative formulation for that is more suitable for the control design, we define the steering vector $g_{i} \in {\mathbb{R}}^{2}$ and its perpendicular $g_{i}^{\perp} \in {\mathbb{R}}^{2}$, and heading vector $h_{i} \in {\mathbb{R}}^{2}$ and its perpendicular $h_{i}^{\perp} \in {\mathbb{R}}^{2}$ as Seeing that ${\overset{˙}{g}}_{i} = {g_{i}^{\perp}{\overset{˙}{\delta}}_{i}}$, ${\overset{˙}{h}}_{i} = {h_{i}^{\perp}{\overset{˙}{\theta}}_{i}}$, and ${\sin{({\delta_{i} - \theta_{i}})}} = {{{\sin{(\delta_{i})}}{\cos{(\theta_{i})}}} - {{\cos{(\delta_{i})}}{\sin{(\theta_{i})}}}} = {h_{i}^{\perp \top}g_{i}}$, we can describe equivalently by From, the dynamics of all agents can be collectively expressed in the vector form where ${q,g,h} \in {\mathbb{R}}^{2n}$ are aggregate state, steering, and heading vectors, and ${v,\omega} \in {\mathbb{R}}^{n}$ are aggregate control vectors. Further, $H,H^{\perp}$ are defined according to, and $G,G^{\perp}$ are defined by replacing $h_{i}$'s by $g_{i}$'s.
 
-one can alternatively write as
-
-Note that to simplify the notation, we have assumed that $l$ is identical for all agents. This does not affect the generality of the following results, and one can carry the following analysis with a different $l$ for each agent.
-
-To derive an alternative formulation for that is more suitable for the control design, we define the steering vector $g_{i} \in {\mathbb{R}}^{2}$ and its perpendicular $g_{i}^{\perp} \in {\mathbb{R}}^{2}$, and heading vector $h_{i} \in {\mathbb{R}}^{2}$ and its perpendicular $h_{i}^{\perp} \in {\mathbb{R}}^{2}$ as
-
-Seeing that ${\overset{˙}{g}}_{i} = {g_{i}^{\perp}{\overset{˙}{\delta}}_{i}}$, ${\overset{˙}{h}}_{i} = {h_{i}^{\perp}{\overset{˙}{\theta}}_{i}}$, and ${\sin{({\delta_{i} - \theta_{i}})}} = {{{\sin{(\delta_{i})}}{\cos{(\theta_{i})}}} - {{\cos{(\delta_{i})}}{\sin{(\theta_{i})}}}} = {h_{i}^{\perp \top}g_{i}}$, we can describe equivalently by
-
-From, the dynamics of all agents can be collectively expressed in the vector form
-
-where ${q,g,h} \in {\mathbb{R}}^{2n}$ are aggregate state, steering, and heading vectors, and ${v,\omega} \in {\mathbb{R}}^{n}$ are aggregate control vectors. Further, $H,H^{\perp}$ are defined according to, and $G,G^{\perp}$ are defined by replacing $h_{i}$'s by $g_{i}$'s in.
-
-Using a similar strategy to the unicycle agents in Section V, we define the driving and steering velocity controls as the projections of the holonomic control vector along the steering direction and its perpendicular by
-
-where $u_{i}$ is given in. We emphasize that can be implemented using only the local relative position measurements.
+Using a similar strategy to the unicycle agents in Section V, we define the driving and steering velocity controls as the projections of the holonomic control vector along the steering direction and its perpendicular by where $u_{i}$ is given. We emphasize that can be implemented using only the local relative position measurements.
 
 ### Theorem 8
 
@@ -431,9 +268,7 @@ Let $A$ be a symmetric gain matrix designed for single-integrator agents. Under 
 
 ### Proof
 
-The proof follows from similar analysis to the proof of Theorem 5. By substituting in, the closed-loop dynamics is given in the vector form as
-
-Using $V:={- {\frac{1}{2}q^{\top}Aq}} \geq 0$ as a Lyapunov function candidate, one can show that the time derivative of $V$ along the trajectory of is $\overset{˙}{V} = {- {\|{G^{\top}Aq}\|}^{2}} \leq \, 0$, which implies the stability of system. Convergence to the desired formation follows from the LaSalle's invariance principle. In particular, in the case that ${Aq} \neq 0$ but ${G^{\top}Aq} \equiv 0$, dynamics of $g$ in reduces to $\overset{˙}{g} = {G^{\perp}G^{\perp \top}Aq}$, which is the same as dynamics for $h$ in the unicycle model. By the same token, this case cannot be a invariant set, and the only possibility is ${Aq} \equiv 0$, which indicates that the desired formation is achieved. ∎
+The proof follows from similar analysis to the proof of Theorem 5. By substituting, the closed-loop dynamics is given in the vector form as Using $V:={- {\frac{1}{2}q^{\top}Aq}} \geq 0$ as a Lyapunov function candidate, one can show that the time derivative of $V$ along the trajectory of is $\overset{˙}{V} = {- {\|{G^{\top}Aq}\|}^{2}} \leq \, 0$, which implies the stability of system. Convergence to the desired formation follows from the LaSalle's invariance principle. In particular, in the case that ${Aq} \neq 0$ but ${G^{\top}Aq} \equiv 0$, dynamics of $g$ in reduces to $\overset{˙}{g} = {G^{\perp}G^{\perp \top}Aq}$, which is the same as dynamics for $h$ in the unicycle model. By the same token, this case cannot be a invariant set, and the only possibility is ${Aq} \equiv 0$, which indicates that the desired formation is achieved. ∎
 
 ### Remark 11
 
@@ -441,11 +276,7 @@ Similar to the unicycle agents, the final heading and steering angles of agents 
 
 ### VI-B Control Strategy for Rear-Wheel Drive Car
 
-The dynamics of a rear-wheel drive car is identical to the front-wheel drive car except that the front wheels' driving velocity $v_{i}$ is indirectly controlled via the rear wheels' driving velocity $v_{i}^{r}$. The relation between the front and rear wheels' driving velocities is given by
-
-To set $v_{i}$ to the desired value defined in, from we have that the rear wheels' driving velocity should be
-
-The main difference between the rear and front-wheel drive car is that when $\varphi_{i} = {\pm \frac{\pi}{2}}$, from $v_{i}^{r}$, and hence $v_{i}$, become zero. On the contrary, $v_{i}$ in a front-wheel drive car can take any desired value in this case (one can interpret this as the car pivoting about its rear wheels).
+The dynamics of a rear-wheel drive car is identical to the front-wheel drive car except that the front wheels' driving velocity $v_{i}$ is indirectly controlled via the rear wheels' driving velocity $v_{i}^{r}$. The relation between the front and rear wheels' driving velocities is given by To set $v_{i}$ to the desired value defined, from we have that the rear wheels' driving velocity should be The main difference between the rear and front-wheel drive car is that when $\varphi_{i} = {\pm \frac{\pi}{2}}$, from $v_{i}^{r}$, and hence $v_{i}$, become zero. On the contrary, $v_{i}$ in a front-wheel drive car can take any desired value in this case (one can interpret this as the car pivoting about its rear wheels).
 
 ### Theorem 9
 
@@ -453,15 +284,7 @@ Under the conditions of Theorem 8 with driving velocity control, agents with rea
 
 ### Proof
 
-Under the control, the closed-loop dynamics is similar to, except when the steering angles are $\pm \frac{\pi}{2}$, in which case the driving velocity is zero. By defining the diagonal matrix $\Gamma \in {\mathbb{R}}^{n \times n}$ with diagonal entries
-
-driving velocity can be expressed as $v = {\GammaG^{\top}Aq}$, and from the closed-loop dynamics of a rear-wheel drive car is given by
-
-We use $V:={- {\frac{1}{2}q^{\top}Aq}} \geq 0$ as a common Lyapunov function candidate for the switched system to prove stability and convergence in a manner similar to Theorem 8. By direct calculation, derivative of $V$ along the trajectory of is $\overset{˙}{V} = {\|{\GammaG^{\top}Aq}\|}^{2} \leq \, 0$. When the diagonal elements of $\Gamma$ are all ones, i.e., no heading angle is equal to $\pm \frac{\pi}{2}$, the dynamics is identical to and convergence follows from the proof of Theorem 8. Thus, we only need to analyze instances where $\varphi_{i} = {\pm \frac{\pi}{2}}$. At such instances, one of the following cases hold
-
-${{\exists i},\varphi_{i}} \neq {\pm \frac{\pi}{2}}$ or ${G^{\perp \top}Aq} \neq 0$
-
-${{\forall i},\varphi_{i}} = {\pm \frac{\pi}{2}}$ and ${G^{\perp \top}Aq} = 0$.
+Under the control, the closed-loop dynamics is similar to, except when the steering angles are $\pm \frac{\pi}{2}$, in which case the driving velocity is zero. By defining the diagonal matrix $\Gamma \in {\mathbb{R}}^{n \times n}$ with diagonal entries driving velocity can be expressed as $v = {\GammaG^{\top}Aq}$, and from the closed-loop dynamics of a rear-wheel drive car is given by We use $V:={- {\frac{1}{2}q^{\top}Aq}} \geq 0$ as a common Lyapunov function candidate for the switched system to prove stability and convergence in a manner similar to Theorem 8. By direct calculation, derivative of $V$ along the trajectory of is $\overset{˙}{V} = {\|{\GammaG^{\top}Aq}\|}^{2} \leq \, 0$. When the diagonal elements of $\Gamma$ are all ones, i.e., no heading angle is equal to $\pm \frac{\pi}{2}$, the dynamics is identical to and convergence follows from the proof of Theorem 8. Thus, we only need to analyze instances where $\varphi_{i} = {\pm \frac{\pi}{2}}$. At such instances, one of the following cases hold ${{\exists i},\varphi_{i}} \neq {\pm \frac{\pi}{2}}$ or ${G^{\perp \top}Aq} \neq 0$ ${{\forall i},\varphi_{i}} = {\pm \frac{\pi}{2}}$ and ${G^{\perp \top}Aq} = 0$.
 
 If agents are not at the desired formation, i.e., ${Aq} \neq 0$, case (i) cannot be an invariant set. This is because $\overset{˙}{V} \equiv 0$ implies ${\GammaG^{\top}Aq} \equiv 0$, and hence from we get $\overset{˙}{g} = {G^{\perp}G^{\perp \top}Aq}$, which shows $g$ is varying and the heading angles cannot remain at $\pm \frac{\pi}{2}$. On the other hand, case (ii) is an invariant set at which the agents stop moving without reaching the desired formation. From the Picard-Lindelof theorem on the existence and uniqueness of solutions, only one trajectory of system passes through the point where all $\varphi_{i}$'s are $\frac{\pi}{2}$. Thus, the number of trajectories at which all heading angles are either $\frac{\pi}{2}$ or $- \frac{\pi}{2}$ is $2^{n}$. In the space of all trajectories, these trajectories are a measure zero set (i.e., they have zero volume). This shows almost global convergence of system to the desired formation. ∎
 
@@ -481,19 +304,11 @@ Consider car dynamics, and assume that ${v_{\max},\omega_{\max},\varphi_{\max}} 
 
 ### Proof
 
-To model the input saturation, we consider the diagonal matrices ${S,E} \in {\mathbb{R}}^{n \times n}$ defined in,. Further, to model the bounded steering angel we define the diagonal matrix $\Gamma \in {\mathbb{R}}^{n \times n}$ via
-
-The closed-loop dynamics under the saturated input and bounded steering angle can be expressed in vector form as
-
-The solutions of switched system are well-defined in the Filippov sense. Similar to the proof of Theorem 6, by considering $V:={- {\frac{1}{2}q^{\top}Aq}} \geq 0$ as a common Lyapunov function candidate, the time derivative of $V$ along the trajectory of is $\overset{˙}{V} = {- {\|{S^{\frac{1}{2}}G^{\top}Aq}\|}^{2}} \leq \, 0$. The Lyapunov function $V$ satisfies the conditions of Lemma 3, and from Corollary 1 and LaSalle's invariance principle, it follows that the desired formation is achieved. ∎
+To model the input saturation, we consider the diagonal matrices ${S,E} \in {\mathbb{R}}^{n \times n}$ defined,. Further, to model the bounded steering angel we define the diagonal matrix $\Gamma \in {\mathbb{R}}^{n \times n}$ via The closed-loop dynamics under the saturated input and bounded steering angle can be expressed in vector form as The solutions of switched system are well-defined in the Filippov sense. Similar to the proof of Theorem 6, by considering $V:={- {\frac{1}{2}q^{\top}Aq}} \geq 0$ as a common Lyapunov function candidate, the time derivative of $V$ along the trajectory of is $\overset{˙}{V} = {- {\|{S^{\frac{1}{2}}G^{\top}Aq}\|}^{2}} \leq \, 0$. The Lyapunov function $V$ satisfies the conditions of Lemma 3, and from Corollary 1 and LaSalle's invariance principle, it follows that the desired formation is achieved. ∎
 
 ### VI-D Robustness to Unmodeled Linear Actuator Dynamics
 
-Since in practice the driving and steering velocities of a car cannot change instantaneously, the car dynamics can be modified as
-
-to incorporate the dynamics of these velocities. In, ${s_{i},r_{i}} \in {\mathbb{R}}$ are control inputs to adjust the driving and steering velocities. Further, we assume that ${a,b,c,d} \in {\mathbb{R}}$ are strictly positive, but unknown. The following theorem shows that the unmodeled velocity dynamics does not affect the convergence of the control strategy. That is, applying the control
-
-in results in the desired formation.
+Since in practice the driving and steering velocities of a car cannot change instantaneously, the car dynamics can be modified as to incorporate the dynamics of these velocities. In, ${s_{i},r_{i}} \in {\mathbb{R}}$ are control inputs to adjust the driving and steering velocities. Further, we assume that ${a,b,c,d} \in {\mathbb{R}}$ are strictly positive, but unknown. The following theorem shows that the unmodeled velocity dynamics does not affect the convergence of the control strategy. That is, applying the control in results in the desired formation.
 
 ### Theorem 11
 
@@ -501,23 +316,15 @@ Let $A$ be a symmetric gain matrix designed for single-integrator agents. Under 
 
 ### Proof
 
-By substituting in, the closed-loop dynamics is given in the vector from by
+By substituting, the closed-loop dynamics is given in the vector from by where $v,\omega$ are the aggregate driving and steering velocity vectors. Similar to the proof of Theorem 7, we consider $V:={{- {\frac{b}{2}q^{\top}Aq}} + {\frac{1}{2}v^{\top}v}} \geq 0$ as a Lyapunov function candidate. After simplifications, the time derivative of $V$ along the trajectory of is given by ${- {av^{\top}v}} \leq 0$. To show convergence using LaSalle's invariance principle, we set $\overset{˙}{V} \equiv 0$ to find the largest invariant set. This implies that $v \equiv 0$, and therefore $\overset{˙}{v} \equiv 0$. Consequently, from we should have that ${bG^{\top}Aq} \equiv 0$, which implies one of the following two cases: ${Aq} \neq 0$, ${G^{\top}Aq} \equiv 0$.
 
-where $v,\omega$ are the aggregate driving and steering velocity vectors. Similar to the proof of Theorem 7, we consider $V:={{- {\frac{b}{2}q^{\top}Aq}} + {\frac{1}{2}v^{\top}v}} \geq 0$ as a Lyapunov function candidate. After simplifications, the time derivative of $V$ along the trajectory of is given by ${- {av^{\top}v}} \leq 0$. To show convergence using LaSalle's invariance principle, we set $\overset{˙}{V} \equiv 0$ to find the largest invariant set. This implies that $v \equiv 0$, and therefore $\overset{˙}{v} \equiv 0$. Consequently, from we should have that ${bG^{\top}Aq} \equiv 0$, which implies one of the following two cases:
-
-${Aq} \neq 0$, ${G^{\top}Aq} \equiv 0$.
-
-Case (i) implies that the desired formation is achieved, where by replacing $v \equiv 0$ and ${Aq} \equiv 0$ in the dynamics reduces to
-
-This shows ${\omega,\overset{˙}{g}}\rightarrow 0$, and therefore $\omega$ converges to zero and $g$ converges to a constant value. Thus, the set $\left\{ {{\lbrack q^{\top},v^{\top},g^{\top},\omega^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{6n}}:{{{Aq} = 0},{v = 0}} \right\}$, which consists of the desired formations, is an invariant set.
+Case (i) implies that the desired formation is achieved, where by replacing $v \equiv 0$ and ${Aq} \equiv 0$ in the dynamics reduces to This shows ${\omega,\overset{˙}{g}}\rightarrow 0$, and therefore $\omega$ converges to zero and $g$ converges to a constant value. Thus, the set $\left\{ {{\lbrack q^{\top},v^{\top},g^{\top},\omega^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{6n}}:{{{Aq} = 0},{v = 0}} \right\}$, which consists of the desired formations, is an invariant set.
 
 We now show that case (ii) cannot be an invariant set. Using a similar reasoning to the proof of Theorem 7, from $v \equiv 0$, ${G^{\top}Aq} \equiv 0$, and dynamics one can conclude that in this case $q$, $Aq$, and $g$ are all constant and nonidentical to zero. Further, ${G^{\perp \top}Aq} ≢ 0$, which from implies that $\overset{˙}{\omega} ≢ 0$ and hence $\omega ≢ 0$. This, together with $G^{\perp}$ having full column rank implies that $\overset{˙}{g} ≢ 0$, which is a contradiction to $g$ being constant. This shows that case (ii) is not an invariant set, which concludes the proof. ∎
 
 ### Remark 13
 
-On a similar note to Remarks 9 and 10, in parameters $a,b,c,d$ can take different values for each agent. Further, if $k_{s} \in {\mathbb{R}}$ is chosen such that ${a + {k_{s}b}} > 0$, the modified control
-
-can bring agents with ${a,c} < 0$ to the desired formation.
+On a similar note to Remarks 9 and 10, in parameters $a,b,c,d$ can take different values for each agent. Further, if $k_{s} \in {\mathbb{R}}$ is chosen such that ${a + {k_{s}b}} > 0$, the modified control can bring agents with ${a,c} < 0$ to the desired formation.
 
 ## Extensions and Variations
 
@@ -531,15 +338,7 @@ If the initial inter-agent distances are greater than $r$, it is straightforward
 
 On the other hand, under the proposed strategy, stability of the overall system is guaranteed by Theorem 2. This distinguishes the proposed strategy from an ad hoc augmentation of the control to avoid collision, e.g., via potential functions. Such augmentations may lead to undesired behavior or instability of the overall system. For example, they may cause the robots to drift along a direction or circle in a limit cycle indefinitely. Such behaviors are not present in the proposed approach, and if the robots do not go to a gridlock, convergence to the desired shape is guaranteed.
 
-Figure 7: Control vector of agent i rotated outside of the collision cones.
-
-input: Desired control direction ui ∈ ℝ2
-Collision circle radius r ∈ ℝ
-output: Modified control direction ui′ ∈ ℝ2
-step 1: Construct collision cones with circles of radius r centered at agents closer than dc.
-step 2: Find rotation R (θ) ∈ SO with minimum |θ| such that R ui is outside of collision cones.
-step 3: If step 2 is infeasible or |θ| ≥ 90∘ set ui′ = 0, otherwise set ui′ = R (θ) ui.
-Algorithm 2 Distributed collision avoidance.
+Figure 7: Control vector of agent i rotated outside of the collision cones. input: Desired control direction ui ∈ ℝ2 Collision circle radius r ∈ ℝ output: Modified control direction ui′ ∈ ℝ2 step 1: Construct collision cones with circles of radius r centered at agents closer than dc. step 2: Find rotation R (θ) ∈ SO with minimum |θ| such that R ui is outside of collision cones. step 3: If step 2 is infeasible or |θ| ≥ 90∘ set ui′ = 0, otherwise set ui′ = R (θ) ui. Algorithm 2 Distributed collision avoidance.
 
 ### VII-B Time-Varying Sensing Topology
 
@@ -551,13 +350,9 @@ Let $\mathcal{G}:={\{\mathcal{G}^{1},\mathcal{G}^{2},\ldots,\mathcal{G}^{m}\}}$ 
 
 ### Proof
 
-The closed-loop dynamics under the proposed control strategy is given by $\overset{˙}{q} = {A^{i}q}$, where $i \in {1,\, 2,\ldots,m}$ denote the index of the sensing topology. By considering $V:={q^{\top}q} \geq 0$ as a common Lyapunov function candidate for the this family of switched systems, we derive $\overset{˙}{V} = {q^{\top}A^{i}q}$. Since $A^{i}$ is negative semidefinite by design for every $i$, it follows that $\overset{˙}{V} \leq 0$. Hence, from Lemma 3 and Corollary 1 we have that the desired formation is achieved under an arbitrary switching among topologies. ∎
+The closed-loop dynamics under the proposed control strategy is given by $\overset{˙}{q} = {A^{i}q}$, where $i \in {1,\, 2,\ldots,m}$ denote the index of the sensing topology. By considering $V:={q^{\top}q} \geq 0$ as a common Lyapunov function candidate for the this family of switched systems, we derive $\overset{˙}{V} = {q^{\top}A^{i}q}$. Since $A^{i}$ is negative semidefinite by design for every $i$, it follows that $\overset{˙}{V} \leq 0$. Hence, from Lemma 3 and Corollary 1 we have that the desired formation is achieved under an arbitrary switching among topologies. ∎ Theorem 12 ensures convergence under an arbitrary switching of sensing topologies provided that stabilizing gain matrices are computed for each topology. To ensure that the formation control strategy is applicable in a switching scenario without inter-agent communication, additional constraints can be enforced to obtain gains that jointly stabilize all sensing topologies. To elaborate this point, consider the example of four sensing topologies illustrated in Fig. 8. In topologies numbered as and, agent 1 has the same set of neighbors, namely agents 2 and 4. Since agent 1 is not aware of the overall sensing topology, from its point of view topologies and are indistinguishable. Consequently, the control gains for agent 1 in matrices $A^{1}$ and $A^{3}$ should be identical to ensure they jointly stabilize both topologies.
 
-Theorem 12 ensures convergence under an arbitrary switching of sensing topologies provided that stabilizing gain matrices are computed for each topology. To ensure that the formation control strategy is applicable in a switching scenario without inter-agent communication, additional constraints can be enforced to obtain gains that jointly stabilize all sensing topologies. To elaborate this point, consider the example of four sensing topologies illustrated in Fig. 8. In topologies numbered as and, agent 1 has the same set of neighbors, namely agents 2 and 4. Since agent 1 is not aware of the overall sensing topology, from its point of view topologies and are indistinguishable. Consequently, the control gains for agent 1 in matrices $A^{1}$ and $A^{3}$ should be identical to ensure they jointly stabilize both topologies.
-
-To find gain matrices that jointly stabilize switching sensing topologies, the optimization problem can be modified as follows. We define the block diagonal matrix $\Lambda \in {\mathbb{R}}^{{{2nm} \times 2}nm}$ as $\Lambda:={{diag}{({\overline{A}}^{1},{\overline{A}}^{2},\ldots,{\overline{A}}^{m})}}$, where ${\overline{A}}^{k}$ is defined according to. The gain matrices that jointly stabilize the topologies are found by solving
-
-Here, $a_{ij}^{k},b_{ij}^{k}$ are entries of $A^{k}$, the first constraint ensures that $N$ is the kernel of all gain matrices, and the second constraint ensures that the problem is bounded. The expression ${\mathcal{A}{(\Lambda)}} = 0$ encapsulates the constraints that enforce the block diagonal structure of $\Lambda$ and ensure agents with identical set of neighbors in two (or more) topologies have the same set of gains.
+To find gain matrices that jointly stabilize switching sensing topologies, the optimization problem can be modified as follows. We define the block diagonal matrix $\Lambda \in {\mathbb{R}}^{{{2nm} \times 2}nm}$ as $\Lambda:={{diag}{({\overline{A}}^{1},{\overline{A}}^{2},\ldots,{\overline{A}}^{m})}}$, where ${\overline{A}}^{k}$ is defined according to. The gain matrices that jointly stabilize the topologies are found by solving Here, $a_{ij}^{k},b_{ij}^{k}$ are entries of $A^{k}$, the first constraint ensures that $N$ is the kernel of all gain matrices, and the second constraint ensures that the problem is bounded. The expression ${\mathcal{A}{(\Lambda)}} = 0$ encapsulates the constraints that enforce the block diagonal structure of $\Lambda$ and ensure agents with identical set of neighbors in two (or more) topologies have the same set of gains.
 
 In a manner similar to problem, the objective of aims to minimize the largest eigenvalue of all gain matrices (note that eigenvalues of a block diagonal matrix consist of the eigenvalues of each diagonal block). While universal rigidity of the sensing graph is necessary and sufficient to ensure Algorithm 1 results in a stabilizing gain matrix, to ensure a group of gain matrices are jointly stabilizing additional sensing is often required. A sufficient conditions under which joint stabilizability is guaranteed is provided in our prior work \[37, see Thm. 4\], which depends on the number and topology of the sensing graphs.
 
@@ -567,9 +362,7 @@ Lastly, we emphasize that the result of Theorem 12 are based on the single-integ
 
 ### VII-C Scale Adjustment
 
-To fix the scale of the final formation, control law can be augmented by a bounded smooth map $f:{{\mathbb{R}}\rightarrow{\mathbb{R}}}$ as
-
-where $d_{ij}:={\|{q_{j} - q_{i}}\|}$ denote the distance between agent $i$ and $j$, $d_{ij}^{\ast} \in {\mathbb{R}}$ is its desired value, and $f$ is chosen such that ${xf{(x)}} > 0$ for $x \neq 0$, and ${f{}} = 0$. Possible choices for $f$ are $f:{x\mapsto{\frac{1}{k}{\arctan{(x)}}}}$ or $f:{x\mapsto{\frac{1}{k}{\tanh{(x)}}}}$, where $k > 0$ is an arbitrary constant. The role of $f$ in is to pull agents toward their neighbors when the distance between them is larger than the desired value, and vice versa. For agents with single-integrator dynamics, we have shown that agents almost globally converge to the desired formation. The study of global asymptotic stability for agents with higher order dynamics is a topic of future research.
+To fix the scale of the final formation, control law can be augmented by a bounded smooth map $f:{{\mathbb{R}}\rightarrow{\mathbb{R}}}$ as where $d_{ij}:={\|{q_{j} - q_{i}}\|}$ denote the distance between agent $i$ and $j$, $d_{ij}^{\ast} \in {\mathbb{R}}$ is its desired value, and $f$ is chosen such that ${xf{(x)}} > 0$ for $x \neq 0$, and ${f{}} = 0$. Possible choices for $f$ are $f:{x\mapsto{\frac{1}{k}{\arctan{(x)}}}}$ or $f:{x\mapsto{\frac{1}{k}{\tanh{(x)}}}}$, where $k > 0$ is an arbitrary constant. The role of $f$ in is to pull agents toward their neighbors when the distance between them is larger than the desired value, and vice versa. For agents with single-integrator dynamics, we have shown that agents almost globally converge to the desired formation. The study of global asymptotic stability for agents with higher order dynamics is a topic of future research.
 
 ### VII-D 3D Formations
 
@@ -589,7 +382,7 @@ Figure 11: Simulation of 9 cars with a square grid desired formation (actual siz
 
 ### VIII-A Quadrotors
 
-Based on the quadrotor dynamics described in Example 2, a simulation with 9 quadrotors and a scale-free square grid desired formation is performed. Although the control design is based on the linearized dynamics about the quadrotor's hover point, the original nonlinear quadrotor dynamics given in is used for the simulation. To demonstrate robustness to switches in the inter-agent sensing topology, the sensing graph is switched among the topologies illustrated in Fig. 8 based on a randomly generated switching signal shown in the figure. We further performed simulations in which the topology changes are based on the robots' proximity. Since performance was similar to the results presented here, we do not report the results, however, they can be viewed in the supplemental video available at [https://youtu.be/3IcikoWBZJE](https://youtu.be/3IcikoWBZJE). The control gains associated with the desired formation are computed from Algorithm 1, where we used to obtain gains that jointly stabilize all topologies. The nonzero eigenvalues of computed $A \in {\mathbb{R}}^{18 \times 18}$ matrices range from $- 0.035$ to $- 0.497$. The control law used for each quadrotor is chosen according to, where gains are set as ${k_{0} = 2},{{k_{1} = 2},{{k_{2} = 3},{k_{3} = 3}}}$ to make the closed-loop state matrix $\overline{A}$ stable for all topologies. Using these gains, the real part of nonzero eigenvalues of $\overline{A}$ matrices range from $- 0.038$ to $- 2.0$. To avoid collision among quadrotors, the distributed collision avoidance strategy in Algorithm 2 with $d_{c} = 8$ and $r = 4$ units of length is employed.
+Based on the quadrotor dynamics described in Example 2, a simulation with 9 quadrotors and a scale-free square grid desired formation is performed. Although the control design is based on the linearized dynamics about the quadrotor's hover point, the original nonlinear quadrotor dynamics given in is used for the simulation. To demonstrate robustness to switches in the inter-agent sensing topology, the sensing graph is switched among the topologies illustrated in Fig. 8 based on a randomly generated switching signal shown in the figure. We further performed simulations in which the topology changes are based on the robots' proximity. Since performance was similar to the results presented here, we do not report the results, however, they can be viewed in the supplemental video available at The control gains associated with the desired formation are computed from Algorithm 1, where we used to obtain gains that jointly stabilize all topologies. The nonzero eigenvalues of computed $A \in {\mathbb{R}}^{18 \times 18}$ matrices range from $- 0.035$ to $- 0.497$. The control law used for each quadrotor is chosen according to, where gains are set as ${k_{0} = 2},{{k_{1} = 2},{{k_{2} = 3},{k_{3} = 3}}}$ to make the closed-loop state matrix $\overline{A}$ stable for all topologies. Using these gains, the real part of nonzero eigenvalues of $\overline{A}$ matrices range from $- 0.038$ to $- 2.0$. To avoid collision among quadrotors, the distributed collision avoidance strategy in Algorithm 2 with $d_{c} = 8$ and $r = 4$ units of length is employed.
 
 Fig. 9(a)-(e) shows the top view of quadrotors at different time instances. The sensing graph among agents is shown by gray lines connecting the quadrotors. This sensing graph switches throughout the simulation according to Fig. 8. The initial positions of the quadrotors are chosen randomly, and are shown in Fig. 9(a). As can be seen in Figs. 9(b)-(e), the proposed control strategy brings the agents to the desired formation. Note that when the distance between two quadrotors becomes less than 8 units of length, the collision avoidance strategy is engaged to rotate the control direction outside of the collision cone. Consequently, none of the quadrotors collide during the simulation. Further notice that since the control only uses the local relative position measurements, the desired formation is achieved up to a rotation and translation. That is, the orientation of the square formation is not controlled.
 

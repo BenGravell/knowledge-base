@@ -12,18 +12,15 @@ A number of works have been published on the stability, feasibility, and perform
 
 Recent theoretical and computational advances in nonlinear control design and invariant set computation has aided in the development of new nonlinear tube MPC techniques. Mayne et al. proposed a two-tier MPC architecture where the nominal MPC problem, with tightened constraints, is solved followed by an ancillary problem that drives the current state to the nominal trajectory. Linear reachability theory is another strategy but tends to be overly conservative because nonlinearities are treated as disturbances. Because of its strong robustness properties, a number of works have proposed using sliding mode control as an ancillary controller. The work by Muske et al. is of particular interest because the parameters of the sliding surface were optimized within the MPC optimization to achieve minimum time state convergence. Majumdar et al. constructed ancillary controllers for nonlinear systems via sum-of-squares (SOS) optimization that minimized funnel size (akin to a tube). The method, however, required a pre-specified trajectory library and an extremely time consuming offline computation phase. Singh et al. proposed using Control Contraction Metrics to construct tubes and showed their approach increases the region of feasibility for the optimization. All of the aforementioned works fall into the category of rigid tube MPC (i.e., fixed tube size) so are inherently suboptimal. Further, these approaches tend to produce overly conservative tubes because they cannot leverage knowledge of state-dependent uncertainty.
 
-This work uses boundary layer sliding control to address the suboptimality and conservatism of the aforementioned techniques for nonlinear systems. This is accomplished by: 1) incorporating the tube geometry into the optimization, subsequently bridging the gap between linear and nonlinear homothetic/elastic tube MPC; 2) leveraging knowledge of state-dependent uncertainty; and 3) combining the tube and error dynamics to reduce the spread of possible trajectories.
+This work uses boundary layer sliding control to address the suboptimality and conservatism of the aforementioned techniques for nonlinear systems. This is accomplished : 1) incorporating the tube geometry into the optimization, subsequently bridging the gap between linear and nonlinear homothetic/elastic tube MPC; 2) leveraging knowledge of state-dependent uncertainty; and 3) combining the tube and error dynamics to reduce the spread of possible trajectories.
 
 ## PROBLEM FORMULATION
 
-Consider a nonlinear, time-invariant, and control affine system given by (omitting the time argument)
-
-where $x \in {\mathbb{R}}^{n}$ is the state of the system, $u \in {\mathbb{R}}^{m}$ is the control input, and $d \in {\mathbb{R}}^{n}$ is an external disturbance.
+Consider a nonlinear, time-invariant, and control affine system given by (omitting the time argument) where $x \in {\mathbb{R}}^{n}$ is the state of the system, $u \in {\mathbb{R}}^{m}$ is the control input, and $d \in {\mathbb{R}}^{n}$ is an external disturbance.
 
 ### Assumption 1
 
-The dynamics $f$ can be expressed as\
-$f = {\hat{f} + \overset{\sim}{f}}$ where $\hat{f}$ is the nominal dynamics and $\overset{\sim}{f}$ is the bounded model error (i.e., ${|{\overset{\sim}{f}{(x)}}|} \leq {\Delta{(x)}}$).
+The dynamics $f$ can be expressed as\$f = {\hat{f} + \overset{\sim}{f}}$ where $\hat{f}$ is the nominal dynamics and $\overset{\sim}{f}$ is the bounded model error (i.e., ${|{\overset{\sim}{f}{(x)}}|} \leq {\Delta{(x)}}$).
 
 Note that the model error bound in assumption 1 is state-dependent, which can be leveraged to construct less conservative tubes.
 
@@ -35,8 +32,7 @@ The standard RMPC formulation involves a minimax optimization to construct a fee
 
 ### Assumption 3
 
-The control policy $\pi$ takes the form\
-$\pi = {u^{\ast} + {\kappa{(x,x^{\ast})}}}$ where $u^{\ast}$ and $x^{\ast}$ are the open-loop input and reference trajectory, respectively.
+The control policy $\pi$ takes the form\$\pi = {u^{\ast} + {\kappa{(x,x^{\ast})}}}$ where $u^{\ast}$ and $x^{\ast}$ are the open-loop input and reference trajectory, respectively.
 
 In the tube MPC literature $\kappa$ is known as the ancillary controller and is typically designed offline. The role of the ancillary controller is to ensure the state $x$ remains in a robust control invariant (RCI) tube around the nominal trajectory $x^{\ast}$.
 
@@ -58,35 +54,15 @@ This section reviews time-varying boundary layer sliding control, provides analy
 
 ### Assumption 4
 
-The system given by Equation 1 has the same number of outputs to be controlled as inputs. More precisely, the dynamic can be expressed as
-
-Note that assumption 4 requires system Equation 1 to be either feedback linearizable or minimum phase. While many systems fall into one of these categories, future work will extend DTMPC to more general nonlinear systems.
+The system given by Equation 1 has the same number of outputs to be controlled as inputs. More precisely, the dynamic can be expressed as Note that assumption 4 requires system Equation 1 to be either feedback linearizable or minimum phase. While many systems fall into one of these categories, future work will extend DTMPC to more general nonlinear systems.
 
 ### IV-B Sliding Control
 
-Let ${\overset{\sim}{x}}_{i}:={x_{i} - x_{i}^{\ast}}$ be the tracking error for output $x_{i}$. Then, for $\lambda_{i} > 0$, the sliding variable $s_{i}$ for output $x_{i}$ is defined as
+Let ${\overset{\sim}{x}}_{i}:={x_{i} - x_{i}^{\ast}}$ be the tracking error for output $x_{i}$. Then, for $\lambda_{i} > 0$, the sliding variable $s_{i}$ for output $x_{i}$ is defined as In sliding mode control, a sliding manifold $\mathcal{S}_{i}$ is defined such that $s_{i} = 0$ for all time once the manifold is reached. This condition guarantees the tracking error goes to zero exponentially via Equation 3. It can be shown that a discontinuous controller is required to ensure the manifold $\mathcal{S}_{i}$ is reached in finite time and is invariant to uncertainty. However, high-frequency discontinuous control can, among other things, excite unmodeled high-frequency dynamics and shorten actuator life span.
 
-In sliding mode control, a sliding manifold $\mathcal{S}_{i}$ is defined such that $s_{i} = 0$ for all time once the manifold is reached. This condition guarantees the tracking error goes to zero exponentially via Equation 3. It can be shown that a discontinuous controller is required to ensure the manifold $\mathcal{S}_{i}$ is reached in finite time and is invariant to uncertainty. However, high-frequency discontinuous control can, among other things, excite unmodeled high-frequency dynamics and shorten actuator life span.
+One strategy to smooth the control input is to introduce a boundary layer around the switching surface. Specifically, let the boundary layer be defined as $\mathcal{B}_{i}:={\{ x:{{|s_{i}|} \leq \Phi_{i}}\}}$ where $\Phi_{i}$ is the boundary layer thickness. If $\Phi_{i}$ is time varying, then the boundary layer can be made attractive if the following differential equation is satisfied where $\eta_{i}$ dictates the convergence rate to the sliding surface. Differentiating Equation 3, Stacking Equation 6 for each output, the vector version is obtained Note that $F$ and $B$ are stacked versions of the dynamics and input matrix, respectively, that correspond to the output variables. If the output variables are chosen to be the full state vector (i.e., state feedback linearization), then $F$ and $B$ simply become the dynamics and input matrix in Equation 1.
 
-One strategy to smooth the control input is to introduce a boundary layer around the switching surface. Specifically, let the boundary layer be defined as $\mathcal{B}_{i}:={\{ x:{{|s_{i}|} \leq \Phi_{i}}\}}$ where $\Phi_{i}$ is the boundary layer thickness. If $\Phi_{i}$ is time varying, then the boundary layer can be made attractive if the following differential equation is satisfied
-
-where $\eta_{i}$ dictates the convergence rate to the sliding surface. Differentiating Equation 3,
-
-Stacking Equation 6 for each output, the vector version is obtained
-
-Note that $F$ and $B$ are stacked versions of the dynamics and input matrix, respectively, that correspond to the output variables. If the output variables are chosen to be the full state vector (i.e., state feedback linearization), then $F$ and $B$ simply become the dynamics and input matrix in Equation 1.
-
-Let the controller take the form
-
-where sat$( \cdot )$ is the saturation function and the division is element-wise. Then, for ${|s|} > \Phi$, the boundary layer is attractive if
-
-Addition information can be inferred by considering the sliding variable dynamics inside the boundary. Again substituting Equation 8 into Equation 7 with ${|s|} \leq \Phi$,
-
-where again the division is element-wise. Alternatively, Equation 10 can be written as
-
-which is a first order filter with cutoff frequency $\frac{K{(x^{\ast})}}{\Phi}$. Let $\alpha$ be the desired cutoff frequency, then, leveraging Equation 9, one obtains
-
-Thus, the final control law is given by Equation 8, Equation 9, and Equation 13.
+Let the controller take the form where sat$(\cdot)$ is the saturation function and the division is element-wise. Then, for ${|s|} > \Phi$, the boundary layer is attractive if Addition information can be inferred by considering the sliding variable dynamics inside the boundary. Again substituting Equation 8 into Equation 7 with ${|s|} \leq \Phi$, where again the division is element-wise. Alternatively, Equation 10 can be written as which is a first order filter with cutoff frequency $\frac{K{(x^{\ast})}}{\Phi}$. Let $\alpha$ be the desired cutoff frequency, then, leveraging Equation 9, one obtains Thus, the final control law is given by Equation 8, Equation 9, and Equation 13.
 
 ### IV-C Discussion
 
@@ -94,19 +70,11 @@ The boundary layer sliding controller in Equation 8 allows us to establish sever
 
 ### Theorem 1 (RCI Tube)
 
-Let ${\overset{\sim}{z}}_{i} = \left\lbrack {{\overset{\sim}{x}}_{i}{\overset{˙}{\overset{\sim}{x}}}_{i}\cdots} \right\rbrack^{T}$ be the error vector for output ${\overset{\sim}{x}}_{i}$. Boundary layer control induces a robust control invariant tube $\Omega_{i}$ where the tube geometry is given by
-
-where $A_{c,i}$ and $B_{c,i}$ are found by putting Equation 3 into the controllable canonical form.
+Let ${\overset{\sim}{z}}_{i} = \left\lbrack {{\overset{\sim}{x}}_{i}{\overset{˙}{\overset{\sim}{x}}}_{i}\cdots} \right\rbrack^{T}$ be the error vector for output ${\overset{\sim}{x}}_{i}$. Boundary layer control induces a robust control invariant tube $\Omega_{i}$ where the tube geometry is given by where $A_{c,i}$ and $B_{c,i}$ are found by putting Equation 3 into the controllable canonical form.
 
 ### Proof
 
-Recalling the definition of $s_{i}$ from Equation 3, the error dynamics are given by the linear differential equation
-
-With the error vector ${\overset{\sim}{z}}_{i} = \left\lbrack {{\overset{\sim}{x}}_{i}{\overset{˙}{\overset{\sim}{x}}}_{i}\cdots} \right\rbrack^{T}$ and putting Equation 15 into the controllable canonical form, the solution to Equation 15 is
-
-Taking the element-wise absolute value $| \cdot |$, setting ${\Omega_{i}{(t)}} = {|{{\overset{\sim}{z}}_{i}{(t)}}|}$, and noting ${|s_{i}|} \leq \Phi_{i}$, Equation 14. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems") is obtained. Thus, by Definition 1, $\Omega_{i}$ is a RCI tube since the error vector ${\overset{\sim}{z}}_{i}$ is bounded. ∎
-
-Theorem 1. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems") proves that the geometry of the RCI tube $\Omega_{i}$ is uniquely described by the boundary layer thickness $\Phi_{i}$. Using the terminology introduced by Rakovic̀ et al., the tubes in our approach are both homothetic and elastic. For this reason, and the ability to capture state-dependent uncertainty, the approach developed here is called Dynamic Tube MPC. Further, as briefly discussed in, a tighter geometry can be obtained if the current (as opposed to the predicted) tracking error is used in Equation 14. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems").
+Recalling the definition of $s_{i}$ from Equation 3, the error dynamics are given by the linear differential equation With the error vector ${\overset{\sim}{z}}_{i} = \left\lbrack {{\overset{\sim}{x}}_{i}{\overset{˙}{\overset{\sim}{x}}}_{i}\cdots} \right\rbrack^{T}$ and putting Equation 15 into the controllable canonical form, the solution to Equation 15 is Taking the element-wise absolute value $| \cdot |$, setting ${\Omega_{i}{(t)}} = {|{{\overset{\sim}{z}}_{i}{(t)}}|}$, and noting ${|s_{i}|} \leq \Phi_{i}$, Equation 14. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems") is obtained. Thus, by Definition 1, $\Omega_{i}$ is a RCI tube since the error vector ${\overset{\sim}{z}}_{i}$ is bounded. ∎ Theorem 1. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems") proves that the geometry of the RCI tube $\Omega_{i}$ is uniquely described by the boundary layer thickness $\Phi_{i}$. Using the terminology introduced by Rakovic̀ et al., the tubes in our approach are both homothetic and elastic. For this reason, and the ability to capture state-dependent uncertainty, the approach developed here is called Dynamic Tube MPC. Further, as briefly discussed, a tighter geometry can be obtained if the current (as opposed to the predicted) tracking error is used in Equation 14. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems").
 
 The importance of Equation 13 and Equation 14. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems") cannot be understated. It gives a precise description for how the tube geometry changes with the level of uncertainty (from the model or otherwise). This is an incredibly useful relation for constructing tubes that are not overly conservative since, in most cases, the model error bound is typically picked to be a large constant because of the difficulty/inability to establish a relation like Equation 13. By letting the uncertainty be state-dependent, the controller and the MPC optimizer (to be discussed in Section V) can leverage all the available information to maximize performance. This further underlines the importance of acquiring a high-fidelity model to reduce uncertainty and make the tube as small as possible without using high-bandwidth control.
 
@@ -120,9 +88,7 @@ This section presents the DTMPC algorithm and discusses its properties. DTMPC is
 
 ### Assumption 5
 
-The state and actuator constraints take the form
-
-where $\parallel \cdot \parallel$ is the 2-norm.
+The state and actuator constraints take the form where $\parallel \cdot \parallel$ is the 2-norm.
 
 Many physical systems posses these type of constrains so the above assumption is not overly restrictive.
 
@@ -132,39 +98,23 @@ State and actuator constraints must be modified to account for the nonzero track
 
 ### Corollary 1 (Tightened State Constraint)
 
-Assume the control law Equation 8 is used as an ancillary controller with associated RCI tube $\mathcal{B}$ and bounded tracking error $|\overset{\sim}{x}|$. Then, the following modified state constraint
-
-guarantees, for all realization of the uncertainty, the true constraint is satisfied.
+Assume the control law Equation 8 is used as an ancillary controller with associated RCI tube $\mathcal{B}$ and bounded tracking error $|\overset{\sim}{x}|$. Then, the following modified state constraint guarantees, for all realization of the uncertainty, the true constraint is satisfied.
 
 ### Proof
 
-Recall that Theorem 1. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems") established that the boundary layer controller induces is a RCI tube with geometry given by Equation 14. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems"). Then, the state is always upper bounded by $x \leq {x^{\ast} + {|\overset{\sim}{x}|}}$. Substituting this bound into the state constraint Equation 17 and using the triangle inequality, the result is obtained. ∎
-
-Tightening the actuator constraints is more complicated since the control law in Equation 8 depends on the current state $x$. However, the tracking error bound can be used to obtain an upper bound on the control input that is only a function of the boundary layer thickness, desired state, and dynamics. It is helpful to put the controller into a more useful form for the following theorem
-
-where the first term is the feedforward (and hence the decision variable in the optimization) and the last three are the feedback terms.
+Recall that Theorem 1. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems") established that the boundary layer controller induces is a RCI tube with geometry given by Equation 14. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems"). Then, the state is always upper bounded by $x \leq {x^{\ast} + {|\overset{\sim}{x}|}}$. Substituting this bound into the state constraint Equation 17 and using the triangle inequality, the result is obtained. ∎ Tightening the actuator constraints is more complicated since the control law in Equation 8 depends on the current state $x$. However, the tracking error bound can be used to obtain an upper bound on the control input that is only a function of the boundary layer thickness, desired state, and dynamics. It is helpful to put the controller into a more useful form for the following theorem where the first term is the feedforward (and hence the decision variable in the optimization) and the last three are the feedback terms.
 
 ### Theorem 2 (Control Input Upper Bound)
 
-Assume that the control law is given by Equation 19. Then, the control input is upper bounded, for all realizations of the uncertainty, by
-
-with $\underset{¯}{x}:={x^{\ast} - {|\overset{\sim}{x}|}}$, $\overline{x}:={x^{\ast} + {|\overset{\sim}{x}|}}$, and $\max\left\{ \cdot \right\}$ is the element-wise maximum.
+Assume that the control law is given by Equation 19. Then, the control input is upper bounded, for all realizations of the uncertainty, by with $\underset{¯}{x}:={x^{\ast} - {|\overset{\sim}{x}|}}$, $\overline{x}:={x^{\ast} + {|\overset{\sim}{x}|}}$, and $\max\left\{ \cdot \right\}$ is the element-wise maximum.
 
 ### Proof
 
-The tracking error bound can be leveraged to eliminate the state-dependency in Equation 19. Specifically, the state is bounded by
-
-where $|\overset{\sim}{x}|$ is the solution to Equation 14. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems") when equality is imposed. It is clear from Equation 19 that to upper bound $u$, the inverse of the input matrix $B^{- 1}$ and the last three feedback terms should be maximized. Define $\underset{¯}{x}:={x^{\ast} - {|\overset{\sim}{x}|}}$ and $\overline{x}:={x^{\ast} + {|\overset{\sim}{x}|}}$, then using Equation 24, each term in Equation 19 can be upper bounded by evaluating at $\underset{¯}{x}$ and $\overline{x}$ and taking the maximum, resulting in Eqs. 21. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems"), 22. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems") and 23. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems") and hence Equation 20. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems"). ∎
-
-The bound established by Theorem 2. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems") can be put into a more concise form
-
-where $u^{\ast}:=x^{\ast {(n)}}$ and ${\overline{u}}_{fb}$ is the sum of the last three terms in Equation 20. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems"). Using Theorem 2. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems"), the following corollary establishes the tightened actuator constraint.
+The tracking error bound can be leveraged to eliminate the state-dependency in Equation 19. Specifically, the state is bounded by where $|\overset{\sim}{x}|$ is the solution to Equation 14. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems") when equality is imposed. It is clear from Equation 19 that to upper bound $u$, the inverse of the input matrix $B^{- 1}$ and the last three feedback terms should be maximized. Define $\underset{¯}{x}:={x^{\ast} - {|\overset{\sim}{x}|}}$ and $\overline{x}:={x^{\ast} + {|\overset{\sim}{x}|}}$, then using Equation 24, each term in Equation 19 can be upper bounded by evaluating at $\underset{¯}{x}$ and $\overline{x}$ and taking the maximum, resulting in Eqs. 21. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems"), 22. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems") and 23. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems") and hence Equation 20. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems"). ∎ The bound established by Theorem 2. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems") can be put into a more concise form where $u^{\ast}:=x^{\ast {(n)}}$ and ${\overline{u}}_{fb}$ is the sum of the last three terms in Equation 20. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems"). Using Theorem 2. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube MPC for Nonlinear Systems"), the following corollary establishes the tightened actuator constraint.
 
 ### Corollary 2 (Tightened Actuator Constraint)
 
-Assume the control law Equation 8 is used as an ancillary controller with associated RCI tube $\mathcal{B}$ and upper bound on input due to feedback ${\overline{u}}_{fb}$. Then, the following modified actuator constraint
-
-guarantees, for all realization of the uncertainty, the true constraint is satisfied.
+Assume the control law Equation 8 is used as an ancillary controller with associated RCI tube $\mathcal{B}$ and upper bound on input due to feedback ${\overline{u}}_{fb}$. Then, the following modified actuator constraint guarantees, for all realization of the uncertainty, the true constraint is satisfied.
 
 ### Proof
 
@@ -174,9 +124,7 @@ Theorem 2. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynamic Tube
 
 For many autonomous systems, the ability to react to changing operating conditions is crucial for maximizing performance. For instance, a UAV performing obstacle avoidance should modify the aggressiveness of the controller based on the current obstacle density to minimize expended energy. Formally, the tube geometry must be added as a decision variable in the optimization to achieve this behavior. DTMPC is able to optimize the tube geometry because of the simple relationship between the tube geometry, control bandwidth, and level of uncertainty given by Equation 13. This is one of the distinguishing features of DTMPC since other state-of-the-art nonlinear tube MPC algorithms are not able to establish an explicit relationship like Equation 13.
 
-In Section IV, it was shown that the control bandwidth $\alpha$ is responsible for how the uncertainty affects the sliding variable $s$. Subsequently, the choice of $\alpha$ influences the tube geometry (via Equation 13) and control gain (via Equation 9). In order to maintain continuity in the control signal, the tube geometry dynamics are augmented such that $\alpha$ and $\Phi$ remain smooth. More precisely, the augmented tube dynamics are
-
-where $v \in {\mathbb{V}}$ is an artificial input that will serve as an additional decision variable in the optimization. It is easy to show that the above set of differential equations is stable so long as $\alpha$ remains positive.
+In Section IV, it was shown that the control bandwidth $\alpha$ is responsible for how the uncertainty affects the sliding variable $s$. Subsequently, the choice of $\alpha$ influences the tube geometry (via Equation 13) and control gain (via Equation 9). In order to maintain continuity in the control signal, the tube geometry dynamics are augmented such that $\alpha$ and $\Phi$ remain smooth. More precisely, the augmented tube dynamics are where $v \in {\mathbb{V}}$ is an artificial input that will serve as an additional decision variable in the optimization. It is easy to show that the above set of differential equations is stable so long as $\alpha$ remains positive.
 
 ### V-D Complete Formulation
 
@@ -184,9 +132,7 @@ With Corollary 1. ‣ V-B Constraint Tightening ‣ V DYNAMIC TUBE MPC ‣ Dynam
 
 ### Problem 1
 
-Dynamic Tube MPC
-
-where $\check{\cdot}$ denotes the internal variables in the optimization; $\Omega$ is the tube geometry with matrices $A_{c}$ and $B_{c}$ given by putting Equation 3 into controllable canonical form; $\overline{\mathbb{X}}$ and $\overline{\mathbb{U}}$ are the tightened state and actuator constraints; and $\ell$ and $h$ are the quadratic state and terminal cost. The output of DTMPC is an optimal open-loop (i.e., feedforward) control input $u^{\ast}$, trajectory $x^{\ast}$, and control bandwidth $\alpha^{\ast}$.
+Dynamic Tube MPC | | | $\underset{{\check{u}{(t)}},{\check{v}{(t)}}}{\text{min}}$ | | $J = {{h{({\check{x}{(t_{f})}})}} + {\int\limits_{t_{0}}^{t_{f}}{\ell{({\check{x}{(t)}},{\check{u}{(t)}},{\check{\alpha}{(t)}},{\check{v}{(t)}})}{dt}}}}$ | | | | | subject to | | ${{{\overset{˙}{\check{x}}{(t)}} = {{\hat{f}{({\check{x}{(t)}})}} + {b{({\check{x}{(t)}})}\check{u}{(t)}}}},{{\overset{˙}{\check{\alpha}}{(t)}} = {\check{v}{(t)}}}},$ | | | | | ${{\overset{˙}{\Phi}{(t)}} = {{- {\check{\alpha}{(t)}\Phi{(t)}}} + {\Delta{({\check{x}{(t)}})}} + D + \eta}},$ | | | | | ${{{\check{x}{(t)}} \in \overline{\mathbb{X}}},{{{\check{u}{(t)}} \in \overline{\mathbb{U}}},{{{\check{\alpha}{(t)}} \in {\mathbb{A}}},{{\check{v}{(t)}} \in {\mathbb{V}}}}}},$ | | where $\check{\cdot}$ denotes the internal variables in the optimization; $\Omega$ is the tube geometry with matrices $A_{c}$ and $B_{c}$ given by putting Equation 3 into controllable canonical form; $\overline{\mathbb{X}}$ and $\overline{\mathbb{U}}$ are the tightened state and actuator constraints; and $\ell$ and $h$ are the quadratic state and terminal cost. The output of DTMPC is an optimal open-loop (i.e., feedforward) control input $u^{\ast}$, trajectory $x^{\ast}$, and control bandwidth $\alpha^{\ast}$.
 
 DTMPC is inherently a non-convex optimization problem because of the nonlinear dynamics. However, non-convexity is a fundamental characteristic of nonlinear tube MPC and a number of approximate solution procedures have been proposed. The key takeaway, though, is that Problem 1 is a nonlinear tube MPC algorithm that simultaneously optimizes the open-loop trajectory and tube geometry, eliminating the duality gap in standard tube MPC. Furthermore, conservativeness can be reduced since Problem 1 is able to leverage state-dependent uncertainty to select an open-loop trajectory based on the structure of the uncertainty and proximity to constraints. The benefits of these properties, in addition to combining the tube geometry and error dynamics, will be demonstrated in Section VIII.
 
@@ -198,11 +144,7 @@ Collision avoidance is a fundamental capability for many autonomous systems, and
 
 ### VI-B Model
 
-This work uses a double integrator model with nonlinear drag, which describes the dynamics of many mechanical systems. Let $r = \left\lbrack {r_{x}r_{y}r_{z}} \right\rbrack^{T}$ be the inertial position of the system that is to be tracked. The dynamics are
-
-where $g \in {\mathbb{R}}^{3}$ is the gravity vector, $C_{d}$ is the unknown but bounded drag coefficient ($0 \leq C_{d} \leq {\overline{C}}_{d}$), and $d$ is a bounded disturbance (${|d|} \leq D$). From Equation 8, the control law is
-
-where ${\hat{C}}_{d}$ is the best estimate of the drag coefficient, $s = {\overset{˙}{\overset{\sim}{r}} + {\lambda\overset{\sim}{r}}}$, and
+This work uses a double integrator model with nonlinear drag, which describes the dynamics of many mechanical systems. Let $r = \left\lbrack {r_{x}r_{y}r_{z}} \right\rbrack^{T}$ be the inertial position of the system that is to be tracked. The dynamics are where $g \in {\mathbb{R}}^{3}$ is the gravity vector, $C_{d}$ is the unknown but bounded drag coefficient ($0 \leq C_{d} \leq {\overline{C}}_{d}$), and $d$ is a bounded disturbance (${|d|} \leq D$). From Equation 8, the control law is where ${\hat{C}}_{d}$ is the best estimate of the drag coefficient, $s = {\overset{˙}{\overset{\sim}{r}} + {\lambda\overset{\sim}{r}}}$, and
 
 ### VI-C Collision Avoidance DTMPC
 
@@ -210,15 +152,13 @@ Let $H$, $p_{c}$, and $r_{o}$ denote the shape, location, and size of an obstacl
 
 ### Problem 2
 
-Collision Avoidance DTMPC
-
-where again $\check{\cdot}$ denotes the internal variables of the optimization, $| \cdot |$ is the element-wise absolute value, $\underset{¯}{\alpha}$ and $\overline{\alpha}$ are the upper and lower bounds of the control bandwidth, ${\overset{˙}{r}}_{m}$ is the peak desired speed, $v_{m}$ is the max artificial input, and $N_{o}$ is the number of obstacles.
+Collision Avoidance DTMPC | | | $\underset{{\check{u}{(t)}},{\check{v}{(t)}}}{\text{min}}$ | | $J = {\int\limits_{t_{0}}^{t_{f}}{\left\lbrack {{\check{u}{(t)}^{T}Q\check{u}{(t)}} + {\overset{\sim}{\alpha}{(t)}^{T}R\overset{\sim}{\alpha}{(t)}}} \right\rbrack{dt}}}$ | | | | | subject to | | ${{{\overset{¨}{\check{r}}{(t)}} = {{- {{\hat{C}}_{d}\left\| {\overset{˙}{\check{r}}{(t)}} \right\|\overset{˙}{\check{r}}{(t)}}} + g + {\check{u}{(t)}}}},{{\overset{˙}{\alpha}{(t)}} = {v{(t)}}}},$ | | | | | ${{\overset{˙}{\check{\Phi}}{(t)}} = {{- {\check{\alpha}{(t)}\check{\Phi}{(t)}}} + {{\overline{C}}_{d}\left\| {\overset{˙}{\check{r}}{(t)}} \right\|\left| {\overset{˙}{\check{r}}{(t)}} \right|} + D + \eta}},$ | | | | | ${{{\overset{˙}{\check{\Omega}}{(t)}} = {{A_{c}\check{\Omega}{(t)}} + {B_{c}\check{\Phi}{(t)}}}},{{\check{\Omega}{(t_{0})}} = {|{\overset{\sim}{r}{(t_{0})}}|}}},$ | | | | | ${{{\check{r}\left(t_{0} \right)} = r_{0}^{\ast}},{{{\check{\Phi}\left(t_{0} \right)} = \Phi_{0}},{{\check{r}\left(t_{f} \right)} = r_{f}^{\ast}}}},$ | | | | | ${{{|{\overset{˙}{\check{r}}{(t)}}|} \leq {{\overset{˙}{r}}_{m} - {|\overset{˙}{\overset{\sim}{r}}|}}},{{\|{u^{\ast}{(t)}}\|} \leq {u_{m} - {\overline{u}}_{fb}}}},$ | | | | | ${{{{|{v{(t)}}|} \leq v_{m}},{0 < \underset{¯}{\alpha} \leq {\check{\alpha}{(t)}} \leq \overline{\alpha}}},{\overset{\sim}{\alpha} = {{\check{\alpha}{(t)}} - \underset{¯}{\alpha}}}},$ | | where again $\check{\cdot}$ denotes the internal variables of the optimization, $| \cdot |$ is the element-wise absolute value, $\underset{¯}{\alpha}$ and $\overline{\alpha}$ are the upper and lower bounds of the control bandwidth, ${\overset{˙}{r}}_{m}$ is the peak desired speed, $v_{m}$ is the max artificial input, and $N_{o}$ is the number of obstacles.
 
 ## SIMULATION ENVIRONMENT
 
 DTMPC was tested in simulation to demonstrate its ability to optimize tube geometry and utilize knowledge of state-dependent uncertainty through an environment with obstacles. The obstacles were placed non-uniformly to emulate a changing operating condition (i.e., dense/open environment). In order to emphasize both characteristics of DTMPC, three test cases were conducted. First, the bandwidth was optimized when both the model and obstacle locations were completely known. Second, the bandwidth was again optimized with a known model but the obstacle locations were unknown, requiring a receding horizon implementation. Third, state-dependent uncertainty is considered but control bandwidth is kept constant. Nothing about the formulation prevents optimizing bandwidth and leveraging state-dependent uncertainty simultaneously in a receding horizon fashion, this decoupling is only for clarity. The tracking error Equation 14. ‣ IV-C Discussion ‣ IV BOUNDARY LAYER SLIDING CONTROL ‣ Dynamic Tube MPC for Nonlinear Systems") is used to tighten the obstacle and velocity constraint.
 
-Problem 2 is non-convex due to the nonlinear dynamics and non-convex obstacle constraints so sequential convex programming, similar to that in, was used to obtain a solution. The optimization was initialized with a naïve straight-line solution and solved using YALMIP and MOSEK in MATLAB. If large perturbations to the initial guess are required to find a feasible solution, then warm starting the optimization with a better initial guess (possibly provided by a global geometric planner) might be necessary. For the cases tested in this work, the optimization converged within three to four iterations -- fast enough for real-time applications. The simulation parameters are summarized in Table I.
+Problem 2 is non-convex due to the nonlinear dynamics and non-convex obstacle constraints so sequential convex programming, similar to that , was used to obtain a solution. The optimization was initialized with a naïve straight-line solution and solved using YALMIP and MOSEK in MATLAB. If large perturbations to the initial guess are required to find a feasible solution, then warm starting the optimization with a better initial guess (possibly provided by a global geometric planner) might be necessary. For the cases tested in this work, the optimization converged within three to four iterations -- fast enough for real-time applications. The simulation parameters are summarized in Table I.
 
 TABLE I: Simulation Parameters.
 
@@ -234,8 +174,7 @@ Since the tube geometry changes dramatically along the trajectory, it is importa
 
 In many situations the operating environment is not completely known and requires a receding horizon implementation. The second test scenario for DTMPC highlights its ability to simultaneously optimize an open-loop trajectory and tube geometry in a unknown environment. Fig. 4 shows a receding horizon implementation of DTMPC where only a subset of obstacles are known (dark-grey) and the rest are unknown (light-grey). The bandwidth along the trajectory is visualized with the color map where low- and high-bandwidth are mapped to dark blue and yellow. The first planned trajectory (Fig. 4a) uses high-bandwidth at the narrow gap and low-bandwidth in open space. When the second and third set of obstacles are observed, Fig. 4b and Fig. 4c respectively, DTMPC modifies the trajectory to again use high-bandwidth when in close-proximity to newly discovered obstacles. This further demonstrates DTMPC's ability to construct an optimized trajectory and tube geometry in response to new obstacles.
 
-Figure 2: DTMPC simultaneously optimizing an open-loop trajectory (multi-color) and tube geometry (black) around obstacles (grey). High-bandwidth control (yellow) is used when in close proximity to obstacles while low-bandwidth control (dark blue) is used in open space.
-Figure 3: Monte Carlo verification that the time-varying boundary layer in DTMPC remains a robust control invariant tube. The closed-loop system (blue) was simulated with a different disturbance profile uniformly sampled from the disturbance set.
+Figure 2: DTMPC simultaneously optimizing an open-loop trajectory (multi-color) and tube geometry (black) around obstacles (grey). High-bandwidth control (yellow) is used when in close proximity to obstacles while low-bandwidth control (dark blue) is used in open space. Figure 3: Monte Carlo verification that the time-varying boundary layer in DTMPC remains a robust control invariant tube. The closed-loop system (blue) was simulated with a different disturbance profile uniformly sampled from the disturbance set.
 
 Figure 4: Receding horizon implementation of DTMPC with known (dark-grey) and unknown (light-grey) obstacles. The bandwidth along trajectory (multi-color) varies, resulting in a dynamic tube geometry (black). (a): First planned trajectory and tube geometry when only the first two obstacles are known. (b): New planned trajectory when the next two obstacles are observed. (c): New planned trajectory when the last obstacle is observed.
 

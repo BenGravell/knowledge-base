@@ -12,50 +12,13 @@ In this paper, we propose a way of doing so, while focusing specifically on GBDT
 
 In our experiments we study the conditions under which our methods, FastLeafRefit and FastLeafInfluence, successfully approximate their proxy metrics, demonstrate our methods' ability to target training objects which are influential for specific test objects, and show that our algorithms run much faster than straightforward retraining, which makes them applicable in practical scenarios.
 
-Training/test sample
-
-Weights of training samples
-
-Path (leaf indices) of x
-
-GBDT prediction at point x
-
-Value in leaf l at step t
-
-Training points belonging to leaf l at step t
-
-$\mathbf{A}^{\mathbf{t}} = \left\{ {A_{i}^{t}:={\sum_{\tau = 1}^{t}f_{P{(x_{i})}_{\tau}}^{\tau}}} \right\}_{i = 1}^{n}$
-
-${g_{i}^{t}\left( A_{i}^{t - 1} \right)}:=\left. \frac{\partial{L\left( y_{i},z \right)}}{\partial z} \right|_{z = A_{i}^{t - 1}}$
-i-th first derivative at training step t
-
-${h_{i}^{t}\left( A_{i}^{t - 1} \right)}:=\left. \frac{\partial^{2}{L\left( y_{i},z \right)}}{\partial z^{2}} \right|_{z = A_{i}^{t - 1}}$
-i-th second derivative at training step t
-
-${k_{i}^{t}\left( A_{i}^{t - 1} \right)}:=\left. \frac{\partial^{3}{L\left( y_{i},z \right)}}{\partial z^{3}} \right|_{z = A_{i}^{t - 1}}$
-i-th third derivative at training step t
-
-Glt (At − 1):= ∑j ∈ Iltwj gjt (Ajt − 1)
-Sum of leaf derivatives
-
-HH; lt (At − 1):= ∑j ∈ Iltwj hjt (Ajt − 1)
-Sum of leaf second derivatives
-
-Sum of leaf weights
-
-Table 1: Mathematical notations used in the paper.
+Training/test sample Weights of training samples Path (leaf indices) of x GBDT prediction at point x Value in leaf l at step t Training points belonging to leaf l at step t $\mathbf{A}^{\mathbf{t}} = \left\{ {A_{i}^{t}:={\sum_{\tau = 1}^{t}f_{P{(x_{i})}_{\tau}}^{\tau}}} \right\}_{i = 1}^{n}$ ${g_{i}^{t}\left(A_{i}^{t - 1} \right)}:=\left. \frac{\partial{L\left(y_{i},z \right)}}{\partial z} \right|_{z = A_{i}^{t - 1}}$ i-th first derivative at training step t ${h_{i}^{t}\left(A_{i}^{t - 1} \right)}:=\left. \frac{\partial^{2}{L\left(y_{i},z \right)}}{\partial z^{2}} \right|_{z = A_{i}^{t - 1}}$ i-th second derivative at training step t ${k_{i}^{t}\left(A_{i}^{t - 1} \right)}:=\left. \frac{\partial^{3}{L\left(y_{i},z \right)}}{\partial z^{3}} \right|_{z = A_{i}^{t - 1}}$ i-th third derivative at training step t Glt (At − 1):= ∑j ∈ Iltwj gjt (Ajt − 1) Sum of leaf derivatives HH; lt (At − 1):= ∑j ∈ Iltwj hjt (Ajt − 1) Sum of leaf second derivatives Sum of leaf weights Table 1: Mathematical notations used in the paper.
 
 ## Problem Definition
 
-First, we formally define the problem setup. We consider standard supervised training of a GBDT ensemble^22^2Mathematical notations are defined in Table 1. ${F{(x;\mathbf{w})}}:={\sum_{t = 1}^{T}{f_{P{(x)}_{t}}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}$ on a training sample $\mathbf{X}_{train}$. Learning consists of two separate stages: *model structure selection* and *picking the optimal leaf values*. The way of choosing the model structure is not important for our work; we refer the interested reader to existing implementations, e.g., Chen & Guestrin; Dorogush et al.. For picking optimal leaf values, we consider two most commonly used formulas:
+First, we formally define the problem setup. We consider standard supervised training of a GBDT ensemble^22^2Mathematical notations are defined in Table 1. ${F{(x;\mathbf{w})}}:={\sum_{t = 1}^{T}{f_{P{(x)}_{t}}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}$ on a training sample $\mathbf{X}_{train}$. Learning consists of two separate stages: *model structure selection* and *picking the optimal leaf values*. The way of choosing the model structure is not important for our work; we refer the interested reader to existing implementations, e.g., Chen & Guestrin; Dorogush et al.. For picking optimal leaf values, we consider two most commonly used formulas: Gradient: At leaf $l$ at step $t$, output negative average gradients (calculated at current predictions) over the leaf objects: This is equivalent to minimizing the empirical loss function w.r.t. the current leaf value by doing a single gradient step in function space.
 
-Gradient: At leaf $l$ at step $t$, output negative average gradients (calculated at current predictions) over the leaf objects:
-
-This is equivalent to minimizing the empirical loss function w.r.t. the current leaf value by doing a single gradient step in function space.
-
-Newton: At leaf $l$ at step $t$, output the negative total gradient divided by the total second derivative over the leaf objects:
-
-This is equivalent to minimizing the empirical loss function w.r.t. the current leaf value by doing a single Newton step in function space.
+Newton: At leaf $l$ at step $t$, output the negative total gradient divided by the total second derivative over the leaf objects: This is equivalent to minimizing the empirical loss function w.r.t. the current leaf value by doing a single Newton step in function space.
 
 ## Approach
 
@@ -83,40 +46,21 @@ Under Assumption 1, it is thus sufficient to estimate how the leaf values of eac
 
 Thus, our first algorithm for approximate leave-one-out retraining, LeafRefit, is equivalent to fixing the structure of every tree and fitting leaf values without the removed point. A formal listing of the resulting algorithm is given in Algorithm 1.
 
-1: Input: training point index to remove i0, sample-to-leaf assignments {Ilt}t = 1, l = 1T, L, leaf formula type formula
-2: Output: new leaf values {f̂lt}t = 1, l = 1T, L
-8: if formula = = Gradient then
-
-Note that the effect of removing a training object $\mathbf{x}_{i}$ is twofold: on each step, we have to remove $\mathbf{x}_{i}$ from its leaf (Algorithm 1, line 7) and recalculate the leaf values and record the resulting changes of intermediate predictions for each training object (line 14). Thus, despite improving upon straightforward retraining by not having to search for the optimal tree splits, LeafRefit is still an expensive algorithm. Running it for each training sample has an asymptotic complexity of $O{({Tn^{2}})}$; moreover, in practice, for each training step $t$ it involves an expensive routine of recalculating derivatives for each training point.
+1: Input: training point index to remove i0, sample-to-leaf assignments {Ilt}t = 1, l = 1T, L, leaf formula type formula 2: Output: new leaf values {f̂lt}t = 1, l = 1T, L 8: if formula = = Gradient then Note that the effect of removing a training object $\mathbf{x}_{i}$ is twofold: on each step, we have to remove $\mathbf{x}_{i}$ from its leaf (Algorithm 1, line 7) and recalculate the leaf values and record the resulting changes of intermediate predictions for each training object (line 14). Thus, despite improving upon straightforward retraining by not having to search for the optimal tree splits, LeafRefit is still an expensive algorithm. Running it for each training sample has an asymptotic complexity of $O{({Tn^{2}})}$; moreover, in practice, for each training step $t$ it involves an expensive routine of recalculating derivatives for each training point.
 
 ### FastLeafRefit
 
 We seek to limit the number of calculations at each step of LeafRefit. Note that, in LeafRefit, we generally cannot make any use of caching the original first and/or second derivatives, since any $\Delta_{i}^{t - 1}$ (Algorithm 1, line 14) can be nonzero, which forces us to recompute the derivatives for each object. We build on the intuition that, in practice, a lot of $\Delta_{i}^{t - 1}$ may be negligible; an extreme example is when training samples can be separated in disjoint cliques, i.e., ${I_{l}^{t_{1}} = {I_{l}^{t_{2}}{\forall t_{1}}}},{t_{2} = {1,\ldots,T}}$, $l = {1\ldotsL}$. In this case, removing each training point only affects its clique $I_{l_{0}}:=I_{l_{0}}^{1}$, since objects not sharing leaves with $i$ will not be affected: ${\Delta_{i}^{t - 1} = {0{\forall t}} = {1\ldotsT}},{i \notin I_{l_{0}}}$. Thus, at each training step $t$, we may select a subset of training samples^33^3Methods of selecting $U^{t}$ will be given below. $U^{t}$ whose deltas we take into account, and suppose ${\hat{A}}_{i}^{t - 1} = {A_{i}^{t - 1}{\forall i}} \notin U^{t}$. We refer to $U^{t}$ as the *update set*. Combining this with caching the original $A_{i}^{t - 1}$ and sums of derivatives in each leaf, we reduce the asymptotic complexity to $O{({TnC})}$, where $C = {\max_{t}{|U^{t}|}}$, which is a significant reduction if $C \ll n$. A formal listing of the resulting algorithm, FastLeafRefit, is given in Algorithm 2.
 
-Input: i0, {Ilt}t = 1, l = 1T, L, {git (Ait − 1)}t = 1, i = 1T, n, {hit (Ait − 1)}t = 1, i = 1T, n, {Glt (At − 1)}t = 1, l = 1T, L, {Hlt (At − 1)}t = 1, l = 1T, L, leaf formula type formula
-Output: New leaf values {f̂lt}t = 1, l = 1T, L
-f̂lt← LeafRecalc(t, l, {Ilt}t = 1, l = 1T, L, {git(Ait − 1)}t = 1, i = 1T, n,{hit(Ait − 1)}t = 1, i = 1T, n, Glt(At − 1), Hlt(At − 1), Ult, formula)
-
-Input: boosting step t, leaf index l, {Ilt}t = 1, l = 1T, L, {git (Ait − 1)}t = 1, i = 1T, n, {hit (Ait − 1)}t = 1, i = 1T, n, Glt (At − 1), Hlt (At − 1), Ult, leaf formula type f o r m u l a
-Output: New leaf value f̂lt
-Δ gjt ← gjt (Ajt − 1+Δjt − 1) − gjt (Ajt − 1), j ∈ Ult
-Ĝlt ← Glt (At − 1) + ∑j ∈ Ultwj Δ gjt − I wi0 gi0t (Ai0t − 1)
-if formula = = Gradient then
-Δ hjt ← hjt (Ajt − 1+Δjt − 1) − hjt (Ajt − 1), j ∈ Ult
-Ĥlt ← Hlt (At − 1) + ∑j ∈ Ultwj Δ hjt − I wi0 hi0t (Ai0t − 1)
-return $- \frac{{\hat{G}}_{l}^{t}}{{\hat{H}}_{l}^{t}}$
+Input: i0, {Ilt}t = 1, l = 1T, L, {git (Ait − 1)}t = 1, i = 1T, n, {hit (Ait − 1)}t = 1, i = 1T, n, {Glt (At − 1)}t = 1, l = 1T, L, {Hlt (At − 1)}t = 1, l = 1T, L, leaf formula type formula Output: New leaf values {f̂lt}t = 1, l = 1T, L f̂lt← LeafRecalc(t, l, {Ilt}t = 1, l = 1T, L, {git(Ait − 1)}t = 1, i = 1T, n,{hit(Ait − 1)}t = 1, i = 1T, n, Glt(At − 1), Hlt(At − 1), Ult, formula) Input: boosting step t, leaf index l, {Ilt}t = 1, l = 1T, L, {git (Ait − 1)}t = 1, i = 1T, n, {hit (Ait − 1)}t = 1, i = 1T, n, Glt (At − 1), Hlt (At − 1), Ult, leaf formula type f o r m u l a Output: New leaf value f̂lt Δ gjt ← gjt (Ajt − 1 + Δjt − 1) − gjt (Ajt − 1), j ∈ Ult Ĝlt ← Glt (At − 1) + ∑j ∈ Ultwj Δ gjt − I wi0 gi0t (Ai0t − 1) if formula = = Gradient then Δ hjt ← hjt (Ajt − 1 + Δjt − 1) − hjt (Ajt − 1), j ∈ Ult Ĥlt ← Hlt (At − 1) + ∑j ∈ Ultwj Δ hjt − I wi0 hi0t (Ai0t − 1) return $- \frac{{\hat{G}}_{l}^{t}}{{\hat{H}}_{l}^{t}}$
 
 ### Selecting the update set
 
-In Section 3.1.2, we introduced FastLeafRefit, an approximate algorithm potentially achieving lower complexity than LeafRefit. Its definition, however, allowed for an arbitrary choice of the *update set* $U^{t}$ telling us which training points' prediction changes to take into account at boosting step $t$. It is intuitively clear that different strategies of selecting $U^{t}$ allow us to optimize the trade-off between computational complexity and quality of approximating leave-one-out retraining; thus, FastLeafRefit provides a principled way of obtaining approximations of different rigor to LeafRefit. Natural strategies for selecting the update set include:
-
-SinglePoint: don't update any points' predictions and only ignore the derivatives of $i$ (the index of the training point to be removed) in each leaf, i.e., $U^{t} = \varnothing$. Also note that this strategy is equivalent to disregarding dependencies between consecutive trees in GBDT and treating the ensemble like a Random Forest. Its complexity is $O{({Tn})}$.
+In Section 3.1.2, we introduced FastLeafRefit, an approximate algorithm potentially achieving lower complexity than LeafRefit. Its definition, however, allowed for an arbitrary choice of the *update set* $U^{t}$ telling us which training points' prediction changes to take into account at boosting step $t$. It is intuitively clear that different strategies of selecting $U^{t}$ allow us to optimize the trade-off between computational complexity and quality of approximating leave-one-out retraining; thus, FastLeafRefit provides a principled way of obtaining approximations of different rigor to LeafRefit. Natural strategies for selecting the update set include: SinglePoint: don't update any points' predictions and only ignore the derivatives of $i$ (the index of the training point to be removed) in each leaf, i.e., $U^{t} = \varnothing$. Also note that this strategy is equivalent to disregarding dependencies between consecutive trees in GBDT and treating the ensemble like a Random Forest. Its complexity is $O{({Tn})}$.
 
 AllPoints: make no approximations and update each point at each step, i.e., $U^{t} = {\{ 1,\ldots,{|\mathbf{X}_{train}|}\}}$. This reduces FastLeafRefit to LeafRefit.
 
-TopKLeaves(k): this heuristic builds on the observation that, at each step $t$, each ${\Delta_{j}^{t},j} \in I_{l}^{t}$ increases over $\Delta_{j}^{t - 1}$ by the same amount $\Deltaf_{l}^{t}$ across the leaf $l$ (see Algorithm 2). $\Deltaf_{l}^{t}$'s magnitude, in turn, is expected to be larger for leaves where ${\Delta_{j}^{t - 1},j} \in I_{l}^{t}$ (and, subsequently, $\Deltag_{j}^{t}$) are already large. Informally, the "snowball" effect holds: the larger the change accumulated in the leaf so far, the greater its value will change. Thus, to exploit this intuition, ${TopKLeaves}{(k)}$ only updates $\Delta_{j}^{t}$ of training points in $k$ leaves with the largest accumulated prediction change so far:
-
-Note: despite the speedup from omitting unimportant leaves, this strategy is formally still $O{({Tn^{2}})}$ due to the fact that computing $U^{t}$ according to Eq. 3 takes $O{(n)}$. In practice, overhead for computing Eq. 3 may be negligible because, firstly, sums of $\Delta_{i}^{t - 1}$ can be quickly computed in a parallel or vectorized fashion and, secondly, because the complexity of addition is negligible compared to, e.g., calculating derivatives. However, if this still poses a problem, a natural way of getting around it is sampling $m$ training points uniformly from $\mathbf{X}_{train}$ and using a sample estimator of Eq. 3. The complexity of FastLeafRefit thus becomes $O{({Tn{\lbrack{C + m}\rbrack}})}$, which is useful if $m \ll n$.
+TopKLeaves(k): this heuristic builds on the observation that, at each step $t$, each ${\Delta_{j}^{t},j} \in I_{l}^{t}$ increases over $\Delta_{j}^{t - 1}$ by the same amount $\Deltaf_{l}^{t}$ across the leaf $l$ (see Algorithm 2). $\Deltaf_{l}^{t}$'s magnitude, in turn, is expected to be larger for leaves where ${\Delta_{j}^{t - 1},j} \in I_{l}^{t}$ (and, subsequently, $\Deltag_{j}^{t}$) are already large. Informally, the "snowball" effect holds: the larger the change accumulated in the leaf so far, the greater its value will change. Thus, to exploit this intuition, ${TopKLeaves}{(k)}$ only updates $\Delta_{j}^{t}$ of training points in $k$ leaves with the largest accumulated prediction change so far: Note: despite the speedup from omitting unimportant leaves, this strategy is formally still $O{({Tn^{2}})}$ due to the fact that computing $U^{t}$ according to Eq. 3 takes $O{(n)}$. In practice, overhead for computing Eq. 3 may be negligible because, firstly, sums of $\Delta_{i}^{t - 1}$ can be quickly computed in a parallel or vectorized fashion and, secondly, because the complexity of addition is negligible compared to, e.g., calculating derivatives. However, if this still poses a problem, a natural way of getting around it is sampling $m$ training points uniformly from $\mathbf{X}_{train}$ and using a sample estimator of Eq. 3. The complexity of FastLeafRefit thus becomes $O{({Tn{\lbrack{C + m}\rbrack}})}$, which is useful if $m \ll n$.
 
 ### Prediction gradients
 
@@ -132,48 +76,21 @@ ${{{Inf}_{grad}{(\mathbf{x}_{train},\mathbf{x}_{test})}}:=\frac{\partial{L{(y_{t
 
 ### LeafInfluence
 
-As mentioned above, in the setup of Proxy 2 the statement of Assumption 1 is now guaranteed to hold and is no longer an assumption; we may consider the tree structures to be fixed and only study perturbations of leaf values, which smoothly depend on the weights. Using the chain rule
-
-we can then derive various counterfactuals (e.g., "how would the loss on a test point change if we upweight a training point $i$?"), similarly to Koh & Liang. Since we have
-
-for applying Eq. 4 to arbitrary $x$ (for a fixed $i$) it is necessary and sufficient to calculate ${\frac{\partial{f_{l}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}{\partial w_{i}},t} = {1\ldotsT}$, $l = {1\ldotsL}$. Applying Eq. 4 can then be done by running $x$ though a new tree ensemble having ${\{\frac{\partial{f_{l}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}{\partial w_{i}}\}}_{{t = 1},{l = 1}}^{T,L}$ as leaf values.
+As mentioned above, in the setup of Proxy 2 the statement of Assumption 1 is now guaranteed to hold and is no longer an assumption; we may consider the tree structures to be fixed and only study perturbations of leaf values, which smoothly depend on the weights. Using the chain rule we can then derive various counterfactuals (e.g., "how would the loss on a test point change if we upweight a training point $i$?"), similarly to Koh & Liang. Since we have for applying Eq. 4 to arbitrary $x$ (for a fixed $i$) it is necessary and sufficient to calculate ${\frac{\partial{f_{l}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}{\partial w_{i}},t} = {1\ldotsT}$, $l = {1\ldotsL}$. Applying Eq. 4 can then be done by running $x$ though a new tree ensemble having ${\{\frac{\partial{f_{l}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}{\partial w_{i}}\}}_{{t = 1},{l = 1}}^{T,L}$ as leaf values.
 
 Expressions for leaf value derivatives depend on the type of leaf formula:^44^4In Proposition 1's statement, arguments such as $\mathbf{w}$ or $A_{i}^{t}$ are dropped for brevity.
 
 ### Proposition 1
 
-Leaf value derivatives are given by:
-
-where ${I_{l}^{t}{(i)}}:={I{\lbrack{i \in I_{l}^{t}}\rbrack}}$ and ${J{(\mathbf{A}^{\mathbf{t}})}_{ij}}:=\frac{\partial{A_{j}^{t}{(\mathbf{w})}}}{\partial w_{i}}$.
+Leaf value derivatives are given: | | ${}\frac{\partial f_{G;l}^{t}}{\partial w_{i}}$ | $= {- {\frac{{I_{l}^{t}(i)\left({f_{G;l}^{t} + g_{i}^{t}} \right)} + {\left. \sum{}_{j \in I_{l}^{t}} \right.{w_{j}h_{j}^{t}J\left(\mathbf{A}^{\mathbf{t} - \mathbf{1}} \right)_{ij}}}}{H_{G;l}^{t}}\text{~and}}}$ | | \(6\) | | | ${}\frac{\partial f_{H;l}^{t}}{\partial w_{i}}$ | ${= {- \frac{{I_{l}^{t}(i)\left({{h_{i}^{t}f_{H;l}^{t}} + g_{i}^{t}} \right)} + {\left. \sum{}_{j \in I_{l}^{t}} \right.{w_{j}\left({{k_{j}^{t}f_{H;l}^{t}} + h_{j}^{t}} \right)J\left(\mathbf{A}^{\mathbf{t} - \mathbf{1}} \right)_{ij}}}}{H_{H;l}^{t}}}},$ | | | where ${I_{l}^{t}{(i)}}:={I{\lbrack{i \in I_{l}^{t}}\rbrack}}$ and ${J{(\mathbf{A}^{\mathbf{t}})}_{ij}}:=\frac{\partial{A_{j}^{t}{(\mathbf{w})}}}{\partial w_{i}}$.
 
 ### Proof
 
-First, let us derive the desired expression^55^5Throughout this proof, we add $\mathbf{w}$ as an extra argument to the functions we study in order to highlight the dependency. for $f_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}$:
+First, let us derive the desired expression^55^5Throughout this proof, we add $\mathbf{w}$ as an extra argument to the functions we study in order to highlight the dependency. for $f_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}$: | | | $\frac{\partial{f_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}}}{\partial w_{i}} = {- {\frac{\partial}{\partial w_{i}}\left\lbrack \frac{G_{l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}}{H_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}} \right\rbrack}} =$ | | \(7\) | | | | $= {{- \frac{\frac{\partial{G_{l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}}}{\partial w_{i}}H_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}}{H_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}^{2}}} +}$ | | | | | | $+ \frac{\frac{\partial{H_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}}}{\partial w_{i}}G_{l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}}{H_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}^{2}}$ | | | Let us calculate the derivatives of $G_{l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}$ and $H_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}$ separately: Plugging this back into Equations 7 and grouping terms with and without $I_{l}^{t}{(i)}$ separately, we get: which proves the first part of Proposition 1.
 
-Let us calculate the derivatives of $G_{l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}$ and $H_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}$ separately:
+For the second part, all we have to change is to substitute $H_{H;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}$ for $H_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}$. Its derivative is given by Just like before, plugging it back into Equations 7 and grouping terms containing and not containing $I_{l}^{t}{(i)}$ separately, we get: This concludes the proof of Proposition 1. ∎ It can be seen from Eq. 6 that leaf value derivatives at step $t$ depend on the Jacobi matrix $J{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}_{ij}$. These values, in turn, are connected by a recursive relationship: Thus, we can calculate leaf value derivatives in an iterative fashion similar to LeafRefit. A formal listing of the resulting algorithm, LeafInfluence, can be found in Algorithm 4.
 
-Plugging this back into Equations 7 and grouping terms with and without $I_{l}^{t}{(i)}$ separately, we get:
-
-which proves the first part of Proposition 1.
-
-For the second part, all we have to change is to substitute $H_{H;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}$ for $H_{G;l}^{t}{({\mathbf{A}^{\mathbf{t} - \mathbf{1}}{(\mathbf{w})}},\mathbf{w})}$. Its derivative is given by
-
-Just like before, plugging it back into Equations 7 and grouping terms containing and not containing $I_{l}^{t}{(i)}$ separately, we get:
-
-This concludes the proof of Proposition 1. ∎
-
-It can be seen from Eq. 6 that leaf value derivatives at step $t$ depend on the Jacobi matrix $J{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}_{ij}$. These values, in turn, are connected by a recursive relationship:
-
-Thus, we can calculate leaf value derivatives in an iterative fashion similar to LeafRefit. A formal listing of the resulting algorithm, LeafInfluence, can be found in Algorithm 4.
-
-Inputs: training point index i0, sample-to-leaf assignments {Ilt}t = 1, l = 1T, L, {git (Ait − 1)}t = 1, i = 1T, n, {hit (Ait − 1)}t = 1, i = 1T, n, {kit (Ait − 1)}t = 1, i = 1T, n, leaf formula type formula
-Outputs: leaf value derivatives ${\{\frac{\partial{f_{l}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}{\partial w_{i}}\}}_{{t = 1},{l = 1}}^{T,L}$
-$\frac{\partial{f_{l}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}{\partial w_{i_{0}}}\leftarrow$/According to Eq. 6/, l = 1 … L
-return ${\{\frac{\partial{f_{l}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}{\partial w_{i}}\}}_{{t = 1},{l = 1}}^{T,L}$
-
-Besides providing means for analyzing small weight perturbations, two important traits yielding complexity reductions can be seen from Eq. 6:
-
-A. Using Eq. 6, we can write out ${\nabla_{w}f_{l}^{t}} = \left( \frac{\partial f_{l}^{t}}{\partial w_{i}} \right)_{i = 1}^{n}$ in vector form; since computing each $\frac{\partial f_{l}^{t}}{\partial w_{i}}$ involves addition and a vector dot product, $\nabla_{w}f_{l}^{t}$ can then be expressed via vector addition and matrix/vector product for easy parallelization/vectorization.
+Inputs: training point index i0, sample-to-leaf assignments {Ilt}t = 1, l = 1T, L, {git (Ait − 1)}t = 1, i = 1T, n, {hit (Ait − 1)}t = 1, i = 1T, n, {kit (Ait − 1)}t = 1, i = 1T, n, leaf formula type formula Outputs: leaf value derivatives ${\{\frac{\partial{f_{l}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}{\partial w_{i}}\}}_{{t = 1},{l = 1}}^{T,L}$ $\frac{\partial{f_{l}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}{\partial w_{i_{0}}}\leftarrow$/According to Eq. 6/, l = 1 … L return ${\{\frac{\partial{f_{l}^{t}{(\mathbf{A}^{\mathbf{t} - \mathbf{1}})}}}{\partial w_{i}}\}}_{{t = 1},{l = 1}}^{T,L}$ Besides providing means for analyzing small weight perturbations, two important traits yielding complexity reductions can be seen from Eq. 6: A. Using Eq. 6, we can write out ${\nabla_{w}f_{l}^{t}} = \left(\frac{\partial f_{l}^{t}}{\partial w_{i}} \right)_{i = 1}^{n}$ in vector form; since computing each $\frac{\partial f_{l}^{t}}{\partial w_{i}}$ involves addition and a vector dot product, $\nabla_{w}f_{l}^{t}$ can then be expressed via vector addition and matrix/vector product for easy parallelization/vectorization.
 
 B. The derivatives ${\{ g_{j}^{t},h_{j}^{t},k_{j}^{t}\}}_{{t = 1},{j = 1}}^{T,n}$ used in Eq. 6 can now be precomputed only once during GBDT training and not for each training object $i$ whose influence we want to compute. This contrasts LeafInfluence with LeafRefit and FastLeafRefit, where these derivatives had to be recalculated for each $i$ depending on the values of $\Delta_{j}^{t - 1}$, which change for different $i$.
 
@@ -185,15 +102,11 @@ The final step to be made is analogous to the transition from LeafRefit to FastL
 
 ### Research Questions
 
-The experiments that we conduct can be broadly categorized as serving two purposes: studying the fundamentals of our framework and evaluating its quality in two applied problem setups. For the first part, the research questions that we seek to answer are as follows:
-
-RQ1. How well do the different methods introduced in Sections 3.1 and 3.2 approximate their respective influence proxies?
+The experiments that we conduct can be broadly categorized as serving two purposes: studying the fundamentals of our framework and evaluating its quality in two applied problem setups. For the first part, the research questions that we seek to answer are as follows: RQ1. How well do the different methods introduced in Sections 3.1 and 3.2 approximate their respective influence proxies?
 
 RQ2. Do smaller update sets significantly reduce the runtimes of FastLeafRefit and FastLeafInfluence? Does FastLeafInfluence yield a notable runtime speedup over FastLeafRefit?
 
-For the second part, we proceed by considering two applied scenarios: classification in the presence of label noise, and classification with train/test domain mismatch. Specifically, the research questions for this part are:
-
-RQ3. For Scenario 1, do our methods allow to detect noise in general and, more specifically, to identify training objects most harmful for specific test points?
+For the second part, we proceed by considering two applied scenarios: classification in the presence of label noise, and classification with train/test domain mismatch. Specifically, the research questions for this part are: RQ3. For Scenario 1, do our methods allow to detect noise in general and, more specifically, to identify training objects most harmful for specific test points?
 
 RQ4. For Scenario 1, how do the proxies and their respective approximations compare in terms of quality?
 
@@ -221,9 +134,7 @@ Firstly, as expected, we observe that smaller update sets considerably reduce th
 
 ### Harmful Object Removal
 
-In this experiment, we consider a particular use-case scenario, classification in the presence of label noise, and evaluate whether our methods are able to identify training objects that are noisy, harmful for specific test objects. In order to do that, we randomly select $k$ training samples,^77^7We set $k = 4000$ for Adult and Amazon, and $k = 3500$ for Upselling. flip their labels, and obtain GBDT's predictions on test data before and after noise injection. We then conduct two experiments:
-
-Figure 2: ROC-AUC of noise detection qualities.
+In this experiment, we consider a particular use-case scenario, classification in the presence of label noise, and evaluate whether our methods are able to identify training objects that are noisy, harmful for specific test objects. In order to do that, we randomly select $k$ training samples,^77^7We set $k = 4000$ for Adult and Amazon, and $k = 3500$ for Upselling. flip their labels, and obtain GBDT's predictions on test data before and after noise injection. We then conduct two experiments: Figure 2: ROC-AUC of noise detection qualities.
 
 (a) Logloss reduction on a particular test index.
 

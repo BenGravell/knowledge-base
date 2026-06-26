@@ -2,23 +2,7 @@
 
 Recent progress in computer vision has been driven by scaling models on large datasets of captioned images collected from the internet Desai and Johnson; Sariyildiz et al.; Zhang et al.; Radford et al.; Mu et al.; Fürst et al.. Within this framework, CLIP Radford et al. has emerged as a successful representation learner for images. CLIP embeddings have a number of desirable properties: they are robust to image distribution shift, have impressive zero-shot capabilities, and have been fine-tuned to achieve state-of-the-art results on a wide variety of vision and language tasks Shen et al.. Concurrently, diffusion models Sohl-Dickstein et al.; Song and Ermon; Ho et al. have emerged as a promising generative modeling framework, pushing the state-of-the-art on image and video generation tasks Dhariwal and Nichol; Ho et al.; Ho and Salimans. To achieve best results, diffusion models leverage a guidance technique Dhariwal and Nichol; Ho and Salimans which improves sample fidelity (for images, photorealism) at the cost of sample diversity.
 
-In this work, we combine these two approaches for the problem of text-conditional image generation. We first train a diffusion decoder to invert the CLIP image encoder. Our inverter is non-deterministic, and can produce multiple images corresponding to a given image embedding. The presence of an encoder and its approximate inverse (the decoder) allows for capabilities beyond text-to-image translation. As in GAN inversion Zhu et al.; Xia et al., encoding and decoding an input image produces semantically similar output images (Figure 3). We can also interpolate between input images by inverting interpolations of their image embeddings (Figure 4). However, one notable advantage of using the CLIP latent space is the ability to semantically modify images by moving in the direction of any encoded text vector (Figure 5), whereas discovering these directions in GAN latent space involves
-
-vibrant portrait painting of Salvador Dalí with a robotic half face
-a shiba inu wearing a beret and black turtleneck
-a close up of a handpalm with leaves growing from it
-
-an espresso machine that makes coffee from human souls, artstation
-panda mad scientist mixing sparkling chemicals, artstation
-a corgi’s head depicted as an explosion of a nebula
-
-a dolphin in an astronaut suit on saturn, artstation
-a propaganda poster depicting a cat dressed as french emperor napoleon holding a piece of cheese
-a teddy bear on a skateboard in times square
-
-Figure 1: Selected 1024 × 1024 samples from a production version of our model.
-
-luck and diligent manual examination. Furthermore, encoding and decoding images also provides us with a tool for observing which features of the image are recognized or disregarded by CLIP.
+In this work, we combine these two approaches for the problem of text-conditional image generation. We first train a diffusion decoder to invert the CLIP image encoder. Our inverter is non-deterministic, and can produce multiple images corresponding to a given image embedding. The presence of an encoder and its approximate inverse (the decoder) allows for capabilities beyond text-to-image translation. As in GAN inversion Zhu et al.; Xia et al., encoding and decoding an input image produces semantically similar output images (Figure 3). We can also interpolate between input images by inverting interpolations of their image embeddings (Figure 4). However, one notable advantage of using the CLIP latent space is the ability to semantically modify images by moving in the direction of any encoded text vector (Figure 5), whereas discovering these directions in GAN latent space involves vibrant portrait painting of Salvador Dalí with a robotic half face a shiba inu wearing a beret and black turtleneck a close up of a handpalm with leaves growing from it an espresso machine that makes coffee from human souls, artstation panda mad scientist mixing sparkling chemicals, artstation a corgi’s head depicted as an explosion of a nebula a dolphin in an astronaut suit on saturn, artstation a propaganda poster depicting a cat dressed as french emperor napoleon holding a piece of cheese a teddy bear on a skateboard in times square Figure 1: Selected 1024 × 1024 samples from a production version of our model. luck and diligent manual examination. Furthermore, encoding and decoding images also provides us with a tool for observing which features of the image are recognized or disregarded by CLIP.
 
 To obtain a full generative model of images, we combine the CLIP image embedding decoder with a prior model, which generates possible CLIP image embeddings from a given text caption. We compare our text-to-image system with other systems such as DALL-E Ramesh et al. and GLIDE Nichol et al., finding that our samples are comparable in quality to GLIDE, but with greater diversity in our generations. We also develop methods for training diffusion priors in latent space, and show that they achieve comparable performance to autoregressive priors, while being more compute-efficient. We refer to our full text-conditional image generation stack as unCLIP, since it generates images by inverting the CLIP image encoder.
 
@@ -26,15 +10,11 @@ Figure 2: A high-level overview of unCLIP. Above the dotted line, we depict the 
 
 ## Method
 
-Our training dataset consists of pairs $(x,y)$ of images $x$ and their corresponding captions $y$. Given an image $x$, let $z_{i}$ and $z_{t}$ be its CLIP image and text embeddings, respectively. We design our generative stack to produce images from captions using two components:
-
-A prior $P{(\left. z_{i} \middle| y \right.)}$ that produces CLIP image embeddings $z_{i}$ conditioned on captions $y$.
+Our training dataset consists of pairs $(x,y)$ of images $x$ and their corresponding captions $y$. Given an image $x$, let $z_{i}$ and $z_{t}$ be its CLIP image and text embeddings, respectively. We design our generative stack to produce images from captions using two components: A prior $P{(\left. z_{i} \middle| y \right.)}$ that produces CLIP image embeddings $z_{i}$ conditioned on captions $y$.
 
 A decoder $P{(\left. x \middle| {z_{i},y} \right.)}$ that produces images $x$ conditioned on CLIP image embeddings $z_{i}$ (and optionally text captions $y$).
 
-The decoder allows us to invert images given their CLIP image embeddings, while the prior allows us to learn a generative model of the image embeddings themselves. Stacking these two components yields a generative model $P{(\left. x \middle| y \right.)}$ of images $x$ given captions $y$:
-
-The first equality holds because $z_{i}$ is a deterministic function of $x$. The second equality holds because of the chain rule. Thus, we can sample from the true conditional distribution $P{(\left. x \middle| y \right.)}$ by first sampling $z_{i}$ using the prior, and then sampling $x$ using the decoder. In the following sections, we describe our decoder and prior stacks. For training details and hyperparameters, refer to Appendix C.
+The decoder allows us to invert images given their CLIP image embeddings, while the prior allows us to learn a generative model of the image embeddings themselves. Stacking these two components yields a generative model $P{(\left. x \middle| y \right.)}$ of images $x$ given captions $y$: The first equality holds because $z_{i}$ is a deterministic function of $x$. The second equality holds because of the chain rule. Thus, we can sample from the true conditional distribution $P{(\left. x \middle| y \right.)}$ by first sampling $z_{i}$ using the prior, and then sampling $x$ using the decoder. In the following sections, we describe our decoder and prior stacks. For training details and hyperparameters, refer to Appendix C.
 
 ### Decoder
 
@@ -48,9 +28,7 @@ Figure 3: Variations of an input image by encoding with CLIP and then decoding w
 
 ### Prior
 
-While a decoder can invert CLIP image embeddings $z_{i}$ to produce images $x$, we need a prior model that produces $z_{i}$ from captions $y$ to enable image generations from text captions. We explore two different model classes for the prior model:
-
-Autoregressive (AR) prior: the CLIP image embedding $z_{i}$ is converted into a sequence of discrete codes and predicted autoregressively conditioned on the caption $y$.
+While a decoder can invert CLIP image embeddings $z_{i}$ to produce images $x$, we need a prior model that produces $z_{i}$ from captions $y$ to enable image generations from text captions. We explore two different model classes for the prior model: Autoregressive (AR) prior: the CLIP image embedding $z_{i}$ is converted into a sequence of discrete codes and predicted autoregressively conditioned on the caption $y$.
 
 Diffusion prior: The continuous vector $z_{i}$ is directly modelled using a Gaussian diffusion model conditioned on the caption $y$.
 
@@ -74,23 +52,13 @@ Figure 4: Variations between two images by interpolating their CLIP image embedd
 
 ### Interpolations
 
-It is also possible to blend two images $x_{1}$ and $x_{2}$ for variations (Figure 4), traversing all of the concepts in CLIP's embedding space that occur between them. To do this, we rotate between their CLIP embeddings $z_{i_{1}}$ and $z_{i_{2}}$ using spherical interpolation, yielding intermediate CLIP representations $z_{i_{\theta}} = {\text{slerp}{(z_{i_{1}},z_{i_{2}},\theta)}}$ as $\theta$ is varied from 0 to 1. There are two options for producing the intermediate DDIM latents along the trajectory. The first option involves interpolating between their DDIM inverted latents $x_{T_{1}}$ and $x_{T_{2}}$ (by setting $x_{T_{\theta}} = {\text{slerp}{(x_{T_{1}},x_{T_{2}},\theta)}}$), which yields a single trajectory whose endpoints reconstruct $x_{1}$ and $x_{2}$. The second option involves fixing the DDIM latent to a randomly-sampled value for all interpolates in the trajectory. This results in an infinite number of trajectories between $x_{1}$ and $x_{2}$, though the endpoints of these trajectories will generally no longer coincide with the original images. We use this approach in Figure 4.
-
-a photo of a cat → an anime drawing of a super saiyan cat, artstation
-a photo of a victorian house → a photo of a modern house
-a photo of an adult lion → a photo of lion cub
-a photo of a landscape in winter → a photo of a landscape in fall
-Figure 5: Text diffs applied to images by interpolating between their CLIP image embeddings and a normalised difference of the CLIP text embeddings produced from the two descriptions. We also perform DDIM inversion to perfectly reconstruct the input image in the first column, and fix the decoder DDIM noise across each row.
+It is also possible to blend two images $x_{1}$ and $x_{2}$ for variations (Figure 4), traversing all of the concepts in CLIP's embedding space that occur between them. To do this, we rotate between their CLIP embeddings $z_{i_{1}}$ and $z_{i_{2}}$ using spherical interpolation, yielding intermediate CLIP representations $z_{i_{\theta}} = {\text{slerp}{(z_{i_{1}},z_{i_{2}},\theta)}}$ as $\theta$ is varied from 0 to 1. There are two options for producing the intermediate DDIM latents along the trajectory. The first option involves interpolating between their DDIM inverted latents $x_{T_{1}}$ and $x_{T_{2}}$ (by setting $x_{T_{\theta}} = {\text{slerp}{(x_{T_{1}},x_{T_{2}},\theta)}}$), which yields a single trajectory whose endpoints reconstruct $x_{1}$ and $x_{2}$. The second option involves fixing the DDIM latent to a randomly-sampled value for all interpolates in the trajectory. This results in an infinite number of trajectories between $x_{1}$ and $x_{2}$, though the endpoints of these trajectories will generally no longer coincide with the original images. We use this approach in Figure 4. a photo of a cat → an anime drawing of a super saiyan cat, artstation a photo of a victorian house → a photo of a modern house a photo of an adult lion → a photo of lion cub a photo of a landscape in winter → a photo of a landscape in fall Figure 5: Text diffs applied to images by interpolating between their CLIP image embeddings and a normalised difference of the CLIP text embeddings produced from the two descriptions. We also perform DDIM inversion to perfectly reconstruct the input image in the first column, and fix the decoder DDIM noise across each row.
 
 ### Text Diffs
 
 A key advantage of using CLIP compared to other models for image representations is that it embeds images and text to the same latent space, thus allowing us to apply language-guided image manipulations (i.e., text diffs), which we show in Figure 5. To modify the image to reflect a new text description $y$, we first obtain its CLIP text embedding $z_{t}$, as well as the CLIP text embedding $z_{t_{0}}$ of a caption describing the current image^33^3Instead of a description of the current image, we also experimented with using a dummy caption like "a photo" for the baseline, or removing it altogether. These also worked well.. We then compute a text diff vector $z_{d} = {\text{norm}{({z_{t} - z_{t_{0}}})}}$ from these by taking their difference and normalizing. Now, we can rotate between the image CLIP embedding $z_{i}$ and the text diff vector $z_{d}$ using spherical interpolation, yielding intermediate CLIP representations $z_{\theta} = {\text{slerp}{(z_{i},z_{d},\theta)}}$, where $\theta$ is increased linearly from 0 to a maximum value that is typically in $\lbrack 0.25,0.50\rbrack$. We produce the final outputs by decoding the interpolates $z_{\theta}$, fixing the base DDIM noise to $x_{T}$ throughout the entire trajectory.
 
-Granny Smith: 100% iPod: 0% Pizza: 0%
-Granny Smith: 0.02% iPod: 99.98% Pizza: 0%
-Granny Smith: 94.33% iPod: 0% Pizza: 5.66%
-
-Figure 6: Variations of images featuring typographic attacks Goh et al. paired with the CLIP model’s predicted probabilities across three labels. Surprisingly, the decoder still recovers Granny Smith apples even when the predicted probability for this label is near 0%. We also find that our CLIP model is slightly less susceptible to the “pizza” attack than the models investigated in Goh et al..
+Granny Smith: 100% iPod: 0% Pizza: 0% Granny Smith: 0.02% iPod: 99.98% Pizza: 0% Granny Smith: 94.33% iPod: 0% Pizza: 5.66% Figure 6: Variations of images featuring typographic attacks Goh et al. paired with the CLIP model’s predicted probabilities across three labels. Surprisingly, the decoder still recovers Granny Smith apples even when the predicted probability for this label is near 0%. We also find that our CLIP model is slightly less susceptible to the “pizza” attack than the models investigated in Goh et al..
 
 ## Probing the CLIP Latent Space
 
@@ -100,13 +68,7 @@ PCA reconstructions offer another tool for probing the structure of the CLIP lat
 
 Figure 7: Visualization of reconstructions of CLIP latents from progressively more PCA dimensions (20, 30, 40, 80, 120, 160, 200, 320 dimensions), with the original source image on the far right. The lower dimensions preserve coarse-grained semantic information, whereas the higher dimensions encode finer-grained details about the exact form of the objects in the scene.
 
-“A group of baseball players is crowded at the mound.”
-“an oil painting of a corgi wearing a party hat”
-“a hedgehog using a calculator”
-“A motorcycle parked in a parking space next to another motorcycle.”
-“This wire metal rack holds several pairs of shoes and sandals”
-
-Figure 8: Samples using different conditioning signals for the same decoder. In the first row, we pass the text caption to the decoder, and pass a zero vector for the CLIP embedding. In the second row, we pass both the text caption and the CLIP text embedding of the caption. In the third row, we pass the text and a CLIP image embedding generated by an autoregressive prior for the given caption. Note that this decoder is only trained to do the text-to-image generation task (without the CLIP image representation) 5% of the time.
+“A group of baseball players is crowded at the mound.” “an oil painting of a corgi wearing a party hat” “a hedgehog using a calculator” “A motorcycle parked in a parking space next to another motorcycle.” “This wire metal rack holds several pairs of shoes and sandals” Figure 8: Samples using different conditioning signals for the same decoder. In the first row, we pass the text caption to the decoder, and pass a zero vector for the CLIP embedding. In the second row, we pass both the text caption and the CLIP text embedding of the caption. In the third row, we pass the text and a CLIP image embedding generated by an autoregressive prior for the given caption. Note that this decoder is only trained to do the text-to-image generation task (without the CLIP image representation) 5% of the time.
 
 ## Text-to-Image Generation
 
@@ -144,11 +106,7 @@ Finally, in Figure 11 we compute MS-COCO zero-shot FID Heusel et al. while sweep
 
 ### Comparison on MS-COCO
 
-Zero-shot FID (filt)
-
-unCLIP (Diffusion prior)
-
-Table 2: Comparison of FID on MS-COCO 256 × 256. We use guidance scale 1.25 for the decoder for both the AR and diffusion prior, and achieve the best results using the diffusion prior.
+Zero-shot FID (filt) unCLIP (Diffusion prior) Table 2: Comparison of FID on MS-COCO 256 × 256. We use guidance scale 1.25 for the decoder for both the AR and diffusion prior, and achieve the best results using the diffusion prior.
 
 In the text-conditional image generation literature, it has become standard practice to evaluate FID on the MS-COCO Lin et al. validation set. We present results on this benchmark in Table 2. Like GLIDE and DALL-E, unCLIP is not directly trained on the MS-COCO training set, but can still generalize to the validation set zero-shot. We find that, compared to these other zero-shot models, unCLIP achieves a new state-of-the-art FID of 10.39 when sampling with the diffusion prior. In Figure 12, we visually compare unCLIP to various recent text-conditional image generation models on several captions from MS-COCO. We find that, like the other methods, unCLIP produces realistic scenes that capture the text prompts.
 
@@ -156,23 +114,9 @@ In the text-conditional image generation literature, it has become standard prac
 
 We additionally perform automated aesthetic quality evaluations comparing unCLIP to GLIDE. Our goal with this evaluation is to assess how well each model produces artistic illustrations and photographs. To this end, we generated 512 "artistic" captions using GPT-3 Brown et al. by prompting it with captions for existing artwork (both real and AI generated). Next, we trained a CLIP linear probe to predict human aesthetic judgments using the AVA dataset Murray et al. (Appendix A). For each model and set of sampling hyperparameters, we produce four images for each prompt, and report the mean predicted aesthetic judgment over the full batch of 2048 images.
 
-In Figure 13, we present results on our aesthetic quality evaluation. We find that guidance improves aesthetic quality for both GLIDE and unCLIP. For unCLIP, we only guide the decoder (we found that guiding the prior hurt results). We also plot the aesthetic quality against Recall^44^4Recall is computed with respect to the training dataset.
+In Figure 13, we present results on our aesthetic quality evaluation. We find that guidance improves aesthetic quality for both GLIDE and unCLIP. For unCLIP, we only guide the decoder (we found that guiding the prior hurt results). We also plot the aesthetic quality against Recall^44^4Recall is computed with respect to the training dataset., since guidance typically induces a trade-off AAAA Real Image AAAA unCLIP (prod.)
 
-, since guidance typically induces a trade-off
-
-AAAA Real Image
-
-AAAA unCLIP (prod.)
-
-“a green train is coming down the tracks”
-“a group of skiers are preparing to ski down a mountain.”
-“a small kitchen with a low ceiling”
-“a group of elephants walking in muddy water.”
-“a living area with a television and a table”
-
-Figure 12: Random image samples on MS-COCO prompts.
-
-between fidelity and diversity. Interestingly, we find that guiding unCLIP does not decrease Recall while still improving aesthetic quality according to this metric.
+“a green train is coming down the tracks” “a group of skiers are preparing to ski down a mountain.” “a small kitchen with a low ceiling” “a group of elephants walking in muddy water.” “a living area with a television and a table” Figure 12: Random image samples on MS-COCO prompts. between fidelity and diversity. Interestingly, we find that guiding unCLIP does not decrease Recall while still improving aesthetic quality according to this metric.
 
 Figure 13: Aesthetic quality evaluations comparing GLIDE and unCLIP using 512 auto-generated artistic prompts. We find that both models benefit from guidance, but unCLIP does not sacrifice recall for aesthetic quality.
 
@@ -194,9 +138,7 @@ Figure 14: Samples from unCLIP and GLIDE for the prompt “a red cube on top of 
 
 Figure 15: Reconstructions from the decoder for difficult binding problems. We find that the reconstructions mix up objects and attributes. In the first two examples, the model mixes up the color of two objects. In the rightmost example, the model does not reliably reconstruct the relative size of two objects.
 
-Figure 16: Samples from unCLIP for the prompt, “A sign that says deep learning.”
-
-(a) A high quality photo of a dog playing in a green field next to a lake.
+Figure 16: Samples from unCLIP for the prompt, “A sign that says deep learning.” (a) A high quality photo of a dog playing in a green field next to a lake.
 
 (b) A high quality photo of Times Square.
 

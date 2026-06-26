@@ -46,7 +46,7 @@ In this paper we propose an efficient and effective feed-forward architecture, w
 
 The task of the encoder is to process the image and extract rich abstract features that contain all necessary information to perform accurate segmentation, detection and image classification. The encoder consists of the convolutional and pooling layers of a classification network. The weights of the encoder are initialized using the weights pre-trained on ImageNet Classification Data. As encoder any modern classification network can be utilized.
 
-We perform experiments using versions of and ResNet architectures. Our first VGG encoder uses all convolutional and pooling layers of. but discards the fully-connected softmax layers. We call this version *VGG-pool5*, as pool5 is the last layer used from. The second implementation only discards the final fully-connected softmax layer. We call this architecture *VGG-fc7*, as fc7 is the last layer used from. VGG-fc7 utilizes two fully-connected layers from VGG, namely *fc6* and *fc7*. We replace those layers with equal $1 \times 1$ convolutions as discussed in. This trick allows the encoder to process images with arbitrary input size. In particular we are not bound to the original VGG input of $224 \times 224$, which would be to small to perform perception in street scenes.
+We perform experiments using versions of and ResNet architectures. Our first VGG encoder uses all convolutional and pooling layers of. but discards the fully-connected softmax layers. We call this version *VGG-pool5*, as pool5 is the last layer used . The second implementation only discards the final fully-connected softmax layer. We call this architecture *VGG-fc7*, as fc7 is the last layer used . VGG-fc7 utilizes two fully-connected layers from VGG, namely *fc6* and *fc7*. We replace those layers with equal $1 \times 1$ convolutions as discussed . This trick allows the encoder to process images with arbitrary input size. In particular we are not bound to the original VGG input of $224 \times 224$, which would be to small to perform perception in street scenes.
 
 For ResNet we implement the $50$ and $101$ layer Version of the Network. As encoder we utilize all layers apart from the layers fully-connected softmax.
 
@@ -90,13 +90,9 @@ Our joint training implementation computes the forward passes for examples corre
 
 Classification and segmentation are trained using a softmax cross-entropy loss function.
 
-For the detection, the final prediction is a grid of $12 \times 39$ cells. Each cell gets assigned a confidence label as well as a box label. The box label encodes the coordinates of the box and is parametrized relative to the position of a cell. A cell $c$ gets assigned a positive confidence label if and only if it intersects with at least one bounding box. If this is the case the cell also gets assigned to predict the coordinates of the box it intersects with. If multiple boxes intersect with a cell, the box whose centre is closest to the centre of $c$ is chosen. Note that one box can be predicted by multiple cells.
+For the detection, the final prediction is a grid of $12 \times 39$ cells. Each cell gets assigned a confidence label as well as a box label. The box label encodes the coordinates of the box and is parametrized relative to the position of a cell. A cell $c$ gets assigned a positive confidence label if and only if it intersects with at least one bounding box. If this is the case the cell also gets assigned to predict the coordinates of the box it intersects . If multiple boxes intersect with a cell, the box whose centre is closest to the centre of $c$ is chosen. Note that one box can be predicted by multiple cells.
 
-If a box $b$ is assigned to a cell $c$ the following values are stored in c:
-
-where $x_{b}$, $y_{b}$ and $x_{c}$ $y_{c}$ correspond to the center coordinates of $b$ and $c$ and $w$ and $h$ denote width and hight. Note, that $w_{c}$ and $h_{c}$ are always $32$, as the cells of our model have a fixed width and height. We use L1 as our loss
-
-where $\hat{c}$ is the prediction of a cell and $c$ its ground-truth, and $c_{p}$ denotes whether a positive label has been assigned to a cell. The $\deltac_{p}$ term ensures that the regression loss is zero if no object is present. We train the confidence labels using cross-entropy loss. The loss per cell is given as the weighted sum over the confidence and the regression loss. The loss per image is the mean over the losses of all cells. The KITTI Dataset also contains 'don't Care areas'. Those areas are handled by multiplying the loss of the corresponding cells with zero. We note, that our label representation is much simpler than Faster-RCNN or ReInspect. This is an additional feature of our detection system. The loss for MultiNet is given as the sum of the losses for segmentation, detection and classification.
+If a box $b$ is assigned to a cell $c$ the following values are stored in c: where $x_{b}$, $y_{b}$ and $x_{c}$ $y_{c}$ correspond to the center coordinates of $b$ and $c$ and $w$ and $h$ denote width and hight. Note, that $w_{c}$ and $h_{c}$ are always $32$, as the cells of our model have a fixed width and height. We use L1 as our loss where $\hat{c}$ is the prediction of a cell and $c$ its ground-truth, and $c_{p}$ denotes whether a positive label has been assigned to a cell. The $\deltac_{p}$ term ensures that the regression loss is zero if no object is present. We train the confidence labels using cross-entropy loss. The loss per cell is given as the weighted sum over the confidence and the regression loss. The loss per image is the mean over the losses of all cells. The KITTI Dataset also contains 'don't Care areas'. Those areas are handled by multiplying the loss of the corresponding cells with zero. We note, that our label representation is much simpler than Faster-RCNN or ReInspect. This is an additional feature of our detection system. The loss for MultiNet is given as the sum of the losses for segmentation, detection and classification.
 
 Figure 4: Visualization of the segmentation output. Top row: Soft segmentation output as red blue plot. The intensity of the plot reflects the confidence. Bottom row hard class labels.
 
@@ -130,9 +126,7 @@ The section is structured as fellows. We first evaluate the performance of the t
 
 Table 2: Performance of the segmentation decoder.
 
-VGG no RIO pool
-
-Table 3: Performance of our detection decoder.
+VGG no RIO pool Table 3: Performance of our detection decoder.
 
 ### Segmentation
 
@@ -156,25 +150,19 @@ All in all my results indicate that utilizing a rescaling layer in order to arch
 
 Our detection decoder is trained and evaluated on the data provided by the KITTI object benchmark. We train our detection decoder on a VGG and ResNet decoder and evaluate on a validation set. Table 3 shows the results of our decoder compared to a Faster-RCNN baseline, evaluated on the same validation set. We report the inference speed in Table 5. We observe that our approach archives is speed-up over faster-rcnn of almost a factor 2 and outperforms its detection accuracy. This makes our decoder particularly suitable for real-time applications. Qualitative results of our detection decoder can be seen in 5.
 
-VGG pool5 [our]
-
-Table 6: Classification performance of our decoder compared to baseline classification.
+VGG pool5 [our] Table 6: Classification performance of our decoder compared to baseline classification.
 
 Figure 6: Visualization of the MultiNet output.
 
 ### Classification
 
-The classification data is not part of the official KITTI Benchmark. To evaluate the classification decoder we first need to create our own dataset. This is done using the method descriped in. To obtain a meaningful task all images of one scene ether fully in the train or fully in the validation set. This is important as the images of one scene are usually visually very similar.
+The classification data is not part of the official KITTI Benchmark. To evaluate the classification decoder we first need to create our own dataset. This is done using the method descriped . To obtain a meaningful task all images of one scene ether fully in the train or fully in the validation set. This is important as the images of one scene are usually visually very similar.
 
 We use a vanilla ResNet and VGG classification approach as baseline and compare this to a VGG and ResNet approach with my classification decoder. The differences between those two approaches are discussed in more detail in Section 3.2. The results are reported in Table 6 and Table 7. Our customised classification decoder clearly outperforms vanilla decoders, showing the effectiveness of my approach.
 
-VGG pool5 [our]
+VGG pool5 [our] Table 7: Inference speed of our classification.
 
-Table 7: Inference speed of our classification.
-
-Table 8: Results of joint training
-
-Table 9: Speed of joint inference.
+Table 8: Results of joint training Table 9: Speed of joint inference.
 
 ### MultiNet
 

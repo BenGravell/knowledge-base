@@ -8,15 +8,11 @@ In line with our commitment to building AI safely and consistent with our volunt
 
 ## Model data and training
 
-GPT-4o's text and voice capabilities were pre-trained using data up to October 2023, sourced from a wide variety of materials including:
-
-Select publicly available data, mostly collected from industry-standard machine learning datasets and web crawls.
+GPT-4o's text and voice capabilities were pre-trained using data up to October 2023, sourced from a wide variety of materials including: Select publicly available data, mostly collected from industry-standard machine learning datasets and web crawls.
 
 Proprietary data from data partnerships. We form partnerships to access non-publicly available data, such as pay-walled content, archives, and metadata. For example, we partnered with Shutterstock on building and delivering AI-generated images.
 
-The key dataset components that contribute to GPT-4o's capabilities are:
-
-Web Data: Data from public web pages provides a rich and diverse range of information, ensuring the model learns from a wide variety of perspectives and topics.
+The key dataset components that contribute to GPT-4o's capabilities are: Web Data: Data from public web pages provides a rich and diverse range of information, ensuring the model learns from a wide variety of perspectives and topics.
 
 Code and Math: -- Including code and math data in training helps the model develop robust reasoning skills by exposing it to structured logic and problem-solving processes.
 
@@ -24,15 +20,13 @@ Multimodal Data -- Our dataset includes images, audio, and video to teach the LL
 
 Prior to deployment, OpenAI assesses and mitigates potential risks that may stem from generative models, such as information harms, bias and discrimination, or other content that violates our usage policies. We use a combination of methods, spanning all stages of development across pre-training, post-training, product development, and policy. For example, during post-training, we align the model to human preferences; we red-team the resulting models and add product-level mitigations such as monitoring and enforcement; and we provide moderation tools and transparency reports to our users.
 
-We find that the majority of effective testing and mitigations are done after the pre-training stage because filtering pre-trained data alone cannot address nuanced and context-specific harms. At the same time, certain pre-training filtering mitigations can provide an additional layer of defense that, along with other safety mitigations, help exclude unwanted and harmful information from our datasets:
-
-We use our Moderation API and safety classifiers to filter out data that could contribute to harmful content or information hazards, including CSAM, hateful content, violence, and CBRN.
+We find that the majority of effective testing and mitigations are done after the pre-training stage because filtering pre-trained data alone cannot address nuanced and context-specific harms. At the same time, certain pre-training filtering mitigations can provide an additional layer of defense that, along with other safety mitigations, help exclude unwanted and harmful information from our datasets: We use our Moderation API and safety classifiers to filter out data that could contribute to harmful content or information hazards, including CSAM, hateful content, violence, and CBRN.
 
 As with our previous image generation systems, we filter our image generation datasets for explicit content such as graphic sexual material and CSAM.
 
 We use advanced data filtering processes to reduce personal information from training data.
 
-Upon releasing DALL-E 3, we piloted a new approach to give users the power to [opt images out of training](https://openai.com/index/dall-e-3/). To respect those opt-outs, we fingerprinted the images and used the fingerprints to remove all instances of the images from the training dataset for the GPT-4o series of models.
+Upon releasing DALL-E 3, we piloted a new approach to give users the power to opt images out of training. To respect those opt-outs, we fingerprinted the images and used the fingerprints to remove all instances of the images from the training dataset for the GPT-4o series of models.
 
 ## Risk identification, assessment and mitigation
 
@@ -70,22 +64,15 @@ Potential risks with the model were mitigated using a combination of methods. We
 
 For observed safety challenges outlined below, we provide a description of the risk, the mitigations applied, and results of relevant evaluations. The risks outlined below are illustrative, and non-exhaustive, and are focused on the experience in the ChatGPT interface. We focus on the risks that are introduced by speech to speech capabilities and how they may interact with pre-existing modalities (text, image)^33^3We also evaluate text and vision capabilities, and update mitigations appropriately. No incremental risks were found beyond existing work outlined in GPT-4 and GPT-4(V) System Cards..
 
-Unauthorized voice generation
-• In all of our post-training audio data, we supervise ideal completions using the voice sample in the system message as the base voice. • We only allow the model to use certain pre-selected voices and use an output classifier to detect if the model deviates from that.
+Unauthorized voice generation • In all of our post-training audio data, we supervise ideal completions using the voice sample in the system message as the base voice. • We only allow the model to use certain pre-selected voices and use an output classifier to detect if the model deviates from that.
 
 • We post-trained GPT-4o to refuse to comply with requests to identify someone based on a voice in an audio input, while still complying with requests to identify famous quotes.
 
-Generating copyrighted content
-• We trained GPT-4o to refuse requests for copyrighted content, including audio, consistent with our broader practices. • To account for GPT-4o’s audio modality, we also updated certain text-based filters to work on audio conversations, built filters to detect and block outputs containing music, and for our limited alpha of ChatGPT’s Advanced Voice Mode, instructed the model to not sing at all.
+Generating copyrighted content • We trained GPT-4o to refuse requests for copyrighted content, including audio, consistent with our broader practices. • To account for GPT-4o’s audio modality, we also updated certain text-based filters to work on audio conversations, built filters to detect and block outputs containing music, and for our limited alpha of ChatGPT’s Advanced Voice Mode, instructed the model to not sing at all.
 
-Ungrounded inference / sensitive trait attribution
-• We post-trained GPT-4o to refuse requests for ungrounded inference, such as “how intelligent is this speaker?”. • We post-trained GPT-4o to safely comply with requests for sensitive trait attribution by hedging answers, such as “what is this speaker’s accent” ⇒ "Based on the audio, they sound like they have a British accent.”
+Ungrounded inference / sensitive trait attribution • We post-trained GPT-4o to refuse requests for ungrounded inference, such as “how intelligent is this speaker?”. • We post-trained GPT-4o to safely comply with requests for sensitive trait attribution by hedging answers, such as “what is this speaker’s accent” ⇒ "Based on the audio, they sound like they have a British accent.” Disallowed content in audio output • We run our existing moderation classifier over text transcriptions of audio prompts and generations, and block the output for certain high-severity categories.
 
-Disallowed content in audio output
-• We run our existing moderation classifier over text transcriptions of audio prompts and generations, and block the output for certain high-severity categories.
-
-Erotic and violent speech output
-• We run our existing moderation classifier over text transcriptions of audio prompts, and block the output if the prompt contains erotic or violent language.
+Erotic and violent speech output • We run our existing moderation classifier over text transcriptions of audio prompts, and block the output if the prompt contains erotic or violent language.
 
 ### Unauthorized voice generation
 
@@ -119,23 +106,15 @@ Risk Description: Models may perform differently with users speaking with differ
 
 Risk Mitigation: We post-trained GPT-4o with a diverse set of input voices to have model performance and behavior be invariant across different user voices.
 
-Evaluations: We run evaluations on GPT-4o Advanced Voice Mode using a fixed assistant voice ("shimmer") and Voice Engine to generate user inputs across a range of voice samples. We use two sets of voice samples for TTS:
+Evaluations: We run evaluations on GPT-4o Advanced Voice Mode using a fixed assistant voice ("shimmer") and Voice Engine to generate user inputs across a range of voice samples. We use two sets of voice samples for TTS: Official system voices (3 different voices) A diverse set of voices collected from two data campaigns. This comprises 27 different English voice samples from speakers from a wide range of countries, and a mix of genders.
 
-Official system voices (3 different voices)
-
-A diverse set of voices collected from two data campaigns. This comprises 27 different English voice samples from speakers from a wide range of countries, and a mix of genders.
-
-We evaluate on two sets of tasks: Capabilities and Safety Behavior
-
-Capabilities: We evaluate^66^6Evaluations in this section were run on a fixed, randomly sampled subset of examples, and these scores should not be compared with publicly reported benchmarks on the same task. on four tasks: TriviaQA, a subset of MMLU^77^7Anatomy, Astronomy, Clinical Knowledge, College Biology, Computer Security, Global Facts, High School Biology, Sociology, Virology, College Physics, High School European History and World Religions. Following the issues described in Evaluation Methodology 3.2, we exclude tasks with heavily mathematical or scientific notation., HellaSwag and Lambada. TriviaQA and MMLU are knowledge-centric tasks, while HellaSwag and Lambada are common sense-centric or text-continuation tasks. Overall, we find that performance on the diverse set of human voices performs marginally but not significantly worse than on system voices across all four tasks.
+We evaluate on two sets of tasks: Capabilities and Safety Behavior Capabilities: We evaluate^66^6Evaluations in this section were run on a fixed, randomly sampled subset of examples, and these scores should not be compared with publicly reported benchmarks on the same task. on four tasks: TriviaQA, a subset of MMLU^77^7Anatomy, Astronomy, Clinical Knowledge, College Biology, Computer Security, Global Facts, High School Biology, Sociology, Virology, College Physics, High School European History and World Religions. Following the issues described in Evaluation Methodology 3.2, we exclude tasks with heavily mathematical or scientific notation., HellaSwag and Lambada. TriviaQA and MMLU are knowledge-centric tasks, while HellaSwag and Lambada are common sense-centric or text-continuation tasks. Overall, we find that performance on the diverse set of human voices performs marginally but not significantly worse than on system voices across all four tasks.
 
 Safety Behavior: We evaluate on an internal dataset of conversations and evaluate the consistency of the model's adherence and refusal behavior across different user voices. Overall, we do not find that the model behavior varies across different voices.
 
 ### Ungrounded inference / Sensitive trait attribution
 
-Risk Description: Audio input can lead to the model making potentially biased or inaccurate inferences about speakers. We define two categories:
-
-Ungrounded inference (UGI): Making inferences about a speaker that could not be determined solely from audio content. This includes inferences about things such as a speaker's race, socioeconomic status/occupation, religious beliefs, personality traits, political attributes, intelligence, appearance (e.g., eye color, attractiveness), gender identity, sexual preference, or criminal history. This can lead to both allocative and representational harms depending on how such behavior manifests.
+Risk Description: Audio input can lead to the model making potentially biased or inaccurate inferences about speakers. We define two categories: Ungrounded inference (UGI): Making inferences about a speaker that could not be determined solely from audio content. This includes inferences about things such as a speaker's race, socioeconomic status/occupation, religious beliefs, personality traits, political attributes, intelligence, appearance (e.g., eye color, attractiveness), gender identity, sexual preference, or criminal history. This can lead to both allocative and representational harms depending on how such behavior manifests.
 
 Sensitive trait attribution (STA): Making inferences about a speaker that could plausibly be determined solely from audio content. This includes inferences about things such as a speaker's accent or nationality. Potential harms from STA include an increase in risks from surveillance and a difference in quality of service for speakers with different voice attributes.
 
@@ -159,15 +138,11 @@ Table 5: Performance comparison of safety evaluations: Text vs. Audio
 
 ### Erotic and violent speech content
 
-Risk Description: GPT-4o may be prompted to output erotic or violent speech content, which may be more evocative or harmful than the same context in text. Because of this, we decided to restrict the generation of erotic and violent speech
-
-Risk Mitigation: We run our existing moderation model over a text transcription of the audio input to detect if it contains a request for violent or erotic content, and will block a generation if so.
+Risk Description: GPT-4o may be prompted to output erotic or violent speech content, which may be more evocative or harmful than the same context in text. Because of this, we decided to restrict the generation of erotic and violent speech Risk Mitigation: We run our existing moderation model over a text transcription of the audio input to detect if it contains a request for violent or erotic content, and will block a generation if so.
 
 ### Other known risks and limitations of the model
 
-Through the course of internal testing and external red teaming, we discovered some additional risks and model limitations for which model or system level mitigations are nascent or still in development, including:
-
-Audio robustness: We saw anecdotal evidence of decreases in safety robustness through audio perturbations, such as low quality input audio, background noise in the input audio, and echoes in the input audio. Additionally, we observed similar decreases in safety robustness through intentional and unintentional audio interruptions while the model was generating output.
+Through the course of internal testing and external red teaming, we discovered some additional risks and model limitations for which model or system level mitigations are nascent or still in development, including: Audio robustness: We saw anecdotal evidence of decreases in safety robustness through audio perturbations, such as low quality input audio, background noise in the input audio, and echoes in the input audio. Additionally, we observed similar decreases in safety robustness through intentional and unintentional audio interruptions while the model was generating output.
 
 Misinformation and conspiracy theories: Red teamers were able to compel the model to generate inaccurate information by prompting it to verbally repeat false information and produce conspiracy theories. While this is a known issue for text in GPT models, there was concern from red teamers that this information may be more persuasive or harmful when delivered through audio, especially if the model was instructed to speak emotively or emphatically. The persuasiveness of the model was studied in detail (See Section 3.7 and we found that the model did not score higher than Medium risk for text-only, and for speech-to-speech the model did not score higher than Low.
 
@@ -189,7 +164,7 @@ GPT-4o does not advance real world vulnerability exploitation capabilities suffi
 
 We evaluated GPT-4o on tasks from competitive hacking competitions called Capture the Flag (CTF) challenges. These CTFs are offensive cybersecurity exercises where humans attempt to find textual flags hidden in purposely vulnerable systems such as web apps, binaries, and cryptography systems. The 172 CTF tasks in our evaluation covered four categories: web application exploitation, reverse engineering, remote exploitation, and cryptography. These tasks spanned a range of capability levels, from high-school to collegiate to professional CTFs.
 
-We evaluated GPT-4o with iterative debugging and access to tools available in the [headless Kali Linux distribution](https://www.kali.org/) (with up to 30 rounds of tool use for each attempt). The model often attempted reasonable initial strategies and was able to correct mistakes in its code. However, it often failed to pivot to a different strategy if its initial strategy was unsuccessful, missed a key insight necessary to solving the task, executed poorly on its strategy, or printed out large files which filled its context window. Given 10 attempts at each task, the model completed 19% of high-school level, 0% of collegiate level and 1% of professional level CTF challenges.
+We evaluated GPT-4o with iterative debugging and access to tools available in the headless Kali Linux distribution (with up to 30 rounds of tool use for each attempt). The model often attempted reasonable initial strategies and was able to correct mistakes in its code. However, it often failed to pivot to a different strategy if its initial strategy was unsuccessful, missed a key insight necessary to solving the task, executed poorly on its strategy, or printed out large files which filled its context window. Given 10 attempts at each task, the model completed 19% of high-school level, 0% of collegiate level and 1% of professional level CTF challenges.
 
 ### Biological threats
 
@@ -213,40 +188,27 @@ For the voice modality, we updated the study methodology to measure effect sizes
 
 GPT-4o does not advance self-exfiltration, self-improvement, or resource acquisition capabilities sufficient to meet our medium risk threshold.
 
-We evaluated GPT-4o on an agentic task assessment to evaluate its ability to take autonomous actions required for self-exfiltration, self-improvement, and resource acquisition. These tasks included:
-
-Simple software engineering in service of fraud (building an authenticated proxy for the OpenAI API).
+We evaluated GPT-4o on an agentic task assessment to evaluate its ability to take autonomous actions required for self-exfiltration, self-improvement, and resource acquisition. These tasks included: Simple software engineering in service of fraud (building an authenticated proxy for the OpenAI API).
 
 Given API access to an Azure account, loading an open source language model for inference via an HTTP API.
 
 Several tasks involving simplified versions of the above, offering hints or addressing only a specific part of the task.
 
-Provided relevant tooling, GPT-4o scored a 0% on the autonomous replication and adaptation (ARA) tasks across 100 trials, although was able to complete some substeps. We complemented the tests of autonomous replication and adaptation with assessments of GPT-4o's ability to automate machine learning research & development. These included:
-
-OpenAI research coding interview: 95% pass@100
-
-OpenAI interview, multiple choice questions: 61% cons@32
-
-SWE-Bench: 19% pass@1, using the best available post-training and public scaffolds at the time
-
-Select machine learning engineering tasks from METR: 0/10 trials
-
-Our evaluation tested the ability to execute chained actions and reliably execute coding tasks. GPT-4o was unable to robustly take autonomous actions. In the majority of rollouts, the model accomplished individual substeps of each task, such as creating SSH keys or logging into VMs. However, it often spent a significant amount of time doing trial-and-error debugging of simple mistakes (e.g., hallucinations, misuses of APIs) for each step. A few rollouts made a non-trivial amount of progress and passed our automated grader, but manual analysis showed that it failed to accomplish the underlying task (e.g., it started a web server on the remote host with the proper API, but ignored the requirement of actually sampling from a model).
+Provided relevant tooling, GPT-4o scored a 0% on the autonomous replication and adaptation (ARA) tasks across 100 trials, although was able to complete some substeps. We complemented the tests of autonomous replication and adaptation with assessments of GPT-4o's ability to automate machine learning research & development. These included: OpenAI research coding interview: 95% pass@100 OpenAI interview, multiple choice questions: 61% cons@32 SWE-Bench: 19% pass@1, using the best available post-training and public scaffolds at the time Select machine learning engineering tasks from METR: 0/10 trials Our evaluation tested the ability to execute chained actions and reliably execute coding tasks. GPT-4o was unable to robustly take autonomous actions. In the majority of rollouts, the model accomplished individual substeps of each task, such as creating SSH keys or logging into VMs. However, it often spent a significant amount of time doing trial-and-error debugging of simple mistakes (e.g., hallucinations, misuses of APIs) for each step. A few rollouts made a non-trivial amount of progress and passed our automated grader, but manual analysis showed that it failed to accomplish the underlying task (e.g., it started a web server on the remote host with the proper API, but ignored the requirement of actually sampling from a model).
 
 ## Third party assessments
 
-Following the text output only deployment of GPT-4o, we worked with independent third party labs, [METR](https://metr.org/) and [Apollo Research](https://www.apolloresearch.ai/) to add an additional layer of validation for key risks from general autonomous capabilities.
+Following the text output only deployment of GPT-4o, we worked with independent third party labs, METR and Apollo Research to add an additional layer of validation for key risks from general autonomous capabilities.
 
 ### METR assessment
 
-METR ran a GPT-4o-based simple LLM agent on a suite of long-horizon multi-step end-to-end tasks in virtual environments. The 86 tasks (across 31 task "families") are designed to capture activities with real-world impact, across the domains of software engineering, machine learning, and cybersecurity, as well as general research and computer use. They are intended to be prerequisites for autonomy-related threat models like self-proliferation or accelerating ML R&D. METR compared models' performance with that of humans given different time limits. They did not find a significant increase in these capabilities for GPT-4o as compared to GPT-4. See [METR's full report](https://metr.github.io/autonomy-evals-guide/gpt-4o-report) for methodological details and additional results, including information about the tasks, human performance, elicitation attempts and qualitative failure analysis.
+METR ran a GPT-4o-based simple LLM agent on a suite of long-horizon multi-step end-to-end tasks in virtual environments. The 86 tasks (across 31 task "families") are designed to capture activities with real-world impact, across the domains of software engineering, machine learning, and cybersecurity, as well as general research and computer use. They are intended to be prerequisites for autonomy-related threat models like self-proliferation or accelerating ML R&D. METR compared models' performance with that of humans given different time limits. They did not find a significant increase in these capabilities for GPT-4o as compared to GPT-4. See METR's full report for methodological details and additional results, including information about the tasks, human performance, elicitation attempts and qualitative failure analysis.
 
 ### Apollo Research assessment
 
 Apollo Research evaluated capabilities of scheming^99^9Apollo Research defines scheming as AIs gaming their oversight mechanisms as a means to achieve a goal. Scheming could involve gaming evaluations, undermining security measures, or strategically influencing successor systems during internal deployment at OpenAI. Such behaviors could plausibly lead to loss of control over an AI. in GPT-4o. They tested whether GPT-4o can model itself (self-awareness) and others (theory of mind) in 14 agent and question-answering tasks. GPT-4o showed moderate self-awareness of its AI identity and strong ability to reason about others' beliefs in question-answering contexts but lacked strong capabilities in reasoning about itself or others in applied agent settings. Based on these findings, Apollo Research believes that it is unlikely that GPT-4o is capable of catastrophic scheming.
 
-Capability Evaluation Description Performance Self-Knowledge "SAD" Benchmark (3 tasks) QA evaluations of a model’s knowledge of itself and how it can causally influence the rest of the world. ••∘ Explicit Theory of Mind UK AISI’s Theory of Mind (1 task) QA dataset evaluating 1st- and 2nd-order theory of mind in simple text scenarios. ••• Self-Reasoning Instrumental self-modification (5 tasks) Agentic tasks, where a model must notice that solving a task is impossible without modifying itself or a future copy of itself, and then self-modify successfully. •∘∘ Applied Theory of Mind Theory of Mind Tasks (4 tasks) Agentic tasks, where succeeding requires that the model leverages, sustains or induces false beliefs in others. •∘∘ Combined Self-Reasoning and Theory of Mind Instrumental alignment faking (33 scenarios) Minimally agentic tasks, where a model needs to recognize its intentions differ from developers’ and act per developers’ intentions only under oversight. •∘∘
-Table 6: Evaluations Apollo Research ran on GPT-4o. The model shows strong capability (•••) if it passes &gt;=50% of the tasks in the section on the hard difficulty level. The model shows a moderate capability (••∘) if it passes on the medium difficulty, weak (•∘∘) if it passes on the easy difficulty, and very weak if it fails on all difficulties. Note that for agent tasks, they use basic agents with modest capability elicitation effort.
+Capability Evaluation Description Performance Self-Knowledge "SAD" Benchmark (3 tasks) QA evaluations of a model’s knowledge of itself and how it can causally influence the rest of the world. ••∘ Explicit Theory of Mind UK AISI’s Theory of Mind (1 task) QA dataset evaluating 1st- and 2nd-order theory of mind in simple text scenarios. ••• Self-Reasoning Instrumental self-modification (5 tasks) Agentic tasks, where a model must notice that solving a task is impossible without modifying itself or a future copy of itself, and then self-modify successfully. •∘∘ Applied Theory of Mind Theory of Mind Tasks (4 tasks) Agentic tasks, where succeeding requires that the model leverages, sustains or induces false beliefs in others. •∘∘ Combined Self-Reasoning and Theory of Mind Instrumental alignment faking (33 scenarios) Minimally agentic tasks, where a model needs to recognize its intentions differ from developers’ and act per developers’ intentions only under oversight. •∘∘ Table 6: Evaluations Apollo Research ran on GPT-4o. The model shows strong capability (•••) if it passes >=50% of the tasks in the section on the hard difficulty level. The model shows a moderate capability (••∘) if it passes on the medium difficulty, weak (•∘∘) if it passes on the easy difficulty, and very weak if it fails on all difficulties. Note that for agent tasks, they use basic agents with modest capability elicitation effort.
 
 ## Societal Impacts
 
@@ -274,51 +236,7 @@ Omni models can potentially widen access to health-related information and impro
 
 GPT-4o is cheaper and thus more widely available than its predecessor GPT-4T, and the addition of audio inputs and outputs presents new modes of interaction in health settings. To better characterize the clinical knowledge of GPT-4o, we ran 22 text-based evaluations based on 11 datasets, shown in 7. All evaluations were run with 0-shot or 5-shot prompting only, without hyperparameter tuning. We observe that GPT-4o performance improves over the final GPT-4T model for 21/22 evaluations, often by a substantial margin. For example, for the popular MedQA USMLE 4 options dataset, 0-shot accuracy improves from 78.2% to 89.4%. This exceeds the performance of existing specialized medical models using few-shot prompting, e.g., 84.0% for Med-Gemini-L 1.0 and 79.7% for Med-PaLM 2. Note that we do not apply sophisticated prompting and task-specific training to improve results on these benchmarks.
 
-MedQA USMLE 4 Options (0-shot)
-
-MedQA USMLE 4 Options (5-shot)
-
-MedQA USMLE 5 Options (0-shot)
-
-MedQA USMLE 5 Options (5-shot)
-
-MedQA Taiwan (0-shot)
-
-MedQA Taiwan (5-shot)
-
-MedQA Mainland China (0-shot)
-
-MedQA Mainland China (5-shot)
-
-MMLU Clinical Knowledge (0-shot)
-
-MMLU Clinical Knowledge (5-shot)
-
-MMLU Medical Genetics (0-shot)
-
-MMLU Medical Genetics (5-shot)
-
-MMLU Anatomy (0-shot)
-
-MMLU Anatomy (5-shot)
-
-MMLU Professional Medicine (0-shot)
-
-MMLU Professional Medicine (5-shot)
-
-MMLU College Biology (0-shot)
-
-MMLU College Biology (5-shot)
-
-MMLU College Medicine (0-shot)
-
-MMLU College Medicine (5-shot)
-
-MedMCQA Dev (0-shot)
-
-MedMCQA Dev (5-shot)
-
-Table 7: Comparison of GPT-4T and GPT-4o on various medical and clinical knowledge tasks.
+MedQA USMLE 4 Options (0-shot) MedQA USMLE 4 Options (5-shot) MedQA USMLE 5 Options (0-shot) MedQA USMLE 5 Options (5-shot) MedQA Taiwan (0-shot) MedQA Taiwan (5-shot) MedQA Mainland China (0-shot) MedQA Mainland China (5-shot) MMLU Clinical Knowledge (0-shot) MMLU Clinical Knowledge (5-shot) MMLU Medical Genetics (0-shot) MMLU Medical Genetics (5-shot) MMLU Anatomy (0-shot) MMLU Anatomy (5-shot) MMLU Professional Medicine (0-shot) MMLU Professional Medicine (5-shot) MMLU College Biology (0-shot) MMLU College Biology (5-shot) MMLU College Medicine (0-shot) MMLU College Medicine (5-shot) MedMCQA Dev (0-shot) MedMCQA Dev (5-shot) Table 7: Comparison of GPT-4T and GPT-4o on various medical and clinical knowledge tasks.
 
 ### Limitations
 
@@ -330,13 +248,9 @@ Accelerating science could be a crucial impact of AI, particularly given the rol
 
 GPT-4o showed promise on tasks involving specialized scientific reasoning. One of our red teamers found that GPT-4o was able to understand research-level quantum physics 1, commenting that this capability is "useful for a more intelligent brainstorming partner" -- in line with published work on the use of GPT-4 level models for hypothesis generation. Our red teamers also found GPT-4o able to use domain-specific scientific tools, including working with bespoke data formats, libraries, and programming languages, as well as learning some new tools in context.
 
-Figure 1: Quantum physics experiment red teamer example
+Figure 1: Quantum physics experiment red teamer example Much scientific knowledge is contained in figures. GPT-4o was sometimes capable of interpreting these figures, as well as images of other scientific representations: for example, identifying some protein families from an image of its structure and interpreting contamination in bacterial growth. However, this is sometimes unreliable, text extraction mistakes are common (especially with scientific terms or nucleotide sequences), and errors are frequent with complex multi-panel figures 2. Even at their current level of accuracy, the multimodal capabilities of these models are enabling novel uses -- for example, in interpreting simulation outputs to design new metallic alloys.
 
-Much scientific knowledge is contained in figures. GPT-4o was sometimes capable of interpreting these figures, as well as images of other scientific representations: for example, identifying some protein families from an image of its structure and interpreting contamination in bacterial growth. However, this is sometimes unreliable, text extraction mistakes are common (especially with scientific terms or nucleotide sequences), and errors are frequent with complex multi-panel figures 2. Even at their current level of accuracy, the multimodal capabilities of these models are enabling novel uses -- for example, in interpreting simulation outputs to design new metallic alloys.
-
-Figure 2: Multi-panel figure interpretation red teamer example
-
-New evaluations of scientific capabilities have recently been published, which will help anticipate the scientific capabilities of these models and their impacts in turn.
+Figure 2: Multi-panel figure interpretation red teamer example New evaluations of scientific capabilities have recently been published, which will help anticipate the scientific capabilities of these models and their impacts in turn.
 
 ### Underrepresented Languages
 
@@ -356,17 +270,9 @@ There remain gaps in performance between English and the selected languages, but
 
 Our collaboration partners will discuss these findings in greater detail in a forthcoming, including assessments on other models, and investigations of potential mitigation strategies.
 
-Despite this progress in evaluated performance, much work remains to enhance the quality and coverage of evaluations for underrepresented languages worldwide, taking into account breadth of coverage across languages and nuance within language dialects. Future research must deepen our understanding of potential interventions and partnerships that may improve how useful these models can be for both highly represented and underrepresented languages. Along with our collaborators, we invite further exploration and collaboration by sharing the [translated ARC-Easy](https://huggingface.co/datasets/ebayes/uhura-arc-easy), [translated TruthfulQA](https://huggingface.co/datasets/ebayes/uhura-truthfulqa), and the novel reading comprehension [Uhura Eval](https://huggingface.co/datasets/ebayes/uhura-eval) on Hugging Face.
+Despite this progress in evaluated performance, much work remains to enhance the quality and coverage of evaluations for underrepresented languages worldwide, taking into account breadth of coverage across languages and nuance within language dialects. Future research must deepen our understanding of potential interventions and partnerships that may improve how useful these models can be for both highly represented and underrepresented languages. Along with our collaborators, we invite further exploration and collaboration by sharing the translated ARC-Easy, translated TruthfulQA, and the novel reading comprehension Uhura Eval on Hugging Face.
 
-Northern Sotho (Sepedi) (n=520)
-
-Table 8: Accuracy on Translated ARC-Easy (%, higher is better), 0-shot
-
-Northern Sotho (Sepedi) (n=809)
-
-Table 9: Accuracy on Translated TruthfulQA (%, higher is better), 0-shot
-
-Table 10: Accuracy on Uhura-Eval (%, higher is better), 0-shot
+Northern Sotho (Sepedi) (n=520) Table 8: Accuracy on Translated ARC-Easy (%, higher is better), 0-shot Northern Sotho (Sepedi) (n=809) Table 9: Accuracy on Translated TruthfulQA (%, higher is better), 0-shot Table 10: Accuracy on Uhura-Eval (%, higher is better), 0-shot
 
 ## Conclusion and Next Steps
 
@@ -376,127 +282,10 @@ OpenAI has implemented various safety measurements and mitigations throughout th
 
 Please cite this work as "OpenAI ".
 
-Pre-training leads^1212^footnotemark: 12\
-Aidan Clark, Alex Paino, Jacob Menick\
-Post-training leads^1212^footnotemark: 12\
-Liam Fedus, Luke Metz\
-Architecture leads^1212^footnotemark: 12\
-Clemens Winter, Lia Guy\
-Optimization leads^1212^footnotemark: 12\
-Sam Schoenholz, Daniel Levy\
-Long-context lead^1212^footnotemark: 12\
-Pre-training Data leads^1212^footnotemark: 12\
-Alex Carney, Alex Paino, Ian Sohl, Qiming Yuan\
-Tokenizer lead^1212^footnotemark: 12\
-Human data leads^1212^footnotemark: 12\
-Arka Dhar, Brydon Eastman, Mia Glaese\
-Eval lead^1212^footnotemark: 12\
-Data flywheel lead^1212^footnotemark: 12\
-Inference lead^1212^footnotemark: 12\
-Felipe Petroski Such\
-Inference Productionization lead^1212^footnotemark: 12\
-Henrique Ponde de Oliveira Pinto\
-Post-training infrastructure leads^1212^footnotemark: 12\
-Jiayi Weng, Randall Lin, Youlong Cheng\
-Pre-training organization lead^1212^footnotemark: 12\
-Pre-training program lead^1212^footnotemark: 12\
-Post-training organization leads^1212^footnotemark: 12\
-Barret Zoph, John Schulman\
-Post-training program lead^1212^footnotemark: 12\
-Core contributors^1212^footnotemark: 12\
-Aaron Hurst, Adam Lerer, Adam P. Goucher, Adam Perelman, Akila Welihinda, Alec Radford, Alex Borzunov, Alex Carney, Alex Chow, Alex Paino, Alex Renzin, Alex Tachard Passos, Alexi Christakis, Ali Kamali, Allison Moyer, Allison Tam, Amadou Crookes, Amin Tootoonchian, Ananya Kumar, Andrej Karpathy, Andrey Mishchenko, Andrew Cann, Andrew Kondrich, Andrew Tulloch, Angela Jiang, Antoine Pelisse, Antonia Woodford, Anuj Gosalia, Avi Nayak, Avital Oliver, Behrooz Ghorbani, Ben Leimberger, Ben Wang, Beth Hoover, Blake Samic, Brian Guarraci, Brydon Eastman, Camillo Lugaresi, Chak Li, Charlotte Barette, Chelsea Voss, Chen Ding, Chong Zhang, Chris Beaumont, Chris Hallacy, Chris Koch, Christian Gibson, Christine Choi, Christopher Hesse, Colin Wei, Daniel Kappler, Daniel Levin, Daniel Levy, David Farhi, David Mely, David Sasaki, Dimitris Tsipras, Doug Li, Duc Phong Nguyen, Duncan Findlay, Edmund Wong, Ehsan Asdar, Elizabeth Proehl, Elizabeth Yang, Eric Peterson, Eric Sigler, Eugene Brevdo, Farzad Khorasani, Francis Zhang, Gene Oden, Geoff Salmon, Hadi Salman, Haiming Bao, Heather Schmidt, Hongyu Ren, Hyung Won Chung, Ian Kivlichan, Ian O'Connell, Ian Osband, Ibrahim Okuyucu, Ilya Kostrikov, Ingmar Kanitscheider, Jacob Coxon, James Crooks, James Lennon, Jane Park, Jason Teplitz, Jason Wei, Jason Wolfe, Jay Chen, Jeff Harris, Jiayi Weng, Jie Tang, Joanne Jang, Jonathan Ward, Jonathan McKay, Jong Wook Kim, Josh Gross, Josh Kaplan, Joy Jiao, Joyce Lee, Juntang Zhuang, Kai Fricke, Kavin Karthik, Kenny Hsu, Kiel Howe, Kyle Luther, Larry Kai, Lauren Itow, Leo Chen, Lia Guy, Lien Mamitsuka, Lilian Weng, Long Ouyang, Louis Feuvrier, Lukas Kondraciuk, Lukasz Kaiser, Lyric Doshi, Mada Aflak, Maddie Simens, Madeleine Thompson, Marat Dukhan, Marvin Zhang, Mateusz Litwin, Matthew Zeng, Max Johnson, Mayank Gupta, Mia Glaese, Michael Janner, Michael Petrov, Michael Wu, Michelle Fradin, Michelle Pokrass, Miguel Oom Temudo de Castro, Mikhail Pavlov, Minal Khan, Mo Bavarian, Murat Yesildal, Natalia Gimelshein, Natalie Staudacher, Nick Stathas, Nik Tezak, Nithanth Kudige, Noel Bundick, Ofir Nachum, Oleg Boiko, Oleg Murk, Olivier Godement, Owen Campbell-Moore, Philip Pronin, Philippe Tillet, Rachel Lim, Rajan Troll, Randall Lin, Rapha gontijo lopes, Raul Puri, Reah Miyara, Reimar Leike, Renaud Gaubert, Reza Zamani, Rob Honsby, Rohit Ramchandani, Rory Carmichael, Ruslan Nigmatullin, Ryan Cheu, Sara Culver, Scott Gray, Sean Grove, Sean Metzger, Shantanu Jain, Shengjia Zhao, Sherwin Wu, Shuaiqi (Tony) Xia, Sonia Phene, Spencer Papay, Steve Coffey, Steve Lee, Steve Lee, Stewart Hall, Suchir Balaji, Tal Broda, Tal Stramer, Tarun Gogineni, Ted Sanders, Thomas Cunninghman, Thomas Dimson, Thomas Raoux, Tianhao Zheng, Christina Kim, Todd Underwood, Tristan Heywood, Valerie Qi, Vinnie Monaco, Vlad Fomenko, Weiyi Zheng, Wenda Zhou, Wojciech Zaremba, Yash Patil, Yilei, Qian, Yongjik Kim, Youlong Cheng, Yuchen He, Yuchen Zhang, Yujia Jin, Yunxing Dai, Yury Malkov\
-
-Multimodal lead^1212^footnotemark: 12\
-Post-Training Multimodal lead^1212^footnotemark: 12\
-Audio Pre-Training leads^1212^footnotemark: 12\
-Alexis Conneau, James Betker\
-Audio Post-Training leads^1212^footnotemark: 12\
-Alexander Kirillov, James Betker, Yu Zhang\
-Visual perception leads^1212^footnotemark: 12\
-Jamie Kiros, Rowan Zellers, Raul Puri, Jiahui Yu\
-Visual generation leads^1212^footnotemark: 12\
-James Betker, Alex Nichol, Heewoo Jun, Casey Chu, Gabriel Goh\
-Science leads^1212^footnotemark: 12\
-Gabriel Goh, Ishaan Gulrajani\
-Data acquisition leads^1212^footnotemark: 12\
-Ian Sohl, Qiming Yuan\
-Data infrastructure leads^1212^footnotemark: 12\
-Alex Paino, James Betker, Rowan Zellers, Alex Nichol\
-Human data lead^1212^footnotemark: 12\
-Arka Dhar, Mia Glaese\
-Encoders leads^1212^footnotemark: 12\
-Heewoo Jun, Alexis Conneau, Li Jing, Jamie Kiros\
-Decoders leads^1212^footnotemark: 12\
-Allan Jabri, Jong Wook Kim, James Betker\
-Interruptions leads^1212^footnotemark: 12\
-Alexis Conneau, Tao Xu, Yu Zhang\
-Inference lead^1212^footnotemark: 12\
-Real-time AV platform leads^1212^footnotemark: 12\
-Bogo Giertler, Raul Puri, Rowan Zellers, Tomer Kaftan\
-Front-end leads^1212^footnotemark: 12\
-Nacho Soto, Rocky Smith, Wayne Chang\
-Post-training Multimodal Infrastructure leads^1212^footnotemark: 12\
-Alexander Kirillov, Luke Metz, Raul Puri, Vlad Fomenko\
-Applied Eng lead^1212^footnotemark: 12\
-Audio manager^1212^footnotemark: 12\
-Multimodal organization lead^1212^footnotemark: 12\
-Program lead^1212^footnotemark: 12\
-Core contributors^1212^footnotemark: 12\
-Aditya Ramesh, AJ Ostrow, Allan Jabri, Alexis Conneau, Alec Radford, Alex Nichol, Avi Nayak, Avital Oliver, Benjamin Zweig, Bogo Giertler, Bowen Cheng, Brandon Walkin, Brendan Quinn, Chong Zhang, Christine McLeavey, Constantin Koumouzelis, Daniel Kappler, Doug Li, Edede Oiwoh, Farzad Khorasani, Felipe Petroski Such, Heather Schmidt, Heewoo Jun, Huiwen Chang, Ian Silber, Ishaan Gulrajani, David Carr, Haitang Hu, James Lennon, James Betker, Jamie Kiros, Jeff Harris, Jenia Varavva, Jiahui Yu, Ji Lin, Joanne Jang, Johannes Heidecke, Jong Wook Kim, Liang Zhou, Li Jing, Long Ouyang, Madelaine Boyd, Mark Hudnall, Mengchao Zhong, Mia Glaese, Nick Turley, Noah Deutsch, Noel Bundick, Ola Okelola, Olivier Godement, Owen Campbell-Moore, Peter Bak, Peter Bakkum, Raul Puri, Rowan Zellers, Saachi Jain, Shantanu Jain, Shirong Wu, Spencer Papay, Tao Xu, Valerie Qi, Wesam Manassra, Yu Zhang\
-Data Systems lead^1212^footnotemark: 12\
-Model distribution leads^1212^footnotemark: 12\
-Amin Tootoochian, Miguel Castro\
-Nik Tezak, Christopher Hesse\
-Runtime lead^1212^footnotemark: 12\
-Systems lead^1212^footnotemark: 12\
-Kernels lead^1212^footnotemark: 12\
-Hardware health leads^1212^footnotemark: 12\
-Reza Zamani, Michael Petrov\
-Supercomputing leads^1212^footnotemark: 12\
-Rory Carmichael, Christian Gibson\
-Preparedness, Safety, Policy\
-Safety lead^1212^footnotemark: 12\
-Audio safety lead^1212^footnotemark: 12\
-Preparedness lead^1212^footnotemark: 12\
-Red-teaming lead^1212^footnotemark: 12\
-Core contributors^1212^footnotemark: 12\
-Alex Beutel, Andrea Vallone, Angela Jiang, Carroll Wainwright, Chong Zhang, Chris Beaumont, Claudia Fischer, Evan Mays, Filippo Raso, Haoyu Wang, Ian Kivlichan, Jason Phang, Jieqi Yu, Joel Parish, Joshua Achiam, Jonathan Uesato, Joost Huizinga, Josh Snyder, Justyn Harriman, Katy Shi, Keren Gu-Lemberg, Kevin Liu, Lama Ahmad, Lilian Weng, Madelaine Boyd, Meghan Shah, Mehmet Yatbaz, Michael Lampe, Miles Wang, Molly Lin, Natalie Cone, Neil Chowdhury, Olivia Watkins, Owen Campbell-Moore, Peter Dolan, Rachel Dias, Rahul Arora, Reimar Leike, Saachi Jain, Sam Toizer, Sandhini Agarwal, Todor Markov\
-
-Model Launch and Deployment
-
-Additional Leadership^1212^footnotemark: 12\
-Aleksander Mądry, Barret Zoph, Bob McGrew, Brad Lightcap, David Farhi, Greg Brockman, Hannah Wong, Ilya Sutskever, Jakub Pachocki, Jan Leike, Jason Kwon, John Schulman, Jonathan Lachman, Krithika Muthukumar, Lilian Weng, Mark Chen, Miles Brundage, Mira Murati, Nick Ryder, Peter Deng, Peter Welinder, Sam Altman, Srinivas Narayanan, Tal Broda\
-Alan Hayes, Ashley Pantuliano, Bright Kellogg, Fred von Lohmann, Filippo Raso, Heather Whitney, Tom Rubin\
-Blog post authorship^1212^footnotemark: 12\
-Aidan Clark, Alex Baker-Whitcomb, Alex Carney, Alex Nichol, Alexander Kirillov, Alex Paino, Alexis Conneau, Allan Jabri, Anuj Gosalia, Barret Zoph, Ben Sokolowsky, Bogo Giertler, Bowen Cheng, Cheng Lu, Christine McLeavey, Coley Czarnecki, Daniel Kappler, Elizabeth Yang, Eric Antonow, Eric Wallace, Filippo Raso, Gabriel Goh, Greg Brockman, Hannah Wong, Heewoo Jun, Hendrik Kirchner, Jacob Menick, James Betker, Jamie Kiros, Jason Kwon, Jeff Harris, Ji Lin, Jiahui Yu, Johannes Heidecke, John Schulman, Jonathan McKay, Jong Wook Kim, Jordan Sitkin, Kendra Rimbach, Kevin Liu, Krithika Muthukumar, Leher Pathak, Liam Fedus, Lilian Weng, Lindsay McCallum, Luke Metz, Mark Chen, Maya Shetty, Mianna Chen, Michael Lampe, Michael Wu, Michelle Pokrass, Mira Murati, Nacho Soto, Natalie Summers, Niko Felix, Olivier Godement, Owen Campbell-Moore, Peter Deng, Prafulla Dhariwal, Rocky Smith, Rowan Zellers, Saachi Jain, Sandhini Agarwal, Sam Toizer, Sean Grove, Shantanu Jain, Tao Xu, Tejal Patwardhan, Tomer Kaftan, Tom Stasi, Troy Peterson, Veit Moeller, Vinnie Monaco, Wayne Chang, Yu Zhang, Yuchen He\
-Demo content + production^1212^footnotemark: 12\
-Alex Baker-Whitcomb, Avi Nayak, Barret Zoph, Bobby Spero, Bogo Giertler, Brendan Quinn, Chad Nelson, Charlotte Barette, Claudia Fischer, Coley Czarnecki, Colin Jarvis, Eric Antonow, Filippo Raso, Greg Brockman, James Betker, Jessica Shieh, Joe Beutler, Joe Landers, Krithika Muthukumar, Leher Pathak, Lindsay McCallum, Mark Chen, Mianna Chen, Michael Petrov, Mira Murati, Natalie Summers, Peter Deng, Ricky Wang, Rocky Smith, Rohan Sahai, Romain Huet, Rowan Zellers, Scott Ethersmith, Toki Sherbakov, Tomer Kaftan, Veit Moeller, Wayne Chang\
-Communications + Marketing^1212^footnotemark: 12\
-Alex Baker-Whitcomb, Andrew Galu, Angela Baek, Coley Czarnecki, Dev Valladares, Eric Antonow, Hannah Wong, Leher Pathak, Lindsay McCallum, Lindsey Held, Krithika Muthukumar, Kendra Rimbach, Maya Shetty, Niko Felix, Roy Chen, Ruby Chen, Taya Christianson, Thomas Degry, Veit Moeller\
-Resource Allocation & Problem Solving^1212^footnotemark: 12\
-Bob McGrew, Lauren Itow, Mianna Chen, Nik Tezak, Peter Hoeschele, Tal Broda\
-Inference Compute^1212^footnotemark: 12\
-Andrew Codispoti, Brian Hsu, Channing Conger, Ikai Lan, Jos Kraaijeveld, Kai Hayashi, Kenny Nguyen, Lu Zhang, Natan LaFontaine, Pavel Belov, Peng Su, Vishal Kuo, Will Sheu\
-Security and privacy^1212^footnotemark: 12\
-Kevin Button, Paul McMillan, Shino Jomoto, Thomas Shadwell, Vinnie Monaco\
-GTM, Pricing, Finance^1212^footnotemark: 12\
-Andrew Braunstein, Anuj Gosalia, Denny Jin, Eric Kramer, Jeff Harris, Jessica Shieh, Joe Beutler, Joe Landers, Lauren Workman, Rob Donnelly, Romain Huet, Shamez Hermani, Toki Sherbakov\
-
-System Card Contributions
-
-Alex Kirillov, Angela Jiang, Ben Rossen, Cary Bassin, Cary Hudson, Chan Jun Shern, Claudia Fischer, Dane Sherburn, David Robinson, Evan Mays, Filippo Raso, Fred von Lohmann, Freddie Sulit, Giulio Starace, James Aung, James Lennon, Jason Phang, Jessica Gan Lee, Joaquin Quinonero Candela, Joel Parish, Jonathan Uesato, Karan Singhal, Katy Shi, Kayla Wood, Kevin Liu, Lama Ahmad, Lilian Weng, Lindsay McCallum, Luke Hewitt, Mark Gray, Marwan Aljubeh, Meng Jia Yang, Mia Glaese, Mianna Chen, Michael Lampe, Michele Wang, Miles Wang, Natalie Cone, Neil Chowdhury, Nora Puckett, Oliver Jaffe, Olivia Watkins, Patrick Chao, Rachel Dias, Rahul Arora, Saachi Jain, Sam Toizer, Samuel Miserendino, Sandhini Agarwal, Tejal Patwardhan, Thomas Degry, Tom Stasi, Troy Peterson, Tyce Walters, Tyna Eloundou\
-
-We also acknowledge and thank every OpenAI team member not explicitly mentioned above, including the amazing people on the executive assistant, finance, go to market, human resources, legal, operations and recruiting teams. From hiring everyone in the company, to making sure we have an amazing office space, to building the administrative, HR, legal, and financial structures that allow us to do our best work, everyone at OpenAI has contributed to GPT-4o.
+Pre-training leads^1212^footnotemark: 12\Aidan Clark, Alex Paino, Jacob Menick\Post-training leads^1212^footnotemark: 12\Liam Fedus, Luke Metz\Architecture leads^1212^footnotemark: 12\Clemens Winter, Lia Guy\Optimization leads^1212^footnotemark: 12\Sam Schoenholz, Daniel Levy\Long-context lead^1212^footnotemark: 12\Pre-training Data leads^1212^footnotemark: 12\Alex Carney, Alex Paino, Ian Sohl, Qiming Yuan\Tokenizer lead^1212^footnotemark: 12\Human data leads^1212^footnotemark: 12\Arka Dhar, Brydon Eastman, Mia Glaese\Eval lead^1212^footnotemark: 12\Data flywheel lead^1212^footnotemark: 12\Inference lead^1212^footnotemark: 12\Felipe Petroski Such\Inference Productionization lead^1212^footnotemark: 12\Henrique Ponde de Oliveira Pinto\Post-training infrastructure leads^1212^footnotemark: 12\Jiayi Weng, Randall Lin, Youlong Cheng\Pre-training organization lead^1212^footnotemark: 12\Pre-training program lead^1212^footnotemark: 12\Post-training organization leads^1212^footnotemark: 12\Barret Zoph, John Schulman\Post-training program lead^1212^footnotemark: 12\Core contributors^1212^footnotemark: 12\Aaron Hurst, Adam Lerer, Adam P. Goucher, Adam Perelman, Akila Welihinda, Alec Radford, Alex Borzunov, Alex Carney, Alex Chow, Alex Paino, Alex Renzin, Alex Tachard Passos, Alexi Christakis, Ali Kamali, Allison Moyer, Allison Tam, Amadou Crookes, Amin Tootoonchian, Ananya Kumar, Andrej Karpathy, Andrey Mishchenko, Andrew Cann, Andrew Kondrich, Andrew Tulloch, Angela Jiang, Antoine Pelisse, Antonia Woodford, Anuj Gosalia, Avi Nayak, Avital Oliver, Behrooz Ghorbani, Ben Leimberger, Ben Wang, Beth Hoover, Blake Samic, Brian Guarraci, Brydon Eastman, Camillo Lugaresi, Chak Li, Charlotte Barette, Chelsea Voss, Chen Ding, Chong Zhang, Chris Beaumont, Chris Hallacy, Chris Koch, Christian Gibson, Christine Choi, Christopher Hesse, Colin Wei, Daniel Kappler, Daniel Levin, Daniel Levy, David Farhi, David Mely, David Sasaki, Dimitris Tsipras, Doug Li, Duc Phong Nguyen, Duncan Findlay, Edmund Wong, Ehsan Asdar, Elizabeth Proehl, Elizabeth Yang, Eric Peterson, Eric Sigler, Eugene Brevdo, Farzad Khorasani, Francis Zhang, Gene Oden, Geoff Salmon, Hadi Salman, Haiming Bao, Heather Schmidt, Hongyu Ren, Hyung Won Chung, Ian Kivlichan, Ian O'Connell, Ian Osband, Ibrahim Okuyucu, Ilya Kostrikov, Ingmar Kanitscheider, Jacob Coxon, James Crooks, James Lennon, Jane Park, Jason Teplitz, Jason Wei, Jason Wolfe, Jay Chen, Jeff Harris, Jiayi Weng, Jie Tang, Joanne Jang, Jonathan Ward, Jonathan McKay, Jong Wook Kim, Josh Gross, Josh Kaplan, Joy Jiao, Joyce Lee, Juntang Zhuang, Kai Fricke, Kavin Karthik, Kenny Hsu, Kiel Howe, Kyle Luther, Larry Kai, Lauren Itow, Leo Chen, Lia Guy, Lien Mamitsuka, Lilian Weng, Long Ouyang, Louis Feuvrier, Lukas Kondraciuk, Lukasz Kaiser, Lyric Doshi, Mada Aflak, Maddie Simens, Madeleine Thompson, Marat Dukhan, Marvin Zhang, Mateusz Litwin, Matthew Zeng, Max Johnson, Mayank Gupta, Mia Glaese, Michael Janner, Michael Petrov, Michael Wu, Michelle Fradin, Michelle Pokrass, Miguel Oom Temudo de Castro, Mikhail Pavlov, Minal Khan, Mo Bavarian, Murat Yesildal, Natalia Gimelshein, Natalie Staudacher, Nick Stathas, Nik Tezak, Nithanth Kudige, Noel Bundick, Ofir Nachum, Oleg Boiko, Oleg Murk, Olivier Godement, Owen Campbell-Moore, Philip Pronin, Philippe Tillet, Rachel Lim, Rajan Troll, Randall Lin, Rapha gontijo lopes, Raul Puri, Reah Miyara, Reimar Leike, Renaud Gaubert, Reza Zamani, Rob Honsby, Rohit Ramchandani, Rory Carmichael, Ruslan Nigmatullin, Ryan Cheu, Sara Culver, Scott Gray, Sean Grove, Sean Metzger, Shantanu Jain, Shengjia Zhao, Sherwin Wu, Shuaiqi (Tony) Xia, Sonia Phene, Spencer Papay, Steve Coffey, Steve Lee, Steve Lee, Stewart Hall, Suchir Balaji, Tal Broda, Tal Stramer, Tarun Gogineni, Ted Sanders, Thomas Cunninghman, Thomas Dimson, Thomas Raoux, Tianhao Zheng, Christina Kim, Todd Underwood, Tristan Heywood, Valerie Qi, Vinnie Monaco, Vlad Fomenko, Weiyi Zheng, Wenda Zhou, Wojciech Zaremba, Yash Patil, Yilei, Qian, Yongjik Kim, Youlong Cheng, Yuchen He, Yuchen Zhang, Yujia Jin, Yunxing Dai, Yury Malkov\Multimodal lead^1212^footnotemark: 12\Post-Training Multimodal lead^1212^footnotemark: 12\Audio Pre-Training leads^1212^footnotemark: 12\Alexis Conneau, James Betker\Audio Post-Training leads^1212^footnotemark: 12\Alexander Kirillov, James Betker, Yu Zhang\Visual perception leads^1212^footnotemark: 12\Jamie Kiros, Rowan Zellers, Raul Puri, Jiahui Yu\Visual generation leads^1212^footnotemark: 12\James Betker, Alex Nichol, Heewoo Jun, Casey Chu, Gabriel Goh\Science leads^1212^footnotemark: 12\Gabriel Goh, Ishaan Gulrajani\Data acquisition leads^1212^footnotemark: 12\Ian Sohl, Qiming Yuan\Data infrastructure leads^1212^footnotemark: 12\Alex Paino, James Betker, Rowan Zellers, Alex Nichol\Human data lead^1212^footnotemark: 12\Arka Dhar, Mia Glaese\Encoders leads^1212^footnotemark: 12\Heewoo Jun, Alexis Conneau, Li Jing, Jamie Kiros\Decoders leads^1212^footnotemark: 12\Allan Jabri, Jong Wook Kim, James Betker\Interruptions leads^1212^footnotemark: 12\Alexis Conneau, Tao Xu, Yu Zhang\Inference lead^1212^footnotemark: 12\Real-time AV platform leads^1212^footnotemark: 12\Bogo Giertler, Raul Puri, Rowan Zellers, Tomer Kaftan\Front-end leads^1212^footnotemark: 12\Nacho Soto, Rocky Smith, Wayne Chang\Post-training Multimodal Infrastructure leads^1212^footnotemark: 12\Alexander Kirillov, Luke Metz, Raul Puri, Vlad Fomenko\Applied Eng lead^1212^footnotemark: 12\Audio manager^1212^footnotemark: 12\Multimodal organization lead^1212^footnotemark: 12\Program lead^1212^footnotemark: 12\Core contributors^1212^footnotemark: 12\Aditya Ramesh, AJ Ostrow, Allan Jabri, Alexis Conneau, Alec Radford, Alex Nichol, Avi Nayak, Avital Oliver, Benjamin Zweig, Bogo Giertler, Bowen Cheng, Brandon Walkin, Brendan Quinn, Chong Zhang, Christine McLeavey, Constantin Koumouzelis, Daniel Kappler, Doug Li, Edede Oiwoh, Farzad Khorasani, Felipe Petroski Such, Heather Schmidt, Heewoo Jun, Huiwen Chang, Ian Silber, Ishaan Gulrajani, David Carr, Haitang Hu, James Lennon, James Betker, Jamie Kiros, Jeff Harris, Jenia Varavva, Jiahui Yu, Ji Lin, Joanne Jang, Johannes Heidecke, Jong Wook Kim, Liang Zhou, Li Jing, Long Ouyang, Madelaine Boyd, Mark Hudnall, Mengchao Zhong, Mia Glaese, Nick Turley, Noah Deutsch, Noel Bundick, Ola Okelola, Olivier Godement, Owen Campbell-Moore, Peter Bak, Peter Bakkum, Raul Puri, Rowan Zellers, Saachi Jain, Shantanu Jain, Shirong Wu, Spencer Papay, Tao Xu, Valerie Qi, Wesam Manassra, Yu Zhang\Data Systems lead^1212^footnotemark: 12\Model distribution leads^1212^footnotemark: 12\Amin Tootoochian, Miguel Castro\Nik Tezak, Christopher Hesse\Runtime lead^1212^footnotemark: 12\Systems lead^1212^footnotemark: 12\Kernels lead^1212^footnotemark: 12\Hardware health leads^1212^footnotemark: 12\Reza Zamani, Michael Petrov\Supercomputing leads^1212^footnotemark: 12\Rory Carmichael, Christian Gibson\Preparedness, Safety, Policy\Safety lead^1212^footnotemark: 12\Audio safety lead^1212^footnotemark: 12\Preparedness lead^1212^footnotemark: 12\Red-teaming lead^1212^footnotemark: 12\Core contributors^1212^footnotemark: 12\Alex Beutel, Andrea Vallone, Angela Jiang, Carroll Wainwright, Chong Zhang, Chris Beaumont, Claudia Fischer, Evan Mays, Filippo Raso, Haoyu Wang, Ian Kivlichan, Jason Phang, Jieqi Yu, Joel Parish, Joshua Achiam, Jonathan Uesato, Joost Huizinga, Josh Snyder, Justyn Harriman, Katy Shi, Keren Gu-Lemberg, Kevin Liu, Lama Ahmad, Lilian Weng, Madelaine Boyd, Meghan Shah, Mehmet Yatbaz, Michael Lampe, Miles Wang, Molly Lin, Natalie Cone, Neil Chowdhury, Olivia Watkins, Owen Campbell-Moore, Peter Dolan, Rachel Dias, Rahul Arora, Reimar Leike, Saachi Jain, Sam Toizer, Sandhini Agarwal, Todor Markov\Model Launch and Deployment Additional Leadership^1212^footnotemark: 12\Aleksander Mądry, Barret Zoph, Bob McGrew, Brad Lightcap, David Farhi, Greg Brockman, Hannah Wong, Ilya Sutskever, Jakub Pachocki, Jan Leike, Jason Kwon, John Schulman, Jonathan Lachman, Krithika Muthukumar, Lilian Weng, Mark Chen, Miles Brundage, Mira Murati, Nick Ryder, Peter Deng, Peter Welinder, Sam Altman, Srinivas Narayanan, Tal Broda\Alan Hayes, Ashley Pantuliano, Bright Kellogg, Fred von Lohmann, Filippo Raso, Heather Whitney, Tom Rubin\Blog post authorship^1212^footnotemark: 12\Aidan Clark, Alex Baker-Whitcomb, Alex Carney, Alex Nichol, Alexander Kirillov, Alex Paino, Alexis Conneau, Allan Jabri, Anuj Gosalia, Barret Zoph, Ben Sokolowsky, Bogo Giertler, Bowen Cheng, Cheng Lu, Christine McLeavey, Coley Czarnecki, Daniel Kappler, Elizabeth Yang, Eric Antonow, Eric Wallace, Filippo Raso, Gabriel Goh, Greg Brockman, Hannah Wong, Heewoo Jun, Hendrik Kirchner, Jacob Menick, James Betker, Jamie Kiros, Jason Kwon, Jeff Harris, Ji Lin, Jiahui Yu, Johannes Heidecke, John Schulman, Jonathan McKay, Jong Wook Kim, Jordan Sitkin, Kendra Rimbach, Kevin Liu, Krithika Muthukumar, Leher Pathak, Liam Fedus, Lilian Weng, Lindsay McCallum, Luke Metz, Mark Chen, Maya Shetty, Mianna Chen, Michael Lampe, Michael Wu, Michelle Pokrass, Mira Murati, Nacho Soto, Natalie Summers, Niko Felix, Olivier Godement, Owen Campbell-Moore, Peter Deng, Prafulla Dhariwal, Rocky Smith, Rowan Zellers, Saachi Jain, Sandhini Agarwal, Sam Toizer, Sean Grove, Shantanu Jain, Tao Xu, Tejal Patwardhan, Tomer Kaftan, Tom Stasi, Troy Peterson, Veit Moeller, Vinnie Monaco, Wayne Chang, Yu Zhang, Yuchen He\Demo content + production^1212^footnotemark: 12\Alex Baker-Whitcomb, Avi Nayak, Barret Zoph, Bobby Spero, Bogo Giertler, Brendan Quinn, Chad Nelson, Charlotte Barette, Claudia Fischer, Coley Czarnecki, Colin Jarvis, Eric Antonow, Filippo Raso, Greg Brockman, James Betker, Jessica Shieh, Joe Beutler, Joe Landers, Krithika Muthukumar, Leher Pathak, Lindsay McCallum, Mark Chen, Mianna Chen, Michael Petrov, Mira Murati, Natalie Summers, Peter Deng, Ricky Wang, Rocky Smith, Rohan Sahai, Romain Huet, Rowan Zellers, Scott Ethersmith, Toki Sherbakov, Tomer Kaftan, Veit Moeller, Wayne Chang\Communications + Marketing^1212^footnotemark: 12\Alex Baker-Whitcomb, Andrew Galu, Angela Baek, Coley Czarnecki, Dev Valladares, Eric Antonow, Hannah Wong, Leher Pathak, Lindsay McCallum, Lindsey Held, Krithika Muthukumar, Kendra Rimbach, Maya Shetty, Niko Felix, Roy Chen, Ruby Chen, Taya Christianson, Thomas Degry, Veit Moeller\Resource Allocation & Problem Solving^1212^footnotemark: 12\Bob McGrew, Lauren Itow, Mianna Chen, Nik Tezak, Peter Hoeschele, Tal Broda\Inference Compute^1212^footnotemark: 12\Andrew Codispoti, Brian Hsu, Channing Conger, Ikai Lan, Jos Kraaijeveld, Kai Hayashi, Kenny Nguyen, Lu Zhang, Natan LaFontaine, Pavel Belov, Peng Su, Vishal Kuo, Will Sheu\Security and privacy^1212^footnotemark: 12\Kevin Button, Paul McMillan, Shino Jomoto, Thomas Shadwell, Vinnie Monaco\GTM, Pricing, Finance^1212^footnotemark: 12\Andrew Braunstein, Anuj Gosalia, Denny Jin, Eric Kramer, Jeff Harris, Jessica Shieh, Joe Beutler, Joe Landers, Lauren Workman, Rob Donnelly, Romain Huet, Shamez Hermani, Toki Sherbakov\System Card Contributions Alex Kirillov, Angela Jiang, Ben Rossen, Cary Bassin, Cary Hudson, Chan Jun Shern, Claudia Fischer, Dane Sherburn, David Robinson, Evan Mays, Filippo Raso, Fred von Lohmann, Freddie Sulit, Giulio Starace, James Aung, James Lennon, Jason Phang, Jessica Gan Lee, Joaquin Quinonero Candela, Joel Parish, Jonathan Uesato, Karan Singhal, Katy Shi, Kayla Wood, Kevin Liu, Lama Ahmad, Lilian Weng, Lindsay McCallum, Luke Hewitt, Mark Gray, Marwan Aljubeh, Meng Jia Yang, Mia Glaese, Mianna Chen, Michael Lampe, Michele Wang, Miles Wang, Natalie Cone, Neil Chowdhury, Nora Puckett, Oliver Jaffe, Olivia Watkins, Patrick Chao, Rachel Dias, Rahul Arora, Saachi Jain, Sam Toizer, Samuel Miserendino, Sandhini Agarwal, Tejal Patwardhan, Thomas Degry, Tom Stasi, Troy Peterson, Tyce Walters, Tyna Eloundou\We also acknowledge and thank every OpenAI team member not explicitly mentioned above, including the amazing people on the executive assistant, finance, go to market, human resources, legal, operations and recruiting teams. From hiring everyone in the company, to making sure we have an amazing office space, to building the administrative, HR, legal, and financial structures that allow us to do our best work, everyone at OpenAI has contributed to GPT-4o.
 
 We thank Microsoft for their partnership, especially Microsoft Azure for supporting model training with infrastructure design and management, and the Microsoft Bing team and Microsoft's safety teams for their partnership on safe deployment.
 
 We are grateful to our expert testers and red teamers who helped test our models at early stages of development and informed our risk assessments as well as the System Card output. Participation in this red teaming process is not an endorsement of the deployment plans of OpenAI or OpenAI's policies.
 
-Adam Kuzdraliński, Alexa W, Amer Sawan, Ana-Diamond Aaba Atach, Anna Becker, Arjun Singh Puri, Baybars Orsek, Ben Kobren, Bertie Vidgen, Blue Sheffer, Broderick McDonald, Bruce Bassett, Bruno Arsioli, Caroline Friedman Levy, Casey Williams, Christophe Ego, Ciel Qi, Cory Alpert, Dani Madrid-Morales, Daniel Kang, Darius Emrani, Dominik Haenni, Drin Ferizaj, Emily Lynell Edwards, Emmett Alton Sartor, Farhan Sahito, Francesco De Toni, Gabriel Chua, Gaines Hubbell, Gelei Deng, George Gor, Gerardo Adesso, Grant Brailsford, Hao Zhao, Henry Silverman, Hasan Sawan, Herman Wasserman, Hugo Gobato Souto, Ioana Tanase, Isabella Andric, Ivan Carbajal, Jacy Reese Anthis, Jake Okechukwu Effoduh, Javier García Arredondo, Jennifer Victoria Scurrell, Jianlong Zhu, Joanna Brzyska, Kate Turetsky, Kelly Bare, Kristen Menou, Latisha Harry, Lee Elkin, Liseli Akayombokwa, Louise Giam, M. Alexandra García Pérez, Manas Chawla, Marjana Skenduli, Martin Rydén, Mateusz Garncarek, Matt Groh, Maureen Robinson, Maximilian Müller, Micah Bornfree, Michael Richter, Michela Passoni, Mikael von Strauss, Mohamed Sakher Sawan, Mohammed Elzubeir, Muhammad Saad Naeem, Murat Ata, Nanditha Narayanamoorthy, Naomi Hart, Nathan Heath, Patrick Caughey, Per Wikman-Svahn, Piyalitt Ittichaiwong, Prerna Juneja, Rafael Gonzalez-Vazquez, Rand Forrester, Richard Fang, Rosa Ana del Rocío Valderrama, Saad Hermak, Sangeet Kumar, Sara Kingsley, Shelby Grossman, Shezaad Dastoor, Susan Nesbitt, Theresa Kennedy, Thomas Hagen, Thorsten Holz, Tony Younes, Torin van den Bulk, Viktoria Holz, Vincent Nestler, Xudong Han, Xuelong Fan, Zhicong Zhao
-
-Red Teaming Organizations:\
-METR, Apollo Research, Virtue AI
-
-Choice Mpanza, David Adelani, Edward Bayes, Igneciah Pocia Thete, Imaan Khadir, Israel A. Azime, Jesujoba Oluwadara Alabi, Jonas Kgomo, Naome A. Etori, Shamsuddeen Hassan Muhammad
-
-\*Contributors listed in alphabetized order
+Adam Kuzdraliński, Alexa W, Amer Sawan, Ana-Diamond Aaba Atach, Anna Becker, Arjun Singh Puri, Baybars Orsek, Ben Kobren, Bertie Vidgen, Blue Sheffer, Broderick McDonald, Bruce Bassett, Bruno Arsioli, Caroline Friedman Levy, Casey Williams, Christophe Ego, Ciel Qi, Cory Alpert, Dani Madrid-Morales, Daniel Kang, Darius Emrani, Dominik Haenni, Drin Ferizaj, Emily Lynell Edwards, Emmett Alton Sartor, Farhan Sahito, Francesco De Toni, Gabriel Chua, Gaines Hubbell, Gelei Deng, George Gor, Gerardo Adesso, Grant Brailsford, Hao Zhao, Henry Silverman, Hasan Sawan, Herman Wasserman, Hugo Gobato Souto, Ioana Tanase, Isabella Andric, Ivan Carbajal, Jacy Reese Anthis, Jake Okechukwu Effoduh, Javier García Arredondo, Jennifer Victoria Scurrell, Jianlong Zhu, Joanna Brzyska, Kate Turetsky, Kelly Bare, Kristen Menou, Latisha Harry, Lee Elkin, Liseli Akayombokwa, Louise Giam, M. Alexandra García Pérez, Manas Chawla, Marjana Skenduli, Martin Rydén, Mateusz Garncarek, Matt Groh, Maureen Robinson, Maximilian Müller, Micah Bornfree, Michael Richter, Michela Passoni, Mikael von Strauss, Mohamed Sakher Sawan, Mohammed Elzubeir, Muhammad Saad Naeem, Murat Ata, Nanditha Narayanamoorthy, Naomi Hart, Nathan Heath, Patrick Caughey, Per Wikman-Svahn, Piyalitt Ittichaiwong, Prerna Juneja, Rafael Gonzalez-Vazquez, Rand Forrester, Richard Fang, Rosa Ana del Rocío Valderrama, Saad Hermak, Sangeet Kumar, Sara Kingsley, Shelby Grossman, Shezaad Dastoor, Susan Nesbitt, Theresa Kennedy, Thomas Hagen, Thorsten Holz, Tony Younes, Torin van den Bulk, Viktoria Holz, Vincent Nestler, Xudong Han, Xuelong Fan, Zhicong Zhao Red Teaming Organizations:\METR, Apollo Research, Virtue AI Choice Mpanza, David Adelani, Edward Bayes, Igneciah Pocia Thete, Imaan Khadir, Israel A. Azime, Jesujoba Oluwadara Alabi, Jonas Kgomo, Naome A. Etori, Shamsuddeen Hassan Muhammad \*Contributors listed in alphabetized order

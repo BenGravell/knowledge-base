@@ -1,8 +1,6 @@
 ## Introduction
 
-This document is a template for LaTeX. If you are reading a paper or PDF version of this document, please download the electronic file, trans_jour.tex, from the IEEE Web site at http://www.ieee.org/authortools/trans_jour.tex so you can use it to prepare your manuscript. If you would prefer to use LaTeX, download IEEE's LaTeX style and sample files from the same Web page. You can also explore using the Overleaf editor at https://www.overleaf.com/blog/278-how-to-use-overleaf-with-ieee-collabratec-your-quick-guide-to-getting-started#.xsVp6tpPkrKM9
-
-If your paper is intended for a conference, please contact your conference editor concerning acceptable word processor formats for your particular conference.
+This document is a template for LaTeX. If you are reading a paper or PDF version of this document, please download the electronic file, trans_jour.tex, from the IEEE Web site at so you can use it to prepare your manuscript. If you would prefer to use LaTeX, download IEEE's LaTeX style and sample files from the same Web page. You can also explore using the Overleaf editor at If your paper is intended for a conference, please contact your conference editor concerning acceptable word processor formats for your particular conference.
 
 IEEE will do the final formatting of your paper. If your paper is intended for a conference, please observe the conference page limits.
 
@@ -24,19 +22,17 @@ Try not to use too many typefaces in the same article. You're writing scholarly 
 
 ### Equations
 
-Number equations consecutively with equation numbers in parentheses flush with the right margin, as in (1")). To make your equations more compact, you may use the solidus ( / ), the exp function, or appropriate exponents. Use parentheses to avoid ambiguities in denominators. Punctuate equations when they are part of a sentence, as in
-
-Be sure that the symbols in your equation have been defined before the equation appears or immediately following. Italicize symbols ($T$ might refer to temperature, but T is the unit tesla). Refer to "(1"))," not "Eq. (1"))" or "equation (1"))," except at the beginning of a sentence: "Equation (1")) is $\ldots$."
+Number equations consecutively with equation numbers in parentheses flush with the right margin, as in (1")). To make your equations more compact, you may use the solidus (/), the exp function, or appropriate exponents. Use parentheses to avoid ambiguities in denominators. Punctuate equations when they are part of a sentence, as in Be sure that the symbols in your equation have been defined before the equation appears or immediately following. Italicize symbols ($T$ might refer to temperature, but T is the unit tesla). Refer to "(1"))," not "Eq. (1"))" or "equation (1"))," except at the beginning of a sentence: "Equation (1")) is $\ldots$."
 
 ### LaTeX-Specific Advice
 
-Please use "soft" (e.g., `\eqref{Eq}`) cross references instead of "hard" references (e.g., ``). That will make it possible to combine sections, add equations, or change the order of figures or citations without having to go through the file line by line.
+Please use "soft" (e.g., `Eq`) cross references instead of "hard" references (e.g., ``). That will make it possible to combine sections, add equations, or change the order of figures or citations without having to go through the file line by line.
 
 Please don't use the `{eqnarray}` equation environment. Use `{align}` or `{IEEEeqnarray}` instead. The `{eqnarray}` environment leaves unsightly spaces around relation symbols.
 
 Please note that the `{subequations}` environment in LaTeX will increment the main equation counter even when there are no equation numbers displayed. If you forget that, you might write an article in which the equation numbers skip from to, causing the copy editors to wonder if you've discovered a new method of counting.
 
-BibTEX does not work by magic. It doesn't get the bibliographic data from thin air but from.bib files. If you use BibTEX to produce a bibliography you must send the.bib files.
+BibTEX does not work by magic. It doesn't get the bibliographic data from thin air but .bib files. If you use BibTEX to produce a bibliography you must send the.bib files.
 
 LaTeX can't read your mind. If you assign the same label to a subsubsection and a table, you might find that Table I has been cross referenced as Table IV-B3.
 
@@ -48,7 +44,7 @@ If you are submitting your paper to a colorized journal, you can use the followi
 
 ## Units
 
-Use either SI (MKS) or CGS as primary units. (SI units are strongly encouraged.) English units may be used as secondary units (in parentheses). This applies to papers in data storage. For example, write "15 Gb/cm^2^ (100 Gb/in${}_{}^{}{}$." An exception is when English units are used as identifiers in trade, such as "3½-in disk drive." Avoid combining SI and CGS units, such as current in amperes and magnetic field in oersteds. This often leads to confusion because equations do not balance dimensionally. If you must use mixed units, clearly state the units for each quantity in an equation.
+Use either SI (MKS) or CGS as primary units. (SI units are strongly encouraged.) English units may be used as secondary units (in parentheses). This applies to papers in data storage. For example, write "15 Gb/cm^2^ (100 Gb/in${}_{}^{2})$." An exception is when English units are used as identifiers in trade, such as "3½-in disk drive." Avoid combining SI and CGS units, such as current in amperes and magnetic field in oersteds. This often leads to confusion because equations do not balance dimensionally. If you must use mixed units, clearly state the units for each quantity in an equation.
 
 The SI unit for magnetic field strength $H$ is A/m. However, if you wish to use units of T, either refer to magnetic flux density $B$ or magnetic field strength symbolized as $\mu_{0}H$. Use the center dot to separate compound units, e.g., "A$\cdot$m^2^."
 
@@ -62,7 +58,7 @@ Be aware of the different meanings of the homophones "affect" (usually a verb) a
 
 Prefixes such as "non," "sub," "micro," "multi," and "ultra" are not independent words; they should be joined to the words they modify, usually without a hyphen. There is no period after the "et" in the Latin abbreviation "*et al.*" (it is also italicized). The abbreviation "i.e.," means "that is," and the abbreviation "e.g.," means "for example" (these abbreviations are not italicized).
 
-A general IEEE styleguide is available at http://www.ieee.org/authortools.
+A general IEEE styleguide is available at
 
 ## Guidelines for Graphics Preparation and Submission
 
@@ -86,17 +82,7 @@ Head and shoulders shots of authors that appear at the end of our papers.
 
 Data charts which are typically black and white, but sometimes include color.
 
-Conversion from Gaussian and CGS EMU to SI a
-
-magnetic flux density, magnetic induction
-
-magnetic field strength
-
-magnetic dipole moment
-
-Vertical lines are optional in tables. Statements that serve as captions for the entire table do not need footnote letters.
-
-aGaussian units are the same as cg emu for magnetostatics; Mx = maxwell, G = gauss, Oe = oersted; Wb = weber, V = volt, s = second, T = tesla, m = meter, A = ampere, J = joule, kg = kilogram, H = henry.
+Conversion from Gaussian and CGS EMU to SI a magnetic flux density, magnetic induction magnetic field strength magnetic dipole moment Vertical lines are optional in tables. Statements that serve as captions for the entire table do not need footnote letters. aGaussian units are the same as cg emu for magnetostatics; Mx = maxwell, G = gauss, Oe = oersted; Wb = weber, V = volt, s = second, T = tesla, m = meter, A = ampere, J = joule, kg = kilogram, H = henry.
 
 Table 1: Units for Magnetic Properties
 
@@ -164,7 +150,7 @@ When referencing your figures and tables within your paper, use the abbreviation
 
 ### Checking Your Figures: The IEEE Graphics Analyzer
 
-The IEEE Graphics Analyzer enables authors to pre-screen their graphics for compliance with IEEE Transactions and Journals standards before submission. The online tool, located at http://graphicsqc.ieee.org/, allows authors to upload their graphics in order to check that each file is the correct file format, resolution, size and colorspace; that no fonts are missing or corrupt; that figures are not compiled in layers or have transparency, and that they are named according to the IEEE Transactions and Journals naming convention. At the end of this automated process, authors are provided with a detailed report on each graphic within the web applet, as well as by email.
+The IEEE Graphics Analyzer enables authors to pre-screen their graphics for compliance with IEEE Transactions and Journals standards before submission. The online tool, located at allows authors to upload their graphics in order to check that each file is the correct file format, resolution, size and colorspace; that no fonts are missing or corrupt; that figures are not compiled in layers or have transparency, and that they are named according to the IEEE Transactions and Journals naming convention. At the end of this automated process, authors are provided with a detailed report on each graphic within the web applet, as well as by email.
 
 For more information on using the Graphics Analyzer or any other graphics related topic, contact the IEEE Graphics Help Desk by e-mail at graphics@ieee.org.
 

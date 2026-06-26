@@ -10,7 +10,7 @@ In this work, we introduce *GRiD*, a GPU-accelerated library for spatial-algebra
 
 GRiD not only unlocks the ability for nonlinear trajectory optimization to run entirely on the GPU, but when performing multiple computations of rigid body dynamics and their gradients, it also provides as much as a 7.2x speedup over a state-of-the-art, multi-threaded CPU implementation running on a high-performance workstation. GRiD also enables the use of a GPU as a rigid body physics accelerator for algorithms that are computed on a host CPU, maintaining as much as a 2.5x speedup when accounting for the I/O communication overhead between the CPU and GPU.
 
-We release GRiD as an open-source library to enable robotics researchers to better explore and leverage the performance gains from large-scale parallelism on GPU platforms. Our library can be found at [https://github.com/robot-acceleration/grid](https://github.com/robot-acceleration/grid).
+We release GRiD as an open-source library to enable robotics researchers to better explore and leverage the performance gains from large-scale parallelism on GPU platforms. Our library can be found at
 
 ## Related Work
 
@@ -36,17 +36,13 @@ Our work uses NVIDIA's CUDA extensions to C++ which uses parallel blocks of thre
 
 ### III-B Rigid Body Dynamics
 
-State-of-the-art spatial-algebra-based rigid body dynamics algorithms operate in minimal coordinates and compute functions of the joint position $q \in {\mathbb{R}}^{n}$, velocity $\overset{˙}{q} \in {\mathbb{R}}^{n}$, acceleration $\overset{¨}{q} \in {\mathbb{R}}^{n}$, and input torque $\tau \in {\mathbb{R}}^{m}$ that satisfy:
+State-of-the-art spatial-algebra-based rigid body dynamics algorithms operate in minimal coordinates and compute functions of the joint position $q \in {\mathbb{R}}^{n}$, velocity $\overset{˙}{q} \in {\mathbb{R}}^{n}$, acceleration $\overset{¨}{q} \in {\mathbb{R}}^{n}$, and input torque $\tau \in {\mathbb{R}}^{m}$ that satisfy: where ${M{(q)}} \in {\mathbb{R}}^{n \times n}$ is the mass matrix, ${C{(q,\overset{˙}{q})}} \in {\mathbb{R}}^{n \times n}$ is a Coriolis matrix, ${G{(q)}} \in {\mathbb{R}}^{n}$ is the generalized gravity force, $B \in {\mathbb{R}}^{n \times m}$ maps control inputs into generalized forces, and ${J{(q)}} \in {\mathbb{R}}^{n \times p}$ maps any external forces or constraint forces $F \in {\mathbb{R}}^{p}$ into generalized forces. Common algorithms include: Forward Dynamics, computing $\overset{¨}{q}$ when given $q,\overset{˙}{q},\tau$, and optionally $F$; Inverse Dynamics, computing $\tau$ when given $q,\overset{˙}{q},\overset{¨}{q}$ and optionally $F$; as well as the computations of the various terms present in Equation 1.
 
-where ${M{(q)}} \in {\mathbb{R}}^{n \times n}$ is the mass matrix, ${C{(q,\overset{˙}{q})}} \in {\mathbb{R}}^{n \times n}$ is a Coriolis matrix, ${G{(q)}} \in {\mathbb{R}}^{n}$ is the generalized gravity force, $B \in {\mathbb{R}}^{n \times m}$ maps control inputs into generalized forces, and ${J{(q)}} \in {\mathbb{R}}^{n \times p}$ maps any external forces or constraint forces $F \in {\mathbb{R}}^{p}$ into generalized forces. Common algorithms include: Forward Dynamics, computing $\overset{¨}{q}$ when given $q,\overset{˙}{q},\tau$, and optionally $F$; Inverse Dynamics, computing $\tau$ when given $q,\overset{˙}{q},\overset{¨}{q}$ and optionally $F$; as well as the computations of the various terms present in Equation 1.
-
-During computation, spatial algebra represents most quantities as operations over vectors in ${\mathbb{R}}^{6}$ and matrices in ${\mathbb{R}}^{6 \times 6}$, defined in the frame of each rigid body. These frames are numbered $i = {1\text{~to~}n}$ such that each body's parent $\lambda_{i}$ is a lower number. Most rigid body dynamics algorithms operate via outward and inward loops over these frames collecting and transforming forces, accelerations, velocities, and inertias. Transformation matrices from frame $\lambda_{i}$ to $i$ are denoted as ${}_{}^{}{}_{\lambda i}^{}$ and can be constructed from the rotation and translation between the two coordinate frames, which themselves are functions of the joint position $q_{i}$ between those frames and constants derived from the robot's topology. The mass distribution of each link is denoted by its spatial inertia $I_{i}$, and $S_{i}$ is a joint-dependent term denoting in which directions a joint can move (and is often a constant). Finally, spatial algebra uses spatial cross product operators $\times$ and $\times^{\ast}$, in which a vector is re-ordered into a matrix, and then a standard matrix multiplication is performed. This reordering is shown in Equation 2 for a vector $v \in {\mathbb{R}}^{6}$:
-
-For more information on spatial-algebra-based rigid body dynamics we suggest reading Featherstone's Rigid Body Dynamics Algorithms.
+During computation, spatial algebra represents most quantities as operations over vectors in ${\mathbb{R}}^{6}$ and matrices in ${\mathbb{R}}^{6 \times 6}$, defined in the frame of each rigid body. These frames are numbered $i = {1\text{~to~}n}$ such that each body's parent $\lambda_{i}$ is a lower number. Most rigid body dynamics algorithms operate via outward and inward loops over these frames collecting and transforming forces, accelerations, velocities, and inertias. Transformation matrices from frame $\lambda_{i}$ to $i$ are denoted as ${}_{}^{i}X_{\lambda_{i}}^{}$ and can be constructed from the rotation and translation between the two coordinate frames, which themselves are functions of the joint position $q_{i}$ between those frames and constants derived from the robot's topology. The mass distribution of each link is denoted by its spatial inertia $I_{i}$, and $S_{i}$ is a joint-dependent term denoting in which directions a joint can move (and is often a constant). Finally, spatial algebra uses spatial cross product operators $\times$ and $\times^{\ast}$, in which a vector is re-ordered into a matrix, and then a standard matrix multiplication is performed. This reordering is shown in Equation 2 for a vector $v \in {\mathbb{R}}^{6}$: For more information on spatial-algebra-based rigid body dynamics we suggest reading Featherstone's Rigid Body Dynamics Algorithms.
 
 ## The GRiD Library
 
-The open-source GRiD library can be found at [https://github.com/robot-acceleration/grid](https://github.com/robot-acceleration/grid). In this section we describe its design, features and code optimization approach.
+The open-source GRiD library can be found at In this section we describe its design, features and code optimization approach.
 
 ### IV-A Design
 
@@ -58,17 +54,7 @@ Figure 2: The GRiD library package ecosystem, showing how a user’s URDF file c
 
 ### IV-B Current Features
 
-The GRiD library currently fully supports any robot model consisting of revolute, prismatic, and fixed joints, and implements the following rigid body dynamics algorithms:
-
-The Recursive Newton Euler Algorithm (RNEA) for inverse dynamics;
-
-The direct inverse of mass matrix ($M^{- 1}$);
-
-Forward dynamics via $- {M^{- 1}{({\tau - {\text{RNEA}{(q,\overset{˙}{q},0)}}})}}$;
-
-The analytical gradient of inverse dynamics with respect to the robot's position and velocity ($q,\overset{˙}{q}$);
-
-The analytical gradient of forward dynamics with respect to the robot's position, velocity, and input torque ($q,\overset{˙}{q},u$) via $\frac{\partial\overset{¨}{q}}{\partial u} = {- {M^{- 1}\frac{\partial{\text{RNEA}{(q,\overset{˙}{q},\overset{¨}{q})}}}{\partial u}}}$.
+The GRiD library currently fully supports any robot model consisting of revolute, prismatic, and fixed joints, and implements the following rigid body dynamics algorithms: The Recursive Newton Euler Algorithm (RNEA) for inverse dynamics; The direct inverse of mass matrix ($M^{- 1}$); Forward dynamics via $- {M^{- 1}{({\tau - {\text{RNEA}{(q,\overset{˙}{q},0)}}})}}$; The analytical gradient of inverse dynamics with respect to the robot's position and velocity ($q,\overset{˙}{q}$); The analytical gradient of forward dynamics with respect to the robot's position, velocity, and input torque ($q,\overset{˙}{q},u$) via $\frac{\partial\overset{¨}{q}}{\partial u} = {- {M^{- 1}\frac{\partial{\text{RNEA}{(q,\overset{˙}{q},\overset{¨}{q})}}}{\partial u}}}$.
 
 Directions for future work include extending this core with additional algorithms and joint types (see Section VI).
 
@@ -84,32 +70,7 @@ Figure 3: An example robot topology.
 
 GRiD extends and generalizes these parallelism-generating optimizations, enabling it to target any robot with a branched tree topology (e.g., Figure 3). To do this, we inject additional optimizations to accommodate multiple branching points at different levels of the tree. For example, since dependencies in the serial passes of rigid body dynamics algorithms are between parent and child frames in the tree, we can compute "sibling" frames in parallel. For example, the forward pass of $\nabla$RNEA (Algorithm 1) computes the temporary variables ${\partial v_{i}},{\partial a_{i}}$ for frame $i$ as a function of ${\partial v_{\lambda_{i}}},{\partial a_{\lambda_{i}}}$ for its parent frame $\lambda_{i}$ (Lines 2 and 3). Therefore, we can compute each ${\partial v_{i}},{\partial a_{i}}$ by stepping serially through the levels of the tree, while computing all frames within each level in parallel. For the robot shown in Figure 3, we would compute the values associated with frame 0, then 1 and 5 in parallel, then 2, 4, and 6 in parallel, and finally 3. GRiD also performs loop unrolling on these remaining serial loops to enable the compiler to easily optimize the resulting code. Then, once all ${\partial v},{\partial a}$ have been computed, all $\partial f$ can be computed fully in parallel.
 
-2: $\frac{\partial v_{i}}{\partial u} = {{{{}_{}^{}{}_{\lambda i}^{}}\frac{\partial v_{\lambda_{i}}}{\partial u}} + \begin{cases}
-{\left( {{{}_{}^{}{}_{\lambda i}^{}}v_{\lambda_{i}}} \right) \times S_{i}} &amp; {u \equiv q} \\
-S_{i} &amp; {u \equiv \overset{˙}{q}}
-3: $\frac{\partial a_{i}}{\partial u} = {{{{}_{}^{}{}_{\lambda i}^{}}\frac{\partial a_{\lambda_{i}}}{\partial u}} + {{\frac{\partial v_{\lambda_{i}}}{\partial u} \times S_{i}}{\overset{˙}{q}}_{i}} + \left\{ \begin{array}{lc}
-{\left( {{{}_{}^{}{}_{\lambda i}^{}}a_{\lambda_{i}}} \right) \times S_{i}} &amp; \\
-\end{array} \right.}$
-4: $\frac{\partial f_{i}}{\partial u} = {{I_{i}\frac{\partial a_{i}}{\partial u}} + {{\frac{\partial v_{i}}{\partial u} \times^{\ast}I_{i}}v_{i}} + {{v_{i} \times^{\ast}I_{i}}\frac{\partial v_{i}}{\partial u}}}$
-Algorithm 1 ∇RNEA-F($\overset{˙}{q},v,a,f,X,S,I$) → ∂c/∂u
-
-1:for frame i = 1: n in parallel do
-5: for frame i ∈ l in parallel do
-6: $\frac{\partial v_{i}}{\partial u} = {{{{}_{}^{}{}_{\lambda i}^{}}\frac{\partial v_{\lambda_{i}}}{\partial u}} + \left\{ \begin{array}{lc}
-{{\alpha_{i}\qquad u} \equiv q} &amp; \\
-{{S_{i}\qquad u} \equiv \overset{˙}{q}} &amp;
-\end{array} \right.}$
-7:for frame i = 1: n in parallel do
-8: $\rho_{i} = {{{\frac{\partial v_{\lambda_{i}}}{\partial u} \times S_{i}}{\overset{˙}{q}}_{i}} + \left\{ \begin{array}{lc}
-\end{array} \right.}$
-10: for frame i ∈ l in parallel do
-11: $\frac{\partial a_{i}}{\partial u} = {{{{}_{}^{}{}_{\lambda i}^{}}\frac{\partial a_{\lambda_{i}}}{\partial u}} + \rho_{i}}$
-12:for frame i = 1: n in parallel do
-13: ${\frac{\partial f_{i}}{\partial u} = {\frac{\partial v_{i}}{\partial u} \times^{\ast}\gamma_{i}}}\mspace{27mu}{\eta_{i} = {v_{i} \times^{\ast}I_{i}}}$
-14: $\frac{\partial f_{i}}{\partial u} = {\frac{\partial f_{i}}{\partial u} + {I_{i}\frac{\partial a_{i}}{\partial u}} + {\eta_{i}\frac{\partial v_{i}}{\partial u}}}$
-Algorithm 2 ∇RNEA-F-GRiD($\overset{˙}{q},v,a,f,X,S,I$) → ∂f/∂u
-
-When supporting arbitrarily large robots it is also important to ensure that the temporary variables fit into the GPU cache. At code generation time, GRiD determines if it is necessary to forgo any temporary memory computations in order to support robots with many degrees-of-freedom (dof). For example, for the 30 dof Atlas humanoid, GRiD does not compute each $v \times$ matrix in parallel and then use threaded matrix multiplication (as in previous work ), but instead computes $v_{1} \times v_{2}$ in a few parallel threads, trading off a slight latency penalty for a large savings in shared memory usage. This results in the refactored forward pass of the $\nabla$RNEA algorithm shown in Algorithm 2.
+2: $\frac{\partial v_{i}}{\partial u} = {{{{}_{}^{i}X_{\lambda_{i}}^{}}\frac{\partial v_{\lambda_{i}}}{\partial u}} + \begin{cases} {\left({{{}_{}^{i}X_{\lambda_{i}}^{}}v_{\lambda_{i}}} \right) \times S_{i}} & {u \equiv q} \\3: $\frac{\partial a_{i}}{\partial u} = {{{{}_{}^{i}X_{\lambda_{i}}^{}}\frac{\partial a_{\lambda_{i}}}{\partial u}} + {{\frac{\partial v_{\lambda_{i}}}{\partial u} \times S_{i}}{\overset{˙}{q}}_{i}} + \left\{ \begin{array}{lc} {\left({{{}_{}^{i}X_{\lambda_{i}}^{}}a_{\lambda_{i}}} \right) \times S_{i}} & \\\end{array} \right.}$ 4: $\frac{\partial f_{i}}{\partial u} = {{I_{i}\frac{\partial a_{i}}{\partial u}} + {{\frac{\partial v_{i}}{\partial u} \times^{\ast}I_{i}}v_{i}} + {{v_{i} \times^{\ast}I_{i}}\frac{\partial v_{i}}{\partial u}}}$ Algorithm 1 ∇RNEA-F($\overset{˙}{q},v,a,f,X,S,I$) → ∂c/∂u 1:for frame i = 1: n in parallel do 5: for frame i ∈ l in parallel do 6: $\frac{\partial v_{i}}{\partial u} = {{{{}_{}^{i}X_{\lambda_{i}}^{}}\frac{\partial v_{\lambda_{i}}}{\partial u}} + \left\{ \begin{array}{lc} {{\alpha_{i}\qquad u} \equiv q} & \\{{S_{i}\qquad u} \equiv \overset{˙}{q}} & \end{array} \right.}$ 7:for frame i = 1: n in parallel do 8: $\rho_{i} = {{{\frac{\partial v_{\lambda_{i}}}{\partial u} \times S_{i}}{\overset{˙}{q}}_{i}} + \left\{ \begin{array}{lc} \end{array} \right.}$ 10: for frame i ∈ l in parallel do 11: $\frac{\partial a_{i}}{\partial u} = {{{{}_{}^{i}X_{\lambda_{i}}^{}}\frac{\partial a_{\lambda_{i}}}{\partial u}} + \rho_{i}}$ 12:for frame i = 1: n in parallel do 13: ${\frac{\partial f_{i}}{\partial u} = {\frac{\partial v_{i}}{\partial u} \times^{\ast}\gamma_{i}}}\mspace{27mu}{\eta_{i} = {v_{i} \times^{\ast}I_{i}}}$ 14: $\frac{\partial f_{i}}{\partial u} = {\frac{\partial f_{i}}{\partial u} + {I_{i}\frac{\partial a_{i}}{\partial u}} + {\eta_{i}\frac{\partial v_{i}}{\partial u}}}$ Algorithm 2 ∇RNEA-F-GRiD($\overset{˙}{q},v,a,f,X,S,I$) → ∂f/∂u When supporting arbitrarily large robots it is also important to ensure that the temporary variables fit into the GPU cache. At code generation time, GRiD determines if it is necessary to forgo any temporary memory computations in order to support robots with many degrees-of-freedom (dof). For example, for the 30 dof Atlas humanoid, GRiD does not compute each $v \times$ matrix in parallel and then use threaded matrix multiplication (as in previous work), but instead computes $v_{1} \times v_{2}$ in a few parallel threads, trading off a slight latency penalty for a large savings in shared memory usage. This results in the refactored forward pass of the $\nabla$RNEA algorithm shown in Algorithm 2.
 
 GRiD also leverages the robot's topology to determine sparsity patterns in the many temporary variables needed for the gradient computations. As such, columns of temporary memory variables that would be all zeros are skipped and shared memory is compressed to effectively remove those columns. For most robot models this leads to significant savings. For example, reducing shared memory usage for the the quadruped robot HyQ by more than 60%. ^22^2 Most required memory offsets are computed and cached at code generation time. GRiD employs non-branching *if/else* constructs (e.g., result = flag$\ast$val1 + !flag$\ast$val2) to avoid the branching performance penalty for any other pointer offsets or control flow switches.
 
@@ -119,12 +80,11 @@ GRiD applies similar patterns of refactorings, memory compressions, and computat
 
 ## Performance Benchmarks
 
-We benchmark the GRiD library against the Pinocchio library,^33^3We used the pinocchio3-preview branch for the latest optimized code. a state-of-the-art CPU-implementation of rigid body dynamics that supports optimized CPU code generation of both rigid body dynamics and its analytical gradients. Source code accompanying this evaluation can be found at [https://github.com/robot-acceleration/\
-GRiDBenchmarks](https://github.com/robot-acceleration/GRiDBenchmarks).
+We benchmark the GRiD library against the Pinocchio library,^33^3We used the pinocchio3-preview branch for the latest optimized code. a state-of-the-art CPU-implementation of rigid body dynamics that supports optimized CPU code generation of both rigid body dynamics and its analytical gradients. Source code accompanying this evaluation can be found at [
 
 ### V-A Methodology
 
-We used a high-performance workstation with a $3.8$GHz eight-core Intel Core i7-10700K CPU and a $1.44$GHz NVIDIA GeForce RTX 3080 GPU running Ubuntu 20.04 and CUDA 11.4.^44^4For clean timing measurements on the CPU, we disabled TurboBoost and fixed the clock frequency to the maximum. Code was compiled with Clang 12 and g++9.4, and time was measured with the Linux system call clock_gettime(), using CLOCK_MONOTONIC as the source. We compare timing results across three robot models: the 7 degrees-of-freedom (dof) Kuka LBR IIWA-14 manipulator, the 12 dof HyQ quadruped, and the 30 dof Atlas humanoid. For single computation and multiple computation latency, we took the average of one million, and one hundred thousand trials, respectively.
+We used a high-performance workstation with a $3.8$GHz eight-core Intel Core i7-10700K CPU and a $1.44$GHz NVIDIA GeForce RTX 3080 GPU running Ubuntu 20.04 and CUDA 11.4.^44^4For clean timing measurements on the CPU, we disabled TurboBoost and fixed the clock frequency to the maximum. Code was compiled with Clang 12 and g++9.4, and time was measured with the Linux system call clock_gettime, using CLOCK_MONOTONIC as the source. We compare timing results across three robot models: the 7 degrees-of-freedom (dof) Kuka LBR IIWA-14 manipulator, the 12 dof HyQ quadruped, and the 30 dof Atlas humanoid. For single computation and multiple computation latency, we took the average of one million, and one hundred thousand trials, respectively.
 
 Figure 4: Latency (including GPU I/O overhead) for N = 16, 32, 64, 128, and 256 computations of the gradient of forward dynamics for both the Pinocchio CPU baseline and the GRiD GPU library for various robot models (IIWA, HyQ, and Atlas as described in Section V-A). Overlayed is the speedup (or slowdown) of GRiD as compared to Pinocchio both in terms of pure computation and including I/O overhead.
 

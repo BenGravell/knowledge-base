@@ -14,9 +14,7 @@ Concretely, given a point cloud encoded by any encoder (*e.g*.,voxel-based ), Au
 
 Our formulation not only simplifies 3D detection but also unlocks new capabilities. Because inference is autoregressive, AutoReg3D can readily adopt techniques from sequence and language modeling, including reinforcement-learning-based fine-tuning and advanced decoding. These techniques offer straightforward, plug-in paths to further improve performance without redesigning the core model.
 
-The goal of this work is to show viability: autoregressive modeling for 3D point-cloud detection can *match mainstream accuracy* while opening a path to modern sequence-modeling advances in 3D. We acknowledge a practical bottleneck---sequential decoding latency---which applies broadly to AR applications, and for this work, we view speed as orthogonal to our core contribution. We expect improvements with advances in autoregressive decoding and hardware acceleration; because AutoReg3D uses the canonical AR toolkit, these gains should transfer with minimal integration cost. Altogether, our contributions are:
-
-We introduce AutoReg3D, the first autoregressive 3D object detector that directly generates object sequences from point clouds, achieving performance on par with leading proposal-based and query-based detectors.
+The goal of this work is to show viability: autoregressive modeling for 3D point-cloud detection can *match mainstream accuracy* while opening a path to modern sequence-modeling advances in 3D. We acknowledge a practical bottleneck---sequential decoding latency---which applies broadly to AR applications, and for this work, we view speed as orthogonal to our core contribution. We expect improvements with advances in autoregressive decoding and hardware acceleration; because AutoReg3D uses the canonical AR toolkit, these gains should transfer with minimal integration cost. Altogether, our contributions are: We introduce AutoReg3D, the first autoregressive 3D object detector that directly generates object sequences from point clouds, achieving performance on par with leading proposal-based and query-based detectors.
 
 We present a detailed ablation study of design factors---including object-level tokenization, sequence ordering, and decoding methodologies---that are critical for effective autoregressive 3D detection.
 
@@ -46,7 +44,7 @@ In this section, we begin by introducing our formulation, architecture, training
 
 ### 3D Object as Tokens
 
-In LiDAR-based 3D object detection, objects are described by their class label and 3D bounding boxes parameterized by their center $(x,y,z)$, dimensions $(l,w,h)$, yaw angle $(\psi)$, and velocity $(v_{x},v_{y})$ in an ego-relative coordinate system. To represent bounding boxes using tokens, we are inspired by the quantization strategy of and quantize the bounding box values uniformly into an integer between $t_{k} \in {\lbrack 1,n_{k}\rbrack}$, where $k \in {\{ x,y,z,l,w,h,\psi,v_{x},v_{y}\}}$. Unlike, which uses a shared vocabulary for all box parameters, we adopt a separate vocabulary for each parameter type to better model their distinct range and semantic meaning. Together with class label, each object in the scene is represented as a sequence of $10$ tokens $\{ c,t_{x},t_{y},t_{z},t_{l},t_{w},t_{h},t_{\psi},t_{v_{x}},t_{v_{y}}\}$.
+In LiDAR-based 3D object detection, objects are described by their class label and 3D bounding boxes parameterized by their center $(x,y,z)$, dimensions $(l,w,h)$, yaw angle $(\psi)$, and velocity $(v_{x},v_{y})$ in an ego-relative coordinate system. To represent bounding boxes using tokens, we are inspired by the quantization strategy of and quantize the bounding box values uniformly into an integer between $t_{k}\in[1,n_{k}]$, where $k\in\{x,y,z,l,w,h,\psi,v_{x},v_{y}\}$. Unlike, which uses a shared vocabulary for all box parameters, we adopt a separate vocabulary for each parameter type to better model their distinct range and semantic meaning. Together with class label, each object in the scene is represented as a sequence of $10$ tokens $\{c,t_{x},t_{y},t_{z},t_{l},t_{w},t_{h},t_{\psi},t_{v_{x}},t_{v_{y}}\}$.
 
 ### Sequence Ordering
 
@@ -54,38 +52,29 @@ We order the token sequences of individual objects into a single sequence to rep
 
 ### Autoregressive Model
 
-We model the joint probability distribution of all tokens in the scene given the point-cloud $\mathbf{X}$:
-
-where $\mathbf{o}$ denotes the sequence of object tokens. To model the conditional probability $p{(\left. {\mathbf{o}}_{i} \middle| {{\mathbf{o}}_{1:{i - 1}},\mathbf{X}} \right.)}$, we adopt an encoder-decoder architecture, the encoder extracts a global feature representation from the point cloud, while a Transformer decoder autoregressively predicts tokens one at a time. By conditioning each prediction on prior outputs, the model naturally captures dependencies among objects in the scene. Our approach is flexible, as it is compatible with any point cloud encoder that outputs hidden scene representations. We intentionally keep our architecture design minimal and modular, enabling integration with a wide range of existing 3D backbones.
+We model the joint probability distribution of all tokens in the scene given the point-cloud $\mathbf{X}$: where ${\bm{o}}$ denotes the sequence of object tokens. To model the conditional probability $p({\bm{o}}_{i}|{\bm{o}}_{1:i-1},\mathbf{X})$, we adopt an encoder-decoder architecture, the encoder extracts a global feature representation from the point cloud, while a Transformer decoder autoregressively predicts tokens one at a time. By conditioning each prediction on prior outputs, the model naturally captures dependencies among objects in the scene. Our approach is flexible, as it is compatible with any point cloud encoder that outputs hidden scene representations. We intentionally keep our architecture design minimal and modular, enabling integration with a wide range of existing 3D backbones.
 
 ### Training Objective
 
-We train the model to maximize the likelihood of the ground-truth token sequence $\mathbf{o}$ given the input point cloud $\mathbf{X}$. The optimization objective can be written as follows:
-
-Unlike regression-based detectors that require multiple task-specific losses (e.g., for box center, size, orientation, and velocity), our approach uses a single unified cross-entropy loss across all token types. This formulation eliminates the need for hand-crafted losses and weighting, reinforcing the overall simplicity of our design. See Algorithm 1 for implementation of training loop in pseudocode.
+We train the model to maximize the likelihood of the ground-truth token sequence ${\bm{o}}$ given the input point cloud $\mathbf{X}$. The optimization objective can be written as follows: Unlike regression-based detectors that require multiple task-specific losses (e.g., for box center, size, orientation, and velocity), our approach uses a single unified cross-entropy loss across all token types. This formulation eliminates the need for hand-crafted losses and weighting, reinforcing the overall simplicity of our design. See Algorithm 1 for implementation of training loop in pseudocode.
 
 ## Enc: point cloud encoder
+
 ## Dec: autoregressive Transformer decoder
+
 ## cross_entropy: unified CE loss over all tokens
-for X, boxes in dataloader: # point cloud and GT boxes
-boxes = sort(boxes) # enforce ordering
-seq = tokenizer.encode(boxes)
-seq_tgt = seq
-logits = Dec(F, seq_in)
-loss = cross_entropy(logits, seq_tgt)
-Algorithm 1 Training (Teacher Forcing)
+
+for X, boxes in dataloader: # point cloud and GT boxes boxes = sort(boxes) # enforce ordering seq = tokenizer.encode(boxes) seq_tgt = seq logits = Dec(F, seq_in) loss = cross_entropy(logits, seq_tgt) Algorithm 1 Training (Teacher Forcing)
 
 ### Inference and Decoding
 
-At inference time, object tokens are sampled sequentially according to the learned conditional distribution $p{(\left. {\mathbf{o}}_{i} \middle| {{\mathbf{o}}_{1:{i - 1}},\mathbf{X}} \right.)}$. Unlike regression-based detectors that directly output fixed numbers of bounding boxes with associated confidence scores, our model samples tokens from a learned distribution, reflecting the probabilistic nature of scene generation. This formulation allows the number of predicted objects to vary naturally and eliminates the need for anchors, confidence thresholds, or post-processing steps such as NMS. We explore several decoding strategies commonly used in autoregressive models, including nucleus sampling, and deterministic approaches such as beam search, and greedy decoding, where we simply choose the most probable token. In practice, we adopt greedy decoding for all experiments unless otherwise specified, as it is the simplest approach with minimal computational overhead and achieves performance comparable to more complex decoding methods. The pseudocode for inference procedure is shown in Algorithm 2.
+At inference time, object tokens are sampled sequentially according to the learned conditional distribution $p({\bm{o}}_{i}|{\bm{o}}_{1:i-1},\mathbf{X})$. Unlike regression-based detectors that directly output fixed numbers of bounding boxes with associated confidence scores, our model samples tokens from a learned distribution, reflecting the probabilistic nature of scene generation. This formulation allows the number of predicted objects to vary naturally and eliminates the need for anchors, confidence thresholds, or post-processing steps such as NMS. We explore several decoding strategies commonly used in autoregressive models, including nucleus sampling, and deterministic approaches such as beam search, and greedy decoding, where we simply choose the most probable token. In practice, we adopt greedy decoding for all experiments unless otherwise specified, as it is the simplest approach with minimal computational overhead and achieves performance comparable to more complex decoding methods. The pseudocode for inference procedure is shown in Algorithm 2.
 
 ## Enc: point cloud encoder
+
 ## Dec: autoregressive Transformer decoder
-logits = Dec(F, seq)
-t = argmax(logits) # greedy decoding
-if t == "&lt;END&gt;" or len(seq) &gt; T_max:
-boxes = tokenizer.decode(seq) # tokens to 3D boxes
-Algorithm 2 Inference (Autoregressive Decoding)
+
+logits = Dec(F, seq) t = argmax(logits) # greedy decoding if t == "<END>" or len(seq) > T_max: boxes = tokenizer.decode(seq) # tokens to 3D boxes Algorithm 2 Inference (Autoregressive Decoding)
 
 ### Modeling Details
 
@@ -95,13 +84,9 @@ We model our detector as an encoder-decoder architecture, where the autoregressi
 
 ### Reinforcement Learning Fine-tuning
 
-While teacher-forcing maximizes token likelihood, it does not explicitly optimize the set-level detection objective. Our sequence prediction formulation enables RL fine-tuning of AutoReg3D with a sequence-level reward aligned with detection quality at inference time, thereby improving global consistency. Specifically, we adopt RL strategy based on GRPO. Given a scene point cloud $\mathbf{X}$, we sample a group of $G$ detection sequences $\{{\mathbf{o}}_{1},{\mathbf{o}}_{2},\ldots,{\mathbf{o}}_{G}\}$ from the current detection policy $\pi_{\theta}$.
+While teacher-forcing maximizes token likelihood, it does not explicitly optimize the set-level detection objective. Our sequence prediction formulation enables RL fine-tuning of AutoReg3D with a sequence-level reward aligned with detection quality at inference time, thereby improving global consistency. Specifically, we adopt RL strategy based on GRPO. Given a scene point cloud $\mathbf{X}$, we sample a group of $G$ detection sequences $\{{\bm{o}}_{1},{\bm{o}}_{2},\dots,{\bm{o}}_{G}\}$ from the current detection policy $\pi_{\theta}$.
 
-We define a task-aligned reward. Given a set of ground-truth boxes $B_{c} = {\{ b_{1},b_{2},\ldots,b_{3}\}}$ and a set predicted boxes ${\hat{B}}_{c} = {\{{\hat{b}}_{1},{\hat{b}}_{2},\ldots,{\hat{b}}_{3}\}}$ that belong to class $c \in \mathcal{C}$, we calculate each ground-truth box's maximum IoU $r_{i}^{\ast}$ with the predicted boxes in the same class. We calculate the class-averaged reward $r$ inspired by F1:
-
-The GRPO objective is formulated as follows:
-
-Where ${\hat{A}}_{i,t}$ is the estimated advantage, $\rho_{i,t}$ is the importance sampling ratio, and $\pi_{\text{ref}}$ is the frozen detection policy after supervised training.
+We define a task-aligned reward. Given a set of ground-truth boxes $B_{c}=\{b_{1},b_{2},\dots,b_{3}\}$ and a set predicted boxes $\hat{B}_{c}=\{\hat{b}_{1},\hat{b}_{2},\dots,\hat{b}_{3}\}$ that belong to class $c\in\mathcal{C}$, we calculate each ground-truth box's maximum IoU $r^{*}_{i}$ with the predicted boxes in the same class. We calculate the class-averaged reward $r$ inspired by F1: The GRPO objective is formulated as follows: Where $\hat{A}_{i,t}$ is the estimated advantage, $\rho_{i,t}$ is the importance sampling ratio, and $\pi_{\text{ref}}$ is the frozen detection policy after supervised training.
 
 ### Cascading Refinement
 
@@ -121,7 +106,7 @@ We first describe the experimental setup, including the dataset, evaluation metr
 
 ### Dataset
 
-We conduct our experiments on the nuScenes dataset. nuScenes is a large-scale autonomous driving dataset that is widely used for 3D perception. It consists of $1,000$ driving scenes collected in Boston and Singapore, with $700$ scenes for training, $150$ for validation, and $150$ for testing. The dataset provides 3D annotations for $10$ object categories, recorded at $2{Hz}$ and covering a LiDAR range of approximately $50m$.
+We conduct our experiments on the nuScenes dataset. nuScenes is a large-scale autonomous driving dataset that is widely used for 3D perception. It consists of $1{,}000$ driving scenes collected in Boston and Singapore, with $700$ scenes for training, $150$ for validation, and $150$ for testing. The dataset provides 3D annotations for $10$ object categories, recorded at $2\,\mathrm{Hz}$ and covering a LiDAR range of approximately $50\,\mathrm{m}$.
 
 ### Metrics for Detection
 
@@ -129,16 +114,15 @@ The standard nuScenes 3D detection benchmark reports mean Average Precision (mAP
 
 ### Tokenization
 
-To build our customized vocabulary, we uniformly quantize each continuous box parameter $x,y,z,l,w,h,\psi,v_{x},v_{y}$. Specifically, we determine bin count by balancing quantization error with vocab size, with bin widths $0.05m$ for center/size; $0.05{rad}$ for yaw; and ${0.1m}/s$ for velocity. Together with class tokens and the special \[start\], \[end\], and \[pad\] tokens, this results in a vocabulary of $6,819$ tokens. More details and analysis of different tokenization strategies are provided in Sec.˜D.2 of the supplementary.
+To build our customized vocabulary, we uniformly quantize each continuous box parameter $x,y,z,l,w,h,\psi,v_{x},v_{y}$. Specifically, we determine bin count by balancing quantization error with vocab size, with bin widths $0.05\,\mathrm{m}$ for center/size; $0.05\,\mathrm{rad}$ for yaw; and $0.1\,\mathrm{m/s}$ for velocity. Together with class tokens and the special \[start\], \[end\], and \[pad\] tokens, this results in a vocabulary of $6{,}819$ tokens. More details and analysis of different tokenization strategies are provided in Sec.˜D.2 of the supplementary.
 
 ### Implementation Details
 
-For supervised learning (*i.e*., teacher forcing), we adopt the AdamW optimizer with a learning rate of $1 \times 10^{- 3}$ and a cosine warm-up and decay schedule. We follow the standard data processing and augmentation pipeline commonly used in prior LiDAR-based 3D detectors. During autoregressive decoding, we restrict sampling to the subset of tokens valid for the current attribute type. For GRPO training, we use a group size of 8, omit the KL penalty by setting $\beta = 0$, and train with a batch size of 64. Please refer to supplementary for more implementation details.
+For supervised learning (*i.e*., teacher forcing), we adopt the AdamW optimizer with a learning rate of $1\times 10^{-3}$ and a cosine warm-up and decay schedule. We follow the standard data processing and augmentation pipeline commonly used in prior LiDAR-based 3D detectors. During autoregressive decoding, we restrict sampling to the subset of tokens valid for the current attribute type. For GRPO training, we use a group size of 8, omit the KL penalty by setting $\beta=0$, and train with a batch size of 64. Please refer to supplementary for more implementation details.
 
 ### Main Results
 
-Method Encoder Det. Head Prec. Rec. F1 PointPillars Pillar Conv. Anchor-based 58.3 50.0 53.1 CenterPoint Center-based 67.9 53.3 59.5 Ours AR Transformer 69.6 52.4 59.2 SECOND Voxel Conv. Anchor-based 63.5 55.6 59.1 CenterPoint Center-based 72.8 60.3 65.8 Ours AR Transformer 74.9 59.4 65.8 DSVT Transformer Non-AR Transformer 79.1 66.3 71.6 Ours AR Transformer 77.0 64.1 69.5 LION Mamba Non-AR Transformer 78.6 68.3 72.5 Ours AR Transformer 77.5 65.2 70.4
-Table 1: NuScenes Validation Detection Performance. We report precision, recall, and F1 results for AutoReg3D compared to baseline methods, grouped by encoder type. For methods that require thresholding, we select the threshold that yields the highest F1 score on the training set. Across all encoder types, AutoReg3D achieves competitive performance and surpasses proposal-then-classify detectors.
+Method Encoder Det. Head Prec. Rec. F1 PointPillars Pillar Conv. Anchor-based 58.3 50.0 53.1 CenterPoint Center-based 67.9 53.3 59.5 Ours AR Transformer 69.6 52.4 59.2 SECOND Voxel Conv. Anchor-based 63.5 55.6 59.1 CenterPoint Center-based 72.8 60.3 65.8 Ours AR Transformer 74.9 59.4 65.8 DSVT Transformer Non-AR Transformer 79.1 66.3 71.6 Ours AR Transformer 77.0 64.1 69.5 LION Mamba Non-AR Transformer 78.6 68.3 72.5 Ours AR Transformer 77.5 65.2 70.4 Table 1: NuScenes Validation Detection Performance. We report precision, recall, and F1 results for AutoReg3D compared to baseline methods, grouped by encoder type. For methods that require thresholding, we select the threshold that yields the highest F1 score on the training set. Across all encoder types, AutoReg3D achieves competitive performance and surpasses proposal-then-classify detectors.
 
 Figure 3: Precision-Recall Plot. We plot the PR curves for the baseline methods, and the precision-recall point using our autoregressive decoder with a star. Top left: Pillar-based backbone. Top right: Voxel-based backbone. Bottom left: Transformer-based backbone. Bottom right: Mamba-based backbone. We observe that the precision-recall point of AutoReg3D consistently hits or lies outside the PR curves of models with the same backbone.
 
@@ -152,8 +136,7 @@ Across all encoder types, AutoReg3D achieves precision--recall near the precisio
 
 Our autoregressive formulation also enables further performance gains through reinforcement learning. During RL fine-tuning, we freeze the encoder and optimize only the autoregressive detection head using GRPO. As shown in Table 2, this additional training stage improves the voxel-based model's F1 score from 65.8 to 66.7. The improvement is primarily driven by increased recall, reflecting the impact of our task-specific reward, which encourages the model to generate more complete prediction sequences and successfully detect objects that were previously missed.
 
-Model Precision Recall F1 Teacher Forcing 74.9 59.4 65.8 + GRPO 74.5 60.9 66.7
-Table 2: Performance with RL Fine-tuning. Observe that fine-tuning with GRPO directly on IoU further boosts performance.
+Model Precision Recall F1 Teacher Forcing 74.9 59.4 65.8 + GRPO 74.5 60.9 66.7 Table 2: Performance with RL Fine-tuning. Observe that fine-tuning with GRPO directly on IoU further boosts performance.
 
 Figure 4: Qualitative Results. (a) Bounding box generations from our method across four different encoder backbones; (b) Cascading refinement visualization with ground-truth boxes (left, outlined in green), predictions from the near-to-far prior model (middle), and resulting predictions (right). Cascading Refinement recovers objects missed by the prior model (circled in red). (c) Failure case example. AutoReg3D generates boxes from first (magenta) to last (blue), ground-truth boxes are in gray. Best viewed in color.
 
@@ -165,17 +148,11 @@ We perform ablation on token ordering, decoding and inference method using our v
 
 We study how different object ordering strategies affect detection performance in our autoregressive framework. As shown in Table 3, we compare three orderings: random order, descending order by the number of LiDAR points within each ground-truth box, and a distance-based near-to-far ordering. We observe that the near-to-far ordering significantly outperforms both random and point number-based ordering. By predicting objects from near to far, the model effectively exploits the interdependent nature of the task, where close-by objects inform the prediction of farther objects. Ordering by point count performs better than random ordering, as it partially correlates with distance (closer objects often contain more points), but it remains an imperfect proxy because small yet close objects (e.g., pedestrians) may have fewer points. Random ordering performs the worst, as it fails to exploit any structural dependencies between objects.
 
-Order Precision Recall F1 Random 68.9 49.9 56.3 Point Number 72.8 55.2 61.8 Near-to-far 74.9 59.4 65.8
+Order Precision Recall F1 Random 68.9 49.9 56.3 Point Number 72.8 55.2 61.8 Near-to-far 74.9 59.4 65.8 Table 3: Ablation on Object Ordering.
 
-Table 3: Ablation on Object Ordering.
+Order Precision Recall F1 Cls. Last 74.4 58.1 64.9 Cls. Middle 74.8 58.4 65.2 Cls. First 74.9 59.4 65.8 Table 4: Ablation on Token Ordering.
 
-Order Precision Recall F1 Cls. Last 74.4 58.1 64.9 Cls. Middle 74.8 58.4 65.2 Cls. First 74.9 59.4 65.8
-
-Table 4: Ablation on Token Ordering.
-
-Method Precision Recall F1 Nucleus 67.1 57.8 61.9 Greedy 74.9 59.4 65.8 Beam Search 75.0 59.9 66.1
-
-Table 5: Ablation on Decoding Method.
+Method Precision Recall F1 Nucleus 67.1 57.8 61.9 Greedy 74.9 59.4 65.8 Beam Search 75.0 59.9 66.1 Table 5: Ablation on Decoding Method.
 
 ### Effect of Token Ordering
 
@@ -185,8 +162,7 @@ We also ablate the ordering of tokens within each object sequence. As shown in T
 
 We evaluate how different decoding strategies influence detection performance, as shown in Table 5. Specifically, we compare nucleus sampling (top-$p$=0.95, top-$k$=50), greedy decoding, and beam search (4 beams). Beam search achieves the best performance by trading off inference time for accuracy, as it explores multiple candidate sequences and approximates a more globally optimal decoding trajectory, whereas greedy decoding selects only the most likely next token. Nucleus sampling performs the worst, as it favors diversity over accuracy, which is essential for precise object detection.
 
-Model Precision Recall F1 Prior only 74.9 59.4 65.8 Completion only 68.9 49.9 56.3 Prior → Completion 74.7 60.2 66.2
-Table 6: Cascading Refinement Performance. Refinement via prompting the generation of a random-order model (Completion) improves performance over the distance-ordering model (Prior).
+Model Precision Recall F1 Prior only 74.9 59.4 65.8 Completion only 68.9 49.9 56.3 Prior → Completion 74.7 60.2 66.2 Table 6: Cascading Refinement Performance. Refinement via prompting the generation of a random-order model (Completion) improves performance over the distance-ordering model (Prior).
 
 ### Results on Cascading Refinement
 

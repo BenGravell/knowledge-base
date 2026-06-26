@@ -24,7 +24,7 @@ First, we consider a simple formulation of the energy function $E{(\mathbf{x},\m
 
 The individual energy function ${E{(\mathbf{x},\mathbf{z}_{k};{\mathbf{θ}}_{k})}}:{{{\mathbb{R}}^{D_{\mathbf{x}}} \times {\mathbb{R}}^{D_{\mathbf{z}}}}\mapsto{\mathbb{R}}}$ can be any function that takes the observation $\mathbf{x}$ and a single latent variable $\mathbf{z}_{k}$ as input, and outputs a scalar energy value which quantifies the belief that an object with representation $\mathbf{z}_{k}$ is present in the visual scene $\mathbf{x}$. We share the parameters ${\mathbf{θ}}_{k}$ across all the individual energy functions $\theta_{k} = {\theta{\forall k}}$, such that it can generalize to an arbitrary number of objects without breaking symmetry.
 
-The aggregation function $\phi$ is a permutation-invariant function with respect to the set $\{{E{(\mathbf{x},\mathbf{z}_{k})}}\}$. We can use any function $\phi$ that is invariant to the order of inputs, such as the sum, minimum, or parameterized transformations. Throughout this work, we use the sum as the aggregation function, which is effective in encouraging the model to learn to decompose the input into discrete objects and local variations, as explored in. We call the resulting EBM formulation EGO-Sum, given by
+The aggregation function $\phi$ is a permutation-invariant function with respect to the set $\{{E{(\mathbf{x},\mathbf{z}_{k})}}\}$. We can use any function $\phi$ that is invariant to the order of inputs, such as the sum, minimum, or parameterized transformations. Throughout this work, we use the sum as the aggregation function, which is effective in encouraging the model to learn to decompose the input into discrete objects and local variations, as explored . We call the resulting EBM formulation EGO-Sum, given by
 
 ### EGO from permutation equivariant/invariant transformations
 
@@ -36,7 +36,7 @@ We then use a stack of $L$ standard transformer blocks with a cross-attention la
 
 We then use an average pooling layer to aggregate the final output of the transformer blocks $\mathbf{h}_{L} \in {\mathbb{R}}^{N_{\mathbf{h}} \times D_{\mathbf{h}}}$, into a single vector, which is then passed through a fully-connected layer to produce the scalar energy term.
 
-We provide an overview of our architecture in Figure 1, and call the resulting EBM formulation EGO-Attention, given by:
+We provide an overview of our architecture in Figure 1, and call the resulting EBM formulation EGO-Attention, given: | | $\mathbf{h}_{0}$ | $= {{Encoder}{(\mathbf{x})}}$ | | \(2\) | | | $\mathbf{h}_{\ell}'$ | $= {{{CrossAttention}{({{LayerNorm}{(\mathbf{h}_{\ell - 1})}},{{LayerNorm}{(\mathbf{z})}})}} + \mathbf{h}_{\ell - 1}}$ | $\ell = {1\ldotsL}$ | | \(3\) | | | $\mathbf{h}_{\ell}$ | $= {{{MLP}{({{LayerNorm}{(\mathbf{h}_{\ell}')}})}} + \mathbf{h}_{\ell}'}$ | $\ell = {1\ldotsL}$ | | \(4\) | | | $E$ | $= {{MLP}{({{AvgPool}{(\mathbf{h}_{L})}})}}$ | | \(5\) |
 
 ### Learning and Inference
 
@@ -44,24 +44,27 @@ For tasks requiring a geometric understanding of a visual scene and reasoning ov
 
 Among many possible training objective choices (e.g., maximum likelihood training with MCMC sampling or Contrastive Divergence ) to learn the model as a monolithic generative model, akin to the family of existing approaches for visual scene understanding and generation, we focus on investigating the potential of EGO as a generic standalone module for extracting object-centric representations, similar to. To this end, we adopt an encoder-decoder architecture, with our EGO module serving as the encoder to transform the unstructured observation into structured object representations, which are then decoded by a separate decoder into reconstructions or other task-specific predictions.
 
-Input: Image data x ∈ ℝDx, number of latent variables K, number of MCMC iterations T, step size ϵ
-Parameters: EGO E (x,z;θ), decoder Decoder(z;ϕ)
-Output: Training loss for unsupervised object discovery
+Input: Image data x ∈ ℝDx, number of latent variables K, number of MCMC iterations T, step size ϵ Parameters: EGO E (x, z; θ), decoder Decoder(z; ϕ) Output: Training loss for unsupervised object discovery
+
 ## Infer object-centric latent variables by Langevin MCMC sampling
-Draw random initialization z0 ∼ 𝒩 (0,I)
+
+Draw random initialization z0 ∼ 𝒩 (0, I)
+
 ## Using permutation-invariant energy functions from Eq. 1 or Eq. 5
+
 $\mathbf{z}^{t + 1} = {\mathbf{z}^{t} + {\epsilon{\nabla_{\mathbf{z}}E}{(\mathbf{x},\mathbf{z}^{t};{\mathbf{θ}})}} + {\sqrt{2\epsilon}{\mathbf{η}}^{t}}}$
+
 ## Decode the latent variables to create reconstructions
+
 $\overset{\sim}{\mathbf{x}} = {{Decoder}{(\mathbf{z}^{T};\mathbf{\phi})}}$
+
 ## Compute the reconstruction loss
-return $\mathcal{L}_{rec} = {\frac{1}{D_{\mathbf{x}}}{\parallel{\overset{\sim}{\mathbf{x}} - \mathbf{x}}\parallel}^{2}}$
-Algorithm 1 Training procedure of EGO for unsupervised object discovery.
+
+return $\mathcal{L}_{rec} = {\frac{1}{D_{\mathbf{x}}}{\parallel{\overset{\sim}{\mathbf{x}} - \mathbf{x}}\parallel}^{2}}$ Algorithm 1 Training procedure of EGO for unsupervised object discovery.
 
 ### Encoding object-centric representations by MCMC sampling
 
-To infer the set of object-centric latent variables $\mathbf{z}$ from the input $\mathbf{x}$, we use gradient-based MCMC sampling methods to sample from the posterior distribution $\mathbf{z} \sim {p{(\left. \mathbf{z} \middle| \mathbf{x} \right.)}} \propto e^{- {E{(\mathbf{x},\mathbf{z};{\mathbf{θ}})}}}$. Specifically, in this work we utilize the Langevin MCMC method. Starting from a random initialization $\mathbf{z}^{0}$ drawn from a simple prior distribution, we iteratively update the latent variables by simulating the Langevin diffusion process for $T$ steps, with step size $\epsilon$, as follows:
-
-where $\mathbf{z}^{t}$ denotes the latent variables at the $t$-th iteration. When $\epsilon\rightarrow 0$ and $T\rightarrow\infty$, the sampling process converges to the true posterior distribution $p{(\left. \mathbf{z} \middle| \mathbf{x} \right.)}$ under some regularity conditions.
+To infer the set of object-centric latent variables $\mathbf{z}$ from the input $\mathbf{x}$, we use gradient-based MCMC sampling methods to sample from the posterior distribution $\mathbf{z} \sim {p{(\left. \mathbf{z} \middle| \mathbf{x} \right.)}} \propto e^{- {E{(\mathbf{x},\mathbf{z};{\mathbf{θ}})}}}$. Specifically, in this work we utilize the Langevin MCMC method. Starting from a random initialization $\mathbf{z}^{0}$ drawn from a simple prior distribution, we iteratively update the latent variables by simulating the Langevin diffusion process for $T$ steps, with step size $\epsilon$, as follows: where $\mathbf{z}^{t}$ denotes the latent variables at the $t$-th iteration. When $\epsilon\rightarrow 0$ and $T\rightarrow\infty$, the sampling process converges to the true posterior distribution $p{(\left. \mathbf{z} \middle| \mathbf{x} \right.)}$ under some regularity conditions.
 
 Though running MCMC sampling until convergence can be computationally expensive, we are simulating the Langevin dynamics in the latent space $\mathbf{z} \in {\mathbb{R}}^{K \times D_{\mathbf{z}}}$ rather than the high-dimensional pixel space, in contrast to previous works. We also only run Langevin dynamics for a relatively small number of iterations ($T < 10$) and find that it is sufficient to produce good latent variable samples $\mathbf{z}^{T}$ in our experiments. This allows us to make use of the gradient-based MCMC sampling in a much more efficient manner, even comparable to amortized inference methods.
 
@@ -105,7 +108,7 @@ Following the evaluation protocol in existing literature, we use the Adjusted Ra
 
 ### Downstream prediction
 
-To investigate the usefulness and quality of the learned representations, We evaluate our learned object-centric model on downstream object property prediction tasks. Similar to IODINE, we probe pre-trained models' learned representations by training a linear model on top of the latent variables to predict associated object properties, such as color, shape, size, and position. Thanks to the object-centric nature of baseline methods and our model, where object representations share a common format, we can train a single probing model to independently extract properties from each object-centric latent variable. We train the probing model by using the Hungarian algorithm to match the latent variables to the ground-truth objects. Following the same training and evaluation procedure described in, we compare our pre-trained EGO-Attention model against baseline approaches across different datasets in Figure 2. We see that the learned representations from our model are highly informative for predicting object properties and are comparable to or outperform the competitive baseline methods on all datasets.
+To investigate the usefulness and quality of the learned representations, We evaluate our learned object-centric model on downstream object property prediction tasks. Similar to IODINE, we probe pre-trained models' learned representations by training a linear model on top of the latent variables to predict associated object properties, such as color, shape, size, and position. Thanks to the object-centric nature of baseline methods and our model, where object representations share a common format, we can train a single probing model to independently extract properties from each object-centric latent variable. We train the probing model by using the Hungarian algorithm to match the latent variables to the ground-truth objects. Following the same training and evaluation procedure described , we compare our pre-trained EGO-Attention model against baseline approaches across different datasets in Figure 2. We see that the learned representations from our model are highly informative for predicting object properties and are comparable to or outperform the competitive baseline methods on all datasets.
 
 Figure 2: Downstream object property prediction results on CLEVR, Multi-dSprites, and Tetrominoes. The metric is accuracy for categorical properties or R2 for numerical properties.
 
@@ -119,12 +122,11 @@ We visualize per-latent variable reconstruction results from the trained EGO-Att
 
 ### Scene manipulation
 
-With trained EGO models, learned energy functions can be used to dynamically manipulate a scene's constituent objects. In Figure 4(a), we show that we can combine arbitrary objects from different visual observations ($\mathbf{x}_{1}$ and $\mathbf{x}_{2}$) together into a novel scene, by sampling the latent variables from the joint EBM ${E{(\mathbf{x},\mathbf{z};{\mathbf{θ}})}} = {{E{(\mathbf{x}_{1},\mathbf{z};{\mathbf{θ}})}} + {E{(\mathbf{x}_{2},\mathbf{z};{\mathbf{θ}})}}}$, known as product-of-experts, and reconstructing the scene from the inferred latent variables. A visualization of the scene reconstructions and predicted masks associated with each latent variable is also included in the figure, showing that, starting from the first few iterations, the model captures object components from both images and combines them across the latent variables to generate the complete scene. We additionally show another example in Figure 4(b), where we can remove any specific object from the scene by reusing learned energy functions. As described in, we form a new energy function as ${E{(\mathbf{x},\mathbf{z};{\mathbf{θ}})}} = {{E{(\mathbf{x}_{1},\mathbf{z};{\mathbf{θ}})}} - {E{(\mathbf{x}_{2},\mathbf{z};{\mathbf{θ}})}}}$ to remove the objects shown in $\mathbf{x}_{2}$ from the scene $\mathbf{x}_{1}$. Similarly, we also illustrate the intermediate results at each sampling step, where we can see that in the first few steps of the sampling procedure, the model recovers the complete scene from $\mathbf{x}_{1}$, and then gradually removes the objects in $\mathbf{x}_{2}$ by optimizing the latent representations towards the region where $E{(\mathbf{x}_{2},\mathbf{z};{\mathbf{θ}})}$ is higher. These results clearly demonstrate that the EBM formulation of EGO allows us to control the scene composition combinatorically, leading to systematic generalization to unseen object combinations.
+With trained EGO models, learned energy functions can be used to dynamically manipulate a scene's constituent objects. In Figure 4(a), we show that we can combine arbitrary objects from different visual observations ($\mathbf{x}_{1}$ and $\mathbf{x}_{2}$) together into a novel scene, by sampling the latent variables from the joint EBM ${E{(\mathbf{x},\mathbf{z};{\mathbf{θ}})}} = {{E{(\mathbf{x}_{1},\mathbf{z};{\mathbf{θ}})}} + {E{(\mathbf{x}_{2},\mathbf{z};{\mathbf{θ}})}}}$, known as product-of-experts, and reconstructing the scene from the inferred latent variables. A visualization of the scene reconstructions and predicted masks associated with each latent variable is also included in the figure, showing that, starting from the first few iterations, the model captures object components from both images and combines them across the latent variables to generate the complete scene. We additionally show another example in Figure 4(b), where we can remove any specific object from the scene by reusing learned energy functions. As described , we form a new energy function as ${E{(\mathbf{x},\mathbf{z};{\mathbf{θ}})}} = {{E{(\mathbf{x}_{1},\mathbf{z};{\mathbf{θ}})}} - {E{(\mathbf{x}_{2},\mathbf{z};{\mathbf{θ}})}}}$ to remove the objects shown in $\mathbf{x}_{2}$ from the scene $\mathbf{x}_{1}$. Similarly, we also illustrate the intermediate results at each sampling step, where we can see that in the first few steps of the sampling procedure, the model recovers the complete scene from $\mathbf{x}_{1}$, and then gradually removes the objects in $\mathbf{x}_{2}$ by optimizing the latent representations towards the region where $E{(\mathbf{x}_{2},\mathbf{z};{\mathbf{θ}})}$ is higher. These results clearly demonstrate that the EBM formulation of EGO allows us to control the scene composition combinatorically, leading to systematic generalization to unseen object combinations.
 
 (a) Scene decomposition across datasets.
 
-(b) Energy evaluation during sampling.
-(c) Scene reconstructions at each step.
+(b) Energy evaluation during sampling. (c) Scene reconstructions at each step.
 
 Figure 3: (a) Per-latent variable reconstructions and masks on CLEVR-6 (top), Multi-dSprites (middle), and Tetrominoes bottom. (b) The progression of energy function evaluations during Langevin sampling. (c) Scene decomposition and reconstruction visualization at each sampling step.
 

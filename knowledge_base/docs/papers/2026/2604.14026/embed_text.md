@@ -6,9 +6,7 @@ To tackle this problem, we propose a novel scale-invariant sampling strategy. Th
 
 To implement this insight, we devise two sampling strategies. One is a scale sampler, which explores different scales to find a high information entropy scale. The other is a principal component analysis (PCA) sampler, which exploits the principal components in the samples at the previously computed high information entropy scale. Both of those samplers are integrated into a multi-arm bandit RRT (MAB-RRT) \[faroni2023motion\]. An overview about this framework is shown in Fig. 1. We found scale-invariant sampling in MAB-RRT to be an effective planning strategy for disassembly tasks where bolts, pins, or gears have to be removed from a narrow passage.
 
-In summary, our contributions are:
-
-We propose a novel scale sampler which can autonomously find high information entropy scales for efficient sampling densities.
+In summary, our contributions are: We propose a novel scale sampler which can autonomously find high information entropy scales for efficient sampling densities.
 
 We develop a PCA sampler to exploit a given high information entropy scale by biasing samples along a positive or negative principal component direction.
 
@@ -60,38 +58,7 @@ A major work in this area is the MAB-RRT \[faroni2023motion, faroni2024online\],
 
 ## Scale-Invariant Sampling in Multi-Arm Bandit Motion Planning
 
-Input: start configuration q0
-Parameters: initial radius r0; optimal validity rate interval [αmin, αmax]; shrink factor s; growth factor g; min radius rmin; batch size b, max steps S
-Output: final radius r⋆, valid samples V
-$\alpha\leftarrow\frac{|V_{\text{new}}|}{|\mathcal{Q}|}$
-8 if α ∈ [αmin, αmax] then
-11 else if α &lt; αmin then
-Algorithm 1 Finding High Information Entropy Scale
-
-Input: Normalized PCA axis a0, direction d ∈ {0, 1}, cylinder height interval [hmin, hmax], extension δ, radius R
-Output: sample configuration q
-// Sample random height vector
-// Sample random direction in (N-1)-dimensional ball
-// Account for volume density
-// Assemble vector to get final sample
-Algorithm 2 Sample from PCA-Aligned Cylinder
-
-Input: Start state xstart, goal region Xgoal
-Output: Path π or failure
-// Principal escape direction
-5 S ← {Uniform, PC-Positive (a,r⋆), PC-Negative (a,r⋆)}
-7while Not Terminate do
-// Cylinder extension from r⋆
-// UCB arm selection
-9 xsample ← Sample (s,hext)
-10 xnear ← Nearest (T,xsample)
-11 xnew ← Steer (xnear,xsample)
-12 valid ← CollisionFree (xnear,xnew)
-// Accumulate valid samples
-20 return ExtractPath(T, xnew)
-Algorithm 3 Scale-Invariant MAB-RRT
-
-We propose a new sampling scheme which consists of three interconnected methods: Scale sampling to find high information entropy scales, directional sampling to exploit those scales, and a multi-arm bandit planner to integrate those samplers with classical sampling strategies. Each method is further detailed below.
+Input: start configuration q0 Parameters: initial radius r0; optimal validity rate interval [αmin, αmax]; shrink factor s; growth factor g; min radius rmin; batch size b, max steps S Output: final radius r⋆, valid samples V $\alpha\leftarrow\frac{|V_{\text{new}}|}{|\mathcal{Q}|}$ 8 if α ∈ [αmin, αmax] then 11 else if α < αmin then Algorithm 1 Finding High Information Entropy Scale Input: Normalized PCA axis a0, direction d ∈ {0, 1}, cylinder height interval [hmin, hmax], extension δ, radius R Output: sample configuration q // Sample random height vector // Sample random direction in (N-1)-dimensional ball // Account for volume density // Assemble vector to get final sample 11 $Q\leftarrow\textsc{OrthonormalBasis}(a)$ Algorithm 2 Sample from PCA-Aligned Cylinder Input: Start state xstart, goal region Xgoal Output: Path π or failure $\mathbf{a}\leftarrow\textsc{ComputePCA}(V)$ // Principal escape direction 5 $S\leftarrow\{\textsc{Uniform},\textsc{PC-Positive}({\mathbf{a},}r^{\star}),\textsc{PC-Negative}({\mathbf{a},}r^{\star})\}$ 7while $\textbf{Not }\textsc{Terminate}$ do // Cylinder extension from r⋆ $s\leftarrow\textsc{SelectArmMAB}(S)$ // UCB arm selection 9 $x_{\text{sample}}\leftarrow\textsc{Sample}(s,h_{\text{ext}})$ 10 $x_{\text{near}}\leftarrow\textsc{Nearest}(T,x_{\text{sample}})$ 11 $x_{\text{new}}\leftarrow\textsc{Steer}(x_{\text{near}},x_{\text{sample}})$ 12 $\textnormal{{valid}}\leftarrow\textsc{CollisionFree}(x_{\text{near}},x_{\text{new}})$ 16 if $s\neq\textsc{Uniform}$ then // Accumulate valid samples $\mathbf{a}\leftarrow\textsc{RecomputePCA}(V,\mathbf{a})$ 19 if xnew ∈ Xgoal then 20 return ExtractPath(T, xnew) Algorithm 3 Scale-Invariant MAB-RRT We propose a new sampling scheme which consists of three interconnected methods: Scale sampling to find high information entropy scales, directional sampling to exploit those scales, and a multi-arm bandit planner to integrate those samplers with classical sampling strategies. Each method is further detailed below.
 
 ### Exploration: Finding High Information Entropy Scales
 
@@ -109,7 +76,7 @@ An important aspect of our algorithm is the sphere sampling scheme. When using u
 
 Once a high-information entropy radius has been found, our planner should exploit it. A common way to better understand the valid sample distribution at the chosen scale is to run a principal component analysis (PCA). A PCA is a linear transformation of the data onto a new coordinate system, such that the (first) principal component (or principal axis) captures the largest variation in the data \[bishop2006pattern\]. PCA is a staple of many scientific software packages, and can be implemented with tools like Eigen \[eigenweb\].
 
-However, to exploit the principal component for biased sampling requires a dedicated sampler. One possibility is to create a hyper-cylinder from the principal component and sample around it. This is depicted in Alg. 2. Our algorithm proceeds in three stages. First, we sample a random height from the axis $a_{0}$ to obtain a vector $a$ (Line 1--2). Second, we create an $({N - 1})$-dimensional ball around $a$, which is orthogonal to $a$ itself. To achieve this, we first sample directly in an $({N - 1})$-dimensional ball by getting a random distance variable $u$ (Line 3) and a random direction $t$ (Line 4). We then compute the radius $p$ by accounting for the volume density of the ball in $N - 1$ dimensions (there is more density further out). We then take $p$ and use it to compute the final direction $b$ in the $N - 1$ ball. Third, we assemble the final sample by projecting $b$ into the null-space of $a$. This is achieved by getting an orthonormal basis $Q$ \[axler2024linear\] and projecting $b$ into it. The final result $a + {Q \cdot b}$ (Line 8) gives a uniform distributed sample inside the cylinder of radius $R$ around the principal component as desired.
+However, to exploit the principal component for biased sampling requires a dedicated sampler. One possibility is to create a hyper-cylinder from the principal component and sample around it. This is depicted in Alg. 2. Our algorithm proceeds in three stages. First, we sample a random height from the axis $a_{0}$ to obtain a vector $a$ (Line 1--2). Second, we create an $(N-1)$-dimensional ball around $a$, which is orthogonal to $a$ itself. To achieve this, we first sample directly in an $(N-1)$-dimensional ball by getting a random distance variable $u$ (Line 3) and a random direction $t$ (Line 4). We then compute the radius $p$ by accounting for the volume density of the ball in $N-1$ dimensions (there is more density further out). We then take $p$ and use it to compute the final direction $b$ in the $N-1$ ball. Third, we assemble the final sample by projecting $b$ into the null-space of $a$. This is achieved by getting an orthonormal basis $Q$ \[axler2024linear\] and projecting $b$ into it. The final result $a+Q\cdot b$ (Line 8) gives a uniform distributed sample inside the cylinder of radius $R$ around the principal component as desired.
 
 ### Integration of Samplers into Multi-Arm Bandit RRT
 
@@ -123,9 +90,7 @@ The multi-arm bandit algorithm selects samplers upon the Upper Confidence Bound 
 
 ### Arm Selection
 
-At each iteration, arm selection follows a sliding-window UCB policy \[GarivierMoulines2008\]:
-
-where $b \in B$ are the bandit arms, ${\hat{\mu}}_{b}$ is the empirical mean rewards, $n_{b}$ is the recent count of arm $b$, $\beta$ is the exploration coefficient balancing exploitation against exploration, and $n_{c}$ is the count of the last $N_{\text{sliding-window}}$ arm iterations. The window ensures that arm selection reflects recent performance, which is crucial in an object extraction task where the geometry changes as object parts separate. In practice, we scale uniform and sphere-based rewards by constants $c_{u}$ and $c_{s}$, which tune the trade-off between outward tree growth and narrow-passage exploration.
+At each iteration, arm selection follows a sliding-window UCB policy \[GarivierMoulines2008\]: where $b\in B$ are the bandit arms, $\hat{\mu}_{b}$ is the empirical mean rewards, $n_{b}$ is the recent count of arm $b$, $\beta$ is the exploration coefficient balancing exploitation against exploration, and $n_{c}$ is the count of the last $N_{\text{sliding-window}}$ arm iterations. The window ensures that arm selection reflects recent performance, which is crucial in an object extraction task where the geometry changes as object parts separate. In practice, we scale uniform and sphere-based rewards by constants $c_{u}$ and $c_{s}$, which tune the trade-off between outward tree growth and narrow-passage exploration.
 
 ### Reward function
 
@@ -137,7 +102,7 @@ During the planning loop, the principal component axis is not fixed to the initi
 
 ### Cylinder Extension and Radius Growth
 
-The principal component samplers update their sampling region through an integrated growth mechanism. Instead of setting the cylinder height to $r^{\star}$, an extension height of $h_{\text{ext}} = {\delta \cdot r^{\star}}$ with $\delta \geq 0$ being the extension factor. With $\delta = 0$, no extension occurs and samples are drawn at exactly $r^{\star}$ along the axis. Each principal component sampler samples along its respective direction within the range $\lbrack r^{\star},{r^{\star} + h_{\text{ext}}}\rbrack$ from the origin along the axis. Importantly, $r^{\star}$ is not fixed after the scale search: whenever a valid principal component sample is generated at a radius exceeding the current $r^{\star}$, the radius is updated. Since $h_{\text{ext}}$ is recomputed from $r^{\star}$, the escape direction is further increased for subsequent iterations.
+The principal component samplers update their sampling region through an integrated growth mechanism. Instead of setting the cylinder height to $r^{\star}$, an extension height of $h_{\text{ext}}=\delta\cdot r^{\star}$ with $\delta\geq 0$ being the extension factor. With $\delta=0$, no extension occurs and samples are drawn at exactly $r^{\star}$ along the axis. Each principal component sampler samples along its respective direction within the range $[r^{\star},r^{\star}+h_{\text{ext}}]$ from the origin along the axis. Importantly, $r^{\star}$ is not fixed after the scale search: whenever a valid principal component sample is generated at a radius exceeding the current $r^{\star}$, the radius is updated. Since $h_{\text{ext}}$ is recomputed from $r^{\star}$, the escape direction is further increased for subsequent iterations.
 
 ### Open Source Software Implementation
 
@@ -151,27 +116,7 @@ To showcase scale-invariant sampling with MAB-RRT, we created three toy scenario
 
 For each scenario, we visualize different properties of scale-invariant sampling. First, we show the final burn-in radius (high information entropy), at which roughly half of the samples are valid and half invalid. Furthermore, we show the search trees and the way the samples have been obtained. This includes uniform sampling (blue), positive principal component (green), and negative principal component (magenta). It can be seen that the high information entropy radius gives a good insight into where to move in each scenario, which leads to an efficient exploration of the configuration space.
 
-(c) Eye Bolt: Start
-
-(d) Eye Bolt: End
-
-(g) Motor Flange: Start
-
-(h) Motor Flange: End
-
-(i) Gear Reducer: Start
-
-(j) Gear Reducer: End
-
-(m) Ring Bolt: Start
-
-(n) Ring Bolt: End
-
-(o) Cross-Pin Connector: Start
-
-(p) Cross-Pin Connector: End
-
-Figure 3: Environment Comparison: Start vs. End states for selected environments. Each pair shows the initial (left) and final (right) configuration.
+(c) Eye Bolt: Start (d) Eye Bolt: End (g) Motor Flange: Start (h) Motor Flange: End (i) Gear Reducer: Start (j) Gear Reducer: End (m) Ring Bolt: Start (n) Ring Bolt: End (o) Cross-Pin Connector: Start (p) Cross-Pin Connector: End Figure 3: Environment Comparison: Start vs. End states for selected environments. Each pair shows the initial (left) and final (right) configuration.
 
 Figure 4: Comparison of success rate using planners MAB-RRT (ours), RRT + Bridge Sampling [Hsu2003BridgeTest], RRT + Gaussian Sampling [Boor1999GaussianSampling], RRT + Obstacle Sampling [Amato1998ObstacleBased], MateVec-TRRT [Ebinger2018MateVecTRRT], BK-RRT [zickler2009efficient, tian2022assemble], BFS [tian2022assemble],
 
@@ -185,9 +130,7 @@ All experiments were conducted on a laptop running Ubuntu 20.04.6 LTS with an In
 
 ### Hardware and Parameters
 
-For MAB-RRT, we use the following parameter values. For scale-invariant sampling, we use a Fibonacci jitter $p_{\text{fibo-jitter}} = \frac{\pi}{8}$, initial radius $r_{0} = 1.0$, min radius $r_{\text{min}} = {1{e{- 6}}}$, max radius $r_{\text{max}} = 25.0$, batch size $b = 64$, growth factor $g = {\exp{({- 0.7})}}$, shrink factor $s = {\exp{(0.9)}}$, max steps $S = 50$, and validity rates $\alpha_{\text{min}} = 0.1$ and $\alpha_{\text{max}} = 0.5$. For the Multi-arm bandit, we use a sliding window of $N_{\text{sliding-window}} = 256$, an UCB exploration coefficient $\beta = \sqrt{2}$, and constants for the uniform rewards of $c_{u} = {1{e8}}$ and PCA samplers as $c_{s} = 5.0$. For the classical sampling strategies, we use the default parameters as specified in OMPL \[sucan2012the-open-motion-planning-library, moll2015benchmarking-motion-planning-algorithms\]. For the modern strategies, we use the default parameters as specified by the Assemble-Them-All \[tian2022assemble\] software package ^22^2Link:
-
-Figure 5: Final sampling results across environments (radius set to 1e-6 vs. 25.0). Final radius from grow-shrink shown as, initial radius as. Tree edges shown as. Valid samples: uniform, positive principal component, negative principal component, scale-invariant sampler. Start marked , goal .
+For MAB-RRT, we use the following parameter values. For scale-invariant sampling, we use a Fibonacci jitter $p_{\text{fibo-jitter}}=\frac{\pi}{8}$, initial radius $r_{0}=1.0$, min radius $r_{\text{min}}=$110-6$$, max radius $r_{\text{max}}=25.0$, batch size $b=64$, growth factor $g=\exp{{(-0.7)}}$, shrink factor $s=\exp{{(0.9)}}$, max steps $S=50$, and validity rates $\alpha_{\text{min}}=0.1$ and $\alpha_{\text{max}}=0.5$. For the Multi-arm bandit, we use a sliding window of $N_{\text{sliding-window}}=256$, an UCB exploration coefficient $\beta=\sqrt{2}$, and constants for the uniform rewards of $c_{u}=$1108$$ and PCA samplers as $c_{s}=$5.0$$. For the classical sampling strategies, we use the default parameters as specified in OMPL \[sucan2012the-open-motion-planning-library, moll2015benchmarking-motion-planning-algorithms\]. For the modern strategies, we use the default parameters as specified by the Assemble-Them-All \[tian2022assemble\] software package ^22^2Link: Figure 5: Final sampling results across environments (radius set to 1e-6 vs. 25.0). Final radius from grow-shrink shown as, initial radius as. Tree edges shown as. Valid samples: uniform, positive principal component, negative principal component, scale-invariant sampler. Start marked, goal.
 
 To show the results, we plot the success rate from zero to one hundred percent over time in log scale, as shown in Fig. 4. It can be seen that MAB-RRT solves all eight scenarios with $100$% success rate, meaning that MAB-RRT found a solution in every single run. In the Socket environment, MAB-RRT reaches $100$ percent with over one order of magnitude (OoM) better runtime compared to the next best planners (RRT + Obstacle Sampling and RRT + Bridge Sampling). In the Eye Bolt scenario, MAB-RRT and BFS reach $100$ percent success rate, with MAB-RRT outperforming BFS by over 1 OoM. In the U-Bolt environment, only MAB-RRT reaches $100$ percent, while BFS only reaches $30$ percent success rate until the timeout. In Motor Flange, the situation is similar with MAB-RRT reaching $100$ percent and BFS reaching $30$ percent. In Gear Reducer, only MAB-RRT reaches $100$ percent, while planners RRT + Gaussian Sampling reaches $50$ percent, RRT + Bridge Sampling reaches $40$ percent, and RRT + Obstacle Sampling reaches $20$ percent. In the T-Bolt and Ring Bolt scenarios, MAB-RRT is the only planner reaching $100$ percent, each time with a runtime below $10^{1}$, which is 1 OoM below timeout. Finally, in Cross-Pin Connector, MAB-RRT, MateVec-TRRT, and BK-RRT reach $100$, while BFS and RRT + Obstacle Sampling reach $70$, RRT + Gaussian Sampling reaches $40$, and RRT + Bridge Sampling reaches $30$ percent. Again MAB-RRT outperforms the next best planner (BK-RRT) by 1 OoM. In terms of runtime, MAB-RRT outperforms the next best planner or the timeout by at least 1 OoM on seven out of eight scenarios, with the exception of the U-Bolt scenario.
 
@@ -195,7 +138,7 @@ To show the results, we plot the success rate from zero to one hundred percent o
 
 To verify that the multi-arm bandit correctly changes between arms over time, we run it on the T-Bolt experiment from Fig. 3. We plot both the UCB scores over time and the cumulative rewards per arm. This is depicted in Fig. 6. We can see that the cumulative rewards stays zero for uniform sampling, capturing the fact that uniform samples lead to direct collision. The reward for PCA positive is growing over time which reflects the fact that the robot can escape into only one direction from the tunnel. Once the robot has escaped (around iteration 85), there is a sharp uptick in reward for the uniform sampler, which reflects the growing of the tree into the open, free space.
 
-The UCB scores closely follow this trend. In the beginning, there is a sharp decrease in UCB score for uniform sampling, reflecting the invalidity of the samples. Over time, the UCB scores for uniform and PCA negative tend towards similar values ($\sim 1.0$--2.0), so that uniform samples are still occasionally tried to verify that the tree has not yet reached the open space. Finally, at iteration 85, the UCB score has a sharp increase reflecting the switch to the uniform sampling scheme.
+The UCB scores closely follow this trend. In the beginning, there is a sharp decrease in UCB score for uniform sampling, reflecting the invalidity of the samples. Over time, the UCB scores for uniform and PCA negative tend towards similar values (${\sim}1.0$--2.0), so that uniform samples are still occasionally tried to verify that the tree has not yet reached the open space. Finally, at iteration 85, the UCB score has a sharp increase reflecting the switch to the uniform sampling scheme.
 
 (a) UCB scores (symlog scale).
 
@@ -205,7 +148,7 @@ Figure 6: T-Bolt Experiment: MAB dynamics during planning. (a) UCB scores adjust
 
 ### Robustness of Scale-Invariant Sampling
 
-Another important aspect of our framework is the grow-shrink algorithm to find a useful high-information entropy scale. In this section, we like to show that this algorithm is robust against different initial radii. For this, we created three environments as depicted in Fig. 5. Each row shows one environment, whereby the left image shows a starting radius of $1{e{- 6}}$ and the right image shows an initial radius of 25. For each scenario, we showcase the initial radius (violet circle) and the final radius after applying grow-shrink (orange circle). It can be seen that both initial radii faithfully converge to a similar radius at which roughly half of the samples are reachable. We also showcase the resulting trees with start (light green) and goal (red), where we show valid samples from uniform sampling (blue), samples from the principal component sampler with positive (green) and negative (magenta) direction, and initial samples from grow-shrink (light green).
+Another important aspect of our framework is the grow-shrink algorithm to find a useful high-information entropy scale. In this section, we like to show that this algorithm is robust against different initial radii. For this, we created three environments as depicted in Fig. 5. Each row shows one environment, whereby the left image shows a starting radius of $110-6$ and the right image shows an initial radius of 25. For each scenario, we showcase the initial radius (violet circle) and the final radius after applying grow-shrink (orange circle). It can be seen that both initial radii faithfully converge to a similar radius at which roughly half of the samples are reachable. We also showcase the resulting trees with start (light green) and goal (red), where we show valid samples from uniform sampling (blue), samples from the principal component sampler with positive (green) and negative (magenta) direction, and initial samples from grow-shrink (light green).
 
 ## Discussion and Conclusion
 

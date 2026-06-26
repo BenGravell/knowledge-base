@@ -6,7 +6,7 @@ In many applications, the control goal goes beyond the stabilization of a pre-de
 
 ### Related work
 
-For linear stabilizable systems, a terminal set and terminal cost can be computed based on the linear quadratic regulator (LQR) and the maximal output admissible set. For the purposes of stabilizing a given setpoint, a suitable design procedure for nonlinear systems with a stabilizable linearization has been provided in.
+For linear stabilizable systems, a terminal set and terminal cost can be computed based on the linear quadratic regulator (LQR) and the maximal output admissible set. For the purposes of stabilizing a given setpoint, a suitable design procedure for nonlinear systems with a stabilizable linearization has been provided .
 
 In practice, the setpoint to be stabilized can change and thus procedures independent of the setpoint are necessary. In, the issue of finding a setpoint independent terminal cost has been investigated based on the concept of pseudo linearizations. While in principle very appealing, the computation of such a pseudo linearization for general nonlinear systems seems unpractical. In, a locally stabilizing controller is assumed and the terminal cost and constraints are defined implicitly based on the infinite horizon tail cost. The main drawback of this method is the implicit description of the terminal cost, which can significantly increase the online computational demand. In the feasible setpoints are partitioned into disjoint sets and for each such set a fixed stabilizing controller and terminal cost are designed using the methods in based on a local linear time-varying (LTV) system description. This method is mainly limited to systems with a one dimensional steady-state manifold, due to the otherwise complex and difficult partitioning. In addition, the piece-wise definition can also lead to numerical difficulties since the terminal cost is not differentiable with respect to the setpoint.
 
@@ -32,11 +32,7 @@ The quadratic norm with respect to a positive definite matrix $Q = Q^{\top}$ is 
 
 ### II-B Setup
 
-We consider the following nonlinear discrete-time system
-
-with the state $x \in {\mathbb{R}}^{n}$, control input $u \in {\mathbb{R}}^{m}$, and time step $t \in {\mathbb{N}}$. The extension of the following derivation to continuous-time dynamics is detailed in Appendix -C. We impose point-wise in time constraints on the state and input
-
-with some compact^11^1The derivations can be extended to time-varying constraint sets $\mathcal{Z}{(t)}$ and dynamics $f{(x,u,t)}$. The consideration of non-compact constraint sets may require additional uniformity conditions on the nonlinear dynamics. set $\mathcal{Z}$. We consider the following assumption regarding the reference signal ${r = {(x_{r},u_{r})} \in {\mathbb{R}}^{n + m}}.$
+We consider the following nonlinear discrete-time system with the state $x \in {\mathbb{R}}^{n}$, control input $u \in {\mathbb{R}}^{m}$, and time step $t \in {\mathbb{N}}$. The extension of the following derivation to continuous-time dynamics is detailed in Appendix -C. We impose point-wise in time constraints on the state and input with some compact^11^1The derivations can be extended to time-varying constraint sets $\mathcal{Z}{(t)}$ and dynamics $f{(x,u,t)}$. The consideration of non-compact constraint sets may require additional uniformity conditions on the nonlinear dynamics. set $\mathcal{Z}$. We consider the following assumption regarding the reference signal ${r = {(x_{r},u_{r})} \in {\mathbb{R}}^{n + m}}.$
 
 ### Assumption 1
 
@@ -50,9 +46,7 @@ The set $\mathcal{R}{(r)}$ can be modified to incorporate additional incremental
 
 ### II-C Terminal cost and terminal set
 
-Denote the tracking error by ${e_{r}{(t)}} = {{x{(t)}} - {x_{r}{(t)}}}$. The control goal is to stabilize the tracking error ${e_{r}{(t)}} = 0$ and achieve constraint satisfaction ${({x{(t)}},{u{(t)}})} \in \mathcal{Z}$, ${\forall t} \geq 0$. To this end we define the quadratic reference tracking stage cost
-
-with positive definite weighting matrices $Q,R$.
+Denote the tracking error by ${e_{r}{(t)}} = {{x{(t)}} - {x_{r}{(t)}}}$. The control goal is to stabilize the tracking error ${e_{r}{(t)}} = 0$ and achieve constraint satisfaction ${({x{(t)}},{u{(t)}})} \in \mathcal{Z}$, ${\forall t} \geq 0$. To this end we define the quadratic reference tracking stage cost with positive definite weighting matrices $Q,R$.
 
 ### Remark 2
 
@@ -62,11 +56,9 @@ As discussed in the introduction, we need suitable terminal ingredients to ensur
 
 ### Assumption 2
 
-There exist matrices ${K_{f}{(r)}} \in {\mathbb{R}}^{m \times n}$, ${P_{f}{(r)}} \in {\mathbb{R}}^{n \times n}$ with ${c_{l}I_{n}} \leq {P_{f}{(r)}} \leq {c_{u}I_{n}}$, a terminal set ${\mathcal{X}_{f}{(r)}} = \left. \{{x \in {\mathbb{R}}^{n}} \middle| {{V_{f}{(x,r)}} \leq \alpha}\} \right.$ with the terminal cost ${V_{f}{(x,r)}} = {\|{x - x_{r}}\|}_{P_{f}{(r)}}^{2}$, such that the following properties hold for any $r \in \mathcal{Z}_{r}$, any $x \in {\mathcal{X}_{f}{(r)}}$ and any $r^{+} \in {\mathcal{R}{(r)}}$
+There exist matrices ${K_{f}{(r)}} \in {\mathbb{R}}^{m \times n}$, ${P_{f}{(r)}} \in {\mathbb{R}}^{n \times n}$ with ${c_{l}I_{n}} \leq {P_{f}{(r)}} \leq {c_{u}I_{n}}$, a terminal set ${\mathcal{X}_{f}{(r)}} = \left. \{{x \in {\mathbb{R}}^{n}} \middle| {{V_{f}{(x,r)}} \leq \alpha}\} \right.$ with the terminal cost ${V_{f}{(x,r)}} = {\|{x - x_{r}}\|}_{P_{f}{(r)}}^{2}$, such that the following properties hold for any $r \in \mathcal{Z}_{r}$, any $x \in {\mathcal{X}_{f}{(r)}}$ and any $r^{+} \in {\mathcal{R}{(r)}}$ with $x^{+} = {f{(x,{k_{f}{(x,r)}})}}$, ${k_{f}{(x,r)}} = {u_{r} + {{K_{f}{(r)}} \cdot {({x - x_{r}})}}}$ and positive constants $c_{l},c_{u},\alpha$.
 
-with $x^{+} = {f{(x,{k_{f}{(x,r)}})}}$, ${k_{f}{(x,r)}} = {u_{r} + {{K_{f}{(r)}} \cdot {({x - x_{r}})}}}$ and positive constants $c_{l},c_{u},\alpha$.
-
-For $r = r^{+} = 0$ this reduces to the standard conditions in. For a given trajectory $r$, this implies time-varying terminal ingredients, compare. Designing suitable^22^2In principle, this assumption can always be satisfied with a terminal equality constraint ${\mathcal{X}_{f}{(r)}} = x_{r}$. However, this can lead to numerical problems, and decrease performance and robustness of the MPC scheme. In addition, tracking schemes such as, typically require a non-vanishing terminal set size $\alpha$ to ensure exponential stability, compare Section IV. terminal ingredients that satisfy this assumption is the main contribution of this paper and is discussed in more detail in the Section III.
+For $r = r^{+} = 0$ this reduces to the standard conditions . For a given trajectory $r$, this implies time-varying terminal ingredients, compare. Designing suitable^22^2In principle, this assumption can always be satisfied with a terminal equality constraint ${\mathcal{X}_{f}{(r)}} = x_{r}$. However, this can lead to numerical problems, and decrease performance and robustness of the MPC scheme. In addition, tracking schemes such as, typically require a non-vanishing terminal set size $\alpha$ to ensure exponential stability, compare Section IV. terminal ingredients that satisfy this assumption is the main contribution of this paper and is discussed in more detail in the Section III.
 
 ### Remark 3
 
@@ -74,19 +66,7 @@ Assumption 1 implies that the reference $r{(t)}$ is contained within a control i
 
 ### II-D Preliminary results
 
-Denote the reference $r$ over the prediction horizon $N$ by $r{( \cdot |t)} \in {\mathbb{R}}^{{({n + m})} \times {({N + 1})}}$ with ${r{(\left. k \middle| t \right.)}} = {r{({t + k})}}$, $k = {0,\ldots,N}$. Given a predicted state and input sequence $x{( \cdot |t)} \in {\mathbb{R}}^{{n \times N} + 1},u{( \cdot |t)} \in {\mathbb{R}}^{m \times N}$ the tracking cost with respect to the reference $r{( \cdot |t)}$ is given by
-
-The MPC scheme is based on the following (standard) MPC optimization problem
-
-$V{(x{(t)},r{( \cdot |t)})} = \min\limits_{u{( \cdot |t)}}$ $J_{N}{(x{( \cdot |t)},u{( \cdot |t)},r{( \cdot |t)})}$ (5a)
-s.t. ${{x{({k + \left. 1 \middle| t \right.})}} = {f{({x{(\left. k \middle| t \right.)}},{u{(\left. k \middle| t \right.)}})}}},$ (5b)
-${{x{(\left. 0 \middle| t \right.)}} = {x{(t)}}},$ (5c)
-${{({x{(\left. k \middle| t \right.)}},{u{(\left. k \middle| t \right.)}})} \in \mathcal{Z}},$ (5d)
-${{x{(\left. N \middle| t \right.)}} \in {\mathcal{X}_{f}{({r{(\left. N \middle| t \right.)}})}}}.$ (5e)
-
-The solution to this optimization problem are the value function $V$ and the optimal input trajectory $u^{\ast}{( \cdot |t)}$. In closed-loop operation we apply the first part of the optimized input trajectory to the system, leading to the following closed loop
-
-The following theorem summarizes the standard theoretical properties of the closed-loop system.
+Denote the reference $r$ over the prediction horizon $N$ by $r{(\cdot |t)} \in {\mathbb{R}}^{{({n + m})} \times {({N + 1})}}$ with ${r{(\left. k \middle| t \right.)}} = {r{({t + k})}}$, $k = {0,\ldots,N}$. Given a predicted state and input sequence $x{(\cdot |t)} \in {\mathbb{R}}^{{n \times N} + 1},u{(\cdot |t)} \in {\mathbb{R}}^{m \times N}$ the tracking cost with respect to the reference $r{(\cdot |t)}$ is given by The MPC scheme is based on the following (standard) MPC optimization problem The solution to this optimization problem are the value function $V$ and the optimal input trajectory $u^{\ast}{(\cdot |t)}$. In closed-loop operation we apply the first part of the optimized input trajectory to the system, leading to the following closed loop The following theorem summarizes the standard theoretical properties of the closed-loop system.
 
 ### Theorem 1
 
@@ -94,15 +74,7 @@ Let Assumptions 1 and 2 hold. Assume that Problem is feasible at $t = 0$. Then P
 
 ### Proof
 
-This theorem is a straight forward extension of standard MPC results in, compare also. Given the optimal solution $u^{\ast}{( \cdot |t)}$, the candidate sequence
-
-is a feasible solution to (5a) and implies
-
-Compact constraints in combination with the quadratic terminal cost imply
-
-for some $c_{v} \geq 1$. Uniform exponential stability follows from standard Lyapunov arguments using the value function $V$. ∎
-
-This theorem shows that if we can design suitable terminal ingredients (Ass. 2), the closed-loop tracking MPC has all the (standard) desirable properties. In Section IV we discuss how this can be extended to more general tracking problems. This scheme can be easily modified to ensure robust reference tracking using the method in, for details see Appendix -B and the numerical example in Section V.
+This theorem is a straight forward extension of standard MPC results, compare also. Given the optimal solution $u^{\ast}{(\cdot |t)}$, the candidate sequence is a feasible solution to (5a) and implies Compact constraints in combination with the quadratic terminal cost imply for some $c_{v} \geq 1$. Uniform exponential stability follows from standard Lyapunov arguments using the value function $V$. ∎ This theorem shows that if we can design suitable terminal ingredients (Ass. 2), the closed-loop tracking MPC has all the (standard) desirable properties. In Section IV we discuss how this can be extended to more general tracking problems. This scheme can be easily modified to ensure robust reference tracking using the method, for details see Appendix -B and the numerical example in Section V.
 
 ### Remark 4
 
@@ -114,36 +86,15 @@ This section provides a reference generic offline computation to design terminal
 
 ### III-A Sufficient conditions based on the linearization
 
-We denote the Jacobian of $f$ evaluated around an arbitrary point $r \in \mathcal{Z}_{r}$ by
-
-The following lemma establishes local incremental properties of the nonlinear system dynamics based on the linearization.
+We denote the Jacobian of $f$ evaluated around an arbitrary point $r \in \mathcal{Z}_{r}$ by The following lemma establishes local incremental properties of the nonlinear system dynamics based on the linearization.
 
 ### Lemma 1
 
-Suppose that $f$ is twice continuously differentiable. Assume that there exists a matrix ${K_{f}{(r)}} \in {\mathbb{R}}^{m \times n}$ and a positive definite matrix ${P_{f}{(r)}} \in {\mathbb{R}}^{n \times n}$ continuous in $r$, such that for any $r \in \mathcal{Z}_{r}$, $r^{+} \in {\mathcal{R}{(r)}}$, the following matrix inequality is satisfied
-
-with some positive constant $\epsilon$. Then there exists a sufficiently small constant $\alpha$, such that $P_{f},K_{f}$ satisfy Assumption 2.
+Suppose that $f$ is twice continuously differentiable. Assume that there exists a matrix ${K_{f}{(r)}} \in {\mathbb{R}}^{m \times n}$ and a positive definite matrix ${P_{f}{(r)}} \in {\mathbb{R}}^{n \times n}$ continuous in $r$, such that for any $r \in \mathcal{Z}_{r}$, $r^{+} \in {\mathcal{R}{(r)}}$, the following matrix inequality is satisfied with some positive constant $\epsilon$. Then there exists a sufficiently small constant $\alpha$, such that $P_{f},K_{f}$ satisfy Assumption 2.
 
 ### Proof
 
-The proof is very much in line with the result for setpoints in. First we show satisfaction of the decrease condition (4a) and then constraint satisfaction (4b).\
-Part I: Denote ${\Deltax}:={x - x_{r}}$ and ${\Deltau}:={K_{f}{(r)}\Deltax}$. Using a first order Taylor approximation at $r = {(x_{r},u_{r})}$, we get
-
-with the remainder term $\Phi_{r}$. The terminal cost satisfies
-
-Using the continuity of ${P_{f}{(r)}},{K_{f}{(r)}}$ and the compactness of the constraint set $\mathcal{Z}_{r}$, there exist finite constants
-
-Suppose that the remainder term $\Phi_{r}$ is locally Lipschitz^44^4 In line with existing procedures, we first deriving a sufficient local Lipschitz bound $L_{\Phi}^{\ast}$ and then obtain a local region $\alpha_{1}$. Alternatively, it is possible to directly use the quadratic bound ${\|{\Phi_{r}{({\Deltax})}}\|} \leq {c{\|{\Deltax}\|}^{2}}$ and work with higher order terms to obtain $\alpha_{1}$, compare \[22, Prop. 1\]. continuous in the terminal set with a constant $L_{\Phi,\alpha}$ satisfying
-
-which in combination with (III-A) implies the desired inequality (4a). Twice continuous differentiability of $f$ in combination with compactness of $\mathcal{Z}$ implies that there exists some constant $T$ with
-
-Using ${\|{\Deltax}\|} \leq \sqrt{\frac{\alpha}{c_{l}}}$ from the terminal constraint, we get for all $\alpha \leq \alpha_{1}$ with
-
-Part II: Constraint satisfaction: The terminal constraint ${\|{\Deltax}\|}_{P_{f}{(r)}}^{2} \leq \alpha$ in combination with, implies
-
-Given $\mathcal{Z}_{r} \subseteq {\text{Int}{(\mathcal{Z})}}$, there exists a small enough $\alpha_{2}$ such that
-
-As a summary, given matrices $P_{f},K_{f}$ satisfying, we can compute a local Lipschitz bound, which in turn implies a maximal terminal set size $\alpha_{1}$. Similarly, the constraint sets $\mathcal{Z}$ and $\mathcal{Z}_{r}$ in combination with $K_{f},P_{f}$ imply an upper bound $\alpha_{2}$ to ensure constraint satisfaction. Then Assumption 2 is satisfied for any $\alpha \leq {\min{\{\alpha_{1},\alpha_{2}\}}}$. This result is an extension of to arbitrary dynamic references.
+The proof is very much in line with the result for setpoints. First we show satisfaction of the decrease condition (4a) and then constraint satisfaction (4b).\Part I: Denote ${\Deltax}:={x - x_{r}}$ and ${\Deltau}:={K_{f}{(r)}\Deltax}$. Using a first order Taylor approximation at $r = {(x_{r},u_{r})}$, we get with the remainder term $\Phi_{r}$. The terminal cost satisfies Using the continuity of ${P_{f}{(r)}},{K_{f}{(r)}}$ and the compactness of the constraint set $\mathcal{Z}_{r}$, there exist finite constants Suppose that the remainder term $\Phi_{r}$ is locally Lipschitz^44^4 In line with existing procedures, we first deriving a sufficient local Lipschitz bound $L_{\Phi}^{\ast}$ and then obtain a local region $\alpha_{1}$. Alternatively, it is possible to directly use the quadratic bound ${\|{\Phi_{r}{({\Deltax})}}\|} \leq {c{\|{\Deltax}\|}^{2}}$ and work with higher order terms to obtain $\alpha_{1}$, compare \[22, Prop. 1\]. continuous in the terminal set with a constant $L_{\Phi,\alpha}$ satisfying which in combination with (III-A) implies the desired inequality (4a). Twice continuous differentiability of $f$ in combination with compactness of $\mathcal{Z}$ implies that there exists some constant $T$ with Using ${\|{\Deltax}\|} \leq \sqrt{\frac{\alpha}{c_{l}}}$ from the terminal constraint, we get for all $\alpha \leq \alpha_{1}$ with Part II: Constraint satisfaction: The terminal constraint ${\|{\Deltax}\|}_{P_{f}{(r)}}^{2} \leq \alpha$ in combination, implies Given $\mathcal{Z}_{r} \subseteq {\text{Int}{(\mathcal{Z})}}$, there exists a small enough $\alpha_{2}$ such that As a summary, given matrices $P_{f},K_{f}$ satisfying, we can compute a local Lipschitz bound, which in turn implies a maximal terminal set size $\alpha_{1}$. Similarly, the constraint sets $\mathcal{Z}$ and $\mathcal{Z}_{r}$ in combination with $K_{f},P_{f}$ imply an upper bound $\alpha_{2}$ to ensure constraint satisfaction. Then Assumption 2 is satisfied for any $\alpha \leq {\min{\{\alpha_{1},\alpha_{2}\}}}$. This result is an extension of to arbitrary dynamic references.
 
 ### III-B Quasi-LPV based procedure
 
@@ -155,17 +106,13 @@ Suppose that there exists matrices $X{(r)}$, $Y{(r)}$ continuous in $r$, that sa
 
 ### Proof
 
-The proof is standard, compare and Lemma 6 in the Appendix. ∎
-
-The optimization problem is convex, linear in $X,Y$ and minimizes the worst-case terminal cost ${P_{f}{(r)}} \leq X_{\min}^{- 1}$. So far, the result is only conceptual, since is an infinite programming problem (infinite dimensional optimization variables with infinite dimensional constraints). In particular, we need a finite parameterization of $X,Y$ and the infinite constraints need to be converted into a finite set of sufficient constraints.
+The proof is standard, compare and Lemma 6 in the Appendix. ∎ The optimization problem is convex, linear in $X,Y$ and minimizes the worst-case terminal cost ${P_{f}{(r)}} \leq X_{\min}^{- 1}$. So far, the result is only conceptual, since is an infinite programming problem (infinite dimensional optimization variables with infinite dimensional constraints). In particular, we need a finite parameterization of $X,Y$ and the infinite constraints need to be converted into a finite set of sufficient constraints.
 
 ### Remark 5
 
-One solution to this problem would be sum-of-squares (SOS) optimization. Assuming $A,B$ are polynomial, consider matrices $X,Y$ polynomial in $r$ (with a specified order $d$) and ensure that the matrix in is SOS. A similar approach is suggested in to find a control contraction metric (CCM) for continuous-time systems (which is a strongly related problem). This approach is not pursued here since most systems require a polynomial of high order to approximate the nonlinear dynamics and the computational complexity grows exponentially in $n^{d}$, thus prohibiting the practical application. The connection between CCM and LPV gain-scheduling design is discussed in.
+One solution to this problem would be sum-of-squares (SOS) optimization. Assuming $A,B$ are polynomial, consider matrices $X,Y$ polynomial in $r$ (with a specified order $d$) and ensure that the matrix in is SOS. A similar approach is suggested in to find a control contraction metric (CCM) for continuous-time systems (which is a strongly related problem). This approach is not pursued here since most systems require a polynomial of high order to approximate the nonlinear dynamics and the computational complexity grows exponentially in $n^{d}$, thus prohibiting the practical application. The connection between CCM and LPV gain-scheduling design is discussed .
 
-We approach this problem from the perspective of quasi-LPV systems and gain-scheduling. First, write the Jacobian as
-
-with some nonlinear (continuously differentiable) parameters $\theta \in {\mathbb{R}}^{p}$. This can always be achieved with $p \leq {n{({n + m})}}$. We impose the same structure on the optimization variables with
+We approach this problem from the perspective of quasi-LPV systems and gain-scheduling. First, write the Jacobian as with some nonlinear (continuously differentiable) parameters $\theta \in {\mathbb{R}}^{p}$. This can always be achieved with $p \leq {n{({n + m})}}$. We impose the same structure on the optimization variables with
 
 ### Remark 6
 
@@ -175,47 +122,15 @@ Using the parameterization -, contains only a finite number of optimization vari
 
 ### III-B1 Convexify
 
-$\min\limits_{{X{(r)}},{Y{(r)}},X_{\min}}$
-− log det Xmin
-
-{X(r)} &amp; {{X(r)A(r)^{\top}} + {Y(r)^{\top}B(r)^{\top}}} &amp; {\left( {Q + \epsilon} \right)^{1/2}X(r)} &amp; \left( {R^{1/2}Y(r)} \right)^{\top} \\
-\ast &amp; {X\left( r^{+} \right)} &amp; 0 &amp; 0 \\
-\ast &amp; \ast &amp; I &amp; 0 \\
-\ast &amp; \ast &amp; \ast &amp; I
-\end{pmatrix} \geq 0},$
-
-$\min\limits_{X_{i},Y_{i},\Lambda_{i},X_{\min}}$
-− log det Xmin
-
-{X(\theta)} &amp; {{X(\theta)A(\theta)^{\top}} + {Y(\theta)^{\top}B(\theta)^{\top}}} &amp; {\left( {Q + \epsilon} \right)^{1/2}X(\theta)} &amp; \left( {R^{1/2}Y(\theta)} \right)^{\top} \\
-\ast &amp; {X\left( \theta^{+} \right)} &amp; 0 &amp; 0 \\
-\ast &amp; \ast &amp; I &amp; 0 \\
-\ast &amp; \ast &amp; \ast &amp; I
-\end{pmatrix} - \begin{pmatrix}
-{\sum_{i = 1}^{p}{\theta_{i}^{2}\Lambda_{i}}} &amp; 0 \\
-\end{pmatrix}} \geq 0},$
-
-${{X_{\min} \leq {X(\theta)}},{{\forall\left( \theta,\theta^{+} \right)} \in {\text{Vert}\left( \overline{\Theta} \right)}}},$
-
-0 &amp; \left( {{A_{i}X_{i}} + {B_{i}Y_{i}}} \right)^{\top} \\
-\left( {{A_{i}X_{i}} + {B_{i}Y_{i}}} \right) &amp; 0
-\end{pmatrix} - \Lambda_{i}} \leq 0},{{\Lambda_{i} \geq 0},{i = {1,\ldots,p}}}}.$
-
-In order to convexify, we match the constraint sets $\mathcal{Z}_{r},{\mathcal{R}{(r)}}$ on the reference $r$ to polytopic constraint sets $\Theta,\Omega$ on the parameters $\theta$. The polytopic sets $\Theta,{\Omega{(\theta)}}$ need to satisfy
-
-Computing a set $\Theta$, such that ${\theta{(r)}} \in \Theta$ for all $r \in \mathcal{Z}_{r}$ can be achieved by considering a hyperbox $\Theta = \left. \{{\theta \in {\mathbb{R}}^{p}} \middle| {\theta_{i} \in {\lbrack{\underset{¯}{\theta}}_{i},{\overline{\theta}}_{i}\rbrack}}\} \right.$. For $\Omega$, a simple approach is ${\Omega{(\theta)}} = {{\{\theta\}} \oplus \Omega}$, where $\Omega$ is a hyperbox that encompasses the maximal change in the parameters $\theta$ in one time step, i.e. $\Omega = \left. \{{{\Delta\theta} \in {\mathbb{R}}^{p}} \middle| {{\Delta\theta_{i}} \in {\lbrack{\underset{¯}{v}}_{i},{\overline{v}}_{i}\rbrack}}\} \right.$. We denote the joint polytopic constraint set by
-
-which consists of $6^{p}$ vertices. The following proposition provides a simple convex procedure to compute a terminal cost, by solving a finite number of LMIs.
+$\min\limits_{{X{(r)}},{Y{(r)}},X_{\min}}$ −log det Xmin {X(r)} & {{X(r)A(r)^{\top}} + {Y(r)^{\top}B(r)^{\top}}} & {\left({Q + \epsilon} \right)^{1/2}X(r)} & \left({R^{1/2}Y(r)} \right)^{\top} \\\ast & {X\left(r^{+} \right)} & 0 & 0 \\\ast & \ast & \ast & I \end{pmatrix} \geq 0},$ $\min\limits_{X_{i},Y_{i},\Lambda_{i},X_{\min}}$ −log det Xmin {X(\theta)} & {{X(\theta)A(\theta)^{\top}} + {Y(\theta)^{\top}B(\theta)^{\top}}} & {\left({Q + \epsilon} \right)^{1/2}X(\theta)} & \left({R^{1/2}Y(\theta)} \right)^{\top} \\\ast & {X\left(\theta^{+} \right)} & 0 & 0 \\\ast & \ast & \ast & I \end{pmatrix} - \begin{pmatrix} {\sum_{i = 1}^{p}{\theta_{i}^{2}\Lambda_{i}}} & 0 \\\end{pmatrix}} \geq 0},$ ${{X_{\min} \leq {X(\theta)}},{{\forall\left(\theta,\theta^{+} \right)} \in {\text{Vert}\left(\overline{\Theta} \right)}}},$ 0 & \left({{A_{i}X_{i}} + {B_{i}Y_{i}}} \right)^{\top} \\\end{pmatrix} - \Lambda_{i}} \leq 0},{{\Lambda_{i} \geq 0},{i = {1,\ldots,p}}}}.$ In order to convexify, we match the constraint sets $\mathcal{Z}_{r},{\mathcal{R}{(r)}}$ on the reference $r$ to polytopic constraint sets $\Theta,\Omega$ on the parameters $\theta$. The polytopic sets $\Theta,{\Omega{(\theta)}}$ need to satisfy Computing a set $\Theta$, such that ${\theta{(r)}} \in \Theta$ for all $r \in \mathcal{Z}_{r}$ can be achieved by considering a hyperbox $\Theta = \left. \{{\theta \in {\mathbb{R}}^{p}} \middle| {\theta_{i} \in {\lbrack{\underset{¯}{\theta}}_{i},{\overline{\theta}}_{i}\rbrack}}\} \right.$. For $\Omega$, a simple approach is ${\Omega{(\theta)}} = {{\{\theta\}} \oplus \Omega}$, where $\Omega$ is a hyperbox that encompasses the maximal change in the parameters $\theta$ in one time step, i.e. $\Omega = \left. \{{{\Delta\theta} \in {\mathbb{R}}^{p}} \middle| {{\Delta\theta_{i}} \in {\lbrack{\underset{¯}{v}}_{i},{\overline{v}}_{i}\rbrack}}\} \right.$. We denote the joint polytopic constraint set by which consists of $6^{p}$ vertices. The following proposition provides a simple convex procedure to compute a terminal cost, by solving a finite number of LMIs.
 
 ### Proposition 1
 
-Suppose that there exist matrices $X_{i},Y_{i},\Lambda_{i},X_{\min}$ that satisfy the constraints in. Then the matrices
-
-satisfy, with $X,Y$ according to.
+Suppose that there exist matrices $X_{i},Y_{i},\Lambda_{i},X_{\min}$ that satisfy the constraints. Then the matrices satisfy, with $X,Y$ according to.
 
 ### Proof
 
-Due to Lemma 2, it suffices to show that ${X{(r)}},{Y{(r)}}$ satisfy the constraints in. Due to the definition of the set $\overline{\Theta}$ and $\Lambda_{i} \geq 0$, any solution that satisfies the constraints (20b) over all ${(\theta,\theta^{+})} \in \overline{\Theta}$, also satisfies the constraints for all ${r \in \mathcal{Z}_{r}},{r^{+} \in {\mathcal{R}{(r)}}}$. It remains to show that it suffices to check the inequality on the vertices of the constraint set $\overline{\Theta}$. This last result is a consequence of multi-convexity \[28, Corollary 3.2\]. In particular, if a function $f$ is multi-concave along the edges of the constraint set $\overline{\Theta}$, then it attains its minimum at a vertex of $\overline{\Theta}$ and thus it suffices to verify (20b) over the vertices of $\overline{\Theta}$. The edges of $\overline{\Theta}$ are characterized by $\{\theta_{i},\theta_{i}^{+},{\theta_{i}^{+} - \theta_{i}}\}$, $i = {1,\ldots,p}$. A function is multi-concave if the second derivative w.r.t. these directions is negative-semi-definite, compare \[28, Corollary 3.4\]. Similar to \[28, Corollary 3.5\], the additional constraint (20d) ensures that the function is multi-concave. Thus, it suffices to verify inequality (20b) on the vertices of the constraint set $\overline{\Theta}$. ∎
+Due to Lemma 2, it suffices to show that ${X{(r)}},{Y{(r)}}$ satisfy the constraints . Due to the definition of the set $\overline{\Theta}$ and $\Lambda_{i} \geq 0$, any solution that satisfies the constraints (20b) over all ${(\theta,\theta^{+})} \in \overline{\Theta}$, also satisfies the constraints for all ${r \in \mathcal{Z}_{r}},{r^{+} \in {\mathcal{R}{(r)}}}$. It remains to show that it suffices to check the inequality on the vertices of the constraint set $\overline{\Theta}$. This last result is a consequence of multi-convexity \[28, Corollary 3.2\]. In particular, if a function $f$ is multi-concave along the edges of the constraint set $\overline{\Theta}$, then it attains its minimum at a vertex of $\overline{\Theta}$ and thus it suffices to verify (20b) over the vertices of $\overline{\Theta}$. The edges of $\overline{\Theta}$ are characterized by $\{\theta_{i},\theta_{i}^{+},{\theta_{i}^{+} - \theta_{i}}\}$, $i = {1,\ldots,p}$. A function is multi-concave if the second derivative w.r.t. these directions is negative-semi-definite, compare \[28, Corollary 3.4\]. Similar to \[28, Corollary 3.5\], the additional constraint (20d) ensures that the function is multi-concave. Thus, it suffices to verify inequality (20b) on the vertices of the constraint set $\overline{\Theta}$. ∎
 
 ### Remark 7
 
@@ -225,13 +140,11 @@ The result in Proposition 1 remains valid, if the set $\overline{\Theta}$ in is 
 
 A common heuristic to ensure that parameter dependent LMIs such as hold for all $(r,r^{+})$ is to consider the constraints on sufficiently many sample points in the constraint set, compare e.g. \[28, Sec. 4.2\]. Due to continuity, the constraint is typically satisfied on the full constraint set if it holds on a sufficiently fine grid. For this method it is crucial that satisfaction of (4a) is verified by using a fine grid (compare Algorithm 1).
 
-The gridding consists of a grid over all possible state and input combinations $(r,r^{+})$, i.e., all considered points satisfy
-
-For the simple structure $\mathcal{R}{(r)}$ in Assumption 1 this can be achieved by gridding $r$, computing $x_{r}^{+} = {f{(x_{r},u_{r})}}$, and considering all $u_{r}^{+}$, such that ${(x_{r}^{+},u_{r}^{+})} \in \mathcal{Z}_{r}$ and ${({f{(x_{r}^{+},u_{r}^{+})}},{\overset{\sim}{u}}_{r})} \in \mathcal{Z}_{r}$ with some ${\overset{\sim}{u}}_{r}$. This approach does not introduce additional conservatism, but is computationally challenging for high dimensional systems. As discussed in Remark 1 we can include additional constraints on the reference, which makes the offline computation less conservative. If some parameters, e.g. $u_{r}$, enter the LMIs affinely and are subject to polytopic constraints, it suffices to consider the vertices of the corresponding constraint set.
+The gridding consists of a grid over all possible state and input combinations $(r,r^{+})$, i.e., all considered points satisfy For the simple structure $\mathcal{R}{(r)}$ in Assumption 1 this can be achieved by gridding $r$, computing $x_{r}^{+} = {f{(x_{r},u_{r})}}$, and considering all $u_{r}^{+}$, such that ${(x_{r}^{+},u_{r}^{+})} \in \mathcal{Z}_{r}$ and ${({f{(x_{r}^{+},u_{r}^{+})}},{\overset{\sim}{u}}_{r})} \in \mathcal{Z}_{r}$ with some ${\overset{\sim}{u}}_{r}$. This approach does not introduce additional conservatism, but is computationally challenging for high dimensional systems. As discussed in Remark 1 we can include additional constraints on the reference, which makes the offline computation less conservative. If some parameters, e.g. $u_{r}$, enter the LMIs affinely and are subject to polytopic constraints, it suffices to consider the vertices of the corresponding constraint set.
 
 The advantage of the convex procedure (compared to the gridding) is that it typically scales better with the system dimension. This comes at the cost of additional conservatism due to the construction of the set $\overline{\Theta}$ and the additional multi-convexity constraint (20d). The computational demand can be reduced by considering (block-)diagonal multipliers $\Lambda_{i} = {\lambda_{i}I}$. It can often be beneficial to consider a combination of the two approaches, i.e. grid in some dimensions and conservatively convexify in others. The advantages and applicability of both approaches are explored in more detail in the numerical examples in Section V.
 
-The main result is that we can formulate the offline design procedure similar to the gain scheduling synthesis of (quasi)-LPV systems and thus can draw on a well established field to formulate^55^5If the parameters $\theta_{i}$ are chosen based on a vertex representation (${\theta_{i} \geq 0},{{\sum_{i = 1}^{p}\theta_{i}} = 1}$) the multi-convexity condition (20d) can be replaced by positivity conditions of the polynomials, compare for example. In a convexification with an additional matrix is considered. More elaborate methods to formulate LPV synthesis with finite LMIs can be found in. offline LMI procedures, compare.
+The main result is that we can formulate the offline design procedure similar to the gain scheduling synthesis of (quasi)-LPV systems and thus can draw on a well established field to formulate^55^5If the parameters $\theta_{i}$ are chosen based on a vertex representation (${\theta_{i} \geq 0},{{\sum_{i = 1}^{p}\theta_{i}} = 1}$) the multi-convexity condition (20d) can be replaced by positivity conditions of the polynomials, compare for example. In a convexification with an additional matrix is considered. More elaborate methods to formulate LPV synthesis with finite LMIs can be found . offline LMI procedures, compare.
 
 ### III-C Non-conservative terminal set size $\alpha$
 
@@ -239,34 +152,13 @@ The terminal set size $\alpha$ derived in Lemma 1 can be quite conservative. In 
 
 ### III-C1 Constraint satisfaction - $\alpha_{2}$
 
-Assume that we have polytopic constraints of the form $\mathcal{Z} = \left. \{{r = {(x,u)}} \middle| {{L_{r}r} \leq l}\} \right.$. The constant $\alpha_{2}$, with the property that $\alpha \leq \alpha_{2}$ implies constraint satisfaction (4b), can be computed with
-
-This problem can be efficiently solved by girdding the constraint set $\mathcal{Z}_{r}$, solving the resulting linear program (LP) for each point $r$ and taking the minimum. In the special case that $P_{f},K_{f}$ are constant this reduces to one small scale LP.
+Assume that we have polytopic constraints of the form $\mathcal{Z} = \left. \{{r = {(x,u)}} \middle| {{L_{r}r} \leq l}\} \right.$. The constant $\alpha_{2}$, with the property that $\alpha \leq \alpha_{2}$ implies constraint satisfaction (4b), can be computed with This problem can be efficiently solved by girdding the constraint set $\mathcal{Z}_{r}$, solving the resulting linear program (LP) for each point $r$ and taking the minimum. In the special case that $P_{f},K_{f}$ are constant this reduces to one small scale LP.
 
 ### III-C2 Local Stability - $\alpha_{1}$
 
-Determining a non-conservative constant $\alpha_{1}$, related to the local Lyapunov function $V_{f}$ can be significantly more difficult. For comparison, in the setpoint stabilization case a non-convex optimization problem is formulated to check whether (4a) holds for a specific value of $\alpha_{1}$, compare \[12, Rk. 3.1\]. In a similar fashion, we consider the following algorithm^66^6Algorithm 1 can be thought of as a sampling based strategy to solve this non-convex optimization problem considered in \[12, Rk. 3.1\]. Using standard convex solvers, like sequential quadratic programming (SQP), yield a faster solution, but can get stuck in local minima. This is dangerous for this problem, since the local minima correspond to values $\alpha$ that do not satisfy Assumption 2. Alternatively, nonlinear Lipschitz-like bounds can be used to reduce the conservatism, compare (which, however, also use sampling). to determine whether (4a) holds for all $\alpha \leq \alpha_{1}$:
+Determining a non-conservative constant $\alpha_{1}$, related to the local Lyapunov function $V_{f}$ can be significantly more difficult. For comparison, in the setpoint stabilization case a non-convex optimization problem is formulated to check whether (4a) holds for a specific value of $\alpha_{1}$, compare \[12, Rk. 3.1\]. In a similar fashion, we consider the following algorithm^66^6Algorithm 1 can be thought of as a sampling based strategy to solve this non-convex optimization problem considered in \[12, Rk. 3.1\]. Using standard convex solvers, like sequential quadratic programming (SQP), yield a faster solution, but can get stuck in local minima. This is dangerous for this problem, since the local minima correspond to values $\alpha$ that do not satisfy Assumption 2. Alternatively, nonlinear Lipschitz-like bounds can be used to reduce the conservatism, compare (which, however, also use sampling). to determine whether (4a) holds for all $\alpha \leq \alpha_{1}$: 1:Given a candidate constant α1: 2:Grid: Select (r, r+) satisfying 4:Generate random vectors Δ xi: with ∥Δ xi∥Pf (r)2 ≤ α1. Algorithm 1 Offline computation - Local stability α1 Starting with $\alpha_{1} = \alpha_{2}$, the value $\alpha_{1}$ is iteratively decreased until all considered combination ($r,r^{+},x_{i}$) satisfy (4a).
 
-1:Given a candidate constant α1:
-2:Grid: Select (r,r+) satisfying
-4:Generate random vectors Δ xi: with ∥Δ xi∥Pf (r)2 ≤ α1.
-Algorithm 1 Offline computation - Local stability α1
-
-Starting with $\alpha_{1} = \alpha_{2}$, the value $\alpha_{1}$ is iteratively decreased until all considered combination ($r,r^{+},x_{i}$) satisfy (4a).
-
-The overall offline procedure to compute the terminal ingredients (Ass. 2) is summarized as follows:
-
-1:Define θ corresponding to the linearization.
-2:LMI computation using gridding or convexification:
-3:Convex: Determine hyperbox sets Θ, Ω satisfying.
-4: Solve using $\overline{\Theta}$ according to or Remark 7.
-5:Gridding: Select (ri,ri+) satisfying.
-6: Solve for all (ri,ri+).
-7:Compute size of the terminal set α = min {α1, α2}:
-8: a):compute α1 using Algorithm 1 (or ),
-Algorithm 2 Offline computation
-
-The presented offline procedure is considerably more involved than for example the computation for one specific setpoint. We emphasize that this procedure only has to be completed once and we need no repeated offline computations to account for changing operation conditions. Furthermore, the applicability to nonlinear systems with the corresponding computational effort offline is detailed with numerical examples in Section V.
+The overall offline procedure to compute the terminal ingredients (Ass. 2) is summarized as follows: 1:Define θ corresponding to the linearization. 2:LMI computation using gridding or convexification: 3:Convex: Determine hyperbox sets Θ, Ω satisfying. 4: Solve using $\overline{\Theta}$ according to or Remark 7. 5:Gridding: Select (ri, ri+) satisfying. 6: Solve for all (ri, ri+). 7:Compute size of the terminal set α = min {α1, α2}: 8: a):compute α1 using Algorithm 1 (or), Algorithm 2 Offline computation The presented offline procedure is considerably more involved than for example the computation for one specific setpoint. We emphasize that this procedure only has to be completed once and we need no repeated offline computations to account for changing operation conditions. Furthermore, the applicability to nonlinear systems with the corresponding computational effort offline is detailed with numerical examples in Section V.
 
 ### III-D Setpoint tracking
 
@@ -274,7 +166,7 @@ Now we discuss setpoint tracking, which is included in the previous derivation a
 
 Compared to the dynamic reference tracking problem, the problem of tracking a setpoint has received a lot of attention in the literature and many solutions have been suggested.
 
-One of the first attempts to solve this issue is the usage of a pseudo linearization in. There, a nonlinear state and input transformation is sought, such that the linearization of the transformed system around the setpoints is constant and thus constant terminal ingredients can be used. This approach seems unpractical, since there is no easy or simple method to compute such a pseudo linearization.
+One of the first attempts to solve this issue is the usage of a pseudo linearization . There, a nonlinear state and input transformation is sought, such that the linearization of the transformed system around the setpoints is constant and thus constant terminal ingredients can be used. This approach seems unpractical, since there is no easy or simple method to compute such a pseudo linearization.
 
 In the steady-state manifold $\mathcal{Z}_{r}$ is partitioned into sets. In each set the nonlinear system is described as an LTV system and a constant terminal cost and controller are computed. Correspondingly, in closed-loop operation under changing setpoints the terminal cost matrix $P_{f}$ is piece-wise constant. This might cause numerical problems in the optimization, since the cost is not differentiable with respect to the reference $r$. Furthermore, the (manual) partitioning of the steady-state manifold seems difficult for general MIMO systems (if the dimension of the steady-state manifold is larger than one). In comparison, Algorithm 2 yields continuously parameterized terminal ingredients, thus avoiding the need for user defined partitioning and piece-wise definitions.
 
@@ -282,25 +174,15 @@ In \[9, Remark 8\] it was proposed to compute a continuously parameterized contr
 
 ## Nonlinear MPC subject to changing operation conditions
 
-Many control problems are more general than the reference tracking considered in Section II. One challenge includes tracking and output regulation with exogenous signals in order to accommodate online changing operation conditions. For this set of problems, the reference $r$ might not satisfy Assumption 1 (due to sudden changes and unreachable signals), compare. More generally, the minimization of a possibly online changing and non-convex economic cost is a (non-trivial) control problem which is often encountered, compare. One promising method to solve these problems is the simultaneous optimization of an artificial reference, as done in. Compared to a standard reference tracking MPC formulation such as, these schemes ensure recursive feasibility despite changes in exogenous signals (such as the desired output reference or the economic cost). In this section, we show how the reference generic terminal ingredients can be used to design nonlinear MPC schemes that reliably operate under changing operating conditions, as an extension and combination of the ideas in. In particular, we present a scheme that exponentially stabilizes the periodic trajectory which best tracks an exogenous output signal. The extension of the economic MPC schemes to periodic artificial trajectories based on the reference generic terminal ingredients is beyond the scope of this work and part of current research.
+Many control problems are more general than the reference tracking considered in Section II. One challenge includes tracking and output regulation with exogenous signals in order to accommodate online changing operation conditions. For this set of problems, the reference $r$ might not satisfy Assumption 1 (due to sudden changes and unreachable signals), compare. More generally, the minimization of a possibly online changing and non-convex economic cost is a (non-trivial) control problem which is often encountered, compare. One promising method to solve these problems is the simultaneous optimization of an artificial reference, as done . Compared to a standard reference tracking MPC formulation such as, these schemes ensure recursive feasibility despite changes in exogenous signals (such as the desired output reference or the economic cost). In this section, we show how the reference generic terminal ingredients can be used to design nonlinear MPC schemes that reliably operate under changing operating conditions, as an extension and combination of the ideas . In particular, we present a scheme that exponentially stabilizes the periodic trajectory which best tracks an exogenous output signal. The extension of the economic MPC schemes to periodic artificial trajectories based on the reference generic terminal ingredients is beyond the scope of this work and part of current research.
 
 ### IV-A Nonlinear periodic tracking MPC subject to changing exogenous output references
 
-We assume that at time $t$ an exogenous $T$-periodic output reference signal $y_{e}{( \cdot |t)} \in {\mathbb{R}}^{p \times T}$ is given. For some $T$-periodic reference $r{( \cdot |t)} = {(x_{r}{( \cdot |t)},u_{r}{( \cdot |t)})} \in {\mathbb{R}}^{{({n + m})} \times T}$, we define the tracking cost with respect to this output signal $y_{e}$ by
-
-with a bounded nonlinear output function $h:{\mathcal{Z}_{r}\rightarrow{\mathbb{R}}^{p}}$. The objective is to stabilize the feasible $T$-periodic reference trajectory $r$, that minimizes $J_{T}$. In the issue of stabilizing the optimal setpoint for piece-wise constant output signals has been investigated. In periodic trajectories have been considered for the special case of linear systems. By combining these methods with the proposed terminal ingredients, we can design a nonlinear MPC scheme that stabilizes the optimal periodic^88^8 In the case of setpoint tracking ($T = 1$), the MPC scheme reduces to. As discussed in Section III-D, the proposed procedure can be used to design suitable terminal ingredients for setpoints. trajectory for periodic output reference signals, compare. The scheme is based on the following optimization problem
-
-$=$ $\min\limits_{u{( \cdot |t)},r{( \cdot |t)}}J_{N}{(x{( \cdot |t)},u{( \cdot |t)},r{( \cdot |t)})} + J_{T}{(r{( \cdot |t)},y_{e}{( \cdot |t)})}$
-s.t. ${{{x{({k + \left. 1 \middle| t \right.})}} = {f{({x{(\left. k \middle| t \right.)}},{u{(\left. k \middle| t \right.)}})}}},{{x{(\left. 0 \middle| t \right.)}} = {x{(t)}}}},$ (25b)
-${{{({x{(\left. k \middle| t \right.)}},{u{(\left. k \middle| t \right.)}})} \in \mathcal{Z}},{{x{(\left. N \middle| t \right.)}} \in {\mathcal{X}_{f}{({r{(\left. N \middle| t \right.)}})}}}},$ (25c)
-${{r{({j + \left. 1 \middle| t \right.})}} \in {\mathcal{R}{({r{(\left. j \middle| t \right.)}})}} \subseteq \mathcal{Z}_{r}},$ (25d)
-${{{r{({l + \left. T \middle| t \right.})}} = {r{(\left. l \middle| t \right.)}}},{l = {0,\ldots,{\max{\{ 0,{N - T}\}}}}}},$ (25e)
-
-This scheme is recursively feasible, independent of the output reference signal $y_{e}$. Furthermore, if the exogenous signal $y_{e}$ is $T$-periodic the closed-loop system is stable. Additionally, if a convexity and continuity condition on the set of feasible periodic orbits and the output function $h$ is satisfied \[19, Ass. 5\], then the optimal reachable periodic trajectory is (uniformly) exponentially stable for the resulting closed-loop system. Thus, the terminal ingredients enable us to implement a nonlinear version of the tracking scheme in, that ensures exponential stability of the optimal (periodic) operation. More details on the theoretical properties and numerical examples can be found in. Although the consideration of general non-periodic trajectories is still an open issue, we conjecture that the approach can be extended to any class of finitely parameterized reference trajectories.
+We assume that at time $t$ an exogenous $T$-periodic output reference signal $y_{e}{(\cdot |t)} \in {\mathbb{R}}^{p \times T}$ is given. For some $T$-periodic reference $r{(\cdot |t)} = {(x_{r}{(\cdot |t)},u_{r}{(\cdot |t)})} \in {\mathbb{R}}^{{({n + m})} \times T}$, we define the tracking cost with respect to this output signal $y_{e}$ by with a bounded nonlinear output function $h:{\mathcal{Z}_{r}\rightarrow{\mathbb{R}}^{p}}$. The objective is to stabilize the feasible $T$-periodic reference trajectory $r$, that minimizes $J_{T}$. In the issue of stabilizing the optimal setpoint for piece-wise constant output signals has been investigated. In periodic trajectories have been considered for the special case of linear systems. By combining these methods with the proposed terminal ingredients, we can design a nonlinear MPC scheme that stabilizes the optimal periodic^88^8 In the case of setpoint tracking ($T = 1$), the MPC scheme reduces to. As discussed in Section III-D, the proposed procedure can be used to design suitable terminal ingredients for setpoints. trajectory for periodic output reference signals, compare. The scheme is based on the following optimization problem This scheme is recursively feasible, independent of the output reference signal $y_{e}$. Furthermore, if the exogenous signal $y_{e}$ is $T$-periodic the closed-loop system is stable. Additionally, if a convexity and continuity condition on the set of feasible periodic orbits and the output function $h$ is satisfied \[19, Ass. 5\], then the optimal reachable periodic trajectory is (uniformly) exponentially stable for the resulting closed-loop system. Thus, the terminal ingredients enable us to implement a nonlinear version of the tracking scheme, that ensures exponential stability of the optimal (periodic) operation. More details on the theoretical properties and numerical examples can be found. Although the consideration of general non-periodic trajectories is still an open issue, we conjecture that the approach can be extended to any class of finitely parameterized reference trajectories.
 
 ## Numerical examples
 
-The following examples show the applicability of the proposed method to nonlinear systems and the closed-loop performance improvement when including suitable terminal ingredients. We first illustrate the basic procedure at the example of a periodic reference tracking task for a continuous stirred-tank reactor (CSTR). Then we demonstrate the advantages of using suitable terminal ingredients with (robust) trajectory tracking and an evasive maneuver test for a car. Additional examples, including tracking of periodic output signals (Sec. IV-A) with a nonlinear ball and plate system can be found in.
+The following examples show the applicability of the proposed method to nonlinear systems and the closed-loop performance improvement when including suitable terminal ingredients. We first illustrate the basic procedure at the example of a periodic reference tracking task for a continuous stirred-tank reactor (CSTR). Then we demonstrate the advantages of using suitable terminal ingredients with (robust) trajectory tracking and an evasive maneuver test for a car. Additional examples, including tracking of periodic output signals (Sec. IV-A) with a nonlinear ball and plate system can be found .
 
 In the following examples, the offline computation is done with an Intel Core i7 using the semidefinite programming (SDP) solver SeDuMi-1.3 and the online optimization is done with CasADi. The offline computation can be done using both the discrete-time formulation (Sec. III) or the continuous-time formulation (Appendix -C). Hence, we also compare the performance of these different formulations.
 
@@ -308,11 +190,7 @@ In the following examples, the offline computation is done with an Intel Core i7
 
 ### System model
 
-We consider a continuous-time model of a continuous stirred-tank reactor (CSTR)
-
-where $x_{1},x_{2},x_{3}$ correspond to the concentration of the reaction, the desired product, waste product and $u$ is related to the heat flux through the cooling jacket, compare, \[37, Sec. 3.4\]. The constraints are
-
-The discrete-time model is defined with explicit Runge-Kutta discretization of order $4$ and a sampling time^99^9 In \[37, Sec. 3.4\] a sampling time of $h = 0.1$ is used. However, with the considered fourth order explicit Runge-Kutta discretization, a sampling time of $h = 0.1$ does not preserve stability of the continuous-time system. of $h = 0.01$.
+We consider a continuous-time model of a continuous stirred-tank reactor (CSTR) where $x_{1},x_{2},x_{3}$ correspond to the concentration of the reaction, the desired product, waste product and $u$ is related to the heat flux through the cooling jacket, compare, \[37, Sec. 3.4\]. The constraints are The discrete-time model is defined with explicit Runge-Kutta discretization of order $4$ and a sampling time^99^9 In \[37, Sec. 3.4\] a sampling time of $h = 0.1$ is used. However, with the considered fourth order explicit Runge-Kutta discretization, a sampling time of $h = 0.1$ does not preserve stability of the continuous-time system. of $h = 0.01$.
 
 For this system, periodic operation is economically beneficial, compare. Thus, we consider the problem of tracking reachable periodic reference trajectories $r$ (Assumption 1), corresponding to the economic operation of the plant.
 
@@ -320,9 +198,7 @@ For this system, periodic operation is economically beneficial, compare. Thus, w
 
 In the following, we illustrate the reference generic offline computation for this system. We consider the standard quadratic tracking stage cost with $Q = I_{3}$, $R = 10$ and use $\epsilon = 0.1$.
 
-For the continuous-time system, the Jacobian contains four nonlinear terms, yielding the parameters
-
-The input $u_{r}$ enters the LMIs affinely. Thus, we only consider the two vertices of $u_{r}$ and grid $(x_{1},x_{3})$ using $10^{2}$ points.
+For the continuous-time system, the Jacobian contains four nonlinear terms, yielding the parameters The input $u_{r}$ enters the LMIs affinely. Thus, we only consider the two vertices of $u_{r}$ and grid $(x_{1},x_{3})$ using $10^{2}$ points.
 
 For the discrete-time system, the explicit description of the nonlinear dynamics $f$ and the corresponding Jacobian ${A{(r)}},{B{(r)}}$ is complex. Thus, we directly define the non-constant^1010^10 The derivatives $\partial{f_{3}/{\partial r}}$, $\partial{f_{1}/{\partial x_{2}}}$, and $\partial{f_{2}/{\partial x_{2}}}$ are constant. components of the Jacobian $A,B$ as the parameters $\theta \in {\mathbb{R}}^{6}$. We compute the hyperbox sets ${\Theta,\Omega} \subseteq {\mathbb{R}}^{6}$ satisfying numerically. For the discrete-time convex approach the polytopic description $\overline{\Theta}$ and the hyperbox description $\Theta \times \Omega$ (Remark 7) are considered. For the gridding, ${(x_{1},x_{3},u_{r},u_{r}^{+})} \in {\mathbb{R}}^{4}$ is gridded using $10^{4}$ points, of which approximately $8.000$ satisfy the conditions and are considered in the optimization problem.
 
@@ -346,9 +222,7 @@ The following example shows the applicability of the proposed procedure to nonli
 
 ### System model
 
-We consider a nonlinear kinematic bicycle model of a car
-
-with the position $z_{i}$, the inertial heading $\psi$, the velocity $v$, the front steering angle $\delta$, the acceleration $a$ and the change in the steering angle $u_{\delta}$. The model constants $l_{f} = 1.4$ and $l_{r} = 1.5$ represent the distance of the center of mass to the front and rear axle. More details on kinematic bicycle models can be found in. The (non-compact) constraint sets are given by
+We consider a nonlinear kinematic bicycle model of a car with the position $z_{i}$, the inertial heading $\psi$, the velocity $v$, the front steering angle $\delta$, the acceleration $a$ and the change in the steering angle $u_{\delta}$. The model constants $l_{f} = 1.4$ and $l_{r} = 1.5$ represent the distance of the center of mass to the front and rear axle. More details on kinematic bicycle models can be found. The (non-compact) constraint sets are given by
 
 ### Offline computations
 
@@ -370,19 +244,15 @@ In order to demonstrate the applicability of the proposed tracking MPC scheme, w
 
 Figure 2: Evasive maneuver test: Reference trajectory r (blue), terminal sets 𝒳f (r) (red) and additional state constraints 𝒳 (black).
 
-In order to show that the proposed approach can be applied under realistic conditions, we consider additive disturbances ${w{(t)}} \in {\mathbb{R}}^{n}$ and a prediction horizon of $N = 10$. To ensure robust constraint satisfaction, we use the constraint tightening method proposed in, which is based on the achievable contraction^1414^14This property is verified by computing a terminal cost, which is valid on the full constraint set $\mathcal{Z}$, compare Prop. 2 Incremental exponential stabilizability ‣ A nonlinear model predictive control framework using reference generic terminal ingredients - extended version") and App. -B. Analogous to the computation of $\alpha$, the numerical value of $\rho$ can be ascertained using Alg. 1. rate $\rho = 0.9995$. To ensure robust recursive feasibility, the terminal set needs to be robust positively invariant, which can be ensured for ${\|{w{(t)}}\|} \leq \hat{w} = {1.82 \cdot 10^{- 5}} = {{9.1 \cdot 10^{- 3}}h}$, compare in Proposition 4 of Appendix -B. The constraints are tightened over the prediction horizon with a scalar using the method in
-
-with $\epsilon = {2.5 \cdot 10^{- 4}}$. The resulting robust tracking MPC scheme guarantees (uniform) practical exponential stability and robust constraint satisfaction, for details see Appendix -B and.
+In order to show that the proposed approach can be applied under realistic conditions, we consider additive disturbances ${w{(t)}} \in {\mathbb{R}}^{n}$ and a prediction horizon of $N = 10$. To ensure robust constraint satisfaction, we use the constraint tightening method proposed, which is based on the achievable contraction^1414^14This property is verified by computing a terminal cost, which is valid on the full constraint set $\mathcal{Z}$, compare Prop. 2 Incremental exponential stabilizability ‣ A nonlinear model predictive control framework using reference generic terminal ingredients - extended version") and App. -B. Analogous to the computation of $\alpha$, the numerical value of $\rho$ can be ascertained using Alg. 1. rate $\rho = 0.9995$. To ensure robust recursive feasibility, the terminal set needs to be robust positively invariant, which can be ensured for ${\|{w{(t)}}\|} \leq \hat{w} = {1.82 \cdot 10^{- 5}} = {{9.1 \cdot 10^{- 3}}h}$, compare in Proposition 4 of Appendix -B. The constraints are tightened over the prediction horizon with a scalar using the method in with $\epsilon = {2.5 \cdot 10^{- 4}}$. The resulting robust tracking MPC scheme guarantees (uniform) practical exponential stability and robust constraint satisfaction, for details see Appendix -B and.
 
 We simulated the closed-loop MPC using random disturbances ${\|{w{(t)}}\|} = \hat{w}$ and compared the performance to MPC without terminal constraints ($V_{f} = 0$, UC, ) and MPC with terminal equality constraint (${\mathcal{X}_{f}{(r)}} = x_{r}$, TEC). To enable a comparison of the computational demand we fixed the number of iterations in CasADi to $1$ per time step, resulting in online computation time of approx $13$ ms for all three approaches. The corresponding results can be seen in Figures 3 and 4.
 
-Figure 3: Evasive maneuver test: Closed-loop tracking stage cost for the proposed terminal constraint tracking MPC (blue,solid,QINF), a corresponding tracking MPC scheme without terminal constraints (green,dash-star,UC) and an MPC scheme with a terminal equality constraint (red,dashed,TEC)
-
-Figure 4: Evasive maneuver test: Closed-loop trajectory of z1, z2 over the time interval t ∈ [1.32 s, 1.81 s] with the reference r (black,solid), the MPC based on the proposed terminal ingredients (blue,solid,QINF), a corresponding tracking MPC scheme without terminal constraints (green,dash-star,UC) and an MPC scheme with a terminal equality constraint (red,dashed,TEC).
+Figure 3: Evasive maneuver test: Closed-loop tracking stage cost for the proposed terminal constraint tracking MPC (blue,solid,QINF), a corresponding tracking MPC scheme without terminal constraints (green,dash-star,UC) and an MPC scheme with a terminal equality constraint (red,dashed,TEC) Figure 4: Evasive maneuver test: Closed-loop trajectory of z1, z2 over the time interval t ∈ [1.32 s, 1.81 s] with the reference r (black,solid), the MPC based on the proposed terminal ingredients (blue,solid,QINF), a corresponding tracking MPC scheme without terminal constraints (green,dash-star,UC) and an MPC scheme with a terminal equality constraint (red,dashed,TEC).
 
 The closed-loop performance (as measured by the tracking stage cost ^1515^15If we ignore the input tracking stage cost and only consider ${\|{x - x_{r}}\|}_{Q}^{2}$ as the performance, then the TEC has only $13\%$ of the tracking error of QINF and UC has $30$-times the tracking error. If, for some reason, we would only be interested in the tracking error in the input ${\|{u - u_{r}}\|}_{R}^{2}$, then UC has only $48\%$ of the error of QINF and TEC has $4.5 \cdot 10^{3}$ times the error of QINF. ) of UC and TEC are $10$ and $3.000$ times larger than the proposed scheme with the terminal cost (QINF), compare Figure 3. Specifically, the MPC without terminal constraints (UC) has a significant (growing) tracking error in the position (see Figure 4), since the UC with a short horizon typically leads to a slower convergence with smaller control action (as stability is not explicitly enforced). On the other side, the terminal equality constraint MPC (TEC) has large deadbeat like input oscillations, which is a result of the terminal constraint with the short prediction horizon. UC and TEC achieve a similar performance to QINF with $N = 10$, if the prediction horizon^1616^16For this second comparison, we did not limit the number of iterations for UC and TEC, since we were unable to achieve a similar performance with UC using only $1$ iterations (which may be due to the lack of a good warmstart). is increased to $N = 23$ and $N = 59$, respectively. This increases the online computational demand compared to QINF by $100\%$ and $300\%$, respectively.
 
-The proposed MPC scheme robustly achieves a small tracking error with a short prediction horizon. This shows that including (suitable) terminal ingredients significantly reduces the tracking error and improves the closed-loop performance, as also articulated in.
+The proposed MPC scheme robustly achieves a small tracking error with a short prediction horizon. This shows that including (suitable) terminal ingredients significantly reduces the tracking error and improves the closed-loop performance, as also articulated .
 
 ## Conclusion
 

@@ -14,13 +14,7 @@ Many algorithms and software packages for automatically tuning the hyperparamete
 
 For instance, an HPO algorithm that performs well in low-dimensional problems may struggle to outperform simple baselines in higher-dimensional setups. Similarly, the smoothness and curvature of the objective surface can change drastically between two problem instances, making a one-fits-all solution impossible. Moreover, the design of hyperparameter tuning packages often encounters contradictory specifications. For instance, an ideal package should be extensible, customizable, and rich in features, which, however, may steepen the learning curve and contradict our requirement that the package should be simple and easy to use.
 
-In this work, we introduce Pyopper, a hyperparameter tuning platform tailored to the optimization frameworks we encounterin machine learning research (e.g., training neural networks). In particular, our HPO platform allows us to streamline the hyperparameter tuning procedures and scale to hundreds of tuning tasks with minimal effort. The key strengths of PyHopper are:
-
-An intuitive interface that integrates existing machine learning code requiring minimal changes
-
-A highly customizable and robust optimization algorithm based on sequential Markov-chain Monte-Carlo sampling that scales to millions of hyperparameters
-
-Numerous built-in utility methods to streamline common use cases, such as multi-GPU setup, checkpointing, and runtime scheduling.
+In this work, we introduce Pyopper, a hyperparameter tuning platform tailored to the optimization frameworks we encounterin machine learning research (e.g., training neural networks). In particular, our HPO platform allows us to streamline the hyperparameter tuning procedures and scale to hundreds of tuning tasks with minimal effort. The key strengths of PyHopper are: An intuitive interface that integrates existing machine learning code requiring minimal changes A highly customizable and robust optimization algorithm based on sequential Markov-chain Monte-Carlo sampling that scales to millions of hyperparameters Numerous built-in utility methods to streamline common use cases, such as multi-GPU setup, checkpointing, and runtime scheduling.
 
 ## Related Works
 
@@ -38,7 +32,7 @@ The main advantage of SMBO and BO is that they become more and more accurate at 
 
 Tree-structured Parzen Estimator (TPE) is a sequential model-based optimization algorithm that can handle conditional configuration spaces efficiently. An example of such a conditional configuration would be the number of layers and corresponding hidden units in each layer of a neural network. Particularly, the number of layers in the fifth layer is only needed if the number of layers exceeds 4.
 
-Random Search (RS) is another straightforward black-box optimization baseline. RS samples candidate solutions from a uniform distribution over the entire configuration space. Despite its simplicity, RS can be competitive and outperform alternative algorithms in high-dimensional configuration spaces. PyHopper's HPO algorithm starts with an RS to gain information about the objective surface and decide for the second phase which area of the configuration space to focus on.
+Random Search (RS) is another straightforward black-box optimization baseline. RS samples candidate solutions from a uniform distribution over the entire configuration space. Despite its simplicity, RS can be competitive and outperform alternative algorithms in high-dimensional configuration spaces. PyHopper's HPO algorithm starts with an RS to gain information about the objective surface and decide for the second phase which area of the configuration space to focus .
 
 Markov chain Monte Carlo (MCMC) is a family of methods for sampling from a probability distribution that cannot be described in a simple form explicitly but as the stationary distribution of a Markov chain. MCMC can tackle black-box optimization problems by defining a stochastic process whose equilibrium distribution corresponds to the optima points of the objective function. The most fundamental MCMC optimization method takes the current best configuration and generates a new sample by adding random noise to it. If the objective function of the new sample is better than the current best configuration, we have a new best point, otherwise, the new sample is discarded. Such procedures are also referred to as *local search* or *hill climbing* in combinatorial optimization literature because they examine the neighborhood the current best solution for potentially even better candidates.
 
@@ -52,9 +46,7 @@ HyperOpt is a hyperparameter tuning framework that provides an implementation of
 
 Optuna is a hyperparameter tuning framework developed by Preferred Networks. Optuna implements many common optimization algorithms and supports parallel evaluation through a MySQL database to which remote evaluation workers can connect. The main focus of Optuna is on experiment tracking and visualization of evaluated configurations.
 
-NeverGrad is a black-box optimization library developed by Facebook Research. It implements various common gradient-free optimization algorithms and allows executing multiple configurations in parallel.
-
-keras-tuner is a hyperparameter tuning library building on top of the Keras API and Tensorflow 2. The package implements common tuning algorithms, including Random Search, Bayesian optimization, and the HyperBand algorithm. The major limitation of keras-tuner is that it does not support running multiple evaluations in parallel.
+NeverGrad is a black-box optimization library developed by Facebook Research. It implements various common gradient-free optimization algorithms and allows executing multiple configurations in parallel. keras-tuner is a hyperparameter tuning library building on top of the Keras API and Tensorflow 2. The package implements common tuning algorithms, including Random Search, Bayesian optimization, and the HyperBand algorithm. The major limitation of keras-tuner is that it does not support running multiple evaluations in parallel.
 
 Autotune is an HPO platform primarily focused on large-scale tuning of traditional machine learning models. Autotune implements several evolutionary sampling algorithm that can be combined during the search.
 
@@ -84,13 +76,7 @@ The second use case concerns research on a new dataset or a novel machine learni
 
 Moreover, PyHopper records the history of the evaluated candidates and theircorresponding objective function. Hence we can draw statistical analysis on the dependency and sensitivity of each method on the hyperparameters, e.g., mean, standard deviation, or percentiles of the distribution.
 
-Input Parameter space Ω, objective function f: Ω → ℝ
-θ1, … θk← random samples from Ω ⊳ Random search (phase 1)
-while not timeout do
-θ ← θbest + random noise with temperature τ ⊳ Local search (phase 2)
-Algorithm 1 High-level description of PyHopper’s MCMC sampling algorithm (maximization)
-
-Figure 2: Example illustration of a 2-dimensional optimization problem and how PyHopper’s optimization algorithm gradually narrows down the search area. A) Objective surface. B) Evaluated points during the Random Search (phase 1). C) Evaluated points during the beginning of the Local Search (phase 2). D) Evaluated points during the end of the Local Search (phase 2).
+Input Parameter space Ω, objective function f: Ω → ℝ θ1, … θk← random samples from Ω ⊳ Random search (phase 1) while not timeout do θ ← θbest + random noise with temperature τ ⊳ Local search (phase 2) Algorithm 1 High-level description of PyHopper’s MCMC sampling algorithm (maximization) Figure 2: Example illustration of a 2-dimensional optimization problem and how PyHopper’s optimization algorithm gradually narrows down the search area. A) Objective surface. B) Evaluated points during the Random Search (phase 1). C) Evaluated points during the beginning of the Local Search (phase 2). D) Evaluated points during the end of the Local Search (phase 2).
 
 ### Use Case 3 - Black-box (gradient-free) optimization
 
@@ -130,37 +116,7 @@ Figure 5: Example code snippet of how PyHopper integrates with existing ML code.
 
 Machine learning research can involve an enormous amount of hyperparameter tuning. PyHopper's API is designed to minimize the necessary changes that have to be made to the training pipeline and to simplify the integration of the tuned hyperparameter to other code. Particularly, the user interface of PyHopper aims to remove the friction between the ML code and the hyperparameter tuning code.
 
-Integer parameters (uniform)
-
-PyHopper.int(100,500, multiple_of=100)
-
-PyHopper.int(0,10, shape=3)
-
-Integer parameters (loguniform)
-
-PyHopper.int(2,64, power_of=2)
-
-Float parameters (uniform)
-
-PyHopper.int(0,1, precision=1)
-
-PyHopper.int(-10,10, shape=2)
-
-Float parameters (loguniform)
-
-PyHopper.int(1e-5,1e-3,log=True)
-
-PyHopper.int(1e-5,1e-3,log=True,precision=1)
-
-Set parameters (unordered)
-
-PyHopper.choice(["adam","sgd","rmsprop"]
-
-Set parameters (ordered)
-
-PyHopper.choice(,is_ordinal=True)
-
-Table 1: List of supported datatypes in PyHopper and corresponding examples.
+Integer parameters (uniform) PyHopper.int(100,500, multiple_of=100) PyHopper.int(0,10, shape=3) Integer parameters (loguniform) PyHopper.int(2,64, power_of=2) Float parameters (uniform) PyHopper.int(0,1, precision=1) PyHopper.int(-10,10, shape=2) Float parameters (loguniform) PyHopper.int(1e-5,1e-3,log=True) PyHopper.int(1e-5,1e-3,log=True,precision=1) Set parameters (unordered) PyHopper.choice(["adam","sgd","rmsprop"] Set parameters (ordered) PyHopper.choice(,is_ordinal=True) Table 1: List of supported datatypes in PyHopper and corresponding examples.
 
 ### Separation of concerns
 
@@ -228,35 +184,7 @@ Figure 9: Demonstration of a different way to use PyHoppers checkpointing mechan
 
 ## Experiments
 
-We set up an experimental evaluation to benchmark four popular hyperparameter optimization platforms: Optuna, HyperOpt, ray-tune, and PyHopper. For a fair comparison, we define the exact same configuration spaces for all methods and allow each method to sample 30 hyperparameter configurations in total. The objective function that should be optimized by the tools consists of training a Transformer model on the IMDB sentiment analysis dataset. Our second experiment concerns the training of an LSTM network on the Walker2D kinematics modelling dataset. The hyperparameters include, among others, the learning rate, number of attention heads, size of the LSTM cell, and dropout rate applied to the word embedding. Random seed was fixed for the training (weight initialization and dataset shuffling). The configuration space considered for both experiments are listed in Table 2 (IMDB task) and Table 3 (Walker2D task) respectively. The code for running the experiment is available at [https://github.com/pyhopper/comparison-examples](https://github.com/pyhopper/comparison-examples).
-
-Learning rate deacy
-
-Warumup gradient steps
-
-Learning rate decay every n-th epoch
-
-Number of attention heads
-
-Dimension per attention head
-
-Apply LayerNorm on word embedding
-
-Word embedding dropout rate
-
-Table 2: Configuration space of our experiment setup training a Transformer model on the common IMDB sentiment dataset
-
-LSTM cell size
-
-Learning rate deacy
-
-Warumup gradient steps
-
-Learning rate decay every n-th epoch
-
-Table 3: Configuration space of our experiment setup training an LSTM network on the Walker2D kinematics modelling dataset
-
-Both ray-tune and PyHopper provide 1-line multi-GPU parallelization capabilities, which we enable for the evaluation. This significantly reduces the runtime on our machines (8 Titan RTX GPUs for the IMDB task, and 2 A6000 GPUs for the Walker2D task), however, it potentially limits the optimization as strictly sequential testing of hyperparameters results in the maximum information being available for generating informed new candidates.
+We set up an experimental evaluation to benchmark four popular hyperparameter optimization platforms: Optuna, HyperOpt, ray-tune, and PyHopper. For a fair comparison, we define the exact same configuration spaces for all methods and allow each method to sample 30 hyperparameter configurations in total. The objective function that should be optimized by the tools consists of training a Transformer model on the IMDB sentiment analysis dataset. Our second experiment concerns the training of an LSTM network on the Walker2D kinematics modelling dataset. The hyperparameters include, among others, the learning rate, number of attention heads, size of the LSTM cell, and dropout rate applied to the word embedding. Random seed was fixed for the training (weight initialization and dataset shuffling). The configuration space considered for both experiments are listed in Table 2 (IMDB task) and Table 3 (Walker2D task) respectively. The code for running the experiment is available at Learning rate deacy Warumup gradient steps Learning rate decay every n-th epoch Number of attention heads Dimension per attention head Apply LayerNorm on word embedding Word embedding dropout rate Table 2: Configuration space of our experiment setup training a Transformer model on the common IMDB sentiment dataset LSTM cell size Learning rate deacy Warumup gradient steps Learning rate decay every n-th epoch Table 3: Configuration space of our experiment setup training an LSTM network on the Walker2D kinematics modelling dataset Both ray-tune and PyHopper provide 1-line multi-GPU parallelization capabilities, which we enable for the evaluation. This significantly reduces the runtime on our machines (8 Titan RTX GPUs for the IMDB task, and 2 A6000 GPUs for the Walker2D task), however, it potentially limits the optimization as strictly sequential testing of hyperparameters results in the maximum information being available for generating informed new candidates.
 
 The results in Table 4 show that Optuna, ray-tune, and Pyhopper could find competitive performing hyperparameter settings for both tasks. Moreover, the runtimes indicate that Pyhopper concluded its search process the fastest. In particular, for IMDB, PyHopper's runtime is more than 10x faster than Optuna and HyperOpt, and 1.2x better than ray-tune. Moreover, we observed that HyperOpt was not able to find good hyperparameter candidates. We hypothesize that HyperOpt's Bayesian optimization engine did not allocate the 30 available samples to properly cover the search space.
 

@@ -12,21 +12,7 @@ In our approach, probabilistic models over features associated with each action 
 
 Planning in a new environment is accomplished by updating each action distribution to remain as close as possible to the prior while satisfying new environment constraints such as different obstacles and object shapes. This is accomplished through importance sampling and optimal distribution re-estimation using the cross-entropy method. Transitions from symbolic states to actions are similarly encoded as a discrete probability distribution representing the "preference" of executing different actions. A product model is induced over a complete task from the sequence of probabilistic action models, together with discrete transition models. Planning a complete task then corresponds to optimally updating this model to reproduce the prior and satisfy the new scenario.
 
-(define (domain structure-assembly)
-(:requirements:typing:adl)
-(:types link node grasp-pt)
-(near ?x - link) (near-grasp ?g - grasp-pt)
-(in-hand ?x - link) (standing ?x - link)
-(aligned ?x - link ?y - node)
-(grasp-for ?x - link ?g - grasp-pt)
-(grasp-for ?y - node ?g - grasp-pt)
-(attached ?x - link ?y - node)
-(define (problem build-simple-structure)
-link1 - link link2 - link
-node1 - node node2 - node
-(:goal (exists (?x - link ?y - node) (attached ?x ?y))))
-
-Figure 3: Partial PDDL domain and problem definition for the structure assembly task. The domain can be thought of as a version of the basic blocks world task, where the goal is to latch two pieces together.
+(define (domain structure-assembly) (:requirements:typing:adl) (:types link node grasp-pt) (near ?x - link) (near-grasp ?g - grasp-pt) (in-hand ?x - link) (standing ?x - link) (aligned ?x - link ?y - node) (grasp-for ?x - link ?g - grasp-pt) (grasp-for ?y - node ?g - grasp-pt) (attached ?x - link ?y - node) (define (problem build-simple-structure) link1 - link link2 - link node1 - node node2 - node (:goal (exists (?x - link ?y - node) (attached ?x ?y)))) Figure 3: Partial PDDL domain and problem definition for the structure assembly task. The domain can be thought of as a version of the basic blocks world task, where the goal is to latch two pieces together.
 
 The contributions of this paper are: a new method for reproducing demonstrated actions in novel environments, derived from sampling-based motion planning; an algorithm for combining these learned actions for executing multi-step tasks with multiple valid plans; and experimental validation of this algorithm on a simple assembly task as shown in Fig. 1. Experiments in a 2D Android game domain were omitted for reasons of space.
 
@@ -38,7 +24,7 @@ Object-Action Complexes (OACs) have been proposed as a way of formalizing action
 
 Probabilistic models are commonly used in imitation learning, e.g.. Dynamic Movement Primitives (DMPs) are a policy representation that has proven useful for modeling low-level actions from demonstration as a set of dynamical systems. Prior work has added object avoidance to these methods through potential fields or through reinforcement learning.
 
-Pastor et al. used Path Integral Policy Improvement with DMPs and multiple human demonstrations to learn a model of expected features when executing two robotic tasks in: shooting pool and flipping over a box with a pair of chopsticks. This method was expanded upon by Stulp et al., who proposed Path Integral Policy Improvement with Covariance Matrix Adaptation. These techniques are closely related to the Cross-Entropy Method for motion planning from which we draw inspiration.
+Pastor et al. used Path Integral Policy Improvement with DMPs and multiple human demonstrations to learn a model of expected features when executing two robotic tasks : shooting pool and flipping over a box with a pair of chopsticks. This method was expanded upon by Stulp et al., who proposed Path Integral Policy Improvement with Covariance Matrix Adaptation. These techniques are closely related to the Cross-Entropy Method for motion planning from which we draw inspiration.
 
 Our work is also related to the method proposed by Engbert et al. use the KL divergence between an expert demonstration and trajectories sampled from a Gaussian Process forward model to optimize imitation learning policies. Similarly in the authors propose a method for inverse reinforcement learning based on minimization of relative entropy. In addition, the proposed approach can be thought of as a parameterized set of actions; this has been shown to improve performance on policy learning in Markov Decision Processes.
 
@@ -54,13 +40,7 @@ The features are denoted by $x \in {\mathbb{R}}^{n}$ and defined using the funct
 
 Specific features are derived from the PDDL description of the task. For example, in Fig. 3, the approach action describes the arm moving to pick up a link object without knocking it over. In this case $x = {\phi{(t,s,u)}}$ would return the relative position, orientation, and velocity between the robot end effector and the link object. To use the proposed method, one would provide the identifier for an action and a list of associated symbols from perception.
 
-An optimal task $T^{\ast}$ is a sequence of actions $T^{\ast} = {\{ a_{i}\}}_{i = 1}^{N}$ that takes the robot from the initial state $w_{0}$ to goal $w_{g}$ that have the highest probability given our expert model, while also avoiding hard constraints such as collisions and joint limits:
-
-Our goal is to learn a stochastic "symbolic" policy $\pi{(\left. a \middle| w \right.)}$ over the sequence of predicate states, as well as continuous-space "physical" policy $p{(\left. u \middle| {s,\xi_{a}} \right.)}$ generating trajectories for each action $a$. We represent trajectories using parameters $\xi \in \mathcal{Z}$, where $\mathcal{Z}$ represents the space of all possible parameters resulting in valid trajectories in the new environment. Since robot perception and motion are uncertain, each parameter induces a density $p{(\left. \tau \middle| \xi \right.)}$ where
-
-denotes the system trajectory. For instance, $\xi$ would typically define a reference trajectory and an associated tracking control law resulting in the density
-
-In practice, given $\xi$ the trajectory $\tau$ will either be sampled using a high-fidelity simulator or generated by the real robot.
+An optimal task $T^{\ast}$ is a sequence of actions $T^{\ast} = {\{ a_{i}\}}_{i = 1}^{N}$ that takes the robot from the initial state $w_{0}$ to goal $w_{g}$ that have the highest probability given our expert model, while also avoiding hard constraints such as collisions and joint limits: Our goal is to learn a stochastic "symbolic" policy $\pi{(\left. a \middle| w \right.)}$ over the sequence of predicate states, as well as continuous-space "physical" policy $p{(\left. u \middle| {s,\xi_{a}} \right.)}$ generating trajectories for each action $a$. We represent trajectories using parameters $\xi \in \mathcal{Z}$, where $\mathcal{Z}$ represents the space of all possible parameters resulting in valid trajectories in the new environment. Since robot perception and motion are uncertain, each parameter induces a density $p{(\left. \tau \middle| \xi \right.)}$ where denotes the system trajectory. For instance, $\xi$ would typically define a reference trajectory and an associated tracking control law resulting in the density In practice, given $\xi$ the trajectory $\tau$ will either be sampled using a high-fidelity simulator or generated by the real robot.
 
 ## Planning Algorithm
 
@@ -68,27 +48,11 @@ In practice, given $\xi$ the trajectory $\tau$ will either be sampled using a hi
 
 First, we consider adaptation of only a single action $a$ to a new environment. When presented with a new environment, we pose the planning task as the problem of learning a new parameterized policy $\xi^{\ast}$. To do so we employ a stochastic optimization technique using a surrogate distribution $\xi \sim \pi{( \cdot |v)}$ which is iteratively updated so that generated trajectories $\tau$ produce feature observations $x$ with high likelihoods under the expert distribution $p_{d}{(\left. x \middle| a \right.)}$ for action $a \in {A{(w)}}$, where $A{(w)}$ is the set of actions available from predicate state $w$.
 
-We follow the Cross Entropy Method described by Rubinstein et al., particularly following its application to motion planning by Kobilarov. This is accomplished by introducing an artificial *surrogate* distribution over $\mathcal{V}$ that will induce a distribution over trajectories $\tau$ and over the corresponding features $x$ along these trajectories. The surrogate will then be iteratively optimized until it becomes optimally close (in a distribution sense) to the expert density $p_{d}{(\left. x \middle| a \right.)}$ without violating the constraints of the environment such as obstacles and joint limits. The surrogate model is built using a parametric density $\pi{(\left. \xi \middle| v \right.)}$ such as a multivariate Gaussian or a GMM with parameters $v$. Assuming that a nominal (prior) parameter $v_{0}$ is known the problem can be formalized as the optimal estimation of the expectation
+We follow the Cross Entropy Method described by Rubinstein et al., particularly following its application to motion planning by Kobilarov. This is accomplished by introducing an artificial *surrogate* distribution over $\mathcal{V}$ that will induce a distribution over trajectories $\tau$ and over the corresponding features $x$ along these trajectories. The surrogate will then be iteratively optimized until it becomes optimally close (in a distribution sense) to the expert density $p_{d}{(\left. x \middle| a \right.)}$ without violating the constraints of the environment such as obstacles and joint limits. The surrogate model is built using a parametric density $\pi{(\left. \xi \middle| v \right.)}$ such as a multivariate Gaussian or a GMM with parameters $v$. Assuming that a nominal (prior) parameter $v_{0}$ is known the problem can be formalized as the optimal estimation of the expectation The optimal importance sampling density for estimating this integral is where the numerator in can be thought of as the correlation between the expert feature distribution $p_{d}{(\cdot |a)}$ and the parameterized distribution $p{(\cdot |v_{0})}$. Unfortunately we cannot compute the solution to as it involves computing the estimator $l$. Instead, we approximate this optimal $q^{\ast}$ by finding the appropriate parameters $v$ of $p{(\left. x \middle| v \right.)}$. A logical way of doing this is to minimize the Kullback-Leibler (KL) divergence: To find the value of $v$ that minimizes this expression, we approximate this solution by drawing $M$ i.i.d. samples $\xi_{1},\ldots,\xi_{M}$ from $v_{0}$. In this case $x_{i,j} = {\phi{(t_{i},s_{i,j},u_{i,j})}}$ is a generated feature from robot state $s_{i,j}$ at time $t_{i}$ along the sampled trajectory $\tau_{j} \sim p{(\cdot |\xi_{j})}$ for $\xi_{j} \sim \pi{(\cdot |v_{0})}$.
 
-The optimal importance sampling density for estimating this integral is
+This can be more formally expressed as If we assume that there is a bijection between a tuple $\left\langle t,s,u \right\rangle$ along a trajectory $\tau$ and a feature $x \in {\phi{(\tau)}}$ then we have the following approximation since $\xi_{j}$ were sampled under $v_{0}$, and substituting into results: The necessary conditions for a minimum correspond to setting the gradient of to zero, i.e. by solving the equality: where the weights $z_{i,j}$ are given by $z_{i,j} \triangleq {p_{d}{(x_{i,j})}}$.
 
-where the numerator in can be thought of as the correlation between the expert feature distribution $p_{d}{( \cdot |a)}$ and the parameterized distribution $p{( \cdot |v_{0})}$. Unfortunately we cannot compute the solution to as it involves computing the estimator $l$ from. Instead, we approximate this optimal $q^{\ast}$ by finding the appropriate parameters $v$ of $p{(\left. x \middle| v \right.)}$. A logical way of doing this is to minimize the Kullback-Leibler (KL) divergence:
-
-To find the value of $v$ that minimizes this expression, we approximate this solution by drawing $M$ i.i.d. samples $\xi_{1},\ldots,\xi_{M}$ from $v_{0}$. In this case $x_{i,j} = {\phi{(t_{i},s_{i,j},u_{i,j})}}$ is a generated feature from robot state $s_{i,j}$ at time $t_{i}$ along the sampled trajectory $\tau_{j} \sim p{( \cdot |\xi_{j})}$ for $\xi_{j} \sim \pi{( \cdot |v_{0})}$.
-
-This can be more formally expressed as
-
-If we assume that there is a bijection between a tuple $\left\langle t,s,u \right\rangle$ along a trajectory $\tau$ and a feature $x \in {\phi{(\tau)}}$ then we have the following approximation
-
-since $\xi_{j}$ were sampled under $v_{0}$, and substituting into results in:
-
-The necessary conditions for a minimum correspond to setting the gradient of to zero, i.e. by solving the equality:
-
-where the weights $z_{i,j}$ are given by $z_{i,j} \triangleq {p_{d}{(x_{i,j})}}$.
-
-When $\pi{( \cdot |v)} = \mathcal{N}{( \cdot |\mu,\Sigma)}|_{\mathcal{V}}$ (i.e. a single multivariate Gaussian with domain restricted to feasible parameter set $\mathcal{Z}$), the relationship can be solved in closed form as
-
-where $z_{j} = {\sum_{i = 0}^{N}z_{i,j}}$ and ${\overline{z}}_{j} = {z_{j}/{\sum_{j = 1}^{M}z_{j}}}$. When $\pi{( \cdot |v)}$ is a GMM the minimization from Eq. is performed using a weighted expectation maximization (EM) algorithm.
+When $\pi{(\cdot |v)} = \mathcal{N}{(\cdot |\mu,\Sigma)}|_{\mathcal{V}}$ (i.e. a single multivariate Gaussian with domain restricted to feasible parameter set $\mathcal{Z}$), the relationship can be solved in closed form as where $z_{j} = {\sum_{i = 0}^{N}z_{i,j}}$ and ${\overline{z}}_{j} = {z_{j}/{\sum_{j = 1}^{M}z_{j}}}$. When $\pi{(\cdot |v)}$ is a GMM the minimization from Eq. is performed using a weighted expectation maximization (EM) algorithm.
 
 In practice, the optimal parameter $v$ is computed iteratively starting with some nominal choice $v_{0}$ which approximately covers the trajectory space of interest. At each iteration we draw $M$ samples $\xi_{j} \sim \pi{( \cdot |v_{0})},j \in 1,\ldots,M$ and compute the next $v$ by minimizing. At the next iteration $v_{0}$ is set to $v$ and the process continues until the cost converges.
 
@@ -96,56 +60,33 @@ We add a fixed normalization term to the diagonal entries in $\Sigma$ of $p_{d}$
 
 ### Avoiding Obstacles and Joint Limits
 
-We constrain $\mathcal{Z}$ to consist only of the space of valid trajectories, removing any samples that would collide with objects or pass joint limits. This means that when drawing our $M$ samples, we remove samples currently in collision or past joint limits in our new environment and continue to draw sample trajectories until we have all $M$ valid examples. This works effectively in practice as long as the task does not require generalization in environments with very narrow passages that the system has never been trained on. Such cases are extremely difficult since the probability of obtaining samples in the narrow passage is close to zero, unless an informative nominal density parameter $v_{0}$ is used with enough probability mass over such regions.
+We constrain $\mathcal{Z}$ to consist only of the space of valid trajectories, removing any samples that would collide with objects or pass joint limits. This means that when drawing our $M$ samples, we remove samples currently in collision or past joint limits in our new environment and continue to draw sample trajectories until we have all $M$ valid examples. This works effectively in practice as long as the task does not require generalization in environments with very narrow passages that the system has never been trained . Such cases are extremely difficult since the probability of obtaining samples in the narrow passage is close to zero, unless an informative nominal density parameter $v_{0}$ is used with enough probability mass over such regions.
 
 ### IV-B Task Planning Algorithm
 
 We wish to optimize parameters for all possible actions in a successful execution of the task, where our cost is the joint probability over any sequence of actions that represent a valid execution of the task as per Eq.. Our task planning approach takes the algorithm described in Section IV-A and expands it into a recursive algorithm similar to Monte Carlo Tree Search.
 
-First, consider the problem of choosing one of $N_{A{(w)}}$ possible actions. We think of this as the choice of which action would be most similar to our expert's demonstrations in other scenes, starting in symbolic state $w$. We expand our notion of $p_{d}{(x)}$ to include the switch between each possible action as ${p_{d}{(x)}} = {p_{d}{(\left. a_{i} \middle| w \right.)}p_{d}{(\left. x_{i,j} \middle| a_{i} \right.)}}$. Substituting this into Eq. gives us:
-
-where $v_{a_{i}}$ is the trajectory distribution associated with $a_{i}$.
+First, consider the problem of choosing one of $N_{A{(w)}}$ possible actions. We think of this as the choice of which action would be most similar to our expert's demonstrations in other scenes, starting in symbolic state $w$. We expand our notion of $p_{d}{(x)}$ to include the switch between each possible action as ${p_{d}{(x)}} = {p_{d}{(\left. a_{i} \middle| w \right.)}p_{d}{(\left. x_{i,j} \middle| a_{i} \right.)}}$. Substituting this into Eq. gives us: where $v_{a_{i}}$ is the trajectory distribution associated with $a_{i}$.
 
 Action selection is modeled as a stochastic policy over possible worlds. We introduce a surrogate distribution into our trajectory search that captures the probability of choosing each future action from the current $w$. When sampling trajectories, we draw the next action $a \sim \pi{( \cdot |w)}$ according to this probability.
 
-Furthermore, we can extend this reasoning to consider which of a whole tree of possible actions is the most similar to an expert tree, allowing us to capture expert preferences for particular actions in addition to continuous-space trajectories. Assuming that all actions in a branch of the tree are independent given time, we can define the expert probability of a particular action starting at continuous robot state $s_{0}$:
+Furthermore, we can extend this reasoning to consider which of a whole tree of possible actions is the most similar to an expert tree, allowing us to capture expert preferences for particular actions in addition to continuous-space trajectories. Assuming that all actions in a branch of the tree are independent given time, we can define the expert probability of a particular action starting at continuous robot state $s_{0}$: Where $s_{N,j}$ is the final state in sampled trajectory $\tau_{j}$ and $w$ represents the world after symbolic action $a$. Eq. describes the probability of all possible actions from a continuous world state $s$ occurring after execution of an action $a$.
 
-Where $s_{N,j}$ is the final state in sampled trajectory $\tau_{j}$ and $w$ represents the world after symbolic action $a$. Eq. describes the probability of all possible actions from a continuous world state $s$ occurring after execution of an action $a$.
-
-When recording a set of $N_{w}$ demonstrations starting in the same predicate state $w$, we compute the conditional probability for action $a \in {A{(w)}}$:
-
-We specify a surrogate distribution over possible choices of actions for a world $w$ given as $p{(\left. a \middle| w \right.)}$. This probability is initialized as ${\pi{(\left. a \middle| w \right.)}} = \frac{1}{N_{A{(w)}}}$. In the case where $H = 0$ this is updated as ${\pi{(\left. a \middle| w \right.)}} \propto {\frac{1}{M}{\sum_{j}^{M}z_{j}}}$ where $M$ trajectory samples $\tau$ have been drawn from $a$. Otherwise we compute this as:
-
-for starting state $s_{0} \in S_{0}$ and action $a \in {A{(w)}}$. In practice we use the step size $\alpha$ to prevent this term from converging too quickly.
+When recording a set of $N_{w}$ demonstrations starting in the same predicate state $w$, we compute the conditional probability for action $a \in {A{(w)}}$: We specify a surrogate distribution over possible choices of actions for a world $w$ given as $p{(\left. a \middle| w \right.)}$. This probability is initialized as ${\pi{(\left. a \middle| w \right.)}} = \frac{1}{N_{A{(w)}}}$. In the case where $H = 0$ this is updated as ${\pi{(\left. a \middle| w \right.)}} \propto {\frac{1}{M}{\sum_{j}^{M}z_{j}}}$ where $M$ trajectory samples $\tau$ have been drawn from $a$. Otherwise we compute this as: for starting state $s_{0} \in S_{0}$ and action $a \in {A{(w)}}$. In practice we use the step size $\alpha$ to prevent this term from converging too quickly.
 
 Each predicate state $w$ corresponds to a range of valid continuous-space states. The algorithm recursively samples from the trajectories associated with each successive action to map to continuous states. As shown in Alg. 1, we repeatedly call the Sample function from Alg. 2, providing it with the set of possible start states $S_{0}$. We select a start state from these $s_{0}$ according to the cumulative probability of these actions. The process continues until we reach a user-provided horizon $H$. This approach allows us to maintain a constant number of samples: over successive iterations, more samples will be devoted to promising regions of the search space.
 
 This results in a recursive search strategy outlined in Alg. 1. The return of the Sample function is the average probability of all future actions and trajectories associated with each current start state. This value is used to compute a version of the weights in Eq., where $p_{d}$ is replaced by the probability of all future actions from each trajectory. Fig. 4 illustrates how the algorithm works in practice.
 
-(a) At the first iteration of the algorithm, we sample trajectories (dashed lines) corresponding to a1, a2, a3, etc. according to and compute pd (τ|a,w). Trajectory distributions for π(⋅|v1),π(⋅|v2), etc. are updated, as are π (a|w)
-
-(b) On subsequent iterations, trajectory sampling is biased towards a1 due to the comparatively high probability of valid trajectories for each action in this space.
+(a) At the first iteration of the algorithm, we sample trajectories (dashed lines) corresponding to a1, a2, a3, etc. according to and compute pd (τ|a, w). Trajectory distributions for π(⋅|v1),π(⋅|v2), etc. are updated, as are π (a|w) (b) On subsequent iterations, trajectory sampling is biased towards a1 due to the comparatively high probability of valid trajectories for each action in this space.
 
 Figure 4: Illustration of the proposed algorithm. Boxes w1, w2, etc. indicate regions corresponding to the predicate state after each action, while dashed lines represent continuous state trajectories.
 
-Given: initial world w0, initial state s0, horizon H, step size α, max iterations Ni t e r
-if V (w0,s0) has converged then
-Algorithm 1 Pseudocode algorithm for optimal reproduction of demonstrated tasks in new environments.
-
-w = W (a) ⊳ Predicate world after performing action
-s0 ∼ S0 ∝ p (S) ⊳ Sample start points
-S0′ = [sN]j = 1N ⊳ Set start points
-⊳ Compute probabilities of each start point
-${\pi{(\left. a^{\prime} \middle| w \right.)}} = {\frac{p_{d}{(\left. a^{\prime} \middle| w \right.)}}{M^{\prime}}{\sum_{s_{0}^{\prime}}{Q{(s_{0}^{\prime},a^{\prime})}}}}$
-⊳ Compute update weights from child probability
-${V{(s_{0})}} = \frac{\sum_{j}{I_{s_{0,j} = s_{0}}z_{j}}}{\sum_{j}I_{s_{0,j}}}$
-⊳ Average probability from continuous start state
-$v_{a}^{\prime} = {{{\arg\min}_{v}\frac{1}{N}}{\sum_{i}{\sum_{j}{z_{j}{\log p}{(\left. \xi_{j} \middle| v_{a} \right.)}}}}}$
-Algorithm 2 Recursive trajectory sampling and update step.
+Given: initial world w0, initial state s0, horizon H, step size α, max iterations Ni t e r if V (w0, s0) has converged then Algorithm 1 Pseudocode algorithm for optimal reproduction of demonstrated tasks in new environments. w = W (a) ⊳ Predicate world after performing action s0 ∼ S0 ∝ p (S) ⊳ Sample start points S0′ = [sN]j = 1N ⊳ Set start points ⊳ Compute probabilities of each start point ${\pi{(\left. a' \middle| w \right.)}} = {\frac{p_{d}{(\left. a' \middle| w \right.)}}{M'}{\sum_{s_{0}'}{Q{(s_{0}',a')}}}}$ ⊳ Compute update weights from child probability ${V{(s_{0})}} = \frac{\sum_{j}{I_{s_{0,j} = s_{0}}z_{j}}}{\sum_{j}I_{s_{0,j}}}$ ⊳ Average probability from continuous start state $v_{a}' = {{{\arg\min}_{v}\frac{1}{N}}{\sum_{i}{\sum_{j}{z_{j}{\log p}{(\left. \xi_{j} \middle| v_{a} \right.)}}}}}$ Algorithm 2 Recursive trajectory sampling and update step.
 
 ## Experiments
 
-We performed experiments in a simulated Barrett WAM arm and on a Universal Robot UR5, applied to an object manipulation task. The goal of this task was to build a structure of increasing complexity out of magnetic blocks, as per the task described in. In our case, we only perform a part of the whole structure assembly task: we combine one link and one node object to create a sub-structure. The connections between different skills are described by the PDDL specification in Figure 3. We used FastDownward to translate the PDDL into a graph of possible actions that can be performed assuming all *feasibility* predicates are true.
+We performed experiments in a simulated Barrett WAM arm and on a Universal Robot UR5, applied to an object manipulation task. The goal of this task was to build a structure of increasing complexity out of magnetic blocks, as per the task described . In our case, we only perform a part of the whole structure assembly task: we combine one link and one node object to create a sub-structure. The connections between different skills are described by the PDDL specification in Figure 3. We used FastDownward to translate the PDDL into a graph of possible actions that can be performed assuming all *feasibility* predicates are true.
 
 Figure 5 shows how the planner works in practice. It iteratively sampled out different motions for each selected action, choosing to approach the link from the front and then to mate it to the leftmost node. As the algorithm progressed, successively fewer samples were drawn from actions associated with the rightmost node.
 
@@ -171,14 +112,11 @@ By way of comparison, we remove one or both of two parts of our algorithm. We us
 
 Table I shows the number of planning failures associated with different environments. These are cases where the algorithm failed to find a trajectory with nonzero probability under the expert distributions defining each of our actions. Without the full algorithm, either the robot often cannot find a solution that will accomplish the task or performance is significantly degraded. The case where there are options and no lookahead is a good example. While the robot is almost always able to find a plan in this situation, the quality of plans is far worse, as shown by Fig. 6. In the higher-performing "Auto" case, the robot was always able to find a plan but few of these plans were successful: only 4/10 achieved high-quality mates, and several outliers fell off the node and the table completely. This is because without knowledge of the place and release actions, the align action will often not terminate in a good state to complete the task.
 
-Fig. 6 shows a comparison on successful trials in different environments without obstacles. The full algorithm was highly reliable and accurate, achieving less than 1 cm of placement error. Other versions of the algorithm made mistakes that planning alone could not recover from. In addition, performance of all versions of the algorithm showed improvement when extra data was added, though the full version of the algorithm was still better and more flexible.
+Fig. 6 shows a comparison on successful trials in different environments without obstacles. The full algorithm was highly reliable and accurate, achieving less than 1 cm of placement error. Other versions of the algorithm made mistakes that planning alone could not recover . In addition, performance of all versions of the algorithm showed improvement when extra data was added, though the full version of the algorithm was still better and more flexible.
 
 Figure 6: Plot showing absolute error in distance, x, y, and z from “perfect” mate position between link and the selected node. Our full algorithm (”Options/Lookahead”) achieved high mate accuracy, roughly equivalent to the version with no options, and was able to complete the task in more challenging scenarios.
 
-Expert Data Only
-With Auto Data
-
-Table I: Number of failures when generalizing to novel environments. (*) indicates the full algorithm. Columns represent whether model was taught using only expert demonstrations or whether extra data was added from successful executions.
+Expert Data Only With Auto Data Table I: Number of failures when generalizing to novel environments. (*) indicates the full algorithm. Columns represent whether model was taught using only expert demonstrations or whether extra data was added from successful executions.
 
 Figure 7: Performance of the planner in different environments with the addition of obstacles. The planner chooses paths that are consistent with taught actions as much as possible.
 

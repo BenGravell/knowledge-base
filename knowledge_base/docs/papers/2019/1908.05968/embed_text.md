@@ -12,7 +12,7 @@ In this work, we propose a simple approach, N2D, that effectively replaces the c
 
 One important question is which manifold learning technique to apply to the autoencoded representation. There are many possible methods, such as the well-known Principal Component Analysis (PCA). PCA seeks to learn a linear transformation of data into a new space, typically via the use of eigendecomposition of the covariance matrix, or by computing the Singular Value Decomposition (SVD) of the data. However, PCA is a linear method and does not perform well in cases where relationships are non-linear. Thankfully, alternative non-linear manifold learning methods exist, and can be categorised by their focus on finding local or global structure. Well known globally focused methods include Isomap, while t-SNE is a well known locally focused method. More recently, UMAP has been proposed, which while also local, has been shown to better preserve global structure. All of these methods seek to utilize the distances between points in order to better learn the underlying structure, and we posit that they will improve the clusterability of an autoencoded embedding. To better understand this, we study the performance of each of these manifold learning methods on both the raw data and the autoencoded embedding.
 
-Thus, we propose a framework, N2D, where in contrast to recent deep clustering techniques, we replace the deep clustering network with a manifold learning method, and shallow cluster the resulting re-embedded space. We empirically observe that this method is competitive (top-3) with state-of-the-art deep clustering algorithms across a range of datasets. Further, we observe that it out-performs state-of-the-art algorithms on several others. Code and weights to reproduce the results are available at [https://github.com/rymc/n2d](https://github.com/rymc/n2d).
+Thus, we propose a framework, N2D, where in contrast to recent deep clustering techniques, we replace the deep clustering network with a manifold learning method, and shallow cluster the resulting re-embedded space. We empirically observe that this method is competitive (top-3) with state-of-the-art deep clustering algorithms across a range of datasets. Further, we observe that it out-performs state-of-the-art algorithms on several others. Code and weights to reproduce the results are available at
 
 ## Related Work
 
@@ -70,17 +70,13 @@ It has a number of important hyperparameters that influence performance. The fir
 
 We posit that by learning the manifold of the autoencoded embedding, specifically learning a manifold with a specific emphasis on locality, we can achieve a more cluster friendly embedding. However, as there is generally no ability to cross-validate hyperparameters in the unsupervised setting, it is therefore important to choose sensible default parameters for each approach. For all manifold learning methods, we set the number of components or dimensions to be the number of clusters in the data. For Isomap and UMAP we consider the number of neighbours to be an important parameter, and we set it to a sensible default value of 5 for Isomap, and 20 for UMAP. UMAP also has another parameter we believe will be influential, which is the minimum distance between points. We believe that a default minimum distance of 0 is ideal for our method, as our prime motivation is not visualization and thus a more accurate representation of the true manifold is preferred.
 
-We summarize the high level steps of our proposed method N2D as:
-
-Apply an autoencoder to the raw data to learn an initial representation.
+We summarize the high level steps of our proposed method N2D as: Apply an autoencoder to the raw data to learn an initial representation.
 
 We re-embed the autoencoded embedding by searching for a more clusterable manifold with a manifold learning method which preserves local distances.
 
 Finally, given this new, more clusterable embedding, we apply a final shallow clustering algorithm to discover the clusters.
 
-More concisely, we may also simply represent N2D as
-
-where $C$ is the final clustering, $F_{C}$ is the clustering algorithm, $F_{M}$ is the manifold learner, $F_{A}$ is the autoencoder and $X$ is the original data.
+More concisely, we may also simply represent N2D as where $C$ is the final clustering, $F_{C}$ is the clustering algorithm, $F_{M}$ is the manifold learner, $F_{A}$ is the autoencoder and $X$ is the original data.
 
 We will study three manifold learning methods to understand the effect of the various approaches when applied to both the raw data and the autoencoded embedding, showing how one specific method, UMAP, achieves superior performance when applied to the embedding. On the question of why combine an autoencoder with a manifold learning method, we will demonstrate empirically in Section IV-D Deep Clustering via Clustering the Local Manifold of an Autoencoded Embedding") the contribution of each step to the overall performance, showing how this step can significantly increase performance. We will also demonstrate in Section IV-D Deep Clustering via Clustering the Local Manifold of an Autoencoded Embedding") how it is competitive with the state-of-the-art across a range of datasets, both image and time-series, and itself achieves state-of-the-art results on several.
 
@@ -98,9 +94,7 @@ MNIST-test: A subset of the MNIST dataset, containing only the test set of 10,00
 
 USPS: A dataset of 9298 images belonging to 10 different classes. Whereas MNIST images are 28x28, these images are 16x16.
 
-Fashion: A more challenging alternative to the MNIST dataset, consisting of 70,000 images of clothing, for a total of 10 classes.
-
-pendigits: A time series dataset consisting of sampled points from a pressure sensitive tablet as ten different digits are written. Each digit is represented by 8 coordinates of the stylus when writing a specific digit. There are 10992 data points.
+Fashion: A more challenging alternative to the MNIST dataset, consisting of 70,000 images of clothing, for a total of 10 classes. pendigits: A time series dataset consisting of sampled points from a pressure sensitive tablet as ten different digits are written. Each digit is represented by 8 coordinates of the stylus when writing a specific digit. There are 10992 data points.
 
 HAR: A time series dataset consisting of sensor data from a smart phone. It was collected from 30 people performing various activities of daily living, and contains 6 different activities; walking, walking upstairs, walking downstairs, sitting, standing and laying.
 
@@ -112,15 +106,11 @@ We will use two standard evaluation metrics for validating the performance of un
 
 ### IV-B1 Accuracy
 
-In clustering, accuracy (ACC) is defined as the best match between the ground truth and the predicted clusters.
-
-where $y$ are the ground truth labels, $c$ are the cluster labels, and $m$ enumerates mappings between clusters and labels.
+In clustering, accuracy (ACC) is defined as the best match between the ground truth and the predicted clusters. where $y$ are the ground truth labels, $c$ are the cluster labels, and $m$ enumerates mappings between clusters and labels.
 
 ### IV-B2 Normalized Mutual Information
 
-The Normalized Mutual Information (NMI) can be viewed as a normalization of the mutual information to scale the results between 0 and 1, where 0 has no mutual information and 1 is perfect correlation. More concretely, NMI is defined as:
-
-where $y$ are the ground truth labels, $c$ are the cluster labels, $H$ measures the entropy, and $I$ is the mutual information between the ground truth labels and the cluster labels.
+The Normalized Mutual Information (NMI) can be viewed as a normalization of the mutual information to scale the results between 0 and 1, where 0 has no mutual information and 1 is perfect correlation. More concretely, NMI is defined as: where $y$ are the ground truth labels, $c$ are the cluster labels, $H$ measures the entropy, and $I$ is the mutual information between the ground truth labels and the cluster labels.
 
 ### IV-C Experimental Settings
 

@@ -12,23 +12,7 @@ Reinforcement learning assumes that there is an agent that is situated in an env
 
 OpenAI Gym focuses on the episodic setting of reinforcement learning, where the agent's experience is broken down into a series of episodes. In each episode, the agent's initial state is randomly sampled from a distribution, and the interaction proceeds until the environment reaches a terminal state. The goal in episodic reinforcement learning is to maximize the expectation of total reward per episode, and to achieve a high level of performance in as few episodes as possible.
 
-The following code snippet shows a single episode with 100 timesteps. It assumes that there is an object called agent, which takes in the observation at each timestep, and an object called env, which is the environment. OpenAI Gym does not include an agent class or specify what interface the agent should use; we just include an agent here for demonstration purposes.
-
-[⬇](data:text/plain;base64,ICAgIG9iMCA9IGVudi5yZXNldCgpICMgc2FtcGxlIGVudmlyb25tZW50IHN0YXRlLCByZXR1cm4gZmlyc3Qgb2JzZXJ2YXRpb24KICAgIGEwID0gYWdlbnQuYWN0KG9iMCkgIyBhZ2VudCBjaG9vc2VzIGZpcnN0IGFjdGlvbgogICAgb2IxLCByZXcwLCBkb25lMCwgaW5mbzAgPSBlbnYuc3RlcChhMCkgIyBlbnZpcm9ubWVudCByZXR1cm5zIG9ic2VydmF0aW9uLAogICAgIyByZXdhcmQsIGFuZCBib29sZWFuIGZsYWcgaW5kaWNhdGluZyBpZiB0aGUgZXBpc29kZSBpcyBjb21wbGV0ZS4KICAgIGExID0gYWdlbnQuYWN0KG9iMSkKICAgIG9iMiwgcmV3MSwgZG9uZTEsIGluZm8xID0gZW52LnN0ZXAoYTEpCiAgICAuLi4KICAgIGE5OSA9IGFnZW50LmFjdChvOTkpCiAgICBvYjEwMCwgcmV3OTksIGRvbmU5OSwgaW5mbzIgPSBlbnYuc3RlcChhOTkpCiAgICAjIGRvbmU5OSA9PSBUcnVlICA9PiAgdGVybWluYWw=){download=""}
-
-ob0 = env.reset() \# sample environment state, return first observation
-
-a0 = agent.act(ob0) \# agent chooses first action
-
-ob1, rew0, done0, info0 = env.step(a0) \# environment returns observation,
-
-\# reward, and boolean flag indicating if the episode is complete.
-
-ob2, rew1, done1, info1 = env.step(a1)
-
-ob100, rew99, done99, info2 = env.step(a99)
-
-\# done99 == True =\> terminal
+The following code snippet shows a single episode with 100 timesteps. It assumes that there is an object called agent, which takes in the observation at each timestep, and an object called env, which is the environment. OpenAI Gym does not include an agent class or specify what interface the agent should use; we just include an agent here for demonstration purposes. [⬇](data:text/plain;base64,ICAgIG9iMCA9IGVudi5yZXNldCgpICMgc2FtcGxlIGVudmlyb25tZW50IHN0YXRlLCByZXR1cm4gZmlyc3Qgb2JzZXJ2YXRpb24KICAgIGEwID0gYWdlbnQuYWN0KG9iMCkgIyBhZ2VudCBjaG9vc2VzIGZpcnN0IGFjdGlvbgogICAgb2IxLCByZXcwLCBkb25lMCwgaW5mbzAgPSBlbnYuc3RlcChhMCkgIyBlbnZpcm9ubWVudCByZXR1cm5zIG9ic2VydmF0aW9uLAogICAgIyByZXdhcmQsIGFuZCBib29sZWFuIGZsYWcgaW5kaWNhdGluZyBpZiB0aGUgZXBpc29kZSBpcyBjb21wbGV0ZS4KICAgIGExID0gYWdlbnQuYWN0KG9iMSkKICAgIG9iMiwgcmV3MSwgZG9uZTEsIGluZm8xID0gZW52LnN0ZXAoYTEpCiAgICAuLi4KICAgIGE5OSA9IGFnZW50LmFjdChvOTkpCiAgICBvYjEwMCwgcmV3OTksIGRvbmU5OSwgaW5mbzIgPSBlbnYuc3RlcChhOTkpCiAgICAjIGRvbmU5OSA9PSBUcnVlICA9PiAgdGVybWluYWw=){download=""} ob0 = env.reset \# sample environment state, return first observation a0 = agent.act(ob0) \# agent chooses first action ob1, rew0, done0, info0 = env.step(a0) \# environment returns observation, \# reward, and boolean flag indicating if the episode is complete. ob2, rew1, done1, info1 = env.step(a1) ob100, rew99, done99, info2 = env.step(a99) \# done99 == True =\> terminal
 
 ## Design Decisions
 
@@ -40,7 +24,7 @@ Emphasize sample complexity, not just final performance. The performance of an R
 
 Both final performance and sample complexity are very interesting, however, arbitrary amounts of computation can be used to boost final performance, making it a comparison of computational resources rather than algorithm quality.
 
-Encourage peer review, not competition. The OpenAI Gym website allows users to compare the performance of their algorithms. One of its inspiration is [Kaggle](http://kaggle.com), which hosts a set of machine learning contests with leaderboards. However, the aim of the OpenAI Gym scoreboards is not to create a competition, but rather to stimulate the sharing of code and ideas, and to be a meaningful benchmark for assessing different methods.
+Encourage peer review, not competition. The OpenAI Gym website allows users to compare the performance of their algorithms. One of its inspiration is Kaggle, which hosts a set of machine learning contests with leaderboards. However, the aim of the OpenAI Gym scoreboards is not to create a competition, but rather to stimulate the sharing of code and ideas, and to be a meaningful benchmark for assessing different methods.
 
 RL presents new challenges for benchmarking. In the supervised learning setting, performance is measured by prediction accuracy on a test set, where the correct outputs are hidden from contestants. In RL, it's less straightforward to measure generalization performance, except by running the users' code on a collection of unseen environments, which would be computationally expensive. Without a hidden test set, one must check that an algorithm did not "overfit" on the problems it was tested on (for example, through parameter tuning).
 
@@ -54,9 +38,7 @@ Figure 1: Images of some environments that are currently part of OpenAI Gym.
 
 ## Environments
 
-OpenAI Gym contains a collection of Environments (POMDPs), which will grow over time. See Figure 1 for examples. At the time of Gym's initial beta release, the following environments were included:
-
-Classic control and toy text: small-scale tasks from the RL literature.
+OpenAI Gym contains a collection of Environments (POMDPs), which will grow over time. See Figure 1 for examples. At the time of Gym's initial beta release, the following environments were included: Classic control and toy text: small-scale tasks from the RL literature.
 
 Algorithmic: perform computations such as adding multi-digit numbers and reversing sequences. Most of these tasks require memory, and their difficulty can be chosen by varying the sequence length.
 

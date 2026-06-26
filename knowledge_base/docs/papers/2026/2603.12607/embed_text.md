@@ -18,9 +18,7 @@ We also introduce the Context-Adaptive Multi-Expert Decoder (CMD), which leverag
 
 We evaluate CarPLAN on the widely used nuPlan benchmark. Our CarPLAN achieved state-of-the-art (SOTA) performance across all closed-loop simulation metrics. In particular, it attained a remarkable score of 84.6 in the reactive simulation and 91.4 in the non-reactive simulation on the benchmark. Furthermore, CarPLAN demonstrated robust performance on the more challenging -Hard, which includes complex and difficult driving scenarios. To further examine generalization ability, we also conducted a reactive simulation on the Waymax benchmark, where CarPLAN consistently achieved performance improvements over baseline methods across diverse scenarios.
 
-The main contributions of this paper are summarized below:
-
-We propose CarPLAN, a novel approach for IL-based motion planning that enhances the model's awareness of its surroundings, the proposed DPE predicts future displacement vectors between AV and objects in the scene.
+The main contributions of this paper are summarized below: We propose CarPLAN, a novel approach for IL-based motion planning that enhances the model's awareness of its surroundings, the proposed DPE predicts future displacement vectors between AV and objects in the scene.
 
 CarPLAN adopts MoE for context-adaptive planning in diverse environments. This idea enhances the planner's ability to interpret and adapt to varying scenes, resulting in improved trajectory planning.
 
@@ -46,7 +44,7 @@ The overall architecture of CarPLAN is depicted in Figure 2. CarPLAN first encod
 
 ### III-B Problem Formulation
 
-This work addresses the critical challenge of AV planning in complex urban environments, aiming to generate safe future trajectories that consider the scene contexts and interactions with dynamic agents (e.g., vehicles, bicycles, and pedestrians). We consider a driving scene consisting of an AV, surrounding agents, and a vectorized map. The state information of all agents over the historical horizon $T_{h}$ is represented as $A_{0:N_{a}} = {\{ A_{a}^{{- T_{h}}:0}\}}_{a = 0}^{N_{a}}$, where $A_{0}$ corresponds to the states of the AV, and $A_{1:N_{a}}$ represents those of the surrounding agents. Each state includes the position, heading, velocity, size, and category of the agent. For the vectorized map, we define $P_{1:N_{p}}$ as a collection of map elements, represented as points that compose lane geometry, crosswalks, road boundaries, and so . Additionally, multiple centerlines in the form of polylines are provided as guidance for the AV to navigate toward its goal position, denoted as $L_{g} = {\{ L_{k}\}}_{k = 1}^{N_{K}}$, where $N_{K}$ represents the number of centerlines connected to the goal in the current scene. The goal position corresponds to the last point of a long logged sequence, which is much longer than the planned trajectory's prediction horizon. Given all these conditions, the objective of planning is to generate the $M$ trajectory states of AV over $T_{f}$ future time steps, $\hat{Y} = {\{{\hat{y}}_{m}^{1:T_{f}}\}}_{m = 1}^{M}$ and their corresponding confidence scores $\hat{C} = {\{{\hat{c}}_{m}\}}_{m = 1}^{M}$.
+This work addresses the critical challenge of AV planning in complex urban environments, aiming to generate safe future trajectories that consider the scene contexts and interactions with dynamic agents (e.g., vehicles, bicycles, and pedestrians). We consider a driving scene consisting of an AV, surrounding agents, and a vectorized map. The state information of all agents over the historical horizon $T_{h}$ is represented as $A_{0:N_{a}}=\{A_{a}^{-T_{h}:0}\}_{a=0}^{N_{a}}$, where $A_{0}$ corresponds to the states of the AV, and $A_{1:N_{a}}$ represents those of the surrounding agents. Each state includes the position, heading, velocity, size, and category of the agent. For the vectorized map, we define $P_{1:N_{p}}$ as a collection of map elements, represented as points that compose lane geometry, crosswalks, road boundaries, and so . Additionally, multiple centerlines in the form of polylines are provided as guidance for the AV to navigate toward its goal position, denoted as $L_{g}=\{L_{k}\}_{k=1}^{N_{K}}$, where $N_{K}$ represents the number of centerlines connected to the goal in the current scene. The goal position corresponds to the last point of a long logged sequence, which is much longer than the planned trajectory's prediction horizon. Given all these conditions, the objective of planning is to generate the $M$ trajectory states of AV over $T_{f}$ future time steps, $\hat{Y}=\{\hat{y}_{m}^{1:T_{f}}\}_{m=1}^{M}$ and their corresponding confidence scores $\hat{C}=\{\hat{c}_{m}\}_{m=1}^{M}$.
 
 ### III-C Displacement-Aware Predictive Encoder
 
@@ -54,13 +52,11 @@ DPE consists of the Scene Encoder and the Displacement Predictor. The Scene Enco
 
 ### III-C1 Scene Encoder
 
-The Scene Encoder processes $A_{0}$, $A_{1:N_{a}}$, and $P_{1:N_{p}}$ to encode them jointly through Transformer. Specifically, these elements are encoded into $S_{av}$, $S_{agent}$, and $S_{map}$ using modality-specific encoding modules, as suggested . These encoded features are concatenated as $S = {\lbrack S_{av};S_{agent};S_{map}\rbrack}$, and then fed to a Transformer Encoder to generate the scene context features $S^{\prime} = {\lbrack S_{av}^{\prime};S_{agent}^{\prime};S_{map}^{\prime}\rbrack} \in {\mathbb{R}}^{{({1 + N_{a} + N_{p}})} \times D}$, where $\lbrack \cdot \rbrack$ denotes a concatenation operation.
+The Scene Encoder processes $A_{0}$, $A_{1:N_{a}}$, and $P_{1:N_{p}}$ to encode them jointly through Transformer. Specifically, these elements are encoded into $S_{av}$, $S_{agent}$, and $S_{map}$ using modality-specific encoding modules, as suggested . These encoded features are concatenated as $S=[S_{av};S_{agent};S_{map}]$, and then fed to a Transformer Encoder to generate the scene context features $S^{\prime}=[S^{\prime}_{av};S^{\prime}_{agent};S^{\prime}_{map}]\in\mathbb{R}^{(1+N_{a}+N_{p})\times D}$, where $[\cdot]$ denotes a concatenation operation.
 
 ### III-C2 Displacement Predictor
 
-The Displacement Predictor guides the Scene Encoder to generate Displacement-Aware Features $F^{D} = S^{\prime}$, which encode information on relative spacing to scene elements. This is achieved by training DPE to predict future displacement vectors between the AV and surrounding traffic and dynamic objects. To effectively capture the relational information between the AV and the neighboring agents, we concatenate the AV feature $F_{av}^{D}$ with the agent features $F_{agent}^{D}$ channel-wise, resulting in the features $F_{agent}$. Similarly, we concatenate $F_{av}^{D}$ with the map features $F_{map}^{D}$ channel-wise to obtain $F_{map}$. Then, after concatenating $F_{agent}$ and $F_{map}$, DispHead is applied to predict the displacement vectors at $T_{f}$ future timesteps, i.e.,
-
-where $\text{DispHead}{( \cdot )}$ consists of two MLP layers. Note that the process of predicting the future displacement is performed only during the training phase, not during inference.
+The Displacement Predictor guides the Scene Encoder to generate Displacement-Aware Features $F^{D}=S^{\prime}$, which encode information on relative spacing to scene elements. This is achieved by training DPE to predict future displacement vectors between the AV and surrounding traffic and dynamic objects. To effectively capture the relational information between the AV and the neighboring agents, we concatenate the AV feature $F^{D}_{av}$ with the agent features $F^{D}_{agent}$ channel-wise, resulting in the features $F_{agent}$. Similarly, we concatenate $F^{D}_{av}$ with the map features $F^{D}_{map}$ channel-wise to obtain $F_{map}$. Then, after concatenating $F_{agent}$ and $F_{map}$, DispHead is applied to predict the displacement vectors at $T_{f}$ future timesteps, i.e., where $\text{DispHead}(\cdot)$ consists of two MLP layers. Note that the process of predicting the future displacement is performed only during the training phase, not during inference.
 
 ### III-D Context-Adaptive Multi-Expert Decoder
 
@@ -72,31 +68,21 @@ The Scene-Aware Router processes Displacement-Aware Features to extract high-lev
 
 ### III-D1 Scene-Aware Router
 
-The Scene-Aware Router produces the probability scores for Routed Experts based on Trajectory Query $Q_{traj}$ and Displacement-Aware Features $F^{D}$. Using $Q_{traj}$ as the query and the Displacement-Aware Features $F^{D}$ as the key and value, the Scene-Aware Router performs
+The Scene-Aware Router produces the probability scores for Routed Experts based on Trajectory Query $Q_{traj}$ and Displacement-Aware Features $F^{D}$. Using $Q_{traj}$ as the query and the Displacement-Aware Features $F^{D}$ as the key and value, the Scene-Aware Router performs where $\text{SA}(\cdot)$ and $\text{CA}(\cdot)$ represent self-attention and cross-attention operations, respectively.
 
-where $\text{SA}{( \cdot )}$ and $\text{CA}{( \cdot )}$ represent self-attention and cross-attention operations, respectively.
-
-Therefore, $Q_{Routed}$ captures the AV's driving intention as well as its relationship with the surrounding scene. Subsequently, $Q_{Routed}$ is passed through an MLP layer followed by a softmax function to predict the scores for the $N$ Routed Experts. For each query, we select the top-$K$ Specific Experts based on these scores:
-
-where $E$ represents the indices of the experts selected by the Top-$K$ operation, and $R_{i}$ denotes the score of the $i$-th expert selected for each query.
+Therefore, $Q_{Routed}$ captures the AV's driving intention as well as its relationship with the surrounding scene. Subsequently, $Q_{Routed}$ is passed through an MLP layer followed by a softmax function to predict the scores for the $N$ Routed Experts. For each query, we select the top-$K$ Specific Experts based on these scores: where $E$ represents the indices of the experts selected by the Top-$K$ operation, and $R_{i}$ denotes the score of the $i$-th expert selected for each query.
 
 ### III-D2 Scene-Specific Experts
 
-Scene-Specific Experts transform the Trajectory Query $Q_{traj}$ while integrating relevant information for AV planning. Before this transformation, an operation similar to Equation 2 is performed using $Q_{traj}$ as the query and the Displacement-Aware Features $F^{D}$ as the key and value, producing the features $Q_{Expert}^{\prime}$. Next, the top-$K$ Routed Experts and Shared Experts, each composed of Feed-Forward Networks (FFNs), independently process each element of $Q_{Expert}^{\prime}$. Note that the top-$K$ Routed Experts are selected by the Scene-Aware Router.
+Scene-Specific Experts transform the Trajectory Query $Q_{traj}$ while integrating relevant information for AV planning. Before this transformation, an operation similar to Equation 2 is performed using $Q_{traj}$ as the query and the Displacement-Aware Features $F^{D}$ as the key and value, producing the features $Q^{\prime}_{Expert}$. Next, the top-$K$ Routed Experts and Shared Experts, each composed of Feed-Forward Networks (FFNs), independently process each element of $Q^{\prime}_{Expert}$. Note that the top-$K$ Routed Experts are selected by the Scene-Aware Router.
 
-Finally, the features produced by the Routed Experts and Shared Experts are combined to generate the scene-aware feature $F_{sa}$, formulated as
-
-where $S_{i}{( \cdot )}$ and $E_{i}{( \cdot )}$ denote the outputs of the $i$-th Shared Expert and the $i$-th Routed Expert, respectively. Notice that the outputs of the top-$K$ Routed Experts are weighted by the scores produced by the Scene-Aware Router.
+Finally, the features produced by the Routed Experts and Shared Experts are combined to generate the scene-aware feature $F_{sa}$, formulated as where $S_{i}(\cdot)$ and $E_{i}(\cdot)$ denote the outputs of the $i$-th Shared Expert and the $i$-th Routed Expert, respectively. Notice that the outputs of the top-$K$ Routed Experts are weighted by the scores produced by the Scene-Aware Router.
 
 After passing through a total of $L_{dec}$ layers, the extracted final scene-aware features $F_{sa}$ are used to generate the AV's future trajectory $\hat{Y}$ and confidence score $\hat{C}$ through a regression head and a classification head.
 
 ### III-E Learning Process
 
-The total loss $L_{total}$ used to train CarPLAN is given by
-
-where $L_{plan}$, $L_{disp}$, and $L_{bal}$ represent the Planning Loss, Displacement-Aware Predictive Loss, and Expert Balancing Loss, respectively. The Planning Loss $L_{plan}$ is computed using the smooth L1 loss and cross-entropy loss, $L_{plan} = {{L1_{smooth}{(Y,\hat{Y})}} + {\text{CrossEntropy}{(C,\hat{C})}}}$, where $Y$ and $C$ are the AV's ground truth trajectory and score. The Displacement-Aware Predictive Loss $L_{disp}$ is calculated using the smooth L1 loss from
-
-where $x_{a}^{t}$ denotes the positions of agent $a$ at $t$ timestep and $D_{1:{N_{a} + N_{p}}}^{1:T_{f}}$ is the ground truth displacement of surrounding scene elements over $T_{f}$ horizon. Lastly, we employ the Expert Balance Loss $L_{bal}$ to guarantee a balanced selection of experts.
+The total loss $L_{total}$ used to train CarPLAN is given by where $L_{plan}$, $L_{disp}$, and $L_{bal}$ represent the Planning Loss, Displacement-Aware Predictive Loss, and Expert Balancing Loss, respectively. The Planning Loss $L_{plan}$ is computed using the smooth L1 loss and cross-entropy loss, $L_{plan}=L1_{smooth}(Y,\hat{Y})+\text{CrossEntropy}(C,\hat{C})$, where $Y$ and $C$ are the AV's ground truth trajectory and score. The Displacement-Aware Predictive Loss $L_{disp}$ is calculated using the smooth L1 loss from | | $\displaystyle L_{disp}$ | $\displaystyle=L1_{smooth}(D_{1:N_{a}+N_{p}}^{1:T_{f}},\hat{D}_{1:N_{a}+N_{p}}^{1:T_{f}})$ | | \(6\) | where $x_{a}^{t}$ denotes the positions of agent $a$ at $t$ timestep and $D_{1:N_{a}+N_{p}}^{1:T_{f}}$ is the ground truth displacement of surrounding scene elements over $T_{f}$ horizon. Lastly, we employ the Expert Balance Loss $L_{bal}$ to guarantee a balanced selection of experts.
 
 TABLE I: Closed-loop simulation results , -Hard, and -Random. The “–” symbol means the metric is unknown.
 
@@ -114,10 +100,9 @@ In addition to the nuPlan benchmark, we further evaluated the proposed model on 
 
 ### IV-A2 Implementation Details
 
-We utilized agent states from the past $T_{h} = 2$ seconds, sampled at 10Hz. To mitigate the shortcut learning issue identified , only the current state of the AV was used. Both the Scene Encoder and CMD consist of four stacked layers. In CMD, the first layer employs a single feed-forward network (FFN) without a Mixture of Experts (MoE), while the remaining layers incorporate two shared expert decoders and 16 routed expert decoders. When integrating with post-processing, we followed the method suggested . The detailed configurations for our model are provided in the Supplementary Material.
+We utilized agent states from the past $T_{h}=2$ seconds, sampled at 10Hz. To mitigate the shortcut learning issue identified , only the current state of the AV was used. Both the Scene Encoder and CMD consist of four stacked layers. In CMD, the first layer employs a single feed-forward network (FFN) without a Mixture of Experts (MoE), while the remaining layers incorporate two shared expert decoders and 16 routed expert decoders. When integrating with post-processing, we followed the method suggested . The detailed configurations for our model are provided in the Supplementary Material.
 
-TABLE III: Ablation study of CarPLAN.
-SSE: Scene-Specific Experts, SAR: Scene-Aware Router.
+TABLE III: Ablation study of CarPLAN. SSE: Scene-Specific Experts, SAR: Scene-Aware Router.
 
 ### IV-B Performance Comparison
 
@@ -145,9 +130,7 @@ TABLE V: Ablation study for CMD.
 
 Table V analyzes the impact of the number of routed experts, Top-$K$ selection, and the inclusion of two additional shared experts on performance. The results show that the best performance is achieved when Top-2 experts are selected from 16 routed experts, with two shared experts enabled. Increasing or decreasing the number of experts to 32 or 8 does not lead to any performance improvement. Notably, the presence of two shared experts provides a significant performance boost. The shared experts are responsible for capturing general and context-invariant driving patterns, while the routed experts focus on scenario-specific behaviors. This complementary design allows the model to maintain globally consistent driving representations while adapting to diverse contexts, leading to improved robustness in planning.
 
-TABLE VI: Inference Efficiency Analysis
-
-Figure 3: Visualization of expert selection scores across layers. The dark red vehicle represents the AV, while the yellow and red lines indicate the ground truth (GT) and the predicted future trajectory with the highest score, respectively. The softmax scores are displayed for layers 2, 3, and 4. (a) In two distinct straight-driving scenarios, differences in the distribution of surrounding agents lead to distinct expert selections. (b) In similar driving scenarios, expert selection remains mostly consistent.
+TABLE VI: Inference Efficiency Analysis Figure 3: Visualization of expert selection scores across layers. The dark red vehicle represents the AV, while the yellow and red lines indicate the ground truth (GT) and the predicted future trajectory with the highest score, respectively. The softmax scores are displayed for layers 2, 3, and 4. (a) In two distinct straight-driving scenarios, differences in the distribution of surrounding agents lead to distinct expert selections. (b) In similar driving scenarios, expert selection remains mostly consistent.
 
 ### IV-C4 Inference Efficiency Analysis
 

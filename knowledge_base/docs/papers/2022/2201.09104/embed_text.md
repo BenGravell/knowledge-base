@@ -14,21 +14,11 @@ We consider an infinite-horizon discounted Markov decision process, defined by t
 
 ### II-A Policy Gradient Methods
 
-The policy gradient method parameterizes its policy with parameters $\theta$ and aims to minimize the negative expected reward of its trajectories:
-
-where for each time step $t$ in the trajectory $\tau$: ${r{(\tau)}_{t}} = {\sum_{i = 0}^{\infty}{\gamma^{i}r{(a_{t + i},s_{t + i})}}}$ is the discounted cumulative reward after taking action $a_{t}$ in state $s_{t}$ and $\pi{( \cdot |\theta)}_{t} = \pi{(a_{t}|s_{t},\theta)}$ is the policy's probability of taking action $a_{t}$. In general, to optimize (II.1), the policy gradient method uses the following gradient:
-
-where $\Psi$ is typically chosen as an advantage function, $A$, which has the general form of: ${A{(a_{t},s_{t})}} = {{r{(\tau)}_{t}} - {V{(s_{t})}}}$, where $V{(s_{t})}$ is the expected cumulative reward of the policy in state $s_{t}$. In our experiments, we set $\Psi$ to use the generalized advantage estimation method (GAE) which involves training a critic network to estimate $V{(s_{t})}$. While the policy gradient method directly optimizes (II.2), doing so often results in high-variance gradient estimates which leads to unstable training and poor performance.
+The policy gradient method parameterizes its policy with parameters $\theta$ and aims to minimize the negative expected reward of its trajectories: where for each time step $t$ in the trajectory $\tau$: ${r{(\tau)}_{t}} = {\sum_{i = 0}^{\infty}{\gamma^{i}r{(a_{t + i},s_{t + i})}}}$ is the discounted cumulative reward after taking action $a_{t}$ in state $s_{t}$ and $\pi{(\cdot |\theta)}_{t} = \pi{(a_{t}|s_{t},\theta)}$ is the policy's probability of taking action $a_{t}$. In general, to optimize (II.1), the policy gradient method uses the following gradient: where $\Psi$ is typically chosen as an advantage function, $A$, which has the general form of: ${A{(a_{t},s_{t})}} = {{r{(\tau)}_{t}} - {V{(s_{t})}}}$, where $V{(s_{t})}$ is the expected cumulative reward of the policy in state $s_{t}$. In our experiments, we set $\Psi$ to use the generalized advantage estimation method (GAE) which involves training a critic network to estimate $V{(s_{t})}$. While the policy gradient method directly optimizes (II.2), doing so often results in high-variance gradient estimates which leads to unstable training and poor performance.
 
 ### II-B Natural Policy Gradient Methods
 
-To stabilize training, the natural policy gradient method restricts how much the policy can change across training iterations by adding a Kullback--Leibler divergence constraint ($D_{KL}$) between policy iterations:
-
-where $\theta^{(k)}$ defines the parameters at optimization iteration $k$. To approximately solve (II.3), we use a first-order taylor-series approximation of $L$ around $\theta^{(k)}$, a second-order taylor-series approximation of $D_{KL}$, and solve for the optimum (see and for a full derivation). In doing so, we derive the natural policy gradient method,
-
-where $F$ is the Fisher-information matrix:
-
-Figure 1: Diagram of the two hyperparameters introduced in this paper for natural policy gradient methods: tuning the batch size for performance and optimizing the critic method using the natural gradient. These strategies can be applied across all second-order approximations for any reinforcement learning environment.
+To stabilize training, the natural policy gradient method restricts how much the policy can change across training iterations by adding a Kullback--Leibler divergence constraint ($D_{KL}$) between policy iterations: where $\theta^{(k)}$ defines the parameters at optimization iteration $k$. To approximately solve (II.3), we use a first-order taylor-series approximation of $L$ around $\theta^{(k)}$, a second-order taylor-series approximation of $D_{KL}$, and solve for the optimum (see and for a full derivation). In doing so, we derive the natural policy gradient method, where $F$ is the Fisher-information matrix: Figure 1: Diagram of the two hyperparameters introduced in this paper for natural policy gradient methods: tuning the batch size for performance and optimizing the critic method using the natural gradient. These strategies can be applied across all second-order approximations for any reinforcement learning environment.
 
 ## Second-Order Approximations
 
@@ -60,7 +50,7 @@ TABLE I: Mean metrics of five different approximations across seven different Mu
 
 Another hyperparameter is to improve the optimization of the critic network using the natural gradient. While some work investigated using clipped targets to stabilize training, ACKTR used the natural gradient to further improve the stability and showed improved performance using KFAC optimization for both the policy and the critic network.
 
-While ACKTR investigated applying only KFAC optimization to both the policy network and the critic network, we investigate five different second-order approximations for the policy network and for each of these we investigate five second-order approximations for tuning the critic network. To achieve this, we leverage the models with a tuned batch size and use grid search to find the best approximation to optimize the critic network with. The results are shown in Section V-B.
+While ACKTR investigated applying only KFAC optimization to both the policy network and the critic network, we investigate five different second-order approximations for the policy network and for each of these we investigate five second-order approximations for tuning the critic network. To achieve this, we leverage the models with a tuned batch size and use grid search to find the best approximation to optimize the critic network . The results are shown in Section V-B.
 
 ## Experiments
 

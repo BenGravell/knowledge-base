@@ -8,19 +8,7 @@ Nemotron 3 Super is our first model to use LatentMoE (latentmoe_tr) - a novel Mo
 
 We trained Nemotron 3 Super with a strong emphasis on agentic capabilities. To support this objective, we substantially scaled the breadth of our RL environments, the volume and quality of agentic training data, and the overall amount of post-training focused on multi-step tool-using behavior. To train effectively on this diverse set of long-horizon tasks, we made substantial improvements to the resiliency of our RL infrastructure, enabling large-scale asynchronous training. This expanded agentic training recipe yields substantial improvements over Nemotron 3 Nano across software engineering, terminal use, and general tool use benchmarks.
 
-We are publicly sharing the training recipe for Nemotron 3 Super on the Nemotron Developer Repository^11^1 We are also openly releasing the following:
-
-Nemotron 3 Super 120B-A12B NVFP4: post-trained and NVFP4 quantized model
-
-Nemotron 3 Super 120B-A12B FP8: post-trained and FP8 quantized model
-
-Nemotron 3 Super 120B-A12B: post-trained model
-
-Nemotron 3 Super 120B-A12B Base: base model
-
-Qwen3-Nemotron-235B-A22B-GenRM-2603: GenRM used for RLHF
-
-Nemotron-Pretraining-Specialized-v1.1: a collection of synthetic datasets aimed to improve LLM capabilities in code concepts and algorithms, formal logic, economics, and multiple choice questions.
+We are publicly sharing the training recipe for Nemotron 3 Super on the Nemotron Developer Repository^11^1 We are also openly releasing the following: Nemotron 3 Super 120B-A12B NVFP4: post-trained and NVFP4 quantized model Nemotron 3 Super 120B-A12B FP8: post-trained and FP8 quantized model Nemotron 3 Super 120B-A12B: post-trained model Nemotron 3 Super 120B-A12B Base: base model Qwen3-Nemotron-235B-A22B-GenRM-2603: GenRM used for RLHF Nemotron-Pretraining-Specialized-v1.1: a collection of synthetic datasets aimed to improve LLM capabilities in code concepts and algorithms, formal logic, economics, and multiple choice questions.
 
 Nemotron-Super-Post-Training-Data: a collection of RL environments and SFT datasets targeting a broad range of agentic capabilities.
 
@@ -34,25 +22,7 @@ In this section, we highlight the key features of Nemotron 3 Super 120B-A12B Bas
 
 Figure 2: Nemotron 3 Super layer pattern. Similar to Nemotron 3 Nano, we use a hybrid Mamba-Attention architecture, but Nemotron 3 Super is the first model to scale sparsely using LatentMoE layers rather than standard MoE layers.
 
-Nemotron 3 Super 120B-A12B Base
-
-Mamba State Dimension
-
-Mamba Head Dimension
-
-Expert Hidden Dimension
-
-Shared Expert Intermediate Size
-
-Total Experts per Layer
-
-Top-k (Activated Experts)
-
-MoE Latent Size
-
-MTP layers (shared weight)
-
-Table 1: Nemotron 3 Super Architectural Dimensions. The model employs a hybrid Mamba-2 and MoE design with strategic global attention layers to optimize the balance between sequence modeling performance and inference throughput.
+Nemotron 3 Super 120B-A12B Base Mamba State Dimension Mamba Head Dimension Expert Hidden Dimension Shared Expert Intermediate Size Total Experts per Layer Top-k (Activated Experts) MoE Latent Size MTP layers (shared weight) Table 1: Nemotron 3 Super Architectural Dimensions. The model employs a hybrid Mamba-2 and MoE design with strategic global attention layers to optimize the balance between sequence modeling performance and inference throughput.
 
 Nemotron 3 Super 120B-A12B Base scales up the hybrid Mamba-Attention Mixture-of-Experts (MoE) architecture introduced in Nemotron-3 Nano (nvidia2025nvidianemotron3efficient). We extend this foundation to 120.6B total parameters, maintaining a constrained active budget of 12.7B parameters (12.1B excluding embeddings) per forward pass. The architecture comprises three core pillars: sparse LatentMoE scaling (§2.1.1), Multi-Token Prediction (MTP) for inference acceleration (§2.1.2), and a periodic hybrid interleaving pattern (§2.1.3).
 
@@ -60,15 +30,13 @@ Nemotron 3 Super 120B-A12B Base scales up the hybrid Mamba-Attention Mixture-of-
 
 Mixture-of-Experts (MoE) architectures have emerged as a promising approach to maximize accuracy under fixed inference cost, allowing models to scale in parameter count while keeping floating-point operations (FLOPs) per token constant. Existing MoE designs are largely motivated by high-level sparsity arguments and optimized for offline, throughput-oriented settings, with little consideration for online deployments that impose strict latency, memory bandwidth, and communication constraints. Whereas accuracy per FLOP reflects computational efficiency, accuracy per parameter captures memory footprint, memory bandwidth, routing-induced communication, and sharding overhead. Neglecting these factors can yield architectures that appear efficient in aggregate compute yet incur substantial inefficiency in practice.
 
-Motivated by these observations, we revisited MoE design from a hardware--software co-design perspective. Through systematic analysis of existing MoE systems across the throughput--latency Pareto frontier, together with accuracy measurements and theoretical analysis, we identified structural inefficiencies in prevailing MoE designs that limit accuracy per unit inference cost. From this analysis we distilled the following design principles for efficient MoE scaling:
+Motivated by these observations, we revisited MoE design from a hardware--software co-design perspective. Through systematic analysis of existing MoE systems across the throughput--latency Pareto frontier, together with accuracy measurements and theoretical analysis, we identified structural inefficiencies in prevailing MoE designs that limit accuracy per unit inference cost. From this analysis we distilled the following design principles for efficient MoE scaling: In low-latency serving, MoE inference is often dominated by the memory bandwidth cost of reading expert weights. Each expert matrix has size $d\times m$, where $d$ is the hidden dimension and $m$ is the expert FFN intermediate dimension; reducing this cost therefore requires decreasing $d$ or $m$.
 
-In low-latency serving, MoE inference is often dominated by the memory bandwidth cost of reading expert weights. Each expert matrix has size $d \times m$, where $d$ is the hidden dimension and $m$ is the expert FFN intermediate dimension; reducing this cost therefore requires decreasing $d$ or $m$.
+In throughput-oriented serving, distributed MoE inference is dominated by all-to-all routing. Routing volume scales as $d\times K$, where $K$ is the number of active experts; reducing communication overhead therefore requires decreasing $d$ or $K$.
 
-In throughput-oriented serving, distributed MoE inference is dominated by all-to-all routing. Routing volume scales as $d \times K$, where $K$ is the number of active experts; reducing communication overhead therefore requires decreasing $d$ or $K$.
+Preserving model quality requires preserving the effective nonlinear budget $K\cdot m$. To relieve memory and communication bottlenecks without sacrificing quality, $K$ and $m$ should thus be held fixed.
 
-Preserving model quality requires preserving the effective nonlinear budget $K \cdot m$. To relieve memory and communication bottlenecks without sacrificing quality, $K$ and $m$ should thus be held fixed.
-
-A task-specific effective feature rank $r_{eff}$ imposes a lower limit on how much $d$ can be reduced; reducing $d$ below this limit causes model quality to collapse.
+A task-specific effective feature rank $r_{\mathrm{eff}}$ imposes a lower limit on how much $d$ can be reduced; reducing $d$ below this limit causes model quality to collapse.
 
 Scaling both the total number of experts $N$ and the top-$K$ experts per token improves quality by exponentially expanding the space of expert combinations.
 
@@ -78,7 +46,7 @@ Principles -- imply that the hidden dimension $d$ is the most promising axis for
 
 Figure 3: Standard MoE vs. LatentMoE. In LatentMoE, tokens are projected from the hidden dimension d into a smaller latent dimension ℓ for routing and expert computation, reducing routed parameter loads and all-to-all traffic by a factor d/ℓ. These savings are used to increase both the total number of experts and the top-K active experts per token by the same factor, improving model accuracy at approximately constant inference cost.
 
-The LatentMoE architecture is illustrated in Figure 3(b). Each input token $x \in {\mathbb{R}}^{d}$ is first projected into a lower-dimensional latent space ${\mathbb{R}}^{\ell}$ via a learnable down-projection matrix $W_{\downarrow} \in {\mathbb{R}}^{\ell \times d}$. The compressed representation is then routed to an expanded set of experts that operate entirely in this latent space. After expert computation, the outputs are aggregated and projected back to dimension $d$ via a learnable up-projection matrix $W_{\uparrow} \in {\mathbb{R}}^{d \times \ell}$. Shifting routed expert computation and all-to-all traffic into the latent space reduces both per-expert weight loads and communication payloads by a factor $d/\ell$ relative to a standard MoE. We use these savings to increase the total number of experts from $N$ to $N^{\prime} = {{N \cdot d}/\ell}$ and the top-$K$ active experts per token from $K$ to $K^{\prime} = {{K \cdot d}/\ell}$. The reduction in dimension offsets the increase in expert count and in $K$, yielding higher model quality at a similar computational and communication budget. To preserve quality, all non-routed computations---including the routing gate (gating network), shared expert computation, and non-expert layers---remain in the full hidden dimension $d$, as they do not contribute significantly to the targeted bottlenecks. We refer the reader to the LatentMoE technical report (latentmoe_tr) for further details.
+The LatentMoE architecture is illustrated in Figure 3(b). Each input token $x\in\mathbb{R}^{d}$ is first projected into a lower-dimensional latent space $\mathbb{R}^{\ell}$ via a learnable down-projection matrix $W_{\downarrow}\in\mathbb{R}^{\ell\times d}$. The compressed representation is then routed to an expanded set of experts that operate entirely in this latent space. After expert computation, the outputs are aggregated and projected back to dimension $d$ via a learnable up-projection matrix $W_{\uparrow}\in\mathbb{R}^{d\times\ell}$. Shifting routed expert computation and all-to-all traffic into the latent space reduces both per-expert weight loads and communication payloads by a factor $d/\ell$ relative to a standard MoE. We use these savings to increase the total number of experts from $N$ to $N^{\prime}=N\cdot d/\ell$ and the top-$K$ active experts per token from $K$ to $K^{\prime}=K\cdot d/\ell$. The reduction in dimension offsets the increase in expert count and in $K$, yielding higher model quality at a similar computational and communication budget. To preserve quality, all non-routed computations---including the routing gate (gating network), shared expert computation, and non-expert layers---remain in the full hidden dimension $d$, as they do not contribute significantly to the targeted bottlenecks. We refer the reader to the LatentMoE technical report (latentmoe_tr) for further details.
 
 ### Multi-Token Prediction
 
@@ -88,7 +56,7 @@ Beyond quality gains, MTP enables native speculative decoding. The auxiliary pre
 
 ### Design for Robust Autoregressive Drafting
 
-Standard MTP implementations use $N$ independent heads, each trained to predict a fixed offset (e.g., ${n + 2},\ldots,{n + N + 1}$). While effective during training, this limits speculative decoding to at most $N$ draft tokens. Longer drafts require either increasing $N$ or reusing a single offset-trained head autoregressively.
+Standard MTP implementations use $N$ independent heads, each trained to predict a fixed offset (e.g., $n+2,\dots,n+N+1$). While effective during training, this limits speculative decoding to at most $N$ draft tokens. Longer drafts require either increasing $N$ or reusing a single offset-trained head autoregressively.
 
 Reusing a fixed-offset head introduces a training--inference mismatch: the head is trained under ground-truth hidden states but, at inference, conditions on its own generated states. This distribution shift often reduces acceptance rates as draft length increases.
 
@@ -100,7 +68,7 @@ We evaluate MTP quality using SPEED-Bench (speedbenchnvidia), a benchmark tailor
 
 Figure 5 plots acceptance rate as a function of draft token index. As expected, acceptance decreases monotonically with draft depth for all models. However, Nemotron-3 Super consistently maintains higher acceptance than DeepSeek-R1 at every draft position and closely tracks or exceeds Qwen3-Next across most indices. Notably, the gap becomes more pronounced at larger draft indices (4--7), where recursive drafting is most challenging. This behavior indicates improved stability of the shared-head autoregressive design under longer speculative rollouts.
 
-Overall, MTP in Nemotron-3 Super improves both representation learning and decoding efficiency, enabling higher acceptance at extended draft lengths without relying on an external draft model. These acceptance gains translate to superior serving efficiency on Blackwell hardware. As shown in Figure 5, increasing the draft depth ($D = 1$ to $D = 3$) via MTP significantly shifts the throughput--latency Pareto frontier, delivering higher aggregate output tokens per second (TPS) for any given median user latency compared to the baseline with MTP disabled.
+Overall, MTP in Nemotron-3 Super improves both representation learning and decoding efficiency, enabling higher acceptance at extended draft lengths without relying on an external draft model. These acceptance gains translate to superior serving efficiency on Blackwell hardware. As shown in Figure 5, increasing the draft depth ($D=1$ to $D=3$) via MTP significantly shifts the throughput--latency Pareto frontier, delivering higher aggregate output tokens per second (TPS) for any given median user latency compared to the baseline with MTP disabled.
 
 Figure 4: MTP acceptance rate by draft index on SPEED-Bench using a draft length of 7.
 
@@ -122,30 +90,13 @@ Overall, the synergy between linear-time Mamba blocks, sparsely activated MoE ca
 
 ### NVFP4 Pretraining
 
-All Linear Layers Unless Otherwise Noted
-
-Promote training stability at scale
-
-Strategically kept in as step-time impact is negligible
-
-Preserves multi-token prediction capabilities
-
-QKV &amp; Attention Projections
-
-Maintain fidelity of few attention layers
-
-Mamba Output Projection
-Mitigates high incidence of underflows observed when quantizing this layer to NVFP4 at smaller scales
-
-Table 3: Precision by Layer Type
-
-Nemotron 3 Super was trained with the NVFP4 pretraining recipe detailed in the Nemotron 3 white paper (nvidia2025nvidianemotron3efficient). All linear layers, unless otherwise noted in Table 3, are trained using the open-source NVFP4 GEMM kernels provided by Transformer Engine with the cuBLAS backend (NVIDIA_TransformerEngine_PR2177) for fprop, dgrad, and wgrad GEMMs. This framework performs quantization of weights, activations, and gradients to NVFP4 according to the scheme first introduced in nvidia2025pretraininglargelanguagemodels. Weights are quantized to NVFP4 using two-dimensional (2D) block scaling to maintain consistency between quantized weights in the forward and backward pass. Gradients and activations are quantized to NVFP4 using one-dimensional (1D) blocks along the GEMM reduction axis. Random Hadamard Transforms (RHTs) are performed on inputs to wgrad and stochastic rounding is applied to gradient tensors. The NVFP4 format utilizes an E2M1 element format with 16-element micro-blocks, E4M3 micro-block scaling factors, and a second-level global scale. Nemotron 3 Super showcases large-scale stable training in NVFP4 up to 25T tokens.
+All Linear Layers Unless Otherwise Noted Promote training stability at scale Strategically kept in as step-time impact is negligible Preserves multi-token prediction capabilities QKV & Attention Projections Maintain fidelity of few attention layers Mamba Output Projection Mitigates high incidence of underflows observed when quantizing this layer to NVFP4 at smaller scales Table 3: Precision by Layer Type Nemotron 3 Super was trained with the NVFP4 pretraining recipe detailed in the Nemotron 3 white paper (nvidia2025nvidianemotron3efficient). All linear layers, unless otherwise noted in Table 3, are trained using the open-source NVFP4 GEMM kernels provided by Transformer Engine with the cuBLAS backend (NVIDIA_TransformerEngine_PR2177) for fprop, dgrad, and wgrad GEMMs. This framework performs quantization of weights, activations, and gradients to NVFP4 according to the scheme first introduced in nvidia2025pretraininglargelanguagemodels. Weights are quantized to NVFP4 using two-dimensional (2D) block scaling to maintain consistency between quantized weights in the forward and backward pass. Gradients and activations are quantized to NVFP4 using one-dimensional (1D) blocks along the GEMM reduction axis. Random Hadamard Transforms (RHTs) are performed on inputs to wgrad and stochastic rounding is applied to gradient tensors. The NVFP4 format utilizes an E2M1 element format with 16-element micro-blocks, E4M3 micro-block scaling factors, and a second-level global scale. Nemotron 3 Super showcases large-scale stable training in NVFP4 up to 25T tokens.
 
 During the training of Nemotron 3 Super, we observed a growth in the number of zero-valued weight gradient elements and investigated the root cause to validate training health. Magnitude patterns emerged within some expert layers, characterized by the norms of FC1 output channels and corresponding FC2 input channels converging toward zero (Figure 6). By the end of pretraining, zero-valued weight gradient elements accounted for 7% of total parameters, appearing to correlate with the magnitude patterns. We believe that NVFP4 quantization increases the incidence of true zeros in the weight gradients that could have been more easily be represented by or MXFP8. Low-norm channels likely attenuate quicker when these layers are trained in NVFP4.
 
 Figure 6: Channel Magnitude Patterns in Weights of Expert Layers in Nemotron 3 Super. Patterns emerge as training progresses. Top: Early layer routed expert FC1 weight matrix at 0.5T tok and 23T tok. Bottom: Early layer routed expert FC2 weight matrix at 500B tok and 23T tok. Low-norm output channels of FC1 align with low-norm input channels of FC2.
 
-Figure 7: Number of Zero-Valued Weight Gradient Elements on Nemotron 3 Nano. Left: Released Nemotron Nano 3 model (nvidia2025nemotron3nanoopen) trained to 25T tokens . Right: Ablation study trained to 1T tokens in and with our NVFP4 recipe. The NVFP4 model at 1T tokens reaches a similar zero-valued weight gradient count as the model at 25T tokens. Switching from NVFP4 to at 0.5T tokens causes zero-valued weight gradients to return to baseline levels. The high prevalence of small-magnitude gradients (&lt;1e-12) in suggests NVFP4 quantization underflows already-small values to zero.
+Figure 7: Number of Zero-Valued Weight Gradient Elements on Nemotron 3 Nano. Left: Released Nemotron Nano 3 model (nvidia2025nemotron3nanoopen) trained to 25T tokens . Right: Ablation study trained to 1T tokens in and with our NVFP4 recipe. The NVFP4 model at 1T tokens reaches a similar zero-valued weight gradient count as the model at 25T tokens. Switching from NVFP4 to at 0.5T tokens causes zero-valued weight gradients to return to baseline levels. The high prevalence of small-magnitude gradients (<1e-12) in suggests NVFP4 quantization underflows already-small values to zero.
 
 We compare identical Nemotron 3 Nano models (nvidia2025nemotron3nanoopen) trained for 1T tokens in and in NVFP4 and find that NVFP4 pretraining produces roughly 3x more zero-valued weight gradients at the same token horizon. When a partially trained NVFP4 model is switched back to, the number of zero-valued weight gradients returns to baseline levels. The model still contains many small-magnitude gradients (\<1e-12), but NVFP4 quantization underflows these values to zero (Figure 7). We sampled weight, activation, and gradient tensors from routed expert layers and observed high rates of underflow in dgrad of FC2 at 500B tokens, primarily because two-dimensional weight quantization blocks span high and low magnitude channels. Underflows in dgrad of FC2 create zeros in wgrad of FC1 through backpropagation of the gradient. At 750B tokens, we observe high rates of underflow in fprop of FC1, creating zeros in wgrad of FC2 (Figure 8). The 1T-token NVFP4 model behaves similarly to a much longer-trained model. After 10T tokens, the released Nemotron 3 Nano model, trained , nvidia2025nemotron3nanoopen reaches a similar number of zero-valued weight gradient elements as the NVFP4 model trained to 1T tokens (Figure 7) and inspection of weight matrices in early expert layers revealed a similar channel magnitude pattern. These conclusions on the Nemotron 3 Nano architecture give insights into the channel magnitude patterns and growth in zero-valued weight gradient elements in Nemotron 3 Super.
 
@@ -187,7 +138,7 @@ We generated a diverse set of economics multiple-choice questions across various
 
 ### Synthetic Formal Logic
 
-We synthesized a set of formal logic problems and solutions spanning several tasks, such as translating between natural language and predicate or propositional logic, deriving the antecedents of conditional propositions, and solving logic problems using indirect or complete truth tables. We introduced variability into the generated scenarios, premises, and formulas by incorporating random personas,^22^2 letters, and/or logic connective (i.e., $\land$, $\vee$, $\supset$, $\equiv$, $\sim$) into the prompt. We generated and evaluated the problems and solutions using Qwen3-235B-A22B-Thinking-2507.
+We synthesized a set of formal logic problems and solutions spanning several tasks, such as translating between natural language and predicate or propositional logic, deriving the antecedents of conditional propositions, and solving logic problems using indirect or complete truth tables. We introduced variability into the generated scenarios, premises, and formulas by incorporating random personas,^22^2 letters, and/or logic connective (i.e., $\land$, $\lor$, $\supset$, $\equiv$, $\sim$) into the prompt. We generated and evaluated the problems and solutions using Qwen3-235B-A22B-Thinking-2507.
 
 ### Synthetic Multiple Choice
 
@@ -209,47 +160,35 @@ Figure 10: Data mixtures for each phase of pre-training.
 
 ### Hyperparameters
 
-The pretraining of Nemotron 3 Super 120B-A12B Base was conducted using a Warmup-Stable-Decay (WSD) (hu2024minicpm) learning rate schedule over a total horizon of 25 trillion tokens. The learning rate (LR) was warmed up over the initial 200 billion tokens to a peak value of $4.5 \times 10^{- 4}$. Following a sustained stable plateau phase, we implemented a minus-sqrt decay schedule for the final 5 trillion tokens, annealing the LR to a minimum of $4.5 \times 10^{- 6}$.
+The pretraining of Nemotron 3 Super 120B-A12B Base was conducted using a Warmup-Stable-Decay (WSD) (hu2024minicpm) learning rate schedule over a total horizon of 25 trillion tokens. The learning rate (LR) was warmed up over the initial 200 billion tokens to a peak value of $4.5\times 10^{-4}$. Following a sustained stable plateau phase, we implemented a minus-sqrt decay schedule for the final 5 trillion tokens, annealing the LR to a minimum of $4.5\times 10^{-6}$.
 
-We used AdamW (loshchilov2017decoupled) optimizer with a weight decay of 0.1 and momentum coefficients $\beta_{1} = 0.9$ and $\beta_{2} = 0.95$. The model was trained with a sequence length of 8,192 and a batch size of 3,072 sequences, resulting in approximately 25.17 million tokens per batch.
+We used AdamW (loshchilov2017decoupled) optimizer with a weight decay of 0.1 and momentum coefficients $\beta_{1}=0.9$ and $\beta_{2}=0.95$. The model was trained with a sequence length of 8,192 and a batch size of 3,072 sequences, resulting in approximately 25.17 million tokens per batch.
 
-The architecture employs a hybrid Mamba-MoE design, featuring Mixture-of-Experts (MoE) layers with 512 total experts and a top-22 routing mechanism ($k = 22$). We utilized a sigmoid router score function complemented by expert biasing. To ensure equitable expert utilization across the 120.6B parameters, we adopted an auxiliary-loss-free load balancing strategy (wang2024auxiliary; deepseekai2025deepseekv3technicalreport) with an update rate of $10^{- 3}$, paired with a standard load balancing loss with coefficient of $10^{- 4}$ (lepikhin2020gshard).
+The architecture employs a hybrid Mamba-MoE design, featuring Mixture-of-Experts (MoE) layers with 512 total experts and a top-22 routing mechanism ($k=22$). We utilized a sigmoid router score function complemented by expert biasing. To ensure equitable expert utilization across the 120.6B parameters, we adopted an auxiliary-loss-free load balancing strategy (wang2024auxiliary; deepseekai2025deepseekv3technicalreport) with an update rate of $10^{-3}$, paired with a standard load balancing loss with coefficient of $10^{-4}$ (lepikhin2020gshard).
 
 Furthermore, we used an MTP objective with loss scaling factor of 0.3. To maximize computational efficiency and training stability at scale, the execution utilized a hybrid precision scheme of and NVFP4.
 
 ### Tracking Merge Evaluation
 
-During the stable phase of the WSD learning rate schedule described in Section 2.4, the learning rate remains constant, and individual trained checkpoints exhibit noisy benchmark performance from step to step. Following recent work on weight-space merging (wortsman2022modelsoup; tian2025wsm; ling2025foundation), we apply checkpoint merging (weighted averaging over a sliding window of recent checkpoints) to produce stronger readouts of model quality without requiring dedicated learning rate decay runs. In a conventional pretraining workflow, evaluating model quality at intermediate checkpoints requires dedicated decay runs; checkpoint merging eliminates this cost. For a schedule comparable to ours, the savings could reach $\sim 4$T tokens of compute (e.g., $\sim 2$ avoided runs at 1.5T and $\sim 2$ at 0.5T), or roughly $16\%$ of the total pretraining FLOP budget.
+During the stable phase of the WSD learning rate schedule described in Section 2.4, the learning rate remains constant, and individual trained checkpoints exhibit noisy benchmark performance from step to step. Following recent work on weight-space merging (wortsman2022modelsoup; tian2025wsm; ling2025foundation), we apply checkpoint merging (weighted averaging over a sliding window of recent checkpoints) to produce stronger readouts of model quality without requiring dedicated learning rate decay runs. In a conventional pretraining workflow, evaluating model quality at intermediate checkpoints requires dedicated decay runs; checkpoint merging eliminates this cost. For a schedule comparable to ours, the savings could reach ${\sim}4$T tokens of compute (e.g., ${\sim}2$ avoided runs at 1.5T and ${\sim}2$ at 0.5T), or roughly $16\%$ of the total pretraining FLOP budget.
 
-Following tian2025wsm, we use a minus-sqrt decay emulation to compute merge coefficients, with checkpoints saved every $1,000$ iterations ($\approx 25$B tokens at our global batch size of $3,{072 \times 8},192$ tokens). We evaluated sliding merge windows of 125B, 250B, and 500B tokens over the course of pretraining. On average, across a suite of 12 benchmarks (MMLU-Pro, MMLU, HumanEval, HumanEval+, MBPP, MBPP+, GSM8K, MATH-500, RACE, ARC-Challenge, HellaSwag, WinoGrande), the best merge consistently outperforms the corresponding trained checkpoint by 2--4 points on the unweighted average. Since merging is computationally cheap relative to training, we can evaluate all three windows at each checkpoint and select the best. Figure 11 reports this best-of-three merge against the trained checkpoint over the full 25T-token training run.
+Following tian2025wsm, we use a minus-sqrt decay emulation to compute merge coefficients, with checkpoints saved every $1{,}000$ iterations (${\approx}25$B tokens at our global batch size of $3{,}072\times 8{,}192$ tokens). We evaluated sliding merge windows of 125B, 250B, and 500B tokens over the course of pretraining. On average, across a suite of 12 benchmarks (MMLU-Pro, MMLU, HumanEval, HumanEval+, MBPP, MBPP+, GSM8K, MATH-500, RACE, ARC-Challenge, HellaSwag, WinoGrande), the best merge consistently outperforms the corresponding trained checkpoint by 2--4 points on the unweighted average. Since merging is computationally cheap relative to training, we can evaluate all three windows at each checkpoint and select the best. Figure 11 reports this best-of-three merge against the trained checkpoint over the full 25T-token training run.
 
 Figure 11: Average accuracy across 12 benchmarks for trained checkpoints versus the best offline checkpoint merge during pretraining. During the stable LR phase, offline merging yields a consistent 2–4 point improvement. During the LR decay phase (shaded), the gap narrows as trained checkpoints benefit from actual learning rate annealing.
 
-During the final 5T-token LR decay phase (from 20T to 25T tokens), the gap between merged and trained checkpoints narrows substantially, and the two evaluation trajectories largely coincide by the end of training. tian2025wsm reported that combining merging with decay offers no gain over merging alone, so this convergence is expected. The original WSM results went further, showing merge-based readouts *surpassing* decay-trained checkpoints. In experiments on the Nemotron 3 Nano scale architecture (30B-A3B), we were able to reproduce such gains when emulating short ($\sim 500$B) decay windows. However, direct comparisons at 1T and 1.5T merge horizons showed no improvement over decay-trained checkpoints.
+During the final 5T-token LR decay phase (from 20T to 25T tokens), the gap between merged and trained checkpoints narrows substantially, and the two evaluation trajectories largely coincide by the end of training. tian2025wsm reported that combining merging with decay offers no gain over merging alone, so this convergence is expected. The original WSM results went further, showing merge-based readouts *surpassing* decay-trained checkpoints. In experiments on the Nemotron 3 Nano scale architecture (30B-A3B), we were able to reproduce such gains when emulating short (${\sim}500$B) decay windows. However, direct comparisons at 1T and 1.5T merge horizons showed no improvement over decay-trained checkpoints.
 
 Our takeaway is that offline checkpoint merging appears most effective for shorter annealing horizons. This is consistent with ling2025foundation, who employ a comparably short decay schedule and report merge-based improvements, in contrast with the much longer 5T decay used here, where trained decay is able to match or surpass merge-based readouts. The final base model checkpoint selected for downstream alignment was itself a 500B merge; short-horizon merging remains practically useful even alongside a full decay schedule. That said, our experiments explored only a single merge schedule (minus-sqrt) and a fixed checkpoint granularity; it remains plausible that alternative coefficient schemes, finer-grained checkpoint windows, or merging strategies tailored to longer decay horizons could recover the gains observed at shorter scales. Per-benchmark breakdowns are provided in Appendix Figure 17.
 
 ### Long-Context Extension
 
-Similar to Nemotron 3 Nano, we added a long-context phase (LC-Phase) at the end of pretraining. In the LC-Phase, we performed continuous pretraining (CPT) to equip the base model with long-context ability. We used a constant learning rate of $4.5 \ast 10^{- 6}$ and global batch size of 16. We used 64-way context parallelism, 2-way tensor parallelism, and 64-way expert parallelism to train on GB200 GPUs. We reused the long-context document QA dataset from Nemotron 2 & 3 Nano. We allocated the document QA data to 20% in the Phase LC data blend, with the remaining 80% being downscaled Phase 2 data. We initially performed CPT on 1,048,576 (1m) context length. Such stage lasted for 34 billion tokens. Following that we added another stage to alternatingly train on both 1m and 4k sequences in order to mitigate the minor impact we observed on the math-related benchmarks. The second stage lasted for 17 billion tokens.
+Similar to Nemotron 3 Nano, we added a long-context phase (LC-Phase) at the end of pretraining. In the LC-Phase, we performed continuous pretraining (CPT) to equip the base model with long-context ability. We used a constant learning rate of $4.5*10^{-6}$ and global batch size of 16. We used 64-way context parallelism, 2-way tensor parallelism, and 64-way expert parallelism to train on GB200 GPUs. We reused the long-context document QA dataset from Nemotron 2 & 3 Nano. We allocated the document QA data to 20% in the Phase LC data blend, with the remaining 80% being downscaled Phase 2 data. We initially performed CPT on 1,048,576 (1m) context length. Such stage lasted for 34 billion tokens. Following that we added another stage to alternatingly train on both 1m and 4k sequences in order to mitigate the minor impact we observed on the math-related benchmarks. The second stage lasted for 17 billion tokens.
 
 ### Base Model Evaluations
 
-25-shot, acc_norm
+25-shot, acc_norm 10-shot, acc_norm 0-shot, acc_norm 0-shot, acc_norm MMLU Global Lite Table 4: Comparison of Ling-flash-base-2.0, GLM-4.5-Air-Base, and Nemotron Super 120B-A12B Base. Best results are marked in bold.
 
-10-shot, acc_norm
-
-0-shot, acc_norm
-
-0-shot, acc_norm
-
-MMLU Global Lite
-
-Table 4: Comparison of Ling-flash-base-2.0, GLM-4.5-Air-Base, and Nemotron Super 120B-A12B Base. Best results are marked in bold.
-
-All evaluation results were collected via Nemo Evaluator SDK^33^3 and NVIDIA's open source container of LM Evaluation Harness^44^4 unless otherwise stated. For reproducibility purposes, more details on the evaluation settings can be found in the Nemo Evaluator SDK examples folder^55^5 The open source container on LM Evaluation Harness packaged via NVIDIA's Nemo Evaluator SDK used for evaluations can be found here^66^6 This container is is built on top of LM Evaluation Harness, with the following changes applied to all models for fairness:
-
-For mathematical reasoning, we evaluate GSM8K and MATH (cobbe2021trainingverifierssolvemath; hendrycks2021measuringmathematicalproblemsolving) benchmarks using greedy-decoding. We also highlight the competition-level slice of the MATH benchmark as "MATH Level 5". Additionally, we report the $\text{pass}@32$ performance on AIME-2024. We use Math-Verify^77^7 to grade all generations.
+All evaluation results were collected via Nemo Evaluator SDK^33^3 and NVIDIA's open source container of LM Evaluation Harness^44^4 unless otherwise stated. For reproducibility purposes, more details on the evaluation settings can be found in the Nemo Evaluator SDK examples folder^55^5 The open source container on LM Evaluation Harness packaged via NVIDIA's Nemo Evaluator SDK used for evaluations can be found here^66^6 This container is is built on top of LM Evaluation Harness, with the following changes applied to all models for fairness: For mathematical reasoning, we evaluate GSM8K and MATH (cobbe2021trainingverifierssolvemath; hendrycks2021measuringmathematicalproblemsolving) benchmarks using greedy-decoding. We also highlight the competition-level slice of the MATH benchmark as "MATH Level 5". Additionally, we report the $\text{pass}@32$ performance on AIME-2024. We use Math-Verify^77^7 to grade all generations.
 
 For code tasks (HumanEval (chen2021evaluatinglargelanguagemodels), MBPP (austin2021programsynthesislargelanguage)) we evaluate the EvalPlus variants along with the sanitization of generations (Liu_Is_Your_Code_2023), in a 0-shot setup. We estimate $\text{avg}@32$, $\text{pass}@1$ from 32 generations per prompt.
 
@@ -275,21 +214,17 @@ For Nemotron 3 Super SFT, we focused on improving dataset quality and diversity.
 
 ### SFT objective and two-stage loss
 
-For a packed global batch $\mathcal{B}$ containing multiple conversations $c$, let $\mathcal{O}_{c}$ denote the set of output-token positions for conversation $c$ and $|\mathcal{O}_{c}|$ its output-token count. With token-level negative log-likelihood $\ell_{t} = {- {{\log p_{\theta}}{({y_{t} \mid {x,y_{< t}}})}}}$, we use:
+For a packed global batch $\mathcal{B}$ containing multiple conversations $c$, let $\mathcal{O}_{c}$ denote the set of output-token positions for conversation $c$ and $|\mathcal{O}_{c}|$ its output-token count. With token-level negative log-likelihood $\ell_{t}=-\log p_{\theta}(y_{t}\mid x,y_{<t})$, we use:
 
 ### Stage 1: token-level (global) average
 
-We minimize the average loss over *all* output tokens in the packed global batch:
-
-This corresponds to summing the output-token log probabilities across all conversations and normalizing by the total number of output tokens.
+We minimize the average loss over *all* output tokens in the packed global batch: This corresponds to summing the output-token log probabilities across all conversations and normalizing by the total number of output tokens.
 
 ### Stage 2: sample-level average
 
-We then switch to a per-conversation normalized loss and average equally across conversations:
+We then switch to a per-conversation normalized loss and average equally across conversations: This stage reduces the dominance of long outputs by normalizing each conversation by its own output-token count before averaging across the batch.
 
-This stage reduces the dominance of long outputs by normalizing each conversation by its own output-token count before averaging across the batch.
-
-For Stage 1, we run SFT with 256k sequence length packing, global batch size 64, constant lr ${1e} - 5$ with 30k warmup samples. For Stage 2, we use 512k sequence length packing and include long context data with length up to 512K, global batch size 32 and constant lr ${1e} - 5$.
+For Stage 1, we run SFT with 256k sequence length packing, global batch size 64, constant lr $1e-5$ with 30k warmup samples. For Stage 2, we use 512k sequence length packing and include long context data with length up to 512K, global batch size 32 and constant lr $1e-5$.
 
 ### MTP during SFT
 
@@ -301,9 +236,7 @@ We reuse the following datasets from the Nemotron 3 Nano SFT datasets: Chat, Inf
 
 Software Engineering. We curate a dataset of coding tasks derived from real-world GitHub issues to train Nemotron 3 Super for autonomous software engineering capabilities including code exploration, task tracking, issue reproduction and bug fixing. We use the issues and containerized execution environments from the SWE-Gym (pan2025trainingsoftwareengineeringagents), R2E-Gym (jain2025r2egymproceduralenvironmentshybrid) and SWE-rebench (badertdinov2025swerebenchautomatedpipelinetask) datasets. For R2E-Gym, we regenerate problem statements with Qwen3-Coder-480B-A35B-Instruct. We distill trajectories from the OpenHands agent harness using Qwen3-Coder-480B-A35B-Instruct as the teacher model.
 
-Figure 13: Agentic Command Line Interface Dataset Construction &amp; Training Pipeline
-
-The landscape of software development has undergone a substantial shift with the emergence of Agentic Command Line Interface (CLI) tools, moving beyond the \"autocomplete\" era of 2021--2023 into a regime of autonomous execution. Alongside substantial improvements in harnesses such as Claude Code, OpenCode, and OpenAI's Codex, models are now capable of operating as active digital collaborators, capable of multi-step reasoning, long-horizon execution, and end-to-end task orchestration.
+Figure 13: Agentic Command Line Interface Dataset Construction & Training Pipeline The landscape of software development has undergone a substantial shift with the emergence of Agentic Command Line Interface (CLI) tools, moving beyond the \"autocomplete\" era of 2021--2023 into a regime of autonomous execution. Alongside substantial improvements in harnesses such as Claude Code, OpenCode, and OpenAI's Codex, models are now capable of operating as active digital collaborators, capable of multi-step reasoning, long-horizon execution, and end-to-end task orchestration.
 
 We established a foundational seed set of tasks designed to replicate common user-initiated operations within agentic CLIs. Refer to Figure 13 where we discuss the full pipeline. We utilized NeMo Data Designer (nemo-data-designer) to generate approximately 20k queries derived from a taxonomy of 24 distinct actions typically performed in these environments. Subsequently, we employed GPT-OSS 120B (openai2025gptoss120bgptoss20bmodel) in an LLM-as-a-Judge framework to filter out tasks referencing pre-existing codebases or modifications to extant files. This mitigation ensures that the models do not attempt modification operations within empty directories---a scenario that frequently results in redundant and exhausted tool invocations during failed execution cycles. The resulting dataset comprises roughly 15k tasks centered on direct solution synthesis. To further enhance the diversity of the generated outputs, we coupled each task with a supplementary markdown specification, equivalent to an AGENTS.md file. These documents impose additional constraints and architectural requirements, effectively narrowing the design space and necessitating more complex, varied solutions from the agent.
 
@@ -333,9 +266,7 @@ Multilingual. Our multilingual data combines synthetic translations of English S
 
 Structured Query Language (SQL). To improve Nemotron 3 Super on enterprise SQL workloads, we generate a synthetic text-to-SQL dataset with NeMo Data Designer (nemo-data-designer). The dataset contains 96.5k records spanning MySQL, PostgreSQL, and SQLite across 60 industry sectors, $\sim$`<!-- -->`{=html}700 domain topics, and 90 SQL concept buckets (from basic SELECT to recursive CTEs, window functions, and geospatial queries). Each sample pairs a natural-language prompt and a fully synthetic database schema context with a target SQL query. To improve robustness and to mimic the real-world messiness of production databases, the pipeline injects distractor tables and columns into the database context. Specifically, related but irrelevant tables and columns are added to the database context, forcing the model to learn to ignore irrelevant schema elements. Prompt diversity is controlled along three axes -- instruction style (imperative, declarative, interrogative, contextual, abbreviated), linguistic register (formal, conversational, technical, academic, direct), and politeness level -- yielding naturalistic and varied user requests. The final dataset of 96.5k records is validated and filtered down by Data Designer from a larger dataset using per-dialect syntax validators and five LLM-as-a-critic judges.
 
-Conversational Tool Use. Large-scale specialized tool-use training data has been adopted by many models to boost agentic capabilities (Liu2024ToolACE; deepseekai2024deepseekv32; kimiteam2025kimik2openagentic; 5team2025glm45agenticreasoningcoding). For Nemotron 3 Super, we scale conversational tool-use data via a fully synthetic, six-stage generation pipeline:
-
-Domain Generation: Sample synthetic domains with a model, iteratively expanding initial generations into specialized subdomains.
+Conversational Tool Use. Large-scale specialized tool-use training data has been adopted by many models to boost agentic capabilities (Liu2024ToolACE; deepseekai2024deepseekv32; kimiteam2025kimik2openagentic; 5team2025glm45agenticreasoningcoding). For Nemotron 3 Super, we scale conversational tool-use data via a fully synthetic, six-stage generation pipeline: Domain Generation: Sample synthetic domains with a model, iteratively expanding initial generations into specialized subdomains.
 
 Policy and Tool Generation: Sample customer-service policies and related tools, iteratively improving them via self-refinement; use few-shot prompting and an LM-as-a-Judge for quality filtering to maintain style and formatting.
 
@@ -373,9 +304,7 @@ The SFT recipe for reasoning-off mode and for inference-time budget control is s
 
 ### Reinforcement Learning
 
-The RL phase of Nemotron 3 Super post-training consists of three stages followed by an MTP healing stage as shown in Figure 12:
-
---- Stage 1: Multi-environment RL from Verifiable Rewards (§3.2.1). This is the primary training stage, where we optimize Nemotron 3 Super jointly across the full set of environments. Training in a unified mixture keeps each RL update informed by the complete environment distribution and helps prevent regressions on individual tasks over the course of training.
+The RL phase of Nemotron 3 Super post-training consists of three stages followed by an MTP healing stage as shown in Figure 12: --- Stage 1: Multi-environment RL from Verifiable Rewards (§3.2.1). This is the primary training stage, where we optimize Nemotron 3 Super jointly across the full set of environments. Training in a unified mixture keeps each RL update informed by the complete environment distribution and helps prevent regressions on individual tasks over the course of training.
 
 --- Stage 2: SWE-RL for end-to-end software engineering tasks (§3.2.2). We run SWE-RL as a separate stage because SWE rollouts are substantially slower to generate and typically require longer context lengths, creating a throughput bottleneck when co-trained with shorter-horizon environments. Isolating this stage allows us to tune rollout and batching settings for long-horizon, long-context trajectories.
 
@@ -475,25 +404,7 @@ Serialization. We replaced Python's standard json with orjson for serialization 
 
 ### Post-trained Model Evaluations
 
-HMMT (with tools)
-
-GPQA (with tools)
-
-HLE (with tools)
-
-Terminal Bench (hard subset)
-
-Terminal Bench Core 2.0
-
-SWE-Bench Multilingual (OpenHands)
-
-BrowseComp with Search
-
-Chat &amp; Instruction Following
-
-MMLU-ProX (avg over langs)
-
-Table 5: Evaluation suite for Nemotron 3 Super. We compare against Qwen-3.5-122B-A10B and GPT-OSS-120B.
+HMMT (with tools) GPQA (with tools) HLE (with tools) Terminal Bench (hard subset) Terminal Bench Core 2.0 SWE-Bench Multilingual (OpenHands) BrowseComp with Search Chat & Instruction Following MMLU-ProX (avg over langs) Table 5: Evaluation suite for Nemotron 3 Super. We compare against Qwen-3.5-122B-A10B and GPT-OSS-120B.
 
 We evaluate Nemotron 3 Super on the same broad benchmark suite and evaluation stack as Nemotron 3 Nano (nvidia2025nemotron3nanoopen), covering general knowledge, reasoning, agentic, instruction following, long-context, and multilingual capability. All evaluation results were collected via Nemo Evaluator SDK^99^9 and for most benchmarks, the Nemo Skills Harness^1010^10 For reproducibility purposes, the open source container on Nemo Skills packaged via NVIDIA's Nemo Evaluator SDK used for evaluations can be found here^1111^11 In addition to Nemo Skills, the evaluations also used dedicated open-source packaged containers for Tau-2 Bench (default prompt), Terminal Bench Hard (48 tasks), ScaleAI Multi Challenge Multi-turn Instruction Following, Ruler. More details on the evaluation settings can be found in the Nemo Evaluator SDK configs folder^1212^12 The following benchmarks are not onboarded yet in our open source tools and for these we used either their official open source implementation or otherwise an internal scaffolding that we plan to open source in the future: SWE Bench Verified (OpenHands), SWE Bench Multilingual (OpenHands), BrowseComp with Search (internal implementation, with Serp API), Terminal Bench Core 2.0 (Harbor).
 
@@ -527,17 +438,7 @@ We apply post-training quantization (PTQ) using Model-Optimizer^1313^13 to quant
 
 For FP8 PTQ calibration, we used a small subset containing 256 samples with 65536 context length from the post-training SFT dataset. For FP8 quantization, we quantized MoE GEMMs, both routed and shared, and Mamba Linear layers. We also kept the KV Cache in FP8, whereas Mamba state cache has been quantized to for speedup. The precision assignments for the different operators in this checkpoint are summarized in Table 6.
 
-Attention GEMM (QKV and Out Projection)
-
-KV Cache + Attention BMM1
-
-MoE GEMM (Sparse Experts and Shared Experts)
-
-MoE Latent Projection GEMM
-
-Mamba SSM Cache
-
-Table 6: Precision settings for the FP8 checkpoint compared with the baseline.
+Attention GEMM (QKV and Out Projection) KV Cache + Attention BMM1 MoE GEMM (Sparse Experts and Shared Experts) MoE Latent Projection GEMM Mamba SSM Cache Table 6: Precision settings for the FP8 checkpoint compared with the baseline.
 
 ### Nemotron 3 Super FP4 Checkpoint
 
@@ -547,48 +448,15 @@ In the baseline NVFP4 PTQ recipe (nvpfp4_ptq_default), each per-block scale is d
 
 In addition, we selectively promoted some layers from FP4 (W4A4) to FP8 (W8A8) or (W16A16) to further improve accuracy. We used Model-Optimizer AutoQuantize ^1414^14 a neural architecture search (NAS) inspired method for deriving optimal mixed-precision assignments. AutoQuantize estimates per-operation sensitivity, models the performance cost of available quantization choices, and solves for the optimal layer-wise allocation using a knapsack-style optimization procedure. Its sensitivity metric follows a second-order Taylor approximation inspired by Optimal Brain Surgeon (obs), as introduced in LLM-MQ (llmmq). AutoQuantize generalizes LLM-MQ beyond weight-only quantization. It supports operator-level quantization, including joint weight-and-activation quantization for GEMMs, and accounts for inference deployment constraints such as operator fusion. The detailed AutoQuantize algorithm is given in B.2 Algorithm Details ‣ Nemotron 3 Super: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Model for Agentic Reasoning").
 
-Overall, our final NVFP4 PTQ recipe combines:
-
-calibrated per-block weight scaling that minimizes MSE,
-
-dynamic per-block max-based activation scaling, and
-
-selective promotion of sensitive layers through Model-Optimizer AutoQuantize.
+Overall, our final NVFP4 PTQ recipe combines: calibrated per-block weight scaling that minimizes MSE, dynamic per-block max-based activation scaling, and selective promotion of sensitive layers through Model-Optimizer AutoQuantize.
 
 This combination addresses the accuracy loss of naive NVFP4 PTQ while preserving the runtime efficiency needed for deployment. The resulting per-operator precision assignments in the final NVFP4 checkpoint are summarized in Table 7.
 
-Attention QKV Projection GEMM
-
-Attention Output Projection GEMM
-
-KV Cache + Attention BMM1
-
-Sparse Expert (Routed) GEMM
-
-Shared Expert GEMM
-
-MoE Latent Projection GEMM
-
-Mamba Projection GEMM
-
-Mamba SSM Cache
-
-For all searched backbone GEMMs, AutoQuantize considered candidate precisions from { NVFP4, FP8, } and selected the per-operator assignment under a quantization-sensitivity objective with an effective-precision budget of 4.75 bits. In the searched model, sparse-expert GEMMs are assigned NVFP4 throughout, attention and Mamba projection GEMMs are assigned FP8 or, and shared-expert GEMMs use a mix of NVFP4, FP8, and.
-Table 7: Precision settings for the backbone NVFP4 checkpoint compared with the baseline.
+Attention QKV Projection GEMM Attention Output Projection GEMM KV Cache + Attention BMM1 Sparse Expert (Routed) GEMM Shared Expert GEMM MoE Latent Projection GEMM Mamba Projection GEMM Mamba SSM Cache For all searched backbone GEMMs, AutoQuantize considered candidate precisions from { NVFP4, FP8, } and selected the per-operator assignment under a quantization-sensitivity objective with an effective-precision budget of 4.75 bits. In the searched model, sparse-expert GEMMs are assigned NVFP4 throughout, attention and Mamba projection GEMMs are assigned FP8 or, and shared-expert GEMMs use a mix of NVFP4, FP8, and. Table 7: Precision settings for the backbone NVFP4 checkpoint compared with the baseline.
 
 Combining AutoQuantize with the improved NVFP4 PTQ recipe produced a mostly-FP4 model, with only a small subset of layers retained in FP8 or for accuracy preservation. The full mixed-precision PTQ process completed in less than 2 hours on a single B200 node with 8 GPUs, using 512 samples from the Nemotron 3 Super SFT dataset at sequence length 4096. The resulting model achieved 99.8% median accuracy relative to the baseline while retaining near-FP4 performance. Final evaluation results are reported in Table 8.
 
-HMMT (with tools)
-
-Terminal Bench (hard subset)
-
-Chat &amp; Instruction Following
-
-Arena-Hard-V2 (Hard Prompt)
-
-MMLU-ProX (avg over languages)
-
-Table 8: Evaluation suite for Nemotron 3 Super. We compare our FP8 and NVFP4 optimized models with model.
+HMMT (with tools) Terminal Bench (hard subset) Chat & Instruction Following Arena-Hard-V2 (Hard Prompt) MMLU-ProX (avg over languages) Table 8: Evaluation suite for Nemotron 3 Super. We compare our FP8 and NVFP4 optimized models with model.
 
 ### Mamba State Quantization
 
@@ -596,9 +464,7 @@ In memory-bound settings, DRAM reads of the Mamba state cache (SSM cache) become
 
 Table 9: Impact of SSM cache recipe on code benchmarks and verbosity.
 
-A key challenge in quantizing the Mamba cache is that quantization error does not remain local to a single step. Because Mamba decoding is recurrent, quantization error from previous steps propagates into future steps and accumulates over time. This accumulation of quantization error can be seen by unrolling the recurrent update. Let the recurrent state update be $h_{t} = {{A_{t}h_{t - 1}} + {B_{t}x_{t}}}$, and let cache quantization at step $t$ introduce an additive error $e_{t}$, so that $h_{q,t} = {{A_{t}h_{q,{t - 1}}} + {B_{t}x_{t}} + e_{t}}$. Unrolling this recursion gives
-
-showing that quantization error from earlier steps is propagated through subsequent recurrent transitions and can accumulate over decoding time.
+A key challenge in quantizing the Mamba cache is that quantization error does not remain local to a single step. Because Mamba decoding is recurrent, quantization error from previous steps propagates into future steps and accumulates over time. This accumulation of quantization error can be seen by unrolling the recurrent update. Let the recurrent state update be $h_{t}=A_{t}h_{t-1}+B_{t}x_{t}$, and let cache quantization at step $t$ introduce an additive error $e_{t}$, so that $h_{q,t}=A_{t}h_{q,t-1}+B_{t}x_{t}+e_{t}$. Unrolling this recursion gives showing that quantization error from earlier steps is propagated through subsequent recurrent transitions and can accumulate over decoding time.
 
 Addressing these quantization errors through changes in training (e.g., QAT or QAD) is non-trivial. Mamba training uses the chunked State Space Duality algorithm which does not explicitly materialize the recurrence relationship and the inference-time cache. Accurately modeling the recurrent decode-time cache behavior during training introduces substantial overhead. We therefore focused on training-free methods to recover the accuracy lost from cache quantization.
 
@@ -606,9 +472,7 @@ One way to decrease the accumulation of quantization error during PTQ is to incr
 
 We also explored a hypothesis that the error accumulation was tied to rounding during the cast from to. The key issue is that round to nearest, ties on even (RTNE) introduces bias in the quantization process. Because RTNE maps a given input to the same rounded value, its quantization error has zero variance but non-zero bias relative to the original value. In contrast, stochastic rounding (SR) is unbiased in expectation. In a recurrent setting, the bias from RTNE accumulates coherently over time, whereas stochastic rounding replaces this systematic drift with zero-mean noise. Based on this observation, we applied stochastic rounding before casting the cache to which fixed the verbosity issue for both the baseline and the FP8 checkpoint (Table 9).
 
-Table 9 shows accuracy and verbosity of the different SSM cache recipes for livecodebench and scicode. Both with per-block scales and with stochastic rounding were able to maintain accuracy and verbosity similar to the baseline. We selected with stochastic rounding (SR) using Philox\<5\> pseudorandom number generation as the SSM cache recipe for Nemotron 3 Super for three reasons:
-
-It does not require calculating, storing, and loading block scale factors.
+Table 9 shows accuracy and verbosity of the different SSM cache recipes for livecodebench and scicode. Both with per-block scales and with stochastic rounding were able to maintain accuracy and verbosity similar to the baseline. We selected with stochastic rounding (SR) using Philox\<5\> pseudorandom number generation as the SSM cache recipe for Nemotron 3 Super for three reasons: It does not require calculating, storing, and loading block scale factors.
 
 Blackwell provides a dedicated PTX instruction for stochastic rounding during type conversion.
 

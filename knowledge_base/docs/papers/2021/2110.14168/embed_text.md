@@ -10,9 +10,7 @@ To facilitate research, we are releasing GSM8K, a dataset of 8.5K high quality p
 
 Figure 1: Three example problems from GSM8K. Calculation annotations are highlighted in red.
 
-Our main contributions are as follows:
-
-We present a curated dataset of 8.5K grade school math questions and natural language solutions, useful for probing the informal reasoning ability of large language models.
+Our main contributions are as follows: We present a curated dataset of 8.5K grade school math questions and natural language solutions, useful for probing the informal reasoning ability of large language models.
 
 We show that, compared to a finetuning baseline, the use of verifiers results in approximately the same performance boost as a 30x model size increase, and that verifiers scale significantly better with increased data.
 
@@ -32,7 +30,7 @@ Moderate Difficulty We choose a problem distribution that is challenging for lar
 
 Natural Language Solutions We collect solutions in natural language rather than as pure math expressions. We believe this is the most generally useful data format, and we expect it to shed light on the properties of large language models' internal monologues. We instructed problem writers to explain their work as much as possible, but we allowed them to write solutions in their own diverse linguistic styles.
 
-The full GSM8K dataset can be found at [https://github.com/openai/grade-school-math](https://github.com/openai/grade-school-math). Example problems are shown in Figure 1, and we discuss additional dataset details in Appendix A.
+The full GSM8K dataset can be found at Example problems are shown in Figure 1, and we discuss additional dataset details in Appendix A.
 
 ## Related Work
 
@@ -78,9 +76,7 @@ Figure 4: A diagram of the verification training pipeline.
 
 To improve upon the finetuning baseline, we train verifiers to judge the correctness of model-generated solutions and search against these verifiers at test time. Conditioned on the problem and a candidate solution, the verifier outputs the probability that the solution is correct. Training solutions are labeled as correct or incorrect based solely on whether they reach the correct final answer. In practice, some solutions will reach the correct final answer using flawed reasoning, leading to false positives.
 
-As shown in Figure 4, we train the verifier as follows:
-
-Finetune a model (the "generator") for 2 epochs on the training set.
+As shown in Figure 4, we train the verifier as follows: Finetune a model (the "generator") for 2 epochs on the training set.
 
 Sample 100 completions from the generator for each training problem and label each solution as correct or incorrect.
 
@@ -92,11 +88,7 @@ Figure 5: A comparison between finetuning and verification using 6B and 175B mod
 
 At test time, we sample 100 completions to each test problem, rank them with the verifier, and then return the one with the highest verifier score. A comparison between verification and finetuning is shown in Figure 5 for both the 6B and 175B model sizes. We find that it is not beneficial to use verification at low dataset sizes. We believe this is due to the pressure to overfit to the correct answer: with small datasets, overfitting to the correct answer happens faster than learning more generalizable properties of correct reasoning. However, once we use a sufficiently large dataset, we see a strong boost from verifiers. It's interesting to note that the 175B verifiers "take off" earlier than the 6B verifiers, requiring fewer training problems to surpass the finetuning baseline. See Appendix D for example solutions found by verifiers and Appendix F for a visualization of verifier confidence.
 
-(a) Comparison between a verifier trained to predict correctness after every token (token-level) and one trained to predict correctness after only the final token (solution-level)
-
-(b) Comparison between a verifier trained jointly to predict correctness and perform language modeling (joint) and one trained only to predict correctness (verification-only)
-
-(c) Performance when varying the size of the generator and the verifier in isolation. Increasing the size of the generator has a larger impact than increasing the size of the verifier.
+(a) Comparison between a verifier trained to predict correctness after every token (token-level) and one trained to predict correctness after only the final token (solution-level) (b) Comparison between a verifier trained jointly to predict correctness and perform language modeling (joint) and one trained only to predict correctness (verification-only) (c) Performance when varying the size of the generator and the verifier in isolation. Increasing the size of the generator has a larger impact than increasing the size of the verifier.
 
 Figure 6: Verification ablations
 

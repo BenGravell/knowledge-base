@@ -2,7 +2,7 @@
 
 In the recent years, there has been a rush towards highly autonomous systems operating in public environments, such as automated driving of road vehicles, passenger shuttle systems and mobile robots. These systems, operating in unstructured, public real-world environments (the *operational design domain* can be characterized as *open context*) per se bear a serious safety risk. The serious safety risk, the complexity of the necessary technical systems, the openness of the operational design domain and the regulatory situation pose a large challenge to the automotive industry.
 
-Due diligence is necessary in development, release and even post release operation, which are all related to validation aspects. Successful, ongoing demonstration of safe operation and strict avoidance of fatal incidents in all day use is necessary for societal acceptance. Otherwise, a 'winter of autonomous systems' () might come down and the large investments taken e.g. in the automotive industry will not pay-off.
+Due diligence is necessary in development, release and even post release operation, which are all related to validation aspects. Successful, ongoing demonstration of safe operation and strict avoidance of fatal incidents in all day use is necessary for societal acceptance. Otherwise, a 'winter of autonomous systems' might come down and the large investments taken e.g. in the automotive industry will not pay-off.
 
 Many different approaches to the validation of autonomous driving functions have been proposed over the course of the last years. There have been discussions, among others, about real world driving based statistic approaches (following the state of the art in assisted driving), simulation, formal patterns, partly as silver bullet (one for all solutions), partly in combination. However, although partly announced as 'the solution' to the validation challenge, many of the praised approaches leave open crucial parts. In order to be able to illustrate the contributions as well as the limitations of the individual approaches, we give an analysis of the fundamental challenges related to the valid design and operation of complex autonomous systems operating in an open context in the following. Strategies for 'viable' validation and approval of such systems can then be discussed, based on this.
 
@@ -12,17 +12,7 @@ In section 2, we introduce basic terms and concepts as well as a detailed presen
 
 ### Conception of validity of complex systems in open contexts
 
-Autonomous systems operating in public environments are usually designed to take over typical human tasks like e.g. driving road vehicles. The technical systems, or strictly speaking its developers and distributors, thereby do not only need to fulfill the tasks from a functional point of view. They also need to take over responsibility for safe operation and mitigation of hazardous situations, traditionally incurred by the human operator. This is significantly different from e.g. assisted driving where a quite limited assistance function is continuously supervised by the driver. Over and above, the unstructured real-world operational design domain can be characterized as an *open context*. It bears infinitely many characteristics, possible interactions and effects, which cannot be expressed formally complete (we refer to this as *$\infty$-complexity*). Moreover, the context develops in time (it is evolving) with so far unseen characteristics and interactions appearing suddenly, e.g. post release. Due to the complexity of the autonomous system (e.g. compared to an assistance function, see also *emergent behavior* discussed later on) and the resulting numerous possible interactions, changes in context might lead to undesirable behavior of the system. Both, the complexity of the system and the context therefore require several topics to be addressed in a systematic and holistic approach in order to achieve a valid product. With *valid system*, we refer to a product which bears no *unreasonable risk*^11^1According to IOS26262: Risk judged to be unacceptable in a certain context according to valid societal moral concepts. to users and the society, and, however subordinated, no unreasonable risk to the manufacturer, which is related to liability issues and costs e.g. due to unreasonable development expenditures. The following list provides an overview of these topics:
-
-functional safety (e.g. IEC61508, ISO26262)
-
-safety of the intended functionality (SOTIF)
-
-safety of machine learning
-
-meeting customers and society's expectations
-
-As will be discussed in the following, complex systems operating in an open context will never be *perfectly valid* (i.e. a system which bears absolutely no risk).
+Autonomous systems operating in public environments are usually designed to take over typical human tasks like e.g. driving road vehicles. The technical systems, or strictly speaking its developers and distributors, thereby do not only need to fulfill the tasks from a functional point of view. They also need to take over responsibility for safe operation and mitigation of hazardous situations, traditionally incurred by the human operator. This is significantly different from e.g. assisted driving where a quite limited assistance function is continuously supervised by the driver. Over and above, the unstructured real-world operational design domain can be characterized as an *open context*. It bears infinitely many characteristics, possible interactions and effects, which cannot be expressed formally complete (we refer to this as *$\infty$-complexity*). Moreover, the context develops in time (it is evolving) with so far unseen characteristics and interactions appearing suddenly, e.g. post release. Due to the complexity of the autonomous system (e.g. compared to an assistance function, see also *emergent behavior* discussed later on) and the resulting numerous possible interactions, changes in context might lead to undesirable behavior of the system. Both, the complexity of the system and the context therefore require several topics to be addressed in a systematic and holistic approach in order to achieve a valid product. With *valid system*, we refer to a product which bears no *unreasonable risk*^11^1According to IOS26262: Risk judged to be unacceptable in a certain context according to valid societal moral concepts. to users and the society, and, however subordinated, no unreasonable risk to the manufacturer, which is related to liability issues and costs e.g. due to unreasonable development expenditures. The following list provides an overview of these topics: functional safety (e.g. IEC61508, ISO26262) safety of the intended functionality (SOTIF) safety of machine learning meeting customers and society's expectations As will be discussed in the following, complex systems operating in an open context will never be *perfectly valid* (i.e. a system which bears absolutely no risk).
 
 In accordance with system-view based approaches (e.g. STAMP ), all the aspects illustrated in the above listing are part of the *high level goal*. The negative effect of non-achievement of aspects of the high level goal is referred to as *loss*. Losses large enough to undermine the achievement of the overall goal are referred to as *unacceptable loss.* A system possibly leading to *unacceptable losses* is invalid, as it bears unreasonable risk.
 
@@ -56,9 +46,7 @@ The fundamental challenge of validation of complex systems operating in an open 
 
 On the one hand, as already discussed above, unstructured real-world operational design domains (open contexts) bear infinitely many possible interactions and effects, they are *$\infty$-complex*. The *purpose*, on the other hand, is based on implicit expectations, which also cannot be expressed formally complete. Over and above, statements regarding a certain *purpose* depend on the related *context* of application and possibly even on the characteristics of the chosen *realization* and therefore most often are based on implicit *assumptions* about these aspects of the *validation triangle*.
 
-Regarding the purpose, we differentiate between the *aimed purpose* (implicitly expected), which is necessarily vague, and the *intended purpose,* relating to explicitly expressed expectations (e.g. a specification). We apply here the meaning of 'intended' as 'explicitly expressed' as applied in the context of ISO26262 & SOTIF in connection with *intended functionality (I)*^22^2*Terms defined by ISO26262 / SOTIF are annotated by (I) in ordert to explicitly indicate this circumstance.* (behavior specified for an item, system, or element excluding safety mechanisms) and *intended behavior (I)*^33^3Don't be irritated by the apparent circular dependency between the two definitions via the term behavior. Specified behavior in the definition of the intended functionality is meant as 'what was specified regarding the functionality'. (specified behavior of the intended functionality including interaction with items). The difference between *intended* (explicitly expressed) and *aimed* (implicitly expected) can be illustrated as the difference between what has been stated and what was actually meant. One of the challenges related to complex systems in open contexts is that the developer, the customer or even the society might be able to express an expectation e.g. about appropriate behavior of the system for a given, specific *setting* (related to a specific *realization* in a specific *context*). However, due to the *$\infty$--complexity*, it is non-trivial or rather impossible to identify all relevant *settings*. The explicit expectations therefore are usually expressed quite abstract leaving open room for (*setting* specific) interpretation. The same explicit but abstract statement might even lead to quite different interpretations, depending on different concretizations of the *setting.*
-
-Vice versa, the necessary mapping of the *$\infty$--complex* *context* onto a reduced subset of 'expected to be relevant' *context* (valid projection onto a finite *representation*) strongly depends on the related specific *purpose* and *realization*. For example, the presence and characteristics of metallic structures might be relevant for radar-based *realizations*, whereas thermic radiation might be irrelevant, as long as no corresponding sensing system is applied, or possible irritation of the *realization* due to thermic radiation might happen. This illustrates that the *representativeness* (i.e. a subset of something accurately reflects the larger super-set), which is a basic precondition for statistic argumentation, cannot easily be achieved and is impossible to achieve for a complex system in evolving open contexts without a valid analysis of all aspects of the *validation triangle* (this is referred to as *representativeness challenge*).
+Regarding the purpose, we differentiate between the *aimed purpose* (implicitly expected), which is necessarily vague, and the *intended purpose,* relating to explicitly expressed expectations (e.g. a specification). We apply here the meaning of 'intended' as 'explicitly expressed' as applied in the context of ISO26262 & SOTIF in connection with *intended functionality (I)*^22^2*Terms defined by ISO26262 / SOTIF are annotated by (I) in ordert to explicitly indicate this circumstance.* (behavior specified for an item, system, or element excluding safety mechanisms) and *intended behavior (I)*^33^3Don't be irritated by the apparent circular dependency between the two definitions via the term behavior. Specified behavior in the definition of the intended functionality is meant as 'what was specified regarding the functionality'. (specified behavior of the intended functionality including interaction with items). The difference between *intended* (explicitly expressed) and *aimed* (implicitly expected) can be illustrated as the difference between what has been stated and what was actually meant. One of the challenges related to complex systems in open contexts is that the developer, the customer or even the society might be able to express an expectation e.g. about appropriate behavior of the system for a given, specific *setting* (related to a specific *realization* in a specific *context*). However, due to the *$\infty$--complexity*, it is non-trivial or rather impossible to identify all relevant *settings*. The explicit expectations therefore are usually expressed quite abstract leaving open room for (*setting* specific) interpretation. The same explicit but abstract statement might even lead to quite different interpretations, depending on different concretizations of the *setting.* Vice versa, the necessary mapping of the *$\infty$--complex* *context* onto a reduced subset of 'expected to be relevant' *context* (valid projection onto a finite *representation*) strongly depends on the related specific *purpose* and *realization*. For example, the presence and characteristics of metallic structures might be relevant for radar-based *realizations*, whereas thermic radiation might be irrelevant, as long as no corresponding sensing system is applied, or possible irritation of the *realization* due to thermic radiation might happen. This illustrates that the *representativeness* (i.e. a subset of something accurately reflects the larger super-set), which is a basic precondition for statistic argumentation, cannot easily be achieved and is impossible to achieve for a complex system in evolving open contexts without a valid analysis of all aspects of the *validation triangle* (this is referred to as *representativeness challenge*).
 
 Last but not least, the same field of tension is present between the expected and true/effective characteristics and behavior of a *realization*. The properties of complex systems - independent of the effect of the operation in an open context - are *emergent*. I.e. the effective properties and behavior of a realization is a result of the complex interplay of the components and can therefore, again, not easily be expressed formally complete. We refer to this as *emergent characteristics* and *emergent behavior*. This is a second aspect, on top of the complex interaction between the realization and the context. As a consequence, an explicitly expressed *expected behavior* of a *realization* (related to the *intended behavior* (I) of SOTIF) might be different from the *effective behavior* as well as different from the *effectively necessary behavior* -- necessary to meet the *purpose*. We will introduce a special notation for the expected and effective apects of the triade in section 2.6.
 
@@ -74,13 +62,11 @@ Figure 3: The implicit ∞-complex space of possible triad combinations (fuzzy b
 
 From section 2.4, it becomes clear that developing complex systems for open contexts necessarily deals with more or less simplified *representations* of the *$\infty$-complex* reality (including mutual interaction) for all three aspects (*purpose*, *context* and *realization*) across all levels of abstraction. According to the most general definition, we refer to this *representation* of reality as *model*. Just as argued above, a model can never be generally complete & correct (i.e. valid) in every aspect. It can only be sufficiently complete & correct for a certain purpose in a given context. Specifically, we are interested in models of *valid systems* (i.e. models of valid triads).
 
-Our work is based on, who analysed the role of models in the context of ISO26262. We generalize this to the *triangle of validation* and hence to the more general task of validation of complex systems operating in an open context.
+Our work is based , who analysed the role of models in the context of ISO26262. We generalize this to the *triangle of validation* and hence to the more general task of validation of complex systems operating in an open context.
 
 Building a model is a form of *deduction* (sometimes also referred to as *concretizations*), which might happen implicitly e.g. in the form of a mental model unconsciously applied by the developer or explicitly e.g. in the form of a formal model, a written requirement or even written code. It is important to note that all statements, reasoning and arguing about any aspect of the *validation triangle* is, as emphasized by the previous sections, necessarily related to a (more or less reduced) *model* of the reality.
 
-We denote this *model* of reality by the 'bar' notation, e.g. $\overline{T}$ for the *models* related to the aspects of the *validation triangle*, specifically $\overline{P}$, $\overline{R}$ and $\overline{C}$. Due to the *$\infty$--complexity*, the true characteristics, in the following denoted by the dagger notation, e.g. $T^{\dagger}$, can not be explicitly expressed at any level of abstraction. In addition we include the interdependence of the aspects into the notation, so that:
-
-For a given *realization R*, we are able to think, argue, reason about the related properties and behavior only in *representations* of reality, i.e. models $\overline{R}{(\overline{C},\overline{P})}$, which are not necessarily consistent with the true characteristics and behavior $R^{\dagger}{(C^{\dagger},P^{\dagger})}$.
+We denote this *model* of reality by the 'bar' notation, e.g. $\overline{T}$ for the *models* related to the aspects of the *validation triangle*, specifically $\overline{P}$, $\overline{R}$ and $\overline{C}$. Due to the *$\infty$--complexity*, the true characteristics, in the following denoted by the dagger notation, e.g. $T^{\dagger}$, can not be explicitly expressed at any level of abstraction. In addition we include the interdependence of the aspects into the notation, so that: For a given *realization R*, we are able to think, argue, reason about the related properties and behavior only in *representations* of reality, i.e. models $\overline{R}{(\overline{C},\overline{P})}$, which are not necessarily consistent with the true characteristics and behavior $R^{\dagger}{(C^{\dagger},P^{\dagger})}$.
 
 Regarding the *context C*, the expected to be relevant part $\overline{C}{(\overline{R},\overline{P})}$ might not necessarily be consistent with the effectively relevant one $C^{\dagger}{(R^{\dagger},P^{\dagger})}$.
 
@@ -102,13 +88,7 @@ For some of the many different types of gaps resulting from different deduction 
 
 Over the course of the last years, there have also been proposed different terms for the *adverse effect of the deductive gap* (i.e. the *insufficiency*), e.g. *functional insufficiency (I)*^55^5Term used in the context of Safety Of The Intended Functionality (SOTIF), in particular in the definition of SOTIF as 'absence of unreasonable risk due to hazards resulting from functional insufficiencies of the intended functionality or from reasonably foreseeable misuse by persons'. However functional insufficiency as term is currently not defined in the terms and definition of the recent sate of the ISO/PAS 21448:2018 (working title in the SOTIF context), *functional deficiency* and *performance limitation* (I)^66^6SOTIF ISO/PAS 21448:2018: insufficiencies in the implementation of the intended functionality. The proposed terms are partly misleading as they might be understood as related only to a sub-part of the actual problem, e.g. *functional insufficiency* might be interpreted as related only to the effect of the deductive gap on the functional level (neglecting the remaining horicontal layers illustrated in section 2.2).
 
-The *validation challenge* is closely related to the many necessary deductions applied during development: for every step, possibly leading to deductive gaps,
-
-all underlying assumptions need to be made explicit
-
-per assumption, evidence needs to be provided for its validity
-
-*Evidence* is generated from meeting of expectations. Hypotheses need to be formulated and their legitimacy needs to be demonstrated, e.g. by formal approaches, simulation and real world observation. Due to the complex open world problem, hypothesis checking based on the developed model of reality $\overline{T}$ needs to be done carefully, as applying the same approximations in derivation and interpretation of hypothesis checks might lead to a self-fulfilling prophecy and hence to a wrongly passed test, providing a *misleading argument* for the validity of the deduction (see the following section for a detailed discussion).
+The *validation challenge* is closely related to the many necessary deductions applied during development: for every step, possibly leading to deductive gaps, all underlying assumptions need to be made explicit per assumption, evidence needs to be provided for its validity *Evidence* is generated from meeting of expectations. Hypotheses need to be formulated and their legitimacy needs to be demonstrated, e.g. by formal approaches, simulation and real world observation. Due to the complex open world problem, hypothesis checking based on the developed model of reality $\overline{T}$ needs to be done carefully, as applying the same approximations in derivation and interpretation of hypothesis checks might lead to a self-fulfilling prophecy and hence to a wrongly passed test, providing a *misleading argument* for the validity of the deduction (see the following section for a detailed discussion).
 
 ### Development, iterative deduction and redesign
 
@@ -118,7 +98,7 @@ As discussed in section 2.6, the deduced triad $\overline{T}$ might not necessar
 
 An important aspect of any reasonable development approach is encapsulation, which means that a further deduction from ${\overline{T}}_{i}$ is based on ${\overline{T}}_{i}$ solely. This however implies that any further deduction ${\overline{T}}_{i} \downarrow {\overline{T}}_{i + 1}$, as illustrated in figure 3 (bold arrow 2), can not reintroduce an already neglected subspace. Therefore, an already inherent risk for the manifestation of loss due to neglected relevant subspace can not be cured by further deduction from ${\overline{T}}_{i}$. Only a redesign on (at least) level $i$, related to a deduction ${\overline{T}}_{i - 1} \downarrow {\overline{T}}_{j}$ (bold arrow 3), might solve the missing relevant subspace issue as show in figure 3d. The necessary level for redesign corresponds to the level at which the relevant subspace got lost during deduction. After redesigning, deduction can be continued, as illustrated by ${\overline{T}}_{j} \downarrow {\overline{T}}_{j + 1}$ (bold arrow 4). Finally, a valid result might be achieved (i.e. a good enough approximation of $\overset{\sim}{T}$ such, that no *unacceptable loss* might occur from the operation of the system. This is related to the *development goal*, discussed in the following section.
 
-In conclusion, this makes clear that validation aspects are present on every layer of abstraction, more specifically, validation is strongly related to every step of *deduction*. These *deductions* occur frequently, also within an encapsulated coarse *horizontal layer* (such as e.g. system, functional and implementation layer). Per *deduction*, a sound validation argumentation is necessary, to prevent major redesign expenditures later on. Aspects missed in early phases of development are particularly problematic. Validation therefore needs to be addressed seriously, right from the beginning of development.
+In conclusion, this makes clear that validation aspects are present on every layer of abstraction, more specifically, validation is strongly related to every step of *deduction*. These *deductions* occur frequently, also within an encapsulated coarse *horizontal layer* (such as e.g. system, functional and implementation layer). Per *deduction*, a sound validation argumentation is necessary, to prevent major redesign expenditures later . Aspects missed in early phases of development are particularly problematic. Validation therefore needs to be addressed seriously, right from the beginning of development.
 
 ### The development goal
 
@@ -126,15 +106,7 @@ From the previous sections, it becomes clear that complexity and interdependence
 
 The *development goal* therefore is not a fully explicit expression of the *perfectly valid* solution ($\overset{\sim}{T}$), but rather an optimum between the implicit and explicit complexity such, that the possible manifestation of *loss* is reduced on a *robust basis*. More specifically, the system shall be free from *unacceptable loss*. With *robust basis*, we refer to the fact that, for a complex system in an open context, a formal proof of the validity of the underlying assumptions is impossible. Robustness against deviation from what is expected (based on $\overline{T}$) and effective operation of the system ($T^{\dagger}$) needs to be designed into the system. In addition, validity of *assumptions* and related validation argumentation needs to be continuously checked post release. This is referred to as *ongoing validation*.
 
-In conclusion, the iterative *deduction* applied during development - e.g. working through the *horizontal layers* of abstraction from the *high level goal* to the final build product - serves four basic purposes:
-
-deducting *valid systems* at the given layer of abstraction, preventing major design iterations later
-
-iterative reduction of implicit complexity
-
-keeping the related explicit complexity manageable
-
-providing metrics for hypothesis checking and evidence generation on every layer for pre-release validation and post-release checking and maintaining of validity. We refer to the derived metrics at the heart of ongoing validation as *assumption monitors.*
+In conclusion, the iterative *deduction* applied during development - e.g. working through the *horizontal layers* of abstraction from the *high level goal* to the final build product - serves four basic purposes: deducting *valid systems* at the given layer of abstraction, preventing major design iterations later iterative reduction of implicit complexity keeping the related explicit complexity manageable providing metrics for hypothesis checking and evidence generation on every layer for pre-release validation and post-release checking and maintaining of validity. We refer to the derived metrics at the heart of ongoing validation as *assumption monitors.*
 
 ## Problem formalization
 
@@ -142,9 +114,7 @@ providing metrics for hypothesis checking and evidence generation on every layer
 
 The relation among the development goal (i.e. a valid solution, see section 2.9), the expected ($\overline{T}$) and the effective ($T^{\dagger}$, see section 2.6), as well as the role of assumption monitoring (discussed in section 2.7, 2.8 and 2.9) is visualized in figure 4.
 
-We apply the following notation: labeled edges refer to the complete related circle area; we have:
-
-Valid solutions. I.e. perfectly valid $\overset{\sim}{T}$ plus the set of solutions bearing possible loss which is below unacceptable loss, indicated by the black (diffuse) edge. This is the development goal (see section 2.9). The diffuse style relates to the fuzziness of the discrimination between loss and unacceptable loss (it depends on attributes like type of cause of *loss* and societal factors as discussed in section 2.1).
+We apply the following notation: labeled edges refer to the complete related circle area; we have: Valid solutions. I.e. perfectly valid $\overset{\sim}{T}$ plus the set of solutions bearing possible loss which is below unacceptable loss, indicated by the black (diffuse) edge. This is the development goal (see section 2.9). The diffuse style relates to the fuzziness of the discrimination between loss and unacceptable loss (it depends on attributes like type of cause of *loss* and societal factors as discussed in section 2.1).
 
 The expected $\overline{T}$ on the lower right of the diagram. It relates to all the mental and explicit models (see section 2.6).
 
@@ -160,15 +130,15 @@ Table 1 explains all subareas referenced in figure 4.
 
 The space of solutions being effectively as expected and valid. This is the area we aim to maximize.
 
-The space of solutions being effectively as expected, however invalid, e.g. due to invalid assumption. Due to the congruence of the expected ($\overline{T}$) and the effective (T†), the deviation can be found via dedicated verification and validation (v&amp;v) efforts based on $\overline{T}$.
+The space of solutions being effectively as expected, however invalid, e.g. due to invalid assumption. Due to the congruence of the expected ($\overline{T}$) and the effective (T†), the deviation can be found via dedicated verification and validation (v&v) efforts based on $\overline{T}$.
 
-The effective deviates from the expected and is (by chance) valid. Due to the deviation between the effective (T†) and the expected ($\overline{T}$), the deviations are not accessible via dedicated v&amp;v efforts based on $\overline{T}$. However, the deviation is accessible via assumption monitoring.
+The effective deviates from the expected and is (by chance) valid. Due to the deviation between the effective (T†) and the expected ($\overline{T}$), the deviations are not accessible via dedicated v&v efforts based on $\overline{T}$. However, the deviation is accessible via assumption monitoring.
 
-The effective deviates from the expected and is invalid. Due to the deviation between the effective (T†) and the expected ($\overline{T}$), the deviations are not accessible via dedicated v&amp;v efforts based on $\overline{T}$. However, the deviation is accessible via assumption monitoring. The monitors allow to identify already smaller incidents. The assumption related efforts allow to trigger specific rework for improvement.
+The effective deviates from the expected and is invalid. Due to the deviation between the effective (T†) and the expected ($\overline{T}$), the deviations are not accessible via dedicated v&v efforts based on $\overline{T}$. However, the deviation is accessible via assumption monitoring. The monitors allow to identify already smaller incidents. The assumption related efforts allow to trigger specific rework for improvement.
 
-The effective deviates from the expected and is invalid. Due to the deviation between the effective (T†) and the expected ($\overline{T}$), the deviations are not accessible via dedicated v&amp;v efforts based on $\overline{T}$. In addition, the deviation is not accessible via assumption monitoring. Invalidity can only be discovered by manifestation of unacceptable loss; this however can not be explained based on the present models. Such an event triggers major rework.
+The effective deviates from the expected and is invalid. Due to the deviation between the effective (T†) and the expected ($\overline{T}$), the deviations are not accessible via dedicated v&v efforts based on $\overline{T}$. In addition, the deviation is not accessible via assumption monitoring. Invalidity can only be discovered by manifestation of unacceptable loss; this however can not be explained based on the present models. Such an event triggers major rework.
 
-The effective deviates from the expected and is (by chance) valid. Due to the deviation between the effective (T†) and the expected ($\overline{T}$), the deviations are not accessible via dedicated v&amp;v efforts based on $\overline{T}$. No assumption monitoring. This is the region related to the misleading argument problematic as the wrongful expectation might apparently be supported by dedicated v&amp;v efforts based on $\overline{T}$.
+The effective deviates from the expected and is (by chance) valid. Due to the deviation between the effective (T†) and the expected ($\overline{T}$), the deviations are not accessible via dedicated v&v efforts based on $\overline{T}$. No assumption monitoring. This is the region related to the misleading argument problematic as the wrongful expectation might apparently be supported by dedicated v&v efforts based on $\overline{T}$.
 
 Valid design space not used. This might be inconvenient as in principle available design space is not used for optimization of product properties, or even be problematic (from a validation point of vie), as implicitly expected properties of the product are not achieved.
 
@@ -186,9 +156,7 @@ Figure 4: The relation between the development goal (i.e. a valid solution, see 
 
 The area 6 relating to solutions that are prone to the *misleading argument* problematic is especially critical in the region close to the fuzzy boundary between loss and unacceptable loss. Even when conscientiously following the societal discussion and in principle being prepared to respond to shifts, a (by chance) valid effective solution of type 6 may become unnoticed invalid (at least until an unacceptable loss occurs), as the model $\overline{T}$ spuriously relates the solution to a different solution space which is not affected by the shift.
 
-In conclusion, with respect to the areas illustrated in figure 4, a development process should address the following aspects:
-
-Maximize area 1. This is the ultimate goal, which needs to be supported in initial design, during development and post release in the sense of continuous improvement. All the following aspects contribute to this.
+In conclusion, with respect to the areas illustrated in figure 4, a development process should address the following aspects: Maximize area 1. This is the ultimate goal, which needs to be supported in initial design, during development and post release in the sense of continuous improvement. All the following aspects contribute to this.
 
 Provide support for identifying the space of valid solutions (circle $\overset{\sim}{T} +$loss), especially addressing the diffuse boundary between loss and unacceptable loss (black diffuse edge).
 
@@ -214,47 +182,11 @@ Figure 5 provides a high level overview of the complex interdependence and mutua
 
 ### Definitions and ingredients
 
-A *representation* is a set of statements representing the possibly $\infty$-complex reality. A *representation* might be built from a wide range of elements, e.g. abstract textual statements or even an expansion of reality in an explicit basis sets in the mathematical sense.\
-
-Any given *representation* therefore has a certain *abstraction level* whereas higher abstraction levels are related to more implicity, leaving room e.g. for deviating interpretation (i.e. alternative concretizations).\
-
-Transformation of *representation* to another *representation* is indicated by ${\overline{T}}_{i} \downarrow {\overline{T}}_{i + 1}$\
-
-The actual goal during development is to achieve a sufficiently explicit *representation* of the relevant part of reality (e.g. the aspects of the *validation triangle*) in order to be able to argue about the validity of the achieved solution (see section 2.9 for details). More formally, for complex systems operating in an open context, the condition is
-
-I.e. the model of reality $\overline{T}$ needs to sufficiently well approximate the effective $T^{\dagger}$, this approximation needs to be robust against stress, and the effective needs to be in the subset of valid solutions $\{{({\overset{\sim}{T} + {loss}})}_{robust}\}$ which robustly stay valid even under stress. In addition, possible deviations need to be recognized for antifragility (i.e. a system under stress needs to get aware of this and means to survive and get better need to be prepared), see *assumption monitors* in the following.\
-
-Neither the effective $T^{\dagger}$, nor the valid $\overset{\sim}{T} + {loss}$ are directly accessible (as discussed in the foregoing sections). Therefore, achievement of $cond1$ can not directly be argued / examined. Instead, development and argumentation about the system is based on *representations* of reality, which consists of models of reality $\overline{T}$ related to the aspects of the validation triangle, accompanied by further elements as introduced in the following. $Cond1$ is then indirectly enforced via the complex, however accessible condition $cond2$ given below.\
-
-The *high level goal* is the most abstract *representation* of the implicit, $\infty$-complex product idea (which initially is free from *representation*). Following system-view based approaches (e.g. STAMP ), a sufficiently complete set of high level *unacceptable losses* can be derived from the high level goal. Based on this, a set of high level *constraints* $\{{Cr}\}$ can be formulated, which constrain the system away from states which might, under certain conditions, lead to the manifestation of the determined *unacceptable losses*.\
-
-The initial formation of *representation* of the implicit and $\infty$-complex reality related to the product idea, just as every following transformation of *representation*, usually involves a set of assumptions $\{ A\}$. These underlying assumptions need to be elicitated by a conscientious process and the sufficiently completeness and validity needs to be argued (see evidence-based argumentation below, which is required also for other elements, such as $\{{Cr}\}$).\
-
-The basis for the indirect approach to condition $cond1$, in a nutshell, is formed by two main contributions, namely the arguable validity of underlying *assumptions* and the enforcement of (arguable valid) *constraints* ${\{{Cr}\}}.$ Each contribution per se can never be perfect, but could in principle ensure the validity of the system. This approach therefore forms a mutual reinforcing double barrier against *unacceptable losses*^88^8Suppose all underlying assumptions would be valid. Then the model of reality, reasoning about the system and its context and the derived argumentation for safe operation would be valid. Hence manifestation of unacceptable losses would be prevented. In the case some assumptions might get invalidated, the valid enforcement of the constraints $\{{Cr}\}$ would still prevent the manifestation..\
-
-As discussed in the foregoing sections (namely sections 2.7 - 3.1), an arguably sufficiently complete set of *monitors* needs to be derived in order to implement robustness and antifragility. The already introduced *assumption monitor*s ($\{{\Delta{\overline{T}}_{mon}}\}$) need, as argued in the foregoing passages, to be supplemented by *satisfaction monitors for constraints* *$\{{Cr_{mon}}\}$*\
-
-Robustness and antifragility is achieved by derivation of *recovery-* and *degradation strategies* in case a *monitor* indicates the system being close to or already in violation of the related requirement. *Recovery* thereby is related to a situation in which normal operation can be re-achieved, whereas *degradation* relates to a degradation of the systems functionality in order to prevent manifestation of unacceptable loss (e.g. transition to safe stop).
-
-with assumptions- and constraints related contributions:
-
-The sufficient *representation* of the aspects of the validation triangle $\overline{T}$, as well as the sufficient completeness of the set of constraints $\{{Cr}\}$, elicitated assumptions $\{ A\}$ and derived assumption monitors $\{{\Delta{\overline{T}}_{mon}}\}$ need to be argued, based on evidence. As discussed above, the argumentation needs to address aspects such as application of appropriate processes (e.g. for elicitation), sufficient completeness of sets (e.g. the set of assumptions $A$) and aspects of robustness and antifragility. We subsume all these aspects of argumentation in the operator $\vartriangleleft$ and write, e.g. for the set of evidence based arguments related to constraints $({\{{evArg^{Cr}}\}})$:
-
-The complete set of evidence based arguments is denoted as $\{{evArg}\}$, with
-
-The argumentation is relative to the *representation* from which it has been deducted, or reality in the case of the highest level deduction^99^9Argumentation relative to the *representation* deduced from follows the well established divide and conquer approach. It is not manageable to argue about every transformation relative to the full implicit reality. Instead, each *representation* is argued to be valid and following transformations can then be argued relative to this (arguably valid) reference..\
-
-There needs to be defined a set of quality criteria $\{{Qc}\}$ for the evidence based argumentation allowing to rate the state of the argumentation (i.e. insufficient or sufficient). As discussed in section 2.8, validity of a certain state of development should be ensured (i.e. $\{{evArg}\}$ complies with $\{{Qc}\}$) before applying further transformations. Note that the quality criteria for the combination of the diverse and fragmented evidence contributions to an argumentation is closely related to the societal expectations discussed in the foregoing sections. Derivation of $\{{Qc}\}$ therefore is a complex task.\
-
-For preconditions, we use the notation $pre$.
+A *representation* is a set of statements representing the possibly $\infty$-complex reality. A *representation* might be built from a wide range of elements, e.g. abstract textual statements or even an expansion of reality in an explicit basis sets in the mathematical sense.\Any given *representation* therefore has a certain *abstraction level* whereas higher abstraction levels are related to more implicity, leaving room e.g. for deviating interpretation (i.e. alternative concretizations).\Transformation of *representation* to another *representation* is indicated by ${\overline{T}}_{i} \downarrow {\overline{T}}_{i + 1}$\The actual goal during development is to achieve a sufficiently explicit *representation* of the relevant part of reality (e.g. the aspects of the *validation triangle*) in order to be able to argue about the validity of the achieved solution (see section 2.9 for details). More formally, for complex systems operating in an open context, the condition is I.e. the model of reality $\overline{T}$ needs to sufficiently well approximate the effective $T^{\dagger}$, this approximation needs to be robust against stress, and the effective needs to be in the subset of valid solutions $\{{({\overset{\sim}{T} + {loss}})}_{robust}\}$ which robustly stay valid even under stress. In addition, possible deviations need to be recognized for antifragility (i.e. a system under stress needs to get aware of this and means to survive and get better need to be prepared), see *assumption monitors* in the following.\Neither the effective $T^{\dagger}$, nor the valid $\overset{\sim}{T} + {loss}$ are directly accessible (as discussed in the foregoing sections). Therefore, achievement of $cond1$ can not directly be argued / examined. Instead, development and argumentation about the system is based on *representations* of reality, which consists of models of reality $\overline{T}$ related to the aspects of the validation triangle, accompanied by further elements as introduced in the following. $Cond1$ is then indirectly enforced via the complex, however accessible condition $cond2$ given below.\The *high level goal* is the most abstract *representation* of the implicit, $\infty$-complex product idea (which initially is free from *representation*). Following system-view based approaches (e.g. STAMP), a sufficiently complete set of high level *unacceptable losses* can be derived from the high level goal. Based on this, a set of high level *constraints* $\{{Cr}\}$ can be formulated, which constrain the system away from states which might, under certain conditions, lead to the manifestation of the determined *unacceptable losses*.\The initial formation of *representation* of the implicit and $\infty$-complex reality related to the product idea, just as every following transformation of *representation*, usually involves a set of assumptions $\{ A\}$. These underlying assumptions need to be elicitated by a conscientious process and the sufficiently completeness and validity needs to be argued (see evidence-based argumentation below, which is required also for other elements, such as $\{{Cr}\}$).\The basis for the indirect approach to condition $cond1$, in a nutshell, is formed by two main contributions, namely the arguable validity of underlying *assumptions* and the enforcement of (arguable valid) *constraints* ${\{{Cr}\}}.$ Each contribution per se can never be perfect, but could in principle ensure the validity of the system. This approach therefore forms a mutual reinforcing double barrier against *unacceptable losses*^88^8Suppose all underlying assumptions would be valid. Then the model of reality, reasoning about the system and its context and the derived argumentation for safe operation would be valid. Hence manifestation of unacceptable losses would be prevented. In the case some assumptions might get invalidated, the valid enforcement of the constraints $\{{Cr}\}$ would still prevent the manifestation..\As discussed in the foregoing sections (namely sections 2.7 - 3.1), an arguably sufficiently complete set of *monitors* needs to be derived in order to implement robustness and antifragility. The already introduced *assumption monitor*s ($\{{\Delta{\overline{T}}_{mon}}\}$) need, as argued in the foregoing passages, to be supplemented by *satisfaction monitors for constraints* *$\{{Cr_{mon}}\}$*\Robustness and antifragility is achieved by derivation of *recovery-* and *degradation strategies* in case a *monitor* indicates the system being close to or already in violation of the related requirement. *Recovery* thereby is related to a situation in which normal operation can be re-achieved, whereas *degradation* relates to a degradation of the systems functionality in order to prevent manifestation of unacceptable loss (e.g. transition to safe stop). with assumptions- and constraints related contributions: The sufficient *representation* of the aspects of the validation triangle $\overline{T}$, as well as the sufficient completeness of the set of constraints $\{{Cr}\}$, elicitated assumptions $\{ A\}$ and derived assumption monitors $\{{\Delta{\overline{T}}_{mon}}\}$ need to be argued, based on evidence. As discussed above, the argumentation needs to address aspects such as application of appropriate processes (e.g. for elicitation), sufficient completeness of sets (e.g. the set of assumptions $A$) and aspects of robustness and antifragility. We subsume all these aspects of argumentation in the operator $\vartriangleleft$ and write, e.g. for the set of evidence based arguments related to constraints $({\{{evArg^{Cr}}\}})$: The complete set of evidence based arguments is denoted as $\{{evArg}\}$, with The argumentation is relative to the *representation* from which it has been deducted, or reality in the case of the highest level deduction^99^9Argumentation relative to the *representation* deduced from follows the well established divide and conquer approach. It is not manageable to argue about every transformation relative to the full implicit reality. Instead, each *representation* is argued to be valid and following transformations can then be argued relative to this (arguably valid) reference..\There needs to be defined a set of quality criteria $\{{Qc}\}$ for the evidence based argumentation allowing to rate the state of the argumentation (i.e. insufficient or sufficient). As discussed in section 2.8, validity of a certain state of development should be ensured (i.e. $\{{evArg}\}$ complies with $\{{Qc}\}$) before applying further transformations. Note that the quality criteria for the combination of the diverse and fragmented evidence contributions to an argumentation is closely related to the societal expectations discussed in the foregoing sections. Derivation of $\{{Qc}\}$ therefore is a complex task.\For preconditions, we use the notation $pre$.
 
 ### Indirectly enforcing validity
 
-To sum up, a *representation* at level $i$ is given by
-
-and condition $cond1$ is enforced by:
-
-which can be stated as: *for all underlying representations, the representations are complete according to and the evidence based argumentation complies with the given quality criteria*.\
+To sum up, a *representation* at level $i$ is given by and condition $cond1$ is enforced: which can be stated as: *for all underlying representations, the representations are complete according to and the evidence based argumentation complies with the given quality criteria*.\
 
 ### Overview of the flow through the algorithms
 
@@ -266,130 +198,23 @@ Figure 5: high level overview of the complex interdependence and mutually recurs
 
 ### Algorithm 1 - high level initialization
 
-Algo1: $($initial product idea$)\longrightarrow\{ Rep_{0}\} s.c.$
-
-start from initial product idea, derive the *high level goal*
-
-establish general quality criteria for the underlying processes and validity of individual aspects $\{{Qc}\}$
-
-from the *high level goal* derive a candidate representation ${\{{Rep_{0cand}}\}}:$
-
-carry out initial design domain and functional analysis, set up open model ${\{{\overline{T}}_{0}\}} = {{\{{\overline{C}}_{0}\}} \cup {\{{\overline{P}}_{0}\}} \cup {\{{\overline{R}}_{0}\}}}$
-
-apply conscientious process to elicitate related $\{ A_{0}\}$
-
-carry out analysis of high level *unacceptable losses*, derive $\{{Cr_{0}}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$
-
-derive $\{{\Delta{\overline{T}}_{{mon},0}}\}$ from $\{ A_{0}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$
-
-derive $\{{Cr_{{mon},0}}\}$ from $\{{Cr_{0}}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$
-
-derive $\{{recovStrat_{0}^{^{\Delta{\overline{T}}_{mon}}}}\}$ and $\{{degStrat_{0}^{^{\Delta{\overline{T}}_{mon}}}}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$
-
-derive $\{{recovStrat_{0}^{Cr_{mon}}}\}$ and $\{{degStrat_{0}^{Crmon}}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$
-
-refine $\{{Qc}\}$ if necessary:${\{{Qc}\}} \downarrow {\{{Qc_{0}}\}}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$
-
-compile evidence based argumentation $\{{evArg_{0}}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$, related to:
-
-derivation process and individual validity of the aspects of the validation triangle
-
-elicitation process and individual validity of underlying assumptions ${\{ A_{0}\}}\vartriangleleft{\{{evArg}\}}$
-
-derivation process and individual validity of assumption monitors ${\{{\Delta{\overline{T}}_{{mon},0}}\}}\vartriangleleft{\{{evArg}\}}$
-
-derivation process and individual validity of constraints ${\{{Cr_{0}}\}}\vartriangleleft{\{{evArg}\}}$
-
-derivation process and individual validity of satisfaction monitors for constraints $\{{Cr_{{mon},0}}\}$
-
-derivation process and individual validity of ${\{{recDegStrat_{0}}\}}\vartriangleleft{\{{evArg}\}}$
-
-iteratively enhance argumentation quality until ${\{{evArg_{0}}\}}complieswith{\{{Qc_{0}}\}}$; if iteration fails, exit with failure
-
-enter self-consistency loop (algo2) based on the candidate *representation* for the highest abstraction level $\{{Rep_{0cand}}\}$ and $\{{exA_{0}}\}$, which gives:\
-${{\{{Rep_{0}}\}}s}.c. =$Algo2$({\{{Rep_{0cand}}\}},{\{{exA_{0}}\}})$
+Algo1: $($initial product idea$)\longrightarrow\{ Rep_{0}\} s.c.$ start from initial product idea, derive the *high level goal* establish general quality criteria for the underlying processes and validity of individual aspects $\{{Qc}\}$ from the *high level goal* derive a candidate representation ${\{{Rep_{0cand}}\}}:$ carry out initial design domain and functional analysis, set up open model ${\{{\overline{T}}_{0}\}} = {{\{{\overline{C}}_{0}\}} \cup {\{{\overline{P}}_{0}\}} \cup {\{{\overline{R}}_{0}\}}}$ apply conscientious process to elicitate related $\{ A_{0}\}$ carry out analysis of high level *unacceptable losses*, derive $\{{Cr_{0}}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$ derive $\{{\Delta{\overline{T}}_{{mon},0}}\}$ from $\{ A_{0}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$ derive $\{{Cr_{{mon},0}}\}$ from $\{{Cr_{0}}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$ derive $\{{recovStrat_{0}^{^{\Delta{\overline{T}}_{mon}}}}\}$ and $\{{degStrat_{0}^{^{\Delta{\overline{T}}_{mon}}}}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$ derive $\{{recovStrat_{0}^{Cr_{mon}}}\}$ and $\{{degStrat_{0}^{Crmon}}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$ refine $\{{Qc}\}$ if necessary:${\{{Qc}\}} \downarrow {\{{Qc_{0}}\}}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$ compile evidence based argumentation $\{{evArg_{0}}\}$, possibly extending $\{ A_{0}\}$, note this in $\{{exA_{0}}\}$, related to: derivation process and individual validity of the aspects of the validation triangle elicitation process and individual validity of underlying assumptions ${\{ A_{0}\}}\vartriangleleft{\{{evArg}\}}$ derivation process and individual validity of assumption monitors ${\{{\Delta{\overline{T}}_{{mon},0}}\}}\vartriangleleft{\{{evArg}\}}$ derivation process and individual validity of constraints ${\{{Cr_{0}}\}}\vartriangleleft{\{{evArg}\}}$ derivation process and individual validity of satisfaction monitors for constraints $\{{Cr_{{mon},0}}\}$ derivation process and individual validity of ${\{{recDegStrat_{0}}\}}\vartriangleleft{\{{evArg}\}}$ iteratively enhance argumentation quality until ${\{{evArg_{0}}\}}complieswith{\{{Qc_{0}}\}}$; if iteration fails, exit with failure enter self-consistency loop (algo2) based on the candidate *representation* for the highest abstraction level $\{{Rep_{0cand}}\}$ and $\{{exA_{0}}\}$, which gives:\${{\{{Rep_{0}}\}}s}.c. =$Algo2$({\{{Rep_{0cand}}\}},{\{{exA_{0}}\}})$
 
 ### Algorithm 2 - recursive, self consistent iteration of *representations*
 
-As it becomes clear from the listing of the high level initialization algorithm, the elements of the *representation* are mutually dependent. Specifically, the list of $\{{exA_{i}}\}$ grows from algo1 3a) to algo1 3k), with the prior items not being consistent with the complete list of assumptions after a singular pass. Therefore, all elements of the candidate *representation* need to be checked and possibly extended with respect to all elements in $\{{exA_{i}}\}$. This can extend $\{{Rep_{icand}}\}$ and introduce a new set of $\{{exA_{i}}\}$. Therefore, another cycle of checking the updated $\{{Rep_{icand}}\}$ against the updated $\{{exA_{i}}\}$ needs to be started until ${\{{exA_{i}}\}} = \varnothing$, which implies self-consistency of the *representation*:
+As it becomes clear from the listing of the high level initialization algorithm, the elements of the *representation* are mutually dependent. Specifically, the list of $\{{exA_{i}}\}$ grows from algo1 3a) to algo1 3k), with the prior items not being consistent with the complete list of assumptions after a singular pass. Therefore, all elements of the candidate *representation* need to be checked and possibly extended with respect to all elements in $\{{exA_{i}}\}$. This can extend $\{{Rep_{icand}}\}$ and introduce a new set of $\{{exA_{i}}\}$. Therefore, another cycle of checking the updated $\{{Rep_{icand}}\}$ against the updated $\{{exA_{i}}\}$ needs to be started until ${\{{exA_{i}}\}} = \varnothing$, which implies self-consistency of the *representation*: Algo2: ${{{({\{{Rep_{icand}}\}},{\{{exA_{i}}\}})}\longrightarrow{{\{{Rep_{i}}\}}s}}.c}.$ set ${\{{Rep_{cand}}\}} = {\{{Rep_{icand}}\}}$ set ${\{{exA}\}} = {\{{exA_{i}}\}}$ set ${\{{exA_{i}}\}} = \varnothing$ For $j = {1,\ldots,{|{\{{exA}\}}|}}$: check all elements of $\{{\overline{T}}_{icand}\}$ with respect to ${exA^{j}} \in {\{{exA}\}}$. If affected, transform the element using algo3b such that the resulting *representation* is consistent with $exA^{j}$. I.e. set affected element as focused element for next transformation $\{ f_{in}\}$ ${\{{Rep_{cand}}\}} =$Algo3b$({\{{Rep_{cand}}\}},{\{ f_{in}\}},{exA^{j}})$ This possibly updates $\{{Rep_{cand}}\}$. check and transform $\{ A_{icand}\}$accordingly; this possibly extends $\{{exA_{i}}\}$ (which was set empty in step algo2 3.) check and transform $\{{recDegStrat_{icand}}\}$, $\{{Cr_{icand}}\}$, $\{{\Delta{\overline{T}}_{{mon},{icand}}}\}$, $\{{Cr_{{mon},{icand}}}\}$, $\{{Qc_{icand}}\}$ and $\{{evArg_{icand}}\}$ accordingly, possibly extending $\{ A_{cand}\}$ and $\{{exA_{i}}\}$ check and transform $\{{evArg_{icand}}\}$ accordingly (applying the sequence alg1.3.i), possibly extending $\{ A_{cand}\}$ and $\{{exA_{i}}\}$ iteratively enhance argumentation quality until ${\{{evArg_{cand}}\}}complieswith{\{{Qc_{cand}}\}}$; if iteration fails, exit with failure.\This sequence results in an updated $\{{Rep_{cand}}\}$ with respect to $exA^{j}$ being the basis for $j + 1$ and a possibly non-empty $\{{exA_{i}}\}$.
 
-Algo2: ${{{({\{{Rep_{icand}}\}},{\{{exA_{i}}\}})}\longrightarrow{{\{{Rep_{i}}\}}s}}.c}.$
-
-set ${\{{Rep_{cand}}\}} = {\{{Rep_{icand}}\}}$
-
-set ${\{{exA}\}} = {\{{exA_{i}}\}}$
-
-set ${\{{exA_{i}}\}} = \varnothing$
-
-For $j = {1,\ldots,{|{\{{exA}\}}|}}$:
-
-check all elements of $\{{\overline{T}}_{icand}\}$ with respect to ${exA^{j}} \in {\{{exA}\}}$. If affected, transform the element using algo3b such that the resulting *representation* is consistent with $exA^{j}$. I.e.
-
-set affected element as focused element for next transformation $\{ f_{in}\}$
-
-${\{{Rep_{cand}}\}} =$Algo3b$({\{{Rep_{cand}}\}},{\{ f_{in}\}},{exA^{j}})$
-
-This possibly updates $\{{Rep_{cand}}\}$.
-
-check and transform $\{ A_{icand}\}$accordingly; this possibly extends $\{{exA_{i}}\}$ (which was set empty in step algo2 3.)
-
-check and transform $\{{recDegStrat_{icand}}\}$, $\{{Cr_{icand}}\}$, $\{{\Delta{\overline{T}}_{{mon},{icand}}}\}$, $\{{Cr_{{mon},{icand}}}\}$, $\{{Qc_{icand}}\}$ and $\{{evArg_{icand}}\}$ accordingly, possibly extending $\{ A_{cand}\}$ and $\{{exA_{i}}\}$
-
-check and transform $\{{evArg_{icand}}\}$ accordingly (applying the sequence alg1.3.i), possibly extending $\{ A_{cand}\}$ and $\{{exA_{i}}\}$
-
-iteratively enhance argumentation quality until ${\{{evArg_{cand}}\}}complieswith{\{{Qc_{cand}}\}}$; if iteration fails, exit with failure.\
-This sequence results in an updated $\{{Rep_{cand}}\}$ with respect to $exA^{j}$ being the basis for $j + 1$ and a possibly non-empty $\{{exA_{i}}\}$.
-
-The above for loop results in an updated $\{{Rep_{cand}}\}$ with respect to $\{{exA}\}$ being the basis for the next self consistency cycle and a possibly non-empty $\{{exA_{i}}\}$.\
-If ${\{{exA_{i}}\}} = \varnothing$ return ${{\{{Rep_{i}}\}}s}.c. =$$\{{Rep_{cand}}\}$\
-else set ${\{{Rep_{icand}}\}} = {\{{Rep_{cand}}\}}$ and re-start algo2
+The above for loop results in an updated $\{{Rep_{cand}}\}$ with respect to $\{{exA}\}$ being the basis for the next self consistency cycle and a possibly non-empty $\{{exA_{i}}\}$.\If ${\{{exA_{i}}\}} = \varnothing$ return ${{\{{Rep_{i}}\}}s}.c. =$$\{{Rep_{cand}}\}$\else set ${\{{Rep_{icand}}\}} = {\{{Rep_{cand}}\}}$ and re-start algo2
 
 ### Algorithm 3a - intended transformation of *representations*
 
-Algo3a: ${\{ Rep_{i}\}}s.c.\longrightarrow{\{ Rep_{i + 1}\}}s.c.$
-
-$pre:{\{ evArg_{i}\}}complieswith{\{ Qc_{i}\}} \land {\{ Rep_{i}\}}s.c.$\
-From ${\{{\overline{T}}_{i}\}} = {{\{{\overline{C}}_{i}\}} \cup {\{{\overline{P}}_{i}\}} \cup {\{{\overline{R}}_{i}\}}}$ select one or several aspects as focused elements for next transformation:
-
-${\{{Rep_{i + 1}}\}} =$Algo3b$({\{{Rep_{i}}\}},{\{ f_{i}\}},\varnothing)$
-
-return ${{\{{Rep_{i + 1}}\}}s}.c. =$$\{{Rep_{i + 1}}\}$
+Algo3a: ${\{ Rep_{i}\}}s.c.\longrightarrow{\{ Rep_{i + 1}\}}s.c.$ $pre:{\{ evArg_{i}\}}complieswith{\{ Qc_{i}\}} \land {\{ Rep_{i}\}}s.c.$\From ${\{{\overline{T}}_{i}\}} = {{\{{\overline{C}}_{i}\}} \cup {\{{\overline{P}}_{i}\}} \cup {\{{\overline{R}}_{i}\}}}$ select one or several aspects as focused elements for next transformation: ${\{{Rep_{i + 1}}\}} =$Algo3b$({\{{Rep_{i}}\}},{\{ f_{i}\}},\varnothing)$ return ${{\{{Rep_{i + 1}}\}}s}.c. =$$\{{Rep_{i + 1}}\}$
 
 ### Algorithm 3b - transformation of *representations* under condition
 
-Algo3b: ${({\{{Rep_{in}}\}},{\{ f_{in}\}},{\{{exCond_{in}}\}})}\longrightarrow{\{{Rep_{out}}\}}$
+Algo3b: ${({\{{Rep_{in}}\}},{\{ f_{in}\}},{\{{exCond_{in}}\}})}\longrightarrow{\{{Rep_{out}}\}}$ set ${\{{exA_{i}}\}} = \varnothing$ derive transformed *representation* of focused element, all other aspects held fixed, such that extra consistency conditions $\{{exCond_{in}}\}$ are fulfilled: The set notation indicates the fact that the transformation of one element $f_{i}^{j}$ might lead to a set of elements $\{ f_{i + 1}^{j}\}$. If impossible, exit with failure. set ${\{{Rep_{out}}\}} = {{({{\{{Rep_{in}}\}} \smallsetminus f_{in}^{j}})} \cup {\{ f_{{in} + 1}^{^{j}}\}}}$ extend $\{{Rep_{out}}\}$ by apply conscientious process to elicitate transformation related $\{ A\}$ derive $\{{recDegStrat}\}$, possibly extending $\{ A\}$, note this in $\{{exA}\}$ derive $\{{\Delta{\overline{T}}_{mon}}\}$ from $\{ A\}$, possibly extending $\{ A\}$, note this in $\{{exA}\}$ extend evidence based argumentation $\{{evArg}\}$, applying the sequence alg1 3.i, possibly extending $\{ A\}$, note this in $\{{exA}\}$ following iteratively enhance argumentation quality until ${\{{evArg}\}}complieswith{\{{Qc}\}}$; if iteration fails, exit with failure.
 
-set ${\{{exA_{i}}\}} = \varnothing$
-
-derive transformed *representation* of focused element, all other aspects held fixed, such that extra consistency conditions $\{{exCond_{in}}\}$ are fulfilled:
-
-The set notation indicates the fact that the transformation of one element $f_{i}^{j}$ might lead to a set of elements $\{ f_{i + 1}^{j}\}$. If impossible, exit with failure.
-
-set ${\{{Rep_{out}}\}} = {{({{\{{Rep_{in}}\}} \smallsetminus f_{in}^{j}})} \cup {\{ f_{{in} + 1}^{^{j}}\}}}$
-
-extend $\{{Rep_{out}}\}$ by
-
-apply conscientious process to elicitate transformation related $\{ A\}$
-
-derive $\{{recDegStrat}\}$, possibly extending $\{ A\}$, note this in $\{{exA}\}$
-
-derive $\{{\Delta{\overline{T}}_{mon}}\}$ from $\{ A\}$, possibly extending $\{ A\}$, note this in $\{{exA}\}$
-
-extend evidence based argumentation $\{{evArg}\}$, applying the sequence alg1 3.i, possibly extending $\{ A\}$, note this in $\{{exA}\}$ following
-
-iteratively enhance argumentation quality until ${\{{evArg}\}}complieswith{\{{Qc}\}}$; if iteration fails, exit with failure.
-
-This results in an updated $\{{Rep_{out}}\}$
-
-If ${\{{exA_{i}}\}} = \varnothing$ exit\
-
-set ${\{{Rep_{icand}}\}} = {\{{Rep_{out}}\}}$
-
-set ${\{{exA_{i}}\}} = {\{{exA}\}}$
-
-${\{{Rep_{out}}\}} =$Algo2$({\{{Rep_{out}}\}},{\{{exA}\}})$
-
-return $\{{Rep_{out}}\}$
+This results in an updated $\{{Rep_{out}}\}$ If ${\{{exA_{i}}\}} = \varnothing$ exit\set ${\{{Rep_{icand}}\}} = {\{{Rep_{out}}\}}$ set ${\{{exA_{i}}\}} = {\{{exA}\}}$ ${\{{Rep_{out}}\}} =$Algo2$({\{{Rep_{out}}\}},{\{{exA}\}})$ return $\{{Rep_{out}}\}$
 
 ### On exit with failure
 
@@ -399,7 +224,7 @@ Exit with failure might happen at algo1 3.j, algo2 4.e, algo3b 2.a and algo3b 2.
 
 ### Overview
 
-Based on the discussion in the foregoing chapters, we briefly sketch a *holistic* development process which we refer to as systematic, system view based approach to validation, in short *sys^2^val*. A detailed presentation however is out of the scope of this paper and might be provided later on. A discussion of published approaches by others, based on our presentation of the validation challenge, will be published later on.
+Based on the discussion in the foregoing chapters, we briefly sketch a *holistic* development process which we refer to as systematic, system view based approach to validation, in short *sys^2^val*. A detailed presentation however is out of the scope of this paper and might be provided later . A discussion of published approaches by others, based on our presentation of the validation challenge, will be published later .
 
 *Holistic* in this context means that the process needs to address the whole process (all aspects of the listing in section 3.1), from initial framing of intention (*high level goal*) over design and implementation to post-release operation, supporting evidence generation from fragmentary, manifold sources (such as simulation, real world driving, etc.), *ongoing validation* and continuous improvement.
 
@@ -419,15 +244,7 @@ With respect to preexisting components (e.g. radar or lidar sensors), we suggest
 
 ### Contributions to the holistic evidence generation
 
-We comment only briefly on the contributions to the holistic *evidence generation cycle* necessary for the validation of complex systems operating in an open context (related to algo1 3.i and algo1 3.j, algo2 4.e and algo3b 2.c.v in section 3.2). The main contributions are from
-
-real world observation
-
-continuous observation (pre- and post-release e.g. in the style of a control and observation center)
-
-continuous feedback to system understanding
-
-It is important to note that all individual contributions can never be used as silver bullet (i.e. singular approach for the complete *validation challenge*). Due to the characteristics of the problem elaborated in the foregoing sections, every possible contribution per se can never be complete. For complex systems operating in an open context, the individual contributions necessarily need to be mutually reinforced by combination with the others. Only closing the whole cycle in a well balanced form across all aspects listed above will be appropriate to address the *validation challenge*. However, the result will only be as good as the individual contributions. In other words, excessively investing in singular aspects (e.g. simulation) and neglecting others will be inappropriate.
+We comment only briefly on the contributions to the holistic *evidence generation cycle* necessary for the validation of complex systems operating in an open context (related to algo1 3.i and algo1 3.j, algo2 4.e and algo3b 2.c.v in section 3.2). The main contributions are from real world observation continuous observation (pre- and post-release e.g. in the style of a control and observation center) continuous feedback to system understanding It is important to note that all individual contributions can never be used as silver bullet (i.e. singular approach for the complete *validation challenge*). Due to the characteristics of the problem elaborated in the foregoing sections, every possible contribution per se can never be complete. For complex systems operating in an open context, the individual contributions necessarily need to be mutually reinforced by combination with the others. Only closing the whole cycle in a well balanced form across all aspects listed above will be appropriate to address the *validation challenge*. However, the result will only be as good as the individual contributions. In other words, excessively investing in singular aspects (e.g. simulation) and neglecting others will be inappropriate.
 
 As an example, we comment on obvious, however problematic statistics based *silver bullet* approaches in the sense of 'driving X hours or miles' to demonstrate the validity of the system, which have initially been discussed for autonomous driving, but never seriously been applied (as *silver bullet*). As should have become clear so far, the characteristics of the *validation challenge,* especially the *representativeness challenge* and the problems related to extremely rare, but systematic manifestation of unacceptable losses, render such an approach fundamentally intractable. Nevertheless, magic numbers X could be proposed and even reduced in size by superficial statistic arguments, e.g. about data fusion. Besides the fact that, due to the aforementioned reasons already the starting point of this argumentation, namely the magic number X, would be basically questionable, a conscientious analysis shows that the basic problem of X being large would even be irreducible for realistic systems within a *silver bullet* approach. For example, a perfect independence of fused data can not ad-hoc be argued. However, demonstrating even a certain level of independence already poses a problem even larger than X (see, especially section 5 for a detailed discussion). Statistic arguments however, when being part of the holistic evidence cycle, have an important contribution to validation.
 
@@ -441,7 +258,7 @@ Therefore, being prepared for the unexpected and a continuous observation in the
 
 ### Contribution of from ISO26262 and SOTIF
 
-With respect to ISO26262 and SOTIF, one needs to distinguish between what is requested (i.e. which problem is posed) and which part of the posed problem is provided support for.
+With respect to ISO26262 and SOTIF, one needs to distinguish between what is requested (i.e. which problem is posed) and which part of the posed problem is provided support .
 
 ISO26262 and SOTIF both are focused only on a part of the *unacceptable losses*, namely harm of persons related to E/E systems. All the other aspects of a *valid* product discussed in section 2.1 are out of scope.
 
@@ -449,13 +266,7 @@ An adequate understanding of the necessary functionality (of the item) and the i
 
 ISO26262 request a *safety validation (I)* - *assurance, based on examination and tests, that the safety goals are sufficient and have been achieved.* In addition, *functional safety (I)* is understood as *absence of unreasonable risk* (i.e. related to harm of persons) *due to hazards caused by malfunctioning behavior of E/E systems*, with *malfunctioning behavior (I)* defined as *failure or unintended behavior of an item with respect to its design intent.* Unintended behavior ($T^{\dagger}\leftrightarrow\overline{T}$) with respect to design intent $(T^{\dagger}\leftrightarrow\overset{\sim}{T}$+loss) is related to area 5 in figure 4. Therefore, ISO26262 in fact already poses the full problem, however, as already stated above, does not provide support for addressing all related aspects.
 
-SOTIF is an approach to overcome the limitations of ISO26262 (currently for driver assistance systems). The PAS (in preparation) states:
-
-> *For some systems, which rely on sensing the external or internal environment, there can be potentially hazardous* (related to harm of persons) *behavior caused by the intended functionality or performance limitation of a system that is free from the faults addressed in ISO26262.*
-
-Hence, *safety of the intended functionality (I)* is defined as *absence of unreasonable risk* (related to harm of persons) *due to hazards resulting from functional insufficiencies of the intended functionality or from reasonably foreseeable misuse by persons*
-
-As already discussed in the problem statement (section 2), SOTIF's *functional insufficiency* relates to what we more generally refer to as *insufficiency*, fundamentally related to invalid assumptions. The SOTIF process - in contrast to the ISO26262 explicitly addresses the iterative refinement of the functional- and system specification with respect to *insufficiencies* (i.e. invalid, possibly implicit *assumptions*). See e.g. ISO/PAS 21448's figure 9, flowchart of the activities, appended for reference as figure 6 in the appendix. The step from activity 'start' to 'functional and system specification' relates to *sys^2^val*'s high level goal definition followed by the *valid deductive step* supported 'well controlled concretization' of the aspects $P,R$ and $C$ of the *validation triangle* (i.e. iterative deduction of $\overline{T}$, including *contribution analysis steps*). Section 5 of the PAS provides a listing of elements which should be part of the resulting specification. The *sys^2^val* approach sketched above provides support for the generation of these and further elements necessary for complex systems operating in open contexts.
+SOTIF is an approach to overcome the limitations of ISO26262 (currently for driver assistance systems). The PAS (in preparation) states: > *For some systems, which rely on sensing the external or internal environment, there can be potentially hazardous* (related to harm of persons) *behavior caused by the intended functionality or performance limitation of a system that is free from the faults addressed in ISO26262.* Hence, *safety of the intended functionality (I)* is defined as *absence of unreasonable risk* (related to harm of persons) *due to hazards resulting from functional insufficiencies of the intended functionality or from reasonably foreseeable misuse by persons* As already discussed in the problem statement (section 2), SOTIF's *functional insufficiency* relates to what we more generally refer to as *insufficiency*, fundamentally related to invalid assumptions. The SOTIF process - in contrast to the ISO26262 explicitly addresses the iterative refinement of the functional- and system specification with respect to *insufficiencies* (i.e. invalid, possibly implicit *assumptions*). See e.g. ISO/PAS 21448's figure 9, flowchart of the activities, appended for reference as figure 6 in the appendix. The step from activity 'start' to 'functional and system specification' relates to *sys^2^val*'s high level goal definition followed by the *valid deductive step* supported 'well controlled concretization' of the aspects $P,R$ and $C$ of the *validation triangle* (i.e. iterative deduction of $\overline{T}$, including *contribution analysis steps*). Section 5 of the PAS provides a listing of elements which should be part of the resulting specification. The *sys^2^val* approach sketched above provides support for the generation of these and further elements necessary for complex systems operating in open contexts.
 
 When over-viewing the process of the PAS activities as depicted in the flowchart, it is important to note that the focus actually is on *insufficiencies* (i.e. invalid *assumptions*) and analysis is based on system understanding. Triggering events should be regarded as subordinated (with respect to *insufficiencies*). They are representative events stimulating the related *insufficiencies* and hence possibly leading to harm of persons. With subordinated we refer to the fact that the fundamental basis is formed by analysis of *insufficiencies* and not by triggering events. A real world observation focused, triggering event based *silver bullet* like approach would be inappropriate, at least for complex systems operating in open contexts. In the sense of the *holistic evidence generation cycle* (section 4.2), real world observation and collection of triggering events in order to enrich and refine system understanding however is an important part of a larger overall approach.
 

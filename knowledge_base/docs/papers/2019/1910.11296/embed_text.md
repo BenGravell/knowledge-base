@@ -36,7 +36,7 @@ In this paper, we propose the Open-Set Instance Segmentation (OSIS) network for 
 
 ### Problem Formulation
 
-Let $\mathcal{X} = {\{\mathbf{x}_{i}\}}_{i = 1}^{N}$ be an input set of $N$ points, where each $\mathbf{x}_{i} \in {\mathbb{R}}^{D}$ is the input feature for point $i$. Given a set of instance ids $\mathbb{I}$ and a set of open-set semantic labels $\mathbb{O}$, we want a function $f$ mapping each input feature $\mathbf{x}_{i} \in \mathcal{X}$ to a tuple ${(y_{i},z_{i})} \in {{\mathbb{I}} \times {\mathbb{O}}}$. Note that $\mathbb{O}$ may be partitioned into two disjoint subsets $\mathbb{C}$ and $\{\bot\}$, where $\mathbb{C}$ is the set of known classes and $\bot$ is the semantic label for the unknown class. The known classes $\mathbb{C}$ can be further divided into ${\mathbb{C}}_{thing}$ and ${\mathbb{C}}_{stuff}$, which correspond to the known thing classes (*e.g*., vehicle and pedestrian) and the known stuff classes (*e.g*., road) respectively. As in, we require that every point with the same instance id have the same semantic label. Furthermore, we ignore the instance ids of stuff points.
+Let $\mathcal{X} = {\{\mathbf{x}_{i}\}}_{i = 1}^{N}$ be an input set of $N$ points, where each $\mathbf{x}_{i} \in {\mathbb{R}}^{D}$ is the input feature for point $i$. Given a set of instance ids $\mathbb{I}$ and a set of open-set semantic labels $\mathbb{O}$, we want a function $f$ mapping each input feature $\mathbf{x}_{i} \in \mathcal{X}$ to a tuple ${(y_{i},z_{i})} \in {{\mathbb{I}} \times {\mathbb{O}}}$. Note that $\mathbb{O}$ may be partitioned into two disjoint subsets $\mathbb{C}$ and $\{\bot\}$, where $\mathbb{C}$ is the set of known classes and $\bot$ is the semantic label for the unknown class. The known classes $\mathbb{C}$ can be further divided into ${\mathbb{C}}_{thing}$ and ${\mathbb{C}}_{stuff}$, which correspond to the known thing classes (*e.g*., vehicle and pedestrian) and the known stuff classes (*e.g*., road) respectively. As , we require that every point with the same instance id have the same semantic label. Furthermore, we ignore the instance ids of stuff points.
 
 Our problem formulation differs from standard panoptic segmentation with regards to how the unknown (void) class is handled. In the standard setting, we do not require instance labels for points with a void semantic label. By contrast, in our setting, we want to identify individual instances for the unknown class as well. Fig. 1 shows an example output for this task.
 
@@ -60,9 +60,7 @@ Our detection head consists of four $3 \times 3$ convolution layers, followed by
 
 ### Embedding head
 
-The embedding head forms the core of our open-set instance segmentation model: it learns a category-agnostic embedding space in which points can be clustered into instances irrespective of their semantics. Specifically, the embedding head is a four-layer CNN with $3 \times 3$ filters followed by three distinct branches:
-
-The point branch computes features $\Phi_{point} \in {\mathbb{R}}^{{({F \times Z})} \times H \times W}$ via a $1 \times 1$ convolution, where $F$ is the dimension of the embedding space, and $Z$ is the number of bins along the gravitational $z$-axis. For each point $i$ in $\mathcal{X}$, we extract an embedding $\mathbf{\phi}_{i}$ from $\Phi_{point}$ via trilinear interpolation.
+The embedding head forms the core of our open-set instance segmentation model: it learns a category-agnostic embedding space in which points can be clustered into instances irrespective of their semantics. Specifically, the embedding head is a four-layer CNN with $3 \times 3$ filters followed by three distinct branches: The point branch computes features $\Phi_{point} \in {\mathbb{R}}^{{({F \times Z})} \times H \times W}$ via a $1 \times 1$ convolution, where $F$ is the dimension of the embedding space, and $Z$ is the number of bins along the gravitational $z$-axis. For each point $i$ in $\mathcal{X}$, we extract an embedding $\mathbf{\phi}_{i}$ from $\Phi_{point}$ via trilinear interpolation.
 
 The thing branch computes features $\Phi_{thing} \in {\mathbb{R}}^{{({F + 1})} \times H \times W}$ via a $1 \times 1$ convolution. For each anchor $k$ in $\mathcal{A}_{\tau}$, we extract its prototype ${({\mathbf{μ}}_{k},\sigma_{k}^{2})} \in {{\mathbb{R}}^{F} \times {\mathbb{R}}}$ by bilinearly interpolating $\Phi_{thing}$ around the anchor's object center. This yields a set of thing prototypes $\mathcal{P}_{thing}$.
 
@@ -70,23 +68,17 @@ The stuff branch performs global average pooling to obtain features $\Phi_{stuff
 
 ### Closed-set perception
 
-Our closed-set perception algorithm draws inspiration from prototypical networks for few-shot learning. First, we apply non-maximum suppression to $\mathcal{P}_{thing}$ to obtain a unique set of thing prototypes $\mathcal{P}_{thing}^{\prime}$. Let us denote $\mathcal{P}_{all} = {\mathcal{P}_{thing}^{\prime} \cup \mathcal{P}_{stuff}}$ as the final set of all thing and stuff prototypes. Then, given a point $i$ in $\mathcal{X}$, we compute its point-to-prototype association score with respect to every prototype $k$ in $\mathcal{P}_{all}$ as follows:
-
-Additionally, we have a learnable global constant $U$ corresponding to its score ${\hat{\mathbf{y}}}_{i,{{|\mathcal{P}_{all}|} + 1}}$ of not associating with any prototype in $\mathcal{P}_{all}$. Thus, its instance label can be computed by taking the argmax over its association scores ${\hat{\mathbf{y}}}_{i}$. Furthermore, its semantic label is simply the class of its instance, or unknown if it is not associated with any prototypes in $\mathcal{P}_{all}$. Note that, in practice, we compute each point's scores only with the prototypes of its $k$-nearest thing anchors and all $|{\mathbb{C}}_{stuff}|$ stuff classes; this helps to accelerate inference speed.
+Our closed-set perception algorithm draws inspiration from prototypical networks for few-shot learning. First, we apply non-maximum suppression to $\mathcal{P}_{thing}$ to obtain a unique set of thing prototypes $\mathcal{P}_{thing}'$. Let us denote $\mathcal{P}_{all} = {\mathcal{P}_{thing}' \cup \mathcal{P}_{stuff}}$ as the final set of all thing and stuff prototypes. Then, given a point $i$ in $\mathcal{X}$, we compute its point-to-prototype association score with respect to every prototype $k$ in $\mathcal{P}_{all}$ as follows: Additionally, we have a learnable global constant $U$ corresponding to its score ${\hat{\mathbf{y}}}_{i,{{|\mathcal{P}_{all}|} + 1}}$ of not associating with any prototype in $\mathcal{P}_{all}$. Thus, its instance label can be computed by taking the argmax over its association scores ${\hat{\mathbf{y}}}_{i}$. Furthermore, its semantic label is simply the class of its instance, or unknown if it is not associated with any prototypes in $\mathcal{P}_{all}$. Note that, in practice, we compute each point's scores only with the prototypes of its $k$-nearest thing anchors and all $|{\mathbb{C}}_{stuff}|$ stuff classes; this helps to accelerate inference speed.
 
 ### Identifying unknown instances
 
-We assign instance labels to unknown points via DBSCAN clustering. Specifically, for two points ${{\mathbf{x}}_{\mathbf{i}},{\mathbf{x}}_{\mathbf{j}}} \in \mathcal{X}$, their pairwise distance used in DBSCAN is a convex combination of their point embedding squared distance and their 3D location squared distance; *i.e*.,
-
-Combining the instance labels obtained from this stage with the results from closed-set perception, we obtain our final open-set instance segmentation predictions.
+We assign instance labels to unknown points via DBSCAN clustering. Specifically, for two points ${{\mathbf{x}}_{\mathbf{i}},{\mathbf{x}}_{\mathbf{j}}} \in \mathcal{X}$, their pairwise distance used in DBSCAN is a convex combination of their point embedding squared distance and their 3D location squared distance; *i.e*., Combining the instance labels obtained from this stage with the results from closed-set perception, we obtain our final open-set instance segmentation predictions.
 
 Figure 3: Qualitative results of open-set instance segmentation on TOR4D and Rare4D.
 
 ### Learning
 
-Our model is optimized with respect to a combination of detection and embedding losses:
-
-where $\ell_{\det}$ is the detection loss, $\ell_{emb}$ is the embedding loss, and $\lambda$'s are their associated loss weights. In our experiments, we set $\lambda$'s to 1. Since $\mathcal{L}$ is fully differentiable with respect to the network parameters, we train our model using the standard back-propagation algorithm.
+Our model is optimized with respect to a combination of detection and embedding losses: where $\ell_{\det}$ is the detection loss, $\ell_{emb}$ is the embedding loss, and $\lambda$'s are their associated loss weights. In our experiments, we set $\lambda$'s to 1. Since $\mathcal{L}$ is fully differentiable with respect to the network parameters, we train our model using the standard back-propagation algorithm.
 
 ### Detection loss
 
@@ -94,11 +86,7 @@ We use a standard multi-task loss function to train the detection head. In parti
 
 ### Embedding loss
 
-We use a standard cross-entropy loss function to encourage points to be assigned to the correct prototype. In particular, during training we first gather a set of prototypes $\mathcal{P}_{gt}$, which is the union of $\mathcal{P}_{stuff}$ and the set of thing prototypes obtained by bilinearly interpolating $\Phi_{thing}$ around ground truth object centers. Next, we compute point-to-prototype association scores ${\{{\hat{\mathbf{y}}}_{i}\}}_{i = 1}^{N}$ with respect to $\mathcal{P}_{gt}$, and normalize each ${\hat{\mathbf{y}}}_{i}$ using the softmax function. Finally, we calculate the cross-entropy loss as follows:
-
-where each ${\mathbf{y}}_{i}$ is a one-hot vector indicating ground truth associations. We also apply a discriminative loss function on the point embeddings ${\{\mathbf{\phi}_{i}\}}_{i = 1}^{N}$, which we found improves performance. \\newfloatcommandcapbtabboxtable\[\]\[\\FBwidth\]
-
-Table 1: Quantitative results of open-set instance segmentation on the TOR4D and Rare4D test sets.
+We use a standard cross-entropy loss function to encourage points to be assigned to the correct prototype. In particular, during training we first gather a set of prototypes $\mathcal{P}_{gt}$, which is the union of $\mathcal{P}_{stuff}$ and the set of thing prototypes obtained by bilinearly interpolating $\Phi_{thing}$ around ground truth object centers. Next, we compute point-to-prototype association scores ${\{{\hat{\mathbf{y}}}_{i}\}}_{i = 1}^{N}$ with respect to $\mathcal{P}_{gt}$, and normalize each ${\hat{\mathbf{y}}}_{i}$ using the softmax function. Finally, we calculate the cross-entropy loss as follows: where each ${\mathbf{y}}_{i}$ is a one-hot vector indicating ground truth associations. We also apply a discriminative loss function on the point embeddings ${\{\mathbf{\phi}_{i}\}}_{i = 1}^{N}$, which we found improves performance. \\newfloatcommandcapbtabboxtable\[\\FBwidth\] Table 1: Quantitative results of open-set instance segmentation on the TOR4D and Rare4D test sets.
 
 ## Experiments
 
@@ -116,9 +104,7 @@ Rare4D is a dataset of curated self-driving scenarios containing 289 unique rare
 
 ### Evaluation metrics
 
-For known classes, we report the panoptic quality (PQ), recognition quality (RQ), and segmentation quality (SQ) metrics proposed in. Since the labels in our dataset consider only things that are removeable to be separate objects (*e.g*., flags attached to a building will not be labeled), we decide not to measure precision; instead, we modify PQ into the *unknown quality* (UQ), a recall-based metric that measures performance on annotated instances only:
-
-where $TP$ is the set of true positives and $FN$ is the set of false negatives. As in, a predicted unknown instance $p$ matches with the ground truth unknown instance $g$ if and only if their intersection over union exceeds 0.5.
+For known classes, we report the panoptic quality (PQ), recognition quality (RQ), and segmentation quality (SQ) metrics proposed. Since the labels in our dataset consider only things that are removeable to be separate objects (*e.g*., flags attached to a building will not be labeled), we decide not to measure precision; instead, we modify PQ into the *unknown quality* (UQ), a recall-based metric that measures performance on annotated instances only: where $TP$ is the set of true positives and $FN$ is the set of false negatives. As, a predicted unknown instance $p$ matches with the ground truth unknown instance $g$ if and only if their intersection over union exceeds 0.5.
 
 ### Baselines
 
@@ -148,8 +134,7 @@ Table 2: Ablation study of model components on TOR4D validation set.
 
 We first conduct an ablation study on three components of our model: 1) whether we optimize the discriminative loss (DL); 2) whether we perform bounding box regression (BR); and 3) whether we predict per-prototype scalar variances (${\mathbf{σ}}^{\mathbf{2}}$). Tab. 2 shows our results on the TOR4D validation set. From this table, we can see that all three components contribute towards the overall performance of our model.
 
-Figure 4: Unknown instance segmentation performance using different features for clustering. ”w/ oracle” indicates that we use ground truth to remove known points prior to DBSCAN.
-Figure 5: Ablation study on varying the relative weight β of using 3D location distance versus embedding distance for identifying unknown instances.
+Figure 4: Unknown instance segmentation performance using different features for clustering. ”w/ oracle” indicates that we use ground truth to remove known points prior to DBSCAN. Figure 5: Ablation study on varying the relative weight β of using 3D location distance versus embedding distance for identifying unknown instances.
 
 ### Effectiveness of instance-aware embeddings
 

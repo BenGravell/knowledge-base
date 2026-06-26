@@ -10,13 +10,7 @@ In light of these advantages, there has recently been significant interest from 
 
 ### The Output Estimation problem
 
-We study one of the simplest and most basic problems with partial observability: the *output estimation* (OE) problem. In brief, the goal is to search for a predictor of the output $\mathbf{z}{(t)}$ of a linear dynamical system given partial measurements $\mathbf{y}{(t)}$. For the *true system* with states $\mathbf{x}{(t)}$ and dynamics that evolve according to,
-
-the goal is to find the parameters $\mathsf{K} = {(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}})}$ of the *filter* (interchangably, *policy*),
-
-that minimizes the steady-state prediction error,
-
-In this paper, we study solving the OE problem via model-free methods, where the goal is to search for the optimal filter parameters $\mathsf{K} = {(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}})}$ using direct policy search without knowledge or estimation of the true system parameters $\mathbf{A},\mathbf{C},\mathbf{G},\mathbf{W}_{1},\mathbf{W}_{2}$; cf. Section 2 for a detailed problem description.
+We study one of the simplest and most basic problems with partial observability: the *output estimation* (OE) problem. In brief, the goal is to search for a predictor of the output $\mathbf{z}{(t)}$ of a linear dynamical system given partial measurements $\mathbf{y}{(t)}$. For the *true system* with states $\mathbf{x}{(t)}$ and dynamics that evolve according to, | | | ${{{\frac{d}{dt}\mathbf{x}{(t)}} = {{{\mathbf{A}\mathbf{x}}{(t)}} + {\mathbf{w}{(t)}}}},{{{\mathbf{y}{(t)}} = {{{\mathbf{C}\mathbf{x}}{(t)}} + {\mathbf{v}{(t)}}}},{{{\mathbf{z}{(t)}} = {{\mathbf{G}\mathbf{x}}{(t)}}},{{\mathbf{x}{}} = 0}}}},$ | | (1.1) | | | | ${{\mathbf{w}{(t)}\overset{i.i.d}{\sim}\mathcal{N}{(0,\mathbf{W}_{1})}},{\mathbf{v}{(t)}\overset{i.i.d}{\sim}\mathcal{N}{(0,\mathbf{W}_{2})}}},$ | | | the goal is to find the parameters $\mathsf{K} = {(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}})}$ of the *filter* (interchangably, *policy*), that minimizes the steady-state prediction error, In this paper, we study solving the OE problem via model-free methods, where the goal is to search for the optimal filter parameters $\mathsf{K} = {(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}})}$ using direct policy search without knowledge or estimation of the true system parameters $\mathbf{A},\mathbf{C},\mathbf{G},\mathbf{W}_{1},\mathbf{W}_{2}$; cf. Section 2 for a detailed problem description.
 
 ### Contributions
 
@@ -100,9 +94,7 @@ Because these policies only access the system outputs, and are only evaluated in
 
 ### Assumption 2.2
 
-The pair $(\mathbf{A},\mathbf{C})$ in Eq. 1.1 is observable. That is, the observability Gramian defined as
-
-is strictly positive definite.
+The pair $(\mathbf{A},\mathbf{C})$ in Eq. 1.1 is observable. That is, the observability Gramian defined as is strictly positive definite.
 
 ### Assumption 2.3
 
@@ -114,25 +106,15 @@ As stated previously, we restrict our attention to finding the best dynamic filt
 
 We define $\mathcal{K}_{\mathtt{s}\mathtt{t}\mathtt{a}\mathtt{b}}:=\left\{ \mathsf{K}:{\mathbf{A}_{\mathsf{K}}\text{~is Hurwitz-stable}} \right\}$ to be the set of filters such that $\mathbf{A}_{\mathsf{K}}$ is stable. Under Assumption 2.1 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), Section E.1 shows this equivalent to stability of the closed-loop matrix $\mathbf{A}_{{cl},\mathsf{K}}$.
 
-Stability of $\mathbf{A}_{{cl},\mathsf{K}}$ is a sufficient condition for $\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}$ to be finite, and for the following limiting covariance to be well defined,
-
-This steady-state covariance is given by the solution to the continuous-time Lyapunov equation,
-
-Notice that $\mathbf{\Sigma}_{\mathsf{K}}$ depends only on $(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}})$, but not on $\mathbf{C}_{\mathsf{K}}$, and that the first $n \times n$ block of $\mathbf{\Sigma}_{\mathsf{K}}$ does not depend on the choice of filter $\mathsf{K}$ at all. To highlight these distinctions, we partition matrices $\mathbf{\Sigma} \in {\mathbb{R}}^{{{2n} \times 2}n}$ as
-
-and define $\mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}:={\{{\mathsf{K} \in \mathcal{K}_{\mathtt{s}\mathtt{t}\mathtt{a}\mathtt{b}}}:{\mathbf{\Sigma}_{22,\mathsf{K}} \succ 0}\}}$ as the set of filters whose internal state covariance is full rank. We refer to these as the *controllable* policies, as these are precise the policies for which the pair $(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}})$ is controllable.^55^5Controllability is the "dual" of observabilitity, and is equivalent to observability of $(\mathbf{A}_{\mathsf{K}}^{\top},\mathbf{B}_{\mathsf{K}}^{\top})$, cf. Section E.1.
+Stability of $\mathbf{A}_{{cl},\mathsf{K}}$ is a sufficient condition for $\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}$ to be finite, and for the following limiting covariance to be well defined, This steady-state covariance is given by the solution to the continuous-time Lyapunov equation, Notice that $\mathbf{\Sigma}_{\mathsf{K}}$ depends only on $(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}})$, but not on $\mathbf{C}_{\mathsf{K}}$, and that the first $n \times n$ block of $\mathbf{\Sigma}_{\mathsf{K}}$ does not depend on the choice of filter $\mathsf{K}$ at all. To highlight these distinctions, we partition matrices $\mathbf{\Sigma} \in {\mathbb{R}}^{{{2n} \times 2}n}$ as and define $\mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}:={\{{\mathsf{K} \in \mathcal{K}_{\mathtt{s}\mathtt{t}\mathtt{a}\mathtt{b}}}:{\mathbf{\Sigma}_{22,\mathsf{K}} \succ 0}\}}$ as the set of filters whose internal state covariance is full rank. We refer to these as the *controllable* policies, as these are precise the policies for which the pair $(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}})$ is controllable.^55^5Controllability is the "dual" of observabilitity, and is equivalent to observability of $(\mathbf{A}_{\mathsf{K}}^{\top},\mathbf{B}_{\mathsf{K}}^{\top})$, cf. Section E.1.
 
 ### Equivalent realizations
 
-Contrary to static feedback policies, such as LQR,there are many different ways of parametrizing a given *dynamic* feedback policy, all of which have exactly the same input-output behavior. In particular, given an invertible matrix $\mathbf{S} \in {{\mathbb{G}}{\mathbb{L}}{(n)}}$, the OE loss of a filter $\mathsf{K}$ is invariant under the following class of similarity transforms:
-
-Formally, for any $\mathsf{K} \in \mathcal{K}_{\mathtt{s}\mathtt{t}\mathtt{a}\mathtt{b}}$ and any $\mathbf{S} \in {{\mathbb{G}}{\mathbb{L}}{(n)}}$, ${\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}} = {\mathcal{L}_{\mathtt{O}\mathtt{E}}{({{\mathsf{S}\mathsf{i}\mathsf{m}}_{\mathbf{S}}{(\mathsf{K})}})}}$. We say that $\mathsf{K}$ and $\mathsf{K}^{\prime}$ are *equivalent realizations* if they are related by a similarity transformation ${{\mathsf{S}\mathsf{i}\mathsf{m}}_{\mathbf{S}}{(\mathsf{K})}} = \mathsf{K}^{\prime}$ for some $\mathbf{S} \in {{\mathbb{G}}{\mathbb{L}}{(n)}}$.^66^6This is a symmetric relationship, since then ${{\mathsf{S}\mathsf{i}\mathsf{m}}_{\mathbf{S}^{- 1}}{(\mathsf{K}^{\prime})}} = \mathsf{K}$, and hence equivalent policies form an equivalence class. Note that the set $\mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}$ is also preserved under similarity transformation.
+Contrary to static feedback policies, such as LQR,there are many different ways of parametrizing a given *dynamic* feedback policy, all of which have exactly the same input-output behavior. In particular, given an invertible matrix $\mathbf{S} \in {{\mathbb{G}}{\mathbb{L}}{(n)}}$, the OE loss of a filter $\mathsf{K}$ is invariant under the following class of similarity transforms: Formally, for any $\mathsf{K} \in \mathcal{K}_{\mathtt{s}\mathtt{t}\mathtt{a}\mathtt{b}}$ and any $\mathbf{S} \in {{\mathbb{G}}{\mathbb{L}}{(n)}}$, ${\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}} = {\mathcal{L}_{\mathtt{O}\mathtt{E}}{({{\mathsf{S}\mathsf{i}\mathsf{m}}_{\mathbf{S}}{(\mathsf{K})}})}}$. We say that $\mathsf{K}$ and $\mathsf{K}'$ are *equivalent realizations* if they are related by a similarity transformation ${{\mathsf{S}\mathsf{i}\mathsf{m}}_{\mathbf{S}}{(\mathsf{K})}} = \mathsf{K}'$ for some $\mathbf{S} \in {{\mathbb{G}}{\mathbb{L}}{(n)}}$.^66^6This is a symmetric relationship, since then ${{\mathsf{S}\mathsf{i}\mathsf{m}}_{\mathbf{S}^{- 1}}{(\mathsf{K}')}} = \mathsf{K}$, and hence equivalent policies form an equivalence class. Note that the set $\mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}$ is also preserved under similarity transformation.
 
 ### Optimal policies
 
-The landmark result by Kalman shows that for the system defined by $(\mathbf{A},\mathbf{C},\mathbf{W}_{1},\mathbf{W}_{2})$ the Kalman filter $\mathsf{K}_{\star} = {({\mathbf{A} - {\mathbf{L}_{\star}\mathbf{C}}},\mathbf{L}_{\star},\mathbf{G})}$ achieves minimal $\mathcal{L}_{\mathtt{O}\mathtt{E}}$ loss. Here, $\mathbf{L}_{\star}$ is the Kalman gain which is defined in terms of the solution of the following Riccati equation:
-
-We define the set of optimal filters $\mathcal{K}_{\mathtt{o}\mathtt{p}\mathtt{t}}$ to be those which are equivalent to the Kalman filter:
+The landmark result by Kalman shows that for the system defined by $(\mathbf{A},\mathbf{C},\mathbf{W}_{1},\mathbf{W}_{2})$ the Kalman filter $\mathsf{K}_{\star} = {({\mathbf{A} - {\mathbf{L}_{\star}\mathbf{C}}},\mathbf{L}_{\star},\mathbf{G})}$ achieves minimal $\mathcal{L}_{\mathtt{O}\mathtt{E}}$ loss. Here, $\mathbf{L}_{\star}$ is the Kalman gain which is defined in terms of the solution of the following Riccati equation: We define the set of optimal filters $\mathcal{K}_{\mathtt{o}\mathtt{p}\mathtt{t}}$ to be those which are equivalent to the Kalman filter:
 
 ### Restricted problem setting
 
@@ -146,11 +128,7 @@ Here, we simply remark that Assumption 2.4 ensures that the regularizer $\mathca
 
 ### Interaction protocol
 
-In the spirit of model-free methods, we introduce algorithms which work only assuming access to cost and gradient evaluation oracles. We abstract away the particular implementation of these oracles to simplify our presentation and assume that they are exact, in order to focus on the overall optimization landscape of the OE problem. More formally, for any filter $\mathsf{K} \in \mathcal{K}_{\mathtt{s}\mathtt{t}\mathtt{a}\mathtt{b}}$,
-
-${\mathsf{E}\mathsf{v}\mathsf{a}\mathsf{l}}{(\mathsf{K},\mathcal{L}_{\mathtt{O}\mathtt{E}})}$ returns the OE cost, $\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}$.
-
-${\mathsf{G}\mathsf{r}\mathsf{a}\mathsf{d}}{(\mathsf{K},\mathcal{L}_{\mathtt{O}\mathtt{E}})}$ return the gradient of the OE cost, ${\nabla\mathcal{L}_{\mathtt{O}\mathtt{E}}}{(\mathsf{K})}$.
+In the spirit of model-free methods, we introduce algorithms which work only assuming access to cost and gradient evaluation oracles. We abstract away the particular implementation of these oracles to simplify our presentation and assume that they are exact, in order to focus on the overall optimization landscape of the OE problem. More formally, for any filter $\mathsf{K} \in \mathcal{K}_{\mathtt{s}\mathtt{t}\mathtt{a}\mathtt{b}}$, ${\mathsf{E}\mathsf{v}\mathsf{a}\mathsf{l}}{(\mathsf{K},\mathcal{L}_{\mathtt{O}\mathtt{E}})}$ returns the OE cost, $\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}$. ${\mathsf{G}\mathsf{r}\mathsf{a}\mathsf{d}}{(\mathsf{K},\mathcal{L}_{\mathtt{O}\mathtt{E}})}$ return the gradient of the OE cost, ${\nabla\mathcal{L}_{\mathtt{O}\mathtt{E}}}{(\mathsf{K})}$.
 
 Despite this simplification, we would like to again emphasize that these can be efficiently approximated in finite samples, and purely on the basis of *observations* $\mathbf{y}_{t}$ subsampled in in discrete intervals. For further discussion, please see Appendix C.
 
@@ -162,9 +140,7 @@ In this section, we present the main contributions of our work. After demonstrat
 
 ### Existence of suboptimal stationary points
 
-Perhaps the simplest model-free approach to the OE problem is to run gradient descent on the loss function:
-
-for some stepsize(s) $\eta_{t} > 0$. Under mild assumptions on the loss function $\mathcal{L}_{\mathtt{O}\mathtt{E}}$, gradient descent will converge to a first-order stationary point of $\mathcal{L}_{\mathtt{O}\mathtt{E}}$. Unfortunately, despite the existence of a convex reformulation and 1.1, the $\mathcal{L}_{\mathtt{O}\mathtt{E}}$ loss function contains suboptimal stationary points:
+Perhaps the simplest model-free approach to the OE problem is to run gradient descent on the loss function: for some stepsize(s) $\eta_{t} > 0$. Under mild assumptions on the loss function $\mathcal{L}_{\mathtt{O}\mathtt{E}}$, gradient descent will converge to a first-order stationary point of $\mathcal{L}_{\mathtt{O}\mathtt{E}}$. Unfortunately, despite the existence of a convex reformulation and 1.1, the $\mathcal{L}_{\mathtt{O}\mathtt{E}}$ loss function contains suboptimal stationary points:
 
 ### Example 3.1
 
@@ -174,9 +150,7 @@ A formal proof of this claim is given in Section F.1, however, one can easily ve
 
 ### The perils of enforcing minimality
 
-A filter $\mathsf{K}$ is *minimal* if $(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}})$ is controllable, and $(\mathbf{A}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}})$ is observable. Example 3.1 is the extreme case of a *non-minimal* filter, since $\mathbf{B}_{bad} = \mathbf{C}_{bad} = \mathbf{0}_{2}$. Conversely, as a special case of LQG, the OE problem inherits the property that all stationary points corresponding to *minimal* filters are globally optimal. Therefore, it may be natural to ask: *can a local search algorithm enforce minimality to avoid suboptimal stationary points?*
-
-A classical result due to Brockett suggests not: the set of minimal $n$-th order single-input-single-output transfer functions (e.g. filters) is the disjoint union of $n + 1$ open sets. Thus it is impossible for a continuous path to pass from one of these open sets to another without entering a region corresponding to a non-minimal filter, suggesting that a local search algorithm regularized to ensure minimality at every iteration may never converge to the optimal solution. See Section F.2 for further discussion and supporting numerical experiments.
+A filter $\mathsf{K}$ is *minimal* if $(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}})$ is controllable, and $(\mathbf{A}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}})$ is observable. Example 3.1 is the extreme case of a *non-minimal* filter, since $\mathbf{B}_{bad} = \mathbf{C}_{bad} = \mathbf{0}_{2}$. Conversely, as a special case of LQG, the OE problem inherits the property that all stationary points corresponding to *minimal* filters are globally optimal. Therefore, it may be natural to ask: *can a local search algorithm enforce minimality to avoid suboptimal stationary points?* A classical result due to Brockett suggests not: the set of minimal $n$-th order single-input-single-output transfer functions (e.g. filters) is the disjoint union of $n + 1$ open sets. Thus it is impossible for a continuous path to pass from one of these open sets to another without entering a region corresponding to a non-minimal filter, suggesting that a local search algorithm regularized to ensure minimality at every iteration may never converge to the optimal solution. See Section F.2 for further discussion and supporting numerical experiments.
 
 ### Suboptimal controllable stationary points
 
@@ -184,9 +158,7 @@ Given the drawbacks of enforcing minimality, one may wonder whether it is suffic
 
 ### Example 3.2
 
-Consider the same OE instance from Example 3.1, i.e. $\mathbf{A} = {- \mathbf{I}_{2}}$, $\mathbf{C} = \mathbf{I}_{2}$, $\mathbf{W}_{1} = {3 \times \mathbf{I}_{2}}$, $\mathbf{W}_{2} = \mathbf{I}_{2}$. Consider the (family of) filter(s) $\mathsf{K}_{bad}$ given by
-
-For any $\gamma > 0$ the followings are true: (i) $\mathsf{K}_{bad}$ is stable: $\mathsf{K}_{bad} \in \mathcal{K}_{\mathtt{s}\mathtt{t}\mathtt{a}\mathtt{b}}$, (ii) $\mathsf{K}_{bad}$ is controllable: $\mathsf{K}_{bad} \in \mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}$, $\Sigma_{\mathsf{K}_{bad},22} \succ 0$, (iii) $\mathsf{K}_{bad}$ is a first-order stationary point: ${{\nabla\mathcal{L}_{\mathtt{O}\mathtt{E}}}{(\mathsf{K}_{bad})}} = 0$, (iv) $\mathsf{K}_{bad}$ is strictly suboptimal: $\mathsf{K}_{bad} \notin \mathcal{K}_{\mathtt{o}\mathtt{p}\mathtt{t}}$, and (v) $\mathsf{K}_{bad}$ is not informative: $\mathbf{\Sigma}_{12,\mathsf{K}_{bad}}$ is not full-rank. See Proposition F.1 for proof.
+Consider the same OE instance from Example 3.1, i.e. $\mathbf{A} = {- \mathbf{I}_{2}}$, $\mathbf{C} = \mathbf{I}_{2}$, $\mathbf{W}_{1} = {3 \times \mathbf{I}_{2}}$, $\mathbf{W}_{2} = \mathbf{I}_{2}$. Consider the (family of) filter(s) $\mathsf{K}_{bad}$ given by For any $\gamma > 0$ the followings are true: (i) $\mathsf{K}_{bad}$ is stable: $\mathsf{K}_{bad} \in \mathcal{K}_{\mathtt{s}\mathtt{t}\mathtt{a}\mathtt{b}}$, (ii) $\mathsf{K}_{bad}$ is controllable: $\mathsf{K}_{bad} \in \mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}$, $\Sigma_{\mathsf{K}_{bad},22} \succ 0$, (iii) $\mathsf{K}_{bad}$ is a first-order stationary point: ${{\nabla\mathcal{L}_{\mathtt{O}\mathtt{E}}}{(\mathsf{K}_{bad})}} = 0$, (iv) $\mathsf{K}_{bad}$ is strictly suboptimal: $\mathsf{K}_{bad} \notin \mathcal{K}_{\mathtt{o}\mathtt{p}\mathtt{t}}$, and (v) $\mathsf{K}_{bad}$ is not informative: $\mathbf{\Sigma}_{12,\mathsf{K}_{bad}}$ is not full-rank. See Proposition F.1 for proof.
 
 Though $\mathsf{K}_{bad}$ in Eq. 3.2 is controllable, because $\mathbf{\Sigma}_{12,\mathsf{K}_{bad}}$ is rank deficient it corresponds to a suboptimal stationary point. This IR-PG circumvents such points by enforcing informativity ($\mathbf{\Sigma}_{12,\mathsf{K}}$ being full-rank) at all iterations, via the regularizer $\mathcal{R}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$.
 
@@ -212,31 +184,23 @@ Theorem 2 suggests that gradient descent with enforced informativity should conv
 
 ### The explained covariance matrix
 
-In light of Theorem 2, we design a policy search algorithm which ensures that $\mathbf{\Sigma}_{12,\mathsf{K}}$ remains full-rank throughout the search, but does so in a quantitative fashion. Our central object is the *explained covariance matrix*, which measures how much of the covariance of the steady-state system $\mathbf{x}{(t)}$ is explained by the internal filter state ${\hat{\mathbf{x}}}_{\mathsf{K}}{(t)}$ in the large $t$ limit: $\mathbf{Z}_{\mathsf{K}}:={\lim_{t\rightarrow\infty}\left( {{\operatorname{Cov}{\lbrack{\mathbf{x}{(t)}}\rbrack}} - {{\mathbb{E}}{\lbrack{\operatorname{Cov}{\lbrack{{\mathbf{x}{(t)}} \mid {{\hat{\mathbf{x}}}_{\mathsf{K}}{(t)}}}\rbrack}}\rbrack}}} \right)}$. When $\mathsf{K} \in \mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}$, $\mathbf{Z}_{\mathsf{K}}$ admits an elegant closed-form expression, which provides an alternative definition of $\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$:
-
-Since $\mathbf{Z}_{\mathsf{K}}$ is invariant under similarity transformations, as per Eq. 2.3 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), $\mathbf{Z}_{\mathsf{K}}$ can be interpreted as a normalized analogue of $\mathbf{\Sigma}_{12,\mathsf{K}}$. Informally, the quadratic form $v^{\top}\mathbf{Z}_{\mathsf{K}}v$ is a sufficient statistic for how much information $\hat{\mathbf{x}}{(t)}$ contains about the "$v$-direction" of $\mathbf{x}{(t)}$; see Section E.6 for a precise statement.
+In light of Theorem 2, we design a policy search algorithm which ensures that $\mathbf{\Sigma}_{12,\mathsf{K}}$ remains full-rank throughout the search, but does so in a quantitative fashion. Our central object is the *explained covariance matrix*, which measures how much of the covariance of the steady-state system $\mathbf{x}{(t)}$ is explained by the internal filter state ${\hat{\mathbf{x}}}_{\mathsf{K}}{(t)}$ in the large $t$ limit: $\mathbf{Z}_{\mathsf{K}}:={\lim_{t\rightarrow\infty}\left({{\operatorname{Cov}{\lbrack{\mathbf{x}{(t)}}\rbrack}} - {{\mathbb{E}}{\lbrack{\operatorname{Cov}{\lbrack{{\mathbf{x}{(t)}} \mid {{\hat{\mathbf{x}}}_{\mathsf{K}}{(t)}}}\rbrack}}\rbrack}}} \right)}$. When $\mathsf{K} \in \mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}$, $\mathbf{Z}_{\mathsf{K}}$ admits an elegant closed-form expression, which provides an alternative definition of $\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$: Since $\mathbf{Z}_{\mathsf{K}}$ is invariant under similarity transformations, as per Eq. 2.3 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), $\mathbf{Z}_{\mathsf{K}}$ can be interpreted as a normalized analogue of $\mathbf{\Sigma}_{12,\mathsf{K}}$. Informally, the quadratic form $v^{\top}\mathbf{Z}_{\mathsf{K}}v$ is a sufficient statistic for how much information $\hat{\mathbf{x}}{(t)}$ contains about the "$v$-direction" of $\mathbf{x}{(t)}$; see Section E.6 for a precise statement.
 
 ### Explained-covariance regularization
 
-We preserve informativity by ensuring our iterates satisfy $\mathbf{Z}_{\mathsf{K}} \succ 0$. To this end, we run gradient descent on the regularized objective for some $\lambda > 0$:
-
-This choice of regularizer has several important properties. First, $\mathcal{R}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$ is always non-negative, and tends to $\infty$ as $\mathbf{Z}_{\mathsf{K}}$ approaches singularity. Furthermore, the value of the regularizer is invariant under similarity transformations(as per Eq. 2.3 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation")). Next, many of the essential quantities arising in our analysis can be bounded in terms of $\mathbf{Z}_{\mathsf{K}}^{- 1}$, justifying $\mathbf{Z}_{\mathsf{K}}$ is a natural quantitative measure of informativity. Lastly, the set of global-minimizers of $\mathcal{R}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}{( \cdot )}$ are precisely the optimal filters for the OE problem, as per the following lemma (see Section E.3 for proof).
+We preserve informativity by ensuring our iterates satisfy $\mathbf{Z}_{\mathsf{K}} \succ 0$. To this end, we run gradient descent on the regularized objective for some $\lambda > 0$: This choice of regularizer has several important properties. First, $\mathcal{R}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$ is always non-negative, and tends to $\infty$ as $\mathbf{Z}_{\mathsf{K}}$ approaches singularity. Furthermore, the value of the regularizer is invariant under similarity transformations(as per Eq. 2.3 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation")). Next, many of the essential quantities arising in our analysis can be bounded in terms of $\mathbf{Z}_{\mathsf{K}}^{- 1}$, justifying $\mathbf{Z}_{\mathsf{K}}$ is a natural quantitative measure of informativity. Lastly, the set of global-minimizers of $\mathcal{R}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}{(\cdot)}$ are precisely the optimal filters for the OE problem, as per the following lemma (see Section E.3 for proof).
 
 ### Lemma 3.2 (Existence of maximal $\mathbf{Z}_{\mathsf{K}}$)
 
-Under Assumptions 2.1 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), 2.2 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") and 2.3 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), there exists a unique $\mathbf{Z}_{\star} \succ 0$ such that $\mathbf{Z}_{\star} = \mathbf{Z}_{\mathsf{K}}$ if and only if $\mathsf{K} \in \mathcal{K}_{\mathtt{o}\mathtt{p}\mathtt{t}}$, and $\mathbf{Z}_{\star} \succeq \mathbf{Z}_{\mathsf{K}}$ for all $\mathsf{K} \in {\mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}} \smallsetminus \mathcal{K}_{\mathtt{o}\mathtt{p}\mathtt{t}}}$. Consequently,
-
-Lemma 3.2. ‣ Explained-covariance regularization. ‣ 3.2 A provably convergent algorithm ‣ 3 Main Results ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") directly implies that the suboptimality of $\mathcal{L}_{\lambda}{( \cdot )}$ upper bounds the suboptimality in $\mathcal{L}_{\mathtt{O}\mathtt{E}}{( \cdot )}$, so we can minimize $\mathcal{L}_{\lambda}$ as a proxy for minimizing $\mathcal{L}_{\mathtt{O}\mathtt{E}}$.
+Under Assumptions 2.1 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), 2.2 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") and 2.3 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), there exists a unique $\mathbf{Z}_{\star} \succ 0$ such that $\mathbf{Z}_{\star} = \mathbf{Z}_{\mathsf{K}}$ if and only if $\mathsf{K} \in \mathcal{K}_{\mathtt{o}\mathtt{p}\mathtt{t}}$, and $\mathbf{Z}_{\star} \succeq \mathbf{Z}_{\mathsf{K}}$ for all $\mathsf{K} \in {\mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}} \smallsetminus \mathcal{K}_{\mathtt{o}\mathtt{p}\mathtt{t}}}$. Consequently, Lemma 3.2. ‣ Explained-covariance regularization. ‣ 3.2 A provably convergent algorithm ‣ 3 Main Results ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") directly implies that the suboptimality of $\mathcal{L}_{\lambda}{(\cdot)}$ upper bounds the suboptimality in $\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\cdot)}$, so we can minimize $\mathcal{L}_{\lambda}$ as a proxy for minimizing $\mathcal{L}_{\mathtt{O}\mathtt{E}}$.
 
 ### Corollary 3.1
 
-For any $\mathsf{K}$, we have ${{\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}} - {{\min_{\mathsf{K}^{\prime}}\mathcal{L}_{\mathtt{O}\mathtt{E}}}{(\mathsf{K}^{\prime})}}} \leq {{\mathcal{L}_{\lambda}{(\mathsf{K})}} - {{\min_{\mathsf{K}^{\prime}}\mathcal{L}_{\lambda}}{(\mathsf{K}^{\prime})}}}$.
+For any $\mathsf{K}$, we have ${{\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}} - {{\min_{\mathsf{K}'}\mathcal{L}_{\mathtt{O}\mathtt{E}}}{(\mathsf{K}')}}} \leq {{\mathcal{L}_{\lambda}{(\mathsf{K})}} - {{\min_{\mathsf{K}'}\mathcal{L}_{\lambda}}{(\mathsf{K}')}}}$.
 
 ### Reconditioning
 
-In addition to regularization, we introduce an additional normalization step between policy updates to ensure the iterates produced by our algorithm have well-conditioned covariance matrices; this in turn ensures the iterates produced by our algorithm remain in a compact set, and that the smoothness of $\mathcal{L}_{\lambda}$ is uniformly bounded. For any filter $\mathsf{K} \in \mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}$ such that $\mathbf{\Sigma}_{22,\mathsf{K}} \succ 0$, the reconditioning operator ${\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K})}$ returns a filter $\mathsf{K}^{\prime}$ which is equivalent to $\mathsf{K}$, but for which $\mathbf{\Sigma}_{22,\mathsf{K}^{\prime}} = \mathbf{I}_{n}$. Formally^77^7Our proposed algorithm also works with an approximate balancing $\overset{\sim}{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{( \cdot )}$, where $\overset{\sim}{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K})}$ returns a $\mathsf{K}^{\prime}$ which is equivalent to $\mathsf{K}$, and ${\|{\mathbf{\Sigma}_{22,\mathsf{K}^{\prime}} - \mathbf{I}_{n}}\|} \leq \varepsilon$ for some tolerance $\varepsilon > 0$ (e.g. $\varepsilon = {1/8}$).,
-
-Since $\mathsf{K}$ and $\mathsf{K}^{\prime} = {{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K})}}$ are equivalent realizations, we have ${\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}} = {\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K}^{\prime})}}$, ${\mathcal{R}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}{(\mathsf{K})}} = {\mathcal{R}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}{(\mathsf{K}^{\prime})}}$, and thus ${\mathcal{L}_{\lambda}{(\mathsf{K})}} = {\mathcal{L}_{\lambda}{(\mathsf{K}^{\prime})}}$.
+In addition to regularization, we introduce an additional normalization step between policy updates to ensure the iterates produced by our algorithm have well-conditioned covariance matrices; this in turn ensures the iterates produced by our algorithm remain in a compact set, and that the smoothness of $\mathcal{L}_{\lambda}$ is uniformly bounded. For any filter $\mathsf{K} \in \mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}$ such that $\mathbf{\Sigma}_{22,\mathsf{K}} \succ 0$, the reconditioning operator ${\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K})}$ returns a filter $\mathsf{K}'$ which is equivalent to $\mathsf{K}$, but for which $\mathbf{\Sigma}_{22,\mathsf{K}'} = \mathbf{I}_{n}$. Formally^77^7Our proposed algorithm also works with an approximate balancing $\overset{\sim}{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\cdot)}$, where $\overset{\sim}{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K})}$ returns a $\mathsf{K}'$ which is equivalent to $\mathsf{K}$, and ${\|{\mathbf{\Sigma}_{22,\mathsf{K}'} - \mathbf{I}_{n}}\|} \leq \varepsilon$ for some tolerance $\varepsilon > 0$ (e.g. $\varepsilon = {1/8}$)., Since $\mathsf{K}$ and $\mathsf{K}' = {{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K})}}$ are equivalent realizations, we have ${\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}} = {\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K}')}}$, ${\mathcal{R}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}{(\mathsf{K})}} = {\mathcal{R}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}{(\mathsf{K}')}}$, and thus ${\mathcal{L}_{\lambda}{(\mathsf{K})}} = {\mathcal{L}_{\lambda}{(\mathsf{K}')}}$.
 
 ### Statement of IR-PG
 
@@ -244,12 +208,7 @@ We can now describe IR-PG, whose pseudocode is displayed in Algorithm 1. IR-PG a
 
 To guarantee convergence to an optimal filter (and finiteness of $\mathcal{L}_{\lambda}$), we need to initialize at a filter such that $\mathbf{Z}_{\mathsf{K}_{0}} \succ 0$, i.e. $\mathsf{K}_{0} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$. Fortunately, random initializations from a continuous distribution satisfy this condition with probability $1$ (see Section E.7 for a formal statement and proof).
 
-1:Input: Initial K0 ∈ 𝒦info, step size η &gt; 0, regularization parameter λ &gt; 0
-3:for each iteration s = 0, 1, 2, … do
-4: Recondition ${\overset{\sim}{\mathsf{K}}}_{t} = {{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K}_{t})}}$, where recond (⋅) is defined in Eq. 3.4.
-5: Compute $\nabla_{s} = {{\nabla\mathcal{L}_{\lambda}}{({\overset{\sim}{\mathsf{K}}}_{t})}}$.
-6: Update $\mathsf{K}_{t + 1}\leftarrow{{\overset{\sim}{\mathsf{K}}}_{t} - {\eta\nabla_{t}}}$.
-Algorithm 1 Informativity-regularized Policy Gradient (IR-PG)
+1:Input: Initial K0 ∈ 𝒦info, step size η > 0, regularization parameter λ > 0 3:for each iteration s = 0, 1, 2, … do 4: Recondition ${\overset{\sim}{\mathsf{K}}}_{t} = {{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K}_{t})}}$, where recond (⋅) is defined in Eq. 3.4. 5: Compute $\nabla_{s} = {{\nabla\mathcal{L}_{\lambda}}{({\overset{\sim}{\mathsf{K}}}_{t})}}$. 6: Update $\mathsf{K}_{t + 1}\leftarrow{{\overset{\sim}{\mathsf{K}}}_{t} - {\eta\nabla_{t}}}$. Algorithm 1 Informativity-regularized Policy Gradient (IR-PG)
 
 ### Formal guarantees
 
@@ -263,9 +222,7 @@ In other words, $\mathbf{P}_{\star}$ is the limiting conditional covariance of t
 
 ### Theorem 3
 
-Fix $\lambda > 0$, $\mathsf{K}_{0} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$. There are terms ${\mathcal{C}_{1},\mathcal{C}_{2}} \geq 1$, which are at most polynomial in $n,m,C_{\mathtt{s}\mathtt{y}\mathtt{s}},\lambda,\lambda^{- 1}$ and $\mathcal{L}_{\lambda}{(\mathsf{K}_{0})}$, such that the iterates of IR-PG with any stepsize $\eta \leq \frac{1}{\mathcal{C}_{1}}$ satisfy
-
-The formal guarantee for back-tracking stepsizes is nearly analogous, and given in Section B.1.
+Fix $\lambda > 0$, $\mathsf{K}_{0} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$. There are terms ${\mathcal{C}_{1},\mathcal{C}_{2}} \geq 1$, which are at most polynomial in $n,m,C_{\mathtt{s}\mathtt{y}\mathtt{s}},\lambda,\lambda^{- 1}$ and $\mathcal{L}_{\lambda}{(\mathsf{K}_{0})}$, such that the iterates of IR-PG with any stepsize $\eta \leq \frac{1}{\mathcal{C}_{1}}$ satisfy The formal guarantee for back-tracking stepsizes is nearly analogous, and given in Section B.1.
 
 ### Oracle complexity
 
@@ -323,9 +280,7 @@ DCLs. The DCL is a generic template for convex reformulation that significantly 
 
 ### Definition 5.1
 
-A triplet of functions $(f_{\mathtt{c}\mathtt{v}\mathtt{x}},f_{\mathtt{l}\mathtt{f}\mathtt{t}},\Phi)$ is a DCL of a proper function $f:{{\mathbb{R}}^{d}\rightarrow\overline{\mathbb{R}}}$ if
-
-$f_{\mathtt{c}\mathtt{v}\mathtt{x}}:{{\mathbb{R}}^{d_{z}}\rightarrow\overline{\mathbb{R}}}$ is an (extended-real valued) convex function whose minimum is attained by some ${\mathbf{z}}^{\star}$, ${f_{\mathtt{c}\mathtt{v}\mathtt{x}}{({\mathbf{z}}^{\star})}} = {\inf{(f_{\mathtt{c}\mathtt{v}\mathtt{x}})}} > {- \infty}$.
+A triplet of functions $(f_{\mathtt{c}\mathtt{v}\mathtt{x}},f_{\mathtt{l}\mathtt{f}\mathtt{t}},\Phi)$ is a DCL of a proper function $f:{{\mathbb{R}}^{d}\rightarrow\overline{\mathbb{R}}}$ if $f_{\mathtt{c}\mathtt{v}\mathtt{x}}:{{\mathbb{R}}^{d_{z}}\rightarrow\overline{\mathbb{R}}}$ is an (extended-real valued) convex function whose minimum is attained by some ${\mathbf{z}}^{\star}$, ${f_{\mathtt{c}\mathtt{v}\mathtt{x}}{({\mathbf{z}}^{\star})}} = {\inf{(f_{\mathtt{c}\mathtt{v}\mathtt{x}})}} > {- \infty}$.
 
 For some additional number of parameters $d_{\xi} \geq 0$, $f_{\mathtt{l}\mathtt{f}\mathtt{t}}:{{\mathbb{R}}^{d + d_{\xi}}\rightarrow\overline{\mathbb{R}}}$ is related to $f$ via partial minimization: ${f{({\mathbf{x}})}} = {{\min_{{\mathbf{ξ}} \in {\mathbb{R}}^{d_{\xi}}}f_{\mathtt{l}\mathtt{f}\mathtt{t}}}{({\mathbf{x}},{\mathbf{ξ}})}}$.
 
@@ -335,9 +290,7 @@ The mere existence of a DCL implies that approximate stationary points of $f$ ar
 
 ### Theorem 4
 
-Let $f:{{\mathbb{R}}^{d}\rightarrow\overline{\mathbb{R}}}$ be a proper function with DCL $(f_{\mathtt{c}\mathtt{v}\mathtt{x}},f_{\mathtt{l}\mathtt{f}\mathtt{t}},\Phi)$. Then, for any $\mathbf{x} \in {{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}$ at which $f$ is differentiable, $f$ satisfies the weak-PL condition:
-
-Theorem 4 strengthens 1.1 in two respects. For one, it does not impose any smoothness restrictions on $f_{\mathtt{l}\mathtt{f}\mathtt{t}}$ or $f_{\mathtt{c}\mathtt{v}\mathtt{x}}$; in particular $f_{\mathtt{c}\mathtt{v}\mathtt{x}}$ can be highly non-smooth and, due to the extended-real function formulation, can also include constraints. And second, the lifting $f_{\mathtt{l}\mathtt{f}\mathtt{t}}$ adds considerable flexibility, which we show is necessary to capture the convex reformulation of OE (Section 6.4 ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation")).
+Let $f:{{\mathbb{R}}^{d}\rightarrow\overline{\mathbb{R}}}$ be a proper function with DCL $(f_{\mathtt{c}\mathtt{v}\mathtt{x}},f_{\mathtt{l}\mathtt{f}\mathtt{t}},\Phi)$. Then, for any $\mathbf{x} \in {{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}$ at which $f$ is differentiable, $f$ satisfies the weak-PL condition: Theorem 4 strengthens 1.1 in two respects. For one, it does not impose any smoothness restrictions on $f_{\mathtt{l}\mathtt{f}\mathtt{t}}$ or $f_{\mathtt{c}\mathtt{v}\mathtt{x}}$; in particular $f_{\mathtt{c}\mathtt{v}\mathtt{x}}$ can be highly non-smooth and, due to the extended-real function formulation, can also include constraints. And second, the lifting $f_{\mathtt{l}\mathtt{f}\mathtt{t}}$ adds considerable flexibility, which we show is necessary to capture the convex reformulation of OE (Section 6.4 ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation")).
 
 The factor $\alpha_{\text{dcl}}{({\mathbf{x}})}$ depends on two quantities. The numerator is the $d_{z}$-th singular value of ${\nabla\Phi}{({\mathbf{x}},{\mathbf{ξ}})}$ for any ${\mathbf{ξ}} \in {{{\arg\min}f_{\mathtt{l}\mathtt{f}\mathtt{t}}}{({\mathbf{x}}, \cdot )}}$. This captures how large perturbations of $f_{\mathtt{l}\mathtt{f}\mathtt{t}}$'s arguments must be in order to achieve a desired perturbation of the arguments of $f_{\mathtt{c}\mathtt{v}\mathtt{x}}$, under the reparameterization $\Phi$. The additional arguments in $f_{\mathtt{l}\mathtt{f}\mathtt{t}}$ compared to $f$ adds additional columns to $\nabla\Phi$ thereby making it easier to ensure ${\sigma_{d_{z}}{({{\nabla\Phi}{( \cdot )}})}} > 0$. On the other hand, the denominator measures the Euclidean distance between any minimizer of the convex function $f_{\mathtt{c}\mathtt{v}\mathtt{x}}{( \cdot )}$ and image of $({\mathbf{x}},{\mathbf{ξ}})$ under the reparameterization $\Phi$, and can be bounded under quite benign conditions.
 
@@ -349,11 +302,7 @@ For $f_{\mathtt{c}\mathtt{v}\mathtt{x}}$ convex, ${{f_{\mathtt{c}\mathtt{v}\math
 
 ### Gradient descent with DCLs
 
-We now describe how DCLs yield quantitative convergence guarantees for gradient descent. A more general guarantee accommodating the reconditioning step in IR-PG is deferred to Section 5.2, and encompasses the bound below as a special case. Given $\alpha > 0$, we say that proper $f:{{\mathbb{R}}^{d}\rightarrow\overline{\mathbb{R}}}$ satisfies $\alpha$-*weak-PL* (named after the stronger Polyak-Łojasiewicz condition) on a domain $\mathcal{K} \subset {\mathbb{R}}^{d}$ if $f \in {\mathcal{C}^{1}{(\mathcal{K})}}$ and
-
-From Theorem 4, we see $f$ satisfies $\alpha_{\mathcal{K}}$-weak PL on $\mathcal{K}$ if $f$ has a DCL and $\alpha_{\mathcal{K}}:={\inf_{{\mathbf{x}} \in \mathcal{K}}{\alpha_{\text{dcl}}{({\mathbf{x}})}}} > 0$. To analyze gradient descent, we also require smoothness: we say $f$ is *$\beta$-upper-smooth* on $\mathcal{K}$ if $f \in {\mathcal{C}^{2}{(\mathcal{K})}}$ and for all ${\mathbf{x}} \in \mathcal{K}$,
-
-The following follows from a standard descent lemma for smooth (though possibly nonconvex) functions.
+We now describe how DCLs yield quantitative convergence guarantees for gradient descent. A more general guarantee accommodating the reconditioning step in IR-PG is deferred to Section 5.2, and encompasses the bound below as a special case. Given $\alpha > 0$, we say that proper $f:{{\mathbb{R}}^{d}\rightarrow\overline{\mathbb{R}}}$ satisfies $\alpha$-*weak-PL* (named after the stronger Polyak-Łojasiewicz condition) on a domain $\mathcal{K} \subset {\mathbb{R}}^{d}$ if $f \in {\mathcal{C}^{1}{(\mathcal{K})}}$ and From Theorem 4, we see $f$ satisfies $\alpha_{\mathcal{K}}$-weak PL on $\mathcal{K}$ if $f$ has a DCL and $\alpha_{\mathcal{K}}:={\inf_{{\mathbf{x}} \in \mathcal{K}}{\alpha_{\text{dcl}}{({\mathbf{x}})}}} > 0$. To analyze gradient descent, we also require smoothness: we say $f$ is *$\beta$-upper-smooth* on $\mathcal{K}$ if $f \in {\mathcal{C}^{2}{(\mathcal{K})}}$ and for all ${\mathbf{x}} \in \mathcal{K}$, The following follows from a standard descent lemma for smooth (though possibly nonconvex) functions.
 
 ### Proposition 5.1
 
@@ -365,7 +314,7 @@ We now extend Proposition 5.1 to accommodate the reconditioning step in IR-PG (A
 
 ### Definition 5.2 (Reconditioning matrix)
 
-Given $f:{{\mathbb{R}}^{d}\rightarrow\overline{\mathbb{R}}}$, we say that $\mathbf{\Lambda}:{{{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}\rightarrow{\mathbb{S}}_{+}^{n}}$ is a reconditioning matrix for $f$ if it is continuous on ${\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}$, and for every ${\mathbf{x}} \in {{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}$ such that ${\mathbf{\Lambda}{({\mathbf{x}})}} \succ 0$, there exists an ${\mathbf{x}}^{\prime} \in {{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}$ such that ${\mathbf{\Lambda}{({\mathbf{x}}^{\prime})}} = \mathbf{I}_{n}$ and ${f{({\mathbf{x}}^{\prime})}} = {f{({\mathbf{x}})}}$. We define the set ${{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}_{\mathbf{\Lambda}}{({\mathbf{x}})}}:={\{{\mathbf{x}}^{\prime}:{{{f{({\mathbf{x}}^{\prime})}} = {f{({\mathbf{x}})}}},{{\mathbf{\Lambda}{({\mathbf{x}})}} = \mathbf{I}_{n}}}\}}$ as the set of such points. We say $\mathbf{x}$ is reconditioned if ${\mathbf{\Lambda}{({\mathbf{x}})}} = \mathbf{I}_{n}$.
+Given $f:{{\mathbb{R}}^{d}\rightarrow\overline{\mathbb{R}}}$, we say that $\mathbf{\Lambda}:{{{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}\rightarrow{\mathbb{S}}_{+}^{n}}$ is a reconditioning matrix for $f$ if it is continuous on ${\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}$, and for every ${\mathbf{x}} \in {{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}$ such that ${\mathbf{\Lambda}{({\mathbf{x}})}} \succ 0$, there exists an ${\mathbf{x}}' \in {{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}$ such that ${\mathbf{\Lambda}{({\mathbf{x}}')}} = \mathbf{I}_{n}$ and ${f{({\mathbf{x}}')}} = {f{({\mathbf{x}})}}$. We define the set ${{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}_{\mathbf{\Lambda}}{({\mathbf{x}})}}:={\{{\mathbf{x}}':{{{f{({\mathbf{x}}')}} = {f{({\mathbf{x}})}}},{{\mathbf{\Lambda}{({\mathbf{x}})}} = \mathbf{I}_{n}}}\}}$ as the set of such points. We say $\mathbf{x}$ is reconditioned if ${\mathbf{\Lambda}{({\mathbf{x}})}} = \mathbf{I}_{n}$.
 
 ### Observation 5.2
 
@@ -373,23 +322,13 @@ ${\mathbf{\Lambda}{(\mathsf{K})}} = \mathbf{\Sigma}_{\mathsf{K},22}$ is a recond
 
 ### Proof
 
-Since ${{\mathsf{d}\mathsf{o}\mathsf{m}}{(\mathcal{L}_{\lambda})}} = \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}} \subset \mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}$, $\mathbf{\Sigma}_{22,\mathsf{K}} \succ 0$ on ${\mathsf{d}\mathsf{o}\mathsf{m}}{(\mathcal{L}_{\lambda})}$. As observed in Eq. 3.4, there is a similarity transformation mapping $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$ some $\mathsf{K}^{\prime}$ with $\mathbf{\Sigma}_{\mathsf{K}^{\prime},22} = \mathbf{I}_{n}$. Since $\mathcal{L}_{\lambda}$ is invariant under similarity transformation, it follows ${\mathcal{L}_{\lambda}{(\mathsf{K}^{\prime})}} = {\mathcal{L}_{\lambda}{(\mathsf{K})}}$. ∎
-
-Reconditioning serves to ensure that $f$ need only be well-behaved (i.e. satisfy upper-smoothness and weak-PL for suitable constants) on a restricted set of approximately reconditioned parameters ${\mathbf{x}}:{{\mathbf{\Lambda}{({\mathbf{x}})}} \approx \mathbf{I}_{n}}$.
+Since ${{\mathsf{d}\mathsf{o}\mathsf{m}}{(\mathcal{L}_{\lambda})}} = \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}} \subset \mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}$, $\mathbf{\Sigma}_{22,\mathsf{K}} \succ 0$ on ${\mathsf{d}\mathsf{o}\mathsf{m}}{(\mathcal{L}_{\lambda})}$. As observed in Eq. 3.4, there is a similarity transformation mapping $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$ some $\mathsf{K}'$ with $\mathbf{\Sigma}_{\mathsf{K}',22} = \mathbf{I}_{n}$. Since $\mathcal{L}_{\lambda}$ is invariant under similarity transformation, it follows ${\mathcal{L}_{\lambda}{(\mathsf{K}')}} = {\mathcal{L}_{\lambda}{(\mathsf{K})}}$. ∎ Reconditioning serves to ensure that $f$ need only be well-behaved (i.e. satisfy upper-smoothness and weak-PL for suitable constants) on a restricted set of approximately reconditioned parameters ${\mathbf{x}}:{{\mathbf{\Lambda}{({\mathbf{x}})}} \approx \mathbf{I}_{n}}$.
 
 The following proposition is the guiding template for the overall convergence analysis. Its proof is given in Section H.3.1.
 
 ### Proposition 5.3
 
-Let $f:{{\mathbb{R}}^{d}\rightarrow\overline{\mathbb{R}}}$, $\mathbf{x}_{0} \in {{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}$, and let $\mathbf{\Lambda}$ be a reconditioning matrix for $f$ such that ${\mathbf{\Lambda}{(\mathbf{x}_{0})}} \succ 0$. Define $\mathcal{K}{(\mathbf{x}_{0})}$ as the following reconditioned level set, which we assume is closed:
-
-Assume that the function $\mathbf{x}\mapsto{\mathbf{\Lambda}{(\mathbf{x})}}$ is $L_{{cond},\mathbf{x}_{0}}$-Lipschitz as a mapping from ${({\mathbb{R}}^{d}, \parallel \cdot \parallel )}\rightarrow{({\mathbb{S}}_{+}^{n}, \parallel \cdot \parallel_{op})}$ and that $f$ is $\beta_{\mathbf{x}_{0}}$-upper-smooth, $L_{f,\mathbf{x}_{0}}$-Lipschitz, and satisfies the $\alpha_{\mathbf{x}_{0}}$-weak PL condition for points in $\mathcal{K}{(\mathbf{x}_{0})}$. Lastly, let ${\{\eta_{k}\}}_{k = 0}^{\infty}$ be a series of step sizes such that $0 < {\inf_{k}\eta_{k}} \leq {\sup_{k}\eta_{k}} \leq {\min{\{\frac{1}{\beta_{\mathbf{x}_{0}}},\frac{1}{2L_{f,\mathbf{x}_{0}}L_{{cond},\mathbf{x}_{0}}}\}}}$. If iterates are chosen according to,
-
-or the more general condition,
-
-then for all $k \geq 1$ it holds that
-
-Proposition 5.3 can also be used to establish that every ${\mathbf{x}}_{0} \in {{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}$ is in the path-connected component of some ${\mathbf{x}}^{\star} \in {{\arg\min}{(f)}}$. To do so, we need the matrix operator to be connected in the following sense:
+Let $f:{{\mathbb{R}}^{d}\rightarrow\overline{\mathbb{R}}}$, $\mathbf{x}_{0} \in {{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}$, and let $\mathbf{\Lambda}$ be a reconditioning matrix for $f$ such that ${\mathbf{\Lambda}{(\mathbf{x}_{0})}} \succ 0$. Define $\mathcal{K}{(\mathbf{x}_{0})}$ as the following reconditioned level set, which we assume is closed: Assume that the function $\mathbf{x}\mapsto{\mathbf{\Lambda}{(\mathbf{x})}}$ is $L_{{cond},\mathbf{x}_{0}}$-Lipschitz as a mapping from ${({\mathbb{R}}^{d}, \parallel \cdot \parallel)}\rightarrow{({\mathbb{S}}_{+}^{n}, \parallel \cdot \parallel_{op})}$ and that $f$ is $\beta_{\mathbf{x}_{0}}$-upper-smooth, $L_{f,\mathbf{x}_{0}}$-Lipschitz, and satisfies the $\alpha_{\mathbf{x}_{0}}$-weak PL condition for points in $\mathcal{K}{(\mathbf{x}_{0})}$. Lastly, let ${\{\eta_{k}\}}_{k = 0}^{\infty}$ be a series of step sizes such that $0 < {\inf_{k}\eta_{k}} \leq {\sup_{k}\eta_{k}} \leq {\min{\{\frac{1}{\beta_{\mathbf{x}_{0}}},\frac{1}{2L_{f,\mathbf{x}_{0}}L_{{cond},\mathbf{x}_{0}}}\}}}$. If iterates are chosen according to, or the more general condition, then for all $k \geq 1$ it holds that Proposition 5.3 can also be used to establish that every ${\mathbf{x}}_{0} \in {{\mathsf{d}\mathsf{o}\mathsf{m}}{(f)}}$ is in the path-connected component of some ${\mathbf{x}}^{\star} \in {{\arg\min}{(f)}}$. To do so, we need the matrix operator to be connected in the following sense:
 
 ### Definition 5.3
 
@@ -401,9 +340,7 @@ The reconditioning matrix ${\mathbf{\Lambda}{(\mathsf{K})}} = \mathbf{\Sigma}_{\
 
 ### Proof
 
-Define ${\overline{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K},t)}}:={{\mathsf{S}\mathsf{i}\mathsf{m}}_{\mathbf{S}_{t}}{(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}})}}$, where $\mathbf{S}_{t} = \mathbf{\Sigma}_{22,\mathsf{K}}^{- {t/2}}$. Since similarity transforms preserve membership in $\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$, and since $t\mapsto{\overline{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K},t)}}$ is continuous and coincides with $\mathsf{K}$ at $t = 0$ (resp. ${\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K})}$ at $t = 1$), the observation follows. ∎
-
-The following proposition, proved in Section H.3.2, establishes path-connectedness for connected reconditioning matrices.
+Define ${\overline{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K},t)}}:={{\mathsf{S}\mathsf{i}\mathsf{m}}_{\mathbf{S}_{t}}{(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}})}}$, where $\mathbf{S}_{t} = \mathbf{\Sigma}_{22,\mathsf{K}}^{- {t/2}}$. Since similarity transforms preserve membership in $\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$, and since $t\mapsto{\overline{\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K},t)}}$ is continuous and coincides with $\mathsf{K}$ at $t = 0$ (resp. ${\mathsf{r}\mathsf{e}\mathsf{c}\mathsf{o}\mathsf{n}\mathsf{d}}{(\mathsf{K})}$ at $t = 1$), the observation follows. ∎ The following proposition, proved in Section H.3.2, establishes path-connectedness for connected reconditioning matrices.
 
 ### Proposition 5.5
 
@@ -437,43 +374,31 @@ While it is by now well-known within the controls community that the OE problem 
 
 ### Proposition 6.1
 
-For any $\lambda \geq 0$ (non-strict), the objective $\mathcal{L}_{\lambda}{(\mathsf{K})}$ admits a DCL $(f_{\mathtt{c}\mathtt{v}\mathtt{x}},f_{\mathtt{l}\mathtt{f}\mathtt{t}},\Phi)$ where the lifted parameter takes the form ${(\mathsf{K},\mathbf{\Sigma}_{\mathsf{K}})} \in {\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}} \times {\mathbb{S}}_{+ +}^{2n}}$, ${\mathcal{L}_{\lambda}{(\mathsf{K})}} = {f_{\mathtt{l}\mathtt{f}\mathtt{t}}{(\mathsf{K},\mathbf{\Sigma}_{\mathsf{K}})}} = {{\min_{\mathbf{\Sigma} \in {\mathbb{S}}_{+}^{2n}}f_{\mathtt{l}\mathtt{f}\mathtt{t}}}{(\mathsf{K},\mathbf{\Sigma})}}$, and where
-
-Furthermore, the norms of the parameters $\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}}$ satisfy the following bounds:
-
-Recall that the domain of $\mathcal{L}_{\lambda}{(\mathsf{K})}$ is the set $\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$, on which $\mathbf{Z}_{\mathsf{K}}$ and (as noted above) $\mathbf{\Sigma}_{\mathsf{K}}$ are invertible. Hence, all quantities in the above lemma are well-defined. Having established the existence of a DCL, a direct application of Theorem 4 shows that this objective satisfies the weak-PL property.
+For any $\lambda \geq 0$ (non-strict), the objective $\mathcal{L}_{\lambda}{(\mathsf{K})}$ admits a DCL $(f_{\mathtt{c}\mathtt{v}\mathtt{x}},f_{\mathtt{l}\mathtt{f}\mathtt{t}},\Phi)$ where the lifted parameter takes the form ${(\mathsf{K},\mathbf{\Sigma}_{\mathsf{K}})} \in {\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}} \times {\mathbb{S}}_{+ +}^{2n}}$, ${\mathcal{L}_{\lambda}{(\mathsf{K})}} = {f_{\mathtt{l}\mathtt{f}\mathtt{t}}{(\mathsf{K},\mathbf{\Sigma}_{\mathsf{K}})}} = {{\min_{\mathbf{\Sigma} \in {\mathbb{S}}_{+}^{2n}}f_{\mathtt{l}\mathtt{f}\mathtt{t}}}{(\mathsf{K},\mathbf{\Sigma})}}$, and where Furthermore, the norms of the parameters $\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}}$ satisfy the following bounds: Recall that the domain of $\mathcal{L}_{\lambda}{(\mathsf{K})}$ is the set $\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$, on which $\mathbf{Z}_{\mathsf{K}}$ and (as noted above) $\mathbf{\Sigma}_{\mathsf{K}}$ are invertible. Hence, all quantities in the above lemma are well-defined. Having established the existence of a DCL, a direct application of Theorem 4 shows that this objective satisfies the weak-PL property.
 
 ### Corollary 6.1 (Weak-PL Property of $\mathcal{L}_{\lambda}$)
 
-For any $\lambda \geq 0$ and $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$,
+For any $\lambda \geq 0$ and $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$, | | | ${\|{{\nabla\mathcal{L}_{\lambda}}{(\mathsf{K})}}\|} \geq {{\frac{1}{{C_{\mathtt{P}\mathtt{L}}{(\mathsf{K})}} \cdot {\max{\{ n,\sqrt{mn}\}}}} \cdot \left({{\mathcal{L}_{\lambda}{(\mathsf{K})}} - {\inf{(\mathcal{L}_{\lambda})}}} \right)},\text{where}}$ | | (6.2) | | | | ${{C_{\mathtt{P}\mathtt{L}}{(\mathsf{K})}} = {{poly}_{op}\left(\mathbf{A},\mathbf{C},\mathbf{W}_{2}^{- 1},\mathbf{Z}_{\mathsf{K}}^{- 1},\mathbf{\Sigma}_{\mathsf{K}},\mathbf{\Sigma}_{\mathsf{K}}^{- 1},{\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}} \right)}}.$ | | |
 
-### Smoothness and Lipschitzness of $\mathcal{L}_{\lambda}\hspace{0pt}{(\mathsf{K})}$
+### Smoothness and Lipschitzness of $\mathcal{L}_{\lambda}{(\mathsf{K})}$
 
 To verify these regularity conditions, we need to bound the norms of various quantities, which are themselves the solutions to Lyapunov equations involving the closed-loop system matrix $\mathbf{A}_{{cl},\mathsf{K}}$ (defined in Eq. 2.1 ‣ 2 Preliminaries ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation")). The main step is therefore to show that the solutions to these Lyapunov equations are uniformly bounded, as per the following lemma (proof in Appendix J ‣ Part II Proofs for Convergence Guarantee ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation")).
 
 ### Proposition 6.2 (Stability of $\mathbf{A}_{{cl},\mathsf{K}}$)
 
-Suppose that $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$. Then, for any matrix $\mathbf{Y} \in {\mathbb{S}}^{2n}$, the solution $\mathbf{\Sigma}_{\mathsf{K},\mathbf{Y}}$ to the Lyapunov equation ${{\mathbf{A}_{{cl},\mathsf{K}}\mathbf{\Sigma}_{\mathsf{K},\mathbf{Y}}} + {\mathbf{\Sigma}_{\mathsf{K},\mathbf{Y}}\mathbf{A}_{{cl},\mathsf{K}}^{\top}} + \mathbf{Y}} = 0$ satisfies
-
-and where $\parallel \cdot \parallel_{\circ}$ denotes either the operator, Frobenius, or nuclear norm.
+Suppose that $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$. Then, for any matrix $\mathbf{Y} \in {\mathbb{S}}^{2n}$, the solution $\mathbf{\Sigma}_{\mathsf{K},\mathbf{Y}}$ to the Lyapunov equation ${{\mathbf{A}_{{cl},\mathsf{K}}\mathbf{\Sigma}_{\mathsf{K},\mathbf{Y}}} + {\mathbf{\Sigma}_{\mathsf{K},\mathbf{Y}}\mathbf{A}_{{cl},\mathsf{K}}^{\top}} + \mathbf{Y}} = 0$ satisfies and where $\parallel \cdot \parallel_{\circ}$ denotes either the operator, Frobenius, or nuclear norm.
 
 Using this intermediate result, we can bound the norms of the various derivatives which govern the smoothness and Lipschitz constants for the regularized OE problem. We present the proof of the following result in Appendix K ‣ Part II Proofs for Convergence Guarantee ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), as well as formal explanations of the notation of the norms below.
 
 ### Proposition 6.3 (Smoothness and Lipschitzness)
 
-For any $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$, $\mathcal{L}_{\lambda}{( \cdot )}$ is $\mathcal{C}^{2}$ in an open neighorhood containing $\mathcal{K}$, and
-
-where ${C_{\Sigma,1}{(\mathsf{K})}} = {{poly}_{op}{(\mathbf{\Sigma}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C},\mathbf{W}_{2})}}$, where
-
-where $C_{\mathtt{l}\mathtt{y}\mathtt{a}\mathtt{p}}{(\mathsf{K})}$ is as in Proposition 6.2. ‣ Smoothness and Lipschitzness of ℒ_𝜆⁢(𝖪). ‣ 6.2 Proof of Theorem 3 ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), and where the gradient norms are in the Euclidean geometry.
+For any $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$, $\mathcal{L}_{\lambda}{(\cdot)}$ is $\mathcal{C}^{2}$ in an open neighorhood containing $\mathcal{K}$, and where ${C_{\Sigma,1}{(\mathsf{K})}} = {{poly}_{op}{(\mathbf{\Sigma}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C},\mathbf{W}_{2})}}$, where where $C_{\mathtt{l}\mathtt{y}\mathtt{a}\mathtt{p}}{(\mathsf{K})}$ is as in Proposition 6.2. ‣ Smoothness and Lipschitzness of ℒ_𝜆⁢(𝖪). ‣ 6.2 Proof of Theorem 3 ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), and where the gradient norms are in the Euclidean geometry.
 
 ### Concluding the proof: uniform parameter bounds
 
 Note again that bounds above are local, in that they depend on the choice of filter $\mathsf{K}$. To finish the proof of Theorem 3, we prove a uniform bound over all filters $\mathsf{K}$ which lie in the set considered by Proposition 5.3, namely.
 
-Immediately, we see that on this set ${\|\mathbf{\Sigma}_{22,\mathsf{K}}^{- 1}\|} \leq 2$, and that
-
-As a consequence, we can bound the terms appear in the bounds above as follows (see Section G.2):
+Immediately, we see that on this set ${\|\mathbf{\Sigma}_{22,\mathsf{K}}^{- 1}\|} \leq 2$, and that As a consequence, we can bound the terms appear in the bounds above as follows (see Section G.2):
 
 ### Lemma 6.4
 
@@ -485,15 +410,11 @@ Lastly, we control the dependence on $\mathbf{\Sigma}_{\mathsf{K}}$ and $\mathbf
 
 Let $\sigma_{\star} > 0$ be as in we mean Lemma 3.3. Then, for any $\mathsf{K} \in \mathcal{K}_{\mathtt{c}\mathtt{t}\mathtt{r}\mathtt{b}}$, it holds that: (a) $\mathbf{\Sigma}_{\mathsf{K}} \succ 0$ is invertible, (b) ${\|\mathbf{\Sigma}_{\mathsf{K}}^{- 1}\|} \leq {{2{\|\mathbf{\Sigma}_{22,\mathsf{K}}^{- 1}\|}} + {2\sigma_{\star}^{- 1}{\max{\{ 1,{{\|\mathbf{\Sigma}_{22,\mathsf{K}}^{- 1}\|}{\|\mathbf{\Sigma}_{11,{sys}}\|}}\}}}}}$, and (c) ${\|\mathbf{\Sigma}_{\mathsf{K}}\|} \leq {2{\max{\{{\|\mathbf{\Sigma}_{22,\mathsf{K}}\|},{\|\mathbf{\Sigma}_{11,{sys}}\|}\}}}}$.
 
-In particular, on $\mathcal{K}_{0}$, where ${{\|\mathbf{\Sigma}_{22,\mathsf{K}}^{- 1}\|},{\|\mathbf{\Sigma}_{22,\mathsf{K}}\|}} \leq 2$, we have ${{\|\mathbf{\Sigma}_{\mathsf{K}}\|},{\|\mathbf{\Sigma}_{\mathsf{K}}^{- 1}\|}} \leq {{poly}_{op}{({\|\mathbf{\Sigma}_{11,{sys}}\|},\sigma_{\star}^{- 1})}}$, so that the terms ${C_{\mathtt{P}\mathtt{L}}{(\mathsf{K})}},{C_{\mathtt{l}\mathtt{y}\mathtt{a}\mathtt{p}}{(\mathsf{K})}},{C_{\Sigma,1}{(\mathsf{K})}},{C_{{\mathtt{g}\mathtt{r}\mathtt{a}\mathtt{d}},1}{(\mathsf{K})}},{C_{{\mathtt{g}\mathtt{r}\mathtt{a}\mathtt{d}},2}{(\mathsf{K})}}$ are all at most polynomial in
-
-as well as in ${\mathcal{L}_{\lambda}{(\mathsf{K}_{0})}},\frac{1}{\lambda}$. Thus, from Corollaries 6.1. ‣ A DCL for the regularized OE objective. ‣ 6.2 Proof of Theorem 3 ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") and 6.3. ‣ Smoothness and Lipschitzness of ℒ_𝜆⁢(𝖪). ‣ 6.2 Proof of Theorem 3 ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), we verify the conditions of Proposition 5.3 uniformly on the set $\mathcal{K}_{0}$.
+In particular, on $\mathcal{K}_{0}$, where ${{\|\mathbf{\Sigma}_{22,\mathsf{K}}^{- 1}\|},{\|\mathbf{\Sigma}_{22,\mathsf{K}}\|}} \leq 2$, we have ${{\|\mathbf{\Sigma}_{\mathsf{K}}\|},{\|\mathbf{\Sigma}_{\mathsf{K}}^{- 1}\|}} \leq {{poly}_{op}{({\|\mathbf{\Sigma}_{11,{sys}}\|},\sigma_{\star}^{- 1})}}$, so that the terms ${C_{\mathtt{P}\mathtt{L}}{(\mathsf{K})}},{C_{\mathtt{l}\mathtt{y}\mathtt{a}\mathtt{p}}{(\mathsf{K})}},{C_{\Sigma,1}{(\mathsf{K})}},{C_{{\mathtt{g}\mathtt{r}\mathtt{a}\mathtt{d}},1}{(\mathsf{K})}},{C_{{\mathtt{g}\mathtt{r}\mathtt{a}\mathtt{d}},2}{(\mathsf{K})}}$ are all at most polynomial in as well as in ${\mathcal{L}_{\lambda}{(\mathsf{K}_{0})}},\frac{1}{\lambda}$. Thus, from Corollaries 6.1. ‣ A DCL for the regularized OE objective. ‣ 6.2 Proof of Theorem 3 ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") and 6.3. ‣ Smoothness and Lipschitzness of ℒ_𝜆⁢(𝖪). ‣ 6.2 Proof of Theorem 3 ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), we verify the conditions of Proposition 5.3 uniformly on the set $\mathcal{K}_{0}$.
 
 ### Corollary 6.2
 
-The loss function $\mathcal{L}_{\lambda}$ satisfies $\alpha$-weak PL and $\beta$-upper smoothness on $\mathcal{K}_{0}$ with
-
-where $C_{\mathtt{s}\mathtt{y}\mathtt{s}}$ is defined in Eq. 6.4. In addition, on $\mathcal{K}_{0}$, $\mathcal{L}_{\lambda}$ is $L \leq {\sqrt{n}{poly}{(C_{\mathtt{s}\mathtt{y}\mathtt{s}},{\mathcal{L}_{\lambda}{(\mathsf{K}_{0})}},\lambda,\frac{1}{\lambda})}}$ Lipschitz, and $\mathsf{K}\mapsto\mathbf{\Sigma}_{22,\mathsf{K}}$ is at most $L_{\Sigma} \leq {{poly}{(C_{\mathtt{s}\mathtt{y}\mathtt{s}},{\mathcal{L}_{\lambda}{(\mathsf{K}_{0})}},\frac{1}{\lambda},\lambda)}}$ Lipschitz as a mapping from ${(\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}, \parallel \cdot \parallel_{\ell_{2}})}\rightarrow{({\mathbb{S}}^{n}, \parallel \cdot \parallel_{op})}$.
+The loss function $\mathcal{L}_{\lambda}$ satisfies $\alpha$-weak PL and $\beta$-upper smoothness on $\mathcal{K}_{0}$ with where $C_{\mathtt{s}\mathtt{y}\mathtt{s}}$ is defined in Eq. 6.4. In addition, on $\mathcal{K}_{0}$, $\mathcal{L}_{\lambda}$ is $L \leq {\sqrt{n}{poly}{(C_{\mathtt{s}\mathtt{y}\mathtt{s}},{\mathcal{L}_{\lambda}{(\mathsf{K}_{0})}},\lambda,\frac{1}{\lambda})}}$ Lipschitz, and $\mathsf{K}\mapsto\mathbf{\Sigma}_{22,\mathsf{K}}$ is at most $L_{\Sigma} \leq {{poly}{(C_{\mathtt{s}\mathtt{y}\mathtt{s}},{\mathcal{L}_{\lambda}{(\mathsf{K}_{0})}},\frac{1}{\lambda},\lambda)}}$ Lipschitz as a mapping from ${(\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}, \parallel \cdot \parallel_{\ell_{2}})}\rightarrow{({\mathbb{S}}^{n}, \parallel \cdot \parallel_{op})}$.
 
 Lastly, we establish compact level sets. The subtlely here is not only showing that $\mathcal{K}_{0}$ is bounded (this is rather direct from Proposition 6.1), but also closed.
 
@@ -513,35 +434,11 @@ Due to the DCL exhbited by Proposition 6.1, and in particular Corollary 6.1. ‣
 
 In this section, we establish the weak-PL property of our regularized loss function ${\mathcal{L}_{\lambda}{( \cdot )}} = {{\mathcal{L}_{\mathtt{O}\mathtt{E}}{( \cdot )}} + {\lambda\mathcal{R}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}{( \cdot )}}}$. Our strategy is to show that $\mathcal{L}_{\lambda}{( \cdot )}$ admits a DCL, which leads to a weak-PL constant $\alpha{(\mathsf{K})}$ for each $\mathsf{K}$, whose parameters are themselves bounded in terms of $\mathcal{L}_{\lambda}{( \cdot )}$. Before continuing, we recall that $n$ denotes the dimension of the system state $\mathbf{x}$ (and internal state $\hat{\mathbf{x}}$), $m$ of the observation $\mathbf{y}$, and $p$ the output $\mathbf{z}$, and that ${poly}_{op}{(\mathbf{X}_{1},\mathbf{X}_{2},\ldots,\kappa)}$ denote a (universal) polynomial function of operator norm of matrix, arguments ${\|\mathbf{X}_{1}\|},{{\|\mathbf{X}_{2}\|}_{,}\ldots}$, and a polynomial in scalar argument $\kappa$. We use ${\mathbb{I}}_{\infty}$ to denote the $1$-$\infty$ indicator, i.e. for some event $\mathcal{E}$, ${{\mathbb{I}}_{\infty}{\{\mathcal{E}\}}} = 1$ if $\mathcal{E}$ is true, and ${{\mathbb{I}}_{\infty}{\{\mathcal{E}\}}} = {+ \infty}$ otherwise.
 
-All proofs of the lemmas that follow are deferred to Appendix I ‣ Part II Proofs for Convergence Guarantee ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"). To proceed, we need to invoke Theorem 4 by specifying the DCL of the function
-
-Throughout, given a matrix $\mathbf{\Sigma} \succ 0$ partitioned in $2 \times 2$ blocks, we more generally define
-
-With the above notation, we can express
-
-This leads to the following notion of the lifted function.
+All proofs of the lemmas that follow are deferred to Appendix I ‣ Part II Proofs for Convergence Guarantee ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"). To proceed, we need to invoke Theorem 4 by specifying the DCL of the function Throughout, given a matrix $\mathbf{\Sigma} \succ 0$ partitioned in $2 \times 2$ blocks, we more generally define With the above notation, we can express This leads to the following notion of the lifted function.
 
 ### Definition 6.1 (The lifted function)
 
-We define the lifted function on the space of parameters ${(\mathsf{K},\mathbf{\Sigma})} \in {\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}} \times {\mathbb{S}}^{2n}}$ as follows
-
-$f_{\mathtt{l}\mathtt{f}\mathtt{t}}{(\mathsf{K},\mathbf{\Sigma})} = \left( {tr}\left\lbrack \begin{bmatrix} (6.7a)
-\mathbf{G} & {- \mathbf{C}_{\mathsf{K}}}
-\end{bmatrix}\mathbf{\Sigma}\begin{bmatrix}
-{- \mathbf{C}_{\mathsf{K}}^{\top}}
-\end{bmatrix} + \lambda \cdot {tr}\left\lbrack \mathbf{Z}{(\mathbf{\Sigma})}^{- 1} \right\rbrack \right\rbrack \right) \cdot {\mathbb{I}}_{\infty}{\{{(\mathsf{K},\mathbf{\Sigma})} \in \mathcal{C}_{\mathtt{l}\mathtt{f}\mathtt{t}},\}}$
-${\mathcal{C}_{\mathtt{l}\mathtt{f}\mathtt{t}}:=\left\{ {(\mathsf{K},\mathbf{\Sigma})}:\begin{matrix} (6.7b)
-& {{{{(i)}\mathbf{\Sigma}} \succ 0},{{{\mathbf{Z}{(\mathbf{\Sigma})}} \succ 0}\quad{{{{({ii})}\mathbf{A}\mathbf{\Sigma}_{11}} + {\mathbf{\Sigma}_{11}\mathbf{A}^{\top}} + \mathbf{W}_{1}} = 0}}} \\
-& {{{{({iii})}\begin{pmatrix}
-{\mathbf{B}_{\mathsf{K}}\mathbf{C}} & \mathbf{A}_{\mathsf{K}}
-\end{pmatrix}\mathbf{\Sigma}} + {\mathbf{\Sigma}\begin{pmatrix}
-{\mathbf{B}_{\mathsf{K}}\mathbf{C}} & \mathbf{A}_{\mathsf{K}}
-\end{pmatrix}^{\top}} + \begin{pmatrix}
-0 & {\mathbf{B}_{\mathsf{K}}\mathbf{W}_{2}\mathbf{B}_{\mathsf{K}}^{\top}}
-\end{pmatrix}} \preceq 0}
-\end{matrix} \right\}}.$
-
-We extend $f_{\mathtt{l}\mathtt{f}\mathtt{t}}{(\mathsf{K},\mathbf{\Sigma})}$ to the space of all (unconstrained, even possible unstable) filters $\mathsf{K} = {(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}})}$ by setting the lifted function to be infinte when $\mathsf{K} \notin \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$: ${f_{\mathtt{l}\mathtt{f}\mathtt{t}}{(\mathsf{K},\mathbf{\Sigma})}} = {f_{\mathtt{l}\mathtt{f}\mathtt{t}}{(\mathsf{K},\mathbf{\Sigma})}{\mathbb{I}}_{\infty}{\{{\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}}\}}}$.^99^9This formalism is just to accomodate for the fact that we encode constraints on domains in the function in general DCL framework.
+We define the lifted function on the space of parameters ${(\mathsf{K},\mathbf{\Sigma})} \in {\mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}} \times {\mathbb{S}}^{2n}}$ as follows We extend $f_{\mathtt{l}\mathtt{f}\mathtt{t}}{(\mathsf{K},\mathbf{\Sigma})}$ to the space of all (unconstrained, even possible unstable) filters $\mathsf{K} = {(\mathbf{A}_{\mathsf{K}},\mathbf{B}_{\mathsf{K}},\mathbf{C}_{\mathsf{K}})}$ by setting the lifted function to be infinte when $\mathsf{K} \notin \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$: ${f_{\mathtt{l}\mathtt{f}\mathtt{t}}{(\mathsf{K},\mathbf{\Sigma})}} = {f_{\mathtt{l}\mathtt{f}\mathtt{t}}{(\mathsf{K},\mathbf{\Sigma})}{\mathbb{I}}_{\infty}{\{{\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}}\}}}$.^99^9This formalism is just to accomodate for the fact that we encode constraints on domains in the function in general DCL framework.
 
 ### Step 1. Verifying the lifting
 
@@ -549,9 +446,7 @@ We first verify that $f_{\mathtt{l}\mathtt{f}\mathtt{t}}$ is indeed a lifted fun
 
 ### Lemma 6.7
 
-For any feasible $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$,
-
-and this minimum is attained for $\mathbf{\Sigma} = \mathbf{\Sigma}_{\mathsf{K}}$.
+For any feasible $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$, and this minimum is attained for $\mathbf{\Sigma} = \mathbf{\Sigma}_{\mathsf{K}}$.
 
 ### Step 2. Convex reparametrization
 
@@ -559,22 +454,11 @@ Next, we introduce the transformation $\Phi$:
 
 ### Definition 6.2
 
-We define the convex parameter ${\mathbf{ν}}:={(\mathbf{L}_{1},\mathbf{L}_{2},\mathbf{L}_{3},\mathbf{M}_{1},\mathbf{M}_{2})}$ and the transformation
-
-${\mathbf{ν}}^{\top} = {\Phi{(\mathsf{K},\mathbf{\Sigma})}}$ ${:=\begin{pmatrix} (6.8a)
-{{\mathbf{U}{({{\mathbf{A}_{\mathsf{K}}\mathbf{V}^{\top}} + {\mathbf{B}_{\mathsf{K}}\mathbf{C}{(\mathbf{\Sigma})}_{11}}})}} + {{(\mathbf{\Sigma}^{- 1})}_{11}\mathbf{A}{(\mathbf{\Sigma})}_{11}}} \\
-{\mathbf{U}\mathbf{B}}_{\mathsf{K}} \\
-{\mathbf{C}_{\mathsf{K}}\mathbf{V}^{\top}} \\
-${{\text{where~}\begin{pmatrix} (6.8b)
-\end{pmatrix}}:=\begin{pmatrix}
-
-We let $d_{\nu}$ denote the dimension of the parameter $\mathbf{ν}$ and let $d_{y}$ denote the dimension of the parameters $(\mathsf{K},\mathbf{\Sigma})$, both as Euclidean vectors. One can then verify that $d_{\nu} \leq d_{y}$; that is, the lifted function indeed has more parameters than the convex one. The following shows that there exists a convex function $f_{\mathtt{c}\mathtt{v}\mathtt{x}}$, which completes the DCL:
+We define the convex parameter ${\mathbf{ν}}:={(\mathbf{L}_{1},\mathbf{L}_{2},\mathbf{L}_{3},\mathbf{M}_{1},\mathbf{M}_{2})}$ and the transformation We let $d_{\nu}$ denote the dimension of the parameter $\mathbf{ν}$ and let $d_{y}$ denote the dimension of the parameters $(\mathsf{K},\mathbf{\Sigma})$, both as Euclidean vectors. One can then verify that $d_{\nu} \leq d_{y}$; that is, the lifted function indeed has more parameters than the convex one. The following shows that there exists a convex function $f_{\mathtt{c}\mathtt{v}\mathtt{x}}$, which completes the DCL:
 
 ### Lemma 6.8
 
-There exists a convex function $f_{\mathtt{c}\mathtt{v}\mathtt{x}}:{{\mathbb{R}}^{d_{\nu}}\rightarrow\overline{\mathbb{R}}}$ such that
-
-The transformation $\Phi$ and associated convex function $f_{\mathtt{c}\mathtt{v}\mathtt{x}}$ was first developed by Scherer et al., cf. also Masubuchi et al. for contemporaneous independent work.
+There exists a convex function $f_{\mathtt{c}\mathtt{v}\mathtt{x}}:{{\mathbb{R}}^{d_{\nu}}\rightarrow\overline{\mathbb{R}}}$ such that The transformation $\Phi$ and associated convex function $f_{\mathtt{c}\mathtt{v}\mathtt{x}}$ was first developed by Scherer et al., cf. also Masubuchi et al. for contemporaneous independent work.
 
 ### Step 3. Controlling the weak-PL constant
 
@@ -582,25 +466,17 @@ Lastly, we show that the DCL lends itself to a bounded PL constant by invoking T
 
 ### Lemma 6.9 (Parameter compactness)
 
-Consider $(\mathsf{K},\mathbf{\Sigma}_{\mathsf{K}})$, where $\mathbf{\Sigma}_{\mathsf{K}}$ is the stationary covariance associated with $\mathsf{K}$. Then,
-
-where ${\|{\mathbf{ν}}\|}_{\ell_{2}}:=\sqrt{{\sum_{i = 1}^{3}{\|\mathbf{L}_{i}\|}_{F}^{2}} + {\sum_{j = 1}^{2}{\|\mathbf{M}_{i}\|}_{F}^{2}}}$ denotes the Euclidean norm of the parameter $\mathbf{ν}$. Moreover, if $\mathbf{U}_{\mathsf{K}}$ and $\mathbf{V}_{\mathsf{K}}$ are invertible, then the filter parameters are bounded by
+Consider $(\mathsf{K},\mathbf{\Sigma}_{\mathsf{K}})$, where $\mathbf{\Sigma}_{\mathsf{K}}$ is the stationary covariance associated with $\mathsf{K}$. Then, where ${\|{\mathbf{ν}}\|}_{\ell_{2}}:=\sqrt{{\sum_{i = 1}^{3}{\|\mathbf{L}_{i}\|}_{F}^{2}} + {\sum_{j = 1}^{2}{\|\mathbf{M}_{i}\|}_{F}^{2}}}$ denotes the Euclidean norm of the parameter $\mathbf{ν}$. Moreover, if $\mathbf{U}_{\mathsf{K}}$ and $\mathbf{V}_{\mathsf{K}}$ are invertible, then the filter parameters are bounded by
 
 ### Lemma 6.10 (Conditioning of $\nabla\Phi$)
 
-Suppose that $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$. Then, $\Phi$ is differentiable in an open neighborhood of $(\mathsf{K},\mathbf{\Sigma}_{\mathsf{K}})$, and if $\mathbf{U}_{\mathsf{K}}$ and $\mathbf{V}_{\mathsf{K}}$ are invertible,
-
-where the last line is a consequence of Lemma 6.9. ‣ Step 3. Controlling the weak-PL constant. ‣ 6.4 DCL for Output Estimation (Proposition 6.1) ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation").
+Suppose that $\mathsf{K} \in \mathcal{K}_{\mathtt{i}\mathtt{n}\mathtt{f}\mathtt{o}}$. Then, $\Phi$ is differentiable in an open neighborhood of $(\mathsf{K},\mathbf{\Sigma}_{\mathsf{K}})$, and if $\mathbf{U}_{\mathsf{K}}$ and $\mathbf{V}_{\mathsf{K}}$ are invertible, where the last line is a consequence of Lemma 6.9. ‣ Step 3. Controlling the weak-PL constant. ‣ 6.4 DCL for Output Estimation (Proposition 6.1) ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation").
 
 To conclude, we eliminate dependencies on $\mathbf{U}_{\mathsf{K}}$ and $\mathbf{V}_{\mathsf{K}}$:
 
 ### Lemma 6.11
 
-If $\mathbf{Z} = {\mathbf{Z}{(\mathbf{\Sigma})}}$ is invertible, the matrices $\mathbf{U} = {(\mathbf{\Sigma}^{- 1})}_{12}$ and $\mathbf{V} = \mathbf{\Sigma}_{12}$ are invertible, and their inverses are bounded in operator norm as
-
-As a consequence of Lemmas 6.10. ‣ Step 3. Controlling the weak-PL constant. ‣ 6.4 DCL for Output Estimation (Proposition 6.1) ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") and 6.9. ‣ Step 3. Controlling the weak-PL constant. ‣ 6.4 DCL for Output Estimation (Proposition 6.1) ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"),
-
-The conclusion of Eq. 6.12 ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") and the bound ${\|\mathbf{C}_{\mathsf{K}}\|}_{F} \leq \sqrt{{\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}}/{\|\mathbf{\Sigma}_{\mathsf{K}}^{- 1}\|}}$ from Lemma 6.9. ‣ Step 3. Controlling the weak-PL constant. ‣ 6.4 DCL for Output Estimation (Proposition 6.1) ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") are precisely the conclusions of Proposition 6.1. ∎
+If $\mathbf{Z} = {\mathbf{Z}{(\mathbf{\Sigma})}}$ is invertible, the matrices $\mathbf{U} = {(\mathbf{\Sigma}^{- 1})}_{12}$ and $\mathbf{V} = \mathbf{\Sigma}_{12}$ are invertible, and their inverses are bounded in operator norm as As a consequence of Lemmas 6.10. ‣ Step 3. Controlling the weak-PL constant. ‣ 6.4 DCL for Output Estimation (Proposition 6.1) ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") and 6.9. ‣ Step 3. Controlling the weak-PL constant. ‣ 6.4 DCL for Output Estimation (Proposition 6.1) ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation"), The conclusion of Eq. 6.12 ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") and the bound ${\|\mathbf{C}_{\mathsf{K}}\|}_{F} \leq \sqrt{{\mathcal{L}_{\mathtt{O}\mathtt{E}}{(\mathsf{K})}}/{\|\mathbf{\Sigma}_{\mathsf{K}}^{- 1}\|}}$ from Lemma 6.9. ‣ Step 3. Controlling the weak-PL constant. ‣ 6.4 DCL for Output Estimation (Proposition 6.1) ‣ 6 Proof of Theorems 3 and 2 ‣ Globally Convergent Policy Search over Dynamic Filters for Output Estimation") are precisely the conclusions of Proposition 6.1. ∎
 
 ### Conclusion
 

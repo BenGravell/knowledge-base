@@ -12,9 +12,7 @@ We propose FlashAttention, a new attention algorithm that computes exact attenti
 
 We analyze the IO complexity of FlashAttention, proving that it requires $O{({N^{2}d^{2}M^{- 1}})}$ HBM accesses where $d$ is the head dimension and $M$ is the size of SRAM, as compared to $\Omega{({{Nd} + N^{2}})}$ of standard attention. For typical values of $d$ and $M$, FlashAttention requires many times fewer HBM accesses compared to standard attention (up to 9$\times$ fewer, as shown in Fig. 2). Moreover, we provide a lower bound, showing that no exact attention algorithm can asymptotically improve on the number of HBM accesses over all SRAM sizes.
 
-We also show that FlashAttention can serve as a useful primitive for realizing the potential of approximate attention algorithms by overcoming their issues with memory access overhead. As a proof of concept, we implement block-sparse FlashAttention, a sparse attention algorithm that is 2-4$\times$ faster than even FlashAttention, scaling up to sequence length of 64k. We prove that block-sparse FlashAttention has better IO complexity than FlashAttention by a factor proportional to the sparsity ratio. We discuss further extensions to other operations (attention on multi-GPU, kernel regression, block-sparse matrix multiply) in Section 5. We open-source FlashAttention to make it easier to build on this primitive.^11^1FlashAttention code is available at [https://github.com/HazyResearch/flash-attention](https://github.com/HazyResearch/flash-attention)
-
-We empirically validate that FlashAttention speeds up model training and improves model quality by modeling longer context. We also benchmark the runtime and memory footprint of FlashAttention and block-sparse FlashAttention compared to prior attention implementations.
+We also show that FlashAttention can serve as a useful primitive for realizing the potential of approximate attention algorithms by overcoming their issues with memory access overhead. As a proof of concept, we implement block-sparse FlashAttention, a sparse attention algorithm that is 2-4$\times$ faster than even FlashAttention, scaling up to sequence length of 64k. We prove that block-sparse FlashAttention has better IO complexity than FlashAttention by a factor proportional to the sparsity ratio. We discuss further extensions to other operations (attention on multi-GPU, kernel regression, block-sparse matrix multiply) in Section 5. We open-source FlashAttention to make it easier to build on this primitive.^11^1FlashAttention code is available at We empirically validate that FlashAttention speeds up model training and improves model quality by modeling longer context. We also benchmark the runtime and memory footprint of FlashAttention and block-sparse FlashAttention compared to prior attention implementations.
 
 Faster Model Training. FlashAttention trains Transformer models faster in wall-clock time. We train BERT-large (seq. length 512) 15% faster than the training speed record in MLPerf 1.1, GPT2 (seq. length 1K) 3$\times$ faster than baseline implementations from HuggingFace and Megatron-LM, and long-range arena (seq. length 1K-4K) 2.4$\times$ faster than baselines.
 
@@ -44,9 +42,7 @@ Kernel fusion. The most common approach to accelerate memory-bound operations is
 
 ### Standard Attention Implementation
 
-Given input sequences ${\mathbf{Q},\mathbf{K},\mathbf{V}} \in {\mathbb{R}}^{N \times d}$ where $N$ is the sequence length and $d$ is the head dimension, we want to compute the attention output $\mathbf{O} \in {\mathbb{R}}^{N \times d}$:
-
-where $softmax$ is applied row-wise.
+Given input sequences ${\mathbf{Q},\mathbf{K},\mathbf{V}} \in {\mathbb{R}}^{N \times d}$ where $N$ is the sequence length and $d$ is the head dimension, we want to compute the attention output $\mathbf{O} \in {\mathbb{R}}^{N \times d}$: where $softmax$ is applied row-wise.
 
 Standard attention implementations materialize the matrices $\mathbf{S}$ and $\mathbf{P}$ to HBM, which takes $O{(N^{2})}$ memory. Often $N \gg d$ (e.g., for GPT2, $N = 1024$ and $d = 64$). We describe the standard attention implementation in Algorithm. As some or most of the operations are memory-bound (e.g., softmax), the large number of memory accesses translates to slow wall-clock time.
 
@@ -54,10 +50,7 @@ This problem is exacerbated by other elementwise operations applied to the atten
 
 In Section 3.2, we will show that the standard attention implementation performs HBM accesses quadratic in the sequence length $N$. We also compare the number of FLOPs and number of HBM accesses of standard attention and of our method (FlashAttention).
 
-1: Load Q, K by blocks from HBM, compute S = QK⊤, write S to HBM.
-2: Read S from HBM, compute P = softmax (S), write P to HBM.
-3: Load P and V by blocks from HBM, compute O = PV, write O to HBM.
-Algorithm 0 Standard Attention Implementation
+1: Load Q, K by blocks from HBM, compute S = QK⊤, write S to HBM. 2: Read S from HBM, compute P = softmax (S), write P to HBM. 3: Load P and V by blocks from HBM, compute O = PV, write O to HBM. Algorithm 0 Standard Attention Implementation
 
 ## FlashAttention: Algorithm, Analysis, and Extensions
 
@@ -71,28 +64,13 @@ Given the inputs ${\mathbf{Q},\mathbf{K},\mathbf{V}} \in {\mathbb{R}}^{N \times 
 
 We apply two established techniques (tiling, recomputation) to overcome the technical challenge of computing exact attention in sub-quadratic HBM accesses. We describe this in Algorithm 1. The main idea is that we split the inputs $\mathbf{Q},\mathbf{K},\mathbf{V}$ into blocks, load them from slow HBM to fast SRAM, then compute the attention output with respect to those blocks. By scaling the output of each block by the right normalization factor before adding them up, we get the correct result at the end.
 
-Tiling. We compute attention by blocks. Softmax couples columns of $\mathbf{K}$, so we decompose the large softmax with scaling. For numerical stability, the softmax of vector $x \in {\mathbb{R}}^{B}$ is computed as:
-
-For vectors ${x^{},x^{}} \in {\mathbb{R}}^{B}$, we can decompose the softmax of the concatenated $x = \begin{bmatrix}
-\end{bmatrix} \in {\mathbb{R}}^{2B}$ as:
-
-Therefore if we keep track of some extra statistics (${m{(x)}},{\ell{(x)}}$), we can compute softmax one block at a time.^22^2This style of aggregation is called *algebraic aggregation*. We thus split the inputs $\mathbf{Q},\mathbf{K},\mathbf{V}$ into blocks (Algorithm 1 line 3), compute the softmax values along with extra statistics (Algorithm 1 line 10), and combine the results (Algorithm 1 line 12).
+Tiling. We compute attention by blocks. Softmax couples columns of $\mathbf{K}$, so we decompose the large softmax with scaling. For numerical stability, the softmax of vector $x \in {\mathbb{R}}^{B}$ is computed as: For vectors ${x^{},x^{}} \in {\mathbb{R}}^{B}$, we can decompose the softmax of the concatenated $x = \begin{bmatrix} \end{bmatrix} \in {\mathbb{R}}^{2B}$ as: Therefore if we keep track of some extra statistics (${m{(x)}},{\ell{(x)}}$), we can compute softmax one block at a time.^22^2This style of aggregation is called *algebraic aggregation*. We thus split the inputs $\mathbf{Q},\mathbf{K},\mathbf{V}$ into blocks (Algorithm 1 line 3), compute the softmax values along with extra statistics (Algorithm 1 line 10), and combine the results (Algorithm 1 line 12).
 
 Recomputation. One of our goals is to not store $O{(N^{2})}$ intermediate values for the backward pass. The backward pass typically requires the matrices ${\mathbf{S},\mathbf{P}} \in {\mathbb{R}}^{N \times N}$ to compute the gradients with respect to $\mathbf{Q},\mathbf{K},\mathbf{V}$. However, by storing the output $\mathbf{O}$ and the softmax normalization statistics $(m,\ell)$, we can recompute the attention matrix $\mathbf{S}$ and $\mathbf{P}$ easily in the backward pass from blocks of $\mathbf{Q},\mathbf{K},\mathbf{V}$ in SRAM. This can be seen as a form of selective gradient checkpointing. While gradient checkpointing has been suggested to reduce the maximum amount of memory required, all implementations (that we know off) have to trade speed for memory. In contrast, even with more FLOPs, our recomputation speeds up the backward pass due to reduced HBM accesses (Fig. 2). The full backward pass description is in Appendix B.
 
 Implementation details: Kernel fusion. Tiling enables us to implement our algorithm in one CUDA kernel, loading input from HBM, performing all the computation steps (matrix multiply, softmax, optionally masking and dropout, matrix multiply), then write the result back to HBM (masking and dropout in Appendix B). This avoids repeatedly reading and writing of inputs and outputs from and to HBM.
 
-0: Matrices Q, K, V ∈ ℝN × d in HBM, on-chip SRAM of size M.
-1: Set block sizes ${B_{c} = \left\lceil \frac{M}{4d} \right\rceil},{B_{r} = {\min\left( \left\lceil \frac{M}{4d} \right\rceil,d \right)}}$.
-3: Divide Q into $T_{r} = \left\lceil \frac{N}{B_{r}} \right\rceil$ blocks Q1, …, QTr of size Br × d each, and divide K, V in to $T_{c} = \left\lceil \frac{N}{B_{c}} \right\rceil$ blocks K1, …, KTc and V1, …, VTc, of size Bc × d each.
-4: Divide O into Tr blocks Oi, …, OTr of size Br × d each, divide ℓ into Tr blocks ℓi, …, ℓTr of size Br each, divide m into Tr blocks m1, …, mTr of size Br each.
-6: Load Kj, Vj from HBM to on-chip SRAM.
-8: Load Qi, Oi, ℓi, mi from HBM to on-chip SRAM.
-9: On chip, compute Si j = Qi KjT ∈ ℝBr × Bc.
-10: On chip, compute ${\overset{\sim}{m}}_{ij} = {{rowmax}{(\mathbf{S}_{ij})}} \in {\mathbb{R}}^{B_{r}}$, ${\overset{\sim}{\mathbf{P}}}_{ij} = {\exp{({\mathbf{S}_{ij} - {\overset{\sim}{m}}_{ij}})}} \in {\mathbb{R}}^{B_{r} \times B_{c}}$ (pointwise), ${\overset{\sim}{\ell}}_{ij} = {{rowsum}{({\overset{\sim}{\mathbf{P}}}_{ij})}} \in {\mathbb{R}}^{B_{r}}$.
-11: On chip, compute $m_{i}^{new} = {\max{(m_{i},{\overset{\sim}{m}}_{ij})}} \in {\mathbb{R}}^{B_{r}}$, $\ell_{i}^{new} = {{e^{m_{i} - m_{i}^{new}}\ell_{i}} + {e^{{\overset{\sim}{m}}_{ij} - m_{i}^{new}}{\overset{\sim}{\ell}}_{ij}}} \in {\mathbb{R}}^{B_{r}}$.
-12: Write $\mathbf{O}_{i}\leftarrow{{diag}{(\ell_{i}^{new})}^{- 1}{({{{diag}{(\ell_{i})}e^{m_{i} - m_{i}^{new}}\mathbf{O}_{i}} + {e^{{\overset{\sim}{m}}_{ij} - m_{i}^{new}}{\overset{\sim}{\mathbf{P}}}_{ij}\mathbf{V}_{j}}})}}$ to HBM.
-13: Write ℓi ← ℓinew, mi ← minew to HBM.
+0: Matrices Q, K, V ∈ ℝN × d in HBM, on-chip SRAM of size M. 1: Set block sizes ${B_{c} = \left\lceil \frac{M}{4d} \right\rceil},{B_{r} = {\min\left(\left\lceil \frac{M}{4d} \right\rceil,d \right)}}$. 3: Divide Q into $T_{r} = \left\lceil \frac{N}{B_{r}} \right\rceil$ blocks Q1, …, QTr of size Br × d each, and divide K, V in to $T_{c} = \left\lceil \frac{N}{B_{c}} \right\rceil$ blocks K1, …, KTc and V1, …, VTc, of size Bc × d each. 4: Divide O into Tr blocks Oi, …, OTr of size Br × d each, divide ℓ into Tr blocks ℓi, …, ℓTr of size Br each, divide m into Tr blocks m1, …, mTr of size Br each. 6: Load Kj, Vj from HBM to on-chip SRAM. 8: Load Qi, Oi, ℓi, mi from HBM to on-chip SRAM. 9: On chip, compute Si j = Qi KjT ∈ ℝBr × Bc. 10: On chip, compute ${\overset{\sim}{m}}_{ij} = {{rowmax}{(\mathbf{S}_{ij})}} \in {\mathbb{R}}^{B_{r}}$, ${\overset{\sim}{\mathbf{P}}}_{ij} = {\exp{({\mathbf{S}_{ij} - {\overset{\sim}{m}}_{ij}})}} \in {\mathbb{R}}^{B_{r} \times B_{c}}$ (pointwise), ${\overset{\sim}{\ell}}_{ij} = {{rowsum}{({\overset{\sim}{\mathbf{P}}}_{ij})}} \in {\mathbb{R}}^{B_{r}}$. 11: On chip, compute $m_{i}^{new} = {\max{(m_{i},{\overset{\sim}{m}}_{ij})}} \in {\mathbb{R}}^{B_{r}}$, $\ell_{i}^{new} = {{e^{m_{i} - m_{i}^{new}}\ell_{i}} + {e^{{\overset{\sim}{m}}_{ij} - m_{i}^{new}}{\overset{\sim}{\ell}}_{ij}}} \in {\mathbb{R}}^{B_{r}}$. 12: Write $\mathbf{O}_{i}\leftarrow{{diag}{(\ell_{i}^{new})}^{- 1}{({{{diag}{(\ell_{i})}e^{m_{i} - m_{i}^{new}}\mathbf{O}_{i}} + {e^{{\overset{\sim}{m}}_{ij} - m_{i}^{new}}{\overset{\sim}{\mathbf{P}}}_{ij}\mathbf{V}_{j}}})}}$ to HBM. 13: Write ℓi ← ℓinew, mi ← minew to HBM.
 
 We show FlashAttention's correctness, runtime, and memory requirement (proof in Appendix C).
 
@@ -128,9 +106,7 @@ Figure 2: Left: Forward + backward runtime of standard attention and FlashAttent
 
 We extend FlashAttention to approximate attention: we propose block-sparse FlashAttention, whose IO complexity is smaller than FlashAttention by a factor proportional to the sparsity.
 
-Given inputs ${\mathbf{Q},\mathbf{K},\mathbf{V}} \in {\mathbb{R}}^{N \times d}$ and a mask matrix $\overset{\sim}{\mathbf{M}} \in {\{ 0,1\}}^{N \times N}$, we want to compute:
-
-where ${({{\mathbf{S} \odot}1_{\overset{\sim}{\mathbf{M}}}})}_{kl} = \mathbf{S}_{kl}$ if ${\overset{\sim}{\mathbf{M}}}_{kl} = 1$ and $- \infty$ if $\mathbf{M}_{kl} = 0$. We require $\overset{\sim}{\mathbf{M}}$ to have block form: for some block sizes $B_{r},B_{c}$, for all $k,l$, ${\overset{\sim}{\mathbf{M}}}_{k,l} = \mathbf{M}_{ij}$ with ${i = {\lfloor{k/B_{r}}\rfloor}},{j = {\lfloor{l/B_{c}}\rfloor}}$ for some $\mathbf{M} \in {\{ 0,1\}}^{{{N/B_{r}} \times N}/B_{c}}$.
+Given inputs ${\mathbf{Q},\mathbf{K},\mathbf{V}} \in {\mathbb{R}}^{N \times d}$ and a mask matrix $\overset{\sim}{\mathbf{M}} \in {\{ 0,1\}}^{N \times N}$, we want to compute: where ${({{\mathbf{S} \odot}1_{\overset{\sim}{\mathbf{M}}}})}_{kl} = \mathbf{S}_{kl}$ if ${\overset{\sim}{\mathbf{M}}}_{kl} = 1$ and $- \infty$ if $\mathbf{M}_{kl} = 0$. We require $\overset{\sim}{\mathbf{M}}$ to have block form: for some block sizes $B_{r},B_{c}$, for all $k,l$, ${\overset{\sim}{\mathbf{M}}}_{k,l} = \mathbf{M}_{ij}$ with ${i = {\lfloor{k/B_{r}}\rfloor}},{j = {\lfloor{l/B_{c}}\rfloor}}$ for some $\mathbf{M} \in {\{ 0,1\}}^{{{N/B_{r}} \times N}/B_{c}}$.
 
 Given a predefined block sparsity mask $\mathbf{M} \in {\{ 0,1\}}^{{{N/B_{r}} \times N}/B_{c}}$ we can easily adapt Algorithm 1 to only compute the nonzero blocks of the attention matrix. The algorithm is identical to Algorithm 1, except we skip zero blocks. We reproduce the algorithm description in Algorithm 5 in Appendix B.
 
@@ -162,29 +138,13 @@ Additional experiment details are in Appendix E.
 
 FlashAttention yields the fastest single-node BERT training speed that we know of. We train a BERT-large model with FlashAttention on Wikipedia. Table 1 compares our training time to the implementation from Nvidia that set the training speed record for MLPerf 1.1. Our implementation is 15% faster.
 
-Training time (minutes)
-
-Table 1: Training time of BERT-large, starting from the same initialization provided by the MLPerf benchmark, to reach the target accuracy of 72.0% on masked language modeling. Averaged over 10 runs on 8×A100 GPUs.
+Training time (minutes) Table 1: Training time of BERT-large, starting from the same initialization provided by the MLPerf benchmark, to reach the target accuracy of 72.0% on masked language modeling. Averaged over 10 runs on 8×A100 GPUs.
 
 ### GPT-2
 
 FlashAttention yields faster training times for GPT-2 on the large OpenWebtext dataset than the widely used HuggingFace and Megatron-LM implementations. Table 2 shows up to 3$\times$ end-to-end speedup compared to Huggingface and 1.7$\times$ speedup compared to Megatron-LM. FlashAttention achieves the same perplexity as the other two implementations, as we do not change the model definition. Appendix E includes plots of the validation perplexity throughout training, confirming that FlashAttention is as numerically stable as the baselines and produces the same training / validation curves.
 
-Training time (speedup)
-
-GPT-2 small - Huggingface
-
-GPT-2 small - Megatron-LM
-
-GPT-2 small - FlashAttention
-
-GPT-2 medium - Huggingface
-
-GPT-2 medium - Megatron-LM
-
-GPT-2 medium - FlashAttention
-
-Table 2: GPT-2 small and medium using FlashAttention achieve up to 3× speed up compared to Huggingface implementation and up to 1.7× compared to Megatron-LM. Training time reported on 8×A100s GPUs.
+Training time (speedup) GPT-2 small - Huggingface GPT-2 small - Megatron-LM GPT-2 small - FlashAttention GPT-2 medium - Huggingface GPT-2 medium - Megatron-LM GPT-2 medium - FlashAttention Table 2: GPT-2 small and medium using FlashAttention achieve up to 3× speed up compared to Huggingface implementation and up to 1.7× compared to Megatron-LM. Training time reported on 8×A100s GPUs.
 
 ### Long-range Arena
 
@@ -198,17 +158,7 @@ Table 3: The performance of standard attention, FlashAttention, block-sparse Fla
 
 The runtime and memory-efficiency of FlashAttention allow us to increase the context length of GPT-2 by 4$\times$ while still running faster than the optimized implementation from Megatron-LM. Table 4 shows that that GPT-2 with FlashAttention and context length 4K is still 30% faster than GPT-2 from Megatron with context length 1K, while achieving 0.7 better perplexity.
 
-Training time (speedup)
-
-GPT-2 small - Megatron-LM
-
-GPT-2 small - FlashAttention
-
-GPT-2 small - FlashAttention
-
-GPT-2 small - FlashAttention
-
-Table 4: GPT-2 small with FlashAttention, with 4× larger context length compared to Megatron-LM, is still 30% faster while achieving 0.7 better perplexity. Training time on 8×A100 GPUs is reported.
+Training time (speedup) GPT-2 small - Megatron-LM GPT-2 small - FlashAttention GPT-2 small - FlashAttention GPT-2 small - FlashAttention Table 4: GPT-2 small with FlashAttention, with 4× larger context length compared to Megatron-LM, is still 30% faster while achieving 0.7 better perplexity. Training time on 8×A100 GPUs is reported.
 
 ### Long Document Classification
 

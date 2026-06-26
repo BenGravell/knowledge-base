@@ -20,9 +20,7 @@ A multitude of tree search technique-based approaches have been explored in auto
 
 ### I-B Contributions
 
-Our contributions are as follows:
-
-We introduce a novel framework for solving behavior planning problems through the application of the Monte-Carlo Tree Search (MCTS) algorithm, offers a unique way to navigate the intricate and dynamic landscape of autonomous driving scenarios.
+Our contributions are as follows: We introduce a novel framework for solving behavior planning problems through the application of the Monte-Carlo Tree Search (MCTS) algorithm, offers a unique way to navigate the intricate and dynamic landscape of autonomous driving scenarios.
 
 We delve into the intricacies of designing a versatile cost function that encapsulates safety, passability, and comfortability considerations. This cost function acts as the guiding compass for the MCTS algorithm, ensuring that the resulting decisions are not only efficient but also in harmony with human driving norms.
 
@@ -38,9 +36,7 @@ The behavior planning problem for autonomous driving can be formulated as an opt
 
 ### II-A Objective Function
 
-The objective function of the optimization problem can be represented as:
-
-where, $J$ is the total cost to be minimized; $C_{s}{(t)}$, $C_{c}{(t)}$, $C_{p}{(t)}$, and $C_{o}{(t)}$ are the safety, comfortability, passibility, and other factors costs at time $t$, respectively; $\omega_{s}$, $\omega_{c}$, $\omega_{p}$, and $\omega_{o}$ are the weights associated with safety, comfortability, passibility, and other factors, respectively. These weights determine the relative importance of each cost component in the objective function; $T$ is the total time horizon.
+The objective function of the optimization problem can be represented as: where, $J$ is the total cost to be minimized; $C_{s}{(t)}$, $C_{c}{(t)}$, $C_{p}{(t)}$, and $C_{o}{(t)}$ are the safety, comfortability, passibility, and other factors costs at time $t$, respectively; $\omega_{s}$, $\omega_{c}$, $\omega_{p}$, and $\omega_{o}$ are the weights associated with safety, comfortability, passibility, and other factors, respectively. These weights determine the relative importance of each cost component in the objective function; $T$ is the total time horizon.
 
 The goal of the behavior planner is to determine a sequence of actions that minimizes this objective function while satisfying all vehicle and environmental constraints. The decision-making process must adhere to several constraints to ensure feasible and safe vehicle operation. These constraints can be categorized into two main groups:
 
@@ -56,37 +52,27 @@ These constraints are related to the vehicle's interaction with its environment,
 
 The safety cost is associated with the risk of collision or any other hazardous situations that the vehicle, referred to as the ego vehicle, might encounter. It is quantified based on the proximity of the ego vehicle to other vehicles in its environment.
 
-Let $d_{ij}{(t)}$ represent the distance between the ego vehicle $i$ and another vehicle $j$ at time $t$. The safety cost $C_{s}$ at time $t$ can be represented as a function of $d_{ij}{(t)}$:
+Let $d_{ij}{(t)}$ represent the distance between the ego vehicle $i$ and another vehicle $j$ at time $t$. The safety cost $C_{s}$ at time $t$ can be represented as a function of $d_{ij}{(t)}$: where $f{(\cdot)}$ is a function that increases as $d_{ij}{(t)}$ decreases, representing a higher safety cost as vehicles get closer. Specifically, if $d_{ij}{(t)}$ falls below a certain threshold, indicating that the two vehicles are getting too close, the safety cost will increase significantly. If a collision occurs, a prohibitively large cost will be generated.
 
-where $f{( \cdot )}$ is a function that increases as $d_{ij}{(t)}$ decreases, representing a higher safety cost as vehicles get closer. Specifically, if $d_{ij}{(t)}$ falls below a certain threshold, indicating that the two vehicles are getting too close, the safety cost will increase significantly. If a collision occurs, a prohibitively large cost will be generated.
-
-The function $f{( \cdot )}$ may be designed in various ways, but it is generally required to be continuous and monotonically increasing as the distance between vehicles decreases. For example, one possible formulation of $f{( \cdot )}$ can be:
-
-where $d_{\text{thresh}}$ is a threshold distance below which the safety cost starts to increase. If $d_{ij}{(t)}$ is greater than $d_{\text{thresh}}$, the safety cost is zero, indicating that there is no imminent risk of collision. If $d_{ij}{(t)}$ is equal to zero, indicating a collision, the safety cost is infinite.
+The function $f{(\cdot)}$ may be designed in various ways, but it is generally required to be continuous and monotonically increasing as the distance between vehicles decreases. For example, one possible formulation of $f{(\cdot)}$ can be: where $d_{\text{thresh}}$ is a threshold distance below which the safety cost starts to increase. If $d_{ij}{(t)}$ is greater than $d_{\text{thresh}}$, the safety cost is zero, indicating that there is no imminent risk of collision. If $d_{ij}{(t)}$ is equal to zero, indicating a collision, the safety cost is infinite.
 
 ### II-C Comfortability Cost ($C_{c}$)
 
 Comfortability is a crucial consideration in autonomous vehicle navigation, as it greatly affects the passenger experience. One of the key factors affecting comfort is the jerk experienced by the vehicle, which is the rate of change of acceleration. A smooth ride involves minimizing jerk, whereas abrupt changes in acceleration, leading to high jerk, are generally uncomfortable for passengers.
 
-The jerk experienced by the vehicle at time $t$ can be represented as $j{(t)}$. The comfortability cost associated with jerk can be represented as a function of $j{(t)}$. A simple formulation for $f{( \cdot )}$ could be a quadratic function:
-
-where $k$ is a positive constant that determines the weight of the jerk in the comfortability cost. The specific formulation of $C_{c}{(t)}$ can be customized based on the requirements of the study and the desired level of passenger comfort.
+The jerk experienced by the vehicle at time $t$ can be represented as $j{(t)}$. The comfortability cost associated with jerk can be represented as a function of $j{(t)}$. A simple formulation for $f{(\cdot)}$ could be a quadratic function: where $k$ is a positive constant that determines the weight of the jerk in the comfortability cost. The specific formulation of $C_{c}{(t)}$ can be customized based on the requirements of the study and the desired level of passenger comfort.
 
 ### II-D Passibility Cost ($C_{p}$)
 
 The passibility cost is associated with the ability of the vehicle to navigate successfully towards its goals in specific environments. This cost component includes various factors such as the distance to the local goal and the nature of the environment the vehicle is navigating through (e.g., intersection, highway ramp, etc.).
 
-The local goal is a short-term target provided by upstream components of the autonomous driving system, such as the route planner. Let $d_{\text{goal}}{(t)}$ represent the distance between the vehicle and the local goal at time $t$. The passibility cost associated with the distance to the local goal can be represented as a function of $d_{\text{goal}}{(t)}$:
+The local goal is a short-term target provided by upstream components of the autonomous driving system, such as the route planner. Let $d_{\text{goal}}{(t)}$ represent the distance between the vehicle and the local goal at time $t$. The passibility cost associated with the distance to the local goal can be represented as a function of $d_{\text{goal}}{(t)}$: where $g{(\cdot)}$ is a function that increases as $d_{\text{goal}}{(t)}$ increases, representing a higher passibility cost as the vehicle is farther from its local goal. The specific formulation of $g{(\cdot)}$ can be customized based on the requirements.
 
-where $g{( \cdot )}$ is a function that increases as $d_{\text{goal}}{(t)}$ increases, representing a higher passibility cost as the vehicle is farther from its local goal. The specific formulation of $g{( \cdot )}$ can be customized based on the requirements.
-
-Additionally, the passibility cost also considers the nature of the environment the vehicle is navigating through. For example, if the vehicle is passing through an intersection or exiting the highway through a ramp, the passibility cost should reflect whether the vehicle passed the intersection or exited the ramp. For example, the passibility cost associated with the intersection can be represented as:
-
-The total passibility cost $C_{p}{(t)}$ at time $t$ can then be represented as the summation of $C_{p1}{(t)}$ and $C_{p2}{(t)}$.
+Additionally, the passibility cost also considers the nature of the environment the vehicle is navigating through. For example, if the vehicle is passing through an intersection or exiting the highway through a ramp, the passibility cost should reflect whether the vehicle passed the intersection or exited the ramp. For example, the passibility cost associated with the intersection can be represented as: The total passibility cost $C_{p}{(t)}$ at time $t$ can then be represented as the summation of $C_{p1}{(t)}$ and $C_{p2}{(t)}$.
 
 ### II-E Other Costs ($C_{o}$)
 
-In addition to the safety, passability, and comfortability costs, there are other associated costs related to specific driving behaviors such as lane change, bypass, and so on. These behaviors are often necessary for efficient navigation but may also incur additional costs related to safety, time, or energy consumption.
+In addition to the safety, passability, and comfortability costs, there are other associated costs related to specific driving behaviors such as lane change, bypass, and so . These behaviors are often necessary for efficient navigation but may also incur additional costs related to safety, time, or energy consumption.
 
 For example, a cost can be associated with a lane change to discourage unnecessary maneuvers and ensure that it is done safely and comfortably when a lane change is performed.
 
@@ -114,9 +100,7 @@ Lateral Movements: These include lane keep, left lane change, and right lane cha
 
 ### III-B Tree Traversal
 
-The tree is traversed by iteratively selecting actions and transitioning to the corresponding children nodes until a terminal state is reached. The selection of actions is guided by the Upper Confidence Bound (UCB) value, which balances the exploration of new actions and the exploitation of actions that are already known. In the UCB formula:
-
-where $\text{UCB}{(v_{i})}$ is the Upper Confidence Bound for a node $v_{i}$ in the MCTS tree, $C{(v^{\prime})}$ is the total cost associated with the child node $v^{\prime}$, and $n{(v^{\prime})}$ is he number of times the child node $v^{\prime}$ has been visited. $N$ is the total number of times the parent node $v_{i}$ has been visited and $const$ is constant determining the exploration versus exploitation level.
+The tree is traversed by iteratively selecting actions and transitioning to the corresponding children nodes until a terminal state is reached. The selection of actions is guided by the Upper Confidence Bound (UCB) value, which balances the exploration of new actions and the exploitation of actions that are already known. In the UCB formula: where $\text{UCB}{(v_{i})}$ is the Upper Confidence Bound for a node $v_{i}$ in the MCTS tree, $C{(v')}$ is the total cost associated with the child node $v'$, and $n{(v')}$ is he number of times the child node $v'$ has been visited. $N$ is the total number of times the parent node $v_{i}$ has been visited and $const$ is constant determining the exploration versus exploitation level.
 
 This algorithmic approach empowers the behavior planner to explore potential sequences of actions, gradually honing in on decisions that maximize the desired objectives while accommodating safety, kinematic, and environmental constraints.
 
@@ -148,26 +132,13 @@ At the end of the MCTS process, the action associated with the edge leading from
 
 After the optimal action is executed, the state of the environment will change as a result of the action and the movements of other vehicles. Therefore, in the next step, the MCTS process is regenerated and the planning is redone in a receding horizon planning paradigm. This approach ensures that the behavior planner can adapt to the changing environment and make intelligent decisions in real-time.
 
-1 function MCTS(𝑇𝑟𝑒𝑒,Map info,initial state of vehicles)
-2 Create root node v0;
-3 while maximum number of iterations not reached do
-4 vi ← MCTS_UCB_Selection(𝑇𝑟𝑒𝑒,v0)
-5 if level(vi) &lt; T1 and n(vi) = 0 then
-6 Tree ← Expand(Tree,vi) if Collide detected then
-15 // Update total cost value C(vi) ← C(vi) + C
-Algorithm 1 Monte-Carlo Tree Search
-
-// Update with random actions
-2 while level(v) ≠ TERMINAL do
-3 v← choose a longitudinal action in constraints at random
-// Compute Accumulated Cost
-Algorithm 2 MCTS Behavior Planner Rollout
+1 function MCTS(𝑇𝑟𝑒𝑒, Map info, initial state of vehicles) 2 Create root node v0; 3 while maximum number of iterations not reached do 4 vi ← MCTS_UCB_Selection(𝑇𝑟𝑒𝑒, v0) 5 if level(vi) < T1 and n(vi) = 0 then 6 Tree ← Expand(Tree,vi) if Collide detected then 15 // Update total cost value C(vi) ← C(vi) + C Algorithm 1 Monte-Carlo Tree Search // Update with random actions 2 while level(v) ≠ TERMINAL do 3 v← choose a longitudinal action in constraints at random // Compute Accumulated Cost Algorithm 2 MCTS Behavior Planner Rollout
 
 ## Qualitative Results
 
 This section presents the qualitative results obtained by simulating the proposed behavior planning approach in various representative urban and highway scenarios. The simulations were carried out using MATLAB 2023a with Autonomous Driving Toolbox 3.7, assuming that the map information is accurate and the sensing and prediction of other vehicles are precise. The simulation is carried out in Frenet coordinates, a way of representing the position of an object on the road in terms of two orthogonal directions: one along the road (s-coordinate) and one perpendicular to the road (d-coordinate).
 
-For a detailed breakdown of all parameter settings, as well as animated GIF figures illustrating the simulations in more richly detailed environments, please refer to our GitHub repository^11^1More qualitative results are available at [https://github.com/zhongshun/MCTS_for_Behavior_Planning](https://github.com/zhongshun/MCTS_for_Behavior_Planning) or supplement video documents.
+For a detailed breakdown of all parameter settings, as well as animated GIF figures illustrating the simulations in more richly detailed environments, please refer to our GitHub repository^11^1More qualitative results are available at or supplement video documents.
 
 ### IV-A Performance in Typical Scenarios
 
@@ -185,13 +156,13 @@ Figure 2: The autonomous vehicle successfully negotiating an intersection withou
 
 ### IV-A2 Merging and Navigation on Ramps
 
-This scenario demonstrates the vehicle's ability to handle sudden cut-ins and exit highway ramps in heavy traffic flow. The MCTS planner showcases its capability to make non-conservative yet safe decisions, similar to a human driver, by performing an overtake and navigating a sudden cut-in.
+This scenario demonstrates the vehicle's ability to handle sudden cut-ins and exit highway ramps in heavy traffic flow. The MCTS planner showcases its capability to make non-conservative yet safe decisions, similar to a human driver, by performing an overtake and navigating a sudden cut-.
 
-In the first plot (Figure 3-(a)), as the ego vehicle (blue) approaches the ramp, a yellow vehicle traveling at a slow speed intends to cut into the ego's lane just as the ego vehicle is about to exit the highway through the ramp. The second plot (Figure 3-(b)) shows that the MCTS planner decides to change lanes to the left to avoid a collision or the need for deceleration due to the sudden cut-in. After making the lane change, the third plot (Figure 3-(c)) shows that the MCTS planner directs the ego vehicle to accelerate to overtake the yellow vehicle. Finally, while overtaking the vehicle in front, the ego vehicle changes lanes and successfully exits the highway through the ramp.
+In the first plot (Figure 3-(a)), as the ego vehicle (blue) approaches the ramp, a yellow vehicle traveling at a slow speed intends to cut into the ego's lane just as the ego vehicle is about to exit the highway through the ramp. The second plot (Figure 3-(b)) shows that the MCTS planner decides to change lanes to the left to avoid a collision or the need for deceleration due to the sudden cut-. After making the lane change, the third plot (Figure 3-(c)) shows that the MCTS planner directs the ego vehicle to accelerate to overtake the yellow vehicle. Finally, while overtaking the vehicle in front, the ego vehicle changes lanes and successfully exits the highway through the ramp.
 
 (a) T = 4s. The Ego vehicle detects a slow-moving yellow vehicle intending to cut in as it approaches the exit ramp.
 
-(b) T = 5s. The MCTS planner decides to change lanes to the left to avoid a collision or deceleration due to the sudden cut-in.
+(b) T = 5s. The MCTS planner decides to change lanes to the left to avoid a collision or deceleration due to the sudden cut-.
 
 (c) T = 11s. After changing lanes, the MCTS planner directs the Ego vehicle to accelerate and overtake the yellow vehicle.
 
@@ -215,9 +186,7 @@ This scenario serves as a relative baseline for our experiments. The ego vehicle
 
 The heterogeneity in the complexity of these scenarios aids in showcasing the robustness and adaptability of the MCTS planner. The first scenario, ULTI, poses the stiffest challenge, demanding rapid yet precise decision-making to exploit narrow windows of opportunity. HE, the highway exit scenario, offers moderate complexity, while the SLN scenario, emphasizing straight-line navigation, tests the planner's ability to maintain safe, steady navigation amid other vehicles.
 
-Rate of Finding the
-
-TABLE I: Performance of MCTS with different iteration times.
+Rate of Finding the TABLE I: Performance of MCTS with different iteration times.
 
 From the tabulated results (Table I ‣ V Quantitative Results ‣ Monte-Carlo Tree Search for Behavior Planning in Autonomous Driving")), it is evident that the Monte Carlo Tree Search (MCTS) showcases commendable robustness across diverse scenarios. In the Straight-line Navigation (SLN) scenario, MCTS virtually achieves perfection, obtaining near-optimal solutions 100% of the time for certain iteration counts, and with negligible collision percentages. Similarly, in the Highway Exit (HE) scenario, rates for finding near-optimal solutions are consistently above 95%, with a marginal collision rate.
 

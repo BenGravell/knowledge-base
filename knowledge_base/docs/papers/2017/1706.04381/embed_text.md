@@ -18,19 +18,13 @@ Let $\mathbb{R}$ and ${\mathbb{R}}_{+}$ denote the real and nonnegative real num
 
 ### Classical Dissipativity Theory
 
-Consider a linear dynamical system governed by the state-space model
-
-Here, $\xi_{k} \in {\mathbb{R}}^{n_{\xi}}$ is the state, $w_{k} \in {\mathbb{R}}^{n_{w}}$ is the input, $A \in {\mathbb{R}}^{n_{\xi} \times n_{\xi}}$ is the state transition matrix, and $B \in {\mathbb{R}}^{n_{\xi} \times n_{w}}$ is the input matrix. The input $w_{k}$ can be physically interpreted as a driving force. Classical dissipativity theory describes how the internal energy stored in the state $\xi_{k}$ evolves with time $k$ as one applies the input $w_{k}$ to drive the system. A key concept in dissipativity theory is the supply rate, which characterizes the energy change in $\xi_{k}$ due to the driving force $w_{k}$. The supply rate is a function $S:{{{\mathbb{R}}^{n_{\xi}} \times {\mathbb{R}}^{n_{w}}}\rightarrow{\mathbb{R}}}$ that maps any state/input pair $(\xi,w)$ to a scalar measuring the amount of energy delivered from $w$ to state $\xi$. Now we introduce the notion of dissipativity.
+Consider a linear dynamical system governed by the state-space model Here, $\xi_{k} \in {\mathbb{R}}^{n_{\xi}}$ is the state, $w_{k} \in {\mathbb{R}}^{n_{w}}$ is the input, $A \in {\mathbb{R}}^{n_{\xi} \times n_{\xi}}$ is the state transition matrix, and $B \in {\mathbb{R}}^{n_{\xi} \times n_{w}}$ is the input matrix. The input $w_{k}$ can be physically interpreted as a driving force. Classical dissipativity theory describes how the internal energy stored in the state $\xi_{k}$ evolves with time $k$ as one applies the input $w_{k}$ to drive the system. A key concept in dissipativity theory is the supply rate, which characterizes the energy change in $\xi_{k}$ due to the driving force $w_{k}$. The supply rate is a function $S:{{{\mathbb{R}}^{n_{\xi}} \times {\mathbb{R}}^{n_{w}}}\rightarrow{\mathbb{R}}}$ that maps any state/input pair $(\xi,w)$ to a scalar measuring the amount of energy delivered from $w$ to state $\xi$. Now we introduce the notion of dissipativity.
 
 ### Definition 1
 
-The dynamical system is dissipative with respect to the supply rate $S$ if there exists a function $V:{{\mathbb{R}}^{n_{\xi}}\rightarrow{\mathbb{R}}_{+}}$ such that ${V{(\xi)}} \geq 0$ for all $\xi \in {\mathbb{R}}^{n_{\xi}}$ and
+The dynamical system is dissipative with respect to the supply rate $S$ if there exists a function $V:{{\mathbb{R}}^{n_{\xi}}\rightarrow{\mathbb{R}}_{+}}$ such that ${V{(\xi)}} \geq 0$ for all $\xi \in {\mathbb{R}}^{n_{\xi}}$ and for all $k$. The function $V$ is called a storage function, which quantifies the energy stored in the state $\xi$. In addition, is called the dissipation inequality.
 
-for all $k$. The function $V$ is called a storage function, which quantifies the energy stored in the state $\xi$. In addition, is called the dissipation inequality.
-
-The dissipation inequality states that the change of the internal energy stored in $\xi_{k}$ is equal to the difference between the supplied energy and the dissipated energy. Since there will always be some energy dissipating from the system, the change in the stored energy (which is exactly ${V{(\xi_{k + 1})}} - {V{(\xi_{k})}}$) is always bounded above by the energy supplied to the system (which is exactly $S{(\xi_{k},w_{k})}$). A variant of known as the exponential dissipation inequality states that for some $0 \leq \rho < 1$, we have
-
-which states that at least a fraction $({1 - \rho^{2}})$ of the internal energy will dissipate at every step.
+The dissipation inequality states that the change of the internal energy stored in $\xi_{k}$ is equal to the difference between the supplied energy and the dissipated energy. Since there will always be some energy dissipating from the system, the change in the stored energy (which is exactly ${V{(\xi_{k + 1})}} - {V{(\xi_{k})}}$) is always bounded above by the energy supplied to the system (which is exactly $S{(\xi_{k},w_{k})}$). A variant of known as the exponential dissipation inequality states that for some $0 \leq \rho < 1$, we have which states that at least a fraction $({1 - \rho^{2}})$ of the internal energy will dissipate at every step.
 
 The dissipation inequality provides a direct way to construct a Lyapunov function based on the storage function. It is often the case that we have prior knowledge about how the driving force $w_{k}$ is related to the state $\xi_{k}$. Thus, we may know additional information about the supply rate function $S{(\xi_{k},w_{k})}$. For example, if ${S{(\xi_{k},w_{k})}} \leq 0$ for all $k$ then directly implies that ${V{(\xi_{k + 1})}} \leq {\rho^{2}V{(\xi_{k})}}$, and the storage function $V$ can serve as a Lyapunov function. The condition ${S{(\xi_{k},w_{k})}} \leq 0$ means that the driving force $w_{k}$ does not inject any energy into the system and may even extract energy out of the system. Then, the internal energy will decrease no slower than the linear rate $\rho^{2}$ and approach a minimum value at equilibrium.
 
@@ -40,15 +34,9 @@ An advantage of dissipativity theory is that for any quadratic supply rate, one 
 
 Consider the following quadratic supply rate with $X \in {\mathbb{R}}^{{({n_{\xi} + n_{w}})} \times {({n_{\xi} + n_{w}})}}$ and $X = X^{\mathsf{T}}$.
 
-If there exists a matrix $P \in {\mathbb{R}}^{n_{\xi} \times n_{\xi}}$ with $P \geq 0$ such that
+If there exists a matrix $P \in {\mathbb{R}}^{n_{\xi} \times n_{\xi}}$ with $P \geq 0$ such that then the dissipation inequality holds for all trajectories of with ${V{(\xi)}}{: =}{\xi^{\mathsf{T}}P\xi}$.
 
-then the dissipation inequality holds for all trajectories of with ${V{(\xi)}}{: =}{\xi^{\mathsf{T}}P\xi}$.
-
-Proof. Based on the state-space model, we have
-
-Hence we can left and right multiply by $\begin{bmatrix}
-\end{bmatrix}$ and $\begin{bmatrix}
-\end{bmatrix}^{\mathsf{T}}$, and directly obtain the desired conclusion.
+Proof. Based on the state-space model, we have | | \end{bmatrix}^{\mathsf{T}}\begin{bmatrix} | | | | \end{bmatrix}\begin{bmatrix} | | Hence we can left and right multiply by $\begin{bmatrix} \end{bmatrix}$ and $\begin{bmatrix} \end{bmatrix}^{\mathsf{T}}$, and directly obtain the desired conclusion.
 
 The left-hand side of is linear in $P$, so is a *linear matrix inequality* (LMI) for any fixed $A,B,X,\rho$. The set of $P$ such that holds is therefore a convex set and can be efficiently searched using interior point methods, for example. To apply the dissipativity theory for linear convergence rate analysis, one typically follows two steps.
 
@@ -60,15 +48,7 @@ In step 2, the LMI obtained is typically very small, e.g. $2 \times 2$ or $3 \ti
 
 ### Example: Dissipativity for Gradient Descent
 
-There is an intrinsic connection between dissipativity theory and the IQC approach. The IQC analysis of the gradient descent method in Lessard et al. may be reframed using dissipativity theory. Then, the pointwise IQC amounts to using a quadratic supply rate $S$ with $S \leq 0$. Specifically, assume $f$ is $L$-smooth and $m$-strongly convex, and consider the gradient descent method
-
-We have ${x_{k + 1} - x_{\star}} = {x_{k} - x_{\star} - {\alpha{\nabla f}{(x_{k})}}}$, where $x_{\star}$ is the unique point satisfying ${{\nabla f}{(x_{\star})}} = 0$. Define $\xi_{k}{: =}{x_{k} - x_{\star}}$ and $w_{k}{: =}{{\nabla f}{(x_{k})}}$. Then the gradient descent method is modeled by with $A{: =}I_{p}$ and $B{: =}{- {\alphaI_{p}}}$. Since $w_{k} = {{\nabla f}{({\xi_{k} + x_{\star}})}}$, we can define the following quadratic supply rate
-
-By co-coercivity, we have ${S{(\xi_{k},w_{k})}} \leq 0$ for all $k$. This just restates Lessard et al.. Then, we can directly apply Theorem 2 to construct the dissipation inequality. We can parameterize $P = {p \otimes I_{p}}$ and define the storage function as ${V{(\xi_{k})}} = {p{\parallel\xi_{k}\parallel}^{2}} = {p{\parallel{x_{k} - x_{\star}}\parallel}^{2}}$. The LMI becomes
-
-Hence for any $0 \leq \rho < 1$, we have ${p{\parallel{x_{k + 1} - x_{\star}}\parallel}^{2}} \leq {\rho^{2}p{\parallel{x_{k} - x_{\star}}\parallel}^{2}}$ if there exists $p \geq 0$ such that
-
-The LMI is simple and can be analytically solved to recover the existing rate results for the gradient descent method. For example, we can choose $(\alpha,\rho,p)$ to be $(\frac{1}{L},{1 - \frac{m}{L}},L^{2})$ or $(\frac{2}{L + m},\frac{L - m}{L + m},\frac{1}{2}{(L + m)}^{2}$) to immediately recover the standard rate results in Polyak.
+There is an intrinsic connection between dissipativity theory and the IQC approach. The IQC analysis of the gradient descent method in Lessard et al. may be reframed using dissipativity theory. Then, the pointwise IQC amounts to using a quadratic supply rate $S$ with $S \leq 0$. Specifically, assume $f$ is $L$-smooth and $m$-strongly convex, and consider the gradient descent method We have ${x_{k + 1} - x_{\star}} = {x_{k} - x_{\star} - {\alpha{\nabla f}{(x_{k})}}}$, where $x_{\star}$ is the unique point satisfying ${{\nabla f}{(x_{\star})}} = 0$. Define $\xi_{k}{: =}{x_{k} - x_{\star}}$ and $w_{k}{: =}{{\nabla f}{(x_{k})}}$. Then the gradient descent method is modeled by with $A{: =}I_{p}$ and $B{: =}{- {\alphaI_{p}}}$. Since $w_{k} = {{\nabla f}{({\xi_{k} + x_{\star}})}}$, we can define the following quadratic supply rate By co-coercivity, we have ${S{(\xi_{k},w_{k})}} \leq 0$ for all $k$. This just restates Lessard et al.. Then, we can directly apply Theorem 2 to construct the dissipation inequality. We can parameterize $P = {p \otimes I_{p}}$ and define the storage function as ${V{(\xi_{k})}} = {p{\parallel\xi_{k}\parallel}^{2}} = {p{\parallel{x_{k} - x_{\star}}\parallel}^{2}}$. The LMI becomes Hence for any $0 \leq \rho < 1$, we have ${p{\parallel{x_{k + 1} - x_{\star}}\parallel}^{2}} \leq {\rho^{2}p{\parallel{x_{k} - x_{\star}}\parallel}^{2}}$ if there exists $p \geq 0$ such that The LMI is simple and can be analytically solved to recover the existing rate results for the gradient descent method. For example, we can choose $(\alpha,\rho,p)$ to be $(\frac{1}{L},{1 - \frac{m}{L}},L^{2})$ or $(\frac{2}{L + m},\frac{L - m}{L + m},\frac{1}{2}{(L + m)}^{2}$) to immediately recover the standard rate results in Polyak.
 
 Based on the example above, it is evident that choosing a proper supply rate is critical for the construction of a Lyapunov function. The supply rate turns out to be inadequate for the analysis of Nesterov's accelerated method. For Nesterov's accelerated method, the dependence between the internal energy and the driving force is more complicated due to the presence of momentum terms. We will next develop a new supply rate that captures this complicated dependence. We will also make use of this new supply rate to recover the standard linear rate results for Nesterov's accelerated method.
 
@@ -76,65 +56,35 @@ Based on the example above, it is evident that choosing a proper supply rate is 
 
 ### Dissipativity for Nesterov's Method
 
-Suppose $f$ is $L$-smooth and $m$-strongly convex with $m > 0$. Let $x_{\star}$ be the unique point satisfying ${{\nabla f}{(x_{\star})}} = 0$. Now we consider Nesterov's accelerated method, which uses the following iteration rule to find $x_{\star}$:
-
-where $w_{k}{: =}{{\nabla f}{(y_{k})}} = {{\nabla f}\left( {{{({1 + \beta})}x_{k}} - {\betax_{k - 1}}} \right)}$. Also, $A{: =}{\overset{\sim}{A} \otimes I_{p}}$, $B{: =}{\overset{\sim}{B} \otimes I_{p}}$, and $\overset{\sim}{A},\overset{\sim}{B}$ are defined by
-
-Hence, Nesterov's accelerated method is in the form of with $\xi_{k} = \begin{bmatrix}
-{({x_{k} - x_{\star}})}^{\mathsf{T}} & {({x_{k - 1} - x_{\star}})}^{\mathsf{T}}
-\end{bmatrix}^{\mathsf{T}}$.
+Suppose $f$ is $L$-smooth and $m$-strongly convex with $m > 0$. Let $x_{\star}$ be the unique point satisfying ${{\nabla f}{(x_{\star})}} = 0$. Now we consider Nesterov's accelerated method, which uses the following iteration rule to find $x_{\star}$: | | \end{bmatrix} = {{A\begin{bmatrix} | | | where $w_{k}{: =}{{\nabla f}{(y_{k})}} = {{\nabla f}\left({{{({1 + \beta})}x_{k}} - {\betax_{k - 1}}} \right)}$. Also, $A{: =}{\overset{\sim}{A} \otimes I_{p}}$, $B{: =}{\overset{\sim}{B} \otimes I_{p}}$, and $\overset{\sim}{A},\overset{\sim}{B}$ are defined by Hence, Nesterov's accelerated method is in the form of with $\xi_{k} = \begin{bmatrix} {({x_{k} - x_{\star}})}^{\mathsf{T}} & {({x_{k - 1} - x_{\star}})}^{\mathsf{T}} \end{bmatrix}^{\mathsf{T}}$.
 
 Nesterov's accelerated method can improve the convergence rate since the input $w_{k}$ depends on both $x_{k}$ and $x_{k - 1}$, and drives the state in a specific direction, i.e. along ${{({1 + \beta})}x_{k}} - {\betax_{k - 1}}$. This leads to a supply rate that extracts energy out of the system significantly faster than with gradient descent. This is formally stated in the next lemma.
 
 ### Lemma 3
 
-Let $f$ be $L$-smooth and $m$-strongly convex with $m > 0$. Let $x_{\star}$ be the unique point satisfying ${{\nabla f}{(x_{\star})}} = 0$. Consider Nesterov's method or equivalently. The following inequalities hold for all trajectories.
-
-where $X_{i} = {{\overset{\sim}{X}}_{i} \otimes I_{p}}$ for $i = {1,2}$, and ${\overset{\sim}{X}}_{i}$ are defined by
-
-Given any $0 \leq \rho \leq 1$, one can define the supply rate as with a particular choice of $X{: =}{{\rho^{2}X_{1}} + {{({1 - \rho^{2}})}X_{2}}}$. Then this supply rate satisfies the condition
-
-Proof. The proof is similar to the proof of (3.23)--(3.24) in Bubeck, but Bubeck must be modified to account for the strong convexity of $f$. See the supplementary material for a detailed proof.
+Let $f$ be $L$-smooth and $m$-strongly convex with $m > 0$. Let $x_{\star}$ be the unique point satisfying ${{\nabla f}{(x_{\star})}} = 0$. Consider Nesterov's method or equivalently. The following inequalities hold for all trajectories. where $X_{i} = {{\overset{\sim}{X}}_{i} \otimes I_{p}}$ for $i = {1,2}$, and ${\overset{\sim}{X}}_{i}$ are defined by Given any $0 \leq \rho \leq 1$, one can define the supply rate as with a particular choice of $X{: =}{{\rho^{2}X_{1}} + {{({1 - \rho^{2}})}X_{2}}}$. Then this supply rate satisfies the condition Proof. The proof is similar to the proof of (3.23)--(3.24) in Bubeck, but Bubeck must be modified to account for the strong convexity of $f$. See the supplementary material for a detailed proof.
 
 The supply rate captures how the driving force $w_{k}$ is impacting the future state $x_{k + 1}$. The physical interpretation is that there is some amount of hidden energy in the system that takes the form of ${f{(x_{k})}} - {f{(x_{\star})}}$. The supply rate condition describes how the driving force $w_{k}$ is coupled with the hidden energy in the future. It says the delivered energy is bounded by a weighted decrease of the hidden energy. Based on this supply rate, one can search Lyapunov function using the following theorem.
 
 ### Theorem 4
 
-Let $f$ be $L$-smooth and $m$-strongly convex with $m > 0$. Let $x_{\star}$ be the unique point satisfying ${{\nabla f}{(x_{\star})}} = 0$. Consider Nesterov's accelerated method. For any rate $0 \leq \rho < 1$, set $\overset{\sim}{X}{: =}{{\rho^{2}{\overset{\sim}{X}}_{1}} + {{({1 - \rho^{2}})}{\overset{\sim}{X}}_{2}}}$ where ${\overset{\sim}{X}}_{1}$ and ${\overset{\sim}{X}}_{2}$ are defined in --. In addition, let $\overset{\sim}{A},\overset{\sim}{B}$ be defined by. If there exists a matrix $\overset{\sim}{P} \in {\mathbb{R}}^{2 \times 2}$ with $\overset{\sim}{P} \geq 0$ such that
+Let $f$ be $L$-smooth and $m$-strongly convex with $m > 0$. Let $x_{\star}$ be the unique point satisfying ${{\nabla f}{(x_{\star})}} = 0$. Consider Nesterov's accelerated method. For any rate $0 \leq \rho < 1$, set $\overset{\sim}{X}{: =}{{\rho^{2}{\overset{\sim}{X}}_{1}} + {{({1 - \rho^{2}})}{\overset{\sim}{X}}_{2}}}$ where ${\overset{\sim}{X}}_{1}$ and ${\overset{\sim}{X}}_{2}$ are defined in --. In addition, let $\overset{\sim}{A},\overset{\sim}{B}$ be defined. If there exists a matrix $\overset{\sim}{P} \in {\mathbb{R}}^{2 \times 2}$ with $\overset{\sim}{P} \geq 0$ such that then set $P{: =}{\overset{\sim}{P} \otimes I_{p}}$ and define the Lyapunov function which satisfies $\mathcal{V}_{k + 1} \leq {\rho^{2}\mathcal{V}_{k}}$ for all $k$. Moreover, we have ${{f{(x_{k})}} - {f{(x_{\star})}}} \leq {\rho^{2k}\mathcal{V}_{0}}$ for Nesterov's method.
 
-then set $P{: =}{\overset{\sim}{P} \otimes I_{p}}$ and define the Lyapunov function
+Proof. Take the Kronecker product of and $I_{p}$, and hence holds with $A{: =}{\overset{\sim}{A} \otimes I_{p}}$, $B{: =}{\overset{\sim}{B} \otimes I_{p}}$, and $X{: =}{\overset{\sim}{X} \otimes I_{p}}$. Let the supply rate $S$ be defined . Then, define the quadratic storage function ${V{(\xi_{k})}}{: =}{\xi_{k}^{\mathsf{T}}P\xi_{k}}$ and apply Theorem 2 to show ${{V{(\xi_{k + 1})}} - {\rho^{2}V{(\xi_{k})}}} \leq {S{(\xi_{k},w_{k})}}$. Based on the supply rate condition, we can define the Lyapunov function $\mathcal{V}_{k}{: =}{{{V{(\xi_{k})}} + {f{(x_{k})}}} - {f{(x_{\star})}}}$ and show $\mathcal{V}_{k + 1} \leq {\rho^{2}\mathcal{V}_{k}}$. Finally, since $P \geq 0$, we have ${{f{(x_{k})}} - {f{(x_{\star})}}} \leq {\rho^{2k}\mathcal{V}_{0}}$.
 
-which satisfies $\mathcal{V}_{k + 1} \leq {\rho^{2}\mathcal{V}_{k}}$ for all $k$. Moreover, we have ${{f{(x_{k})}} - {f{(x_{\star})}}} \leq {\rho^{2k}\mathcal{V}_{0}}$ for Nesterov's method.
-
-Proof. Take the Kronecker product of and $I_{p}$, and hence holds with $A{: =}{\overset{\sim}{A} \otimes I_{p}}$, $B{: =}{\overset{\sim}{B} \otimes I_{p}}$, and $X{: =}{\overset{\sim}{X} \otimes I_{p}}$. Let the supply rate $S$ be defined by. Then, define the quadratic storage function ${V{(\xi_{k})}}{: =}{\xi_{k}^{\mathsf{T}}P\xi_{k}}$ and apply Theorem 2 to show ${{V{(\xi_{k + 1})}} - {\rho^{2}V{(\xi_{k})}}} \leq {S{(\xi_{k},w_{k})}}$. Based on the supply rate condition, we can define the Lyapunov function $\mathcal{V}_{k}{: =}{{{V{(\xi_{k})}} + {f{(x_{k})}}} - {f{(x_{\star})}}}$ and show $\mathcal{V}_{k + 1} \leq {\rho^{2}\mathcal{V}_{k}}$. Finally, since $P \geq 0$, we have ${{f{(x_{k})}} - {f{(x_{\star})}}} \leq {\rho^{2k}\mathcal{V}_{0}}$.
-
-We can immediately recover the proposed Lyapunov function in Wilson et al. by setting $\overset{\sim}{P}$ to
-
-Clearly $\overset{\sim}{P} \geq 0$. Now define $\kappa{: =}\frac{L}{m}$. Given $\alpha = \frac{1}{L}$, $\beta = \frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}$, and $\rho^{2} = {1 - \sqrt{\frac{m}{L}}}$, it is straightforward to verify that the left side of the LMI is equal to
-
-which is clearly negative semidefinite. Hence we can immediately construct a Lyapunov function using to prove the linear rate $\rho^{2} = {1 - \sqrt{\frac{m}{L}}}$.
+We can immediately recover the proposed Lyapunov function in Wilson et al. by setting $\overset{\sim}{P}$ to Clearly $\overset{\sim}{P} \geq 0$. Now define $\kappa{: =}\frac{L}{m}$. Given $\alpha = \frac{1}{L}$, $\beta = \frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}$, and $\rho^{2} = {1 - \sqrt{\frac{m}{L}}}$, it is straightforward to verify that the left side of the LMI is equal to which is clearly negative semidefinite. Hence we can immediately construct a Lyapunov function using to prove the linear rate $\rho^{2} = {1 - \sqrt{\frac{m}{L}}}$.
 
 Searching for analytic certificates such as can either be carried out by directly analyzing the LMI, or by using numerical solutions to guide the search. For example, numerically solving for any fixed $L$ and $m$ directly yields, which makes finding the analytical expression easy.
 
 ### Dissipativity Theory for More General Methods
 
-We demonstrate the generality of the dissipativity theory on a more general variant of Nesterov's method. Consider a modified accelerated method
-
-When $\beta = \eta$, we recover Nesterov's accelerated method. When $\eta = 0$, we recover the Heavy-ball method of Polyak. We can rewrite in state-space form where $w_{k}{: =}{{\nabla f}{(y_{k})}} = {{\nabla f}\left( {{{({1 + \eta})}x_{k}} - {\etax_{k - 1}}} \right)}$, $A{: =}{\overset{\sim}{A} \otimes I_{p}}$, $B{: =}{\overset{\sim}{B} \otimes I_{p}}$, and $\overset{\sim}{A},\overset{\sim}{B}$ are defined by
+We demonstrate the generality of the dissipativity theory on a more general variant of Nesterov's method. Consider a modified accelerated method When $\beta = \eta$, we recover Nesterov's accelerated method. When $\eta = 0$, we recover the Heavy-ball method of Polyak. We can rewrite in state-space form where $w_{k}{: =}{{\nabla f}{(y_{k})}} = {{\nabla f}\left({{{({1 + \eta})}x_{k}} - {\etax_{k - 1}}} \right)}$, $A{: =}{\overset{\sim}{A} \otimes I_{p}}$, $B{: =}{\overset{\sim}{B} \otimes I_{p}}$, and $\overset{\sim}{A},\overset{\sim}{B}$ are defined by
 
 ### Lemma 5
 
-Let $f$ be $L$-smooth and $m$-strongly convex with $m > 0$. Let $x_{\star}$ be the unique point satisfying ${{\nabla f}{(x_{\star})}} = 0$. Consider the general accelerated method. Define the state $\xi_{k}{: =}\begin{bmatrix}
-{({x_{k} - x_{\star}})}^{\mathsf{T}} & {({x_{k - 1} - x_{\star}})}^{\mathsf{T}}
-\end{bmatrix}^{\mathsf{T}}$ and the input $w_{k}{: =}{{\nabla f}{(y_{k})}} = {{\nabla f}{({{{({1 + \eta})}x_{k}} - {\etax_{k - 1}}})}}$. Then the following inequalities hold for all trajectories.
+Let $f$ be $L$-smooth and $m$-strongly convex with $m > 0$. Let $x_{\star}$ be the unique point satisfying ${{\nabla f}{(x_{\star})}} = 0$. Consider the general accelerated method. Define the state $\xi_{k}{: =}\begin{bmatrix} {({x_{k} - x_{\star}})}^{\mathsf{T}} & {({x_{k - 1} - x_{\star}})}^{\mathsf{T}} \end{bmatrix}^{\mathsf{T}}$ and the input $w_{k}{: =}{{\nabla f}{(y_{k})}} = {{\nabla f}{({{{({1 + \eta})}x_{k}} - {\etax_{k - 1}}})}}$. Then the following inequalities hold for all trajectories. with $X_{i}{: =}{{\overset{\sim}{X}}_{i} \otimes I_{p}}$ for $i = {1,2,3}$, and ${\overset{\sim}{X}}_{i}$ are defined by with $\delta{: =}{\beta - \eta}$. In addition, one can define the supply rate as with $X{: =}{X_{1} + {\rho^{2}X_{2}} + {{({1 - \rho^{2}})}X_{3}}}$. Then for all trajectories $(\xi_{k},w_{k})$ of the general accelerated method, this supply rate satisfies the inequality Proof. A detailed proof is presented in the supplementary material. One mainly needs to modify the proof by taking the difference between $\beta$ and $\eta$ into accounts.
 
-with $X_{i}{: =}{{\overset{\sim}{X}}_{i} \otimes I_{p}}$ for $i = {1,2,3}$, and ${\overset{\sim}{X}}_{i}$ are defined by
-
-with $\delta{: =}{\beta - \eta}$. In addition, one can define the supply rate as with $X{: =}{X_{1} + {\rho^{2}X_{2}} + {{({1 - \rho^{2}})}X_{3}}}$. Then for all trajectories $(\xi_{k},w_{k})$ of the general accelerated method, this supply rate satisfies the inequality
-
-Proof. A detailed proof is presented in the supplementary material. One mainly needs to modify the proof by taking the difference between $\beta$ and $\eta$ into accounts.
-
-Based the supply rate, we can immediately modify Theorem 4 to handle the more general algorithm. Although we do not have general analytical formulas for the convergence rate of, preliminary numerical results suggest that there are a family of $(\alpha,\beta,\eta)$ leading to the rate $\rho^{2} = {1 - \sqrt{\frac{m}{L}}}$, and the required value of $\overset{\sim}{P}$ is quite different from. This indicates that our proposed LMI approach could go beyond the Lyapunov function.
+Based the supply rate, we can immediately modify Theorem 4 to handle the more general algorithm. Although we do not have general analytical formulas for the convergence rate of, preliminary numerical results suggest that there are a family of $(\alpha,\beta,\eta)$ leading to the rate $\rho^{2} = {1 - \sqrt{\frac{m}{L}}}$, and the required value of $\overset{\sim}{P}$ is quite different . This indicates that our proposed LMI approach could go beyond the Lyapunov function.
 
 ### Remark 6
 
@@ -144,82 +94,39 @@ It is noted in Lessard et al. that searching over combinations of multiple IQCs 
 
 The LMI approach in is tailored for the analysis of linear convergence rates for algorithms that are time-invariant (the $A$ and $B$ matrices in do not change with $k$). We now show that dissipativity theory can be used to analyze the sublinear rates $O{({1/k})}$ and $O{({1/k^{2}})}$ via slight modifications of the dissipation inequality.
 
-### Dissipativity for $O\hspace{0pt}{({1/k})}$ rates
+### Dissipativity for $O{({1/k})}$ rates
 
 The $O{({1/k})}$ modification, which we present first, is very similar to the linear rate result.
 
 ### Theorem 7
 
-Suppose $f$ has a finite minimum $f_{\star}$. Consider the LTI system with a supply rate satisfying
+Suppose $f$ has a finite minimum $f_{\star}$. Consider the LTI system with a supply rate satisfying for some sequence $\{ z_{k}\}$. If there exists a nonnegative storage function $V$ such that the dissipation inequality holds over all trajectories of $(\xi_{k},w_{k})$, then the following inequality holds over all trajectories as well.
 
-for some sequence $\{ z_{k}\}$. If there exists a nonnegative storage function $V$ such that the dissipation inequality holds over all trajectories of $(\xi_{k},w_{k})$, then the following inequality holds over all trajectories as well.
+In addition, we have the sublinear convergence rate If ${f{(z_{k + 1})}} \leq {f{(z_{k})}}$ for all $k$, then (24 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) implies that\${{f{(z_{k})}} - f_{\star}} \leq \frac{V{(\xi_{0})}}{k + 1}$ for all $k$.
 
-In addition, we have the sublinear convergence rate
+Proof. By the supply rate condition (22 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) and the dissipation inequality, we immediately get Summing the above inequality from $k = 0$ to $T$ and using $V \geq 0$ yields the desired result.
 
-If ${f{(z_{k + 1})}} \leq {f{(z_{k})}}$ for all $k$, then (24 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) implies that\
-${{f{(z_{k})}} - f_{\star}} \leq \frac{V{(\xi_{0})}}{k + 1}$ for all $k$.
+To address the sublinear rate analysis, the critical step is to choose an appropriate supply rate. If $f$ is $L$-smooth and convex, this is easily done. Consider the gradient method and define the quantities $\xi_{k}{: =}{x_{k} - x_{\star}}$, $A{: =}I_{p}$, and $B{: =}{- {\alphaI_{p}}}$ as in Section 2.3. Since $f$ is $L$-smooth and convex, define the quadratic supply rate which satisfies ${S{(\xi_{k},w_{k})}} \leq {f_{\star} - {f{(x_{k})}}}$ for all $k$ (co-coercivity). Then we can directly apply the LMI with $\rho = 1$ to construct the dissipation inequality. Setting $P = {p \otimes I_{p}}$ and defining the storage function as ${V{(\xi_{k})}}{: =}{p{\parallel\xi_{k}\parallel}^{2}} = {p{\parallel{x_{k} - x_{\star}}\parallel}^{2}}$, the LMI becomes Due to the $$ entry being zero, (25 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) holds if and only if We can choose $\alpha = \frac{1}{L}$ and the bound (24 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) becomes Since gradient descent has monotonically nonincreasing iterates, that is ${f{(x_{k + 1})}} \leq {f{(x_{k})}}$ for all $k$, we immediately recover the standard $O{({1/k})}$ rate result.
 
-Proof. By the supply rate condition (22 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) and the dissipation inequality, we immediately get
+### Dissipativity for $O{({1/k^{2}})}$ rates
 
-Summing the above inequality from $k = 0$ to $T$ and using $V \geq 0$ yields the desired result.
-
-To address the sublinear rate analysis, the critical step is to choose an appropriate supply rate. If $f$ is $L$-smooth and convex, this is easily done. Consider the gradient method and define the quantities $\xi_{k}{: =}{x_{k} - x_{\star}}$, $A{: =}I_{p}$, and $B{: =}{- {\alphaI_{p}}}$ as in Section 2.3. Since $f$ is $L$-smooth and convex, define the quadratic supply rate
-
-which satisfies ${S{(\xi_{k},w_{k})}} \leq {f_{\star} - {f{(x_{k})}}}$ for all $k$ (co-coercivity). Then we can directly apply the LMI with $\rho = 1$ to construct the dissipation inequality. Setting $P = {p \otimes I_{p}}$ and defining the storage function as ${V{(\xi_{k})}}{: =}{p{\parallel\xi_{k}\parallel}^{2}} = {p{\parallel{x_{k} - x_{\star}}\parallel}^{2}}$, the LMI becomes
-
-Due to the $$ entry being zero, (25 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) holds if and only if
-
-We can choose $\alpha = \frac{1}{L}$ and the bound (24 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) becomes
-
-Since gradient descent has monotonically nonincreasing iterates, that is ${f{(x_{k + 1})}} \leq {f{(x_{k})}}$ for all $k$, we immediately recover the standard $O{({1/k})}$ rate result.
-
-### Dissipativity for $O\hspace{0pt}{({1/k^{2}})}$ rates
-
-Certifying a $O{({1/k})}$ rate for the gradient method required solving a single LMI (25 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")). However, this is not the case for the $O{({1/k^{2}})}$ rate analysis of Nesterov's accelerated method. Nesterov's algorithm has parameters that depend on $k$ so the analysis is more involved. We will begin with the general case and then specialize to Nesterov's algorithm. Consider the dynamical system
-
-The state matrix $A_{k}$ and input matrix $B_{k}$ change with the time step $k$, and hence (26 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) is referred to as a "linear time-varying" (LTV) system. The analysis of LTV systems typically requires a time-dependent supply rate such as
-
-If there exists a sequence $\{ P_{k}\}$ with $P_{k} \geq 0$ such that
-
-for all $k$, then we have ${{V_{k + 1}{(\xi_{k + 1})}} - {V_{k}{(\xi_{k})}}} \leq {S_{k}{(\xi_{k},w_{k})}}$ with the time-dependent storage function defined as ${V_{k}{(\xi_{k})}}{: =}{\xi_{k}^{\mathsf{T}}P_{k}\xi_{k}}$. This is a standard approach for dissipation inequality constructions of LTV systems and can be proved using the same proof technique in Theorem 2. Note that we need (28 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) to simultaneously hold for all $k$. This leads to an infinite number of LMIs in general.
+Certifying a $O{({1/k})}$ rate for the gradient method required solving a single LMI (25 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")). However, this is not the case for the $O{({1/k^{2}})}$ rate analysis of Nesterov's accelerated method. Nesterov's algorithm has parameters that depend on $k$ so the analysis is more involved. We will begin with the general case and then specialize to Nesterov's algorithm. Consider the dynamical system The state matrix $A_{k}$ and input matrix $B_{k}$ change with the time step $k$, and hence (26 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) is referred to as a "linear time-varying" (LTV) system. The analysis of LTV systems typically requires a time-dependent supply rate such as If there exists a sequence $\{ P_{k}\}$ with $P_{k} \geq 0$ such that for all $k$, then we have ${{V_{k + 1}{(\xi_{k + 1})}} - {V_{k}{(\xi_{k})}}} \leq {S_{k}{(\xi_{k},w_{k})}}$ with the time-dependent storage function defined as ${V_{k}{(\xi_{k})}}{: =}{\xi_{k}^{\mathsf{T}}P_{k}\xi_{k}}$. This is a standard approach for dissipation inequality constructions of LTV systems and can be proved using the same proof technique in Theorem 2. Note that we need (28 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) to simultaneously hold for all $k$. This leads to an infinite number of LMIs in general.
 
 Now we consider Nesterov's accelerated method for a convex $L$-smooth objective function $f$.
 
 It is known that (29 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) achieves a rate of $O{({1/k^{2}})}$ when $\alpha_{k}{: =}{1/L}$ and $\beta_{k}$ is defined recursively as follows.
 
-The sequence $\{\zeta_{k}\}$ satisfies ${\zeta_{k}^{2} - \zeta_{k}} = \zeta_{k - 1}^{2}$. We now present a dissipativity theory for the sublinear rate analysis of Nesterov's accelerated method. Rewrite (29 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) as
-
-where $w_{k}{: =}{{\nabla f}{(y_{k})}} = {{\nabla f}\left( {{{({1 + \beta_{k}})}x_{k}} - {\beta_{k}x_{k - 1}}} \right)}$, $A_{k}{: =}{{\overset{\sim}{A}}_{k} \otimes I_{p}}$, $B_{k}{: =}{{\overset{\sim}{B}}_{k} \otimes I_{p}}$, and ${\overset{\sim}{A}}_{k},{\overset{\sim}{B}}_{k}$ are given by
-
-Hence, Nesterov's accelerated method (29 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) is in the form of (26 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) with $\xi_{k}{: =}\begin{bmatrix}
-{({x_{k} - x_{\star}})}^{\mathsf{T}} & {({x_{k - 1} - x_{\star}})}^{\mathsf{T}}
-\end{bmatrix}^{\mathsf{T}}$. The $O{({1/k^{2}})}$ rate analysis of Nesterov's method (29 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) requires the following time-dependent supply rate.
+The sequence $\{\zeta_{k}\}$ satisfies ${\zeta_{k}^{2} - \zeta_{k}} = \zeta_{k - 1}^{2}$. We now present a dissipativity theory for the sublinear rate analysis of Nesterov's accelerated method. Rewrite (29 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) as | | \end{bmatrix} = {{A_{k}\begin{bmatrix} | | | where $w_{k}{: =}{{\nabla f}{(y_{k})}} = {{\nabla f}\left({{{({1 + \beta_{k}})}x_{k}} - {\beta_{k}x_{k - 1}}} \right)}$, $A_{k}{: =}{{\overset{\sim}{A}}_{k} \otimes I_{p}}$, $B_{k}{: =}{{\overset{\sim}{B}}_{k} \otimes I_{p}}$, and ${\overset{\sim}{A}}_{k},{\overset{\sim}{B}}_{k}$ are given by Hence, Nesterov's accelerated method (29 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) is in the form of (26 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) with $\xi_{k}{: =}\begin{bmatrix} {({x_{k} - x_{\star}})}^{\mathsf{T}} & {({x_{k - 1} - x_{\star}})}^{\mathsf{T}} \end{bmatrix}^{\mathsf{T}}$. The $O{({1/k^{2}})}$ rate analysis of Nesterov's method (29 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) requires the following time-dependent supply rate.
 
 ### Lemma 8
 
-Let $f$ be $L$-smooth and convex. Let $x_{\star}$ be a point satisfying ${{\nabla f}{(x_{\star})}} = 0$. In addition, set $f_{\star}:={f{(x_{\star})}}$. Consider Nesterov's method (29 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) or equivalently (30 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")). The following inequalities hold for all trajectories and for all $k$.
-
-where $M_{k}{: =}{{\overset{\sim}{M}}_{k} \otimes I_{p}}$, $N_{k}{: =}{{\overset{\sim}{N}}_{k} \otimes I_{p}}$, and ${\overset{\sim}{M}}_{k},{\overset{\sim}{N}}_{k}$ are defined by
-
-Given any nondecreasing sequence $\{\mu_{k}\}$, one can define the supply rate as (27 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) with the particular choice $X_{k}{: =}{{\mu_{k}M_{k}} + {{({\mu_{k + 1} - \mu_{k}})}N_{k}}}$ for all $k$. Then this supply rate satisfies the condition
-
-Proof. The proof is very similar to the proof of Lemma 3 with an extra condition $m = 0$. A detailed proof is presented in the supplementary material.
+Let $f$ be $L$-smooth and convex. Let $x_{\star}$ be a point satisfying ${{\nabla f}{(x_{\star})}} = 0$. In addition, set $f_{\star}:={f{(x_{\star})}}$. Consider Nesterov's method (29 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) or equivalently (30 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")). The following inequalities hold for all trajectories and for all $k$. where $M_{k}{: =}{{\overset{\sim}{M}}_{k} \otimes I_{p}}$, $N_{k}{: =}{{\overset{\sim}{N}}_{k} \otimes I_{p}}$, and ${\overset{\sim}{M}}_{k},{\overset{\sim}{N}}_{k}$ are defined by Given any nondecreasing sequence $\{\mu_{k}\}$, one can define the supply rate as (27 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) with the particular choice $X_{k}{: =}{{\mu_{k}M_{k}} + {{({\mu_{k + 1} - \mu_{k}})}N_{k}}}$ for all $k$. Then this supply rate satisfies the condition Proof. The proof is very similar to the proof of Lemma 3 with an extra condition $m = 0$. A detailed proof is presented in the supplementary material.
 
 ### Theorem 9
 
-Consider the LTV dynamical system (26 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")). If there exist matrices $\{ P_{k}\}$ with $P_{k} \geq 0$ and a nondecreasing sequence of nonnegative scalars $\{\mu_{k}\}$ such that
+Consider the LTV dynamical system (26 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")). If there exist matrices $\{ P_{k}\}$ with $P_{k} \geq 0$ and a nondecreasing sequence of nonnegative scalars $\{\mu_{k}\}$ such that then we have ${{V_{k + 1}{(\xi_{k + 1})}} - {V_{k}{(\xi_{k})}}} \leq {S_{k}{(\xi_{k},w_{k})}}$ with the storage function ${V_{k}{(\xi_{k})}}{: =}{\xi_{k}^{\mathsf{T}}P_{k}\xi_{k}}$ and the supply rate (27 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) using $X_{k}{: =}{{\mu_{k}M_{k}} + {{({\mu_{k + 1} - \mu_{k}})}N_{k}}}$ for all $k$. In addition, if this supply rate satisfies (33 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")), we have Proof. Based on the state-space model (26 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")), we can left and right multiply (34 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) by $\begin{bmatrix} \end{bmatrix}$ and $\begin{bmatrix} \end{bmatrix}^{\mathsf{T}}$, and directly obtain the dissipation inequality. Combining this dissipation inequality with (33 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")), we can show Summing the above inequality as in the proof of Theorem 7 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method") and using the fact that $P_{k} \geq 0$ for all $k$ yields the result.
 
-then we have ${{V_{k + 1}{(\xi_{k + 1})}} - {V_{k}{(\xi_{k})}}} \leq {S_{k}{(\xi_{k},w_{k})}}$ with the storage function ${V_{k}{(\xi_{k})}}{: =}{\xi_{k}^{\mathsf{T}}P_{k}\xi_{k}}$ and the supply rate (27 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) using $X_{k}{: =}{{\mu_{k}M_{k}} + {{({\mu_{k + 1} - \mu_{k}})}N_{k}}}$ for all $k$. In addition, if this supply rate satisfies (33 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")), we have
-
-Proof. Based on the state-space model (26 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")), we can left and right multiply (34 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) by $\begin{bmatrix}
-\end{bmatrix}$ and $\begin{bmatrix}
-\end{bmatrix}^{\mathsf{T}}$, and directly obtain the dissipation inequality. Combining this dissipation inequality with (33 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")), we can show
-
-Summing the above inequality as in the proof of Theorem 7 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method") and using the fact that $P_{k} \geq 0$ for all $k$ yields the result.
-
-We are now ready to show the $O{({1/k^{2}})}$ rate result for Nesterov's accelerated method. Set $\mu_{k}{: =}{(\zeta_{k - 1})}^{2}$ and $P_{k}{: =}{\frac{L}{2}\begin{bmatrix}
-\end{bmatrix}\begin{bmatrix}
-\end{bmatrix}}$. Note that $P_{k} \geq 0$ and ${\mu_{k + 1} - \mu_{k}} = \zeta_{k}$. It is straightforward to verify that this choice of $\{ P_{k},\mu_{k}\}$ makes the left side of (34 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) the zero matrix and hence (35 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) holds. Using the fact that $\zeta_{k - 1} \geq {k/2}$ (easily proved by induction), we have $\mu_{k} \geq {k^{2}/4}$ and the $O{({1/k^{2}})}$ rate for Nesterov's method follows.
+We are now ready to show the $O{({1/k^{2}})}$ rate result for Nesterov's accelerated method. Set $\mu_{k}{: =}{(\zeta_{k - 1})}^{2}$ and $P_{k}{: =}{\frac{L}{2}\begin{bmatrix} \end{bmatrix}\begin{bmatrix} \end{bmatrix}}$. Note that $P_{k} \geq 0$ and ${\mu_{k + 1} - \mu_{k}} = \zeta_{k}$. It is straightforward to verify that this choice of $\{ P_{k},\mu_{k}\}$ makes the left side of (34 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) the zero matrix and hence (35 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory for Nesterov’s Accelerated Method")) holds. Using the fact that $\zeta_{k - 1} \geq {k/2}$ (easily proved by induction), we have $\mu_{k} \geq {k^{2}/4}$ and the $O{({1/k^{2}})}$ rate for Nesterov's method follows.
 
 ### Remark 10
 
@@ -227,51 +134,23 @@ Theorem 9 rates ‣ 4 Dissipativity for Sublinear Rates ‣ Dissipativity Theory
 
 ## Continuous-time Dissipation Inequality
 
-Finally, we briefly discuss dissipativity theory for the continuous-time ODEs used in optimization research. Note that dissipativity theory was first introduced in Willems in the context of continuous-time systems. We denote continuous-time variables in upper case. Consider a continuous-time state-space model
-
-where $\Lambda{(t)}$ is the state, $W{(t)}$ is the input, and $\overset{˙}{\Lambda}{(t)}$ denotes the time derivative of $\Lambda{(t)}$. In continuous-time, the supply rate is a function $S:{{{\mathbb{R}}^{n_{\Lambda}} \times {\mathbb{R}}^{n_{W}} \times {\mathbb{R}}_{+}}\rightarrow{\mathbb{R}}}$ that assigns a scalar to each possible state and input pair. Here, we allow $S$ to also depend on time $t \in {\mathbb{R}}_{+}$. To simplify our exposition, we will omit the explicit time dependence $(t)$ from our notation.
+Finally, we briefly discuss dissipativity theory for the continuous-time ODEs used in optimization research. Note that dissipativity theory was first introduced in Willems in the context of continuous-time systems. We denote continuous-time variables in upper case. Consider a continuous-time state-space model where $\Lambda{(t)}$ is the state, $W{(t)}$ is the input, and $\overset{˙}{\Lambda}{(t)}$ denotes the time derivative of $\Lambda{(t)}$. In continuous-time, the supply rate is a function $S:{{{\mathbb{R}}^{n_{\Lambda}} \times {\mathbb{R}}^{n_{W}} \times {\mathbb{R}}_{+}}\rightarrow{\mathbb{R}}}$ that assigns a scalar to each possible state and input pair. Here, we allow $S$ to also depend on time $t \in {\mathbb{R}}_{+}$. To simplify our exposition, we will omit the explicit time dependence $(t)$ from our notation.
 
 ### Definition 11
 
-The dynamical system is dissipative with respect to the supply rate $S$ if there exists a function $V:{{{\mathbb{R}}^{n_{\Lambda}} \times {\mathbb{R}}_{+}}\rightarrow{\mathbb{R}}_{+}}$ such that ${V{(\Lambda,t)}} \geq 0$ for all $\Lambda \in {\mathbb{R}}^{n_{\Lambda}}$ and $t \geq 0$ and
-
-for every trajectory of. Here, $\overset{˙}{V}$ denotes the Lie derivative (or total derivative); it accounts for $\Lambda$'s dependence on $t$. The function $V$ is called a storage function, and is a (continuous-time) dissipation inequality.
+The dynamical system is dissipative with respect to the supply rate $S$ if there exists a function $V:{{{\mathbb{R}}^{n_{\Lambda}} \times {\mathbb{R}}_{+}}\rightarrow{\mathbb{R}}_{+}}$ such that ${V{(\Lambda,t)}} \geq 0$ for all $\Lambda \in {\mathbb{R}}^{n_{\Lambda}}$ and $t \geq 0$ and for every trajectory of. Here, $\overset{˙}{V}$ denotes the Lie derivative (or total derivative); it accounts for $\Lambda$'s dependence on $t$. The function $V$ is called a storage function, and is a (continuous-time) dissipation inequality.
 
 For any given quadratic supply rate, one can automatically construct the continuous-time dissipation inequality using semidefinite programs. The following result is standard in the controls literature.
 
 ### Theorem 12
 
-Suppose ${X{(t)}} \in {\mathbb{R}}^{{({n_{\Lambda} + n_{W}})} \times {({n_{\Lambda} + n_{W}})}}$ and ${X{(t)}^{\mathsf{T}}} = {X{(t)}}$ for all $t$. Consider the quadratic supply rate
+Suppose ${X{(t)}} \in {\mathbb{R}}^{{({n_{\Lambda} + n_{W}})} \times {({n_{\Lambda} + n_{W}})}}$ and ${X{(t)}^{\mathsf{T}}} = {X{(t)}}$ for all $t$. Consider the quadratic supply rate If there exists a family of matrices ${P{(t)}} \in {\mathbb{R}}^{n_{\Lambda} \times n_{\Lambda}}$ with ${P{(t)}} \geq 0$ such that Then we have ${\overset{˙}{V}{(\Lambda,t)}} \leq {S{(\Lambda,W,t)}}$ with the storage function defined as ${V{(\Lambda,t)}}{: =}{\Lambda^{\mathsf{T}}P\Lambda}$.
 
-If there exists a family of matrices ${P{(t)}} \in {\mathbb{R}}^{n_{\Lambda} \times n_{\Lambda}}$ with ${P{(t)}} \geq 0$ such that
-
-Then we have ${\overset{˙}{V}{(\Lambda,t)}} \leq {S{(\Lambda,W,t)}}$ with the storage function defined as ${V{(\Lambda,t)}}{: =}{\Lambda^{\mathsf{T}}P\Lambda}$.
-
-Proof. Based on the state-space model, we can apply the product rule for total derivatives and obtain
-
-Hence we can left and right multiply by $\begin{bmatrix}
-\Lambda^{\mathsf{T}} & W^{\mathsf{T}}
-\end{bmatrix}$ and $\begin{bmatrix}
-\Lambda^{\mathsf{T}} & W^{\mathsf{T}}
-\end{bmatrix}^{\mathsf{T}}$ and obtain the desired conclusion.
+Proof. Based on the state-space model, we can apply the product rule for total derivatives and obtain Hence we can left and right multiply by $\begin{bmatrix} \Lambda^{\mathsf{T}} & W^{\mathsf{T}} \end{bmatrix}$ and $\begin{bmatrix} \Lambda^{\mathsf{T}} & W^{\mathsf{T}} \end{bmatrix}^{\mathsf{T}}$ and obtain the desired conclusion.
 
 The algebraic structure of the LMI is simpler than that of its discrete-time counterpart because for given $P$, the continuous-time LMI is linear in $A,B$ rather than being quadratic. This may explain why continuous-time ODEs are sometimes more amenable to analytic approaches than their discretized counterparts.
 
-We demonstrate the utility of on the continuous-time limit of Nesterov's accelerated method in Su et al.:
-
-which we rewrite as with $\Lambda{: =}\begin{bmatrix}
-{\overset{˙}{Y}}^{\mathsf{T}} & {Y^{\mathsf{T}} - x_{\star}^{\mathsf{T}}}
-\end{bmatrix}^{\mathsf{T}}$, $W{: =}{{\nabla f}{(Y)}}$, $x_{\star}$ is a point satisfying ${{\nabla f}{(x_{\star})}} = 0$, and $A,B$ are defined by
-
-Suppose $f$ is convex and set $f_{\star}{: =}{f{(x_{\star})}}$. Su et al. constructs the Lyapunov function ${\mathcal{V}{(Y,t)}}{: =}{{t^{2}{({{f{(Y)}} - f_{\star}})}} + {2{\parallel{{Y + {\frac{t}{2}\overset{˙}{Y}}} - x_{\star}}\parallel}^{2}}}$ to show that $\overset{˙}{\mathcal{V}} \leq 0$ and then directly demonstrate a $O{({1/t^{2}})}$ rate for the ODE. To illustrate the power of the dissipation inequality, we use the LMI to recover this Lyapunov function. Denote ${G{(Y,t)}}{: =}{t^{2}{({{f{(Y)}} - f_{\star}})}}$. Note that convexity implies ${{f{(Y)}} - f_{\star}} \leq {{\nabla f}{(Y)}^{\mathsf{T}}{({Y - x_{\star}})}}$, which we rewrite as
-
-Since ${\overset{˙}{G}{(Y,t)}} = {{2t{({{f{(Y)}} - f_{\star}})}} + {t^{2}{\nabla f}{(Y)}^{\mathsf{T}}\overset{˙}{Y}}}$, we have
-
-Now choose the supply rate $S$ as with $X{(t)}$ given by
-
-Clearly ${S{(\Lambda,W,t)}} \leq {- {\overset{˙}{G}{(Y,t)}}}$. Now we can choose ${P{(t)}}{: =}{2\begin{bmatrix}
-\end{bmatrix}^{\mathsf{T}}\begin{bmatrix}
-\end{bmatrix}}$. Substituting $P$ and $X$ into, the left side of becomes identically zero. Therefore, ${\overset{˙}{V}{(\Lambda,t)}} \leq {S{(\Lambda,W,t)}} \leq {- {\overset{˙}{G}{(Y,t)}}}$ with the storage function ${V{(\Lambda,t)}}{: =}{\Lambda^{\mathsf{T}}P\Lambda}$. By defining the Lyapunov function ${\mathcal{V}{(Y,t)}}{: =}{{V{(Y,t)}} + {G{(Y,t)}}}$, we immediately obtain $\overset{˙}{\mathcal{V}} \leq 0$ and also recover the same Lyapunov function used in Su et al..
+We demonstrate the utility of on the continuous-time limit of Nesterov's accelerated method in Su et al.: which we rewrite as with $\Lambda{: =}\begin{bmatrix} {\overset{˙}{Y}}^{\mathsf{T}} & {Y^{\mathsf{T}} - x_{\star}^{\mathsf{T}}} \end{bmatrix}^{\mathsf{T}}$, $W{: =}{{\nabla f}{(Y)}}$, $x_{\star}$ is a point satisfying ${{\nabla f}{(x_{\star})}} = 0$, and $A,B$ are defined by Suppose $f$ is convex and set $f_{\star}{: =}{f{(x_{\star})}}$. Su et al. constructs the Lyapunov function ${\mathcal{V}{(Y,t)}}{: =}{{t^{2}{({{f{(Y)}} - f_{\star}})}} + {2{\parallel{{Y + {\frac{t}{2}\overset{˙}{Y}}} - x_{\star}}\parallel}^{2}}}$ to show that $\overset{˙}{\mathcal{V}} \leq 0$ and then directly demonstrate a $O{({1/t^{2}})}$ rate for the ODE. To illustrate the power of the dissipation inequality, we use the LMI to recover this Lyapunov function. Denote ${G{(Y,t)}}{: =}{t^{2}{({{f{(Y)}} - f_{\star}})}}$. Note that convexity implies ${{f{(Y)}} - f_{\star}} \leq {{\nabla f}{(Y)}^{\mathsf{T}}{({Y - x_{\star}})}}$, which we rewrite as Since ${\overset{˙}{G}{(Y,t)}} = {{2t{({{f{(Y)}} - f_{\star}})}} + {t^{2}{\nabla f}{(Y)}^{\mathsf{T}}\overset{˙}{Y}}}$, we have Now choose the supply rate $S$ as with $X{(t)}$ given by Clearly ${S{(\Lambda,W,t)}} \leq {- {\overset{˙}{G}{(Y,t)}}}$. Now we can choose ${P{(t)}}{: =}{2\begin{bmatrix} \end{bmatrix}^{\mathsf{T}}\begin{bmatrix} \end{bmatrix}}$. Substituting $P$ and $X$ into, the left side of becomes identically zero. Therefore, ${\overset{˙}{V}{(\Lambda,t)}} \leq {S{(\Lambda,W,t)}} \leq {- {\overset{˙}{G}{(Y,t)}}}$ with the storage function ${V{(\Lambda,t)}}{: =}{\Lambda^{\mathsf{T}}P\Lambda}$. By defining the Lyapunov function ${\mathcal{V}{(Y,t)}}{: =}{{V{(Y,t)}} + {G{(Y,t)}}}$, we immediately obtain $\overset{˙}{\mathcal{V}} \leq 0$ and also recover the same Lyapunov function used in Su et al..
 
 ### Remark 13
 

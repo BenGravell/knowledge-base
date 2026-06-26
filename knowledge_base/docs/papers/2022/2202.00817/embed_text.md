@@ -1,8 +1,6 @@
 ## Introduction
 
-Consider the problem of minimizing a *stochastic objective*,
-
-At the heart of many algorithms for reinforcement learning (RL) lies *zeroth-order* estimation of the gradient $\nabla F$. Yet, in domains that deal with structured systems, such as linear control, physical simulation, or robotics, it is possible to obtain *exact* gradients of $f$, which can also be used to construct a *first-order* estimate of $\nabla F$. The availability of both options begs the question: given access to exact gradients of $f$, which estimator should we prefer?
+Consider the problem of minimizing a *stochastic objective*, At the heart of many algorithms for reinforcement learning (RL) lies *zeroth-order* estimation of the gradient $\nabla F$. Yet, in domains that deal with structured systems, such as linear control, physical simulation, or robotics, it is possible to obtain *exact* gradients of $f$, which can also be used to construct a *first-order* estimate of $\nabla F$. The availability of both options begs the question: given access to exact gradients of $f$, which estimator should we prefer?
 
 In stochastic optimization, the theoretical benefits of using first-order estimates of $\nabla F$ over zeroth-order ones have mainly been understood through the lens of variance and convergence rates: the first-order estimator often (*not always*) results in much less variance compared to the zeroth-order one, which leads to faster convergence rates to a local minima of general nonconvex smooth objective functions.
 
@@ -14,7 +12,7 @@ Nevertheless, lessons from convergence rate analysis tell us that there may be b
 
 Existing literature in differentiable simulation mainly focuses on the use of exact gradients for *deterministic* optimization. However, show that using exact gradients for a deterministic objective can lead to suboptimal behavior of certain systems due to their landscapes. In these systems, stochasticity can be used to *regularize* the landscapes with randomized smoothing. We illustrate how the landscapes change upon injecting noise (Figure 1), and list some benefits of considering a *surrogate* stochastic objective.
 
-Stochasticity smooths local minima. As noted in, stochasticity can alleviate some of the high-frequency local minima that deterministic gradients will be stuck on. For instance, the small discontinuity on the right side of Figure 1.B is filtered by Gaussian smoothing.
+Stochasticity smooths local minima. As noted , stochasticity can alleviate some of the high-frequency local minima that deterministic gradients will be stuck . For instance, the small discontinuity on the right side of Figure 1.B is filtered by Gaussian smoothing.
 
 Stochasticity alleviates flat regions. In systems of Figure 1, the gradients in some of the regions can be completely flat. This stalls progress of gradient descent. The stochastic objective, however, still has non-zero gradient as some samples escape the flat regions and provide an informative direction of improvement.
 
@@ -40,19 +38,13 @@ We hope both contributions inspire algorithms for policy optimization using diff
 
 Notation. We denote the expectation of a random vector $\mathbf{z}$ as ${\mathbb{E}}{\lbrack\mathbf{z}\rbrack}$, and its variance as ${\text{Var}{\lbrack\mathbf{z}\rbrack}}:={{\mathbb{E}}{\lbrack{\|{\mathbf{z} - {{\mathbb{E}}{\lbrack\mathbf{z}\rbrack}}}\|}^{2}\rbrack}}$. Expectations are defined in almost-sure sense, so that the law of large numbers holds (see Section A.1 for details).
 
-Setting. We study a discrete-time, finite-horizon, continuous-state control problem with states $\mathbf{x} \in {\mathbb{R}}^{n}$, inputs $\mathbf{u} \in {\mathbb{R}}^{m}$, transition function $\phi:{{{\mathbb{R}}^{n} \times {\mathbb{R}}^{m}}\rightarrow{\mathbb{R}}^{n}}$, and horizon $H \in {\mathbb{N}}$. Given a sequence of costs $c_{h}:{{{\mathbb{R}}^{n} \times {\mathbb{R}}^{m}}\rightarrow{\mathbb{R}}}$, a family of policies $\pi_{h}:{{{\mathbb{R}}^{n} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}^{m}}$ parameterized by ${\mathbf{θ}} \in {\mathbb{R}}^{d}$, and a sequence of injected noise terms $\mathbf{w}_{1:H} \in {({\mathbb{R}}^{m})}^{H}$, we define the cost-to-go functions
-
-Our aim is to minimize the policy optimization objective
-
-where $\rho$ is a distribution over initial states $\mathbf{x}_{1}$, and $\mathbf{w}_{1},\ldots,\mathbf{w}_{H}$ are independent and identically distributed according to some distribution $p$. In the main text, we make the following assumption on the distributions $\rho$ and $p$:
+Setting. We study a discrete-time, finite-horizon, continuous-state control problem with states $\mathbf{x} \in {\mathbb{R}}^{n}$, inputs $\mathbf{u} \in {\mathbb{R}}^{m}$, transition function $\phi:{{{\mathbb{R}}^{n} \times {\mathbb{R}}^{m}}\rightarrow{\mathbb{R}}^{n}}$, and horizon $H \in {\mathbb{N}}$. Given a sequence of costs $c_{h}:{{{\mathbb{R}}^{n} \times {\mathbb{R}}^{m}}\rightarrow{\mathbb{R}}}$, a family of policies $\pi_{h}:{{{\mathbb{R}}^{n} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}^{m}}$ parameterized by ${\mathbf{θ}} \in {\mathbb{R}}^{d}$, and a sequence of injected noise terms $\mathbf{w}_{1:H} \in {({\mathbb{R}}^{m})}^{H}$, we define the cost-to-go functions Our aim is to minimize the policy optimization objective where $\rho$ is a distribution over initial states $\mathbf{x}_{1}$, and $\mathbf{w}_{1},\ldots,\mathbf{w}_{H}$ are independent and identically distributed according to some distribution $p$. In the main text, we make the following assumption on the distributions $\rho$ and $p$:
 
 ### Assumption 2.1
 
 We assume that $\rho$ has finite moments, and that $p = {\mathcal{N}{(0,{\sigma^{2}I_{n}})}}$ for some $\sigma > 0$.
 
-Our rationale for Gaussian $p$ is that we view $\mathbf{w}_{1:H}$ as *smoothing* to regularize the optimization landscape. To simplify the main text, we take $\mathbf{x}_{1}$ to be deterministic ($\rho$ is a dirac-delta), with general $\rho$ being addressed in the appendix. Setting $\overline{\mathbf{w}} = \mathbf{w}_{1:H}$, $\overline{p} = {\mathcal{N}{(0,{\sigma^{2}I_{nH}})}}$, and ${f{({\mathbf{θ}},\overline{\mathbf{w}})}} = {V_{1}{(\mathbf{x}_{1},\overline{\mathbf{w}},{\mathbf{θ}})}}$, we can express $F{({\mathbf{θ}})}$ as a *stochastic optimization problem*,
-
-Trajectory optimization. Our parametrization also includes open-loop trajectory optimization. Letting the policy parameters be an open-loop sequence of inputs ${\mathbf{θ}} = {\{{\mathbf{θ}}_{h}\}}_{h = 1}^{H}$ and having no feedback ${\pi{(\mathbf{x}_{h},{\mathbf{θ}})}} = {\mathbf{θ}}_{h}$, we optimize over sequence of inputs to be applied to the system.
+Our rationale for Gaussian $p$ is that we view $\mathbf{w}_{1:H}$ as *smoothing* to regularize the optimization landscape. To simplify the main text, we take $\mathbf{x}_{1}$ to be deterministic ($\rho$ is a dirac-delta), with general $\rho$ being addressed in the appendix. Setting $\overline{\mathbf{w}} = \mathbf{w}_{1:H}$, $\overline{p} = {\mathcal{N}{(0,{\sigma^{2}I_{nH}})}}$, and ${f{({\mathbf{θ}},\overline{\mathbf{w}})}} = {V_{1}{(\mathbf{x}_{1},\overline{\mathbf{w}},{\mathbf{θ}})}}$, we can express $F{({\mathbf{θ}})}$ as a *stochastic optimization problem*, Trajectory optimization. Our parametrization also includes open-loop trajectory optimization. Letting the policy parameters be an open-loop sequence of inputs ${\mathbf{θ}} = {\{{\mathbf{θ}}_{h}\}}_{h = 1}^{H}$ and having no feedback ${\pi{(\mathbf{x}_{h},{\mathbf{θ}})}} = {\mathbf{θ}}_{h}$, we optimize over sequence of inputs to be applied to the system.
 
 One-step optimization. We illustrate some key ideas in the open-loop case where $H = 1$: $\pi:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{m}}$ is the identity function with $\overline{\mathbf{w}} = \mathbf{w} \in {\mathbb{R}}^{m}$, $d = m$ and $c:{{\mathbb{R}}^{m}\rightarrow{\mathbb{R}}}$,
 
@@ -70,21 +62,15 @@ Zeroth-order estimator. The policy gradient can be estimated only using samples 
 
 ### Definition 2.3
 
-Given a single zeroth-order estimate of the policy gradient ${\hat{\nabla}}^{\lbrack 0\rbrack}F_{i}{({\mathbf{θ}})}$, we define the zeroth-order batched gradient (ZoBG) ${\overline{\nabla}}^{\lbrack 0\rbrack}F{({\mathbf{θ}})}$ as the sample mean,
-
-where $\mathbf{x}_{h}^{i}$ is the state at time $h$ of a trajectory induced by the noise $\mathbf{w}_{1:H}^{i}$, $i$ is the index of the sample trajectory, and $D_{\mathbf{θ}}\pi$ is the Jacobian matrix ${\partial{\pi/{\partial{\mathbf{θ}}}}} \in {\mathbb{R}}^{m \times d}$.
+Given a single zeroth-order estimate of the policy gradient ${\hat{\nabla}}^{\lbrack 0\rbrack}F_{i}{({\mathbf{θ}})}$, we define the zeroth-order batched gradient (ZoBG) ${\overline{\nabla}}^{\lbrack 0\rbrack}F{({\mathbf{θ}})}$ as the sample mean, where $\mathbf{x}_{h}^{i}$ is the state at time $h$ of a trajectory induced by the noise $\mathbf{w}_{1:H}^{i}$, $i$ is the index of the sample trajectory, and $D_{\mathbf{θ}}\pi$ is the Jacobian matrix ${\partial{\pi/{\partial{\mathbf{θ}}}}} \in {\mathbb{R}}^{m \times d}$.
 
 The hat notation denotes a per-sample Monte-Carlo estimate, and bar-notation a sample mean. The ZoBG is also referred to as the REINFORCE, score function, or the likelihood-ratio gradient.
 
-Baseline. In practice, a baseline term $b$ is subtracted from $V_{1}{(\mathbf{x}_{1},\mathbf{w}_{1:H}^{i},{\mathbf{θ}})}$ for variance reduction. We use the zero-noise rollout as the baseline $b = {V_{1}{(\mathbf{x}_{1},\mathbf{0}_{1:H},{\mathbf{θ}})}}$:
-
-First-order estimator. In differentiable simulators, the gradients of the dynamics $\phi$ and costs $c_{h}$ are available *almost surely* (i.e., with probability one). Hence, one may compute the exact gradient ${\nabla_{\mathbf{θ}}V_{1}}{(\mathbf{x}_{1},\mathbf{w}_{1:H},{\mathbf{θ}})}$ by automatic differentiation and average them to estimate ${\nabla F}{({\mathbf{θ}})}$.
+Baseline. In practice, a baseline term $b$ is subtracted from $V_{1}{(\mathbf{x}_{1},\mathbf{w}_{1:H}^{i},{\mathbf{θ}})}$ for variance reduction. We use the zero-noise rollout as the baseline $b = {V_{1}{(\mathbf{x}_{1},\mathbf{0}_{1:H},{\mathbf{θ}})}}$: First-order estimator. In differentiable simulators, the gradients of the dynamics $\phi$ and costs $c_{h}$ are available *almost surely* (i.e., with probability one). Hence, one may compute the exact gradient ${\nabla_{\mathbf{θ}}V_{1}}{(\mathbf{x}_{1},\mathbf{w}_{1:H},{\mathbf{θ}})}$ by automatic differentiation and average them to estimate ${\nabla F}{({\mathbf{θ}})}$.
 
 ### Definition 2.4
 
-Given a single first-order gradient estimate ${\hat{\nabla}}^{\lbrack 1\rbrack}F_{i}{({\mathbf{θ}})}$, we define the first-order batched gradient (FoBG) as the sample mean:
-
-The FoBG is also referred to as the reparametrization gradient, or the pathwise derivative. Finally, we define the empirical variance.
+Given a single first-order gradient estimate ${\hat{\nabla}}^{\lbrack 1\rbrack}F_{i}{({\mathbf{θ}})}$, we define the first-order batched gradient (FoBG) as the sample mean: The FoBG is also referred to as the reparametrization gradient, or the pathwise derivative. Finally, we define the empirical variance.
 
 ### Definition 2.5 (Empirical variance)
 
@@ -106,9 +92,7 @@ In contrast, the FoBG requires strong continuity conditions in order to satisfy 
 
 ### Lemma 3.2
 
-Under Assumption 2.1 and Assumption 2.2, and if $\phi{( \cdot, \cdot )}$ is locally Lipschitz and $c_{h}{( \cdot, \cdot )}$ is continuously differentiable, then ${\overline{\nabla}}^{\lbrack 1\rbrack}F{({\mathbf{θ}})}$ is defined almost surely, and
-
-The proofs and more rigorous statements of both lemmas are provided in Appendix A. Notice that Lemma 3.1 permits $V_{h}$ to have discontinuities (via discontinuities of $c_{h}$ and $\phi$), whereas Lemma 3.2 does not.
+Under Assumption 2.1 and Assumption 2.2, and if $\phi{(\cdot, \cdot)}$ is locally Lipschitz and $c_{h}{(\cdot, \cdot)}$ is continuously differentiable, then ${\overline{\nabla}}^{\lbrack 1\rbrack}F{({\mathbf{θ}})}$ is defined almost surely, and The proofs and more rigorous statements of both lemmas are provided in Appendix A. Notice that Lemma 3.1 permits $V_{h}$ to have discontinuities (via discontinuities of $c_{h}$ and $\phi$), whereas Lemma 3.2 does not.
 
 ### Bias of FoBG under discontinuities
 
@@ -116,15 +100,11 @@ The FoBG can fail when applied to discontinuous landscapes. We illustrate a simp
 
 ### Example 3.3 (Heaviside)
 
-Consider the Heaviside function,
-
-whose stochastic objective becomes the error function
-
-where ${{erf}{(t;\sigma^{2})}}:={\int_{t}^{\infty}{\frac{1}{\sqrt{2\pi}\sigma}e^{- {x^{2}/\sigma^{2}}}{dx}}}$ is the Gaussian tail integral. Defining the gradient of the Monte-Carlo objective $H{({{\mathbf{θ}} + \mathbf{w}})}$ requires subtlety. It is common in physics to define ${{\nabla_{\mathbf{θ}}H}{({{\mathbf{θ}} + \mathbf{w}})}} = {\delta{({{\mathbf{θ}} + \mathbf{w}})}}$ as a dirac-delta function, where integration is interpreted so that the fundamental theorem of calculus holds. This is *irreconcilable* with using *expectation* to define the integral, which presupposes that the law of large numbers hold. Indeed, since ${{\nabla_{\mathbf{θ}}H}{({{\mathbf{θ}} + \mathbf{w}})}} = 0$ for all ${\mathbf{θ}} \neq {- \mathbf{w}}$, we have ${{\mathbb{E}}_{\mathbf{w}_{i}}\delta{({{\mathbf{θ}} + \mathbf{w}_{i}})}} = 0$. Hence, the FoBG is biased, because the gradient of the stochastic objective at any $\mathbf{θ}$ is non-zero: ${{\nabla_{\mathbf{θ}}\text{erf}}{({- {\mathbf{θ}}};\sigma^{2})}} = {\frac{1}{\sqrt{2\pi}\sigma}{\exp{({- {{{({{\mathbf{θ}} - \mathbf{w}})}/2}\sigma^{2}}})}}} \neq 0$.
+Consider the Heaviside function, whose stochastic objective becomes the error function where ${{erf}{(t;\sigma^{2})}}:={\int_{t}^{\infty}{\frac{1}{\sqrt{2\pi}\sigma}e^{- {x^{2}/\sigma^{2}}}{dx}}}$ is the Gaussian tail integral. Defining the gradient of the Monte-Carlo objective $H{({{\mathbf{θ}} + \mathbf{w}})}$ requires subtlety. It is common in physics to define ${{\nabla_{\mathbf{θ}}H}{({{\mathbf{θ}} + \mathbf{w}})}} = {\delta{({{\mathbf{θ}} + \mathbf{w}})}}$ as a dirac-delta function, where integration is interpreted so that the fundamental theorem of calculus holds. This is *irreconcilable* with using *expectation* to define the integral, which presupposes that the law of large numbers hold. Indeed, since ${{\nabla_{\mathbf{θ}}H}{({{\mathbf{θ}} + \mathbf{w}})}} = 0$ for all ${\mathbf{θ}} \neq {- \mathbf{w}}$, we have ${{\mathbb{E}}_{\mathbf{w}_{i}}\delta{({{\mathbf{θ}} + \mathbf{w}_{i}})}} = 0$. Hence, the FoBG is biased, because the gradient of the stochastic objective at any $\mathbf{θ}$ is non-zero: ${{\nabla_{\mathbf{θ}}\text{erf}}{({- {\mathbf{θ}}};\sigma^{2})}} = {\frac{1}{\sqrt{2\pi}\sigma}{\exp{({- {{{({{\mathbf{θ}} - \mathbf{w}})}/2}\sigma^{2}}})}}} \neq 0$.
 
 It is worth noting that the empirical variance of the FoBG estimator in this example is zero, since all the samples are identically zero. On the other hand, the ZoBG escapes this problem and provides an unbiased estimate, since it always takes finite intervals that include the integral of the delta.
 
-Figure 2: From left: heaviside objective f (θ,w) and stochastic objective F (θ), empirical values of the gradient estimates, and their empirical variance.
+Figure 2: From left: heaviside objective f (θ, w) and stochastic objective F (θ), empirical values of the gradient estimates, and their empirical variance.
 
 ### The "Empirical bias" phenomenon
 
@@ -170,7 +150,7 @@ Scenario 1: Persistent stiffness. When the dynamics are *stiff* ^22^2We say that
 
 In practice, lowering the timestep can alleviate the issue at the cost of more computation time. Less stiff formulations of contact dynamics also addresses this problem effectively.
 
-Scenario 2: Chaos. As noted in, even if the gradient of the dynamics is small at every $h$, their compounding product can cause $\|{\nabla_{\mathbf{θ}}V_{1}}\|$ to be large if the system is chaotic. Yet, in expectation, the gradient of the stochastic objective ${\nabla F} = {{\nabla{\mathbb{E}}}{\lbrack V_{1}\rbrack}}$ can be benign and well-behaved.
+Scenario 2: Chaos. As noted , even if the gradient of the dynamics is small at every $h$, their compounding product can cause $\|{\nabla_{\mathbf{θ}}V_{1}}\|$ to be large if the system is chaotic. Yet, in expectation, the gradient of the stochastic objective ${\nabla F} = {{\nabla{\mathbb{E}}}{\lbrack V_{1}\rbrack}}$ can be benign and well-behaved.
 
 ### Example 3.9
 
@@ -184,9 +164,7 @@ Compared to the pitfalls of FoBG, the ZoBG variance can be bounded as follows.
 
 ### Lemma 3.10
 
-If for all $\mathbf{x}$ and $\overline{\mathbf{w}}$, ${|{V_{1}{(\mathbf{x},\overline{\mathbf{w}},{\mathbf{θ}})}}|} \leq B_{V}$ and ${\|{D_{\mathbf{θ}}\pi{(\mathbf{x},{\mathbf{θ}})}}\|}_{op} \leq B_{\pi}$, then
-
-We refer to Section B.2 for proof. Lemma 3.10 is intended to provide a qualitative understanding of the zeroth-order variance: it scales with the horizon-dimension product $Hn$, but *not* the scale of the derivatives. On the other hand, the variance of FoBG does; when $\frac{Hn}{\sigma^{2}} \gg {\text{Var}{\lbrack{{\hat{\nabla}}^{\lbrack 1\rbrack}F{({\mathbf{θ}})}}\rbrack}} = {\text{Var}{\lbrack{{\nabla_{\mathbf{θ}}V}{(\mathbf{x}_{1},\overline{\mathbf{w}},{\mathbf{θ}})}}\rbrack}}$, the ZoBG has higher variance.
+If for all $\mathbf{x}$ and $\overline{\mathbf{w}}$, ${|{V_{1}{(\mathbf{x},\overline{\mathbf{w}},{\mathbf{θ}})}}|} \leq B_{V}$ and ${\|{D_{\mathbf{θ}}\pi{(\mathbf{x},{\mathbf{θ}})}}\|}_{op} \leq B_{\pi}$, then We refer to Section B.2 for proof. Lemma 3.10 is intended to provide a qualitative understanding of the zeroth-order variance: it scales with the horizon-dimension product $Hn$, but *not* the scale of the derivatives. On the other hand, the variance of FoBG does; when $\frac{Hn}{\sigma^{2}} \gg {\text{Var}{\lbrack{{\hat{\nabla}}^{\lbrack 1\rbrack}F{({\mathbf{θ}})}}\rbrack}} = {\text{Var}{\lbrack{{\nabla_{\mathbf{θ}}V}{(\mathbf{x}_{1},\overline{\mathbf{w}},{\mathbf{θ}})}}\rbrack}}$, the ZoBG has higher variance.
 
 Figure 7: First Column: Ball with wall example. In the third row, the triangle is the initial point, and red/blue/green stars are the optimum achieved by FoBG, ZoBG, and AoBG respectively (blue and green stars overlap). Second column: Iteration vs. Cost plot of different gradients. Right columns: Same plot repeated for the Momentum Transfer example. Standard deviation plotted 10 fold for visualization.
 
@@ -196,9 +174,7 @@ Previous examples give us insight on which landscapes are better fit for first-o
 
 ### Definition 4.1
 
-Given $\alpha \in {\lbrack 0,1\rbrack}$, we define the alpha-order batched gradient (AoBG) as:
-
-When interpolating, we use independent trajectories to generate ${\overline{\nabla}}^{\lbrack 1\rbrack}F{({\mathbf{θ}})}$ and ${\overline{\nabla}}^{\lbrack 0\rbrack}F{({\mathbf{θ}})}$ (see Section C.1). We consider strategies for selecting $\alpha$ in a *local fashion*, as a function of the observed sample, as detailed below.
+Given $\alpha \in {\lbrack 0,1\rbrack}$, we define the alpha-order batched gradient (AoBG) as: When interpolating, we use independent trajectories to generate ${\overline{\nabla}}^{\lbrack 1\rbrack}F{({\mathbf{θ}})}$ and ${\overline{\nabla}}^{\lbrack 0\rbrack}F{({\mathbf{θ}})}$ (see Section C.1). We consider strategies for selecting $\alpha$ in a *local fashion*, as a function of the observed sample, as detailed below.
 
 ### A robust interpolation protocol
 
@@ -206,11 +182,9 @@ A potential approach might be to select $\alpha$ based on achieving minimum vari
 
 ### Definition 4.2 (Accuracy)
 
-$\alpha$ is $(\gamma,\delta)$-accurate if the bound on the *error* of AoBG is satisfied with probability $\delta$:
+$\alpha$ is $(\gamma,\delta)$-accurate if the bound on the *error* of AoBG is satisfied with probability $\delta$: To remedy the limitations of considering empirical variance in isolation, we propose an interpolation protocol that can satisfy an accuracy guarantee, while still attempting to minimize the variance.
 
-To remedy the limitations of considering empirical variance in isolation, we propose an interpolation protocol that can satisfy an accuracy guarantee, while still attempting to minimize the variance.
-
-We explain the terms in Eq 4 below in detail.
+| | $\min\limits_{\alpha \in {\lbrack 0,1\rbrack}}$ | ${\alpha^{2}{\hat{\sigma}}_{1}^{2}} + {{({1 - \alpha})}^{2}{\hat{\sigma}}_{0}^{2}}$ | | \(4\) | | | s.t. | ${{\epsilon + {\alpha\underset{B}{\underbrace{\|{{{\overline{\nabla}}^{\lbrack 1\rbrack}F}-{{\overline{\nabla}}^{\lbrack 0\rbrack}F}}\|}}}} \leq \gamma}.$ | | | We explain the terms in Eq 4 below in detail.
 
 Objective. Since we interpolate the FoBG and ZoBG using independent samples, ${\alpha^{2}{\hat{\sigma}}_{1}^{2}} + {{({1 - \alpha})}^{2}{\hat{\sigma}}_{0}^{2}}$ is an unbiased estimate of ${N \cdot \text{Var}}{\lbrack{{\overline{\nabla}}^{\lbrack\alpha\rbrack}F{({\mathbf{θ}})}}\rbrack}$. Thus, our objective is to choose $\alpha$ to minimize this variance.
 
@@ -222,9 +196,7 @@ Suppose that ${\epsilon + {\alphaB}} \leq \gamma$ with probability $\delta$. The
 
 ### Proof
 
-By repeated applications of the triangle inequality. See Section C.3 for a detailed proof. ∎
-
-Specifying the confidence $\epsilon > 0$. We select $\epsilon > 0$ based on a Bernstein vector concentration bound (Section C.4), which only requires a prior upper bound on the magnitude of the value function $V_{1}{( \cdot )}$ and gradients $D_{\mathbf{θ}}\pi{( \cdot,{\mathbf{θ}})}$.
+By repeated applications of the triangle inequality. See Section C.3 for a detailed proof. ∎ Specifying the confidence $\epsilon > 0$. We select $\epsilon > 0$ based on a Bernstein vector concentration bound (Section C.4), which only requires a prior upper bound on the magnitude of the value function $V_{1}{(\cdot)}$ and gradients $D_{\mathbf{θ}}\pi{(\cdot,{\mathbf{θ}})}$.
 
 Asymptotic feasibility. Eq 4 is not feasible if $\epsilon > \gamma$, which would indicate that we simply do not have enough samples to guarantee $(\gamma,\delta)$-accuracy. In this case, we choose to side on conservatism and fully use the ZoBG by setting $\alpha = 0$. Asymptotically, as the number of samples $N\rightarrow\infty$, the confidence interval $\varepsilon\rightarrow 0$, which implies that Eq 4 will always be feasible.
 
@@ -232,11 +204,7 @@ Finally, we note that Eq 4 has a closed form solution, whose proof is provided i
 
 ### Lemma 4.4
 
-With $\gamma = \infty$, the optimal $\alpha$ is $\alpha_{\infty}:=\frac{{\hat{\sigma}}_{0}^{2}}{{\hat{\sigma}}_{1}^{2} + {\hat{\sigma}}_{0}^{2}}$. For finite $\gamma \geq \epsilon$, Eq 4 is
-
-We give some qualitative characteristics of the solution:
-
-If we are within constraint and ${\hat{\sigma}}_{0}^{2} \gg {\hat{\sigma}}_{1}^{2}$, as we can expect from benign smooth systems, then $\alpha \approx 1$, and we rely more on the FoBG.
+With $\gamma = \infty$, the optimal $\alpha$ is $\alpha_{\infty}:=\frac{{\hat{\sigma}}_{0}^{2}}{{\hat{\sigma}}_{1}^{2} + {\hat{\sigma}}_{0}^{2}}$. For finite $\gamma \geq \epsilon$, Eq 4 is We give some qualitative characteristics of the solution: If we are within constraint and ${\hat{\sigma}}_{0}^{2} \gg {\hat{\sigma}}_{1}^{2}$, as we can expect from benign smooth systems, then $\alpha \approx 1$, and we rely more on the FoBG.
 
 In pathological cases where we are unbiased yet ${\hat{\sigma}}_{1}^{2} \gg {\hat{\sigma}}_{0}^{2}$ (e.g. stiffness and chaos), then $\alpha \approx 0$.
 

@@ -6,7 +6,7 @@ It is often claimed in the literature that automatic differentiation is *not* sy
 
 ## Expression Representation
 
-Figure 1: Expression DAG (left), expression tree (middle), and expression forest with common subexpression t1 = x1 + x2 (right) for the function f (x1,x2) = sin (x1+x2) cos (x1+x2).
+Figure 1: Expression DAG (left), expression tree (middle), and expression forest with common subexpression t1 = x1 + x2 (right) for the function f (x1, x2) = sin (x1 + x2) cos (x1 + x2).
 
 By expressions we understand mathematical expressions like ${\sin{({x_{1} + x_{2}})}}{\cos{({x_{1} + x_{2}})}}$. They can be represented by expression DAGs (also known as computational graphs or execution trace), expression trees, or expression forests with common subexpressions. Figure 1 illustrates the difference for the function ${f{(x)}} = {{\sin{({x_{1} + x_{2}})}}{\cos{({x_{1} + x_{2}})}}}$. Obviously, an expression tree is also an expression DAG. On the other hand, an expression DAG can be converted into a tree simply by unfolding. The execution of a computer program results in an expression DAG. For instance, the following Python code results in the above expression DAG.
 
@@ -22,21 +22,13 @@ In this section we will first review reverse mode automatic differentiation and 
 
 ### Reverse Mode Automatic Differentiation
 
-Given an expression DAG $D = {(V,E)}$, reverse mode automatic differentiation proceeds as follows when computing the derivative of the output function $f$. Each internal node $v_{i}$ will eventually store the derivative $\frac{\partial f}{\partial v_{i}}$ that is commonly denoted as ${\overline{v}}_{i}$. Reverse mode proceeds from output to input nodes. At the nodes representing the output function $f$, the derivative $\frac{\partial f}{\partial f}$ is stored. Then, the derivatives that are stored at the remaining nodes, here called $v_{i}$, are iteratively computed by summing over all their outgoing edges using the following equation:
-
-where the $\overline{v} = \frac{\partial f}{\partial v}$ are the partial derivatives that have been computed before and are stored at the nodes $v$. Finally, the derivative of the function $f$ with respect to all variables is stored at the corresponding input nodes.
+Given an expression DAG $D = {(V,E)}$, reverse mode automatic differentiation proceeds as follows when computing the derivative of the output function $f$. Each internal node $v_{i}$ will eventually store the derivative $\frac{\partial f}{\partial v_{i}}$ that is commonly denoted as ${\overline{v}}_{i}$. Reverse mode proceeds from output to input nodes. At the nodes representing the output function $f$, the derivative $\frac{\partial f}{\partial f}$ is stored. Then, the derivatives that are stored at the remaining nodes, here called $v_{i}$, are iteratively computed by summing over all their outgoing edges using the following equation: where the $\overline{v} = \frac{\partial f}{\partial v}$ are the partial derivatives that have been computed before and are stored at the nodes $v$. Finally, the derivative of the function $f$ with respect to all variables is stored at the corresponding input nodes.
 
 ### Symbolic Differentiation
 
 Symbolic differentiation applies the following two rules iteratively to a given function in order to compute its derivative.
 
-If the function is unary, e.g., sine, cosine, etc., it applies the following rule
-
-In case of binary functions, e.g, addition, multiplication, etc., symbolic differentiation applies
-
-All rules from Calculus 101 can be reduced to these two rules. For instance, the multiplication rule is commonly known as $\frac{\partial{({uv})}}{\partial x} = {{u\frac{\partial v}{\partial x}} + {v\frac{\partial u}{\partial x}}}$. The following sequence shows that this follows from Equation. We have
-
-where the binary function $f{(.,.)}$ is the multiplication operation, $g_{1} = u$, and $g_{2} = v$.
+If the function is unary, e.g., sine, cosine, etc., it applies the following rule In case of binary functions, e.g, addition, multiplication, etc., symbolic differentiation applies All rules from Calculus 101 can be reduced to these two rules. For instance, the multiplication rule is commonly known as $\frac{\partial{({uv})}}{\partial x} = {{u\frac{\partial v}{\partial x}} + {v\frac{\partial u}{\partial x}}}$. The following sequence shows that this follows from Equation. We have where the binary function $f{(.,.)}$ is the multiplication operation, $g_{1} = u$, and $g_{2} = v$.
 
 Please note, that the input expression is usually stored in an expression tree or expression forest with common subexpressions. Now there are two important questions that remain to be answered:
 
@@ -76,9 +68,7 @@ When the input is a tree of size $n$, then the resulting tree of the derivative 
 
 ### Speelpenning's Example
 
-Often, Speelpenning's example is brought forward to illustrate that symbolic differentiation is inefficient. Speelpenning's example is the following. Consider the function ${f{(x_{1},x_{2},\ldots,x_{n})}} = {x_{1}x_{2}\ldotsx_{n}}$. When computing the gradient with respect to $x = {(x_{1},x_{2},\ldots,x_{n})}$, symbolic differentiation would output
-
-It is argued that the output is unnecessary large and there are quite a number of common subexpressions that now need to be identified. This is not true. What is displayed is the final output. However, this is the final output *after* expression simplification and the removal of common subexpressions. In between, they have already been computed in the same way as in reverse mode automatic differentiation. If one looks at the individual steps when computing the derivatives symbolically, one can see that the result is exactly the same as reverse mode automatic differentiation. Hence, symbolic differentiation is as efficient as reverse mode automatic differentiation (Myth 4).
+Often, Speelpenning's example is brought forward to illustrate that symbolic differentiation is inefficient. Speelpenning's example is the following. Consider the function ${f{(x_{1},x_{2},\ldots,x_{n})}} = {x_{1}x_{2}\ldotsx_{n}}$. When computing the gradient with respect to $x = {(x_{1},x_{2},\ldots,x_{n})}$, symbolic differentiation would output It is argued that the output is unnecessary large and there are quite a number of common subexpressions that now need to be identified. This is not true. What is displayed is the final output. However, this is the final output *after* expression simplification and the removal of common subexpressions. In between, they have already been computed in the same way as in reverse mode automatic differentiation. If one looks at the individual steps when computing the derivatives symbolically, one can see that the result is exactly the same as reverse mode automatic differentiation. Hence, symbolic differentiation is as efficient as reverse mode automatic differentiation (Myth 4).
 
 Summing up, Speelpenning's example rather serves as an example why reverse mode automatic differentiation is more efficient in case of many input variables and one output function. But the same holds true for standard symbolic differentiation.
 

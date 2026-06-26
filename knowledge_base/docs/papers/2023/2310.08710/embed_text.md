@@ -22,7 +22,7 @@ Figure 2: A sample of features available in Waymax. a): The routes given to an a
 
 ## Related Work
 
-Table 1: A comparison of related driving simulators (chronological order). Multi-agent.: Simulating multiple agents. Supported number of agents are in the parentheses (if available). Accel.: In-graph compilation for hardware (GPU/TPU) acceleration. Sensor Sim: Sensors (e.g. camera, lidar &amp; radar) input simulation. Expert Data: Human demonstrations or rollout trajectories collected with an expert policy. Sim-agents: agent models for simulated objects (e.g. other vehicles). Real data: Real world driving data. Routes/Goals: "−" means no routes or goals are provided; "Waypoints" means positions sampled from a trajectory; "Directions" means discrete driving directions including left, straight, and right; "Goal point" means the goal position.
+Table 1: A comparison of related driving simulators (chronological order). Multi-agent.: Simulating multiple agents. Supported number of agents are in the parentheses (if available). Accel.: In-graph compilation for hardware (GPU/TPU) acceleration. Sensor Sim: Sensors (e.g. camera, lidar & radar) input simulation. Expert Data: Human demonstrations or rollout trajectories collected with an expert policy. Sim-agents: agent models for simulated objects (e.g. other vehicles). Real data: Real world driving data. Routes/Goals: "−" means no routes or goals are provided; "Waypoints" means positions sampled from a trajectory; "Directions" means discrete driving directions including left, straight, and right; "Goal point" means the goal position.
 
 ### Simulators for Autonomous Driving
 
@@ -46,7 +46,7 @@ The first component of defining autonomous driving as a sequential control probl
 
 ### On-Route and Off-Route Paths
 
-We augment each scenario with feasible paths that the AV could take from its initial position. A path is represented as a sequence of points, which are a subset of the roadgraph points. Each path is computed by performing a depth-first-search traversal of the roadgraph from the starting position. Together, these paths describe all the ways in which the AV can legally drive in the scenario. Similar to the "road-route\" in, a path is considered on-route if it follows the same road as the AV's logged trajectory. The remainder of the paths that are not on-route are deemed to be off-route. Fig. 1(a) ‣ Figure 2 ‣ 1 Introduction ‣ Waymax: An Accelerated, Data-Driven Simulator for Large-Scale Autonomous Driving Research") gives an example of on-route paths. These paths are useful for computing metrics as well as developing goal-conditioned planning and interactive agents.
+We augment each scenario with feasible paths that the AV could take from its initial position. A path is represented as a sequence of points, which are a subset of the roadgraph points. Each path is computed by performing a depth-first-search traversal of the roadgraph from the starting position. Together, these paths describe all the ways in which the AV can legally drive in the scenario. Similar to the "road-route\" , a path is considered on-route if it follows the same road as the AV's logged trajectory. The remainder of the paths that are not on-route are deemed to be off-route. Fig. 1(a) ‣ Figure 2 ‣ 1 Introduction ‣ Waymax: An Accelerated, Data-Driven Simulator for Large-Scale Autonomous Driving Research") gives an example of on-route paths. These paths are useful for computing metrics as well as developing goal-conditioned planning and interactive agents.
 
 ### Object Dynamics
 
@@ -90,21 +90,13 @@ We now outline the Waymax software components and interfaces. In order to suppor
 
 ### Environment Interface
 
-Users primarily interact with Waymax as a partially-observable stochastic game. The Waymax interface follows the the Brax design to only define functionally pure initialization and transition functions. This stateless design enables efficient optimization through JAX's JIT compiler and functional libraries, and easily allows users to implement control algorithms that require backtracking, such as search. In contrast with stateful simulators, such as OpenAI Gym and DM Control, Waymax users need to maintain the simulator state within a simulation loop and interact with the simulator primarily through two functions:
-
-The reset(scenario) function takes as input a raw scenario, performs any initialization necessary such as populating the simulation history, and returns the initial state object.
+Users primarily interact with Waymax as a partially-observable stochastic game. The Waymax interface follows the the Brax design to only define functionally pure initialization and transition functions. This stateless design enables efficient optimization through JAX's JIT compiler and functional libraries, and easily allows users to implement control algorithms that require backtracking, such as search. In contrast with stateful simulators, such as OpenAI Gym and DM Control, Waymax users need to maintain the simulator state within a simulation loop and interact with the simulator primarily through two functions: The reset(scenario) function takes as input a raw scenario, performs any initialization necessary such as populating the simulation history, and returns the initial state object.
 
 The step(state, action) function takes as input the current state, the actions for all agents, and computes the successor state as well as the new observation and metrics. The actions argument is a data structure that contains a data tensor of actions for each agent, as well as a validity mask which denotes which agents the user wishes to control. step then returns these results in a new timestep object.
 
 ## Run one episode until termination
-state = env.reset(next(dataset))
-while not done:
-action = policy(env.observe(state))
-state = env.step(state, action)
 
-Using these two functions, a user can run a simple, but complete simulation of a stochastic game between multiple agents, such as in the following pseudocode example:
-
-In addition, we do provide adapters to convert the functionally pure Waymax simulator into a stateful one to support existing codebases.
+state = env.reset(next(dataset)) while not done: action = policy(env.observe(state)) state = env.step(state, action) Using these two functions, a user can run a simple, but complete simulation of a stochastic game between multiple agents, such as in the following pseudocode example: In addition, we do provide adapters to convert the functionally pure Waymax simulator into a stateful one to support existing codebases.
 
 ### Hardware Acceleration and In-graph training
 
@@ -116,9 +108,7 @@ While the base multi-agent environment allows us to do sim-agents (multi-agent) 
 
 Figure 3: An illustration of a simulation rollout using reactive simulated agents to control non-AV agents, and a user-defined policy to control the AV.
 
-While it might be possible to put multiple policies in one environment directly, it is certainly not a flexible way as it is hard to coordinate different policies or change policies. Waymax provides two interfaces for different use-cases:
-
-The MultiAgentEnvironment provides an interface for multi-agent and sim-agent problems. The user provides simultaneous actions for all controlled objects in the scene, as well as a mask to indicate which objects should be controlled.
+While it might be possible to put multiple policies in one environment directly, it is certainly not a flexible way as it is hard to coordinate different policies or change policies. Waymax provides two interfaces for different use-cases: The MultiAgentEnvironment provides an interface for multi-agent and sim-agent problems. The user provides simultaneous actions for all controlled objects in the scene, as well as a mask to indicate which objects should be controlled.
 
 The PlanningAgentEnvironment exposes an interface for controlling only the ego vehicle in the scene. All other agents are controlled by user-specified sim agents or log playback (Fig. 3).
 
@@ -156,12 +146,7 @@ We used the Acme implementation of prioritized replay double DQN.
 
 We used the same architecture as in discrete BC for the Q-network, interpreting the logits of the model as Q-values.
 
-For simplicity, we use a sparse reward penalizing collisions and off-road events: ${r_{t} = {{- {{\mathbb{I}}_{\text{collision}}{(t)}}} - {{\mathbb{I}}_{\text{off-road}}{(t)}}}}.$
-
-Train Sim Agent
-Route Progress Ratio (%)
-
-Table 3: Baseline agent performance evaluated against IDM sim agents with route conditioning. Models trained ourselves (BC and DQN) report mean and standard deviation over 3 seeds. Off-Road, Collision, and Kinematic Infeasibility are reported as a percentage of episodes where the metric is flagged at any timestep. Action spaces are continuous unless noted otherwise. By construction the bicycle action space does not violate the comfort metric.
+For simplicity, we use a sparse reward penalizing collisions and off-road events: ${r_{t} = {{- {{\mathbb{I}}_{\text{collision}}{(t)}}} - {{\mathbb{I}}_{\text{off-road}}{(t)}}}}.$ Train Sim Agent Route Progress Ratio (%) Table 3: Baseline agent performance evaluated against IDM sim agents with route conditioning. Models trained ourselves (BC and DQN) report mean and standard deviation over 3 seeds. Off-Road, Collision, and Kinematic Infeasibility are reported as a percentage of episodes where the metric is flagged at any timestep. Action spaces are continuous unless noted otherwise. By construction the bicycle action space does not violate the comfort metric.
 
 ### Planning Benchmark Results
 
@@ -175,14 +160,7 @@ For open-loop imitation, the discrete action space performs best, possibly becau
 
 To showcase the utility of route conditioning, we compare the performance of route conditioned versus non-route conditioned behavior cloning agents Table 4 shows that the route conditioned agent is substantially better at following the route, while also achieving a lower off-road rate, collision rate, and log ADE. These results indicate that the route provides a strong signal for the planning task.
 
-Agent (Action Space)
-Route Progress Ratio (%)
-
-Expert (Bicycle Discrete)
-
-BC (Bicycle Discrete) + Route
-
-Table 4: Experimental ablation comparing performance with and without route conditioning.
+Agent (Action Space) Route Progress Ratio (%) Expert (Bicycle Discrete) BC (Bicycle Discrete) + Route Table 4: Experimental ablation comparing performance with and without route conditioning.
 
 ### Sim Agent Ablation
 

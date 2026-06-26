@@ -16,13 +16,7 @@ Decades-old work on ALVINN (Pomerleau ) showed how a shallow neural network coul
 
 ## Model Architecture
 
-(e) Current Agent Box
-
-(g) Past Agent Poses
-
-(h) Future Agent Poses
-
-Figure 1: Driving model inputs (a-g) and output (h).
+(e) Current Agent Box (g) Past Agent Poses (h) Future Agent Poses Figure 1: Driving model inputs (a-g) and output (h).
 
 ### Input Output Representation
 
@@ -62,15 +56,11 @@ In this section, we first show how to train the model above to imitate the exper
 
 ### Agent Position, Heading and Box Prediction
 
-The AgentRNN produces three outputs at each iteration $k$: a probability distribution $P_{k}{(x,y)}$ over the spatial coordinates of the predicted waypoint obtained after a spatial softmax, a heatmap of the predicted agent box at that timestep $B_{k}{(x,y)}$ obtained after a per-pixel sigmoid activation that represents the probability that the agent occupies a particular pixel, and a regressed box heading output $\theta_{k}$. Given ground-truth data for the above predicted quantities, we can define the corresponding losses for each iteration as:
-
-where the superscript gt denotes the corresponding ground-truth values, and $\mathcal{H}{(a,b)}$ is the cross-entropy function. Note that $P_{k}^{gt}$ is a binary image with only the pixel at the ground-truth target coordinate $\lfloor\mathbf{p}_{k}^{gt}\rfloor$ set to one.
+The AgentRNN produces three outputs at each iteration $k$: a probability distribution $P_{k}{(x,y)}$ over the spatial coordinates of the predicted waypoint obtained after a spatial softmax, a heatmap of the predicted agent box at that timestep $B_{k}{(x,y)}$ obtained after a per-pixel sigmoid activation that represents the probability that the agent occupies a particular pixel, and a regressed box heading output $\theta_{k}$. Given ground-truth data for the above predicted quantities, we can define the corresponding losses for each iteration as: where the superscript gt denotes the corresponding ground-truth values, and $\mathcal{H}{(a,b)}$ is the cross-entropy function. Note that $P_{k}^{gt}$ is a binary image with only the pixel at the ground-truth target coordinate $\lfloor\mathbf{p}_{k}^{gt}\rfloor$ set to one.
 
 ### Agent Meta Prediction
 
-The meta prediction network performs regression on the features to generate a sub-pixel refinement $\delta\mathbf{p}_{k}$ of the coarse waypoint prediction as well as a speed estimate $s_{k}$ at each iteration. We employ $L_{1}$ loss for both of these outputs:
-
-where ${\delta\mathbf{p}_{k}^{gt}} = {\mathbf{p}_{k}^{gt} - {\lfloor\mathbf{p}_{k}^{gt}\rfloor}}$ is the fractional part of the ground-truth pose coordinates.
+The meta prediction network performs regression on the features to generate a sub-pixel refinement $\delta\mathbf{p}_{k}$ of the coarse waypoint prediction as well as a speed estimate $s_{k}$ at each iteration. We employ $L_{1}$ loss for both of these outputs: where ${\delta\mathbf{p}_{k}^{gt}} = {\mathbf{p}_{k}^{gt} - {\lfloor\mathbf{p}_{k}^{gt}\rfloor}}$ is the fractional part of the ground-truth pose coordinates.
 
 ### Past Motion Dropout
 
@@ -90,9 +80,7 @@ Running the model as a part of a closed-loop system over time can cause the inpu
 
 ### Collision Loss
 
-Since our training data does not have any real collisions, the idea of avoiding collisions is implicit and will not generalize well. To alleviate this issue, we add a specialized loss that directly measures the overlap of the predicted agent box $B_{k}$ with the ground-truth boxes of all the scene objects at each timestep.
-
-where $B_{k}$ is the likelihood map for the output agent box prediction, and $Obj_{k}^{gt}$ is a binary mask with ones at all pixels occupied by other dynamic objects (other vehicles, pedestrians, etc.) in the scene at timestep $k$. At any time during training, if the model makes a poor prediction that leads to a collision, the overlap loss would influence the gradients to correct the mistake. However, this loss would be effective only during the initial training rounds when the model hasn't learned to predict close to the ground-truth locations due to the absence of real collisions in the ground truth data. This issue is alleviated by the addition of trajectory perturbation data, where artificial collisions within those examples allow this loss to be effective throughout training without the need for online exploration like in reinforcement learning settings.
+Since our training data does not have any real collisions, the idea of avoiding collisions is implicit and will not generalize well. To alleviate this issue, we add a specialized loss that directly measures the overlap of the predicted agent box $B_{k}$ with the ground-truth boxes of all the scene objects at each timestep. where $B_{k}$ is the likelihood map for the output agent box prediction, and $Obj_{k}^{gt}$ is a binary mask with ones at all pixels occupied by other dynamic objects (other vehicles, pedestrians, etc.) in the scene at timestep $k$. At any time during training, if the model makes a poor prediction that leads to a collision, the overlap loss would influence the gradients to correct the mistake. However, this loss would be effective only during the initial training rounds when the model hasn't learned to predict close to the ground-truth locations due to the absence of real collisions in the ground truth data. This issue is alleviated by the addition of trajectory perturbation data, where artificial collisions within those examples allow this loss to be effective throughout training without the need for online exploration like in reinforcement learning settings.
 
 ### On Road Loss
 
@@ -102,21 +90,13 @@ Trajectory perturbations also create synthetic cases where the car veers off the
 
 We would like to explicitly constrain the agent to follow the target geometry independent of the speed profile. We model this target geometry by fitting a smooth curve to the target waypoints and rendering this curve as a binary image in the top-down coordinate system. The thickness of this curve is set to be equal to the width of the agent. We express this loss similar to the collision loss by measuring the overlap of the predicted agent box with the binary target geometry image $Geom^{gt}$. Any portion of the box that does not overlap with the target geometry curve is added as a penalty to the loss function.
 
-(b) Target Road Mask
-
-(c) Pred Road Mask Logits
-
-(d) Pred Vehicles Logits
-
-(e) Agent Pose Logits
-
-Figure 6: Visualization of predictions and loss functions on an example input. The top row is at the input resolution, while the bottom row shows a zoomed-in view around the current agent location.
+(b) Target Road Mask (c) Pred Road Mask Logits (d) Pred Vehicles Logits (e) Agent Pose Logits Figure 6: Visualization of predictions and loss functions on an example input. The top row is at the input resolution, while the bottom row shows a zoomed-in view around the current agent location.
 
 ### Auxiliary Losses
 
 Similar to our own agent's trajectory, the motion of other agents may also be predicted by a recurrent network. Correspondingly, we add a recurrent perception network PerceptionRNN that uses as input the shared features $F$ created by the FeatureNet and its own predictions $Obj_{k - 1}$ from the previous iteration, and predicts a heatmap $Obj_{k}$ at each iteration. $Obj_{k}{(x,y)}$ denotes the probability that location $(x,y)$ is occupied by a dynamic object at time $k$. For iteration $k = 0$, the PerceptionRNN is fed the ground truth objects at the current time.
 
-Co-training a PerceptionRNN to predict the future of other agents by sharing the same feature representation $F$ used by the PerceptionRNN is likely to induce the feature network to learn better features that are suited to both tasks. Several examples of predicted trajectories from PerceptionRNN on logged data are shown on our website [here](https://sites.google.com/view/waymo-learn-to-drive/).
+Co-training a PerceptionRNN to predict the future of other agents by sharing the same feature representation $F$ used by the PerceptionRNN is likely to induce the feature network to learn better features that are suited to both tasks. Several examples of predicted trajectories from PerceptionRNN on logged data are shown on our website here.
 
 We also co-train to predict a binary road/non-road mask by adding a small network of convolutional layers to the output of the feature net $F$. We add a cross-entropy loss to the predicted road mask output $Road{(x,y)}$ which compares it to the ground-truth road mask $Road^{gt}$.
 
@@ -124,11 +104,7 @@ Fig. 6 shows some of the predictions and losses for a single example processed t
 
 ### Imitation Dropout
 
-Overall, our losses may be grouped into two sub-groups, the imitation losses:
-
-and the environment losses:
-
-The imitation losses cause the model to imitate the expert's demonstrations, while the environment losses discourage undesirable behavior such as collisions. To further increase the effectiveness of the environment losses, we experimented with randomly dropping out the imitation losses for a random subset of training examples. We refer to this as "imitation dropout". In the experiments, we show that imitation dropout yields a better driving model than simply under-weighting the imitation losses. During imitation dropout, the weight on the imitation losses $w_{imit}$ is randomly chosen to be either 0 or 1 with a certain probability for each training example. The overall loss is given by:
+Overall, our losses may be grouped into two sub-groups, the imitation losses: and the environment losses: The imitation losses cause the model to imitate the expert's demonstrations, while the environment losses discourage undesirable behavior such as collisions. To further increase the effectiveness of the environment losses, we experimented with randomly dropping out the imitation losses for a random subset of training examples. We refer to this as "imitation dropout". In the experiments, we show that imitation dropout yields a better driving model than simply under-weighting the imitation losses. During imitation dropout, the weight on the imitation losses $w_{imit}$ is randomly chosen to be either 0 or 1 with a certain probability for each training example. The overall loss is given:
 
 ## Experiments
 
@@ -152,12 +128,7 @@ To evaluate our learned model on a specific scenario, we replay the segment thro
 
 Here, we present results from experiments using the various models in the closed-loop simulation setup. We first evaluated all the models on simple situations such as stopping for stop-signs and red traffic lights, and lane following along straight and curved roads by creating 20 scenarios for each situation, and found that *all the models worked well in these simple cases*. Therefore, we will focus below on specific complex situations that highlight the differences between these models.
 
-Imitation with Past Dropout
-
-ℳ2 with less imitation
-
-ℳ2 with Imitation Dropout
-Dropout probability = 0.5 (see Section 5.3).
+Imitation with Past Dropout ℳ2 with less imitation ℳ2 with Imitation Dropout Dropout probability = 0.5 (see Section 5.3).
 
 Table 3: Model configuration for the model ablation tests.
 
@@ -177,15 +148,15 @@ To set up this scenario, we place the agent on a straight road at varying initia
 
 ### Input Ablation Tests
 
-With input ablation tests, we want to test the final $\mathcal{M}_{4}$ model's ability to identify the correct causal factors behind specific behaviors, by testing the model's behavior in the presence or absence of the correct causal factor while holding other conditions constant. In simulation, we have evaluated our model on 20 scenarios with and without stop-signs rendered, and 20 scenarios with and without other vehicles in the scene rendered. The model [exhibits](https://sites.google.com/view/waymo-learn-to-drive/) the correct behavior in all scenarios, thus confirming that it has learned to respond to the correct features for a stop-sign and a stopped vehicle.
+With input ablation tests, we want to test the final $\mathcal{M}_{4}$ model's ability to identify the correct causal factors behind specific behaviors, by testing the model's behavior in the presence or absence of the correct causal factor while holding other conditions constant. In simulation, we have evaluated our model on 20 scenarios with and without stop-signs rendered, and 20 scenarios with and without other vehicles in the scene rendered. The model exhibits the correct behavior in all scenarios, thus confirming that it has learned to respond to the correct features for a stop-sign and a stopped vehicle.
 
 ### Logged Data Simulated Driving
 
-For this evaluation, we take logs from our real-driving test data (separate from our training data), and use our trained network to drive the car using the vehicle simulator keeping everything else the same i.e. the dynamic objects, traffic-light states etc. are all kept the same as in the logs. Some example videos are shown [here](https://sites.google.com/view/waymo-learn-to-drive/) and they illustrate the ability of the model in dealing with multiple dynamic objects and road controls.
+For this evaluation, we take logs from our real-driving test data (separate from our training data), and use our trained network to drive the car using the vehicle simulator keeping everything else the same i.e. the dynamic objects, traffic-light states etc. are all kept the same as in the logs. Some example videos are shown here and they illustrate the ability of the model in dealing with multiple dynamic objects and road controls.
 
 ### Real World Driving
 
-We have also evaluated this model on our self-driving car by replacing the existing planner module with the learned model $\mathcal{M}_{4}$ and have replicated the driving behaviors observed in simulation. The videos of several of these runs are available [here](https://sites.google.com/view/waymo-learn-to-drive/) and they illustrate not only the smoothness of the network's driving ability, but also its ability to deal with stop-signs and turns and to drive for long durations in full closed-loop control without deviating from the trajectory.
+We have also evaluated this model on our self-driving car by replacing the existing planner module with the learned model $\mathcal{M}_{4}$ and have replicated the driving behaviors observed in simulation. The videos of several of these runs are available here and they illustrate not only the smoothness of the network's driving ability, but also its ability to deal with stop-signs and turns and to drive for long durations in full closed-loop control without deviating from the trajectory.
 
 (a) Prediction Error for models ℳ0 and ℳ4 on unperturbed evaluation data.
 
@@ -199,7 +170,7 @@ In an open-loop evaluation, we take test examples of expert driving data and for
 
 We also compare the performance of models $\mathcal{M}_{0}$ and $\mathcal{M}_{1}$ on our perturbed evaluation data w.r.t the $L_{2}$ distance metric in Fig. 8(b). Note that the model trained without including perturbed data ($\mathcal{M}_{0}$) has larger errors due to its inability to bring the agent back from the perturbation onto its original trajectory. Fig. 9 shows examples of the trajectories predicted by these models on a few representative examples showcasing that the perturbed data is critical to avoiding the veering-off tendency of the model trained without such data.
 
-Figure 9: Comparison of ground-truth trajectory in (a) with the predicted trajectories from models ℳ0 and ℳ1 in (b) and (c) respectively on two perturbed examples. The red point is the reference pose (u0,v0), white points are the past poses and green points are the future poses.
+Figure 9: Comparison of ground-truth trajectory in (a) with the predicted trajectories from models ℳ0 and ℳ1 in (b) and (c) respectively on two perturbed examples. The red point is the reference pose (u0, v0), white points are the past poses and green points are the future poses.
 
 ### Failure Modes
 
@@ -209,7 +180,7 @@ At our ground resolution of $20$ cm/pixel, the agent currently sees $64$ m in fr
 
 The waypoint prediction from the model at timestep $k$ is represented by the probability distribution $P_{k}{(x,y)}$ over the spatial domain in the top-down coordinate system. In this paper, we pick the mode of this distribution $\mathbf{p}_{k}$ to update the memory of the $AgentRNN$. More generally, we can also sample from this distribution to allow us to predict trajectories with different speed profiles. Fig. 10 illustrates the predictions $P_{1}{(x,y)}$ and $P_{5}{(x,y)}$ at the first and the fifth iterations respectively, for a training example where the past motion history has been dropped out. Correspondingly, $P_{1}{(x,y)}$ has a high uncertainity along the longitudinal position and allows us to pick from a range of speed samples. Once we pick a specific sample, the ensuing waypoints get constrained in their ability to pick different speeds and this shows as a centered distribution at the $P_{5}{(x,y)}$.
 
-Figure 10: Sampling speed profiles. The probability distribution P1 (x,y) predicted by the model at timestep k = 1 allows us to sample different speed profiles conditioned on which the later distribution P5 (x,y) gets more constrained.
+Figure 10: Sampling speed profiles. The probability distribution P1 (x, y) predicted by the model at timestep k = 1 allows us to sample different speed profiles conditioned on which the later distribution P5 (x, y) gets more constrained.
 
 The use of a probability distribution over the next waypoint also presents the interesting possibility of constraining the model predictions at inference time to respect hard constraints. For example, such constrained sampling may provide a way to ensure that any trajectories we generate strictly obey legal restrictions such as speed limits. One could also constrain sampling of trajectories to a designated region, such as a region around a given reference trajectory.
 

@@ -4,7 +4,7 @@ Deep neural networks (DNNs) have been widely used for machine learning applicati
 
 Another popular type of training set bias is label noise. To train a reasonable supervised deep model, we ideally need a large dataset with high-quality labels, which require many passes of expensive human quality assurance (QA). Although coarse labels are cheap and of high availability, the presence of noise will hurt the model performance, e.g. Zhang et al. has shown that a standard CNN can fit any ratio of label flipping noise in the training set and eventually leads to poor generalization performance.
 
-Training set biases and misspecification can sometimes be addressed with dataset resampling, i.e. choosing the correct proportion of labels to train a network on, or more generally by assigning a weight to each example and minimizing a weighted training loss. The example weights are typically calculated based on the training loss, as in many classical algorithms such as AdaBoost, hard negative mining, self-paced learning, and other more recent work.
+Training set biases and misspecification can sometimes be addressed with dataset resampling, i.e. choosing the correct proportion of labels to train a network , or more generally by assigning a weight to each example and minimizing a weighted training loss. The example weights are typically calculated based on the training loss, as in many classical algorithms such as AdaBoost, hard negative mining, self-paced learning, and other more recent work.
 
 However, there exist two contradicting ideas in training loss based approaches. In noisy label problems, we prefer examples with smaller training losses as they are more likely to be clean images; yet in class imbalance problems, algorithms such as hard negative mining prioritize examples with higher training loss since they are more likely to be the minority class. In cases when the training set is both imbalanced and noisy, these existing methods would have the wrong model assumptions. In fact, without a proper definition of an unbiased test set, solving the training set bias problem is inherently ill-defined. As the model cannot distinguish the right from the wrong, stronger regularization can usually work surprisingly well in certain synthetic noise settings. Here we argue that in order to learn general forms of training set biases, it is necessary to have a small unbiased validation to guide training. It is actually not uncommon to construct a dataset with two parts - one relatively small but very accurately labeled, and another massive but coarsely labeled. Coarse labels can come from inexpensive crowdsourcing services or weakly supervised data.
 
@@ -30,39 +30,23 @@ Let $(x,y)$ be an input-target pair, and $\{{{{(x_{i},y_{i})},1} \leq i \leq N}\
 
 Let $\Phi{(x,\theta)}$ be our neural network model, and $\theta$ be the model parameters. We consider a loss function $C{(\hat{y},y)}$ to minimize during training, where $\hat{y} = {\Phi{(x,\theta)}}$.
 
-In standard training, we aim to minimize the expected loss for the training set: ${\frac{1}{N}{\sum_{i = 1}^{N}{C{({\hat{y}}_{i},y_{i})}}}} = {\frac{1}{N}{\sum_{i = 1}^{N}{f_{i}{(\theta)}}}}$, where each input example is weighted equally, and $f_{i}{(\theta)}$ stands for the loss function associating with data $x_{i}$. Here we aim to learn a reweighting of the inputs, where we minimize a weighted loss:
-
-with $w_{i}$ unknown upon beginning. Note that ${\{ w_{i}\}}_{i = 1}^{N}$ can be understood as training hyperparameters, and the optimal selection of $w$ is based on its validation performance:
-
-It is necessary that $w_{i} \geq 0$ for all $i$, since minimizing the negative training loss can usually result in unstable behavior.
+In standard training, we aim to minimize the expected loss for the training set: ${\frac{1}{N}{\sum_{i = 1}^{N}{C{({\hat{y}}_{i},y_{i})}}}} = {\frac{1}{N}{\sum_{i = 1}^{N}{f_{i}{(\theta)}}}}$, where each input example is weighted equally, and $f_{i}{(\theta)}$ stands for the loss function associating with data $x_{i}$. Here we aim to learn a reweighting of the inputs, where we minimize a weighted loss: with $w_{i}$ unknown upon beginning. Note that ${\{ w_{i}\}}_{i = 1}^{N}$ can be understood as training hyperparameters, and the optimal selection of $w$ is based on its validation performance: It is necessary that $w_{i} \geq 0$ for all $i$, since minimizing the negative training loss can usually result in unstable behavior.
 
 ### Online approximation
 
 Calculating the optimal $w_{i}$ requires two nested loops of optimization, and every single loop can be very expensive. The motivation of our approach is to adapt online $w$ through a single optimization loop. For each training iteration, we inspect the descent direction of some training examples locally on the training loss surface and reweight them according to their similarity to the descent direction of the validation loss surface.
 
-For most training of deep neural networks, SGD or its variants are used to optimize such loss functions. At every step $t$ of training, a mini-batch of training examples $\{{{{(x_{i},y_{i})},1} \leq i \leq n}\}$ is sampled, where $n$ is the mini-batch size, $n \ll N$. Then the parameters are adjusted according to the descent direction of the expected loss on the mini-batch. Let's consider vanilla SGD:
+For most training of deep neural networks, SGD or its variants are used to optimize such loss functions. At every step $t$ of training, a mini-batch of training examples $\{{{{(x_{i},y_{i})},1} \leq i \leq n}\}$ is sampled, where $n$ is the mini-batch size, $n \ll N$. Then the parameters are adjusted according to the descent direction of the expected loss on the mini-batch. Let's consider vanilla SGD: where $\alpha$ is the step size.
 
-where $\alpha$ is the step size.
+We want to understand what would be the impact of training example $i$ towards the performance of the validation set at training step $t$. Following a similar analysis to Koh & Liang, we consider perturbing the weighting by $\epsilon_{i}$ for each training example in the mini- batch, We can then look for the optimal $\epsilon^{\ast}$ that minimizes the validation loss $f^{v}$ locally at step $t$: Unfortunately, this can still be quite time-consuming. To get a cheap estimate of $w_{i}$ at step $t$, we take a single gradient descent step on a mini-batch of validation samples wrt. $\epsilon_{t}$, and then rectify the output to get a non-negative weighting: where $\eta$ is the descent step size on $\epsilon$.
 
-We want to understand what would be the impact of training example $i$ towards the performance of the validation set at training step $t$. Following a similar analysis to Koh & Liang, we consider perturbing the weighting by $\epsilon_{i}$ for each training example in the mini- batch,
-
-We can then look for the optimal $\epsilon^{\ast}$ that minimizes the validation loss $f^{v}$ locally at step $t$:
-
-Unfortunately, this can still be quite time-consuming. To get a cheap estimate of $w_{i}$ at step $t$, we take a single gradient descent step on a mini-batch of validation samples wrt. $\epsilon_{t}$, and then rectify the output to get a non-negative weighting:
-
-where $\eta$ is the descent step size on $\epsilon$.
-
-To match the original training step size, in practice, we can consider normalizing the weights of all examples in a training batch so that they sum up to one. In other words, we choose to have a hard constraint within the set ${\{ w:{{\parallel w\parallel}_{1} = 1}\}} \cup {\{ 0\}}$.
-
-where $\delta{( \cdot )}$ is to prevent the degenerate case when all $w_{i}$'s in a mini-batch are zeros, i.e. ${\delta{(a)}} = 1$ if $a = 0$, and equals to $0$ otherwise. Without the batch-normalization step, it is possible that the algorithm modifies its effective learning rate of the training progress, and our one-step look ahead may be too conservative in terms of the choice of learning rate. Moreover, with batch normalization, we effectively cancel the meta learning rate parameter $\eta$.
+To match the original training step size, in practice, we can consider normalizing the weights of all examples in a training batch so that they sum up to one. In other words, we choose to have a hard constraint within the set ${\{ w:{{\parallel w\parallel}_{1} = 1}\}} \cup {\{ 0\}}$. where $\delta{(\cdot)}$ is to prevent the degenerate case when all $w_{i}$'s in a mini-batch are zeros, i.e. ${\delta{(a)}} = 1$ if $a = 0$, and equals to $0$ otherwise. Without the batch-normalization step, it is possible that the algorithm modifies its effective learning rate of the training progress, and our one-step look ahead may be too conservative in terms of the choice of learning rate. Moreover, with batch normalization, we effectively cancel the meta learning rate parameter $\eta$.
 
 ### Example: learning to reweight examples in a multi-layer perceptron network
 
-In this section, we study how to compute $w_{i,t}$ in a multi-layer perceptron (MLP) network. One of the core steps is to compute the gradients of the validation loss wrt. the local perturbation $\epsilon$, We can consider a multi-layered network where we have parameters for each layer $\theta = {\{\theta_{l}\}}_{l = 1}^{L}$, and at every layer, we first compute $z_{l}$ the pre-activation, a weighted sum of inputs to the layer, and afterwards we apply a non-linear activation function $\sigma$ to obtain ${\overset{\sim}{z}}_{l}$ the post-activation:
+In this section, we study how to compute $w_{i,t}$ in a multi-layer perceptron (MLP) network. One of the core steps is to compute the gradients of the validation loss wrt. the local perturbation $\epsilon$, We can consider a multi-layered network where we have parameters for each layer $\theta = {\{\theta_{l}\}}_{l = 1}^{L}$, and at every layer, we first compute $z_{l}$ the pre-activation, a weighted sum of inputs to the layer, and afterwards we apply a non-linear activation function $\sigma$ to obtain ${\overset{\sim}{z}}_{l}$ the post-activation: During backpropagation, let $g_{l}$ be the gradients of loss wrt. $z_{l}$, and the gradients wrt. $\theta_{l}$ is given by ${\overset{\sim}{z}}_{l - 1}g_{l}^{\top}$. We can further express the gradients towards $\epsilon$ as a sum of local dot products.
 
-During backpropagation, let $g_{l}$ be the gradients of loss wrt. $z_{l}$, and the gradients wrt. $\theta_{l}$ is given by ${\overset{\sim}{z}}_{l - 1}g_{l}^{\top}$. We can further express the gradients towards $\epsilon$ as a sum of local dot products.
-
-Detailed derivations can be found in Appendix A. Eq. 12 suggests that the meta-gradient on $\epsilon$ is composed of the sum of the products of two terms: $z^{\top}z^{v}$ and $g^{\top}g^{v}$. The first dot product computes the similarity between the training and validation inputs to the layer, while the second computes the similarity between the training and validation gradient directions. In other words, suppose that a pair of training and validation examples are very similar, and they also provide similar gradient directions, then this training example is helpful and should be up-weighted, and conversely, if they provide opposite gradient directions, this training example is harmful and should be downweighed.
+| | & {\frac{\partial}{\partial\epsilon_{i,t}}{\mathbb{E}}\left\lbrack \left. {f^{v}{({\theta_{t + 1}{(\epsilon)}})}} \right|_{\epsilon_{i,t} = 0} \right\rbrack} \\ | | | | | \propto & {- \left. {\left. {\frac{1}{m}{\sum\limits_{j = 1}^{m}\frac{\partial{f_{j}^{v}{(\theta)}}}{\partial\theta}}} \right|_{\theta = \theta_{t}}^{\top}\frac{\partial{f_{i}{(\theta)}}}{\partial\theta}} \right|_{\theta = \theta_{t}}} \\ | | | Detailed derivations can be found in Appendix A. Eq. 12 suggests that the meta-gradient on $\epsilon$ is composed of the sum of the products of two terms: $z^{\top}z^{v}$ and $g^{\top}g^{v}$. The first dot product computes the similarity between the training and validation inputs to the layer, while the second computes the similarity between the training and validation gradient directions. In other words, suppose that a pair of training and validation examples are very similar, and they also provide similar gradient directions, then this training example is helpful and should be up-weighted, and conversely, if they provide opposite gradient directions, this training example is harmful and should be downweighed.
 
 ### Implementation using automatic differentiation
 
@@ -70,11 +54,7 @@ Figure 1: Computation graph of our algorithm in a deep neural network, which can
 
 In an MLP and a CNN, the unnormalized weights can be calculated based on the sum of the correlations of layerwise activation gradients and input activations. In more general networks, we can leverage automatic differentiation techniques to compute the gradient of the validation loss wrt. the example weights of the current batch. As shown in Figure 1, to get the gradients of the example weights, one needs to first unroll the gradient graph of the training batch, and then use backward-on-backward automatic differentiation to take a second order gradient pass (see Step 5 in Figure 1). We list detailed step-by-step pseudo-code in Algorithm 1. This implementation can be generalized to any deep learning architectures and can be very easily implemented using popular deep learning frameworks such as TensorFlow.
 
-5: ϵ ← 0; $l_{f}\leftarrow{\sum_{i = 1}^{n}{\epsilon_{i}C{(y_{f,i},{\hat{y}}_{f,i})}}}$
-9: $l_{g}\leftarrow{\frac{1}{m}{\sum_{i = 1}^{m}{C{(y_{g,i},{\hat{y}}_{g,i})}}}}$
-11: $\overset{\sim}{w}\leftarrow{\max{({- {\nabla\epsilon}},0)}}$; $w\leftarrow\frac{\overset{\sim}{w}}{{\sum_{j}\overset{\sim}{w}} + {\delta{({\sum_{j}\overset{\sim}{w}})}}}$
-12: ${\hat{l}}_{f}\leftarrow{\sum_{i = 1}^{n}{w_{i}C{(y_{i},{\hat{y}}_{f,i})}}}$
-Algorithm 1 Learning to Reweight Examples using Automatic Differentiation
+5: ϵ ← 0; $l_{f}\leftarrow{\sum_{i = 1}^{n}{\epsilon_{i}C{(y_{f,i},{\hat{y}}_{f,i})}}}$ 9: $l_{g}\leftarrow{\frac{1}{m}{\sum_{i = 1}^{m}{C{(y_{g,i},{\hat{y}}_{g,i})}}}}$ 11: $\overset{\sim}{w}\leftarrow{\max{({- {\nabla\epsilon}},0)}}$; $w\leftarrow\frac{\overset{\sim}{w}}{{\sum_{j}\overset{\sim}{w}} + {\delta{({\sum_{j}\overset{\sim}{w}})}}}$ 12: ${\hat{l}}_{f}\leftarrow{\sum_{i = 1}^{n}{w_{i}C{(y_{i},{\hat{y}}_{f,i})}}}$ Algorithm 1 Learning to Reweight Examples using Automatic Differentiation
 
 ### Training time
 
@@ -96,29 +76,21 @@ In most real-world cases, the high-quality validation set is really small, and t
 
 ### Lemma 1
 
-Suppose the validation loss function is Lipschitz-smooth with constant $L$, and the train loss function $f_{i}$ of training data $x_{i}$ have $\sigma$-bounded gradients. Let the learning rate $\alpha_{t}$ satisfies $\alpha_{t} \leq \frac{2n}{L\sigma^{2}}$, where $n$ is the training batch size. Then, following our algorithm, the validation loss always monotonically decreases for any sequence of training batches, namely,
-
-where $G{(\theta)}$ is the total validation loss
-
-Furthermore, in expectation, the equality in Eq. 13 holds only when the gradient of validation loss becomes 0 at some time step $t$, namely ${\mathbb{E}_{t}\left\lbrack {G{(\theta_{t + 1})}} \right\rbrack} = {G{(\theta_{t})}}$ if and only if ${{\nabla G}{(\theta_{t})}} = 0$, where the expectation is taking over possible training batches at time step $t$.
+Suppose the validation loss function is Lipschitz-smooth with constant $L$, and the train loss function $f_{i}$ of training data $x_{i}$ have $\sigma$-bounded gradients. Let the learning rate $\alpha_{t}$ satisfies $\alpha_{t} \leq \frac{2n}{L\sigma^{2}}$, where $n$ is the training batch size. Then, following our algorithm, the validation loss always monotonically decreases for any sequence of training batches, namely, where $G{(\theta)}$ is the total validation loss Furthermore, in expectation, the equality in Eq. 13 holds only when the gradient of validation loss becomes 0 at some time step $t$, namely ${\mathbb{E}_{t}\left\lbrack {G{(\theta_{t + 1})}} \right\rbrack} = {G{(\theta_{t})}}$ if and only if ${{\nabla G}{(\theta_{t})}} = 0$, where the expectation is taking over possible training batches at time step $t$.
 
 Moreover, we can prove the convergence rate of our method to be $O{({1/\epsilon^{2}})}$.
 
 ### Theorem 2
 
-Suppose $G$, $f_{i}$ and $\alpha_{t}$ satisfy the aforementioned conditions, then Algorithm 1 achieves ${{\mathbb{E}}\left\lbrack {\parallel{{\nabla G}{(\theta_{t})}}\parallel}^{2} \right\rbrack} \leq \epsilon$ in $O{({1/\epsilon^{2}})}$ steps. More specifically,
-
-where $C$ is some constant independent of the convergence process.
+Suppose $G$, $f_{i}$ and $\alpha_{t}$ satisfy the aforementioned conditions, then Algorithm 1 achieves ${{\mathbb{E}}\left\lbrack {\parallel{{\nabla G}{(\theta_{t})}}\parallel}^{2} \right\rbrack} \leq \epsilon$ in $O{({1/\epsilon^{2}})}$ steps. More specifically, where $C$ is some constant independent of the convergence process.
 
 ## Experiments
 
-To test the effectiveness of our reweighting algorithm, we designed both class imbalance and noisy label settings, and a combination of both, on standard MNIST and CIFAR benchmarks for image classification using deep CNNs. ^11^1Code released at: [https://github.com/uber-research/learning-to-reweight-examples](https://github.com/uber-research/learning-to-reweight-examples)
+To test the effectiveness of our reweighting algorithm, we designed both class imbalance and noisy label settings, and a combination of both, on standard MNIST and CIFAR benchmarks for image classification using deep CNNs. ^11^1Code released :
 
 ### MNIST data imbalance experiments
 
-We use the standard MNIST handwritten digit classification dataset and subsample the dataset to generate a class imbalance binary classification task. We select a total of 5,000 images of size 28$\times$`<!-- -->`{=html}28 on class 4 and 9, where 9 dominates the training data distribution. We train a standard LeNet on this task and we compare our method with a suite of commonly used tricks for class imbalance: 1) Proportion weights each example by the inverse frequency 2) Resample samples a class-balanced mini-batch for each iteration 3) Hard Mining selects the highest loss examples from the majority class and 4) Random is a random example weight baseline that assigns weights based on a rectified Gaussian distribution:
-
-To make sure that our method does not have the privilege of training on more data, we split the balanced validation set of 10 images directly from the training set. The network is trained with SGD with a learning rate of 1e-3 and mini-batch size of 100 for a total of 8,000 steps.
+We use the standard MNIST handwritten digit classification dataset and subsample the dataset to generate a class imbalance binary classification task. We select a total of 5,000 images of size 28$\times$`<!-- -->`{=html}28 on class 4 and 9, where 9 dominates the training data distribution. We train a standard LeNet on this task and we compare our method with a suite of commonly used tricks for class imbalance: 1) Proportion weights each example by the inverse frequency 2) Resample samples a class-balanced mini-batch for each iteration 3) Hard Mining selects the highest loss examples from the majority class and 4) Random is a random example weight baseline that assigns weights based on a rectified Gaussian distribution: To make sure that our method does not have the privilege of training on more data, we split the balanced validation set of 10 images directly from the training set. The network is trained with SGD with a learning rate of 1e-3 and mini-batch size of 100 for a total of 8,000 steps.
 
 Figure 2 plots the test error rate across various imbalance ratios averaged from 10 runs with random splits. Note that our method significantly outperforms all the baselines. With class imbalance ratio of 200:1, our method only reports a small increase of error rate around 2%, whereas other methods suffer terribly under this setting. Compared with resampling and hard negative mining baselines, our approach does not throw away samples based on its class or training loss - as long as a sample is helpful towards the validation loss, it will be included as a part of the training loss.
 
@@ -126,9 +98,7 @@ Figure 2: MNIST 4-9 binary classification error using a LeNet on imbalanced clas
 
 ### CIFAR noisy label experiments
 
-Reweighting algorithm can also be useful on datasets where the labels are noisy. We study two settings of label noise here:
-
-UniformFlip: All label classes can uniformly flip to any other label classes, which is the most studied in the literature.
+Reweighting algorithm can also be useful on datasets where the labels are noisy. We study two settings of label noise here: UniformFlip: All label classes can uniformly flip to any other label classes, which is the most studied in the literature.
 
 BackgroundFlip: All label classes can flip to a single background class. This noise setting is very realistic. For instance, human annotators may not have recognized all the positive instances, while the rest remain in the background class. This is also a combination of label imbalance and label noise since the background class usually dominates the label distribution.
 
@@ -150,13 +120,9 @@ For UniformFlip, we use 1,000 clean images in the validation set; for Background
 
 For monitoring training progress and tuning baseline hyperparameters, we split out another 5,000 hyper-validation set from the 50,000 training images. We also corrupt the hyper-validation set with the same noise type.
 
-Using 1,000 clean images
+Using 1,000 clean images Table 1: CIFAR UniformFlip under 40% noise ratio using a WideResNet-28-10 model. Test accuracy shown in percentage. Top rows use only noisy data, and bottom uses additional 1000 clean images. “FT” denotes fine-tuning on clean data.
 
-Table 1: CIFAR UniformFlip under 40% noise ratio using a WideResNet-28-10 model. Test accuracy shown in percentage. Top rows use only noisy data, and bottom uses additional 1000 clean images. “FT” denotes fine-tuning on clean data.
-
-Using 10 clean images per class
-
-Table 2: CIFAR BackgroundFlip under 40% noise ratio using a ResNet-32 model. Test accuracy shown in percentage. Top rows use only noisy data, and bottom rows use additional 10 clean images per class. “+ES” denotes early stopping; “FT” denotes fine-tuning.
+Using 10 clean images per class Table 2: CIFAR BackgroundFlip under 40% noise ratio using a ResNet-32 model. Test accuracy shown in percentage. Top rows use only noisy data, and bottom rows use additional 10 clean images per class. “+ES” denotes early stopping; “FT” denotes fine-tuning.
 
 ### Experimental details
 
@@ -174,9 +140,7 @@ Figure 4: Effect of the number of clean imaged used, on CIFAR-10 with 40% of dat
 
 Figure 5: Model test accuracy on imbalanced noisy CIFAR experiments across various noise levels using a base ResNet-32 model. “ES” denotes early stopping, and “FT” denotes finetuning.
 
-Figure 6: Confusion matrices on CIFAR-10 UniformFlip (top) and BackgroundFlip (bottom)
-
-Figure 7: Training curve of a ResNet-32 on CIFAR-10 BackgroundFlip under 40% noise ratio. Solid lines denote validation accuracy and dotted lines denote training. Our method is less prone to label noise overfitting.
+Figure 6: Confusion matrices on CIFAR-10 UniformFlip (top) and BackgroundFlip (bottom) Figure 7: Training curve of a ResNet-32 on CIFAR-10 BackgroundFlip under 40% noise ratio. Solid lines denote validation accuracy and dotted lines denote training. Our method is less prone to label noise overfitting.
 
 ### Results and Discussion
 

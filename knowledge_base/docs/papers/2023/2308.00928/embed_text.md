@@ -22,13 +22,7 @@ The rest of this paper is structured as follows. In Section 2, we discuss releva
 
 ### Interval Methods
 
-Methods closely resembling current state-of-the-art interval methods have been applied to the domain of time series classification at least since Rodríguez et al and Geurts. Most interval methods are strikingly similar, closely following the basic concept set out in, e.g., Rodríguez and Alonso, namely:
-
-for a set of intervals (subseries) taken from the input time series, and/or some transformation of the input time series such as the first difference or discrete Fourier transfom;
-
-compute descriptive statistics (e.g., mean and variance) and other features for the values in each interval; and
-
-use the computed features to train a classifier, typically an ensemble of decision trees.
+Methods closely resembling current state-of-the-art interval methods have been applied to the domain of time series classification at least since Rodríguez et al and Geurts. Most interval methods are strikingly similar, closely following the basic concept set out, e.g., Rodríguez and Alonso, namely: for a set of intervals (subseries) taken from the input time series, and/or some transformation of the input time series such as the first difference or discrete Fourier transfom; compute descriptive statistics (e.g., mean and variance) and other features for the values in each interval; and use the computed features to train a classifier, typically an ensemble of decision trees.
 
 Different interval methods are characterised by the set of transformations applied to the input time series, the characteristics of the intervals, the use of interval and/or feature selection, and the choice of classifier.
 
@@ -44,9 +38,7 @@ Most methods use an ensemble of decision trees, including specialised decision t
 
 The two most accurate current interval methods on the datasets in the UCR archive are DrCIF, and rSTSF. Both, in turn, build on TSF. TSF uses random intervals (intervals with random position and length), and computes the mean, variance, and slope of the values in each interval. TSF uses an ensemble of specialised decision trees ('time series trees'), using a splitting criteria that combines entropy and a tie-breaking procedure, and trains each tree separately using a different set of random of intervals. Bagnall et al found that TSF was faster and at least as accurate as other interval methods on the datasets in the UCR archive at the time.
 
-DrCIF builds on CIF, sampling random intervals (random position and length) from the input time series, first difference, and a periodogram, and computes features including the mean, standard deviation, slope, median, interquartile range, min, max, as well as the catch22 features. DrCIF uses a version of 'time series trees' as per TSF, training each tree separately with a random set of intervals and a random subset of features. DrCIF is one of the four components of HIVE-COTE 2 (HC2), the most accurate method for time series classification on the datasets in the UCR archive.
-
-rSTSF builds on STSF. For each of the original time series, first difference, a periodogram, and an autoregressive representation (the coefficients of an autoregressive model), and for each of the mean, standard deviation, slope, min, max, median, interquartile range, and two additional features (the number of intersections with the mean and the number of values greater than the mean), rSTSF recursively splits the input at random points, selecting intervals using the Fisher score, performing a kind of interval or feature selection. Unlike DrCIF, rSTSF uses an 'off the shelf' classifier, namely, extremely randomised trees. While DrCIF and rSTSF produce similar accuracies on the datasets in the UCR archive, rSTSF is considerably faster.
+DrCIF builds on CIF, sampling random intervals (random position and length) from the input time series, first difference, and a periodogram, and computes features including the mean, standard deviation, slope, median, interquartile range, min, max, as well as the catch22 features. DrCIF uses a version of 'time series trees' as per TSF, training each tree separately with a random set of intervals and a random subset of features. DrCIF is one of the four components of HIVE-COTE 2 (HC2), the most accurate method for time series classification on the datasets in the UCR archive. rSTSF builds on STSF. For each of the original time series, first difference, a periodogram, and an autoregressive representation (the coefficients of an autoregressive model), and for each of the mean, standard deviation, slope, min, max, median, interquartile range, and two additional features (the number of intersections with the mean and the number of values greater than the mean), rSTSF recursively splits the input at random points, selecting intervals using the Fisher score, performing a kind of interval or feature selection. Unlike DrCIF, rSTSF uses an 'off the shelf' classifier, namely, extremely randomised trees. While DrCIF and rSTSF produce similar accuracies on the datasets in the UCR archive, rSTSF is considerably faster.
 
 ### Other State-of-the-Art Methods
 
@@ -72,19 +64,11 @@ While there has been significant progress in terms of both accuracy and computat
 
 Quant involves computing quantiles over a fixed set of intervals on the input time series (and three transformations of the input time series), and using the computed quantiles to train a classifier. Compared to both DrCIF and rSTSF, we use: (a) a single type of feature (quantiles); and (b) fixed, dyadic intervals. In contrast to rSTSF, we use no explicit interval or feature selection process (in this sense, feature selection is delegated entirely to the classifier) and, in contrast to DrCIF, we use a standard classifier. The simplicity of our approach allows for exceptional computational efficiency, and helps to clarify the factors which are material to classification accuracy.
 
-The key characteristics of Quant are:
-
-the set of input representations;
-
-the set of intervals;
-
-the features (quantiles); and
-
-We implement Quant in Python, using the implementation of extremely randomised trees from scikit-learn. Our code and results will be made available at [https://github.com/angus924/quant](https://github.com/angus924/quant).
+The key characteristics of Quant are: the set of input representations; the set of intervals; the features (quantiles); and We implement Quant in Python, using the implementation of extremely randomised trees from scikit-learn. Our code and results will be made available at
 
 ### Input Representations
 
-Following Middlehurst et al, we use the original time series, the first difference, $X^{\prime} = {\{{x_{1} - x_{0}},{x_{2} - x_{1}},\ldots,{x_{n - 1} - x_{n - 2}}\}}$, and the discrete Fourier transform, $\mathcal{F}{(X)}$. We find that it is also beneficial to use the second difference, $X^{\operatorname{\prime\prime}} = {\{{x_{1}^{\prime} - x_{0}^{\prime}},{x_{2}^{\prime} - x_{1}^{\prime}},\ldots,{x_{n - 1}^{\prime} - x_{n - 2}^{\prime}}\}}$, although the improvement in accuracy is marginal: see Section 4.2.2. We find that it is beneficial to smooth the first difference by applying a simple moving average. Again, the effect seems to be relatively small. We found no consistent improvement in accuracy by smoothing the other input representations.
+Following Middlehurst et al, we use the original time series, the first difference, $X' = {\{{x_{1} - x_{0}},{x_{2} - x_{1}},\ldots,{x_{n - 1} - x_{n - 2}}\}}$, and the discrete Fourier transform, $\mathcal{F}{(X)}$. We find that it is also beneficial to use the second difference, $X^{\operatorname{\prime\prime}} = {\{{x_{1}' - x_{0}'},{x_{2}' - x_{1}'},\ldots,{x_{n - 1}' - x_{n - 2}'}\}}$, although the improvement in accuracy is marginal: see Section 4.2.2. We find that it is beneficial to smooth the first difference by applying a simple moving average. Again, the effect seems to be relatively small. We found no consistent improvement in accuracy by smoothing the other input representations.
 
 ### Intervals
 
@@ -92,7 +76,7 @@ Formally, a time series is a sequence of values ordered in time, $X = {\{ x_{0},
 
 In contrast to Cabello et al, and Middlehurst et al, we use fixed, dyadic intervals. We define our set of intervals in terms of 'depth', $d$, such that we divide the input time series into $\{ 2^{0},2^{1},\ldots,2^{d - 1}\}$ intervals of length $\{{n/\, 2^{0}},{n/\, 2^{1}},\ldots,{n/2^{d - 1}}\}$, as shown in Figure 3. For each depth greater than one we also add the same set of intervals shifted by half the interval length.
 
-Figure 3: An illustration of the set of intervals for a depth of d = 4, including ‘shifted’ intervals for d &gt; 1.
+Figure 3: An illustration of the set of intervals for a depth of d = 4, including ‘shifted’ intervals for d > 1.
 
 Accordingly, the total number of intervals is ${2^{d - 1} \times 4} - 2 - d$ for each input representation. By default, we use a depth of $d = {\text{min}{(6,{{\lfloor{\log_{2}n}\rfloor} + 1})}}$, meaning that there are $120$ intervals per representation, and the smallest intervals are of length $\text{max}{(1,{n/\, 32})}$.
 
@@ -144,8 +128,7 @@ Quant is more accurate on average than existing interval methods, including DrCI
 
 As noted above, thirty additional datasets were added to the UCR archive per the recent 'bakeoff redux'. Figure 7 shows the MCM for Quant versus current state-of-the-art methods, namely, HC2, MultiRocket+Hydra, RDST, WEASEL-D, InceptionTime, rSTSF, FreshPRINCE, and PF (see Section 2), over 30 resamples of the expanded set of 142 datasets. Figure 7 shows the pairwise accuracy of Quant versus rSTSF (left), and HC2 (right), for all 142 datasets.
 
-Figure 6: MCM for Quant vs other state-of-the-art methods for 142 datasets from the UCR archive.
-Figure 7: Pairwise accuracy for Quant vs rSTSF (left), and HC2 (right), for 142 datasets from the UCR archive.
+Figure 6: MCM for Quant vs other state-of-the-art methods for 142 datasets from the UCR archive. Figure 7: Pairwise accuracy for Quant vs rSTSF (left), and HC2 (right), for 142 datasets from the UCR archive.
 
 Over these 142 datasets, Quant is reasonably similar to both WEASEL-D and InceptionTime in terms of mean accuracy and win/draw/loss. However, Quant is clearly somewhat less accurate than the most accurate methods (RDST, MultiRocket+Hydra, and HC2). Quant is more accurate than rSTSF on 81 datasets, and less accurate on 56. In contrast, Quant is more accurate than HC2 on only 41 datasets, and less accurate on 97.
 
@@ -155,17 +138,9 @@ The training time for the classifier is proportional to the total number of feat
 
 ### Sensitivity Analysis
 
-We demonstrate the effect of key hyperparameters, namely:
+We demonstrate the effect of key hyperparameters, namely: the number of features; the set of input representations (including smoothing); subtracting the mean; and the number of trees and the number of features per split.
 
-the number of features;
-
-the set of input representations (including smoothing);
-
-subtracting the mean; and
-
-the number of trees and the number of features per split.
-
-Following Herrmann et al, in an effort to avoid the peculiarities of the smallest datasets and the original training/test splits, we conduct the sensitivity analysis using a random sample of 50 of the datasets from the subset of 112 datasets from the UCR archive used in, e.g., Middlehurst et al, using stratified 5-fold cross-validation (such that, for each fold, $80\%$ of the data is used for training, and $20\%$ of the data is used for validation). In particular, from the subset of 112 datasets, we randomly sample 50 of the 100 datasets where there are at least 100 training examples on an 80/20 split, and at least 5 examples of each class.
+Following Herrmann et al, in an effort to avoid the peculiarities of the smallest datasets and the original training/test splits, we conduct the sensitivity analysis using a random sample of 50 of the datasets from the subset of 112 datasets from the UCR archive used , e.g., Middlehurst et al, using stratified 5-fold cross-validation (such that, for each fold, $80\%$ of the data is used for training, and $20\%$ of the data is used for validation). In particular, from the subset of 112 datasets, we randomly sample 50 of the 100 datasets where there are at least 100 training examples on an 80/20 split, and at least 5 examples of each class.
 
 ### Number of Features
 
@@ -189,16 +164,9 @@ We note that the results presented here relate to the characteristics of the dat
 
 ### Input Representations
 
-Figure 11 shows mean accuracy (left), and total compute time (right), for different combinations of input representation. Figure 11 shows pairwise accuracy for the default combination of the input time series, $X$, first difference, $X^{\prime}$, second difference, $X^{\operatorname{\prime\prime}}$, and discrete Fourier transform, $\mathcal{F}{(X)}$, versus:
+Figure 11 shows mean accuracy (left), and total compute time (right), for different combinations of input representation. Figure 11 shows pairwise accuracy for the default combination of the input time series, $X$, first difference, $X'$, second difference, $X^{\operatorname{\prime\prime}}$, and discrete Fourier transform, $\mathcal{F}{(X)}$, versus: $X,X',X^{\operatorname{\prime\prime}}$ (left); $X,X',{\mathcal{F}{(X)}}$ (centre); and $X,X^{\operatorname{\prime\prime}},{\mathcal{F}{(X)}}$ (right).
 
-$X,X^{\prime},X^{\operatorname{\prime\prime}}$ (left);
-
-$X,X^{\prime},{\mathcal{F}{(X)}}$ (centre); and
-
-$X,X^{\operatorname{\prime\prime}},{\mathcal{F}{(X)}}$ (right).
-
-Figure 10: Mean accuracy (left), and total compute time (right), for different combinations of input representation.
-Figure 11: Pairwise accuracy for all representations (the default) vs removing ℱ (X) (left), removing X'' (centre), and removing X′ (right).
+Figure 10: Mean accuracy (left), and total compute time (right), for different combinations of input representation. Figure 11: Pairwise accuracy for all representations (the default) vs removing ℱ (X) (left), removing X'' (centre), and removing X′ (right).
 
 There is at least some advantage to using each of the three additional representations. Adding the discrete Fourier transform corresponds to the largest improvements in accuracy on individual datasets (Figure 11, left), while adding the second difference makes the least difference (Figure 11, centre). (For all configurations, we maintain the same number of features per representation.)
 
@@ -214,8 +182,7 @@ Figure 12: Pairwise accuracy for subtracting the mean from half of the quantiles
 
 Figure 14 shows mean accuracy (left), and total compute time (right), versus the number of trees used in the classifier. Figure 14 shows the pairwise accuracy for 200 trees (the default) versus 50 trees (left), and 800 trees (right).
 
-Figure 13: Mean accuracy (left), and total compute time (right), vs the number of trees.
-Figure 14: Pairwise accuracy for 200 trees (the default) vs 50 trees (left), and 800 trees (right).
+Figure 13: Mean accuracy (left), and total compute time (right), vs the number of trees. Figure 14: Pairwise accuracy for 200 trees (the default) vs 50 trees (left), and 800 trees (right).
 
 Unsurprisingly, accuracy tends to increase as the number of trees increases, with a proportional increase in computational expense. However, while there are small but clear differences in accuracy between 50 trees and 200 trees, the differences in accuracy for more than approximately 200 trees are minimal.
 
@@ -223,8 +190,7 @@ Unsurprisingly, accuracy tends to increase as the number of trees increases, wit
 
 Figure 16 shows mean accuracy (left), and total compute time (right), versus the number of candidate features per split as a proportion of the total number of features, $p$. Figure 16 shows the pairwise accuracy for $0.1 \times p$ (the default) versus $\sqrt{p}$ (left), and $0.2 \times p$ candidate features per split (right). Note that $\sqrt{p} > {0.01 \times p}$ for $p < {10,000}$.
 
-Figure 15: Mean accuracy (left), and total compute time (right), vs the number of features per split as a proportion of the total number of features.
-Figure 16: Pairwise accuracy for 0.1 × p (the default) vs $\sqrt{p}$ (left), and 0.2 × p candidate features per split (right).
+Figure 15: Mean accuracy (left), and total compute time (right), vs the number of features per split as a proportion of the total number of features. Figure 16: Pairwise accuracy for 0.1 × p (the default) vs $\sqrt{p}$ (left), and 0.2 × p candidate features per split (right).
 
 There is a clear advantage in terms of accuracy from increasing the number of candidate features per split to a linear proportion ($\geq {0.05 \times p}$) of the total number of features, with a proportional increase in computational expense. However, the differences in accuracy between sampling $5\%$, $10\%$, or $20\%$ of the features are minimal.
 

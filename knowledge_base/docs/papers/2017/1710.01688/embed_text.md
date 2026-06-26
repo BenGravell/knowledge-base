@@ -8,9 +8,7 @@ In this paper, we attempt to build a foundation for a theoretical understanding 
 
 Our contribution is to analyze the LQR problem when the dynamics of the system are unknown, and we can measure the system's response to varied inputs. A naïve solution to this problem would be to collect some data of how the system behaves over time, fit a model to this data, and then solve the original LQR problem assuming this model is accurate. Unfortunately, while this procedure might perform well given sufficient data, it is difficult to determine how many experiments are necessary in practice. Furthermore, it is easy to construct examples where the procedure fails to find a stabilizing controller.
 
-As an alternative, we propose a method that couples our uncertainty in estimation with the control design. Our main approach uses the following framework of *Coarse-ID control* to solve the problem of LQR with unknown dynamics:
-
-Use supervised learning to learn a coarse model of the dynamical system to be controlled. We refer to the system estimate as the *nominal system*.
+As an alternative, we propose a method that couples our uncertainty in estimation with the control design. Our main approach uses the following framework of *Coarse-ID control* to solve the problem of LQR with unknown dynamics: Use supervised learning to learn a coarse model of the dynamical system to be controlled. We refer to the system estimate as the *nominal system*.
 
 Using either prior knowledge or statistical tools like the bootstrap, build probabilistic guarantees about the distance between the nominal system and the true, unknown dynamics.
 
@@ -22,15 +20,9 @@ We demonstrate the utility of our method on a simple simulation. In the presente
 
 ### Problem Statement and Our Contributions
 
-The standard optimal control problem aims to find a control sequence that minimizes an expected cost. We assume a dynamical system with *state* $x_{t} \in {\mathbb{R}}^{n}$ can be acted on by a *control* $u_{t} \in {\mathbb{R}}^{p}$ and obeys the stochastic dynamics
+The standard optimal control problem aims to find a control sequence that minimizes an expected cost. We assume a dynamical system with *state* $x_{t} \in {\mathbb{R}}^{n}$ can be acted on by a *control* $u_{t} \in {\mathbb{R}}^{p}$ and obeys the stochastic dynamics where $w_{t}$ is a random process with $w_{t}$ independent of $w_{t'}$ for all $t \neq t'$. Optimal control then seeks to minimize Here, $c_{t}$ denotes the state-control cost at every time step, and the input $u_{t}$ is allowed to depend on the current state $x_{t}$ and all previous states and actions. In this generality, problem (1.4) encapsulates many of the problems considered in the reinforcement learning literature.
 
-where $w_{t}$ is a random process with $w_{t}$ independent of $w_{t^{\prime}}$ for all $t \neq t^{\prime}$. Optimal control then seeks to minimize
-
-Here, $c_{t}$ denotes the state-control cost at every time step, and the input $u_{t}$ is allowed to depend on the current state $x_{t}$ and all previous states and actions. In this generality, problem (1.4) encapsulates many of the problems considered in the reinforcement learning literature.
-
-The simplest optimal control problem with continuous state is the Linear Quadratic Regulator (LQR), in which costs are a fixed quadratic function of state and control and the dynamics are linear and time-invariant:
-
-Here $Q$ (resp. $R$) is a $n \times n$ (resp. $p \times p$) positive definite matrix, $A$ and $B$ are called the *state transition matrices*, and $w_{t} \in {\mathbb{R}}^{n}$ is Gaussian noise with zero-mean and covariance $\Sigma_{w}$. Throughout, $M^{\ast}$ denotes the Hermitian transpose of the matrix $M$.
+The simplest optimal control problem with continuous state is the Linear Quadratic Regulator (LQR), in which costs are a fixed quadratic function of state and control and the dynamics are linear and time-invariant: Here $Q$ (resp. $R$) is a $n \times n$ (resp. $p \times p$) positive definite matrix, $A$ and $B$ are called the *state transition matrices*, and $w_{t} \in {\mathbb{R}}^{n}$ is Gaussian noise with zero-mean and covariance $\Sigma_{w}$. Throughout, $M^{\ast}$ denotes the Hermitian transpose of the matrix $M$.
 
 In what follows, we will be concerned with the *infinite time horizon* variant of the LQR problem where we let the time horizon $T$ go to infinity and minimize the average cost. When the dynamics are known, this problem has a celebrated closed form solution based on the solution of matrix Riccati equations. Indeed, the optimal solution sets $u_{t} = {Kx_{t}}$ for a fixed $p \times n$ matrix $K$, and the corresponding optimal cost will serve as our gold-standard baseline to which we will compare the achieved cost of all algorithms.
 
@@ -40,27 +32,15 @@ In what follows we will examine the performance of the Coarse-ID control framewo
 
 ### Proposition 1.1
 
-Define the matrices
-
-Assume we collect data from the linear, time-invariant system initialized at $x_{0} = 0$, using inputs $u_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{u}^{2}I_{p}})}}$ for $t = {1,\ldots,T}$. Suppose that the process noise is $w_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{w}^{2}I_{n}})}}$ and that
-
-Then, with probability at least $1 - \delta$, the least squares estimator using only the final sample of each trajectory satisfies both the inequality
-
-and the inequality
-
-The details of the estimation procedure are described in Section 2 below. Note that this estimation result seems to yield an optimal dependence in terms of the number of parameters: $(A,B)$ together have $n{({n + p})}$ parameters to learn and each measurement consists of $n$ values. Moreover, this proposition further illustrates that not all linear systems are equally easy to estimate. The matrices $G_{T}G_{T}^{\ast}$ and $F_{T}F_{T}^{\ast}$ are finite time *controllability Gramians* for the control and noise inputs, respectively. These are standard objects in control: each eigenvalue/vector pair of such a Gramian characterizes how much input energy is required to move the system in that particular direction of the state-space. Therefore $\lambda_{\min}\left( {{\sigma_{u}^{2}G_{T}G_{T}^{\ast}} + {\sigma_{w}^{2}F_{T}F_{T}^{\ast}}} \right)$ quantifies the least controllable, and hence most difficult to excite and estimate, mode of the system. This property is captured nicely in our bound, which indicates that for systems for which all modes are easily excitable (i.e., all modes of the system amplify the applied inputs and disturbances), the identification task becomes easier.
+Define the matrices Assume we collect data from the linear, time-invariant system initialized at $x_{0} = 0$, using inputs $u_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{u}^{2}I_{p}})}}$ for $t = {1,\ldots,T}$. Suppose that the process noise is $w_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{w}^{2}I_{n}})}}$ and that Then, with probability at least $1 - \delta$, the least squares estimator using only the final sample of each trajectory satisfies both the inequality and the inequality The details of the estimation procedure are described in Section 2 below. Note that this estimation result seems to yield an optimal dependence in terms of the number of parameters: $(A,B)$ together have $n{({n + p})}$ parameters to learn and each measurement consists of $n$ values. Moreover, this proposition further illustrates that not all linear systems are equally easy to estimate. The matrices $G_{T}G_{T}^{\ast}$ and $F_{T}F_{T}^{\ast}$ are finite time *controllability Gramians* for the control and noise inputs, respectively. These are standard objects in control: each eigenvalue/vector pair of such a Gramian characterizes how much input energy is required to move the system in that particular direction of the state-space. Therefore $\lambda_{\min}\left({{\sigma_{u}^{2}G_{T}G_{T}^{\ast}} + {\sigma_{w}^{2}F_{T}F_{T}^{\ast}}} \right)$ quantifies the least controllable, and hence most difficult to excite and estimate, mode of the system. This property is captured nicely in our bound, which indicates that for systems for which all modes are easily excitable (i.e., all modes of the system amplify the applied inputs and disturbances), the identification task becomes easier.
 
 While we cannot compute the operator norm error bounds (1.9) and (1.10) without knowing the true system matrices $(A,B)$, we present a data-dependent bound in Proposition 2.4. Moreover, as we show in Section 2.3, a simple bootstrap procedure can efficiently upper bound the errors $\epsilon_{A}:={\|{A - \hat{A}}\|}_{2}$ and $\epsilon_{B}:={\|{B - \hat{B}}\|}_{2}$ from simulation.
 
-With our estimates $(\hat{A},\hat{B})$ and error bounds $(\epsilon_{A},\epsilon_{B})$ in hand, we can turn to the problem of synthesizing a controller. We can assert with high probability that $A = {\hat{A} + \Delta_{A}}$, and $B = {\hat{B} + \Delta_{B}}$, for ${\|\Delta_{A}\|}_{2} \leq \epsilon_{A}$ and ${\|\Delta_{B}\|}_{2} \leq \epsilon_{B}$, where the size of the error terms is determined by the number of samples $N$ collected. In light of this, it is natural to pose the following robust variant of the standard LQR optimal control problem (1.7), which computes a robustly stabilizing controller that seeks to minimize the worst-case performance of the system given the (high-probability) norm bounds on the perturbations $\Delta_{A}$ and $\Delta_{B}$:
-
-Although classic methods exist for computing such controllers, they typically require solving nonconvex optimization problems, and it is not readily obvious how to extract interpretable measures of controller performance as a function of the perturbation sizes $\epsilon_{A}$ and $\epsilon_{B}$. To that end, we leverage the recently developed System Level Synthesis (SLS) framework to create an alternative robust synthesis procedure. Described in detail in Section 3, SLS lifts the system description into a higher dimensional space that enables efficient search for controllers. At the cost of some conservatism, we are able to guarantee robust stability of the resulting closed-loop system for all admissible perturbations and bound the performance gap between the resulting controller and the optimal LQR controller. This is summarized in the following proposition.
+With our estimates $(\hat{A},\hat{B})$ and error bounds $(\epsilon_{A},\epsilon_{B})$ in hand, we can turn to the problem of synthesizing a controller. We can assert with high probability that $A = {\hat{A} + \Delta_{A}}$, and $B = {\hat{B} + \Delta_{B}}$, for ${\|\Delta_{A}\|}_{2} \leq \epsilon_{A}$ and ${\|\Delta_{B}\|}_{2} \leq \epsilon_{B}$, where the size of the error terms is determined by the number of samples $N$ collected. In light of this, it is natural to pose the following robust variant of the standard LQR optimal control problem (1.7), which computes a robustly stabilizing controller that seeks to minimize the worst-case performance of the system given the (high-probability) norm bounds on the perturbations $\Delta_{A}$ and $\Delta_{B}$: Although classic methods exist for computing such controllers, they typically require solving nonconvex optimization problems, and it is not readily obvious how to extract interpretable measures of controller performance as a function of the perturbation sizes $\epsilon_{A}$ and $\epsilon_{B}$. To that end, we leverage the recently developed System Level Synthesis (SLS) framework to create an alternative robust synthesis procedure. Described in detail in Section 3, SLS lifts the system description into a higher dimensional space that enables efficient search for controllers. At the cost of some conservatism, we are able to guarantee robust stability of the resulting closed-loop system for all admissible perturbations and bound the performance gap between the resulting controller and the optimal LQR controller. This is summarized in the following proposition.
 
 ### Proposition 1.2
 
-Let $(\hat{A},\hat{B})$ be estimated via the independent data collection scheme used in Proposition 1.1 and $\hat{\mathbf{K}}$ synthesized using robust SLS. Let $\hat{J}$ denote the infinite time horizon LQR cost accrued by using the controller $\hat{\mathbf{K}}$ and $J_{\star}$ denote the optimal LQR cost achieved when $(A,B)$ are known. Then the relative error in the LQR cost is bounded as
-
-with probability $1 - \delta$ provided $N$ is sufficiently large.
+Let $(\hat{A},\hat{B})$ be estimated via the independent data collection scheme used in Proposition 1.1 and $\hat{\mathbf{K}}$ synthesized using robust SLS. Let $\hat{J}$ denote the infinite time horizon LQR cost accrued by using the controller $\hat{\mathbf{K}}$ and $J_{\star}$ denote the optimal LQR cost achieved when $(A,B)$ are known. Then the relative error in the LQR cost is bounded as with probability $1 - \delta$ provided $N$ is sufficiently large.
 
 The complexity term $\mathcal{C}_{LQR}$ depends on the rollout length $T$, the true dynamics, the matrices $(Q,R)$ which define the LQR cost, and the variances $\sigma_{u}^{2}$ and $\sigma_{w}^{2}$ of the control and noise inputs, respectively. The $1 - \delta$ probability comes from the probability of estimation error from Proposition 1.1. The particular form of $\mathcal{C}_{LQR}$ and concrete requirements on $N$ are both provided in Section 4.
 
@@ -74,7 +54,7 @@ We first describe related work in the *estimation of unknown dynamical systems* 
 
 Estimation of unknown systems, especially linear dynamical systems, has a long history in the system identification subfield of control theory. While the text of Ljung covers the classical asymptotic results, our interest is primarily in nonasymptotic results. Early results on nonasymptotic rates for parameter identification featured conservative bounds which are exponential in the system degree and other relevant quantities. More recently, Bento et al. show that when the $A$ matrix is stable and induced by a sparse graph, then one can recover the support of $A$ from a single trajectory using $\ell_{1}$-penalized least squares. Furthermore, Hardt et al. provide the first polynomial time guarantee for identifying stable linear systems with outputs. Their guarantees, however, are in terms of predictive output performance of the model, and require an assumption on the true system that is more stringent than stability. It is not clear how their statistical risk guarantee can be used in a downstream robust synthesis procedure.
 
-Next, we turn our attention to system identification of linear systems in the frequency domain. A comprehensive text on these methods (which differ from the aforementioned state-space methods) is the work by Chen and Gu. For stable systems, Helmicki et al. propose to identify a finite impulse response (FIR) approximation by directly estimating the first $r$ impulse response coefficients. This method is analyzed in a non-adversarial probabilistic setting by, who prove that a polynomial number of samples are sufficient to recover a FIR filter which approximates the true system in both $\ell_{p}$-norm and $\mathcal{H}_{\infty}$-norm. However, transfer function methods do not easily allow for optimal control with state variables, since they only model the input/output behavior of the system.
+Next, we turn our attention to system identification of linear systems in the frequency domain. A comprehensive text on these methods (which differ from the aforementioned state-space methods) is the work by Chen and Gu. For stable systems, Helmicki et al. propose to identify a finite impulse response (FIR) approximation by directly estimating the first $r$ impulse response coefficients. This method is analyzed in a non-adversarial probabilistic setting , who prove that a polynomial number of samples are sufficient to recover a FIR filter which approximates the true system in both $\ell_{p}$-norm and $\mathcal{H}_{\infty}$-norm. However, transfer function methods do not easily allow for optimal control with state variables, since they only model the input/output behavior of the system.
 
 In parallel to the system identification community, identification of auto-regressive time series models is a widely studied topic in the statistics literature (see e.g. Box et al. for the classical results). Goldenshluger and Zeevi show that the coefficients of a stationary autoregressive model can be estimated from a single trajectory of length polynomial in $1/{({1 - \rho})}$ via least squares, where $\rho$ denotes the stability radius of the process. They also prove that their rate is minimax optimal. More recently, several authors have studied generalization bounds for non i.i.d. data, extending the standard learning theory guarantees for independent data. At the crux of these arguments lie various mixing assumptions, which limits the analysis to only hold for stable dynamical systems. Results in this line of research suggest that systems with smaller mixing time (i.e. systems that are more stable) are easier to identify (i.e. take less samples). Our result in Proposition 1.1, however, suggests instead that identification benefits from more easily excitable systems. While our analysis holds when we have access to full state observations, empirical testing suggests that Proposition 1.1 reflects reality more accurately than arguments based on mixing. In follow up work we have begun to reconcile this issue for stable linear systems.
 
@@ -92,108 +72,51 @@ We are also particularly interested in the LQR problem as a baseline for more co
 
 There are indeed some related efforts in RL and online learning. Abbasi-Yadkori and Szepesvari propose to use the optimism in the face of uncertainty (OFU) principle for the LQR problem, by maintaining confidence ellipsoids on the true parameter, and using the controller which, in feedback, minimizes the cost objective the most among all systems in the confidence ellipsoid. Ignoring the computational intractability of this approach, their analysis reveals an exponential dependence in the system order in their regret bound, and also makes the very strong assumption that the optimal closed-loop systems are contractive for every $A,B$ in the confidence ellipsoid. The regret bound is improved by Ibrahimi et al. to depend linearly on the state dimension under additional sparsity constraints on the dynamics.
 
-In response to the computational intractability of the OFU principle, researchers in RL and online learning have proposed the use of Thompson sampling for exploration. Abeille and Lazaric show that the regret of a Thompson sampling approach for LQR scales as $\overset{\sim}{\mathcal{O}}{(T^{2/3})}$ and improve the result to $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ in, where $\overset{\sim}{\mathcal{O}}{( \cdot )}$ hides poly-logarithmic factors. However, their results are only valid for the scalar $n = d = 1$ setting. Ouyang et al. show that in a *Bayesian* setting, the expected regret can be bounded by $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$. While this matches the bound of, the Bayesian regret is with respect to a particular Gaussian prior distribution over the true model, which differs from the frequentist setting considered in. Furthermore, these works also make the same restrictive assumption that the optimal closed-loop systems are uniformly contractive over some known set.
+In response to the computational intractability of the OFU principle, researchers in RL and online learning have proposed the use of Thompson sampling for exploration. Abeille and Lazaric show that the regret of a Thompson sampling approach for LQR scales as $\overset{\sim}{\mathcal{O}}{(T^{2/3})}$ and improve the result to $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ , where $\overset{\sim}{\mathcal{O}}{( \cdot )}$ hides poly-logarithmic factors. However, their results are only valid for the scalar $n = d = 1$ setting. Ouyang et al. show that in a *Bayesian* setting, the expected regret can be bounded by $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$. While this matches the bound of, the Bayesian regret is with respect to a particular Gaussian prior distribution over the true model, which differs from the frequentist setting considered . Furthermore, these works also make the same restrictive assumption that the optimal closed-loop systems are uniformly contractive over some known set.
 
 Jiang et al. propose a general exploration algorithm for contextual decision processes (CDPs) and show that CDPs with low *Bellman rank* are PAC-learnable; in the LQR setting, they show the Bellman rank is bounded by $n^{2}$. While this result is appealing from an information-theoretic standpoint, the proposed algorithm is computationally intractable for continuous problems. Hazan et al. study the problem of prediction in a linear dynamical system via a novel spectral filtering algorithm. Their main result shows that one can compete in a regret setting in terms of prediction error. As mentioned previously, converting prediction error bounds into concrete bounds on sub-optimality of control performance is an open question. Fazel et al. show that randomized search algorithms similar to policy gradient can learn the optimal controller with a polynomial number of samples in the noiseless case; an explicit characterization of the dependence of the sample complexity on the parameters of the true system is not given.
 
 ## System Identification through Least-Squares
 
-To estimate a coarse model of the unknown system dynamics, we turn to the simple and classical method of linear least squares. By running experiments in which the system starts at $x_{0} = 0$ and the dynamics evolve with a given input, we can record the resulting state observations. The set of inputs and outputs from each such experiment will be called a rollout. For system estimation, we excite the system with Gaussian noise for $N$ rollouts, each of length $T$. The resulting dataset is $\{{(x_{t}^{(\ell)},u_{t}^{(\ell)})}:{{1 \leq \ell \leq N},{0 \leq t \leq T}}\}$, where $t$ indexes the time in one rollout and $\ell$ indexes independent rollouts. Therefore, we can estimate the system dynamics by
-
-For the Coarse-ID control setting, a good estimate of error is just as important as the estimate of the dynamics. Statistical theory and tools allow us to quantify the error of the least squares estimator. First, we present a theoretical analysis of the error in a simplified setting. Then, we describe a computational bootstrap procedure for error estimation from data alone.
+To estimate a coarse model of the unknown system dynamics, we turn to the simple and classical method of linear least squares. By running experiments in which the system starts at $x_{0} = 0$ and the dynamics evolve with a given input, we can record the resulting state observations. The set of inputs and outputs from each such experiment will be called a rollout. For system estimation, we excite the system with Gaussian noise for $N$ rollouts, each of length $T$. The resulting dataset is $\{{(x_{t}^{(\ell)},u_{t}^{(\ell)})}:{{1 \leq \ell \leq N},{0 \leq t \leq T}}\}$, where $t$ indexes the time in one rollout and $\ell$ indexes independent rollouts. Therefore, we can estimate the system dynamics by For the Coarse-ID control setting, a good estimate of error is just as important as the estimate of the dynamics. Statistical theory and tools allow us to quantify the error of the least squares estimator. First, we present a theoretical analysis of the error in a simplified setting. Then, we describe a computational bootstrap procedure for error estimation from data alone.
 
 ### Least Squares Estimation as a Random Matrix Problem
 
-We begin by explicitly writing the form of the least squares estimator. First, fixing notation to simplify the presentation, let $\Theta:=\begin{bmatrix}
-\end{bmatrix}^{\ast} \in {\mathbb{R}}^{{({n + p})} \times n}$ and let $z_{t}:=\begin{bmatrix}
-\end{bmatrix} \in {\mathbb{R}}^{n + p}$. Then the system dynamics can be rewritten, for all $t \geq 0$,
-
-Then in a single rollout, we will collect
-
-The system dynamics give the identity $X = {{Z\Theta} + W}$. Resetting state of the system to $x_{0} = 0$ each time, we can perform $N$ rollouts and collect $N$ datasets like (2.2). Having the ability to reset the system to a state independent of past observations will be important for the analysis in the following section, and it is also practically important for potentially unstable systems. Denote the data for each rollout as $(X^{(\ell)},Z^{(\ell)},W^{(\ell)})$. With slight abuse of notation, let $X_{N}$ be composed of vertically stacked $X^{(\ell)}$, and similarly for $Z_{N}$ and $W_{N}$. Then we have
-
-The full data least squares estimator for $\Theta$ is (assuming for now invertibility of $Z_{N}^{\ast}Z_{N}$),
-
-Then the estimation error is given by
-
-The magnitude of this error is the quantity of interest in determining confidence sets around estimates $(\hat{A},\hat{B})$. However, since $W_{N}$ and $Z_{N}$ are not independent, this estimator is difficult to analyze using standard methods. While this type of analysis is an open problem of interest, in this paper we turn instead to a simplified estimator.
+We begin by explicitly writing the form of the least squares estimator. First, fixing notation to simplify the presentation, let $\Theta:=\begin{bmatrix} \end{bmatrix}^{\ast} \in {\mathbb{R}}^{{({n + p})} \times n}$ and let $z_{t}:=\begin{bmatrix} \end{bmatrix} \in {\mathbb{R}}^{n + p}$. Then the system dynamics can be rewritten, for all $t \geq 0$, Then in a single rollout, we will collect The system dynamics give the identity $X = {{Z\Theta} + W}$. Resetting state of the system to $x_{0} = 0$ each time, we can perform $N$ rollouts and collect $N$ datasets like (2.2). Having the ability to reset the system to a state independent of past observations will be important for the analysis in the following section, and it is also practically important for potentially unstable systems. Denote the data for each rollout as $(X^{(\ell)},Z^{(\ell)},W^{(\ell)})$. With slight abuse of notation, let $X_{N}$ be composed of vertically stacked $X^{(\ell)}$, and similarly for $Z_{N}$ and $W_{N}$. Then we have The full data least squares estimator for $\Theta$ is (assuming for now invertibility of $Z_{N}^{\ast}Z_{N}$), Then the estimation error is given by The magnitude of this error is the quantity of interest in determining confidence sets around estimates $(\hat{A},\hat{B})$. However, since $W_{N}$ and $Z_{N}$ are not independent, this estimator is difficult to analyze using standard methods. While this type of analysis is an open problem of interest, in this paper we turn instead to a simplified estimator.
 
 ### Theoretical Bounds on Least Squares Error
 
 In this section, we work out the statistical rate for the least squares estimator which uses just the last sample of each trajectory $(x_{T}^{(\ell)},x_{T - 1}^{(\ell)},u_{T - 1}^{(\ell)})$. This estimation procedure is made precise in Algorithm 1. Our analysis ideas are analogous to those used to prove statistical rates for standard linear regression, and they leverage recent tools in nonasymptotic analysis of random matrices. The result is presented above in Proposition 1.1.
 
-4: xt + 1(ℓ) = A xt(ℓ) + B ut(ℓ) + wt(ℓ) with $w_{t}^{(\ell)}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{w}^{2}I_{n}})}}$ and $u_{t}^{(\ell)}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{u}^{2}I_{p}})}}$.
-Algorithm 1 Estimation of linear dynamics with independent data
-
-In the context of Proposition 1.1, a single data point from each $T$-step rollout is used. We emphasize that this strategy results in independent data, which can be seen by defining the estimator matrix directly. The previous estimator (2.3) is amended as follows: the matrices defined in (2.2) instead include only the final timestep of each trial, $X_{N} = \begin{bmatrix}
-\end{bmatrix}^{\ast}$, and similar modifications are made to $Z_{N}$ and $W_{N}$. The estimator (2.3) uses these modified matrices, which now contain independent rows. To see this, recall the definition of $G_{T}$ and $F_{T}$ from (1.8),
-
-We can unroll the system dynamics and see that
-
-Using Gaussian excitation, $u_{t} \sim {\mathcal{N}{(0,{\sigma_{u}^{2}I_{p}})}}$ gives
-
-Since ${F_{T}F_{T}^{\ast}} \succ 0$, as long as both $\sigma_{u},\sigma_{w}$ are positive, this is a non-degenerate distribution.
+4: xt + 1(ℓ) = A xt(ℓ) + B ut(ℓ) + wt(ℓ) with $w_{t}^{(\ell)}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{w}^{2}I_{n}})}}$ and $u_{t}^{(\ell)}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{u}^{2}I_{p}})}}$. Algorithm 1 Estimation of linear dynamics with independent data In the context of Proposition 1.1, a single data point from each $T$-step rollout is used. We emphasize that this strategy results in independent data, which can be seen by defining the estimator matrix directly. The previous estimator (2.3) is amended as follows: the matrices defined in (2.2) instead include only the final timestep of each trial, $X_{N} = \begin{bmatrix} \end{bmatrix}^{\ast}$, and similar modifications are made to $Z_{N}$ and $W_{N}$. The estimator (2.3) uses these modified matrices, which now contain independent rows. To see this, recall the definition of $G_{T}$ and $F_{T}$ from (1.8), We can unroll the system dynamics and see that Using Gaussian excitation, $u_{t} \sim {\mathcal{N}{(0,{\sigma_{u}^{2}I_{p}})}}$ gives Since ${F_{T}F_{T}^{\ast}} \succ 0$, as long as both $\sigma_{u},\sigma_{w}$ are positive, this is a non-degenerate distribution.
 
 Therefore, bounding the estimation error can be achieved via proving a result on the error in random design linear regression with vector valued observations. First, we present a lemma which bounds the spectral norm of the product of two independent Gaussian matrices.
 
 ### Lemma 2.1
 
-Fix a $\delta \in {}$ and $N \geq {2{\log{({1/\delta})}}}$. Let $f_{k} \in {\mathbb{R}}^{m}$, $g_{k} \in {\mathbb{R}}^{n}$ be independent random vectors $f_{k} \sim {\mathcal{N}{(0,\Sigma_{f})}}$ and $g_{k} \sim {\mathcal{N}{(0,\Sigma_{g})}}$ for $1 \leq k \leq N$. With probability at least $1 - \delta$,
-
-We believe this bound to be standard, and include a proof in the appendix for completeness. Lemma 2.1 shows that if $X$ is $n_{1} \times N$ with i.i.d. $\mathcal{N}{}$ entries and $Y$ is $N \times n_{2}$ with i.i.d. $\mathcal{N}{}$ entries, and $X$ and $Y$ are independent, then with probability at least $1 - \delta$ we have
-
-Next, we state a standard nonasymptotic bound on the minimum singular value of a standard Wishart matrix (see e.g. Corollary 5.35 of ).
+Fix a $\delta \in {}$ and $N \geq {2{\log{({1/\delta})}}}$. Let $f_{k} \in {\mathbb{R}}^{m}$, $g_{k} \in {\mathbb{R}}^{n}$ be independent random vectors $f_{k} \sim {\mathcal{N}{(0,\Sigma_{f})}}$ and $g_{k} \sim {\mathcal{N}{(0,\Sigma_{g})}}$ for $1 \leq k \leq N$. With probability at least $1 - \delta$, We believe this bound to be standard, and include a proof in the appendix for completeness. Lemma 2.1 shows that if $X$ is $n_{1} \times N$ with i.i.d. $\mathcal{N}{}$ entries and $Y$ is $N \times n_{2}$ with i.i.d. $\mathcal{N}{}$ entries, and $X$ and $Y$ are independent, then with probability at least $1 - \delta$ we have Next, we state a standard nonasymptotic bound on the minimum singular value of a standard Wishart matrix (see e.g. Corollary 5.35 of).
 
 ### Lemma 2.2
 
-Let $X \in {\mathbb{R}}^{N \times n}$ have i.i.d. $\mathcal{N}{}$ entries. With probability at least $1 - \delta$,
-
-We combine the previous lemmas into a statement on the error of random design regression.
+Let $X \in {\mathbb{R}}^{N \times n}$ have i.i.d. $\mathcal{N}{}$ entries. With probability at least $1 - \delta$, We combine the previous lemmas into a statement on the error of random design regression.
 
 ### Lemma 2.3
 
-Let ${z_{1},\ldots,z_{N}} \in {\mathbb{R}}^{n}$ be i.i.d. from $\mathcal{N}{(0,\Sigma)}$ with $\Sigma$ invertible. Let $Z^{\ast}:=\begin{bmatrix}
-\end{bmatrix}$. Let $W \in {\mathbb{R}}^{N \times p}$ with each entry i.i.d. $\mathcal{N}{(0,\sigma_{w}^{2})}$ and independent of $Z$. Let $E:={{({Z^{\ast}Z})}^{\dagger}Z^{\ast}W}$, and suppose that
-
-For any fixed matrix $Q$, we have with probability at least $1 - \delta$,
+Let ${z_{1},\ldots,z_{N}} \in {\mathbb{R}}^{n}$ be i.i.d. from $\mathcal{N}{(0,\Sigma)}$ with $\Sigma$ invertible. Let $Z^{\ast}:=\begin{bmatrix} \end{bmatrix}$. Let $W \in {\mathbb{R}}^{N \times p}$ with each entry i.i.d. $\mathcal{N}{(0,\sigma_{w}^{2})}$ and independent of $Z$. Let $E:={{({Z^{\ast}Z})}^{\dagger}Z^{\ast}W}$, and suppose that For any fixed matrix $Q$, we have with probability at least $1 - \delta$,
 
 ### Proof
 
-First, observe that $Z$ is equal in distribution to $X\Sigma^{1/2}$, where $X \in {\mathbb{R}}^{N \times n}$ has i.i.d. $\mathcal{N}{}$ entries. By Lemma 2.2, with probability at least $1 - {\delta/2}$,
-
-The last inequality uses (2.7) combined with the inequality ${({a + b})}^{2} \leq {2{({a^{2} + b^{2}})}}$. Furthermore, by Lemma 2.1 and (2.7), with probability at least $1 - {\delta/2}$,
-
-Let $\mathcal{E}$ denote the event which is the intersection of the two previous events. By a union bound, ${{\mathbb{P}}{(\mathcal{E})}} \geq {1 - \delta}$. We continue the rest of the proof assuming the event $\mathcal{E}$ holds. Since $X^{\ast}X$ is invertible,
-
-Taking operator norms on both sides,
-
-Combining the inequalities above,
-
-The result now follows. ∎
-
-Using this result on random design linear regression, we are now ready to analyze the estimation errors of the identification in Algorithm 1 and provide a proof of Proposition 1.1.
+First, observe that $Z$ is equal in distribution to $X\Sigma^{1/2}$, where $X \in {\mathbb{R}}^{N \times n}$ has i.i.d. $\mathcal{N}{}$ entries. By Lemma 2.2, with probability at least $1 - {\delta/2}$, The last inequality uses (2.7) combined with the inequality ${({a + b})}^{2} \leq {2{({a^{2} + b^{2}})}}$. Furthermore, by Lemma 2.1 and (2.7), with probability at least $1 - {\delta/2}$, Let $\mathcal{E}$ denote the event which is the intersection of the two previous events. By a union bound, ${{\mathbb{P}}{(\mathcal{E})}} \geq {1 - \delta}$. We continue the rest of the proof assuming the event $\mathcal{E}$ holds. Since $X^{\ast}X$ is invertible, Taking operator norms on both sides, Combining the inequalities above, The result now follows. ∎ Using this result on random design linear regression, we are now ready to analyze the estimation errors of the identification in Algorithm 1 and provide a proof of Proposition 1.1.
 
 ### Proof
 
-Consider the least squares estimation error (2.4) with modified single-sample-per-rollout matrices. Recall that rows of the design matrix $Z_{N}$ are distributed as independent normals, as in (2.6). Then applying Lemma 2.3 with $Q_{A} = \begin{bmatrix}
-\end{bmatrix}$ so that $Q_{A}E$ extracts only the estimate for $A$, we conclude that with probability at least $1 - {\delta/2}$,
-
-as long as $N \geq {{8{({n + p})}} + {16{\log{({4/\delta})}}}}$. Now applying Lemma 2.3 under the same condition on $N$ with $Q_{B} = \begin{bmatrix}
-\end{bmatrix}$, we have with probability at least $1 - {\delta/2}$,
-
-The result follows by application of the union bound. ∎
-
-There are several interesting points to make about the guarantees offered by Proposition 1.1. First, as mentioned in the introduction, there are $n{({n + p})}$ parameters to learn and our bound states that we need $O{({n + p})}$ measurements, each measurement providing $n$ values. Hence, this appears to be an optimal dependence with respect to the parameters $n$ and $p$. Second, note that intuitively, if the system amplifies the control and noise inputs in all directions of the state-space, as captured by the minimum eigenvalues of the control and disturbance Gramians $G_{T}G_{T}^{\ast}$ or $F_{T}F_{T}^{\ast}$, respectively, then the system has a larger "signal-to-noise" ratio and the system matrix $A$ is easier to estimate. On the other hand, this measure of the excitability of the system has no impact on learning $B$. Unlike in Fiechter's work, we do not need to assume that $G_{T}G_{T}^{\ast}$ is invertible. As long as the process noise is not degenerate, it will excite all modes of the system.
+Consider the least squares estimation error (2.4) with modified single-sample-per-rollout matrices. Recall that rows of the design matrix $Z_{N}$ are distributed as independent normals, as in (2.6). Then applying Lemma 2.3 with $Q_{A} = \begin{bmatrix} \end{bmatrix}$ so that $Q_{A}E$ extracts only the estimate for $A$, we conclude that with probability at least $1 - {\delta/2}$, as long as $N \geq {{8{({n + p})}} + {16{\log{({4/\delta})}}}}$. Now applying Lemma 2.3 under the same condition on $N$ with $Q_{B} = \begin{bmatrix} \end{bmatrix}$, we have with probability at least $1 - {\delta/2}$, The result follows by application of the union bound. ∎ There are several interesting points to make about the guarantees offered by Proposition 1.1. First, as mentioned in the introduction, there are $n{({n + p})}$ parameters to learn and our bound states that we need $O{({n + p})}$ measurements, each measurement providing $n$ values. Hence, this appears to be an optimal dependence with respect to the parameters $n$ and $p$. Second, note that intuitively, if the system amplifies the control and noise inputs in all directions of the state-space, as captured by the minimum eigenvalues of the control and disturbance Gramians $G_{T}G_{T}^{\ast}$ or $F_{T}F_{T}^{\ast}$, respectively, then the system has a larger "signal-to-noise" ratio and the system matrix $A$ is easier to estimate. On the other hand, this measure of the excitability of the system has no impact on learning $B$. Unlike in Fiechter's work, we do not need to assume that $G_{T}G_{T}^{\ast}$ is invertible. As long as the process noise is not degenerate, it will excite all modes of the system.
 
 Finally, we note that the Proposition 1.1 offers a data independent guarantee for the estimation of the parameters $(A,B)$. We can also provide data dependent guarantees, which will be less conservative in practice. The next result shows how we can use the observed states and inputs to obtain more refined confidence sets than the ones offered by Proposition 1.1. The proof is deferred to Appendix B.
 
 ### Proposition 2.4
 
-Assume we have $N$ independent samples $(y^{(\ell)},x^{(\ell)},u^{(\ell)})$ such that
-
-where $w^{(\ell)}$ are i.i.d. $\mathcal{N}{(0,{\sigma_{w}^{2}I_{n}})}$ and are independent from $x^{(\ell)}$ and $u^{(\ell)}$. Also, let us assume that $N \geq {n + p}$. Then, with probability $1 - \delta$, we have
-
-where ${C{(n,p,\delta)}} = {\sigma_{w}^{2}{({\sqrt{n + p} + \sqrt{n} + \sqrt{2{\log{({1/\delta})}}}})}^{2}}$. If the matrix on the right hand side has zero as an eigenvalue, we define the inverse of that eigenvalue to be infinity.
+Assume we have $N$ independent samples $(y^{(\ell)},x^{(\ell)},u^{(\ell)})$ such that where $w^{(\ell)}$ are i.i.d. $\mathcal{N}{(0,{\sigma_{w}^{2}I_{n}})}$ and are independent from $x^{(\ell)}$ and $u^{(\ell)}$. Also, let us assume that $N \geq {n + p}$. Then, with probability $1 - \delta$, we have where ${C{(n,p,\delta)}} = {\sigma_{w}^{2}{({\sqrt{n + p} + \sqrt{n} + \sqrt{2{\log{({1/\delta})}}}})}^{2}}$. If the matrix on the right hand side has zero as an eigenvalue, we define the inverse of that eigenvalue to be infinity.
 
 Proposition 2.4 is a general result that does not require the inputs $u^{(\ell)}$ to be normally distributed and it allows the states $x^{(\ell)}$ to be arbitrary as long as all the samples $(y^{(\ell)},x^{(\ell)},u^{(\ell)})$ are independent and the process noise $w^{(\ell)}$ is normally distributed. Nonetheless, both Propositions 1.1 and 2.4 require estimating $(A,B)$ from independent samples. In practice, one would collect rollouts from the system, which consist of many dependent measurements. In that case, using all the data is preferable. Since the guarantees offered in this section do not apply in that case, in the next section we study a different procedure for estimating the size of the estimation error.
 
@@ -203,16 +126,7 @@ In the previous sections we offered theoretical guarantees on the performance of
 
 We propose a vanilla bootstrap method for estimating ${\hat{\epsilon}}_{A}$ and ${\hat{\epsilon}}_{B}$. Bootstrap methods have had a profound impact in both theoretical and applied statistics since their introduction. These methods are used to estimate statistical quantities (e.g. confidence intervals) by sampling synthetic data from an empirical distribution determined by the available data. For the problem at hand we propose the procedure described in Algorithm 2.^11^1We assume that $\sigma_{u}$ and $\sigma_{w}$ are known. Otherwise they can be estimated from data.
 
-1:Input: confidence parameter δ, number of trials M, data ${\{{(x_{t}^{(i)},u_{t}^{(i)})}\}}_{\begin{matrix}
-\end{matrix}}$, and (Â,B̂) a minimizer of ${\sum_{\ell = 1}^{N}{\sum_{t = 0}^{T - 1}{\frac{1}{2}{\parallel{{{Ax_{t}^{(\ell)}} + {Bu_{t}^{(\ell)}}} - x_{t + 1}^{(\ell)}}\parallel}_{2}^{2}}}}.$
-6: x̂t + 1(ℓ) = Â x̂t(ℓ) + B̂ ût(ℓ) + ŵt(ℓ) with ${\hat{w}}_{t}^{(\ell)}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{w}^{2}I_{n}})}}$ and ${\hat{u}}_{t}^{(\ell)}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{u}^{2}I_{p}})}}$.
-10: record ${\overset{\sim}{\epsilon}}_{A} = {\|{\hat{A} - \overset{\sim}{A}}\|}_{2}$ and ${\overset{\sim}{\epsilon}}_{B} = {\|{\hat{B} - \overset{\sim}{B}}\|}_{2}$.
-12:Output: ϵ̂A and ϵ̂B, the 100 (1−δ)th percentiles of the ${\overset{\sim}{\epsilon}}_{A}$’s and the ${\overset{\sim}{\epsilon}}_{B}$’s.
-Algorithm 2 Bootstrap estimation of ϵA and ϵB
-
-For ${\hat{\epsilon}}_{A}$ and ${\hat{\epsilon}}_{B}$ estimated by Algorithm 2 we intuitively have
-
-There are many known guarantees for the bootstrap, particularly for the parametric version we use. We do not discuss these results here; for more details see texts by Van Der Vaart and Wellner, Shao and Tu, and Hall. Instead, in Appendix F we show empirically the performance of the bootstrap for our estimation problem. For mission critical systems, where empirical validation is insufficient, the statistical error bounds presented in Section 2.2 give guarantees on the size of $\epsilon_{A}$, $\epsilon_{B}$. In general, data dependent error guarantees will be less conservative. In follow up work we offer guarantees similar to the ones presented in Section 2.2 for estimation of linear dynamics from dependent data.
+1:Input: confidence parameter δ, number of trials M, data ${\{{(x_{t}^{(i)},u_{t}^{(i)})}\}}_{\begin{matrix} \end{matrix}}$, and (Â, B̂) a minimizer of ${\sum_{\ell = 1}^{N}{\sum_{t = 0}^{T - 1}{\frac{1}{2}{\parallel{{{Ax_{t}^{(\ell)}} + {Bu_{t}^{(\ell)}}} - x_{t + 1}^{(\ell)}}\parallel}_{2}^{2}}}}.$ 6: x̂t + 1(ℓ) = Â x̂t(ℓ) + B̂ ût(ℓ) + ŵt(ℓ) with ${\hat{w}}_{t}^{(\ell)}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{w}^{2}I_{n}})}}$ and ${\hat{u}}_{t}^{(\ell)}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{u}^{2}I_{p}})}}$. 10: record ${\overset{\sim}{\epsilon}}_{A} = {\|{\hat{A} - \overset{\sim}{A}}\|}_{2}$ and ${\overset{\sim}{\epsilon}}_{B} = {\|{\hat{B} - \overset{\sim}{B}}\|}_{2}$. 12:Output: ϵ̂A and ϵ̂B, the 100 (1 − δ)th percentiles of the ${\overset{\sim}{\epsilon}}_{A}$’s and the ${\overset{\sim}{\epsilon}}_{B}$’s. Algorithm 2 Bootstrap estimation of ϵA and ϵB For ${\hat{\epsilon}}_{A}$ and ${\hat{\epsilon}}_{B}$ estimated by Algorithm 2 we intuitively have There are many known guarantees for the bootstrap, particularly for the parametric version we use. We do not discuss these results here; for more details see texts by Van Der Vaart and Wellner, Shao and Tu, and Hall. Instead, in Appendix F we show empirically the performance of the bootstrap for our estimation problem. For mission critical systems, where empirical validation is insufficient, the statistical error bounds presented in Section 2.2 give guarantees on the size of $\epsilon_{A}$, $\epsilon_{B}$. In general, data dependent error guarantees will be less conservative. In follow up work we offer guarantees similar to the ones presented in Section 2.2 for estimation of linear dynamics from dependent data.
 
 ## Robust Synthesis
 
@@ -220,35 +134,19 @@ With estimates of the system $(\hat{A},\hat{B})$ and operator norm error bounds 
 
 ### Useful Results from System Level Synthesis
 
-The SLS framework focuses on the *system responses* of a closed-loop system. As a motivating example, consider linear dynamics under a fixed a static state-feedback control policy $K$, i.e., let $u_{k} = {Kx_{k}}$. Then, the closed loop map from the disturbance process $\{ w_{0},w_{1},\ldots\}$ to the state $x_{k}$ and control input $u_{k}$ at time $k$ is given by
+The SLS framework focuses on the *system responses* of a closed-loop system. As a motivating example, consider linear dynamics under a fixed a static state-feedback control policy $K$, i.e., let $u_{k} = {Kx_{k}}$. Then, the closed loop map from the disturbance process $\{ w_{0},w_{1},\ldots\}$ to the state $x_{k}$ and control input $u_{k}$ at time $k$ is given by Letting ${\Phi_{x}{(k)}}:={({A + {BK}})}^{k - 1}$ and ${\Phi_{u}{(k)}}:={K{({A + {BK}})}^{k - 1}}$, we can rewrite Eq. (3.1) as where $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$ are called the *closed-loop system response elements* induced by the static controller $K$.
 
-Letting ${\Phi_{x}{(k)}}:={({A + {BK}})}^{k - 1}$ and ${\Phi_{u}{(k)}}:={K{({A + {BK}})}^{k - 1}}$, we can rewrite Eq. (3.1) as
+Note that even when the control is a linear function of the state and its past history (i.e. a linear dynamic controller), the expression (3.2) is valid. Though we conventionally think of the control policy as a function mapping states to input, whenever such a mapping is linear, both the control input and the state can be written as linear functions of the disturbance signal $w_{t}$. With such an identification, the dynamics require that the $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$ must obey the constraints As we describe in more detail below in Theorem 3.1. ‣ 3.1 Useful Results from System Level Synthesis ‣ 3 Robust Synthesis ‣ On the Sample Complexity of the Linear Quadratic Regulator"), these constraints are in fact both necessary and sufficient. Working with closed-loop system responses allows us to cast optimal control problems as optimization problems over elements $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$, constrained to satisfy the affine equations (3.3). Comparing equations (3.1) and (3.2), we see that the former is non-convex in the controller $K$, whereas the latter is affine in the elements $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$.
 
-where $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$ are called the *closed-loop system response elements* induced by the static controller $K$.
+As we work with infinite horizon problems, it is notationally more convenient to work with *transfer function* representations of the above objects, which can be obtained by taking a $z$-transform of their time-domain representations. The frequency domain variable $z$ can be informally thought of as the time-shift operator, i.e., ${z{\{ x_{k},x_{k + 1},\ldots\}}} = {\{ x_{k + 1},x_{k + 2},\ldots\}}$, allowing for a compact representation of LTI dynamics. We use boldface letters to denote such transfer functions signals in the frequency domain, e.g., ${\mathbf{\Phi}_{x}{(z)}} = {\sum_{k = 1}^{\infty}{\Phi_{x}{(k)}z^{- k}}}$. Then, the constraints (3.3) can be rewritten as and the corresponding (not necessarily static) control law $\mathbf{u} = {\mathbf{K}\mathbf{x}}$ is given by $\mathbf{K} = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}$. The relevant frequency domain connections for LQR are illustrated in Appendix C.
 
-Note that even when the control is a linear function of the state and its past history (i.e. a linear dynamic controller), the expression (3.2) is valid. Though we conventionally think of the control policy as a function mapping states to input, whenever such a mapping is linear, both the control input and the state can be written as linear functions of the disturbance signal $w_{t}$. With such an identification, the dynamics require that the $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$ must obey the constraints
+We formalize our discussion by introducing notation that is common in the controls literature. For a thorough introduction to the functional analysis commonly used in control theory, see Chapters 2 and 3 of Zhou et al.. Let $\mathbb{T}$ (resp. $\mathbb{D}$) denote the unit circle (resp. open unit disk) in the complex plane. The restriction of the Hardy spaces $\mathcal{H}_{\infty}{({\mathbb{T}})}$ and $\mathcal{H}_{2}{({\mathbb{T}})}$ to matrix-valued real-rational functions that are analytic on the complement of $\mathbb{D}$ will be referred to as $\mathcal{R}\mathcal{H}_{\infty}$ and $\mathcal{R}\mathcal{H}_{2}$, respectively. In controls parlance, this corresponds to (discrete-time) stable matrix-valued transfer functions. For these two function spaces, the $\mathcal{H}_{\infty}$ and $\mathcal{H}_{2}$ norms simplify to Finally, the notation $\frac{1}{z}\mathcal{R}\mathcal{H}_{\infty}$ refers to the set of transfer functions $\mathbf{G}$ such that ${z\mathbf{G}} \in {\mathcal{R}\mathcal{H}_{\infty}}$. Equivalently, $\mathbf{G} \in {\frac{1}{z}\mathcal{R}\mathcal{H}_{\infty}}$ if $\mathbf{G} \in {\mathcal{R}\mathcal{H}_{\infty}}$ and $\mathbf{G}$ is strictly proper.
 
-As we describe in more detail below in Theorem 3.1. ‣ 3.1 Useful Results from System Level Synthesis ‣ 3 Robust Synthesis ‣ On the Sample Complexity of the Linear Quadratic Regulator"), these constraints are in fact both necessary and sufficient. Working with closed-loop system responses allows us to cast optimal control problems as optimization problems over elements $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$, constrained to satisfy the affine equations (3.3). Comparing equations (3.1) and (3.2), we see that the former is non-convex in the controller $K$, whereas the latter is affine in the elements $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$.
+The most important transfer function for the LQR problem is the map from the state sequence to the control actions: the control policy. Consider an arbitrary transfer function $\mathbf{K}$ denoting the map from state to control action, $\mathbf{u} = {\mathbf{K}\mathbf{x}}$. Then the closed-loop transfer matrices from the process noise $\mathbf{w}$ to the state $\mathbf{x}$ and control action $\mathbf{u}$ satisfy We then have the following theorem parameterizing the set of stable closed-loop transfer matrices, as described in equation (3.5), that are achievable by a given stabilizing controller $\mathbf{K}$.
 
-As we work with infinite horizon problems, it is notationally more convenient to work with *transfer function* representations of the above objects, which can be obtained by taking a $z$-transform of their time-domain representations. The frequency domain variable $z$ can be informally thought of as the time-shift operator, i.e., ${z{\{ x_{k},x_{k + 1},\ldots\}}} = {\{ x_{k + 1},x_{k + 2},\ldots\}}$, allowing for a compact representation of LTI dynamics. We use boldface letters to denote such transfer functions signals in the frequency domain, e.g., ${\mathbf{\Phi}_{x}{(z)}} = {\sum_{k = 1}^{\infty}{\Phi_{x}{(k)}z^{- k}}}$. Then, the constraints (3.3) can be rewritten as
+### Theorem 3.1 (State-Feedback Parameterization )
 
-and the corresponding (not necessarily static) control law $\mathbf{u} = {\mathbf{K}\mathbf{x}}$ is given by $\mathbf{K} = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}$. The relevant frequency domain connections for LQR are illustrated in Appendix C.
-
-We formalize our discussion by introducing notation that is common in the controls literature. For a thorough introduction to the functional analysis commonly used in control theory, see Chapters 2 and 3 of Zhou et al.. Let $\mathbb{T}$ (resp. $\mathbb{D}$) denote the unit circle (resp. open unit disk) in the complex plane. The restriction of the Hardy spaces $\mathcal{H}_{\infty}{({\mathbb{T}})}$ and $\mathcal{H}_{2}{({\mathbb{T}})}$ to matrix-valued real-rational functions that are analytic on the complement of $\mathbb{D}$ will be referred to as $\mathcal{R}\mathcal{H}_{\infty}$ and $\mathcal{R}\mathcal{H}_{2}$, respectively. In controls parlance, this corresponds to (discrete-time) stable matrix-valued transfer functions. For these two function spaces, the $\mathcal{H}_{\infty}$ and $\mathcal{H}_{2}$ norms simplify to
-
-Finally, the notation $\frac{1}{z}\mathcal{R}\mathcal{H}_{\infty}$ refers to the set of transfer functions $\mathbf{G}$ such that ${z\mathbf{G}} \in {\mathcal{R}\mathcal{H}_{\infty}}$. Equivalently, $\mathbf{G} \in {\frac{1}{z}\mathcal{R}\mathcal{H}_{\infty}}$ if $\mathbf{G} \in {\mathcal{R}\mathcal{H}_{\infty}}$ and $\mathbf{G}$ is strictly proper.
-
-The most important transfer function for the LQR problem is the map from the state sequence to the control actions: the control policy. Consider an arbitrary transfer function $\mathbf{K}$ denoting the map from state to control action, $\mathbf{u} = {\mathbf{K}\mathbf{x}}$. Then the closed-loop transfer matrices from the process noise $\mathbf{w}$ to the state $\mathbf{x}$ and control action $\mathbf{u}$ satisfy
-
-We then have the following theorem parameterizing the set of stable closed-loop transfer matrices, as described in equation (3.5), that are achievable by a given stabilizing controller $\mathbf{K}$.
-
-### Theorem 3.1 (State-Feedback Parameterization \[59\])
-
-The following are true:
-
-The affine subspace defined by
-
-parameterizes all system responses (3.5) from $\mathbf{w}$ to $(\mathbf{x},\mathbf{u})$, achievable by an internally stabilizing state-feedback controller $\mathbf{K}$.
+The following are true: The affine subspace defined by parameterizes all system responses (3.5) from $\mathbf{w}$ to $(\mathbf{x},\mathbf{u})$, achievable by an internally stabilizing state-feedback controller $\mathbf{K}$.
 
 For any transfer matrices $\{\mathbf{\Phi}_{x},\mathbf{\Phi}_{u}\}$ satisfying (3.6. ‣ 3.1 Useful Results from System Level Synthesis ‣ 3 Robust Synthesis ‣ On the Sample Complexity of the Linear Quadratic Regulator")), the controller $\mathbf{K} = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}$ is internally stabilizing and achieves the desired system response (3.5).
 
@@ -256,11 +154,9 @@ Note that in particular, ${\{\mathbf{\Phi}_{x},\mathbf{\Phi}_{u}\}} = {\{{({{zI}
 
 We will also make extensive use of a robust variant of Theorem 3.1. ‣ 3.1 Useful Results from System Level Synthesis ‣ 3 Robust Synthesis ‣ On the Sample Complexity of the Linear Quadratic Regulator").
 
-### Theorem 3.2 (Robust Stability \[39\])
+### Theorem 3.2 (Robust Stability )
 
-Suppose that the transfer matrices ${\{\mathbf{\Phi}_{x},\mathbf{\Phi}_{u}\}} \in {\frac{1}{z}\mathcal{R}\mathcal{H}_{\infty}}$ satisfy
-
-Then the controller $\mathbf{K} = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}$ stabilizes the system described by $(A,B)$ if and only if ${({I + \mathbf{\Delta}})}^{- 1} \in {\mathcal{R}\mathcal{H}_{\infty}}$. Furthermore, the resulting system response is given by
+Suppose that the transfer matrices ${\{\mathbf{\Phi}_{x},\mathbf{\Phi}_{u}\}} \in {\frac{1}{z}\mathcal{R}\mathcal{H}_{\infty}}$ satisfy Then the controller $\mathbf{K} = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}$ stabilizes the system described by $(A,B)$ if and only if ${({I + \mathbf{\Delta}})}^{- 1} \in {\mathcal{R}\mathcal{H}_{\infty}}$. Furthermore, the resulting system response is given by
 
 ### Corollary 3.3
 
@@ -268,41 +164,25 @@ Under the assumptions of Theorem 3.8. ‣ 3.1 Useful Results from System Level S
 
 ### Proof
 
-Follows immediately from the small gain theorem, see for example Section 9.2 in. ∎
+Follows immediately from the small gain theorem, see for example Section 9.2 . ∎
 
 ### Robust LQR Synthesis
 
-We return to the problem setting where estimates $(\hat{A},\hat{B})$ of a true system $(A,B)$ satisfy
+We return to the problem setting where estimates $(\hat{A},\hat{B})$ of a true system $(A,B)$ satisfy where $\Delta_{A}:={\hat{A} - A}$ and $\Delta_{B}:={\hat{B} - B}$ and where we wish to minimize the LQR cost for the worst instantiation of the parametric uncertainty.
 
-where $\Delta_{A}:={\hat{A} - A}$ and $\Delta_{B}:={\hat{B} - B}$ and where we wish to minimize the LQR cost for the worst instantiation of the parametric uncertainty.
+Before proceeding, we must formulate the LQR problem in terms of the system responses $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$. It follows from Theorem 3.1. ‣ 3.1 Useful Results from System Level Synthesis ‣ 3 Robust Synthesis ‣ On the Sample Complexity of the Linear Quadratic Regulator") and the standard equivalence between infinite horizon LQR and $\mathcal{H}_{2}$ optimal control that, for a disturbance process distributed as $w_{t}\overset{i.i.d.}{\sim}\mathcal{N}{(0,{\sigma_{w}^{2}I})}$, the standard LQR problem (1.7) can be equivalently written as We provide a full derivation of this equivalence in Appendix C. Going forward, we drop the $\sigma_{w}^{2}$ multiplier in the objective function as it affects neither the optimal controller nor the sub-optimality guarantees that we compute in Section 4.
 
-Before proceeding, we must formulate the LQR problem in terms of the system responses $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$. It follows from Theorem 3.1. ‣ 3.1 Useful Results from System Level Synthesis ‣ 3 Robust Synthesis ‣ On the Sample Complexity of the Linear Quadratic Regulator") and the standard equivalence between infinite horizon LQR and $\mathcal{H}_{2}$ optimal control that, for a disturbance process distributed as $w_{t}\overset{i.i.d.}{\sim}\mathcal{N}{(0,{\sigma_{w}^{2}I})}$, the standard LQR problem (1.7) can be equivalently written as
-
-We provide a full derivation of this equivalence in Appendix C. Going forward, we drop the $\sigma_{w}^{2}$ multiplier in the objective function as it affects neither the optimal controller nor the sub-optimality guarantees that we compute in Section 4.
-
-We begin with a simple sufficient condition under which any controller $\mathbf{K}$ that stabilizes $(\hat{A},\hat{B})$ also stabilizes the true system $(A,B)$. To state the lemma, we introduce one additional piece of notation. For a matrix $M$, we let $\Re_{M}$ denote the resolvent
-
-We now can state our robustness lemma.
+We begin with a simple sufficient condition under which any controller $\mathbf{K}$ that stabilizes $(\hat{A},\hat{B})$ also stabilizes the true system $(A,B)$. To state the lemma, we introduce one additional piece of notation. For a matrix $M$, we let $\Re_{M}$ denote the resolvent We now can state our robustness lemma.
 
 ### Lemma 3.4
 
-Let the controller $\mathbf{K}$ stabilize $(\hat{A},\hat{B})$ and $(\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})$ be its corresponding system response (3.5) on system $(\hat{A},\hat{B})$. Then if $\mathbf{K}$ stabilizes $(A,B)$, it achieves the following LQR cost
-
-a sufficient condition for $\mathbf{K}$ to stabilize $(A,B)$ is that ${\|\hat{\mathbf{\Delta}}\|}_{\mathcal{H}_{\infty}} < 1$.
+Let the controller $\mathbf{K}$ stabilize $(\hat{A},\hat{B})$ and $(\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})$ be its corresponding system response (3.5) on system $(\hat{A},\hat{B})$. Then if $\mathbf{K}$ stabilizes $(A,B)$, it achieves the following LQR cost a sufficient condition for $\mathbf{K}$ to stabilize $(A,B)$ is that ${\|\hat{\mathbf{\Delta}}\|}_{\mathcal{H}_{\infty}} < 1$.
 
 ### Proof
 
-Follows immediately from Theorems 3.1. ‣ 3.1 Useful Results from System Level Synthesis ‣ 3 Robust Synthesis ‣ On the Sample Complexity of the Linear Quadratic Regulator"), 3.8. ‣ 3.1 Useful Results from System Level Synthesis ‣ 3 Robust Synthesis ‣ On the Sample Complexity of the Linear Quadratic Regulator") and Corollary 3.3 by noting that for system responses $(\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})$ satisfying
+Follows immediately from Theorems 3.1. ‣ 3.1 Useful Results from System Level Synthesis ‣ 3 Robust Synthesis ‣ On the Sample Complexity of the Linear Quadratic Regulator"), 3.8. ‣ 3.1 Useful Results from System Level Synthesis ‣ 3 Robust Synthesis ‣ On the Sample Complexity of the Linear Quadratic Regulator") and Corollary 3.3 by noting that for system responses $(\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})$ satisfying for $\hat{\mathbf{\Delta}}$ as defined in equation (3.12). ∎ We can therefore recast the robust LQR problem (1.11) in the following equivalent form | | & {\min\limits_{\mathbf{\Phi}_{x},\mathbf{\Phi}_{u}}{\sup\limits_{\substack{{\|\Delta_{A}\|}_{2} \leq \epsilon_{A} \\ {\|\Delta_{B}\|}_{2} \leq \epsilon_{B}}}{J{(A,B,\mathbf{K})}}}} \\ | | | | | & {{{{\text{s.t.}\begin{bmatrix} | | | | | \end{bmatrix}\begin{bmatrix} | | | | | \end{bmatrix}} = {I,\mathbf{\Phi}_{x}}},{\mathbf{\Phi}_{u} \in {\frac{1}{z}\mathcal{R}\mathcal{H}_{\infty}}}}.} | | | The resulting robust control problem is one subject to real-parametric uncertainty, a class of problems known to be computationally intractable. Although effective computational heuristics (e.g., DK iteration) exist, the performance of the resulting controller on the true system is difficult to characterize analytically in terms of the size of the perturbations.
 
-for $\hat{\mathbf{\Delta}}$ as defined in equation (3.12). ∎
-
-We can therefore recast the robust LQR problem (1.11) in the following equivalent form
-
-The resulting robust control problem is one subject to real-parametric uncertainty, a class of problems known to be computationally intractable. Although effective computational heuristics (e.g., DK iteration ) exist, the performance of the resulting controller on the true system is difficult to characterize analytically in terms of the size of the perturbations.
-
-To circumvent this issue, we take a slightly conservative approach and find an upper-bound to the cost $J{(A,B,\mathbf{K})}$ that is independent of the uncertainties $\Delta_{A}$ and $\Delta_{B}$. First, note that if ${\|\hat{\mathbf{\Delta}}\|}_{\mathcal{H}_{\infty}} < 1$, we can write
-
-Because $J{(\hat{A},\hat{B},\mathbf{K})}$ captures the performance of the controller $\mathbf{K}$ on the nominal system $(\hat{A},\hat{B})$, it is not subject to any uncertainty. It therefore remains to compute a tractable bound for ${\|\hat{\mathbf{\Delta}}\|}_{\mathcal{H}_{\infty}}$, which we do using the following fact.
+To circumvent this issue, we take a slightly conservative approach and find an upper-bound to the cost $J{(A,B,\mathbf{K})}$ that is independent of the uncertainties $\Delta_{A}$ and $\Delta_{B}$. First, note that if ${\|\hat{\mathbf{\Delta}}\|}_{\mathcal{H}_{\infty}} < 1$, we can write Because $J{(\hat{A},\hat{B},\mathbf{K})}$ captures the performance of the controller $\mathbf{K}$ on the nominal system $(\hat{A},\hat{B})$, it is not subject to any uncertainty. It therefore remains to compute a tractable bound for ${\|\hat{\mathbf{\Delta}}\|}_{\mathcal{H}_{\infty}}$, which we do using the following fact.
 
 ### Proposition 3.5
 
@@ -310,36 +190,19 @@ For any $\alpha \in {}$ and $\hat{\mathbf{\Delta}}$ as defined in (3.12)
 
 ### Proof
 
-Note that for any block matrix of the form $\begin{bmatrix}
-\end{bmatrix}$, we have
-
-To verify this assertion, note that
-
-With (3.16) in hand, we have
-
-completing the proof. ∎
-
-The following corollary is then immediate.
+Note that for any block matrix of the form $\begin{bmatrix} \end{bmatrix}$, we have To verify this assertion, note that With (3.16) in hand, we have completing the proof. ∎ The following corollary is then immediate.
 
 ### Corollary 3.6
 
 Let the controller $\mathbf{K}$ and resulting system response $(\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})$ be as defined in Lemma 3.4. Then if ${H_{\alpha}{(\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})}} < 1$, the controller $\mathbf{K} = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}$ stabilizes the true system $(A,B)$.
 
-Applying Proposition 3.15 in conjunction with the bound (3.14), we arrive at the following upper bound to the cost function of the robust LQR problem (1.11), which is independent of the perturbations $(\Delta_{A},\Delta_{B})$:
-
-The upper bound is only valid when ${H_{\alpha}{(\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})}} < 1$, which guarantees the stability of the closed-loop system as in Corollary 3.6. We remark that Corollary 3.6 and the bound in (3.17) are of interest independent of the synthesis procedure for $\mathbf{K}$. In particular, they can be applied to the optimal LQR controller $\hat{K}$ computed using the nominal system $(\hat{A},\hat{B})$.
+Applying Proposition 3.15 in conjunction with the bound (3.14), we arrive at the following upper bound to the cost function of the robust LQR problem (1.11), which is independent of the perturbations $(\Delta_{A},\Delta_{B})$: The upper bound is only valid when ${H_{\alpha}{(\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})}} < 1$, which guarantees the stability of the closed-loop system as in Corollary 3.6. We remark that Corollary 3.6 and the bound in (3.17) are of interest independent of the synthesis procedure for $\mathbf{K}$. In particular, they can be applied to the optimal LQR controller $\hat{K}$ computed using the nominal system $(\hat{A},\hat{B})$.
 
 As the next lemma shows, the right hand side of Equation (3.17) can be efficiently optimized by an appropriate decomposition. The proof of the lemma is immediate.
 
 ### Lemma 3.7
 
-For functions $f:{\mathcal{X}\rightarrow{\mathbb{R}}}$ and $g:{\mathcal{X}\rightarrow{\mathbb{R}}}$ and constraint set $C \subseteq \mathcal{X}$, consider
-
-Assuming that ${f{(x)}} \geq 0$ and $0 \leq {g{(x)}} < 1$ for all $x \in C$, this optimization problem can be reformulated as an outer single-variable problem and an inner constrained optimization problem (the objective value of an optimization over the emptyset is defined to be infinity):
-
-Then combining Lemma 3.7 with the upper bound in (3.17) results in the following optimization problem:
-
-We note that this optimization objective is jointly quasi-convex in $(\gamma,\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})$. Hence, as a function of $\gamma$ alone the objective is quasi-convex, and furthermore is smooth in the feasible domain. Therefore, the outer optimization with respect to $\gamma$ can effectively be solved with methods like golden section search. We remark that the inner optimization is a convex problem, though an infinite dimensional one. We show in Section 5 that a simple finite impulse response truncation yields a finite dimensional problem with similar guarantees of robustness and performance.
+For functions $f:{\mathcal{X}\rightarrow{\mathbb{R}}}$ and $g:{\mathcal{X}\rightarrow{\mathbb{R}}}$ and constraint set $C \subseteq \mathcal{X}$, consider Assuming that ${f{(x)}} \geq 0$ and $0 \leq {g{(x)}} < 1$ for all $x \in C$, this optimization problem can be reformulated as an outer single-variable problem and an inner constrained optimization problem (the objective value of an optimization over the emptyset is defined to be infinity): Then combining Lemma 3.7 with the upper bound in (3.17) results in the following optimization problem: | | {\text{minimize}_{\gamma \in {\lbrack 0,1)}}\frac{1}{1 - \gamma}} & {\min\limits_{\mathbf{\Phi}_{x},\mathbf{\Phi}_{u}}\left\| {\begin{bmatrix} | | | | | \end{bmatrix}\begin{bmatrix} | | | | | \end{bmatrix}} \right\|_{\mathcal{H}_{2}}} \\ | | | | | & {{{\text{s.t.}\begin{bmatrix} | | | | | \end{bmatrix}\begin{bmatrix} | | | | | \end{bmatrix}} = I},{\left\| \begin{bmatrix} | | | | | {\frac{\epsilon_{A}}{\sqrt{\alpha}}\mathbf{\Phi}_{x}} \\ | | | | | {\frac{\epsilon_{B}}{\sqrt{1 - \alpha}}\mathbf{\Phi}_{u}} | | | | | \end{bmatrix} \right\|_{\mathcal{H}_{\infty}} \leq \gamma}} \\ | | | | | & {{{\mathbf{\Phi}_{x},\mathbf{\Phi}_{u}} \in {\frac{1}{z}\mathcal{R}\mathcal{H}_{\infty}}}.} | | | We note that this optimization objective is jointly quasi-convex in $(\gamma,\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})$. Hence, as a function of $\gamma$ alone the objective is quasi-convex, and furthermore is smooth in the feasible domain. Therefore, the outer optimization with respect to $\gamma$ can effectively be solved with methods like golden section search. We remark that the inner optimization is a convex problem, though an infinite dimensional one. We show in Section 5 that a simple finite impulse response truncation yields a finite dimensional problem with similar guarantees of robustness and performance.
 
 We further remark that because $\gamma \in {\lbrack 0,1)}$, any feasible solution $(\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})$ to optimization problem (3.18) generates a controller $\mathbf{K} = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}$ satisfying the conditions of Corollary 3.6, and hence stabilizes the true system $(A,B)$. Therefore, even if the solution is approximated, as long as it is feasible, it will be stabilizing. As we show in the next section, for sufficiently small estimation error bounds $\epsilon_{A}$ and $\epsilon_{B}$, we can further bound the sub-optimality of the performance achieved by our robustly stabilizing controller relative to that achieved by the optimal LQR controller $K_{\star}$.
 
@@ -349,9 +212,7 @@ We now return to analyzing the Coarse-ID control problem. We upper bound the per
 
 ### Theorem 4.1
 
-Let $J_{\star}$ denote the minimal LQR cost achievable by any controller for the dynamical system with transition matrices $(A,B)$, and let $K_{\star}$ denote the optimal contoller. Let $(\hat{A},\hat{B})$ be estimates of the transition matrices such that ${\|\Delta_{A}\|}_{2} \leq \epsilon_{A}$, ${\|\Delta_{B}\|}_{2} \leq \epsilon_{B}$. Then, if $\mathbf{K}$ is synthesized via (3.18) with $\alpha = {1/2}$, the relative error in the LQR cost is
-
-as long as ${{({\epsilon_{A} + {\epsilon_{B}{\| K_{\star}\|}_{2}}})}{\|\Re_{A + {BK_{\star}}}\|}_{\mathcal{H}_{\infty}}} \leq {1/5}$.
+Let $J_{\star}$ denote the minimal LQR cost achievable by any controller for the dynamical system with transition matrices $(A,B)$, and let $K_{\star}$ denote the optimal contoller. Let $(\hat{A},\hat{B})$ be estimates of the transition matrices such that ${\|\Delta_{A}\|}_{2} \leq \epsilon_{A}$, ${\|\Delta_{B}\|}_{2} \leq \epsilon_{B}$. Then, if $\mathbf{K}$ is synthesized via (3.18) with $\alpha = {1/2}$, the relative error in the LQR cost is as long as ${{({\epsilon_{A} + {\epsilon_{B}{\| K_{\star}\|}_{2}}})}{\|\Re_{A + {BK_{\star}}}\|}_{\mathcal{H}_{\infty}}} \leq {1/5}$.
 
 This result offers a guarantee on the performance of the SLS synthesized controller regardless of the estimation procedure used to estimate the transition matrices. Together with our result (Proposition 1.1) on system identification from independent data, Theorem 4.1 yields a sample complexity upper bound on the performance of the robust SLS controller $\mathbf{K}$ when $(A,B)$ are not known. We make this guarantee precise in Corollary 4.3 below. The rest of the section is dedicated to proving Theorem 4.1.
 
@@ -363,41 +224,23 @@ Define $\zeta:={{({\epsilon_{A} + {\epsilon_{B}{\| K_{\star}\|}_{2}}})}{\|\Re_{A
 
 ### Proof
 
-By construction ${{\overset{\sim}{\mathbf{\Phi}}}_{x},{\overset{\sim}{\mathbf{\Phi}}}_{u}} \in {\frac{1}{z}\mathcal{R}\mathcal{H}_{\infty}}$. Therefore, we are left to check three conditions:
-
-The first two conditions follow by simple algebraic computations. Before we check the last condition, note that ${\|\mathbf{\Delta}\|}_{\mathcal{H}_{\infty}} \leq {{({\epsilon_{A} + {\epsilon_{B}{\| K_{\star}\|}_{2}}})}{\|\Re_{A + {BK_{\star}}}\|}_{\mathcal{H}_{\infty}}} = \zeta < 1$. Now observe that,
+By construction ${{\overset{\sim}{\mathbf{\Phi}}}_{x},{\overset{\sim}{\mathbf{\Phi}}}_{u}} \in {\frac{1}{z}\mathcal{R}\mathcal{H}_{\infty}}$. Therefore, we are left to check three conditions: The first two conditions follow by simple algebraic computations. Before we check the last condition, note that ${\|\mathbf{\Delta}\|}_{\mathcal{H}_{\infty}} \leq {{({\epsilon_{A} + {\epsilon_{B}{\| K_{\star}\|}_{2}}})}{\|\Re_{A + {BK_{\star}}}\|}_{\mathcal{H}_{\infty}}} = \zeta < 1$. Now observe that,
 
 ### Proof of Theorem 4.1
 
-Let $(\gamma_{\star},\mathbf{\Phi}_{x}^{\star},\mathbf{\Phi}_{u}^{\star})$ be an optimal solution to problem (3.18) and let $\mathbf{K} = {\mathbf{\Phi}_{u}^{\star}{(\mathbf{\Phi}_{x}^{\star})}^{- 1}}$. We can then write
+Let $(\gamma_{\star},\mathbf{\Phi}_{x}^{\star},\mathbf{\Phi}_{u}^{\star})$ be an optimal solution to problem (3.18) and let $\mathbf{K} = {\mathbf{\Phi}_{u}^{\star}{(\mathbf{\Phi}_{x}^{\star})}^{- 1}}$. We can then write where the first inequality follows from the bound (3.14), and the second follows from the fact that ${\|\hat{\mathbf{\Delta}}\|}_{\mathcal{H}_{\infty}} \leq \gamma_{\star}$ due to Proposition 3.15 and the constraint in optimization problem (3.18).
 
-where the first inequality follows from the bound (3.14), and the second follows from the fact that ${\|\hat{\mathbf{\Delta}}\|}_{\mathcal{H}_{\infty}} \leq \gamma_{\star}$ due to Proposition 3.15 and the constraint in optimization problem (3.18).
-
-From Lemma 4.2 we know that $(\gamma_{0},{\overset{\sim}{\mathbf{\Phi}}}_{x},{\overset{\sim}{\mathbf{\Phi}}}_{u})$ defined in equation (4.2) is also a feasible solution. Therefore, because $K_{\star} = {{\overset{\sim}{\mathbf{\Phi}}}_{u}{\overset{\sim}{\mathbf{\Phi}}}_{x}^{- 1}}$, we have by optimality,
-
-where the second inequality follows by the argument used to derive (3.14) with the true and estimated transition matrices switched. Recall that ${\|\mathbf{\Delta}\|}_{\mathcal{H}_{\infty}} \leq \zeta$ and that $\gamma_{0} = {{\sqrt{2}\zeta}/{({1 + \zeta})}}$. Therefore
-
-where the last inequality follows because $\zeta < {1/5} < {1/{({2 + {2\sqrt{2}}})}}$. The conclusion follows. ∎
-
-With this suboptimality result in hand, we are now ready to give an end-to-end performance guarantee for our procedure when the independent data estimation scheme is used.
+From Lemma 4.2 we know that $(\gamma_{0},{\overset{\sim}{\mathbf{\Phi}}}_{x},{\overset{\sim}{\mathbf{\Phi}}}_{u})$ defined in equation (4.2) is also a feasible solution. Therefore, because $K_{\star} = {{\overset{\sim}{\mathbf{\Phi}}}_{u}{\overset{\sim}{\mathbf{\Phi}}}_{x}^{- 1}}$, we have by optimality, where the second inequality follows by the argument used to derive (3.14) with the true and estimated transition matrices switched. Recall that ${\|\mathbf{\Delta}\|}_{\mathcal{H}_{\infty}} \leq \zeta$ and that $\gamma_{0} = {{\sqrt{2}\zeta}/{({1 + \zeta})}}$. Therefore where the last inequality follows because $\zeta < {1/5} < {1/{({2 + {2\sqrt{2}}})}}$. The conclusion follows. ∎ With this suboptimality result in hand, we are now ready to give an end-to-end performance guarantee for our procedure when the independent data estimation scheme is used.
 
 ### Corollary 4.3
 
-Let $\lambda_{G} = {\lambda_{\min}{({{\sigma_{u}^{2}G_{T}G_{T}^{\ast}} + {\sigma_{w}^{2}F_{T}F_{T}^{\ast}}})}}$, where $F_{T},G_{T}$ are defined in (1.8). Suppose the independent data estimation procedure described in Algorithm 1 is used to produce estimates $(\hat{A},\hat{B})$ and $\mathbf{K}$ is synthesized via (3.18) with $\alpha = {1/2}$. Then there are universal constants $C_{0}$ and $C_{1}$ such that the relative error in the LQR cost satisfies
-
-with probability $1 - \delta$, as long as $N \geq {C_{1}{({n + p})}\sigma_{w}^{2}{\|\Re_{A + {BK_{\star}}}\|}_{\mathcal{H}_{\infty}}^{2}{({{1/\lambda_{G}} + {{\| K_{\star}\|}_{2}^{2}/\sigma_{u}^{2}}})}{\log{({1/\delta})}}}$.
+Let $\lambda_{G} = {\lambda_{\min}{({{\sigma_{u}^{2}G_{T}G_{T}^{\ast}} + {\sigma_{w}^{2}F_{T}F_{T}^{\ast}}})}}$, where $F_{T},G_{T}$ are defined in (1.8). Suppose the independent data estimation procedure described in Algorithm 1 is used to produce estimates $(\hat{A},\hat{B})$ and $\mathbf{K}$ is synthesized via (3.18) with $\alpha = {1/2}$. Then there are universal constants $C_{0}$ and $C_{1}$ such that the relative error in the LQR cost satisfies with probability $1 - \delta$, as long as $N \geq {C_{1}{({n + p})}\sigma_{w}^{2}{\|\Re_{A + {BK_{\star}}}\|}_{\mathcal{H}_{\infty}}^{2}{({{1/\lambda_{G}} + {{\| K_{\star}\|}_{2}^{2}/\sigma_{u}^{2}}})}{\log{({1/\delta})}}}$.
 
 ### Proof
 
-Recall from Proposition 1.1 that for the independent data estimation scheme, we have
+Recall from Proposition 1.1 that for the independent data estimation scheme, we have with probability $1 - \delta$, as long as $N \geq {{8{({n + p})}} + {16{\log{({4/\delta})}}}}$.
 
-with probability $1 - \delta$, as long as $N \geq {{8{({n + p})}} + {16{\log{({4/\delta})}}}}$.
-
-To apply Theorem 4.1 we need ${{({\epsilon_{A} + {\epsilon_{B}{\| K_{\star}\|}_{2}}})}{\|\Re_{A + {BK_{\star}}}\|}_{\mathcal{H}_{\infty}}} < {1/5}$, which will hold as long as $N \geq {\mathcal{O}{\left\{ {{({n + p})}\sigma_{w}^{2}} \right\|\left. {{\Re_{A + {BK_{\star}}}\parallel}_{\mathcal{H}_{\infty}}^{2}{({{1/\lambda_{G}} + {{\| K_{\star}\|}_{2}^{2}/\sigma_{u}^{2}}})}{\log{({1/\delta})}}} \right\}}}$. A direct plug in of (4.5) in (4.1) yields the conclusion. ∎
-
-This result fully specifies the complexity term $\mathcal{C}_{LQR}$ promised in the introduction:
-
-Note that $\mathcal{C}_{LQR}$ decreases as the minimum eigenvalue of the sum of the input and noise controllability Gramians increases. This minimum eigenvalue tends to be larger for systems that amplify inputs in all directions of the state-space. $\mathcal{C}_{LQR}$ increases as function of the operator norm of the gain matrix $K_{\star}$ and the $\mathcal{H}_{\infty}$ norm of the transfer function from disturbance to state of the closed-loop system. These two terms tend to be larger for systems that are "harder to control." The dependence on $Q$ and $R$ is implicit in this definition since the optimal control matrix $K_{\star}$ is defined in terms of these two matrices. Note that when $R$ is large in comparison to $Q$, the norm of the controller $K_{\star}$ tends to be smaller because large inputs are more costly. However, such a change in the size of the controller could cause an increase in the $\mathcal{H}_{\infty}$ norm of the closed-loop system. Thus, our upper bound suggests an odd balance. Stable and highly damped systems are easy to control but hard to estimate, whereas unstable systems are easy to estimate but hard to control. Our theorem suggests that achieving a small relative LQR cost requires for the system to be somewhere in the middle of these two extremes.
+To apply Theorem 4.1 we need ${{({\epsilon_{A} + {\epsilon_{B}{\| K_{\star}\|}_{2}}})}{\|\Re_{A + {BK_{\star}}}\|}_{\mathcal{H}_{\infty}}} < {1/5}$, which will hold as long as $N \geq {\mathcal{O}{\left\{ {{({n + p})}\sigma_{w}^{2}} \right\|\left. {{\Re_{A + {BK_{\star}}}\parallel}_{\mathcal{H}_{\infty}}^{2}{({{1/\lambda_{G}} + {{\| K_{\star}\|}_{2}^{2}/\sigma_{u}^{2}}})}{\log{({1/\delta})}}} \right\}}}$. A direct plug in of (4.5) in (4.1) yields the conclusion. ∎ This result fully specifies the complexity term $\mathcal{C}_{LQR}$ promised in the introduction: Note that $\mathcal{C}_{LQR}$ decreases as the minimum eigenvalue of the sum of the input and noise controllability Gramians increases. This minimum eigenvalue tends to be larger for systems that amplify inputs in all directions of the state-space. $\mathcal{C}_{LQR}$ increases as function of the operator norm of the gain matrix $K_{\star}$ and the $\mathcal{H}_{\infty}$ norm of the transfer function from disturbance to state of the closed-loop system. These two terms tend to be larger for systems that are "harder to control." The dependence on $Q$ and $R$ is implicit in this definition since the optimal control matrix $K_{\star}$ is defined in terms of these two matrices. Note that when $R$ is large in comparison to $Q$, the norm of the controller $K_{\star}$ tends to be smaller because large inputs are more costly. However, such a change in the size of the controller could cause an increase in the $\mathcal{H}_{\infty}$ norm of the closed-loop system. Thus, our upper bound suggests an odd balance. Stable and highly damped systems are easy to control but hard to estimate, whereas unstable systems are easy to estimate but hard to control. Our theorem suggests that achieving a small relative LQR cost requires for the system to be somewhere in the middle of these two extremes.
 
 Finally, we remark that the above analysis holds more generally when we apply additional constraints to the controller in the synthesis problem (3.18). In this case, the suboptimality bounds presented in Theorem 4.1 and Corrollary 4.3 are true with respect to the minimal cost achievable by the constrained controller with access to the true dynamics. In particular, the bounds hold unchanged if the search is restricted to static controllers, i.e. $u_{t} = {Kx_{t}}$. This is true because the optimal controller is static and therefore feasible for the constrained synthesis problem.
 
@@ -415,37 +258,21 @@ By restricting our optimization to FIR approximations of $\mathbf{\Phi}_{x}$ and
 
 In this subsection we show that optimizing over FIR approximations incurs only a small degradation in performance relative to the solution to the infinite-horizon problem. In particular, this degradation in performance decays exponentially in the FIR horizon $L$, where the rate of decay is specified by the decay rate of the spectral elements of the optimal closed loop system response $\Re_{A + {BK_{\star}}}$.
 
-Before proceeding, we introduce additional concepts and notation needed to formalize guarantees in the FIR setting. A linear-time-invariant transfer function is stable if and only if it is exponentially stable, i.e., $\mathbf{\Phi} = {\sum_{t = 0}^{\infty}{z^{- t}\Phi{(t)}}} \in {\mathcal{R}\mathcal{H}_{\infty}}$ if and only if there exists positive values $C$ and $\rho \in {\lbrack 0,1)}$ such that for every spectral element $\Phi{(t)}$, $t \geq 0$, it holds that
+Before proceeding, we introduce additional concepts and notation needed to formalize guarantees in the FIR setting. A linear-time-invariant transfer function is stable if and only if it is exponentially stable, i.e., $\mathbf{\Phi} = {\sum_{t = 0}^{\infty}{z^{- t}\Phi{(t)}}} \in {\mathcal{R}\mathcal{H}_{\infty}}$ if and only if there exists positive values $C$ and $\rho \in {\lbrack 0,1)}$ such that for every spectral element $\Phi{(t)}$, $t \geq 0$, it holds that In what follows, we pick $C_{\star}$ and $\rho_{\star}$ to be any such constants satisfying ${\parallel{\Re_{A + {BK_{\star}}}{(t)}}\parallel}_{2} \leq {C_{\star}\rho_{\star}^{t}}$ for all $t \geq 0$.
 
-In what follows, we pick $C_{\star}$ and $\rho_{\star}$ to be any such constants satisfying ${\parallel{\Re_{A + {BK_{\star}}}{(t)}}\parallel}_{2} \leq {C_{\star}\rho_{\star}^{t}}$ for all $t \geq 0$.
-
-We introduce a version of the optimization problem (3.13) with a finite number of decision variables:
-
-In this optimization problem we search over finite response transfer functions $\mathbf{\Phi}_{x}$ and $\mathbf{\Phi}_{u}$. Given a feasible solution $\mathbf{\Phi}_{x}$, $\mathbf{\Phi}_{u}$ of problem (5.2), we can implement the controller $\mathbf{K}_{L} = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}$ with an equivalent state-space representation $(A_{K},B_{K},C_{K},D_{K})$ using the response elements ${\{{\Phi_{x}{(k)}}\}}_{k = 1}^{L}$ and ${\{{\Phi_{u}{(k)}}\}}_{k = 1}^{L}$ via Theorem 2 of.
+We introduce a version of the optimization problem (3.13) with a finite number of decision variables: | | {\text{minimize}_{\gamma \in {\lbrack 0,1)}}\frac{1}{1 - \gamma}} & {\min\limits_{\mathbf{\Phi}_{x},\mathbf{\Phi}_{u},V}\left\| {\begin{bmatrix} | | | | | \end{bmatrix}\begin{bmatrix} | | | | | \end{bmatrix}} \right\|_{\mathcal{H}_{2}}} \\ | | | | | & {{{\text{s.t.}\begin{bmatrix} | | | | | \end{bmatrix}\begin{bmatrix} | | | | | \end{bmatrix}} = {I + {\frac{1}{z^{L}}V}}},} \\ | | | | | & {{\left\| \begin{bmatrix} | | | | | {\frac{\epsilon_{A}}{\sqrt{\alpha}}\mathbf{\Phi}_{x}} \\ | | | | | {\frac{\epsilon_{B}}{\sqrt{1 - \alpha}}\mathbf{\Phi}_{u}} | | | | | \end{bmatrix} \right\|_{\mathcal{H}_{\infty}} + {\parallel V\parallel}_{2}} \leq \gamma} \\ | | | | | & {{{\mathbf{\Phi}_{x} = {\sum\limits_{t = 1}^{L}{\frac{1}{z^{t}}\Phi_{x}{(t)}}}},{\mathbf{\Phi}_{u} = {\sum\limits_{t = 1}^{L}{\frac{1}{z^{t}}\Phi_{u}{(t)}}}}}.} | | | In this optimization problem we search over finite response transfer functions $\mathbf{\Phi}_{x}$ and $\mathbf{\Phi}_{u}$. Given a feasible solution $\mathbf{\Phi}_{x}$, $\mathbf{\Phi}_{u}$ of problem (5.2), we can implement the controller $\mathbf{K}_{L} = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}$ with an equivalent state-space representation $(A_{K},B_{K},C_{K},D_{K})$ using the response elements ${\{{\Phi_{x}{(k)}}\}}_{k = 1}^{L}$ and ${\{{\Phi_{u}{(k)}}\}}_{k = 1}^{L}$ via Theorem 2 of.
 
 The slack term $V$ accounts for the error introduced by truncating the infinite response transfer functions of problem (3.13). Intuitively, if the truncated tail is sufficiently small, then the effects of this approximation should be negligible on performance. The next result formalizes this intuition.
 
 ### Theorem 5.1
 
-Set $\alpha = {1/2}$ in (5.2) and let $C_{\star} > 0$ and $\rho_{\star} \in {\lbrack 0,1)}$ be such that ${\parallel{\Re_{({A + {BK_{\star}}})}{(t)}}\parallel}_{2} \leq {C_{\star}\rho_{\star}^{t}}$ for all $t \geq 0$. Then, if $\mathbf{K}_{L}$ is synthesized via (5.2), the relative error in the LQR cost is
-
-The proof of this result, deferred to Appendix D, is conceptually the same as that of the infinite horizon setting. The main difference is that care must be taken to ensure that the approximation horizon $L$ is sufficiently large so as to ensure stability and performance of the resulting controller. From the theorem statement, we see that for such an appropriately chosen FIR approximation horizon $L$, our performance bound is the same, up to universal constants, to that achieved by the solution to the infinite horizon problem. Furthermore, the approximation horizon $L$ only needs to grow logarithmically with respect to one over the estimation rate in order to preserve the same statistical rate as the controller produced by the infinite horizon problem. Finally, an end-to-end sample complexity result analogous to that stated in Corollary 4.3 can be easily obtained by simply substituting in the sample-complexity bounds on $\epsilon_{A}$ and $\epsilon_{B}$ specified in Proposition 1.1.
+Set $\alpha = {1/2}$ in (5.2) and let $C_{\star} > 0$ and $\rho_{\star} \in {\lbrack 0,1)}$ be such that ${\parallel{\Re_{({A + {BK_{\star}}})}{(t)}}\parallel}_{2} \leq {C_{\star}\rho_{\star}^{t}}$ for all $t \geq 0$. Then, if $\mathbf{K}_{L}$ is synthesized via (5.2), the relative error in the LQR cost is The proof of this result, deferred to Appendix D, is conceptually the same as that of the infinite horizon setting. The main difference is that care must be taken to ensure that the approximation horizon $L$ is sufficiently large so as to ensure stability and performance of the resulting controller. From the theorem statement, we see that for such an appropriately chosen FIR approximation horizon $L$, our performance bound is the same, up to universal constants, to that achieved by the solution to the infinite horizon problem. Furthermore, the approximation horizon $L$ only needs to grow logarithmically with respect to one over the estimation rate in order to preserve the same statistical rate as the controller produced by the infinite horizon problem. Finally, an end-to-end sample complexity result analogous to that stated in Corollary 4.3 can be easily obtained by simply substituting in the sample-complexity bounds on $\epsilon_{A}$ and $\epsilon_{B}$ specified in Proposition 1.1.
 
 ### Static controller and a common Lyapunov approximation
 
-As we have reiterated above, when the dynamics are known, the optimal LQR control law takes the form $u_{t} = {Kx_{t}}$ for properly chosen static gain matrix $K$. We can reparameterize the optimization problem (3.18) to restrict our attention to such static control policies:
+As we have reiterated above, when the dynamics are known, the optimal LQR control law takes the form $u_{t} = {Kx_{t}}$ for properly chosen static gain matrix $K$. We can reparameterize the optimization problem (3.18) to restrict our attention to such static control policies: | | {\text{minimize}_{\gamma \in {\lbrack 0,1)}}\frac{1}{1 - \gamma}} & {\min\limits_{\mathbf{\Phi}_{x},\mathbf{\Phi}_{u},K}\left\| {\begin{bmatrix} | | | | | \end{bmatrix}\begin{bmatrix} | | | | | \end{bmatrix}} \right\|_{\mathcal{H}_{2}}} \\ | | | | | & {{{\text{s.t.}\begin{bmatrix} | | | | | \end{bmatrix}\begin{bmatrix} | | | | | \end{bmatrix}} = I},{\left\| \begin{bmatrix} | | | | | {\frac{\epsilon_{A}}{\sqrt{\alpha}}\mathbf{\Phi}_{x}} \\ | | | | | {\frac{\epsilon_{B}}{\sqrt{1 - \alpha}}\mathbf{\Phi}_{u}} | | | | | \end{bmatrix} \right\|_{\mathcal{H}_{\infty}} \leq \gamma}} \\ | | | | | & {{{{\mathbf{\Phi}_{x},\mathbf{\Phi}_{u}} \in {\frac{1}{z}\mathcal{R}\mathcal{H}_{\infty}}},{K = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}}}.} | | | Under this reparameterization, the problem is no longer convex. Here we present a simple application of the *common Lyapunov relaxation* that allows us to find a controller $K$ using semidefinite programming.
 
-Under this reparameterization, the problem is no longer convex. Here we present a simple application of the *common Lyapunov relaxation* that allows us to find a controller $K$ using semidefinite programming.
-
-Note that the equality constraints imply:
-
-revealing that we must have
-
-With these identifications, (5.3) can be reformulated as
-
-Using standard techniques from the robust control literature, we can upper bound this problem via the semidefinite program
-
-Note that this optimization problem is affine in $\alpha$ when $\gamma$ is fixed. Hence, in practice we can find the optimal value of $\alpha$ as well. A static controller can then be extracted from this optimization problem by setting $K = {ZX^{- 1}}$. A full derivation of this relaxation can be found in Appendix E. Note that this compact SDP is simpler to solve than the truncated FIR approximation. As demonstrated experimentally in the following section, the cost of this simplification is that the common Lyapunov approach provides a controller with slightly higher LQR cost.
+Note that the equality constraints imply: revealing that we must have With these identifications, (5.3) can be reformulated as | | {\text{minimize}_{\gamma \in {\lbrack 0,1)}}\frac{1}{1 - \gamma}} & {\min\limits_{K}\left\| {\begin{bmatrix} | | | | | \end{bmatrix}{({{zI} - \hat{A} - {\hat{B}K}})}^{- 1}} \right\|_{\mathcal{H}_{2}}} \\ | | | | | & {{\text{s.t.}\left\| {\begin{bmatrix} | | | | | \frac{\epsilon_{A}}{\sqrt{\alpha}} \\ | | | | | {\frac{\epsilon_{B}}{\sqrt{1 - \alpha}}K} | | | | | \end{bmatrix}{({{zI} - \hat{A} - {\hat{B}K}})}^{- 1}} \right\|_{\mathcal{H}_{\infty}}} \leq \gamma} | | | Using standard techniques from the robust control literature, we can upper bound this problem via the semidefinite program Note that this optimization problem is affine in $\alpha$ when $\gamma$ is fixed. Hence, in practice we can find the optimal value of $\alpha$ as well. A static controller can then be extracted from this optimization problem by setting $K = {ZX^{- 1}}$. A full derivation of this relaxation can be found in Appendix E. Note that this compact SDP is simpler to solve than the truncated FIR approximation. As demonstrated experimentally in the following section, the cost of this simplification is that the common Lyapunov approach provides a controller with slightly higher LQR cost.
 
 ## Numerical Experiments
 
@@ -455,17 +282,11 @@ All of the synthesis and performance experiments are run in MATLAB. We make use 
 
 ### Estimation of Example System
 
-We focus experiments on a particular example system. Consider the LQR problem instance specified by
-
-The dynamics correspond to a marginally unstable graph Laplacian system where adjacent nodes are weakly connected, each node receives direct input, and input size is penalized relatively more than state. Dynamics described by graph Laplacians arise naturally in consensus and distributed averaging problems. For this system, we perform the full data identification procedure in (2.1), using inputs with variance $\sigma_{u}^{2} = 1$ and noise with variance $\sigma_{w}^{2} = 1$. The errors are estimated via the bootstrap (Algorithm 2) using $M = {2,000}$ trials and confidence parameter $\delta = 0.05$.
+We focus experiments on a particular example system. Consider the LQR problem instance specified by The dynamics correspond to a marginally unstable graph Laplacian system where adjacent nodes are weakly connected, each node receives direct input, and input size is penalized relatively more than state. Dynamics described by graph Laplacians arise naturally in consensus and distributed averaging problems. For this system, we perform the full data identification procedure in (2.1), using inputs with variance $\sigma_{u}^{2} = 1$ and noise with variance $\sigma_{w}^{2} = 1$. The errors are estimated via the bootstrap (Algorithm 2) using $M = {2,000}$ trials and confidence parameter $\delta = 0.05$.
 
 The behavior of the least squares estimates and the bootstrap error estimates are illustrated in Figure 1. The rollout length is fixed to $T = 6$, and the number of rollouts used in the estimation is varied. As expected, increasing the number of rollouts corresponds to decreasing errors. For large enough $N$, the bootstrapped error estimates are of the same order of magnitude as the true errors. In Appendix G we show plots for the setting in which the number of rollouts is fixed to $N = 6$ while the rollout length is varied.
 
-(a) Least Squares Estimation Errors
-
-(b) Accuracy of Bootstrap Error Estimates
-
-Figure 1: The resulting errors from 100 repeated least squares identification experiments with rollout length T = 6 is plotted against the number of rollouts. In (a), the median of the least squares estimation errors decreases with N. In (b), the ratio of the bootstrap estimates to the true estimates hover at 2. Shaded regions display quartiles.
+(a) Least Squares Estimation Errors (b) Accuracy of Bootstrap Error Estimates Figure 1: The resulting errors from 100 repeated least squares identification experiments with rollout length T = 6 is plotted against the number of rollouts. In (a), the median of the least squares estimation errors decreases with N. In (b), the ratio of the bootstrap estimates to the true estimates hover at 2. Shaded regions display quartiles.
 
 ### Controller Synthesis on Estimated System
 
@@ -479,20 +300,11 @@ Figure 3 explores the trade-off between performance and complexity for the compu
 
 The SLS framework guarantees a stabilizing controller for the true system provided that the computational approximations are feasible for *any* value of $\gamma$ between 0 and 1, as long as the system errors $(\epsilon_{A},\epsilon_{B})$ are upper bounds on the true errors. Figure 4 displays the controller performance for robust synthesis when $\gamma$ is set to 0.999. Simply ensuring a stable model and neglecting to optimize the nominal cost yields controllers that perform nearly an order of magnitude better than those where we search for the optimal value of $\gamma$. This observation aligns with common practice in robust control: constraints ensuring stability are only active when the cost tries to drive the system up against a safety limit. We cannot provide end-to-end sample complexity guarantees for this method and leave such bounds as an enticing challenge for future work.
 
-(a) LQR Cost Suboptimality
+(a) LQR Cost Suboptimality (b) Frequency of Finding Stabilizing Controller Figure 2: The performance of controllers synthesized on the results of the 100 identification experiments is plotted against the number of rollouts. Controllers are synthesis nominally, using FIR truncation, and using the common Lyapunov (CL) relaxation. In (a), the median suboptimality of nominal and robustly synthesized controllers are compared, with shaded regions displaying quartiles, which go off to infinity in the case that a stabilizing controller was not found. In (b), the frequency that the synthesis methods found stabilizing controllers.
 
-(b) Frequency of Finding Stabilizing Controller
+(a) LQR Cost Suboptimality Bound (b) LQR Cost Suboptimality Figure 3: The performance of controllers synthesized with varying FIR filter lengths on the results of 10 of the identification experiments using true errors. The median suboptimality of robustly synthesized controllers does not appear to change for FIR lengths greater than 32, and the common Lyapunov (CL) synthesis tracks the performance in both upper bound and actual cost.
 
-Figure 2: The performance of controllers synthesized on the results of the 100 identification experiments is plotted against the number of rollouts. Controllers are synthesis nominally, using FIR truncation, and using the common Lyapunov (CL) relaxation. In (a), the median suboptimality of nominal and robustly synthesized controllers are compared, with shaded regions displaying quartiles, which go off to infinity in the case that a stabilizing controller was not found. In (b), the frequency that the synthesis methods found stabilizing controllers.
-
-(a) LQR Cost Suboptimality Bound
-
-(b) LQR Cost Suboptimality
-
-Figure 3: The performance of controllers synthesized with varying FIR filter lengths on the results of 10 of the identification experiments using true errors. The median suboptimality of robustly synthesized controllers does not appear to change for FIR lengths greater than 32, and the common Lyapunov (CL) synthesis tracks the performance in both upper bound and actual cost.
-
-LQR Cost Suboptimality
-Figure 4: The performance of controllers synthesized on the results of 100 identification experiments is plotted against the number of rollouts. The plot compares the median suboptimality of nominal controllers with fixed-γ robustly synthesized controllers (γ = 0.999).
+LQR Cost Suboptimality Figure 4: The performance of controllers synthesized on the results of 100 identification experiments is plotted against the number of rollouts. The plot compares the median suboptimality of nominal controllers with fixed-γ robustly synthesized controllers (γ = 0.999).
 
 ## Conclusions and Future Work
 
@@ -506,9 +318,7 @@ Though we focused exclusively on LQR in this paper, we note that all of our resu
 
 There are several places where our analysis could be substantially improved. The most obvious is that in our estimator for the state-transition matrices, our algorithm only uses the final time step of each rollout. This strategy is data inefficient, and empirically, accuracy only improves when including all of the data. Analyzing the full least squares estimator is non-trivial because the design matrix strongly depends on data to be estimated. This poses a challenging problem in random matrix theory that has applications in a variety of control and reinforcement learning settings. In follow up work we have begun to address this issue for stable linear systems.
 
-In the context of SLS, we use a very coarse characterization of the plant uncertainty to bound the quantity in Lemma 3.4 and to yield a tractable optimization problem. Indeed, the only property we use about the error between our nominal system and the true system is that the maps
-
-are contractions. Nowhere do we use the fact that these are linear operators, or even the fact that they are the same operator from time-step to time-step. Indeed, there are stronger bounds that could be engineered using the theory of Integral Quadratic Constraints that would take into account these additional properties. Such tighter bounds could yield considerably less conservative control schemes in both theory and practice.
+In the context of SLS, we use a very coarse characterization of the plant uncertainty to bound the quantity in Lemma 3.4 and to yield a tractable optimization problem. Indeed, the only property we use about the error between our nominal system and the true system is that the maps are contractions. Nowhere do we use the fact that these are linear operators, or even the fact that they are the same operator from time-step to time-step. Indeed, there are stronger bounds that could be engineered using the theory of Integral Quadratic Constraints that would take into account these additional properties. Such tighter bounds could yield considerably less conservative control schemes in both theory and practice.
 
 Additionally, it would be of interest to understand the loss in performance incurred by the common Lyapunov relaxation we use in our experiments. Empirically, we see that the approximation leads to good performance, suggesting that it does not introduce much conservatism into the synthesis task. Further, our numerical experiments suggest that optimizing a nominal cost subject to robust stability constraints, as opposed to directly optimizing the SLS upper bound, leads to better empirical performance. Future work will seek to understand whether this is a phenomenological observation specific to the systems used in our experiments, or if there is a deeper principle at play that leads to tighter sub-optimality guarantees.
 

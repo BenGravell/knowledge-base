@@ -10,27 +10,9 @@ In this article, we first prove that minimizing a certain surrogate objective fu
 
 Consider an infinite-horizon discounted Markov decision process (MDP), defined by the tuple $(\mathcal{S},\mathcal{A},P,r,\rho_{0},\gamma)$, where $\mathcal{S}$ is a finite set of states, $\mathcal{A}$ is a finite set of actions, $P:{{\mathcal{S} \times \mathcal{A} \times \mathcal{S}}\rightarrow{\mathbb{R}}}$ is the transition probability distribution, $r:{\mathcal{S}\rightarrow{\mathbb{R}}}$ is the reward function, $\rho_{0}:{\mathcal{S}\rightarrow{\mathbb{R}}}$ is the distribution of the initial state $s_{0}$, and $\gamma \in {}$ is the discount factor.
 
-Let $\pi$ denote a stochastic policy $\pi:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\lbrack 0,1\rbrack}}$, and let $\eta{(\pi)}$ denote its expected discounted reward:
+Let $\pi$ denote a stochastic policy $\pi:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\lbrack 0,1\rbrack}}$, and let $\eta{(\pi)}$ denote its expected discounted reward: We will use the following standard definitions of the state-action value function $Q_{\pi}$, the value function $V_{\pi}$, and the advantage function $A_{\pi}$: The following useful identity expresses the expected return of another policy $\overset{\sim}{\pi}$ in terms of the advantage over $\pi$, accumulated over timesteps (see Kakade & Langford or Appendix A for proof): where the notation ${\mathbb{E}}_{{s_{0},a_{0},\cdots} \sim \overset{\sim}{\pi}}\lbrack\ldots\rbrack$ indicates that actions are sampled $a_{t} \sim \overset{\sim}{\pi}{(\cdot |s_{t})}$. Let $\rho_{\pi}$ be the (unnormalized) discounted visitation frequencies where $s_{0} \sim \rho_{0}$ and the actions are chosen according to $\pi$. We can rewrite Equation 1 with a sum over states instead of timesteps: This equation implies that any policy update $\pi\rightarrow\overset{\sim}{\pi}$ that has a nonnegative expected advantage at every state $s$, i.e., ${\sum_{a}{\overset{\sim}{\pi}{(\left. a \middle| s \right.)}A_{\pi}{(s,a)}}} \geq 0$, is guaranteed to increase the policy performance $\eta$, or leave it constant in the case that the expected advantage is zero everywhere. This implies the classic result that the update performed by exact policy iteration, which uses the deterministic policy ${\overset{\sim}{\pi}{(s)}} = {{{\arg\max}_{a}A_{\pi}}{(s,a)}}$, improves the policy if there is at least one state-action pair with a positive advantage value and nonzero state visitation probability, otherwise the algorithm has converged to the optimal policy. However, in the approximate setting, it will typically be unavoidable, due to estimation and approximation error, that there will be some states $s$ for which the expected advantage is negative, that is, ${\sum_{a}{\overset{\sim}{\pi}{(\left. a \middle| s \right.)}A_{\pi}{(s,a)}}} < 0$. The complex dependency of $\rho_{\overset{\sim}{\pi}}{(s)}$ on $\overset{\sim}{\pi}$ makes Equation difficult to optimize directly. Instead, we introduce the following local approximation to $\eta$: Note that $L_{\pi}$ uses the visitation frequency $\rho_{\pi}$ rather than $\rho_{\overset{\sim}{\pi}}$, ignoring changes in state visitation density due to changes in the policy. However, if we have a parameterized policy $\pi_{\theta}$, where $\pi_{\theta}{(\left. a \middle| s \right.)}$ is a differentiable function of the parameter vector $\theta$, then $L_{\pi}$ matches $\eta$ to first order (see Kakade & Langford). That is, for any parameter value $\theta_{0}$, Equation 4 implies that a sufficiently small step $\pi_{\theta_{0}}\rightarrow\overset{\sim}{\pi}$ that improves $L_{\pi_{\theta_{old}}}$ will also improve $\eta$, but does not give us any guidance on how big of a step to take.
 
-We will use the following standard definitions of the state-action value function $Q_{\pi}$, the value function $V_{\pi}$, and the advantage function $A_{\pi}$:
-
-The following useful identity expresses the expected return of another policy $\overset{\sim}{\pi}$ in terms of the advantage over $\pi$, accumulated over timesteps (see Kakade & Langford or Appendix A for proof):
-
-where the notation ${\mathbb{E}}_{{s_{0},a_{0},\cdots} \sim \overset{\sim}{\pi}}\lbrack\ldots\rbrack$ indicates that actions are sampled $a_{t} \sim \overset{\sim}{\pi}{( \cdot |s_{t})}$. Let $\rho_{\pi}$ be the (unnormalized) discounted visitation frequencies
-
-where $s_{0} \sim \rho_{0}$ and the actions are chosen according to $\pi$. We can rewrite Equation 1 with a sum over states instead of timesteps:
-
-This equation implies that any policy update $\pi\rightarrow\overset{\sim}{\pi}$ that has a nonnegative expected advantage at every state $s$, i.e., ${\sum_{a}{\overset{\sim}{\pi}{(\left. a \middle| s \right.)}A_{\pi}{(s,a)}}} \geq 0$, is guaranteed to increase the policy performance $\eta$, or leave it constant in the case that the expected advantage is zero everywhere. This implies the classic result that the update performed by exact policy iteration, which uses the deterministic policy ${\overset{\sim}{\pi}{(s)}} = {{{\arg\max}_{a}A_{\pi}}{(s,a)}}$, improves the policy if there is at least one state-action pair with a positive advantage value and nonzero state visitation probability, otherwise the algorithm has converged to the optimal policy. However, in the approximate setting, it will typically be unavoidable, due to estimation and approximation error, that there will be some states $s$ for which the expected advantage is negative, that is, ${\sum_{a}{\overset{\sim}{\pi}{(\left. a \middle| s \right.)}A_{\pi}{(s,a)}}} < 0$. The complex dependency of $\rho_{\overset{\sim}{\pi}}{(s)}$ on $\overset{\sim}{\pi}$ makes Equation difficult to optimize directly. Instead, we introduce the following local approximation to $\eta$:
-
-Note that $L_{\pi}$ uses the visitation frequency $\rho_{\pi}$ rather than $\rho_{\overset{\sim}{\pi}}$, ignoring changes in state visitation density due to changes in the policy. However, if we have a parameterized policy $\pi_{\theta}$, where $\pi_{\theta}{(\left. a \middle| s \right.)}$ is a differentiable function of the parameter vector $\theta$, then $L_{\pi}$ matches $\eta$ to first order (see Kakade & Langford ). That is, for any parameter value $\theta_{0}$,
-
-Equation 4 implies that a sufficiently small step $\pi_{\theta_{0}}\rightarrow\overset{\sim}{\pi}$ that improves $L_{\pi_{\theta_{old}}}$ will also improve $\eta$, but does not give us any guidance on how big of a step to take.
-
-To address this issue, Kakade & Langford proposed a policy updating scheme called conservative policy iteration, for which they could provide explicit lower bounds on the improvement of $\eta$. To define the conservative policy iteration update, let $\pi_{old}$ denote the current policy, and let $\pi^{\prime} = {{{\arg\max}_{\pi^{\prime}}L_{\pi_{old}}}{(\pi^{\prime})}}$. The new policy $\pi_{new}$ was defined to be the following mixture:
-
-Kakade and Langford derived the following lower bound:
-
-(We have modified it to make it slightly weaker but simpler.) Note, however, that so far this bound only applies to mixture policies generated by Equation. This policy class is unwieldy and restrictive in practice, and it is desirable for a practical policy update scheme to be applicable to all general stochastic policy classes.
+To address this issue, Kakade & Langford proposed a policy updating scheme called conservative policy iteration, for which they could provide explicit lower bounds on the improvement of $\eta$. To define the conservative policy iteration update, let $\pi_{old}$ denote the current policy, and let $\pi' = {{{\arg\max}_{\pi'}L_{\pi_{old}}}{(\pi')}}$. The new policy $\pi_{new}$ was defined to be the following mixture: Kakade and Langford derived the following lower bound: (We have modified it to make it slightly weaker but simpler.) Note, however, that so far this bound only applies to mixture policies generated by Equation. This policy class is unwieldy and restrictive in practice, and it is desirable for a practical policy update scheme to be applicable to all general stochastic policy classes.
 
 ## Monotonic Improvement Guarantee for General Stochastic Policies
 
@@ -38,25 +20,11 @@ Equation 6, which applies to conservative policy iteration, implies that a polic
 
 ### Theorem 1
 
-Let $\alpha = {D_{TV}^{\max}{(\pi_{old},\pi_{new})}}$. Then the following bound holds:
+Let $\alpha = {D_{TV}^{\max}{(\pi_{old},\pi_{new})}}$. Then the following bound holds: We provide two proofs in the appendix. The first proof extends Kakade and Langford's result using the fact that the random variables from two distributions with total variation divergence less than $\alpha$ can be coupled, so that they are equal with probability $1 - \alpha$. The second proof uses perturbation theory.
 
-We provide two proofs in the appendix. The first proof extends Kakade and Langford's result using the fact that the random variables from two distributions with total variation divergence less than $\alpha$ can be coupled, so that they are equal with probability $1 - \alpha$. The second proof uses perturbation theory.
+Next, we note the following relationship between the total variation divergence and the KL divergence (Pollard, Ch. 3): ${D_{TV}{({p \parallel q})}^{2}} \leq {D_{KL}{({p \parallel q})}}$. Let $D_{KL}^{\max}{(\pi,\overset{\sim}{\pi})} = \max_{s}D_{KL}{(\pi{(\cdot |s)} \parallel \overset{\sim}{\pi}{(\cdot |s)})}$. The following bound then follows directly from 1: Algorithm 1 describes an approximate policy iteration scheme based on the policy improvement bound in Equation. Note that for now, we assume exact evaluation of the advantage values $A_{\pi}$.
 
-Next, we note the following relationship between the total variation divergence and the KL divergence (Pollard, Ch. 3): ${D_{TV}{({p \parallel q})}^{2}} \leq {D_{KL}{({p \parallel q})}}$. Let $D_{KL}^{\max}{(\pi,\overset{\sim}{\pi})} = \max_{s}D_{KL}{(\pi{( \cdot |s)} \parallel \overset{\sim}{\pi}{( \cdot |s)})}$. The following bound then follows directly from 1:
-
-Algorithm 1 describes an approximate policy iteration scheme based on the policy improvement bound in Equation. Note that for now, we assume exact evaluation of the advantage values $A_{\pi}$.
-
-Initialize π0. i = 0, 1, 2, …until convergence Compute all advantage values Aπi (s,a). Solve the constrained optimization problem
-
-$= {\underset{\pi}{\arg\max}\left\lbrack {{L_{\pi_{i}}{(\pi)}} - {CD_{KL}^{\max}{(\pi_{i},\pi)}}} \right\rbrack}$
-
-${\text{~and~}L_{\pi_{i}}{(\pi)}} = {{\eta{(\pi_{i})}} + {\sum\limits_{s}{\rho_{\pi_{i}}{(s)}{\sum\limits_{a}{\pi{(\left. a \middle| s \right.)}A_{\pi_{i}}{(s,a)}}}}}}$
-
-Algorithm 1 Policy iteration algorithm guaranteeing non-decreasing expected return η
-
-It follows from Equation 9 that Algorithm 1 is guaranteed to generate a monotonically improving sequence of policies ${\eta{(\pi_{0})}} \leq {\eta{(\pi_{1})}} \leq {\eta{(\pi_{2})}} \leq \ldots$. To see this, let ${M_{i}{(\pi)}} = {{L_{\pi_{i}}{(\pi)}} - {CD_{KL}^{\max}{(\pi_{i},\pi)}}}$. Then
-
-Thus, by maximizing $M_{i}$ at each iteration, we guarantee that the true objective $\eta$ is non-decreasing. This algorithm is a type of minorization-maximization (MM) algorithm, which is a class of methods that also includes expectation maximization. In the terminology of MM algorithms, $M_{i}$ is the surrogate function that minorizes $\eta$ with equality at $\pi_{i}$. This algorithm is also reminiscent of proximal gradient methods and mirror descent.
+Initialize π0. i = 0, 1, 2, …until convergence Compute all advantage values Aπi (s, a). Solve the constrained optimization problem $= {\underset{\pi}{\arg\max}\left\lbrack {{L_{\pi_{i}}{(\pi)}} - {CD_{KL}^{\max}{(\pi_{i},\pi)}}} \right\rbrack}$ ${\text{~and~}L_{\pi_{i}}{(\pi)}} = {{\eta{(\pi_{i})}} + {\sum\limits_{s}{\rho_{\pi_{i}}{(s)}{\sum\limits_{a}{\pi{(\left. a \middle| s \right.)}A_{\pi_{i}}{(s,a)}}}}}}$ Algorithm 1 Policy iteration algorithm guaranteeing non-decreasing expected return η It follows from Equation 9 that Algorithm 1 is guaranteed to generate a monotonically improving sequence of policies ${\eta{(\pi_{0})}} \leq {\eta{(\pi_{1})}} \leq {\eta{(\pi_{2})}} \leq \ldots$. To see this, let ${M_{i}{(\pi)}} = {{L_{\pi_{i}}{(\pi)}} - {CD_{KL}^{\max}{(\pi_{i},\pi)}}}$. Then Thus, by maximizing $M_{i}$ at each iteration, we guarantee that the true objective $\eta$ is non-decreasing. This algorithm is a type of minorization-maximization (MM) algorithm, which is a class of methods that also includes expectation maximization. In the terminology of MM algorithms, $M_{i}$ is the surrogate function that minorizes $\eta$ with equality at $\pi_{i}$. This algorithm is also reminiscent of proximal gradient methods and mirror descent.
 
 Trust region policy optimization, which we propose in the following section, is an approximation to Algorithm 1, which uses a constraint on the KL divergence rather than a penalty to robustly allow large updates.
 
@@ -66,27 +34,13 @@ In the previous section, we considered the policy optimization problem independe
 
 Since we consider parameterized policies $\pi_{\theta}{(\left. a \middle| s \right.)}$ with parameter vector $\theta$, we will overload our previous notation to use functions of $\theta$ rather than $\pi$, e.g. ${\eta{(\theta)}}:={\eta{(\pi_{\theta})}}$, ${L_{\theta}{(\overset{\sim}{\theta})}}:={L_{\pi_{\theta}}{(\pi_{\overset{\sim}{\theta}})}}$, and ${D_{KL}{({\theta \parallel \overset{\sim}{\theta}})}}:={D_{KL}{({\pi_{\theta} \parallel \pi_{\overset{\sim}{\theta}}})}}$. We will use $\theta_{old}$ to denote the previous policy parameters that we want to improve upon.
 
-The preceding section showed that ${\eta{(\theta)}} \geq {{L_{\theta_{old}}{(\theta)}} - {CD_{KL}^{\max}{(\theta_{old},\theta)}}}$, with equality at $\theta = \theta_{old}$. Thus, by performing the following maximization, we are guaranteed to improve the true objective $\eta$:
-
-In practice, if we used the penalty coefficient $C$ recommended by the theory above, the step sizes would be very small. One way to take larger steps in a robust way is to use a constraint on the KL divergence between the new policy and the old policy, i.e., a trust region constraint:
-
-This problem imposes a constraint that the KL divergence is bounded at every point in the state space. While it is motivated by the theory, this problem is impractical to solve due to the large number of constraints. Instead, we can use a heuristic approximation which considers the average KL divergence:
-
-We therefore propose solving the following optimization problem to generate a policy update:
-
-Similar policy updates have been proposed in prior work, and we compare our approach to prior methods in Section 7 and in the experiments in Section 8. Our experiments also show that this type of constrained update has similar empirical performance to the maximum KL divergence constraint in Equation.
+The preceding section showed that ${\eta{(\theta)}} \geq {{L_{\theta_{old}}{(\theta)}} - {CD_{KL}^{\max}{(\theta_{old},\theta)}}}$, with equality at $\theta = \theta_{old}$. Thus, by performing the following maximization, we are guaranteed to improve the true objective $\eta$: In practice, if we used the penalty coefficient $C$ recommended by the theory above, the step sizes would be very small. One way to take larger steps in a robust way is to use a constraint on the KL divergence between the new policy and the old policy, i.e., a trust region constraint: This problem imposes a constraint that the KL divergence is bounded at every point in the state space. While it is motivated by the theory, this problem is impractical to solve due to the large number of constraints. Instead, we can use a heuristic approximation which considers the average KL divergence: We therefore propose solving the following optimization problem to generate a policy update: Similar policy updates have been proposed in prior work, and we compare our approach to prior methods in Section 7 and in the experiments in Section 8. Our experiments also show that this type of constrained update has similar empirical performance to the maximum KL divergence constraint in Equation.
 
 ## Sample-Based Estimation of the Objective and Constraint
 
 The previous section proposed a constrained optimization problem on the policy parameters (Equation ), which optimizes an estimate of the expected total reward $\eta$ subject to a constraint on the change in the policy at each update. This section describes how the objective and constraint functions can be approximated using Monte Carlo simulation.
 
-We seek to solve the following optimization problem, obtained by expanding $L_{\theta_{old}}$ in Equation:
-
-We first replace $\sum_{s}{\rho_{\theta_{old}}{(s)}\lbrack\ldots\rbrack}$ in the objective by the expectation $\frac{1}{1 - \gamma}{\mathbb{E}}_{s \sim \rho_{\theta_{old}}}\lbrack\ldots\rbrack$. Next, we replace the advantage values $A_{\theta_{old}}$ by the $Q$-values $Q_{\theta_{old}}$ in Equation, which only changes the objective by a constant. Last, we replace the sum over the actions by an importance sampling estimator. Using $q$ to denote the sampling distribution, the contribution of a single $s_{n}$ to the loss function is
-
-Our optimization problem in Equation 13 is exactly equivalent to the following one, written in terms of expectations:
-
-All that remains is to replace the expectations by sample averages and replace the $Q$ value by an empirical estimate. The following sections describe two different schemes for performing this estimation.
+We seek to solve the following optimization problem, obtained by expanding $L_{\theta_{old}}$ in Equation: We first replace $\sum_{s}{\rho_{\theta_{old}}{(s)}\lbrack\ldots\rbrack}$ in the objective by the expectation $\frac{1}{1 - \gamma}{\mathbb{E}}_{s \sim \rho_{\theta_{old}}}\lbrack\ldots\rbrack$. Next, we replace the advantage values $A_{\theta_{old}}$ by the $Q$-values $Q_{\theta_{old}}$ in Equation, which only changes the objective by a constant. Last, we replace the sum over the actions by an importance sampling estimator. Using $q$ to denote the sampling distribution, the contribution of a single $s_{n}$ to the loss function is Our optimization problem in Equation 13 is exactly equivalent to the following one, written in terms of expectations: All that remains is to replace the expectations by sample averages and replace the $Q$ value by an empirical estimate. The following sections describe two different schemes for performing this estimation.
 
 The first sampling scheme, which we call single path, is the one that is typically used for policy gradient estimation, and is based on sampling individual trajectories. The second scheme, which we call vine, involves constructing a rollout set and then performing multiple actions from each state in the rollout set. This method has mostly been explored in the context of policy iteration methods.
 
@@ -102,11 +56,7 @@ In this estimation procedure, we first sample $s_{0} \sim \rho_{0}$ and simulate
 
 For each action $a_{n,k}$ sampled at each state $s_{n}$, we estimate ${\hat{Q}}_{\theta_{i}}{(s_{n},a_{n,k})}$ by performing a rollout (i.e., a short trajectory) starting with state $s_{n}$ and action $a_{n,k}$. We can greatly reduce the variance of the $Q$-value differences between rollouts by using the same random number sequence for the noise in each of the $K$ rollouts, i.e., common random numbers. See for additional discussion on Monte Carlo estimation of $Q$-values and for a discussion of common random numbers in reinforcement learning.
 
-In small, finite action spaces, we can generate a rollout for every possible action from a given state. The contribution to $L_{\theta_{old}}$ from a single state $s_{n}$ is as follows:
-
-where the action space is $\mathcal{A} = \left\{ a_{1},a_{2},\ldots,a_{K} \right\}$. In large or continuous state spaces, we can construct an estimator of the surrogate objective using importance sampling. The self-normalized estimator (Owen, Chapter 9) of $L_{\theta_{old}}$ obtained at a single state $s_{n}$ is
-
-assuming that we performed $K$ actions $a_{n,1},a_{n,2},\ldots,a_{n,K}$ from state $s_{n}$. This self-normalized estimator removes the need to use a baseline for the $Q$-values (note that the gradient is unchanged by adding a constant to the $Q$-values). Averaging over $s_{n} \sim {\rho{(\pi)}}$, we obtain an estimator for $L_{\theta_{old}}$, as well as its gradient.
+In small, finite action spaces, we can generate a rollout for every possible action from a given state. The contribution to $L_{\theta_{old}}$ from a single state $s_{n}$ is as follows: where the action space is $\mathcal{A} = \left\{ a_{1},a_{2},\ldots,a_{K} \right\}$. In large or continuous state spaces, we can construct an estimator of the surrogate objective using importance sampling. The self-normalized estimator (Owen, Chapter 9) of $L_{\theta_{old}}$ obtained at a single state $s_{n}$ is assuming that we performed $K$ actions $a_{n,1},a_{n,2},\ldots,a_{n,K}$ from state $s_{n}$. This self-normalized estimator removes the need to use a baseline for the $Q$-values (note that the gradient is unchanged by adding a constant to the $Q$-values). Averaging over $s_{n} \sim {\rho{(\pi)}}$, we obtain an estimator for $L_{\theta_{old}}$, as well as its gradient.
 
 The vine and single path methods are illustrated in Figure 1. We use the term vine, since the trajectories used for sampling can be likened to the stems of vines, which branch at various points (the rollout set) into several short offshoots (the rollout trajectories).
 
@@ -114,9 +64,7 @@ The benefit of the vine method over the single path method that is our local est
 
 ## Practical Algorithm
 
-Here we present two practical policy optimization algorithm based on the ideas above, which use either the single path or vine sampling scheme from the preceding section. The algorithms repeatedly perform the following steps:
-
-Use the single path or vine procedures to collect a set of state-action pairs along with Monte Carlo estimates of their $Q$-values.
+Here we present two practical policy optimization algorithm based on the ideas above, which use either the single path or vine sampling scheme from the preceding section. The algorithms repeatedly perform the following steps: Use the single path or vine procedures to collect a set of state-action pairs along with Monte Carlo estimates of their $Q$-values.
 
 By averaging over samples, construct the estimated objective and constraint in Equation 14.
 
@@ -124,9 +72,7 @@ Approximately solve this constrained optimization problem to update the policy's
 
 With regard to, we construct the Fisher information matrix (FIM) by analytically computing the Hessian of the KL divergence, rather than using the covariance matrix of the gradients. That is, we estimate $A_{ij}$ as $\frac{1}{N}\sum_{n = 1}^{N}\frac{\partial^{2}}{\partial{\theta_{i}{\partial\theta_{j}}}}D_{KL}{(\pi_{\theta_{old}}{( \cdot |s_{n})} \parallel \pi_{\theta}{( \cdot |s_{n})})}$, rather than $\frac{1}{N}{\sum_{n = 1}^{N}{\frac{\partial}{\partial\theta_{i}}{\log\pi_{\theta}}{(\left. a_{n} \middle| s_{n} \right.)}\frac{\partial}{\partial\theta_{j}}{\log\pi_{\theta}}{(\left. a_{n} \middle| s_{n} \right.)}}}$. The analytic estimator integrates over the action at each state $s_{n}$, and does not depend on the action $a_{n}$ that was sampled. As described in Appendix C, this analytic estimator has computational benefits in the large-scale setting, since it removes the need to store a dense Hessian or all policy gradients from a batch of trajectories. The rate of improvement in the policy is similar to the empirical FIM, as shown in the experiments.
 
-Let us briefly summarize the relationship between the theory from Section 3 and the practical algorithm we have described:
-
-The theory justifies optimizing a surrogate objective with a penalty on KL divergence. However, the large penalty coefficient $C$ leads to prohibitively small steps, so we would like to decrease this coefficient. Empirically, it is hard to robustly choose the penalty coefficient, so we use a hard constraint instead of a penalty, with parameter $\delta$ (the bound on KL divergence).
+Let us briefly summarize the relationship between the theory from Section 3 and the practical algorithm we have described: The theory justifies optimizing a surrogate objective with a penalty on KL divergence. However, the large penalty coefficient $C$ leads to prohibitively small steps, so we would like to decrease this coefficient. Empirically, it is hard to robustly choose the penalty coefficient, so we use a hard constraint instead of a penalty, with parameter $\delta$ (the bound on KL divergence).
 
 The constraint on $D_{KL}^{\max}{(\theta_{old},\theta)}$ is hard for numerical optimization and estimation, so instead we constrain ${\overline{D}}_{KL}{(\theta_{old},\theta)}$.
 
@@ -134,21 +80,15 @@ Our theory ignores estimation error for the advantage function. Kakade & Langfor
 
 ## Connections with Prior Work
 
-As mentioned in Section 4, our derivation results in a policy update that is related to several prior methods, providing a unifying perspective on a number of policy update schemes. The natural policy gradient can be obtained as a special case of the update in Equation by using a linear approximation to $L$ and a quadratic approximation to the ${\overline{D}}_{KL}$ constraint, resulting in the following problem:
+As mentioned in Section 4, our derivation results in a policy update that is related to several prior methods, providing a unifying perspective on a number of policy update schemes. The natural policy gradient can be obtained as a special case of the update in Equation by using a linear approximation to $L$ and a quadratic approximation to the ${\overline{D}}_{KL}$ constraint, resulting in the following problem: The update is $\left. \theta_{new} = \theta_{old} + \frac{1}{\lambda}A{(\theta_{old})}^{- 1}\nabla_{\theta}L{(\theta)} \middle|_{\theta = \theta_{old}} \right.$, where the stepsize $\frac{1}{\lambda}$ is typically treated as an algorithm parameter. This differs from our approach, which enforces the constraint at each update. Though this difference might seem subtle, our experiments demonstrate that it significantly improves the algorithm's performance on larger problems.
 
-The update is $\left. \theta_{new} = \theta_{old} + \frac{1}{\lambda}A{(\theta_{old})}^{- 1}\nabla_{\theta}L{(\theta)} \middle|_{\theta = \theta_{old}} \right.$, where the stepsize $\frac{1}{\lambda}$ is typically treated as an algorithm parameter. This differs from our approach, which enforces the constraint at each update. Though this difference might seem subtle, our experiments demonstrate that it significantly improves the algorithm's performance on larger problems.
-
-We can also obtain the standard policy gradient update by using an $\ell_{2}$ constraint or penalty:
-
-The policy iteration update can also be obtained by solving the unconstrained problem ${\operatorname{maximize}\limits_{\pi}L_{\pi_{old}}}{(\pi)}$, using $L$ as defined in Equation 3.
+We can also obtain the standard policy gradient update by using an $\ell_{2}$ constraint or penalty: The policy iteration update can also be obtained by solving the unconstrained problem ${\operatorname{maximize}\limits_{\pi}L_{\pi_{old}}}{(\pi)}$, using $L$ as defined in Equation 3.
 
 Several other methods employ an update similar to Equation. Relative entropy policy search (REPS) constrains the state-action marginals $p{(s,a)}$, while TRPO constrains the conditionals $p{(\left. a \middle| s \right.)}$. Unlike REPS, our approach does not require a costly nonlinear optimization in the inner loop. Levine and Abbeel also use a KL divergence constraint, but its purpose is to encourage the policy not to stray from regions where the estimated dynamics model is valid, while we do not attempt to estimate the system dynamics explicitly. Pirotta et al. also build on and generalize Kakade and Langford's results, and they derive different algorithms from the ones here.
 
 ## Experiments
 
-We designed our experiments to investigate the following questions:
-
-What are the performance characteristics of the single path and vine sampling procedures?
+We designed our experiments to investigate the following questions: What are the performance characteristics of the single path and vine sampling procedures?
 
 TRPO is related to prior methods (e.g. natural policy gradient) but makes several changes, most notably by using a fixed KL divergence rather than a fixed penalty coefficient. How does this affect the performance of the algorithm?
 
@@ -162,9 +102,7 @@ Figure 2: 2D robot models used for locomotion experiments. From left to right: s
 
 Figure 3: Neural networks used for the locomotion task (top) and for playing Atari games (bottom).
 
-We conducted the robotic locomotion experiments using the MuJoCo simulator. The three simulated robots are shown in Figure 2. The states of the robots are their generalized positions and velocities, and the controls are joint torques. Underactuation, high dimensionality, and non-smooth dynamics due to contacts make these tasks very challenging. The following models are included in our evaluation:
-
-Swimmer. $10$-dimensional state space, linear reward for forward progress and a quadratic penalty on joint effort to produce the reward ${r{(x,u)}} = {v_{x} - {10^{- 5}{\| u\|}^{2}}}$. The swimmer can propel itself forward by making an undulating motion.
+We conducted the robotic locomotion experiments using the MuJoCo simulator. The three simulated robots are shown in Figure 2. The states of the robots are their generalized positions and velocities, and the controls are joint torques. Underactuation, high dimensionality, and non-smooth dynamics due to contacts make these tasks very challenging. The following models are included in our evaluation: Swimmer. $10$-dimensional state space, linear reward for forward progress and a quadratic penalty on joint effort to produce the reward ${r{(x,u)}} = {v_{x} - {10^{- 5}{\| u\|}^{2}}}$. The swimmer can propel itself forward by making an undulating motion.
 
 Hopper. $12$-dimensional state space, same reward as the swimmer, with a bonus of $+ 1$ for being in a non-terminal state. We ended the episodes when the hopper fell over, which was defined by thresholds on the torso height and angle.
 
@@ -174,15 +112,11 @@ We used $\delta = 0.01$ for all experiments. See Table 2 in the Appendix for mor
 
 The following algorithms were considered in the comparison: single path TRPO; vine TRPO; cross-entropy method (CEM), a gradient-free method; covariance matrix adaption (CMA), another gradient-free method; natural gradient, the classic natural policy gradient algorithm, which differs from single path by the use of a fixed penalty coefficient (Lagrange multiplier) instead of the KL divergence constraint; empirical FIM, identical to single path, except that the FIM is estimated using the covariance matrix of the gradients rather than the analytic estimate; max KL, which was only tractable on the cart-pole problem, and uses the maximum KL divergence in Equation, rather than the average divergence, allowing us to evaluate the quality of this approximation. The parameters used in the experiments are provided in Appendix E. For the natural gradient method, we swept through the possible values of the stepsize in factors of three, and took the best value according to the final performance.
 
-Figure 4: Learning curves for locomotion tasks, averaged across five runs of each algorithm with random initializations. Note that for the hopper and walker, a score of − 1 is achievable without any forward velocity, indicating a policy that simply learned balanced standing, but not walking.
+Figure 4: Learning curves for locomotion tasks, averaged across five runs of each algorithm with random initializations. Note that for the hopper and walker, a score of −1 is achievable without any forward velocity, indicating a policy that simply learned balanced standing, but not walking.
 
-Learning curves showing the total reward averaged across five runs of each algorithm are shown in Figure 4. Single path and vine TRPO solved all of the problems, yielding the best solutions. Natural gradient performed well on the two easier problems, but was unable to generate hopping and walking gaits that made forward progress. These results provide empirical evidence that constraining the KL divergence is a more robust way to choose step sizes and make fast, consistent progress, compared to using a fixed penalty. CEM and CMA are derivative-free algorithms, hence their sample complexity scales unfavorably with the number of parameters, and they performed poorly on the larger problems. The max KL method learned somewhat more slowly than our final method, due to the more restrictive form of the constraint, but overall the result suggests that the average KL divergence constraint has a similar effect as the theorecally justified maximum KL divergence. Videos of the policies learned by TRPO may be viewed on the project website: [http://sites.google.com/site/trpopaper/](http://sites.google.com/site/trpopaper/).
+Learning curves showing the total reward averaged across five runs of each algorithm are shown in Figure 4. Single path and vine TRPO solved all of the problems, yielding the best solutions. Natural gradient performed well on the two easier problems, but was unable to generate hopping and walking gaits that made forward progress. These results provide empirical evidence that constraining the KL divergence is a more robust way to choose step sizes and make fast, consistent progress, compared to using a fixed penalty. CEM and CMA are derivative-free algorithms, hence their sample complexity scales unfavorably with the number of parameters, and they performed poorly on the larger problems. The max KL method learned somewhat more slowly than our final method, due to the more restrictive form of the constraint, but overall the result suggests that the average KL divergence constraint has a similar effect as the theorecally justified maximum KL divergence. Videos of the policies learned by TRPO may be viewed on the project website: Note that TRPO learned all of the gaits with general-purpose policies and simple reward functions, using minimal prior knowledge. This is in contrast with most prior methods for learning locomotion, which typically rely on hand-architected policy classes that explicitly encode notions of balance and stepping.
 
-Note that TRPO learned all of the gaits with general-purpose policies and simple reward functions, using minimal prior knowledge. This is in contrast with most prior methods for learning locomotion, which typically rely on hand-architected policy classes that explicitly encode notions of balance and stepping.
-
-TRPO - single path
-
-Table 1: Performance comparison for vision-based RL algorithms on the Atari domain. Our algorithms (bottom rows) were run once on each task, with the same architecture and parameters. Performance varies substantially from run to run (with different random initializations of the policy), but we could not obtain error statistics due to time constraints.
+TRPO - single path Table 1: Performance comparison for vision-based RL algorithms on the Atari domain. Our algorithms (bottom rows) were run once on each task, with the same architecture and parameters. Performance varies substantially from run to run (with different random initializations of the policy), but we could not obtain error statistics due to time constraints.
 
 ### Playing Games from Images
 

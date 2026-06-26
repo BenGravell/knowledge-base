@@ -30,9 +30,7 @@ Furthermore, given the lack of transparency in all SOTA IQA metrics, especially 
 
 ## Related Works
 
-Metrics for evaluating the quality of an image can be classified into three different categories:
-
-Full-Rreference (FR) methods evaluate the quality of an image by comparing it with the corresponding original target, so this class of metrics can only be used if the original signal is available.
+Metrics for evaluating the quality of an image can be classified into three different categories: Full-Rreference (FR) methods evaluate the quality of an image by comparing it with the corresponding original target, so this class of metrics can only be used if the original signal is available.
 
 Reduced-Reference (RR) methods are used when one does not have direct access to the original target images, but has a reduced and limited feature set.
 
@@ -90,24 +88,15 @@ Figure 2: The following example illustrates the process of creating a signature 
 
 To compare the textures of two images, we relied on the work of Rubner et al., where the authors propose an image retrieval method based on the use of EMD, that is a distance between two distributions used by Hitchcock to solve the Monge-Kantorovich transport problem. Histograms are typically used to represent the distribution of an image. In, it is shown that histograms are fixed-size structures and therefore do not have balance between expressiveness and efficiency. In fact, the authors propose the use of variable-size image signatures, obtained by clustering the responses achieved using a Gabor filter dictionary applied to image patches.
 
-In our work, we exploited some steps of that allowed us to obtain consistent results for texture comparisons. In the Algorithm 1, we show pseudocode of how we obtain signatures $S$ by applying Gabor's filter dictionary to an image. Given an input colored image of size $M \times N \times 3$, we convert it to grayscale $I$ with size $M \times N$, because to evaluate shape dissimilarity it is sufficient to use only the intensity of pixels; moreover, we provide a dedicated term for color evaluation later. We divide the image into $l$ non-overlapping patches of size $p \times p$ where $p\operatorname{<<}{min{(M,N)}}$, and apply Gabor's filter dictionary to each patch.
+In our work, we exploited some steps of that allowed us to obtain consistent results for texture comparisons. In the Algorithm 1, we show pseudocode of how we obtain signatures $S$ by applying Gabor's filter dictionary to an image. Given an input colored image of size $M\times N\times 3$, we convert it to grayscale $I$ with size $M\times N$, because to evaluate shape dissimilarity it is sufficient to use only the intensity of pixels; moreover, we provide a dedicated term for color evaluation later. We divide the image into $l$ non-overlapping patches of size $p\times p$ where $p<<min(M,N)$, and apply Gabor's filter dictionary to each patch.
 
-4: P← p a t c h e s (I) ⊳ non-overlapped patches list
-6: E ← empty_matrices(l, 4, 6) ⊳ energies list
-12: ${|F|}\leftarrow\sqrt{F_{real}^{2} + F_{imag}^{2}}$
-17: S ← (V,W) ⊳ tuple of values and weights
-18: return S ⊳ return signature of image I
-Algorithm 1 Texture signature extraction
+1: function signature(Image I) 4: P← patches(I) ⊳ non-overlapped patches list 6: E ← empty_matrices(l, 4, 6) ⊳ energies list 11: Freal, Fimag ← gabor(Pz, si, oj) 12: $|F|\leftarrow\sqrt{F_{real}^{2}+F_{imag}^{2}}$ 17: S ← (V, W) ⊳ tuple of values and weights 18: return S ⊳ return signature of image I Algorithm 1 Texture signature extraction A single Gabor filter allows us to extract the texture features of a patch with respect to a precise scale and orientation. As a result, a dictionary of Gabor filters allows the extraction of texture features at different scales and orientations to try to extract the main patterns of the patch. In our setup, we define a dictionary of Gabor filters with the following four scales $s=\{0.1,0.2,0.3,0.4\}$ and the following six orientations $o=\{0^{\circ},30^{\circ},60^{\circ},90^{\circ},120^{\circ},150^{\circ}\}$, which then allows us to obtain a collection of twenty-four total filters for each patch. Each Gabor filter, with a scale $s_{i}$ and orientation $o_{j}$, applied to the $z$-th patch produces two responses $F_{real}$ and $F_{imag}$, which are produced by the real and imaginary components of the Gabor kernel convolved with the $z$-th patch, respectively. From the real and imaginary components we calculate the magnitude $|F|$ with the same size of the $z$-th patch $p\times p$. Afterwards, we calculate the energy of the magnitude $|F|$ as, corresponding to scale $i$ and orientation $j$, to be assigned to $E_{z,i,j}\in\mathbb{R}$. We get a list of $l$ four-by-six matrices $E$, normalized so that $\sum_{i,j}E_{z,i,j}=1$ for each $z$-th patch. Each element $E_{z,i,j}$ corresponds to a precise texture response of patch $P_{z}$ at a scale $s_{i}$ and orientation $o_{j}$.
 
-A single Gabor filter allows us to extract the texture features of a patch with respect to a precise scale and orientation. As a result, a dictionary of Gabor filters allows the extraction of texture features at different scales and orientations to try to extract the main patterns of the patch. In our setup, we define a dictionary of Gabor filters with the following four scales $s = {\{ 0.1,0.2,0.3,0.4\}}$ and the following six orientations $o = {\{ 0^{\circ},30^{\circ},60^{\circ},90^{\circ},120^{\circ},150^{\circ}\}}$, which then allows us to obtain a collection of twenty-four total filters for each patch. Each Gabor filter, with a scale $s_{i}$ and orientation $o_{j}$, applied to the $z$-th patch produces two responses $F_{real}$ and $F_{imag}$, which are produced by the real and imaginary components of the Gabor kernel convolved with the $z$-th patch, respectively. From the real and imaginary components we calculate the magnitude $|F|$ with the same size of the $z$-th patch $p \times p$. Afterwards, we calculate the energy of the magnitude $|F|$ as , corresponding to scale $i$ and orientation $j$, to be assigned to $E_{z,i,j} \in {\mathbb{R}}$. We get a list of $l$ four-by-six matrices $E$, normalized so that ${\sum_{i,j}E_{z,i,j}} = 1$ for each $z$-th patch. Each element $E_{z,i,j}$ corresponds to a precise texture response of patch $P_{z}$ at a scale $s_{i}$ and orientation $o_{j}$.
+Figure 2 illustrates an example of signature creation, where in the list of four-by-six matrices $E$, a dark pixel signifies a robust response to a specific scale and orientation. To use EMD, the distributions must be weighted, so as a final step in creating the signatures we apply a Meng-Hee Heng clustering algorithm, which takes as input the $l$ energies and returns as output two lists of $k$ centroids $V=\{v_{1},...,v_{k}\}\;|\;v_{i}\in\mathbb{R}^{24}$ and $k$ weights $W=\{w_{1},...,w_{k}\}\;|\;w_{i}\in\mathbb{R}$, where $k\leq l$. Each centroid $v_{i}$ represents a texture patch that appears frequently in the image $I$, $v_{i}$ is a four-by-six matrix or can be viewed as a single 24-dimensional vector. Each weight $w_{i}$ represents the frequency percentage of $v_{i}$ that appears in image $I$. Unlike, where they use K-means as the clustering algorithm, we preferred the Meng-Hee Heng variant, which automatically finds the suitable number of $k$ clusters. At the end, both the list of 24-dimensional centroids $V$ and the list of corresponding weights $W$ make up the $S$ signature of a single image $I$.
 
-Figure 2 illustrates an example of signature creation, where in the list of four-by-six matrices $E$, a dark pixel signifies a robust response to a specific scale and orientation. To use EMD, the distributions must be weighted, so as a final step in creating the signatures we apply a Meng-Hee Heng clustering algorithm, which takes as input the $l$ energies and returns as output two lists of $k$ centroids $V = \left. {\{ v_{1},\ldots,v_{k}\}} \middle| v_{i} \right. \in {\mathbb{R}}^{24}$ and $k$ weights $W = \left. {\{ w_{1},\ldots,w_{k}\}} \middle| w_{i} \right. \in {\mathbb{R}}$, where $k \leq l$. Each centroid $v_{i}$ represents a texture patch that appears frequently in the image $I$, $v_{i}$ is a four-by-six matrix or can be viewed as a single 24-dimensional vector. Each weight $w_{i}$ represents the frequency percentage of $v_{i}$ that appears in image $I$. Unlike, where they use K-means as the clustering algorithm, we preferred the Meng-Hee Heng variant, which automatically finds the suitable number of $k$ clusters. At the end, both the list of 24-dimensional centroids $V$ and the list of corresponding weights $W$ make up the $S$ signature of a single image $I$.
+Let $S_{X}=(\{v_{x_{1}},...,v_{x_{n}}\},\{w_{x_{i}},...,w_{x_{n}}\})$ be the signature obtained from image $X$ with $n$ clusters, and $S_{Y}=(\{v_{y_{1}},...,v_{y_{m}}\},\{w_{y_{i}},...,w_{y_{m}}\})$ the signature obtained from image $Y$ with $m$ clusters, the next step is to calculate the EMD between the two signatures. Commonly in EMD, the two distributions can be seen as two land masses, where the first distribution is uniformly distributed in space and the second distribution is a set of holes in this same space. The goal of EMD is to measure the minimum amount of work to fill the holes in the second distribution using the ground of the first distribution.
 
-Let $S_{X} = {({\{ v_{x_{1}},\ldots,v_{x_{n}}\}},{\{ w_{x_{i}},\ldots,w_{x_{n}}\}})}$ be the signature obtained from image $X$ with $n$ clusters, and $S_{Y} = {({\{ v_{y_{1}},\ldots,v_{y_{m}}\}},{\{ w_{y_{i}},\ldots,w_{y_{m}}\}})}$ the signature obtained from image $Y$ with $m$ clusters, the next step is to calculate the EMD between the two signatures. Commonly in EMD, the two distributions can be seen as two land masses, where the first distribution is uniformly distributed in space and the second distribution is a set of holes in this same space. The goal of EMD is to measure the minimum amount of work to fill the holes in the second distribution using the ground of the first distribution.
-
-Formally, the EMD is a distance between two weighted distributions $S_{X}$ and $S_{Y}$, with the following equation:
-
-where $d{(v_{x_{i}},v_{y_{j}})}$ is the ground distance between the two centroids of different signatures, by default is the L1 distance; and $f_{ij}$ is an element of flow matrix $F$ computed as .
+Formally, the EMD is a distance between two weighted distributions $S_{X}$ and $S_{Y}$, with the following equation: where $d(v_{x_{i}},v_{y_{j}})$ is the ground distance between the two centroids of different signatures, by default is the L1 distance; and $f_{ij}$ is an element of flow matrix $F$ computed as.
 
 The score obtained from the EMD equation is a dissimilarity value between the texture signatures of the two images $X$ and $Y$. If the images are equal, the score obtained is $0$, while the more dissimilar the two images are, the more the score tends to increase.
 
@@ -123,11 +112,9 @@ Oklab has the same color representation structure as CIE Lab, a color is represe
 
 Figure 3: Displacement of all 2563 possible RGB color combinations in the Oklab perceptual color space.
 
-The properties of perceptually uniform and linear hue permit the calculation of the perceptual distance $\DeltaE$ between two color points $p_{1} = {(L_{1},a_{1},b_{1})}$ and $p_{2} = {(L_{2},a_{2},b_{2})}$ in Oklab space via the straightforward Euclidean distance between the components of $p_{1}$ and $p_{2}$.
+The properties of perceptually uniform and linear hue permit the calculation of the perceptual distance $\Delta E$ between two color points $p_{1}=(L_{1},a_{1},b_{1})$ and $p_{2}=(L_{2},a_{2},b_{2})$ in Oklab space via the straightforward Euclidean distance between the components of $p_{1}$ and $p_{2}$.
 
-In our notion of perceptual color dissimilarity, we extend this distance to all the pixels of the two images that are the subject of the comparison. Let X and Y be two RGB images of size $M \times N \times 3$, we convert both images to the Oklab color space obtaining $\hat{X}$ and $\hat{Y}$ respectively, and then apply the following dissimilarity equation:
-
-where ${\hat{X}}_{i,j}$ and ${\hat{Y}}_{i,j}$ are two pixels in the Oklab color space of image $X$ and $Y$ respectively; distances in Oklab space fall in the range between $0$ and $1$, where $0$ corresponds to perfect equality and $1$ to maximum dissimilarity between the colors.
+In our notion of perceptual color dissimilarity, we extend this distance to all the pixels of the two images that are the subject of the comparison. Let X and Y be two RGB images of size $M\times N\times 3$, we convert both images to the Oklab color space obtaining $\hat{X}$ and $\hat{Y}$ respectively, and then apply the following dissimilarity equation: where $\hat{X}_{i,j}$ and $\hat{Y}_{i,j}$ are two pixels in the Oklab color space of image $X$ and $Y$ respectively; distances in Oklab space fall in the range between $0$ and $1$, where $0$ corresponds to perfect equality and $1$ to maximum dissimilarity between the colors.
 
 ### III-C EDOKS
 
@@ -135,15 +122,9 @@ In addition to the dissimilarity terms, we also propose here a single global sim
 
 The energy-based normalization process for the generation of signatures, as outlined in algorithm 1, enables signatures within the range of 0 and 1. However, it should be noted that EMD can surpass 1, as the combination with the flow matrix in certain instances can exceed 1. Conversely, the OK term is constrained within the limits of 0 and 1.
 
-Given that both terms function within a comparable scale, the proposed equation aims to encapsulate the mean behavior between the two terms, striving to assign equal weight to both. Given two images $X$ and $Y$ to compare, the EDOK term is calculated with the following equation:
+Given that both terms function within a comparable scale, the proposed equation aims to encapsulate the mean behavior between the two terms, striving to assign equal weight to both. Given two images $X$ and $Y$ to compare, the EDOK term is calculated with the following equation: where $S_{X}$ and $S_{Y}$ are the signatures of the $X$ and $Y$ images respectively, $\hat{X}$ and $\hat{Y}$ are the $X$ and $Y$ images in the Oklab color space respectively, and $\alpha$ is a weight between 0 and 1 that is used to weigh the two terms based on the context, so that greater priority can be given to the appropriate term.
 
-where $S_{X}$ and $S_{Y}$ are the signatures of the $X$ and $Y$ images respectively, $\hat{X}$ and $\hat{Y}$ are the $X$ and $Y$ images in the Oklab color space respectively, and $\alpha$ is a weight between 0 and 1 that is used to weigh the two terms based on the context, so that greater priority can be given to the appropriate term.
-
-Considering that EDOK continues to be a dissimilarity term, we present the term EDOKS which is the similarity term obtained as the reciprocal of EDOK:
-
-TABLE I: IQA metrics execution times when comparing, at different resolutions, two images of the LIUK4-v2 Dataset distorted with Gaussian Blur. Tests performed on Intel® Xeon® Gold 5215 CPU. The reported times are in sec.
-
-where $c$ is a very small constant to avoid performing a division by zero, which might happen when $X$ and $Y$ are equal; because when images are equal EDOK returns 0 as the dissimilarity score.
+Considering that EDOK continues to be a dissimilarity term, we present the term EDOKS which is the similarity term obtained as the reciprocal of EDOK: TABLE I: IQA metrics execution times when comparing, at different resolutions, two images of the LIUK4-v2 Dataset distorted with Gaussian Blur. Tests performed on Intel® Xeon® Gold 5215 CPU. The reported times are in sec. where $c$ is a very small constant to avoid performing a division by zero, which might happen when $X$ and $Y$ are equal; because when images are equal EDOK returns 0 as the dissimilarity score.
 
 Although EDOKS is a single performance score, we suggest not only to use it, but also to evaluate the EMD and OK indices at the same time, in order to evaluate in detail the quality of textures and colors, which would not be possible with the average EDOKS overall.
 
@@ -151,11 +132,11 @@ Although EDOKS is a single performance score, we suggest not only to use it, but
 
 A fundamental aspect that needs to be clarified, given the modularity of our metric, is the computational complexity of EDOKS.
 
-Assuming that each image has $P$ pixels, the most expensive operations of the Oklab term are the conversion to another color space, which requires $O{(P)}$, and the calculation of the similarity distance for each pair of pixels, which has a cost of $O{(P)}$.
+Assuming that each image has $P$ pixels, the most expensive operations of the Oklab term are the conversion to another color space, which requires $O(P)$, and the calculation of the similarity distance for each pair of pixels, which has a cost of $O(P)$.
 
-Regarding the application of the Gabor filter bank, each filter is applied with a convolution that has a cost of $O{({PG^{2}})}$, where $G$ is the size of the Gabor kernel. As the number of filters increases, the complexity of this operation remains unchanged. This is because the application of the 24 Gabor filters has been parallelized across multiple CPU or GPU cores. The subsequent clustering operation has a cost of $O{(l^{3})}$, where $l$ is the number of patches in the image.
+Regarding the application of the Gabor filter bank, each filter is applied with a convolution that has a cost of $O(PG^{2})$, where $G$ is the size of the Gabor kernel. As the number of filters increases, the complexity of this operation remains unchanged. This is because the application of the 24 Gabor filters has been parallelized across multiple CPU or GPU cores. The subsequent clustering operation has a cost of $O(l^{3})$, where $l$ is the number of patches in the image.
 
-Finally, for EMD we used the implementation of, where the most expensive operation is the loop to find the optimal solution, which has a computational cost of $O{(K^{2})}$, where $K$ is the size of the two signatures corresponding to the number of clusters, which generally limits the number of elements.
+Finally, for EMD we used the implementation of, where the most expensive operation is the loop to find the optimal solution, which has a computational cost of $O(K^{2})$, where $K$ is the size of the two signatures corresponding to the number of clusters, which generally limits the number of elements.
 
 Although some terms have high asymptotic computational complexity, in practical terms it should be noted that the calculation of the EDOKS value is usually applied to images with limited dimensionality. As shown in Table I, we calculated the times on one image of the Large-scale Ideal Ultra high definition 4K version 2 (LIUK4-v2) dataset at different resolutions compared to its Gaussian blurred version, obtaining a runtime consistent with other SOTA IQA metrics.
 
@@ -165,7 +146,7 @@ As shown by the results obtained, it can be seen that models considered to be mo
 
 To evaluate the robustness of our metric to human perception, we conducted experiments on datasets in which the similarity between images is assessed by humans, as in BAPPS datasets. We used the Just Noticeable Difference (JND) and Two Alternative Forced Choice (2AFC) subsets, contained in BAPPS, to conduct our experiments. We show that our metric is closer to human perception than the SOTA metrics. In our experiments, we chose not to use popular datasets such as LIVE, TID2008, CSIQ, and TID2013. This is because, as demonstrated , they are outdated and contain a few types of distortions.
 
-For all experiments performed in this section, the EDOKS parameters were initialized as follows: $p = 128$ to achieve a good compromise in the extraction of regional patterns, $\alpha = 0.5$ to obtain the same contribution from both terms, and $c$ as the minimum float value representable in Python, which provides an excessive contribution to the equation 5 and prevents division by zero.
+For all experiments performed in this section, the EDOKS parameters were initialized as follows: $p=128$ to achieve a good compromise in the extraction of regional patterns, $\alpha=0.5$ to obtain the same contribution from both terms, and $c$ as the minimum float value representable in Python, which provides an excessive contribution to the equation 5 and prevents division by zero.
 
 Figure 4: Correspondences of similarity metrics with the 2AFC dataset. The horizontal axis represents the perceptual similarity of humans who labeled the 2AFC dataset, as reported . The results show that, compared with other low-level FR methods, EDOKS is the closest similarity metric to human perceptual similarity, while it is close to the results of other deep metrics.
 
@@ -203,17 +184,11 @@ Specifically, our MOS scale includes four possible rating levels, where 0 indica
 
 To evaluated the performance of image quality metrics, we used three correlation measures: Spearman Rank Order Correlation Coefficient (SROCC), Kendall Rank Order Correlation Coefficient (KROCC), and Pearson Linear Correlation Coefficient (PLCC).
 
-SROCC and KROCC can measured the prediction monotonicity of a metric, while the PLCC measured the linear relationship between predicted and reference scores. To compute the PLCC we applied a nonlinear regression analysis, we used the following mapping function as suggested :
-
-where ${{\beta_{i},i} = 1},{2,\ldots,5}$, are parameters to be fitted.
+SROCC and KROCC can measured the prediction monotonicity of a metric, while the PLCC measured the linear relationship between predicted and reference scores. To compute the PLCC we applied a nonlinear regression analysis, we used the following mapping function as suggested: where $\beta_{i},i=1,2,...,5$, are parameters to be fitted.
 
 For all these three coefficients, the higher the value, the better the correlation.
 
-TABLE II: Overall Performances of Low-Level IQA Indices on the JND Dataset
-
-TABLE III: Overall Performances of EDOKS and Deep IQA Indices on the JND Dataset
-
-Table II shows that our EDOKS metric significantly outperforms the SOTA low-level metrics. Meanwhile, Table III shows that EDOKS is close to deep metrics, which, although more accurate, lack transparency.
+TABLE II: Overall Performances of Low-Level IQA Indices on the JND Dataset TABLE III: Overall Performances of EDOKS and Deep IQA Indices on the JND Dataset Table II shows that our EDOKS metric significantly outperforms the SOTA low-level metrics. Meanwhile, Table III shows that EDOKS is close to deep metrics, which, although more accurate, lack transparency.
 
 Figure 6: SROCC value as the alpha weight of Eq. 4 varies. The scores were calculated on the JND subset, and the optimal value in this case is α = 0.21. The SROCC values were calculated by varying α from 0 to 1 in increments of 0.01.
 
@@ -231,17 +206,11 @@ Table IV shows the scores of the various experiments, demonstrating that the com
 
 In general, it should be noted that distortions can occur in both colors and shapes. As demonstrated by our results, using only one of the two terms is not sufficient to evaluate both types of distortion. However, in a specific case where the type of distortion applied is known (e.g., only color distortions), we allow the possibility of configuring the weight $\alpha$ to obtain an analysis that is as consistent as possible with the case study.
 
-The average scores (AVG)
-
-TABLE IV: Study of the ablation of the edoks metric by evaluating its individual terms against itself. The AVG scores and statistical metrics (SROCC, KROCC, PLCC) were obtained from the JND dataset, while the accuracy values refer to the 2AFC dataset.
+The average scores (AVG) TABLE IV: Study of the ablation of the edoks metric by evaluating its individual terms against itself. The AVG scores and statistical metrics (SROCC, KROCC, PLCC) were obtained from the JND dataset, while the accuracy values refer to the 2AFC dataset.
 
 ## Interpretability Validation
 
-EDOKS overall map
-
-Figure 7: Examples of explainability provided by EDOKS. The first four rows show images from the LIU4K_v2 dataset, and the last row shows a publicly licensed image. The first two columns contain pairs of images to be compared: the original image and its distorted version. The third column shows the map of average magnitude differences extracted for the EMD term. The fourth column shows heatmaps of color differences calculated from the OK term. The fifth column shows the combination of the two maps provided by the two terms. EDOKS scores for these five images: 4.58; 2; 4.18; 26.65 and 3.99
-
-The SOTA metrics discussed in this paper provide a similarity score, but they were not designed to justify the provided score. In fact, studies show that metrics such as PSNR do not consistently readjust their score when the degree of distortion is altered. Without a heatmap highlighting the perceptual differences between two images according to the IQA metric, it is difficult for users to understand what affected the similarity score. This forces users to conduct appropriate experiments to extrapolate the discriminatory and perceptual behavior of the IQA metric.
+EDOKS overall map Figure 7: Examples of explainability provided by EDOKS. The first four rows show images from the LIU4K_v2 dataset, and the last row shows a publicly licensed image. The first two columns contain pairs of images to be compared: the original image and its distorted version. The third column shows the map of average magnitude differences extracted for the EMD term. The fourth column shows heatmaps of color differences calculated from the OK term. The fifth column shows the combination of the two maps provided by the two terms. EDOKS scores for these five images: 4.58; 2; 4.18; 26.65 and 3.99 The SOTA metrics discussed in this paper provide a similarity score, but they were not designed to justify the provided score. In fact, studies show that metrics such as PSNR do not consistently readjust their score when the degree of distortion is altered. Without a heatmap highlighting the perceptual differences between two images according to the IQA metric, it is difficult for users to understand what affected the similarity score. This forces users to conduct appropriate experiments to extrapolate the discriminatory and perceptual behavior of the IQA metric.
 
 Meanwhile, we developed EDOKS with the aim of providing a perceptual score and maps of interest showing the discriminative areas that the metric extracts and uses to determine its score.
 
@@ -249,7 +218,7 @@ Figure 7 shows examples of EDOKS's ability to identify discriminatory areas with
 
 The EMD difference column highlights the points where the two images differ in shape. The difference in magnitude $|F|$ between the two images is shown, averaging the magnitude differences across all scales $s$ and orientations $o$.
 
-Meanwhile, the OK heatmap column highlights the color difference $\DeltaE{({\hat{X}}_{i,j},{\hat{Y}}_{i,j})}$ between all pixels of the two images in the Oklab space.
+Meanwhile, the OK heatmap column highlights the color difference $\Delta E(\hat{X}_{i,j},\hat{Y}_{i,j})$ between all pixels of the two images in the Oklab space.
 
 The last column shows an overlay of the two maps calculated on shapes and colors, providing a general overview of the elements that influenced the EDOKS calculation.
 
@@ -281,7 +250,7 @@ Many metrics, such as SSIM, PSNR-HVSM, VIF, DSS, and SSIM variants, provided a m
 
 Without a module that makes them transparent and shows their behavior, it is difficult to determine. Scrutinizing their operations, they convert color images to grayscale using the ITU-R BT.601 standard, so that only the luminance is used. The problem is that many color combinations, such as this shade of red and blue, are converted to the same gray intensity, resulting in two identical images for metrics that adopt this conversion.
 
-Meanwhile, EDOKS provides a similarity score of 13.511, and $\Delta{|F|}_{XY}$ shows that it has not detected any distortions in the shapes, while the $\DeltaE_{XY}$ heatmap highlights color differences in the area where the distortion is applied. We believe that this helps users to evaluate their images beyond simply using numerical scores.
+Meanwhile, EDOKS provides a similarity score of 13.511, and $\Delta|F|_{XY}$ shows that it has not detected any distortions in the shapes, while the $\Delta E_{XY}$ heatmap highlights color differences in the area where the distortion is applied. We believe that this helps users to evaluate their images beyond simply using numerical scores.
 
 ## Conclusions
 

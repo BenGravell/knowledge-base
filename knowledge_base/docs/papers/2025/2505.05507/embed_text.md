@@ -1,14 +1,14 @@
 ## Introduction
 
-The AI Olympics with RealAIGym \[(https://arxiv.org/html/2505.05507v2#bib.bib1)\] competition challenges participants to develop controllers for complex robotic systems. This year's task focused on designing controllers for underactuated double pendulum systems --- the pendubot and acrobot --- with emphasis on maintaining the upper equilibrium position from various initial states \[(https://arxiv.org/html/2505.05507v2#bib.bib2)\].
+The AI Olympics with RealAIGym competition challenges participants to develop controllers for complex robotic systems. This year's task focused on designing controllers for underactuated double pendulum systems --- the pendubot and acrobot --- with emphasis on maintaining the upper equilibrium position from various initial states.
 
 Underactuated systems, characterized by fewer control inputs than degrees of freedom, present significant challenges in control engineering. The double pendulum, with its highly nonlinear and chaotic dynamics, serves as an excellent benchmark for evaluating control strategies. Controlling such systems requires balancing computational efficiency with planning accuracy, particularly when dealing with the complex dynamics that emerge from their underactuated nature.
 
-Previous competitions \[(https://arxiv.org/html/2505.05507v2#bib.bib3)\]\[(https://arxiv.org/html/2505.05507v2#bib.bib4)\] featured diverse learning-based approaches, including model-free reinforcement learning (AR-EAPO) \[(https://arxiv.org/html/2505.05507v2#bib.bib5)\], Monte Carlo Probabilistic Inference for Learning Control (MC-PILCO) \[(https://arxiv.org/html/2505.05507v2#bib.bib6)\], and soft actor-critic (SAC) models with evolutionary fine-tuning \[(https://arxiv.org/html/2505.05507v2#bib.bib7)\]. While effective, these methods typically require extensive training data and carefully designed reward functions, limiting their practical applicability in scenarios where training resources are constrained or system dynamics change frequently.
+Previous competitions featured diverse learning-based approaches, including model-free reinforcement learning (AR-EAPO), Monte Carlo Probabilistic Inference for Learning Control (MC-PILCO), and soft actor-critic (SAC) models with evolutionary fine-tuning. While effective, these methods typically require extensive training data and carefully designed reward functions, limiting their practical applicability in scenarios where training resources are constrained or system dynamics change frequently.
 
-Given these limitations, we explored sampling-based methods as an alternative approach. These methods operate directly on system dynamics without pre-training, making them particularly suitable for systems with well-understood physics. Recent advances in algorithms and parallel computing have made sampling-based methods increasingly viable for planning in highly dynamic environments and controlling systems with many degrees of freedom \[(https://arxiv.org/html/2505.05507v2#bib.bib8)\]. The double pendulum's chaotic yet well-modeled nature makes it an ideal candidate for such approaches.
+Given these limitations, we explored sampling-based methods as an alternative approach. These methods operate directly on system dynamics without pre-training, making them particularly suitable for systems with well-understood physics. Recent advances in algorithms and parallel computing have made sampling-based methods increasingly viable for planning in highly dynamic environments and controlling systems with many degrees of freedom. The double pendulum's chaotic yet well-modeled nature makes it an ideal candidate for such approaches.
 
-Among sampling-based methods, Model Predictive Path Integral (MPPI) control has emerged as a powerful technique, with successful applications ranging from aggressive vehicle control \[(https://arxiv.org/html/2505.05507v2#bib.bib9)\] to various robotic systems. However, computational constraints typically limit the planning horizon in traditional MPPI implementations. Our approach addresses this fundamental limitation by incorporating a variational integrator into the rollout computations, enabling a substantially longer planning horizon without additional computational cost. To our knowledge, this is the first application of such an approach, and our controller significantly outperforms established benchmarks.
+Among sampling-based methods, Model Predictive Path Integral (MPPI) control has emerged as a powerful technique, with successful applications ranging from aggressive vehicle control to various robotic systems. However, computational constraints typically limit the planning horizon in traditional MPPI implementations. Our approach addresses this fundamental limitation by incorporating a variational integrator into the rollout computations, enabling a substantially longer planning horizon without additional computational cost. To our knowledge, this is the first application of such an approach, and our controller significantly outperforms established benchmarks.
 
 ## Background
 
@@ -16,21 +16,11 @@ Before presenting our approach, we first review the key concepts underlying our 
 
 ### II-A Model Predictive Path Integral
 
-We model the double pendulum as a stochastic dynamical system:
+We model the double pendulum as a stochastic dynamical system: where $x_{i} \in {\mathbb{R}}^{4}$ represents the state vector of the pendulum at step $i$, $u_{i} \in {\mathbb{R}}$ denotes the control input (applied to either the first or second joint, depending on the configuration), and $\delta u_{i}$ is a zero-mean Gaussian noise vector with variance $\Sigma_{u}$, i.e., ${\delta u_{i}} \sim {\mathcal{N}{(0,\Sigma_{u})}}$, representing control input perturbations.
 
-where $x_{i} \in {\mathbb{R}}^{4}$ represents the state vector of the pendulum at step $i$, $u_{i} \in {\mathbb{R}}$ denotes the control input (applied to either the first or second joint, depending on the configuration), and $\delta u_{i}$ is a zero-mean Gaussian noise vector with variance $\Sigma_{u}$, i.e., ${\delta u_{i}} \sim {\mathcal{N}{(0,\Sigma_{u})}}$, representing control input perturbations.
+Given a time horizon $t \in {\{ 0,1,2,\ldots,{T - 1}\}}$, the objective of the stochastic optimal control problem is to find a control sequence $u = {(u_{0},u_{1},\ldots,u_{T - 1})} \in {\mathbb{R}}^{m \times T}$ that minimizes the expected value of a scalar cost-to-go function: In our formulation, the cost-to-go function is defined as: where $q{(x_{i},u_{i},{\delta u_{i}})}$ is the stage cost: Here, $\overset{\sim}{x} = {x - x_{goal}}$ represents the error between the current and desired state (which is always the upper equilibrium position), and the term $\gamma{({u_{i} + {\delta u_{i}}})}^{T}\Sigma_{u}^{- 1}u_{i}$ penalizes outliers based on the distribution variance.
 
-Given a time horizon $t \in {\{ 0,1,2,\ldots,{T - 1}\}}$, the objective of the stochastic optimal control problem is to find a control sequence $u = {(u_{0},u_{1},\ldots,u_{T - 1})} \in {\mathbb{R}}^{m \times T}$ that minimizes the expected value of a scalar cost-to-go function:
-
-In our formulation, the cost-to-go function is defined as:
-
-where $q{(x_{i},u_{i},{\delta u_{i}})}$ is the stage cost:
-
-Here, $\overset{\sim}{x} = {x - x_{goal}}$ represents the error between the current and desired state (which is always the upper equilibrium position), and the term $\gamma{({u_{i} + {\delta u_{i}}})}^{T}\Sigma_{u}^{- 1}u_{i}$ penalizes outliers based on the distribution variance.
-
-To solve this optimization problem ((https://arxiv.org/html/2505.05507v2#S2.E2 "In II-A Model Predictive Path Integral ‣ II Background ‣ VIMPPI: Enhancing Model Predictive Path Integral Control with Variational Integration for Underactuated Systems")), \[(https://arxiv.org/html/2505.05507v2#bib.bib10)\] proposes the following update law:
-
-where $K$ is the number of random samples (rollouts), and $\lambda \in {\mathbb{R}}^{+}$ is a hyperparameter (the inverse temperature). The control rollout is preserved between iterations with added noise, enabling precise convergence to optimal trajectories.
+To solve this optimization problem, proposes the following update law: where $K$ is the number of random samples (rollouts), and $\lambda \in {\mathbb{R}}^{+}$ is a hyperparameter (the inverse temperature). The control rollout is preserved between iterations with added noise, enabling precise convergence to optimal trajectories.
 
 A key component is the rollout process which integrates the pendulum dynamics forward in time. Traditional Euler methods accumulate energy errors and require tiny timesteps (0.001s), severely limiting the planning horizon. While implicit integration and Runge-Kutta methods improve on this, they still have computational costs or energy drift issues. These limitations motivated our use of variational integrators for accurate simulation of underactuated system dynamics.
 
@@ -38,27 +28,11 @@ A key component is the rollout process which integrates the pendulum dynamics fo
 
 Variational integrators represent a fundamentally different approach to numerical integration compared to traditional methods. Rather than discretizing the equations of motion directly, these specialized symplectic integrators discretize the underlying variational principle (Hamilton's principle). This approach preserves the system's physical properties---such as energy and momentum---over long time periods, making it particularly valuable for simulating chaotic systems like the double pendulum.
 
-In our implementation, we employ the Discrete Euler-Lagrange residual in Momentum form. This formulation allows us to work with momentum equations and accurately estimate the next configuration step in MPPI rollouts. Instead of solving a computationally expensive rootfinding problem at each integration step, we take an initial configuration guess and refine it using the discrepancies between estimated and ground truth momentum. The foundations of this approach were established by West \[(https://arxiv.org/html/2505.05507v2#bib.bib11)\].
+In our implementation, we employ the Discrete Euler-Lagrange residual in Momentum form. This formulation allows us to work with momentum equations and accurately estimate the next configuration step in MPPI rollouts. Instead of solving a computationally expensive rootfinding problem at each integration step, we take an initial configuration guess and refine it using the discrepancies between estimated and ground truth momentum. The foundations of this approach were established by West.
 
-The core of the variational integrator is the Discrete Lagrangian $\mathcal{L}_{d}$, which approximates the action integral of the continuous Lagrangian $\mathcal{L}$ over a small time interval:
+The core of the variational integrator is the Discrete Lagrangian $\mathcal{L}_{d}$, which approximates the action integral of the continuous Lagrangian $\mathcal{L}$ over a small time interval: For mechanical systems like our double pendulum, the Lagrangian is typically the difference between kinetic and potential energy: ${\mathcal{L}{(q,\overset{˙}{q})}} = {{T{(\overset{˙}{q})}} - {V{(q)}}}$. We implement a midpoint approximation of the Discrete Lagrangian: This discretization preserves the symplectic structure of the system, ensuring that energy and momentum are conserved over long time periods---a crucial property for accurate simulation of the double pendulum dynamics.
 
-For mechanical systems like our double pendulum, the Lagrangian is typically the difference between kinetic and potential energy: ${\mathcal{L}{(q,\overset{˙}{q})}} = {{T{(\overset{˙}{q})}} - {V{(q)}}}$. We implement a midpoint approximation of the Discrete Lagrangian:
-
-This discretization preserves the symplectic structure of the system, ensuring that energy and momentum are conserved over long time periods---a crucial property for accurate simulation of the double pendulum dynamics.
-
-The integration process begins with an initial guess for the next configuration, derived from an explicit Euler step:
-
-We then refine this guess through an iterative process based on momentum matching. Since the true velocity is known, we can calculate the momentum as:
-
-Alternatively, momentum can be estimated from two consecutive configurations using the discrete Lagrangian:
-
-The difference between these two momentum values guides our refinement process. We calculate the scaling factor for the configuration adjustment as the Jacobian of the gradient of the discrete Lagrangian with respect to the arguments:
-
-The required configuration adjustment is then computed as the inverse of the scaling matrix multiplied by the momentum error:
-
-Finally, we refine the next configuration approximation by subtracting this error:
-
-By iterating this process, the initial configuration guess converges to an accurate solution that preserves the system's conservative properties. For our double pendulum system, we found that a single error correction iteration is typically sufficient, as subsequent error magnitudes become negligibly small. This makes the computational overhead of the variational integrator minimal compared to the benefits it provides in simulation accuracy and stability.
+The integration process begins with an initial guess for the next configuration, derived from an explicit Euler step: We then refine this guess through an iterative process based on momentum matching. Since the true velocity is known, we can calculate the momentum as: Alternatively, momentum can be estimated from two consecutive configurations using the discrete Lagrangian: The difference between these two momentum values guides our refinement process. We calculate the scaling factor for the configuration adjustment as the Jacobian of the gradient of the discrete Lagrangian with respect to the arguments: The required configuration adjustment is then computed as the inverse of the scaling matrix multiplied by the momentum error: Finally, we refine the next configuration approximation by subtracting this error: By iterating this process, the initial configuration guess converges to an accurate solution that preserves the system's conservative properties. For our double pendulum system, we found that a single error correction iteration is typically sufficient, as subsequent error magnitudes become negligibly small. This makes the computational overhead of the variational integrator minimal compared to the benefits it provides in simulation accuracy and stability.
 
 The key advantage of this approach is that it maintains the physical consistency of the simulation even with larger timesteps, which is crucial for extending the planning horizon in MPPI. This property forms the foundation of our Variational MPPI (VIMPPI) approach, which we describe in the following section.
 
@@ -88,7 +62,7 @@ For efficient recovery, we implemented a warm-start mechanism using the AR-EAPO 
 
 ## Results
 
-To evaluate the performance of our VIMPPI controller, we conducted extensive experiments comparing it against various baseline methods. We implemented our controller using JAX \[(https://arxiv.org/html/2505.05507v2#bib.bib12)\], which enabled efficient parallelization across available hardware resources---a critical factor in achieving the computational performance needed for real-time control. The hyperparameters for the VIMPPI controller are shown in Table [I](https://arxiv.org/html/2505.05507v2#S4.T1 "TABLE I ‣ IV Results ‣ VIMPPI: Enhancing Model Predictive Path Integral Control with Variational Integration for Underactuated Systems").
+To evaluate the performance of our VIMPPI controller, we conducted extensive experiments comparing it against various baseline methods. We implemented our controller using JAX, which enabled efficient parallelization across available hardware resources---a critical factor in achieving the computational performance needed for real-time control. The hyperparameters for the VIMPPI controller are shown in Table I.
 
 TABLE I: MPPI hyperparameters.
 
@@ -96,7 +70,7 @@ We compared our approach against several algorithms, including baselines from pr
 
 ### IV-A Pendubot
 
-For the pendubot configuration, where actuation is applied to the first joint, VIMPPI achieved 48 seconds of uptime, outperforming the next-best controller by approximately 8 seconds with half the standard deviation (Table [II](https://arxiv.org/html/2505.05507v2#S4.T2 "TABLE II ‣ Figure 1 ‣ IV-A Pendubot ‣ IV Results ‣ VIMPPI: Enhancing Model Predictive Path Integral Control with Variational Integration for Underactuated Systems")). The time series data (Fig. (https://arxiv.org/html/2505.05507v2#S4.F1.23 "Figure 1 ‣ IV-A Pendubot ‣ IV Results ‣ VIMPPI: Enhancing Model Predictive Path Integral Control with Variational Integration for Underactuated Systems")) shows VIMPPI maintaining stability even after disturbances. Interestingly, adding a warm-start mechanism primarily reduced variance rather than improving mean uptime, suggesting that the base controller already handles disturbances effectively through its extended planning horizon.
+For the pendubot configuration, where actuation is applied to the first joint, VIMPPI achieved 48 seconds of uptime, outperforming the next-best controller by approximately 8 seconds with half the standard deviation (Table II). The time series data (Fig. 1) shows VIMPPI maintaining stability even after disturbances. Interestingly, adding a warm-start mechanism primarily reduced variance rather than improving mean uptime, suggesting that the base controller already handles disturbances effectively through its extended planning horizon.
 
 TABLE II: Pendubot controller performance.
 
@@ -104,7 +78,7 @@ Figure 1: Time series results for VIMPPI-AR-EAPO controller on the pendubot.
 
 ### IV-B Acrobot
 
-The acrobot configuration presents a more challenging control problem due to actuation at the second joint rather than the first, which reduces direct control authority. Nevertheless, the performance gap between VIMPPI and the next-best controller is even more pronounced, reaching approximately 11 seconds (Table [III](https://arxiv.org/html/2505.05507v2#S4.T3 "TABLE III ‣ Figure 2 ‣ IV-B Acrobot ‣ IV Results ‣ VIMPPI: Enhancing Model Predictive Path Integral Control with Variational Integration for Underactuated Systems")). This demonstrates that the extended planning horizon is particularly beneficial for systems with limited control authority, where accurate long-term prediction becomes even more critical for successful control.
+The acrobot configuration presents a more challenging control problem due to actuation at the second joint rather than the first, which reduces direct control authority. Nevertheless, the performance gap between VIMPPI and the next-best controller is even more pronounced, reaching approximately 11 seconds (Table III). This demonstrates that the extended planning horizon is particularly beneficial for systems with limited control authority, where accurate long-term prediction becomes even more critical for successful control.
 
 Interestingly, the warm-started version performed slightly worse than the standard implementation for the acrobot. We hypothesize that AR-EAPO occasionally suggests suboptimal initial trajectories that require additional iterations for MPPI to correct, slightly reducing overall performance. This highlights the importance of carefully considering initialization strategies when dealing with highly dynamic systems.
 

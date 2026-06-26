@@ -6,7 +6,7 @@ However, emerging applications in path planning, such as autonomous navigation i
 
 Risk can be quantified in numerous ways. For example, mission risks can be mathematically characterized in terms of chance constraints, utility functions, and distributional robustness. Chance constraints often account for Boolean events (such as collision with an obstacle or reaching a goal set) and do not take into consideration the tail of the cost distribution. To account for the latter, risk measures have been advocated for planning and decision making tasks in robotic systems. The preference of one risk measure over another depends on factors such as sensitivity to rare events, ease of estimation from data, and computational tractability. Artzner et. al. characterized a set of natural properties that are desirable for a risk measure, called a coherent risk measure, and have henceforth obtained widespread acceptance in finance and operations research, among others. Coherent risk measures can be interpreted as a special form of distributional robustness, which will be leveraged later in this paper.
 
-Conditional value-at-risk (CVaR) is an important coherent risk measure that has received significant attention in decision making problems, such as MDPs. General coherent risk measures for MDPs were studied in, wherein it was further assumed the risk measure is *time consistent*, akin to the dynamic programming property. Following the footsteps of, proposed a sampling-based algorithm for MDPs with static and dynamic coherent risk measures using policy gradient and actor-critic methods, respectively (also, see a model predictive control technique for linear dynamical systems with coherent risk objectives ). A method based on stochastic reachability analysis was proposed in to estimate a CVaR-safe set of initial conditions via the solution to an MDP. A worst-case CVaR SSP planning method was proposed and solved via dynamic programming in. Also, total cost undiscounted MDPs with static CVaR measures were studied in and solved via a surrogate MDP, whose solution approximates the optimal policy with arbitrary accuracy.
+Conditional value-at-risk (CVaR) is an important coherent risk measure that has received significant attention in decision making problems, such as MDPs. General coherent risk measures for MDPs were studied , wherein it was further assumed the risk measure is *time consistent*, akin to the dynamic programming property. Following the footsteps of, proposed a sampling-based algorithm for MDPs with static and dynamic coherent risk measures using policy gradient and actor-critic methods, respectively (also, see a model predictive control technique for linear dynamical systems with coherent risk objectives ). A method based on stochastic reachability analysis was proposed in to estimate a CVaR-safe set of initial conditions via the solution to an MDP. A worst-case CVaR SSP planning method was proposed and solved via dynamic programming . Also, total cost undiscounted MDPs with static CVaR measures were studied in and solved via a surrogate MDP, whose solution approximates the optimal policy with arbitrary accuracy.
 
 In this paper, we propose a method for designing policies for SSP planning problems, such that the total accrued cost in terms of dynamic, coherent risk measures is minimized (a generalization of the problems considered in and to dynamic, coherent risk measures). We begin by showing that, under the assumption that the goal region is reachable in finite time with non-zero probability, the total accumulated risk cost is always bounded. We further show that, if the coherent risk measures satisfy a Markovian property, we can find optimal, stationary, Markovian risk-averse policies via solving a special Bellman's equation. We also propose a computational method based on difference convex programming to solve the Bellman's equation and therefore design risk-averse policies. We elucidate the proposed method via numerical examples involving a rover navigation MDP and CVaR and entropic-value-at-risk (EVaR) measures.
 
@@ -24,19 +24,7 @@ Figure 1: The transition graph of the particular class of MDPs studied in this p
 
 ### Definition 1 (MDP)
 
-An *MDP* is a tuple, $\mathcal{M} = {(\mathcal{S},{Act},T,s_{0},c,s^{g})}$, where
-
-States $\mathcal{S} = {\{ s^{1},\ldots,s^{|\mathcal{S}|}\}}$ of the autonomous agent(s) and world model,
-
-Actions ${Act} = {\{\alpha^{1},\ldots,\alpha^{|{Act}|}\}}$ available to the robot,
-
-A transition probability distribution $T{(\left. s^{j} \middle| {s^{i},\alpha} \right.)}$, satisfying ${{\sum_{s \in \mathcal{S}}{T{(\left. s \middle| {s^{i},\alpha} \right.)}}} = 1},{{{\forall s^{i}} \in \mathcal{S}},{{\forall\alpha} \in {Act}}}$,
-
-An initial state $s_{0} \in \mathcal{S}$, and
-
-An immediate cost function, ${c{(s^{i},\alpha^{i})}} \geq 0$, for each state $s^{i} \in \mathcal{S}$ and action $\alpha^{i} \in {Act}$,
-
-$s^{g} \in \mathcal{S}$ is a special cost-free goal (termination) state, i.e., ${T{({s^{g} \mid {s^{g},\alpha}})}} = 1$ and ${c{(s^{g},\alpha)}} = 0$ for all $\alpha \in {Act}$.
+An *MDP* is a tuple, $\mathcal{M} = {(\mathcal{S},{Act},T,s_{0},c,s^{g})}$, where States $\mathcal{S} = {\{ s^{1},\ldots,s^{|\mathcal{S}|}\}}$ of the autonomous agent(s) and world model, Actions ${Act} = {\{\alpha^{1},\ldots,\alpha^{|{Act}|}\}}$ available to the robot, A transition probability distribution $T{(\left. s^{j} \middle| {s^{i},\alpha} \right.)}$, satisfying ${{\sum_{s \in \mathcal{S}}{T{(\left. s \middle| {s^{i},\alpha} \right.)}}} = 1},{{{\forall s^{i}} \in \mathcal{S}},{{\forall\alpha} \in {Act}}}$, An initial state $s_{0} \in \mathcal{S}$, and An immediate cost function, ${c{(s^{i},\alpha^{i})}} \geq 0$, for each state $s^{i} \in \mathcal{S}$ and action $\alpha^{i} \in {Act}$, $s^{g} \in \mathcal{S}$ is a special cost-free goal (termination) state, i.e., ${T{({s^{g} \mid {s^{g},\alpha}})}} = 1$ and ${c{(s^{g},\alpha)}} = 0$ for all $\alpha \in {Act}$.
 
 We assume the immediate cost function $c$ is non-negative and upper-bounded by a positive constant $\overline{c}$.
 
@@ -52,33 +40,19 @@ A mapping $\rho_{t:T}:{\mathcal{C}_{t:T}\rightarrow\mathcal{C}_{t}}$, where $0 \
 
 A *dynamic risk measure* is a sequence of conditional risk measures $\rho_{t:T}:{\mathcal{C}_{t:T}\rightarrow\mathcal{C}_{t}}$, $t = {0,\ldots,T}$.
 
-One fundamental property of dynamic risk measures is their consistency over time \[39, Definition 3\]. If a risk measure is time-consistent, we can define the one-step conditional risk measure $\rho_{t}:{\mathcal{C}_{t + 1}\rightarrow\mathcal{C}_{t}}$, $t = {0,\ldots,{T - 1}}$ as follows:
-
-and for all $t = {1,\ldots,T}$, we obtain:
-
-Note that the time-consistent risk measure is completely defined by one-step conditional risk measures $\rho_{t}$, $t = {0,\ldots,{T - 1}}$ and, in particular, for $t = 0$, defines a risk measure of the entire sequence ${\mathbf{c}} \in \mathcal{C}_{0:T}$.
+One fundamental property of dynamic risk measures is their consistency over time \[39, Definition 3\]. If a risk measure is time-consistent, we can define the one-step conditional risk measure $\rho_{t}:{\mathcal{C}_{t + 1}\rightarrow\mathcal{C}_{t}}$, $t = {0,\ldots,{T - 1}}$ as follows: and for all $t = {1,\ldots,T}$, we obtain: Note that the time-consistent risk measure is completely defined by one-step conditional risk measures $\rho_{t}$, $t = {0,\ldots,{T - 1}}$ and, in particular, for $t = 0$, defines a risk measure of the entire sequence ${\mathbf{c}} \in \mathcal{C}_{0:T}$.
 
 At this point, we are ready to define a coherent risk measure.
 
 ### Definition 4 (Coherent Risk Measure)
 
-We call the one-step conditional risk measures $\rho_{t}:{\mathcal{C}_{t + 1}\rightarrow\mathcal{C}_{t}}$, $t = {1,\ldots,{N - 1}}$ as in a *coherent risk measure*, if it satisfies the following conditions
-
-Convexity: ${\rho_{t}{({{\lambdac} + {{({1 - \lambda})}c^{\prime}}})}} \leq {{\lambda\rho_{t}{(c)}} + {{({1 - \lambda})}\rho_{t}{(c^{\prime})}}}$, for all $\lambda \in {}$ and all ${c,c^{\prime}} \in \mathcal{C}_{t + 1}$;
-
-Monotonicity: If $c \leq c^{\prime}$, then ${\rho_{t}{(c)}} \leq {\rho_{t}{(c^{\prime})}}$ for all ${c,c^{\prime}} \in \mathcal{C}_{t + 1}$;
-
-Translational Invariance: ${\rho_{t}{({c^{\prime} + c})}} = {{\rho_{t}{(c^{\prime})}} + c}$ for all $c \in \mathcal{C}_{t}$ and $c^{\prime} \in \mathcal{C}_{t + 1}$;
-
-Positive Homogeneity: ${\rho_{t}{({\betac})}} = {\beta\rho_{t}{(c)}}$ for all $c \in \mathcal{C}_{t + 1}$ and $\beta \geq 0$.
+We call the one-step conditional risk measures $\rho_{t}:{\mathcal{C}_{t + 1}\rightarrow\mathcal{C}_{t}}$, $t = {1,\ldots,{N - 1}}$ as in a *coherent risk measure*, if it satisfies the following conditions Convexity: ${\rho_{t}{({{\lambdac} + {{({1 - \lambda})}c'}})}} \leq {{\lambda\rho_{t}{(c)}} + {{({1 - \lambda})}\rho_{t}{(c')}}}$, for all $\lambda \in {}$ and all ${c,c'} \in \mathcal{C}_{t + 1}$; Monotonicity: If $c \leq c'$, then ${\rho_{t}{(c)}} \leq {\rho_{t}{(c')}}$ for all ${c,c'} \in \mathcal{C}_{t + 1}$; Translational Invariance: ${\rho_{t}{({c' + c})}} = {{\rho_{t}{(c')}} + c}$ for all $c \in \mathcal{C}_{t}$ and $c' \in \mathcal{C}_{t + 1}$; Positive Homogeneity: ${\rho_{t}{({\betac})}} = {\beta\rho_{t}{(c)}}$ for all $c \in \mathcal{C}_{t + 1}$ and $\beta \geq 0$.
 
 In fact, we can show that there exists a dual (or distributionally robust) representation for any coherent risk measure. Let ${m,n} \in {\lbrack 1,\infty)}$ such that ${{1/m} + {1/n}} = 1$ and
 
-### Proposition 1 (Proposition 4.14 in \[26\])
+### Proposition 1 (Proposition 4.14 in )
 
-Let $\mathcal{Q}$ be a closed convex subset of $\mathcal{P}$. The one-step conditional risk measure $\rho_{t}:{\mathcal{C}_{t + 1}\rightarrow\mathcal{C}_{t}}$, $t = {1,\ldots,{N - 1}}$ is a coherent risk measure if and only if
-
-where ${\langle \cdot, \cdot \rangle}_{\mathcal{Q}}$ denotes the inner product in $\mathcal{Q}$.
+Let $\mathcal{Q}$ be a closed convex subset of $\mathcal{P}$. The one-step conditional risk measure $\rho_{t}:{\mathcal{C}_{t + 1}\rightarrow\mathcal{C}_{t}}$, $t = {1,\ldots,{N - 1}}$ is a coherent risk measure if and only if where ${\langle \cdot, \cdot \rangle}_{\mathcal{Q}}$ denotes the inner product in $\mathcal{Q}$.
 
 Hereafter, all risk measures are assumed to be coherent.
 
@@ -88,13 +62,9 @@ Next, we formally describe the risk-averse SSP problem. We also demonstrate that
 
 ### Problem 1
 
-Consider MDP $\mathcal{M}$ as described in Definition 1. Given an initial state $s_{0} \neq s^{g}$, we are interested in solving the following problem
+Consider MDP $\mathcal{M}$ as described in Definition 1. Given an initial state $s_{0} \neq s^{g}$, we are interested in solving the following problem is the total risk functional for the admissible policy $\pi$.
 
-is the total risk functional for the admissible policy $\pi$.
-
-In fact, we are interested in reaching the goal state $s^{g}$ such that the total risk cost is minimized^11^1An important class of SSP planning problems are concerned with minimum-time reachability. Indeed, our formulation also encapsulates minimum-time problems, in which for MDP $\mathcal{M}$, we have ${c{(s)}} = 1$, for all $s \in {\mathcal{S} \smallsetminus {\{ s^{g}\}}}$.. Note that the risk-averse deterministic shortest problem can be obtained as a special case when the transitions are deterministic. We define the optimal risk value function as
-
-and call a stationary policy $\pi = {\{\mu,\mu,\ldots\}}$ (denoted $\mu$) optimal if ${{J{(s,\mu)}} = {J^{\ast}{(s)}} = {{\min_{\pi}J}{(s,\pi)}}},{{\forall s} \in \mathcal{S}}$.
+In fact, we are interested in reaching the goal state $s^{g}$ such that the total risk cost is minimized^11^1An important class of SSP planning problems are concerned with minimum-time reachability. Indeed, our formulation also encapsulates minimum-time problems, in which for MDP $\mathcal{M}$, we have ${c{(s)}} = 1$, for all $s \in {\mathcal{S} \smallsetminus {\{ s^{g}\}}}$.. Note that the risk-averse deterministic shortest problem can be obtained as a special case when the transitions are deterministic. We define the optimal risk value function as and call a stationary policy $\pi = {\{\mu,\mu,\ldots\}}$ (denoted $\mu$) optimal if ${{J{(s,\mu)}} = {J^{\ast}{(s)}} = {{\min_{\pi}J}{(s,\pi)}}},{{\forall s} \in \mathcal{S}}$.
 
 We posit the following assumption, which implies that the goal state is reachable eventually under all policies.
 
@@ -110,33 +80,17 @@ Let Assumption 1 hold. Then, the risk-averse SSP problem, i.e., Problem 1, is we
 
 ### Proof
 
-Assumption 1 implies that for each admissible policy $\pi$, we have $p_{\pi} = \max_{s \in \mathcal{S}}{\mathbb{P}}{(s_{\tau} \neq s^{g} \mid s_{0} = s,\pi)} < 1.$ That is, given a policy $\pi$, the probability $p_{\pi}$ of not visiting the goal state $s^{g}$ is less than one. Let $p = {\max_{\pi}p_{\pi}}$. Remark that $p_{\pi}$ is dependent solely on $\{\pi_{1},\pi_{2},\ldots,\pi_{\tau}\}$. Moreover, since $Act$ is finite, the number of $\tau$-stage policies is also finite, which implies finiteness of $p_{\pi}$. Hence, $p < 1$ as well. Therefore, for any policy $\pi$ and initial state $s$, we obtain ${\mathbb{P}}{(s_{2\tau} \neq s^{g} \mid s_{0} = s,\pi)} = {\mathbb{P}}{(s_{2\tau} \neq s^{g} \mid s_{\tau} \neq s^{g},s_{0} = s,\pi)} \times {\mathbb{P}}{(s_{\tau} \neq s^{g} \mid s_{0} = s,\pi)} \leq p^{2}.$ Then, by induction, we can show that, for any admissible SSP policy $\pi$, we have
-
-and $k = {1,2,\ldots}$. Indeed, we can show that the risk-averse cost incurred in the $\tau$ periods between $\tauk$ and ${\tau{({k + 1})}} - 1$ is bounded as follows
-
-$\rho_{0}\left( {\cdots\rho_{{\tau{({k + 1})}} - 1}{({c_{\tauk} + \cdots + c_{{\tau{({k + 1})}} - 1}})}\cdots} \right)$ (7a)
-$\leq {\overset{\sim}{\rho}{({\overline{c} + \cdots + \overline{c}})}}$ (7c)
-$= {\sup\limits_{q \in \mathcal{Q}}{\langle{\tau\overline{c}},q\rangle}_{\mathcal{Q}}}$ (7d)
-$\leq {\langle{\tau\overline{c}},q^{\ast}\rangle}_{\mathcal{Q}}$ (7e)
-$= \tau\overline{c}\sum\limits_{s \in \mathcal{S}}{\mathbb{P}}{(s_{k\tau} \neq s^{g} \mid s_{0} = s,\pi)}q^{\ast}{(s,\pi)}$ (7f)
-$\leq \tau\overline{c} \times \sup\left( {\mathbb{P}}{(s_{k\tau} \neq s^{g} \mid s_{0} = s,\pi)} \right)\sum\limits_{s \in \mathcal{S}}|q^{\ast}{(s,\pi)}|$ (7g)
-${\leq {\tau\overline{c}p^{k}}},$ (7h)
-
-where in (7b) we used the translational invariance property of coherent risk measures and defined $\overset{\sim}{\rho} = {\rho_{0} \circ \cdots \circ \rho_{{\tau{({k + 1})}} - 1}}$. Since any finite compositions of the coherent risk measures is a risk measure, we have that $\overset{\sim}{\rho}$ is also a coherent risk measure. Moreover, since the immediate cost function $c$ is upper-bounded, from the monotonicity property of the coherent risk measure $\overset{\sim}{\rho}$, we obtain (7c). Equality (7d) is derived from Proposition 1. Inequality (7e) is obtained via defining $q^{\ast} = {{argsup}_{q \in \mathcal{Q}}{\langle{\tau\overline{c}},q\rangle}_{\mathcal{Q}}}$. In inequality (7g), we used Hölder inequality and finally we used to obtain the last inequality. Thus, the risk-averse total cost $J{(s,\pi)}$, $s \in \mathcal{S}$, exists and is finite, because given Assumption 1 we have
-
-where in the first equality above we used the translational invariance property and in the first inequality we used the sub-additivity property of coherent risk measures. Hence, $J{(s_{0},\pi)}$ is bounded for all $\pi$. ∎
+Assumption 1 implies that for each admissible policy $\pi$, we have $p_{\pi} = \max_{s \in \mathcal{S}}{\mathbb{P}}{(s_{\tau} \neq s^{g} \mid s_{0} = s,\pi)} < 1.$ That is, given a policy $\pi$, the probability $p_{\pi}$ of not visiting the goal state $s^{g}$ is less than one. Let $p = {\max_{\pi}p_{\pi}}$. Remark that $p_{\pi}$ is dependent solely on $\{\pi_{1},\pi_{2},\ldots,\pi_{\tau}\}$. Moreover, since $Act$ is finite, the number of $\tau$-stage policies is also finite, which implies finiteness of $p_{\pi}$. Hence, $p < 1$ as well. Therefore, for any policy $\pi$ and initial state $s$, we obtain ${\mathbb{P}}{(s_{2\tau} \neq s^{g} \mid s_{0} = s,\pi)} = {\mathbb{P}}{(s_{2\tau} \neq s^{g} \mid s_{\tau} \neq s^{g},s_{0} = s,\pi)} \times {\mathbb{P}}{(s_{\tau} \neq s^{g} \mid s_{0} = s,\pi)} \leq p^{2}.$ Then, by induction, we can show that, for any admissible SSP policy $\pi$, we have and $k = {1,2,\ldots}$. Indeed, we can show that the risk-averse cost incurred in the $\tau$ periods between $\tauk$ and ${\tau{({k + 1})}} - 1$ is bounded as follows where in (7b) we used the translational invariance property of coherent risk measures and defined $\overset{\sim}{\rho} = {\rho_{0} \circ \cdots \circ \rho_{{\tau{({k + 1})}} - 1}}$. Since any finite compositions of the coherent risk measures is a risk measure, we have that $\overset{\sim}{\rho}$ is also a coherent risk measure. Moreover, since the immediate cost function $c$ is upper-bounded, from the monotonicity property of the coherent risk measure $\overset{\sim}{\rho}$, we obtain (7c). Equality (7d) is derived from Proposition 1. Inequality (7e) is obtained via defining $q^{\ast} = {{argsup}_{q \in \mathcal{Q}}{\langle{\tau\overline{c}},q\rangle}_{\mathcal{Q}}}$. In inequality (7g), we used Hölder inequality and finally we used to obtain the last inequality. Thus, the risk-averse total cost $J{(s,\pi)}$, $s \in \mathcal{S}$, exists and is finite, because given Assumption 1 we have | | $|{J{(s_{0},\pi)}}|$ | $= {\lim\limits_{T\rightarrow\infty}{{\rho_{0} \circ \cdots \circ \rho_{\tau - 1} \circ \cdots \circ \rho_{T}}{({c_{0} + \cdots + c_{T}})}}}$ | | \(8\) | | | $\leq$ | $\sum\limits_{k = 0}^{\infty}{\rho_{0}\left({\cdots\rho_{{\tau{({k + 1})}} - 1}{({c_{\tauk} + \cdots + c_{{\tau{({k + 1})}} - 1}})}\cdots} \right)}$ | | | | | $\leq$ | ${{\sum\limits_{k = 0}^{\infty}{\tau\overline{c}p^{k}}} = \frac{\tau\overline{c}}{1 - p}},$ | | | where in the first equality above we used the translational invariance property and in the first inequality we used the sub-additivity property of coherent risk measures. Hence, $J{(s_{0},\pi)}$ is bounded for all $\pi$. ∎
 
 ## Risk-Averse SSP Planning
 
 This section presents the paper's main result, which includes a special Bellman's equation for finding the risk value functions for Problem 1. Furthermore, assuming that the coherent risk measures satisfy a Markovian property, we show that the optimal risk-averse policies are stationary and Markovian.
 
-To begin with, note that at any time $t$, the value of $\rho_{t}$ is $\mathcal{F}_{t}$-measurable and is allowed to depend on the entire history of the process $\{ s_{0},s_{1},\ldots\}$ and we cannot expect to obtain a Markov optimal policy. In order to obtain Markov optimal policies for Problem 1, we need the following property \[39, Section 4\] of risk measures.
+To begin , note that at any time $t$, the value of $\rho_{t}$ is $\mathcal{F}_{t}$-measurable and is allowed to depend on the entire history of the process $\{ s_{0},s_{1},\ldots\}$ and we cannot expect to obtain a Markov optimal policy. In order to obtain Markov optimal policies for Problem 1, we need the following property \[39, Section 4\] of risk measures.
 
-### Definition 5 (Markov Risk Measure \[25\])
+### Definition 5 (Markov Risk Measure )
 
-A one-step conditional risk measure $\rho_{t}:{\mathcal{C}_{t + 1}\rightarrow\mathcal{C}_{t}}$ is a Markov risk measure with respect to MDP $\mathcal{P}$, if there exist a risk transition mapping $\sigma_{t}:{{{\mathcal{L}_{m}{(\mathcal{S},2^{\mathcal{S}},{\mathbb{P}})}} \times \mathcal{S} \times \mathcal{M}}\rightarrow{\mathbb{R}}}$ such that for all $v \in {\mathcal{L}_{m}{(\mathcal{S},2^{\mathcal{S}},{\mathbb{P}})}}$ and $\alpha_{t} \in {\pi{(s_{t})}}$, we have
-
-In fact, if $\rho_{t}$ is a coherent risk measure, $\sigma_{t}$ also satisfies the properties of a coherent risk measure (Definition 4).
+A one-step conditional risk measure $\rho_{t}:{\mathcal{C}_{t + 1}\rightarrow\mathcal{C}_{t}}$ is a Markov risk measure with respect to MDP $\mathcal{P}$, if there exist a risk transition mapping $\sigma_{t}:{{{\mathcal{L}_{m}{(\mathcal{S},2^{\mathcal{S}},{\mathbb{P}})}} \times \mathcal{S} \times \mathcal{M}}\rightarrow{\mathbb{R}}}$ such that for all $v \in {\mathcal{L}_{m}{(\mathcal{S},2^{\mathcal{S}},{\mathbb{P}})}}$ and $\alpha_{t} \in {\pi{(s_{t})}}$, we have In fact, if $\rho_{t}$ is a coherent risk measure, $\sigma_{t}$ also satisfies the properties of a coherent risk measure (Definition 4).
 
 ### Assumption 2
 
@@ -146,62 +100,17 @@ We can now present the main result in the paper, a form of Bellman's equations f
 
 ### Theorem 1
 
-Consider MDP $\mathcal{P}$ as described in Definition 1 and let Assumptions 1 and 2 hold. Then, the following statements are true for the risk-averse SSP problem:\
-(i) Given (non-negative) initial condition ${{J^{0}{(s)}},s} \in \mathcal{S}$, the sequence generated by the recursive formula (dynamic programming)
-
-converges to the optimal risk value function $J^{\ast}{(s)}$, $s \in \mathcal{S}$.\
-(ii) The optimal risk value functions $J^{\ast}{(s)}$, $s \in \mathcal{S}$ are the unique solution to the Bellman's equation
-
-\(iii\) For any stationary Markovian policy $\mu$, the risk averse value functions $J{(s,{\mu{(s)}})}$, $s \in \mathcal{S}$ are the unique solutions to
-
-\(iv\) A stationary Markovian policy $\mu$ is optimal if and only if $\mu$ attains the minimum in Bellman's equation.
+Consider MDP $\mathcal{P}$ as described in Definition 1 and let Assumptions 1 and 2 hold. Then, the following statements are true for the risk-averse SSP problem:\(i) Given (non-negative) initial condition ${{J^{0}{(s)}},s} \in \mathcal{S}$, the sequence generated by the recursive formula (dynamic programming) converges to the optimal risk value function $J^{\ast}{(s)}$, $s \in \mathcal{S}$.\(ii) The optimal risk value functions $J^{\ast}{(s)}$, $s \in \mathcal{S}$ are the unique solution to the Bellman's equation \(iii\) For any stationary Markovian policy $\mu$, the risk averse value functions $J{(s,{\mu{(s)}})}$, $s \in \mathcal{S}$ are the unique solutions to \(iv\) A stationary Markovian policy $\mu$ is optimal if and only if $\mu$ attains the minimum in Bellman's equation.
 
 ### Proof
 
-For every positive integer $M$, an initial state $s_{0}$, and policy $\pi$, we can split the nested risk cost, where $\rho_{t,T}$ is defined in, at time index $\tauM$ and obtain
+For every positive integer $M$, an initial state $s_{0}$, and policy $\pi$, we can split the nested risk cost, where $\rho_{t,T}$ is defined, at time index $\tauM$ and obtain where we used the fact that the one-step coherent risk measures $\rho_{t}$ are continuous \[40, Corollary 3.1\] and hence the limiting process and the measure $\rho_{t}$ commute. The limit term is indeed the total risk cost starting at $s_{\tauM}$, i.e., $J{(s_{\tauM},\pi)}$. Next, we show that under Assumption 1, this term remains bounded. From in the proof of Proposition 2, we have Substituting the above bound in gives where the last equality holds via the translational invariance property of the one-step risk measures and the fact that $\frac{\tau\overline{c}p^{M}}{1 - p}$ is constant. Similarly, following (IV), we can also obtain a lower bound on $J{(s_{0},\pi)}$ as follows Thus, from (IV) and (IV), we obtain Furthermore, Assumption 1 implies that ${J^{0}{(s^{g})}} = 0$. If we consider $J^{0}$ as a terminal risk value function, we can obtain where, similar to the derivation, in (18a) we used Proposition 1. Defining $q^{\ast} = {{argsup}_{q \in \mathcal{Q}}{\langle{\tau\overline{c}},q\rangle}_{\mathcal{Q}}}$, we obtained (18b) and the last inequality is based on the fact that the probability of $s_{\tauM} \neq s^{g}$ is less than equal to $p^{M}$ as.
 
-where we used the fact that the one-step coherent risk measures $\rho_{t}$ are continuous \[40, Corollary 3.1\] and hence the limiting process and the measure $\rho_{t}$ commute. The limit term is indeed the total risk cost starting at $s_{\tauM}$, i.e., $J{(s_{\tauM},\pi)}$. Next, we show that under Assumption 1, this term remains bounded. From in the proof of Proposition 2, we have
-
-Substituting the above bound in gives
-
-where the last equality holds via the translational invariance property of the one-step risk measures and the fact that $\frac{\tau\overline{c}p^{M}}{1 - p}$ is constant. Similarly, following (IV), we can also obtain a lower bound on $J{(s_{0},\pi)}$ as follows
-
-Thus, from (IV) and (IV), we obtain
-
-Furthermore, Assumption 1 implies that ${J^{0}{(s^{g})}} = 0$. If we consider $J^{0}$ as a terminal risk value function, we can obtain
-
-${|{\rho_{\tauM}{({J^{0}{(s_{\tauM})}})}}|} = {|{\sup\limits_{q \in \mathcal{Q}}{\langle{J^{0}{(s_{\tauM})}},q\rangle}_{\mathcal{Q}}}|}$ (18a)
-$= {|{\langle{J^{0}{(s_{\tauM})}},q^{\ast}\rangle}_{\mathcal{Q}}|}$ (18b)
-$= |\sum\limits_{s \in \mathcal{S}}{\mathbb{P}}{(s_{\tauM} = s \mid s_{0},\pi)}q^{\ast}{(s,\pi)}J^{0}{(s)}|$ (18c)
-$\leq {\sum\limits_{s \in \mathcal{S}}{{{\mathbb{P}}{({s_{\tauM} = {s \mid {s_{0},\pi}}})}q^{\ast}{(s,\pi)}} \times {\max\limits_{s \in \mathcal{S}}{|{J^{0}{(s)}}|}}}}$ (18d)
-$\leq {\sum\limits_{s \in \mathcal{S}}{{{\mathbb{P}}{({s_{\tauM} = {s \mid {s_{0},\pi}}})}} \times {\max\limits_{s \in \mathcal{S}}{|{J^{0}{(s)}}|}}}}$ (18e)
-${\leq {p^{M}{\max\limits_{s \in \mathcal{S}}{|{J^{0}{(s)}}|}}}},$ (18f)
-
-where, similar to the derivation in, in (18a) we used Proposition 1. Defining $q^{\ast} = {{argsup}_{q \in \mathcal{Q}}{\langle{\tau\overline{c}},q\rangle}_{\mathcal{Q}}}$, we obtained (18b) and the last inequality is based on the fact that the probability of $s_{\tauM} \neq s^{g}$ is less than equal to $p^{M}$ as in.
-
-Combining inequalities (IV) and, we have
-
-Remark that the middle term in the ineqaulity above is the $\tauM$-stage risk-averse cost of the policy $\pi$ with the terminal cost $J^{0}{(s_{\tauM})}$. Given Assumption 2, from \[39, Theorem 2\], the minimum of this cost is generated by the dynamic programming recursion after $\tauM$ iterations. Taking the minimum over the policy $\pi$ on every side of yields
-
-for all $s_{0}$ and $M$. Finally, let $k = {\tauM}$. Since the above inequality holds for all $M$, taking the limit of $M\rightarrow\infty$ gives
-
-\(ii\) Taking the limit, $k\rightarrow\infty$, of both sides of yields ${{{\lim_{k\rightarrow\infty}{J^{k + 1}{(s)}}} = {\lim_{k\rightarrow\infty}{\min_{\alpha \in {Act}}\left( {{c{(s,\alpha)}} + {\sigma\left\{ {J^{k}{(s^{\prime})}},s,{T{(\left. s^{\prime} \middle| {s,\alpha} \right.)}} \right\}}} \right)}}},{{\forall s} \in \mathcal{S}}}.$ Equality in the proof of Part (i) implies that
-
-Since the limit and the minimization commute over a finite number of alternatives, we have
-
-Finally, because $\sigma$ is continuous \[40, Corollary 3.1\], the limit and $\sigma$ commute as well and from, we obtain ${{{J^{\ast}{(s)}} = {\min_{\alpha \in {Act}}\left( {{c{(s,\alpha)}} + {\sigma\left\{ {J^{\ast}{(s^{\prime})}},s,{T{(\left. s^{\prime} \middle| {s,\alpha} \right.)}} \right\}}} \right)}},{{\forall s} \in \mathcal{S}}}.$ To show uniqueness, note that for any ${{J{(s)}},s} \in \mathcal{S}$ satisfying the above equation, the dynamic programming recursion starting at ${{J{(s)}},s} \in \mathcal{S}$ replicates ${{J{(s)}},s} \in \mathcal{S}$ and from Part (i) we infer ${J{(s)}} = {J^{\ast}{(s)}}$ for all $s \in \mathcal{S}$.\
-(iii) Given a stationary Markovian policy $\mu$, at every state $s$, we have $\alpha = {\mu{(s)}}$, hence from Item (i), we have
-
-Since the minimum is only over one element, we have ${{{J^{k + 1}{(s,\mu)}} = {{c{(s,{\mu{(s)}})}} + {\sigma\left\{ {J^{k}{(s^{\prime},\mu)}},s,{T{(\left. s^{\prime} \middle| {s,\alpha} \right.)}} \right\}}}},{{\forall s} \in \mathcal{S}}},$ which with $k\rightarrow\infty$ converges uniquely (see Item (ii)) to $J{(s,\mu)}$.\
-(iv) The stationary policy attains its minimum in, if
-
-Then, Part (iii) and the above equation imply ${J{(s,\mu)}} = {J^{\ast}{(s)}}$ for all $s \in \mathcal{S}$. Conversely, if ${J{(s,\mu)}} = {J^{\ast}{(s)}}$ for all $s \in \mathcal{S}$, then Items (ii) and (iii) imply that $\mu$ is optimal. ∎
-
-At this point, we should highlight that, in the case of conditional expectation as the coherent risk measure ($\rho_{t} = {\mathbb{E}}$ and ${\sigma\left\{ {J{(s^{\prime})}},s,{T{(\left. s^{\prime} \middle| {s,\alpha} \right.)}} \right\}} = {\sum_{s^{\prime} \in \mathcal{S}}{T{(\left. s^{\prime} \middle| {s,\alpha} \right.)}J{(s^{\prime})}}}$), Theorem 1 simplifies to \[11, Proposition 5.2.1\] for the risk-neutral SSP problem. In fact, Theorem 1 is a generalization of \[11, Proposition 5.2.1\] to the risk-averse case.
+Combining inequalities (IV) and, we have Remark that the middle term in the ineqaulity above is the $\tauM$-stage risk-averse cost of the policy $\pi$ with the terminal cost $J^{0}{(s_{\tauM})}$. Given Assumption 2, from \[39, Theorem 2\], the minimum of this cost is generated by the dynamic programming recursion after $\tauM$ iterations. Taking the minimum over the policy $\pi$ on every side of yields for all $s_{0}$ and $M$. Finally, let $k = {\tauM}$. Since the above inequality holds for all $M$, taking the limit of $M\rightarrow\infty$ gives \(ii\) Taking the limit, $k\rightarrow\infty$, of both sides of yields ${{{\lim_{k\rightarrow\infty}{J^{k + 1}{(s)}}} = {\lim_{k\rightarrow\infty}{\min_{\alpha \in {Act}}\left({{c{(s,\alpha)}} + {\sigma\left\{ {J^{k}{(s')}},s,{T{(\left. s' \middle| {s,\alpha} \right.)}} \right\}}} \right)}}},{{\forall s} \in \mathcal{S}}}.$ Equality in the proof of Part (i) implies that Since the limit and the minimization commute over a finite number of alternatives, we have Finally, because $\sigma$ is continuous \[40, Corollary 3.1\], the limit and $\sigma$ commute as well and, we obtain ${{{J^{\ast}{(s)}} = {\min_{\alpha \in {Act}}\left({{c{(s,\alpha)}} + {\sigma\left\{ {J^{\ast}{(s')}},s,{T{(\left. s' \middle| {s,\alpha} \right.)}} \right\}}} \right)}},{{\forall s} \in \mathcal{S}}}.$ To show uniqueness, note that for any ${{J{(s)}},s} \in \mathcal{S}$ satisfying the above equation, the dynamic programming recursion starting at ${{J{(s)}},s} \in \mathcal{S}$ replicates ${{J{(s)}},s} \in \mathcal{S}$ and from Part (i) we infer ${J{(s)}} = {J^{\ast}{(s)}}$ for all $s \in \mathcal{S}$.\(iii) Given a stationary Markovian policy $\mu$, at every state $s$, we have $\alpha = {\mu{(s)}}$, hence from Item (i), we have Since the minimum is only over one element, we have ${{{J^{k + 1}{(s,\mu)}} = {{c{(s,{\mu{(s)}})}} + {\sigma\left\{ {J^{k}{(s',\mu)}},s,{T{(\left. s' \middle| {s,\alpha} \right.)}} \right\}}}},{{\forall s} \in \mathcal{S}}},$ which with $k\rightarrow\infty$ converges uniquely (see Item (ii)) to $J{(s,\mu)}$.\(iv) The stationary policy attains its minimum, if Then, Part (iii) and the above equation imply ${J{(s,\mu)}} = {J^{\ast}{(s)}}$ for all $s \in \mathcal{S}$. Conversely, if ${J{(s,\mu)}} = {J^{\ast}{(s)}}$ for all $s \in \mathcal{S}$, then Items (ii) and (iii) imply that $\mu$ is optimal. ∎ At this point, we should highlight that, in the case of conditional expectation as the coherent risk measure ($\rho_{t} = {\mathbb{E}}$ and ${\sigma\left\{ {J{(s')}},s,{T{(\left. s' \middle| {s,\alpha} \right.)}} \right\}} = {\sum_{s' \in \mathcal{S}}{T{(\left. s' \middle| {s,\alpha} \right.)}J{(s')}}}$), Theorem 1 simplifies to \[11, Proposition 5.2.1\] for the risk-neutral SSP problem. In fact, Theorem 1 is a generalization of \[11, Proposition 5.2.1\] to the risk-averse case.
 
 Recursion (dynamic programming) represents the *Value Iteration* (VI) for finding the risk value functions. In general, value iteration converges with infinite number of iterations ($k\rightarrow\infty$), but it can be shown, for a stationary policy $\mu$ resulting in an acyclic induced Markov chain, the VI algorithm converges in $|\mathcal{S}|$ of steps (see the derivation for the risk-neutral SSP problem in ).
 
-Alternatively, one can design risk-averse policies using *Policy Iteration* (PI). That is, starting with an initial policy $\mu^{0}$, we can carry out policy evaluation via followed by a policy improvement step, which calculates an improved policy $\mu^{k + 1}$, as ${{{\mu^{k + 1}{(s)}} = {{\arg\min}_{\alpha \in {Act}}\left( {{c{(s,\alpha)}} + {\sigma\left\{ {J^{\mu^{k}}{(s,\alpha)}},s,{T{(\left. s^{\prime} \middle| {s,\alpha} \right.)}} \right\}}} \right)}},{{\forall s} \in \mathcal{S}}}.$ This process is repeated until no further improvement is found in terms of the risk value functions: ${J^{\mu^{k + 1}}{(s)}} = {J^{\mu^{k}}{(s)}}$ for all $s \in \mathcal{S}$.
+Alternatively, one can design risk-averse policies using *Policy Iteration* (PI). That is, starting with an initial policy $\mu^{0}$, we can carry out policy evaluation via followed by a policy improvement step, which calculates an improved policy $\mu^{k + 1}$, as ${{{\mu^{k + 1}{(s)}} = {{\arg\min}_{\alpha \in {Act}}\left( {{c{(s,\alpha)}} + {\sigma\left\{ {J^{\mu^{k}}{(s,\alpha)}},s,{T{(\left. s' \middle| {s,\alpha} \right.)}} \right\}}} \right)}},{{\forall s} \in \mathcal{S}}}.$ This process is repeated until no further improvement is found in terms of the risk value functions: ${J^{\mu^{k + 1}}{(s)}} = {J^{\mu^{k}}{(s)}}$ for all $s \in \mathcal{S}$.
 
 However, we do not pursue VI or PI approaches further in this work. The main obstacle for using VI and PI is that equations - are nonlinear (and non-smooth) in the risk value functions for a general coherent risk measure. Solving nonlinear equations - for the risk value functions may require significant computational burden (see the specialized non-smooth Newton Method in for solving similar nonlinear VIs). Instead, the next section present a computational method based on difference convex programs (DCPs).
 
@@ -215,9 +124,7 @@ Let Assumptions 1 and 2 hold. For all ${v,w} \in {\mathcal{L}_{m}{(\mathcal{S},2
 
 ### Proof
 
-Since $\rho$ is a Markov risk measure, we have ${\rho{(v)}} = {\sigma{(v,s,T)}}$ for all $v \in {\mathcal{L}_{m}{(\mathcal{S},2^{\mathcal{S}},{\mathbb{P}})}}$. Furthermore, since $\rho$ is a coherent risk measure from Proposition 1, we know that (3 ‣ II Preliminaries ‣ Risk-Averse Stochastic Shortest Path Planning")) holds. Inner producting both sides of $v \leq w$ with the probability measure $q \in \mathcal{Q} \subset \mathcal{P}$ from right and taking the supremum over $\mathcal{Q}$ yields ${{{\sup_{q \in \mathcal{Q}}\mspace{21mu}{\langle v,q\rangle}_{\mathcal{Q}}} \leq \sup_{q \in \mathcal{Q}}}\mspace{21mu}{\langle w,q\rangle}_{\mathcal{Q}}}.$ From Proposition 1, we have ${\sigma{(v,s,T)}} = {\sup_{q \in \mathcal{Q}}\mspace{21mu}{\langle v,q\rangle}_{\mathcal{Q}}}$ and ${\sigma{(w,s,T)}} = {\sup_{q \in \mathcal{Q}}\mspace{21mu}{\langle w,q\rangle}_{\mathcal{Q}}}$. Therefore, ${{\sigma{(v,s,T)}} \leq {\sigma{(w,s,T)}}}.$ Adding $c$ to both sides of the above inequality, gives ${{\mathfrak{D}}_{\pi}v} \leq {{\mathfrak{D}}_{\pi}w}$. Taking the minimum with respect to $\alpha \in {Act}$ from both sides of ${{\mathfrak{D}}_{\pi}v} \leq {{\mathfrak{D}}_{\pi}w}$, does not change the inequality and gives ${{\mathfrak{D}}v} \leq {{\mathfrak{D}}w}$. ∎
-
-We are now ready to state an optimization formulation to the Bellman equation.
+Since $\rho$ is a Markov risk measure, we have ${\rho{(v)}} = {\sigma{(v,s,T)}}$ for all $v \in {\mathcal{L}_{m}{(\mathcal{S},2^{\mathcal{S}},{\mathbb{P}})}}$. Furthermore, since $\rho$ is a coherent risk measure from Proposition 1, we know that (3 ‣ II Preliminaries ‣ Risk-Averse Stochastic Shortest Path Planning")) holds. Inner producting both sides of $v \leq w$ with the probability measure $q \in \mathcal{Q} \subset \mathcal{P}$ from right and taking the supremum over $\mathcal{Q}$ yields ${{{\sup_{q \in \mathcal{Q}}\mspace{21mu}{\langle v,q\rangle}_{\mathcal{Q}}} \leq \sup_{q \in \mathcal{Q}}}\mspace{21mu}{\langle w,q\rangle}_{\mathcal{Q}}}.$ From Proposition 1, we have ${\sigma{(v,s,T)}} = {\sup_{q \in \mathcal{Q}}\mspace{21mu}{\langle v,q\rangle}_{\mathcal{Q}}}$ and ${\sigma{(w,s,T)}} = {\sup_{q \in \mathcal{Q}}\mspace{21mu}{\langle w,q\rangle}_{\mathcal{Q}}}$. Therefore, ${{\sigma{(v,s,T)}} \leq {\sigma{(w,s,T)}}}.$ Adding $c$ to both sides of the above inequality, gives ${{\mathfrak{D}}_{\pi}v} \leq {{\mathfrak{D}}_{\pi}w}$. Taking the minimum with respect to $\alpha \in {Act}$ from both sides of ${{\mathfrak{D}}_{\pi}v} \leq {{\mathfrak{D}}_{\pi}w}$, does not change the inequality and gives ${{\mathfrak{D}}v} \leq {{\mathfrak{D}}w}$. ∎ We are now ready to state an optimization formulation to the Bellman equation.
 
 ### Proposition 3
 
@@ -225,25 +132,21 @@ Consider MDP $\mathcal{M}$ as described in Definition 1. Let the Assumptions of 
 
 ### Proof
 
-From Lemma 1, we infer that ${\mathfrak{D}}_{\pi}$ and $\mathfrak{D}$ are non-decreasing; i.e., for $v \leq w$, we have ${{\mathfrak{D}}_{\pi}v} \leq {{\mathfrak{D}}_{\pi}w}$ and ${{\mathfrak{D}}v} \leq {{\mathfrak{D}}w}$. Therefore, if $J \leq {{\mathfrak{D}}J}$, then ${{\mathfrak{D}}J} \leq {{\mathfrak{D}}{({{\mathfrak{D}}J})}}$. By repeated application of $\mathfrak{D}$, we obtain ${J \leq {{\mathfrak{D}}J} \leq {{\mathfrak{D}}^{2}J} \leq {{\mathfrak{D}}^{\infty}J} = J^{\ast}}.$ Any feasible solution to must satisfy $J \leq {{\mathfrak{D}}J}$ and hence must satisfy $J \leq J^{\ast}$. Thus, $J^{\ast}$ is the largest $J$ that satisfies the constraint in optimization. Hence, the optimal solution to is the same as that of. ∎
-
-Once a solution ${\mathbf{J}}^{\ast}$ to optimization problem is found, we can find a corresponding stationary Markovian policy as
+From Lemma 1, we infer that ${\mathfrak{D}}_{\pi}$ and $\mathfrak{D}$ are non-decreasing; i.e., for $v \leq w$, we have ${{\mathfrak{D}}_{\pi}v} \leq {{\mathfrak{D}}_{\pi}w}$ and ${{\mathfrak{D}}v} \leq {{\mathfrak{D}}w}$. Therefore, if $J \leq {{\mathfrak{D}}J}$, then ${{\mathfrak{D}}J} \leq {{\mathfrak{D}}{({{\mathfrak{D}}J})}}$. By repeated application of $\mathfrak{D}$, we obtain ${J \leq {{\mathfrak{D}}J} \leq {{\mathfrak{D}}^{2}J} \leq {{\mathfrak{D}}^{\infty}J} = J^{\ast}}.$ Any feasible solution to must satisfy $J \leq {{\mathfrak{D}}J}$ and hence must satisfy $J \leq J^{\ast}$. Thus, $J^{\ast}$ is the largest $J$ that satisfies the constraint in optimization. Hence, the optimal solution to is the same as that of. ∎ Once a solution ${\mathbf{J}}^{\ast}$ to optimization problem is found, we can find a corresponding stationary Markovian policy as
 
 ### V-A DCPs for Risk-Averse SSP Planning
 
 Assumption 1 implies that each $\rho$ is a coherent, Markov risk measure. Hence, the mapping $v\mapsto{\sigma{(v, \cdot, \cdot )}}$ is convex (because $\sigma$ is also a coherent risk measure). We next show that optimization problem is in fact a DCP.
 
-Let $f_{0} = 0$, ${g_{0}{({\mathbf{J}})}} = {\sum_{s \in \mathcal{S}}{J{(s)}}}$, ${f_{1}{({\mathbf{J}})}} = {J{(s)}}$, ${g_{1}{(s,\alpha)}} = {c{(s,\alpha)}}$, and ${g_{2}{({\mathbf{J}})}} = {\sigma{(J, \cdot, \cdot )}}$. Note that $f_{0}$ and $g_{1}$ are convex (constant) functions and $g_{0}$, $f_{1}$, and $g_{2}$ are convex functions in $\mathbf{J}$. Then, can be expressed as the minimization
+Let $f_{0} = 0$, ${g_{0}{({\mathbf{J}})}} = {\sum_{s \in \mathcal{S}}{J{(s)}}}$, ${f_{1}{({\mathbf{J}})}} = {J{(s)}}$, ${g_{1}{(s,\alpha)}} = {c{(s,\alpha)}}$, and ${g_{2}{({\mathbf{J}})}} = {\sigma{(J, \cdot, \cdot)}}$. Note that $f_{0}$ and $g_{1}$ are convex (constant) functions and $g_{0}$, $f_{1}$, and $g_{2}$ are convex functions in $\mathbf{J}$. Then, can be expressed as the minimization The above optimization problem is indeed a standard DCP. Many applications require solving DCPs, such as feature selection in machine learning and inverse covariance estimation in statistics. DCPs can be solved globally, e.g. using branch and bound algorithms. Yet, a locally optimal solution can be obtained based on techniques of nonlinear optimization more efficiently. In particular, in this work, we use a variant of the convex-concave procedure, wherein the concave terms are replaced by a convex upper bound and solved. In fact, the disciplined convex-concave programming (DCCP) technique linearizes DCP problems into a (disciplined) convex program (carried out automatically via the DCCP Python package), which is then converted into an equivalent cone program by replacing each function with its graph implementation. Then, the cone program can be solved readily by available convex programming solvers, such as CVXPY.
 
-The above optimization problem is indeed a standard DCP. Many applications require solving DCPs, such as feature selection in machine learning and inverse covariance estimation in statistics. DCPs can be solved globally, e.g. using branch and bound algorithms. Yet, a locally optimal solution can be obtained based on techniques of nonlinear optimization more efficiently. In particular, in this work, we use a variant of the convex-concave procedure, wherein the concave terms are replaced by a convex upper bound and solved. In fact, the disciplined convex-concave programming (DCCP) technique linearizes DCP problems into a (disciplined) convex program (carried out automatically via the DCCP Python package ), which is then converted into an equivalent cone program by replacing each function with its graph implementation. Then, the cone program can be solved readily by available convex programming solvers, such as CVXPY.
-
-In the Appendix, we present the specific DCPs required for risk-averse SSP planning for CVaR and EVaR risk measures used in our numerical experiments in the next section. Note that for the risk-neutral conditional expectation measure, optimization (V-A) becomes a linear program, since ${\sigma\left\{ {J{(s^{\prime})}},s,{T{(\left. s^{\prime} \middle| {s,\alpha} \right.)}} \right\}} = {\sum_{s^{\prime} \in \mathcal{S}}{T{(\left. s^{\prime} \middle| {s,\alpha} \right.)}J{(s^{\prime})}}}$ is linear in the decision variables $\mathbf{J}$.
+In the Appendix, we present the specific DCPs required for risk-averse SSP planning for CVaR and EVaR risk measures used in our numerical experiments in the next section. Note that for the risk-neutral conditional expectation measure, optimization (V-A) becomes a linear program, since ${\sigma\left\{ {J{(s')}},s,{T{(\left. s' \middle| {s,\alpha} \right.)}} \right\}} = {\sum_{s' \in \mathcal{S}}{T{(\left. s' \middle| {s,\alpha} \right.)}J{(s')}}}$ is linear in the decision variables $\mathbf{J}$.
 
 ## Numerical Experiments
 
 Figure 2: Grid world illustration for the rover navigation example. Blue cells denote the obstacles and the yellow cell denotes the goal.
 
-In this section, we evaluate the proposed method for risk-averse SSP planning with a rover navigation MDP (also used in ). We consider the traditional total expectation as well as CVaR and EVaR. The experiments were carried out on a MacBook Pro with 2.8 GHz Quad-Core Intel Core i5 and 16 GB of RAM. The resultant linear programs and DCPs were solved using CVX with DCCP add-on.
+In this section, we evaluate the proposed method for risk-averse SSP planning with a rover navigation MDP (also used in ). We consider the traditional total expectation as well as CVaR and EVaR. The experiments were carried out on a MacBook Pro with 2.8 GHz Quad-Core Intel Core i5 and 16 GB of RAM. The resultant linear programs and DCPs were solved using CVX with DCCP add-.
 
 An agent (e.g. a rover) must autonomously navigate a 2-dimensional terrain map (e.g. Mars surface) represented by an $M \times N$ grid with $0.25MN$ obstacles. Thus, the state space is given by $\mathcal{S} = \left. \{ s^{i} \middle| {{i = {x + y}},{{x \in {\{ 1,\ldots,M\}}},{y \in {\{ 1,\ldots,N\}}}}}\} \right.$ with ${x = 1},{y = 0}$ being the leftmost bottom grid. Since the rover can move from cell to cell, its action set is ${Act} = {\{ E,W,N,S\}}$. The actions move the robot from its current cell to a neighboring cell, with some uncertainty. The state transition probabilities for various cell types are shown for actions $E$ (East) and $N$ (North) in Figure 2. Other actions lead to similar transitions. Hitting an obstacle incurs the immediate cost of $5$, while the goal grid region has zero immediate cost. Any other grid has a cost of $1$ to represent fuel consumption.
 
@@ -253,7 +156,7 @@ In the experiments, we considered three grid-world sizes of $4 \times 5$, $10 \t
 
 ## U.O
 
-TABLE I: Comparison between total expectation, CVaR, and EVaR risk measures. (M×N)ρ denotes the grid-world of size M × N and one-step coherent risk measure ρ. Total Time denotes the time taken by the CVX solver to solve the associated linear programs or DCPs. # U.O. denotes the number of single grid uncertain obstacles used for robustness test. F.R. denotes the failure rate out of 100 Monte Carlo simulations.
+TABLE I: Comparison between total expectation, CVaR, and EVaR risk measures. (M × N)ρ denotes the grid-world of size M × N and one-step coherent risk measure ρ. Total Time denotes the time taken by the CVX solver to solve the associated linear programs or DCPs. # U.O. denotes the number of single grid uncertain obstacles used for robustness test. F.R. denotes the failure rate out of 100 Monte Carlo simulations.
 
 A summary of our numerical experiments is provided in Table 1. Note the computed values of Problem 1 satisfy ${{\mathbb{E}}{(c)}} \leq {{CVaR}_{\varepsilon}{(c)}} \leq {{EVaR}_{\varepsilon}{(c)}}$. This is in accordance with the theory that EVaR is a more conservative coherent risk measure than CVaR (see also our work on EVaR-based model predictive control for dynamically moving obstacles ). Furthermore, the total accrued risk cost is higher for $\varepsilon = 0.3$, since this leads to more risk-averse policies.
 

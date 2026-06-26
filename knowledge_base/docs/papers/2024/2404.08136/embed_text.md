@@ -56,39 +56,27 @@ The idea of approximating part of an objective function as a convex quadratic is
 
 ### Outline
 
-In §(https://arxiv.org/html/2404.08136v2#S2 "2 Exponentially weighted moving model ‣ Exponentially Weighted Moving Models") we formally describe EWMMs, and in §(https://arxiv.org/html/2404.08136v2#S3 "3 EWMM with quadratic loss ‣ Exponentially Weighted Moving Models") we consider the special case when the loss function is quadratic. In §(https://arxiv.org/html/2404.08136v2#S4 "4 Approximate finite memory EWMM ‣ Exponentially Weighted Moving Models") we describe methods for approximating an EWMM using quadratic tail approximations. We give some numerical examples using both synthetic and real data in §(https://arxiv.org/html/2404.08136v2#S5 "5 Numerical examples ‣ Exponentially Weighted Moving Models").
+In §2 we formally describe EWMMs, and in §3 we consider the special case when the loss function is quadratic. In §4 we describe methods for approximating an EWMM using quadratic tail approximations. We give some numerical examples using both synthetic and real data in §5.
 
 ## Exponentially weighted moving model
 
 ### Exponentially weighted moving average
 
-Suppose ${x_{1},x_{2},\ldots} \in \text{R}^{n}$ is a vector time series. Its *exponentially weighted average* (EWMA) is the vector time series
-
-where $\beta \in {}$ is the forgetting factor, and
-
-is the normalization constant. The forgetting factor $\beta$ is usually expressed in terms of the half-life $H = {- {\log{2/{\log\beta}}}}$, for which $\beta^{H} = {1/2}$.
+Suppose ${x_{1},x_{2},\ldots} \in \text{R}^{n}$ is a vector time series. Its *exponentially weighted average* (EWMA) is the vector time series where $\beta \in {}$ is the forgetting factor, and is the normalization constant. The forgetting factor $\beta$ is usually expressed in terms of the half-life $H = {- {\log{2/{\log\beta}}}}$, for which $\beta^{H} = {1/2}$.
 
 ### Recursive implementation
 
-The EWMA sequence ((https://arxiv.org/html/2404.08136v2#S2.E1 "In 2.1 Exponentially weighted moving average ‣ 2 Exponentially weighted moving model ‣ Exponentially Weighted Moving Models")) can be computed recursively as
-
-Thus we can compute ${\overset{\sim}{x}}_{t}$ without storing the past values $x_{1},\ldots,x_{t}$; we only need to keep track of the state ${\overset{\sim}{x}}_{t}$.
+The EWMA sequence can be computed recursively as Thus we can compute ${\overset{\sim}{x}}_{t}$ without storing the past values $x_{1},\ldots,x_{t}$; we only need to keep track of the state ${\overset{\sim}{x}}_{t}$.
 
 ### Interpretations
 
 There are several ways to interpret the EWMA time series $\overset{\sim}{x}$. We can think of it as a version of the original time series $x$ which has been smoothed over a timescale on the order of $H$. We can think of the transformation from the sequence $x$ to the EWMA sequence $\overset{\sim}{x}$ as a low-pass filtering operation, which removes high frequency variations.
 
-The interpretation most useful in this paper is that ${\overset{\sim}{x}}_{t}$ is a time-varying estimate of the mean of $x_{t}$, formed from $x_{1},\ldots,x_{t}$, where we imagine that $x_{t}$ comes from a time-varying distribution with slowly varying mean. We can express this interpretation using a quadratic loss function:
-
-So the EWMA estimates ${\overset{\sim}{x}}_{t}$ minimize the exponentially weighted sum of previous quadratic losses ${\|{x - x_{\tau}}\|}_{2}^{2}$, $\tau = {1,\ldots,t}$.
+The interpretation most useful in this paper is that ${\overset{\sim}{x}}_{t}$ is a time-varying estimate of the mean of $x_{t}$, formed from $x_{1},\ldots,x_{t}$, where we imagine that $x_{t}$ comes from a time-varying distribution with slowly varying mean. We can express this interpretation using a quadratic loss function: So the EWMA estimates ${\overset{\sim}{x}}_{t}$ minimize the exponentially weighted sum of previous quadratic losses ${\|{x - x_{\tau}}\|}_{2}^{2}$, $\tau = {1,\ldots,t}$.
 
 ### Exponentially weighted moving model
 
-The EWMM is a generalization of EWMA, specifically the exponentially weighted loss formulation ((https://arxiv.org/html/2404.08136v2#S2.E4 "In Interpretations. ‣ 2.1 Exponentially weighted moving average ‣ 2 Exponentially weighted moving model ‣ Exponentially Weighted Moving Models")). We consider a model of the data $x \in \text{R}^{n}$ that is parametrized by $\theta \in \Theta \subseteq \text{R}^{m}$, and specified by the loss function $\ell:{{\text{R}^{n} \times \Theta}\rightarrow\text{R}}$, which we assume is convex in $\theta$. (In particular, we assume $\Theta$ is a convex set.) We interpret $\ell{(x;\theta)}$ as a measure of mis-fit with the data value $x$ and parameter value $\theta$, with small values meaning the data $x$ is consistent with the model with parameter $\theta$. The exponentially weighted loss at time $t$ is given by
-
-where $\beta \in {}$ is the forgetting factor and $\alpha_{t}$ is the normalization constant ((https://arxiv.org/html/2404.08136v2#S2.E2 "In 2.1 Exponentially weighted moving average ‣ 2 Exponentially weighted moving model ‣ Exponentially Weighted Moving Models")). The time-varying EWMM estimate of the parameter is given as
-
-where $r:{\Theta\rightarrow{\text{R} \cup {\{\infty\}}}}$ is a convex regularizer. This is a convex optimization problem, and so, computationally tractable. We will assume that there is at least one minimizer in the argmin above; if there are multiple minimizers, we can simply choose one. We can see that with quadratic loss ${\ell{(x;\theta)}} = {\|{\theta - x}\|}_{2}^{2}$ and zero regularizer $r = 0$, EWMM reduces to EWMA (with $\theta_{t} = {\overset{\sim}{x}}_{t}$).
+The EWMM is a generalization of EWMA, specifically the exponentially weighted loss formulation. We consider a model of the data $x \in \text{R}^{n}$ that is parametrized by $\theta \in \Theta \subseteq \text{R}^{m}$, and specified by the loss function $\ell:{{\text{R}^{n} \times \Theta}\rightarrow\text{R}}$, which we assume is convex in $\theta$. (In particular, we assume $\Theta$ is a convex set.) We interpret $\ell{(x;\theta)}$ as a measure of mis-fit with the data value $x$ and parameter value $\theta$, with small values meaning the data $x$ is consistent with the model with parameter $\theta$. The exponentially weighted loss at time $t$ is given by where $\beta \in {}$ is the forgetting factor and $\alpha_{t}$ is the normalization constant. The time-varying EWMM estimate of the parameter is given as where $r:{\Theta\rightarrow{\text{R} \cup {\{\infty\}}}}$ is a convex regularizer. This is a convex optimization problem, and so, computationally tractable. We will assume that there is at least one minimizer in the argmin above; if there are multiple minimizers, we can simply choose one. We can see that with quadratic loss ${\ell{(x;\theta)}} = {\|{\theta - x}\|}_{2}^{2}$ and zero regularizer $r = 0$, EWMM reduces to EWMA (with $\theta_{t} = {\overset{\sim}{x}}_{t}$).
 
 With one general exception described below, the EWMM cannot be computed recursively, as in EWMA; to compute $\theta_{t}$ we generally need to store the entire set of past data $x_{1},\ldots,x_{t}$. Moreover the convex optimization problem we must solve to evaluate $\theta_{t}$ grows in size with $t$. Under the most favorable circumstances the complexity of solving the problem involving all past data grows linearly with $t$; it follows that the computational complexity of computing $\theta_{1},\ldots,\theta_{t}$ grows at least quadratically in $t$.
 
@@ -104,9 +92,7 @@ Instead of quadratic loss we can use a robust loss function such as the Huber lo
 
 ### Quantile estimator
 
-With loss ${\ell{(x;\theta)}} = {|{\theta - x}|}$, we obtain the exponentially weighted moving estimate of the median. More generally using pinball or quantile loss
-
-where $\eta \in {\lbrack 0,1\rbrack}$ is the quantile level, we obtain the exponentially weighted moving estimate of the $\eta$-quantile \[koenker1978regression\].
+With loss ${\ell{(x;\theta)}} = {|{\theta - x}|}$, we obtain the exponentially weighted moving estimate of the median. More generally using pinball or quantile loss where $\eta \in {\lbrack 0,1\rbrack}$ is the quantile level, we obtain the exponentially weighted moving estimate of the $\eta$-quantile \[koenker1978regression\].
 
 ### Exponentially weighted moving regression models
 
@@ -118,25 +104,17 @@ We use loss ${\ell{(x,\theta)}} = {L{({y_{t} - {\hat{y}}_{t}})}}$, where $L$ is 
 
 ### Logistic regression
 
-With Boolean target data, i.e., $y_{t} \in {\{{- 1},1\}}$, and loss function
-
-we obtain exponentially weighted logistic regression \[hastie2009elements\].
+With Boolean target data, i.e., $y_{t} \in {\{{- 1},1\}}$, and loss function we obtain exponentially weighted logistic regression \[hastie2009elements\].
 
 ## EWMM with quadratic loss
 
 When the loss function $\ell$ is quadratic (including a linear and constant term), we can compute the EWMM parameter using a simple recursion similar to EWMA, storing only a fixed-size state and carrying out computations of constant complexity.
 
-A general quadratic loss has the form
-
-where $P{(x)}$ is positive semidefinite. The exponentially weighted loss is also a convex quadratic function,
+A general quadratic loss has the form where $P{(x)}$ is positive semidefinite. The exponentially weighted loss is also a convex quadratic function,
 
 ### Recursion for quadratic loss
 
-A simple recursion allows us to store $P_{t}$, $p_{t}$, and $\pi_{t}$ and update them as new data arrives, via
-
-To find the EWMM parameter we solve the fixed-size convex optimization problem of minimizing
-
-(Since $\pi_{t}$ is a constant, it can be dropped.)
+A simple recursion allows us to store $P_{t}$, $p_{t}$, and $\pi_{t}$ and update them as new data arrives, via To find the EWMM parameter we solve the fixed-size convex optimization problem of minimizing (Since $\pi_{t}$ is a constant, it can be dropped.)
 
 ### Examples
 
@@ -154,53 +132,25 @@ We use regularizer ${r{(\theta)}} = 0$ for $\theta \geq 0$ (elementwise) and ${r
 
 ### Gaussian covariance estimator
 
-We model vector data as $x_{t} \sim {\mathcal{N}{(0,\Sigma_{t})}}$. We parametrize the model using $\theta_{t} = \Sigma_{t}^{- 1}$, the symmetric positive definite precision matrix. To form the exponentially weighted covariance estimate, we minimize the convex function
-
-which is the weighted negative log likelihood, with a factor of one-half and an additive constant. We express this as
-
-The first term is linear in $\theta$, and therefore also quadratic. We take this linear term as our loss and
-
-as our regularizer, even though the log determinant term is also typically considered part of the loss. With this re-arrangement the EWMM has quadratic loss, so we can use the recursion above to solve it exactly by solving a fixed-size convex problem. It is not hard to show that the EWMM estimate is the traditional exponentially weighted empirical covariance estimate,
-
-(see, e.g., \[menchero2011barra, johansson2023covariance\]).
+We model vector data as $x_{t} \sim {\mathcal{N}{(0,\Sigma_{t})}}$. We parametrize the model using $\theta_{t} = \Sigma_{t}^{- 1}$, the symmetric positive definite precision matrix. To form the exponentially weighted covariance estimate, we minimize the convex function which is the weighted negative log likelihood, with a factor of one-half and an additive constant. We express this as The first term is linear in $\theta$, and therefore also quadratic. We take this linear term as our loss and as our regularizer, even though the log determinant term is also typically considered part of the loss. With this re-arrangement the EWMM has quadratic loss, so we can use the recursion above to solve it exactly by solving a fixed-size convex problem. It is not hard to show that the EWMM estimate is the traditional exponentially weighted empirical covariance estimate, (see, e.g., \[menchero2011barra, johansson2023covariance\]).
 
 ### Sparse inverse covariance estimator
 
-To obtain a sparse precision matrix, we add $\ell_{1}$ regularization on the off-diagonal entries to the regularizer ((https://arxiv.org/html/2404.08136v2#S3.E8 "In Gaussian covariance estimator. ‣ 3.2 Examples ‣ 3 EWMM with quadratic loss ‣ Exponentially Weighted Moving Models")),
-
-with $\lambda > 0$ \[friedman2007sparse\]. We recursively compute the EWMA empirical estimate
-
-and then obtain the EWMM estimate $\theta_{t}$ as the minimizer of
+To obtain a sparse precision matrix, we add $\ell_{1}$ regularization on the off-diagonal entries to the regularizer, with $\lambda > 0$ \[friedman2007sparse\]. We recursively compute the EWMA empirical estimate and then obtain the EWMM estimate $\theta_{t}$ as the minimizer of
 
 ### Probability mass estimator
 
-Suppose that $x_{t}$ takes on only the values $1,\ldots,m$, and we wish to estimate the probability mass function (PMF) parametrized as
+Suppose that $x_{t}$ takes on only the values $1,\ldots,m$, and we wish to estimate the probability mass function (PMF) parametrized as with $\theta \in \text{R}^{m}$. (To remove the redundancy in the parameterization we can add the convex constraint ${\theta_{1} + \cdots + \theta_{m}} = 0$.) We use negative log-likelihood loss, (The subscripts on $\theta$ here denote entries, not time period.)
 
-with $\theta \in \text{R}^{m}$. (To remove the redundancy in the parameterization we can add the convex constraint ${\theta_{1} + \cdots + \theta_{m}} = 0$.) We use negative log-likelihood loss,
+As simple regularizer is ${r{(\theta)}} = {\lambda{\|\theta\|}_{2}^{2}}$ where $\lambda > 0$ is a hyper-parameter. If the values $1,\ldots,m$ are nodes of a graph with weights $W_{ij}$ on the edge between nodes $i$ and $j$, we can add Laplacian regularization to obtain an exponentially weighted PMF estimate that is smooth with respect to the graph \[tuck2021fitting\].
 
-(The subscripts on $\theta$ here denote entries, not time period.)
+To get the exponentially weighted PMF estimate we minimize the convex function where $e_{j}$ is the standard $j$th unit vector in $\text{R}^{m}$, i.e., ${(e_{j})}_{k} = 1$ if $k = j$ and ${(e_{j})}_{k} = 0$ if $k \neq j$. The first term on the righthand side is linear in $\theta$, and therefore also quadratic, do we take that as our loss. We take the second and third terms on the righthand side as the regularizer. The vector in parentheses in the first term on the righthand side is the EWMA estimate of the past frequencies of occurrence, which of course can be computed recursively.
 
-As simple regularizer is ${r{(\theta)}} = {\lambda{\|\theta\|}_{2}^{2}}$ where $\lambda > 0$ is a hyper-parameter. If the values $1,\ldots,m$ are nodes of a graph with weights $W_{ij}$ on the edge between nodes $i$ and $j$, we can add Laplacian regularization
-
-to obtain an exponentially weighted PMF estimate that is smooth with respect to the graph \[tuck2021fitting\].
-
-To get the exponentially weighted PMF estimate we minimize the convex function
-
-where $e_{j}$ is the standard $j$th unit vector in $\text{R}^{m}$, i.e., ${(e_{j})}_{k} = 1$ if $k = j$ and ${(e_{j})}_{k} = 0$ if $k \neq j$. The first term on the righthand side is linear in $\theta$, and therefore also quadratic, do we take that as our loss. We take the second and third terms on the righthand side as the regularizer. The vector in parentheses in the first term on the righthand side is the EWMA estimate of the past frequencies of occurrence, which of course can be computed recursively.
-
-Without regularization, it is easily shown that the EWMM estimate is
-
-the EWMA frequencies of occurrence. (This assumes that each value has occurred at least once.)
+Without regularization, it is easily shown that the EWMM estimate is the EWMA frequencies of occurrence. (This assumes that each value has occurred at least once.)
 
 ### Exponential family
 
-Some of the examples above are special cases of parameter estimation in an exponential family. An exponential family of densities on $\text{R}^{n}$, with parameter $\theta \in \text{R}^{m}$, has the form
-
-where $T:{\text{R}^{n}\rightarrow\text{R}^{m}}$ is the sufficient statistic, $A:{\text{R}^{m}\rightarrow\text{R}}$ normalizes the density, and $h:{\text{R}^{n}\rightarrow\text{R}}$ is the base measure. It is well known that $A$ is convex. Using the negative log-likelihood loss
-
-the EWMM estimate of the parameter $\theta_{t}$ is the minimizer of
-
-(We drop $- {{\log h}{(x)}}$ since it does not depend on $\theta$.) The first term on the righthand side is linear in $\theta$, and so can be computed recursively. We only need to keep track of the exponential weighted average of the sufficient statistic, $\alpha_{t}{\sum_{\tau = 1}^{t}{\beta^{t - \tau}T{(x_{\tau})}}}$.
+Some of the examples above are special cases of parameter estimation in an exponential family. An exponential family of densities on $\text{R}^{n}$, with parameter $\theta \in \text{R}^{m}$, has the form where $T:{\text{R}^{n}\rightarrow\text{R}^{m}}$ is the sufficient statistic, $A:{\text{R}^{m}\rightarrow\text{R}}$ normalizes the density, and $h:{\text{R}^{n}\rightarrow\text{R}}$ is the base measure. It is well known that $A$ is convex. Using the negative log-likelihood loss the EWMM estimate of the parameter $\theta_{t}$ is the minimizer of (We drop $- {{\log h}{(x)}}$ since it does not depend on $\theta$.) The first term on the righthand side is linear in $\theta$, and so can be computed recursively. We only need to keep track of the exponential weighted average of the sufficient statistic, $\alpha_{t}{\sum_{\tau = 1}^{t}{\beta^{t - \tau}T{(x_{\tau})}}}$.
 
 The fact that the EWMM for exponential families can be computed with a finite size problem is connected to a well known result in statistics, the Pitman-Koopman-Darmois theorem \[pitman1936sufficient, koopman1936distributions, darmois1935lois\]. The theorem says that, under some minor technical conditions, the exponential family of distributions is the only family where there can be a sufficient statistic whose dimension does not grow with the sample size.
 
@@ -208,15 +158,9 @@ The fact that the EWMM for exponential families can be computed with a finite si
 
 ### Quadratic approximation of tail loss
 
-We will explore methods that at time period $t$ store $x_{t - M},\ldots,x_{t}$, i.e., the current and previous $M$ data values. (The parameter $M$ is called the memory.) To motivate our approximate method, we first write the EWMM ((https://arxiv.org/html/2404.08136v2#S2.E5 "In 2.2 Exponentially weighted moving model ‣ 2 Exponentially weighted moving model ‣ Exponentially Weighted Moving Models")) as
+We will explore methods that at time period $t$ store $x_{t - M},\ldots,x_{t}$, i.e., the current and previous $M$ data values. (The parameter $M$ is called the memory.) To motivate our approximate method, we first write the EWMM as where $V_{t}$ is the tail loss, defined as Note that, we only explicitly refer to the past $M + 1$ data values $x_{t - M},\ldots,x_{t}$, with the previous losses appearing implicitly in the tail loss term $V_{t}{(\theta)}$.
 
-where $V_{t}$ is the tail loss, defined as
-
-Note that in ((https://arxiv.org/html/2404.08136v2#S4.E9 "In 4.1 Quadratic approximation of tail loss ‣ 4 Approximate finite memory EWMM ‣ Exponentially Weighted Moving Models")), we only explicitly refer to the past $M + 1$ data values $x_{t - M},\ldots,x_{t}$, with the previous losses appearing implicitly in the tail loss term $V_{t}{(\theta)}$.
-
-Our approximation replaces $V_{t}{(\theta)}$ with a convex quadratic approximation ${\hat{V}}_{t}{(\theta)}$, which gives the approximate EWMM
-
-We will describe below two methods that can be used to form the tail approximation ${\hat{V}}_{t}$ recursively, without storing the tail data $x_{1},\ldots,x_{t - M - 1}$. Note that computing the approximate EWMM requires solving a problem of fixed size, that does not grow with $t$.
+Our approximation replaces $V_{t}{(\theta)}$ with a convex quadratic approximation ${\hat{V}}_{t}{(\theta)}$, which gives the approximate EWMM We will describe below two methods that can be used to form the tail approximation ${\hat{V}}_{t}$ recursively, without storing the tail data $x_{1},\ldots,x_{t - M - 1}$. Note that computing the approximate EWMM requires solving a problem of fixed size, that does not grow with $t$.
 
 ### Choice of $M$
 
@@ -224,23 +168,15 @@ The larger $M$ is, the closer our approximate EWMM parameter will be to the exac
 
 ### Recursive Taylor approximation
 
-Here we describe a method to construct the quadratic tail loss approximation ${\hat{V}}_{t}$ recursively from ${\hat{V}}_{t - 1}$ (which is quadratic) and $\ell{(x_{t - M - 1};\theta)}$, the loss term that joins the tail at time period $t$. We start with the exact recursion, analogous to ((https://arxiv.org/html/2404.08136v2#S2.E3 "In Recursive implementation. ‣ 2.1 Exponentially weighted moving average ‣ 2 Exponentially weighted moving model ‣ Exponentially Weighted Moving Models")),
+Here we describe a method to construct the quadratic tail loss approximation ${\hat{V}}_{t}$ recursively from ${\hat{V}}_{t - 1}$ (which is quadratic) and $\ell{(x_{t - M - 1};\theta)}$, the loss term that joins the tail at time period $t$. We start with the exact recursion, analogous to, We now replace $V_{t}{(\theta)}$ and $V_{t - 1}{(\theta)}$ with their quadratic approximations ${\hat{V}}_{t}{(\theta)}$ and ${\hat{V}}_{t - 1}{(\theta)}$, and approximate the loss term $\ell{(x_{t - M - 1};\theta)}$ with a convex quadratic approximation $\hat{\ell}{(x_{t - M - 1};\theta)}$ to obtain This gives an explicit recursion for computing the quadratic tail loss approximation ${\hat{V}}_{t}$ from $V_{t - 1}$ and $\ell{(x_{t - M - 1};\theta)}$. Note that we only need to store the coefficients of the quadratic functions.
 
-We now replace $V_{t}{(\theta)}$ and $V_{t - 1}{(\theta)}$ with their quadratic approximations ${\hat{V}}_{t}{(\theta)}$ and ${\hat{V}}_{t - 1}{(\theta)}$, and approximate the loss term $\ell{(x_{t - M - 1};\theta)}$ with a convex quadratic approximation $\hat{\ell}{(x_{t - M - 1};\theta)}$ to obtain
-
-This gives an explicit recursion for computing the quadratic tail loss approximation ${\hat{V}}_{t}$ from $V_{t - 1}$ and $\ell{(x_{t - M - 1};\theta)}$. Note that we only need to store the coefficients of the quadratic functions.
-
-It remains to specify the quadratic approximation of $\ell{(x_{t - M - 1};\theta)}$. We seek a convex quadratic approximation that is accurate near ${\hat{\theta}}_{t - 1}$, the previously computed parameter estimate. When $\ell$ is twice differentiable with respect to $\theta$, an obvious approximation is its second-order Taylor expansion about the previous estimate,
-
-where the gradient and Hessian are with respect to $\theta$.
+It remains to specify the quadratic approximation of $\ell{(x_{t - M - 1};\theta)}$. We seek a convex quadratic approximation that is accurate near ${\hat{\theta}}_{t - 1}$, the previously computed parameter estimate. When $\ell$ is twice differentiable with respect to $\theta$, an obvious approximation is its second-order Taylor expansion about the previous estimate, where the gradient and Hessian are with respect to $\theta$.
 
 When the loss has the form ${\ell{(x;\theta)}} = {L{({\theta^{T}x})}}$, where $L:{\text{R}\rightarrow\text{R}}$ is a convex loss function, the gradient and Hessian above have the simple forms
 
 ### Tail fitting
 
-We now consider the case where $\ell$ is not twice differentiable, so we cannot use the Taylor approximation to find the quadratic tail approximation ${\hat{V}}_{t}$. In this case we can directly form a quadratic approximation of the tail. To do this we store a second window of data within the tail,
-
-where $M^{\text{tail}}$ is the additional memory we use to approximate the tail, with $M + M^{\text{tail}}$ the total number of previous values we must store. The idea is to use these $M^{\text{tail}}$ points to form the quadratic estimate ${\hat{V}}_{t}$, and the past $M$ values $x_{t - M},\ldots,x_{t}$ to then form $\theta_{t}$. This second window of past data is used purely for fitting the tail, and so can potentially be much larger than $M$. This is because fitting the tail approximation is typically cheaper than solving the EWMM problem of the same size.
+We now consider the case where $\ell$ is not twice differentiable, so we cannot use the Taylor approximation to find the quadratic tail approximation ${\hat{V}}_{t}$. In this case we can directly form a quadratic approximation of the tail. To do this we store a second window of data within the tail, where $M^{\text{tail}}$ is the additional memory we use to approximate the tail, with $M + M^{\text{tail}}$ the total number of previous values we must store. The idea is to use these $M^{\text{tail}}$ points to form the quadratic estimate ${\hat{V}}_{t}$, and the past $M$ values $x_{t - M},\ldots,x_{t}$ to then form $\theta_{t}$. This second window of past data is used purely for fitting the tail, and so can potentially be much larger than $M$. This is because fitting the tail approximation is typically cheaper than solving the EWMM problem of the same size.
 
 ### Fitting the tail approximation
 
@@ -248,9 +184,7 @@ We propose the following procedure to fit the tail approximation ${\hat{V}}_{t}{
 
 Choose $L$ points $u_{1},\ldots,u_{L}$ near $\theta_{t - 1}$.
 
-Evaluate the tail losses at the $u_{i}$. For $i = {1,\ldots,L}$, let
-
-Use least squares to fit a quadratic function parametrized by $P \in \text{R}^{m \times m}$, $p \in \text{R}^{m}$, and $\pi \in \text{R}$ to the points $(u_{i},v_{i})$.
+Evaluate the tail losses at the $u_{i}$. For $i = {1,\ldots,L}$, let Use least squares to fit a quadratic function parametrized by $P \in \text{R}^{m \times m}$, $p \in \text{R}^{m}$, and $\pi \in \text{R}$ to the points $(u_{i},v_{i})$.
 
 To ensure that the quadratic approximation is convex, a constraint can be added to the least squares problem to ensure that the $P$ is positive semidefinite. This means the fitting problem is a semidefinite program (SDP), which can increase the computational cost of fitting. An alternative is to use least squares to find $\overset{\sim}{P}$, and then simply project $P$ onto the set of positive semidefinite matrices. We have found this simpler method to be effective.
 
@@ -264,11 +198,11 @@ Although we have mentioned several potential methods for fitting the tail, we su
 
 ## Numerical examples
 
-In this section we give some examples of evaluating the EWMM either exactly (our first example) or approximately (for the others). All examples can be reproduced using publicly available code at [https://github.com/cvxgrp/ewmm_code](https://github.com/cvxgrp/ewmm_code). We use CVXPY, a Python-embedded modeling language for convex optimization to specify and compute the EWMM \[diamond2016cvxpy\].
+In this section we give some examples of evaluating the EWMM either exactly (our first example) or approximately (for the others). All examples can be reproduced using publicly available code at We use CVXPY, a Python-embedded modeling language for convex optimization to specify and compute the EWMM \[diamond2016cvxpy\].
 
 ### Sparse inverse covariance estimation
 
-We use the sparse inverse covariance model described in §[3.2](https://arxiv.org/html/2404.08136v2#S3.SS2 "3.2 Examples ‣ 3 EWMM with quadratic loss ‣ Exponentially Weighted Moving Models") to estimate the covariance matrix of a time series of daily financial returns. In this example we can compute the EWMM estimate exactly using recursion.
+We use the sparse inverse covariance model described in §3.2 to estimate the covariance matrix of a time series of daily financial returns. In this example we can compute the EWMM estimate exactly using recursion.
 
 ### Data
 
@@ -280,27 +214,23 @@ We use a half-life of $H = 63$ (one quarter). We evaluate the model for $\lambda
 
 ### Results
 
-In figure (https://arxiv.org/html/2404.08136v2#S5.F1 "Figure 1 ‣ Results. ‣ 5.1 Sparse inverse covariance estimation ‣ 5 Numerical examples ‣ Exponentially Weighted Moving Models") we show the sparsity of the inverse covariance matrix across time for the different values of $\lambda$. The plot gives the number of nonzero entries in the precision matrix, with the dashed line at 45 showing the maximum possible value, i.e., a fully dense precision matrix. We also show examples of the inverse covariance matrix sparsity patterns at evenly spaced times in figure (https://arxiv.org/html/2404.08136v2#S5.F2 "Figure 2 ‣ Results. ‣ 5.1 Sparse inverse covariance estimation ‣ 5 Numerical examples ‣ Exponentially Weighted Moving Models"). These plots show that the sparse inverse covariance estimate varies considerably with time, i.e., market conditions.
+In figure 1 we show the sparsity of the inverse covariance matrix across time for the different values of $\lambda$. The plot gives the number of nonzero entries in the precision matrix, with the dashed line at 45 showing the maximum possible value, i.e., a fully dense precision matrix. We also show examples of the inverse covariance matrix sparsity patterns at evenly spaced times in figure 2. These plots show that the sparse inverse covariance estimate varies considerably with time, i.e., market conditions.
 
 Figure 1: Number of nonzeros in the inverse covariance matrix across time for different values of λ.
 
 Figure 2: Sparsity patterns at various times for λ = 10. White boxes denote zero entries in the precision matrix.
 
-To illustrate the savings obtained from the recursive formulation, we show the running computation time of fitting the model in figure (https://arxiv.org/html/2404.08136v2#S5.F3 "Figure 3 ‣ Results. ‣ 5.1 Sparse inverse covariance estimation ‣ 5 Numerical examples ‣ Exponentially Weighted Moving Models"). As expected the naïve method, which saves all past data and directly computes the estimate using all past value, grows quadratically in time, whereas the recursive method grows linearly.
+To illustrate the savings obtained from the recursive formulation, we show the running computation time of fitting the model in figure 3. As expected the naïve method, which saves all past data and directly computes the estimate using all past value, grows quadratically in time, whereas the recursive method grows linearly.
 
 Figure 3: Cumulative time to fit the sparse inverse covariance estimation model using the naïve method and the (exact) recursive method.
 
 ### Quantile estimation
 
-We use the pinball loss function ((https://arxiv.org/html/2404.08136v2#S2.E6 "In Quantile estimator. ‣ 2.3.1 Exponentially weighted moving data models ‣ 2.3 Examples ‣ 2 Exponentially weighted moving model ‣ Exponentially Weighted Moving Models")) to estimate the 15th, 50th, and 85th percentiles of a scalar time series. Since the pinball loss is not twice differentiable, we use the tail approximation method described in §[4.3](https://arxiv.org/html/2404.08136v2#S4.SS3 "4.3 Tail fitting ‣ 4 Approximate finite memory EWMM ‣ Exponentially Weighted Moving Models") to fit the tail using points sampled from a normal distribution centered at the previous estimate with standard deviation equal to one fifth of the magnitude of the previous estimate.
+We use the pinball loss function to estimate the 15th, 50th, and 85th percentiles of a scalar time series. Since the pinball loss is not twice differentiable, we use the tail approximation method described in §4.3 to fit the tail using points sampled from a normal distribution centered at the previous estimate with standard deviation equal to one fifth of the magnitude of the previous estimate.
 
 ### Data
 
-In this example we use synthetic data. First we generate smoothly varying sequences $\mu_{t}$ and $\sigma_{t}$ as
-
-(There is no special significance to the specific form; this is just a simple way to generate a smoothly varying sequence.) Then we generate data as $x_{t} = {\exp z_{t}}$, with $z_{t} \sim {\mathcal{N}{(\mu_{t},\sigma_{t}^{2})}}$. The 'true' quantiles are then
-
-where $\Phi$ is the cumulative distribution function of a standard normal random variable.
+In this example we use synthetic data. First we generate smoothly varying sequences $\mu_{t}$ and $\sigma_{t}$ as (There is no special significance to the specific form; this is just a simple way to generate a smoothly varying sequence.) Then we generate data as $x_{t} = {\exp z_{t}}$, with $z_{t} \sim {\mathcal{N}{(\mu_{t},\sigma_{t}^{2})}}$. The 'true' quantiles are then where $\Phi$ is the cumulative distribution function of a standard normal random variable.
 
 ### Parameters
 
@@ -308,7 +238,7 @@ The half-life is $H = 100$, and the buffer sizes are $M = 100$ and $M^{\text{tai
 
 ### Results
 
-We see that the approximate finite memory EWMM is able to closely match the results of the exact method while incurring a fraction of the computational cost. We plot the true quantile value and the estimated quantile values across time in figure (https://arxiv.org/html/2404.08136v2#S5.F4 "Figure 4 ‣ Results. ‣ 5.2 Quantile estimation ‣ 5 Numerical examples ‣ Exponentially Weighted Moving Models"). We also show how the computational effort of the two methods compare in figure (https://arxiv.org/html/2404.08136v2#S5.F5 "Figure 5 ‣ Results. ‣ 5.2 Quantile estimation ‣ 5 Numerical examples ‣ Exponentially Weighted Moving Models"). We show four examples of the quadratic tail approximations in figure (https://arxiv.org/html/2404.08136v2#S5.F6 "Figure 6 ‣ Results. ‣ 5.2 Quantile estimation ‣ 5 Numerical examples ‣ Exponentially Weighted Moving Models").
+We see that the approximate finite memory EWMM is able to closely match the results of the exact method while incurring a fraction of the computational cost. We plot the true quantile value and the estimated quantile values across time in figure 4. We also show how the computational effort of the two methods compare in figure 5. We show four examples of the quadratic tail approximations in figure 6.
 
 Figure 4: True and estimated quantile values across time using the exact and approximate finite memory EWMM methods.
 
@@ -318,13 +248,11 @@ Figure 6: Quadratic tail approximations for the pinball loss.
 
 ### Logistic regression
 
-In this example, we generate data from a joint distribution of features and targets, and use the approximate finite memory EWMM for a logistic regression model to make predictions. We use the logistic loss function ((https://arxiv.org/html/2404.08136v2#S2.E7 "In Logistic regression. ‣ 2.3.2 Exponentially weighted moving regression models ‣ 2.3 Examples ‣ 2 Exponentially weighted moving model ‣ Exponentially Weighted Moving Models")) and regularizer ${r{(\theta)}} = {\lambda{\|\theta\|}_{2}^{2}}$. We fit the approximate finite memory EWMM using the recursive Taylor approximation method described in §[4.2](https://arxiv.org/html/2404.08136v2#S4.SS2 "4.2 Recursive Taylor approximation ‣ 4 Approximate finite memory EWMM ‣ Exponentially Weighted Moving Models").
+In this example, we generate data from a joint distribution of features and targets, and use the approximate finite memory EWMM for a logistic regression model to make predictions. We use the logistic loss function and regularizer ${r{(\theta)}} = {\lambda{\|\theta\|}_{2}^{2}}$. We fit the approximate finite memory EWMM using the recursive Taylor approximation method described in §4.2.
 
 ### Data
 
-We first generate a smoothly varying sequence of parameters $\theta_{t}^{\text{true}} \in \text{R}^{3}$ as
-
-We then generate pairs $x_{t} = {(z_{t},y_{t})}$ for $t = {1,\ldots,T}$ as independent samples from the following joint distribution parametrized by $\theta_{t}^{\text{true}}$:
+We first generate a smoothly varying sequence of parameters $\theta_{t}^{\text{true}} \in \text{R}^{3}$ as We then generate pairs $x_{t} = {(z_{t},y_{t})}$ for $t = {1,\ldots,T}$ as independent samples from the following joint distribution parametrized by $\theta_{t}^{\text{true}}$:
 
 ### Parameters
 
@@ -332,7 +260,7 @@ We take $\lambda = 0.5$, half-life $H = 150$, and $M = H$.
 
 ### Results
 
-We show the true value $\theta_{t}^{\text{true}}$ and the estimate $\theta_{t}$ across time for the full and tail approximation models in figure (https://arxiv.org/html/2404.08136v2#S5.F7 "Figure 7 ‣ Results. ‣ 5.3 Logistic regression ‣ 5 Numerical examples ‣ Exponentially Weighted Moving Models"). We see that the approximate finite memory EWMM is able to closely match the performance from the exact EWMM. We show the cumulative time to fit the model across time in figure (https://arxiv.org/html/2404.08136v2#S5.F8 "Figure 8 ‣ Results. ‣ 5.3 Logistic regression ‣ 5 Numerical examples ‣ Exponentially Weighted Moving Models").
+We show the true value $\theta_{t}^{\text{true}}$ and the estimate $\theta_{t}$ across time for the full and tail approximation models in figure 7. We see that the approximate finite memory EWMM is able to closely match the performance from the exact EWMM. We show the cumulative time to fit the model across time in figure 8.
 
 Figure 7: True and estimated parameters for the logistic regression model.
 

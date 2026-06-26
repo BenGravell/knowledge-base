@@ -10,27 +10,7 @@ Figure 1: We demonstrate the hidden visual understanding capabilities of image g
 
 We take an approach motivated by recent advancements in large language models (LLMs). In natural language processing (NLP), generative pretraining \Brown et al., [2020, Chowdhery et al., 2023\] is performed to produce base models, often referred to as LLMs, that are good at generating text, whereas instruction-tuning \Ouyang et al., [2022, Wei et al., 2021\] guides them to follow specific tasks and produce text in requested formats and stay on the task. Analogously, we position a visual generative model as a "base" model and perform instruction-tuning to align the model to produce visual output in desired formats, in accordance with the prompts, as illustrated in Fig. 1. Specifically, the model is instructed to produce RGB images that can be decoded to computer vision outputs. Such instruction prompts and decodable visualization schemes are designed to bridge and calibrate the visual generations to formats where measurable metrics for benchmarking can be applied. For example, by prompting the model to "Segment the skateboard category in pure yellow (\<255, 255, 0\>)", we can easily parse the mask for skateboard by clustering pixels whose values are close to \<255, 255, 0\>. This strategy has three main advantages. First, it supports a wide variety of tasks with a single unified model -- after instruction tuning, the weights are shared among all tasks, and only the prompt changes. Second, it requires relatively little new training data, since the instruction tuning is solely teaching the model how to format computer vision outputs as RGB. Third, it helps the model retain its original image generation capabilities, since the outputs are simply new RGB images.
 
-Benchmarks and Metrics
-
-Referring segmentation: RefCOCOg UMD val (cIoU ↑)
-
-Referring segmentation: ReasonSeg val (gIoU ↑)
-
-Semantic segmentation: Cityscapes val (mIoU ↑)
-
-Instance segmentation: SA-Co/Gold (c g F1 ↑)
-
-Metric depth estimation: average of 4 datasets (δ1↑)
-
-Surface normal estimation: average of 4 datasets (mean angle error ↓)
-
-Text-to-image: GenAI-Bench (win rate against the other ↑)
-46.5% (Nano Banana Pro)
-
-Image editing: ImgEdit (win rate against the other ↑)
-52.2% (Nano Banana Pro)
-
-Table 1: The instruction-tuned Vision Banana model surpasses or rivals SOTA specialists across visual generation and understanding. For 2D visual understanding, it beats the highly specialized Segment Anything Model 3 [Carion et al., 2025] on 3 segmentation datasets, and outperforms OWLv2 [Minderer et al., 2023] on instance segmentation. For 3D visual understanding, it surpasses the best metric depth estimation expert, Depth Anything 3 [Lin et al., 2025], and the best surface normal estimation specialist, Lotus-2 [He et al., 2025]. In visual generation, Vision Banana inherits its capabilities from Nano Banana Pro and is on par with it on text-to-image and image editing.
+Benchmarks and Metrics Referring segmentation: RefCOCOg UMD val (cIoU ↑) Referring segmentation: ReasonSeg val (gIoU ↑) Semantic segmentation: Cityscapes val (mIoU ↑) Instance segmentation: SA-Co/Gold (cgF1 ↑) Metric depth estimation: average of 4 datasets (δ1↑) Surface normal estimation: average of 4 datasets (mean angle error ↓) Text-to-image: GenAI-Bench (win rate against the other ↑) 46.5% (Nano Banana Pro) Image editing: ImgEdit (win rate against the other ↑) 52.2% (Nano Banana Pro) Table 1: The instruction-tuned Vision Banana model surpasses or rivals SOTA specialists across visual generation and understanding. For 2D visual understanding, it beats the highly specialized Segment Anything Model 3 [Carion et al., 2025] on 3 segmentation datasets, and outperforms OWLv2 [Minderer et al., 2023] on instance segmentation. For 3D visual understanding, it surpasses the best metric depth estimation expert, Depth Anything 3 [Lin et al., 2025], and the best surface normal estimation specialist, Lotus-2 [He et al., 2025]. In visual generation, Vision Banana inherits its capabilities from Nano Banana Pro and is on par with it on text-to-image and image editing.
 
 We present Vision Banana, a generalist vision model trained by performing a lightweight instruction-tuning to Nano Banana Pro on a mixture of its original image generation data and our additional vision task data. During evaluation across several benchmarks, we find that Visual Banana excels at both visual understanding and generation, as summarized in Tab. 1. On the understanding side, Vision Banana surpasses or matches state-of-the-art results on both 2D and 3D tasks. For example, it beats the highly specialized segmentation model, SAM 3 \Carion et al. on various segmentation tasks, and the 3D expert, Depth Anything 3 \Lin et al. on metric depth estimation. On the generation side, it performs on par with its base model on image generation and editing benchmarks. On GenAI-Bench \Li et al., [2024a\], Vision Banana scores a $53.5\%$ win rate against its base model. On ImgEdit \Ye et al., for image editing, Vision Banana's win rate is $47.8\%$. Since these results are achieved with a single unified model built by a lightweight instruction-tuning on its base model, there is strong evidence that Nano Banana Pro already possessed internal representations for visual understanding, which only needed to be unlocked with instruction tuning.
 
@@ -52,39 +32,13 @@ We evaluate our framework on two fundamental categories of visual understanding:
 
 In this section, we present qualitative and quantitative assessments compared to task-specific specialist models. Built upon an image generator, Vision Banana achieves SOTA-level results across a broad range of visual understanding tasks, without specialized architectures or custom training losses.
 
-Non Zero-Shot Transfer
+Non Zero-Shot Transfer Table 2: Semantic segmentation results on Cityscapes val.
 
-Table 2: Semantic segmentation results on Cityscapes val.
+Non Zero-Shot Transfer SAM 3 [Carion et al., 2025] + Llama 3.2 (ft) Gemini 2.5 [Gemini Team, 2025] Vision Banana + Gemini 3.1 Flash-Lite Table 3: Instance segmentation results on SA-Co/Gold.
 
-Non Zero-Shot Transfer
+Non Zero-Shot Transfer HybridGL [Liu and Li, 2025] SAM 3 [Carion et al., 2025] + Gemini 2.5 Pro Table 4: Referring expression segmentation results on RefCOCOg val (UMD).
 
-SAM 3 [Carion et al., 2025] + Llama 3.2 (ft)
-
-Gemini 2.5 [Gemini Team, 2025]
-
-Vision Banana + Gemini 3.1 Flash-Lite
-
-Table 3: Instance segmentation results on SA-Co/Gold.
-
-Non Zero-Shot Transfer
-
-HybridGL [Liu and Li, 2025]
-
-SAM 3 [Carion et al., 2025] + Gemini 2.5 Pro
-
-Table 4: Referring expression segmentation results on RefCOCOg val (UMD).
-
-Non Zero-Shot Transfer
-
-LISA-13B-LLaVA1.5 [Lai et al., 2024]
-
-SegZero-Qwen2.5-VL-7B [Liu et al., 2025]
-
-SAM 3 [Carion et al., 2025] + Gemini 2.5 Pro
-
-Vision Banana + Gemini 2.5 Pro
-
-Table 5: Referring expression segmentation results on ReasonSeg val.
+Non Zero-Shot Transfer LISA-13B-LLaVA1.5 [Lai et al., 2024] SegZero-Qwen2.5-VL-7B [Liu et al., 2025] SAM 3 [Carion et al., 2025] + Gemini 2.5 Pro Vision Banana + Gemini 2.5 Pro Table 5: Referring expression segmentation results on ReasonSeg val.
 
 ### 2D Semantic Understanding
 
@@ -98,29 +52,9 @@ Crucially, our approach is open-vocabulary: the target categories are not limite
 
 We compare Vision Banana with existing methods on the Cityscapes validation set in table˜5. During evaluation, we use the same text prompt for each example, providing the full class-to-color mapping for the 19 classes, including the ones not present in the image. As shown in table˜5, Vision Banana outperforms SAM 3 by $4.7$ points in mIoU and achieves the best performance among open-vocabulary models, narrowing the gap with closed-set, non-zero-shot specialists like SegMan \Fu et al., [2025b\].
 
-“Generate a semantic segmentation visualization image, using this color mapping: {"cat": "red", "lock": "pink", "exit sign": "light purple", "background": yellow}.”
+“Generate a semantic segmentation visualization image, using this color mapping: {"cat": "red", "lock": "pink", "exit sign": "light purple", "background": yellow}.” “Generate a visualization image of semantic segmentation, using this color mapping: {"cat ears": <255, 165, 0>, "exit sign": <0, 0, 255>, "background":<125,0, 125>}” “This image is a per-pixel class labeling of the input. The macaron cakes are represented. The round plates are represented. The slice cakes are depicted. The flowers are shown. The tongs are.” “Generate a semantic segmentation visualization of the input. The menu is #80C000. The dessert is #800000. The patterns on the wall is #40FFC0” Figure 2: Vision Banana can perform semantic segmentation, following the instruction prompts. It handles various prompting styles. It can also segment anything specified via text prompts, from single-word nouns to phrases. It is able to produce segmentation masks with fine details, such as the cat whiskers in Example 1 (middle).
 
-“Generate a visualization image of semantic segmentation, using this color mapping: {"cat ears": &lt;255, 165, 0&gt "exit sign": &lt;0, 0, 255&gt "background":&lt;125,0, 125&gt;}”
-
-“This image is a per-pixel class labeling of the input. The macaron cakes are represented . The round plates are represented . The slice cakes are depicted . The flowers are shown . The tongs are.”
-
-“Generate a semantic segmentation visualization of the input. The menu is #80C000. The dessert is #800000. The patterns on the wall is #40FFC0”
-
-Figure 2: Vision Banana can perform semantic segmentation, following the instruction prompts. It handles various prompting styles. It can also segment anything specified via text prompts, from single-word nouns to phrases. It is able to produce segmentation masks with fine details, such as the cat whiskers in Example 1 (middle).
-
-“Generate an instance segmentation visualization of this image. Each piece of garlic is colored differently.”
-
-“Generate an instance segmentation visualization of this image. Each piece of beef is colored differently.”
-
-“Generate an instance segmentation visualization of this image. Each price tag is colored differently. ”
-
-“This image is a segmentation task derived from the input. The "crescent"-shaped croissant instances are each represented by a unique, solid color. Background is RGB.”
-
-“This image shows segmentation masks for the basketballs from the input image. The background is set to #10aa05. Each basketball instance is represented by a solid circular mask, and a different colora is used for each mask.”
-
-“This image shows segmentation masks for the balls from the input image. The background is set to white color. Each ball is represented by a different color.”
-
-Figure 3: Vision Banana can perform instance segmentation, one class at a time. It renders different instances with different colors. It can understand nuanced language concepts as well.
+“Generate an instance segmentation visualization of this image. Each piece of garlic is colored differently.” “Generate an instance segmentation visualization of this image. Each piece of beef is colored differently.” “Generate an instance segmentation visualization of this image. Each price tag is colored differently. ” “This image is a segmentation task derived from the input. The "crescent"-shaped croissant instances are each represented by a unique, solid color. Background is RGB.” “This image shows segmentation masks for the basketballs from the input image. The background is set to #10aa05. Each basketball instance is represented by a solid circular mask, and a different colora is used for each mask.” “This image shows segmentation masks for the balls from the input image. The background is set to white color. Each ball is represented by a different color.” Figure 3: Vision Banana can perform instance segmentation, one class at a time. It renders different instances with different colors. It can understand nuanced language concepts as well.
 
 ### Instance Segmentation
 
@@ -158,45 +92,29 @@ The goal of depth estimation is to produce a depth map from a monocular image, w
 
 In the deep-learning era, the research community has largely framed depth estimation as a dense per-pixel supervised regression problem, employing specialized architectures and domain-specific loss functions. Most recent SOTA methods rely on camera intrinsics during training, inference, or both \Yang et al., [2024, Bochkovskii et al., 2024, Wang et al., 2025b, c, He et al., 2025, 2024, Hu et al., 2024, Cai et al., 2025, Lin et al., 2025, Piccinelli et al., 2025b, a\]. While using intrinsics mitigates the inherent ambiguity of depth estimation, it also necessitates specialized model designs. In contrast, our work is predicated on the hypothesis that the mode-seeking nature of generative modeling naturally resolves training target ambiguities, thereby eliminating the need for such specialized techniques. Furthermore, the broad world knowledge acquired during pretraining endows the model with stronger priors on object sizes and distances compared to narrowly targeted models. To enable Nano Banana Pro to estimate depth in metric units, we instruct the model to output a carefully constructed false-color visualization of depth values.
 
-To visualize depth maps as RGB images, we establish a mapping between unbounded depth values in $\lbrack 0,\infty)$ and bounded RGB values in ${\lbrack 0,1\rbrack}^{3}$. Because the utility of accurate metric depth for nearby image content is generally higher than that of distant content (e.g., graspable objects matter more for robotics tasks, stereo/monodepth benchmarks usually measure accuracy terms of disparity or relative/log-depth) we "curve" metric depth prior to RGB encoding. Specifically, this is achieved by first applying the power transform of Barron to warp the depth values, and then using those curved distances to produce a false-color visualization. We constrain the power transform to $\lambda < {- 1}$ and rescale it to map metric distances $d \in {\lbrack 0,\infty)}$ to normalized distances in $\lbrack 0,1)$:
-
-In all experiments, we set the shape parameter to $\lambda = {- 3}$ and the scale parameter to $c = {10/3}$. These curved and normalized distances $f{(d,\lambda,c)}$ are then used to interpolate along a piecewise-linear function that follows the edges of the RGB cube, traversing along its edges from black to white, similarly to the first iteration of a 3D Hilbert curve. A visualization of this process is provided in Fig. 5.
+To visualize depth maps as RGB images, we establish a mapping between unbounded depth values in $[0,\infty)$ and bounded RGB values in $^{3}$. Because the utility of accurate metric depth for nearby image content is generally higher than that of distant content (e.g., graspable objects matter more for robotics tasks, stereo/monodepth benchmarks usually measure accuracy terms of disparity or relative/log-depth) we "curve" metric depth prior to RGB encoding. Specifically, this is achieved by first applying the power transform of Barron to warp the depth values, and then using those curved distances to produce a false-color visualization. We constrain the power transform to $\lambda<-1$ and rescale it to map metric distances $d\in0,\infty)$ to normalized distances in $[0,1)$: In all experiments, we set the shape parameter to $\lambda=-3$ and the scale parameter to $c=\nicefrac{{10}}{{3}}$. These curved and normalized distances $f(d,\lambda,c)$ are then used to interpolate along a piecewise-linear function that follows the edges of the RGB cube, traversing along its edges from black to white, similarly to the first iteration of a 3D Hilbert curve. A visualization of this process is provided in Fig. [5.
 
 Figure 5: A visualization of our bijection between scalar metric distances d ≥ 0 and RGB color values in 3, which is achieved by curving metric depth with a power transform, and then interpolating along the edges of the color cube according to that curved metric depth. The metric depth values (in meters) corresponding to various RGB colors are overlaid.
 
-This mapping from normalized distance to RGB color can be inverted by simply projecting the RGB values onto the nearest line segment and then inverting the linear interpolation along the cube's edges. Because both the false-color visualization and the power transform are strictly invertible, their composition forms a bijection between metric depth in $\lbrack 0,\infty\rbrack$ and RGB space in ${\lbrack 0,1\rbrack}^{3}$. During training, we apply this mapping to ground-truth metric depths to generate RGB training targets. At inference, we apply the inverse mapping to decode the model's generated RGB images back into metric depth, enabling direction evaluation on standard depth benchmarks. To enhance the model's robustness across diverse color representations, we augment our training data with alternative color maps, such as Plasma, Inferno, Viridis, and grayscale.
+This mapping from normalized distance to RGB color can be inverted by simply projecting the RGB values onto the nearest line segment and then inverting the linear interpolation along the cube's edges. Because both the false-color visualization and the power transform are strictly invertible, their composition forms a bijection between metric depth in $[0,\infty]$ and RGB space in $^{3}$. During training, we apply this mapping to ground-truth metric depths to generate RGB training targets. At inference, we apply the inverse mapping to decode the model's generated RGB images back into metric depth, enabling direction evaluation on standard depth benchmarks. To enhance the model's robustness across diverse color representations, we augment our training data with alternative color maps, such as Plasma, Inferno, Viridis, and grayscale.
 
-Depth Any. v3 [Lin et al., 2025]
-Depth Pro [Bochkovskii et al., 2024]
+Depth Any. v3 [Lin et al., 2025] Depth Pro [Bochkovskii et al., 2024]
 
-* The average δ1 of DepthLM-7B on the 4 datasets it evaluated on (NYU + iBims1 + ETH3D + nuScenes) is 0.855; our average δ1 on the same 4 datasets is 0.865. The average δ1 of Depth-Anything V3 on the 4 datasets it evaluated on (NYU + ETH3D + DIODE + KITTI) is 0.918; our average δ1 on the same 4 datasets is 0.929.
-† DepthLM is trained on nuScenes so it’s not zero-shot.
-‡ Numbers reported by Depth-Anything V3 [Lin et al., 2025].
-Table 6: Monocular metric depth estimation under the zero-shot transfer setting. Vision Banana achieves superior results on public datasets without using camera intrinsics in neither training of inference. Metrics marked with ↑ are better if higher; metrics marked with ↓ are better if lower.
+* The average δ1 of DepthLM-7B on the 4 datasets it evaluated on (NYU + iBims1 + ETH3D + nuScenes) is 0.855; our average δ1 on the same 4 datasets is 0.865. The average δ1 of Depth-Anything V3 on the 4 datasets it evaluated on (NYU + ETH3D + DIODE + KITTI) is 0.918; our average δ1 on the same 4 datasets is 0.929. † DepthLM is trained on nuScenes so it’s not zero-shot. ‡ Numbers reported by Depth-Anything V3 [Lin et al., 2025]. Table 6: Monocular metric depth estimation under the zero-shot transfer setting. Vision Banana achieves superior results on public datasets without using camera intrinsics in neither training of inference. Metrics marked with ↑ are better if higher; metrics marked with ↓ are better if lower.
 
 Tab. 6 presents the empirical results of Vision Banana compared to specialist models across six major academic benchmarks. Vision Banana achieves an average $\delta_{1}$ accuracy of 0.882, outperforming Unik3D \Piccinelli et al., [2025a\] by nearly 6 points, while achieving a 20% lower absolute relative error (AbsRel) compared to MoGe-2 \Wang et al., [2025c\]. Notably, Vision Banana outperforms Depth Anything V3 \Lin et al., on average across the four datasets (NYU, ETH3D, DIODE, KITTI) on which it was evaluated ($0.929$ v.s. $0.918$), demonstrating robust performance in both near-field and distant scenes. Our model is trained entirely on synthetic depth data created from simulation engines --- we use zero real-world depth data, and exclude training data from any of the depth datasets we evaluate . Note that this result is achieved without relying on camera parameters (neither intrinsics nor extrinsics) during *both* training or inference. By leveraging the immense geometric priors embedded in its foundation model, Vision Banana infers absolute scale solely from visual cues and object relationships, enabling zero-shot generalization to any arbitrary input image.
 
-Generated depth image
+Generated depth image Figure 6: Demonstration of Vision Banana’s metric depth estimation capabilities. The two columns to the left are the input images and the depth visualization image generated by Vision Banana. The depth images are then decoded back to metric depth values. Combining them with the camera intrinsics, we can reconstruct the 3D scene accurately. The two columns on the right are random views of the reconstructed scenes. Note that camera intrinsics are not needed in predicting the depth itself. Samples taken from NYU v2 [Silberman et al., 2012] and ETH 3D [Schops et al., 2019].
 
-Figure 6: Demonstration of Vision Banana’s metric depth estimation capabilities. The two columns to the left are the input images and the depth visualization image generated by Vision Banana. The depth images are then decoded back to metric depth values. Combining them with the camera intrinsics, we can reconstruct the 3D scene accurately. The two columns on the right are random views of the reconstructed scenes. Note that camera intrinsics are not needed in predicting the depth itself. Samples taken from NYU v2 [Silberman et al., 2012] and ETH 3D [Schops et al., 2019].
-
-(a) Photo taken at Kinkaku-Ji
-
-(b) Vision Banana estimated depth
-
-(c) Measurement from Google Maps
-
-Figure 7: Vision Banana depth estimation in the wild. (a) Author of this paper takes a picture near Kinkaku-Ji with a consumer cell-phone. (b) Vision Banana generates a depth estimation image. The depth value at the position marked by a green star is decoded to be 13.71 meters. (c) Author then measures the actual distance using Google Map, which turns out to be 12.87 meters. The AbsRel error at this point is around 0.065.
+(a) Photo taken at Kinkaku-Ji (b) Vision Banana estimated depth (c) Measurement from Google Maps Figure 7: Vision Banana depth estimation in the wild. (a) Author of this paper takes a picture near Kinkaku-Ji with a consumer cell-phone. (b) Vision Banana generates a depth estimation image. The depth value at the position marked by a green star is decoded to be 13.71 meters. (c) Author then measures the actual distance using Google Map, which turns out to be 12.87 meters. The AbsRel error at this point is around 0.065.
 
 Qualitative inspections further validate the model's capabilities. As illustrated in Fig. 6, Vision Banana generates highly precise depth maps that preserve crisp geometric details, even in cluttered environments like classrooms. When these 2D predictions are unprojected into 3D point clouds, they exhibit global consistency across diverse scenes, maintaining accurate planar surfaces and correct geometry. In addition to common academic benchmarks, we also conducted a "vibe test" using a casual smartphone photograph, as shown in Fig. 7. Crossed validated by depth measured on Google Maps, Vision Banana successfully produced an accurate depth estimation on this photo captured by a consumer device unseen during training.
 
 ### Surface Normal Estimation
 
-Surface normal estimation represents another critical vision task. Surface normals, which are unit vectors $(x,y,z)$ with values ranging from $- 1.0$ to $1.0$, serve as a critical proxy for local geometry and scene structures. Unlike the complex color mapping required for metric depth, the visualization of surface normals is intrinsically aligned with the RGB color space, allowing straightforward integration into our model.
+Surface normal estimation represents another critical vision task. Surface normals, which are unit vectors $(x,y,z)$ with values ranging from $-1.0$ to $1.0$, serve as a critical proxy for local geometry and scene structures. Unlike the complex color mapping required for metric depth, the visualization of surface normals is intrinsically aligned with the RGB color space, allowing straightforward integration into our model.
 
-We specifically utilize a camera-space normal formulation using the standard right-handed coordinate system (+x right, +y up, +z pointing out of the image plane). In this representation, the directional vector components map directly to RGB channels, i.e. $R = trunc{({(1 - x)}/2,min = 0,max = 1)} \times 255$, $G = trunc{({(1 + y)}/2,min = 0,max = 1)} \times 255$, $B = trunc{({(1 + z)}/2,min = 0,max = 1)} \times 255$:
-
-Facing Left $({- 1},0,0)$: Encoded as Pinkish Red.
+We specifically utilize a camera-space normal formulation using the standard right-handed coordinate system (+x right, +y up, +z pointing out of the image plane). In this representation, the directional vector components map directly to RGB channels, i.e. $R=trunc((1-x)/2,min=0,max=1)\times 255$, $G=trunc((1+y)/2,min=0,max=1)\times 255$, $B=trunc((1+z)/2,min=0,max=1)\times 255$: Facing Left $(-1,0,0)$: Encoded as Pinkish Red.
 
 Facing Up $$: Encoded as Light Green.
 
@@ -204,9 +122,7 @@ Facing the Camera $$: Encoded as Light Blue.
 
 Table 7 compares Vision Banana against SOTA specialist methods on four public benchmarks. When averaged across the three indoor datasets, Vision Banana achieves the lowest mean and median angular errors. It also demonstrates competitive accuracy on outdoor scenes.
 
-DSINE [Bae and Davison, 2024]
-
-Table 7: Surface normal estimation results. Vision Banana achieves the lowest mean and median angle errors on the indoor datasets on average, and is on par with previous SOTA on outdoor scenes.
+DSINE [Bae and Davison, 2024] Table 7: Surface normal estimation results. Vision Banana achieves the lowest mean and median angle errors on the indoor datasets on average, and is on par with previous SOTA on outdoor scenes.
 
 Figure 8: Comparison with SOTA surface normal estimation method Lotus-2 [He et al., 2025]. Results of Lotus-2 are obtained using its Hugging-Face demo: Vision Banana can produce surface normal map with much higher visual quality and better fine-grained details. Zoom-in for the details.
 

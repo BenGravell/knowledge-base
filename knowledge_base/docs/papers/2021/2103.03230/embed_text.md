@@ -14,11 +14,7 @@ In this paper, we propose a new method, Barlow Twins, which applies *redundancy-
 
 Like other methods for SSL, Barlow Twins operates on a joint embedding of distorted images (Fig. 1). More specifically, it produces two distorted views for all images of a batch $X$ sampled from a dataset. The distorted views are obtained via a distribution of data augmentations $\mathcal{T}$. The two batches of distorted views $Y^{A}$ and $Y^{B}$ are then fed to a function $f_{\theta}$, typically a deep network with trainable parameters $\theta$, producing batches of embeddings $Z^{A}$ and $Z^{B}$ respectively. To simplify notations, $Z^{A}$ and $Z^{B}$ are assumed to be mean-centered along the batch dimension, such that each unit has mean output 0 over the batch.
 
-Barlow Twins distinguishes itself from other methods by its innovative loss function $\mathcal{L}_{\mathcal{B}\mathcal{T}}$:
-
-where $\lambda$ is a positive constant trading off the importance of the first and second terms of the loss, and where $\mathcal{C}$ is the cross-correlation matrix computed between the outputs of the two identical networks along the batch dimension:
-
-where $b$ indexes batch samples and $i,j$ index the vector dimension of the networks' outputs. $\mathcal{C}$ is a square matrix with size the dimensionality of the network's output, and with values comprised between -1 (i.e. perfect anti-correlation) and 1 (i.e. perfect correlation).
+Barlow Twins distinguishes itself from other methods by its innovative loss function $\mathcal{L}_{\mathcal{B}\mathcal{T}}$: where $\lambda$ is a positive constant trading off the importance of the first and second terms of the loss, and where $\mathcal{C}$ is the cross-correlation matrix computed between the outputs of the two identical networks along the batch dimension: where $b$ indexes batch samples and $i,j$ index the vector dimension of the networks' outputs. $\mathcal{C}$ is a square matrix with size the dimensionality of the network's output, and with values comprised between -1 (i.e. perfect anti-correlation) and 1 (i.e. perfect correlation).
 
 Intuitively, the *invariance term* of the objective, by trying to equate the diagonal elements of the cross-correlation matrix to 1, makes the embedding invariant to the distortions applied. The *redundancy reduction term*, by trying to equate the off-diagonal elements of the cross-correlation matrix to 0, decorrelates the different vector components of the embedding. This decorrelation reduces the redundancy between output units, so that the output units contain non-redundant information about the sample.
 
@@ -31,26 +27,43 @@ The pseudocode for Barlow Twins is shown as Algorithm 1.
 ### Implementation Details
 
 ## f: encoder network
+
 ## lambda: weight on the off-diagonal terms
+
 ## N: batch size
+
 ## dimensionality of the embeddings
+
 ## matrix-matrix multiplication
+
 ## off_diagonal: off-diagonal elements of a matrix
+
 ## eye: identity matrix
+
 for x in loader: # load a batch with N samples
+
 ## two randomly augmented versions of x
+
 ## compute embeddings
+
 ## normalize repr. along the batch dimension
-z_a_norm = (z_a - z_a.mean) / z_a.std # NxD
-z_b_norm = (z_b - z_b.mean) / z_b.std # NxD
+
+z_a_norm = (z_a - z_a.mean) / z_a.std # NxD z_b_norm = (z_b - z_b.mean) / z_b.std # NxD
+
 ## cross-correlation matrix
+
 c = mm(z_a_norm.T, z_b_norm) / N # DxD
+
 ## loss
+
 c_diff = (c - eye(D)).pow # DxD
+
 ## multiply off-diagonal elems of c_diff by lambda
-off_diagonal(c_diff).mul_(lambda)
-loss = c_diff.sum()
+
+off_diagonal(c_diff).mul_(lambda) loss = c_diff.sum
+
 ## optimization step
+
 Algorithm 1 PyTorch-style pseudocode for Barlow Twins.
 
 ### Image augmentations
@@ -75,31 +88,23 @@ We follow standard practice and evaluate our representations by transfer learnin
 
 We train a linear classifier on ImageNet on top of fixed representations of a ResNet-50 pretrained with our method. The top-1 and top-5 accuracies obtained on the ImageNet validation set are reported in Table 1. Our method obtains a top-1 accuracy of $73.2\%$ which is comparable to the state-of-the-art methods.
 
-Barlow Twins (ours)
-
-Table 1: Top-1 and top-5 accuracies (in %) under linear evaluation on ImageNet. All models use a ResNet-50 encoder. Top-3 best self-supervised methods are underlined.
+Barlow Twins (ours) Table 1: Top-1 and top-5 accuracies (in %) under linear evaluation on ImageNet. All models use a ResNet-50 encoder. Top-3 best self-supervised methods are underlined.
 
 ### Semi-supervised training on ImageNet
 
 We fine-tune a ResNet-50 pretrained with our method on a subset of ImageNet. We use subsets of size $1\%$ and $10\%$ using the same split as SimCLR. The semi-supervised results obtained on the ImageNet validation set are reported in Table 2. Our method is either on par (when using $10\%$ of the data) or slightly better (when using $1\%$ of the data) than competing methods.
 
-Barlow Twins (ours)
-
-Table 2: Semi-supervised learning on ImageNet using 1% and 10% training examples. Results for the supervised method are from. Best results are in bold.
+Barlow Twins (ours) Table 2: Semi-supervised learning on ImageNet using 1% and 10% training examples. Results for the supervised method are. Best results are in bold.
 
 ### Transfer to other datasets and tasks
 
-Barlow Twins (ours)
-
-Table 3: Transfer learning: image classification. We benchmark learned representations on the image classification task by training linear classifiers on fixed features. We report top-1 accuracy on Places-205 and iNat18 datasets, and classification mAP on. Top-3 best self-supervised methods are underlined.
+Barlow Twins (ours) Table 3: Transfer learning: image classification. We benchmark learned representations on the image classification task by training linear classifiers on fixed features. We report top-1 accuracy on Places-205 and iNat18 datasets, and classification mAP. Top-3 best self-supervised methods are underlined.
 
 Image classification with fixed features We follow the setup from and train a linear classifier on fixed image representations, *i.e*., the parameters of the ConvNet remain unchanged. We use a diverse set of datasets for this evaluation - Places-205 for scene classification, for multi-label image classification, and iNaturalist2018 for fine-grained image classification. We report our results in Table 3. Barlow Twins performs competitively against prior work, and outperforms SimCLR and MoCo-v2 on most datasets.
 
 Object Detection and Instance Segmentation We evaluate our representations for the localization based tasks of object detection and instance segmentation. We use the +12 and COCO datasets following the setup in which finetunes the ConvNet parameters. Our results in Table 4 indicate that Barlow Twins performs comparably or better than state-of-the-art representation learning methods for these localization tasks.
 
-COCO instance seg
-
-Table 4: Transfer learning: object detection and instance segmentation. We benchmark learned representations on the object detection task on +12 using Faster R-CNN and on the detection and instance segmentation task on COCO using Mask R-CNN. All methods use the C4 backbone variant and models on COCO are finetuned using the 1× schedule. Best results are in bold.
+COCO instance seg Table 4: Transfer learning: object detection and instance segmentation. We benchmark learned representations on the object detection task on +12 using Faster R-CNN and on the detection and instance segmentation task on COCO using Mask R-CNN. All methods use the C4 backbone variant and models on COCO are finetuned using the 1× schedule. Best results are in bold.
 
 ## Ablations
 
@@ -109,11 +114,7 @@ For all ablation studies, Barlow Twins was trained for 300 epochs instead of 100
 
 We alter our loss function (eqn. 1) in several ways to test the necessity of each term of the loss function, and to experiment with different practices popular in other loss functions for SSL, such as infoNCE. Table 5 recapitulates the different loss functions tested along with their results on a linear evaluation benchmark of Imagenet. First we find that removing the invariance term (on-diagonal term) or the redundancy reduction term (off-diagonal term) of our loss function leads to worse/collapsed solutions, as expected. We then study the effect of different normalization strategies. We first try to normalize the embeddings along the feature dimension so that they lie on the unit sphere, as it is common practice for losses measuring a cosine similarity. Specifically, we first normalize the embeddings along the batch dimension (with mean subtraction), then normalize the embeddings along the feature dimension (without mean subtraction), and finally we measure the (unnormalized) covariance matrix instead of the (normalized) cross-correlation matrix in eqn. 2. The performance is slightly reduced. Second, we try to remove batch-normalization operations in the two hidden layers of the projector network MLP. The performance is barely affected. Third, in addition to removing the batch-normalization in the hidden layers, we replace the cross-correlation matrix in eqn. 2 by the cross-covariance matrix (which means the features are no longer normalized along the batch dimension). The performance is substantially reduced. We finally try a cross-entropy loss with temperature, for which the on-diagonal term and off-diagonal term is controlled by a temperature hyperparameter $\tau$ and coefficient $\lambda$: $\mathcal{L} = {{- {\log{\sum_{i}{\exp{({\mathcal{C}_{ii}/\tau})}}}}} + {\lambda\log{\sum_{i}{\sum_{j \neq i}{\exp{({{\max{(\mathcal{C}_{ij},0)}}/\tau})}}}}}}$. The performance is reduced.
 
-Only invariance term (on-diag term)
-
-Only red. red. term (off-diag term)
-
-Normalization along feature dim.
+Only invariance term (on-diag term) Only red. red. term (off-diag term) Normalization along feature dim.
 
 Cross-entropy with temp.
 
@@ -141,9 +142,7 @@ Figure 4: Effect of the dimensionality of the last layer of the projector networ
 
 Many SSL methods (e.g. BYOL, SimSiam, SwAV) rely on different symmetry-breaking mechanisms to avoid trivial solutions. Our loss function avoids these trivial solutions by construction, even in the case of symmetric networks. It is however interesting to ask whether breaking symmetry can further improve the performance of our network. Following SimSiam and BYOL, we experiment with adding a predictor network composed of 2 fully connected layers of size 8192 to one of the network (with batch normalization followed by a ReLU nonlinearity in the hidden layer) and/or a stop-gradient mechanism on the other network. We find that these asymmetries slightly decrease the performance of our network (see Table 6).
 
-Table 6: Effect of asymmetric settings
-
-BYOL with a larger projector/predictor/embedding For a fair comparison with BYOL, we also evaluated BYOL with a wider and/or deeper projector head (3-layer MLP), a wider and/or deeper predictor head, and a larger dimensionality of the embedding. BYOL did not improve under these conditions (see Table 7).
+Table 6: Effect of asymmetric settings BYOL with a larger projector/predictor/embedding For a fair comparison with BYOL, we also evaluated BYOL with a wider and/or deeper projector head (3-layer MLP), a wider and/or deeper predictor head, and a larger dimensionality of the embedding. BYOL did not improve under these conditions (see Table 7).
 
 3 layer proj, 2 layer pred, 256-d repr.
 
@@ -151,9 +150,7 @@ BYOL with a larger projector/predictor/embedding For a fair comparison with BYOL
 
 3 layer proj, 2 layer pred, 512-d repr.
 
-3 layer proj, 3 layer pred, 512-d repr.
-
-same proj as BT, 2 layer pred, 8192-d repr.
+3 layer proj, 3 layer pred, 512-d repr. same proj as BT, 2 layer pred, 8192-d repr.
 
 Table 7: Wider and/or deeper projector and predictor heads and larger dimensionality of the embedding did not improve the performance of BYOL.
 
@@ -169,33 +166,23 @@ Barlow Twins learns self-supervised representations through a joint embedding of
 
 ### infoNCE
 
-The InfoNCE loss, where NCE stands for Noise-Contrastive Estimation, is a popular type of contrastive loss function used for self-supervised learning (e.g. ). It can be instantiated as:
+The InfoNCE loss, where NCE stands for Noise-Contrastive Estimation, is a popular type of contrastive loss function used for self-supervised learning (e.g.). It can be instantiated as: where $z^{A}$ and $z^{B}$ are the twin network outputs, $b$ indexes the sample in a batch, $i$ indexes the vector component of the output, and $\tau$ is a positive constant called temperature in analogy to statistical physics.
 
-where $z^{A}$ and $z^{B}$ are the twin network outputs, $b$ indexes the sample in a batch, $i$ indexes the vector component of the output, and $\tau$ is a positive constant called temperature in analogy to statistical physics.
-
-For ready comparison, we rewrite Barlow Twins loss function with the same notations:
-
-Both Barlow Twins' and InfoNCE's objective functions have two terms, the first aiming at making the embeddings invariant to the distortions fed to the twin networks, the second aiming at maximizing the variability of the embedding learned. Another common point between the two losses is that they both rely on batch statistics to measure this variability. However, the InfoNCE objective maximizes the variability of the embeddings by maximizing the pairwise distance between all pairs of samples, whereas our method does so by decorrelating the components of the embeddings vectors.
+For ready comparison, we rewrite Barlow Twins loss function with the same notations: Both Barlow Twins' and InfoNCE's objective functions have two terms, the first aiming at making the embeddings invariant to the distortions fed to the twin networks, the second aiming at maximizing the variability of the embedding learned. Another common point between the two losses is that they both rely on batch statistics to measure this variability. However, the InfoNCE objective maximizes the variability of the embeddings by maximizing the pairwise distance between all pairs of samples, whereas our method does so by decorrelating the components of the embeddings vectors.
 
 The contrastive term in InfoNCE can be interpreted as a non-parametric estimation of the entropy of the distribution of embeddings. An issue that arises with non-parametric entropy estimators is that they are prone to the curse of dimensionality: they can only be estimated reliably in a low-dimensional setting, and they typically require a large number of samples.
 
 In contrast, our loss can be interpreted as a *proxy* entropy estimator of the distribution of embeddings under *a Gaussian parametrization* (see Appendix A). Thanks to this simplified parametrization, the variability of the embedding can be estimated from much fewer samples, and on very large-dimensional embeddings. Indeed, in the ablation studies that we perform, we find that our method is robust to small batches unlike the popular InfoNCE-based method SimCLR, and our method benefits from using very large dimensional embeddings, unlike InfoNCE-based methods which do not see a benefit in increasing the dimensionality of the output.
 
-Our loss presents several other interesting differences with infoNCE:
+Our loss presents several other interesting differences with infoNCE: In infoNCE, the embeddings are typically normalized along the feature dimension to compute a cosine similarity between embedded samples. We normalize the embeddings along the batch dimension instead.
 
-In infoNCE, the embeddings are typically normalized along the feature dimension to compute a cosine similarity between embedded samples. We normalize the embeddings along the batch dimension instead.
-
-In our method, there is a parameter $\lambda$ that trades off how much emphasis is put on the invariance term vs. the redundancy reduction term. This parameter can be interpreted as the trade-off parameter in the *Information Bottleneck* framework (see Appendix A). This parameter is not present in infoNCE.
-
-infoNCE also has a hyperparameter, the temperature, which can be interpreted as the width of the kernel in a non-parametric kernel density estimation of entropy, and practically weighs the relative importance of the hardest negative samples present in the batch.
+In our method, there is a parameter $\lambda$ that trades off how much emphasis is put on the invariance term vs. the redundancy reduction term. This parameter can be interpreted as the trade-off parameter in the *Information Bottleneck* framework (see Appendix A). This parameter is not present in infoNCE. infoNCE also has a hyperparameter, the temperature, which can be interpreted as the width of the kernel in a non-parametric kernel density estimation of entropy, and practically weighs the relative importance of the hardest negative samples present in the batch.
 
 A number of alternative methods to ours have been proposed to alleviate the reliance on large batches of the infoNCE loss. For example, MoCo builds a dynamic dictionary of negative samples with a queue and a moving-averaged encoder. This enables building a large and consistent dictionary on-the-fly that facilitates contrastive unsupervised learning. MoCo typically needs to store $> {60,000}$ sample embeddings. In contrast, our method does not require such a large dictionary, since it works well with a relatively small batch size (e.g. 256).
 
 ### Asymmetric Twins
 
-Bootstrap-Your-Own-Latent (aka BYOL) and SimSiam are two recent methods which use a simple cosine similarity between twin embeddings as an objective function, without *any* contrastive term:
-
-Surprisingly, these methods successfully avoid trivial solutions by introducing some asymmetry in the architecture and learning procedure of the twin networks. For example, BYOL uses a predictor network which breaks the symmetry between the two networks, and also enforces an exponential moving average on the target network weights to slow down the progression of the weights on the target network. Combined together, these two mechanisms surprisingly avoid trivial solutions. The reasons behind this success are the subject of recent theoretical and empirical studies. In particular, the ablation study shows that the moving average is not necessary, but that stop-gradient on one of the branch and the presence of the predictor network are two crucial elements to avoid collapse. Other works show that batch normalization or alternatively group normalization could play an important role in avoiding collapse.
+Bootstrap-Your-Own-Latent (aka BYOL) and SimSiam are two recent methods which use a simple cosine similarity between twin embeddings as an objective function, without *any* contrastive term: Surprisingly, these methods successfully avoid trivial solutions by introducing some asymmetry in the architecture and learning procedure of the twin networks. For example, BYOL uses a predictor network which breaks the symmetry between the two networks, and also enforces an exponential moving average on the target network weights to slow down the progression of the weights on the target network. Combined together, these two mechanisms surprisingly avoid trivial solutions. The reasons behind this success are the subject of recent theoretical and empirical studies. In particular, the ablation study shows that the moving average is not necessary, but that stop-gradient on one of the branch and the presence of the predictor network are two crucial elements to avoid collapse. Other works show that batch normalization or alternatively group normalization could play an important role in avoiding collapse.
 
 Like our method, these asymmetric methods do not require large batches, since in their case there is no interaction between batch samples in the objective function.
 
@@ -215,9 +202,7 @@ This method learns to map samples to fixed random targets on the unit sphere, wh
 
 ### IMAX
 
-In the early days of SSL, proposed a loss function between twin networks given by:
-
-where $||$ denotes the determinant of a matrix, $\mathcal{C}_{({Z^{A} - Z^{B}})}$ is the covariance matrix of the difference of the outputs of the twin networks and $\mathcal{C}_{({Z^{A} + Z^{B}})}$ the covariance of the sum of these outputs. It can be shown that this objective maximizes the information between the twin network representations under the assumptions that the two representations are noisy versions of the same underlying Gaussian signal, and that the noise is independant, additive and Gaussian. This objective is similar to ours in the sense that there is one term that encourages the two representations to be similar and another term that encourages the units to be decorrelated. However, unlike IMAX, our objective is not directly an information quantity, and we have an extra trade-off parameter $\lambda$ that trades off the two terms of our loss. The IMAX objective was used in early work so it is not clear whether it can scale to large computer vision tasks. Our attempts to make it work on ImageNet were not successful.
+In the early days of SSL, proposed a loss function between twin networks given: where $||$ denotes the determinant of a matrix, $\mathcal{C}_{({Z^{A} - Z^{B}})}$ is the covariance matrix of the difference of the outputs of the twin networks and $\mathcal{C}_{({Z^{A} + Z^{B}})}$ the covariance of the sum of these outputs. It can be shown that this objective maximizes the information between the twin network representations under the assumptions that the two representations are noisy versions of the same underlying Gaussian signal, and that the noise is independant, additive and Gaussian. This objective is similar to ours in the sense that there is one term that encourages the two representations to be similar and another term that encourages the units to be decorrelated. However, unlike IMAX, our objective is not directly an information quantity, and we have an extra trade-off parameter $\lambda$ that trades off the two terms of our loss. The IMAX objective was used in early work so it is not clear whether it can scale to large computer vision tasks. Our attempts to make it work on ImageNet were not successful.
 
 ### Future Directions
 

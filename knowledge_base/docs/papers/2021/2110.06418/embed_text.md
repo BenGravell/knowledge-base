@@ -52,13 +52,9 @@ Time-invariant, linear systems, where ${G{(\mathbf{x},\mathbf{u})}} = {{A\mathbf
 
 ### Definition 1.1
 
-A controller $K$ is *$(m,\alpha)$-exponentially stable* for dynamics $G$ if there exist constants ${m,\alpha} > 0$ such that if inputs are chosen according to $\mathbf{u}_{t} = {K\mathbf{x}_{t}}$, the sequence of states $\mathbf{x}_{t + 1} = {G{(\mathbf{x}_{t},\mathbf{u}_{t})}}$ satisfy
+A controller $K$ is *$(m,\alpha)$-exponentially stable* for dynamics $G$ if there exist constants ${m,\alpha} > 0$ such that if inputs are chosen according to $\mathbf{u}_{t} = {K\mathbf{x}_{t}}$, the sequence of states $\mathbf{x}_{t + 1} = {G{(\mathbf{x}_{t},\mathbf{u}_{t})}}$ satisfy Likewise, $K$ is *$(m,\alpha)$-exponentially stable on radius $r > 0$* if (1.1) holds for all $\mathbf{x}_{0}$ such that ${\|\mathbf{x}_{0}\|} \leq r$.
 
-Likewise, $K$ is *$(m,\alpha)$-exponentially stable on radius $r > 0$* if (1.1) holds for all $\mathbf{x}_{0}$ such that ${\|\mathbf{x}_{0}\|} \leq r$.
-
-For linear systems, a controller $K$ is stabilizing if and only if it is stable over the entire state space, however, the restriction to stabilization over a particular radius is in general needed for nonlinear systems. Our approach for stabilizing nonlinear systems relies on analyzing their *Jacobian linearization* about the origin equilibrium. Given a continuously differentiable transition operator $G$, the local dynamics can be approximated by the Jacobian linearization $(A_{jac},B_{jac})$ of $G$ about the zero equilibrium; that is
-
-In particular, for $\mathbf{x}$ and $\mathbf{u}$ sufficiently small, ${G{(\mathbf{x},\mathbf{u})}} = {{A_{jac}\mathbf{x}} + {B_{jac}\mathbf{u}} + {f_{nl}{(\mathbf{x},\mathbf{u})}}}$, where $f_{nl}{(\mathbf{x},\mathbf{u})}$ is a nonlinear remainder from the Taylor expansion of $G$. To ensure stabilization via state-feedback is feasible, we assume throughout our presentation that the linearized dynamics $(A_{jac},B_{jac})$ are stabilizable.
+For linear systems, a controller $K$ is stabilizing if and only if it is stable over the entire state space, however, the restriction to stabilization over a particular radius is in general needed for nonlinear systems. Our approach for stabilizing nonlinear systems relies on analyzing their *Jacobian linearization* about the origin equilibrium. Given a continuously differentiable transition operator $G$, the local dynamics can be approximated by the Jacobian linearization $(A_{jac},B_{jac})$ of $G$ about the zero equilibrium; that is In particular, for $\mathbf{x}$ and $\mathbf{u}$ sufficiently small, ${G{(\mathbf{x},\mathbf{u})}} = {{A_{jac}\mathbf{x}} + {B_{jac}\mathbf{u}} + {f_{nl}{(\mathbf{x},\mathbf{u})}}}$, where $f_{nl}{(\mathbf{x},\mathbf{u})}$ is a nonlinear remainder from the Taylor expansion of $G$. To ensure stabilization via state-feedback is feasible, we assume throughout our presentation that the linearized dynamics $(A_{jac},B_{jac})$ are stabilizable.
 
 ## Stabilizing Linear Dynamical Systems
 
@@ -66,19 +62,13 @@ We now present our main results establishing how our algorithm, discount anneali
 
 ### Definition 2.1 (LQR Objective)
 
-For a given starting state $\mathbf{x}$, we define the LQR problem $J_{lin}$ with discount factor $\gamma \in {(0,1\rbrack}$, dynamic matrices $(A,B)$, and state feedback controller $K$ as,
-
-Here, $\mathbf{x}_{t} \in {\mathbb{R}}^{d_{x}}$, $\mathbf{u}_{t} \in {\mathbb{R}}^{d_{u}}$, and $Q,R$ are positive definite matrices. Slightly overloading notation, we define
-
-to be the same as the problem above, but where the initial state is now drawn from the uniform distribution over the sphere in ${\mathbb{R}}^{d_{x}}$ of radius $\sqrt{d_{x}}$.^11^1This scaling is chosen so that the initial state distribution has identity covariance, and yields cost equivalent to $\mathbf{x}_{0} \sim {\mathcal{N}{(0,I)}}$.
+For a given starting state $\mathbf{x}$, we define the LQR problem $J_{lin}$ with discount factor $\gamma \in {(0,1\rbrack}$, dynamic matrices $(A,B)$, and state feedback controller $K$ as, Here, $\mathbf{x}_{t} \in {\mathbb{R}}^{d_{x}}$, $\mathbf{u}_{t} \in {\mathbb{R}}^{d_{u}}$, and $Q,R$ are positive definite matrices. Slightly overloading notation, we define to be the same as the problem above, but where the initial state is now drawn from the uniform distribution over the sphere in ${\mathbb{R}}^{d_{x}}$ of radius $\sqrt{d_{x}}$.^11^1This scaling is chosen so that the initial state distribution has identity covariance, and yields cost equivalent to $\mathbf{x}_{0} \sim {\mathcal{N}{(0,I)}}$.
 
 To simplify our presentation, we adopt the shorthand ${J_{lin}{({K \mid \gamma})}}:={J_{lin}{({K \mid {\gamma,A,B}})}}$ in cases where the system dynamics $(A,B)$ are understood from context. Furthermore, we assume that $(A,B)$ is stabilizable and that ${{\lambda_{\min}{(Q)}},{\lambda_{\min}{(R)}}} \geq 1$. It is a well-known fact that $K_{\star,\gamma}:={{{\arg\min}_{K}J_{lin}}{({K \mid {\gamma,A,B}})}}$ achieves the minimum LQR cost over all possible control laws. We begin our analysis with the observation that the discounted LQR problem is equivalent to the undiscounted LQR problem with damped dynamics matrices.^22^2This lemma is folklore within the controls community, see e.g. Lamperski.
 
 ### Lemma 2.1
 
-For all controllers $K$ such that ${J_{lin}{({K \mid {\gamma,A,B}})}} < \infty$,
-
-From this equivalence, it follows from basic facts about LQR that a controller $K$ satisfies ${J_{lin}{({0 \mid {\gamma,A,B}})}} < \infty$ if and only if $\sqrt{\gamma}{({A + {BK}})}$ is stable. Consequently, for $\gamma < {\rho{(A)}^{- 2}}$, the zero controller is stabilizing and one can solve the discounted LQR problem via direct policy search initialized at $K$ = 0. At this point, one may wonder whether the solution to this highly discounted problem yields a controller which stabilizes the undiscounted system. If this were true, running policy gradients (defined in Eq. 2.1) to convergence, on a single discounted LQR problem, would suffice to find a stabilizing controller.
+For all controllers $K$ such that ${J_{lin}{({K \mid {\gamma,A,B}})}} < \infty$, From this equivalence, it follows from basic facts about LQR that a controller $K$ satisfies ${J_{lin}{({0 \mid {\gamma,A,B}})}} < \infty$ if and only if $\sqrt{\gamma}{({A + {BK}})}$ is stable. Consequently, for $\gamma < {\rho{(A)}^{- 2}}$, the zero controller is stabilizing and one can solve the discounted LQR problem via direct policy search initialized at $K$ = 0. At this point, one may wonder whether the solution to this highly discounted problem yields a controller which stabilizes the undiscounted system. If this were true, running policy gradients (defined in Eq. 2.1) to convergence, on a single discounted LQR problem, would suffice to find a stabilizing controller.
 
 Unfortunately, the following proposition shows that this is not the case.
 
@@ -86,10 +76,9 @@ Unfortunately, the following proposition shows that this is not the case.
 
 Fix $A = {{diag}{}}$. For any positive definite cost matrices $Q,R$ and discount factor $\gamma$ such that $\sqrt{\gamma}A$ is stable, there exists a matrix $B$ such that $(A,B)$ is controllable (and thus stabilizable), yet the optimal controller $K_{\star,\gamma}:={{{\arg\min}_{K}J}{({K \mid {\gamma,A,B}})}}$ on the discounted problem is such that $A + {BK_{\star,\gamma}}$ is unstable.
 
-Discount Annealing Initialize: Objective J(⋅∣⋅), γ0 ∈ (0,ρ (A)−2), K0 ← 0, and Q ← I, R ← I For t = 0, 1, … 1. If γt = 1, run policy gradients once more as in Step 2, break, and return the resulting K′. 2. Using policy gradients (see Eq. 2.1) initialized at Kt, find K′ such that: ${{{J_{lin}{({K^{\prime} \mid \gamma_{t}})}} - {{\min\limits_{K}J_{lin}}{({K \mid \gamma_{t}})}}} \leq d_{x}}.$ (2.2) 3. Update initial controller Kt + 1 ← K′. 4. Using binary or random search, find a discount factor γ′ ∈ [γt, 1] such that 2.5 J (Kt + 1∣γt) ≤ J (Kt + 1∣γ′) ≤ 8 J (Kt + 1∣γt). (2.3) 5. Update the discount factor γt + 1 ← γ′.
-Figure 1: Discount annealing algorithm. The procedure is identical for both linear and nonlinear systems. For linear, we initialize J = Jlin(⋅∣γ0) and for nonlinear J = Jnl(⋅∣γ0,r⋆) where r⋆ is chosen as in Theorem 2. See Theorem 1, Theorem 2, and Appendix C for details regarding policy gradients and binary (or random) search. The constants above are chosen for convenience, any constants c1, c2 such that 1 &lt; c1 &lt; c2 suffice.
+Discount Annealing Initialize: Objective J(⋅ ∣ ⋅), γ0 ∈ (0, ρ (A)−2), K0 ← 0, and Q ← I, R ← I For t = 0, 1, … 1. If γt = 1, run policy gradients once more as in Step 2, break, and return the resulting K′. 2. Using policy gradients (see Eq. 2.1) initialized at Kt, find K′ such that: ${{{J_{lin}{({K' \mid \gamma_{t}})}} - {{\min\limits_{K}J_{lin}}{({K \mid \gamma_{t}})}}} \leq d_{x}}.$ (2.2) 3. Update initial controller Kt + 1 ← K′. 4. Using binary or random search, find a discount factor γ′ ∈ [γt, 1] such that 2.5 J (Kt + 1 ∣ γt) ≤ J (Kt + 1 ∣ γ′) ≤ 8 J (Kt + 1 ∣ γt). (2.3) 5. Update the discount factor γt + 1 ← γ′. Figure 1: Discount annealing algorithm. The procedure is identical for both linear and nonlinear systems. For linear, we initialize J = Jlin(⋅ ∣ γ0) and for nonlinear J = Jnl(⋅ ∣ γ0, r⋆) where r⋆ is chosen as in Theorem 2. See Theorem 1, Theorem 2, and Appendix C for details regarding policy gradients and binary (or random) search. The constants above are chosen for convenience, any constants c1, c2 such that 1 < c1 < c2 suffice.
 
-We now describe the discount annealing procedure for linear systems (Figure 1), which provably recovers a stabilizing controller $K$. For simplicity, we present the algorithm assuming access to noisy, bounded cost and gradient evaluations which satisfy the following definition. Employing standard arguments from, we illustrate how these evaluations can be efficiently implemented using polynomially many samples drawn from a simulator in Appendix C.
+We now describe the discount annealing procedure for linear systems (Figure 1), which provably recovers a stabilizing controller $K$. For simplicity, we present the algorithm assuming access to noisy, bounded cost and gradient evaluations which satisfy the following definition. Employing standard arguments , we illustrate how these evaluations can be efficiently implemented using polynomially many samples drawn from a simulator in Appendix C.
 
 ### Definition 2.2 (Gradient and Cost Queries)
 
@@ -103,31 +92,19 @@ The rate at which we can increase the discount factors $\gamma_{t}$ depends on c
 
 ### Theorem 1 (Linear Systems)
 
-Let $M_{lin}:={\max{\{{16tr\left\lbrack P_{\star} \right\rbrack},{J_{lin}{({K_{0} \mid \gamma_{0}})}}\}}}$. The following statements are true regarding the discount annealing algorithm when run on linear dynamical systems:
-
-Discount annealing returns a controller $\hat{K}$ which is $(\sqrt{2tr{\lbrack P_{\star}\rbrack}},{({4tr\left\lbrack P_{\star} \right\rbrack})}^{- 1})$-exponentially stable.
+Let $M_{lin}:={\max{\{{16tr\left\lbrack P_{\star} \right\rbrack},{J_{lin}{({K_{0} \mid \gamma_{0}})}}\}}}$. The following statements are true regarding the discount annealing algorithm when run on linear dynamical systems: Discount annealing returns a controller $\hat{K}$ which is $(\sqrt{2tr{\lbrack P_{\star}\rbrack}},{({4tr\left\lbrack P_{\star} \right\rbrack})}^{- 1})$-exponentially stable.
 
 If $\gamma_{0} < 1$, the algorithm is guaranteed to halt whenever $t$ is greater than $64tr\left\lbrack P_{\star} \right\rbrack^{4}{\log{({1/\gamma_{0}})}}$.
 
-Furthermore, at each iteration $t$:
+Furthermore, at each iteration $t$: Policy gradients as defined in Eq. 2.1 achieves the guarantee in Eq. 2.2 using only ${poly}{(M_{lin},{\| A\|}_{op},{\| B\|}_{op})}$ many queries to $\varepsilon\text{-}{\mathtt{G}\mathtt{r}\mathtt{a}\mathtt{d}}{(\cdot,J_{lin}{(\cdot \mid \gamma)})}$ as long as $\varepsilon$ is less than ${poly}{(M_{lin}^{- 1},{\| A\|}_{op}^{- 1},{\| B\|}_{op}^{- 1})}$.
 
-Policy gradients as defined in Eq. 2.1 achieves the guarantee in Eq. 2.2 using only ${poly}{(M_{lin},{\| A\|}_{op},{\| B\|}_{op})}$ many queries to $\varepsilon\text{-}{\mathtt{G}\mathtt{r}\mathtt{a}\mathtt{d}}{( \cdot,J_{lin}{( \cdot \mid \gamma)})}$ as long as $\varepsilon$ is less than ${poly}{(M_{lin}^{- 1},{\| A\|}_{op}^{- 1},{\| B\|}_{op}^{- 1})}$.
-
-The noisy binary search algorithm (see Figure 2) returns a discount factor $\gamma^{\prime}$ satisfying Eq. 2.3 using at most ${\lceil{4{\log{({{tr}\left\lbrack P_{\star} \right\rbrack})}}}\rceil} + 10$ many queries to $\varepsilon\text{-}{\mathtt{E}\mathtt{v}\mathtt{a}\mathtt{l}}{( \cdot,J_{lin}{( \cdot \mid \gamma)})}$ for $\varepsilon = d_{x}}$.
+The noisy binary search algorithm (see Figure 2) returns a discount factor $\gamma'$ satisfying Eq. 2.3 using at most ${\lceil{4{\log{({{tr}\left\lbrack P_{\star} \right\rbrack})}}}\rceil} + 10$ many queries to $\varepsilon\text{-}{\mathtt{E}\mathtt{v}\mathtt{a}\mathtt{l}}{( \cdot,J_{lin}{( \cdot \mid \gamma)})}$ for $\varepsilon = d_{x}}$.
 
 We remark that since $\varepsilon$ need only be polynomially small in the relevant problem parameters, each call to $\varepsilon\text{-}{\mathtt{G}\mathtt{r}\mathtt{a}\mathtt{d}}$ and $\varepsilon\text{-}{\mathtt{E}\mathtt{v}\mathtt{a}\mathtt{l}}$ can be carried out using only polynomially many samples from a simulator which returns finite horizon system trajectories under various control policies. We make this claim formal in Appendix C.
 
 ### Proof
 
-We prove part $b)$ of the theorem and defer the proofs of the remaining parts of to Appendix A. Define $P_{K,\gamma}$ to be the solution to the discrete-time Lyapunov equation. That is for $\sqrt{\gamma}{({A + {BK}})}$ stable, $P_{K,\gamma}$ solves:
-
-Using this notation, $P_{\star} = P_{K_{\star},1}$ is the solution to the above Lyapunov equation with $\gamma = 1$. The key step of the proof is Proposition A.4, which uses Lyapunov theory to verify the following: given the current discount factor $\gamma_{t}$, an idealized discount factor $\gamma_{t + 1}^{\prime}$ defined by
-
-satisfies ${J_{lin}{({K_{t + 1} \mid \gamma_{t + 1}^{\prime}})}} = {{tr}{\lbrack P_{K_{t + 1},\gamma_{t + 1}^{\prime}}\rbrack}} \leq {2tr\left\lbrack P_{K_{t + 1},\gamma_{t}} \right\rbrack} = {2J_{lin}{({K_{t + 1} \mid \gamma_{t}})}}$. Since the control cost is non-decreasing in $\gamma$, the binary search update in Step 4 ensures that the actual $\gamma_{t + 1}$ also satisfies
-
-The following calculation (which uses $d_{x} \leq {{tr}\left\lbrack P_{\star} \right\rbrack}$ for ${\lambda_{\min}{(Q)}} \geq 1$) justifies the second inequality above:
-
-Therefore, $\gamma_{t} \geq {{({{1/{({128tr\left\lbrack P_{\star} \right\rbrack^{4}})}} + 1})}^{2t}\gamma_{0}}$. The precise bound follows from taking logs of both sides and using the numerical inequality ${\log{({1 + x})}} \leq x$ to simplify the denominator.
+We prove part $b)$ of the theorem and defer the proofs of the remaining parts of to Appendix A. Define $P_{K,\gamma}$ to be the solution to the discrete-time Lyapunov equation. That is for $\sqrt{\gamma}{({A + {BK}})}$ stable, $P_{K,\gamma}$ solves: Using this notation, $P_{\star} = P_{K_{\star},1}$ is the solution to the above Lyapunov equation with $\gamma = 1$. The key step of the proof is Proposition A.4, which uses Lyapunov theory to verify the following: given the current discount factor $\gamma_{t}$, an idealized discount factor $\gamma_{t + 1}'$ defined by satisfies ${J_{lin}{({K_{t + 1} \mid \gamma_{t + 1}'})}} = {{tr}{\lbrack P_{K_{t + 1},\gamma_{t + 1}'}\rbrack}} \leq {2tr\left\lbrack P_{K_{t + 1},\gamma_{t}} \right\rbrack} = {2J_{lin}{({K_{t + 1} \mid \gamma_{t}})}}$. Since the control cost is non-decreasing in $\gamma$, the binary search update in Step 4 ensures that the actual $\gamma_{t + 1}$ also satisfies The following calculation (which uses $d_{x} \leq {{tr}\left\lbrack P_{\star} \right\rbrack}$ for ${\lambda_{\min}{(Q)}} \geq 1$) justifies the second inequality above: Therefore, $\gamma_{t} \geq {{({{1/{({128tr\left\lbrack P_{\star} \right\rbrack^{4}})}} + 1})}^{2t}\gamma_{0}}$. The precise bound follows from taking logs of both sides and using the numerical inequality ${\log{({1 + x})}} \leq x$ to simplify the denominator.
 
 ## Stabilizing Nonlinear Dynamical Systems
 
@@ -139,23 +116,17 @@ The discount annealing algorithm for nonlinear systems is almost identical to th
 
 ### Definition 3.1 (Nonlinear Objective)
 
-For a statefeedback controller $K:{{\mathbb{R}}^{d_{x}}\rightarrow{\mathbb{R}}^{d_{u}}}$, damping factor $\gamma \in {(0,1\rbrack}$, and an initial state $\mathbf{x}$, we define:
-
-Overloading notation as before, we let ${J_{nl}{({K \mid {\gamma,r}})}}:={{{\mathbb{E}}_{\mathbf{x} \sim {r \cdot \mathcal{S}^{d_{x} - 1}}}\left\lbrack {J_{nl}{({K \mid {\gamma,\mathbf{x}}})}} \right\rbrack} \times \frac{d_{x}}{r^{2}}}$.
+For a statefeedback controller $K:{{\mathbb{R}}^{d_{x}}\rightarrow{\mathbb{R}}^{d_{u}}}$, damping factor $\gamma \in {(0,1\rbrack}$, and an initial state $\mathbf{x}$, we define: Overloading notation as before, we let ${J_{nl}{({K \mid {\gamma,r}})}}:={{{\mathbb{E}}_{\mathbf{x} \sim {r \cdot \mathcal{S}^{d_{x} - 1}}}\left\lbrack {J_{nl}{({K \mid {\gamma,\mathbf{x}}})}} \right\rbrack} \times \frac{d_{x}}{r^{2}}}$.
 
 The normalization by $d_{x}/r^{2}$ above is chosen so that the nonlinear objective coincides with the LQR objective when $G_{nl}$ is in fact linear. Relative to the linear case, the only algorithmic difference for nonlinear systems is that we introduce an extra parameter $r$ which determines the radius for the initial state distribution. As established in Theorem 2. ‣ 3 Stabilizing Nonlinear Dynamical Systems ‣ Stabilizing Dynamical Systems via Policy Gradient Methods"), this parameter must be chosen small enough to ensure that discount annealing succeeds. Our analysis pertains to dynamics which satisfy the following smoothness definition.
 
 ### Assumption 1 (Local Smoothness)
 
-The transition map $G_{nl}$ is continuously differentiable. Furthermore, there exist ${r_{nl},\beta_{nl}} > 0$ such that for all ${(\mathbf{x},\mathbf{u})} \in {\mathbb{R}}^{d_{x} + d_{u}}$ with ${{\|\mathbf{x}\|} + {\|\mathbf{u}\|}} \leq r_{nl}$,
-
-For simplicity, we assume $\beta_{nl} \geq 1$ and $r_{nl} \leq 1$. Using Assumption 1. ‣ 3 Stabilizing Nonlinear Dynamical Systems ‣ Stabilizing Dynamical Systems via Policy Gradient Methods"), we can apply Taylor's theorem to rewrite $G_{nl}$ as its Jacobian linearization around the equilibrium point, plus a nonlinear remainder term.
+The transition map $G_{nl}$ is continuously differentiable. Furthermore, there exist ${r_{nl},\beta_{nl}} > 0$ such that for all ${(\mathbf{x},\mathbf{u})} \in {\mathbb{R}}^{d_{x} + d_{u}}$ with ${{\|\mathbf{x}\|} + {\|\mathbf{u}\|}} \leq r_{nl}$, For simplicity, we assume $\beta_{nl} \geq 1$ and $r_{nl} \leq 1$. Using Assumption 1. ‣ 3 Stabilizing Nonlinear Dynamical Systems ‣ Stabilizing Dynamical Systems via Policy Gradient Methods"), we can apply Taylor's theorem to rewrite $G_{nl}$ as its Jacobian linearization around the equilibrium point, plus a nonlinear remainder term.
 
 ### Lemma 3.1
 
-If $G_{nl}$ satisfies Assumption 1. ‣ 3 Stabilizing Nonlinear Dynamical Systems ‣ Stabilizing Dynamical Systems via Policy Gradient Methods"), then all $\mathbf{x},\mathbf{u}$ for which ${{\|\mathbf{x}\|} + {\|\mathbf{u}\|}} \leq r_{nl}$,
-
-where ${\|{f_{nl}{(\mathbf{x},\mathbf{u})}}\|} \leq {\beta_{nl}{({{\|\mathbf{x}\|}^{2} + {\|\mathbf{u}\|}^{2}})}}$, ${\|{{\nabla f_{nl}}{(\mathbf{x},\mathbf{u})}}\|} \leq {\beta_{nl}{({{\|\mathbf{x}\|} + {\|\mathbf{u}\|}})}}$, and where $(A_{jac},B_{jac})$ are the system's Jacobian linearization matrices defined in Eq. 1.2.
+If $G_{nl}$ satisfies Assumption 1. ‣ 3 Stabilizing Nonlinear Dynamical Systems ‣ Stabilizing Dynamical Systems via Policy Gradient Methods"), then all $\mathbf{x},\mathbf{u}$ for which ${{\|\mathbf{x}\|} + {\|\mathbf{u}\|}} \leq r_{nl}$, where ${\|{f_{nl}{(\mathbf{x},\mathbf{u})}}\|} \leq {\beta_{nl}{({{\|\mathbf{x}\|}^{2} + {\|\mathbf{u}\|}^{2}})}}$, ${\|{{\nabla f_{nl}}{(\mathbf{x},\mathbf{u})}}\|} \leq {\beta_{nl}{({{\|\mathbf{x}\|} + {\|\mathbf{u}\|}})}}$, and where $(A_{jac},B_{jac})$ are the system's Jacobian linearization matrices defined in Eq. 1.2.
 
 Rather than trying to directly understand the behavior of stabilization procedures on the nonlinear system, the key insight of our nonlinear analysis is that we can reason about the performance of a state-feedback controller on the nonlinear system via its behavior on the system's Jacobian linearization. In particular, the following lemma establishes how any controller which achieves finite discounted LQR cost for the Jacobian linearization is guaranteed to be exponentially stabilizing on the damped nonlinear system for initial states that are small enough. Throughout the remainder of this section, we define $J_{lin}{( \cdot \mid \gamma)}:=J_{lin}{( \cdot \mid \gamma,A_{jac},B_{jac})}$ as the LQR objective from Definition 2.1. ‣ 2 Stabilizing Linear Dynamical Systems ‣ Stabilizing Dynamical Systems via Policy Gradient Methods") where ${(A,B)} = {(A_{jac},B_{jac})}$.
 
@@ -167,27 +138,15 @@ The second main building block of our nonlinear analysis is the observation that
 
 ### Proposition 3.3
 
-Assume ${J_{lin}{({K \mid \gamma})}} < \infty$. Then, for $P_{K,\gamma}$ defined as in Eq. 2.4:
-
-If $r \leq \frac{r_{nl}}{2\beta_{nl}{\| P_{K,\gamma}\|}_{op}^{2}}$, then $\left| J_{nl}{(K \mid \gamma,r)} - J_{lin}{(K \mid \gamma)} \middle| \leq 8d_{x}\beta_{nl} \parallel P_{K,\gamma} \parallel_{op}^{4} \cdot r. \right.$
-
-If $r \leq \frac{1}{12\beta_{nl}{\| P_{K,\gamma}\|}_{op}^{5/2}}$, then, $\parallel \nabla_{K}J_{nl}{(K \mid \gamma,r)} - \nabla_{K}J_{lin}{(K \mid \gamma)} \parallel_{F} \leq 48d_{x}\beta_{nl}{(1 + \parallel B \parallel_{op})} \parallel P_{K,\gamma} \parallel_{op}^{7} \cdot r$
-
-Lastly, because policy gradients on linear dynamical systems is robust to inexact gradient queries, we show that for $r$ sufficiently small, running policy gradients on $J_{nl}$ converges to a controller which has performance close to the optimal controller for the LQR problem with dynamic matrices $(A_{jac},B_{jac})$. As noted previously, we can then use Lemma 3.2. ‣ 3 Stabilizing Nonlinear Dynamical Systems ‣ Stabilizing Dynamical Systems via Policy Gradient Methods") to translate the performance of the optimal LQR controller for the Jacobian linearization to an exponential stability guarantee for the nonlinear dynamics. Using these insights, we establish the following theorem regarding discount annealing for nonlinear dynamics.
+Assume ${J_{lin}{({K \mid \gamma})}} < \infty$. Then, for $P_{K,\gamma}$ defined as in Eq. 2.4: If $r \leq \frac{r_{nl}}{2\beta_{nl}{\| P_{K,\gamma}\|}_{op}^{2}}$, then $\left| J_{nl}{(K \mid \gamma,r)} - J_{lin}{(K \mid \gamma)} \middle| \leq 8d_{x}\beta_{nl} \parallel P_{K,\gamma} \parallel_{op}^{4} \cdot r. \right.$ If $r \leq \frac{1}{12\beta_{nl}{\| P_{K,\gamma}\|}_{op}^{5/2}}$, then, $\parallel \nabla_{K}J_{nl}{(K \mid \gamma,r)} - \nabla_{K}J_{lin}{(K \mid \gamma)} \parallel_{F} \leq 48d_{x}\beta_{nl}{(1 + \parallel B \parallel_{op})} \parallel P_{K,\gamma} \parallel_{op}^{7} \cdot r$ Lastly, because policy gradients on linear dynamical systems is robust to inexact gradient queries, we show that for $r$ sufficiently small, running policy gradients on $J_{nl}$ converges to a controller which has performance close to the optimal controller for the LQR problem with dynamic matrices $(A_{jac},B_{jac})$. As noted previously, we can then use Lemma 3.2. ‣ 3 Stabilizing Nonlinear Dynamical Systems ‣ Stabilizing Dynamical Systems via Policy Gradient Methods") to translate the performance of the optimal LQR controller for the Jacobian linearization to an exponential stability guarantee for the nonlinear dynamics. Using these insights, we establish the following theorem regarding discount annealing for nonlinear dynamics.
 
 ### Theorem 2 (Nonlinear Systems)
 
-Let $M_{nl}:={\max{\{{21tr\left\lbrack P_{\star} \right\rbrack},{J_{lin}{({K_{0} \mid \gamma_{0}})}}\}}}$. The following statements are true regarding the discount annealing algorithm for nonlinear dynamical systems when $r_{\star}$ is less than a fixed quantity that is ${poly}{({1/M_{nl}},{1/{\| A\|}_{op}},{1/{\| B\|}_{op}},{r_{nl}/\beta_{nl}})}$
+Let $M_{nl}:={\max{\{{21tr\left\lbrack P_{\star} \right\rbrack},{J_{lin}{({K_{0} \mid \gamma_{0}})}}\}}}$. The following statements are true regarding the discount annealing algorithm for nonlinear dynamical systems when $r_{\star}$ is less than a fixed quantity that is ${poly}{({1/M_{nl}},{1/{\| A\|}_{op}},{1/{\| B\|}_{op}},{r_{nl}/\beta_{nl}})}$ Discount annealing returns a controller $\hat{K}$ which is $(\sqrt{2tr{\lbrack P_{\star}\rbrack}},{({8tr\left\lbrack P_{\star} \right\rbrack})}^{- 1})$-exponentially stable over a radius $r = {r_{nl}/{({8\beta_{nl}{tr}\left\lbrack P_{\star} \right\rbrack^{2}})}}$ If $\gamma_{0} < 1$, the algorithm is guaranteed to halt whenever $t$ is greater than $64tr\left\lbrack P_{\star} \right\rbrack^{4}{\log{({1/\gamma_{0}})}}$.
 
-Discount annealing returns a controller $\hat{K}$ which is $(\sqrt{2tr{\lbrack P_{\star}\rbrack}},{({8tr\left\lbrack P_{\star} \right\rbrack})}^{- 1})$-exponentially stable over a radius $r = {r_{nl}/{({8\beta_{nl}{tr}\left\lbrack P_{\star} \right\rbrack^{2}})}}$
+Furthermore, at each iteration $t$: Policy gradients achieves the guarantee in Eq. 2.2 using only ${poly}{(M_{nl},{\| A\|}_{op},{\| B\|}_{op})}$ many queries to $\varepsilon\text{-}{\mathtt{G}\mathtt{r}\mathtt{a}\mathtt{d}}{(\cdot,J_{nl}{(\cdot \mid \gamma)})}$ as long as $\varepsilon$ is less than some fixed polynomial ${poly}{(M_{nl}^{- 1},{\| A\|}_{op}^{- 1},{\| B\|}_{op}^{- 1})}$.
 
-If $\gamma_{0} < 1$, the algorithm is guaranteed to halt whenever $t$ is greater than $64tr\left\lbrack P_{\star} \right\rbrack^{4}{\log{({1/\gamma_{0}})}}$.
-
-Furthermore, at each iteration $t$:
-
-Policy gradients achieves the guarantee in Eq. 2.2 using only ${poly}{(M_{nl},{\| A\|}_{op},{\| B\|}_{op})}$ many queries to $\varepsilon\text{-}{\mathtt{G}\mathtt{r}\mathtt{a}\mathtt{d}}{( \cdot,J_{nl}{( \cdot \mid \gamma)})}$ as long as $\varepsilon$ is less than some fixed polynomial ${poly}{(M_{nl}^{- 1},{\| A\|}_{op}^{- 1},{\| B\|}_{op}^{- 1})}$.
-
-Let $c_{0}$ denote a universal constant. With probability $1 - \delta$, the noisy random search algorithm (see Figure 2) returns a discount factor $\gamma^{\prime}$ satisfying Eq. 2.3 using at most ${c_{0} \cdot {tr}}\left\lbrack P_{\star} \right\rbrack^{4}{\log{({1/\delta})}}$ queries to $\varepsilon\text{-}{\mathtt{E}\mathtt{v}\mathtt{a}\mathtt{l}}{( \cdot,J_{nl}{( \cdot \mid \gamma,r_{\star})})}$ for $\varepsilon = d_{x}}$.
+Let $c_{0}$ denote a universal constant. With probability $1 - \delta$, the noisy random search algorithm (see Figure 2) returns a discount factor $\gamma'$ satisfying Eq. 2.3 using at most ${c_{0} \cdot {tr}}\left\lbrack P_{\star} \right\rbrack^{4}{\log{({1/\delta})}}$ queries to $\varepsilon\text{-}{\mathtt{E}\mathtt{v}\mathtt{a}\mathtt{l}}{( \cdot,J_{nl}{( \cdot \mid \gamma,r_{\star})})}$ for $\varepsilon = d_{x}}$.
 
 We note that while our theorem only guarantees that the controller is stabilizing around a polynomially small neighborhood of the equilibrium, in experiments, we find that the resulting controller successfully stabilizes the dynamics for a wide range of initial conditions. Relative to the case of linear systems where we leveraged the monotonicity of the LQR cost to search for discount factors using binary search, this monotonicity breaks down in the case of nonlinear systems and we instead analyze a random search algorithm to simplify the analysis.
 
@@ -195,9 +154,7 @@ We note that while our theorem only guarantees that the controller is stabilizin
 
 In this section, we evaluate the ability of the discount annealing algorithm to stabilize a simulated nonlinear system. Specifically, we consider the familiar cart-pole, with $d_{x} = 4$ (positions and velocities of the cart and pole), and $d_{u} = 1$ (horizontal force applied to the cart). The goal is to stabilize the system with the pole in the unstable 'upright' equilibrium position. For further details, including the precise dynamics, see Section D.1. The system was simulated in discrete-time with a simple forward Euler discretization, i.e., $\mathbf{x}_{t + 1} = {\mathbf{x}_{t} + {T_{s}{\overset{˙}{\mathbf{x}}}_{t}}}$, where ${\overset{˙}{\mathbf{x}}}_{t}$ is given by the continuous time dynamics, and $T_{s} = 0.05$ (20Hz). Simulations were carried out in PyTorch and run on a single GPU.
 
-Setup. The discounted annealing algorithm of Figure 1 was implemented as follows. In place of the true infinite horizon discounted cost $J_{nl}{({K \mid {\gamma,r}})}$ in Eq. C.4 we use a finite horizon, finite sample Monte Carlo approximation as described in Appendix C,
-
-Here, ${J_{nl}^{(H)}{({K \mid {\gamma,\mathbf{x}}})}} = {{\sum_{j = 0}^{H - 1}{\mathbf{x}_{t}^{\top}Q\mathbf{x}_{t}}} + {\mathbf{u}_{t}^{\top}R\mathbf{u}_{t}}}$, is the length $H$, finite horizon cost of a controller $K$ in which the states evolve according to the $\sqrt{\gamma}$ damped dynamics from Eq. C.5 and $\mathbf{u}_{t} = {K\mathbf{x}_{t}}$. We used $N = 5000$ and $H = 1000$ in our experiments. For the cost function, we used $Q = {T_{s} \cdot I}$ and $R = T_{s}$. We compute unbiased approximations of the gradients using automatic differentiation on the finite horizon objective $J_{nl}^{(H)}$.
+Setup. The discounted annealing algorithm of Figure 1 was implemented as follows. In place of the true infinite horizon discounted cost $J_{nl}{({K \mid {\gamma,r}})}$ in Eq. C.4 we use a finite horizon, finite sample Monte Carlo approximation as described in Appendix C, Here, ${J_{nl}^{(H)}{({K \mid {\gamma,\mathbf{x}}})}} = {{\sum_{j = 0}^{H - 1}{\mathbf{x}_{t}^{\top}Q\mathbf{x}_{t}}} + {\mathbf{u}_{t}^{\top}R\mathbf{u}_{t}}}$, is the length $H$, finite horizon cost of a controller $K$ in which the states evolve according to the $\sqrt{\gamma}$ damped dynamics from Eq. C.5 and $\mathbf{u}_{t} = {K\mathbf{x}_{t}}$. We used $N = 5000$ and $H = 1000$ in our experiments. For the cost function, we used $Q = {T_{s} \cdot I}$ and $R = T_{s}$. We compute unbiased approximations of the gradients using automatic differentiation on the finite horizon objective $J_{nl}^{(H)}$.
 
 Table 1: Final region of attraction radius rroa as a function of the initial state radius r used during training (discount annealing). We report the [min, max] values of rroa over 5 independent trials. The optimal LQR policy for the linearized system achieved rroa = 0.703 when applied to the nonlinear system. We also synthesized an ℋ∞ optimal controller for the linearized dynamics, which achieved rroa = 0.506.
 

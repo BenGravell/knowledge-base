@@ -14,23 +14,7 @@ The remainder of this report is organized to systematically present these findin
 
 ### Contents
 
-2. 2.2 Quantitative and Qualitative Results
-3. 4.3 Quantitative and Qualitative Results
-2. 5.2 Qualitative and Quantitative Results
-1. 6.2.1 Performance on Synthetic Datasets
-2. 6.2.2 Performance on Real-World Datasets
-3. 8.3 Quantitative and Qualitative Results
-2. 10.2 Qualitative and Quantitative Results
-11. 11 Low Light Image Enhancement
-3. 11.3 Qualitative and Quantitative Results
-12. 12 Underwater Image Enhancement
-14. 14 Multi-Focus Image Fusion
-15. 15 Infrared-Visible Image Fusion
-1. 16.1 Generative vs. Regression Paradigms
-2. 16.2 The Potential Misguidance of Traditional Metrics
-3. 16.3 Operational Scope and Limitations of Nano Banana Pro
-4. 16.4 Future Research Directions
-1. 17.1 Prompts for Each Task
+2. 2.2 Quantitative and Qualitative Results 3. 4.3 Quantitative and Qualitative Results 2. 5.2 Qualitative and Quantitative Results 1. 6.2.1 Performance on Synthetic Datasets 2. 6.2.2 Performance on Real-World Datasets 3. 8.3 Quantitative and Qualitative Results 2. 10.2 Qualitative and Quantitative Results 11. 11 Low Light Image Enhancement 3. 11.3 Qualitative and Quantitative Results 12. 12 Underwater Image Enhancement 14. 14 Multi-Focus Image Fusion 15. 15 Infrared-Visible Image Fusion 1. 16.1 Generative vs. Regression Paradigms 2. 16.2 The Potential Misguidance of Traditional Metrics 3. 16.3 Operational Scope and Limitations of Nano Banana Pro 4. 16.4 Future Research Directions 1. 17.1 Prompts for Each Task
 
 ## Dehazing
 
@@ -46,17 +30,7 @@ Nano Banana is an image generation model developed by Google DeepMind. Its profe
 
 ### Quantitative and Qualitative Results
 
-MBSDN [dong2020multi]
-
-Dehamer [guo2022image]
-
-DAD [shao2020domain]
-
-PSD [chen2021psd]
-
-CORUN [fang2024real]
-
-Table 1: Quantitative comparison of dehazing methods on multiple datasets. NB Pro achieves excellent NIMA scores on both datasets. It also demonstrates favorable FADE and BRISQUE scores on the RTTS dataset. However, its FADE and BRISQUE metrics on the Fattal’s dataset are unsatisfactory. The best results are in black bold.
+MBSDN [dong2020multi] Dehamer [guo2022image] DAD [shao2020domain] PSD [chen2021psd] CORUN [fang2024real] Table 1: Quantitative comparison of dehazing methods on multiple datasets. NB Pro achieves excellent NIMA scores on both datasets. It also demonstrates favorable FADE and BRISQUE scores on the RTTS dataset. However, its FADE and BRISQUE metrics on the Fattal’s dataset are unsatisfactory. The best results are in black bold.
 
 To intuitively present the dehazing outcomes of the Nano Banana (NB) Pro model, we provide quantitative and qualitative evaluations of its processing results across the RTTS \[li2018benchmarking\] and Fattal's \[fattal2014dehazing\] datasets, with comparisons to state-of-the-art baseline methods in real-world dehazing tasks. Tab. 1 show the performance comparison between NB Pro and current mainstream dehazing networks on the RTTS and Fattal's datasets, where we evaluated three real-world-oriented dehazing metrics: FADE, BRISQUE and NIMA. Integrating the evaluation results on both the RTTS and Fattal's datasets, NB Pro demonstrates outstanding performance in terms of subjective visual quality, achieving top-tier NIMA scores on both benchmarks, which indicates that the generated images possess strong aesthetic appeal and favorable human perceptual quality. However, it performs poorly in terms of image naturalness. Specifically, NB Pro exhibits a significantly higher BRISQUE score on the Fattal's dataset, suggesting that the outputs may suffer from over-enhancement artifacts.
 
@@ -92,23 +66,7 @@ To ensure a robust evaluation across varying degradation complexities, our exper
 
 ### Quantitative Results
 
-BSRGAN [zhang2021designing]
-
-Real-ESRGAN [wang2021real]
-
-StableSR [wang2023exploiting]
-
-DiffBIR [lin2023diffbir]
-
-SinSR [wang2024sinsr]
-
-Nano Banana Pro
-
-Nano Banana Pro
-
-Nano Banana Pro
-
-Table 2: Quantitative comparison on synthetic (DIV2K-Val[agustsson2017ntire]) and real-world (RealSR[cai2019toward], DRealSR[wei2020component]) benchmarks. The best and second best results are highlighted by black bold and underline.
+BSRGAN [zhang2021designing] Real-ESRGAN [wang2021real] StableSR [wang2023exploiting] DiffBIR [lin2023diffbir] SinSR [wang2024sinsr] Nano Banana Pro Nano Banana Pro Nano Banana Pro Table 2: Quantitative comparison on synthetic (DIV2K-Val[agustsson2017ntire]) and real-world (RealSR[cai2019toward], DRealSR[wei2020component]) benchmarks. The best and second best results are highlighted by black bold and underline.
 
 To comprehensively evaluate Nano Banana Pro's performance in Real-ISR tasks, we quantitatively compared it against a range of advanced GAN-based and diffusion-based image super-resolution methods. We employed standard full-reference metrics: PSNR and SSIM to evaluate signal fidelity, and LPIPS to assess perceptual similarity. Additionally, No-Reference (NR) metrics NIQE, MUSIQ, and CLIPIQA were utilized to quantify the statistical naturalness and aesthetic quality of the generated images. Results are shown in Tab. 2. Nano Banana Pro significantly underperformed against the comparison methods in terms of traditional fidelity metrics. On the DIV2K-Val dataset, Nano Banana Pro achieved significantly lower PSNR and SSIM than the optimal method, lagging by over 4 dB. A similar trend, though less severe, was observed on the RealSR and DRealSR datasets, where its fidelity scores remained consistently behind both GAN-based and diffusion-based baselines. This result clearly indicates that under the standard full-reference evaluation framework, which prioritizes pixel-level accurate reconstruction, Nano Banana Pro's generated results exhibit systematic deviations from the ground-truth reference images.
 
@@ -170,27 +128,7 @@ It is worth emphasizing that Nano Banana Pro is evaluated in a strictly zero-sho
 
 For fair comparison, all metrics are computed under exactly the same evaluation protocol as NeRD-Rain, including image resolution, color space, and PSNR/SSIM computation. Based on the quantitative results reported in Tab. 3, we systematically evaluate the image deraining performance of Nano Banana Pro on two synthetic datasets, Rain200L\[yang2017deep\] and Rain200H\[yang2017deep\], as well as the real-world SPA-Data dataset\[Wang_2019_CVPR\], and compare it with a wide range of representative methods. The compared approaches cover prior-based methods (DSC\[luo2015removing\], GMM\[li2016rain\]), CNN-based methods (DDN\[fu2017removing\], RESCAN\[li2018recurrent\], PReNet\[ren2019progressive\], MSPFN\[jiang2020multi\], RCDNet\[wang2020model\], MPRNet\[zamir2021multi\], DualGCN\[fu2021rain\], SPDNet\[yi2021structure\]), and Transformer-based methods (Uformer\[wang2022uformer\], Restormer\[zamir2022restormer\], IDT\[xiao2022image\], DRSformer\[chen2023learning\], NeRD-Rain\[NeRD-Rain\]).
 
-DSC[luo2015removing]
-
-PReNet[ren2019progressive]
-
-MSPFN[jiang2020multi]
-
-RCDNet[wang2020model]
-
-MPRNet[zamir2021multi]
-
-Uformer[wang2022uformer]
-
-Restormer[zamir2022restormer]
-
-IDT[xiao2022image]
-
-DRSformer[chen2023learning]
-
-Nano Banana Pro
-
-Table 3: Quantitative comparison results on three representative benchmarks. The best results are in black bold.
+DSC[luo2015removing] PReNet[ren2019progressive] MSPFN[jiang2020multi] RCDNet[wang2020model] MPRNet[zamir2021multi] Uformer[wang2022uformer] Restormer[zamir2022restormer] IDT[xiao2022image] DRSformer[chen2023learning] Nano Banana Pro Table 3: Quantitative comparison results on three representative benchmarks. The best results are in black bold.
 
 The quantitative performance of Nano Banana Pro is significantly inferior to that of state-of-the-art deraining models across all three datasets. On Rain200L\[yang2017deep\], Nano Banana Pro achieves 26.05 dB PSNR and 0.7954 SSIM, which are substantially lower than those of supervised learning-based methods. On the more challenging Rain200H dataset with complex rain patterns, Nano Banana Pro obtains 21.10 dB PSNR and 0.6659 SSIM. Although it outperforms traditional prior-based methods, a considerable performance gap remains compared to CNN-based and Transformer-based approaches. On the real-world SPA-Data dataset\[Wang_2019_CVPR\], Nano Banana Pro reaches 32.25 dB PSNR and 0.9142 SSIM, still noticeably below the current best-performing methods.
 
@@ -232,21 +170,7 @@ Figure 13: Some well-performing visual examples of NB Pro on the SRD dataset [qu
 
 Fig. 13 presents the well-performing shadow removal results of NB Pro on the SRD dataset \[qu2017deshadownet\]. It can be observed that NB Pro effectively removes shadows from the image while highly preserving the original elements without alteration. Tab. 4 presents the quantitative comparison on SRD dataset of NB Pro against state-of-the-art shadow removal methods, using PSNR and SSIM as the primary evaluation metrics.
 
-DSC [hu2018direction] (TPAMI’19)
-
-DHAN [cun2020towards](AAAI’20)
-
-BMNet [zhu2022bijective](CVPR’22)
-
-ShadowFormer[guo2023shadowformer] (AAAI’23)
-
-ShadowDiffusion [guo2023shadowdiffusion] (CVPR’23)
-
-HomoFormer [xiao2024homoformer] (CVPR’24)
-
-Nano Banana Pro
-
-Table 4: Quantitative comparisons on the SRD dataset [qu2017deshadownet]. The best results are highlighted by black bold.
+DSC [hu2018direction] (TPAMI’19) DHAN [cun2020towards](AAAI’20) BMNet [zhu2022bijective](CVPR’22) ShadowFormer[guo2023shadowformer] (AAAI’23) ShadowDiffusion [guo2023shadowdiffusion] (CVPR’23) HomoFormer [xiao2024homoformer] (CVPR’24) Nano Banana Pro Table 4: Quantitative comparisons on the SRD dataset [qu2017deshadownet]. The best results are highlighted by black bold.
 
 As shown in Tab. 4, a significant discrepancy exists between the visual quality discussed earlier and the numerical fidelity scores. While leading methods such as ShadowDiffusion \[guo2023shadowdiffusion\] and HomoFormer \[xiao2024homoformer\] achieve PSNR scores exceeding 34 dB and SSIM values above 0.97, NB Pro records comparatively lower scores, with a PSNR of 20.67 dB and SSIM of 0.682. This quantitative gap can be attributed to the inherent characteristics of generative models: NB Pro prioritizes perceptual plausibility and visual naturalness over strict pixel-wise alignment with ground truth references. Unlike traditional methods that focus on precise reconstruction, generative approaches like NB Pro tend to produce images with enhanced visual appeal, which may deviate from the exact pixel values of ground truth images, resulting in lower scores on fidelity-based metrics.
 
@@ -306,33 +230,7 @@ As observed in Tab. 5, a significant divergence exists between the previously di
 
 The lower PSNR and SSIM scores directly corroborate the limitations identified in the qualitative analysis. Standard metrics like PSNR are highly sensitive to pixel-level deviations. As noted in the visual evaluation, NB Pro tends to hallucinate high-frequency details, such as altering facial identities or modifying text characters, to maximize sharpness. These generated features, while appearing visually coherent, act as \"errors\" regarding the reference image, leading to heavy penalties in signal-to-noise calculations. Furthermore, the reported semantic inconsistencies, such as color shifts and the \"double-layer ghosting\" effects caused by misinterpreted motion trajectories, significantly disrupt structural similarity, resulting in the observed drop in SSIM. This confirms that the model's generated content often diverges from the underlying ground truth signal.
 
-DeepDeblur [nah2017deep]
-
-GAMD [luan2024gyroscope]
-
-DeblurGAN [kupyn2018deblurgan]
-
-DeblurGAN-v2 [kupyn2019deblurgan]
-
-DBGAN [zhang2020deblurring]
-
-Uformer-B [wang2022uformer]
-
-Stripformer [tsai2022stripformer]
-
-Restormer [zamir2022restormer]
-
-IR-SDE [luo2023image]
-
-DiffIR [xia2023diffir]
-
-HI-Diff [chen2023hierarchical]
-
-ID-CDM [wang2026zero]
-
-Nano Banana Pro
-
-Table 5: Quantitative comparison results of Nano Banana Pro and other representative methods on four benchmarks.
+DeepDeblur [nah2017deep] GAMD [luan2024gyroscope] DeblurGAN [kupyn2018deblurgan] DeblurGAN-v2 [kupyn2019deblurgan] DBGAN [zhang2020deblurring] Uformer-B [wang2022uformer] Stripformer [tsai2022stripformer] Restormer [zamir2022restormer] IR-SDE [luo2023image] DiffIR [xia2023diffir] HI-Diff [chen2023hierarchical] ID-CDM [wang2026zero] Nano Banana Pro Table 5: Quantitative comparison results of Nano Banana Pro and other representative methods on four benchmarks.
 
 ### Analysis
 
@@ -354,31 +252,7 @@ In this section, we extend our evaluation of the Nano Banana Pro (NB Pro) to the
 
 ### Quantitative Results
 
-DPDNet [abuolaim2020defocus]
-
-AIFNet [ruan2021aifnet]
-
-IFANet [lee2021iterative]
-
-KPAC [son2021single]
-
-GKMNet [quan2021gaussian]
-
-MDP [abuolaim2022improving]
-
-DRBNet [ruan2022learning]
-
-MPRNet [mehri2021mprnet]
-
-Restormer [zamir2022restormer]
-
-INIKNet [quan2023single]
-
-NRKNet [quan2023neumann]
-
-GGKMNet [quan2024deep]
-
-Table 6: Quantitative comparison on DPDD and RealDOF datasets. The best results are highlighted in black bold.
+DPDNet [abuolaim2020defocus] AIFNet [ruan2021aifnet] IFANet [lee2021iterative] KPAC [son2021single] GKMNet [quan2021gaussian] MDP [abuolaim2022improving] DRBNet [ruan2022learning] MPRNet [mehri2021mprnet] Restormer [zamir2022restormer] INIKNet [quan2023single] NRKNet [quan2023neumann] GGKMNet [quan2024deep] Table 6: Quantitative comparison on DPDD and RealDOF datasets. The best results are highlighted in black bold.
 
 Tab. 6 presents the quantitative evaluation on the DPDD \[abuolaim2020defocus\] and RealDOF \[ruan2021aifnet\] datasets. The results indicate a substantial performance gap between the Nano Banana Pro and established defocus deblurring methods. On the DPDD dataset, the Nano Banana Pro yields a PSNR of 20.180 dB and an SSIM of 0.635, significantly trailing the state-of-the-art GGKMNet by over 6 dB. A similar deficiency is evident on the RealDOF dataset, where NB Pro lags behind even early baselines like DPDNet. These low metrics align consistently with our qualitative findings: the depressed PSNR reflects the model's general failure to restore pixel-level sharpness, while the low SSIM corroborates the structural hallucinations and inability to remove blur observed in the visual comparison. However, it is worth noting that the competing methods, such as Restormer and DPDNet, are supervised models trained directly on the DPDD dataset, whereas NB Pro is evaluated here in a zero-shot setting without domain-specific training.
 
@@ -428,13 +302,9 @@ Evaluation Metrics. We adopt two complementary metrics to assess denoising quali
 
 ### Quantitative and Qualitative Results
 
-To systematically evaluate the image denoising capabilities of Nano Banana Pro, we invoked the model via its official API and compared its performance against five representative task-specific baselines (DnCNN \[dncnn\], Restormer \[zamir2022restormer\], MaskDenoising \[maskdenoising\], HAT \[HAT\], and DIL \[DIL\]). The evaluation spans two distinct regimes. First, we employed three synthetic benchmarks---McMaster \[mcmaster\], \[Kodak\], and Urban100 \[urban\]---corrupted with additive Gaussian noise ($\sigma = 50$) to test reconstruction across varying complexities. Specifically, McMaster assesses basic noise removal in smooth textures; covers diverse natural scenes to balance texture and color fidelity; and Urban100 challenges the model's ability to preserve high-frequency details within complex architectural structures. Complementing these synthetic tests, we assessed real-world blind denoising performance using SIDD Val \[sidd\] and PolyU \[polyu\], where no prior noise information is provided. SIDD Val serves as a core benchmark for handling authentic sensor noise captured under varying lighting and device conditions. Furthermore, PolyU is utilized to stress-test the model's generalization capabilities on irregular noise distributions characteristic of low-light and complex environments.
+To systematically evaluate the image denoising capabilities of Nano Banana Pro, we invoked the model via its official API and compared its performance against five representative task-specific baselines (DnCNN \[dncnn\], Restormer \[zamir2022restormer\], MaskDenoising \[maskdenoising\], HAT \[HAT\], and DIL \[DIL\]). The evaluation spans two distinct regimes. First, we employed three synthetic benchmarks---McMaster \[mcmaster\], \[Kodak\], and Urban100 \[urban\]---corrupted with additive Gaussian noise ($\sigma=50$) to test reconstruction across varying complexities. Specifically, McMaster assesses basic noise removal in smooth textures; covers diverse natural scenes to balance texture and color fidelity; and Urban100 challenges the model's ability to preserve high-frequency details within complex architectural structures. Complementing these synthetic tests, we assessed real-world blind denoising performance using SIDD Val \[sidd\] and PolyU \[polyu\], where no prior noise information is provided. SIDD Val serves as a core benchmark for handling authentic sensor noise captured under varying lighting and device conditions. Furthermore, PolyU is utilized to stress-test the model's generalization capabilities on irregular noise distributions characteristic of low-light and complex environments.
 
-Restormer [zamir2022restormer]
-
-SIDD Val [sidd]
-
-Table 7: Quantitative results of performance comparison on synthetic and natural noise datasets. The metrics are PSNR and SSIM, where higher values indicate better performance.
+Restormer [zamir2022restormer] SIDD Val [sidd] Table 7: Quantitative results of performance comparison on synthetic and natural noise datasets. The metrics are PSNR and SSIM, where higher values indicate better performance.
 
 As shown in Tab. 7, Nano Banana Pro exhibits a substantial performance deficit compared to all task-specific baselines. On synthetic datasets, it lags significantly behind the state-of-the-art DIL, with PSNR gaps ranging from 5.04 dB to 7.42 dB and SSIM reductions between 0.075 and 0.219. Notably, this disparity persists regardless of texture complexity (from McMaster to Urban100), indicating a fundamental lack of competitiveness in Gaussian noise removal. This limitation is further exacerbated in real-world blind denoising tasks. On SIDD Val \[sidd\], Nano Banana Pro trails DIL by 8.00 dB in PSNR. The gap widens drastically on PolyU \[polyu\], where it underperforms DIL by 14.83 dB and even falls behind the basic MaskDenoising model. These results underscore an inherent inability of Nano Banana Pro to effectively model and remove complex, realistic noise compared to specialized restoration models.
 
@@ -444,9 +314,7 @@ Fig. 19 visually compares Nano Banana Pro against state-of-the-art baselines. Th
 
 ### Discussion
 
-Based on the experimental results and architectural characteristics, the suboptimal denoising performance of Nano Banana Pro is attributed to two primary factors:
-
-Misalignment of Task Objectives: Nano Banana Pro is a general-purpose model optimized for high-level multimodal understanding and generation, rather than low-level pixel-wise restoration. It lacks the specialized architectural biases and targeted loss functions that enable baseline models to effectively balance noise removal with detail preservation.
+Based on the experimental results and architectural characteristics, the suboptimal denoising performance of Nano Banana Pro is attributed to two primary factors: Misalignment of Task Objectives: Nano Banana Pro is a general-purpose model optimized for high-level multimodal understanding and generation, rather than low-level pixel-wise restoration. It lacks the specialized architectural biases and targeted loss functions that enable baseline models to effectively balance noise removal with detail preservation.
 
 Trade-off Between Generative Prior and Pixel Fidelity: As a unified model, Nano Banana Pro prioritizes semantic plausibility and visual coherence over strict pixel-level accuracy. This generative nature often leads to the over-smoothing of high-frequency details in pursuit of "reasonable" content, resulting in inferior quantitative metrics compared to task-specific models trained via strict supervision.
 
@@ -458,7 +326,7 @@ In summary, this study evaluated the unified generative model Nano Banana Pro ag
 
 In fields such as computer vision, clear and interference-free image data is a fundamental foundation for subsequent analytical tasks including object detection and semantic segmentation. However, reflective surfaces like glass, water, and metal easily reflect ambient light into images, forming an interfering reflection layer over the real scene. This causes blurred details and obscured target information, directly compromising the reliability and accuracy of subsequent tasks. Single-Image Reflection Removal (SIRR), as a core technical solution, aims to accurately separate the transmission layer (real scene) from the reflection layer (interfering component) in a single mixed image to restore the true scene. It holds irreplaceable practical value in autonomous driving, security monitoring, consumer electronics, and other areas.
 
-SIRR is inherently a typical ill-posed inverse problem---without additional constraints, mixed image decomposition has infinitely many solutions. Early traditional methods relied on manually designed prior knowledge (sparsity, smoothness, and other assumptions) and linear modeling (such as $I = {T + R}$) to simplify the problem, but real-world reflections exhibit complex nonlinear characteristics due to light intensity, shooting angle, surface material, and other factors, leading to limited generalization of these methods. In recent years, deep learning has become the mainstream in SIRR research, forming three core architectures: single-stage approaches that directly output the target layer via a single network \[weiSingleImageReflection2019, zhangSingleImageReflection2018\], two-stage approaches that perform intermediate feature estimation followed by refinement \[liTwostageSingleImage2023, dongLocationawareSingleImage2021\], and multi-stage approaches that achieve reflection removal through recurrent cascaded iterative optimization \[liSingleImageReflection2020, yangSeeingDeeplyBidirectionally2018\]. Notably, the rapid development of generative artificial intelligence has injected new vitality into the field, with methods based on diffusion models and Transformers demonstrating potential to break through traditional limitations \[hongLDiffERSingleImage2025, zakarinReflectionRemovalEfficient2025\]. Nevertheless, existing approaches face significant bottlenecks: the scarcity of high-quality annotated datasets restricts model generalization, and issues such as scene information loss from strong reflections and overlapping appearance distributions between transmission and reflection layers make it hard to balance thorough reflection removal and detail preservation.
+SIRR is inherently a typical ill-posed inverse problem---without additional constraints, mixed image decomposition has infinitely many solutions. Early traditional methods relied on manually designed prior knowledge (sparsity, smoothness, and other assumptions) and linear modeling (such as $I=T+R$) to simplify the problem, but real-world reflections exhibit complex nonlinear characteristics due to light intensity, shooting angle, surface material, and other factors, leading to limited generalization of these methods. In recent years, deep learning has become the mainstream in SIRR research, forming three core architectures: single-stage approaches that directly output the target layer via a single network \[weiSingleImageReflection2019, zhangSingleImageReflection2018\], two-stage approaches that perform intermediate feature estimation followed by refinement \[liTwostageSingleImage2023, dongLocationawareSingleImage2021\], and multi-stage approaches that achieve reflection removal through recurrent cascaded iterative optimization \[liSingleImageReflection2020, yangSeeingDeeplyBidirectionally2018\]. Notably, the rapid development of generative artificial intelligence has injected new vitality into the field, with methods based on diffusion models and Transformers demonstrating potential to break through traditional limitations \[hongLDiffERSingleImage2025, zakarinReflectionRemovalEfficient2025\]. Nevertheless, existing approaches face significant bottlenecks: the scarcity of high-quality annotated datasets restricts model generalization, and issues such as scene information loss from strong reflections and overlapping appearance distributions between transmission and reflection layers make it hard to balance thorough reflection removal and detail preservation.
 
 Existing research covers traditional methods, deep learning architectures, and generative paradigms, but there remains substantial room for improvement in robustness and detail fidelity under complex real-world scenarios. On one hand, while generative models show promise, their hallucination suppression capabilities and adaptability to complex reflection mechanisms in high-fidelity tasks like SIRR have not been fully verified. On the other hand, efficient solutions for diverse reflection scenarios (diverse material surfaces, extreme lighting, and other scenarios) are lacking, demanding more generalizable generative models. Based on this, this report focuses on the latest generative model Nano Banana Pro. By systematically comparing it with existing baselines using quantitative and qualitative metrics, we investigate its detail restoration, anti-interference performance, and generalization in real reflection removal scenarios. The goal is to reveal its core advantages and limitations, providing practical references for technical optimization and model design in the SIRR field.
 
@@ -470,33 +338,11 @@ For a comprehensive assessment, we adopted three mainstream datasets in the SIRR
 
 The evaluation metrics assess both basic image quality and perceptual quality. For pixel-level fidelity, we employed Peak Signal-to-Noise Ratio (PSNR) and Structural Similarity Index (SSIM), with comprehensive comparison results summarized in Tab. 8. To better assess visual perception, we further incorporated Multi-Scale Structural Similarity (MS-SSIM) and Learned Perceptual Image Patch Similarity (LPIPS). Note that lower LPIPS values indicate better perceptual quality. For these perceptual metrics, we selected recent SOTA methods for comparison (with baseline data sourced from WindowSeat \[zakarinReflectionRemovalEfficient2025\]), as presented in Tab. 9. All metrics were calculated on the RGB channels between the resized output and the ground truth.
 
-DSRNet (w/o extra) [huSingleImageReflection2023]
-
-DSRNet (with extra) [huSingleImageReflection2023]
-
-DSIT (data I) [guoSingleImageReflection2024]
-
-DSIT (data II) [guoSingleImageReflection2024]
-
-RDNet (w/o nature) [zhaoReversibleDecouplingNetwork2025]
-
-RDNet (w nature) [zhaoReversibleDecouplingNetwork2025]
-
-F2T2-HiT [caiF2T2HiTUShapedFFT2025]
-
-WindowSeat⋆ (Qwen-IE) [zakarinReflectionRemovalEfficient2025]
-
-Nano Banana Pro
-
-Table 8: Quantitative Comparison of Single-Image Reflection Removal Methods. The best and second-best results are highlighted by black bold and underline, respectively. †: Training data includes Nature dataset; ⋆: Generative AI-based method. Note: ↑ indicates higher is better. SIR² dataset is divided into Objects, Postcard and Wild subsets; SIR2 denotes the commonly used subset, while SIR2 denotes the full public dataset.
+DSRNet (w/o extra) [huSingleImageReflection2023] DSRNet (with extra) [huSingleImageReflection2023] DSIT (data I) [guoSingleImageReflection2024] DSIT (data II) [guoSingleImageReflection2024] RDNet (w/o nature) [zhaoReversibleDecouplingNetwork2025] RDNet (w nature) [zhaoReversibleDecouplingNetwork2025] F2T2-HiT [caiF2T2HiTUShapedFFT2025] WindowSeat⋆ (Qwen-IE) [zakarinReflectionRemovalEfficient2025] Nano Banana Pro Table 8: Quantitative Comparison of Single-Image Reflection Removal Methods. The best and second-best results are highlighted by black bold and underline, respectively. †: Training data includes Nature dataset; ⋆: Generative AI-based method. Note: ↑ indicates higher is better. SIR² dataset is divided into Objects, Postcard and Wild subsets; SIR2 denotes the commonly used subset, while SIR2 denotes the full public dataset.
 
 As shown in Tab. 8, Nano Banana Pro exhibits a notable performance gap compared to state-of-the-art specialist methods. Quantitatively, it lags behind across all datasets in pixel-wise metrics (PSNR/SSIM). This disparity largely stems from the fundamental difference in optimization objectives: regression-based SOTA methods are supervised to minimize pixel-level reconstruction error, ensuring precise alignment. In contrast, the generative approach of Nano Banana Pro prioritizes semantic coherence over structural fidelity, often resulting in global intensity scaling and spatial shifts that heavily penalize PSNR, even if the image content is semantically correct.
 
-WindowSeat (Qwen-IE) [zakarinReflectionRemovalEfficient2025]
-
-Nano Banana Pro
-
-Table 9: Perceptual Quality Comparison (MS-SSIM and LPIPS) on Mainstream Datasets. ↑ indicates higher is better, while ↓ indicates lower is better. The best and second-best results are highlighted in black bold and underline. Baseline results are sourced from WindowSeat [zakarinReflectionRemovalEfficient2025].
+WindowSeat (Qwen-IE) [zakarinReflectionRemovalEfficient2025] Nano Banana Pro Table 9: Perceptual Quality Comparison (MS-SSIM and LPIPS) on Mainstream Datasets. ↑ indicates higher is better, while ↓ indicates lower is better. The best and second-best results are highlighted in black bold and underline. Baseline results are sourced from WindowSeat [zakarinReflectionRemovalEfficient2025].
 
 Tab. 9 further illustrates the performance in terms of perceptual quality metrics. Despite the generative nature of Nano Banana Pro, which typically favors perceptual scores, it still exhibits high LPIPS values (e.g., 0.2513 on Postcard vs. 0.0549 for SOTA). Unlike PSNR, which penalizes misalignment, the poor LPIPS performance points to a deeper issue: semantic and stylistic deviation. The model tends to perform aggressive \"image-to-image translation\" rather than faithful restoration, altering fundamental scene characteristics---such as modifying illumination, hallucinating textures, or shifting the color domain---thereby drifting away from the ground truth's perceptual manifold.
 
@@ -540,20 +386,9 @@ Contemporary flare removal methodologies have evolved from traditional detection
 
 Performance assessment is conducted on two complementary benchmark suites. The Flare7K++ \[Dai2024Flare7Kpp\] test set comprises 100 meticulously aligned 512×512-resolution real-world flare-corrupted/flare-free image pairs, with manual annotations delineating glare, streak, and light source regions to enable component-specific evaluation via G-PSNR and S-PSNR metrics. Additionally, the MIPI 2024 Challenge introduces FlareReal600 \[Dai2024MIPI\], a high-resolution dataset featuring 600 aligned training images, with validation and test sets each containing 50 pairs available in both 2K and 4K (1774×3840) resolutions to facilitate comprehensive evaluation across different spatial scales. In this subsection, we will systematically evaluate the flare removal capability of the Nano Banana Pro model on these benchmarks. We will examine its effectiveness in eliminating various nighttime flare artifacts while maintaining the scene's semantic and photometric integrity across different image resolutions, thereby providing a reference for the community.
 
-Restormer [zamir2022restormer]
-Uformer [wang2022uformer]
-Flare-level [deng2024towards]
-DeflareMamba [Huang2025DeflareMamba]
+Restormer [zamir2022restormer] Uformer [wang2022uformer] Flare-level [deng2024towards] DeflareMamba [Huang2025DeflareMamba] Table 10: Quantitative comparisons of Nano Banana Pro and representative specialists on the Flare7K++ dataset.
 
-Table 10: Quantitative comparisons of Nano Banana Pro and representative specialists on the Flare7K++ dataset.
-
-PPDN [Dai2024MIPI]
-
-LPIPS [zhang2018unreasonable]↓
-
-SSIM [wang2004image]↑
-
-Table 11: Quantitative comparisons of Nano Banana Pro and representative specialists on the FlareReal600 dataset.
+PPDN [Dai2024MIPI] LPIPS [zhang2018unreasonable]↓ SSIM [wang2004image]↑ Table 11: Quantitative comparisons of Nano Banana Pro and representative specialists on the FlareReal600 dataset.
 
 ### Qualitative and Quantitative Results
 
@@ -561,9 +396,7 @@ To comprehensively assess the capabilities of Nano Banana Pro, we organized our 
 
 Quantitative Evaluation. We first evaluated the model on the Flare7K++ dataset configured to an output resolution of 1K. Performance was measured using Peak Signal-to-Noise Ratio (PSNR) and Structural Similarity Index Measure (SSIM) \[wang2004image\]. As shown in Tab. 10, we compared Nano Banana Pro against state-of-the-art methods trained on the same dataset, including Restormer \[zamir2022restormer\], Uformer \[wang2022uformer\], and DeflareMamba \[Huang2025DeflareMamba\]. Subsequently, we extended our evaluation to the FlareReal600 dataset, processing images at their native resolutions to output 2K and 4K results. In addition to PSNR and SSIM, Learned Perceptual Image Patch Similarity (LPIPS) \[zhang2018unreasonable\] was included to assess perceptual quality. Tab. 11 benchmarks our results against the MIPI 2024 Challenge champion, MiAlgo AI. Note that while the challenge metrics were derived from an unpublished test set, our evaluation utilized the publicly available validation set. We observed two notable quantitative trends: 1) Resolution Impact: Performance metrics generally decline as output resolution increases. 2) Brightness Sensitivity: On the high-resolution FlareReal600 dataset, higher image brightness results in degraded metrics. However, this trend is not evident in the lower-resolution Flare7K++ dataset.
 
-Qualitative Analysis. Visual comparisons in Fig. 23 reveal a distinct dichotomy in the model's performance:
-
-1\. Visual Superiority vs. Stochastic Instability: On optimal inputs, Nano Banana Pro demonstrates exceptional deflaring capabilities, often surpassing SOTA methods in detail restoration. However, this advantage is compromised by the inherent stochasticity of diffusion models. The model exhibits significant variance and is prone to semantic hallucinations---such as generating unrelated content, suppressing valid light sources, or erroneously illuminating inactive bulbs. While prompt engineering offers partial mitigation, it fails to guarantee the deterministic reliability required for industrial deployment.
+Qualitative Analysis. Visual comparisons in Fig. 23 reveal a distinct dichotomy in the model's performance: 1\. Visual Superiority vs. Stochastic Instability: On optimal inputs, Nano Banana Pro demonstrates exceptional deflaring capabilities, often surpassing SOTA methods in detail restoration. However, this advantage is compromised by the inherent stochasticity of diffusion models. The model exhibits significant variance and is prone to semantic hallucinations---such as generating unrelated content, suppressing valid light sources, or erroneously illuminating inactive bulbs. While prompt engineering offers partial mitigation, it fails to guarantee the deterministic reliability required for industrial deployment.
 
 Figure 23: Qualitative comparison of flare removal results on the Flare7K++ dataset. Nana Banana Pro can preserve image details near light sources and achieves clean removal of streak artifacts. However, it may introduce some brightness changes, as shown in the third row.
 
@@ -595,11 +428,7 @@ Nano Banana Pro Configuration. Nano Banana Pro is evaluated in a zero-shot setti
 
 Tab. 12 presents the quantitative comparison across all three benchmarks. On LOLv1 \[lolv1\] and LOLv2-real \[lolv2\], Nano Banana Pro's zero-shot performance falls considerably short of the state-of-the-art supervised methods. The gap is particularly pronounced on LOLv2-real \[lolv2\], where the PSNR of 15.661 dB and SSIM of 0.537 lag behind leading methods by a substantial margin. This suggests that without task-specific training, the model struggles to consistently produce enhancements that align with the ground-truth references in these benchmarks. Interestingly, on the SICE \[sice\] dataset, Nano Banana Pro achieves slightly higher metrics than several comparison methods, demonstrating competitive zero-shot performance on this more challenging and diverse benchmark.
 
-LOLv2-Real [lolv2]
-
-Nano Banana Pro
-
-Table 12: Quantitative comparisons on the LOL and SICE datasets. The best results are highlighted by black bold.
+LOLv2-Real [lolv2] Nano Banana Pro Table 12: Quantitative comparisons on the LOL and SICE datasets. The best results are highlighted by black bold.
 
 Fig. 25 presents representative visual comparisons across these three datasets \[lolv1, lolv2, sice\]. Nano Banana Pro produces visually reasonable enhancements in many cases, successfully brightening dark regions and revealing scene content. However, the model exhibits inconsistent brightness control: in the first row, it tends to overexpose bright regions, while in others, it insufficiently enhances dark areas, leaving the output still underexposed. This inconsistency likely stems from the model's reliance on general visual priors rather than explicit illumination modeling. Notably, Nano Banana Pro does not introduce visible artifacts such as color distortion, halo effects, or structural corruption, which is a common failure mode of some enhancement methods. Texture preservation remains comparable to other approaches, with fine details in enhanced regions generally retained. The absence of artifacts suggests that the model's generative capabilities are well-regularized, even when applied to out-of-distribution tasks like low-light enhancement.
 
@@ -619,17 +448,7 @@ Traditional underwater image enhancement methods primarily rely on passive resto
 
 Performance evaluation is based on the above three datasets. In this subsection, we systematically assess the underwater image enhancement capabilities of the Nano Banana Pro model, focusing on its effectiveness in eliminating blue/green color casts and restoring blurred textures while preserving scene semantic integrity---such as biological morphology and artifact structure---and maintaining luminance consistency, including natural transitions between light and dark areas.
 
-UIEC²-Net [wang2021uiec2net]
-
-U-Shape [peng2023ushapetransformer]
-
-PUGAN [cong2023pugan]
-
-DM-Water [tang2023transformerdiffusion]
-
-WF-Diff [zhao2024wfdiff]
-
-Table 13: Quantitative comparisons on UIEB, LUSI and U45 datasets. The best results are highlighted by black bold.
+UIEC²-Net [wang2021uiec2net] U-Shape [peng2023ushapetransformer] PUGAN [cong2023pugan] DM-Water [tang2023transformerdiffusion] WF-Diff [zhao2024wfdiff] Table 13: Quantitative comparisons on UIEB, LUSI and U45 datasets. The best results are highlighted by black bold.
 
 ### Quantitative Results
 
@@ -671,23 +490,9 @@ Performance evaluation leverages two benchmark datasets. The FiveK dataset inclu
 
 ### Quantitative Results
 
-UPE[wang2019underexposed]
+UPE[wang2019underexposed] HDRNet[gharbi2017deep] DeepLPF[moran2020deeplpf] LUT[zeng2020learning] sLUT[wang2021realtime] CLUT[zhang2022clut] LLF-LUT++[zhang2025high] Table 14: Quantitative comparison on HDR+ and MIT-FiveK datasets. The best results are highlighted by black bold.
 
-HDRNet[gharbi2017deep]
-
-DeepLPF[moran2020deeplpf]
-
-LUT[zeng2020learning]
-
-sLUT[wang2021realtime]
-
-CLUT[zhang2022clut]
-
-LLF-LUT++[zhang2025high]
-
-Table 14: Quantitative comparison on HDR+ and MIT-FiveK datasets. The best results are highlighted by black bold.
-
-To comprehensively evaluate Nano Banana Pro's performance in HDR tasks, we quantitatively compared it against a range of advanced traditional and deep learning-based image enhancement methods. To ensure fair comparison, all images were downsampled to 480p resolution for evaluation. We employed four standard metrics: PSNR and SSIM to evaluate perceptual similarity, LPIPS to assess visual similarity, and $\bigtriangleupE$ to quantify color differences. Results are shown in Tab. 14. NB Pro significantly underperformed against the comparison methods. On the HDR+ dataset, NB Pro achieved lower PSNR and SSIM than the optimal method, while also exhibiting poorer LPIPS and $\bigtriangleupE$ values. On the MIT-FiveK dataset, although its PSNR and SSIM improved, they still lagged significantly behind the optimal method. This result clearly indicates that under the standard full-reference evaluation framework, which prioritizes pixel-level accurate reconstruction and color fidelity, NB Pro's generated results exhibit systematic deviations from professionally enhanced or color-graded reference images.
+To comprehensively evaluate Nano Banana Pro's performance in HDR tasks, we quantitatively compared it against a range of advanced traditional and deep learning-based image enhancement methods. To ensure fair comparison, all images were downsampled to 480p resolution for evaluation. We employed four standard metrics: PSNR and SSIM to evaluate perceptual similarity, LPIPS to assess visual similarity, and $\triangle E$ to quantify color differences. Results are shown in Tab. 14. NB Pro significantly underperformed against the comparison methods. On the HDR+ dataset, NB Pro achieved lower PSNR and SSIM than the optimal method, while also exhibiting poorer LPIPS and $\triangle E$ values. On the MIT-FiveK dataset, although its PSNR and SSIM improved, they still lagged significantly behind the optimal method. This result clearly indicates that under the standard full-reference evaluation framework, which prioritizes pixel-level accurate reconstruction and color fidelity, NB Pro's generated results exhibit systematic deviations from professionally enhanced or color-graded reference images.
 
 NB Pro fundamentally differs from traditional HDR/enhancement models optimized for specific imaging scenarios. The latter typically undergo end-to-end training directly on paired LDR-reference images, targeting minimization of pixel-level loss, thus inherently excelling in metrics like PSNR and SSIM. In contrast, NB Pro's generation process prioritizes semantic coherence and overall visual appeal. Its outputs can be viewed as reconstructions of the input image rather than strict pixel-to-pixel mappings. Consequently, generated images may exhibit deviations in luminance distribution, local contrast, and even color style compared to reference images, leading to comprehensive score reductions across full-reference metrics. Notably, on the LPIPS metric, NB Pro's performance on the MIT-FiveK dataset remains behind but shows a narrowed gap compared to pixel-level metrics. This suggests its outputs may retain some similarity to reference images at higher-level semantic features, while low-level pixel arrangements have been significantly altered.
 
@@ -725,35 +530,11 @@ More recently, the rapid advancement of Generative Artificial Intelligence has o
 
 ### Quantitative Results
 
-IFCNN [zhang2020ifcnn]
-
-MUFusion [cheng2023mufusion]
-
-DB-MFIF [zhang2024exploit]
-
-MFFT [zhai2024multi]
-
-DMANet [quan2025multi]
-
-MCCSR [zheng2025unfolding]
-
-Table 15: Quantitative comparison on the Lytro and MFFW datasets. The best results are highlighted by black bold.
+IFCNN [zhang2020ifcnn] MUFusion [cheng2023mufusion] DB-MFIF [zhang2024exploit] MFFT [zhai2024multi] DMANet [quan2025multi] MCCSR [zheng2025unfolding] Table 15: Quantitative comparison on the Lytro and MFFW datasets. The best results are highlighted by black bold.
 
 We evaluate the performance of MFIF on four benchmark: Lytro \[nejati2015multi\], MFFW \[xu2020mffw\], MFI-WHU \[zhang2021mff\] and SIMIF \[chun2025multi\]. The Lytro dataset contains 20 pairs of multi-focus images captured by a light field camera. The MFFW dataset includes 13 real image pairs with strong Defocus Spread Effect (DSE). The MFI-WHU dataset is constructed using Gaussian blur and decision maps, consists of a larger scale with 120 pairs. The SIMIF dataset is composed of 12 pairs of high-resolution images. Six popular objective metrics are employed for evaluation, including non-reference metrics, $EN$ \[jahne2005digital\], $AG$ \[cui2015detail\], $SF$ \[zheng2007new\], and Source-reference metrics $NMI$ \[hossny2008comments\], $Q_{Y}$ \[yang2008novel\], $Q_{CB}$ \[chen2009new\]. These datasets and metrics provide a comprehensive assessment from multiple perspectives.
 
-IFCNN [zhang2020ifcnn]
-
-MUFusion [cheng2023mufusion]
-
-DB-MFIF [zhang2024exploit]
-
-MFFT [zhai2024multi]
-
-DMANet [quan2025multi]
-
-MCCSR [zheng2025unfolding]
-
-Table 16: Quantitative comparison on the MFI-WHU and SIMIF datasets. The best results are in black bold.
+IFCNN [zhang2020ifcnn] MUFusion [cheng2023mufusion] DB-MFIF [zhang2024exploit] MFFT [zhai2024multi] DMANet [quan2025multi] MCCSR [zheng2025unfolding] Table 16: Quantitative comparison on the MFI-WHU and SIMIF datasets. The best results are in black bold.
 
 We compare the Nano Banana Pro (NB Pro) with 10 other state-of-the-art and representative MFIF methods, where ZMFF is a Zero-shot method, IFCNN and MUFusion are unsupervised methods, and the rest are supervised methods. According to the comparison results shown in the Tab. 32 and Tab. 33, NB Pro performs exceptionally well on non-reference metrics, achieving results that are close to or even surpassing the current state-of-the-art, indicating the high quality of the generated images themselves. Conversely, on source-reference metrics, NB Pro shows poorer performance, meeting the similar dilemma faced by previous Zero-shot and unsupervised methods. This indicates that during the fusion process, the model failed to adequately preserve consistency between the generated image and the source images in terms of aspects like gradients and structure; it exhibits excessive creativity at the expense of fidelity.
 
@@ -795,23 +576,7 @@ Although Nano Banana Pro has demonstrated impressive performance in general imag
 
 ### Quantitative Results
 
-SDN [zhang2021sdnet]
-
-TarD [liu2022target]
-
-DeF [liang2022fusion]
-
-Meta [zhao2023metafusion]
-
-CDDF [zhao2023cddfuse]
-
-DDFM [zhao2023ddfm]
-
-SegM [liu2023multi]
-
-EMMA [zhao2024equivariant]
-
-Table 17: Quantitative comparison on the MSRS, RoadScene, and M3FD datasets. The best results are in black bold.
+SDN [zhang2021sdnet] TarD [liu2022target] DeF [liang2022fusion] Meta [zhao2023metafusion] CDDF [zhao2023cddfuse] DDFM [zhao2023ddfm] SegM [liu2023multi] EMMA [zhao2024equivariant] Table 17: Quantitative comparison on the MSRS, RoadScene, and M3FD datasets. The best results are in black bold.
 
 Figure 35: Visualization examples of image fusion results by Nano Banana Pro in the MSRS dataset.
 
@@ -833,13 +598,9 @@ Fig. 36 further visualize the fusion performance on the other two datasets. In g
 
 ### Analyses
 
-This report presents a comprehensive evaluation of Google's Nano Banana Pro in Infrared-Visible Image Fusion. The experimental outcomes reveal a pronounced performance dichotomy:
+This report presents a comprehensive evaluation of Google's Nano Banana Pro in Infrared-Visible Image Fusion. The experimental outcomes reveal a pronounced performance dichotomy: On one hand, leveraging powerful generative priors, NB Pro demonstrates overwhelming superiority in non-reference metrics. It successfully circumvents the bottlenecks of traditional methods regarding night-time enhancement and texture reconstruction, yielding fused images of exceptional contrast and clarity. On the other hand, this aggressive generation strategy incurs a fidelity cost. Lower scores in source consistency metrics, combined with qualitative artifacts such as excessive sharpening and halo effects, indicate that the model sacrifices pixel-level fidelity to the original physical signals in exchange for perceptual appeal.
 
-On one hand, leveraging powerful generative priors, NB Pro demonstrates overwhelming superiority in non-reference metrics. It successfully circumvents the bottlenecks of traditional methods regarding night-time enhancement and texture reconstruction, yielding fused images of exceptional contrast and clarity. On the other hand, this aggressive generation strategy incurs a fidelity cost. Lower scores in source consistency metrics, combined with qualitative artifacts such as excessive sharpening and halo effects, indicate that the model sacrifices pixel-level fidelity to the original physical signals in exchange for perceptual appeal.
-
-The performance of NB Pro catalyzes a re-evaluation of the current IVIF landscape:
-
-Traditional methods fundamentally operate as signal processing routines aiming to preserve pixel intensity. However, NB Pro introduces a paradigm of semantic generation. Rather than merely superimposing pixels, it interprets the scene context to re-synthesize the image. This explains its capability to recover astonishing details alongside its propensity for hallucinations. Future research must focus on integrating physical constraints, enforcing strict adherence to thermal distribution laws while exploiting generative capabilities.
+The performance of NB Pro catalyzes a re-evaluation of the current IVIF landscape: Traditional methods fundamentally operate as signal processing routines aiming to preserve pixel intensity. However, NB Pro introduces a paradigm of semantic generation. Rather than merely superimposing pixels, it interprets the scene context to re-synthesize the image. This explains its capability to recover astonishing details alongside its propensity for hallucinations. Future research must focus on integrating physical constraints, enforcing strict adherence to thermal distribution laws while exploiting generative capabilities.
 
 While visually striking, NB Pro's outputs raise concerns for safety-critical applications like autonomous driving. Perceptual pleasantness does not equate to operational reliability. Artifacts or over-sharpening can trigger false positives in detection algorithms or obscure small targets. Consequently, evaluation standards must evolve beyond visual quality to include Machine Perception Metrics, directly validating the utility of fused images on downstream tasks.
 
@@ -855,9 +616,7 @@ Our work highlights intrinsic difference between generative and traditional low-
 
 ### The Potential Misguidance of Traditional Metrics
 
-Our results strongly challenge the universal applicability of full-reference metrics (e.g., PSNR, SSIM), which are predominant in current low-level vision research. These pixel-difference-based metrics carry a strong implicit assumption: the existence of a single, pixel-perfect ground truth. This assumption is problematic for evaluating generative solutions:
-
-Ground truth is not the unique optimum for generative repair. For regions with catastrophic information loss, multiple visually plausible and contextually correct reconstructions may exist. A generative model provides one such possibility, yet it is penalized by the metric as incorrect.
+Our results strongly challenge the universal applicability of full-reference metrics (e.g., PSNR, SSIM), which are predominant in current low-level vision research. These pixel-difference-based metrics carry a strong implicit assumption: the existence of a single, pixel-perfect ground truth. This assumption is problematic for evaluating generative solutions: Ground truth is not the unique optimum for generative repair. For regions with catastrophic information loss, multiple visually plausible and contextually correct reconstructions may exist. A generative model provides one such possibility, yet it is penalized by the metric as incorrect.
 
 The metrics are misaligned with human perception. As shown in previous sections, Nano Banana Pro achieves excellent scores on No-Reference perceptual metrics (e.g., NIQE, NIMA), often surpassing specialized models. This indicates its outputs possess superior statistical naturalness and aesthetic appeal. The drop in PSNR can sometimes be attributed solely to the model's reasonable global color adjustment, mild denoising, or detail enhancement, which are improvements that are paradoxically penalized.
 
@@ -873,9 +632,7 @@ However, these capabilities come with inherent constraints. The model is not sui
 
 ### Future Research Directions
 
-The findings of this study point to several critical directions for future work:
-
-Exploration of Hybrid Architectures. The future all-rounder may not be a purely generative model but a generative-regression hybrid. For instance, a lightweight regression network could first recover basic structure and color in the front-end, followed by a conditional generative model for detail enhancement and beautification in the back-end. This process should be constrained by physics-informed loss functions to curb arbitrariness.
+The findings of this study point to several critical directions for future work: Exploration of Hybrid Architectures. The future all-rounder may not be a purely generative model but a generative-regression hybrid. For instance, a lightweight regression network could first recover basic structure and color in the front-end, followed by a conditional generative model for detail enhancement and beautification in the back-end. This process should be constrained by physics-informed loss functions to curb arbitrariness.
 
 Prompt Engineering and Controllable Generation. It is important to note that the present evaluation reflects a conservative estimate of the model's capability, as we did not engage in meticulous prompt tuning or employ multi-round inference to cherry-pick optimal outputs. Our fixed, simple prompts represent a pragmatic but unoptimized use case. Future work should therefore systematically explore how carefully designed textual instructions, visual cues, or interactive refinement can more effectively steer the generative process. Enhancing such controllability will be key to reducing unwanted variability in color, structure, and texture---ultimately improving the reliability and practical utility of generative models in restoration-sensitive applications.
 

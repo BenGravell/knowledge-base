@@ -64,9 +64,7 @@ Rigid objects for pick-and-place tasks are sourced from iTHOR \[Kolve2017AI2THOR
 
 We extensively perform domain randomization across three axes: environment randomization, action randomization (Sec. 3.2), and camera perturbation (Sec. 3.3.3). In addition to this, during model training we also perform image augmentation.
 
-Focusing on environment randomization, after object placement, we randomize all visual and physical parameters supported by MuJoCo:
-
-Lighting: Number of lights (\[1--N\]), positions, intensities, colors, and shadow properties. We sample both point and directional lights to simulate diverse indoor conditions.
+Focusing on environment randomization, after object placement, we randomize all visual and physical parameters supported by MuJoCo: Lighting: Number of lights (\[1--N\]), positions, intensities, colors, and shadow properties. We sample both point and directional lights to simulate diverse indoor conditions.
 
 Textures: Surface materials are randomized across placed objects and, where supported, existing scene elements. We sample from procedural textures and real-world texture maps sourced from AI2THOR assets \[kolve2017ai2thor\].
 
@@ -92,19 +90,19 @@ A mobile manipulator with a holonomic base (3-DoF: $x,y,\theta$), a 6-DoF torso,
 
 ### Initial joint-configuration randomization
 
-At episode initialization, each move group's joint positions are sampled as $q_{0} + \delta$, where $q_{0}$ is a nominal home configuration and $\delta_{i}\mathcal{U}{({- r_{i}},r_{i})}$ with per-joint noise magnitudes $r_{i}$. For both robots, the arm noise magnitudes are *graduated*: proximal joints receive smaller perturbations and distal joints larger ones. Concretely, the Franka arm uses $\mathbf{r}_{\text{arm}} = {\lbrack 0.025,0.05,0.075,0.1,0.125,0.15,0.175\rbrack}$ rad (chosen via a Jacobian-weighted heuristic to bound TCP displacement to 10 cm), and each RB-Y1 arm uses $\mathbf{r}_{\text{arm}} = {\lbrack 0.05,0.05,0.075,0.1,0.125,0.15,0.175\rbrack}$ rad. The RB-Y1 additionally randomizes head pan and tilt ($0.2$ rad $11.4$ each) and gripper aperture ($0.01$ rad). Torso and base initial joint positions are not perturbed.
+At episode initialization, each move group's joint positions are sampled as $q_{0}+\delta$, where $q_{0}$ is a nominal home configuration and $\delta_{i}\sim\mathcal{U}(-r_{i},r_{i})$ with per-joint noise magnitudes $r_{i}$. For both robots, the arm noise magnitudes are *graduated*: proximal joints receive smaller perturbations and distal joints larger ones. Concretely, the Franka arm uses $\mathbf{r}_{\text{arm}}=[0.025,0.05,0.075,0.1,0.125,0.15,0.175]$ rad (chosen via a Jacobian-weighted heuristic to bound TCP displacement to 10 cm), and each RB-Y1 arm uses $\mathbf{r}_{\text{arm}}=[0.05,0.05,0.075,0.1,0.125,0.15,0.175]$ rad. The RB-Y1 additionally randomizes head pan and tilt ($\pm 0.2$ rad $\approx\pm 11.4$ each) and gripper aperture ($\pm 0.01$ rad). Torso and base initial joint positions are not perturbed.
 
 ### Action noise injection
 
 During data collection, noise is injected into expert actions to prevent policies from overfitting to exact action replay. The noise is *action-proportional*: its standard deviation scales with the magnitude of the commanded displacement, so stationary commands receive no noise and large motions receive proportionally more.
 
-For arm move groups, noise is applied in TCP space and then mapped back to joint space via the Jacobian pseudo-inverse. Specifically, we compute the commanded TCP displacement ${\Delta\mathbf{x}} = {J\Delta\mathbf{q}}$ from the Jacobian $J$ and the joint-space command $\Delta\mathbf{q}$. Position noise is sampled from a truncated Gaussian with $\sigma_{\text{pos}} = {\alpha\Delta\mathbf{x}_{\text{pos}}}$ and clipped to $2$ cm, where $\alpha = 0.1$ is a scale factor. Rotation noise uses $\sigma_{\text{rot}} = {0.1\sigma_{\text{pos}}}$, clipped to $0.1$ rad ($5.7$). The resulting 6-DoF TCP noise vector $\mathbf{\epsilon}_{\text{tcp}}$ is projected to joint space by solving ${J\mathbf{\epsilon}_{q}} = \mathbf{\epsilon}_{\text{tcp}}$ in the least-squares sense, and the noisy command is clipped to joint limits.
+For arm move groups, noise is applied in TCP space and then mapped back to joint space via the Jacobian pseudo-inverse. Specifically, we compute the commanded TCP displacement $\Delta\mathbf{x}=J\Delta\mathbf{q}$ from the Jacobian $J$ and the joint-space command $\Delta\mathbf{q}$. Position noise is sampled from a truncated Gaussian with $\sigma_{\text{pos}}=\alpha\|\Delta\mathbf{x}_{\text{pos}}\|$ and clipped to $\pm 2$ cm, where $\alpha=0.1$ is a scale factor. Rotation noise uses $\sigma_{\text{rot}}=0.1\cdot\sigma_{\text{pos}}$, clipped to $\pm 0.1$ rad ($\approx 5.7$). The resulting 6-DoF TCP noise vector $\boldsymbol{\epsilon}_{\text{tcp}}$ is projected to joint space by solving $J\boldsymbol{\epsilon}_{q}=\boldsymbol{\epsilon}_{\text{tcp}}$ in the least-squares sense, and the noisy command is clipped to joint limits.
 
-For the RB-Y1 base, planar noise is applied directly to $(x,y,\theta)$ commands using clipped Gaussians with $\sigma = {0.1\Delta\mathbf{p}}$, bounded to $2$ cm in position and $0.05$ rad ($2.8$) in heading. Action noise is disabled during simulated evaluation.
+For the RB-Y1 base, planar noise is applied directly to $(x,y,\theta)$ commands using clipped Gaussians with $\sigma=0.1\cdot\|\Delta\mathbf{p}\|$, bounded to $\pm 2$ cm in position and $\pm 0.05$ rad ($\approx 2.8$) in heading. Action noise is disabled during simulated evaluation.
 
 ### Gripper handling
 
-Gripper close and open commands execute over fixed durations of 0.5 s and 0.25 s, respectively, followed by a settle period (move_settle_time$= 0.1$ s for the Franka; up to max_grasping_timesteps$= 5$ control steps for the RB-Y1) during which the arm is held stationary. This simulates real-world grasp settling time and ensures the object is stably grasped before subsequent arm motion resumes.
+Gripper close and open commands execute over fixed durations of 0.5 s and 0.25 s, respectively, followed by a settle period (move_settle_time${}=0.1$ s for the Franka; up to max_grasping_timesteps${}=5$ control steps for the RB-Y1) during which the arm is held stationary. This simulates real-world grasp settling time and ensures the object is stably grasped before subsequent arm motion resumes.
 
 ### Camera pose
 
@@ -130,7 +128,7 @@ A robot-mounted exocentric camera positioned at a fixed offset from the robot ba
 
 Three freely-placed cameras sample positions around the workspace center: two ZED2 analogues (64--72° FOV) and one GoPro analogue (137--140° FOV). For each camera, we sample distance (0.2--0.8m for ZED2, 0.2--0.5m for GoPro), height (0.05--0.6m above workspace), and azimuth (full 360°). Lookat target is the workspace center with 10cm noise. Placement is rejected and resampled (up to 20 attempts) if task objects and gripper are not visible.
 
-All FR3 cameras render at $624352$, chosen to be close to the real-world resolution of $640360$ while keeping both dimensions a multiple of 16 for video encoding.
+All FR3 cameras render at $624\times 352$, chosen to be close to the real-world resolution of $640\times 360$ while keeping both dimensions a multiple of 16 for video encoding.
 
 ### RB-Y1 camera system
 
@@ -176,7 +174,7 @@ Pick: Grasp a target object and lift it above its starting height. Success requi
 
 Pick-and-place: Transport a target object to a specified receptacle. The task succeeds when at least 50% of the object's weight is supported by the receptacle, and the receptacle has not been displaced by more than 10 cm or rotated by more than 45.
 
-Pick-and-place-next-to: Place a target object adjacent to a reference object on the same surface. Success requires the surface-to-surface distance in the XY plane to lie within $\lbrack 0,\, 5\rbrack$ cm and the reference object to remain within 15 cm of its initial position.
+Pick-and-place-next-to: Place a target object adjacent to a reference object on the same surface. Success requires the surface-to-surface distance in the XY plane to lie within $[0,\,5]$ cm and the reference object to remain within 15 cm of its initial position.
 
 Pick-and-place-color: Place an object on a receptacle identified by color (e.g., "place on the red plate"). Two receptacles identical (except for color) are placed in the scene; success criteria match pick-and-place.
 
@@ -190,7 +188,7 @@ Open-door: Open a nearby hinged door to at least 67% of its hinge joint range. T
 
 ### Language instructions
 
-During training, each task episode is accompanied by a natural-language instruction whose referring expressions are sampled at episode initialization rather than fixed. For each object referenced in the instruction, we compute CLIP-based similarity scores between candidate referring expressions and all distractor objects in the scene, then sample an expression via a softmax distribution (temperature $\tau = 0.02$) over the similarity-margin scores. This produces diverse yet unambiguous expressions (e.g., "the ceramic mug" vs. "the mug" depending on context). Expressions whose similarity margin falls below 0.03 or whose absolute target similarity is below 0.1 are filtered out to avoid ambiguous referrals. Further details on referral expressions are provided in Sec. A.2.
+During training, each task episode is accompanied by a natural-language instruction whose referring expressions are sampled at episode initialization rather than fixed. For each object referenced in the instruction, we compute CLIP-based similarity scores between candidate referring expressions and all distractor objects in the scene, then sample an expression via a softmax distribution (temperature $\tau{=}0.02$) over the similarity-margin scores. This produces diverse yet unambiguous expressions (e.g., "the ceramic mug" vs. "the mug" depending on context). Expressions whose similarity margin falls below 0.03 or whose absolute target similarity is below 0.1 are filtered out to avoid ambiguous referrals. Further details on referral expressions are provided in Sec. A.2.
 
 ### Expert planners
 
@@ -200,9 +198,7 @@ For each task, we generate expert demonstrations at scale via scripted demonstra
 
 ### Grasp sampling and filtering
 
-Rather than assuming a fixed grasp pose, we load a large set of pre-computed grasp candidates per object from MolmoSpaces' grasp dataset and progressively filter them:
-
-Candidate loading and ranking: We load pre-computed 6-DoF grasps for each object, transform them into the world frame (including flipped variants), and rank them by a weighted cost that combines TCP proximity, rotation similarity, vertical alignment, and distance to the object center of mass.
+Rather than assuming a fixed grasp pose, we load a large set of pre-computed grasp candidates per object from MolmoSpaces' grasp dataset and progressively filter them: Candidate loading and ranking: We load pre-computed 6-DoF grasps for each object, transform them into the world frame (including flipped variants), and rank them by a weighted cost that combines TCP proximity, rotation similarity, vertical alignment, and distance to the object center of mass.
 
 Collision filtering: The top-ranked candidates are tested for gripper--scene collision by placing phantom collision bodies at each candidate pose in MuJoCo and running broadphase collision detection in batches of up to 128.
 
@@ -240,17 +236,7 @@ Table 1: MolmoBot-Data statistics by task. All episodes include RGB observations
 
 Table 2 compares MolmoBot-Data to prior manipulation datasets.
 
-DROID [khazatsky2024droid]
-
-Open X-Embodiment [o2024open]
-
-MimicGen [mandlekar2023mimicgen]
-
-InternData-A1 [tian2025interndata]
-
-RoboCasa-365 [Nasiriany2026robocasa365]
-
-Table 2: Comparison to prior manipulation datasets. MolmoBot-Data provides substantially more episodes and environment diversity through procedural generation.
+DROID [khazatsky2024droid] Open X-Embodiment [o2024open] MimicGen [mandlekar2023mimicgen] InternData-A1 [tian2025interndata] RoboCasa-365 [Nasiriany2026robocasa365] Table 2: Comparison to prior manipulation datasets. MolmoBot-Data provides substantially more episodes and environment diversity through procedural generation.
 
 ### Generation throughput
 
@@ -266,7 +252,7 @@ MolmoBot builds on Molmo2-4B \[clark2026molmo2\], a vision-language model pretra
 
 ### Vision encoder
 
-Visual observations are encoded via SigLIP2 \[siglip2\] and projected into the language model's embedding space. We freeze the vision encoder and the projector weights during training and train only the action head and the language model. We train MolmoBot to ingest up to $F = 3$ frames per view. We encode each image individually and image tokens for each 22 patch windows are pooled into a single vector using a multi-headed attention layer, where the mean of the patches serves as the query. Each image is encoded with $192$ tokens. We concatenate image tokens from available camera views (head-mounted, external, and wrist cameras, depending on the platform), interleaved with text tokens encoding the image indices and view indices when appropriate. Optionally, we encode the corresponding initial-timestep images to provide context about the starting scene configuration.
+Visual observations are encoded via SigLIP2 \[siglip2\] and projected into the language model's embedding space. We freeze the vision encoder and the projector weights during training and train only the action head and the language model. We train MolmoBot to ingest up to $F=3$ frames per view. We encode each image individually and image tokens for each 22 patch windows are pooled into a single vector using a multi-headed attention layer, where the mean of the patches serves as the query. Each image is encoded with $192$ tokens. We concatenate image tokens from available camera views (head-mounted, external, and wrist cameras, depending on the platform), interleaved with text tokens encoding the image indices and view indices when appropriate. Optionally, we encode the corresponding initial-timestep images to provide context about the starting scene configuration.
 
 ### LLM
 
@@ -274,9 +260,9 @@ The LLM takes as input the visual tokens interleaved with image indices jointly 
 
 ### Action head
 
-The action head is a DiT \[peebles2023scalable\] which contains self-attention and cross-attention in each layer, where it attends to features of the Molmo2 backbone via cross-attention. Following recent work on flow matching for action prediction \[black2024pi_0\], the DiT iteratively denoises action chunks conditioned on a continuous timestep embedding $t{\lbrack 0,1\rbrack}$. The timestep embedding is used by each DiT block to modulate the embedding via adaptive layer normalization \[black2025pi_05\].
+The action head is a DiT \[peebles2023scalable\] which contains self-attention and cross-attention in each layer, where it attends to features of the Molmo2 backbone via cross-attention. Following recent work on flow matching for action prediction \[black2024pi_0\], the DiT iteratively denoises action chunks conditioned on a continuous timestep embedding $t\in$. The timestep embedding is used by each DiT block to modulate the embedding via adaptive layer normalization \[black2025pi_05\].
 
-MolmoBot's action head has the same number of layers as the LLM encoder, and each action layer cross-attends to the hidden states of the input sequence (including the encoding of both vision and language) of the corresponding LLM layer. LLM and DiT have different hidden dimensions, so hidden states from the LLM are also projected to DiT's hidden dimension. We also encode robot states through a single-layer MLP, and concatenate them to the end of the VLM sequence before entering cross-attention at each layer. We train the action head to predict chunks of $H = 16$ actions and execute 8 before re-querying the policy following \[zhao2023learning\].
+MolmoBot's action head has the same number of layers as the LLM encoder, and each action layer cross-attends to the hidden states of the input sequence (including the encoding of both vision and language) of the corresponding LLM layer. LLM and DiT have different hidden dimensions, so hidden states from the LLM are also projected to DiT's hidden dimension. We also encode robot states through a single-layer MLP, and concatenate them to the end of the VLM sequence before entering cross-attention at each layer. We train the action head to predict chunks of $H=16$ actions and execute 8 before re-querying the policy following \[zhao2023learning\].
 
 ### Action representation
 
@@ -284,13 +270,13 @@ We parameterize actions in joint space using two representations: absolute joint
 
 ### Single-frame training
 
-We train MolmoBot with the behavior cloning objective. We train with a batch size of 1024 and train the model for $200K$ steps for the static manipulation task and for $100K$ steps for the mobile manipulation task. We use a learning rate of $110^{- 5}$, using a $2k$ step warm up for the LLM and a $200$ step warm up for the action head. When sampling training examples from an expert roll-out, we up-sample steps with retry grasping behavior by $3$, steps with a successful pick by $2$ and task completion behavior by $2$. The motivation is to improve the model's grasping behavior and avoid picking objects after task completion.
+We train MolmoBot with the behavior cloning objective. We train with a batch size of 1024 and train the model for $200K$ steps for the static manipulation task and for $100K$ steps for the mobile manipulation task. We use a learning rate of $1\cdot 10^{-5}$, using a $2k$ step warm up for the LLM and a $200$ step warm up for the action head. When sampling training examples from an expert roll-out, we up-sample steps with retry grasping behavior by $3\times$, steps with a successful pick by $2\times$ and task completion behavior by $2\times$. The motivation is to improve the model's grasping behavior and avoid picking objects after task completion.
 
-Our action head has a significantly lighter compute footprint than the VLM encoder. We leverage this during training by sampling multiple time steps $T$ per example to denoise in parallel. This enables us to train the model at multiple time steps for a given observation and action pair. This in turn improves the convergence and the accuracy of the model. We use $T = 8$ to train all MolmoBots unless otherwise stated and report performance with various settings in section 5. We denote the single frame model MolmoBot-Img.
+Our action head has a significantly lighter compute footprint than the VLM encoder. We leverage this during training by sampling multiple time steps $T$ per example to denoise in parallel. This enables us to train the model at multiple time steps for a given observation and action pair. This in turn improves the convergence and the accuracy of the model. We use $T=8$ to train all MolmoBots unless otherwise stated and report performance with various settings in section 5. We denote the single frame model MolmoBot-Img.
 
 ### Multi-frame training
 
-We train two multi-frame MolmoBots denoted as MolmoBot (F=2) and MolmoBot (F=3) with number of frames $F = 2$ and $F = 3$ respectively. For the multi-frame training, we initialize the model with the weights from MolmoBot-Img and train the model for $50K$ steps while keeping all the other training details the same as MolmoBot-Img. When using multiple frames, the model takes as input the frame from the cameras at the current state and the frames sampled $D$ steps ago. We use $D = 8$ in all our experiments. Practically, the $F = 3$ model takes the current state, the state $0.5$ second before the current state and the state $1$ second before the current state.
+We train two multi-frame MolmoBots denoted as MolmoBot (F=2) and MolmoBot (F=3) with number of frames $F=2$ and $F=3$ respectively. For the multi-frame training, we initialize the model with the weights from MolmoBot-Img and train the model for $50K$ steps while keeping all the other training details the same as MolmoBot-Img. When using multiple frames, the model takes as input the frame from the cameras at the current state and the frames sampled $D$ steps ago. We use $D=8$ in all our experiments. Practically, the $F=3$ model takes the current state, the state ${\sim}0.5$ second before the current state and the state ${\sim}1$ second before the current state.
 
 ### MolmoBot-Pi0
 
@@ -302,7 +288,7 @@ Following \[black2024pi_0\], MolmoBot-Pi0 uses the Paligemma 3B VLM with a flow-
 
 ### Training protocol
 
-We train for 200k steps at a batch size of 1024 with a learning rate of $510^{- 5}$, using a 1k step warmup. To prevent overfitting to simulation rendering artifacts, we freeze the entirety of the SigLIP vision encoder. Robot actions are supervised as absolute joint positions, following findings from PolaRiS \[jain2025polaris\]. All other training parameters (flow matching timestep sampling, other optimizer hyperameters, etc.) are left as the default values.
+We train for 200k steps at a batch size of 1024 with a learning rate of $5\cdot 10^{-5}$, using a 1k step warmup. To prevent overfitting to simulation rendering artifacts, we freeze the entirety of the SigLIP vision encoder. Robot actions are supervised as absolute joint positions, following findings from PolaRiS \[jain2025polaris\]. All other training parameters (flow matching timestep sampling, other optimizer hyperameters, etc.) are left as the default values.
 
 ### MolmoBot-SPOC: A lightweight transformer policy
 
@@ -318,21 +304,15 @@ Visual observations from all camera inputs are encoded using a SigLIP2-Base patc
 
 ### Action representation and quantile binning
 
-MolmoBot-SPOC formulates action prediction as a discrete classification problem. Continuous action values are tokenized using a quantile binning strategy. Prior to binning, actions are normalized using the 1st and 99th percentiles of the training distribution, rescaling and clipping values to the $\lbrack{- 1},1\rbrack$ range based on empirical quantiles. The normalized action space for each dimension is then divided into 256 bins, where bin boundaries correspond to equally spaced quantiles of the data (i.e., the $k/256$ quantile for $k = {1,\ldots,256}$). This produces data-adaptive bins that are approximately uniformly populated, yielding a well-calibrated discrete representation of the continuous action space. The decoder predicts a categorical distribution over the 256 bins independently for each action dimension at every timestep in the chunk and is trained using a standard cross-entropy loss.
+MolmoBot-SPOC formulates action prediction as a discrete classification problem. Continuous action values are tokenized using a quantile binning strategy. Prior to binning, actions are normalized using the 1st and 99th percentiles of the training distribution, rescaling and clipping values to the $$ range based on empirical quantiles. The normalized action space for each dimension is then divided into 256 bins, where bin boundaries correspond to equally spaced quantiles of the data (i.e., the $k/256$ quantile for $k=1,\ldots,256$). This produces data-adaptive bins that are approximately uniformly populated, yielding a well-calibrated discrete representation of the continuous action space. The decoder predicts a categorical distribution over the 256 bins independently for each action dimension at every timestep in the chunk and is trained using a standard cross-entropy loss.
 
 ### Parallel action decoding
 
-Following \[zhao2023learning\], MolmoBot-SPOC replaces the autoregressive decoder used in SPOC with a non-causal parallel decoder (Fig. 4). Instead of predicting actions sequentially, the decoder predicts an entire chunk of $DT$ action tokens in a single forward pass, where $D$ is the number of robot action dimensions and $T = 16$ is the fixed chunk length. The decoder is provided with $DT$ learnable query embeddings---one for each $(\text{action dimension},\text{timestep})$ pair in the chunk. Using bidirectional self-attention allows each query token to attend to all others within the chunk. Temporal structure is encoded using sinusoidal positional encodings applied over the flattened sequence of $DT$ positions, which are added to the learnable query embeddings before decoding.
+Following \[zhao2023learning\], MolmoBot-SPOC replaces the autoregressive decoder used in SPOC with a non-causal parallel decoder (Fig. 4). Instead of predicting actions sequentially, the decoder predicts an entire chunk of $D\times T$ action tokens in a single forward pass, where $D$ is the number of robot action dimensions and $T=16$ is the fixed chunk length. The decoder is provided with $D\times T$ learnable query embeddings---one for each $(\text{action dimension},\text{timestep})$ pair in the chunk. Using bidirectional self-attention allows each query token to attend to all others within the chunk. Temporal structure is encoded using sinusoidal positional encodings applied over the flattened sequence of $D\times T$ positions, which are added to the learnable query embeddings before decoding.
 
-Pick-and-place Fixed Height
+Pick-and-place Fixed Height Pick-and-place Random Height Table 3: Multitask data mixture for all MolmoBot Franka FR3 policies. The data mix is selected to ensure all coverage of each of the individual task’s training set.
 
-Pick-and-place Random Height
-
-Table 3: Multitask data mixture for all MolmoBot Franka FR3 policies. The data mix is selected to ensure all coverage of each of the individual task’s training set.
-
-MolmoBot Door Specialist
-
-Table 4: Multitask data mixture for all MolmoBot and MolmoBot-SPOC RB-Y1 policies.
+MolmoBot Door Specialist Table 4: Multitask data mixture for all MolmoBot and MolmoBot-SPOC RB-Y1 policies.
 
 ### Implementation details
 
@@ -400,21 +380,7 @@ We evaluate the MolmoBot Door Specialist policy on a door opening task in three 
 
 For our simulation results, we evaluate both MolmoBot and MolmoBot-SPOC across four tasks. Pick and pick-and-place are evaluated in the MSProcObja scene dataset, while open is evaluated in the MSProcCrafted dataset, and Door Open in the MSProc dataset. Pick, open, and door-open benchmarks consist of 2,000 episodes each, while pick-and-place uses 1,000 episodes. We report the oracle success rate, where an episode is considered successful if the task reports 5 consecutive successful steps at any point during the trajectory. Simulation evaluation was run with an inference dt of 800ms; in other words, we execute 8 of the predicted actions from a given action chunk where each action has a dt of 100ms.
 
-HW fault during grasp phase
-
-Joint limit reached
-
-HW fault during grasp phase
-
-HW fault during opening phase
-
-HW fault during opening phase
-
-HW fault during door approach
-
-Incorrect gripper orientation
-
-Table 5: Door opening task results. Each door has a distinct visual texture. Trials differ in robot base position. †Hardware fault occurred during trial.
+HW fault during grasp phase Joint limit reached HW fault during grasp phase HW fault during opening phase HW fault during opening phase HW fault during door approach Incorrect gripper orientation Table 5: Door opening task results. Each door has a distinct visual texture. Trials differ in robot base position. ${}^{\text{\textdagger}}$Hardware fault occurred during trial.
 
 ### Results
 
@@ -435,13 +401,8 @@ We evaluate on held-out procedural houses with asset instances unseen during tra
 We evaluate on a progression of increasingly difficult tasks (table˜6) in 1000 episode benchmarks. We begin with a simple pick task in a controlled configuration and limited object diversity (Pick MSProc). The next set of tasks introduces more challenging object and viewpoint distributions in three variants: standard MuJoCo rendering (Pick Classic), photorealistic filament rendering (Pick) which is out of distribution for our training data, and heavily randomized camera viewpoints (Pick Random-Cam). Pick tasks are allotted 20 seconds for completion. We then evaluate pick-and-place variants including placing objects inside a receptacle (Pick&Place), next to a target (PnP Next-To), and in a receptacle of a specified color (PnP Color), all using filament rendering. We consider a Next-To episode as a success if the object to be moved is placed within $5$ cm of the target object. Pick-and-place tasks are allotted 40 seconds due to their increased difficulty. We report only oracle success (task completed at any timestep) for pick tasks, as termination behavior is not well-defined for object lifting. For pick-and-place tasks, we report both final success rate and oracle success rate. The gap between these metrics reflects whether the policy can recognize task completion and disengage appropriately rather than continuing to manipulate the object after placement.
 
 Pick Rand.-Cam.
-Pick&amp;Place
 
-StereoVLA [deng2025stereovla]
-
-LAP-VLA [zha2026lap]
-
-Table 6: Evaluation on simulation held-out environments and real robot episodes. Simulation success rates are evaluated over 1000 episodes per task. Real robot evaluations are done over 120 episodes. All models evaluated zero-shot in real without task-specific finetuning. For pick-and-place tasks, we report both oracle success (first number, which is the success conditions being fulfilled at any timestep) and success at end (second number, the success conditions being fulfilled at the final timestep). The delta between captures both unstable/unsuitable placement and the inability of policies to determine when a specified task is already completed, e.g. by repeatedly picking up an object which has already been placed correctly. We additionally report the half-width of the 95% confidence interval bounds for each result.
+StereoVLA [deng2025stereovla] LAP-VLA [zha2026lap] Table 6: Evaluation on simulation held-out environments and real robot episodes. Simulation success rates are evaluated over 1000 episodes per task. Real robot evaluations are done over 120 episodes. All models evaluated zero-shot in real without task-specific finetuning. For pick-and-place tasks, we report both oracle success (first number, which is the success conditions being fulfilled at any timestep) and success at end (second number, the success conditions being fulfilled at the final timestep). The delta between captures both unstable/unsuitable placement and the inability of policies to determine when a specified task is already completed, e.g. by repeatedly picking up an object which has already been placed correctly. We additionally report the half-width of the 95% confidence interval bounds for each result.
 
 ### Baselines
 
@@ -451,14 +412,7 @@ We compare against several existing vision-language-action models. $\pi_{0.5}$ \
 
 Our models outperform all baselines across tasks. On the least-variation Pick MSProc task, MolmoBot (F=2) achieves 93.5% success compared to 48.0% for the strongest baseline ($\pi_{0.5}$-Finetune). The gap widens on more challenging distributions: on Pick Random-Cam, our models achieve 40--66% success while $\pi_{0.5}$ variants reach only 8--30%. Other VLA baselines (StereoVLA, LAP-VLA, X-VLA) fail almost entirely on our evaluation suite, with success rates below 7% on most tasks. On pick-and-place tasks, which require both grasping and placement, MolmoBot variants achieve 63--67% oracle success on Pick&Place. $\pi_{0.5}$-Finetune achieves 43.5% oracle success on this task. Notably, our models generalize to compositional instructions (PnP Color) where they must identify the correct receptacle by color, achieving 57--62% final success. Averaging across simulation tasks, MolmoBot (F=2) achieves 64.1% compared to 10.1% for $\pi_{0.5}$ zero-shot. MolmoBot-Pi0, which uses the $\pi_{0}$ architecture trained on our data, achieves 41.8%---substantially higher than $\pi_{0.5}$ zero-shot and competitive with $\pi_{0.5}$-Finetune on pick tasks---demonstrating that much of the performance gain comes from MolmoBot-Data rather than architectural differences. On real-world evaluation, MolmoBot (F=2) achieves 79.2% success, compared to 31.3% for $\pi_{0.5}$. Interestingly, $\pi_{0.5}$-Finetune is competitive with our best policies on PnP NextTo, achieving best oracle success though not final success. This supports the notion that fine-tuning real-world-native policies on sim data to bridge the real-to-sim gap enables reasonable comparisons, further bolstered by our results in the real world.
 
-Pick MSProc (sim)
-Pick Kitchen (real)
-
-StereoVLA [deng2025stereovla]
-
-LAP-VLA [zha2026lap]
-
-Table 7: Simulation and real evaluation with restricted camera setup. Success rate averaged over 1000 episodes in simulation and 30 tasks in a real-world kitchen. All models evaluated zero-shot without task-specific finetuning.
+Pick MSProc (sim) Pick Kitchen (real) StereoVLA [deng2025stereovla] LAP-VLA [zha2026lap] Table 7: Simulation and real evaluation with restricted camera setup. Success rate averaged over 1000 episodes in simulation and 30 tasks in a real-world kitchen. All models evaluated zero-shot without task-specific finetuning.
 
 Table˜7 evaluates models using only the fixed-shoulder camera, a more constrained setup that matches typical single-camera deployments. We test in simulation (Pick MSProc, 1000 episodes) and on 30 real-world trials in a kitchen environment (Pick Kitchen).
 
@@ -470,11 +424,7 @@ We additionally evaluate on external benchmarks SIMPLER \[li2024evaluating\] and
 
 ### RB-Y1 Results
 
-Pick &amp; Place
-
-MolmoBot Door Specialist
-
-Table 8: Simulation evaluation for RB-Y1 policies on held-out environments. All models evaluated zero-shot without task-specific finetuning.
+MolmoBot Door Specialist Table 8: Simulation evaluation for RB-Y1 policies on held-out environments. All models evaluated zero-shot without task-specific finetuning.
 
 Table 8 reports zero-shot simulation performance across all RB-Y1 policies. MolmoBot Multitask outperforms MolmoBot-SPOC across all shared tasks, which we attribute to several factors. First, MolmoBot's frozen VLM backbone provides rich visual representations that generalize well without task-specific finetuning, whereas MolmoBot-SPOC's smaller transformer architecture has more limited capacity. Second, MolmoBot Multitask was trained jointly across all tasks, which may have enabled positive transfer between related manipulation behaviors. Although MolmoBot-SPOC demonstrates more modest performance in these evaluations, its compact scale enables future on-policy reinforcement learning in simulation, which has been shown to yield substantial performance gains \[hu2024flareachievingmasterfuladaptive\].
 
@@ -490,7 +440,7 @@ Unlike Sec. 5.1, the data ablation real-world evaluations are on the pick task. 
 
 ### Scaling Number of Demonstrations
 
-Figure 9: Ablations on training and action parameterization. We evaluate MolmoBot-Img on both DROID (real-world, top row) and pick classic (simulation, bottom row). (a) We train while sampling multiple denoising timesteps T per example in parallel during training to improve convergence and final performance. We ablate T {1, 2, 4, 8} and find that simulation performance improves steadily as T increases and peaks at T = 8, while real-world performance is less monotonic and peaks at T = 4. (b) We train using either absolute or delta action representations for 200K steps on Franka FR3 policies. The absolute action representation substantially improves real-world performance over delta actions, while the two representations perform similarly in simulation. Error bars denote 95% binomial proportion confidence intervals.
+Figure 9: Ablations on training and action parameterization. We evaluate MolmoBot-Img on both DROID (real-world, top row) and pick classic (simulation, bottom row). (a) We train while sampling multiple denoising timesteps T per example in parallel during training to improve convergence and final performance. We ablate T ∈ {1, 2, 4, 8} and find that simulation performance improves steadily as T increases and peaks at T = 8, while real-world performance is less monotonic and peaks at T = 4. (b) We train using either absolute or delta action representations for 200K steps on Franka FR3 policies. The absolute action representation substantially improves real-world performance over delta actions, while the two representations perform similarly in simulation. Error bars denote 95% binomial proportion confidence intervals.
 
 To study how performance changes with the data scale, we vary the total number of training demonstrations while keeping the number of house environments and object classes fixed. Concretely, we train MolmoBot-Img on datasets containing 10K, 25K, and 50K demonstrations sampled from the same set of 5K environments and 12.4K object categories. We evaluate the model for the pick task in both simulation and real. We observe predictable scaling trends as pick performance for both domains improves with the number of demonstrations (figure 8 (a)).
 
@@ -508,7 +458,7 @@ As in Sec. 5.3, our model ablation experiments are run in the real-world on the 
 
 ### Timesteps sampled during training
 
-We sampled multiple time steps $T$ per example and denoise in parallel during to improve the convergence and the accuracy of the model. We ablate the choice for $T{\{ 1,2,4,8\}}$ during training and report the performance of MolmoBot-Img (Figure 9). Performance on simulation benchmarks improves as $T$ increases and peaks at $T = 8$, suggesting the increase $T$ helps. However, while the result on real subset of 30 examples is not as clear, with the performance peaking at $T = 4$.
+We sampled multiple time steps $T$ per example and denoise in parallel during to improve the convergence and the accuracy of the model. We ablate the choice for $T\in\{1,2,4,8\}$ during training and report the performance of MolmoBot-Img (Figure 9). Performance on simulation benchmarks improves as $T$ increases and peaks at $T=8$, suggesting the increase $T$ helps. However, while the result on real subset of 30 examples is not as clear, with the performance peaking at $T=4$.
 
 ### Action representation
 

@@ -8,74 +8,41 @@ In spite of these successes, our community has made less progress on other core 
 
 The sketch-and-solve paradigm is a basic tool for randomized matrix computations. The idea is to decrease the dimension of a large problem by projecting it onto a random subspace and to solve the smaller problem instead. The solution of this "sketched problem" sometimes serves in place of the solution to the original computational problem.
 
-For a typical example, consider the $n \times d$ overdetermined least-squares problem
+For a typical example, consider the $n \times d$ overdetermined least-squares problem where ${\mathbf{M}} \in {\mathbb{C}}^{n \times d}$ is a tall matrix with $n \gg d$. The right-hand side ${\mathbf{f}} \in {\mathbb{C}}^{n}$ and $\parallel \cdot \parallel_{2}$ denotes the $\ell_{2}$ norm. Draw a random sketching matrix ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ with embedding dimension $s = {2d}$, say. Then solve the smaller $s \times d$ sketched problem For a carefully designed, "fast" sketching matrix $\mathbf{S}$, the whole sketch-and-solve process may be significantly faster than solving Eq. 1 directly. See Section 2 for details.
 
-where ${\mathbf{M}} \in {\mathbb{C}}^{n \times d}$ is a tall matrix with $n \gg d$. The right-hand side ${\mathbf{f}} \in {\mathbb{C}}^{n}$ and $\parallel \cdot \parallel_{2}$ denotes the $\ell_{2}$ norm. Draw a random sketching matrix ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ with embedding dimension $s = {2d}$, say. Then solve the smaller $s \times d$ sketched problem
-
-For a carefully designed, "fast" sketching matrix $\mathbf{S}$, the whole sketch-and-solve process may be significantly faster than solving Eq. 1 directly. See Section 2 for details.
-
-We can compare the residual norms of the solution $\hat{\mathbf{y}}$ to the sketched problem Eq. 2 and the solution ${\mathbf{y}}_{\star}$ to the original problem Eq. 1. The sketching method ensures that
-
-Provided that the original problem has a tiny residual, the solution to the sketched problem also yields a tiny residual!
+We can compare the residual norms of the solution $\hat{\mathbf{y}}$ to the sketched problem Eq. 2 and the solution ${\mathbf{y}}_{\star}$ to the original problem Eq. 1. The sketching method ensures that Provided that the original problem has a tiny residual, the solution to the sketched problem also yields a tiny residual!
 
 ### Solving linear systems by sketched GMRES
 
-Now, suppose that we wish to solve the (nonsymmetric, nonsingular) linear system
-
-All algorithms in this paper access the matrix via products: ${\mathbf{x}}\mapsto{{\mathbf{A}}{\mathbf{x}}}$. Our approach builds on a standard template, called a subspace projection method, which casts the linear system as a variational problem. We can treat this formulation by sketching. Let us summarize the ideas; a full exposition appears in Sections 3 and 4.
+Now, suppose that we wish to solve the (nonsymmetric, nonsingular) linear system All algorithms in this paper access the matrix via products: ${\mathbf{x}}\mapsto{{\mathbf{A}}{\mathbf{x}}}$. Our approach builds on a standard template, called a subspace projection method, which casts the linear system as a variational problem. We can treat this formulation by sketching. Let us summarize the ideas; a full exposition appears in Sections 3 and 4.
 
 ### Sketched GMRES
 
 For the moment, suppose that we have acquired a tall matrix ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$, called a basis, with the property that ${range}{({\mathbf{B}})}$ contains a good approximate solution to the linear system Eq. 4. That is, ${{\mathbf{A}}{\mathbf{B}}{\mathbf{y}}} \approx {\mathbf{f}}$ for some ${\mathbf{y}} \in {\mathbb{C}}^{d}$. In addition, assume we have the reduced matrix ${{\mathbf{A}}{\mathbf{B}}} \in {\mathbb{C}}^{n \times d}$ at hand. In typical situations, the basis has very low dimension: $d \ll n$.
 
-At its heart, the GMRES algorithm is a subspace projection method that replaces the linear system Eq. 4 with the overdetermined least-squares problem
+At its heart, the GMRES algorithm is a subspace projection method that replaces the linear system Eq. 4 with the overdetermined least-squares problem The solution ${\mathbf{y}}_{\star}$ to Eq. 5 yields an approximate solution ${\mathbf{x}}_{\mathbf{B}} = {{\mathbf{B}}{\mathbf{y}}_{\star}}$ to the linear system Eq. 4. The residual norm ${\|{{{\mathbf{A}}{\mathbf{x}}_{\mathbf{B}}} - {\mathbf{f}}}\|}_{2}$ reflects how well the basis $\mathbf{B}$ captures a solution to the linear system.
 
-The solution ${\mathbf{y}}_{\star}$ to Eq. 5 yields an approximate solution ${\mathbf{x}}_{\mathbf{B}} = {{\mathbf{B}}{\mathbf{y}}_{\star}}$ to the linear system Eq. 4. The residual norm ${\|{{{\mathbf{A}}{\mathbf{x}}_{\mathbf{B}}} - {\mathbf{f}}}\|}_{2}$ reflects how well the basis $\mathbf{B}$ captures a solution to the linear system.
-
-The least-squares formulation Eq. 5 is a natural candidate for sketching. Draw a sketching matrix ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ with $s = {2d}$, say, and sketch the problem:
-
-The solution $\hat{\mathbf{y}}$ of the sketched problem Eq. 6 induces an approximate solution $\hat{\mathbf{x}} = {{\mathbf{B}}\hat{\mathbf{y}}}$ to the linear system Eq. 4. According to Eq. 3, the residual norm ${\|{{{\mathbf{A}}\hat{\mathbf{x}}} - {\mathbf{f}}}\|}_{2}$ is within a constant factor of the original residual norm ${\|{{{\mathbf{A}}{\mathbf{x}}_{\mathbf{B}}} - {\mathbf{f}}}\|}_{2}$. In summary, the sketched formulation Eq. 6 is effective if and only if the subspace ${range}{({\mathbf{B}})}$ contains an accurate approximate solution of the linear system.
+The least-squares formulation Eq. 5 is a natural candidate for sketching. Draw a sketching matrix ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ with $s = {2d}$, say, and sketch the problem: The solution $\hat{\mathbf{y}}$ of the sketched problem Eq. 6 induces an approximate solution $\hat{\mathbf{x}} = {{\mathbf{B}}\hat{\mathbf{y}}}$ to the linear system Eq. 4. According to Eq. 3, the residual norm ${\|{{{\mathbf{A}}\hat{\mathbf{x}}} - {\mathbf{f}}}\|}_{2}$ is within a constant factor of the original residual norm ${\|{{{\mathbf{A}}{\mathbf{x}}_{\mathbf{B}}} - {\mathbf{f}}}\|}_{2}$. In summary, the sketched formulation Eq. 6 is effective if and only if the subspace ${range}{({\mathbf{B}})}$ contains an accurate approximate solution of the linear system.
 
 We refer to Eq. 6 as the sketched GMRES problem (sGMRES). For an unstructured basis $\mathbf{B}$, the sGMRES approach is faster than solving the original least-squares problem Eq. 5, both in theory and in practice. With careful implementation, sGMRES is reliable and robust, even when the conditioning of the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ is poor. Indeed, it suffices that ${\kappa_{2}{({{\mathbf{A}}{\mathbf{B}}})}} \lesssim u^{- 1}$ where $u$ is the unit roundoff.^11^1In standard IEEE double-precision arithmetic, the unit roundoff $u \approx 10^{- 16}$. As a consequence, we have an enormous amount of flexibility in choosing the basis $\mathbf{B}$.
 
 ### Krylov subspaces
 
-To make sGMRES work well, we must construct a subspace that captures an approximate solution to the linear system Eq. 4. To that end, consider a Krylov subspace of the form
-
-The Krylov subspace often contains an excellent approximate solution to the linear system, even when the depth $p \ll n$. See \[41, Chaps. 6 and 7\].
+To make sGMRES work well, we must construct a subspace that captures an approximate solution to the linear system Eq. 4. To that end, consider a Krylov subspace of the form The Krylov subspace often contains an excellent approximate solution to the linear system, even when the depth $p \ll n$. See \[41, Chaps. 6 and 7\].
 
 For computations, we need an explicit basis $\mathbf{B}$ whose columns span the Krylov subspace. Although it is straightforward to form the monomial basis visible in Eq. 7, the condition number may grow exponentially, rendering the basis useless for numerical purposes. Instead, we will consider other procedures that quickly construct Krylov subspace bases with smaller condition number. Section 4 outlines several possible approaches.
 
-For concreteness, we focus on the $k$-truncated Arnoldi process; the parameter $k$ is a small natural number. This algorithm assembles a basis ${\mathbf{B}} = {\lbrack{\mathbf{b}}_{1},\ldots,{\mathbf{b}}_{d}\rbrack} \in {\mathbb{C}}^{n \times d}$ iteratively. Define ${\mathbf{b}}_{- i} = \mathbf{0}$ for $i \geq 0$. Set ${\mathbf{b}}_{1} = {{\mathbf{f}}/{\|{\mathbf{f}}\|}_{2}}$. For each $j = {2,\ldots,d}$,
-
-We have written ^∗^ for the (conjugate) transpose. Note that we obtain the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ as a by-product of this computation.
+For concreteness, we focus on the $k$-truncated Arnoldi process; the parameter $k$ is a small natural number. This algorithm assembles a basis ${\mathbf{B}} = {\lbrack{\mathbf{b}}_{1},\ldots,{\mathbf{b}}_{d}\rbrack} \in {\mathbb{C}}^{n \times d}$ iteratively. Define ${\mathbf{b}}_{- i} = \mathbf{0}$ for $i \geq 0$. Set ${\mathbf{b}}_{1} = {{\mathbf{f}}/{\|{\mathbf{f}}\|}_{2}}$. For each $j = {2,\ldots,d}$, We have written ^∗^ for the (conjugate) transpose. Note that we obtain the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ as a by-product of this computation.
 
 We have found that $k$-truncated Arnoldi is often effective, even with $k = 2$ or $k = 4$. Nevertheless, we are not aware of any fast, universal procedure for constructing a Krylov subspace basis with full numerical rank, short of strategies that perform costly full orthogonalization. This is a matter for further research.
 
-1:Matrix A ∈ ℂn × n, right-hand side f ∈ ℂn, initial guess x ∈ ℂn, basis dimension d, number k of vectors for truncated orthogonalization, stability tolerance tol = O (u−1).
-2:Approximate solution $\hat{\mathbf{x}} \in {\mathbb{C}}^{n}$ to linear system Eq. 4 and estimated residual norm r̂est
-4: Draw subspace embedding S ∈ ℂs × n with s = 2 (d+1) ⊳ See Section 2.3
-5: Form residual and sketch: r = f − A x and g = S r
-6: Normalize basis vector b1 = r/∥r∥2 and apply matrix m1 = A b1
-8: Truncated Arnoldi: wj = (I−bj − 1 bj − 1*−⋯−bj − k bj − k*) mj − 1 ⊳ b−i = 0 for i ≥ 0
-9: Normalize basis vector bj = wj/∥wj∥2 and apply matrix mj = A bj
-10: Sketch reduced matrix: C = S [m1,…,md]
-12: if condition number κ2 (T) &gt; tol then warning…
-13: Either whiten B ← B T−1 or form new residual and restart ⊳ See Section 5.3
-14: Solve least-squares problem: $\hat{\mathbf{y}} = {{\mathbf{T}}^{- 1}\left( {{\mathbf{U}}^{\ast}{\mathbf{g}}} \right)}$ ⊳ See Eq. 27
-15: Residual estimate: r̂est = ∥(I−U U*) g∥2 ⊳ See Eq. 28
-16: Construct solution: $\hat{\mathbf{x}} = {{\mathbf{x}} + {\left\lbrack {\mathbf{m}}_{1},\ldots,{\mathbf{m}}_{j} \right\rbrack\hat{\mathbf{y}}}}$ \ImplementationIn line 6, use double Gram–Schmidt for stability. In line 9, the QR factorization may require pivoting. In lines 11–12, apply T−1 via triangular substitution.
-Algorithm 1 sGMRES + k-truncated Arnoldi
-
-Figure 1: GMRES versus sGMRES: Nonsymmetric linear system. These panels compare the performance of MATLAB gmres (with and without restarting) against the sGMRES algorithm (where the basis B is computed by k-truncated Arnoldi with k = 4). The sparse linear system A x = f has dimension n = 921, 632. Left: Relative residual and the condition number κ2 (A B) of the reduced matrix. Right: Total runtime including basis generation.
+1:Matrix A ∈ ℂn × n, right-hand side f ∈ ℂn, initial guess x ∈ ℂn, basis dimension d, number k of vectors for truncated orthogonalization, stability tolerance tol = O (u−1). 2:Approximate solution $\hat{\mathbf{x}} \in {\mathbb{C}}^{n}$ to linear system Eq. 4 and estimated residual norm r̂est 4: Draw subspace embedding S ∈ ℂs × n with s = 2 (d + 1) ⊳ See Section 2.3 5: Form residual and sketch: r = f − A x and g = S r 6: Normalize basis vector b1 = r/∥r∥2 and apply matrix m1 = A b1 8: Truncated Arnoldi: wj = (I − bj − 1 bj − 1* − ⋯ − bj − k bj − k*) mj − 1 ⊳ b−i = 0 for i ≥ 0 9: Normalize basis vector bj = wj/∥wj∥2 and apply matrix mj = A bj 10: Sketch reduced matrix: C = S [m1, …, md] 12: if condition number κ2 (T) > tol then warning… 13: Either whiten B ← B T−1 or form new residual and restart ⊳ See Section 5.3 14: Solve least-squares problem: $\hat{\mathbf{y}} = {{\mathbf{T}}^{- 1}\left({{\mathbf{U}}^{\ast}{\mathbf{g}}} \right)}$ ⊳ See Eq. 27 15: Residual estimate: r̂est = ∥(I − U U*) g∥2 ⊳ See Eq. 28 16: Construct solution: $\hat{\mathbf{x}} = {{\mathbf{x}} + {\left\lbrack {\mathbf{m}}_{1},\ldots,{\mathbf{m}}_{j} \right\rbrack\hat{\mathbf{y}}}}$ \ImplementationIn line 6, use double Gram–Schmidt for stability. In line 9, the QR factorization may require pivoting. In lines 11–12, apply T−1 via triangular substitution. Algorithm 1 sGMRES + k-truncated Arnoldi Figure 1: GMRES versus sGMRES: Nonsymmetric linear system. These panels compare the performance of MATLAB gmres (with and without restarting) against the sGMRES algorithm (where the basis B is computed by k-truncated Arnoldi with k = 4). The sparse linear system A x = f has dimension n = 921, 632. Left: Relative residual and the condition number κ2 (A B) of the reduced matrix. Right: Total runtime including basis generation.
 
 ### Comparison with GMRES
 
 The standard version of GMRES applies the expensive Arnoldi process (with full orthogonalization; see Section 4.2) to build an orthonormal basis for the Krylov subspace, and it exploits the structure of this basis to solve the least-squares problem Eq. 5 efficiently.
 
-In contrast, we propose to use a quick-and-dirty construction, such as the $k$-truncated Arnoldi process, to obtain a basis for the Krylov subspace. Then we solve the sGMRES least-squares problem Eq. 6 to produce an approximate solution of the linear system. When the basis dimension $d \ll n$, the sGMRES approach has lower arithmetic costs than classic GMRES, while attaining similar accuracy:
-
-GMRES: $O{({nd^{2}})}$ operations vs. sGMRES: $O{({d^{3} + {nd{\log d}}})}$ operations.
+In contrast, we propose to use a quick-and-dirty construction, such as the $k$-truncated Arnoldi process, to obtain a basis for the Krylov subspace. Then we solve the sGMRES least-squares problem Eq. 6 to produce an approximate solution of the linear system. When the basis dimension $d \ll n$, the sGMRES approach has lower arithmetic costs than classic GMRES, while attaining similar accuracy: GMRES: $O{({nd^{2}})}$ operations vs. sGMRES: $O{({d^{3} + {nd{\log d}}})}$ operations.
 
 This expression assumes that sGMRES uses $k$-truncated Arnoldi for $k$ constant, as well as a fast sketching matrix (Section 2.3). See Algorithm 1 for pseudocode.
 
@@ -83,41 +50,19 @@ As evidence for the benefits of using sGMRES, Figure 1 depicts an over 100$\time
 
 ### Solving eigenvalue problems by sketched Rayleigh--Ritz
 
-Similar ideas apply to spectral computations. We pose the nonsymmetric eigenvalue problem
-
-As before, we access the matrix via products: ${\mathbf{x}}\mapsto{{\mathbf{A}}{\mathbf{x}}}$. Typically, we seek a family of eigenvectors associated with a particular class of eigenvalues (e.g., largest real part, closest to zero). Let us outline a sketched subspace projection method for the eigenvalue problem. Full details appear in Sections 6 and 7.
+Similar ideas apply to spectral computations. We pose the nonsymmetric eigenvalue problem As before, we access the matrix via products: ${\mathbf{x}}\mapsto{{\mathbf{A}}{\mathbf{x}}}$. Typically, we seek a family of eigenvectors associated with a particular class of eigenvalues (e.g., largest real part, closest to zero). Let us outline a sketched subspace projection method for the eigenvalue problem. Full details appear in Sections 6 and 7.
 
 ### Sketched Rayleigh--Ritz
 
 As in Section 1.2.1, suppose that we have procured a basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$ and the reduced matrix ${{\mathbf{A}}{\mathbf{B}}} \in {\mathbb{C}}^{n \times d}$. The range of the basis should contain approximate eigenpairs $({\mathbf{x}},\lambda)$ for which ${{\mathbf{A}}{\mathbf{x}}} \approx {\lambda{\mathbf{x}}}$. In this setting, the most commonly employed strategy is the Rayleigh--Ritz (RR) method.
 
-We begin with the classic variational formulation \[37, Thm. 11.4.2\] of RR:
+We begin with the classic variational formulation \[37, Thm. 11.4.2\] of RR: The solution is ${\mathbf{M}}_{\star} = {{\mathbf{B}}^{\dagger}{\mathbf{A}}{\mathbf{B}}}$, where the dagger ^†^ denotes the Moore--Penrose pseudoinverse. At this point, RR frames the $d \times d$ eigenvalue problem ${{\mathbf{M}}_{\star}{\mathbf{y}}} = {\theta{\mathbf{y}}}$. Each solution yields an approximate eigenpair $({{\mathbf{B}}{\mathbf{y}}},\theta)$ of the matrix $\mathbf{A}$.
 
-The solution is ${\mathbf{M}}_{\star} = {{\mathbf{B}}^{\dagger}{\mathbf{A}}{\mathbf{B}}}$, where the dagger ^†^ denotes the Moore--Penrose pseudoinverse. At this point, RR frames the $d \times d$ eigenvalue problem ${{\mathbf{M}}_{\star}{\mathbf{y}}} = {\theta{\mathbf{y}}}$. Each solution yields an approximate eigenpair $({{\mathbf{B}}{\mathbf{y}}},\theta)$ of the matrix $\mathbf{A}$.
-
-Evidently, the least-squares problem Eq. 10 is ripe for sketching. Draw a sketching matrix ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ with $s = {4d}$, say, and pass to the sketched RR problem:
-
-We can compute the solution $\hat{\mathbf{M}} = {{({{\mathbf{S}}{\mathbf{B}}})}^{\dagger}{({{\mathbf{S}}{\mathbf{A}}{\mathbf{B}}})}}$ to the sketched problem Eq. 11 faster than we can obtain ${\mathbf{M}}_{\star}$. As before, we frame an ordinary eigenvalue problem:
-
-For each solution $(\hat{\mathbf{y}},\hat{\theta})$, we obtain an approximate eigenpair $({{\mathbf{B}}\hat{\mathbf{y}}},\hat{\theta})$ of the original matrix $\mathbf{A}$. We will show---both theoretically and empirically---that the computed eigenpairs of Eq. 12 are competitive with the eigenpairs obtained from RR.
+Evidently, the least-squares problem Eq. 10 is ripe for sketching. Draw a sketching matrix ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ with $s = {4d}$, say, and pass to the sketched RR problem: We can compute the solution $\hat{\mathbf{M}} = {{({{\mathbf{S}}{\mathbf{B}}})}^{\dagger}{({{\mathbf{S}}{\mathbf{A}}{\mathbf{B}}})}}$ to the sketched problem Eq. 11 faster than we can obtain ${\mathbf{M}}_{\star}$. As before, we frame an ordinary eigenvalue problem: For each solution $(\hat{\mathbf{y}},\hat{\theta})$, we obtain an approximate eigenpair $({{\mathbf{B}}\hat{\mathbf{y}}},\hat{\theta})$ of the original matrix $\mathbf{A}$. We will show---both theoretically and empirically---that the computed eigenpairs of Eq. 12 are competitive with the eigenpairs obtained from RR.
 
 We refer to Eq. 11 as the sketched Rayleigh--Ritz (sRR) formulation. Although it demands a careful implementation, sRR is faster than the original least-squares method Eq. 10 for an unstructured basis $\mathbf{B}$. Moreover, sRR is robust, even when the basis $\mathbf{B}$ has poor conditioning. Indeed, it suffices that ${\kappa_{2}{({\mathbf{B}})}} \lesssim u^{- 1}$.
 
-1:Matrix A ∈ ℂn × n, initial vector b ∈ ℂn, basis dimension d, number k of vector for partial orthogonalization, stability tolerance tol = O (u−1), convergence tolerance τ.
-2:Approximate eigenpairs (xi,λi) such that A xi ≈ λi xi and estimated residual norms r̂est, i.
-4: Draw subspace embedding S ∈ ℂs × n with s = 4 d ⊳ See Section 2.3
-5: Starting vector: w1 = randn (n,1)
-6: Normalize basis vector b1 = w1/∥w1∥2 and apply matrix m1 = A b1
-8: Truncated Arnoldi: wj = (I−bj − 1 bj − 1*−⋯−bj − k bj − k*) mj − 1 ⊳ b−i = 0 for i ≥ 0
-9: Normalize bj = wj/∥wj∥2 and apply matrix mj = A bj
-10: Sketch basis C = S [b1,…,bdmax] and reduced matrix D = S [m1,…,mdmax]
-12: if κ2 (T) &gt; tol then warning:
-13: Either whiten B ← B T−1 or stabilize and solve Eq. 46 ⊳ See Section 6.5
-14: Solve eigenvalue problem: T−1 U* D yi = λi yi for i = 1, …, d ⊳ See Eq. 45
-15: Form residual estimates ∥D yi−λi C yi∥2/∥C yi∥2 ⊳ See Eq. 43, Section 6.4
-16: Identify set ℐ of indices i where residual is at most τ
-17: Compute xi = B yi and normalize xi:= xi/∥xi∥2 for i ∈ ℐ, and output (xi,λi) \ImplementationIn line 6, use double Gram–Schmidt for stability. In line 9, the QR factorization may require pivoting. In lines 11–12, apply T−1 via triangular substitution.
-Algorithm 2 sRR + k-truncated Arnoldi
+1:Matrix A ∈ ℂn × n, initial vector b ∈ ℂn, basis dimension d, number k of vector for partial orthogonalization, stability tolerance tol = O (u−1), convergence tolerance τ. 2:Approximate eigenpairs (xi, λi) such that A xi ≈ λi xi and estimated residual norms r̂est, i. 4: Draw subspace embedding S ∈ ℂs × n with s = 4 d ⊳ See Section 2.3 5: Starting vector: w1 = randn (n, 1) 6: Normalize basis vector b1 = w1/∥w1∥2 and apply matrix m1 = A b1 8: Truncated Arnoldi: wj = (I − bj − 1 bj − 1* − ⋯ − bj − k bj − k*) mj − 1 ⊳ b−i = 0 for i ≥ 0 9: Normalize bj = wj/∥wj∥2 and apply matrix mj = A bj 10: Sketch basis C = S [b1, …, bdmax] and reduced matrix D = S [m1, …, mdmax] 12: if κ2 (T) > tol then warning: 13: Either whiten B ← B T−1 or stabilize and solve Eq. 46 ⊳ See Section 6.5 14: Solve eigenvalue problem: T−1 U* D yi = λi yi for i = 1, …, d ⊳ See Eq. 45 15: Form residual estimates ∥D yi − λi C yi∥2/∥C yi∥2 ⊳ See Eq. 43, Section 6.4 16: Identify set ℐ of indices i where residual is at most τ 17: Compute xi = B yi and normalize xi:= xi/∥xi∥2 for i ∈ ℐ, and output (xi, λi) \ImplementationIn line 6, use double Gram–Schmidt for stability. In line 9, the QR factorization may require pivoting. In lines 11–12, apply T−1 via triangular substitution. Algorithm 2 sRR + k-truncated Arnoldi
 
 ### Comparison with Arnoldi + Rayleigh--Ritz
 
@@ -125,9 +70,7 @@ As before, we can deploy the Krylov subspace Eq. 7 for eigenvalue computations. 
 
 To solve a large nonsymmetric eigenvalue problem, one standard algorithm \[42, Sec. 6.2\] applies the Arnoldi process (with full orthogonalization; see Section 4.2) to form an orthonormal basis for the Krylov subspace, and it uses the structure of the basis to solve the RR eigenvalue problem efficiently.
 
-Instead, we propose to combine a fast construction of a Krylov subspace basis, such as $k$-truncated Arnoldi Eq. 8, with the sRR eigenvalue problem Eq. 12. When the basis dimension $d \ll n$, this algorithm uses less arithmetic than the classic approach:
-
-RR: $O{({nd^{2}})}$ operations vs. sRR: $O{({d^{3} + {nd{\log d}}})}$ operations.
+Instead, we propose to combine a fast construction of a Krylov subspace basis, such as $k$-truncated Arnoldi Eq. 8, with the sRR eigenvalue problem Eq. 12. When the basis dimension $d \ll n$, this algorithm uses less arithmetic than the classic approach: RR: $O{({nd^{2}})}$ operations vs. sRR: $O{({d^{3} + {nd{\log d}}})}$ operations.
 
 This expression includes basis generation via $k$-truncated Arnoldi for $k$ constant, and sRR uses a fast sketching matrix (Section 2.3). See Algorithm 2 for pseudocode.
 
@@ -137,13 +80,9 @@ Figure 2: RR versus sRR: Nonsymmetric eigenvalue problem. These panels compare t
 
 ### Block Krylov subspaces
 
-For eigenvalue problems, there is also a compelling opportunity to explore alternative subspace constructions. For example, consider the block Krylov subspace
+For eigenvalue problems, there is also a compelling opportunity to explore alternative subspace constructions. For example, consider the block Krylov subspace We commonly generate the Krylov subspace from a random matrix $\mathbf{\Omega}$. The standard prescription recommends a small block size $b$ and a large depth $p$, but recent research \[30, Sec. 11\] has shown the value of a large block size $b$ and a small depth $p$.
 
-We commonly generate the Krylov subspace from a random matrix $\mathbf{\Omega}$. The standard prescription recommends a small block size $b$ and a large depth $p$, but recent research \[30, Sec. 11\] has shown the value of a large block size $b$ and a small depth $p$.
-
-We must take care in constructing the block Krylov subspace. Truncated Arnoldi is only competitive when the block size $b$ is a small constant. For larger $b$, the Chebyshev recurrence offers an elegant way to form a basis ${\mathbf{B}} = {\lbrack{\mathbf{B}}_{1},\ldots,{\mathbf{B}}_{p}\rbrack} \in {\mathbb{C}}^{{n \times b}p}$:
-
-We obtain the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ as a by-product. In practice, the Chebyshev polynomials must be shifted and scaled to adapt to the spectrum of $\mathbf{A}$. See Section 7 for details and alternative methods for fast basis construction.
+We must take care in constructing the block Krylov subspace. Truncated Arnoldi is only competitive when the block size $b$ is a small constant. For larger $b$, the Chebyshev recurrence offers an elegant way to form a basis ${\mathbf{B}} = {\lbrack{\mathbf{B}}_{1},\ldots,{\mathbf{B}}_{p}\rbrack} \in {\mathbb{C}}^{{n \times b}p}$: We obtain the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ as a by-product. In practice, the Chebyshev polynomials must be shifted and scaled to adapt to the spectrum of $\mathbf{A}$. See Section 7 for details and alternative methods for fast basis construction.
 
 ### Discussion
 
@@ -181,9 +120,7 @@ A subspace embedding is a linear map, usually from a high-dimensional space to a
 
 ### Definition 2.1 (Subspace embedding)
 
-Suppose that the columns of $\mathbf{B} \in {\mathbb{C}}^{n \times d}$ span the subspace $\mathsf{L} \subseteq {\mathbb{C}}^{n}$. A matrix $\mathbf{S} \in {\mathbb{C}}^{s \times n}$ is called a subspace embedding for $\mathsf{L}$ with distortion $\varepsilon \in {}$ if
-
-For matrix computations, we need to design subspace embeddings that have several additional properties. First, the subspace embedding $\mathbf{S}$ should be equipped with a fast matrix--vector multiply so that we can perform the data reduction process efficiently. Second, the subspace $\mathsf{L}$ is typically unknown, so we must draw a subspace embedding at random to achieve Eq. 14. ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777.") with high probability. Last, to randomly embed a $d$-dimensional subspace with distortion $\varepsilon$, the optimal scaling of the embedding dimension $s$ follows the law $s \approx {d/\varepsilon^{2}}$. Owing to this relation, subspace embeddings are only appropriate in settings where a moderate distortion, say $\varepsilon = {1/\sqrt{2}}$, is enough for computational purposes.
+Suppose that the columns of $\mathbf{B} \in {\mathbb{C}}^{n \times d}$ span the subspace $\mathsf{L} \subseteq {\mathbb{C}}^{n}$. A matrix $\mathbf{S} \in {\mathbb{C}}^{s \times n}$ is called a subspace embedding for $\mathsf{L}$ with distortion $\varepsilon \in {}$ if For matrix computations, we need to design subspace embeddings that have several additional properties. First, the subspace embedding $\mathbf{S}$ should be equipped with a fast matrix--vector multiply so that we can perform the data reduction process efficiently. Second, the subspace $\mathsf{L}$ is typically unknown, so we must draw a subspace embedding at random to achieve Eq. 14. ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777.") with high probability. Last, to randomly embed a $d$-dimensional subspace with distortion $\varepsilon$, the optimal scaling of the embedding dimension $s$ follows the law $s \approx {d/\varepsilon^{2}}$. Owing to this relation, subspace embeddings are only appropriate in settings where a moderate distortion, say $\varepsilon = {1/\sqrt{2}}$, is enough for computational purposes.
 
 Before turning to constructions in Section 2.3, let us outline the applications of subspace embeddings that we will use in this paper.
 
@@ -193,11 +130,7 @@ As discussed in Section 1.1, we can use a subspace embedding to reduce the dimen
 
 ### Fact 1 (Sketching for least-squares)
 
-Let $\mathbf{M} \in {\mathbb{C}}^{n \times d}$ be a matrix, and suppose that $\mathbf{S} \in {\mathbb{C}}^{s \times n}$ is a subspace embedding for ${range}{({\lbrack\mathbf{M},\mathbf{f}\rbrack})}$ with distortion $\varepsilon \in {}$. For every vector $\mathbf{y} \in {\mathbb{C}}^{d}$, we have the two-sided inequality
-
-In particular, the solution $\mathbf{y}_{\star}$ to the least-squares problem Eq. 1 and the solution $\hat{\mathbf{y}}$ to the sketched least-squares problem Eq. 2 satisfy residual norm bounds
-
-Equation Eq. 16. ‣ 2.1 Sketching for least-squares problems ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777.") justifies the claim Eq. 3 with $\varepsilon = {1/\sqrt{2}}$.
+Let $\mathbf{M} \in {\mathbb{C}}^{n \times d}$ be a matrix, and suppose that $\mathbf{S} \in {\mathbb{C}}^{s \times n}$ is a subspace embedding for ${range}{({\lbrack\mathbf{M},\mathbf{f}\rbrack})}$ with distortion $\varepsilon \in {}$. For every vector $\mathbf{y} \in {\mathbb{C}}^{d}$, we have the two-sided inequality In particular, the solution $\mathbf{y}_{\star}$ to the least-squares problem Eq. 1 and the solution $\hat{\mathbf{y}}$ to the sketched least-squares problem Eq. 2 satisfy residual norm bounds Equation Eq. 16. ‣ 2.1 Sketching for least-squares problems ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777.") justifies the claim Eq. 3 with $\varepsilon = {1/\sqrt{2}}$.
 
 ### Whitening the basis
 
@@ -205,9 +138,7 @@ Rokhlin & Tygert observed that a subspace embedding yields an inexpensive way to
 
 ### Fact 2 (Whitening)
 
-Let $\mathbf{B} \in {\mathbb{C}}^{n \times d}$ be a basis with full column rank. Let $\mathbf{S} \in {\mathbb{C}}^{s \times n}$ be a subspace embedding for ${range}{(\mathbf{B})}$ with distortion $\varepsilon \in {}$. Compute a QR factorization of the sketched basis: ${\mathbf{S}\mathbf{B}} = {\mathbf{U}\mathbf{T}}$ with $\mathbf{U} \in {\mathbb{C}}^{s \times d}$ orthonormal and $\mathbf{T} \in {\mathbb{C}}^{d \times d}$ permuted triangular. Then the whitened basis $\overline{\mathbf{B}} = {\mathbf{B}\mathbf{T}^{- 1}}$ satisfies
-
-Furthermore, we have the condition number diagnostic
+Let $\mathbf{B} \in {\mathbb{C}}^{n \times d}$ be a basis with full column rank. Let $\mathbf{S} \in {\mathbb{C}}^{s \times n}$ be a subspace embedding for ${range}{(\mathbf{B})}$ with distortion $\varepsilon \in {}$. Compute a QR factorization of the sketched basis: ${\mathbf{S}\mathbf{B}} = {\mathbf{U}\mathbf{T}}$ with $\mathbf{U} \in {\mathbb{C}}^{s \times d}$ orthonormal and $\mathbf{T} \in {\mathbb{C}}^{d \times d}$ permuted triangular. Then the whitened basis $\overline{\mathbf{B}} = {\mathbf{B}\mathbf{T}^{- 1}}$ satisfies Furthermore, we have the condition number diagnostic
 
 ### Constructing a subspace embedding
 
@@ -215,45 +146,29 @@ There are many performant constructions of fast randomized subspace embeddings t
 
 ### SRFTs
 
-First, we introduce the subsampled random Fourier transform (SRFT). This subspace embedding^22^2For worst-case problems, a more elaborate SRFT construction may be needed \[30, Sec. 9\]. takes the form
-
-In this expression, ${\mathbf{D}} \in {\mathbb{C}}^{s \times n}$ is a diagonal projector onto $s$ coordinates, chosen independently at random, ${\mathbf{F}} \in {\mathbb{C}}^{n \times n}$ is the unitary discrete Fourier transform (DFT), and ${\mathbf{E}} \in {\mathbb{C}}^{n \times n}$ is a diagonal matrix whose entries are independent Steinhaus^33^3A Steinhaus random variable is uniform on the complex unit circle $\{{z \in {\mathbb{C}}}:{{|z|} = 1}\}$. random variables. The cost of applying the matrix $\mathbf{S}$ to an $n \times d$ matrix is $O{({nd{\log d}})}$ operations using the subsampled FFT algorithm.
+First, we introduce the subsampled random Fourier transform (SRFT). This subspace embedding^22^2For worst-case problems, a more elaborate SRFT construction may be needed \[30, Sec. 9\]. takes the form In this expression, ${\mathbf{D}} \in {\mathbb{C}}^{s \times n}$ is a diagonal projector onto $s$ coordinates, chosen independently at random, ${\mathbf{F}} \in {\mathbb{C}}^{n \times n}$ is the unitary discrete Fourier transform (DFT), and ${\mathbf{E}} \in {\mathbb{C}}^{n \times n}$ is a diagonal matrix whose entries are independent Steinhaus^33^3A Steinhaus random variable is uniform on the complex unit circle $\{{z \in {\mathbb{C}}}:{{|z|} = 1}\}$. random variables. The cost of applying the matrix $\mathbf{S}$ to an $n \times d$ matrix is $O{({nd{\log d}})}$ operations using the subsampled FFT algorithm.
 
 ### Sparse maps
 
-Next, we describe the sparse dimension reduction map, which is useful for sparse data and may require less data movement. It takes the form
-
-The columns of $\mathbf{S}$ are statistically independent. Each column ${\mathbf{s}}_{i}$ has exactly $\zeta$ nonzero entries, drawn from the Steinhaus distribution, placed in uniformly random coordinates. For reliability, we choose the sparsity level $\zeta = {\lceil{2{\log{({1 + d})}}}\rceil}$. We can apply $\mathbf{S}$ to a matrix $\mathbf{M}$ with $O{({{\zeta \cdot \text{nnz}}{({\mathbf{M}})}})}$ operations, but it may require a sparse arithmetic library to achieve the best performance.
+Next, we describe the sparse dimension reduction map, which is useful for sparse data and may require less data movement. It takes the form The columns of $\mathbf{S}$ are statistically independent. Each column ${\mathbf{s}}_{i}$ has exactly $\zeta$ nonzero entries, drawn from the Steinhaus distribution, placed in uniformly random coordinates. For reliability, we choose the sparsity level $\zeta = {\lceil{2{\log{({1 + d})}}}\rceil}$. We can apply $\mathbf{S}$ to a matrix $\mathbf{M}$ with $O{({{\zeta \cdot \text{nnz}}{({\mathbf{M}})}})}$ operations, but it may require a sparse arithmetic library to achieve the best performance.
 
 ## Solving linear systems with sGMRES
 
-We return to the linear system
-
-This section elaborates on the sGMRES method outlined in Section 1.2. Section 4 discusses methods for constructing the basis required by sGMRES. Section 5 combines these ideas to obtain complete sGMRES algorithms.
+We return to the linear system This section elaborates on the sGMRES method outlined in Section 1.2. Section 4 discusses methods for constructing the basis required by sGMRES. Section 5 combines these ideas to obtain complete sGMRES algorithms.
 
 ### Derivation of GMRES
 
 Fix a full rank basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$ and the reduced matrix ${{\mathbf{A}}{\mathbf{B}}} \in {\mathbb{C}}^{n \times d}$. Suppose that ${\mathbf{x}}_{0} \in {\mathbb{C}}^{n}$ is an initial guess for the solution of Eq. 21 with residual ${\mathbf{r}}_{0}:={{\mathbf{f}} - {{\mathbf{A}}{\mathbf{x}}_{0}}}$. Lacking prior information, we may take ${\mathbf{x}}_{0} = \mathbf{0}$.
 
-Consider the affine family of approximate solutions to Eq. 21 of the form ${\mathbf{x}} = {{\mathbf{x}}_{0} + {{\mathbf{B}}{\mathbf{y}}}}$ where ${\mathbf{y}} \in {\mathbb{C}}^{d}$. Among this class, we may select a representative whose residual ${\mathbf{r}} = {{\mathbf{f}} - {{\mathbf{A}}{\mathbf{x}}}} = {{\mathbf{r}}_{0} - {{\mathbf{A}}{\mathbf{B}}{\mathbf{y}}}}$ has the minimum $\ell_{2}$ norm:
-
-With some imprecision, we refer to Eq. 22 as the GMRES problem. By calculus, the least-squares problem Eq. 22 is equivalent to the normal equations:
-
-We can stably solve Eq. 22 using a QR factorization of the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ \[24, Ch. 20\]. The cost is $O{({nd^{2}})}$ arithmetic operations, assuming that the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ is unstructured. Given a solution ${\mathbf{y}}_{\mathbf{B}}$ to either problem, we obtain a new approximate solution ${\mathbf{x}}_{\mathbf{B}} = {{\mathbf{x}}_{0} + {{\mathbf{B}}{\mathbf{y}}_{\mathbf{B}}}}$ with residual ${\mathbf{r}}_{\mathbf{B}} = {{\mathbf{f}} - {{\mathbf{A}}{\mathbf{x}}_{\mathbf{B}}}}$.
+Consider the affine family of approximate solutions to Eq. 21 of the form ${\mathbf{x}} = {{\mathbf{x}}_{0} + {{\mathbf{B}}{\mathbf{y}}}}$ where ${\mathbf{y}} \in {\mathbb{C}}^{d}$. Among this class, we may select a representative whose residual ${\mathbf{r}} = {{\mathbf{f}} - {{\mathbf{A}}{\mathbf{x}}}} = {{\mathbf{r}}_{0} - {{\mathbf{A}}{\mathbf{B}}{\mathbf{y}}}}$ has the minimum $\ell_{2}$ norm: With some imprecision, we refer to Eq. 22 as the GMRES problem. By calculus, the least-squares problem Eq. 22 is equivalent to the normal equations: We can stably solve Eq. 22 using a QR factorization of the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ \[24, Ch. 20\]. The cost is $O{({nd^{2}})}$ arithmetic operations, assuming that the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ is unstructured. Given a solution ${\mathbf{y}}_{\mathbf{B}}$ to either problem, we obtain a new approximate solution ${\mathbf{x}}_{\mathbf{B}} = {{\mathbf{x}}_{0} + {{\mathbf{B}}{\mathbf{y}}_{\mathbf{B}}}}$ with residual ${\mathbf{r}}_{\mathbf{B}} = {{\mathbf{f}} - {{\mathbf{A}}{\mathbf{x}}_{\mathbf{B}}}}$.
 
 The formulation Eq. 23 is also called a Petrov--Galerkin method \[41, Chap. 5\] with approximation space ${\mathbf{x}}_{0} + {{range}{({\mathbf{B}})}}$ and orthogonality space ${range}{({{\mathbf{A}}{\mathbf{B}}})}$. The GMRES algorithm is a particular instance where $\mathbf{B}$ is an orthonormal basis for a Krylov subspace generated by ${\mathbf{r}}_{0}$. GMRES forms the basis $\mathbf{B}$ via the Arnoldi process (Section 4.2), which involves $d$ matvecs with $\mathbf{A}$ plus $O{({nd^{2}})}$ arithmetic. This reduces Eq. 22 to a structured least-squares problem that can be solved in $O{(d^{2})}$ operations.
 
 ### Derivation and analysis of sGMRES
 
-To develop the sGMRES method, we just sketch the GMRES problem Eq. 22. Construct a subspace embedding ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ for ${range}{({\lbrack{{\mathbf{A}}{\mathbf{B}}},{\mathbf{r}}_{0}\rbrack})}$ with distortion $\varepsilon \in {}$. The sketched GMRES problem is
+To develop the sGMRES method, we just sketch the GMRES problem Eq. 22. Construct a subspace embedding ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ for ${range}{({\lbrack{{\mathbf{A}}{\mathbf{B}}},{\mathbf{r}}_{0}\rbrack})}$ with distortion $\varepsilon \in {}$. The sketched GMRES problem is Let $\hat{\mathbf{y}} \in {\mathbb{C}}^{d}$ denote the solution of Eq. 24. Write $\hat{\mathbf{x}} = {{\mathbf{x}}_{0} + {{\mathbf{B}}\hat{\mathbf{y}}}}$ and $\hat{\mathbf{r}} = {{\mathbf{f}} - {{\mathbf{A}}\hat{\mathbf{x}}}}$.
 
-Let $\hat{\mathbf{y}} \in {\mathbb{C}}^{d}$ denote the solution of Eq. 24. Write $\hat{\mathbf{x}} = {{\mathbf{x}}_{0} + {{\mathbf{B}}\hat{\mathbf{y}}}}$ and $\hat{\mathbf{r}} = {{\mathbf{f}} - {{\mathbf{A}}\hat{\mathbf{x}}}}$.
-
-We have an a priori comparison of the GMRES Eq. 22 and sGMRES Eq. 24 residual norms because of the relation Eq. 16. ‣ 2.1 Sketching for least-squares problems ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777."):
-
-Thus, sGMRES produces approximate solutions to Eq. 21 with small $\ell_{2}$ residuals precisely when GMRES does. A posteriori, we can diagnose the quality of the computed solution $\hat{\mathbf{x}}$ by examining the sketched residual norm:
-
-The last display is a consequence of Eq. 15. ‣ 2.1 Sketching for least-squares problems ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777.").
+We have an a priori comparison of the GMRES Eq. 22 and sGMRES Eq. 24 residual norms because of the relation Eq. 16. ‣ 2.1 Sketching for least-squares problems ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777."): Thus, sGMRES produces approximate solutions to Eq. 21 with small $\ell_{2}$ residuals precisely when GMRES does. A posteriori, we can diagnose the quality of the computed solution $\hat{\mathbf{x}}$ by examining the sketched residual norm: The last display is a consequence of Eq. 15. ‣ 2.1 Sketching for least-squares problems ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777.").
 
 For both GMRES Eq. 22 and sGMRES Eq. 24, the fundamental challenge is to produce a basis $\mathbf{B}$ that captures an approximate solution to the linear system Eq. 21. We return to this matter in Section 4.
 
@@ -263,11 +178,7 @@ Let us outline a numerically robust implementation of sGMRES and describe some o
 
 The algorithm operates with either an SRFT Eq. 19 or a sparse embedding Eq. 20, depending on which is more appropriate to the computational environment. We recommend the embedding dimension $s = {2{({d + 1})}}$, which typically yields distortion $\varepsilon = {1/\sqrt{2}}$. In view of Eq. 25, the sGMRES residual norm is less than $6 \times$ the GMRES residual norm, although the discrepancy is often smaller in practice.
 
-To obtain the data for the sGMRES problem Eq. 24, we sketch the reduced matrix (${{\mathbf{S}}{\mathbf{A}}{\mathbf{B}}} \in {\mathbb{C}}^{s \times d}$) and the right-hand side (${{\mathbf{S}}{\mathbf{r}}_{0}} \in {\mathbb{C}}^{s}$) at a cost of $O{({nd{\log d}})}$ operations. To solve Eq. 24, we compute a thin, pivoted QR decomposition of the sketched matrix: ${{\mathbf{S}}{\mathbf{A}}{\mathbf{B}}} = {{\mathbf{U}}{\mathbf{T}}}$ where ${\mathbf{U}} \in {\mathbb{C}}^{s \times d}$ is orthonormal and ${\mathbf{T}} \in {\mathbb{C}}^{d \times d}$ is a triangular matrix with permuted columns. A minimizer of the sGMRES problem is
-
-Of course, we apply the inverse by triangular substitution. The sketched residual norm Eq. 26 admits the simple expression
-
-The two preceding displays require $O{(d^{3})}$ arithmetic since $s = {O{(d)}}$. Last, we explicitly form the approximate solution $\hat{\mathbf{x}} = {{\mathbf{x}}_{0} + {{\mathbf{B}}\hat{\mathbf{y}}}}$ at a cost of $O{({nd})}$ operations.
+To obtain the data for the sGMRES problem Eq. 24, we sketch the reduced matrix (${{\mathbf{S}}{\mathbf{A}}{\mathbf{B}}} \in {\mathbb{C}}^{s \times d}$) and the right-hand side (${{\mathbf{S}}{\mathbf{r}}_{0}} \in {\mathbb{C}}^{s}$) at a cost of $O{({nd{\log d}})}$ operations. To solve Eq. 24, we compute a thin, pivoted QR decomposition of the sketched matrix: ${{\mathbf{S}}{\mathbf{A}}{\mathbf{B}}} = {{\mathbf{U}}{\mathbf{T}}}$ where ${\mathbf{U}} \in {\mathbb{C}}^{s \times d}$ is orthonormal and ${\mathbf{T}} \in {\mathbb{C}}^{d \times d}$ is a triangular matrix with permuted columns. A minimizer of the sGMRES problem is Of course, we apply the inverse by triangular substitution. The sketched residual norm Eq. 26 admits the simple expression The two preceding displays require $O{(d^{3})}$ arithmetic since $s = {O{(d)}}$. Last, we explicitly form the approximate solution $\hat{\mathbf{x}} = {{\mathbf{x}}_{0} + {{\mathbf{B}}\hat{\mathbf{y}}}}$ at a cost of $O{({nd})}$ operations.
 
 In summary, given the basis $\mathbf{B}$, the cost of forming and solving the sGMRES problem Eq. 24 is $O{({d^{3} + {nd{\log d}}})}$ arithmetic. In contrast, for an unstructured basis, the cost of solving the GMRES problem Eq. 22 is $O{({nd^{2}})}$ arithmetic. Section 5 provides an accounting of the costs of forming the basis and solving the least-squares problem.
 
@@ -285,9 +196,7 @@ Restarting has a number of benefits for the process of basis construction. It al
 
 ### Preconditioning
 
-For difficult linear systems, we may need a preconditioner ${\mathbf{P}} \in {\mathbb{C}}^{n \times n}$ to solve it successfully with either GMRES or sGMRES. The preconditioned system has the form
-
-A good preconditioner has two features \[41, Chaps. 9 and 10\]. First, the matrix ${\mathbf{P}}^{- 1}{\mathbf{A}}$ has a more "favorable" structure than $\mathbf{A}$. Second, we can solve ${{\mathbf{P}}{\mathbf{z}}} = {\mathbf{g}}$ efficiently. (Let us emphasize that we only interact with ${\mathbf{P}}^{- 1}$ by solving linear systems!) Although preconditioning is critical in practice, it is heavily problem dependent, so we will not delve into examples.
+For difficult linear systems, we may need a preconditioner ${\mathbf{P}} \in {\mathbb{C}}^{n \times n}$ to solve it successfully with either GMRES or sGMRES. The preconditioned system has the form A good preconditioner has two features \[41, Chaps. 9 and 10\]. First, the matrix ${\mathbf{P}}^{- 1}{\mathbf{A}}$ has a more "favorable" structure than $\mathbf{A}$. Second, we can solve ${{\mathbf{P}}{\mathbf{z}}} = {\mathbf{g}}$ efficiently. (Let us emphasize that we only interact with ${\mathbf{P}}^{- 1}$ by solving linear systems!) Although preconditioning is critical in practice, it is heavily problem dependent, so we will not delve into examples.
 
 We may derive sGMRES for the preconditioned system Eq. 29, following the same pattern as before. Note that we employ the preconditioned matrix ${\mathbf{P}}^{- 1}{\mathbf{A}}$ when we construct the basis $\mathbf{B}$ and the reduced matrix ${\mathbf{P}}^{- 1}{({{\mathbf{A}}{\mathbf{B}}})}$. The details are routine. We believe that sGMRES opens up new opportunities for designing preconditioners because it is faster and more flexible than GMRES.
 
@@ -297,13 +206,9 @@ As we have seen, the success of both GMRES Eq. 22 and sGMRES Eq. 24 hinges on th
 
 ### The single-vector Krylov subspace
 
-Many iterative methods for solving the linear system Eq. 21 implicitly search for solutions in the Krylov subspace
+Many iterative methods for solving the linear system Eq. 21 implicitly search for solutions in the Krylov subspace In this context, the generating vector ${\mathbf{r}} \in {\mathbb{C}}^{n}$ is often the normalized residual ${\mathbf{r}}_{0}/{\|{\mathbf{r}}_{0}\|}_{2}$, defined by ${\mathbf{r}}_{0} = {{\mathbf{f}} - {{\mathbf{A}}{\mathbf{x}}_{0}}}$, where ${\mathbf{x}}_{0}$ is an approximate solution to Eq. 21. The function $\varphi$ ranges over polynomials with degree at most $p - 1$.
 
-In this context, the generating vector ${\mathbf{r}} \in {\mathbb{C}}^{n}$ is often the normalized residual ${\mathbf{r}}_{0}/{\|{\mathbf{r}}_{0}\|}_{2}$, defined by ${\mathbf{r}}_{0} = {{\mathbf{f}} - {{\mathbf{A}}{\mathbf{x}}_{0}}}$, where ${\mathbf{x}}_{0}$ is an approximate solution to Eq. 21. The function $\varphi$ ranges over polynomials with degree at most $p - 1$.
-
-A basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$ for the Krylov subspace $\mathsf{K}_{p}{({\mathbf{A}};{\mathbf{r}})}$ comprises a system of vectors that spans the subspace. We can write
-
-The filter polynomials $({\varphi_{j}:{j = {1,\ldots,d}}})$ have degree at most $p - 1$, and they are usually linearly independent (so $d = p$). In most cases, the polynomials are also graded $({{\deg{(\varphi_{j})}} = {j - 1}})$, and they are constructed sequentially by a recurrence. This process delivers the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ without any extra work.
+A basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$ for the Krylov subspace $\mathsf{K}_{p}{({\mathbf{A}};{\mathbf{r}})}$ comprises a system of vectors that spans the subspace. We can write The filter polynomials $({\varphi_{j}:{j = {1,\ldots,d}}})$ have degree at most $p - 1$, and they are usually linearly independent (so $d = p$). In most cases, the polynomials are also graded $({{\deg{(\varphi_{j})}} = {j - 1}})$, and they are constructed sequentially by a recurrence. This process delivers the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ without any extra work.
 
 For example, the monomial basis takes the form ${\mathbf{b}}_{1} = {\mathbf{r}}$ and ${\mathbf{b}}_{j} = {{\mathbf{A}}{\mathbf{b}}_{j - 1}}$ for $j = {2,\ldots,p}$. The associated polynomials are ${\varphi_{j}{(t)}} = t^{j - 1}$ for $j = {1,\ldots,p}$. For many matrices $\mathbf{A}$, the conditioning of the monomial basis for $\mathsf{K}_{p}{({\mathbf{A}};{\mathbf{r}})}$ grows exponentially with $p$, so it is inimical to numerical computation.
 
@@ -313,11 +218,7 @@ For theoretical analysis of the approximation power of Krylov subspaces in the c
 
 ### The Arnoldi process
 
-It is supremely natural to build an orthonormal basis ${\mathbf{Q}} \in {\mathbb{C}}^{n \times p}$ for the Krylov subspace $\mathsf{K}_{p}{({\mathbf{A}};{\mathbf{r}})}$ sequentially. This is called the Arnoldi process \[41, Sec. 6.3\]. The initial vector ${\mathbf{q}}_{1} = {{\mathbf{r}}/{\|{\mathbf{r}}\|}_{2}}$. After $j$ steps, the method updates the partial basis ${\mathbf{Q}}_{j} = {\lbrack{\mathbf{q}}_{1},\ldots,{\mathbf{q}}_{j}\rbrack}$ by appending the vector
-
-The Arnoldi basis ${\mathbf{Q}}_{p} \in {\mathbb{C}}^{n \times p}$ has the happy property that
-
-As a consequence, we can solve the least-squares problem Eq. 22 with ${\mathbf{B}} = {\mathbf{Q}}_{p}$ in $O{(p^{2})}$ time and produce the approximate solution ${\mathbf{x}}_{\mathbf{B}}$ in $O{({np})}$ operations. This is roughly how the standard implementation of the GMRES algorithm operates.
+It is supremely natural to build an orthonormal basis ${\mathbf{Q}} \in {\mathbb{C}}^{n \times p}$ for the Krylov subspace $\mathsf{K}_{p}{({\mathbf{A}};{\mathbf{r}})}$ sequentially. This is called the Arnoldi process \[41, Sec. 6.3\]. The initial vector ${\mathbf{q}}_{1} = {{\mathbf{r}}/{\|{\mathbf{r}}\|}_{2}}$. After $j$ steps, the method updates the partial basis ${\mathbf{Q}}_{j} = {\lbrack{\mathbf{q}}_{1},\ldots,{\mathbf{q}}_{j}\rbrack}$ by appending the vector The Arnoldi basis ${\mathbf{Q}}_{p} \in {\mathbb{C}}^{n \times p}$ has the happy property that As a consequence, we can solve the least-squares problem Eq. 22 with ${\mathbf{B}} = {\mathbf{Q}}_{p}$ in $O{(p^{2})}$ time and produce the approximate solution ${\mathbf{x}}_{\mathbf{B}}$ in $O{({np})}$ operations. This is roughly how the standard implementation of the GMRES algorithm operates.
 
 The orthogonalization steps in the Arnoldi process are expensive. For $p$ iterations, they expend $O{({np^{2}})}$ arithmetic, and they may also involve burdensome inner-products, communication, and synchronization. Robust implementations usually incorporate modified or double Gram--Schmidt or else use Householder reflectors.
 
@@ -327,11 +228,7 @@ Relatedly, Balabanov & Grigori have proposed to use a low-dimensional sketch of 
 
 ### The Lanczos recurrence
 
-For this subsection, assume $\mathbf{A}$ is Hermitian. In this case, the Arnoldi process simplifies to a three-term recurrence \[41, Sec. 6.6\]:
-
-The Lanczos basis ${\mathbf{Q}}_{p} = {\lbrack{\mathbf{q}}_{1},\ldots,{\mathbf{q}}_{p}\rbrack} \in {\mathbb{C}}^{n \times p}$ has the remarkable property that
-
-This allows us to solve the least-squares problem Eq. 22 with ${\mathbf{B}} = {\mathbf{Q}}_{p}$ in $O{(p)}$ time, and we construct the approximate solution ${\mathbf{x}}_{\mathbf{B}}$ with $O{({np})}$ arithmetic. This is roughly how the MINRES algorithm operates.
+For this subsection, assume $\mathbf{A}$ is Hermitian. In this case, the Arnoldi process simplifies to a three-term recurrence \[41, Sec. 6.6\]: The Lanczos basis ${\mathbf{Q}}_{p} = {\lbrack{\mathbf{q}}_{1},\ldots,{\mathbf{q}}_{p}\rbrack} \in {\mathbb{C}}^{n \times p}$ has the remarkable property that This allows us to solve the least-squares problem Eq. 22 with ${\mathbf{B}} = {\mathbf{Q}}_{p}$ in $O{(p)}$ time, and we construct the approximate solution ${\mathbf{x}}_{\mathbf{B}}$ with $O{({np})}$ arithmetic. This is roughly how the MINRES algorithm operates.
 
 For $p$ iterations, the Lanczos recurrence costs just $O{({np})}$ operations, but it has complicated behavior in finite-precision arithmetic. This issue is not devastating when Lanczos is used to solve linear systems \[28, Chap. 5\], but it can present a more serious challenge when solving eigenvalue problems \[37, Chap. 13\].
 
@@ -343,17 +240,13 @@ The literature describes many approaches for maintaining the orthogonality of th
 
 In some settings, we may wish to avoid the orthogonalization steps entirely because they involve operations on high-dimensional basis vectors. We can achieve this goal by using other polynomial recurrences to construct a Krylov subspace basis. This idea is attributed to Joubert & Carey.
 
-For simplicity, suppose that the spectrum of $\mathbf{A}$ is contained in the axis-aligned rectangle $\lbrack{c \pm \delta_{x}},{\pm \delta_{y}}\rbrack$, and set $\varrho = {\max{\{\delta_{x},\delta_{y}\}}}$. Then we can assemble a shifted-and-scaled Chebyshev basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times p}$ via the following recurrence. Let ${\mathbf{b}}_{1} = {{\mathbf{r}}/{\|{\mathbf{r}}\|}_{2}}$ and ${\mathbf{b}}_{2} = {{({2\varrho})}^{- 1}{({{\mathbf{A}} - {c\mathbf{I}}})}{\mathbf{b}}_{1}}$. Then
-
-In practice, we also rescale each basis vector ${\mathbf{b}}_{j}$ to have unit $\ell_{2}$ norm after it has played its role in the recurrence. The key theoretical fact is that the Chebyshev basis tends to have a condition number that grows polynomially in $p$, rather than exponentially. This claim depends on assumptions that the eigenvalues of the matrix are equidistributed over an ellipse.
+For simplicity, suppose that the spectrum of $\mathbf{A}$ is contained in the axis-aligned rectangle $\lbrack{c \pm \delta_{x}},{\pm \delta_{y}}\rbrack$, and set $\varrho = {\max{\{\delta_{x},\delta_{y}\}}}$. Then we can assemble a shifted-and-scaled Chebyshev basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times p}$ via the following recurrence. Let ${\mathbf{b}}_{1} = {{\mathbf{r}}/{\|{\mathbf{r}}\|}_{2}}$ and ${\mathbf{b}}_{2} = {{({2\varrho})}^{- 1}{({{\mathbf{A}} - {c\mathbf{I}}})}{\mathbf{b}}_{1}}$. Then In practice, we also rescale each basis vector ${\mathbf{b}}_{j}$ to have unit $\ell_{2}$ norm after it has played its role in the recurrence. The key theoretical fact is that the Chebyshev basis tends to have a condition number that grows polynomially in $p$, rather than exponentially. This claim depends on assumptions that the eigenvalues of the matrix are equidistributed over an ellipse.
 
 To implement this procedure, we may first apply a few iterations of the Arnoldi method (Section 6.2) to estimate the spectrum of $\mathbf{A}$. More generally, we find a (transformed) ellipse that contains the spectrum. Then we adapt the Chebyshev polynomials to this ellipse. The overall cost of constructing a Chebyshev basis for $\mathsf{K}_{p}{({\mathbf{A}};{\mathbf{r}})}$ is $O{({np})}$, and it involves no orthogonalization whatsoever.
 
 ### Newton polynomials
 
-The Newton polynomials provide another standard construction of a nonorthogonal basis for the Krylov subspace. Suppose that ${\theta_{1},\ldots,\theta_{p}} \in {\mathbb{C}}$ are complex-valued shift parameters. Then we can build a basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times p}$ for $\mathsf{K}_{p}{(\mathsf{A};{\mathbf{r}})}$ via the recurrence
-
-The shifts $\theta_{i}$ are often chosen to be estimated eigenvalues of $\mathbf{A}$, obtained from an invocation of the Arnoldi method (Section 6.2). The overall computational profile of constructing the Newton basis is similar to constructing a Chebyshev basis.
+The Newton polynomials provide another standard construction of a nonorthogonal basis for the Krylov subspace. Suppose that ${\theta_{1},\ldots,\theta_{p}} \in {\mathbb{C}}$ are complex-valued shift parameters. Then we can build a basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times p}$ for $\mathsf{K}_{p}{(\mathsf{A};{\mathbf{r}})}$ via the recurrence The shifts $\theta_{i}$ are often chosen to be estimated eigenvalues of $\mathbf{A}$, obtained from an invocation of the Arnoldi method (Section 6.2). The overall computational profile of constructing the Newton basis is similar to constructing a Chebyshev basis.
 
 ### Local orthogonalization
 
@@ -373,11 +266,7 @@ Table 1: GMRES versus sGMRES: Arithmetic. This table compares the total arithmet
 
 As noted, most methods for producing the Krylov subspace basis are recursive. They generate the columns of $\mathbf{B}$ and the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ in sequence. This observation suggests an iterative implementation of sGMRES. We sketch the columns of the reduced matrix as they arrive, incrementally solving the sGMRES problem Eq. 24 at each step.
 
-Let $d_{\max}$ be a user-specified parameter that bounds the maximum depth allowed for the Krylov subspace. Draw and fix a randomized subspace embedding ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ with embedding dimension $s = {2{({d_{\max} + 1})}}$. As we compute each column ${\mathbf{A}}{\mathbf{b}}_{j}$ of the reduced matrix, we immediately form the sketch ${\mathbf{S}}{({{\mathbf{A}}{\mathbf{b}}_{j}})}$ and update the QR decomposition:
-
-At each step, we obtain an approximate solution to the linear system:
-
-Repeat this process until the estimated residual norm ${\hat{r}}_{{est},j}$ is sufficiently small or we breach the threshold $d_{\max}$ for the size of the Krylov space. After $d$ iterations, the arithmetic costs of Eqs. 32 and 33 match the non-sequential implementation (Section 3.3) with a basis of size $d$.
+Let $d_{\max}$ be a user-specified parameter that bounds the maximum depth allowed for the Krylov subspace. Draw and fix a randomized subspace embedding ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ with embedding dimension $s = {2{({d_{\max} + 1})}}$. As we compute each column ${\mathbf{A}}{\mathbf{b}}_{j}$ of the reduced matrix, we immediately form the sketch ${\mathbf{S}}{({{\mathbf{A}}{\mathbf{b}}_{j}})}$ and update the QR decomposition: At each step, we obtain an approximate solution to the linear system: Repeat this process until the estimated residual norm ${\hat{r}}_{{est},j}$ is sufficiently small or we breach the threshold $d_{\max}$ for the size of the Krylov space. After $d$ iterations, the arithmetic costs of Eqs. 32 and 33 match the non-sequential implementation (Section 3.3) with a basis of size $d$.
 
 ### Adaptive restarting
 
@@ -385,37 +274,21 @@ There is a further opportunity to design an adaptive strategy for restarting. Ac
 
 ### Storage-efficient versions
 
-In situations where storage is at a premium, we can even avoid storing the reduced matrix ${\mathbf{A}}{\mathbf{B}}_{j}$ by sketching its columns sequentially and discarding them immediately after sketching. Once the estimated residual norm ${\hat{r}}_{{est},j}$ is sufficiently small, we can construct the approximate solution
-
-by iteratively regenerating the columns of the reduced matrix ${\mathbf{A}}{\mathbf{B}}_{j}$ and linearly combining them on the fly. For some basis constructions (e.g., truncated Arnoldi or Chebyshev), we only need to maintain a few columns of $\mathbf{B}$ and the $j$ columns of ${\mathbf{S}}{({{\mathbf{A}}{\mathbf{B}}_{j}})}$. This modification doubles the arithmetic cost associated with basis generation (matvecs plus orthogonalization). A similar technique was used in.
+In situations where storage is at a premium, we can even avoid storing the reduced matrix ${\mathbf{A}}{\mathbf{B}}_{j}$ by sketching its columns sequentially and discarding them immediately after sketching. Once the estimated residual norm ${\hat{r}}_{{est},j}$ is sufficiently small, we can construct the approximate solution by iteratively regenerating the columns of the reduced matrix ${\mathbf{A}}{\mathbf{B}}_{j}$ and linearly combining them on the fly. For some basis constructions (e.g., truncated Arnoldi or Chebyshev), we only need to maintain a few columns of $\mathbf{B}$ and the $j$ columns of ${\mathbf{S}}{({{\mathbf{A}}{\mathbf{B}}_{j}})}$. This modification doubles the arithmetic cost associated with basis generation (matvecs plus orthogonalization). A similar technique was used.
 
 ### Obtaining a solution with full accuracy
 
-While the constant-factor loss Eq. 25 in sGMRES is unlikely to be an issue, we can obtain a solution with the same quality as GMRES by using $\mathbf{T}$ as a preconditioner to solve Eq. 22 via an iterative method as in. This method still requires ${\kappa_{2}{({{\mathbf{A}}{\mathbf{B}}})}} \lesssim u^{- 1}$ to operate reliably.
+While the constant-factor loss Eq. 25 in sGMRES is unlikely to be an issue, we can obtain a solution with the same quality as GMRES by using $\mathbf{T}$ as a preconditioner to solve Eq. 22 via an iterative method as . This method still requires ${\kappa_{2}{({{\mathbf{A}}{\mathbf{B}}})}} \lesssim u^{- 1}$ to operate reliably.
 
 ## The sketched Rayleigh--Ritz method
 
-Let us turn to the nonsymmetric eigenvalue problem
-
-We will provide an implementation and analysis of the sRR method outlined in Section 1.3.1. Section 6.8 describes modifications for the symmetric eigenvalue problem. Section 7 covers techniques for constructing the basis for sRR.
+Let us turn to the nonsymmetric eigenvalue problem We will provide an implementation and analysis of the sRR method outlined in Section 1.3.1. Section 6.8 describes modifications for the symmetric eigenvalue problem. Section 7 covers techniques for constructing the basis for sRR.
 
 ### Perspectives on Rayleigh--Ritz
 
-Fix a full-rank basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$, and let ${{\mathbf{A}}{\mathbf{B}}} \in {\mathbb{C}}^{n \times d}$ be the reduced matrix. Rayleigh--Ritz is best understood as a Galerkin method for computing eigenvalues \[42, Sec. 4.3\]. Among nonzero vectors of the form ${\mathbf{x}} = {{\mathbf{B}}{\mathbf{y}}}$, we seek a residual ${\mathbf{r}} = {{{\mathbf{A}}{\mathbf{x}}} - {\theta{\mathbf{x}}}}$ orthogonal to ${range}{({\mathbf{B}})}$. More precisely,
+Fix a full-rank basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$, and let ${{\mathbf{A}}{\mathbf{B}}} \in {\mathbb{C}}^{n \times d}$ be the reduced matrix. Rayleigh--Ritz is best understood as a Galerkin method for computing eigenvalues \[42, Sec. 4.3\]. Among nonzero vectors of the form ${\mathbf{x}} = {{\mathbf{B}}{\mathbf{y}}}$, we seek a residual ${\mathbf{r}} = {{{\mathbf{A}}{\mathbf{x}}} - {\theta{\mathbf{x}}}}$ orthogonal to ${range}{({\mathbf{B}})}$. More precisely, Rearranging, we see that Eq. 35 can be posed as an ordinary eigenvalue problem: Recall that eigenvalue problems are invariant under similarity transforms. In the present context, the computed eigenpairs only depend on the range of $\mathbf{B}$, so they are invariant under the map ${\mathbf{B}}\leftarrow{{\mathbf{B}}{\mathbf{T}}}$ for a nonsingular ${\mathbf{T}} \in {\mathbb{C}}^{d \times d}$. Therefore, if ${\mathbf{Q}} \in {\mathbb{C}}^{n \times d}$ is an orthonormal basis for ${range}{({\mathbf{B}})}$, then we may pass to Given a solution $({\mathbf{z}},\theta)$ to Eq. 37, we obtain an approximate eigenpair $({{\mathbf{Q}}{\mathbf{z}}},\theta)$ of the matrix $\mathbf{A}$. This is the most typical presentation of RR.
 
-Rearranging, we see that Eq. 35 can be posed as an ordinary eigenvalue problem:
-
-Recall that eigenvalue problems are invariant under similarity transforms. In the present context, the computed eigenpairs only depend on the range of $\mathbf{B}$, so they are invariant under the map ${\mathbf{B}}\leftarrow{{\mathbf{B}}{\mathbf{T}}}$ for a nonsingular ${\mathbf{T}} \in {\mathbb{C}}^{d \times d}$. Therefore, if ${\mathbf{Q}} \in {\mathbb{C}}^{n \times d}$ is an orthonormal basis for ${range}{({\mathbf{B}})}$, then we may pass to
-
-Given a solution $({\mathbf{z}},\theta)$ to Eq. 37, we obtain an approximate eigenpair $({{\mathbf{Q}}{\mathbf{z}}},\theta)$ of the matrix $\mathbf{A}$. This is the most typical presentation of RR.
-
-In contrast, consider the problem of minimizing the residual over the subspace:
-
-This formulation is sometimes called a rectangular eigenvalue problem. Let us emphasize that the RR method Eq. 36 does not solve the rectangular eigenvalue problem. Nevertheless, for any eigenpair $({\mathbf{y}}_{\star},\theta_{\star})$ of the matrix ${\mathbf{M}}_{\star}$, it holds that
-
-The matrix ${\mathbf{M}}_{\star}$ from Eq. 36 does solve a related variational problem \[37, Thm. 11.4.2\]:
-
-These connections support the design and analysis of a sketched version of RR.
+In contrast, consider the problem of minimizing the residual over the subspace: This formulation is sometimes called a rectangular eigenvalue problem. Let us emphasize that the RR method Eq. 36 does not solve the rectangular eigenvalue problem. Nevertheless, for any eigenpair $({\mathbf{y}}_{\star},\theta_{\star})$ of the matrix ${\mathbf{M}}_{\star}$, it holds that The matrix ${\mathbf{M}}_{\star}$ from Eq. 36 does solve a related variational problem \[37, Thm. 11.4.2\]: These connections support the design and analysis of a sketched version of RR.
 
 ### The Arnoldi method
 
@@ -423,25 +296,15 @@ The Arnoldi method is a classic algorithm \[42, Sec. 6.2\] for eigenvalue proble
 
 ### Derivation of sRR
 
-We can view the sRR method as a sketched version of the matrix optimization problem Eq. 40. Consider a subspace embedding ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ for ${range}{({\lbrack{{\mathbf{A}}{\mathbf{B}}},{\mathbf{B}}\rbrack})}$ with distortion $\varepsilon \in {}$. The sketched problem is
+We can view the sRR method as a sketched version of the matrix optimization problem Eq. 40. Consider a subspace embedding ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ for ${range}{({\lbrack{{\mathbf{A}}{\mathbf{B}}},{\mathbf{B}}\rbrack})}$ with distortion $\varepsilon \in {}$. The sketched problem is The sRR method finds a solution $\hat{\mathbf{M}} \in {\mathbb{C}}^{d \times d}$ to this optimization problem. Then it poses the ordinary eigenvalue problem This computation yields up to $d$ eigenpairs $({\hat{\mathbf{y}}}_{i},{\hat{\theta}}_{i})$ of the matrix $\hat{\mathbf{M}}$. We obtain approximate eigenpairs of $\mathbf{A}$ by the transformation $({{\mathbf{B}}{\hat{\mathbf{y}}}_{i}},{\hat{\theta}}_{i})$.
 
-The sRR method finds a solution $\hat{\mathbf{M}} \in {\mathbb{C}}^{d \times d}$ to this optimization problem. Then it poses the ordinary eigenvalue problem
-
-This computation yields up to $d$ eigenpairs $({\hat{\mathbf{y}}}_{i},{\hat{\theta}}_{i})$ of the matrix $\hat{\mathbf{M}}$. We obtain approximate eigenpairs of $\mathbf{A}$ by the transformation $({{\mathbf{B}}{\hat{\mathbf{y}}}_{i}},{\hat{\theta}}_{i})$.
-
-Sketching allows us to obtain inexpensive a posteriori error bounds. For a computed eigenpair $(\hat{\mathbf{y}},\hat{\theta})$ of $\hat{\mathbf{M}}$, it is cheap to form the sketched residual:
-
-By definition, the subspace embedding $\mathbf{S}$ ensures that the true residual satisfies
-
-In other words, we can diagnose when the sRR method has (or has not) produced a high-quality approximate eigenpair $({{\mathbf{B}}\hat{\mathbf{y}}},\hat{\theta})$ of the original matrix $\mathbf{A}$.
+Sketching allows us to obtain inexpensive a posteriori error bounds. For a computed eigenpair $(\hat{\mathbf{y}},\hat{\theta})$ of $\hat{\mathbf{M}}$, it is cheap to form the sketched residual: By definition, the subspace embedding $\mathbf{S}$ ensures that the true residual satisfies In other words, we can diagnose when the sRR method has (or has not) produced a high-quality approximate eigenpair $({{\mathbf{B}}\hat{\mathbf{y}}},\hat{\theta})$ of the original matrix $\mathbf{A}$.
 
 ### Implementation of sRR
 
 To implement sRR, we may use either an SRFT embedding Eq. 19 or a sparse embedding Eq. 20. We recommend the embedding dimension $s = {4d}$, which typically results in distortion $\varepsilon = {1/\sqrt{2}}$ for the range of $\lbrack{{\mathbf{A}}{\mathbf{B}}},{\mathbf{B}}\rbrack$.
 
-We first sketch the reduced matrix (${{\mathbf{S}}{\mathbf{A}}{\mathbf{B}}} \in {\mathbb{C}}^{s \times d}$) and the basis (${{\mathbf{S}}{\mathbf{B}}} \in {\mathbb{C}}^{s \times d}$) at a cost of $O{({nd{\log d}})}$ operations. Next, we compute a thin, pivoted QR decomposition ${{\mathbf{S}}{\mathbf{B}}} = {{\mathbf{U}}{\mathbf{T}}}$ of the sketched basis. A minimizer of the sRR problem Eq. 41 is the matrix
-
-We apply the inverse by triangular substitution. Then invoke the QR algorithm to solve the eigenvalue problem Eq. 42. Each of the last three steps costs $O{(d^{3})}$ operations.
+We first sketch the reduced matrix (${{\mathbf{S}}{\mathbf{A}}{\mathbf{B}}} \in {\mathbb{C}}^{s \times d}$) and the basis (${{\mathbf{S}}{\mathbf{B}}} \in {\mathbb{C}}^{s \times d}$) at a cost of $O{({nd{\log d}})}$ operations. Next, we compute a thin, pivoted QR decomposition ${{\mathbf{S}}{\mathbf{B}}} = {{\mathbf{U}}{\mathbf{T}}}$ of the sketched basis. A minimizer of the sRR problem Eq. 41 is the matrix We apply the inverse by triangular substitution. Then invoke the QR algorithm to solve the eigenvalue problem Eq. 42. Each of the last three steps costs $O{(d^{3})}$ operations.
 
 Given a computed eigenpair $(\hat{\mathbf{y}},\hat{\theta})$, we can obtain the sketched residual value ${\hat{r}}_{est}{(\hat{\mathbf{y}},\hat{\theta})}$ from Eq. 43 at a cost of $O{(d^{2})}$ operations. If the residual estimate is sufficiently small, we declare that $({{\mathbf{B}}\hat{\mathbf{y}}},\hat{\theta})$ is an approximate eigenpair of $\mathbf{A}$. For maximum efficiency, we present the approximate eigenvector $\hat{\mathbf{x}} = {{\mathbf{B}}\hat{\mathbf{y}}} \in {\mathbb{C}}^{n}$ in factored form. If we need the full vector $\hat{\mathbf{x}}$, it costs $O{({nd})}$ operations. Ironically, if we extract a large number of explicit eigenvectors, this last step dominates the cost of the computation. Usually, the number of high-quality approximate eigenpairs is moderate.
 
@@ -451,9 +314,7 @@ In summary, given the basis $\mathbf{B}$, if we use sRR to solve Eq. 34, the cos
 
 The output of sRR is almost identical to RR provided that ${\kappa_{2}{({\mathbf{B}})}} \lesssim u^{- 1}$. This condition is very generous. In contrast, recall that the standard stability analysis \[37, Chap. 13\] for the Lanczos algorithm asks that ${\kappa_{2}{({\mathbf{B}})}} < {1 + \sqrt{u}}$.
 
-If we see that the sketched basis ${\mathbf{S}}{\mathbf{B}}$ is very badly conditioned (${\kappa_{2}{({{\mathbf{S}}{\mathbf{B}}})}} \gtrsim u^{- 1}$), then the condition number diagnostic Eq. 18. ‣ 2.2 Whitening the basis ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777.") implies that the basis $\mathbf{B}$ is also very badly conditioned. In this case, we can stabilize sRR by regularizing the basis. For example, we may compute the truncated SVD:
-
-Then we use the QZ algorithm \[21, §7.7\] to solve the generalized eigenvalue problem^44^4When ${\kappa_{2}{({\mathbf{B}})}} \gtrsim u^{- 1}$, numerical experiments suggest this approach is more stable than reducing to a standard eigenvalue problem as in Eq. 45.
+If we see that the sketched basis ${\mathbf{S}}{\mathbf{B}}$ is very badly conditioned (${\kappa_{2}{({{\mathbf{S}}{\mathbf{B}}})}} \gtrsim u^{- 1}$), then the condition number diagnostic Eq. 18. ‣ 2.2 Whitening the basis ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777.") implies that the basis $\mathbf{B}$ is also very badly conditioned. In this case, we can stabilize sRR by regularizing the basis. For example, we may compute the truncated SVD: Then we use the QZ algorithm \[21, §7.7\] to solve the generalized eigenvalue problem^44^4When ${\kappa_{2}{({\mathbf{B}})}} \gtrsim u^{- 1}$, numerical experiments suggest this approach is more stable than reducing to a standard eigenvalue problem as in Eq. 45.
 
 Each solution yields an sRR eigenpair $({{\mathbf{V}}{\mathbf{z}}},\theta)$ and an associated approximate eigenpair $({{\mathbf{B}}{\mathbf{V}}{\mathbf{z}}},\theta)$ of $\mathbf{A}$. The asymptotic cost is the same as the basic implementation.
 
@@ -461,33 +322,19 @@ Each solution yields an sRR eigenpair $({{\mathbf{V}}{\mathbf{z}}},\theta)$ and 
 
 We will argue that RR and sRR solve eigenvalue problems that are similar to a pair of nearby eigenvalue problems.
 
-First, recall that ${{\mathbf{S}}{\mathbf{B}}} = {{\mathbf{U}}{\mathbf{T}}}$ is the QR decomposition of the sketched basis. Per Eq. 17. ‣ 2.2 Whitening the basis ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777."), the whitened basis $\overline{\mathbf{B}}:={{\mathbf{B}}{\mathbf{T}}^{- 1}}$ has conditioning ${\kappa_{2}{(\overline{\mathbf{B}})}} \leq {{({1 + \varepsilon})}/{({1 - \varepsilon})}}$. Now, consider the variational problem Eq. 40 with respect to the whitened basis $\overline{\mathbf{B}}$ and its sketched version:
+First, recall that ${{\mathbf{S}}{\mathbf{B}}} = {{\mathbf{U}}{\mathbf{T}}}$ is the QR decomposition of the sketched basis. Per Eq. 17. ‣ 2.2 Whitening the basis ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777."), the whitened basis $\overline{\mathbf{B}}:={{\mathbf{B}}{\mathbf{T}}^{- 1}}$ has conditioning ${\kappa_{2}{(\overline{\mathbf{B}})}} \leq {{({1 + \varepsilon})}/{({1 - \varepsilon})}}$. Now, consider the variational problem Eq. 40 with respect to the whitened basis $\overline{\mathbf{B}}$ and its sketched version: Since $\mathbf{Q}$ is an orthonormal basis for ${range}{(\overline{\mathbf{B}})}$, we recognize that ${\overline{\mathbf{M}}}_{\star}$ is similar to the RR matrix ${\mathbf{Q}}^{\ast}{\mathbf{A}}{\mathbf{Q}}$. In view of Eq. 45 and the relations ${{\mathbf{S}}\overline{\mathbf{B}}} = {{\mathbf{S}}{\mathbf{B}}{\mathbf{T}}^{- 1}} = {\mathbf{U}}$, the sketched solution $\overline{\mathbf{M}}$ is similar to the sRR matrix $\hat{\mathbf{M}}$: Eigenvalue problems are invariant under similarity, so it suffices to show $\overline{\mathbf{M}} \approx {\overline{\mathbf{M}}}_{\star}$.
 
-Since $\mathbf{Q}$ is an orthonormal basis for ${range}{(\overline{\mathbf{B}})}$, we recognize that ${\overline{\mathbf{M}}}_{\star}$ is similar to the RR matrix ${\mathbf{Q}}^{\ast}{\mathbf{A}}{\mathbf{Q}}$. In view of Eq. 45 and the relations ${{\mathbf{S}}\overline{\mathbf{B}}} = {{\mathbf{S}}{\mathbf{B}}{\mathbf{T}}^{- 1}} = {\mathbf{U}}$, the sketched solution $\overline{\mathbf{M}}$ is similar to the sRR matrix $\hat{\mathbf{M}}$:
-
-Eigenvalue problems are invariant under similarity, so it suffices to show $\overline{\mathbf{M}} \approx {\overline{\mathbf{M}}}_{\star}$.
-
-To that end, we invoke Eq. 16. ‣ 2.1 Sketching for least-squares problems ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777.") columnwise to obtain the comparison
-
-Using the definitions of ${\overline{\mathbf{M}}}_{\star}$ and $\mathbf{Q}$, we find that
-
-From the last two displays, a short argument using the triangle inequality and the conditioning of the whitened basis produces
-
-Here is an interpretation. If ${{range}{({\mathbf{Q}})}} = {{range}{({\mathbf{B}})}}$ is close to an invariant subspace of $\mathbf{A}$, then ${{({\mathbf{I} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}}})}{\mathbf{A}}{\mathbf{Q}}} \approx \mathbf{0}$. In this case, $\overline{\mathbf{M}} \approx {\overline{\mathbf{M}}}_{\star}$. Therefore, sRR and RR solve nearby eigenvalue problems, and we deduce that sRR is a backward stable approximation to RR in exact arithmetic.
+To that end, we invoke Eq. 16. ‣ 2.1 Sketching for least-squares problems ‣ 2 Background: Subspace embeddings ‣ Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue ProblemsDate: 29 October 2021. Revised: 4 February 2022. \funding JAT acknowledges ONR BRC N00014-1-18-2363 and NSF FRG 1952777.") columnwise to obtain the comparison Using the definitions of ${\overline{\mathbf{M}}}_{\star}$ and $\mathbf{Q}$, we find that From the last two displays, a short argument using the triangle inequality and the conditioning of the whitened basis produces Here is an interpretation. If ${{range}{({\mathbf{Q}})}} = {{range}{({\mathbf{B}})}}$ is close to an invariant subspace of $\mathbf{A}$, then ${{({\mathbf{I} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}}})}{\mathbf{A}}{\mathbf{Q}}} \approx \mathbf{0}$. In this case, $\overline{\mathbf{M}} \approx {\overline{\mathbf{M}}}_{\star}$. Therefore, sRR and RR solve nearby eigenvalue problems, and we deduce that sRR is a backward stable approximation to RR in exact arithmetic.
 
 More generally, as long as ${range}{({\mathbf{B}})}$ contains an approximate eigenvector of $\mathbf{A}$ with small residual, Eq. 44 shows that the same vector yields a comparably small residual for the sketched eigenproblem Eq. 42. Unfortunately, even in this case, there is no guarantee that sRR will find an approximate eigenpair with a small residual. Indeed, the behavior of classic RR is already complicated, with pathological examples \[49, p. 282\]. Nevertheless, RR is known to provide excellent outputs in the vast majority of cases; see for the analysis.
 
 ### sRR with a Krylov subspace basis
 
-When $\mathbf{B}$ is a (graded) basis for a Krylov subspace, the analysis of sRR simplifies further. In this case, the solutions ${\mathbf{M}}_{\star}$ and $\hat{\mathbf{M}}$ to Eq. 40 and Eq. 41 differ only in the final column! To verify this point, observe that Eq. 40 decouples into a family of $d$ least-squares problems:
-
-By construction, the vector ${\mathbf{A}}{\mathbf{b}}_{i}$ lies in the span of $\mathbf{B}$ for $i = {1,\ldots,{d - 1}}$. Each of these problems has a unique solution with zero residual. Thus, the sketched problem Eq. 41 correctly identifies the exact solution.
+When $\mathbf{B}$ is a (graded) basis for a Krylov subspace, the analysis of sRR simplifies further. In this case, the solutions ${\mathbf{M}}_{\star}$ and $\hat{\mathbf{M}}$ to Eq. 40 and Eq. 41 differ only in the final column! To verify this point, observe that Eq. 40 decouples into a family of $d$ least-squares problems: By construction, the vector ${\mathbf{A}}{\mathbf{b}}_{i}$ lies in the span of $\mathbf{B}$ for $i = {1,\ldots,{d - 1}}$. Each of these problems has a unique solution with zero residual. Thus, the sketched problem Eq. 41 correctly identifies the exact solution.
 
 ### The symmetric case
 
-Consider the symmetric eigenvalue problem
-
-We can apply sRR directly to Eq. 48. Unfortunately, sRR is not guaranteed to (and in fact does not always) return real eigenvalue estimates. At root, the sketched eigenvalue problem Eq. 42 is not (similar to) a symmetric problem. Accordingly, the computed eigenvectors need not be orthogonal. This is an inherent drawback.
+Consider the symmetric eigenvalue problem We can apply sRR directly to Eq. 48. Unfortunately, sRR is not guaranteed to (and in fact does not always) return real eigenvalue estimates. At root, the sketched eigenvalue problem Eq. 42 is not (similar to) a symmetric problem. Accordingly, the computed eigenvectors need not be orthogonal. This is an inherent drawback.
 
 Fortunately, for Eq. 48, sRR often computes eigenvalue estimates that are real (or nearly real), and the associated eigenvectors tend to be nearly orthogonal. We can anticipate this outcome when the whitened matrices satisfy $\overline{\mathbf{M}} \approx {\overline{\mathbf{M}}}_{\star}$. Indeed, the eigenvalues of a symmetric matrix are well-conditioned under nonsymmetric perturbations. As for the eigenvectors, if two approximate eigenpairs $({\hat{\mathbf{x}}}_{1},{\hat{\lambda}}_{1})$ and $({\hat{\mathbf{x}}}_{2},{\hat{\lambda}}_{2})$ of a symmetric matrix $\mathbf{A}$ have small residuals and sufficient gap $|{{\hat{\lambda}}_{1} - {\hat{\lambda}}_{2}}|$, then it follows that ${\hat{\mathbf{x}}}_{1},{\hat{\mathbf{x}}}_{2}$ are nearly orthogonal. This forces the high-quality eigenvectors computed by sRR to be nearly orthogonal.
 
@@ -499,11 +346,7 @@ The performance of RR and sRR depends on the quality of the basis construction. 
 
 ### Block Krylov subspaces
 
-For the eigenvalue problem Eq. 34, we can search for solutions using sRR with a block Krylov subspace. Let $\mathbf{\Omega} \in {\mathbb{C}}^{n \times b}$ be an initial matrix; the dimension $b$ is called the block size. Define
-
-Setting $d = {bp}$, we can express a basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$ for this subspace in the form
-
-Here, $\{\varphi_{i}:{i = {1,\ldots,d}}\}$ is a linearly independent family of filter polynomials. For eigenvalue problems, the generating matrix $\mathbf{\Omega} \in {\mathbb{C}}^{n \times b}$ may be drawn at random from a standard normal distribution.^55^5In this context, we do not derive much computational benefit from fancier nonadaptive distributions, such as SRFTs or sparse embeddings.
+For the eigenvalue problem Eq. 34, we can search for solutions using sRR with a block Krylov subspace. Let $\mathbf{\Omega} \in {\mathbb{C}}^{n \times b}$ be an initial matrix; the dimension $b$ is called the block size. Define Setting $d = {bp}$, we can express a basis ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$ for this subspace in the form Here, $\{\varphi_{i}:{i = {1,\ldots,d}}\}$ is a linearly independent family of filter polynomials. For eigenvalue problems, the generating matrix $\mathbf{\Omega} \in {\mathbb{C}}^{n \times b}$ may be drawn at random from a standard normal distribution.^55^5In this context, we do not derive much computational benefit from fancier nonadaptive distributions, such as SRFTs or sparse embeddings.
 
 Historically, the NLA literature has prescribed a small block size, say $b \leq 4$, and a large depth $p$. More recent research \[30, Sec. 11\] has identified an opportunity to use a large block size $b$, say 10s or 100s, with a much smaller depth, say $p \leq 10$. This shift in perspective has already transformed the computational profile of block Krylov methods for low-rank approximation. For instance, we can parallelize the computation over the columns of $\mathbf{\Omega}$ (or over the filter polynomials $\varphi_{i}$). In combination with sRR, nonorthogonal basis constructions promise further benefits. See for theoretical analysis of block Krylov subspaces for low-rank matrix approximation and symmetric eigenvalue problems.
 
@@ -521,17 +364,13 @@ Another possibility for restarting is to deflate converged eigenpairs by working
 
 ### Block monomial basis with orthogonalization
 
-Although the monomial basis is anathema for large-degree polynomials, we can still use it for shallow Krylov subspaces (say, when $p < 5$). In this case, we can assemble a basis ${\mathbf{B}} = {\lbrack{\mathbf{B}}_{1},\ldots,{\mathbf{B}}_{p}\rbrack}$ for $\mathsf{K}_{p}{({\mathbf{A}};\mathbf{\Omega})}$ as follows. Set ${\mathbf{B}}_{1} = {\text{orth}{(\mathbf{\Omega})}}$, and iterate
-
-We acquire the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ as a by-product of this computation.
+Although the monomial basis is anathema for large-degree polynomials, we can still use it for shallow Krylov subspaces (say, when $p < 5$). In this case, we can assemble a basis ${\mathbf{B}} = {\lbrack{\mathbf{B}}_{1},\ldots,{\mathbf{B}}_{p}\rbrack}$ for $\mathsf{K}_{p}{({\mathbf{A}};\mathbf{\Omega})}$ as follows. Set ${\mathbf{B}}_{1} = {\text{orth}{(\mathbf{\Omega})}}$, and iterate We acquire the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ as a by-product of this computation.
 
 The block monomial basis has been used in the "blanczos" method for low-rank matrix approximation, but it requires an expensive full orthogonalization of $\mathbf{B}$ in the final step. When used as an input to sRR, it may not be necessary to reorthogonalize the block monomial basis $\mathbf{B}$.
 
 ### Block Arnoldi with truncation
 
-We can mitigate the rapid condition number growth of the block monomial basis by adding extra orthogonalization steps. For recurrence length $k \in {\mathbb{N}}$, we set ${\mathbf{B}}_{1} = {\text{orth}{(\mathbf{\Omega})}}$ and iterate
-
-The resulting basis ${\mathbf{B}} = {\lbrack{\mathbf{B}}_{1},\ldots,{\mathbf{B}}_{p}\rbrack}$ serves as an input to sRR. The choice $k = 1$ or $k = 2$ already improves substantially over the block monomial basis.
+We can mitigate the rapid condition number growth of the block monomial basis by adding extra orthogonalization steps. For recurrence length $k \in {\mathbb{N}}$, we set ${\mathbf{B}}_{1} = {\text{orth}{(\mathbf{\Omega})}}$ and iterate The resulting basis ${\mathbf{B}} = {\lbrack{\mathbf{B}}_{1},\ldots,{\mathbf{B}}_{p}\rbrack}$ serves as an input to sRR. The choice $k = 1$ or $k = 2$ already improves substantially over the block monomial basis.
 
 When $\mathbf{A}$ is Hermitian, the choice $k = 2$ corresponds to the block Lanczos method without reorthogonalization \[37, Chap. 13\]. Historically, the reorthogonalization step has been regarded as important for achieving robustness. If we use block Lanczos with sRR, then we can often dispense with reorthogonalization.
 
@@ -543,7 +382,7 @@ By employing other polynomial recurrences, we can potentially eliminate all expe
 
 Suppose that we have prior knowledge that the spectrum of $\mathbf{A}$ is contained in the axis-aligned rectangle $\lbrack{c \pm \delta_{x}},{\pm \delta_{y}}\rbrack$, and set $\varrho = {\max{\{\delta_{x},\delta_{y}\}}}$. Then we can form a block Chebyshev basis ${\mathbf{B}} = {\lbrack{\mathbf{B}}_{1},\ldots,{\mathbf{B}}_{p}\rbrack}$ for $\mathsf{K}_{p}{({\mathbf{A}};\mathbf{\Omega})}$ as follows.
 
-To implement this procedure, we typically need to perform a coarse initial eigenvalue computation (using sRR + block Arnoldi) to obtain a rough estimate for the spectrum of $\mathbf{A}$. For this purpose, a small block size $b$ and depth $p$ usually suffice. We may also consider Chebyshev polynomials based on rotated ellipses, as in.
+To implement this procedure, we typically need to perform a coarse initial eigenvalue computation (using sRR + block Arnoldi) to obtain a rough estimate for the spectrum of $\mathbf{A}$. For this purpose, a small block size $b$ and depth $p$ usually suffice. We may also consider Chebyshev polynomials based on rotated ellipses, as .
 
 A remarkable feature of this approach is that we can compute the block Chebyshev basis for $\mathsf{K}_{p}{({\mathbf{A}};\mathbf{\Omega})}$ with $b{({p - 1})}$ matvecs plus $O{({nbp})}$ operations. In contrast, it requires $O{({n{({bp})}^{2}})}$ extra operations to produce an (approximately) orthogonal basis. Beyond that, the Chebyshev recurrence can be implemented efficiently in parallel or with SIMD processors, and the lack of inner products and orthogonalization steps allows us to evade communication and synchronization costs.
 
@@ -569,7 +408,7 @@ Figure 3: sGMRES versus GMRES: Laplacian system. These panels compare the perfor
 
 ### A symmetric linear system
 
-We consider a symmetric test matrix $\mathbf{A}$ with dimension $n = 10^{6}$, obtained by discretizing the 2D Laplacian.^77^7To generate the matrix we used the code in [https://www.mathworks.com/matlabcentral/fileexchange/27279-laplacian-in-1d-2d-or-3d](https://www.mathworks.com/matlabcentral/fileexchange/27279-laplacian-in-1d-2d-or-3d). The matrix is positive semidefinite with kernel $\mathbf{e} = {\lbrack 1,1,\ldots,1\rbrack}^{\ast}$. We solve the Poisson problem ${{\mathbf{A}}{\mathbf{x}}} = {\mathbf{f}}$ where the right-hand side ${\mathbf{f}} = {{\mathbf{A}}{\mathbf{x}}}$ is generated as above, which forces ${{\mathbf{e}}^{\ast}{\mathbf{f}}} = 0$. For this problem, CG would be more appropriate than GMRES. In fact, specialized algorithms (e.g., multigrid) are available, but this example still offers an inspiring illustration of our methodology.
+We consider a symmetric test matrix $\mathbf{A}$ with dimension $n = 10^{6}$, obtained by discretizing the 2D Laplacian.^77^7To generate the matrix we used the code in The matrix is positive semidefinite with kernel $\mathbf{e} = {\lbrack 1,1,\ldots,1\rbrack}^{\ast}$. We solve the Poisson problem ${{\mathbf{A}}{\mathbf{x}}} = {\mathbf{f}}$ where the right-hand side ${\mathbf{f}} = {{\mathbf{A}}{\mathbf{x}}}$ is generated as above, which forces ${{\mathbf{e}}^{\ast}{\mathbf{f}}} = 0$. For this problem, CG would be more appropriate than GMRES. In fact, specialized algorithms (e.g., multigrid) are available, but this example still offers an inspiring illustration of our methodology.
 
 Figure 3 describes the progress of sGMRES where the basis is generated by $k$-truncated orthogonalization for $k = 2$ and where the basis is generated by the Chebyshev recurrence (more below). We compare with the MATLAB commands pcg and gmres without restart and with restart frequencies in $\{ 10,30,100\}$. For all methods, the initial solution ${\mathbf{x}}_{0} = \mathbf{0}$.
 
@@ -591,7 +430,7 @@ Consider the matrix FS 680 1 from Matrix Market, which is known to instigate Kry
 
 We can always monitor the conditioning of the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ inexpensively by means of its sketch ${\mathbf{S}}{\mathbf{A}}{\mathbf{B}}$. Unfortunately, we are not aware of a reliable mechanism for controlling the conditioning, short of full orthogonalization. Indeed, $k$-truncated Arnoldi does not even guarantee monotone decrease of the condition number as $k$ increases. This issue remains a challenge for sGMRES. The ideas from may be useful here.
 
-Figure 4: sGMRES: Hard problems. For some linear systems, it is expensive to construct a well-conditioned basis B for the Krylov subspace. When κ2 (A B) &gt; u−1, the sGMRES algorithm may fail to match the GMRES algorithm with full orthogonalization. Left: Relative residual norms. Right: Condition number κ2 (B) of the k-truncated Arnoldi basis. When κ2 (B) &gt; u−1, the reported values are unreliable.
+Figure 4: sGMRES: Hard problems. For some linear systems, it is expensive to construct a well-conditioned basis B for the Krylov subspace. When κ2 (A B) > u−1, the sGMRES algorithm may fail to match the GMRES algorithm with full orthogonalization. Left: Relative residual norms. Right: Condition number κ2 (B) of the k-truncated Arnoldi basis. When κ2 (B) > u−1, the reported values are unreliable.
 
 ### Solving eigenvalue problems with sRR
 
@@ -607,11 +446,7 @@ For eigenvalue computations, we anticipate that block Krylov subspaces can yield
 
 ### Nonsymmetric eigenvalue problems
 
-This section describes the nonsymmetric eigenvalue problem that forms the basis for Figure 2. This computation is modeled on the trust-region subproblem (TRS) from optimization:
-
-This quadratic program can be reduced to a nonsymmetric eigenvalue problem:
-
-To obtain a solution to Eq. 49, we extract a (scaled) eigenvector of Eq. 50 corresponding to the right-most eigenvalue (which must be real).
+This section describes the nonsymmetric eigenvalue problem that forms the basis for Figure 2. This computation is modeled on the trust-region subproblem (TRS) from optimization: This quadratic program can be reduced to a nonsymmetric eigenvalue problem: To obtain a solution to Eq. 49, we extract a (scaled) eigenvector of Eq. 50 corresponding to the right-most eigenvalue (which must be real).
 
 We consider an instance of Eq. 50 where $\mathbf{A}$ is an $n \times n$ tridiagonal matrix with equispaced values in $\lbrack{- 1},1\rbrack$ on the main diagonal and with $1$s on the off-diagonals. In this case, the block matrix admits a fast matrix--vector multiplication operation. The vector ${\mathbf{g}} \in {\mathbb{R}}^{n}$ is drawn from the standard normal distribution and scaled so that ${\|{\mathbf{g}}\|}_{2} = 0.01$. The constraint value $\Delta = 1$.
 
@@ -627,7 +462,7 @@ Figure 5 displays the results of the experiment. We see that sRR identifies the 
 
 When the Lanczos method is used to reduce the matrix to (partial) tridiagonal form, it is critical that the Lanczos basis remain almost perfectly orthogonal. Loss of orthogonality of the basis leads to ghost eigenvalues, which are repeated estimates of a single eigenvalue \[17, Ch. 7\]. (Selective) orthogonalization is a traditional remedy, but it can be costly. In our experience, sRR rarely produces ghost eigenvalues because it does not need the basis to reduce the matrix to tridiagonal form.
 
-Figure 6: sRR: Ill-conditioned bases and stabilization. This diagram shows how eigenvalue residuals improve with the depth p of a block Krylov–Chebyshev subspace B ∈ ℝn × (b p) with block size b = 100. Left: Residuals as a function of eigenvalue estimates, along with the condition number κ2 (B) of the basis. Right: Runtime for eigenvalue extraction, excluding basis generation. Bottom: Magnification of the left panel for p = 30 to illustrate (interior) eigenvalue estimates in.
+Figure 6: sRR: Ill-conditioned bases and stabilization. This diagram shows how eigenvalue residuals improve with the depth p of a block Krylov–Chebyshev subspace B ∈ ℝn × (b p) with block size b = 100. Left: Residuals as a function of eigenvalue estimates, along with the condition number κ2 (B) of the basis. Right: Runtime for eigenvalue extraction, excluding basis generation. Bottom: Magnification of the left panel for p = 30 to illustrate (interior) eigenvalue estimates .
 
 ### Poorly conditioned bases and stabilization
 
@@ -643,15 +478,9 @@ The ideas underlying sGMRES and sRR can be adapted to address a wide variety of 
 
 ### Generalized eigenvalue problems
 
-Consider the problem
+Consider the problem Suppose that ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$ is a basis that captures approximate solutions to Eq. 51. Following the development in Section 6.1, the classic RR method can be interpreted as a variational problem: Given a solution ${\mathbf{M}}_{\star} = {{({{\mathbf{J}}{\mathbf{B}}})}^{\dagger}{({{\mathbf{H}}{\mathbf{B}}})}}$ to Eq. 52, we pose the ordinary eigenvalue problem ${{\mathbf{M}}_{\star}{\mathbf{y}}} = {\theta{\mathbf{y}}}$. Each eigenpair $({\mathbf{y}},\theta)$ induces an approximate solution $({{\mathbf{B}}{\mathbf{y}}},\theta)$ to Eq. 51.
 
-Suppose that ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$ is a basis that captures approximate solutions to Eq. 51. Following the development in Section 6.1, the classic RR method can be interpreted as a variational problem:
-
-Given a solution ${\mathbf{M}}_{\star} = {{({{\mathbf{J}}{\mathbf{B}}})}^{\dagger}{({{\mathbf{H}}{\mathbf{B}}})}}$ to Eq. 52, we pose the ordinary eigenvalue problem ${{\mathbf{M}}_{\star}{\mathbf{y}}} = {\theta{\mathbf{y}}}$. Each eigenpair $({\mathbf{y}},\theta)$ induces an approximate solution $({{\mathbf{B}}{\mathbf{y}}},\theta)$ to Eq. 51.
-
-Given a subspace embedding ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ for ${range}{({\lbrack{{\mathbf{H}}{\mathbf{B}}},{{\mathbf{J}}{\mathbf{B}}}\rbrack})}$, we can pass to the sketched problem
-
-The solution $\hat{\mathbf{M}} = {{({{\mathbf{S}}{\mathbf{J}}{\mathbf{B}}})}^{\dagger}{({{\mathbf{S}}{\mathbf{H}}{\mathbf{B}}})}}$. Then frame the ordinary eigenvalue problem ${\hat{\mathbf{M}}{\mathbf{y}}} = {\theta{\mathbf{y}}}$. Each eigenpair $(\hat{\mathbf{y}},\hat{\theta})$ induces an approximate solution $({{\mathbf{B}}\hat{\mathbf{y}}},\hat{\theta})$ to Eq. 51.
+Given a subspace embedding ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ for ${range}{({\lbrack{{\mathbf{H}}{\mathbf{B}}},{{\mathbf{J}}{\mathbf{B}}}\rbrack})}$, we can pass to the sketched problem The solution $\hat{\mathbf{M}} = {{({{\mathbf{S}}{\mathbf{J}}{\mathbf{B}}})}^{\dagger}{({{\mathbf{S}}{\mathbf{H}}{\mathbf{B}}})}}$. Then frame the ordinary eigenvalue problem ${\hat{\mathbf{M}}{\mathbf{y}}} = {\theta{\mathbf{y}}}$. Each eigenpair $(\hat{\mathbf{y}},\hat{\theta})$ induces an approximate solution $({{\mathbf{B}}\hat{\mathbf{y}}},\hat{\theta})$ to Eq. 51.
 
 Excluding basis generation, we can solve the generalized eigenvalue problem via sketching with $O{({d^{3} + {nd{\log d}}})}$ operations. In contrast, the classic RR approach typically requires $O{({nd^{2}})}$ operations.
 
@@ -659,17 +488,9 @@ Excluding basis generation, we can solve the generalized eigenvalue problem via 
 
 The most successful application of randomized matrix computation has been to approximate truncated singular value decompositions efficiently. Using the new insights from our paper, we can accelerate these algorithms by sketching. The resulting techniques share some genes with sketch-based algorithms for low-rank matrix approximation, but they are different in spirit.
 
-Let ${\mathbf{A}} \in {\mathbb{C}}^{m \times n}$ be a matrix. Let ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$ be a basis, and suppose that we have access to the reduced matrix ${{\mathbf{A}}{\mathbf{B}}} \in {\mathbb{C}}^{n \times d}$. We can frame low-rank matrix approximation as a variational problem:
+Let ${\mathbf{A}} \in {\mathbb{C}}^{m \times n}$ be a matrix. Let ${\mathbf{B}} \in {\mathbb{C}}^{n \times d}$ be a basis, and suppose that we have access to the reduced matrix ${{\mathbf{A}}{\mathbf{B}}} \in {\mathbb{C}}^{n \times d}$. We can frame low-rank matrix approximation as a variational problem: The solution ${\mathbf{M}}_{\star} = {{({{\mathbf{A}}{\mathbf{B}}})}^{\dagger}{\mathbf{A}}}$ produces the rank-$d$ matrix approximation where ${\mathbf{Q}} \in {\mathbb{C}}^{n \times d}$ is an orthonormal basis for the range of ${\mathbf{A}}{\mathbf{B}}$. If we choose $\mathbf{B}$ at random, we obtain the Halko et al. randomized SVD algorithm. If we form an adapted basis $\mathbf{B}$ by means of subspace iteration or block Krylov methods, we obtain much better approximations, as described in the cited work.
 
-The solution ${\mathbf{M}}_{\star} = {{({{\mathbf{A}}{\mathbf{B}}})}^{\dagger}{\mathbf{A}}}$ produces the rank-$d$ matrix approximation
-
-where ${\mathbf{Q}} \in {\mathbb{C}}^{n \times d}$ is an orthonormal basis for the range of ${\mathbf{A}}{\mathbf{B}}$. If we choose $\mathbf{B}$ at random, we obtain the Halko et al. randomized SVD algorithm. If we form an adapted basis $\mathbf{B}$ by means of subspace iteration or block Krylov methods, we obtain much better approximations, as described in the cited work.
-
-Let ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ be an "affine space" embedding with $s = {2d}$. (The SRFT Eq. 19 and sparse map Eq. 20 both qualify.) We pose the sketched problem
-
-The solution $\hat{\mathbf{M}} = {{({{\mathbf{S}}{\mathbf{A}}{\mathbf{B}}})}^{\dagger}{({{\mathbf{S}}{\mathbf{A}}})}}$ yields the rank-$d$ matrix approximation
-
-The formula Eq. 56 is wholly unsuitable for practical computation, but it can be replaced with a stable and efficient variant. If we choose $\mathbf{B}$ to be a second sketching map, we obtain the (low-accuracy) sketched SVD algorithms from.
+Let ${\mathbf{S}} \in {\mathbb{C}}^{s \times n}$ be an "affine space" embedding with $s = {2d}$. (The SRFT Eq. 19 and sparse map Eq. 20 both qualify.) We pose the sketched problem The solution $\hat{\mathbf{M}} = {{({{\mathbf{S}}{\mathbf{A}}{\mathbf{B}}})}^{\dagger}{({{\mathbf{S}}{\mathbf{A}}})}}$ yields the rank-$d$ matrix approximation The formula Eq. 56 is wholly unsuitable for practical computation, but it can be replaced with a stable and efficient variant. If we choose $\mathbf{B}$ to be a second sketching map, we obtain the (low-accuracy) sketched SVD algorithms.
 
 Our work delivers the novel insight that using an adapted basis $\mathbf{B}$ in Eq. 56 leads to a fast and accurate algorithm for low-rank matrix approximation. Excluding the cost of basis generation, we can stably form the approximation in $O{({d^{3} + {{({m + n})}d{\log d}}})}$ operations. In contrast with sketched SVD algorithms, we attain errors similar to randomized subspace iteration or randomized block Krylov methods.
 

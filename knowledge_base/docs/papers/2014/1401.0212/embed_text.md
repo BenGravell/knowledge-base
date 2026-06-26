@@ -4,37 +4,21 @@ Robust optimization is a popular approach to optimization under uncertainty. The
 
 On the other hand, the last decade witnessed an explosion in the availability of data. Massive amounts of data are now routinely collected in many industries. Retailers archive terabytes of transaction data. Suppliers track order patterns across their supply chains. Energy markets can access global weather data, historical demand profiles, and, in some cases, real-time power consumption information. These data have motivated a shift in thinking -- away from a priori reasoning and assumptions and towards a new data-centered paradigm. A natural question, then, is how should robust optimization techniques be tailored to this new paradigm?
 
-In this paper, we propose a general schema for designing uncertainty sets for robust optimization from data. We consider uncertain constraints of the form ${f{(\overset{\sim}{\mathbf{u}},\mathbf{x})}} \leq 0$ where $\mathbf{x} \in {\mathbb{R}}^{k}$ is the optimization variable, and $\overset{\sim}{\mathbf{u}} \in {\mathbb{R}}^{d}$ is an uncertain parameter. We model this constraint by choosing a set $\mathcal{U}$ and forming the corresponding robust constraint
-
-We assume throughout that $f{(\mathbf{u},\mathbf{x})}$ is concave in $\mathbf{u}$ for any $\mathbf{x}$.
+In this paper, we propose a general schema for designing uncertainty sets for robust optimization from data. We consider uncertain constraints of the form ${f{(\overset{\sim}{\mathbf{u}},\mathbf{x})}} \leq 0$ where $\mathbf{x} \in {\mathbb{R}}^{k}$ is the optimization variable, and $\overset{\sim}{\mathbf{u}} \in {\mathbb{R}}^{d}$ is an uncertain parameter. We model this constraint by choosing a set $\mathcal{U}$ and forming the corresponding robust constraint We assume throughout that $f{(\mathbf{u},\mathbf{x})}$ is concave in $\mathbf{u}$ for any $\mathbf{x}$.
 
 In many applications, robust formulations decompose into a series constraints of the form through an appropriate transformation of variables, including uncertain linear optimization and multistage adaptive optimization (see, e.g., Ben-Tal et al. ). In this sense, is a fundamental building block for more complex robust optimization models.
 
-Many approaches to constructing uncertainty sets for assume $\overset{\sim}{\mathbf{u}}$ is a random variable whose distribution ${\mathbb{P}}^{\ast}$ is not known except for some assumed structural features. For example, they may assume that ${\mathbb{P}}^{\ast}$ has independent components, while its marginal distributions are not known. Given $\epsilon > 0$, these approaches seek sets $\mathcal{U}_{\epsilon}$ that satisfy two key properties:
-
-The robust constraint is *computationally tractable.*
-
-The set $\mathcal{U}_{\epsilon}$ *implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$ at level $\epsilon$*, that is, for any $\mathbf{x}^{\ast} \in {\mathbb{R}}^{k}$ and for every function $f{(\mathbf{u},\mathbf{x})}$ concave in $\mathbf{u}$ for all $\mathbf{x}$, we have the implication:
-
-(P2) ‣ 1 Introduction") ensures that a feasible solution to the robust constraint will also be feasible with probability $1 - \epsilon$ with respect to ${\mathbb{P}}^{\ast}$, despite not knowing ${\mathbb{P}}^{\ast}$ exactly. Existing proposals achieve (P2) ‣ 1 Introduction") by leveraging the a priori structural features of ${\mathbb{P}}^{\ast}$. Some of these approaches, e.g. only consider the special case when $f{(\mathbf{u},\mathbf{x})}$ is bi-affine, but one can generalize them to (2 ‣ 1 Introduction")) using techniques from Ben-Tal et al. (see also Sec. 2.1).
+Many approaches to constructing uncertainty sets for assume $\overset{\sim}{\mathbf{u}}$ is a random variable whose distribution ${\mathbb{P}}^{\ast}$ is not known except for some assumed structural features. For example, they may assume that ${\mathbb{P}}^{\ast}$ has independent components, while its marginal distributions are not known. Given $\epsilon > 0$, these approaches seek sets $\mathcal{U}_{\epsilon}$ that satisfy two key properties: The robust constraint is *computationally tractable.* The set $\mathcal{U}_{\epsilon}$ *implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$ at level $\epsilon$*, that is, for any $\mathbf{x}^{\ast} \in {\mathbb{R}}^{k}$ and for every function $f{(\mathbf{u},\mathbf{x})}$ concave in $\mathbf{u}$ for all $\mathbf{x}$, we have the implication: (P2) ‣ 1 Introduction") ensures that a feasible solution to the robust constraint will also be feasible with probability $1 - \epsilon$ with respect to ${\mathbb{P}}^{\ast}$, despite not knowing ${\mathbb{P}}^{\ast}$ exactly. Existing proposals achieve (P2) ‣ 1 Introduction") by leveraging the a priori structural features of ${\mathbb{P}}^{\ast}$. Some of these approaches, e.g. only consider the special case when $f{(\mathbf{u},\mathbf{x})}$ is bi-affine, but one can generalize them to (2 ‣ 1 Introduction")) using techniques from Ben-Tal et al. (see also Sec. 2.1).
 
 Like previous proposals, we also assume $\overset{\sim}{\mathbf{u}}$ is a random variable whose distribution ${\mathbb{P}}^{\ast}$ is not known exactly, and seek sets $\mathcal{U}_{\epsilon}$ that satisfy these properties. Unlike previous proposals -- and this is critical -- we assume that we have data $\mathcal{S} = {\{{\hat{\mathbf{u}}}^{1},\ldots,{\hat{\mathbf{u}}}^{N}\}}$ drawn i.i.d. according to ${\mathbb{P}}^{\ast}$. By combining these data with the a priori structural features of ${\mathbb{P}}^{\ast}$, we can design new sets that imply similar probabilistic guarantees, but which are much smaller with respect to subset containment than their traditional counterparts. Consequently, robust models built from our new sets yield less conservative solutions than traditional counterparts, while retaining their robustness properties.
 
 The key to our schema is using the confidence region of a statistical hypothesis test to quantify what we learn about ${\mathbb{P}}^{\ast}$ from the data. Specifically, our constructions depend on three ingredients: the a priori assumptions on ${\mathbb{P}}^{\ast}$, the data, and a hypothesis test. By pairing different a priori assumptions and tests, we obtain distinct data-driven uncertainty sets, each with its own geometric shape, computational properties, and modeling power. These sets can capture a variety of features of ${\mathbb{P}}^{\ast}$, including skewness, heavy-tails and correlations.
 
-In principle, there is a multitude of possible pairings of a priori assumptions and tests. We focus on pairings we believe are most relevant to applied robust modeling. Specifically, we consider a priori assumptions that are common in practice and tests that lead to tractable uncertainty sets. Our list is non-exhaustive; there may exist other pairings that yield effective sets. Specifically, we consider situations where:
-
-${\mathbb{P}}^{\ast}$ has known, finite discrete support (Sec. 4).
-
-${\mathbb{P}}^{\ast}$ may have continuous support, and the components of $\overset{\sim}{\mathbf{u}}$ are independent (Sec. 5).
-
-${\mathbb{P}}^{\ast}$ may have continuous support, but data are drawn from its marginal distributions asynchronously (Sec. 6). This situation models the case of missing values.
-
-${\mathbb{P}}^{\ast}$ may have continuous support, and data are drawn from its joint distribution (Sec. 7). This is the general case.
+In principle, there is a multitude of possible pairings of a priori assumptions and tests. We focus on pairings we believe are most relevant to applied robust modeling. Specifically, we consider a priori assumptions that are common in practice and tests that lead to tractable uncertainty sets. Our list is non-exhaustive; there may exist other pairings that yield effective sets. Specifically, we consider situations where: ${\mathbb{P}}^{\ast}$ has known, finite discrete support (Sec. 4). ${\mathbb{P}}^{\ast}$ may have continuous support, and the components of $\overset{\sim}{\mathbf{u}}$ are independent (Sec. 5). ${\mathbb{P}}^{\ast}$ may have continuous support, but data are drawn from its marginal distributions asynchronously (Sec. 6). This situation models the case of missing values. ${\mathbb{P}}^{\ast}$ may have continuous support, and data are drawn from its joint distribution (Sec. 7). This is the general case.
 
 Table 1 summarizes the a priori structural assumptions, hypothesis tests, and resulting uncertainty sets that we propose. Each set is convex and admits a tractable, explicit description; see the referenced equations.
 
-Summary of data-driven uncertainty sets proposed in this paper. Assumptions on ℙ* Hypothesis Test \pbox20cmGeometric Description Eqs. Separation Discrete support χ2-test SOC Discrete support G-test Polyhedral* Independent marginals KS Test Polyhedral* line search Independent marginals K Test Polyhedral* line search Independent marginals CvM Test SOC* Independent marginals W Test SOC* Independent marginals AD Test EC Independent marginals Chen et al. SOC closed-form None Marginal Samples Box closed-form None Linear Convex Ordering Varies linear optimization None \pbox20cm Shawe-Taylor &amp; Cristianini SOC closed-form None Delage &amp; Ye LMI SOC, EC and LMI denote second-order cone representable sets, exponential cone representable sets, and linear matrix inequalities, respectively. The additional “*” notation indicates a set of of the above type with one additional, relative entropy constraint. K S, K, C v M, W, and A D denote the Kolmogorov-Smirnov, Kuiper, Cramer-von Mises, Watson and Anderson-Darling goodness of fit tests, respectively. In some cases, we can separate over the constraint for bi-affine f with a specialized algorithm. In these cases, the column “Separation” roughly describes this algorithm.
+Summary of data-driven uncertainty sets proposed in this paper. Assumptions on ℙ* Hypothesis Test \pbox20cmGeometric Description Eqs. Separation Discrete support χ2-test SOC Discrete support G-test Polyhedral* Independent marginals KS Test Polyhedral* line search Independent marginals K Test Polyhedral* line search Independent marginals CvM Test SOC* Independent marginals W Test SOC* Independent marginals AD Test EC Independent marginals Chen et al. SOC closed-form None Marginal Samples Box closed-form None Linear Convex Ordering Varies linear optimization None \pbox20cm Shawe-Taylor & Cristianini SOC closed-form None Delage & Ye LMI SOC, EC and LMI denote second-order cone representable sets, exponential cone representable sets, and linear matrix inequalities, respectively. The additional “*” notation indicates a set of of the above type with one additional, relative entropy constraint. K S, K, C v M, W, and A D denote the Kolmogorov-Smirnov, Kuiper, Cramer-von Mises, Watson and Anderson-Darling goodness of fit tests, respectively. In some cases, we can separate over the constraint for bi-affine f with a specialized algorithm. In these cases, the column “Separation” roughly describes this algorithm.
 
 For each of our sets, we provide an explicit, equivalent reformulation of. The complexity of optimizing over this reformulation depends both on the function $f{(\mathbf{u},\mathbf{x})}$ and the set $\mathcal{U}$. For each of our sets, we show that this reformulation is polynomial time tractable for a large class of functions $f$ including bi-affine functions, separable functions, conic-quadratic representable functions and certain sums of uncertain exponential functions. By exploiting special structure in some of our sets, we can provide specialized routines for directly separating over for bi-affine $f$. In these cases, the column "Separation" in Table 1 roughly describes these routines. Utilizing this separation routine within a cutting-plane method may offer performance superior to reformulation based-approaches (Bertsimas et al., Mutapcic and Boyd ).
 
@@ -46,9 +30,7 @@ Moreover, our hypothesis testing perspective provides a unified view of many oth
 
 Finally, we note that Campi and Garatti propose a very different data-driven method for robust optimization not based on hypothesis tests. In their approach, one replaces the uncertain constraint ${f{(\overset{\sim}{\mathbf{u}},\mathbf{x})}} \leq 0$ with $N$ sampled constraints over the data, ${f{({\hat{\mathbf{u}}}^{j},\mathbf{x})}} \leq 0$, for $j = {1,\ldots,N}$. For $f{(\mathbf{u},\mathbf{x})}$ convex in $\mathbf{x}$ with arbitrary dependence in $\mathbf{u}$, they provide a tight bound $N{(\epsilon)}$ such that if $N \geq {N{(\epsilon)}}$, then, with high probability with respect to the sampling, any $\mathbf{x}$ which is feasible in the $N$ sampled constraints satisfies ${{\mathbb{P}}^{\ast}{({{f{(\overset{\sim}{\mathbf{u}},\mathbf{x})}} \leq 0})}} \geq {1 - \epsilon}$. Various refinements of this base method have also been proposed yielding smaller bounds $N{(\epsilon)}$, including incorporating $\ell_{1}$-regularization and allowing $\mathbf{x}$ to violate a small fraction of the constraints. Compared to our approach, these methods are more generally applicable and provide a similar probabilistic guarantee. In the special case we treat where $f{(\overset{\sim}{\mathbf{u}},\mathbf{x})}$ is concave in $\mathbf{u}$, however, our proposed approach offers some advantages. First, because it leverages the concave structure of $f{(\mathbf{u},\mathbf{x})}$, our approach generally yields less conservative solutions (for the same $N$ and $\epsilon$) than Campi and Garatti. (See Sec. 3.) Second, for fixed $\epsilon > 0$, our approach is applicable even if $N < {N{(\epsilon)}}$, while theirs is not. This distinction is important when $\epsilon$ is very small and there may not exist enough data. Finally, as we will show, our approach reformulates as a series of (relatively) sparse convex constraints, while the Campi and Garatti approach will in general yield $N$ dense constraints which may be numerically challenging when $N$ is large. For these reasons, practitioners may prefer our proposed approach in certain applications.
 
-We summarize our contributions:
-
-We propose a new, systematic schema for constructing uncertainty sets from data using statistical hypothesis tests. When the data are drawn i.i.d. from an unknown distribution ${\mathbb{P}}^{\ast}$, sets built from our schema imply a probabilistic guarantee for ${\mathbb{P}}^{\ast}$ at any desired level $\epsilon$.
+We summarize our contributions: We propose a new, systematic schema for constructing uncertainty sets from data using statistical hypothesis tests. When the data are drawn i.i.d. from an unknown distribution ${\mathbb{P}}^{\ast}$, sets built from our schema imply a probabilistic guarantee for ${\mathbb{P}}^{\ast}$ at any desired level $\epsilon$.
 
 We illustrate our schema by constructing a multitude of uncertainty sets. Each set is applicable under slightly different a priori assumptions on ${\mathbb{P}}^{\ast}$ as described in Table 1.
 
@@ -74,31 +56,17 @@ To keep the paper self-contained, we recall some results needed to prove our set
 
 ### Tractability of Robust Nonlinear Constraints
 
-Ben-Tal et al. study constraint and prove that for nonempty, convex, compact $\mathcal{U}$ satisfying a mild, regularity condition^11^endnote: ^1^An example of a sufficient regularity condition is that ${{ri{(\mathcal{U})}} \cap {ri{({dom{({f{( \cdot,\mathbf{x})}})}})}}} \neq \varnothing$, ${\forall\mathbf{x}} \in {\mathbb{R}}^{k}$. Here $ri{(\mathcal{U})}$ denotes the *relative interior* of $\mathcal{U}$. Recall that for any non-empty convex set $\mathcal{U}$, ${ri{(\mathcal{U})}} \equiv {\{{\mathbf{u} \in \mathcal{U}}:{{{\forall\mathbf{z}} \in \mathcal{U}},{{\exists\lambda} > {{1\text{~s.t.~}\lambda\mathbf{u}} + {{({1 - \lambda})}\mathbf{z}}} \in \mathcal{U}}}\}}$ (cf. Bertsekas et al. )., is equivalent to
+Ben-Tal et al. study constraint and prove that for nonempty, convex, compact $\mathcal{U}$ satisfying a mild, regularity condition^11^endnote: ^1^An example of a sufficient regularity condition is that ${{ri{(\mathcal{U})}} \cap {ri{({dom{({f{(\cdot,\mathbf{x})}})}})}}} \neq \varnothing$, ${\forall\mathbf{x}} \in {\mathbb{R}}^{k}$. Here $ri{(\mathcal{U})}$ denotes the *relative interior* of $\mathcal{U}$. Recall that for any non-empty convex set $\mathcal{U}$, ${ri{(\mathcal{U})}} \equiv {\{{\mathbf{u} \in \mathcal{U}}:{{{\forall\mathbf{z}} \in \mathcal{U}},{{\exists\lambda} > {{1\text{~s.t.~}\lambda\mathbf{u}} + {{({1 - \lambda})}\mathbf{z}}} \in \mathcal{U}}}\}}$ (cf. Bertsekas et al.)., is equivalent to Here, $f_{\ast}{(\mathbf{v},\mathbf{x})}$ denotes the partial concave-conjugate of $f{(\mathbf{u},\mathbf{x})}$ and $\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U} \right.)}$ denotes the support function of $\mathcal{U}$, defined respectively as For many $f{(\mathbf{u},\mathbf{x})}$, $f_{\ast}{(\mathbf{v},\mathbf{x})}$ admits a simple, explicit description. For example, for bi-affine ${f{(\mathbf{u},\mathbf{x})}} = {{\mathbf{u}^{T}{\mathbf{F}\mathbf{x}}} + {\mathbf{f}_{\mathbf{u}}^{T}\mathbf{u}} + {\mathbf{f}_{\mathbf{x}}^{T}\mathbf{x}} + f_{0}}$, we have In what follows, we concentrate on proving we can separate over $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U} \right.)}} \leq t}\}$ in polynomial time for each of our sets $\mathcal{U}$, usually by representing this set as a small number of convex inequalities suitable for off-the-shelf solvers. From, this representation will imply that is tractable for each of our sets whenever $f{(\mathbf{u},\mathbf{x})}$ is bi-affine.
 
-Here, $f_{\ast}{(\mathbf{v},\mathbf{x})}$ denotes the partial concave-conjugate of $f{(\mathbf{u},\mathbf{x})}$ and $\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U} \right.)}$ denotes the support function of $\mathcal{U}$, defined respectively as
+On the other hand, Ben-Tal et al. provide a number of other examples of $f{(\mathbf{u},\mathbf{x})}$ for which $f_{\ast}{(\mathbf{v},\mathbf{x})}$ is tractable, including: Separable Concave: ${f{(\mathbf{u},\mathbf{x})}} = {\sum_{i = 1}^{k}{f_{i}{(\mathbf{u})}x_{i}}}$,: for $f_{i}{(\mathbf{u})}$ concave and $x_{i} \geq 0$.
 
-For many $f{(\mathbf{u},\mathbf{x})}$, $f_{\ast}{(\mathbf{v},\mathbf{x})}$ admits a simple, explicit description. For example, for bi-affine ${f{(\mathbf{u},\mathbf{x})}} = {{\mathbf{u}^{T}{\mathbf{F}\mathbf{x}}} + {\mathbf{f}_{\mathbf{u}}^{T}\mathbf{u}} + {\mathbf{f}_{\mathbf{x}}^{T}\mathbf{x}} + f_{0}}$, we have
+Uncertain Exponentials: ${f{(\mathbf{u},\mathbf{x})}} = {- {\sum_{i = 1}^{k}x_{i}^{u_{i}}}}$,: for $x_{i} > 1$ and $0 < u_{i} \leq 1$.
 
-In what follows, we concentrate on proving we can separate over $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U} \right.)}} \leq t}\}$ in polynomial time for each of our sets $\mathcal{U}$, usually by representing this set as a small number of convex inequalities suitable for off-the-shelf solvers. From, this representation will imply that is tractable for each of our sets whenever $f{(\mathbf{u},\mathbf{x})}$ is bi-affine.
-
-On the other hand, Ben-Tal et al. provide a number of other examples of $f{(\mathbf{u},\mathbf{x})}$ for which $f_{\ast}{(\mathbf{v},\mathbf{x})}$ is tractable, including:
-
-Separable Concave: ${f{(\mathbf{u},\mathbf{x})}} = {\sum_{i = 1}^{k}{f_{i}{(\mathbf{u})}x_{i}}}$,
-
-: for $f_{i}{(\mathbf{u})}$ concave and $x_{i} \geq 0$.
-
-Uncertain Exponentials: ${f{(\mathbf{u},\mathbf{x})}} = {- {\sum_{i = 1}^{k}x_{i}^{u_{i}}}}$,
-
-: for $x_{i} > 1$ and $0 < u_{i} \leq 1$.
-
-Conic Quadratic Representable:
-
-: $f{(\mathbf{u},\mathbf{x})}$ such that the set $\{{{(t,\mathbf{u})} \in {{\mathbb{R}} \times {\mathbb{R}}^{d}}}:{{f{(\mathbf{u},\mathbf{x})}} \geq t}\}$ conic quadratic representable.
+Conic Quadratic Representable:: $f{(\mathbf{u},\mathbf{x})}$ such that the set $\{{{(t,\mathbf{u})} \in {{\mathbb{R}} \times {\mathbb{R}}^{d}}}:{{f{(\mathbf{u},\mathbf{x})}} \geq t}\}$ conic quadratic representable.
 
 Consequently, by providing a representation of $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U} \right.)}} \leq t}\}$ for each of our sets, we will also have proven that is tractable for each of these functions via. In other words, proving $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U} \right.)}} \leq t}\}$ is tractable implies that is tractable not only for bi-affine functions, but for many other concave functions as well.
 
-For some sets, our formulation of $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U} \right.)}} \leq t}\}$ will involve complex nonlinear constraints, such as exponential cone constraints (cf. Table 1). Although it is possible to optimize over these constraints directly in, this approach may be numerically challenging. As mentioned, an alternative is to use cutting-plane or bundle methods as in Bertsimas et al., Mutapcic and Boyd. To this end, when appropriate, we provide specialized algorithms for separating over $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U} \right.)}} \leq t}\}$.
+For some sets, our formulation of $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U} \right.)}} \leq t}\}$ will involve complex nonlinear constraints, such as exponential cone constraints (cf. Table 1). Although it is possible to optimize over these constraints directly , this approach may be numerically challenging. As mentioned, an alternative is to use cutting-plane or bundle methods as in Bertsimas et al., Mutapcic and Boyd. To this end, when appropriate, we provide specialized algorithms for separating over $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U} \right.)}} \leq t}\}$.
 
 ### Hypothesis Testing
 
@@ -110,13 +78,7 @@ As an example, consider the two-sided Student's $t$-test. Given $\mu_{0} \in {\m
 
 Many of the tests we consider are common in applied statistics, and tables for their thresholds are widely available. Several of our tests, however, are novel (e.g., the deviations test in Sec. 5.2.) In these cases, we propose using the *bootstrap* to approximate a threshold (cf. Algorithm 1). $N_{B}$ should be chosen to be fairly large; we take $N_{B} = 10^{4}$ in our experiments. The bootstrap is a well-studied and widely-used technique in statistics. Strictly speaking, hypothesis tests based on the bootstrap are only asymptotically valid for large $N$. (See the references for a precise statement.) Nonetheless, they are routinely used in applied statistics, even with $N$ as small as $100$, and a wealth of practical experience suggests they are extremely accurate. Consequently, we believe practitioners can safely use bootstrapped thresholds in the above tests.
 
-𝒮j← Resample |𝒮| data points from 𝒮 with replacement
-return ⌈NB (1−α)⌉-largest value of T1, …, TNB.
-Algorithm 1 Bootstrapping a Threshold
-
-Finally, we introduce the confidence region of a test, which will play a critical role in our construction. Given data $\mathcal{S}$, the $1 - \alpha$ confidence region of a test is the set of null-hypotheses that would not be rejected for $\mathcal{S}$ at level $1 - \alpha$. For example, the $1 - \alpha$ confidence region of the $t$-test is $\left\{ {\mu \in {\mathbb{R}}}:{\left| \frac{\hat{\mu} - \mu}{\hat{\sigma}\sqrt{N}} \right| \leq t_{{N - 1},{1 - {\alpha/2}}}} \right\}.$ In what follows, however, we commit a slight abuse of nomenclature and instead use the term confidence region to refer to the set of all measures that are consistent with any a priori assumptions of the test and also satisfy a null-hypothesis that would not be rejected. In the case of the $t$-test, the confidence region in the context of this paper is
-
-where $\Theta{({- \infty},\infty)}$ is the set of Borel probability measures on $\mathbb{R}$.
+𝒮j← Resample |𝒮| data points from 𝒮 with replacement return ⌈NB (1 − α)⌉-largest value of T1, …, TNB. Algorithm 1 Bootstrapping a Threshold Finally, we introduce the confidence region of a test, which will play a critical role in our construction. Given data $\mathcal{S}$, the $1 - \alpha$ confidence region of a test is the set of null-hypotheses that would not be rejected for $\mathcal{S}$ at level $1 - \alpha$. For example, the $1 - \alpha$ confidence region of the $t$-test is $\left\{ {\mu \in {\mathbb{R}}}:{\left| \frac{\hat{\mu} - \mu}{\hat{\sigma}\sqrt{N}} \right| \leq t_{{N - 1},{1 - {\alpha/2}}}} \right\}.$ In what follows, however, we commit a slight abuse of nomenclature and instead use the term confidence region to refer to the set of all measures that are consistent with any a priori assumptions of the test and also satisfy a null-hypothesis that would not be rejected. In the case of the $t$-test, the confidence region in the context of this paper is where $\Theta{({- \infty},\infty)}$ is the set of Borel probability measures on $\mathbb{R}$.
 
 By construction, the probability (with respect to the sampling procedure) that ${\mathbb{P}}^{\ast}$ is a member of its confidence region is at least $1 - \alpha$ as long as all a priori assumptions are valid. This is a critical observation. Despite not knowing ${\mathbb{P}}^{\ast}$, we can use a hypothesis test to create a set of distributions from the data that contains ${\mathbb{P}}^{\ast}$ for any specified probability.
 
@@ -126,17 +88,13 @@ By construction, the probability (with respect to the sampling procedure) that $
 
 As a first step towards our schema, we provide a geometric characterization of (P2) ‣ 1 Introduction"). One might intuit that a set $\mathcal{U}$ implies a probabilistic guarantee at level $\epsilon$ only if ${{\mathbb{P}}^{\ast}{({\overset{\sim}{\mathbf{u}} \in \mathcal{U}})}} \geq {1 - \epsilon}$. As noted by other authors ), however, this intuition is false. Often, sets that are much smaller than the $1 - \epsilon$ support will still imply a probabilistic guarantee at level $\epsilon$, and such sets should be preferred because they are less conservative.
 
-The crux of the issue is that there may be many realizations $\overset{\sim}{\mathbf{u}} \notin \mathcal{U}$ where nonetheless ${f{(\overset{\sim}{\mathbf{u}},\mathbf{x}^{\ast})}} \leq 0$. Thus, ${\mathbb{P}}^{\ast}{({\overset{\sim}{\mathbf{u}} \in \mathcal{U}})}$ is in general an underestimate of ${\mathbb{P}}^{\ast}{({{f{(\overset{\sim}{\mathbf{u}},\mathbf{x}^{\ast})}} \leq 0})}$. One needs to exploit the dependence of $f$ on $\mathbf{u}$ to refine the estimate. We note in passing that many existing data-driven approaches for robust optimization, e.g., Campi and Garatti, do not leverage this dependence. Consequently, although these approaches are general purpose, they may yield overly conservative uncertainty sets for.
+The crux of the issue is that there may be many realizations $\overset{\sim}{\mathbf{u}} \notin \mathcal{U}$ where nonetheless ${f{(\overset{\sim}{\mathbf{u}},\mathbf{x}^{\ast})}} \leq 0$. Thus, ${\mathbb{P}}^{\ast}{({\overset{\sim}{\mathbf{u}} \in \mathcal{U}})}$ is in general an underestimate of ${\mathbb{P}}^{\ast}{({{f{(\overset{\sim}{\mathbf{u}},\mathbf{x}^{\ast})}} \leq 0})}$. One needs to exploit the dependence of $f$ on $\mathbf{u}$ to refine the estimate. We note in passing that many existing data-driven approaches for robust optimization, e.g., Campi and Garatti, do not leverage this dependence. Consequently, although these approaches are general purpose, they may yield overly conservative uncertainty sets .
 
-In order to tightly characterize (P2) ‣ 1 Introduction"), we introduce the Value at Risk. For any $\mathbf{v} \in {\mathbb{R}}^{d}$ and measure $\mathbb{P}$, the Value at Risk at level $\epsilon$ with respect to $\mathbf{v}$ is
-
-Value at Risk is positively homogenous (in $\mathbf{v}$), but typically non-convex. (Recall a function $g{(\mathbf{v})}$ is positively homogenous if ${g{({\lambda\mathbf{v}})}} = {\lambdag{(\mathbf{v})}}$ for all $\lambda > 0$.) The critical result underlying our method is, then,
+In order to tightly characterize (P2) ‣ 1 Introduction"), we introduce the Value at Risk. For any $\mathbf{v} \in {\mathbb{R}}^{d}$ and measure $\mathbb{P}$, the Value at Risk at level $\epsilon$ with respect to $\mathbf{v}$ is Value at Risk is positively homogenous (in $\mathbf{v}$), but typically non-convex. (Recall a function $g{(\mathbf{v})}$ is positively homogenous if ${g{({\lambda\mathbf{v}})}} = {\lambdag{(\mathbf{v})}}$ for all $\lambda > 0$.) The critical result underlying our method is, then,
 
 ### Theorem 3.1
 
-Suppose $\mathcal{U}$ is nonempty, convex and compact. Then, $\mathcal{U}$ implies a probabilistic guarantee at level $\epsilon$ for $\mathbb{P}$ for every $f{(\mathbf{u},\mathbf{x})}$ concave in $\mathbf{u}$ for every $\mathbf{x}$ if
-
-Suppose ${\exists\mathbf{v}} \in {\mathbb{R}}^{d}$ such that ${\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}^{\ast} \right.)}} < {\text{VaR}_{\epsilon}^{\mathbb{P}}{(\mathbf{v})}}$. Then, there exists bi-affine functions $f{(\mathbf{u},\mathbf{x})}$ for which (2 ‣ 1 Introduction")) does not hold.
+Suppose $\mathcal{U}$ is nonempty, convex and compact. Then, $\mathcal{U}$ implies a probabilistic guarantee at level $\epsilon$ for $\mathbb{P}$ for every $f{(\mathbf{u},\mathbf{x})}$ concave in $\mathbf{u}$ for every $\mathbf{x}$ if Suppose ${\exists\mathbf{v}} \in {\mathbb{R}}^{d}$ such that ${\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}^{\ast} \right.)}} < {\text{VaR}_{\epsilon}^{\mathbb{P}}{(\mathbf{v})}}$. Then, there exists bi-affine functions $f{(\mathbf{u},\mathbf{x})}$ for which (2 ‣ 1 Introduction")) does not hold.
 
 The first part generalizes a result implicitly used in when designing uncertainty sets for the special case of bi-affine functions. To the best of our knowledge, the extension to general concave functions $f$ is new.
 
@@ -146,9 +104,7 @@ The principal challenge in applying Theorem 3.1 to designing uncertainty sets is
 
 Let $\mathcal{P}{(\mathcal{S},\alpha,\epsilon)}$ be the confidence region of a hypothesis test at level $\alpha$.
 
-Construct a convex, positively homogenous (in $\mathbf{v}$) upperbound $g{(\mathbf{v},\mathcal{S},\epsilon,\alpha)}$ to the worst-case Value at Risk:
-
-Identify the closed, convex set $\mathcal{U}{(\mathcal{S},\epsilon,\alpha)}$ such that ${g{(\mathbf{v},\mathcal{S},\epsilon,\alpha)}} = {\delta^{\ast}{(\left. \mathbf{v} \middle| {\mathcal{U}{(\mathcal{S},\epsilon,\alpha)}} \right.)}}$.^22^endnote: ^2^The existence of such a set in Step 3 by the bijection between closed, positively homogenous convex functions and closed convex sets in convex analysis (see Bertsekas et al. ).
+Construct a convex, positively homogenous (in $\mathbf{v}$) upperbound $g{(\mathbf{v},\mathcal{S},\epsilon,\alpha)}$ to the worst-case Value at Risk: Identify the closed, convex set $\mathcal{U}{(\mathcal{S},\epsilon,\alpha)}$ such that ${g{(\mathbf{v},\mathcal{S},\epsilon,\alpha)}} = {\delta^{\ast}{(\left. \mathbf{v} \middle| {\mathcal{U}{(\mathcal{S},\epsilon,\alpha)}} \right.)}}$.^22^endnote: ^2^The existence of such a set in Step 3 by the bijection between closed, positively homogenous convex functions and closed convex sets in convex analysis (see Bertsekas et al.).
 
 ### Theorem 3.2
 
@@ -158,15 +114,9 @@ With probability at least $1 - \alpha$ with respect to the sampling, the resulti
 
 We note in passing that ${\delta^{\ast}{(\left. \mathbf{v} \middle| {\mathcal{U}{(\mathcal{S},\epsilon,\alpha)}} \right.)}} \leq t$ is a safe-approximation to the ambiguous chance constraint ${\sup_{{\mathbb{P}} \in {\mathcal{P}{(\mathcal{S},\alpha,\epsilon)}}}{{\mathbb{P}}{({{\mathbf{v}^{T}\overset{\sim}{\mathbf{u}}} \leq t})}}} \geq {1 - \epsilon}$ as defined in Ben-Tal et al.. Ambiguous chance-constraints are closely related to sets which imply a probabilistic guarantee. We refer the reader to Ben-Tal et al. for more details.
 
-Theorem 3.2 ensures that with probability at least $1 - \alpha$ with respect to the sampling, a robust feasible solution $\mathbf{x}$ will satisfy a *single* uncertain constraint ${f{(\overset{\sim}{\mathbf{u}},\mathbf{x})}} \leq 0$ with probability at least $1 - \epsilon$. Often, however, we face $m > 1$ uncertain constraints ${f_{j}{(\overset{\sim}{\mathbf{u}},\mathbf{x})}} \leq 0$, $j = {1,\ldots,m}$, and seek $\mathbf{x}$ that will simultaneously satisfy these constraints, i.e.,
+Theorem 3.2 ensures that with probability at least $1 - \alpha$ with respect to the sampling, a robust feasible solution $\mathbf{x}$ will satisfy a *single* uncertain constraint ${f{(\overset{\sim}{\mathbf{u}},\mathbf{x})}} \leq 0$ with probability at least $1 - \epsilon$. Often, however, we face $m > 1$ uncertain constraints ${f_{j}{(\overset{\sim}{\mathbf{u}},\mathbf{x})}} \leq 0$, $j = {1,\ldots,m}$, and seek $\mathbf{x}$ that will simultaneously satisfy these constraints, i.e., for some given $\overline{\epsilon}$. In this case, one approach is to replace each uncertain constraint with a corresponding robust constraint where $\mathcal{U}{(\mathcal{S},\epsilon_{j},\alpha)}$ is constructed via our schema at level $\epsilon_{j} = {\epsilon/m}$. By the union bound and Theorem 3.2, with probability at least $1 - \alpha$ with respect to the sampling, any $\mathbf{x}$ which satisfies will satisfy.
 
-for some given $\overline{\epsilon}$. In this case, one approach is to replace each uncertain constraint with a corresponding robust constraint
-
-where $\mathcal{U}{(\mathcal{S},\epsilon_{j},\alpha)}$ is constructed via our schema at level $\epsilon_{j} = {\epsilon/m}$. By the union bound and Theorem 3.2, with probability at least $1 - \alpha$ with respect to the sampling, any $\mathbf{x}$ which satisfies will satisfy.
-
-The choice $\epsilon_{j} = {\epsilon/m}$ is somewhat arbitrary. We would prefer to treat the $\epsilon_{j}$ as decision variables and optimize over them, i.e., replace the $m$ uncertain constraints by
-
-Unfortunately, we cannot use Theorem 3.2 to claim that with probability at least $1 - \alpha$ with respect to the sampling, any feasible to solution to will satisfy. Indeed, in general, this implication will hold with probability much less than $1 - \alpha$. The issue is that Theorem 3.2 requires selecting $\epsilon$ independently of $\mathcal{S}$, whereas the optimal $\epsilon_{j}$'s in *will* depend on $\mathcal{S}$, creating an in-sample bias. Consequently, we next extend Theorem 3.2 to lift this requirement.
+The choice $\epsilon_{j} = {\epsilon/m}$ is somewhat arbitrary. We would prefer to treat the $\epsilon_{j}$ as decision variables and optimize over them, i.e., replace the $m$ uncertain constraints by Unfortunately, we cannot use Theorem 3.2 to claim that with probability at least $1 - \alpha$ with respect to the sampling, any feasible to solution to will satisfy. Indeed, in general, this implication will hold with probability much less than $1 - \alpha$. The issue is that Theorem 3.2 requires selecting $\epsilon$ independently of $\mathcal{S}$, whereas the optimal $\epsilon_{j}$'s in *will* depend on $\mathcal{S}$, creating an in-sample bias. Consequently, we next extend Theorem 3.2 to lift this requirement.
 
 Given a family of sets indexed by $\epsilon$, $\{{\mathcal{U}{(\epsilon)}}:{0 < \epsilon < 1}\}$, we say this family *simultaneously* implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$ if, for all $0 < \epsilon < 1$, each $\mathcal{U}{(\epsilon)}$ implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$ at level $\epsilon$. Then,
 
@@ -184,23 +134,15 @@ The next four sections apply this schema to create uncertainty sets. Often, $\ep
 
 ## Uncertainty Sets Built from Discrete Distributions
 
-In this section, we assume ${\mathbb{P}}^{\ast}$ has known, finite support, i.e., ${\text{supp}{({\mathbb{P}}^{\ast})}} \subseteq {\{\mathbf{a}_{0},\ldots,\mathbf{a}_{n - 1}\}}$. We consider two hypothesis tests for this setup: Pearson's $\chi^{2}$ test and the $G$ test. Both tests consider the hypothesis $H_{0}:{{\mathbb{P}}^{\ast} = {\mathbb{P}}_{0}}$ where ${\mathbb{P}}_{0}$ is some specified measure. Specifically, let $p_{i} = {{\mathbb{P}}_{0}{({\overset{\sim}{\mathbf{u}} = \mathbf{a}_{i}})}}$ be the specified null-hypothesis, and let $\hat{\mathbf{p}}$ denote the empirical probability distribution, i.e.,
+In this section, we assume ${\mathbb{P}}^{\ast}$ has known, finite support, i.e., ${\text{supp}{({\mathbb{P}}^{\ast})}} \subseteq {\{\mathbf{a}_{0},\ldots,\mathbf{a}_{n - 1}\}}$. We consider two hypothesis tests for this setup: Pearson's $\chi^{2}$ test and the $G$ test. Both tests consider the hypothesis $H_{0}:{{\mathbb{P}}^{\ast} = {\mathbb{P}}_{0}}$ where ${\mathbb{P}}_{0}$ is some specified measure. Specifically, let $p_{i} = {{\mathbb{P}}_{0}{({\overset{\sim}{\mathbf{u}} = \mathbf{a}_{i}})}}$ be the specified null-hypothesis, and let $\hat{\mathbf{p}}$ denote the empirical probability distribution, i.e., Pearson's $\chi^{2}$ test rejects $H_{0}$ at level $\alpha$ if ${{N{\sum_{i = 0}^{n - 1}\frac{{({p_{i} - {\hat{p}}_{i}})}^{2}}{p_{i}}}} > \chi_{{n - 1},{1 - \alpha}}^{2}},$ where $\chi_{{n - 1},{1 - \alpha}}^{2}$ is the $1 - \alpha$ quantile of a $\chi^{2}$ distribution with $n - 1$ degrees of freedom. Similarly, the $G$ test rejects the null hypothesis at level $\alpha$ if ${D{(\hat{\mathbf{p}},\mathbf{p})}} > {\frac{1}{2N}\chi_{{n - 1},{1 - \alpha}}^{2}}$ where ${D{(\mathbf{p},\mathbf{q})}} \equiv {\sum_{i = 0}^{n - 1}{p_{i}{\log{({p_{i}/q_{i}})}}}}$ is the relative entropy between $\mathbf{p}$ and $\mathbf{q}$.
 
-Pearson's $\chi^{2}$ test rejects $H_{0}$ at level $\alpha$ if ${{N{\sum_{i = 0}^{n - 1}\frac{{({p_{i} - {\hat{p}}_{i}})}^{2}}{p_{i}}}} > \chi_{{n - 1},{1 - \alpha}}^{2}},$ where $\chi_{{n - 1},{1 - \alpha}}^{2}$ is the $1 - \alpha$ quantile of a $\chi^{2}$ distribution with $n - 1$ degrees of freedom. Similarly, the $G$ test rejects the null hypothesis at level $\alpha$ if ${D{(\hat{\mathbf{p}},\mathbf{p})}} > {\frac{1}{2N}\chi_{{n - 1},{1 - \alpha}}^{2}}$ where ${D{(\mathbf{p},\mathbf{q})}} \equiv {\sum_{i = 0}^{n - 1}{p_{i}{\log{({p_{i}/q_{i}})}}}}$ is the relative entropy between $\mathbf{p}$ and $\mathbf{q}$.
+The confidence regions for Pearson's $\chi^{2}$ test and the $G$ test are, respectively, Here $\Delta_{n} = \left\{ {(p_{0},\ldots,p_{n - 1})}^{T}:{{{\mathbf{e}^{T}\mathbf{p}} = 1},{{p_{i} \geq 0}\quad{i = {0,\ldots,{n - 1}}}}} \right\}$ denotes the probability simplex. We will use these two confidence regions in Step 1 of our schema.
 
-The confidence regions for Pearson's $\chi^{2}$ test and the $G$ test are, respectively,
-
-Here $\Delta_{n} = \left\{ {(p_{0},\ldots,p_{n - 1})}^{T}:{{{\mathbf{e}^{T}\mathbf{p}} = 1},{{p_{i} \geq 0}\quad{i = {0,\ldots,{n - 1}}}}} \right\}$ denotes the probability simplex. We will use these two confidence regions in Step 1 of our schema.
-
-For a fixed measure $\mathbb{P}$, and vector $\mathbf{v} \in {\mathbb{R}}^{d}$, recall the Conditional Value at Risk:
-
-Conditional Value at Risk is well-known to be a convex upper bound to Value at Risk for a fixed $\mathbb{P}$. We can compute a bound in Step 2 by considering the worst-case Conditional Value at Risk over the above confidence regions, yielding
+For a fixed measure $\mathbb{P}$, and vector $\mathbf{v} \in {\mathbb{R}}^{d}$, recall the Conditional Value at Risk: Conditional Value at Risk is well-known to be a convex upper bound to Value at Risk for a fixed $\mathbb{P}$. We can compute a bound in Step 2 by considering the worst-case Conditional Value at Risk over the above confidence regions, yielding
 
 ### Theorem 4.1
 
-Suppose ${\text{supp}{({\mathbb{P}}^{\ast})}} \subseteq {\{\mathbf{a}_{0},\ldots,\mathbf{a}_{n - 1}\}}$. With probability $1 - \alpha$ over the sample, the families $\{\mathcal{U}_{\epsilon}^{\chi^{2}}:{0 < \epsilon < 1}\}$ and $\{\mathcal{U}_{\epsilon}^{G}:{0 < \epsilon < 1}\}$ simultaneously imply a probabilistic guarantee for ${\mathbb{P}}^{\ast}$, where
-
-Their support functions are given by
+Suppose ${\text{supp}{({\mathbb{P}}^{\ast})}} \subseteq {\{\mathbf{a}_{0},\ldots,\mathbf{a}_{n - 1}\}}$. With probability $1 - \alpha$ over the sample, the families $\{\mathcal{U}_{\epsilon}^{\chi^{2}}:{0 < \epsilon < 1}\}$ and $\{\mathcal{U}_{\epsilon}^{G}:{0 < \epsilon < 1}\}$ simultaneously imply a probabilistic guarantee for ${\mathbb{P}}^{\ast}$, where Their support functions are given by | | ${\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{\epsilon}^{\chi^{2}} \right.)}} = \min\limits_{\mathbf{w},\eta,\lambda,\mathbf{t}}$ | $\beta + {\frac{1}{\epsilon}\left({{\eta + \frac{\lambda\chi_{{n - 1},{1 - \alpha}}^{2}}{N} + {2\lambda}} - {2{\sum\limits_{i = 0}^{n - 1}{{\hat{p}}_{i}s_{i}}}}} \right)}$ | | \(14\) | | | s.t. | ${{\mathbf{0} \leq \mathbf{w} \leq {{({\lambda + \eta})}\mathbf{e}}},{{\lambda \geq 0},{\mathbf{s} \geq \mathbf{0}}}},$ | | | | | | ${\left\| \begin{matrix} | | | | | | \end{matrix} \right\| \leq {{{2\lambda} - w_{i}} + \eta}},{i = {0,\ldots,{n - 1}}}$ | | | | | ${\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{\epsilon}^{G} \right.)}} = \min\limits_{\mathbf{w},\eta,\lambda}$ | $\beta + {\frac{1}{\epsilon}\left({{\eta + \frac{\lambda\chi_{{n - 1},{1 - \alpha}}^{2}}{2N}} - {\lambda{\sum\limits_{i = 0}^{n - 1}{{\hat{p}}_{i}{\log\left({1 - \frac{w_{i} - \eta}{\lambda}} \right)}}}}} \right)}$ | | \(15\) | | | s.t | ${{\mathbf{0} \leq \mathbf{w} \leq {{({\lambda + \eta})}\mathbf{e}}},{\lambda \geq 0}},$ | | |
 
 ### Remark 4.2
 
@@ -240,31 +182,21 @@ We next consider the case where ${\mathbb{P}}^{\ast}$ may have continuous suppor
 
 For this section, we assume that $\text{supp}{({\mathbb{P}}^{\ast})}$ is contained in a known, finite box ${\lbrack{\hat{\mathbf{u}}}^{},{\hat{\mathbf{u}}}^{({N + 1})}\rbrack} \equiv {\{{\mathbf{u} \in {\mathbb{R}}^{d}}:{{{\hat{u}}_{i}^{} \leq u_{i} \leq {\hat{u}}_{i}^{({N + 1})}},{i = {1,\ldots,d}}}\}}$.
 
-Given a univariate measure ${\mathbb{P}}_{0,i}$, the Kolmogorov-Smirnov (KS) goodness-of fit test applied to marginal $i$ considers the null-hypothesis $H_{0}:{{\mathbb{P}}_{i}^{\ast} = {\mathbb{P}}_{0,i}}$. It rejects this hypothesis if
+Given a univariate measure ${\mathbb{P}}_{0,i}$, the Kolmogorov-Smirnov (KS) goodness-of fit test applied to marginal $i$ considers the null-hypothesis $H_{0}:{{\mathbb{P}}_{i}^{\ast} = {\mathbb{P}}_{0,i}}$. It rejects this hypothesis if where ${\hat{u}}_{i}^{(j)}$ is the $j^{\text{th}}$ largest element among ${\hat{u}}_{i}^{1},\ldots,{\hat{u}}_{i}^{N}$. Tables for the threshold $\Gamma^{KS}$ are widely available.
 
-where ${\hat{u}}_{i}^{(j)}$ is the $j^{\text{th}}$ largest element among ${\hat{u}}_{i}^{1},\ldots,{\hat{u}}_{i}^{N}$. Tables for the threshold $\Gamma^{KS}$ are widely available.
-
-The confidence region of the above test for the $i$-th marginal distribution is
-
-where $\Theta{\lbrack{\hat{u}}_{i}^{},{\hat{u}}_{i}^{({N + 1})}\rbrack}$ is the set of all Borel probability measures on $\lbrack{\hat{u}}_{i}^{},{\hat{u}}_{i}^{({N + 1})}\rbrack$. Unlike $\mathcal{P}^{\chi^{2}}$ and $\mathcal{P}^{G}$, this confidence region is infinite dimensional.
+The confidence region of the above test for the $i$-th marginal distribution is where $\Theta{\lbrack{\hat{u}}_{i}^{},{\hat{u}}_{i}^{({N + 1})}\rbrack}$ is the set of all Borel probability measures on $\lbrack{\hat{u}}_{i}^{},{\hat{u}}_{i}^{({N + 1})}\rbrack$. Unlike $\mathcal{P}^{\chi^{2}}$ and $\mathcal{P}^{G}$, this confidence region is infinite dimensional.
 
 Figure 1 illustrates an example. The true distribution is a standard normal whose cumulative distribution function (cdf) is the dotted line. We draw $N = 100$ data points and form the empirical cdf (solid black line). The $80\%$ confidence region of the KS test is the set of measures whose cdfs are more than $\Gamma^{KS}$ above or below this solid line, i.e. the grey region.
 
-Now consider the multivariate null-hypothesis $H_{0}:{{\mathbb{P}}^{\ast} = {\mathbb{P}}_{0}}$. Since ${\mathbb{P}}^{\ast}$ has independent components, the test which rejects if ${\mathbb{P}}_{i}$ fails the KS test at level $\alpha^{\prime} = {1 - \sqrt[d]{1 - \alpha}}$ for any $i$ is a valid test. Namely, ${{\mathbb{P}}_{\mathcal{S}}^{\ast}{({{{\mathbb{P}}_{i}^{\ast}\text{~is accepted by KS at level~}\alpha^{\prime}\text{~for all~}i} = {1,\ldots,d}})}} = {\prod_{i = 1}^{d}\sqrt[d]{1 - \alpha^{\prime}}} = {1 - \alpha}$ by independence. The confidence region of this multivariate test is
+Now consider the multivariate null-hypothesis $H_{0}:{{\mathbb{P}}^{\ast} = {\mathbb{P}}_{0}}$. Since ${\mathbb{P}}^{\ast}$ has independent components, the test which rejects if ${\mathbb{P}}_{i}$ fails the KS test at level $\alpha' = {1 - \sqrt[d]{1 - \alpha}}$ for any $i$ is a valid test. Namely, ${{\mathbb{P}}_{\mathcal{S}}^{\ast}{({{{\mathbb{P}}_{i}^{\ast}\text{~is accepted by KS at level~}\alpha'\text{~for all~}i} = {1,\ldots,d}})}} = {\prod_{i = 1}^{d}\sqrt[d]{1 - \alpha'}} = {1 - \alpha}$ by independence. The confidence region of this multivariate test is ("I" in $\mathcal{P}^{I}$ is to emphasize independence). We use this confidence region in Step 1 of our schema.
 
-("I" in $\mathcal{P}^{I}$ is to emphasize independence). We use this confidence region in Step 1 of our schema.
-
-When the marginals are independent, Nemirovski and Shapiro proved
-
-We use the worst-case value of this bound over $\mathcal{P}^{I}$ in Step 2 of our schema. By passing the supremum through the infimum and logarithm, we obtain
-
-Despite the infinite dimensionality, we can solve in the inner-most supremum explicitly by leveraging the simple geometry of $\mathcal{P}_{i}^{KS}$. Intuitively, the worst-case distribution will either be the lefthand boundary or the righthand boundary of the region in Fig. 1 depending on the sign of $v_{i}$.
+When the marginals are independent, Nemirovski and Shapiro proved We use the worst-case value of this bound over $\mathcal{P}^{I}$ in Step 2 of our schema. By passing the supremum through the infimum and logarithm, we obtain Despite the infinite dimensionality, we can solve in the inner-most supremum explicitly by leveraging the simple geometry of $\mathcal{P}_{i}^{KS}$. Intuitively, the worst-case distribution will either be the lefthand boundary or the righthand boundary of the region in Fig. 1 depending on the sign of $v_{i}$.
 
 Both ${{\mathbf{q}^{L}{(\Gamma)}},{\mathbf{q}^{R}{(\Gamma)}}} \in \Delta_{N + 2}$ so that each vector can be interpreted as a discrete probability distribution on the points ${\hat{u}}_{i}^{},\ldots,{\hat{u}}_{i}^{({N + 1})}$. One can check that the distributions corresponding to these vectors are precisely the lefthand side and righthand side of the grey region in Fig. 1. Then, we have
 
 ### Theorem 5.1
 
-Suppose ${\mathbb{P}}^{\ast}$ has independent components, with ${\text{supp}{({\mathbb{P}}^{\ast})}} \subseteq {\lbrack{\hat{\mathbf{u}}}^{},{\hat{\mathbf{u}}}^{({N + 1})}\rbrack}$. With probability at least $1 - \alpha$ with respect to the sampling, $\{\mathcal{U}_{\epsilon}^{I}:{0 < \epsilon < 1}\}$ simultaneously implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$, where
+Suppose ${\mathbb{P}}^{\ast}$ has independent components, with ${\text{supp}{({\mathbb{P}}^{\ast})}} \subseteq {\lbrack{\hat{\mathbf{u}}}^{},{\hat{\mathbf{u}}}^{({N + 1})}\rbrack}$. With probability at least $1 - \alpha$ with respect to the sampling, $\{\mathcal{U}_{\epsilon}^{I}:{0 < \epsilon < 1}\}$ simultaneously implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$, where | | $\mathcal{U}_{\epsilon}^{I} = \left\{ \mathbf{u} \in {\mathbb{R}}^{d}: \right.$ | ${{{\exists\theta_{i}} \in {\lbrack 0,1\rbrack}},{{\mathbf{q}^{i} \in \Delta_{N + 2}},{i = {{1\ldots},d}}}},$ | | \(18\) | | | | $\left. \sum\limits_{j = 0}^{N + 1}{\hat{u}}_{i}^{(j)}q_{j}^{i} = u_{i},i = 1,\ldots,d,\sum\limits_{i = 1}^{d}D{(\mathbf{q}_{i},\theta_{i}\mathbf{q}^{L}{(\Gamma^{KS})} + {(1 - \theta_{i})}\mathbf{q}^{R}{(\Gamma^{KS})})} \leq \log{(1/\epsilon)} \right\}.$ | | |
 
 ### Remark 5.2
 
@@ -272,9 +204,7 @@ Because $\mathbf{q}^{L}{(\Gamma)}$ (resp. $\mathbf{q}^{R}{(\Gamma)}$) is decreas
 
 ### Remark 5.3
 
-When representing ${\{{(\mathbf{v},t)}:\delta^{\ast}{(\mathbf{v}|\mathcal{U}^{I})} \leq t)}\}$, we can drop the infimum in. Thus, this set is exponential cone representable, which, again, may be numerically challenging. Using the above line search, however, we can separate over this set: Given ${\mathbf{v} \in {\mathbb{R}}^{d}},{t \in {\mathbb{R}}}$ such that ${\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}^{I} \right.)}} > t$, solve by line search, and let $\lambda^{\ast}$ be an optimal solution. Define
-
-Then $\mathbf{u} \in \mathcal{U}_{\epsilon}^{I}$ and ${\mathbf{u}^{T}\mathbf{v}} \leq t$ is a violated cut for $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{\epsilon}^{I} \right.)}} \leq t}\}$. That this procedure is valid follows from the proof of Theorem 5.1, cf. Appendix 13.4.
+When representing ${\{{(\mathbf{v},t)}:\delta^{\ast}{(\mathbf{v}|\mathcal{U}^{I})} \leq t)}\}$, we can drop the infimum. Thus, this set is exponential cone representable, which, again, may be numerically challenging. Using the above line search, however, we can separate over this set: Given ${\mathbf{v} \in {\mathbb{R}}^{d}},{t \in {\mathbb{R}}}$ such that ${\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}^{I} \right.)}} > t$, solve by line search, and let $\lambda^{\ast}$ be an optimal solution. Define Then $\mathbf{u} \in \mathcal{U}_{\epsilon}^{I}$ and ${\mathbf{u}^{T}\mathbf{v}} \leq t$ is a violated cut for $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{\epsilon}^{I} \right.)}} \leq t}\}$. That this procedure is valid follows from the proof of Theorem 5.1, cf. Appendix 13.4.
 
 ### Remark 5.4
 
@@ -286,23 +216,15 @@ In Chen et al., the authors propose an uncertainty set based on the forward and 
 
 In this section, we use our schema to generalize the set of Chen et al. to a data-driven setting where *neither the mean of the distribution nor its support are known.* Our set differs in shape and size from their proposal, and, our construction, unlike their original proposal, will simultaneously imply a probabilistic guarantee for ${\mathbb{P}}^{\ast}$.
 
-We begin by specifying an appropriate multivariate hypothesis test based on combining univariate tests. Specifically, for a known (univariate) distribution ${\mathbb{P}}_{i}$ define its forward and backward deviations by
+We begin by specifying an appropriate multivariate hypothesis test based on combining univariate tests. Specifically, for a known (univariate) distribution ${\mathbb{P}}_{i}$ define its forward and backward deviations by where ${{\mathbb{E}}^{{\mathbb{P}}_{i}}{\lbrack{\overset{\sim}{u}}_{i}\rbrack}} = \mu_{i}$. Notice the optimizations defining ${\sigma_{fi}{({\mathbb{P}}_{i})}},{\sigma_{bi}{({\mathbb{P}}_{i})}}$ are one dimensional, convex problems which can be solved by a line search. A sufficient, but not necessary, condition for ${\sigma_{fi}{({\mathbb{P}}_{i})}},{\sigma_{bi}{({\mathbb{P}}_{i})}}$ to be finite is that ${\mathbb{P}}_{i}$ has bounded support. To streamline the exposition, we assume throughout this section ${\mathbb{P}}^{\ast}$ has bounded (but potentially unknown) support.
 
-where ${{\mathbb{E}}^{{\mathbb{P}}_{i}}{\lbrack{\overset{\sim}{u}}_{i}\rbrack}} = \mu_{i}$. Notice the optimizations defining ${\sigma_{fi}{({\mathbb{P}}_{i})}},{\sigma_{bi}{({\mathbb{P}}_{i})}}$ are one dimensional, convex problems which can be solved by a line search. A sufficient, but not necessary, condition for ${\sigma_{fi}{({\mathbb{P}}_{i})}},{\sigma_{bi}{({\mathbb{P}}_{i})}}$ to be finite is that ${\mathbb{P}}_{i}$ has bounded support. To streamline the exposition, we assume throughout this section ${\mathbb{P}}^{\ast}$ has bounded (but potentially unknown) support.
+For a given ${\mu_{0,i},\sigma_{0,{fi}},\sigma_{0,{bi}}} \in {\mathbb{R}}$, consider the following three null-hypotheses: We can test these hypotheses (separately) using $|{{\hat{\mu}}_{i} - \mu_{0,i}}|$, $\sigma_{fi}{({\hat{\mathbb{P}}}_{i})}$ and $\sigma_{bi}{({\hat{\mathbb{P}}}_{i})}$, respectively, as test statistics. Since these are not common hypothesis tests in applied statistics, there are no tables for their thresholds. Instead, we compute approximate thresholds $t_{i}$, ${\overline{\sigma}}_{fi}$ and ${\overline{\sigma}}_{bi}$ at the $\alpha/2$, $\alpha/4$ and $\alpha/4$ significance level, respectively, using the bootstrap procedure in Algorithm 1.
 
-For a given ${\mu_{0,i},\sigma_{0,{fi}},\sigma_{0,{bi}}} \in {\mathbb{R}}$, consider the following three null-hypotheses:
+By the union bound, the univariate test which rejects if any of these thresholds is exceeded is a valid test at level $\alpha$ for the three hypotheses above to hold simultaneously. The confidence region of this test is where $m_{bi} = {{\hat{\mu}}_{i} - t_{i}}$ and $m_{fi} = {{\hat{\mu}}_{i} + t_{i}}$.
 
-We can test these hypotheses (separately) using $|{{\hat{\mu}}_{i} - \mu_{0,i}}|$, $\sigma_{fi}{({\hat{\mathbb{P}}}_{i})}$ and $\sigma_{bi}{({\hat{\mathbb{P}}}_{i})}$, respectively, as test statistics. Since these are not common hypothesis tests in applied statistics, there are no tables for their thresholds. Instead, we compute approximate thresholds $t_{i}$, ${\overline{\sigma}}_{fi}$ and ${\overline{\sigma}}_{bi}$ at the $\alpha/2$, $\alpha/4$ and $\alpha/4$ significance level, respectively, using the bootstrap procedure in Algorithm 1.
+Next, consider the multivariate null-hypothesis that all three null-hypotheses in hold simultaneously for all $i = {1,\ldots,d}$. As in Sec. 5, the test which rejects if the above univariate test rejects at level $\alpha' = {1 - \sqrt[d]{1 - \alpha}}$ for any $i$ is a valid test. Its confidence region is ${\mathcal{P}^{FB} = {\{{\mathbb{P}}:{{{\mathbb{P}}_{i} \in {\mathcal{P}_{i}^{FB}i} = 1},{\ldots,d}}\}}}.$ We will use this confidence region in Step 1 of our schema.
 
-By the union bound, the univariate test which rejects if any of these thresholds is exceeded is a valid test at level $\alpha$ for the three hypotheses above to hold simultaneously. The confidence region of this test is
-
-where $m_{bi} = {{\hat{\mu}}_{i} - t_{i}}$ and $m_{fi} = {{\hat{\mu}}_{i} + t_{i}}$.
-
-Next, consider the multivariate null-hypothesis that all three null-hypotheses in hold simultaneously for all $i = {1,\ldots,d}$. As in Sec. 5, the test which rejects if the above univariate test rejects at level $\alpha^{\prime} = {1 - \sqrt[d]{1 - \alpha}}$ for any $i$ is a valid test. Its confidence region is ${\mathcal{P}^{FB} = {\{{\mathbb{P}}:{{{\mathbb{P}}_{i} \in {\mathcal{P}_{i}^{FB}i} = 1},{\ldots,d}}\}}}.$ We will use this confidence region in Step 1 of our schema.
-
-When the mean and deviations for $\mathbb{P}$ are known and the marginals are independent, Chen et al. prove
-
-Computing the worst-case value of this bound over the above confidence region in Step 2 of our schema yields:
+When the mean and deviations for $\mathbb{P}$ are known and the marginals are independent, Chen et al. prove Computing the worst-case value of this bound over the above confidence region in Step 2 of our schema yields:
 
 ### Theorem 5.5
 
@@ -310,17 +232,13 @@ Suppose ${\mathbb{P}}^{\ast}$ has independent components and bounded support. Wi
 
 ### Remark 5.6
 
-From, $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{\epsilon}^{FB} \right.)}} \leq t}\}$ is second order cone representable. We can separate over this constraint in closed-form: Given $\mathbf{v},t$, use to check if ${\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{\epsilon}^{FB} \right.)}} > t$. If so, let
-
-Then, ${\mathbf{u}^{T}\mathbf{v}} \leq t$ is a violated constraint. The correctness of this procedure follows from the proof of Theorem 5.5.
+From, $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{\epsilon}^{FB} \right.)}} \leq t}\}$ is second order cone representable. We can separate over this constraint in closed-form: Given $\mathbf{v},t$, use to check if ${\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{\epsilon}^{FB} \right.)}} > t$. If so, let Then, ${\mathbf{u}^{T}\mathbf{v}} \leq t$ is a violated constraint. The correctness of this procedure follows from the proof of Theorem 5.5.
 
 ### Remark 5.7
 
-There is no guarantee that $\mathcal{U}_{\epsilon}^{FB} \subseteq {\text{supp}{({\mathbb{P}}^{\ast})}}$. Consequently, if we have a priori information of the support, we can use this to refine $\mathcal{U}_{\epsilon}^{FB}$. Specifically, let $\mathcal{U}_{0}$ be convex, compact such that ${\text{supp}{({\mathbb{P}}^{\ast})}} \subseteq \mathcal{U}_{0}$. Then, the family $\{{\mathcal{U}_{\epsilon}^{FB} \cap \mathcal{U}_{0}}:{0 < \epsilon < 1}\}$ simultaneously implies a probabilistic guarantee. Moreover, for common $\mathcal{U}_{0}$, optimizing over with $\mathcal{U}_{\epsilon}^{FB} \cap \mathcal{U}_{0}$ is computationally similar to optimizing with $\mathcal{U}_{\epsilon}^{FB}$. More precisely, from, $\{{(\mathbf{v},t)}:{\delta^{\ast}{(\left. \mathbf{v} \middle| {{\mathcal{U}_{\epsilon}{(\mathcal{S})}} \cap \mathcal{U}_{0}} \right.)}}\}$ is equivalent to
+There is no guarantee that $\mathcal{U}_{\epsilon}^{FB} \subseteq {\text{supp}{({\mathbb{P}}^{\ast})}}$. Consequently, if we have a priori information of the support, we can use this to refine $\mathcal{U}_{\epsilon}^{FB}$. Specifically, let $\mathcal{U}_{0}$ be convex, compact such that ${\text{supp}{({\mathbb{P}}^{\ast})}} \subseteq \mathcal{U}_{0}$. Then, the family $\{{\mathcal{U}_{\epsilon}^{FB} \cap \mathcal{U}_{0}}:{0 < \epsilon < 1}\}$ simultaneously implies a probabilistic guarantee. Moreover, for common $\mathcal{U}_{0}$, optimizing over with $\mathcal{U}_{\epsilon}^{FB} \cap \mathcal{U}_{0}$ is computationally similar to optimizing with $\mathcal{U}_{\epsilon}^{FB}$. More precisely,, $\{{(\mathbf{v},t)}:{\delta^{\ast}{(\left. \mathbf{v} \middle| {{\mathcal{U}_{\epsilon}{(\mathcal{S})}} \cap \mathcal{U}_{0}} \right.)}}\}$ is equivalent to so that with $\mathcal{U}_{\epsilon}^{FB} \cap \mathcal{U}_{0}$ will be tractable whenever $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{0} \right.)}} \leq t}\}$ is tractable, examples of which include when $\mathcal{U}_{0}$ is a norm-ball, ellipse, or polyhedron (see Ben-Tal et al.).
 
-so that with $\mathcal{U}_{\epsilon}^{FB} \cap \mathcal{U}_{0}$ will be tractable whenever $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{0} \right.)}} \leq t}\}$ is tractable, examples of which include when $\mathcal{U}_{0}$ is a norm-ball, ellipse, or polyhedron (see Ben-Tal et al. ).
-
-### Comparing $\mathcal{U}_{\epsilon}^{I}$ and $\mathcal{U}_{\epsilon}^{F\hspace{0pt}B}$
+### Comparing $\mathcal{U}_{\epsilon}^{I}$ and $\mathcal{U}_{\epsilon}^{FB}$
 
 Figure 2 illustrates the sets $\mathcal{U}_{\epsilon}^{I}$ and $\mathcal{U}_{\epsilon}^{FB}$ numerically. The marginal distributions of ${\mathbb{P}}^{\ast}$ are independent and their densities are given in the left panel. Notice that the first marginal is symmetric while the second is highly skewed.
 
@@ -334,29 +252,19 @@ Several features are evident from the plots. First, both sets are able to learn 
 
 In this section, we observe samples from the marginal distributions of ${\mathbb{P}}^{\ast}$ separately, but do not assume these marginals are independent. This happens, e.g., when samples are drawn asynchronously, or when there are many missing values. In these cases, it is impossible to learn the joint distribution of ${\mathbb{P}}^{\ast}$ from the data. To streamline the exposition, we assume that we observe exactly $N$ samples of each marginal distribution. The results generalize to the case of different numbers of samples at the expense of more notation.
 
-In the univariate case, David and Nagaraja develop a hypothesis test for the $1 - {\epsilon/d}$ quantile, or equivalently $\text{VaR}_{\epsilon/d}^{{\mathbb{P}}_{i}}{(\mathbf{e}_{i})}$ of a distribution $\mathbb{P}$. Namely, given ${\overline{q}}_{i,0} \in {\mathbb{R}}$, consider the hypothesis $H_{0,i}:{{\text{VaR}_{\epsilon/d}^{{\mathbb{P}}^{\ast}}{(\mathbf{e}_{i})}} \geq {\overline{q}}_{i,0}}$. Define the index $s$ by
-
-and let $s = {N + 1}$ if the corresponding set is empty. Then, the test which rejects if $q_{i,0} > {\hat{u}}_{i}^{(s)}$ is valid at level ${\alpha/2}d$. David and Nagaraja also prove that $\frac{s}{N} \downarrow {(1 - \epsilon/d}$).
+In the univariate case, David and Nagaraja develop a hypothesis test for the $1 - {\epsilon/d}$ quantile, or equivalently $\text{VaR}_{\epsilon/d}^{{\mathbb{P}}_{i}}{(\mathbf{e}_{i})}$ of a distribution $\mathbb{P}$. Namely, given ${\overline{q}}_{i,0} \in {\mathbb{R}}$, consider the hypothesis $H_{0,i}:{{\text{VaR}_{\epsilon/d}^{{\mathbb{P}}^{\ast}}{(\mathbf{e}_{i})}} \geq {\overline{q}}_{i,0}}$. Define the index $s$ by and let $s = {N + 1}$ if the corresponding set is empty. Then, the test which rejects if $q_{i,0} > {\hat{u}}_{i}^{(s)}$ is valid at level ${\alpha/2}d$. David and Nagaraja also prove that $\frac{s}{N} \downarrow {(1 - \epsilon/d}$).
 
 The above argument applies symmetrically to the hypothesis $H_{0,i}:{{\text{VaR}_{\epsilon/d}^{{\mathbb{P}}^{\ast}}{({- \mathbf{e}_{i}})}} \geq {\underset{¯}{q}}_{i,0}}$ where the rejection threshold now becomes ${\hat{u}}_{i}^{({{N - s} + 1})}$. In the typical case when $\epsilon/d$ is small, ${{N - s} + 1} < s$ so that ${\hat{u}}_{i}^{({{N - s} + 1})} \leq {\hat{u}}_{i}^{(s)}$.
 
-Next given ${{\overline{q}}_{i,0},{\underset{¯}{q}}_{i,0}} \in {\mathbb{R}}$ for $i = {1,\ldots,d}$, consider the multivariate hypothesis:
+Next given ${{\overline{q}}_{i,0},{\underset{¯}{q}}_{i,0}} \in {\mathbb{R}}$ for $i = {1,\ldots,d}$, consider the multivariate hypothesis: By the union bound, the test which rejects if ${\hat{u}}_{i}^{(s)} < {\overline{q}}_{i}$ or ${- {\hat{u}}_{i}^{({{N - s} + 1})}} < {\underset{¯}{q}}_{i}$, i.e., the above tests fail for the $i$-th component, is valid at level $\alpha$. Its confidence region is Here "M" is to emphasize "marginals." We use this confidence region in Step 1 of our schema.
 
-By the union bound, the test which rejects if ${\hat{u}}_{i}^{(s)} < {\overline{q}}_{i}$ or ${- {\hat{u}}_{i}^{({{N - s} + 1})}} < {\underset{¯}{q}}_{i}$, i.e., the above tests fail for the $i$-th component, is valid at level $\alpha$. Its confidence region is
-
-Here "M" is to emphasize "marginals." We use this confidence region in Step 1 of our schema.
-
-When the marginals of $\mathbb{P}$ are known, Embrechts et al. proves
-
-Since the minimization on the right-hand side can be difficult, we will use the weaker bound ${\text{VaR}_{\epsilon}^{\mathbb{P}}{(\mathbf{v})}} \leq {\sum_{i = 1}^{d}{\text{VaR}_{\epsilon/d}^{\mathbb{P}}{({v_{i}\mathbf{e}_{i}})}}}$ obtained by letting $\lambda_{i} = {\epsilon/d}$ for all $i$.
+When the marginals of $\mathbb{P}$ are known, Embrechts et al. proves Since the minimization on the right-hand side can be difficult, we will use the weaker bound ${\text{VaR}_{\epsilon}^{\mathbb{P}}{(\mathbf{v})}} \leq {\sum_{i = 1}^{d}{\text{VaR}_{\epsilon/d}^{\mathbb{P}}{({v_{i}\mathbf{e}_{i}})}}}$ obtained by letting $\lambda_{i} = {\epsilon/d}$ for all $i$.
 
 We compute the worst case value of this bound over $\mathcal{P}^{M}$, yielding:
 
 ### Theorem 6.1
 
-If $s$ defined by Eq. satisfies ${{N - s} + 1} < s$, then, with probability at least $1 - \alpha$ over the sample, the set
-
-implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$ at level $\epsilon$. Moreover,
+If $s$ defined by Eq. satisfies ${{N - s} + 1} < s$, then, with probability at least $1 - \alpha$ over the sample, the set implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$ at level $\epsilon$. Moreover,
 
 ### Remark 6.2
 
@@ -368,13 +276,9 @@ The set $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal
 
 ## Uncertainty Sets for Potentially Non-independent Components
 
-In this section, we assume we observe samples drawn from the joint distribution of ${\mathbb{P}}^{\ast}$ which may have unbounded support. We consider a goodness-of-fit hypothesis test based on linear-convex ordering proposed in Bertsimas et al.. Specifically, given some multivariate ${\mathbb{P}}_{0}$, consider the null-hypothesis $H_{0}:{{\mathbb{P}}^{\ast} = {\mathbb{P}}_{0}}$. Bertsimas et al. prove that the test which rejects $H_{0}$ if ${\exists{(\mathbf{a},b)}} \in \mathcal{B} \equiv {\{{{\mathbf{a} \in {\mathbb{R}}^{d}},{b \in {\mathbb{R}}}}:{{{\|\mathbf{a}\|}_{1} + {|b|}} \leq 1}\}}$ such that
+In this section, we assume we observe samples drawn from the joint distribution of ${\mathbb{P}}^{\ast}$ which may have unbounded support. We consider a goodness-of-fit hypothesis test based on linear-convex ordering proposed in Bertsimas et al.. Specifically, given some multivariate ${\mathbb{P}}_{0}$, consider the null-hypothesis $H_{0}:{{\mathbb{P}}^{\ast} = {\mathbb{P}}_{0}}$. Bertsimas et al. prove that the test which rejects $H_{0}$ if ${\exists{(\mathbf{a},b)}} \in \mathcal{B} \equiv {\{{{\mathbf{a} \in {\mathbb{R}}^{d}},{b \in {\mathbb{R}}}}:{{{\|\mathbf{a}\|}_{1} + {|b|}} \leq 1}\}}$ such that for appropriate thresholds $\Gamma_{LCX},\Gamma_{\sigma}$ is a valid test at level $\alpha$. The authors provide an explicit bootstrap algorithm to compute $\Gamma_{LCX},\Gamma_{\sigma}$.
 
-for appropriate thresholds $\Gamma_{LCX},\Gamma_{\sigma}$ is a valid test at level $\alpha$. The authors provide an explicit bootstrap algorithm to compute $\Gamma_{LCX},\Gamma_{\sigma}$.
-
-The confidence region of this test is
-
-We will use this confidence region in Step 1 of our schema.
+The confidence region of this test is We will use this confidence region in Step 1 of our schema.
 
 Combining techniques from semi-infinite optimization with our schema (see electronic companion for proof), we obtain
 
@@ -382,18 +286,13 @@ Combining techniques from semi-infinite optimization with our schema (see electr
 
 The family $\{\mathcal{U}_{\epsilon}^{LCX}:{0 < \epsilon < 1}\}$ simultaneously implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$ where
 
-$\mathcal{U}_{\epsilon}^{LCX} = \{$ $\mathbf{u} \in {\mathbb{R}}^{d}:\exists\mathbf{r} \in {\mathbb{R}}^{d},1 \leq z \leq 1/\epsilon,\text{~s.t.}$ (31a)
-$\left. {(\mathbf{a}^{T}\mathbf{r} - b{(z - 1)})}^{+} + {(\mathbf{a}^{T}\mathbf{u} - b)}^{+} \leq \frac{z}{N}\sum\limits_{j = 1}^{N}{(\mathbf{a}^{T}{\hat{\mathbf{u}}}_{j} - b)}^{+} + \Gamma_{LCX},\forall{(\mathbf{a},b)} \in \mathcal{B} \right\}.$ (31b)
-
 ### Remark 7.2
 
 As the intersection of convex constraints, $\mathcal{U}_{\epsilon}^{LCX}$ is convex.
 
 ### Remark 7.3
 
-It is possible to separate over (31b) efficiently. Specifically, fix ${\mathbf{u},\mathbf{r}} \in {\mathbb{R}}^{d}$ and $1 \leq z \leq {1/\epsilon}$. We identify the worst-case ${(\mathbf{a},b)} \in \mathcal{B}$ in (31b) by solving three auxiliary optimization problems:
-
-corresponding to the potential signs of ${\mathbf{a}^{T}\mathbf{r}} - {b{({z - 1})}}$ and ${\mathbf{a}^{T}\mathbf{u}} - b$ at the worst-case value. (The fourth case, where both terms are negative is trivial since $\Gamma_{LCX} > 0$.) Each of these optimization problems can be written as linear optimizations. If ${\max{(\xi_{1},\xi_{2},\xi_{3})}} \leq \Gamma_{LCX}$, then $\mathbf{u},\mathbf{r}$ and $z$ are feasible in (31b). Otherwise, the optimal $\mathbf{a},b$ in the maximizing subproblem yields a violated cut.
+It is possible to separate over (31b) efficiently. Specifically, fix ${\mathbf{u},\mathbf{r}} \in {\mathbb{R}}^{d}$ and $1 \leq z \leq {1/\epsilon}$. We identify the worst-case ${(\mathbf{a},b)} \in \mathcal{B}$ in (31b) by solving three auxiliary optimization problems: corresponding to the potential signs of ${\mathbf{a}^{T}\mathbf{r}} - {b{({z - 1})}}$ and ${\mathbf{a}^{T}\mathbf{u}} - b$ at the worst-case value. (The fourth case, where both terms are negative is trivial since $\Gamma_{LCX} > 0$.) Each of these optimization problems can be written as linear optimizations. If ${\max{(\xi_{1},\xi_{2},\xi_{3})}} \leq \Gamma_{LCX}$, then $\mathbf{u},\mathbf{r}$ and $z$ are feasible in (31b). Otherwise, the optimal $\mathbf{a},b$ in the maximizing subproblem yields a violated cut.
 
 ### Remark 7.4
 
@@ -411,31 +310,23 @@ This observation is interesting for two reasons. First, it provides a unified fr
 
 Let $\parallel \cdot \parallel_{F}$ denote the Frobenius norm of matrices. As part of a particular machine learning application, Shawe-Taylor and Cristianini prove
 
-### Theorem 8.1 (Cristianini and Shawe-Taylor, 2003)
+### Theorem 8.1
 
-Suppose that $\text{supp}{({\mathbb{P}}^{\ast})}$ is contained within the ball of radius $R$ and that ${N > {({2 + {2{\log{({2/\alpha})}}}})}^{2}}.$ Then, with probability at least $1 - \alpha$ with respect to the sampling,
-
-where $\hat{\mathbf{μ}},\hat{\mathbf{\Sigma}}$ denote the sample mean and covariance, ${\Gamma_{1}{(\alpha,N)}} = {\frac{R}{\sqrt{N}}\left( {2 + \sqrt{2{\log{1/\alpha}}}} \right)}$, ${\Gamma_{2}{(\alpha,N)}} = {\frac{2R^{2}}{\sqrt{N}}\left( {2 + \sqrt{2{\log{2/\alpha}}}} \right)}$, and $\Theta{(R)}$ denotes the set of Borel probability measures supported on the ball of radius $R$.
+Suppose that $\text{supp}{({\mathbb{P}}^{\ast})}$ is contained within the ball of radius $R$ and that ${N > {({2 + {2{\log{({2/\alpha})}}}})}^{2}}.$ Then, with probability at least $1 - \alpha$ with respect to the sampling, where $\hat{\mathbf{μ}},\hat{\mathbf{\Sigma}}$ denote the sample mean and covariance, ${\Gamma_{1}{(\alpha,N)}} = {\frac{R}{\sqrt{N}}\left({2 + \sqrt{2{\log{1/\alpha}}}} \right)}$, ${\Gamma_{2}{(\alpha,N)}} = {\frac{2R^{2}}{\sqrt{N}}\left({2 + \sqrt{2{\log{2/\alpha}}}} \right)}$, and $\Theta{(R)}$ denotes the set of Borel probability measures supported on the ball of radius $R$.
 
 The key idea of their proof is to use a general purpose concentration inequality (McDiarmid's inequality) to compute $\Gamma_{1}{(\alpha,N)}$, $\Gamma_{2}{(\alpha,N)}$.
 
-We observe that $\mathcal{P}^{CS}$ is the $1 - \alpha$ confidence region of a hypothesis test for the mean and covariance of ${\mathbb{P}}^{\ast}$. Namely, the test considers
-
-using statistics $\|{\hat{\mathbf{μ}} - {\mathbf{μ}}_{0}}\|$ and $\|{\hat{\mathbf{\Sigma}} - \mathbf{\Sigma}_{0}}\|$ and thresholds ${\Gamma_{1}{({\alpha/2},N)}},{\Gamma_{2}{({\alpha/2},N)}}$.
+We observe that $\mathcal{P}^{CS}$ is the $1 - \alpha$ confidence region of a hypothesis test for the mean and covariance of ${\mathbb{P}}^{\ast}$. Namely, the test considers using statistics $\|{\hat{\mathbf{μ}} - {\mathbf{μ}}_{0}}\|$ and $\|{\hat{\mathbf{\Sigma}} - \mathbf{\Sigma}_{0}}\|$ and thresholds ${\Gamma_{1}{({\alpha/2},N)}},{\Gamma_{2}{({\alpha/2},N)}}$.
 
 Practical experience in applied statistics suggests, however, that tests whose thresholds are computed as above using general purpose concentration inequalities, while valid, are typically very conservative for reasonable values of $\alpha$, $N$. They reject $H_{0}$ when it is false only when $N$ is very large. The standard remedy is to use the bootstrap (Algorithm 1) to calculate alternate thresholds $\Gamma_{1}^{B},\Gamma_{2}^{B}$. These bootstrapped thresholds are typically much smaller, but still (approximately) valid at level $1 - \alpha$. The first five columns of Table 8.1 illustrates the magnitude of the difference with a particular example. Entries of $\infty$ indicate that the threshold as derived in Shawe-Taylor and Cristianini does not apply for this value of $N$. The data are drawn from a standard normal distribution with $d = 2$ truncated to live in a ball of radius $9.2$. We take $\alpha = {10\%}$, $N_{B} = {10,000}$. We can see that the reduction can be a full-order of magnitude, or more.
 
 Reducing the thresholds $\Gamma_{1}^{B},\Gamma_{2}^{B}$ shrinks $\mathcal{P}^{CS}$, in turn reducing the ambiguity in ${\mathbb{P}}^{\ast}$. This reduction ameliorates the potential over-conservativeness of any method using $\mathcal{P}^{CS}$, including the original machine learning application of Shawe-Taylor and Cristianini and our own schema for developing uncertainty sets.
 
-We next use $\mathcal{P}^{CS}$ in Step 1 of our schema to construct an uncertainty set. Bounding Value at Risk for regions like $\mathcal{P}^{CS}$ was studied by Calafiore and El Ghaoui. Their results imply
-
-We translate this bound into an uncertainty set.
+We next use $\mathcal{P}^{CS}$ in Step 1 of our schema to construct an uncertainty set. Bounding Value at Risk for regions like $\mathcal{P}^{CS}$ was studied by Calafiore and El Ghaoui. Their results imply We translate this bound into an uncertainty set.
 
 ### Theorem 8.2
 
-With probability at least $1 - \alpha$ with respect to the sampling, the family $\{\mathcal{U}_{\epsilon}^{CS}:{0 < \epsilon < 1}\}$ simultaneously implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$, where
-
-where ${\mathbf{C}^{T}\mathbf{C}} = {\hat{\mathbf{\Sigma}} + {\Gamma_{2}^{B}\mathbf{I}}}$ is a cholesky decomposition. Moreover, $\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{\epsilon}^{CS} \right.)}$ is given explicitly by the right-hand side of Eq. with $(\Gamma_{1},\Gamma_{2})$ replaced by the bootstrapped thresholds $\Gamma_{1}^{B},\Gamma_{2}^{B}$.
+With probability at least $1 - \alpha$ with respect to the sampling, the family $\{\mathcal{U}_{\epsilon}^{CS}:{0 < \epsilon < 1}\}$ simultaneously implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$, where where ${\mathbf{C}^{T}\mathbf{C}} = {\hat{\mathbf{\Sigma}} + {\Gamma_{2}^{B}\mathbf{I}}}$ is a cholesky decomposition. Moreover, $\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}_{\epsilon}^{CS} \right.)}$ is given explicitly by the right-hand side of Eq. with $(\Gamma_{1},\Gamma_{2})$ replaced by the bootstrapped thresholds $\Gamma_{1}^{B},\Gamma_{2}^{B}$.
 
 ### Remark 8.3
 
@@ -455,11 +346,9 @@ To emphasize the benefits of bootstrapping when constructing uncertainty sets, F
 
 Delage and Ye propose a data-driven approach for solving distributionally robust optimization problems. Their method relies on a slightly more general version of the following:^33^endnote: ^3^Specifically, since $R$ is typically unknown, the authors describe an estimation procedure for $R$ and prove a modified version of the Theorem 8.6 ‣ 8.2 Uncertainty Set Motivated by Delage and Ye, 2010 ‣ 8 Hypothesis Testing: A Unifying Perspective") using this estimate and different constants. We treat the simpler case where $R$ is known here. Extensions to the other case are straightforward.
 
-### Theorem 8.6 (Delage and Ye, 2010)
+### Theorem 8.6
 
-Let $R$ be such that ${{\mathbb{P}}^{\ast}{({{{({\overset{\sim}{\mathbf{u}} - {\mathbf{μ}}})}^{T}\mathbf{\Sigma}^{- 1}{({\overset{\sim}{\mathbf{u}} - {\mathbf{μ}}})}} \leq R^{2}})}} = 1$ where ${\mathbf{μ}},\mathbf{\Sigma}$ are the true mean and covariance of $\overset{\sim}{\mathbf{u}}$ under ${\mathbb{P}}^{\ast}$. Let, $\gamma_{1} \equiv \frac{\beta_{2}}{1 - \beta_{1} - \beta_{2}}$, $\gamma_{2} \equiv \frac{1 + \beta_{2}}{1 - \beta_{1} - \beta_{2}}$, $\beta_{2} \equiv {\frac{R^{2}}{N}\left( {2 + \sqrt{2{\log{({2/\alpha})}}}} \right)^{2}}$, $\beta_{1} \equiv {\frac{R^{2}}{\sqrt{N}}\left( {\sqrt{1 - \frac{d}{R^{4}}} + \sqrt{\log{({4/\alpha})}}} \right)}$, and suppose also that $N$ is large enough so that ${1 - \beta_{1} - \beta_{2}} > 0$. Finally suppose ${\text{supp}{({\mathbb{P}}^{\ast})}} \subseteq {\lbrack{\hat{\mathbf{u}}}^{},{\hat{\mathbf{u}}}^{({N + 1})}\rbrack}$. Then with probability at least $1 - \alpha$ with respect to the sampling, ${\mathbb{P}}^{\ast} \in \mathcal{P}^{DY}$ where
-
-The key idea is again to compute the thresholds using a general purpose concentration inequality. The condition on $N$ is required for the confidence region to be well-defined.
+Let $R$ be such that ${{\mathbb{P}}^{\ast}{({{{({\overset{\sim}{\mathbf{u}} - {\mathbf{μ}}})}^{T}\mathbf{\Sigma}^{- 1}{({\overset{\sim}{\mathbf{u}} - {\mathbf{μ}}})}} \leq R^{2}})}} = 1$ where ${\mathbf{μ}},\mathbf{\Sigma}$ are the true mean and covariance of $\overset{\sim}{\mathbf{u}}$ under ${\mathbb{P}}^{\ast}$. Let, $\gamma_{1} \equiv \frac{\beta_{2}}{1 - \beta_{1} - \beta_{2}}$, $\gamma_{2} \equiv \frac{1 + \beta_{2}}{1 - \beta_{1} - \beta_{2}}$, $\beta_{2} \equiv {\frac{R^{2}}{N}\left({2 + \sqrt{2{\log{({2/\alpha})}}}} \right)^{2}}$, $\beta_{1} \equiv {\frac{R^{2}}{\sqrt{N}}\left({\sqrt{1 - \frac{d}{R^{4}}} + \sqrt{\log{({4/\alpha})}}} \right)}$, and suppose also that $N$ is large enough so that ${1 - \beta_{1} - \beta_{2}} > 0$. Finally suppose ${\text{supp}{({\mathbb{P}}^{\ast})}} \subseteq {\lbrack{\hat{\mathbf{u}}}^{},{\hat{\mathbf{u}}}^{({N + 1})}\rbrack}$. Then with probability at least $1 - \alpha$ with respect to the sampling, ${\mathbb{P}}^{\ast} \in \mathcal{P}^{DY}$ where The key idea is again to compute the thresholds using a general purpose concentration inequality. The condition on $N$ is required for the confidence region to be well-defined.
 
 We again observe that $\mathcal{P}^{DY}$ is the $1 - \alpha$ confidence region of a hypothesis test. Specifically, it considers the hypothesis using the statistics ${({\hat{\mathbf{μ}} - {\mathbf{μ}}_{0}})}^{T}{\hat{\mathbf{\Sigma}}}^{- 1}{({\hat{\mathbf{μ}} - {\mathbf{μ}}_{0}})}$ and $\max_{\mathbf{λ}}\frac{{\mathbf{λ}}^{T}{({\mathbf{\Sigma}_{0} + {{({{\mathbf{μ}}_{0} - \hat{\mathbf{μ}}})}{({{\mathbf{μ}}_{0} - \hat{\mathbf{μ}}})}^{T}}})}{\mathbf{λ}}}{{\mathbf{λ}}^{T}\hat{\mathbf{\Sigma}}{\mathbf{λ}}}$ with thresholds $\gamma_{1},\gamma_{2}$.
 
@@ -469,9 +358,7 @@ We next consider using $\mathcal{P}^{DY}$ in Step 1 of our schema to generate an
 
 ### Theorem 8.7
 
-Suppose ${\text{supp}{({\mathbb{P}}^{\ast})}} \subset {\lbrack{\hat{\mathbf{u}}}^{},{\hat{\mathbf{u}}}^{({N + 1})}\rbrack}$. Then, with probability at least $1 - \alpha$ with respect to the sampling, the family $\{\mathcal{U}_{\epsilon}^{DY}:{0 < \epsilon < 1}\}$ simultaneously implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$, where
-
-${C^{T}C} = {\hat{\mathbf{\Sigma}}}^{- 1}$ is a Cholesky-decomposition, and $\gamma_{1}^{B},\gamma_{2}^{B}$ are computed by bootstrap. Moreover,
+Suppose ${\text{supp}{({\mathbb{P}}^{\ast})}} \subset {\lbrack{\hat{\mathbf{u}}}^{},{\hat{\mathbf{u}}}^{({N + 1})}\rbrack}$. Then, with probability at least $1 - \alpha$ with respect to the sampling, the family $\{\mathcal{U}_{\epsilon}^{DY}:{0 < \epsilon < 1}\}$ simultaneously implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$, where ${C^{T}C} = {\hat{\mathbf{\Sigma}}}^{- 1}$ is a Cholesky-decomposition, and $\gamma_{1}^{B},\gamma_{2}^{B}$ are computed by bootstrap. Moreover,
 
 ### Remark 8.8
 
@@ -481,7 +368,7 @@ Similar to $\mathcal{U}_{\epsilon}^{CS}$, the robust constraint ${\max_{\mathbf{
 
 The set $\{{(\mathbf{v},t)}:{{\delta^{\ast}{(\left. \mathbf{v} \middle| \mathcal{U}^{DY} \right.)}} \leq t}\}$ is representable as a linear matrix inequality. At time of writing, solvers for linear matrix inequalities are not as developed as those for second order cone programs. Consequently, one may prefer $\mathcal{U}_{\epsilon}^{CS}$ to $\mathcal{U}_{\epsilon}^{DY}$ in practice for its simplicity.
 
-### Comparing $\mathcal{U}_{\epsilon}^{M}$, $\mathcal{U}_{\epsilon}^{L\hspace{0pt}C\hspace{0pt}X}$, $\mathcal{U}_{\epsilon}^{C\hspace{0pt}S}$ and $\mathcal{U}_{\epsilon}^{D\hspace{0pt}Y}$
+### Comparing $\mathcal{U}_{\epsilon}^{M}$, $\mathcal{U}_{\epsilon}^{LCX}$, $\mathcal{U}_{\epsilon}^{CS}$ and $\mathcal{U}_{\epsilon}^{DY}$
 
 One of the benefits of deriving uncertainty sets corresponding to the methods of Shawe-Taylor and Cristianini and Delage and Ye is that it facilitates comparisons between these methods and our own proposals. In Fig. 3, we illustrate the sets $\mathcal{U}_{\epsilon}^{M}$, $\mathcal{U}_{\epsilon}^{LCX}$, $\mathcal{U}_{\epsilon}^{CS}$ and $\mathcal{U}_{\epsilon}^{DY}$ for the same numerical example from Fig. 2. Because $\mathcal{U}^{M}$ does not leverage the joint distribution ${\mathbb{P}}^{\ast}$, it does not learn that its marginals are independent. Consequently, $\mathcal{U}^{M}$ has pointed corners permitting extreme values of both coordinates simultaneously. The remaining sets do learn the marginal independence from the data and, hence, have rounded corners.
 
@@ -489,11 +376,11 @@ The set $\mathcal{U}_{\epsilon}^{CS}$ is not contained in $\text{supp}{({\mathbb
 
 Figure 3: Comparing 𝒰ϵM, 𝒰ϵL C X, 𝒰ϵC S and 𝒰ϵD Y for the example from Fig. 2, ϵ = 10%, α = 20%. The left panel uses N = 100 data points, while the right panel uses N = 1, 000 data points.
 
-### Refining $\mathcal{U}_{\epsilon}^{F\hspace{0pt}B}$
+### Refining $\mathcal{U}_{\epsilon}^{FB}$
 
 Another common approach to hypothesis testing in applied statistics is to use tests designed for Gaussian data that are "robust to departures from normality." The best known example of this approach is the $t$-test from Sec. 2.2, for which there is a great deal of experimental evidence to suggest that the test is still approximately valid when the underlying data is non-Gaussian. Moreover, certain nonparametric tests of the mean for non-Gaussian data are asymptotically equivalent to the $t$-test, so that the $t$-test, itself, is asymptotically valid for non-Gaussian data. Consequently, the $t$-test is routinely used in practice, even when the Gaussian assumption may be invalid.
 
-We next use the $t$-test in combination with bootstrapping to refine $\mathcal{U}_{\epsilon}^{FB}$. We replace $m_{fi},m_{bi}$ in Eq., with the upper and lower thresholds of a $t$-test at level $\alpha^{\prime}/2$. We expect these new thresholds to correctly bound the true mean $\mu_{i}$ with probability approximately $1 - {\alpha^{\prime}/2}$ with respect to the data. We then use the bootstrap to calculate bounds on the forward and backward deviations ${\overline{\sigma}}_{fi},{\overline{\sigma}}_{bi}$.
+We next use the $t$-test in combination with bootstrapping to refine $\mathcal{U}_{\epsilon}^{FB}$. We replace $m_{fi},m_{bi}$ in Eq., with the upper and lower thresholds of a $t$-test at level $\alpha'/2$. We expect these new thresholds to correctly bound the true mean $\mu_{i}$ with probability approximately $1 - {\alpha'/2}$ with respect to the data. We then use the bootstrap to calculate bounds on the forward and backward deviations ${\overline{\sigma}}_{fi},{\overline{\sigma}}_{bi}$.
 
 We stress not all tests designed for Gaussian data are robust to departures from normality. Applying Gaussian tests that lack this robustness will likely yield poor performance. Consequently, some care must be taken when choosing an appropriate test.
 
@@ -523,9 +410,7 @@ In applications where there is not a natural choice for $\alpha$ or $\epsilon$, 
 
 ## Applications
 
-We demonstrate how our new sets may be used in two applications: portfolio management and queueing theory. Our goals are to, first, illustrate their application and, second, to compare them to one another. We summarize our major insights:
-
-In these two applications, our data-driven sets outperform traditional, non-data driven uncertainty sets, and, moreover, robust models built with our sets perform as well or better than other data-driven approaches.
+We demonstrate how our new sets may be used in two applications: portfolio management and queueing theory. Our goals are to, first, illustrate their application and, second, to compare them to one another. We summarize our major insights: In these two applications, our data-driven sets outperform traditional, non-data driven uncertainty sets, and, moreover, robust models built with our sets perform as well or better than other data-driven approaches.
 
 Although our data-driven sets all shrink as $N\rightarrow\infty$, they learn different features of ${\mathbb{P}}^{\ast}$, such as correlation structure and skewness. Consequently, different sets may be better suited to different applications, and the right choice of set may depend on $N$. Cross-validation and other model selection techniques effectively identify the best set.
 
@@ -533,13 +418,9 @@ Optimizing the $\epsilon_{j}$'s in the case of multiple constraints can signific
 
 ### Portfolio Management
 
-Portfolio management has been well-studied in the robust optimization literature. For simplicity, we will consider the one period allocation problem:
+Portfolio management has been well-studied in the robust optimization literature. For simplicity, we will consider the one period allocation problem: which seeks the portfolio $\mathbf{x}$ with maximal worst-case return over the set $\mathcal{U}$. If $\mathcal{U}$ implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$ at level $\epsilon$, then the optimal value $z^{\ast}$ of this optimization is a conservative bound on the $\epsilon$-worst case return for the optimal solution $\mathbf{x}^{\ast}$.
 
-which seeks the portfolio $\mathbf{x}$ with maximal worst-case return over the set $\mathcal{U}$. If $\mathcal{U}$ implies a probabilistic guarantee for ${\mathbb{P}}^{\ast}$ at level $\epsilon$, then the optimal value $z^{\ast}$ of this optimization is a conservative bound on the $\epsilon$-worst case return for the optimal solution $\mathbf{x}^{\ast}$.
-
-We consider a synthetic market with $d = 10$ assets. Returns are generated according to the following model from Natarajan et al.:
-
-In this model, all assets have the same mean return (0%), the same standard deviation ($1.00\%$), but have different skew and support. Higher indexed assets are highly skewed; they have a small probability of achieving a very negative return. Returns for different assets are independent. We simulate $N = 500$ returns to use as data.
+We consider a synthetic market with $d = 10$ assets. Returns are generated according to the following model from Natarajan et al.: In this model, all assets have the same mean return (0%), the same standard deviation ($1.00\%$), but have different skew and support. Higher indexed assets are highly skewed; they have a small probability of achieving a very negative return. Returns for different assets are independent. We simulate $N = 500$ returns to use as data.
 
 We will utilize our sets $\mathcal{U}_{\epsilon}^{M}$ and $\mathcal{U}_{\epsilon}^{LCX}$ in this application. We do not consider the sets $\mathcal{U}_{\epsilon}^{I}$ or $\mathcal{U}_{\epsilon}^{FB}$ since we do not know a priori that the returns are independent. To contrast to the methods of and we also construct the sets $\mathcal{U}_{\epsilon}^{CS}$ and $\mathcal{U}_{\epsilon}^{DY}$. Recall from Remarks 8.3 and 8.8 that robust linear constraints over these sets are equivalent to ambiguous chance-constraints in the original methods, but with improved thresholds. As discussed in Remark 8.5, we also construct $\mathcal{U}_{\epsilon}^{CS} \cap {\text{supp}{({\mathbb{P}}^{\ast})}}$ for comparison. We use $\alpha = \epsilon = {10\%}$ in all of our sets. Finally, we will also compare to the method of Calafiore and Monastero (denoted "CM" in our plots), which is not an uncertainty set based method. We calibrate this method to also provide a bound on the $10\%$ worst-case return that holds with at least $90\%$ with respect to the sampling so as to provide a fair comparison.
 
@@ -567,21 +448,9 @@ One of the strengths of our approach is the ability to retrofit existing robust 
 
 Let ${\overset{\sim}{\mathbf{u}}}_{i} = {({\overset{\sim}{x}}_{i},{\overset{\sim}{t}}_{i})}$ for $i = {1,\ldots,n}$ denote the uncertain service times and interarrival times of the first $n$ customers in a queue. We assume that ${\overset{\sim}{\mathbf{u}}}_{i}$ is i.i.d. for all $i$ and has independent components, and that there exists ${\hat{\mathbf{u}}}^{({N + 1})} \equiv {(\overline{x},\overline{t})}$ such that $0 \leq {\overset{\sim}{x}}_{i} \leq \overline{x}$ and $0 \leq {\overset{\sim}{t}}_{i} \leq \overline{t}$ almost surely.
 
-From Lindley's recursion, the waiting time of the $n^{\text{th}}$ customer is
+From Lindley's recursion, the waiting time of the $n^{\text{th}}$ customer is Motivated by Bandi et al., we consider a worst-case realization of a Lindley recursion Taking $\mathcal{U} = \mathcal{U}_{\overline{\epsilon}/n}^{FB}$ and applying Theorem 5.5 to the inner-most optimization yields Relaxing the integrality on $j$, this optimization can be solved closed-form yielding From, with probability at least $1 - \alpha$ with respect to the sampling, each of the inner-most optimizations upper bound their corresponding random quantity with probability $1 - {\overline{\epsilon}/n}$ with respect to ${\mathbb{P}}^{\ast}$. Thus, by union bound, ${{\mathbb{P}}^{\ast}{({{\overset{\sim}{W}}_{n} \leq W_{n}^{1,{FB}}})}} \geq {1 - \overline{\epsilon}}$.
 
-Motivated by Bandi et al., we consider a worst-case realization of a Lindley recursion
-
-Taking $\mathcal{U} = \mathcal{U}_{\overline{\epsilon}/n}^{FB}$ and applying Theorem 5.5 to the inner-most optimization yields
-
-Relaxing the integrality on $j$, this optimization can be solved closed-form yielding
-
-From, with probability at least $1 - \alpha$ with respect to the sampling, each of the inner-most optimizations upper bound their corresponding random quantity with probability $1 - {\overline{\epsilon}/n}$ with respect to ${\mathbb{P}}^{\ast}$. Thus, by union bound, ${{\mathbb{P}}^{\ast}{({{\overset{\sim}{W}}_{n} \leq W_{n}^{1,{FB}}})}} \geq {1 - \overline{\epsilon}}$.
-
-On the other hand, since $\{\mathcal{U}_{\epsilon}^{FB}:{0 < \epsilon < 1}\}$ simultaneously implies a probabilistic guarantee, we can also optimize the choice of $\epsilon_{j}$ in, yielding
-
-From the KKT conditions, the constraint will be tight for all $j$, so that $W_{n}^{2,{FB}}$ satisfies
-
-which can be solved by line search. Again, with probability $1 - \alpha$ with respect to the sampling, ${{\mathbb{P}}^{\ast}{({{\overset{\sim}{W}}_{n} \leq W_{n}^{2,{FB}}})}} \geq {1 - \overline{\epsilon}}$, and $W_{n}^{2,{FB}} \leq W_{n}^{1,{FB}}$ by construction.
+On the other hand, since $\{\mathcal{U}_{\epsilon}^{FB}:{0 < \epsilon < 1}\}$ simultaneously implies a probabilistic guarantee, we can also optimize the choice of $\epsilon_{j}$, yielding From the KKT conditions, the constraint will be tight for all $j$, so that $W_{n}^{2,{FB}}$ satisfies which can be solved by line search. Again, with probability $1 - \alpha$ with respect to the sampling, ${{\mathbb{P}}^{\ast}{({{\overset{\sim}{W}}_{n} \leq W_{n}^{2,{FB}}})}} \geq {1 - \overline{\epsilon}}$, and $W_{n}^{2,{FB}} \leq W_{n}^{1,{FB}}$ by construction.
 
 We can further refine our bound by truncating the recursion at customer $\min{(n,n^{(k)})}$ where, with high probability, $\overset{\sim}{n} \leq n^{(k)}$. A formal derivation of the resulting bound, which we denote $W_{n}^{3,{FB}}$, can be found in Appendix 17. Therein we also prove that with probability at least $1 - \alpha$ with respect to the sampling, ${{\mathbb{P}}^{\ast}{({{\overset{\sim}{W}}_{n} \leq W_{n}^{3,{FB}}})}} \geq {1 - \overline{\epsilon}}$.
 
@@ -593,9 +462,7 @@ We illustrate these ideas numerically. Let service times follow a Pareto distrib
 
 As a first experiment, we bound the median waiting time ($\epsilon = {50\%}$) for the $n = 10$ customer, using each of our bounds with differing amounts of data. We repeat this procedure $100$ times to study the variability of our bounds with respect to the data. The left panel of Fig. 5 shows the average value of the bound and error bars for the 10% and 90% quantiles. As can be seen, all of the bounds improve as we add more data. Moreover, optimizing the $\epsilon_{j}$'s (the difference between $W_{n}^{{FB},1}$ and $W_{n}^{{FB},2}$ is significant.
 
-For comparison purposes, we include a sample analogue of Kingman's bound on the $1 - \epsilon$ quantile of the waiting time, namely,
-
-where ${\hat{\mu}}_{t},{\hat{\sigma}}_{t}^{2}$ are the sample mean and sample variance of the arrivals, ${\hat{\mu}}_{x},{\hat{\sigma}}_{x}^{2}$ are the sample mean and sample variance of the service times, and we have applied Markov's inequality. Unfortunately, this bound is extremely unstable, even for large $N$. The dotted line in the left-panel of Fig. 5 is the average value over the $100$ runs of this bound for $N = {10,000}$ data points (the error-bars do not fit on graph.) Sample statistics for this bound and our bounds can also be seen in Table 2. As shown, our bounds are both significantly better (with less data), and exhibit less variability.
+For comparison purposes, we include a sample analogue of Kingman's bound on the $1 - \epsilon$ quantile of the waiting time, namely, where ${\hat{\mu}}_{t},{\hat{\sigma}}_{t}^{2}$ are the sample mean and sample variance of the arrivals, ${\hat{\mu}}_{x},{\hat{\sigma}}_{x}^{2}$ are the sample mean and sample variance of the service times, and we have applied Markov's inequality. Unfortunately, this bound is extremely unstable, even for large $N$. The dotted line in the left-panel of Fig. 5 is the average value over the $100$ runs of this bound for $N = {10,000}$ data points (the error-bars do not fit on graph.) Sample statistics for this bound and our bounds can also be seen in Table 2. As shown, our bounds are both significantly better (with less data), and exhibit less variability.
 
 Table 2: Summary statistics for various bounds on median waiting time. N = 10, 000, n = 10, α = 10%. The last two columns refer to upper and lower quantiles over the simulation.
 
@@ -607,8 +474,6 @@ The prevalence of high quality data is reshaping operations research. Indeed, a 
 
 ### Endnotes
 
-1. 1 An example of a sufficient regularity condition is that ${{ri{(\mathcal{U})}} \cap {ri{({dom{({f{( \cdot,\mathbf{x})}})}})}}} \neq \varnothing$, ${\forall\mathbf{x}} \in {\mathbb{R}}^{k}$. Here $ri{(\mathcal{U})}$ denotes the *relative interior* of $\mathcal{U}$. Recall that for any non-empty convex set $\mathcal{U}$, ${ri{(\mathcal{U})}} \equiv {\{{\mathbf{u} \in \mathcal{U}}:{{{\forall\mathbf{z}} \in \mathcal{U}},{{\exists\lambda} > {{1\text{~s.t.~}\lambda\mathbf{u}} + {{({1 - \lambda})}\mathbf{z}}} \in \mathcal{U}}}\}}$ (cf. Bertsekas et al. ).
-2. 2 The existence of such a set in Step 3 by the bijection between closed, positively homogenous convex functions and closed convex sets in convex analysis (see Bertsekas et al. ).
-3. 3 Specifically, since $R$ is typically unknown, the authors describe an estimation procedure for $R$ and prove a modified version of the Theorem 8.6 using this estimate and different constants. We treat the simpler case where $R$ is known here. Extensions to the other case are straightforward.
+1. 1 An example of a sufficient regularity condition is that $ri({\mathcal{U}})\cap ri(dom(f(\cdot,\mathbf{x})))\neq\emptyset$, $\forall\mathbf{x}\in{\mathbb{R}}^{k}$. Here $ri({\mathcal{U}})$ denotes the *relative interior* of ${\mathcal{U}}$. Recall that for any non-empty convex set ${\mathcal{U}}$, $ri({\mathcal{U}})\equiv\{\mathbf{u}\in{\mathcal{U}}\:\ \forall\mathbf{z}\in{\mathcal{U}},\ \exists\lambda>1\text{ s.t. }\lambda\mathbf{u}+(1-\lambda)\mathbf{z}\in{\mathcal{U}}\}$ (cf. Bertsekas et al.). 2. 2 The existence of such a set in Step 3 by the bijection between closed, positively homogenous convex functions and closed convex sets in convex analysis (see Bertsekas et al.). 3. 3 Specifically, since $R$ is typically unknown, the authors describe an estimation procedure for $R$ and prove a modified version of the Theorem 8.6 using this estimate and different constants. We treat the simpler case where $R$ is known here. Extensions to the other case are straightforward.
 
 Part of this work was supported by the National Science Foundation Graduate Research Fellowship under Grant No. 1122374. We would also like to thank two anonymous reviewers and the Associate Editor for their insightful and constructive comments. They greatly helped to improve the quality of the paper.

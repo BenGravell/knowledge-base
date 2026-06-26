@@ -8,9 +8,7 @@ Our approach combines the strengths of both. We start from a pre-trained general
 
 Our framework, which we call Sumo, enables the high-level sample-based controller to steer the policy effectively for real-world manipulation. Our experiments reveal two interesting properties of this approach. First, hierarchical structure simplifies loco-manipulation. Compared to end-to-end MPC, planning in the command space of a pre-trained whole-body policy reduces the effective search space and stabilizes the robot's contact-rich dynamics. Compared to end-to-end RL, the same hierarchy achieves similar or better success with much simpler task objectives and without task-specific retraining. Second, planning enables generalization. Here, we define generalization as reusing the same controller on new objects and new task objectives by changing only the planner's object model or cost function at test time, without retraining. Keeping high-level decision making online allows the same framework to make these adaptations directly at deployment. The result is a robust yet flexible framework that enables quadruped and humanoid robots to use their entire body to manipulate objects with complex geometries and with sizes and weights comparable to the robots themselves, Fig. LABEL:fig:teaser_robot_tasks.
 
-Our contributions include:
-
-A hierarchical framework that combines a pre-trained generalist whole-body control policy and test-time planning for dynamic whole-body loco-manipulation.
+Our contributions include: A hierarchical framework that combines a pre-trained generalist whole-body control policy and test-time planning for dynamic whole-body loco-manipulation.
 
 A set of experimental comparisons showing that hierarchical structure simplifies loco-manipulation by reducing search difficulty and task-specification complexity relative to end-to-end MPC and end-to-end RL baselines.
 
@@ -68,9 +66,7 @@ More broadly, a common design pattern in hybrid RL-MPC for contact-rich robotics
 
 In this section, we provide a detailed description of our hierarchical control framework, which we call Sumo, that uses a high-level sample-based controller to steer a pre-trained whole-body control policy to perform whole-body loco-manipulation with quadruped and humanoid robots.
 
-MuJoCo with low-level policy
-
-TABLE I: Timing comparison of MuJoCo simulation of 32 parallel rollouts over 1.5 seconds with and without the low-level policy on an Intel Core i7-12700K CPU.
+MuJoCo with low-level policy TABLE I: Timing comparison of MuJoCo simulation of 32 parallel rollouts over 1.5 seconds with and without the low-level policy on an Intel Core i7-12700K CPU.
 
 ### III-A Overview
 
@@ -94,15 +90,11 @@ We implement the policy-in-the-loop parallel simulation by augmenting the CPU-ba
 
 Naturally, the high-level sample-based MPC can sample over any action space supported as inputs to the low-level policy. In practice, we choose to sample actions over a compact, task-relevant control vector, then rely on the low-level policy to map this to a full whole-body command. Here, we describe the details for the Spot robot with the Relic policy, but similar principles apply to other robots and low-level policies. We use $\mathbf{a}$ to denote the action space for the sample-based MPC, $\mathbf{c}$ to denote the commands to the WBC policy, and $\mathbf{u}$ to denote the joint-level control to the robot.
 
-For the Spot robot, the full $\mathbf{c}_{policy} \in {\mathbb{R}}^{25}$ includes the ${SE}{}$ velocities for the base $\mathbf{c}_{base} \in {\mathbb{R}}^{3}$, the arm joint-angle targets $\mathbf{c}_{arm} \in {\mathbb{R}}^{6}$, gripper position $\mathbf{c}_{gripper} \in {\mathbb{R}}^{1}$, leg joint angle targets $\mathbf{c}_{leg} \in {\mathbb{R}}^{3}$ for all four legs, and torso pitch, roll, and height targets $\mathbf{c}_{torso} \in {\mathbb{R}}^{3}$. By default, we only sample over the base velocities $\mathbf{a}_{base} \in {\mathbb{R}}^{3}$ and arm joint angle targets $\mathbf{a}_{arm} \in {\mathbb{R}}^{6}$ for the arm, excluding the gripper. To pad remaining policy commands, we set leg targets to zero (the low-level policy automatically outputs leg joint commands to track desired base velocities) and use default values for the torso pitch, roll, and height targets and set the gripper to a closed position. This base setup is sufficient for many loco-manipulation tasks but can be further enhanced by reasoning over legs, torso, and gripper commands at test time for tasks that require multi-limb coordination or gripper dexterity.
+For the Spot robot, the full $\mathbf{c}_{\mathrm{policy}}\in\mathbb{R}^{25}$ includes the $\mathrm{SE}$ velocities for the base $\mathbf{c}_{\mathrm{base}}\in\mathbb{R}^{3}$, the arm joint-angle targets $\mathbf{c}_{\mathrm{{arm}}}\in\mathbb{R}^{6}$, gripper position $\mathbf{c}_{\mathrm{{gripper}}}\in\mathbb{R}^{1}$, leg joint angle targets $\mathbf{c}_{\mathrm{{leg}}}\in\mathbb{R}^{3}$ for all four legs, and torso pitch, roll, and height targets $\mathbf{\mathbf{c}_{\mathrm{torso}}}\in\mathbb{R}^{3}$. By default, we only sample over the base velocities $\mathbf{a}_{\mathrm{base}}\in\mathbb{R}^{3}$ and arm joint angle targets $\mathbf{a}_{\mathrm{arm}}\in\mathbb{R}^{6}$ for the arm, excluding the gripper. To pad remaining policy commands, we set leg targets to zero (the low-level policy automatically outputs leg joint commands to track desired base velocities) and use default values for the torso pitch, roll, and height targets and set the gripper to a closed position. This base setup is sufficient for many loco-manipulation tasks but can be further enhanced by reasoning over legs, torso, and gripper commands at test time for tasks that require multi-limb coordination or gripper dexterity.
 
-To reason over the torso roll, pitch, and height commands, we can simply add those dimensions $\mathbf{a}_{\text{torso}} \in {\mathbb{R}}^{3}$ to the action space. To enable the robot to use front legs for manipulation, we can additionally sample over $\mathbf{a}_{\text{leg}} \in {\mathbb{R}}^{7} = {\lbrack\mathbf{s}_{\text{leg}},\mathbf{c}_{\text{leg}}\rbrack}$ where $\mathbf{s}_{\text{leg}} \in {\lbrack{- 1},1\rbrack}$ is a selection variable and $\mathbf{c}_{\text{leg}} \in {\mathbb{R}}^{6}$ is the leg joint angle targets, then use the selection variable to mask the leg joint angle targets:
+To reason over the torso roll, pitch, and height commands, we can simply add those dimensions $\mathbf{a}_{\text{torso}}\in\mathbb{R}^{3}$ to the action space. To enable the robot to use front legs for manipulation, we can additionally sample over $\mathbf{a}_{\text{leg}}\in\mathbb{R}^{7}=[\mathbf{s}_{\text{leg}},\mathbf{c}_{\text{leg}}]$ where $\mathbf{s}_{\text{leg}}\in$ is a selection variable and $\mathbf{c}_{\text{leg}}\in\mathbb{R}^{6}$ is the leg joint angle targets, then use the selection variable to mask the leg joint angle targets: Note that it is also possible to use rear legs for manipulation, but our implementation chooses to only focus on front legs as they cover most practical loco-manipulation tasks. Similarly, we can control the gripper via a binary action variable $\mathbf{a}_{\text{gripper}}\in$ that maps to open and close positions: This design allows us to flexibly choose task-specific action spaces to be any combination of $\mathbf{a}=[\mathbf{a}_{\text{base}},\mathbf{a}_{\text{arm}},\mathbf{a}_{\text{torso}},\mathbf{a}_{\text{leg}},\mathbf{a}_{\text{gripper}}]$ for the sample-based MPC. Additionally, the selection variables allow the controller to reason over different manipulation modalities at test time. Note that our sample-based MPC naturally reasons over both continuous and discrete decision variables which would be challenging for traditional gradient-based optimal control algorithms.
 
-Note that it is also possible to use rear legs for manipulation, but our implementation chooses to only focus on front legs as they cover most practical loco-manipulation tasks. Similarly, we can control the gripper via a binary action variable $\mathbf{a}_{\text{gripper}} \in {\lbrack{- 1},1\rbrack}$ that maps to open and close positions:
-
-This design allows us to flexibly choose task-specific action spaces to be any combination of $\mathbf{a} = {\lbrack\mathbf{a}_{\text{base}},\mathbf{a}_{\text{arm}},\mathbf{a}_{\text{torso}},\mathbf{a}_{\text{leg}},\mathbf{a}_{\text{gripper}}\rbrack}$ for the sample-based MPC. Additionally, the selection variables allow the controller to reason over different manipulation modalities at test time. Note that our sample-based MPC naturally reasons over both continuous and discrete decision variables which would be challenging for traditional gradient-based optimal control algorithms.
-
-For the G1 humanoid robot, we similarly sample over the ${SE}{}$ velocities for the torso and the arm joint angle targets for the arm. While it is straight forward to enable more inter-limb coordination by using a more steerable underlying low-level policy \[liao2025beyondmimic\], we leave this investigation as a future direction.
+For the G1 humanoid robot, we similarly sample over the $\mathrm{SE}$ velocities for the torso and the arm joint angle targets for the arm. While it is straight forward to enable more inter-limb coordination by using a more steerable underlying low-level policy \[liao2025beyondmimic\], we leave this investigation as a future direction.
 
 Figure 4: Comparing Sumo (ours, yellow) to end-to-end RL (purple) and MPC (navy) on five loco-manipulation tasks that ask the robot to move an object to a goal. Sumo achieves high success across all objects. End-to-end RL is competitive on the box, chair, and cone but degrades sharply on the tire and tire rack, while end-to-end MPC struggles across the board.
 
@@ -116,15 +108,9 @@ In this section, we consider two types of loco-manipulation tasks on the Spot qu
 
 For Move tasks, we consider success if the object is within $0.1$ meters of the goal and velocity is less than $0.05$ m/s within $30$ seconds. For Upright tasks, we consider task success if the object is within $0.1$ radians of the upright orientation and angular velocity is less than $0.05$ rad/s within $30$ seconds.
 
-(a) Move Object Tasks
-(b) Upright Object Tasks
-Figure 5: Top: comparison of Sumo (yellow, ours), E2E RL (purple), and hierarchical RL (navy, HRL) on pushing five different objects to a goal. Sumo generalizes to new objects by replacing the object model at test time, whereas E2E RL and HRL policies trained only on box pushing fail on the other objects. Bottom: Sumo generalizes to uprighting objectives by changing the planner cost at test time, whereas the same E2E RL and HRL policies fail without additional training.
+(a) Move Object Tasks (b) Upright Object Tasks Figure 5: Top: comparison of Sumo (yellow, ours), E2E RL (purple), and hierarchical RL (navy, HRL) on pushing five different objects to a goal. Sumo generalizes to new objects by replacing the object model at test time, whereas E2E RL and HRL policies trained only on box pushing fail on the other objects. Bottom: Sumo generalizes to uprighting objectives by changing the planner cost at test time, whereas the same E2E RL and HRL policies fail without additional training.
 
-To simplify the analysis, we restrict the Sumo high-level planner to only control the torso ${SE}{}$ velocities and joint angle targets for the arm in this section and leave exploring more expressive policy behaviors to Sec. V. Additionally, we design a minimal cost function for Move tasks:
-
-where $\mathbf{p}_{\text{obj}}$, $\mathbf{p}_{\text{goal}}$, and $\mathbf{p}_{\text{gripper}}$ are the positions of the object, goal, and gripper in world frame, respectively, $\mathbf{v}_{\text{obj}}$ is the linear velocity of the object, and $w_{\text{goal}},w_{\text{gripper}},w_{\text{vel}}$ are weighting coefficients. Similarly, for Upright tasks:
-
-where $\mathbf{q}_{\text{obj}}$ and $\mathbf{q}_{\text{upright}}$ are the quaternions of the object and upright orientation, respectively, and $w_{\text{Upright}},w_{\text{gripper}}$ are weighting coefficients.
+To simplify the analysis, we restrict the Sumo high-level planner to only control the torso $\mathrm{SE}$ velocities and joint angle targets for the arm in this section and leave exploring more expressive policy behaviors to Sec. V. Additionally, we design a minimal cost function for Move tasks: where $\mathbf{p}_{\text{obj}}$, $\mathbf{p}_{\text{goal}}$, and $\mathbf{p}_{\text{gripper}}$ are the positions of the object, goal, and gripper in world frame, respectively, $\mathbf{v}_{\text{obj}}$ is the linear velocity of the object, and $w_{\text{goal}},w_{\text{gripper}},w_{\text{vel}}$ are weighting coefficients. Similarly, for Upright tasks: where $\mathbf{q}_{\text{obj}}$ and $\mathbf{q}_{\text{upright}}$ are the quaternions of the object and upright orientation, respectively, and $w_{\text{Upright}},w_{\text{gripper}}$ are weighting coefficients.
 
 For all Sumo experiments, we use a Cross-Entropy Method (CEM) optimizer with a prediction horizon of $1.5$ seconds, $32$ rollouts, and update the action distribution with three elite samples at a frequency of $20$Hz. We sample over four spline control points along the prediction horizon and interpolate the remaining actions. Finally, we linearly schedule the noise variance ramping from $0.02$ to $0.6$ over the prediction horizon. All experiments are conducted synchronously on a desktop computer equipped with an Intel Core i7-12700K CPU and 64GB of RAM. Current robot and object states are provided by the ground-truth simulator.
 
@@ -132,9 +118,7 @@ For all Sumo experiments, we use a Cross-Entropy Method (CEM) optimizer with a p
 
 We first evaluate whether hierarchical structure simplifies loco-manipulation. Fig. 4 compares Sumo against both real-time MPC (E2E MPC) and end-to-end RL (E2E RL) on the Move tasks. This comparison isolates the benefit of planning in the command space of a pre-trained whole-body controller rather than optimizing directly over joint-level actions or learning a task-specific end-to-end policy.
 
-For the E2E MPC baseline, we use the same CEM optimizer, which is used in Sumo and common for locomotion and manipulation \[li2025_judo, howell2022mjpc, alvarez2025real\], whose action space is the joint-level commands of the robot. We design rewards to include terms for both locomotion and manipulation objectives:
-
-where $J_{\text{Locomotion}}$ is the locomotion-related cost from \[howell2022mjpc\] and $J_{\text{Move}}$ is defined . Additionally, we allow the E2E MPC to update at $50$Hz to match Sumo's low-level policy frequency.
+For the E2E MPC baseline, we use the same CEM optimizer, which is used in Sumo and common for locomotion and manipulation \[li2025_judo, howell2022mjpc, alvarez2025real\], whose action space is the joint-level commands of the robot. We design rewards to include terms for both locomotion and manipulation objectives: where $J_{\text{Locomotion}}$ is the locomotion-related cost from \[howell2022mjpc\] and $J_{\text{Move}}$ is defined. Additionally, we allow the E2E MPC to update at $50$Hz to match Sumo's low-level policy frequency.
 
 For the E2E RL baseline, we train a state-based, goal-conditioned single-task policy that controls the $19$-DoF joints of Spot to move an object to a goal location. We train the policy using PPO in MJLab \[mjlab2025\] with $4096$ parallel environments for $5000$ iterations. We use $15$ reward terms, including terms that encourage natural walking through a phase-based gait and foot-height schedule, progress toward the manipulation goal, and shaping that encourages the gripper to approach the object and the robot to stay behind it. The policy also receives bonuses when it reaches the goal and keeps the object within $0.2$m, which we count as success. As with Sumo, we tune the reward until the policy reliably solves the box task, then apply the same setup to four additional objects without further task-specific reward engineering. In both baselines, we make a best-faith effort to tune hyperparameters to achieve the best performance.
 
@@ -142,7 +126,7 @@ We find that Sumo successfully solves all five Move tasks with at least $80\%$ s
 
 These experiments show that hierarchical structure simplifies loco-manipulation in two complementary ways. Compared to E2E MPC, planning in the task space of a pre-trained low-level policy reduces the effective search space and stabilizes the robot's contact-rich dynamics. Compared to E2E RL, Sumo achieves similar or better success with only $3$ reward terms and no task-specific retraining or tuning, whereas E2E RL requires $15$ reward terms and about $2$ hours of GPU compute per task. This comparison also motivates the next question: once a low-level whole-body controller is fixed, should the high-level policy be learned or optimized online at test time?
 
-Figure 6: Maximum success rate vs compute time comparison between Sumo (blue) and hierarchical RL (red) baseline during hyperparameter Bayesian optimization. Solid lines represent the mean across 5 optimization runs, and the shaded region shows ± 1 standard deviation. Individual success rates are shown as scatter points. Our method achieves similar asymptotic performance compared to hierarchical RL in an order of magnitude less wall-clock time.
+Figure 6: Maximum success rate vs compute time comparison between Sumo (blue) and hierarchical RL (red) baseline during hyperparameter Bayesian optimization. Solid lines represent the mean across 5 optimization runs, and the shaded region shows ±1 standard deviation. Individual success rates are shown as scatter points. Our method achieves similar asymptotic performance compared to hierarchical RL in an order of magnitude less wall-clock time.
 
 ### IV-C Test-Time Search Enables Generalization
 
@@ -168,29 +152,25 @@ Figure 7: Freeze-frame sequences showing Spot robot task progressions: (a) uprig
 
 For all hardware deployments, we use the same set of optimizer parameters as detailed in Sec. IV. To estimate the robot and object states, we fuse the Spot robot joint encoder reading at $333$Hz with motion-capture (MoCap) measurements for torso and object positions and orientations at $120$Hz using a low-pass filter. We compute the dynamics rollouts and CEM updates asynchronously on a desktop computer equipped with an AMD Threadripper Pro 5995WX CPU with $64$ cores, which sends joint-level commands to the Spot robot via WiFi.
 
-Tire Rack Drag
-
-Rugged Box Push
-
-TABLE II: Real-world completion time and success rate performance of Spot loco-manipulation tasks across 10 trials.
+Tire Rack Drag Rugged Box Push TABLE II: Real-world completion time and success rate performance of Spot loco-manipulation tasks across 10 trials.
 
 Below, we briefly describe each task to provide qualitative context for the quantitative results in Table II.
 
-Tire Upright: In Fig. 7 (a), the robot is tasked to upright a tire of $15$kg, which is heavier than the maximum lifting capacity of $11$kg of the Spot arm. Additionally, the rubber tire presents hard-to-model geometries and friction properties, causing a large sim-to-real gap. Using a combination of its arm, torso, and legs, Sumo enables the robot to complete the task $10$ out of $10$ trials with an average completion time of $9.2 \pm 4.7$s, Tab. II.
+Tire Upright: In Fig. 7 (a), the robot is tasked to upright a tire of $15$kg, which is heavier than the maximum lifting capacity of $11$kg of the Spot arm. Additionally, the rubber tire presents hard-to-model geometries and friction properties, causing a large sim-to-real gap. Using a combination of its arm, torso, and legs, Sumo enables the robot to complete the task $10$ out of $10$ trials with an average completion time of $9.2\pm 4.7$s, Tab. II.
 
-Crowd Barrier Upright: In Fig. 7 (b), the robot is tasked to upright a crowd barrier of $16$kg from a lying position. Using its arm and gripper, our method enables the robot to complete the task $9$ out of $10$ trials with an average completion time of $10.5 \pm 7.1$s, Tab. II.
+Crowd Barrier Upright: In Fig. 7 (b), the robot is tasked to upright a crowd barrier of $16$kg from a lying position. Using its arm and gripper, our method enables the robot to complete the task $9$ out of $10$ trials with an average completion time of $10.5\pm 7.1$s, Tab. II.
 
-Traffic Cone Upright: In Fig. 7 (c), the robot is tasked to upright a traffic cone of $3.5$kg. Using its arm, our method enables the robot to complete the task $9$ out of $10$ trials with an average completion time of $10.2 \pm 7.9$s, Tab. II.
+Traffic Cone Upright: In Fig. 7 (c), the robot is tasked to upright a traffic cone of $3.5$kg. Using its arm, our method enables the robot to complete the task $9$ out of $10$ trials with an average completion time of $10.2\pm 7.9$s, Tab. II.
 
-Chair Upright: In Fig. 7 (d), the robot is tasked to upright a chair of $16.5$kg. Using its arm and body, our method enables the robot to complete the task $8$ out of $10$ trials with an average completion time of $27.3 \pm 19.1$s, Tab. II.
+Chair Upright: In Fig. 7 (d), the robot is tasked to upright a chair of $16.5$kg. Using its arm and body, our method enables the robot to complete the task $8$ out of $10$ trials with an average completion time of $27.3\pm 19.1$s, Tab. II.
 
-Tire Stack: In Fig. 7 (e), the robot is tasked to stack a $15$kg tire on top of another tire. In addition to large weight and deformation, the friction coefficient between the rubber tires is high, which current simulators struggle to simulate accurately, causing an even larger sim-to-real gap. Using a combination of its arm, torso, and legs, our method enables the robot to complete the task $8$ out of $10$ trials with an average completion time of $16.5 \pm 8.4$s, Tab. II.
+Tire Stack: In Fig. 7 (e), the robot is tasked to stack a $15$kg tire on top of another tire. In addition to large weight and deformation, the friction coefficient between the rubber tires is high, which current simulators struggle to simulate accurately, causing an even larger sim-to-real gap. Using a combination of its arm, torso, and legs, our method enables the robot to complete the task $8$ out of $10$ trials with an average completion time of $16.5\pm 8.4$s, Tab. II.
 
-Crowd Barrier Drag: In Fig. 7 (f), the robot is tasked to drag a crowd barrier of $15$kg in upright orientation. The robot uses the gripper to grasp the barrier and drags it towards a goal position with its arm and body. Our method enables the robot to complete the task $9$ out of $10$ trials with an average completion time of $20.2 \pm 6.7$s, Tab. II.
+Crowd Barrier Drag: In Fig. 7 (f), the robot is tasked to drag a crowd barrier of $15$kg in upright orientation. The robot uses the gripper to grasp the barrier and drags it towards a goal position with its arm and body. Our method enables the robot to complete the task $9$ out of $10$ trials with an average completion time of $20.2\pm 6.7$s, Tab. II.
 
-Tire Rack Drag: In Fig. 7 (g), the robot is tasked to drag a tire rack of $10$kg. The robot uses the gripper to grasp the tire rack and drags it towards a goal position. Our method enables the robot to complete the task $9$ out of $10$ trials with an average completion time of $19.1 \pm 6.2$s, Tab. II.
+Tire Rack Drag: In Fig. 7 (g), the robot is tasked to drag a tire rack of $10$kg. The robot uses the gripper to grasp the tire rack and drags it towards a goal position. Our method enables the robot to complete the task $9$ out of $10$ trials with an average completion time of $19.1\pm 6.2$s, Tab. II.
 
-Rugged Box Push: In Fig. 7 (h), the robot is tasked to push a $20$kg box to a goal. Using its arm and body, our method enables the robot to complete the task $10$ out of $10$ trials with an average completion time of $38.3 \pm 16.9$s, Tab. II.
+Rugged Box Push: In Fig. 7 (h), the robot is tasked to push a $20$kg box to a goal. Using its arm and body, our method enables the robot to complete the task $10$ out of $10$ trials with an average completion time of $38.3\pm 16.9$s, Tab. II.
 
 ### V-B G1 Humanoid Loco-Manipulation
 
@@ -198,13 +178,13 @@ In the second case study, we show that Sumo can also be applied to humanoid robo
 
 Figure 8: Freeze-frame sequences showing G1 humanoid task progression: (a) pushing a box, (b) pushing a chair, (c) opening a door, and (d) pushing a table to a goal position (blue sphere).
 
-Box Pushing In Fig. 8 (a), the robot is tasked to push a $10$kg box to a target position. Using its arms and body, our method enables the robot to complete the task $9$ out of $10$ trials with an average completion time of $11.83 \pm 2.97$s, Tab. III.
+Box Pushing In Fig. 8 (a), the robot is tasked to push a $10$kg box to a target position. Using its arms and body, our method enables the robot to complete the task $9$ out of $10$ trials with an average completion time of $11.83\pm 2.97$s, Tab. III.
 
-Chair Pushing In Fig. 8 (b), the robot is tasked with pushing a $16.5$kg chair to a goal. Using its arms and body, our method enables the robot to complete the task $10$ out of $10$ trials with an average completion time of $6.86 \pm 0.288$s, Tab. III.
+Chair Pushing In Fig. 8 (b), the robot is tasked with pushing a $16.5$kg chair to a goal. Using its arms and body, our method enables the robot to complete the task $10$ out of $10$ trials with an average completion time of $6.86\pm 0.288$s, Tab. III.
 
-Door Opening In Fig. 8 (c), the robot is asked to open a door. Using its arm and body, our method enables the robot to complete the task $10$ out of $10$ trials with an average completion time of $4.73 \pm 0.98$s, Tab. III.
+Door Opening In Fig. 8 (c), the robot is asked to open a door. Using its arm and body, our method enables the robot to complete the task $10$ out of $10$ trials with an average completion time of $4.73\pm 0.98$s, Tab. III.
 
-Table Pushing In Fig. 8 (d), the robot is tasked with pushing a $10$kg table to a goal. Using its arms and body, our method enables the robot to complete the task $8$ out of $10$ trials with an average completion time of $4.86 \pm 1.65$s, Tab. III.
+Table Pushing In Fig. 8 (d), the robot is tasked with pushing a $10$kg table to a goal. Using its arms and body, our method enables the robot to complete the task $8$ out of $10$ trials with an average completion time of $4.86\pm 1.65$s, Tab. III.
 
 TABLE III: Performance of G1 humanoid loco-manipulation tasks in simulation.
 

@@ -22,25 +22,19 @@ Table 1: Comparison of FactoryBench with existing benchmarks. “Counterfactual�
 
 ### Four levels of machine understanding
 
-“We want to isolate the lifting phase in the robot’s time series. Assuming a fixed window length of 15 timesteps, at which timestamp should the window begin?”
-Can the model understand what the machine is doing and how it is behaving?
+“We want to isolate the lifting phase in the robot’s time series. Assuming a fixed window length of 15 timesteps, at which timestamp should the window begin?” Can the model understand what the machine is doing and how it is behaving?
 
-“A collision with a foam cube occurs at T = 850 ms. Rank signal segments (A–D) in the order you would expect them to appear after the event.”
-Can the model reason about how the machine will behave in the face of an event?
+“A collision with a foam cube occurs at T = 850 ms. Rank signal segments (A–D) in the order you would expect them to appear after the event.” Can the model reason about how the machine will behave in the face of an event?
 
-“Had a payload misconfiguration occurred at T = 200 ms, what would the target torque on joint 2 at T + 50 ms have been in this counterfactual case?”
-Can the model reason accurately about theoretical scenarios?
+“Had a payload misconfiguration occurred at T = 200 ms, what would the target torque on joint 2 at T + 50 ms have been in this counterfactual case?” Can the model reason accurately about theoretical scenarios?
 
-“Given the sensor stream below, does the machine show signs of anomalous behavior? If yes, identify the root cause and the steps to fix it.”
-Can the model make informed decisions about the machine?
+“Given the sensor stream below, does the machine show signs of anomalous behavior? If yes, identify the root cause and the steps to fix it.” Can the model make informed decisions about the machine?
 
 Table 2: FactoryBench levels, what they test, example questions, and expected answer formats.
 
 Our four-tier hierarchy is explicitly built on top of Pearl's ladder of causation association, intervention, and counterfactual reasoning which has become the organizing principle for causal inference and is increasingly adopted as an evaluation axis for machine-learning systems. We extend the causal hierarchy with a fourth decision-making level that reflects how industrial robotic platforms are actually operated: after interpreting state and causal relationships, operators must select and execute corrective procedures, typically prescribed by vendor manuals (e.g., Universal Robots error-code handbooks). This final level aligns with the diagnose-then-act loop that is standard in fault-tolerant control. Grounding the hierarchy in these established principles ensures that each level probes a qualitatively distinct reasoning skill and that failure modes are interpretable in terms of the underlying causal or decision-theoretic primitive.
 
-To systematically evaluate machine-behavior reasoning, we organize question-answering tasks according to this four-tier hierarchy, each probing distinct reasoning capabilities:
-
-Level 1: State. This level assesses the agent's ability to interpret the current state of the machine under normal conditions, including identification of operational modes, prediction and recognition of sensor patterns. Questions at this level require accurate extraction and interpretation of time series features.
+To systematically evaluate machine-behavior reasoning, we organize question-answering tasks according to this four-tier hierarchy, each probing distinct reasoning capabilities: Level 1: State. This level assesses the agent's ability to interpret the current state of the machine under normal conditions, including identification of operational modes, prediction and recognition of sensor patterns. Questions at this level require accurate extraction and interpretation of time series features.
 
 Level 2: Intervention. At this level, the agent must reason about the consequences of interventions or events occurring at the present timestep that might perturb the distribution of machine states. Tasks include predicting the immediate impact of control actions, diagnosing faults as they arise, and understanding causal relationships in real time for both normal and anomalous episodes.
 
@@ -54,17 +48,13 @@ By structuring Q&A tasks along these four levels, FactoryBench enables rigorous 
 
 So that the dataset structure itself encodes causality, all time-series signals are organized into three causal groups: Setpoint (the controller's commanded target), Context (physical and configured conditions, split into static episode metadata and dynamic time-series channels), and Effort+Feedback (the machine's measured response). Under healthy operation the response is a known function of setpoint and context; faults manifest as structured residuals from that baseline, giving a single operational fault definition that applies across machines and tasks. Full per-group channel mappings, the formal residual definition, and per-robot calibration details are deferred to Appendix K: full details ‣ FactoryBench: Evaluating Industrial Machine Understanding").
 
-The data conforms to this schema across two source types:
-
-FactoryWave: A custom dataset generated from one-arm robotic platforms executing industrial tasks (e.g., pick-and-place) under varied conditions and systematically injected anomalies.
+The data conforms to this schema across two source types: FactoryWave: A custom dataset generated from one-arm robotic platforms executing industrial tasks (e.g., pick-and-place) under varied conditions and systematically injected anomalies.
 
 Open Source Datasets: Adapted datasets such as AURSAD and voraus-AD, offering diverse industrial scenarios and preprocessed to conform to the unified episode structure.
 
 The datasets integrated into FactoryBench are summarized in Table 3 ‣ 3 FactoryBench framework ‣ FactoryBench: Evaluating Industrial Machine Understanding"); all provide the full setpoint--context--effort triplet at 83 Hz or higher and have been (re)labelled to conform to our unified episode schema.
 
-PnP, Scr, PiH
-
-Table 3: Datasets incorporated into FactoryBench. FactoryWave is collected and released with this work; the other two are open-source datasets adapted to our schema. Tasks: PnP = pick-and-place, Scr = screwing, PiH = peg-in-hole.
+PnP, Scr, PiH Table 3: Datasets incorporated into FactoryBench. FactoryWave is collected and released with this work; the other two are open-source datasets adapted to our schema. Tasks: PnP = pick-and-place, Scr = screwing, PiH = peg-in-hole.
 
 ## Reliable Q&A generation
 
@@ -124,9 +114,9 @@ The L4 ordering reshuffles completely relative to L1--L3: GPT-5.1, only fourth o
 
 ### Within Level 4, GPT-5.1 shows asymmetric failure modes across troubleshooting and optimization
 
-Breaking GPT-5.1's L4 performance down by question type (Figure 3(b)) exposes a structural difference in *how* the model fails. On troubleshooting ($n = {1,011}$, mean 0.174) the score distribution is sharply bimodal: 79.6% zero, 14.4% perfect, only 5.9% partial. The perfect-score mass concentrates on *nominal* (no-fault) episodes (Figure 3(b), left): GPT-5.1 emits "no anomaly" correctly on 33% of healthy episodes, accounting for 92% of all perfects. The remaining 11 perfects fall on collision, payload, and screw-thread faults whose signal signature is strong and unmistakable: a TCP force spike, a speed-scaling collapse, or a large torque drift. Subtler anomalies (task-phase sequencing errors like an unintended loosening step, or flag-level state changes) produce no catastrophic event; GPT-5.1 then over-interprets the signal, attributing the change to a software bug or controller race rather than the expected phase transition, and scores zero or 0.5. Large-$n$ fault categories (loosening phase, missing screw, extra component) sit at $\leq {11\%}$ partial and $\leq {1\%}$ perfect: even when GPT-5.1 senses that something is off, it cannot recover the canonical root cause from the signal.
+Breaking GPT-5.1's L4 performance down by question type (Figure 3(b)) exposes a structural difference in *how* the model fails. On troubleshooting ($n{=}1{,}011$, mean 0.174) the score distribution is sharply bimodal: 79.6% zero, 14.4% perfect, only 5.9% partial. The perfect-score mass concentrates on *nominal* (no-fault) episodes (Figure 3(b), left): GPT-5.1 emits "no anomaly" correctly on 33% of healthy episodes, accounting for 92% of all perfects. The remaining 11 perfects fall on collision, payload, and screw-thread faults whose signal signature is strong and unmistakable: a TCP force spike, a speed-scaling collapse, or a large torque drift. Subtler anomalies (task-phase sequencing errors like an unintended loosening step, or flag-level state changes) produce no catastrophic event; GPT-5.1 then over-interprets the signal, attributing the change to a software bug or controller race rather than the expected phase transition, and scores zero or 0.5. Large-$n$ fault categories (loosening phase, missing screw, extra component) sit at $\leq 11\%$ partial and $\leq 1\%$ perfect: even when GPT-5.1 senses that something is off, it cannot recover the canonical root cause from the signal.
 
-On optimization ($n = 102$, mean 0.201) GPT-5.1 *never* achieves a perfect score (41 partial, 61 zero; Figure 3(b), right). Ground-truth optimization answers are single-parameter corrections (e.g. "payload mass is set to 0.0 kg but the actual payload weighs 1.5 kg; update the installation settings"). GPT-5.1 instead emits lists of 8--12 generic motion-tuning suggestions (reduce acceleration, retune PID gains, add waypoints, lower speed scaling, enable force-mode compliance) and mentions payload configuration only as one undifferentiated item without specifying direction or magnitude, earning 0.5 at best (according to our grading policy). Together these patterns show that even though GPT-5.1 outperforms every other model by a wide margin on L4, it remains weak at decision-making in an industrial context.
+On optimization ($n{=}102$, mean 0.201) GPT-5.1 *never* achieves a perfect score (41 partial, 61 zero; Figure 3(b), right). Ground-truth optimization answers are single-parameter corrections (e.g. "payload mass is set to 0.0 kg but the actual payload weighs 1.5 kg; update the installation settings"). GPT-5.1 instead emits lists of 8--12 generic motion-tuning suggestions (reduce acceleration, retune PID gains, add waypoints, lower speed scaling, enable force-mode compliance) and mentions payload configuration only as one undifferentiated item without specifying direction or magnitude, earning 0.5 at best (according to our grading policy). Together these patterns show that even though GPT-5.1 outperforms every other model by a wide margin on L4, it remains weak at decision-making in an industrial context.
 
 ### Modular and extensible by design
 

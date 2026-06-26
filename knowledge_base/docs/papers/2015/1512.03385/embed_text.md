@@ -20,7 +20,7 @@ We present comprehensive experiments on ImageNet to show the degradation problem
 
 Similar phenomena are also shown on the CIFAR-10 set, suggesting that the optimization difficulties and the effects of our method are not just akin to a particular dataset. We present successfully trained models on this dataset with over 100 layers, and explore models with over 1000 layers.
 
-On the ImageNet classification dataset, we obtain excellent results by extremely deep residual nets. Our 152-layer residual net is the deepest network ever presented on ImageNet, while still having lower complexity than VGG nets. Our ensemble has 3.57% top-5 error on the ImageNet *test* set, and *won the 1st place in the ILSVRC 2015 classification competition*. The extremely deep representations also have excellent generalization performance on other recognition tasks, and lead us to further *win the 1st places on: ImageNet detection, ImageNet localization, COCO detection, and COCO segmentation* in ILSVRC & COCO 2015 competitions. This strong evidence shows that the residual learning principle is generic, and we expect that it is applicable in other vision and non-vision problems.
+On the ImageNet classification dataset, we obtain excellent results by extremely deep residual nets. Our 152-layer residual net is the deepest network ever presented on ImageNet, while still having lower complexity than VGG nets. Our ensemble has 3.57% top-5 error on the ImageNet *test* set, and *won the 1st place in the ILSVRC 2015 classification competition*. The extremely deep representations also have excellent generalization performance on other recognition tasks, and lead us to further *win the 1st places : ImageNet detection, ImageNet localization, COCO detection, and COCO segmentation* in ILSVRC & COCO 2015 competitions. This strong evidence shows that the residual learning principle is generic, and we expect that it is applicable in other vision and non-vision problems.
 
 ## Related Work
 
@@ -44,15 +44,11 @@ In real cases, it is unlikely that identity mappings are optimal, but our reform
 
 ### Identity Mapping by Shortcuts
 
-We adopt residual learning to every few stacked layers. A building block is shown in Fig. 2. Formally, in this paper we consider a building block defined as:
-
-Here $\mathbf{x}$ and $\mathbf{y}$ are the input and output vectors of the layers considered. The function $\mathcal{F}{(\mathbf{x},{\{ W_{i}\}})}$ represents the residual mapping to be learned. For the example in Fig. 2 that has two layers, $\mathcal{F} = {W_{2}\sigma{({W_{1}\mathbf{x}})}}$ in which $\sigma$ denotes ReLU and the biases are omitted for simplifying notations. The operation $\mathcal{F} + \mathbf{x}$ is performed by a shortcut connection and element-wise addition. We adopt the second nonlinearity after the addition (*i.e*., $\sigma{(\mathbf{y})}$, see Fig. 2).
+We adopt residual learning to every few stacked layers. A building block is shown in Fig. 2. Formally, in this paper we consider a building block defined as: Here $\mathbf{x}$ and $\mathbf{y}$ are the input and output vectors of the layers considered. The function $\mathcal{F}{(\mathbf{x},{\{ W_{i}\}})}$ represents the residual mapping to be learned. For the example in Fig. 2 that has two layers, $\mathcal{F} = {W_{2}\sigma{({W_{1}\mathbf{x}})}}$ in which $\sigma$ denotes ReLU and the biases are omitted for simplifying notations. The operation $\mathcal{F} + \mathbf{x}$ is performed by a shortcut connection and element-wise addition. We adopt the second nonlinearity after the addition (*i.e*., $\sigma{(\mathbf{y})}$, see Fig. 2).
 
 The shortcut connections in Eqn. introduce neither extra parameter nor computation complexity. This is not only attractive in practice but also important in our comparisons between plain and residual networks. We can fairly compare plain/residual networks that simultaneously have the same number of parameters, depth, width, and computational cost (except for the negligible element-wise addition).
 
-The dimensions of $\mathbf{x}$ and $\mathcal{F}$ must be equal in Eqn.. If this is not the case (*e.g*., when changing the input/output channels), we can perform a linear projection $W_{s}$ by the shortcut connections to match the dimensions:
-
-We can also use a square matrix $W_{s}$ in Eqn.. But we will show by experiments that the identity mapping is sufficient for addressing the degradation problem and is economical, and thus $W_{s}$ is only used when matching dimensions.
+The dimensions of $\mathbf{x}$ and $\mathcal{F}$ must be equal in Eqn.. If this is not the case (*e.g*., when changing the input/output channels), we can perform a linear projection $W_{s}$ by the shortcut connections to match the dimensions: We can also use a square matrix $W_{s}$ in Eqn.. But we will show by experiments that the identity mapping is sufficient for addressing the degradation problem and is economical, and thus $W_{s}$ is only used when matching dimensions.
 
 The form of the residual function $\mathcal{F}$ is flexible. Experiments in this paper involve a function $\mathcal{F}$ that has two or three layers (Fig. 5), while more layers are possible. But if $\mathcal{F}$ has only a single layer, Eqn. is similar to a linear layer: $\mathbf{y} = {{W_{1}\mathbf{x}} + \mathbf{x}}$, for which we have not observed advantages.
 
@@ -70,75 +66,15 @@ It is worth noticing that our model has *fewer* filters and *lower* complexity t
 
 Residual Network. Based on the above plain network, we insert shortcut connections (Fig. 3, right) which turn the network into its counterpart residual version. The identity shortcuts (Eqn.) can be directly used when the input and output are of the same dimensions (solid line shortcuts in Fig. 3). When the dimensions increase (dotted line shortcuts in Fig. 3), we consider two options: (A) The shortcut still performs identity mapping, with extra zero entries padded for increasing dimensions. This option introduces no extra parameter; (B) The projection shortcut in Eqn. is used to match dimensions (done by 1$\times$`<!-- -->`{=html}1 convolutions). For both options, when the shortcuts go across feature maps of two sizes, they are performed with a stride of 2.
 
-3×3 max pool, stride 2
-
-{\text{3} \times \text{3, 64}} \\
-{\text{3} \times \text{3, 64}}
-{\text{3} \times \text{3, 64}} \\
-{\text{3} \times \text{3, 64}}
-{\text{1} \times \text{1, 64}} \\
-{\text{3} \times \text{3, 64}} \\
-{\text{1} \times \text{1, 256}}
-{\text{1} \times \text{1, 64}} \\
-{\text{3} \times \text{3, 64}} \\
-{\text{1} \times \text{1, 256}}
-{\text{1} \times \text{1, 64}} \\
-{\text{3} \times \text{3, 64}} \\
-{\text{1} \times \text{1, 256}}
-
-{\text{3} \times \text{3, 128}} \\
-{\text{3} \times \text{3, 128}}
-{\text{3} \times \text{3, 128}} \\
-{\text{3} \times \text{3, 128}}
-{\text{1} \times \text{1, 128}} \\
-{\text{3} \times \text{3, 128}} \\
-{\text{1} \times \text{1, 512}}
-{\text{1} \times \text{1, 128}} \\
-{\text{3} \times \text{3, 128}} \\
-{\text{1} \times \text{1, 512}}
-{\text{1} \times \text{1, 128}} \\
-{\text{3} \times \text{3, 128}} \\
-{\text{1} \times \text{1, 512}}
-
-{\text{3} \times \text{3, 256}} \\
-{\text{3} \times \text{3, 256}}
-{\text{3} \times \text{3, 256}} \\
-{\text{3} \times \text{3, 256}}
-{\text{1} \times \text{1, 256}} \\
-{\text{3} \times \text{3, 256}} \\
-{\text{1} \times \text{1, 1024}}
-{\text{1} \times \text{1, 256}} \\
-{\text{3} \times \text{3, 256}} \\
-{\text{1} \times \text{1, 1024}}
-{\text{1} \times \text{1, 256}} \\
-{\text{3} \times \text{3, 256}} \\
-{\text{1} \times \text{1, 1024}}
-
-{\text{3} \times \text{3, 512}} \\
-{\text{3} \times \text{3, 512}}
-{\text{3} \times \text{3, 512}} \\
-{\text{3} \times \text{3, 512}}
-{\text{1} \times \text{1, 512}} \\
-{\text{3} \times \text{3, 512}} \\
-{\text{1} \times \text{1, 2048}}
-{\text{1} \times \text{1, 512}} \\
-{\text{3} \times \text{3, 512}} \\
-{\text{1} \times \text{1, 2048}}
-{\text{1} \times \text{1, 512}} \\
-{\text{3} \times \text{3, 512}} \\
-{\text{1} \times \text{1, 2048}}
-
-average pool, 1000-d fc, softmax
-
-Table 1: Architectures for ImageNet. Building blocks are shown in brackets (see also Fig. 5), with the numbers of blocks stacked. Downsampling is performed by conv3_1, conv4_1, and conv5_1 with a stride of 2.
+3×3 max pool, stride 2 {\text{3} \times \text{3, 64}} \\{\text{3} \times \text{3, 64}} {\text{3} \times \text{3, 64}} \\{\text{3} \times \text{3, 64}} {\text{1} \times \text{1, 64}} \\{\text{3} \times \text{3, 64}} \\{\text{1} \times \text{1, 256}} {\text{1} \times \text{1, 64}} \\{\text{3} \times \text{3, 64}} \\{\text{1} \times \text{1, 256}} {\text{1} \times \text{1, 64}} \\{\text{3} \times \text{3, 64}} \\{\text{1} \times \text{1, 256}} {\text{3} \times \text{3, 128}} \\{\text{3} \times \text{3, 128}} {\text{3} \times \text{3, 128}} \\{\text{3} \times \text{3, 128}} {\text{1} \times \text{1, 128}} \\{\text{3} \times \text{3, 128}} \\{\text{1} \times \text{1, 512}} {\text{1} \times \text{1, 128}} \\{\text{3} \times \text{3, 128}} \\{\text{1} \times \text{1, 512}} {\text{1} \times \text{1, 128}} \\{\text{3} \times \text{3, 128}} \\{\text{1} \times \text{1, 512}} {\text{3} \times \text{3, 256}} \\{\text{3} \times \text{3, 256}} {\text{3} \times \text{3, 256}} \\{\text{3} \times \text{3, 256}} {\text{1} \times \text{1, 256}} \\{\text{3} \times \text{3, 256}} \\{\text{1} \times \text{1, 1024}} {\text{1} \times \text{1, 256}} \\{\text{3} \times \text{3, 256}} \\{\text{1} \times \text{1, 1024}} {\text{1} \times \text{1, 256}} \\{\text{3} \times \text{3, 256}} \\{\text{1} \times \text{1, 1024}} {\text{3} \times \text{3, 512}} \\{\text{3} \times \text{3, 512}} {\text{3} \times \text{3, 512}} \\{\text{3} \times \text{3, 512}} {\text{1} \times \text{1, 512}} \\{\text{3} \times \text{3, 512}} \\{\text{1} \times \text{1, 2048}} {\text{1} \times \text{1, 512}} \\{\text{3} \times \text{3, 512}} \\{\text{1} \times \text{1, 2048}} {\text{1} \times \text{1, 512}} \\{\text{3} \times \text{3, 512}} \\{\text{1} \times \text{1, 2048}} average pool, 1000-d fc, softmax Table 1: Architectures for ImageNet. Building blocks are shown in brackets (see also Fig. 5), with the numbers of blocks stacked. Downsampling is performed by conv3_1, conv4_1, and conv5_1 with a stride of 2.
 
 Figure 4: Training on ImageNet. Thin curves denote training error, and bold curves denote validation error of the center crops. Left: plain networks of 18 and 34 layers. Right: ResNets of 18 and 34 layers. In this plot, the residual networks have no extra parameter compared to their plain counterparts.
 
 ### Implementation
 
-Our implementation for ImageNet follows the practice in. The image is resized with its shorter side randomly sampled in $\lbrack 256,480\rbrack$ for scale augmentation. A 224$\times$`<!-- -->`{=html}224 crop is randomly sampled from an image or its horizontal flip, with the per-pixel mean subtracted. The standard color augmentation in is used. We adopt batch normalization (BN) right after each convolution and before activation, following. We initialize the weights as in and train all plain/residual nets from scratch. We use SGD with a mini-batch size of 256. The learning rate starts from 0.1 and is divided by 10 when the error plateaus, and the models are trained for up to $60 \times 10^{4}$ iterations. We use a weight decay of 0.0001 and a momentum of 0.9. We do not use dropout, following the practice in.
+Our implementation for ImageNet follows the practice . The image is resized with its shorter side randomly sampled in $\lbrack 256,480\rbrack$ for scale augmentation. A 224$\times$`<!-- -->`{=html}224 crop is randomly sampled from an image or its horizontal flip, with the per-pixel mean subtracted. The standard color augmentation in is used. We adopt batch normalization (BN) right after each convolution and before activation, following. We initialize the weights as in and train all plain/residual nets from scratch. We use SGD with a mini-batch size of 256. The learning rate starts from 0.1 and is divided by 10 when the error plateaus, and the models are trained for up to $60 \times 10^{4}$ iterations. We use a weight decay of 0.0001 and a momentum of 0.9. We do not use dropout, following the practice .
 
-In testing, for comparison studies we adopt the standard 10-crop testing. For best results, we adopt the fully-convolutional form as in, and average the scores at multiple scales (images are resized such that the shorter side is in $\{ 224,256,384,480,640\}$).
+In testing, for comparison studies we adopt the standard 10-crop testing. For best results, we adopt the fully-convolutional form as , and average the scores at multiple scales (images are resized such that the shorter side is in $\{ 224,256,384,480,640\}$).
 
 ## Experiments
 
@@ -162,12 +98,7 @@ Second, compared to its plain counterpart, the 34-layer ResNet reduces the top-1
 
 Last, we also note that the 18-layer plain/residual nets are comparably accurate (Table 2), but the 18-layer ResNet converges faster (Fig. 4 right *vs*. left). When the net is "not overly deep" (18 layers here), the current SGD solver is still able to find good solutions to the plain net. In this case, the ResNet eases the optimization by providing faster convergence at the early stage.
 
-Table 3: Error rates (%, 10-crop testing) on ImageNet validation. VGG-16 is based on our test. ResNet-50/101/152 are of option B that only uses projections for increasing dimensions.
-
-top-5 err. (test)
-
-Table 4: Error rates (%) of single-model results on the ImageNet validation set (except † reported on the test set).
-Table 5: Error rates (%) of ensembles. The top-5 error is on the test set of ImageNet and reported by the test server.
+Table 3: Error rates (%, 10-crop testing) on ImageNet validation. VGG-16 is based on our test. ResNet-50/101/152 are of option B that only uses projections for increasing dimensions. top-5 err. (test) Table 4: Error rates (%) of single-model results on the ImageNet validation set (except † reported on the test set). Table 5: Error rates (%) of ensembles. The top-5 error is on the test set of ImageNet and reported by the test server.
 
 Identity *vs*. Projection Shortcuts. We have shown that parameter-free, identity shortcuts help with training. Next we investigate projection shortcuts (Eqn.). In Table 3 we compare three options: (A) zero-padding shortcuts are used for increasing dimensions, and all shortcuts are parameter-free (the same as Table 2 and Fig. 4 right); (B) projection shortcuts are used for increasing dimensions, and other shortcuts are identity; and (C) all shortcuts are projections.
 
@@ -193,16 +124,13 @@ Comparisons with State-of-the-art Methods. In Table 5 we compare with the previo
 
 We conducted more studies on the CIFAR-10 dataset, which consists of 50k training images and 10k testing images in 10 classes. We present experiments trained on the training set and evaluated on the test set. Our focus is on the behaviors of extremely deep networks, but not on pushing the state-of-the-art results, so we intentionally use simple architectures as follows.
 
-The plain/residual architectures follow the form in Fig. 3 (middle/right). The network inputs are 32$\times$`<!-- -->`{=html}32 images, with the per-pixel mean subtracted. The first layer is 3$\times$`<!-- -->`{=html}3 convolutions. Then we use a stack of $6n$ layers with 3$\times$`<!-- -->`{=html}3 convolutions on the feature maps of sizes $\{ 32,16,8\}$ respectively, with 2$n$ layers for each feature map size. The numbers of filters are $\{ 16,32,64\}$ respectively. The subsampling is performed by convolutions with a stride of 2. The network ends with a global average pooling, a 10-way fully-connected layer, and softmax. There are totally 6$n$+2 stacked weighted layers. The following table summarizes the architecture:
-
-output map size 32$\times$`<!-- -->`{=html}32 16$\times$`<!-- -->`{=html}16 8$\times$`<!-- -->`{=html}8
-
-When shortcut connections are used, they are connected to the pairs of 3$\times$`<!-- -->`{=html}3 layers (totally $3n$ shortcuts). On this dataset we use identity shortcuts in all cases (*i.e*., option A), so our residual models have exactly the same depth, width, and number of parameters as the plain counterparts.
+The plain/residual architectures follow the form in Fig. 3 (middle/right). The network inputs are 32$\times$`<!-- -->`{=html}32 images, with the per-pixel mean subtracted. The first layer is 3$\times$`<!-- -->`{=html}3 convolutions. Then we use a stack of $6n$ layers with 3$\times$`<!-- -->`{=html}3 convolutions on the feature maps of sizes $\{ 32,16,8\}$ respectively, with 2$n$ layers for each feature map size. The numbers of filters are $\{ 16,32,64\}$ respectively. The subsampling is performed by convolutions with a stride of 2. The network ends with a global average pooling, a 10-way fully-connected layer, and softmax. There are totally 6$n$+2 stacked weighted layers. The following table summarizes the architecture: output map size 32$\times$`<!-- -->`{=html}32 16$\times$`<!-- -->`{=html}16 8$\times$`<!-- -->`{=html}8 When shortcut connections are used, they are connected to the pairs of 3$\times$`<!-- -->`{=html}3 layers (totally $3n$ shortcuts). On this dataset we use identity shortcuts in all cases (*i.e*., option A), so our residual models have exactly the same depth, width, and number of parameters as the plain counterparts.
 
 ## layers
+
 ## params
 
-Table 6: Classification error on the CIFAR-10 test set. All methods are with data augmentation. For ResNet-110, we run it 5 times and show “best (mean±std)” as in.
+Table 6: Classification error on the CIFAR-10 test set. All methods are with data augmentation. For ResNet-110, we run it 5 times and show “best (mean±std)” as .
 
 We use a weight decay of 0.0001 and momentum of 0.9, and adopt the weight initialization in and BN but with no dropout. These models are trained with a mini-batch size of 128 on two GPUs. We start with a learning rate of 0.1, divide it by 10 at 32k and 48k iterations, and terminate training at 64k iterations, which is determined on a 45k/5k train/val split. We follow the simple data augmentation in for training: 4 pixels are padded on each side, and a 32$\times$`<!-- -->`{=html}32 crop is randomly sampled from the padded image or its horizontal flip. For testing, we only evaluate the single view of the original 32$\times$`<!-- -->`{=html}32 image.
 
@@ -218,12 +146,11 @@ Analysis of Layer Responses. Fig. 7 shows the standard deviations (std) of the l
 
 Exploring Over 1000 layers. We explore an aggressively deep model of over 1000 layers. We set $n = 200$ that leads to a 1202-layer network, which is trained as described above. Our method shows *no optimization difficulty*, and this $10^{3}$-layer network is able to achieve *training error* $<$`<!-- -->`{=html}0.1% (Fig. 6, right). Its test error is still fairly good (7.93%, Table 6).
 
-But there are still open problems on such aggressively deep models. The testing result of this 1202-layer network is worse than that of our 110-layer network, although both have similar training error. We argue that this is because of overfitting. The 1202-layer network may be unnecessarily large (19.4M) for this small dataset. Strong regularization such as maxout or dropout is applied to obtain the best results () on this dataset. In this paper, we use no maxout/dropout and just simply impose regularization via deep and thin architectures by design, without distracting from the focus on the difficulties of optimization. But combining with stronger regularization may improve results, which we will study in the future.
+But there are still open problems on such aggressively deep models. The testing result of this 1202-layer network is worse than that of our 110-layer network, although both have similar training error. We argue that this is because of overfitting. The 1202-layer network may be unnecessarily large (19.4M) for this small dataset. Strong regularization such as maxout or dropout is applied to obtain the best results on this dataset. In this paper, we use no maxout/dropout and just simply impose regularization via deep and thin architectures by design, without distracting from the focus on the difficulties of optimization. But combining with stronger regularization may improve results, which we will study in the future.
 
 ### Object Detection on PASCAL and MS COCO
 
-Table 7: Object detection mAP (%) on the PASCAL VOC 2007/2012 test sets using baseline Faster R-CNN. See also Table 11 and 11 for better results.
-Table 8: Object detection mAP (%) on the COCO validation set using baseline Faster R-CNN. See also Table 9 for better results.
+Table 7: Object detection mAP (%) on the PASCAL VOC 2007/2012 test sets using baseline Faster R-CNN. See also Table 11 and 11 for better results. Table 8: Object detection mAP (%) on the COCO validation set using baseline Faster R-CNN. See also Table 9 for better results.
 
 Our method has good generalization performance on other recognition tasks. Table 8 and 8 show the object detection baseline results on PASCAL VOC 2007 and 2012 and COCO. We adopt *Faster R-CNN* as the detection method. Here we are interested in the improvements of replacing VGG-16 with ResNet-101. The detection implementation (see appendix) of using both models is the same, so the gains can only be attributed to better networks. Most remarkably, on the challenging COCO dataset we obtain a 6.0% increase in COCO's standard metric (mAP@\[.5,.95\]), which is a 28% relative improvement. This gain is solely due to the learned representations.
 

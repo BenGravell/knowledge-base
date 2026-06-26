@@ -32,9 +32,7 @@ The Proximal Policy Optimization algorithm is an on-policy policy gradient metho
 
 ### III-B Soft Actor-Critic (SAC)
 
-The Soft Actor-Critic algorithm is an off-policy reinforcement learning method that is based on soft Q-learning (SQL). Unlike many RL algorithms, SAC optimizes a "maximum entropy" objective,
-
-which encourages exploration according to a temperature parameter $\alpha$.
+The Soft Actor-Critic algorithm is an off-policy reinforcement learning method that is based on soft Q-learning (SQL). Unlike many RL algorithms, SAC optimizes a "maximum entropy" objective, which encourages exploration according to a temperature parameter $\alpha$.
 
 In this maximum entropy framework, the optimal policy is given by the soft Bellman equation which provides the basis for the SQL algorithm. SAC makes a number of improvements on SQL by automatically tuning the temperature parameter, $\alpha$, using double Q-learning, similar to the Twin Delayed DDPG (TD3) algorithm, to correct for overestimation in the Q-function, and learning not only the Q-functions and the policy but also the value function. Furthermore, because SAC is an off-policy algorithm it uses a replay buffer to reuse information from recent rollouts for sample-efficient training.
 
@@ -46,45 +44,25 @@ There are a number of common control techniques employed by the RL community as 
 
 The most common action space for reinforcement learning for robots in simulation maps actions directly to joint torques. This control strategy is trivial to implement and introduces minimal bias into the learning process in the sense that the policy can arbitrarily shape the robot's behavior within physical constraints. One criticism of controlling torques directly is that doing so requires the learned controller to compensate for the full dynamics of the robot, including gravity, Coriolis, and centrifugal forces. Additionally, it is possible for policies to output high-frequency torque signals, so care usually has to be taken to encourage smooth policy outputs before learned policies can be deployed on hardware.
 
-In our experiments, we found that even learning to compensate for gravity was difficult and required long training times when it did succeed. As a result, we augment the direct torque controller with a gravity compensation controller to improving training. This is a common technique and is easily justified by the fact that many robot arms have built-in gravity compensation controllers that must be treated as part of the closed-loop dynamics. Furthermore, because motors at proximal joints move more mass than those at distal joints, they tend to exert more torque. We found it beneficial for training to scale the torques at each joint by the cumulative mass of all of the child links. The resulting control law is
-
-where $u$ are the control torques, $\pi$ is the policy, $s$ is the state, $m_{s}$ is a vector representing the subtree mass of each joint, and $g{(q)}$ is the position dependant gravity compensation control term. The operator $\odot$ is used to indicate element-wise vector multiplication.
+In our experiments, we found that even learning to compensate for gravity was difficult and required long training times when it did succeed. As a result, we augment the direct torque controller with a gravity compensation controller to improving training. This is a common technique and is easily justified by the fact that many robot arms have built-in gravity compensation controllers that must be treated as part of the closed-loop dynamics. Furthermore, because motors at proximal joints move more mass than those at distal joints, they tend to exert more torque. We found it beneficial for training to scale the torques at each joint by the cumulative mass of all of the child links. The resulting control law is where $u$ are the control torques, $\pi$ is the policy, $s$ is the state, $m_{s}$ is a vector representing the subtree mass of each joint, and $g{(q)}$ is the position dependant gravity compensation control term. The operator $\odot$ is used to indicate element-wise vector multiplication.
 
 ### IV-B PD Control
 
 Another controller that makes minimal assumptions about the system dynamics is proportional derivative (PD) control. PD control can provide good tracking performance but at the cost of large gains, resulting in very stiff movements.
 
-Similar to torque control, PD control suffers from scaling problems because the effective mass at each of the joints in an articulated body may span many orders of magnitude. This requires very different gains across each of the joints. In our experiments, we scale the proportional gains, $K_{p}$, by the subtree mass, and we choose the derivative gains, $K_{d}$, to be either the approximate critical damping gains or the maximum stable damping gains
+Similar to torque control, PD control suffers from scaling problems because the effective mass at each of the joints in an articulated body may span many orders of magnitude. This requires very different gains across each of the joints. In our experiments, we scale the proportional gains, $K_{p}$, by the subtree mass, and we choose the derivative gains, $K_{d}$, to be either the approximate critical damping gains or the maximum stable damping gains where ${\overset{\sim}{K}}_{p}$ is a vector of unscaled proportional gains and $\Deltat$ is the simulation timestep.
 
-where ${\overset{\sim}{K}}_{p}$ is a vector of unscaled proportional gains and $\Deltat$ is the simulation timestep.
-
-The resulting control law is
-
-where $q_{\text{des}}$ and ${\overset{˙}{q}}_{\text{des}}$ make up the action space for the controller.
+The resulting control law is where $q_{\text{des}}$ and ${\overset{˙}{q}}_{\text{des}}$ make up the action space for the controller.
 
 ### IV-C Inverse Dynamics Control
 
-The dynamics of an articulated body system can be written in terms of the manipulator equation,
-
-where $H$, $C$, and $G$ are the mass matrix, Coriolis/centrifugal, and gravity terms respectively, and $B$ and $J$ map control inputs, $u$, and external forces $\lambda$ to generalized forces. If $B$ is full rank, we can compute the control input, $u$, that corresponds to an arbitrary acceleration, $\overset{¨}{q}$. In the absence of external forces the inverse dynamics are given by
-
-where ${\overset{¨}{q}}_{\text{des}}$ is the desired acceleration. It is common to combine inverse dynamics and PD control with the control law
-
-In our experiments we set the damping gains to be the critical damping gains
-
-Note that because the accelerations are mapped through the mass matrix, this controller doesn't suffer from the same scaling issues that arise in torque control and PD control.
+The dynamics of an articulated body system can be written in terms of the manipulator equation, where $H$, $C$, and $G$ are the mass matrix, Coriolis/centrifugal, and gravity terms respectively, and $B$ and $J$ map control inputs, $u$, and external forces $\lambda$ to generalized forces. If $B$ is full rank, we can compute the control input, $u$, that corresponds to an arbitrary acceleration, $\overset{¨}{q}$. In the absence of external forces the inverse dynamics are given by where ${\overset{¨}{q}}_{\text{des}}$ is the desired acceleration. It is common to combine inverse dynamics and PD control with the control law In our experiments we set the damping gains to be the critical damping gains Note that because the accelerations are mapped through the mass matrix, this controller doesn't suffer from the same scaling issues that arise in torque control and PD control.
 
 ### IV-D Impedance Control
 
-While the three previous controllers are all configuration space controllers, the impedance controller is a task space controller. Impedance control regulates the end effector dynamics to mimic a mechanical spring-damper system,
+While the three previous controllers are all configuration space controllers, the impedance controller is a task space controller. Impedance control regulates the end effector dynamics to mimic a mechanical spring-damper system, where $x$ is the end effector pose, $B$ is a damping matrix, and $K$ is a stiffness matrix. Taking two time derivatives of the end effector pose with respect to the joint coordinates, we get the relation $\overset{¨}{x} = {{J\overset{¨}{q}} + {\overset{˙}{J}\overset{˙}{q}}}$, where $J$ is the end effector Jacobian. Again, using the inverse dynamics, we can write the control law as where $J^{+} = {J^{T}{({JJ^{T}})}^{- 1}}$ is the pseudoinverse of the end effector Jacobian. The action space consists of $x_{\text{des}}$ and ${\overset{˙}{x}}_{\text{des}}$. In practice, we use $J^{+} = {J^{T}{({{JJ^{T}} + {\alphaI}})}^{- 1}}$, where $\alpha = {1 \times 10^{- 6}}$, to avoid large torques near kinematic singularities.
 
-where $x$ is the end effector pose, $B$ is a damping matrix, and $K$ is a stiffness matrix. Taking two time derivatives of the end effector pose with respect to the joint coordinates, we get the relation $\overset{¨}{x} = {{J\overset{¨}{q}} + {\overset{˙}{J}\overset{˙}{q}}}$, where $J$ is the end effector Jacobian. Again, using the inverse dynamics, we can write the control law as
-
-where $J^{+} = {J^{T}{({JJ^{T}})}^{- 1}}$ is the pseudoinverse of the end effector Jacobian. The action space consists of $x_{\text{des}}$ and ${\overset{˙}{x}}_{\text{des}}$. In practice, we use $J^{+} = {J^{T}{({{JJ^{T}} + {\alphaI}})}^{- 1}}$, where $\alpha = {1 \times 10^{- 6}}$, to avoid large torques near kinematic singularities.
-
-In our experiments, we use a simplified control law
-
-because computing $\overset{˙}{J}\overset{˙}{q}$ in MuJoCo is computationally expensive. We can justify this as impedance control with an additional nonlinear damping term, $- {J^{+}\overset{˙}{J}\overset{˙}{q}}$. Finally, since our arm has seven degrees of freedom, we damp out motions in the null space of the Jacobian with an additional damping term, ${({I - {J^{+}J}})}B_{\text{null}}\overset{˙}{q}$.
+In our experiments, we use a simplified control law because computing $\overset{˙}{J}\overset{˙}{q}$ in MuJoCo is computationally expensive. We can justify this as impedance control with an additional nonlinear damping term, $- {J^{+}\overset{˙}{J}\overset{˙}{q}}$. Finally, since our arm has seven degrees of freedom, we damp out motions in the null space of the Jacobian with an additional damping term, ${({I - {J^{+}J}})}B_{\text{null}}\overset{˙}{q}$.
 
 ## Experiments
 
@@ -94,21 +72,15 @@ Figure 1: Simulated experiments from left to right: peg insertion, hammering, an
 
 ### V-A Peg Insertion Environment
 
-Peg insertion is one of the most common manipulation tasks in robot assembly and requires navigating narrow bottlenecks in configuration space. This experiment consists of inserting a peg, rigidly affixed to the end effector, into a hole with 2 mm clearance. In order to provide a generous comparison with the torque controller, gravity is disabled in the simulation. The observations consist of joint positions and velocities, the relative pose between the tip of the peg and the bottom of the hole, and the velocity of the end effector. The reward function is quadratic in the peg tip distance, $\Deltap$, and the orientation error, $\Delta\theta$,
-
-The peg tip distance is computed from the relative position between the hole and the peg tip and the orientation error is the relative angle between the peg orientation and the hole orientation.
+Peg insertion is one of the most common manipulation tasks in robot assembly and requires navigating narrow bottlenecks in configuration space. This experiment consists of inserting a peg, rigidly affixed to the end effector, into a hole with 2 mm clearance. In order to provide a generous comparison with the torque controller, gravity is disabled in the simulation. The observations consist of joint positions and velocities, the relative pose between the tip of the peg and the bottom of the hole, and the velocity of the end effector. The reward function is quadratic in the peg tip distance, $\Deltap$, and the orientation error, $\Delta\theta$, The peg tip distance is computed from the relative position between the hole and the peg tip and the orientation error is the relative angle between the peg orientation and the hole orientation.
 
 ### V-B Hammering Environment
 
-Hammering requires the controlled accumulation and delivery of momentum to a specific location in task space. The "nail" is 20 cm long and experiences static friction that can resist 20 N of force; we found this to be sufficiently high to require multi-impact hammering strategies rather than brute force pushing strategies. Similarly to the insertion task, gravity was disabled in order to learn useful strategies with the torque controller. The observations consist of joint positions and velocities, the nail position and velocity, the relative pose between the hammer face and the head of the nail, and the end effector velocity. The reward function is linear in the nail height as well as the peg velocity,
-
-Note that this reward structure is sparse, meaning that it is possible for the robot to experience many episodes without receiving any rewards.
+Hammering requires the controlled accumulation and delivery of momentum to a specific location in task space. The "nail" is 20 cm long and experiences static friction that can resist 20 N of force; we found this to be sufficiently high to require multi-impact hammering strategies rather than brute force pushing strategies. Similarly to the insertion task, gravity was disabled in order to learn useful strategies with the torque controller. The observations consist of joint positions and velocities, the nail position and velocity, the relative pose between the hammer face and the head of the nail, and the end effector velocity. The reward function is linear in the nail height as well as the peg velocity, Note that this reward structure is sparse, meaning that it is possible for the robot to experience many episodes without receiving any rewards.
 
 ### V-C Object Pushing Environment
 
-In this experiment, we consider the problem of pushing an object from one position to another without tipping it over. The object is a rectangular prism, 30cm long, 2cm in width, and 6cm in height, and it is initialized to be standing on its narrow side. The robot is equipped with the same peg-like end effector from the insertion task. Unlike the hammering and insertion experiments, gravity is required to keep the block in contact with the table and provide frictional forces, so rather than disabling gravity we add a gravity compensation torque to the torque controller as well as the PD controller. The observations consist of the joint positions and velocities, the relative pose between the end effector and the center of the block, and the end effector velocity. The reward function is
-
-where $\Deltap_{\text{block}}$ and $\Delta\theta_{\text{block}}$ are the relative position and orientation of the block respectively. The desired pose, $\Deltah_{\text{peg}}$, is the difference in height between the height of the block and the height of the peg, and $\Delta\theta_{\text{peg}}$ is the angle between the axis of the peg and vertical. The last two terms encourage the end effector to remain in-plane with the block, and the coefficients $k_{\text{h}}$ and $k_{\theta}$ are small to minimize unnecessary bias.
+In this experiment, we consider the problem of pushing an object from one position to another without tipping it over. The object is a rectangular prism, 30cm long, 2cm in width, and 6cm in height, and it is initialized to be standing on its narrow side. The robot is equipped with the same peg-like end effector from the insertion task. Unlike the hammering and insertion experiments, gravity is required to keep the block in contact with the table and provide frictional forces, so rather than disabling gravity we add a gravity compensation torque to the torque controller as well as the PD controller. The observations consist of the joint positions and velocities, the relative pose between the end effector and the center of the block, and the end effector velocity. The reward function is where $\Deltap_{\text{block}}$ and $\Delta\theta_{\text{block}}$ are the relative position and orientation of the block respectively. The desired pose, $\Deltah_{\text{peg}}$, is the difference in height between the height of the block and the height of the peg, and $\Delta\theta_{\text{peg}}$ is the angle between the axis of the peg and vertical. The last two terms encourage the end effector to remain in-plane with the block, and the coefficients $k_{\text{h}}$ and $k_{\theta}$ are small to minimize unnecessary bias.
 
 ## Results
 

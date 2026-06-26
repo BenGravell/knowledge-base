@@ -1,8 +1,6 @@
 ## Introduction
 
-A previous report described an end-to-end learning system for self-driving cars in which a convolutional neural network (CNN) was trained to output steering angles given input images of the road ahead. This system is now called PilotNet. The training data were images from a front-facing camera in a data collection car coupled with the time-synchronized steering angle recorded from a human driver. The motivation for PilotNet was to eliminate the need for hand-coding rules and instead create a system that learns by observing. Initial results were encouraging, although major improvements are required before such a system can drive without the need for human intervention. To gain insight into how the learned system decides what to do, and thus both enable further system improvements and create trust that the system is paying attention to the essential cues for safe steering, we developed a simple method for highlighting those parts of an image that are most salient in determining steering angles. We call these salient image sections the salient objects. A detailed report describing our saliency detecting method can be found in
-
-Figure 1: PilotNet architecture.
+A previous report described an end-to-end learning system for self-driving cars in which a convolutional neural network (CNN) was trained to output steering angles given input images of the road ahead. This system is now called PilotNet. The training data were images from a front-facing camera in a data collection car coupled with the time-synchronized steering angle recorded from a human driver. The motivation for PilotNet was to eliminate the need for hand-coding rules and instead create a system that learns by observing. Initial results were encouraging, although major improvements are required before such a system can drive without the need for human intervention. To gain insight into how the learned system decides what to do, and thus both enable further system improvements and create trust that the system is paying attention to the essential cues for safe steering, we developed a simple method for highlighting those parts of an image that are most salient in determining steering angles. We call these salient image sections the salient objects. A detailed report describing our saliency detecting method can be found in Figure 1: PilotNet architecture.
 
 Several methods for finding saliency have been described by other authors. Among them are sensitivity based approaches, deconvolution based ones, or more complex ones like layer-wise relevance propagation (LRP). We believe the simplicity of our method, its fast execution on our test car's NVIDIA DRIVE™ PX 2 AI car computer, along with its nearly pixel level resolution, makes it especially advantageous for our task.
 
@@ -26,9 +24,7 @@ Figure 2: Block diagram of the visualization method that identifies the salient 
 
 The central idea in discerning the salient objects is finding parts of the image that correspond to locations where the feature maps, described above, have the greatest activations.
 
-The activations of the higher-level maps become masks for the activations of lower levels using the following algorithm:
-
-In each layer, the activations of the feature maps are averaged.
+The activations of the higher-level maps become masks for the activations of lower levels using the following algorithm: In each layer, the activations of the feature maps are averaged.
 
 The top most averaged map is scaled up to the size of the map of the layer below. The up-scaling is done using deconvolution. The parameters (filter size and stride) used for the deconvolution are the same as in the convolutional layer used to generate the map. The weights for deconvolution are set to $1.0$ and biases are set to $0.0$.
 
@@ -52,9 +48,7 @@ Figure 4: Examples of salient objects for various image inputs.
 
 Figure 5 show a view inside our test car. At the top of the image we see the actual view through the windshield. A PilotNet monitor is at the bottom center displaying diagnostics.
 
-Figure 5: View inside our test car
-
-Figure 6 is a blowup of the PilotNet monitor. The top image is captured by the front-facing camera. The green rectangle outlines the section of the camera image that is fed to the neural network. The bottom image displays the salient regions. Note that PilotNet identifies the partially occluded construction vehicle on the right side of the road as a salient object. To the best of our knowledge, such a vehicle, particularly in the pose we see here, was never part of the PilotNet training data.
+Figure 5: View inside our test car Figure 6 is a blowup of the PilotNet monitor. The top image is captured by the front-facing camera. The green rectangle outlines the section of the camera image that is fed to the neural network. The bottom image displays the salient regions. Note that PilotNet identifies the partially occluded construction vehicle on the right side of the road as a salient object. To the best of our knowledge, such a vehicle, particularly in the pose we see here, was never part of the PilotNet training data.
 
 Figure 6: The PilotNet monitor from Figure 5 above
 

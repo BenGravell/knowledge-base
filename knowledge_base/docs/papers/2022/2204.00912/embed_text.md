@@ -1,12 +1,6 @@
 ## Introduction
 
-In this paper, we revisit the linear quadratic Gaussian (LQG) control, one of the most fundamental problems in control theory, from a modern optimization view. In brief, we focus on a continuous-time linear time-invariant (LTI) system
-
-where ${{x{(t)}} \in {\mathbb{R}}^{n}},{{{u{(t)}} \in {\mathbb{R}}^{m}},{{y{(t)}} \in {\mathbb{R}}^{p}}}$ are the state, control input, and measurement (output) vector at time $t$, respectively, and $w{(t)}$, $v{(t)}$ are white Gaussian noises with intensity matrices $W \succeq 0$ and $V \succ 0$, respectively. The goal is to design a controller (i.e., policy) based on partial measurements $y{(t)}$ to minimize a quadratic cost
-
-A special case is the linear quadratic regulator (LQR), where we have direct access to the state $x$ (i.e., ${{y{(t)}} = {x{(t)}}},{{{v{(t)}} = 0},{{\forall t} \in {\mathbb{R}}}}$ in 1 Control")). It is known that the optimal policy for the LQR is in the form of static state feedback ${u{(t)}} = {Kx{(t)}}$, where $K \in {\mathbb{R}}^{m \times n}$ is a constant matrix that can be obtained by solving a Riccati equation. On the other hand, when the state is not directly observed, the policy that minimizes 2 Control") is a dynamical controller of the form
-
-where the optimal parameters $\mathsf{K}^{\ast}:={(A_{\mathsf{K}}^{\ast},B_{\mathsf{K}}^{\ast},C_{\mathsf{K}}^{\ast})}$ can be obtained by solving two Riccati equations (see Section II-A Control")). Algorithms for solving Riccati equations are well-studied, including iterative algorithms, algebraic solution methods, and semidefinite optimization. All these methods are model-based and explicitly rely on the system model 1 Control"). Recently, policy gradient methods have achieved impressive results for many challenging problems. These methods directly optimize the quadratic cost 2 Control") as a function of the policy class $\mathsf{K} = {(A_{\mathsf{K}},B_{\mathsf{K}},C_{\mathsf{K}})}$ via gradient descent or its variants. They can be further made model-free, bypassing an explicit estimation of the model 1 Control"). The flexibility of model-free control has stimulated a growing interest in investigating foundations of policy gradient methods for classical control problems.
+In this paper, we revisit the linear quadratic Gaussian (LQG) control, one of the most fundamental problems in control theory, from a modern optimization view. In brief, we focus on a continuous-time linear time-invariant (LTI) system where ${{x{(t)}} \in {\mathbb{R}}^{n}},{{{u{(t)}} \in {\mathbb{R}}^{m}},{{y{(t)}} \in {\mathbb{R}}^{p}}}$ are the state, control input, and measurement (output) vector at time $t$, respectively, and $w{(t)}$, $v{(t)}$ are white Gaussian noises with intensity matrices $W \succeq 0$ and $V \succ 0$, respectively. The goal is to design a controller (i.e., policy) based on partial measurements $y{(t)}$ to minimize a quadratic cost A special case is the linear quadratic regulator (LQR), where we have direct access to the state $x$ (i.e., ${{y{(t)}} = {x{(t)}}},{{{v{(t)}} = 0},{{\forall t} \in {\mathbb{R}}}}$ in 1 Control")). It is known that the optimal policy for the LQR is in the form of static state feedback ${u{(t)}} = {Kx{(t)}}$, where $K \in {\mathbb{R}}^{m \times n}$ is a constant matrix that can be obtained by solving a Riccati equation. On the other hand, when the state is not directly observed, the policy that minimizes 2 Control") is a dynamical controller of the form where the optimal parameters $\mathsf{K}^{\ast}:={(A_{\mathsf{K}}^{\ast},B_{\mathsf{K}}^{\ast},C_{\mathsf{K}}^{\ast})}$ can be obtained by solving two Riccati equations (see Section II-A Control")). Algorithms for solving Riccati equations are well-studied, including iterative algorithms, algebraic solution methods, and semidefinite optimization. All these methods are model-based and explicitly rely on the system model 1 Control"). Recently, policy gradient methods have achieved impressive results for many challenging problems. These methods directly optimize the quadratic cost 2 Control") as a function of the policy class $\mathsf{K} = {(A_{\mathsf{K}},B_{\mathsf{K}},C_{\mathsf{K}})}$ via gradient descent or its variants. They can be further made model-free, bypassing an explicit estimation of the model 1 Control"). The flexibility of model-free control has stimulated a growing interest in investigating foundations of policy gradient methods for classical control problems.
 
 While it is guaranteed to obtain the optimal controller for LQR or LQG via classical model-based methods, such optimality guarantee is more difficult when using policy gradient methods since the cost 2 Control") is typically nonconvex in the policy space. For LQR, recent work has shown that although the LQR cost is nonconvex, it is gradient dominant and coersive, and has a unique stationary point under very mild conditions, rendering the convergence of policy gradient methods to the globally optimal controller. On the other hand, the LQG cost is neither gradient dominant nor coersive, and there may exist spurious saddle points, making it challenging for policy gradient to find the optimal controller.
 
@@ -22,50 +16,27 @@ The rest of this paper is organized as follows. We present the problem statement
 
 ### II-A Review of LQG control
 
-The classical LQG control problem is defined as
-
-where $J{(u)}$ is defined in 2 Control") with $Q \succeq 0$ and $R \succ 0$. In 4 Control"), the input $u{(t)}$ depends on all past observation $y{(\tau)}$ with $\tau < t$. We make the following standard assumption.
+The classical LQG control problem is defined as where $J{(u)}$ is defined in 2 Control") with $Q \succeq 0$ and $R \succ 0$. In 4 Control"), the input $u{(t)}$ depends on all past observation $y{(\tau)}$ with $\tau < t$. We make the following standard assumption.
 
 ### Assumption 1
 
 $(A,B)$ and $(A,W^{1/2})$ are controllable, and $(C,A)$ and $(Q^{1/2},A)$ are observable.
 
-The optimal solution to 4 Control") is a dynamical controller in the form of 3 Control"), in which ${\xi{(t)}} \in {\mathbb{R}}^{q}$ is the controller internal state, and $A_{\mathsf{K}} \in {\mathbb{R}}^{q \times q}$, $B_{\mathsf{K}} \in {\mathbb{R}}^{q \times p}$, $C_{\mathsf{K}} \in {\mathbb{R}}^{m \times q}$ specify the dynamics of the controller. While $q$ can be any positive number, one does not have to use $q > n$ and the optimal controller has $q = n$, given by algebraic Riccati equations (AREs) \[3, Thm. 14.7\]. Precisely, let $P,S$ be the unique positive semidefinite solutions to the following AREs
-
-Then, the parameters of an optimal controller to 4 Control") are
-
-where $L = {PC^{\mathsf{T}}V^{- 1}}$, $M = {R^{- 1}B^{\mathsf{T}}S}$. The optimal solution $(A_{\mathsf{K}}^{\star},B_{\mathsf{K}}^{\star},C_{\mathsf{K}}^{\star})$ is not unique in the state-space domain. Any similarity transformation leads to another equivalent optimal controller (they correspond to the same transfer function in the frequency domain).
+The optimal solution to 4 Control") is a dynamical controller in the form of 3 Control"), in which ${\xi{(t)}} \in {\mathbb{R}}^{q}$ is the controller internal state, and $A_{\mathsf{K}} \in {\mathbb{R}}^{q \times q}$, $B_{\mathsf{K}} \in {\mathbb{R}}^{q \times p}$, $C_{\mathsf{K}} \in {\mathbb{R}}^{m \times q}$ specify the dynamics of the controller. While $q$ can be any positive number, one does not have to use $q > n$ and the optimal controller has $q = n$, given by algebraic Riccati equations (AREs) \[3, Thm. 14.7\]. Precisely, let $P,S$ be the unique positive semidefinite solutions to the following AREs Then, the parameters of an optimal controller to 4 Control") are where $L = {PC^{\mathsf{T}}V^{- 1}}$, $M = {R^{- 1}B^{\mathsf{T}}S}$. The optimal solution $(A_{\mathsf{K}}^{\star},B_{\mathsf{K}}^{\star},C_{\mathsf{K}}^{\star})$ is not unique in the state-space domain. Any similarity transformation leads to another equivalent optimal controller (they correspond to the same transfer function in the frequency domain).
 
 ### II-B Problem Statement
 
-In this paper, we embrace the spirit of and view the LQG problem 4 Control") from a modern optimization perspective. We consider the policy class $(A_{\mathsf{K}},B_{\mathsf{K}},C_{\mathsf{K}})$ in 3 Control"), and the closed-loop matrix becomes
-
-The set of internally stabilizing policies \[3, Chapter 13\] is
-
-Let ${J_{q}{(\mathsf{K})}}:{\mathcal{C}_{q}\rightarrow{\mathbb{R}}}$ denote the corresponding LQG cost 2 Control") for each stabilizing policy in $\mathcal{C}_{q}$. It is known \[20, Lemmas 2.3 & 2.4\] that this function $J_{q}{(\mathsf{K})}$ is real analytic on $\mathcal{C}_{q}$ and admits efficient computation.
+In this paper, we embrace the spirit of and view the LQG problem 4 Control") from a modern optimization perspective. We consider the policy class $(A_{\mathsf{K}},B_{\mathsf{K}},C_{\mathsf{K}})$ in 3 Control"), and the closed-loop matrix becomes The set of internally stabilizing policies \[3, Chapter 13\] is Let ${J_{q}{(\mathsf{K})}}:{\mathcal{C}_{q}\rightarrow{\mathbb{R}}}$ denote the corresponding LQG cost 2 Control") for each stabilizing policy in $\mathcal{C}_{q}$. It is known \[20, Lemmas 2.3 & 2.4\] that this function $J_{q}{(\mathsf{K})}$ is real analytic on $\mathcal{C}_{q}$ and admits efficient computation.
 
 ### Lemma 1
 
-Fix $q \in {\mathbb{N}}$ such that $\mathcal{C}_{q} \neq \varnothing$. Given $\mathsf{K} \in \mathcal{C}_{q}$, we have
-
-where $X_{\mathsf{K}}$ and $Y_{\mathsf{K}}$ are the unique positive semidefinite solutions to the following Lyapunov equations
-
-${A_{cl}X_{\mathsf{K}}} + {X_{\mathsf{K}}A_{cl}^{\mathsf{T}}} + W_{{cl},\mathsf{K}}$ ${= 0},$ (9a)
-${A_{cl}^{\mathsf{T}}Y_{\mathsf{K}}} + {Y_{\mathsf{K}}A_{cl}} + Q_{{cl},\mathsf{K}}$ ${= 0},$ (9b)
-
-where $A_{cl}$ is defined in 7 Control") and
-
-Lemma 1 Control") works for stabilizing controllers of any order $q$. In this paper, we are mainly interested in characterizing the full-order case $\mathcal{C}_{n}$. Now, given the state dimension $n$, we can formulate the LQG problem 4 Control") into a constrained optimization problem
-
-An important notion of dynamical controllers is minimality: a controller $(A_{\mathsf{K}},B_{\mathsf{K}},C_{\mathsf{K}})$ is minimal if $(A_{\mathsf{K}},B_{\mathsf{K}})$ is controllable and $(C_{\mathsf{K}},A_{\mathsf{K}})$ is observable. As revealed in, the optimization landscape of 10 Control") is more complicated than that of LQR: 1) the feasible region $\mathcal{C}_{n}$ can have at most two disconnected components; 2) the cost function $J_{n}{(\mathsf{K})}$ is not coersive and not gradient dominant, and it can have suboptimal saddle points \[20, Theorem 4.2\]. Two nice features are 1) all sub-optimal saddle points correspond to non-minimal controllers and 2) all stationary points that correspond to minimal controllers in $\mathcal{C}_{n}$ are globally optimal \[20, Theorem 4.3\].
+Fix $q \in {\mathbb{N}}$ such that $\mathcal{C}_{q} \neq \varnothing$. Given $\mathsf{K} \in \mathcal{C}_{q}$, we have where $X_{\mathsf{K}}$ and $Y_{\mathsf{K}}$ are the unique positive semidefinite solutions to the following Lyapunov equations where $A_{cl}$ is defined in 7 Control") and Lemma 1 Control") works for stabilizing controllers of any order $q$. In this paper, we are mainly interested in characterizing the full-order case $\mathcal{C}_{n}$. Now, given the state dimension $n$, we can formulate the LQG problem 4 Control") into a constrained optimization problem | | $\min\limits_{\mathsf{K}}$ | $J_{n}{(\mathsf{K})}$ | | \(10\) | | | subject to | ${\mathsf{K} \in \mathcal{C}_{n}}.$ | | | An important notion of dynamical controllers is minimality: a controller $(A_{\mathsf{K}},B_{\mathsf{K}},C_{\mathsf{K}})$ is minimal if $(A_{\mathsf{K}},B_{\mathsf{K}})$ is controllable and $(C_{\mathsf{K}},A_{\mathsf{K}})$ is observable. As revealed, the optimization landscape of 10 Control") is more complicated than that of LQR: 1) the feasible region $\mathcal{C}_{n}$ can have at most two disconnected components; 2) the cost function $J_{n}{(\mathsf{K})}$ is not coersive and not gradient dominant, and it can have suboptimal saddle points \[20, Theorem 4.2\]. Two nice features are 1) all sub-optimal saddle points correspond to non-minimal controllers and 2) all stationary points that correspond to minimal controllers in $\mathcal{C}_{n}$ are globally optimal \[20, Theorem 4.3\].
 
 Naive policy gradient methods can thus get stuck around sub-optimal saddle points. In this paper, we aim to provide further landscape characterizations of 10 Control") and introduce a perturbed policy gradient method to escape bad stationary points of 10 Control"). In particular, we first show that any stationary point of the LQG problem 10 Control") after model reduction remain to be stationary, and then characterize the second-order behavior of $J_{n}{(\mathsf{K})}$ on a non-minimal stationary point. This motivates the design of our perturbed policy gradient method.
 
 ## Stationary Points and Their Hessians
 
-The LQG problem 4 Control") has an inherent symmetry structure induced by the notion of similarity transformation. Let ${GL}_{q}$ denote the set of $q \times q$ invertible matrices. Given $q \geq 1$ such that $\mathcal{C}_{q} \neq \varnothing$, the following map $\mathcal{T}_{q}:{{{GL}_{q} \times \mathcal{C}_{q}}\rightarrow\mathcal{C}_{q}}$ represents similarity transformations
-
-It is well-known that similarity transformations do not change the behavior of dynamical controllers and thus the LQG cost 2 Control") is invariant with respect to $\mathcal{T}_{q}{(T,\mathsf{K})}$, i.e., we have ${{J_{q}{(\mathsf{K})}} = {J_{q}\left( {\mathcal{T}_{q}{(T,\mathsf{K})}} \right)}},{{{\forall\mathsf{K}} \in \mathcal{C}_{q}},{T \in {GL}_{q}}}$.
+The LQG problem 4 Control") has an inherent symmetry structure induced by the notion of similarity transformation. Let ${GL}_{q}$ denote the set of $q \times q$ invertible matrices. Given $q \geq 1$ such that $\mathcal{C}_{q} \neq \varnothing$, the following map $\mathcal{T}_{q}:{{{GL}_{q} \times \mathcal{C}_{q}}\rightarrow\mathcal{C}_{q}}$ represents similarity transformations | | ${\mathcal{T}_{q}{(T,\mathsf{K})}} ≔$ | $\begin{bmatrix} | | \(11\) | | | | \end{bmatrix}\begin{bmatrix} | | | | | | \end{bmatrix}\begin{bmatrix} | | | It is well-known that similarity transformations do not change the behavior of dynamical controllers and thus the LQG cost 2 Control") is invariant with respect to $\mathcal{T}_{q}{(T,\mathsf{K})}$, i.e., we have ${{J_{q}{(\mathsf{K})}} = {J_{q}\left({\mathcal{T}_{q}{(T,\mathsf{K})}} \right)}},{{{\forall\mathsf{K}} \in \mathcal{C}_{q}},{T \in {GL}_{q}}}$.
 
 ### III-A Classification of stationary points
 
@@ -73,19 +44,11 @@ The symmetry via similarity transformations brings rich and complicated landscap
 
 ### Lemma 2 (​\[20, Lemma 4.3\])
 
-Let $\mathsf{K} = \begin{bmatrix}
-\end{bmatrix} \in \mathcal{C}_{q}$. For any $T \in {GL}_{q}$, we have
-
-As expected, a direct consequence of Lemma 2. ‣ III-A Classification of stationary points ‣ III Stationary Points and Their Hessians ‣ Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control") is that a stationary point $\mathsf{K}$ of $J_{q}$ remains to be stationary over $\mathcal{C}_{q}$ after any similarity transformation. We can further derive a classification of the stationary points of $J_{n}$ over the set of full-order controllers $\mathcal{C}_{n}$.
+Let $\mathsf{K} = \begin{bmatrix} \end{bmatrix} \in \mathcal{C}_{q}$. For any $T \in {GL}_{q}$, we have As expected, a direct consequence of Lemma 2. ‣ III-A Classification of stationary points ‣ III Stationary Points and Their Hessians ‣ Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control") is that a stationary point $\mathsf{K}$ of $J_{q}$ remains to be stationary over $\mathcal{C}_{q}$ after any similarity transformation. We can further derive a classification of the stationary points of $J_{n}$ over the set of full-order controllers $\mathcal{C}_{n}$.
 
 ### Theorem 1
 
-Let $\mathsf{K} = \begin{bmatrix}
-\end{bmatrix} \in \mathcal{C}_{n}$ be a stationary point of LQG 4 Control"), and let $\hat{\mathsf{K}} = \begin{bmatrix}
-{\hat{B}}_{\mathsf{K}} & {\hat{A}}_{\mathsf{K}}
-\end{bmatrix} \in \mathcal{C}_{q}$ be a minimal realization of $\mathsf{K}$, where $q \leq n$ is the order of its minimal realization. Then, the following dynamical controller with any stable matrix $\Lambda \in {\mathbb{R}}^{{({n - q})} \times {({n - q})}}$
-
-is a stationary point of 10 Control"). If $q = n$ (i.e. $\mathsf{K}$ itself is minimal), then $\mathsf{K}$ is globally optimal.
+Let $\mathsf{K} = \begin{bmatrix} \end{bmatrix} \in \mathcal{C}_{n}$ be a stationary point of LQG 4 Control"), and let $\hat{\mathsf{K}} = \begin{bmatrix} {\hat{B}}_{\mathsf{K}} & {\hat{A}}_{\mathsf{K}} \end{bmatrix} \in \mathcal{C}_{q}$ be a minimal realization of $\mathsf{K}$, where $q \leq n$ is the order of its minimal realization. Then, the following dynamical controller with any stable matrix $\Lambda \in {\mathbb{R}}^{{({n - q})} \times {({n - q})}}$ is a stationary point of 10 Control"). If $q = n$ (i.e. $\mathsf{K}$ itself is minimal), then $\mathsf{K}$ is globally optimal.
 
 The fact of $\overset{\sim}{\mathsf{K}}$ 13 Control") being stationary of $J_{n}{(\mathsf{K})}$ seems to be expected, since $\overset{\sim}{\mathsf{K}}$ and $\mathsf{K}$ correspond to the same transfer function in the frequency domain and $\mathsf{K}$ is in a higher dimensional space $\mathcal{C}_{n}$ than $\mathcal{C}_{q}$. The technical proof is not difficult, which combines the classical Kalman decomposition with Lemma 2. ‣ III-A Classification of stationary points ‣ III Stationary Points and Their Hessians ‣ Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control") and a result in \[20, Theorem 4.1\]. We provide the details in the appendix. The second part that $\mathsf{K}$ is globally optimal if $q = n$ has been proved in \[20, Theorem 4.3\].
 
@@ -101,15 +64,7 @@ Once a policy gradient method reaches a stationary point, if the stationary poin
 
 ### Theorem 2
 
-Consider a stationary point of $J_{n}{(\mathsf{K})}$ over $\mathcal{C}_{n}$ in the form of
-
-with ${{\hat{A}}_{\mathsf{K}} \in {\mathbb{R}}^{q \times q}},{{{\hat{B}}_{\mathsf{K}} \in {\mathbb{R}}^{q \times p}},{{\hat{C}}_{\mathsf{K}} \in {\mathbb{R}}^{m \times q}}}$, stable $\Lambda \in {\mathbb{R}}^{{({n - q})} \times {({n - q})}}$ and $q \leq n$. Let $X_{op} \in {\mathbb{S}}_{+}^{n + q}$ and $Y_{op} \in {\mathbb{S}}_{+}^{n + q}$ be the unique positive semidefinite solutions to the Lyapunov equations 9a Control") and 9b Control") with ${\hat{\mathsf{K}} = \begin{bmatrix}
-{\hat{B}}_{\mathsf{K}} & {\hat{A}}_{\mathsf{K}}
-\end{bmatrix} \in \mathcal{C}_{q}},$ respectively. Define a transfer function of size $p \times m$
-
-where $A_{_{cl}}$ is defined in 7 Control") with the $\hat{\mathsf{K}}$ above, and ${{C_{cl}:={{\overline{C}X_{op}} + {V{\overline{B}}_{\mathsf{K}}^{\mathsf{T}}}}},{B_{cl}:={{Y_{op}\overline{B}} + {{\overline{C}}_{\mathsf{K}}^{\mathsf{T}}R}}}},$ with
-
-The following statements hold.
+Consider a stationary point of $J_{n}{(\mathsf{K})}$ over $\mathcal{C}_{n}$ in the form of with ${{\hat{A}}_{\mathsf{K}} \in {\mathbb{R}}^{q \times q}},{{{\hat{B}}_{\mathsf{K}} \in {\mathbb{R}}^{q \times p}},{{\hat{C}}_{\mathsf{K}} \in {\mathbb{R}}^{m \times q}}}$, stable $\Lambda \in {\mathbb{R}}^{{({n - q})} \times {({n - q})}}$ and $q \leq n$. Let $X_{op} \in {\mathbb{S}}_{+}^{n + q}$ and $Y_{op} \in {\mathbb{S}}_{+}^{n + q}$ be the unique positive semidefinite solutions to the Lyapunov equations 9a Control") and 9b Control") with ${\hat{\mathsf{K}} = \begin{bmatrix} {\hat{B}}_{\mathsf{K}} & {\hat{A}}_{\mathsf{K}} \end{bmatrix} \in \mathcal{C}_{q}},$ respectively. Define a transfer function of size $p \times m$ where $A_{_{cl}}$ is defined in 7 Control") with the $\hat{\mathsf{K}}$ above, and ${{C_{cl}:={{\overline{C}X_{op}} + {V{\overline{B}}_{\mathsf{K}}^{\mathsf{T}}}}},{B_{cl}:={{Y_{op}\overline{B}} + {{\overline{C}}_{\mathsf{K}}^{\mathsf{T}}R}}}},$ with The following statements hold.
 
 If $\overset{\sim}{\mathsf{K}}$ in 14 Control") is globally optimal in $\mathcal{C}_{n}$, then the function $\mathbf{G}{(s)}$ in 15 Control") is identically zero ${\forall s} \in {\mathbb{C}}$.
 
@@ -119,68 +74,27 @@ Let $\mathcal{Z}$ be the set of zeros of $\mathbf{G}{(s)}$, i.e.,${\mathcal{Z} =
 
 ### Proof
 
-Statements 1) and 2) are direct consequences of Statement 3). We give simple arguments below.
+Statements 1) and 2) are direct consequences of Statement 3). We give simple arguments below. ${3)}\Rightarrow 1)$: If $\overset{\sim}{\mathsf{K}}$ in 14 Control") is globally optimal in $\mathcal{C}_{n}$, then the Hessian of $J_{n}{(\mathsf{K})}$ at $\overset{\sim}{\mathsf{K}}$ must be positive semidefinite. If $\mathbf{G}{(s)}$ is not identically zero, then its zero set $\mathcal{Z}$ is a set of finite points due to the fundamental theorem of algebra^11^1Every non-zero, single-variable, degree $n$ polynomial with complex coefficients has, counted with multiplicity, exactly $n$ complex roots.. Then, there exists a symmetric $\Lambda \in {\mathbb{S}}^{n - q}$ such that ${{eig}{({- \Lambda})}} \nsubseteq \mathcal{Z}$, and thus its Hessian at $\overset{\sim}{\mathsf{K}}$ is indefinite. This is contradicted with $\overset{\sim}{\mathsf{K}}$ being globally optimal. ${3)}\Rightarrow 2)$: If $G{(s)}$ is not an identically zero function, then its zero set $\mathcal{Z}$ is a set of finite points. When choosing a stable and symmetric $\Lambda \in {\mathbb{S}}^{n - q}$ randomly, we have ${{eig}{({- \Lambda})}} \nsubseteq \mathcal{Z}$ holds with probability one. Thus, $\overset{\sim}{\mathsf{K}}$ is a strict saddle point with probability one.
 
-${3)}\Rightarrow 1)$: If $\overset{\sim}{\mathsf{K}}$ in 14 Control") is globally optimal in $\mathcal{C}_{n}$, then the Hessian of $J_{n}{(\mathsf{K})}$ at $\overset{\sim}{\mathsf{K}}$ must be positive semidefinite. If $\mathbf{G}{(s)}$ is not identically zero, then its zero set $\mathcal{Z}$ is a set of finite points due to the fundamental theorem of algebra^11^1Every non-zero, single-variable, degree $n$ polynomial with complex coefficients has, counted with multiplicity, exactly $n$ complex roots.. Then, there exists a symmetric $\Lambda \in {\mathbb{S}}^{n - q}$ such that ${{eig}{({- \Lambda})}} \nsubseteq \mathcal{Z}$, and thus its Hessian at $\overset{\sim}{\mathsf{K}}$ is indefinite. This is contradicted with $\overset{\sim}{\mathsf{K}}$ being globally optimal.
-
-${3)}\Rightarrow 2)$: If $G{(s)}$ is not an identically zero function, then its zero set $\mathcal{Z}$ is a set of finite points. When choosing a stable and symmetric $\Lambda \in {\mathbb{S}}^{n - q}$ randomly, we have ${{eig}{({- \Lambda})}} \nsubseteq \mathcal{Z}$ holds with probability one. Thus, $\overset{\sim}{\mathsf{K}}$ is a strict saddle point with probability one.
-
-The proof of Statement 3) exploits the bilinear property of the Hessian and the non-controllable/non-observable property to identify a two-by-two hessian block
-
-in which the diagonal entries are always zero. Using the Hessian calculation in \[20, Lemma 4.3\], we then prove that if ${{eig}{({- \Lambda})}} \nsubseteq \mathcal{Z}$, then the off-diagonal entries are non-zero. The Hessian of $J_{n}{( \cdot )}$ at $\overset{\sim}{\mathsf{K}}$ is thus indefinite. Details are presented in the appendix. ∎
-
-Our Theorem 2 Control") includes the recent result \[20, Theorem 4.2\] as a special case in which the authors only consider a zero controller $\mathsf{K} = 0$. Our main proof in the appendix, however, is motivated by that in \[20, Theorem 4.2\] with more complicated and careful calculations.
+The proof of Statement 3) exploits the bilinear property of the Hessian and the non-controllable/non-observable property to identify a two-by-two hessian block in which the diagonal entries are always zero. Using the Hessian calculation in \[20, Lemma 4.3\], we then prove that if ${{eig}{({- \Lambda})}} \nsubseteq \mathcal{Z}$, then the off-diagonal entries are non-zero. The Hessian of $J_{n}{(\cdot)}$ at $\overset{\sim}{\mathsf{K}}$ is thus indefinite. Details are presented in the appendix. ∎ Our Theorem 2 Control") includes the recent result \[20, Theorem 4.2\] as a special case in which the authors only consider a zero controller $\mathsf{K} = 0$. Our main proof in the appendix, however, is motivated by that in \[20, Theorem 4.2\] with more complicated and careful calculations.
 
 If the transfer function $\mathbf{G}{(s)}$ is not identically zero, then $\overset{\sim}{\mathsf{K}}$ in 14 Control") is a strict saddle point with probability one when randomly choosing $\Lambda$. Thus, we can apply the perturbed policy gradient method for "escaping saddle", so that the policy gradient iterations do not get stuck around these sub-optimal saddle points. We note that when $\mathbf{G}{(s)}$ is not identically zero, $\overset{\sim}{\mathsf{K}}$ in 14 Control") may still have a zero Hessian (i.e., high-order saddle) if $\Lambda$ is chosen such that ${{eig}{({- \Lambda})}} \subseteq \mathcal{Z}$; an explicit example is given Example 3 Control") below. Therefore, our proposed perturbed policy gradient method for the LQG problem 4 Control") includes perturbations on $\Lambda$ as well as on the gradients. More details are given in Section IV Control").
 
-### Remark 2 (Sufficiency of ${\mathbf{G}\hspace{0pt}{(s)}} \equiv 0$ for global optimality and its interpretation)
+### Remark 2 (Sufficiency of ${\mathbf{G}{(s)}} \equiv 0$ for global optimality and its interpretation)
 
-Theorem 2 Control") holds with $q = n$, so ${{\mathbf{G}{(s)}} \equiv 0},{{\forall s} \in {\mathbb{C}}}$ is also true when $\mathsf{K}$ comes from the Riccati equations. In this case, we expect that $\mathbf{G}{(s)}$ in 15 Control") should have a nice control-theoretic interpretation. It is interesting to further investigate whether ${{\mathbf{G}{(s)}} \equiv 0},{{\forall s} \in {\mathbb{C}}}$ is sufficient (or some other suitable conditions are needed) to certify the global optimality of $\overset{\sim}{\mathsf{K}}$. $\square$
-
-We conclude this section by presenting three explicit LQG examples to illustrate Theorem 2 Control").
+Theorem 2 Control") holds with $q = n$, so ${{\mathbf{G}{(s)}} \equiv 0},{{\forall s} \in {\mathbb{C}}}$ is also true when $\mathsf{K}$ comes from the Riccati equations. In this case, we expect that $\mathbf{G}{(s)}$ in 15 Control") should have a nice control-theoretic interpretation. It is interesting to further investigate whether ${{\mathbf{G}{(s)}} \equiv 0},{{\forall s} \in {\mathbb{C}}}$ is sufficient (or some other suitable conditions are needed) to certify the global optimality of $\overset{\sim}{\mathsf{K}}$. $\square$ We conclude this section by presenting three explicit LQG examples to illustrate Theorem 2 Control").
 
 ### Example 1
 
-We first consider the famous Doyle's LQG example, which has system matrices
-
-and performance weights
-
-The globally optimal LQG controller from 6 Control") is
-
-The Hessian $J_{2}{(\mathsf{K})}$ at $\mathsf{K}^{\star} = \begin{bmatrix}
-{B_{\mathsf{K}}^{\star}} & A_{\mathsf{K}}^{\star}
-\end{bmatrix} \in \mathcal{C}_{2}$ is positive semidefinite and has eigenvalues ${\lambda_{1} = {8.1111 \times 10^{5}}},{{\lambda_{2} = 6\, 133.9},{{\lambda_{3} = 131.2},{{\lambda_{4} = 6.36},{\lambda_{5} = \cdots = \lambda_{8} = 0}}}}$ (see Appendix C for details). Four zero eigenvalues are expected due to the symmetry induced by the similarity transformation \[20, Lemma 4.6\]. We further compute the matrices in 16 Control") (their values can be found in the appendix), and we have
-
-This result that $\mathbf{G}{(s)}$ being identically zero is expected from Theorem 2 Control") since $\mathsf{K}^{\star}$ is globally optimal. $\square$
-
-We then consider \[20, Example 7\] for which the globally optimal LQG controller is non-minimal in $\mathcal{C}_{n}$.
+We first consider the famous Doyle's LQG example, which has system matrices and performance weights The globally optimal LQG controller from 6 Control") is The Hessian $J_{2}{(\mathsf{K})}$ at $\mathsf{K}^{\star} = \begin{bmatrix} {B_{\mathsf{K}}^{\star}} & A_{\mathsf{K}}^{\star} \end{bmatrix} \in \mathcal{C}_{2}$ is positive semidefinite and has eigenvalues ${\lambda_{1} = {8.1111 \times 10^{5}}},{{\lambda_{2} = 6\, 133.9},{{\lambda_{3} = 131.2},{{\lambda_{4} = 6.36},{\lambda_{5} = \cdots = \lambda_{8} = 0}}}}$ (see Appendix C for details). Four zero eigenvalues are expected due to the symmetry induced by the similarity transformation \[20, Lemma 4.6\]. We further compute the matrices in 16 Control") (their values can be found in the appendix), and we have This result that $\mathbf{G}{(s)}$ being identically zero is expected from Theorem 2 Control") since $\mathsf{K}^{\star}$ is globally optimal. $\square$ We then consider \[20, Example 7\] for which the globally optimal LQG controller is non-minimal in $\mathcal{C}_{n}$.
 
 ### Example 2
 
-Consider an LQG instance with matrices
-
-and performance weights
-
-The globally optimal controller from 6 Control") is given by
-
-It is easy to verify that $(C_{\mathsf{K}}^{\ast},A_{\mathsf{K}}^{\ast})$ is not observable. The Hessian of $J_{2}{(\mathsf{K})}$ at $\mathsf{K}^{\star} \in \mathcal{C}_{2}$ is positive semidefinite with eigenvalues as ${{\lambda_{1} = 581.5529},{{\lambda_{2} = 7.1879},{{\lambda_{3} = 0.2592},{\lambda_{4} = \cdots = \lambda_{8} = 0}}}}.$ (See Appendix D for details). Four zero eigenvalues are expected, due to the symmetry by similarity transformations, and the other zero is caused by the unobservablility of $(C_{\mathsf{K}}^{\ast},A_{\mathsf{K}}^{\ast})$. Consider two reduced-order controllers
-
-both of which are globally optimal. Thus, the following two full-order controllers
-
-are globally optimal as well. From Theorem 2 Control"), we expect ${\mathbf{G}{(s)}} \equiv 0$ for both ${\overset{\sim}{\mathsf{K}}}_{1}$ and ${\overset{\sim}{\mathsf{K}}}_{2}$. For both of them, we can compute (details are in Appendix D) that
-
-Thus, we have the expected result from Theorem 2 Control") that ${{\mathbf{G}{(s)}} = {{({{\overline{C}X_{op}} + {V{\overline{B}}_{\mathsf{K}}^{\mathsf{T}}}})}{({{sI} - A_{_{cl}}^{\mathsf{T}}})}^{- 1}{({{Y_{op}\overline{B}} + {{\overline{C}}_{\mathsf{K}}^{\mathsf{T}}R}})}} \equiv 0}.$ ∎
-
-Finally, we consider an LQG problem with a high-order saddle point. This high-order saddle point is predicted in Theorem 2 Control") and \[20, Theorem 4.2\].
+Consider an LQG instance with matrices and performance weights The globally optimal controller from 6 Control") is given by It is easy to verify that $(C_{\mathsf{K}}^{\ast},A_{\mathsf{K}}^{\ast})$ is not observable. The Hessian of $J_{2}{(\mathsf{K})}$ at $\mathsf{K}^{\star} \in \mathcal{C}_{2}$ is positive semidefinite with eigenvalues as ${{\lambda_{1} = 581.5529},{{\lambda_{2} = 7.1879},{{\lambda_{3} = 0.2592},{\lambda_{4} = \cdots = \lambda_{8} = 0}}}}.$ (See Appendix D for details). Four zero eigenvalues are expected, due to the symmetry by similarity transformations, and the other zero is caused by the unobservablility of $(C_{\mathsf{K}}^{\ast},A_{\mathsf{K}}^{\ast})$. Consider two reduced-order controllers both of which are globally optimal. Thus, the following two full-order controllers are globally optimal as well. From Theorem 2 Control"), we expect ${\mathbf{G}{(s)}} \equiv 0$ for both ${\overset{\sim}{\mathsf{K}}}_{1}$ and ${\overset{\sim}{\mathsf{K}}}_{2}$. For both of them, we can compute (details are in Appendix D) that Thus, we have the expected result from Theorem 2 Control") that ${{\mathbf{G}{(s)}} = {{({{\overline{C}X_{op}} + {V{\overline{B}}_{\mathsf{K}}^{\mathsf{T}}}})}{({{sI} - A_{_{cl}}^{\mathsf{T}}})}^{- 1}{({{Y_{op}\overline{B}} + {{\overline{C}}_{\mathsf{K}}^{\mathsf{T}}R}})}} \equiv 0}.$ ∎ Finally, we consider an LQG problem with a high-order saddle point. This high-order saddle point is predicted in Theorem 2 Control") and \[20, Theorem 4.2\].
 
 ### Example 3
 
-Consider an LQG instance with an open-loop stable system, in which the problem data are
-
-with weight matrices ${{W = Q = I_{2}},{V = R = 1}}.$ Since this example is open-loop stable, \[20, Theorem 4.2\] guarantees that $\overset{\sim}{\mathsf{K}} = \begin{bmatrix}
-\end{bmatrix} \in \mathcal{C}_{2}$ with any stable $\Lambda \in {\mathbb{R}}^{2 \times 2}$ is a stationary point. At this controller, we can compute that the transfer function in 15 Control") is
-
-The zero set $\mathcal{Z} = {\{ 0.5\}}$ contains a single value. For any stable $\Lambda$ with ${{eig}{({- \Lambda})}} \nsubseteq \mathcal{Z}$, the Hessian is indefinite by Theorem 2 Control"). For instance, with $\Lambda = {- {{diag}{(0.5,0.1)}}}$, the Hessian is indefinite with eigenvalues ${\lambda_{1} = 0.0561},{{\lambda_{2} = {- 0.0561}},{{\lambda_{i} = 0},{i = {3,\ldots,8}}}}$. However, we can check that if $\Lambda = {- {0.5I_{2}}}$, (i.e. ${A_{\mathsf{K}} = {- {0.5I_{2}}}},{{B_{\mathsf{K}} = 0},{C_{\mathsf{K}} = 0}}$), its Hessian is degenerated to zero, implying that it is a high-order saddle. Our proposed perturbed gradient descent algorithm in the next section can escape this type of high-order saddles efficiently. ∎
+Consider an LQG instance with an open-loop stable system, in which the problem data are with weight matrices ${{W = Q = I_{2}},{V = R = 1}}.$ Since this example is open-loop stable, \[20, Theorem 4.2\] guarantees that $\overset{\sim}{\mathsf{K}} = \begin{bmatrix} \end{bmatrix} \in \mathcal{C}_{2}$ with any stable $\Lambda \in {\mathbb{R}}^{2 \times 2}$ is a stationary point. At this controller, we can compute that the transfer function in 15 Control") is The zero set $\mathcal{Z} = {\{ 0.5\}}$ contains a single value. For any stable $\Lambda$ with ${{eig}{({- \Lambda})}} \nsubseteq \mathcal{Z}$, the Hessian is indefinite by Theorem 2 Control"). For instance, with $\Lambda = {- {{diag}{(0.5,0.1)}}}$, the Hessian is indefinite with eigenvalues ${\lambda_{1} = 0.0561},{{\lambda_{2} = {- 0.0561}},{{\lambda_{i} = 0},{i = {3,\ldots,8}}}}$. However, we can check that if $\Lambda = {- {0.5I_{2}}}$, (i.e. ${A_{\mathsf{K}} = {- {0.5I_{2}}}},{{B_{\mathsf{K}} = 0},{C_{\mathsf{K}} = 0}}$), its Hessian is degenerated to zero, implying that it is a high-order saddle. Our proposed perturbed gradient descent algorithm in the next section can escape this type of high-order saddles efficiently. ∎
 
 ## Perturbed policy gradient method
 
@@ -208,31 +122,13 @@ We terminate the algorithm when the algorithm reaches the predefined number of s
 
 Algorithm 1 Control") can escape a large class of (but not all) high-order saddles at which $\mathbf{G}{(s)}$ in 15 Control") is not identically zero. When Algorithm 1 Control") terminates, it is likely to produce an approximately global minimum or return a point at which the transfer function $\mathbf{G}{(s)}$ in 15 Control") is close to zero. In the later case, the point may not be globally optimal, and this is related to the sufficiency of ${\mathbf{G}{(s)}} \equiv 0$ for global optimality in Remark 2≡0 for global optimality and its interpretation). ‣ III-B Hessian of stationary points ‣ III Stationary Points and Their Hessians ‣ Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control").
 
-0: 1) Loss J (K) with its gradient. 2) Thresholds gth, ι. 3) Constant T, τ, step size η. 4) Function λHan, min (K) that returns the minimum singular value of the Hankel matrix of K. 5) Function reduce_order (K) that finds the approximate order of K.
-1: Set t = 0, tperturb = −τ − 1 and initialize a stabilizing controller K0.
-3: if ∥∇J (Kt)∥ ≤ gth and λHan, min (Kt) ≥ ι then
-5: else if ∥∇J (Kt)∥ ≤ gth and λHan, min (Kt) ≤ ι and t − tperturb &gt; τ then
-6: ${{\hat{\mathsf{K}}}_{t},q_{t}}\leftarrow{\text{reduce\_order}{(\mathsf{K}_{t})}}$ where qt is the order after model reduction;
-7: Λt ← λ In − qt with λ &lt; 0 randomly selected;
-8: $\mathsf{K}_{t}\leftarrow{{diag}{({\hat{\mathsf{K}}}_{t},\Lambda_{t})}}$ as in 14 (Theorem 2);
-9: Kt ← Kt + ξt with ξt uniformly sampled from 𝔹Kt (r);
-Algorithm 1 Perturbed policy gradient
+0: 1) Loss J (K) with its gradient. 2) Thresholds gth, ι. 3) Constant T, τ, step size η. 4) Function λHan, min (K) that returns the minimum singular value of the Hankel matrix of K. 5) Function reduce_order (K) that finds the approximate order of K. 1: Set t = 0, tperturb = −τ − 1 and initialize a stabilizing controller K0. 3: if ∥∇J (Kt)∥ ≤ gth and λHan, min (Kt) ≥ ι then 5: else if ∥∇J (Kt)∥ ≤ gth and λHan, min (Kt) ≤ ι and t − tperturb > τ then 6: ${{\hat{\mathsf{K}}}_{t},q_{t}}\leftarrow{\text{reduce_order}{(\mathsf{K}_{t})}}$ where qt is the order after model reduction; 7: Λt ← λ In − qt with λ < 0 randomly selected; 8: $\mathsf{K}_{t}\leftarrow{{diag}{({\hat{\mathsf{K}}}_{t},\Lambda_{t})}}$ as in 14 (Theorem 2); 9: Kt ← Kt + ξt with ξt uniformly sampled from 𝔹Kt (r); Algorithm 1 Perturbed policy gradient
 
 ### IV-B Numerical results
 
-We implement Algorithm 1 Control"), and consider Example 3 Control") for numerical comparison with three other algorithms:
+We implement Algorithm 1 Control"), and consider Example 3 Control") for numerical comparison with three other algorithms: Vanilla policy gradient; Standard perturbed policy gradient (with no perturbation on dynamics $\Lambda$, i.e., no Lines 6 Control")-8 Control") in Algorithm 1 Control")); Perturb the dynamics $\Lambda$ but with no perturbation on gradients (i.e., no Line 9 Control") in Algorithm 1 Control").).
 
-Vanilla policy gradient;
-
-Standard perturbed policy gradient (with no perturbation on dynamics $\Lambda$, i.e., no Lines 6 Control")-8 Control") in Algorithm 1 Control"));
-
-Perturb the dynamics $\Lambda$ but with no perturbation on gradients (i.e., no Line 9 Control") in Algorithm 1 Control").).
-
-The globally optimal controller from 6 Control") for the LQG instance in Example 3 Control") is
-
-To illustrate the performance of different algorithms, we initialize the controller at
-
-As discussed in Example 3 Control"), this initial point is close to a high-order saddle ${{A_{\mathsf{K}} = {- {0.5I_{2}}}},{{B_{\mathsf{K}} = 0},{C_{\mathsf{K}} = 0}}}.$ We add a perturbation to the first iteration and run gradient descent with the fixed step size. The perturbations are different, as discussed at the beginning of this section.
+The globally optimal controller from 6 Control") for the LQG instance in Example 3 Control") is To illustrate the performance of different algorithms, we initialize the controller at As discussed in Example 3 Control"), this initial point is close to a high-order saddle ${{A_{\mathsf{K}} = {- {0.5I_{2}}}},{{B_{\mathsf{K}} = 0},{C_{\mathsf{K}} = 0}}}.$ We add a perturbation to the first iteration and run gradient descent with the fixed step size. The perturbations are different, as discussed at the beginning of this section.
 
 The results are shown in Figure 1 Control"): the left sub-figure shows the suboptimality gap, and the right one shows the norm of graidents at each iteration. Our Algorithm 1 Control") implements both perturbations: 1) identifying an one-dimensional $\Lambda$ as in the standard form (14 Control")) and change it randomly, and 2) randomly perturb all variables with a small quantity $0.01$. As shown in Figure 1 Control"), our Algorithm 1 Control") can escape this high-order saddle faster than the other three algorithms, including standard PGD in (in which no perturbation on $\Lambda$ was applied).
 

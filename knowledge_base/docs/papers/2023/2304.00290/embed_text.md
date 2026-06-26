@@ -8,7 +8,7 @@ In contrast to classical approaches, specifically, interior-point methods, first
 
 Recently, hybrid methods that combine first-order and active set/interior-point methods have been the focus of increasing research attention. An example of such a method is QPNNLS. Using the proximal point algorithm, a sequence of regularized QP problems is solved which converges to the solution of the original problem. The regularized QP problems are strictly convex and are solved using a non-negative least-square based active set method. Since solving QP subproblems is computationally expensive, QPNNLS relies heavily on warm-starting to reduce computational cost. Another related method is QPALM, which is based on the Augmented Lagrangian Method. Additionally, FBstab, a proximally stabilized Fischer-Burmeister method-based solver, employs a primal-dual version of the proximal point algorithm, in which the proximal subproblems are solved by using a Newton-type method.
 
-In this paper, we present a software contribution, a hybrid approach based QP solver, called PIQP. The underlying algorithm implemented in PIQP follows the framework proposed in, which combines the interior-point method and the proximal method of multipliers (PMM). In particular, it uses one-iteration of Mohetra's predictor-corrector method to deal with the proximal subproblem combining the dual gradient update.
+In this paper, we present a software contribution, a hybrid approach based QP solver, called PIQP. The underlying algorithm implemented in PIQP follows the framework proposed , which combines the interior-point method and the proximal method of multipliers (PMM). In particular, it uses one-iteration of Mohetra's predictor-corrector method to deal with the proximal subproblem combining the dual gradient update.
 
 Section II introduces some preliminaries, including the problem formulation and the main idea of PMM. The practical algorithm implemented in PIQP is presented in Section III. Section IV elaborates the numerical implementation details of PIQP. We demonstrate the effectiveness of our solver in Section V, in which it is compared against five existing state-of-art approaches, including two commercial solvers Gurobi and Mosek, three open-source solvers OSQP, SCS, and PROXQP. All solvers are evaluated on the Maros-Mészáros benchmark problems.
 
@@ -20,48 +20,21 @@ This section defines the problem formulation considered in PIQP and briefly revi
 
 ### II-A Problem Formulation
 
-PIQP considers quadratic programs in the form
-
-$\min\limits_{x}\mspace{21mu}$ ${\frac{1}{2}x^{\top}Px} + {c^{\top}x}$ (1a)
-
-with primal decision variables $x \in {\mathbb{R}}^{n}$, matrices $P \in {\mathbb{S}}_{+}^{n}$, $A \in {\mathbb{R}}^{p \times n}$, $G \in {\mathbb{R}}^{m \times n}$, and vectors $c \in {\mathbb{R}}^{n}$, $b \in {\mathbb{R}}^{p}$, and $h \in {\mathbb{R}}^{m}$. To design a practical numerical solver, it is convenient to rewrite as the equivalent standard form problem
-
-$\min\limits_{x,s}\mspace{21mu}$ ${\frac{1}{2}x^{\top}Px} + {c^{\top}x}$ (2a)
-
-where slack variables $s \in {\mathbb{R}}^{m}$ are introduced to lift the affine inequality (1c) into the equality (2c). Although introducing slack variables $s$ may compromise strong convexity when $P \succ 0$, it has distinct computational benefits. For example, it makes it particularly easy to project onto the feasible set in the context of operator splitting-based approaches, this reformulation results in an easily computable projection operator; another example is the well-known interior-point method to be discussed in the next section. In the following, we mainly work with formulation.
+PIQP considers quadratic programs in the form with primal decision variables $x \in {\mathbb{R}}^{n}$, matrices $P \in {\mathbb{S}}_{+}^{n}$, $A \in {\mathbb{R}}^{p \times n}$, $G \in {\mathbb{R}}^{m \times n}$, and vectors $c \in {\mathbb{R}}^{n}$, $b \in {\mathbb{R}}^{p}$, and $h \in {\mathbb{R}}^{m}$. To design a practical numerical solver, it is convenient to rewrite as the equivalent standard form problem where slack variables $s \in {\mathbb{R}}^{m}$ are introduced to lift the affine inequality (1c) into the equality (2c). Although introducing slack variables $s$ may compromise strong convexity when $P \succ 0$, it has distinct computational benefits. For example, it makes it particularly easy to project onto the feasible set in the context of operator splitting-based approaches, this reformulation results in an easily computable projection operator; another example is the well-known interior-point method to be discussed in the next section. In the following, we mainly work with formulation.
 
 ### II-B Proximal method of multipliers
 
-The augmented Lagrangian of problem is defined as
-
-where variables $\lambda$ and $\nu$ are the Lagrangian multipliers of equality constraints (2b) and (2c), respectively, and $\delta > 0$ is a penalty parameter. We then introduce the iterations of the proximal method of multipliers originally proposed in as follows:
-
-$(x^{+},s^{+})$ ${\in {{\underset{{\xi,s}\geq 0}{\text{argmin}}\mathcal{L}_{\delta}^{\text{ALM}}{(\xi,s;\lambda,\nu)}} + {\frac{\rho}{2}\left\| {\xi - x} \right\|_{2}^{2}}}},$ (4a)
-$\lambda^{+}$ ${= {\lambda + {\frac{1}{\delta}\left( {{Ax^{+}} - b} \right)}}},$ (4b)
-
-where superscript ^+^ denotes the iteration update. Note that compared to the standard form for the original problem, does not add a penalty term for the slack variable as it does not contribute to the cost of the primal problem.
+The augmented Lagrangian of problem is defined as where variables $\lambda$ and $\nu$ are the Lagrangian multipliers of equality constraints (2b) and (2c), respectively, and $\delta > 0$ is a penalty parameter. We then introduce the iterations of the proximal method of multipliers originally proposed in as follows: where superscript ^+^ denotes the iteration update. Note that compared to the standard form for the original problem, does not add a penalty term for the slack variable as it does not contribute to the cost of the primal problem.
 
 ## Practical Algorithm
 
-The method implemented in PIQP, following the framework proposed in, deals with (4a) by applying one iteration of the interior-point method, and uses the Mehrotra predictor-corrector method to update the primal-dual iterates. To detail the algorithm, we define the log-barrier function
+The method implemented in PIQP, following the framework proposed, deals with (4a) by applying one iteration of the interior-point method, and uses the Mehrotra predictor-corrector method to update the primal-dual iterates. To detail the algorithm, we define the log-barrier function where ${\lbrack s\rbrack}_{i}$ denotes the $i$-th element of $s$, and $\mu > 0$ is usually referred to as the barrier parameter. Replacing the constraint $s \geq 0$ in problem (4a) with the penalty term ${\sigma \cdot \Phi_{\mu}}{(s)}$ in the objective function yields at iteration $k$, where $(\xi_{k},\lambda_{k},\nu_{k})$ defines the primal-dual iterates, and $\sigma_{k} \in {(0,1\rbrack}$ is the centering parameter in the predictor-corrector method discussed below. The first-order optimality conditions of the resulting unconstrained problem can then be represented as with auxiliary variables $y \in {\mathbb{R}}^{p}$ and $z \in {\mathbb{R}}^{m}$. Introducing auxiliary variables yields a sparser linear system of equations allowing highly efficient numerical routines.
 
-where ${\lbrack s\rbrack}_{i}$ denotes the $i$-th element of $s$, and $\mu > 0$ is usually referred to as the barrier parameter. Replacing the constraint $s \geq 0$ in problem (4a) with the penalty term ${\sigma \cdot \Phi_{\mu}}{(s)}$ in the objective function yields
-
-at iteration $k$, where $(\xi_{k},\lambda_{k},\nu_{k})$ defines the primal-dual iterates, and $\sigma_{k} \in {(0,1\rbrack}$ is the centering parameter in the predictor-corrector method discussed below. The first-order optimality conditions of the resulting unconstrained problem can then be represented as
-
-${s \circ z} - {\sigma_{k}\mu_{k}\mathbf{1}_{m}}$ ${= 0},$ (6d)
-
-with auxiliary variables $y \in {\mathbb{R}}^{p}$ and $z \in {\mathbb{R}}^{m}$. Introducing auxiliary variables yields a sparser linear system of equations allowing highly efficient numerical routines.
-
-Applying Newton's method to solve results in the following linear equations
-
-with initialization $(x_{k},y_{k},z_{k},s_{k})$ and
+Applying Newton's method to solve results in the following linear equations with initialization $(x_{k},y_{k},z_{k},s_{k})$ and
 
 ### Remark 1
 
-In the implementation, we can eliminate $\Deltas_{k}$. To this end, we compute the Nesterov-Todd scaling $W_{k} = {Z_{k}^{- 1}S_{k}}$ such that can be rewritten as
-
-with ${\overline{r}}_{k}^{z} = {r_{k}^{z} - {Z_{k}^{- 1}r_{k}^{s}}}$. Here, $Z_{k} \in {\mathbb{R}}^{m \times m}$ is a diagonal matrix with $z_{k}$ on its diagonal. Note that the slack direction $\Deltas_{k}$ can be reconstructed with ${\Deltas_{k}} = {Z_{k}^{- 1}{({r_{k}^{s} - {S_{k}\Deltaz_{k}}})}}$. This also ensures that $\overset{\sim}{J}{(s_{k},z_{k})}$ is symmetric.
+In the implementation, we can eliminate $\Deltas_{k}$. To this end, we compute the Nesterov-Todd scaling $W_{k} = {Z_{k}^{- 1}S_{k}}$ such that can be rewritten as with ${\overline{r}}_{k}^{z} = {r_{k}^{z} - {Z_{k}^{- 1}r_{k}^{s}}}$. Here, $Z_{k} \in {\mathbb{R}}^{m \times m}$ is a diagonal matrix with $z_{k}$ on its diagonal. Note that the slack direction $\Deltas_{k}$ can be reconstructed with ${\Deltas_{k}} = {Z_{k}^{- 1}{({r_{k}^{s} - {S_{k}\Deltaz_{k}}})}}$. This also ensures that $\overset{\sim}{J}{(s_{k},z_{k})}$ is symmetric.
 
 Next, we present the three main steps of the Mehrotra predictor-corrector method:
 
@@ -71,23 +44,11 @@ solve with $\mu_{k} = 0$ and solution ${\Delta\omega_{k}^{a}} = {({\Deltax_{k}^{
 
 ### III-2 Step Size and Centering Parameter
 
-compute the primal and dual step sizes
-
-with the scaling parameter $\tau = 0.995$ chosen heuristically that ensures the iterates do not get too close to the boundary of the feasible set, and evaluate the centering parameter following
-
-with $\eta_{k} = {\left( {\left( {s_{k} + {\alpha_{p}^{a}\Deltas_{k}^{a}}} \right)^{\top}\left( {z_{k} + {\alpha_{d}^{a}\Deltaz_{k}^{a}}} \right)} \right)/\left( {\left( {s_{k}^{\top}z_{k}} \right)/m} \right)}$.
+compute the primal and dual step sizes with the scaling parameter $\tau = 0.995$ chosen heuristically that ensures the iterates do not get too close to the boundary of the feasible set, and evaluate the centering parameter following with $\eta_{k} = {\left({\left({s_{k} + {\alpha_{p}^{a}\Deltas_{k}^{a}}} \right)^{\top}\left({z_{k} + {\alpha_{d}^{a}\Deltaz_{k}^{a}}} \right)} \right)/\left({\left({s_{k}^{\top}z_{k}} \right)/m} \right)}$.
 
 ### III-3 Combined Correction and Centering
 
-compute $\mu_{k} = {\left( {s_{k}^{\top}z_{k}} \right)/m}$ and solving with replacing $r_{k}^{s}$ by
-
-yields solution ${\Delta\omega_{k}^{c}} = {({\Deltax_{k}^{\text{c}}},{\Deltay_{k}^{\text{c}}},{\Deltaz_{k}^{a}},{\Deltas_{k}^{\text{c}}})}$. Then, update ${(x_{k + 1},s_{k + 1},y_{k + 1},z_{k + 1})}:=$
-
-with step sizes
-
-Based on the aforementioned discussion, the primal-dual iterate $(\xi_{k},\lambda_{k},\nu_{k})$ is optionally updated as outlined in Algorithm 2 proposed by \[24, Section 5.1.4\]. Here, we introduce the primal-dual residual with respect to the $k$-th iteration
-
-Moreover, $\delta$ and $\rho$ are limited by $\underset{¯}{\delta}$ and $\underset{¯}{\rho}$ for numerical stability.
+compute $\mu_{k} = {\left({s_{k}^{\top}z_{k}} \right)/m}$ and solving with replacing $r_{k}^{s}$ by yields solution ${\Delta\omega_{k}^{c}} = {({\Deltax_{k}^{\text{c}}},{\Deltay_{k}^{\text{c}}},{\Deltaz_{k}^{a}},{\Deltas_{k}^{\text{c}}})}$. Then, update ${(x_{k + 1},s_{k + 1},y_{k + 1},z_{k + 1})}:=$ with step sizes Based on the aforementioned discussion, the primal-dual iterate $(\xi_{k},\lambda_{k},\nu_{k})$ is optionally updated as outlined in Algorithm 2 proposed by \[24, Section 5.1.4\]. Here, we introduce the primal-dual residual with respect to the $k$-th iteration Moreover, $\delta$ and $\rho$ are limited by $\underset{¯}{\delta}$ and $\underset{¯}{\rho}$ for numerical stability.
 
 Now, we can summarize a predictor-corrector-based practical computational framework for the interior-point proximal method of multipliers to solve in Algorithm 1.
 
@@ -95,54 +56,23 @@ Now, we can summarize a predictor-corrector-based practical computational framew
 
 Algorithm 1 is a practical variant of the standard interior-point proximal method of multipliers as presented in \[24, Algorithm 1\], which substitutes the correction step and regularization update in \[24, Algorithm 1\] by the Mehrotra's predictor-corrector method and Algorithm 2, respectively. Note that Algorithm 2 is a numerical heuristic to update the primal-dual iterates $(\xi_{k},\lambda_{k},\nu_{k})$ such that the convergence analysis proposed in \[24, Section 3\] cannot be rigorously established step by step. However, this heuristic leads to a more reliable and effective numerical convergence, although compared to the update in \[24, Algorithm 1\] without theoretical guarantees. Analyzing the theoretical convergence guarantee of practical Algorithm 1 is beyond the scope of this paper and will be investigated in our future work.
 
-Initialization: choose (ξ0,s0,λ0,ν0), set δ0, ρ0 &gt; 0.
-3: Solve with rks = −Sk zk for Δ ωka;
-6: Solve with rks by for Δ ωkc;
-7: Compute (αpc,αdc) by and update
-
-(xk,sk,yk,zk) + (αpc Δ ξkc,αpc Δ skc,αdc Δ ykc,αdc Δ zkc);
-
-8: Run Alg. 2 to get (ξk + 1,λk + 1,νk + 1), (δk + 1,ρk + 1).
-Algorithm 1 Interior-Point Proximal Method of Multipliers for Convex Quadratic Programming
-
-11:$\delta_{k + 1}\leftarrow{\max\left\{ \delta_{k + 1},\underset{¯}{\delta} \right\}}$, $\rho_{k + 1}\leftarrow{\max\left\{ \rho_{k + 1},\underset{¯}{\rho} \right\}}$
-Algorithm 2 Penalty and Estimate Updates
+Initialization: choose (ξ0, s0, λ0, ν0), set δ0, ρ0 > 0. 3: Solve with rks = −Sk zk for Δ ωka; 6: Solve with rks by for Δ ωkc; 7: Compute (αpc, αdc) by and update (xk, sk, yk, zk) + (αpc Δ ξkc, αpc Δ skc, αdc Δ ykc, αdc Δ zkc); 8: Run Alg. 2 to get (ξk + 1, λk + 1, νk + 1), (δk + 1, ρk + 1). Algorithm 1 Interior-Point Proximal Method of Multipliers for Convex Quadratic Programming 11:$\delta_{k + 1}\leftarrow{\max\left\{ \delta_{k + 1},\underset{¯}{\delta} \right\}}$, $\rho_{k + 1}\leftarrow{\max\left\{ \rho_{k + 1},\underset{¯}{\rho} \right\}}$ Algorithm 2 Penalty and Estimate Updates
 
 ## Numerical Implementation
 
 ### IV-A Initialization
 
-We initialize the primal and dual variables using the standard method proposed in by minimizing the unconstrained optimization problem
+We initialize the primal and dual variables using the standard method proposed in by minimizing the unconstrained optimization problem which can be posed as the solution to the linear system of equations with potentially negative slack variable ${\overset{\sim}{s}}_{0} = {- {\overset{\sim}{\nu}}_{0}}$. Note that the structure is the same as for $\overset{\sim}{J}{({\overset{\sim}{s}}_{0},{\overset{\sim}{\nu}}_{0})}$; hence, we can reuse the symbolic factorization, resulting in lower computational cost.
 
-which can be posed as the solution to the linear system of equations
-
-with potentially negative slack variable ${\overset{\sim}{s}}_{0} = {- {\overset{\sim}{\nu}}_{0}}$. Note that the structure is the same as for $\overset{\sim}{J}{({\overset{\sim}{s}}_{0},{\overset{\sim}{\nu}}_{0})}$; hence, we can reuse the symbolic factorization, resulting in lower computational cost.
-
-To guarantee that $s_{0}$ and $\nu_{0}$ are in the non-negative orthant with sufficient magnitude, we calculate the conservative step sizes as
-
-and similar to, we shift initial solutions further away from the barrier based on the normalized complementarity violation
-
-resulting in the initial values for slack and inequality Lagrange multipliers $s_{0} = {{\overset{\sim}{s}}_{0} + {\Deltas_{0}}}$, $\nu_{0} = {{\overset{\sim}{\nu}}_{0} + {\Delta\nu_{0}}}$
+To guarantee that $s_{0}$ and $\nu_{0}$ are in the non-negative orthant with sufficient magnitude, we calculate the conservative step sizes as and similar to, we shift initial solutions further away from the barrier based on the normalized complementarity violation resulting in the initial values for slack and inequality Lagrange multipliers $s_{0} = {{\overset{\sim}{s}}_{0} + {\Deltas_{0}}}$, $\nu_{0} = {{\overset{\sim}{\nu}}_{0} + {\Delta\nu_{0}}}$
 
 ### IV-B Termination Criteria
 
-We adopt the same terminal criteria for convergence as in SCS v3.0. More specifically, PIQP terminates when it finds primal variables $x \in {\mathbb{R}}^{n}$, $s \in {\mathbb{R}}^{m}$, and dual variables $y \in {\mathbb{R}}^{p}$, $z \in {\mathbb{R}}^{m}$ which satisfy the conditions
-
-$\left\| \begin{bmatrix} (13a)
-\end{bmatrix} \right\|_{\infty} \leq \epsilon_{abs}$
-${+ {\epsilon_{rel}{\max\left( {\|{Ax}\|}_{\infty},{\| b\|}_{\infty},{\|{Gx}\|}_{\infty},{\| h\|}_{\infty},{\| s\|}_{\infty} \right)}}},$
-$\left\| {{Px} + {A^{\top}y} + {G^{\top}z} + c} \right\|_{\infty} \leq \epsilon_{abs}$ (13b)
-${+ {\epsilon_{rel}{\max\left( {\|{Px}\|}_{\infty},\left\| {A^{\top}y} \right\|_{\infty},\left\| {G^{\top}z} \right\|_{\infty},{\| c\|}_{\infty} \right)}}},$
-$\left| {{x^{\top}Px} + {c^{\top}x} + {b^{\top}y} + {h^{\top}z}} \right| \leq \epsilon_{abs}$ (13c)
-${+ {\epsilon_{rel}{\max\left( \left| {x^{\top}Px} \right|,\left| {c^{\top}x} \right|,\left| {b^{\top}y} \right|,\left| {h^{\top}z} \right| \right)}}},$
-
-where $\epsilon_{abs} > 0$ and $\epsilon_{rel} \geq 0$ are the user defined absolute and relative accuracies. Condition (13a) corresponds to the primal feasibility, and (13b) to the dual feasibility, which is common in most solvers like OSQP or qpSWIFT. The condition on the duality gab (13c) is less commonly checked, but if neglected, it can result in poor solution quality. The Maros-Mészáros problem set, for example, includes problems that are solved inaccurately without the criteria on the duality gap as discussed in \[30, Section 7.2\].
+We adopt the same terminal criteria for convergence as in SCS v3.0. More specifically, PIQP terminates when it finds primal variables $x \in {\mathbb{R}}^{n}$, $s \in {\mathbb{R}}^{m}$, and dual variables $y \in {\mathbb{R}}^{p}$, $z \in {\mathbb{R}}^{m}$ which satisfy the conditions where $\epsilon_{abs} > 0$ and $\epsilon_{rel} \geq 0$ are the user defined absolute and relative accuracies. Condition (13a) corresponds to the primal feasibility, and (13b) to the dual feasibility, which is common in most solvers like OSQP or qpSWIFT. The condition on the duality gab (13c) is less commonly checked, but if neglected, it can result in poor solution quality. The Maros-Mészáros problem set, for example, includes problems that are solved inaccurately without the criteria on the duality gap as discussed in \[30, Section 7.2\].
 
 ### IV-C Sparse Pivot-Free LDL Factorization
 
-The solution of the KKT system constitutes the most computationally expensive step in any interior-point method. In our work, we have chosen to employ a direct method that is particularly well-suited for use in embedded applications. Specifically, we have opted for a modified version of Tim Davis' sparse pivot-free LDL factorization with approximate minimum degree (AMD) ordering, resulting in the factorization
-
-where $\Gamma$ is the permutation matrix of the AMD ordering reducing fill-in of the lower triangular matrix $L$, and $D$ is a diagonal matrix.
+The solution of the KKT system constitutes the most computationally expensive step in any interior-point method. In our work, we have chosen to employ a direct method that is particularly well-suited for use in embedded applications. Specifically, we have opted for a modified version of Tim Davis' sparse pivot-free LDL factorization with approximate minimum degree (AMD) ordering, resulting in the factorization where $\Gamma$ is the permutation matrix of the AMD ordering reducing fill-in of the lower triangular matrix $L$, and $D$ is a diagonal matrix.
 
 To ensure that the LDL factorization of any symmetric permutation of the KKT matrix exists, it is sufficient if $K$ is quasi-definite. Although adding terms to the diagonal of through the proximal method of multipliers typically ensures that $K$ is almost certainly quasi-definite, there may be rare instances when it is not. In such cases, we slightly perturb the regularization parameters and retry the factorization. Thanks to this approach, there is no need to resort to techniques such as dynamic regularization with subsequent iterative refinement, which are employed in ECOS, resulting in less computational overhead.
 
@@ -186,9 +116,7 @@ We conduct two sets of experiments to evaluate the performance of our QP solver.
 
 Table I summarizes the failure rates of the solvers for the different accuracy settings. Compared to the other solvers, our solver, PIQP, demonstrates remarkable robustness, successfully solving all problems with low accuracy settings and failing to solve only a single problem with high accuracy settings.
 
-TABLE I: Failure rates on the Maros-Mészáros problem set
-
-We provide the individual solve times for each problem in the Maros-Meszaros problem set for high accuracy settings in Figure 1. The problems are sorted by PIQP solve time, highlighting the speed of our solver relative to the others. Notably, our solver is almost always the fastest for most problems. These results highlight the advantages of interior-point methods in high-accuracy settings, where they outperform most first-order methods.
+TABLE I: Failure rates on the Maros-Mészáros problem set We provide the individual solve times for each problem in the Maros-Meszaros problem set for high accuracy settings in Figure 1. The problems are sorted by PIQP solve time, highlighting the speed of our solver relative to the others. Notably, our solver is almost always the fastest for most problems. These results highlight the advantages of interior-point methods in high-accuracy settings, where they outperform most first-order methods.
 
 Figure 1: Solve times for high accuracy settings for individual problems in the Maros-Mészáros problem set, ordered by PIQP solve time. The lowest point in each column corresponds to the fastest solver.
 

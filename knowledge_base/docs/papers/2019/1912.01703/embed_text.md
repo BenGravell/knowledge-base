@@ -4,7 +4,7 @@ With the increased interest in deep learning in recent years, there has been an 
 
 Prior work has recognized the value of dynamic eager execution for deep learning, and some recent frameworks implement this define-by-run approach, but do so either at the cost of performance (Chainer ) or using a less expressive, faster language (Torch, DyNet ), which limits their applicability.
 
-However, with careful implementation and design choices, dynamic eager execution can be achieved largely without sacrificing performance. This paper introduces PyTorch, a Python library that performs immediate execution of dynamic tensor computations with automatic differentiation and GPU acceleration, and does so while maintaining performance comparable to the fastest current libraries for deep learning. This combination has turned out to be very popular in the research community with, for instance, 296 ICLR 2019 submissions mentioning PyTorch.
+However, with careful implementation and design choices, dynamic eager execution can be achieved largely without sacrificing performance. This paper introduces PyTorch, a Python library that performs immediate execution of dynamic tensor computations with automatic differentiation and GPU acceleration, and does so while maintaining performance comparable to the fastest current libraries for deep learning. This combination has turned out to be very popular in the research community , for instance, 296 ICLR 2019 submissions mentioning PyTorch.
 
 ## Background
 
@@ -22,9 +22,7 @@ PyTorch builds on these trends by providing an array-based programming model acc
 
 ## Design principles
 
-PyTorch's success stems from weaving previous ideas into a design that balances speed and ease of use. There are four main principles behind our choices:
-
-Be Pythonic Data scientists are familiar with the Python language, its programming model, and its tools. PyTorch should be a first-class member of that ecosystem. It follows the commonly established design goals of keeping interfaces simple and consistent, ideally with one idiomatic way of doing things. It also integrates naturally with standard plotting, debugging, and data processing tools.
+PyTorch's success stems from weaving previous ideas into a design that balances speed and ease of use. There are four main principles behind our choices: Be Pythonic Data scientists are familiar with the Python language, its programming model, and its tools. PyTorch should be a first-class member of that ecosystem. It follows the commonly established design goals of keeping interfaces simple and consistent, ideally with one idiomatic way of doing things. It also integrates naturally with standard plotting, debugging, and data processing tools.
 
 Put researchers first PyTorch strives to make writing models, data loaders, and optimizers as easy and productive as possible. The complexity inherent to machine learning should be handled internally by the PyTorch library and hidden behind intuitive APIs free of side-effects and unexpected performance cliffs.
 
@@ -38,61 +36,25 @@ Worse is better Given a fixed amount of engineering resources, and all else bein
 
 In a surprisingly short amount of time, machine learning grew from recognizing individual digits into autonomously playing StarCraft. Consequently, the neural networks themselves evolved rapidly from simple sequences of feed forward layers into incredibly varied numerical programs often composed of many loops and recursive functions. To support this growing complexity, PyTorch foregoes the potential benefits of a graph-metaprogramming based approach to preserve the imperative programming model of Python. This design was pioneered for model authoring by Chainer and Dynet. PyTorch extends this to all aspects of deep learning workflows. Defining layers, composing models, loading data, running optimizers, and parallelizing the training process are all expressed using the familiar concepts developed for general purpose programming.
 
-This solution ensures that any new potential neural network architecture can be easily implemented with PyTorch. For instance, layers (which in modern machine learning should really be understood as stateful functions with implicit parameters) are typically expressed as Python classes whose constructors create and initialize their parameters, and whose forward methods process an input activation. Similarly, models are usually represented as classes that compose individual layers, but let us state again that nothing forces the user to structure their code in that way. Listing 1 demonstrates how an entire model can be created by composing functionality provided by PyTorch such as 2d convolution, matrix multiplication, dropout, and softmax to classify gray-scale images. Note that linear layers are of course part of the library, but we show an example implementation to highlight how simple it is.
+This solution ensures that any new potential neural network architecture can be easily implemented with PyTorch. For instance, layers (which in modern machine learning should really be understood as stateful functions with implicit parameters) are typically expressed as Python classes whose constructors create and initialize their parameters, and whose forward methods process an input activation. Similarly, models are usually represented as classes that compose individual layers, but let us state again that nothing forces the user to structure their code in that way. Listing 1 demonstrates how an entire model can be created by composing functionality provided by PyTorch such as 2d convolution, matrix multiplication, dropout, and softmax to classify gray-scale images. Note that linear layers are of course part of the library, but we show an example implementation to highlight how simple it is. [⬇](data:text/plain;base64,CmNsYXNzIExpbmVhckxheWVyKE1vZHVsZSk6CmRlZiBfX2luaXRfXyhzZWxmLCBpbl9zeiwgb3V0X3N6KToKc3VwZXIoKS5fX2luaXRfXygpCnQxID0gdG9yY2gucmFuZG4oaW5fc3osIG91dF9zeikKc2VsZi53ID0gbm4uUGFyYW1ldGVyKHQxKQp0MiA9IHRvcmNoLnJhbmRuKG91dF9zeikKc2VsZi5iID0gbm4uUGFyYW1ldGVyKHQyKQpccGFyZGVmIGZvcndhcmQoc2VsZiwgYWN0aXZhdGlvbnMpOgp0ID0gdG9yY2gubW0oYWN0aXZhdGlvbnMsIHNlbGYudykKcmV0dXJuIHQgKyBzZWxmLmIK){download=""} class LinearLayer(Module): def \_\_init\_\_(self, in_sz, out_sz): t1 = torch.randn(in_sz, out_sz) t2 = torch.randn(out_sz) \\pardef forward(self, activations): t = torch.mm(activations, self.w) [⬇](data:text/plain;base64,CmNsYXNzIEZ1bGxCYXNpY01vZGVsKG5uLk1vZHVsZSk6CmRlZiBfX2luaXRfXyhzZWxmKToKc3VwZXIoKS5fX2luaXRfXygpCnNlbGYuY29udiA9IG5uLkNvbnYyZCgxLCAxMjgsIDMpCnNlbGYuZmMgPSBMaW5lYXJMYXllcigxMjgsIDEwKQpccGFyZGVmIGZvcndhcmQoc2VsZiwgeCk6CnQxID0gc2VsZi5jb252KHgpCnQyID0gbm4uZnVuY3Rpb25hbC5yZWx1KHQxKQp0MyA9IHNlbGYuZmModDEpCnJldHVybiBubi5mdW5jdGlvbmFsLnNvZnRtYXgodDMpCg==){download=""} class FullBasicModel(nn.Module): def \_\_init\_\_(self): self.conv = nn.Conv2d \\pardef forward(self, x): return nn.functional.softmax(t3) A custom layer used as a building block for a simple but complete neural network.
 
-[⬇](data:text/plain;base64,CmNsYXNzIExpbmVhckxheWVyKE1vZHVsZSk6CmRlZiBfX2luaXRfXyhzZWxmLCBpbl9zeiwgb3V0X3N6KToKc3VwZXIoKS5fX2luaXRfXygpCnQxID0gdG9yY2gucmFuZG4oaW5fc3osIG91dF9zeikKc2VsZi53ID0gbm4uUGFyYW1ldGVyKHQxKQp0MiA9IHRvcmNoLnJhbmRuKG91dF9zeikKc2VsZi5iID0gbm4uUGFyYW1ldGVyKHQyKQpccGFyZGVmIGZvcndhcmQoc2VsZiwgYWN0aXZhdGlvbnMpOgp0ID0gdG9yY2gubW0oYWN0aXZhdGlvbnMsIHNlbGYudykKcmV0dXJuIHQgKyBzZWxmLmIK){download=""}
+This "everything is a just a program" philosophy is not limited to just the models, and applies to optimizers and data loaders as well. This facilitates the experimentation of new training techniques. For example, to implement the very popular generative adversarial networks, one needs to specify two separate models (the generator and the discriminator), and two loss functions that depend on both models at the same time. Rigid APIs would struggle with this setup, but the simple design employed in PyTorch easily adapts to this setting as shown in Listing 2. discriminator = create_discriminator generator = create_generator optimD = optim.Adam(discriminator.parameters) optimG = optim.Adam(generator.parameters) \pardef step(real_sample):
 
-class LinearLayer(Module):
+## Update Discriminator
 
-def \_\_init\_\_(self, in_sz, out_sz):
+errD_real = loss(discriminator(real_sample), real_label) errD_real.backward fake = generator(get_noise) errD_fake = loss(discriminator(fake.detach, fake_label) errD_fake.backward
 
-t1 = torch.randn(in_sz, out_sz)
+## Update Generator
 
-t2 = torch.randn(out_sz)
-
-\\pardef forward(self, activations):
-
-t = torch.mm(activations, self.w)
-
-[⬇](data:text/plain;base64,CmNsYXNzIEZ1bGxCYXNpY01vZGVsKG5uLk1vZHVsZSk6CmRlZiBfX2luaXRfXyhzZWxmKToKc3VwZXIoKS5fX2luaXRfXygpCnNlbGYuY29udiA9IG5uLkNvbnYyZCgxLCAxMjgsIDMpCnNlbGYuZmMgPSBMaW5lYXJMYXllcigxMjgsIDEwKQpccGFyZGVmIGZvcndhcmQoc2VsZiwgeCk6CnQxID0gc2VsZi5jb252KHgpCnQyID0gbm4uZnVuY3Rpb25hbC5yZWx1KHQxKQp0MyA9IHNlbGYuZmModDEpCnJldHVybiBubi5mdW5jdGlvbmFsLnNvZnRtYXgodDMpCg==){download=""}
-
-class FullBasicModel(nn.Module):
-
-def \_\_init\_\_(self):
-
-self.conv = nn.Conv2d
-
-\\pardef forward(self, x):
-
-return nn.functional.softmax(t3)
-
-A custom layer used as a building block for a simple but complete neural network.
-
-This "everything is a just a program" philosophy is not limited to just the models, and applies to optimizers and data loaders as well. This facilitates the experimentation of new training techniques. For example, to implement the very popular generative adversarial networks, one needs to specify two separate models (the generator and the discriminator), and two loss functions that depend on both models at the same time. Rigid APIs would struggle with this setup, but the simple design employed in PyTorch easily adapts to this setting as shown in Listing 2.
-
-discriminator = create_discriminator()
-generator = create_generator()
-optimD = optim.Adam(discriminator.parameters())
-optimG = optim.Adam(generator.parameters())
-\pardef step(real_sample):
-## (1) Update Discriminator
-errD_real = loss(discriminator(real_sample), real_label)
-errD_real.backward()
-fake = generator(get_noise())
-errD_fake = loss(discriminator(fake.detach(), fake_label)
-errD_fake.backward()
-## (2) Update Generator
-errG = loss(discriminator(fake), real_label)
-
-Simplified training of a generative adversarial networks.
+errG = loss(discriminator(fake), real_label) Simplified training of a generative adversarial networks.
 
 Since PyTorch programs execute eagerly, all the features of Python are available throughout the whole design process. Print statements, standard debuggers, and common visualization tools like matplotlib all work as expected. Users do not have to wait for lengthy compilation before they can start running their programs, and more importantly intermediate computations can be observed to understand how a model works and whether its results are correct.
 
 ### Interoperability and extensibility
 
-Easy and efficient interoperability is one of the top priorities for PyTorch because it opens the possibility to leverage the rich ecosystem of Python libraries as part of user programs. Hence, PyTorch allows for bidirectional exchange of data with external libraries. For example, it provides a mechanism to convert between NumPy arrays and PyTorch tensors using the torch.from_numpy() function and.numpy() tensor method. Similar functionality is also available to exchange data stored using the DLPack format. Note that this exchange happens in both cases without any data copying -- objects on both sides only describe how to interpret a memory region which is shared among them. Hence, those operations are actually extremely cheap, and take constant time no matter how large the converted arrays are.
+Easy and efficient interoperability is one of the top priorities for PyTorch because it opens the possibility to leverage the rich ecosystem of Python libraries as part of user programs. Hence, PyTorch allows for bidirectional exchange of data with external libraries. For example, it provides a mechanism to convert between NumPy arrays and PyTorch tensors using the torch.from_numpy function and.numpy tensor method. Similar functionality is also available to exchange data stored using the DLPack format. Note that this exchange happens in both cases without any data copying -- objects on both sides only describe how to interpret a memory region which is shared among them. Hence, those operations are actually extremely cheap, and take constant time no matter how large the converted arrays are.
 
-Moreover, many of the critical systems are designed specifically to be extensible. For instance, the automatic differentiation system allows users to add support for custom differentiable functions. To do that users can define a new subclass of torch.autograd.Function that implements forward() and backward() methods, which specify the function and its derivative (or more formally the vector-Jacobian product). Similarly new datasets can be added by subclassing torch.utils.data.Dataset and implementing two methods: \_\_getitem\_\_ (the indexing operator) and \_\_len\_\_ (the length operator), making datasets behave like (possibly lazy) lists. How these work is completely up to the implementer, and many users leverage other Python packages for data loading. The DataLoader class consumes objects conforming to this interface and provides an iterator over the data which takes care of shuffling, batching, parallelization, and management of pinned CUDA memory to improve throughput.
+Moreover, many of the critical systems are designed specifically to be extensible. For instance, the automatic differentiation system allows users to add support for custom differentiable functions. To do that users can define a new subclass of torch.autograd.Function that implements forward and backward methods, which specify the function and its derivative (or more formally the vector-Jacobian product). Similarly new datasets can be added by subclassing torch.utils.data.Dataset and implementing two methods: \_\_getitem\_\_ (the indexing operator) and \_\_len\_\_ (the length operator), making datasets behave like (possibly lazy) lists. How these work is completely up to the implementer, and many users leverage other Python packages for data loading. The DataLoader class consumes objects conforming to this interface and provides an iterator over the data which takes care of shuffling, batching, parallelization, and management of pinned CUDA memory to improve throughput.
 
 Most importantly, users are free to replace any component of PyTorch that does not meet the needs or performance requirements of their project. They are all designed to be completely interchangeable, and PyTorch takes great care not to impose any particular solution.
 
@@ -178,9 +140,7 @@ Finally, we can get an overall sense of single-machine eager mode performance of
 
 Our results are summarized in Table 1. On all the benchmarks, the performance of PyTorch is within 17% of that of of the fastest framework. We attribute this result to the fact that these tools offload most of the computation to the same version of the cuDNN and cuBLAS libraries.
 
-Throughput (higher is better)
-
-Table 1: Training speed for 6 models using 32bit floats. Throughput is measured in images per second for the AlexNet, VGG-19, ResNet-50, and MobileNet models, in tokens per second for the GNMTv2 model, and in samples per second for the NCF model. The fastest speed for each model is shown in bold.
+Throughput (higher is better) Table 1: Training speed for 6 models using 32bit floats. Throughput is measured in images per second for the AlexNet, VGG-19, ResNet-50, and MobileNet models, in tokens per second for the GNMTv2 model, and in samples per second for the NCF model. The fastest speed for each model is shown in bold.
 
 ### Adoption
 

@@ -42,13 +42,9 @@ The reduced embeddings are clustering used HDBSCAN. It is an extension of DBSCAN
 
 The topic representations are modeled based on the documents in each cluster where each cluster will be assigned one topic. For each topic, we want to know what makes one topic, based on its cluster-word distribution, different from another? For this purpose, we can modify TF-IDF, a measure for representing the importance of a word to a document, such that it allows for a representation of a term's importance to a topic instead.
 
-The classic TF-IDF procedure combines two statistics, term frequency, and inverse document frequency Joachims:
+The classic TF-IDF procedure combines two statistics, term frequency, and inverse document frequency Joachims: Where the term frequency models the frequency of term t in document d. The inverse document frequency measures how much information a term provides to a document and is calculated by taking the logarithm of the number of documents in a corpus N divided by the total number of documents that contain t.
 
-Where the term frequency models the frequency of term t in document d. The inverse document frequency measures how much information a term provides to a document and is calculated by taking the logarithm of the number of documents in a corpus N divided by the total number of documents that contain t.
-
-We generalize this procedure to clusters of documents. First, we treat all documents in a cluster as a single document by simply concatenating the documents. Then, TF-IDF is adjusted to account for this representation by translating documents to clusters:
-
-Where the term frequency models the frequency of term t in a class c or in this instance. Here, the class c is the collection of documents concatenated into a single document for each cluster. Then, the inverse document frequency is replaced by the inverse class frequency to measure how much information a term provides to a class. It is calculated by taking the logarithm of the average number of words per class A divided by the frequency of term t across all classes. To output only positive values, we add one to the division within the logarithm.
+We generalize this procedure to clusters of documents. First, we treat all documents in a cluster as a single document by simply concatenating the documents. Then, TF-IDF is adjusted to account for this representation by translating documents to clusters: Where the term frequency models the frequency of term t in a class c or in this instance. Here, the class c is the collection of documents concatenated into a single document for each cluster. Then, the inverse document frequency is replaced by the inverse class frequency to measure how much information a term provides to a class. It is calculated by taking the logarithm of the average number of words per class A divided by the frequency of term t across all classes. To output only positive values, we add one to the division within the logarithm.
 
 Thus, this class-based TF-IDF procedure models the importance of words in clusters instead of individual documents. This allows us to generate topic-word distributions for each cluster of documents.
 
@@ -60,9 +56,7 @@ Traditional topic modeling techniques are static in nature and do not allow for 
 
 In BERTopic, we can model this behavior by leveraging the c-TF-IDF representations of topics. Here, we assume that the temporal nature of topics should not influence the creation of global topics. The same topic might appear across different times, albeit possibly represented differently. As an example, a global topic about cars might contain words such as \"car\" and \"vehicle\" regardless of the temporal nature of specific documents. Car-related documents created in 2020, however, might be better represented with words such as \"Tesla\" and \"self-driving\" whereas these words would likely not appear in car-related documents created in 1990. Although the same topic is assigned to car-related documents in 1990 and 2020, its representation might differ. Thus, we first generate a global representation of topics, regardless of their temporal nature, before developing a local representation.
 
-To do this, BERTopic is first fitted on the entire corpus as if there were no temporal aspects to the data in order to create a global view of topics. Then, we can create a local representation of each topic by simply multiplying the term frequency of documents at timestep i with the pre-calculated global IDF values:
-
-A major advantage of using this technique is that these local representations can be created without the need to embed and cluster documents which allow for fast computation. Moreover, this method can also be used to model topic representations by other meta-data, such as author or journal.
+To do this, BERTopic is first fitted on the entire corpus as if there were no temporal aspects to the data in order to create a global view of topics. Then, we can create a local representation of each topic by simply multiplying the term frequency of documents at timestep i with the pre-calculated global IDF values: A major advantage of using this technique is that these local representations can be created without the need to embed and cluster documents which allow for fast computation. Moreover, this method can also be used to model topic representations by other meta-data, such as author or journal.
 
 ### Smoothing
 
@@ -80,23 +74,21 @@ Table 1: Ranging from 10 to 50 topics with steps of 10, topic coherence (TC) and
 
 OCTIS (Optimizing and Comparing Topic models is Simple), an open-source python package, was used to run the experiments, validate results, and preprocess the data Terragni et al..
 
-Both the implementation of BERTopic as well as the experimental setup are freely available online. ^11^1[https://github.com/MaartenGr/BERTopic](https://github.com/MaartenGr/BERTopic)^22^2[https://github.com/MaartenGr/BERTopic_evaluation](https://github.com/MaartenGr/BERTopic_evaluation)
+Both the implementation of BERTopic as well as the experimental setup are freely available online. ^11^1
 
 ### Datasets
 
 Three datasets were used to validate BERTopic, namely 20 NewsGroups, BBC News, and Trump's tweets. We choose to thoroughly preprocess the 20 NewsGroups and BBC News datasets, and only slightly preprocess Trump's tweets to generate more diversity between datasets.
 
-The 20 NewsGroups dataset^33^3[https://github.com/MIND-Lab/OCTIS/tree/master/preprocessed_datasets/20NewsGroup](https://github.com/MIND-Lab/OCTIS/tree/master/preprocessed_datasets/20NewsGroup) contains 16309 news articles across 20 categories Lang. The BBC News dataset^44^4[https://github.com/MIND-Lab/OCTIS/tree/master/preprocessed_datasets/BBC_news](https://github.com/MIND-Lab/OCTIS/tree/master/preprocessed_datasets/BBC_news) contains 2225 documents from the BBC News website between 2004 and 2005 Greene and Cunningham. Both datasets were retrieved using OCTIS, and preprocessed by removing punctuation, lemmatization, removing stopwords, and removing documents with less than 5 words.
+The 20 NewsGroups dataset^33^3 contains 16309 news articles across 20 categories Lang. The BBC News dataset^44^4 contains 2225 documents from the BBC News website between 2004 and 2005 Greene and Cunningham. Both datasets were retrieved using OCTIS, and preprocessed by removing punctuation, lemmatization, removing stopwords, and removing documents with less than 5 words.
 
-To represent more recent data in a short-text form, we collected all tweets of Trump^55^5[https://www.thetrumparchive.com/faq](https://www.thetrumparchive.com/faq) before and during his presidency. The data contains 44253 tweets, excluding re-tweets, between 2009 and 2021. In both datasets, we lowercased all tokens.
+To represent more recent data in a short-text form, we collected all tweets of Trump^55^5 before and during his presidency. The data contains 44253 tweets, excluding re-tweets, between 2009 and 2021. In both datasets, we lowercased all tokens.
 
-To evaluate BERTopic in a dynamic topic modeling setting, Trump's tweets were selected as they inherently had a temporal nature to them. Additionally, the transcriptions of the United Nations (UN) general debates between 2006 and 2015^66^6[https://runestone.academy/runestone/books/published/httlads/\_static/un-general-debates.csv](https://runestone.academy/runestone/books/published/httlads/_static/un-general-debates.csv) were analyzed. The Trump dataset was binned to 10 timesteps and the UN datasets to 9 timesteps.
+To evaluate BERTopic in a dynamic topic modeling setting, Trump's tweets were selected as they inherently had a temporal nature to them. Additionally, the transcriptions of the United Nations (UN) general debates between 2006 and 2015^66^6 were analyzed. The Trump dataset was binned to 10 timesteps and the UN datasets to 9 timesteps.
 
 ### Models
 
-BERTopic will be compared to LDA, NMF, CTM, and Top2Vec. LDA and NMF were run through OCTIS with default parameters. The \"all-mpnet-base-v2\" SBERT model was used as the embedding model for BERTopic and CTM. Two variations of Top2Vec were modeled, one with Doc2Vec and one with the \"all-mpnet-base-v2\" SBERT model^77^7For an overview of SBERT models and their performance, see [https://www.sbert.net/docs/pretrained_models.html](https://www.sbert.net/docs/pretrained_models.html).
-
-For fair comparisons between BERTopic and Top2Vec, the parameters of HDBSCAN and UMAP were fixed between topic models.
+BERTopic will be compared to LDA, NMF, CTM, and Top2Vec. LDA and NMF were run through OCTIS with default parameters. The \"all-mpnet-base-v2\" SBERT model was used as the embedding model for BERTopic and CTM. Two variations of Top2Vec were modeled, one with Doc2Vec and one with the \"all-mpnet-base-v2\" SBERT model^77^7For an overview of SBERT models and their performance, see For fair comparisons between BERTopic and Top2Vec, the parameters of HDBSCAN and UMAP were fixed between topic models.
 
 To measure the generalizability of BERTopic across language models, four different language models were used in the experiments with BERTopic, namely the Universal Sentence Encoder Cer et al., Doc2Vec, and the \"all-MiniLM-L6-v2\" (MiniLM) and \"all-mpnet-base-v2\" (MPNET) SBERT models.
 
@@ -162,7 +154,7 @@ There are several notable strengths of BERTopic compared to the topic models use
 
 First, the experiments demonstrate that BERTopic remains competitive regardless of the language model used to embed the documents and that performance may increase when leveraging state-of-the-art language models. This indicates its ability to scale performance with new developments in the field of language models whilst still remaining competitive if classical language models are used. Moreover, its stability across language models allows it to be used in a wide range of situations. For example, when a user does not have access to a GPU, Doc2Vec can be used to generate competitive results.
 
-Second, separating the process of embedding documents from representing topics allows for significant flexibility in the usage and fine-tuning of BERTopic. Different preprocessing procedures can be used when embedding the documents and when generating the topic representations. For example, one might want to remove stopwords in the topic representations but not before creating document embeddings. Similarly, once the documents have been clustered, the topic generation process can be fine-tuned, by, for example, increasing the n-gram of words in the topic representation, without the need to re-cluster the data.
+Second, separating the process of embedding documents from representing topics allows for significant flexibility in the usage and fine-tuning of BERTopic. Different preprocessing procedures can be used when embedding the documents and when generating the topic representations. For example, one might want to remove stopwords in the topic representations but not before creating document embeddings. Similarly, once the documents have been clustered, the topic generation process can be fine-tuned, , for example, increasing the n-gram of words in the topic representation, without the need to re-cluster the data.
 
 Third, by leveraging a class-based version of TF-IDF, we can represent topics as a distribution of words. These distributions have allowed BERTopic to model the dynamic and evolutionary aspects of topics with little changes to the core algorithm. Similarly, with these distributions, we can also model the representations of topics across classes.
 

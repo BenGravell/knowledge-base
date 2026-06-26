@@ -16,9 +16,7 @@ Inspired by dog agility competitions, we introduce Barkour (Fig. 1), a challengi
 
 To solve the tasks in our Barkour benchmark suite, we introduce a simulation setup and two learning-based baselines as references. Our first approach involves training specialist policies in simulation that can overcome each individual obstacle. The specialist policies are then orchestrated by a high-level navigation controller that selects the appropriate specialist policy based on the location of the robot. In our second approach, we take inspiration from recent work on training generalist agents and develop a transformer-based generalist locomotion policy, named *Locomotion-Transformer*, which tackles all Barkour obstacles using a single policy network. To demonstrate the effectiveness of the learned agile skills, we deploy the simulation-trained policies in a zero-shot manner on a custom-built quadruped robot in a real-world Barkour setup.
 
-Our contributions can be summarized as follows:
-
-A benchmark (*Barkour*) for agile quadruped robot locomotion inspired by dog agility competitions.
+Our contributions can be summarized as follows: A benchmark (*Barkour*) for agile quadruped robot locomotion inspired by dog agility competitions.
 
 Two learning-based approaches (specialist and generalist (*Locomotion-Transformer*) policies) that can complete the benchmark agilely which can serve as baselines to benchmark future algorithms.
 
@@ -26,7 +24,7 @@ A detailed analysis of zero-shot sim-to-real transfer using a custom-built quadr
 
 ## Related Work
 
-Benchmarks are a driving force behind the development of artificial intelligence methods, such as ImageNet for computer vision and OpenAI Gym for Reinforcement Learning. In the field of legged robots, while many prior works focused on creating new algorithms and controllers, limited effort has been directed towards creating a systematic benchmark to assess the performance of these controllers, especially in the context of agility. Among these efforts, Eckert & Ijspeert proposed a suite of $13$ metrics to measure different aspects of the agility of legged robots including leaping, standing, balancing, and climbing. Their metrics are carefully designed and measure the robot performance in a comprehensive way. However, there are a few challenges in directly leveraging these metrics to develop a general agile locomotion controller: 1) a standardized environment was not provided as part of the benchmark, making it difficult for different groups to quickly iterate on a common set of tasks, and 2) having $13$ metrics for different agility skills means that researchers may opt to focus on a subset of the metrics instead of trying to push agility as a whole. Barkour is complementary to the metrics proposed in, with the key difference being the inclusion of a standardized and extensible obstacle course environment as well as a single metric to measure the overall performance of the controller in an intuitive way.
+Benchmarks are a driving force behind the development of artificial intelligence methods, such as ImageNet for computer vision and OpenAI Gym for Reinforcement Learning. In the field of legged robots, while many prior works focused on creating new algorithms and controllers, limited effort has been directed towards creating a systematic benchmark to assess the performance of these controllers, especially in the context of agility. Among these efforts, Eckert & Ijspeert proposed a suite of $13$ metrics to measure different aspects of the agility of legged robots including leaping, standing, balancing, and climbing. Their metrics are carefully designed and measure the robot performance in a comprehensive way. However, there are a few challenges in directly leveraging these metrics to develop a general agile locomotion controller: 1) a standardized environment was not provided as part of the benchmark, making it difficult for different groups to quickly iterate on a common set of tasks, and 2) having $13$ metrics for different agility skills means that researchers may opt to focus on a subset of the metrics instead of trying to push agility as a whole. Barkour is complementary to the metrics proposed , with the key difference being the inclusion of a standardized and extensible obstacle course environment as well as a single metric to measure the overall performance of the controller in an intuitive way.
 
 Combining reinforcement learning with dynamics randomization, system ID, locomotion primitives, and proper reward shaping, legged robots can exhibit stable locomotion blindly on general uneven terrains at moderate speeds. Further advancements in perception and vision have increased the robustness and adaptability of legged robots. The pioneering work from Miki et al. demonstrated how their robot, ANYmal, can walk on various types of uneven terrain using a noisy state estimation and heightfield. Rudin et al. demonstrated that by combining these insights with a highly parallelized simulator, one can obtain a high-performing locomotion controller within minutes. Recently, Agarwal et al. showed that it is possible to perform many visual locomotion tasks by consuming raw camera images in an LSTM-based network. Our approach builds on the findings of and leverages a GPU-based simulation environment similar to. However, our work distinguishes itself from previous studies by emphasizing both agility and generalization, and by showcasing several agile skills performed together.
 
@@ -42,11 +40,7 @@ We use an area of $5\ m$ $\times$ $5\ m$ within which we place four unique obsta
 
 ### III-A Barkour score
 
-The *agility score* $R_{\text{agility}}$ measures how fast a robot can successfully complete all obstacles in Barkour. The score is calculated based on real dog competitions^22^2[Regulations for Agility Trials and Agility Course Test (ACT) rules/scoring from the American Kennel Club (AKC)](https://images.akc.org/pdf/rulebooks/REAGIL.pdf). See standard course time for 8-inch Division Novice A and B Agility Standard Class. with some simplifications. A score of $1.0$ indicates that the robot solved the entire course within *allotted course time* $t_{\text{allotted}}$. Starting from $1.0$, the robot can receive two types of deductions: a $0.1$ penalty for each failed or skipped obstacle and a $0.01$ penalty for each full second the robot exceeds $t_{\text{allotted}}$. An episode is completed when the robot reaches the end table, otherwise it is terminated when $R_{\text{agility}}$ reaches $0$. The score^33^3Typically represented as $\lbrack{0 - 100}\rbrack$ points in real dog competitions. calculation is given by:
-
-The allotted course time is the sum of the *nominal size* $d_{\text{obstacle}}$ of each obstacle, divided by the target average speed. The nominal size is an estimate of the length of typical trajectory to complete a given obstacle, including the distance leading up to and away from it. Based on the rule book for real dog competitions and the size of the robot, we set the target average speed to $v_{\text{target}} =$$1.69\ {m\ s^{- 1}}$. This target average speed can be scaled up for larger robots. The allotted time is calculated by:
-
-In the context of this paper, we consider four types of obstacles with nominal obstacle sizes and allotted times given in Table I. Appendix -B provides detailed definitions of each type of obstacle, including the physical setup, acceptance criteria, etc.
+The *agility score* $R_{\text{agility}}$ measures how fast a robot can successfully complete all obstacles in Barkour. The score is calculated based on real dog competitions^22^2Regulations for Agility Trials and Agility Course Test (ACT) rules/scoring from the American Kennel Club (AKC). See standard course time for 8-inch Division Novice A and B Agility Standard Class. with some simplifications. A score of $1.0$ indicates that the robot solved the entire course within *allotted course time* $t_{\text{allotted}}$. Starting from $1.0$, the robot can receive two types of deductions: a $0.1$ penalty for each failed or skipped obstacle and a $0.01$ penalty for each full second the robot exceeds $t_{\text{allotted}}$. An episode is completed when the robot reaches the end table, otherwise it is terminated when $R_{\text{agility}}$ reaches $0$. The score^33^3Typically represented as $\lbrack{0 - 100}\rbrack$ points in real dog competitions. calculation is given: The allotted course time is the sum of the *nominal size* $d_{\text{obstacle}}$ of each obstacle, divided by the target average speed. The nominal size is an estimate of the length of typical trajectory to complete a given obstacle, including the distance leading up to and away from it. Based on the rule book for real dog competitions and the size of the robot, we set the target average speed to $v_{\text{target}} =$$1.69\ {m\ s^{- 1}}$. This target average speed can be scaled up for larger robots. The allotted time is calculated: In the context of this paper, we consider four types of obstacles with nominal obstacle sizes and allotted times given in Table I. Appendix -B provides detailed definitions of each type of obstacle, including the physical setup, acceptance criteria, etc.
 
 TABLE I: Nominal obstacle sizes for score calculation.
 
@@ -96,11 +90,7 @@ To tackle this task, we train a specialized Slope Climbing Policy (SCP). SCP sha
 
 In the jumping task, the robot needs to jump over a board that is $0.5\ m$ long, which is longer than its body. This requires not only moving fast, but also stepping precisely (as close to the broad jump as possible, but not on it). To train the Jumping Policy (JP), we use a 3-stage curriculum, including flat terrain running, gap training, and fine-tuning with more randomizations (Appendix -G).
 
-Torso linear velocity perturbation
-
-Joint static friction
-
-TABLE II: Domain Randomization parameters.
+Torso linear velocity perturbation Joint static friction TABLE II: Domain Randomization parameters.
 
 ### IV-A6 Domain Randomization
 
@@ -116,9 +106,7 @@ Collecting the right interaction data that covers the state distribution on whic
 
 ### IV-B2 Transformer Model
 
-As shown in Figure 3, Locomotion-Transformer is a causal Transformer that takes a history of velocity commands $\overline{v}$, proprioceptive states $s_{0:t}^{\text{p}}$, actions $a_{0:{t - 1}}$, and the most recent heightfields $s_{t}^{\text{v}}$ over a fixed context window as inputs in the following order:
-
-$s^{\text{v}}$ contains all types of heightfields that are originally designed for each individual environment (see details in Section IV-A). The model predicts the next action $a_{t}$ at the last position, and is trained on an L2 regression loss. We tokenize the most recent elevation image with a two-layer convolutional encoder network for each type of heightfield. The proprioceptive states (along with the velocity commands) and actions are each tokenized with one projection layer. We use a context window of $0.3$s, the same as in the specialist policy, which amounts to a size of $W = 15$. For terrain perception, we combine both heightfields from OWP and JP to cover the terrain near and in front of the robot. We use ReLU activation to encode each observation input. The model architecture hyperparameters can be found in Appendix -K.
+As shown in Figure 3, Locomotion-Transformer is a causal Transformer that takes a history of velocity commands $\overline{v}$, proprioceptive states $s_{0:t}^{\text{p}}$, actions $a_{0:{t - 1}}$, and the most recent heightfields $s_{t}^{\text{v}}$ over a fixed context window as inputs in the following order: $s^{\text{v}}$ contains all types of heightfields that are originally designed for each individual environment (see details in Section IV-A). The model predicts the next action $a_{t}$ at the last position, and is trained on an L2 regression loss. We tokenize the most recent elevation image with a two-layer convolutional encoder network for each type of heightfield. The proprioceptive states (along with the velocity commands) and actions are each tokenized with one projection layer. We use a context window of $0.3$s, the same as in the specialist policy, which amounts to a size of $W = 15$. For terrain perception, we combine both heightfields from OWP and JP to cover the terrain near and in front of the robot. We use ReLU activation to encode each observation input. The model architecture hyperparameters can be found in Appendix -K.
 
 ### IV-C High Level Navigation Controller
 
@@ -130,27 +118,21 @@ Specifically, we place a sequence of waypoints around the obstacles that serve a
 
 ## Robot Hardware
 
-Exploring the influence of the Barkour benchmark on enhancing the agility of quadruped robots necessitates considerable controller development and thorough real hardware experimentation. This poses significant challenges on the reliability and repeatability of the robot hardware, especially given the highly agile movements we strive for. Moreover, quadruped animals exhibit diverse body configurations compared to typical quadruped robots, which can significantly affect their capacity for agile motion. Consequently, we believe that hardware optimization and customization are critical in bridging the agility gap between legged robots and their animal counterparts.
+Exploring the influence of the Barkour benchmark on enhancing the agility of quadruped robots necessitates considerable controller development and thorough real hardware experimentation. This poses significant challenges on the reliability and repeatability of the robot hardware, especially given the highly agile movements we strive . Moreover, quadruped animals exhibit diverse body configurations compared to typical quadruped robots, which can significantly affect their capacity for agile motion. Consequently, we believe that hardware optimization and customization are critical in bridging the agility gap between legged robots and their animal counterparts.
 
 As a result, we developed a small quadruped robot in-house to evaluate its learned agile skills using the Barkour benchmark. The robot (Fig. 5) is similar in size to the Unitree A1 and MIT Mini-Cheetah robots. The robot weighs $11.5\ {kg}$, and has $220\ {mm}$ upper limbs and $190\ {mm}$ lower limbs. The front-to-back hip-to-hip distance is $380\ {mm}$ and the distance between the left and right legs is $290\ {mm}$.
 
 Figure 5: Custom small quadruped robot for hardware evaluation.
 
-We use [T-Motor -6](https://store.tmotor.com/goods.php?id=981) actuators, which are controlled by Elmo G-/100SE2S motor drivers running at $24\ V$. The actuators provide a peak output torque of $12\ {N\ m}$ at each joint.
+We use T-Motor -6 actuators, which are controlled by Elmo G-/100SE2S motor drivers running at $24\ V$. The actuators provide a peak output torque of $12\ {N\ m}$ at each joint.
 
-For our experiments, we use both the robot's onboard sensors (Parker 3DMCX5-AHRS IMU, joint position, velocity, torque) as well as an external motion capture system ([Phasespace X2E](https://www.phasespace.com/x2e-motion-capture/)) to track the robot's position and orientation in the obstacle course. We control the robot using an off-board workstation with two Intel Xeon Gold 6154 CPUs via a CAN bus connected to each leg. The learned policies send position commands at $50\ {Hz}$, and the PD control loop runs at $1\ {kHz}$. For all hardware experiments, the PD gains are set to ($20\ {N\ m\ {rad}^{- 1}}$, $0.5\ {N\ m\ s\ {rad}^{- 1}}$).
+For our experiments, we use both the robot's onboard sensors (Parker 3DMCX5-AHRS IMU, joint position, velocity, torque) as well as an external motion capture system (Phasespace X2E) to track the robot's position and orientation in the obstacle course. We control the robot using an off-board workstation with two Intel Xeon Gold 6154 CPUs via a CAN bus connected to each leg. The learned policies send position commands at $50\ {Hz}$, and the PD control loop runs at $1\ {kHz}$. For all hardware experiments, the PD gains are set to ($20\ {N\ m\ {rad}^{- 1}}$, $0.5\ {N\ m\ s\ {rad}^{- 1}}$).
 
 As part of the development of the benchmark and methods, we evaluated approximately 3600 Barkour attempts across two robots, which corresponds to about 24 hours of continuous operation time and approximately $60\ {km}$ of robot moving distance.
 
 ## Experiments and Discussions
 
-We evaluate the specialist and generalist policies within our hierarchical control framework on Barkour tasks. We aim to answer the following questions:
-
-*Is Barkour a good benchmark for agility?*
-
-*Can we solve Barkour benchmark using the frameworks proposed in Section IV and how does it compare to animal agility?*
-
-*How important are the design choices we made during specialist and generalist policy training?*
+We evaluate the specialist and generalist policies within our hierarchical control framework on Barkour tasks. We aim to answer the following questions: *Is Barkour a good benchmark for agility?* *Can we solve Barkour benchmark using the frameworks proposed in Section IV and how does it compare to animal agility?* *How important are the design choices we made during specialist and generalist policy training?*
 
 ### VI-A Why Barkour as a Benchmark
 
@@ -200,9 +182,7 @@ Another advantage of the Locomotion-Transformer policy is that it's more general
 
 Figure 10: Generalization aspect of the Locomotion-Transformer policy tested on a modified course. We change the waypoints and obstacle locations. While the policy is not aware of the obstacle types, the robot can still climb up the A-frame from the opposite end or achieve the broad jump in different locations.
 
-We have shown that the generalist Locomotion-Transformer policy is able to execute a wide range of high-level commands provided by a navigation controller and achieves a high Barkour score. However, the training is based on simulation data from specific expert policies, which raises two follow-up questions:
-
-*Is the Transformer-based framework also capable of learning high-level behaviors*?
+We have shown that the generalist Locomotion-Transformer policy is able to execute a wide range of high-level commands provided by a navigation controller and achieves a high Barkour score. However, the training is based on simulation data from specific expert policies, which raises two follow-up questions: *Is the Transformer-based framework also capable of learning high-level behaviors*?
 
 *Is it possible to train a Locomotion-Transformer policy from a hardware dataset*?
 
@@ -210,9 +190,7 @@ We answer these questions affirmatively in Appendix -D by training and deploying
 
 ### VI-D Is Training Specialist Policies Necessary?
 
-We have demonstrated that it is possible to train individual specialist policies for each task and distill them into one generalist policy to solve the Barkour benchmark. However, one question remains: *Is it possible to train a single agent using RL that combines the capabilities of all specialist policies subsection IV-A?*
-
-To answer this question, we train a single multi-task policy using our IsaacGym-based training pipeline. We construct a training terrain curriculum by mixing the terrains from all three specialist policy types. During RL training, $50\%$ of the data are from the slope environment for training Slope Climbing Policy, $30\%$ are from the general uneven terrain for training Omni-directional Walking Policy, and $20\%$ are from the gap environment for the Jumping Policy. We follow the same curriculum for each terrain type as described in Section IV-A. We use the reward function from training the Omni-directional Walking Policy to obtain a policy that takes a velocity command as input.
+We have demonstrated that it is possible to train individual specialist policies for each task and distill them into one generalist policy to solve the Barkour benchmark. However, one question remains: *Is it possible to train a single agent using RL that combines the capabilities of all specialist policies subsection IV-A?* To answer this question, we train a single multi-task policy using our IsaacGym-based training pipeline. We construct a training terrain curriculum by mixing the terrains from all three specialist policy types. During RL training, $50\%$ of the data are from the slope environment for training Slope Climbing Policy, $30\%$ are from the general uneven terrain for training Omni-directional Walking Policy, and $20\%$ are from the gap environment for the Jumping Policy. We follow the same curriculum for each terrain type as described in Section IV-A. We use the reward function from training the Omni-directional Walking Policy to obtain a policy that takes a velocity command as input.
 
 We deploy the trained policy on the real robot and find that the resulting policy can robustly walk down the start table and finish the weaving pole task. However, it cannot climb up the A-Frame even though we have already adjusted the training data distribution to bias towards the slope task. This demonstrates that the steep slope necessitates the use of a specialist training. In addition, the policy cannot successfully perform the broad jump. This experiment also demonstrates the difficulties and diversity of the skills required to solve the proposed Barkour benchmark.
 

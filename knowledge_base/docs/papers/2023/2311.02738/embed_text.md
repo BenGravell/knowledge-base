@@ -28,7 +28,7 @@ We also represent the agents in the scene as a set of oriented bounding boxes, w
 
 ## Method
 
-As in, our diffusion model consists of two parts: an autoencoder to transform between the data space and a latent space and a diffusion model that operates in this latent space.
+As , our diffusion model consists of two parts: an autoencoder to transform between the data space and a latent space and a diffusion model that operates in this latent space.
 
 Figure 2: Model architectures for training and inference. (a) The autoencoder takes as input birds’ eye view renderings of the map and entities and outputs sparse bounding box detections with trajectories. (b) The diffusion model is trained to denoise latent embeddings from the autoencoder using a birds’ eye view rendering of the map and tokens describing the scene. (c) To perform inference, initial random noise is iteratively denoised and then decoded to generate bounding boxes and trajectories.
 
@@ -36,7 +36,7 @@ Figure 2: Model architectures for training and inference. (a) The autoencoder ta
 
 The scene autoencoder is a variational autoencoder (VAE) that learns to encode and decode sets of agents as shown in Fig. 2(a). The VAE is trained with a combination of a reconstruction loss $\mathcal{L}_{\text{rec}}$ on the decoder output and a KL divergence loss $\mathcal{L}_{\text{KL}}$ on the latent embedding. The architecture is based on the autoencoder of, but we train the model to perform anchor-free one-to-one detection instead of pixelwise image reconstruction.
 
-An encoder $\mathcal{E}$ takes the BEV image of the agents in the scene $x$ and outputs a latent embedding $z = {\mathcal{E}{(x)}}$ of shape $C_{z} \times H^{\prime} \times W^{\prime}$, where $H^{\prime} = {H/2^{f}}$ and $W^{\prime} = {W/2^{f}}$ for a downsampling factor $f \in {\mathbb{N}}$. Since the encoder is designed to capture the placement of agents, there was empirically no benefit to providing the map image as input to the encoder. This latent embedding is given to the decoder $\mathcal{D}$ along with the BEV map image $m$ to obtain the detection output $y = {\mathcal{D}{(z,m)}}$ of shape $C_{y} \times H^{\operatorname{\prime\prime}} \times W^{\operatorname{\prime\prime}}$. Because we output detections, $H^{\operatorname{\prime\prime}}$ and $W^{\operatorname{\prime\prime}}$ do not need to equal $H$ and $W$, the original input shapes. In practice, having a lower output resolution provides significant memory savings during training. The decoder downsamples the map image $m$, concatenates the latent embedding $z$, and then upsamples to produce the final output: ${\mathcal{D}{(z,m)}} = {\mathcal{D}_{\text{up}}\left( z,{\mathcal{D}_{\text{down}}{(m)}} \right)}$.
+An encoder $\mathcal{E}$ takes the BEV image of the agents in the scene $x$ and outputs a latent embedding $z = {\mathcal{E}{(x)}}$ of shape $C_{z} \times H' \times W'$, where $H' = {H/2^{f}}$ and $W' = {W/2^{f}}$ for a downsampling factor $f \in {\mathbb{N}}$. Since the encoder is designed to capture the placement of agents, there was empirically no benefit to providing the map image as input to the encoder. This latent embedding is given to the decoder $\mathcal{D}$ along with the BEV map image $m$ to obtain the detection output $y = {\mathcal{D}{(z,m)}}$ of shape $C_{y} \times H^{\operatorname{\prime\prime}} \times W^{\operatorname{\prime\prime}}$. Because we output detections, $H^{\operatorname{\prime\prime}}$ and $W^{\operatorname{\prime\prime}}$ do not need to equal $H$ and $W$, the original input shapes. In practice, having a lower output resolution provides significant memory savings during training. The decoder downsamples the map image $m$, concatenates the latent embedding $z$, and then upsamples to produce the final output: ${\mathcal{D}{(z,m)}} = {\mathcal{D}_{\text{up}}\left( z,{\mathcal{D}_{\text{down}}{(m)}} \right)}$.
 
 ### Detection Outputs
 
@@ -58,15 +58,11 @@ Let $\hat{z} = {\mathcal{E}{(x)}}$ be the latent embedding obtained from a train
 
 For each training example we sample $\sigma$ according to a log-normal distribution (i.e. ${\log\sigma} \sim {\mathcal{N}\left( P_{\mu},P_{\sigma}^{2} \right)}$ with hyperparameters $P_{\mu}$ and $P_{\sigma}$). We then create a noisy sample $z = {\hat{z} + {\sigma\epsilon}}$, where $\epsilon$ has the same shape as $\hat{z}$ and is sampled from the standard normal distribution.
 
-We train the denoising model $\mathcal{M}{(z;c,\sigma)}$ by minimizing the reconstruction loss
-
-where $c_{\text{in}}{(\sigma)}$, $c_{\text{out}}{(\sigma)}$, $c_{\text{skip}}{(\sigma)}$, and $\lambda{(\sigma)}$ are all scalar functions of $\sigma$ as defined in. In practice this model $\mathcal{M}$ is a conditional Unet as in. This process is depicted in Fig. 2(b). Given a noisy sample $z$, the denoised version $\hat{z}$ can be estimated as
+We train the denoising model $\mathcal{M}{(z;c,\sigma)}$ by minimizing the reconstruction loss where $c_{\text{in}}{(\sigma)}$, $c_{\text{out}}{(\sigma)}$, $c_{\text{skip}}{(\sigma)}$, and $\lambda{(\sigma)}$ are all scalar functions of $\sigma$ as defined. In practice this model $\mathcal{M}$ is a conditional Unet as. This process is depicted in Fig. 2(b). Given a noisy sample $z$, the denoised version $\hat{z}$ can be estimated as
 
 ### Inference
 
-To generate novel samples during inference, we start with an initial noisy sample $z \sim {\mathcal{N}\left( 0,{\sigma_{\text{max}}^{2}\mathbf{I}} \right)}$. This sample is iteratively refined according to the reverse process ODE as described in. The gradient of the log probability distribution can be approximated as ${{{\nabla_{z}\log}p}{(z;c,\sigma)}} \approx {\left( {{M{(z;c,\sigma)}} - z} \right)/\sigma^{2}}$. This simplifies the reverse process ODE to
-
-After integrating the sample $z$ from $\sigma = \sigma_{\text{max}}$ to $\sigma = 0$ using Euler integration, it is passed through the decoder to obtain the generated boxes and trajectories $\mathcal{D}{(z,m)}$. This procedure is depicted in Fig. 2(c). During inference we keep the generated boxes with probability above a fixed threshold chosen by optimizing a metric that compares generated and ground truth boxes (described in Sec. 4.1). We then filter any overlapping boxes, keeping the highest probability box of those that overlap.
+To generate novel samples during inference, we start with an initial noisy sample $z \sim {\mathcal{N}\left(0,{\sigma_{\text{max}}^{2}\mathbf{I}} \right)}$. This sample is iteratively refined according to the reverse process ODE as described. The gradient of the log probability distribution can be approximated as ${{{\nabla_{z}\log}p}{(z;c,\sigma)}} \approx {\left({{M{(z;c,\sigma)}} - z} \right)/\sigma^{2}}$. This simplifies the reverse process ODE to After integrating the sample $z$ from $\sigma = \sigma_{\text{max}}$ to $\sigma = 0$ using Euler integration, it is passed through the decoder to obtain the generated boxes and trajectories $\mathcal{D}{(z,m)}$. This procedure is depicted in Fig. 2(c). During inference we keep the generated boxes with probability above a fixed threshold chosen by optimizing a metric that compares generated and ground truth boxes (described in Sec. 4.1). We then filter any overlapping boxes, keeping the highest probability box of those that overlap.
 
 ### Diffusion Conditioning
 
@@ -106,17 +102,7 @@ The second dataset is an internal dataset containing 6 million real world drivin
 
 For both datasets, the scenes are centered on the autonomous vehicle. As the autonomous vehicle is treated as just another vehicle during training, the model almost always places a vehicle in the center of the scene during inference. We use a 2 second time horizon for both the future and the past trajectory (i.e. the bounding box represents $t = 0$ and the trajectory goes from $t = {- 2}$ to $t = 2$). This time window is sufficient to populate the agent history for many motion forecasting methods.
 
-Lane Heading Difference
-
-Ground Truth Log
-
-Random Log Selection
-
-TrafficGen Placement Model
-
-Scenario Diffusion (No Map)
-
-Table 1: Quality metrics for generated scenarios on Argoverse.
+Lane Heading Difference Ground Truth Log Random Log Selection TrafficGen Placement Model Scenario Diffusion (No Map) Table 1: Quality metrics for generated scenarios on Argoverse.
 
 ### Training
 
@@ -128,9 +114,7 @@ We use 80% as the threshold for the generated box probabilities. See Sec. D.2 fo
 
 ### Metrics
 
-We consider metrics to compare the generated and data distributions and measure the quality of generated scenarios. One popular metric for comparing two distributions using samples is the maximum mean discrepancy (MMD). While this metric is typically defined in terms of two distributions, in practice we compute this metric using samples drawn from the two distributions. Given two sets $A$ and $B$ generated by sampling from two distributions and some kernel $k$, the maximum mean discrepancy is defined as
-
-Similar to, we use a Gaussian kernel $k$ and apply this metric to the sets of agent center positions, heading unit vectors, and velocities, all in ${\mathbb{R}}^{2}$.
+We consider metrics to compare the generated and data distributions and measure the quality of generated scenarios. One popular metric for comparing two distributions using samples is the maximum mean discrepancy (MMD). While this metric is typically defined in terms of two distributions, in practice we compute this metric using samples drawn from the two distributions. Given two sets $A$ and $B$ generated by sampling from two distributions and some kernel $k$, the maximum mean discrepancy is defined as Similar to, we use a Gaussian kernel $k$ and apply this metric to the sets of agent center positions, heading unit vectors, and velocities, all in ${\mathbb{R}}^{2}$.
 
 To measure the quality of generated trajectories we compute the fraction of waypoints that fall within the drivable area, averaged over all generated agents and all 5 trajectory waypoints. For each predicted pose along the trajectory we also compute the minimum angle difference (in radians) between the pose heading and the heading of all lanes at that location. These metrics do not have a clear optimal value (trajectories in the Argoverse dataset sometimes leave the drivable area and aren't perfectly aligned with the lane tangent); we compare the metric between the dataset and generated scenarios.
 
@@ -148,13 +132,7 @@ Scenario Diffusion outperforms all other methods in the MMD metric for position 
 
 Figure 3: Generated Argoverse scenarios conditioned on the same map image and three agent tokens with different values for the global scene token. The generated agents corresponding to the three agent tokens are circled in orange. When the global scene token is set to non-zero values, the model reconstructs the three agents described by tokens and adds additional agents to fill in the scene. Trajectories are omitted from this figure for clarity.
 
-Token Mask Probability pmask
-
-Agent token match rate
-
-Number of additional generated agents
-
-Table 2: Agent token matching metrics on Argoverse
+Token Mask Probability pmask Agent token match rate Number of additional generated agents Table 2: Agent token matching metrics on Argoverse
 
 ### Token Conditioning
 
@@ -178,13 +156,7 @@ Adding current speed to the agent tokens significantly decreases the MAE for cur
 
 Figure 4: Generated Argoverse scenarios conditioned on the same map image and one agent token with different values for the final speed (2 seconds in the future). The agent corresponding to the agent token is circled in orange. When the final speed is zero the model generates cross traffic agents, and when the final speed is non-zero the horizontal traffic has right of way. In both cases the current pose and speed of the agent token are the same; the only difference is the future speed. Scenario Diffusion is able to infer how the future behavior described in the conditional inputs should impact the placement of additional agents.
 
-Agent token features
-
-Agent token match rate (↑)
-Current speed MAE (↓)
-Final speed MAE (↓)
-
-Table 3: Agent token speed metrics on Argoverse
+Agent token features Agent token match rate (↑) Current speed MAE (↓) Final speed MAE (↓) Table 3: Agent token speed metrics on Argoverse
 
 ### Relationship Between Agents
 
@@ -202,9 +174,7 @@ Figure 6: Comparison of scenarios for the internal dataset generated by models t
 
 In each region, models trained on that region tend to outperform models trained on other regions. The models trained on the full dataset come close to the region-specialized models. This suggests that there are unique aspects of each region, and that the full model has sufficient capacity to capture this diversity. SLAC is the most distinct from the other regions and shows the largest generalization gap. Additional metrics can be found in Sec. D.3; they follow the same pattern as in Tab. 4.
 
-Table 4: Generalization across regions
-
-Fig. 5 shows examples of models generalizing across the three metropolitan regions (LV, SEA, and SF). The model trained on San Francisco data is able to produce reasonable scenes in Seattle, and vice versa. This suggests the potential to produce validation data for new regions before large volumes of driving logs in the new regions have been collected.
+Table 4: Generalization across regions Fig. 5 shows examples of models generalizing across the three metropolitan regions (LV, SEA, and SF). The model trained on San Francisco data is able to produce reasonable scenes in Seattle, and vice versa. This suggests the potential to produce validation data for new regions before large volumes of driving logs in the new regions have been collected.
 
 Generalizing to dissimilar regions is significantly harder. Fig. 6 shows examples of generalization between LV (a major metropolitan area) and SLAC (a suburban academic campus). Not surprisingly, models trained on each of these two regions performs worse when applied to the other. For example, the LV model does not generate realistic parked vehicles in the parking lots from SLAC and the SLAC model generates vehicles facing against the lane direction at locations in LV. Fortunately, the model trained on the full dataset is able to produce high quality scenarios in both regions.
 
@@ -218,6 +188,8 @@ A number of works generate future trajectories for already-existing agents in si
 
 In this paper, we demonstrate a novel technique for using diffusion to learn to generate scenarios of dynamic agents moving through an environment for the purposes of testing an autonomous vehicle's ability to navigate through that environment and plan according to those agents. We have shown that our technique leads to models that not only appropriately capture the desired distributions of scenarios and agent trajectories, but allow scenario generation to be controlled to target specific types of scenarios. The fact that diffusion allows declarative information such as tokens to be combined with models learned from data creates the potential for new models that combine other forms of symbolic knowledge such as traffic rules, physical constraints, and common sense reasoning.
 
-Limitations: More work is required to show broader generalization. The training data assumes a specific model of perception in the form of bounding boxes and trajectory models. Additionally, we restricted the agent models to on-road vehicle models. While we do not anticipate significant challenges in applying this model to other forms of agents such as pedestrians, we have not incorporated those agents in the research described here. In simulation this approach may need to be extended to iteratively generate agents over a larger region as the AV navigates through the environment.
+More work is required to show broader generalization. The training data assumes a specific model of perception in the form of bounding boxes and trajectory models. Additionally, we restricted the agent models to on-road vehicle models. While we do not anticipate significant challenges in applying this model to other forms of agents such as pedestrians, we have not incorporated those agents in the research described here. In simulation this approach may need to be extended to iteratively generate agents over a larger region as the AV navigates through the environment.
 
 Broader Impact: This paper focuses on developing models to improve self-driving car technologies. There are many positive and negative aspects to the development of self-driving cars that depend as much on the system-wide design and regulatory aspects as these aspects depend on the technical capabilities. However, the focus on simulation in this paper should partially reduce the risks of deploying self-driving cars by providing more effective and systematic coverage of testing scenarios.
+
+Acknowledgements: We would like to thank Gary Linscott, Jake Ware, and Yan Chang for helpful feedback on the paper; Allan Zelener and Chris Song for discussions on object detection; Peter Schleede for discussions on diffusion. We also thank the NeurIPS anonymous reviewers, area chair, and program chairs.

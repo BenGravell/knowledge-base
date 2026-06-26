@@ -18,7 +18,7 @@ This paper leverages operator splitting to promote exploration in SCP. This is a
 
 The remainder of this paper is structured as follows. Section II introduces concepts used in the exploratory OS-SCP algorithm. Section III introduces the proposed algorithm, and numerical results are presented in Section IV. Finally, concluding remarks are given in Section V.
 
-Notation. The following notation is used throughout this work. We denote the set of functions that are $n -$times differentiable by $\mathcal{C}^{n}$. A vector of ones of length $n$ is denoted $\mathbf{1}_{n}$, and a vector of zeros of length $n$ is denoted $\mathbf{0}_{n}$. We use the shorthand $\lbrack K\rbrack$ to denote the set of integers $\{ 0,\ldots,K\}$. The sets of real numbers are denoted by $\mathbb{R}$ and positive reals by ${\mathbb{R}}_{+}$, and the sets of integers and positive integers are denoted $\mathbb{Z}$, and ${\mathbb{Z}}_{+}$, respectively. Given a continuous-time signal $x{(t)}$ sampled with period $\DeltaT$, we denote the value of the signal at time instant $k\DeltaT$, $k \in {\mathbb{Z}}_{+}$, by $x_{k} = {x{({k\DeltaT})}}$.
+Notation. The following notation is used throughout this work. We denote the set of functions that are $n-$times differentiable by $\mathcal{C}^{n}$. A vector of ones of length $n$ is denoted $\mathbf{1}_{n}$, and a vector of zeros of length $n$ is denoted $\mathbf{0}_{n}$. We use the shorthand $[K]$ to denote the set of integers $\{0,\ldots,K\}$. The sets of real numbers are denoted by $\mathbb{R}$ and positive reals by $\mathbb{R}_{+}$, and the sets of integers and positive integers are denoted $\mathbb{Z}$, and $\mathbb{Z}_{+}$, respectively. Given a continuous-time signal $x(t)$ sampled with period $\Delta T$, we denote the value of the signal at time instant $k\Delta T$, $k\in\mathbb{Z}_{+}$, by $x_{k}=x(k\Delta T)$.
 
 ## Background
 
@@ -26,57 +26,21 @@ This section introduces key concepts used in the proposed operator splitting SCP
 
 ### II-A Consensus ADMM
 
-Traditionally, consensus ADMM decomposes the objective function of an optimization problem across multiple subproblems with a consensus constraint enforced through dual variables and proximal penalties. Consider the optimization problem
-
-where each $p_{i}:{{\mathbb{R}}^{n_{z}}\rightarrow{\mathbb{R}}}$ is a convex term in the objective function, and $q:{{\mathbb{R}}^{n_{z}}\rightarrow{\mathbb{R}}}$ encodes shared regularization or constraints. To apply consensus ADMM, the problem is reformulated using a splitting variable, resulting in
-
-where $z_{i} \in {\mathbb{R}}^{n_{z}}$ for $i \in {\lbrack n_{a}\rbrack}$ is the state of agent $i$, and $\overline{z} \in {\mathbb{R}}^{n_{z}}$ is the global state. Now, each $p_{i}{(z_{i})}$ is a convex per-agent objective, and $q{(\overline{z})}$ represents shared regularization or constraints. The goal of consensus optimization is for each agent to eventually aggregate to a consensus such that all agents achieve the value of the global state, $z_{i} = \overline{z}$ for all $i \in {\lbrack n_{a}\rbrack}$. This is achieved through an iterative process, in which the individual agent updates are first solved in parallel over $i$, then a consensus update is performed, and finally a dual update is computed \[MAL-016\], expressed as
-
-$z_{i}^{j + 1}$ ${= {{{\underset{z}{\arg\min}p_{i}}(z)} + {\frac{\rho}{2}\left\| {{z - {\overline{z}}^{j}} + \xi_{i}^{j}} \right\|_{2}^{2}}}},$ (3a)
-${\overline{z}}^{j + 1}$ ${= {{{\underset{\overline{z}}{\arg\min}q}\left( \overline{z} \right)} + {\frac{\rho}{2}{\sum\limits_{i = 1}^{n_{a}}\left\| {{z_{i}^{j + 1} - \overline{z}} + \xi_{i}^{j}} \right\|_{2}^{2}}}}},$ (3b)
-
-for $i \in {\lbrack n_{a}\rbrack}$. Here, the primal and dual variables are represented by $z_{i}$ and $\xi_{i} \in {\mathbb{R}}^{n_{z}}$, respectively, $j \in {\mathbb{Z}}_{+}$ is the iteration variable, and $\rho \in {\mathbb{R}}_{+}$ is the consensus penalty parameter.
+Traditionally, consensus ADMM decomposes the objective function of an optimization problem across multiple subproblems with a consensus constraint enforced through dual variables and proximal penalties. Consider the optimization problem where each $p_{i}:\mathbb{R}^{n_{z}}\to\mathbb{R}$ is a convex term in the objective function, and $q:\mathbb{R}^{n_{z}}\to\mathbb{R}$ encodes shared regularization or constraints. To apply consensus ADMM, the problem is reformulated using a splitting variable, resulting in where $z_{i}\in\mathbb{R}^{n_{z}}$ for $i\in[n_{a}]$ is the state of agent $i$, and $\bar{z}\in\mathbb{R}^{n_{z}}$ is the global state. Now, each $p_{i}(z_{i})$ is a convex per-agent objective, and $q(\bar{z})$ represents shared regularization or constraints. The goal of consensus optimization is for each agent to eventually aggregate to a consensus such that all agents achieve the value of the global state, $z_{i}=\bar{z}$ for all $i\in[n_{a}]$. This is achieved through an iterative process, in which the individual agent updates are first solved in parallel over $i$, then a consensus update is performed, and finally a dual update is computed \[MAL-016\], expressed as for $i\in[n_{a}]$. Here, the primal and dual variables are represented by $z_{i}$ and $\xi_{i}\in\mathbb{R}^{n_{z}}$, respectively, $j\in\mathbb{Z}_{+}$ is the iteration variable, and $\rho\in\mathbb{R}_{+}$ is the consensus penalty parameter.
 
 ### Proposition II.1
 
-If each $p_{i}$ and $q$ are convex, closed, and proper, then the consensus residuals vanish, meaning that as $j\rightarrow\infty$, the primal residual
-
-Moreover, the dual residuals vanish as $j\rightarrow\infty$ such that
+If each $p_{i}$ and $q$ are convex, closed, and proper, then the consensus residuals vanish, meaning that as $j\rightarrow\infty$, the primal residual Moreover, the dual residuals vanish as $j\rightarrow\infty$ such that
 
 ### Proof
 
-This result has been shown in \[MAL-016, Appx. A\]. ∎
-
-Proposition II.1 implies that the shared consensus variable has stabilized. For nonconvex problems, ADMM is often observed to converge to a stationary point under certain assumptions, but global optimality is not guaranteed, see \[wang2019_nonconvexadmm\] for additional details.
+This result has been shown in \[MAL-016, Appx. A\]. ∎ Proposition II.1 implies that the shared consensus variable has stabilized. For nonconvex problems, ADMM is often observed to converge to a stationary point under certain assumptions, but global optimality is not guaranteed, see \[wang2019_nonconvexadmm\] for additional details.
 
 ### II-B Sequential Convex Programming
 
-Consider the discrete-time dynamics
+Consider the discrete-time dynamics where $x_{k}\in\mathbb{R}^{n_{x}}$ is the state, $u_{k}\in\mathbb{R}^{n_{u}}$ is the control input, and $f_{k}:\mathbb{R}^{n_{x}}\times\mathbb{R}^{n_{u}}\to\mathbb{R}^{n_{x}}$ are the discrete-time system dynamics between times $t_{k}$ and $t_{k}+k\Delta t$. We introduce the variable where $z_{k}\in\mathbb{R}^{n_{z}}=\mathbb{R}^{n_{x}+n_{u}}$. Note that for ease of notation, we let $u_{K}=\mathbf{0}_{n_{u}}$. Moreover, we let $z=z_{0:K}$, where $z\in\mathbb{R}^{n_{z}\times K}$. The optimal control problem is where $J_{k}:\mathbb{R}^{n_{z}}\to\mathbb{R}$ is the running cost function, $J_{K}:\mathbb{R}^{n_{z}}\to\mathbb{R}$ is the terminal cost function, $e^{x}\in\mathbb{R}^{n_{z}}$ is a row matrix that extracts $x$ from $z$, i.e. $e^{x}=\begin{bmatrix}\mathbf{1}_{n_{x}}^{\top}&\mathbf{0}_{n_{u}}^{\top}\end{bmatrix}$, $\mathcal{Z}^{c}_{k}\subseteq\mathbb{R}^{n_{z}}$ is the set of convex state and control constraints at time step $k$, $g:\mathbb{R}^{n_{z}}\to\mathbb{R}^{n_{g}}$ are nonconvex inequality constraints, and $h:\mathbb{R}^{n_{z}}\to\mathbb{R}^{n_{h}}$ are nonconvex equality constraints. We assume that $J,f_{k},g,h\in\mathcal{C}^{1}$ are closed, and nonconvex, and that $\mathcal{Z}^{c}_{k}$ for $k\in[K]$ is closed and convex. We note that this problem can be the discretized form of a continuous-time optimal control problem and can include path constraints, see \[Elango_ctcs\] for details.
 
-where $x_{k} \in {\mathbb{R}}^{n_{x}}$ is the state, $u_{k} \in {\mathbb{R}}^{n_{u}}$ is the control input, and $f_{k}:{{{\mathbb{R}}^{n_{x}} \times {\mathbb{R}}^{n_{u}}}\rightarrow{\mathbb{R}}^{n_{x}}}$ are the discrete-time system dynamics between times $t_{k}$ and $t_{k} + {k\Deltat}$. We introduce the variable
-
-where $z_{k} \in {\mathbb{R}}^{n_{z}} = {\mathbb{R}}^{n_{x} + n_{u}}$. Note that for ease of notation, we let $u_{K} = \mathbf{0}_{n_{u}}$. Moreover, we let $z = z_{0:K}$, where $z \in {\mathbb{R}}^{n_{z} \times K}$. The optimal control problem is
-
-${{g{(z_{k})}} \leq 0},$ ${k \in {\lbrack K\rbrack}},$ (8c)
-${z_{k} \in \mathcal{Z}_{k}^{c}},$ ${k \in {\lbrack K\rbrack}},$ (8e)
-
-where $J_{k}:{{\mathbb{R}}^{n_{z}}\rightarrow{\mathbb{R}}}$ is the running cost function, $J_{K}:{{\mathbb{R}}^{n_{z}}\rightarrow{\mathbb{R}}}$ is the terminal cost function, $e^{x} \in {\mathbb{R}}^{n_{z}}$ is a row matrix that extracts $x$ from $z$, i.e. $e^{x} = \begin{bmatrix}
-\mathbf{1}_{n_{x}}^{\top} & \mathbf{0}_{n_{u}}^{\top}
-\end{bmatrix}$, $\mathcal{Z}_{k}^{c} \subseteq {\mathbb{R}}^{n_{z}}$ is the set of convex state and control constraints at time step $k$, $g:{{\mathbb{R}}^{n_{z}}\rightarrow{\mathbb{R}}^{n_{g}}}$ are nonconvex inequality constraints, and $h:{{\mathbb{R}}^{n_{z}}\rightarrow{\mathbb{R}}^{n_{h}}}$ are nonconvex equality constraints. We assume that ${J,f_{k},g,h} \in \mathcal{C}^{1}$ are closed, and nonconvex, and that $\mathcal{Z}_{k}^{c}$ for $k \in {\lbrack K\rbrack}$ is closed and convex. We note that this problem can be the discretized form of a continuous-time optimal control problem and can include path constraints, see \[Elango_ctcs\] for details.
-
-We apply the prox-linear method \[drusvyatskiy_proxlin, szmuk_ptr, reynolds_ptr\] to solve. For a general function $\Xi:{{\mathbb{R}}^{n_{z}}\rightarrow{\mathbb{R}}^{n_{\Xi}}}$, we denote the linearized function
-
-where $\overline{z}$ is the state about which the function is linearized. We can formulate as an unconstrained minimization problem by penalizing the nonconvex constraints \[nocedalwright_2006\]. The convex constraints are enforced through an indicator function. At the ${({j + 1})}^{th}$ iteration, the nonconvex cost and constraints are linearized about the solution to the $j^{th}$ subproblem. We define the linear function
-
-where ${w^{1},w^{2},w^{3}} \in {\mathbb{R}}_{+}$ are user-selected weights, and $\mathcal{Z}^{c} = {\bigcup_{k \in {\lbrack K\rbrack}}\mathcal{Z}_{k}^{c}}$. Note that if the running cost and terminal cost functions are convex, they need not be linearized, and ${\overset{\sim}{J}}_{K}{(z_{K}^{j},z_{K})}$ and ${\overset{\sim}{J}}_{k}{(z_{K}^{j},z_{K})}$ in are replaced by $J_{K}{(z_{K})}$ and $J_{k}{(z_{K})}$, respectively. Since the linearizations of the cost and constraints are only accurate in the neighborhood of the trajectory about which they are performed, deviation from that trajectory is penalized with a trust region, resulting in the function
-
-where $w^{p} \in {\mathbb{R}}_{+}$ is a user-selected proximal weight. The SCP framework solves by successively solving the *convex subproblem*
-
-Between SCP iterations, the trajectory about which the problem is linearized is updated with the solution of the previous iterate. This process is repeated until a convergence criterion is satisfied. Algorithm 1 outlines a multi-start version of the standard SCP algorithm, in which $n_{a}$ initial trajectories are used to initialize the algorithm.
-
-while j ≤ jmax, ∥Θ (zij − 1,zij)∥ &gt; ϵc do
-zij + 1 ← arg min zΓ (zij,z)
-Algorithm 1 Multi-Start Standard SCP
+We apply the prox-linear method \[drusvyatskiy_proxlin, szmuk_ptr, reynolds_ptr\] to solve. For a general function $\Xi:\mathbb{R}^{n_{z}}\to\mathbb{R}^{n_{\Xi}}$, we denote the linearized function where $\bar{z}$ is the state about which the function is linearized. We can formulate as an unconstrained minimization problem by penalizing the nonconvex constraints \[nocedalwright_2006\]. The convex constraints are enforced through an indicator function. At the $(j+1)^{\mathrm{th}}$ iteration, the nonconvex cost and constraints are linearized about the solution to the $j^{\mathrm{th}}$ subproblem. We define the linear function where $w^{1},w^{2},w^{3}\in\mathbb{R}_{+}$ are user-selected weights, and ${\mathcal{Z}^{c}=\bigcup_{k\in[K]}\mathcal{Z}^{c}_{k}}$. Note that if the running cost and terminal cost functions are convex, they need not be linearized, and $\tilde{J}_{K}(z_{K}^{j},z_{K})$ and $\tilde{J}_{k}(z_{K}^{j},z_{K})$ in are replaced by ${J}_{K}(z_{K})$ and ${J}_{k}(z_{K})$, respectively. Since the linearizations of the cost and constraints are only accurate in the neighborhood of the trajectory about which they are performed, deviation from that trajectory is penalized with a trust region, resulting in the function where $w^{\mathrm{p}}\in\mathbb{R}_{+}$ is a user-selected proximal weight. The SCP framework solves by successively solving the *convex subproblem* Between SCP iterations, the trajectory about which the problem is linearized is updated with the solution of the previous iterate. This process is repeated until a convergence criterion is satisfied. Algorithm 1 outlines a multi-start version of the standard SCP algorithm, in which $n_{a}$ initial trajectories are used to initialize the algorithm. while j ≤ jmax, ∥Θ(zij − 1, zij)∥ > ϵc do zij + 1 ← arg minzΓ(zij, z) Algorithm 1 Multi-Start Standard SCP
 
 ## Exploratory SCP Algorithm
 
@@ -88,39 +52,17 @@ The trust region term in promotes validity of the linearized model by penalizing
 
 ### III-A1 Primal update
 
-We use $n_{a}$ virtual agents to explore the solution space of an optimal control problem through iterative solves of. The OS-SCP algorithm begins by solving (3a) with ${p_{i}{(z_{i})}} = {\Theta{(z_{i}^{j},z_{i})}}$ for each agent, which is analogous to a standard SCP iteration, given , with a modified penalty term. The subproblem can be expressed as
-
-where $z_{i}$ is the trajectory of the $i^{th}$ agent, $z_{i}^{j}$ is the solution to the $j^{th}$ convex subproblem for the $i^{th}$ agent, and $\rho$ is the consensus penalty parameter. We define the penalized linearized cost as the objective in (12 ‣ III Exploratory SCP Algorithm ‣ A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces")) so that
-
-The modified penalty term penalizes deviation of the state of each agent from the consensus state, $\overline{z}$. This promotes the formation of a consensus among the agents.
+We use $n_{a}$ virtual agents to explore the solution space of an optimal control problem through iterative solves of. The OS-SCP algorithm begins by solving (3a) with $p_{i}(z_{i})=\Theta(z_{i}^{j},z_{i})$ for each agent, which is analogous to a standard SCP iteration, given, with a modified penalty term. The subproblem can be expressed as where $z_{i}$ is the trajectory of the $i^{\mathrm{th}}$ agent, $z_{i}^{j}$ is the solution to the $j^{\mathrm{th}}$ convex subproblem for the $i^{\mathrm{th}}$ agent, and $\rho$ is the consensus penalty parameter. We define the penalized linearized cost as the objective in (12 ‣ III Exploratory SCP Algorithm ‣ A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces")) so that The modified penalty term penalizes deviation of the state of each agent from the consensus state, $\bar{z}$. This promotes the formation of a consensus among the agents.
 
 ### III-A2 Consensus update
 
-We begin by defining the convexified constraint set
-
-where $\mathcal{Z} \subseteq {\mathbb{R}}^{n_{z} \times K}$, and $\mathcal{Z}^{n} \subseteq {\mathbb{R}}^{n_{z} \times K}$ is the set of convexified nonconvex constraints, linearized about the mean trajectory, ${\hat{z}}^{j} = {\frac{1}{n_{a}}{\sum_{i = 1}^{n_{a}}{(z_{i}^{j})}}}$. The set of convexified nonconvex constraints is
-
-We wish to obtain a consensus trajectory that is feasible with respect to the primal problem. We therefore define $q{(\overline{z})}$ in (3b) as the indicator function of the convex set $\mathcal{Z}$, resulting in
-
-Equation (16 ‣ III Exploratory SCP Algorithm ‣ A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces")) is solved by projecting the mean of the agent's trajectories onto the convexified constraint set, resulting in
-
-where $\Pi_{\mathcal{Z}}{( \cdot )}$ denotes the Euclidean projection operator,
-
-and $\xi_{i}^{j}$ is the dual variable for agent $i$ at the $j^{th}$ OS-SCP iteration.
+We begin by defining the convexified constraint set where $\mathcal{Z}\subseteq\mathbb{R}^{n_{z}\times K}$, and $\mathcal{Z}^{n}\subseteq\mathbb{R}^{n_{z}\times K}$ is the set of convexified nonconvex constraints, linearized about the mean trajectory, $\hat{z}^{j}=\frac{1}{n_{a}}\sum_{i=1}^{n_{a}}(z_{i}^{j})$. The set of convexified nonconvex constraints is We wish to obtain a consensus trajectory that is feasible with respect to the primal problem. We therefore define $q(\bar{z})$ in (3b) as the indicator function of the convex set $\mathcal{Z}$, resulting in Equation (16 ‣ III Exploratory SCP Algorithm ‣ A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces")) is solved by projecting the mean of the agent's trajectories onto the convexified constraint set, resulting in where $\Pi_{\mathcal{Z}}(\cdot)$ denotes the Euclidean projection operator, and $\xi_{i}^{j}$ is the dual variable for agent $i$ at the $j^{\mathrm{th}}$ OS-SCP iteration.
 
 ### III-A3 Dual update
 
 Finally, (3c) is solved to update the dual variables.
 
-The algorithm is outlined in Algorithm 2 ‣ III Exploratory SCP Algorithm ‣ A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces"). The agents begin with different initializations. The iterations outlined above are performed until the primal and dual variables converge below a specified tolerance.
-
-while $\left( {{\left\| \delta_{r}^{j} \right\| &gt; \epsilon_{r}},{{\delta_{s}^{j} &gt; \epsilon_{s}},{{j \leq j^{\max}},{\left\| {\Theta{({\overline{z}}^{j - 1},{\overline{z}}^{j})}} \right\| &gt; \epsilon_{c}}}}} \right)$ do
-$z_{i}^{j + 1}\leftarrow{{{\arg\min}_{z}\Gamma^{c}}{(z_{i}^{j},{\overline{z}}_{i}^{j},\xi_{i}^{j},z)}}$
-${\overline{z}}^{j + 1}\leftarrow{\frac{\rho}{2}\Pi_{\mathcal{Z}}\left( {\frac{1}{n_{a}}{\sum_{i = 1}^{n_{a}}\left( {z_{i}^{j + 1} + \xi_{i}^{j}} \right)}} \right)}$
-$\xi_{i}^{j + 1}\leftarrow{\xi_{i}^{j} + \left( {z_{i}^{j + 1} - {\overset{\sim}{z}}^{j + 1}} \right)}$
-Algorithm 2 Operator-Splitting SCP
-
-While we describe the method using consensus across all solution variables for ease of notation, the algorithm does not rely on this assumption. Consensus can be restricted to a subset of the state variables, which may be preferable when only certain portions of the state space pose challenges with local minima and consensus elsewhere is unnecessary.
+The algorithm is outlined in Algorithm 2 ‣ III Exploratory SCP Algorithm ‣ A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces"). The agents begin with different initializations. The iterations outlined above are performed until the primal and dual variables converge below a specified tolerance. zij + 1 ← arg minzΓc(zij, z̄ij, ξij, z) $\bar{z}^{j+1}\leftarrow\frac{\rho}{2}~\Pi_{\mathcal{Z}}\!\left(\frac{1}{n_{a}}\sum_{i=1}^{n_{a}}\left(z_{i}^{j+1}+\xi_{i}^{j}\right)\right)$ Algorithm 2 Operator-Splitting SCP While we describe the method using consensus across all solution variables for ease of notation, the algorithm does not rely on this assumption. Consensus can be restricted to a subset of the state variables, which may be preferable when only certain portions of the state space pose challenges with local minima and consensus elsewhere is unnecessary.
 
 ## Numerical Results
 
@@ -128,19 +70,13 @@ We now demonstrate the performance of the exploration-focused operator-splitting
 
 ### IV-A Unicycle Trajectory Optimization
 
-Consider the discrete-time kinematic model for a unicycle with constant velocity
-
-where the state is $x_{k} = {\lbrack r_{k}^{x}\quad r_{k}^{y}\quad\theta_{k}\rbrack}^{\top} \in {\mathbb{R}}^{3}$ and control $u_{k} \in {\mathbb{R}}$ is the yaw rate. The speed is defined as a constant $v > 0$, and the dynamics are discretized with the uniform time step $\Deltat$. We aim to find an optimal trajectory and nominal control to bring the vehicle from an initial state to a desired terminal state, while avoiding obstacles. The problem setup is shown in Figure 2.
+Consider the discrete-time kinematic model for a unicycle with constant velocity where the state is $x_{k}=[r^{x}_{k}\quad r^{y}_{k}\quad\theta_{k}]^{\top}\in\mathbb{R}^{3}$ and control $u_{k}\in\mathbb{R}$ is the yaw rate. The speed is defined as a constant $v>0$, and the dynamics are discretized with the uniform time step $\Delta t$. We aim to find an optimal trajectory and nominal control to bring the vehicle from an initial state to a desired terminal state, while avoiding obstacles. The problem setup is shown in Figure 2.
 
 Figure 2: Problem setup for simple obstacle avoidance example.
 
-Let $x_{g}$ be the desired terminal state. We express the problem in the form of, where the convex terminal and running cost functions are
+Let ${x}_{g}$ be the desired terminal state. We express the problem in the form of, where the convex terminal and running cost functions are with $Q_{g}\succeq 0$. The nonconvex inequality constraints are where $R_{\iota}\in\mathbb{R}_{+}$ is the radius of obstacle $\iota$ and $c_{\iota}\in\mathbb{R}^{2}$ is the center of obstacle $\iota$.
 
-with $Q_{g} \succeq 0$. The nonconvex inequality constraints are
-
-where $R_{\iota} \in {\mathbb{R}}_{+}$ is the radius of obstacle $\iota$ and $c_{\iota} \in {\mathbb{R}}^{2}$ is the center of obstacle $\iota$.
-
-Following the prox-linear methodology, at iteration $j$, we formulate the nonconvex optimization problem as a convex unconstrained minimization problem by penalizing the constraints, and linearizing the cost and constraints about the solution to the ${({j - 1})}^{th}$ subproblem. We formulate the penalized cost as in with linearized cost . Note that since the terminal and running costs are convex, they need not be convexified, and ${\overset{\sim}{J}}_{K}{(z_{K}^{j},z_{K})}$ and ${\overset{\sim}{J}}_{k}{(z_{k}^{j},z_{k})}$ in are replaced by $J_{K}{(z_{K})}$ and $J_{k}{(z_{k})}$, respectively.
+Following the prox-linear methodology, at iteration $j$, we formulate the nonconvex optimization problem as a convex unconstrained minimization problem by penalizing the constraints, and linearizing the cost and constraints about the solution to the $(j-1)^{\mathrm{th}}$ subproblem. We formulate the penalized cost as in with linearized cost . Note that since the terminal and running costs are convex, they need not be convexified, and $\tilde{J}_{K}(z_{K}^{j},z_{K})$ and $\tilde{J}_{k}(z_{k}^{j},z_{k})$ in are replaced by ${J}_{K}(z_{K})$ and ${J}_{k}(z_{k})$, respectively.
 
 ### IV-A1 SCP solution
 
@@ -152,7 +88,7 @@ TABLE I: SCP Results
 
 ### IV-A2 OS-SCP solution
 
-We now solve the problem using the proposed OS-SCP method, summarized in Algorithm 2 ‣ III Exploratory SCP Algorithm ‣ A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces"). At each iteration, each agent solves a convex subproblem. A consensus update is then performed, and finally a dual update is performed. This process repeats until the primal and dual residuals fall below specified tolerances $\epsilon_{r} \in {\mathbb{R}}_{+}$ and $\epsilon_{s} \in {\mathbb{R}}_{+}$, respectively. The same three initial guesses as before are used to initialize the three agents, where agent 1 is assigned the "upper" guess, agent 2 the "straight" guess, and agent 3 the "lower" guess. The converged solution is shown in Figure 4, and the evolution of the primal and dual residuals are shown in Figure 5. The residuals converge to zero over iterations, and OS-SCP successfully forms a consensus between all three agents. The consensus converges to the same trajectory as the lowest cost solution of the standard SCP example, demonstrating the ability for the OS-SCP method to pull agents out of the local minima near to their initialization. We compare the performance of both methods in Table II, where OS-SCP finds an equal cost trajectory in fewer iterations than standard SCP. Since at each iteration of OS-SCP, three convex subproblems are solved (one per agent), and three standard SCP problems are solved (one per initial guess), the run times of the methods are approximately equal.
+We now solve the problem using the proposed OS-SCP method, summarized in Algorithm 2 ‣ III Exploratory SCP Algorithm ‣ A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces"). At each iteration, each agent solves a convex subproblem. A consensus update is then performed, and finally a dual update is performed. This process repeats until the primal and dual residuals fall below specified tolerances $\epsilon_{r}\in\mathbb{R}_{+}$ and $\epsilon_{s}\in\mathbb{R}_{+}$, respectively. The same three initial guesses as before are used to initialize the three agents, where agent 1 is assigned the "upper" guess, agent 2 the "straight" guess, and agent 3 the "lower" guess. The converged solution is shown in Figure 4, and the evolution of the primal and dual residuals are shown in Figure 5. The residuals converge to zero over iterations, and OS-SCP successfully forms a consensus between all three agents. The consensus converges to the same trajectory as the lowest cost solution of the standard SCP example, demonstrating the ability for the OS-SCP method to pull agents out of the local minima near to their initialization. We compare the performance of both methods in Table II, where OS-SCP finds an equal cost trajectory in fewer iterations than standard SCP. Since at each iteration of OS-SCP, three convex subproblems are solved (one per agent), and three standard SCP problems are solved (one per initial guess), the run times of the methods are approximately equal.
 
 Figure 4: Initial and converged trajectories computed using OS-SCP algorithm.
 
@@ -162,9 +98,7 @@ TABLE II: Numerical Comparison - Unicycle Trajectory
 
 ### IV-B Unicycle Trajectory Optimization with Gaussian Terrain Fields
 
-The second problem extends the first example. Consider the same kinematic model and problem setup. However, we add spacial preference biases via a Gaussian terrain field. The cost map created by the terrain field is expressed as
-
-where $\mu_{\ell} \in {\mathbb{R}}^{2}$ is the position of the center of the $\ell$-th Gaussian field, and $\Sigma_{\ell} \succeq 0$ controls the shape of the field and its amplitude. At the $j^{th}$ iteration, the cost map in is linearized about the solution to the ${({j - 1})}^{th}$ subproblem, $z^{j}$, and added to the linearized cost function . Then, SCP solves the same unconstrained convex subproblem as , but with updated $\Gamma{(z^{j},z)}$ to include the Gaussian terrain field cost.
+The second problem extends the first example. Consider the same kinematic model and problem setup. However, we add spacial preference biases via a Gaussian terrain field. The cost map created by the terrain field is expressed as where $\mu_{\ell}\in\mathbb{R}^{2}$ is the position of the center of the $\ell$-th Gaussian field, and $\Sigma_{\ell}\succeq 0$ controls the shape of the field and its amplitude. At the $j^{\mathrm{th}}$ iteration, the cost map in is linearized about the solution to the $(j-1)^{\mathrm{th}}$ subproblem, $z^{j}$, and added to the linearized cost function. Then, SCP solves the same unconstrained convex subproblem as, but with updated $\Gamma(z^{j},z)$ to include the Gaussian terrain field cost.
 
 The new problem setup is shown in Figure 6, where Gaussian cost fields are added between the upper and lower corridors of the obstacles. The terrain incentivizes traveling through the lower corridor by giving it negative cost, and penalizes the upper corridor with a higher cost terrain.
 
@@ -184,11 +118,7 @@ Figure 8: Initial and converged trajectories with Gaussian terrain field cost co
 
 Figure 9: Initial and converged trajectories with Gaussian terrain field cost computed using OS-SCP algorithm.
 
-Standard SCP (3 guesses)
-
-Standard SCP (4 guesses)
-
-TABLE III: Numerical Results - Unicycle Trajectory with Gaussian Terrain Field
+Standard SCP (3 guesses) Standard SCP (4 guesses) TABLE III: Numerical Results - Unicycle Trajectory with Gaussian Terrain Field
 
 ## Conclusion
 

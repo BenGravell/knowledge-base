@@ -18,27 +18,17 @@ The major contributions of this work are twofold: (i) we reformulate a highly co
 
 We design an MPC controller that leverages interactive behaviors of surrounding $N \in {\mathbb{N}}$ vehicles conditioned on the ego vehicle's future actions. The key to leverage interactions is to integrate a neural network and interactively update controls with step-size ${\Deltat} \in {\mathbb{R}}_{> 0}$ based on its inference (i.e., predicted positions during updates). This section further details the mathematical formulation of the MPC with the neural network.
 
-Motivated by, we use bicycle kinematics. The corresponding states are $\lbrack$xy-coordinates, heading angle, speed$\rbrack$ denoted by ${z{(\tau)}} = {\lbrack{x{(\tau)}},{y{(\tau)}},{\psi{(\tau)}},{v{(\tau)}}\rbrack}^{\top}$ for all $\tau \in {\{ 0,\ldots,T_{p}\}}$ and the control inputs are $\lbrack$acceleration, steering angle$\rbrack$ denoted by $\lbrack{a{(\tau)}},{\delta{(\tau)}}\rbrack$ for all $\tau \in {\{ 0,\ldots,{T_{p} - 1}\}}$ with the planning horizon $T_{p} \in {\mathbb{N}}$. For brevity, let $g{(\tau)}$ denote any general function $g{( \cdot )}$ at discrete time-step $\tau \in {\mathbb{Z}}_{\geq 0}$ with respect to (w.r.t) time $t$, i.e. ${g{(\tau)}} \equiv {g{({t + {\tau\Deltat}})}}$.
+Motivated , we use bicycle kinematics. The corresponding states are $\lbrack$xy-coordinates, heading angle, speed$\rbrack$ denoted by ${z{(\tau)}} = {\lbrack{x{(\tau)}},{y{(\tau)}},{\psi{(\tau)}},{v{(\tau)}}\rbrack}^{\top}$ for all $\tau \in {\{ 0,\ldots,T_{p}\}}$ and the control inputs are $\lbrack$acceleration, steering angle$\rbrack$ denoted by $\lbrack{a{(\tau)}},{\delta{(\tau)}}\rbrack$ for all $\tau \in {\{ 0,\ldots,{T_{p} - 1}\}}$ with the planning horizon $T_{p} \in {\mathbb{N}}$. For brevity, let $g{(\tau)}$ denote any general function $g{( \cdot )}$ at discrete time-step $\tau \in {\mathbb{Z}}_{\geq 0}$ with respect to (w.r.t) time $t$, i.e. ${g{(\tau)}} \equiv {g{({t + {\tau\Deltat}})}}$.
 
 Then, at any time $t$, we solve the MPC to obtain the optimal control trajectories ${\mathbf{\Delta}^{\ast}{(t)}} \in \mathcal{D} \subset {\mathbb{R}}^{T_{p}}$ and ${{\mathbf{α}}^{\ast}{(t)}} \in \mathcal{A} \subset {\mathbb{R}}^{T_{p}}$, and corresponding optimal state trajectory ${{\mathbf{Z}}^{\ast}{(t)}} \in \mathcal{Z} \subset {\mathbb{R}}^{4T_{p}}$, where:
 
 ### II-A Objective function
 
-The controller's objective is to move from the current lane to the desired lane as soon as possible while minimizing control effort and ensuring safety and smoothness. Let $x^{\text{ref}}$ denote the maximum longitude coordinate until when the ego must transition to the target lane. Let $\parallel \cdot \parallel$ denote the Euclidean norm. For $x < x^{\text{ref}}$, we utilize the following objective (cost) function $J{({\mathbf{\Delta}{(t)}},{{\mathbf{α}}{(t)}},{{\mathbf{Z}}{(t)}})}$ similar to:
-
-where ${\mathbf{\Delta}{(t)}} \in \mathcal{D}$, ${{\mathbf{α}}{(t)}} \in \mathcal{A}$, and ${{\mathbf{Z}}{(t)}} \in \mathcal{Z}$ are the planned steering, acceleration, and state trajectories, respectively. $y^{\text{ref}} \in {\mathbb{R}}$ and $v^{\text{ref}} \in {\mathbb{R}}_{> 0}$ are the reference latitude coordinate of the desired lane and desired velocity, respectively, provided by a high-level planner. For a detailed description of each term, we refer the interested readers to.
+The controller's objective is to move from the current lane to the desired lane as soon as possible while minimizing control effort and ensuring safety and smoothness. Let $x^{\text{ref}}$ denote the maximum longitude coordinate until when the ego must transition to the target lane. Let $\parallel \cdot \parallel$ denote the Euclidean norm. For $x < x^{\text{ref}}$, we utilize the following objective (cost) function $J{({\mathbf{\Delta}{(t)}},{{\mathbf{α}}{(t)}},{{\mathbf{Z}}{(t)}})}$ similar to: where ${\mathbf{\Delta}{(t)}} \in \mathcal{D}$, ${{\mathbf{α}}{(t)}} \in \mathcal{A}$, and ${{\mathbf{Z}}{(t)}} \in \mathcal{Z}$ are the planned steering, acceleration, and state trajectories, respectively. $y^{\text{ref}} \in {\mathbb{R}}$ and $v^{\text{ref}} \in {\mathbb{R}}_{> 0}$ are the reference latitude coordinate of the desired lane and desired velocity, respectively, provided by a high-level planner. For a detailed description of each term, we refer the interested readers to.
 
 ### II-B State Dynamics
 
-Let $\overset{\sim}{\delta},\overset{\sim}{a}$ and $\overset{\sim}{z}$ be the last observed steering input, acceleration input and state of the ego vehicle, respectively. At any time $t$, we linearly approximate the discrete-time kinematic bicycle model of the form ${z{({\tau + 1})}} = {f{({\delta{(\tau)}},{a{(\tau)}},{z{(\tau)}})}}$ about $(\overset{\sim}{\delta},\overset{\sim}{a},\overset{\sim}{z})$ to obtain the equality constraints for the optimization problem. We have
-
-where ${\overset{\sim}{A} \in {\mathbb{R}}^{4}},{{\overset{\sim}{B} \in {\mathbb{R}}^{4}},{\overset{\sim}{C} \in {\mathbb{R}}^{4 \times 4}}}$, and $\overset{\sim}{D} \in {\mathbb{R}}^{4}$ are constant matrices given by $\overset{\sim}{A}:=\left. \frac{\partial f}{\partial\delta} \right|_{(\overset{\sim}{\delta},\overset{\sim}{a},\overset{\sim}{z})}$, $\overset{\sim}{B}:=\left. \frac{\partial f}{\partial a} \right|_{(\overset{\sim}{\delta},\overset{\sim}{a},\overset{\sim}{z})}$, $\overset{\sim}{C} = \left. \frac{\partial f}{\partial z} \right|_{(\overset{\sim}{\delta},\overset{\sim}{a},\overset{\sim}{z})}$, and $\overset{\sim}{D}:={{f{(\overset{\sim}{\delta},\overset{\sim}{a},\overset{\sim}{z})}} - {\overset{\sim}{A}\overset{\sim}{\delta}} - {\overset{\sim}{B}\overset{\sim}{a}} - {\overset{\sim}{C}\overset{\sim}{z}}}$, respectively. Hence, the linearized system dynamics is given by:
-
-The equality constraints based on the system dynamics over the $T_{p}$ planning time-steps can be written as:
-
-where ${A \in {\mathbb{R}}^{{4T_{p}} \times T_{p}}},{{B \in {\mathbb{R}}^{{4T_{p}} \times T_{p}}},{C \in {\mathbb{R}}^{{{4T_{p}} \times 4}T_{p}}}}$, and $D \in {\mathbb{R}}^{4T_{p}}$ are constant matrices given by:
-
-$\mathbf{0}$ and $\mathbf{I}$ denote the zero and identity matrix, respectively.
+Let $\overset{\sim}{\delta},\overset{\sim}{a}$ and $\overset{\sim}{z}$ be the last observed steering input, acceleration input and state of the ego vehicle, respectively. At any time $t$, we linearly approximate the discrete-time kinematic bicycle model of the form ${z{({\tau + 1})}} = {f{({\delta{(\tau)}},{a{(\tau)}},{z{(\tau)}})}}$ about $(\overset{\sim}{\delta},\overset{\sim}{a},\overset{\sim}{z})$ to obtain the equality constraints for the optimization problem. We have where ${\overset{\sim}{A} \in {\mathbb{R}}^{4}},{{\overset{\sim}{B} \in {\mathbb{R}}^{4}},{\overset{\sim}{C} \in {\mathbb{R}}^{4 \times 4}}}$, and $\overset{\sim}{D} \in {\mathbb{R}}^{4}$ are constant matrices given by $\overset{\sim}{A}:=\left. \frac{\partial f}{\partial\delta} \right|_{(\overset{\sim}{\delta},\overset{\sim}{a},\overset{\sim}{z})}$, $\overset{\sim}{B}:=\left. \frac{\partial f}{\partial a} \right|_{(\overset{\sim}{\delta},\overset{\sim}{a},\overset{\sim}{z})}$, $\overset{\sim}{C} = \left. \frac{\partial f}{\partial z} \right|_{(\overset{\sim}{\delta},\overset{\sim}{a},\overset{\sim}{z})}$, and $\overset{\sim}{D}:={{f{(\overset{\sim}{\delta},\overset{\sim}{a},\overset{\sim}{z})}} - {\overset{\sim}{A}\overset{\sim}{\delta}} - {\overset{\sim}{B}\overset{\sim}{a}} - {\overset{\sim}{C}\overset{\sim}{z}}}$, respectively. Hence, the linearized system dynamics is given: The equality constraints based on the system dynamics over the $T_{p}$ planning time-steps can be written as: where ${A \in {\mathbb{R}}^{{4T_{p}} \times T_{p}}},{{B \in {\mathbb{R}}^{{4T_{p}} \times T_{p}}},{C \in {\mathbb{R}}^{{{4T_{p}} \times 4}T_{p}}}}$, and $D \in {\mathbb{R}}^{4T_{p}}$ are constant matrices given: $\mathbf{0}$ and $\mathbf{I}$ denote the zero and identity matrix, respectively.
 
 ### Remark 1
 
@@ -46,19 +36,13 @@ To simplify the optimization, we linearly approximate the system dynamics before
 
 ### II-C Safety Constraints
 
-The safety constraints for collision avoidance depend on the nearby vehicles' trajectory prediction and the vehicle shape model. Let $\mathcal{V}$ denote the set of nearby vehicles surrounding the ego vehicle. Let $\phi{(\tau)}$ be a trained neural network that jointly predicts the future trajectories of the ego vehicle and its surrounding vehicles for $T_{pred}$ time-steps into the future based on their trajectories for $T_{obs}$ time-steps in the past. $\phi{(\tau)}$ is given by:
-
-with $T_{pred} = 1$, where the first column represents the positions of the ego vehicle followed by the positions of $N$ surrounding vehicles. Given the buffer of $T_{obs}$ past observations until time-step $\tau$, the coordinates of vehicle $i \in \mathcal{V}$ at time-step $\tau + 1$ are represented as:
-
-Some examples of the neural network $\phi{(\tau)}$ include social generative adversarial network (SGAN) and graph-based spatial-temporal convolutional network (GSTCN).
+The safety constraints for collision avoidance depend on the nearby vehicles' trajectory prediction and the vehicle shape model. Let $\mathcal{V}$ denote the set of nearby vehicles surrounding the ego vehicle. Let $\phi{(\tau)}$ be a trained neural network that jointly predicts the future trajectories of the ego vehicle and its surrounding vehicles for $T_{pred}$ time-steps into the future based on their trajectories for $T_{obs}$ time-steps in the past. $\phi{(\tau)}$ is given: with $T_{pred} = 1$, where the first column represents the positions of the ego vehicle followed by the positions of $N$ surrounding vehicles. Given the buffer of $T_{obs}$ past observations until time-step $\tau$, the coordinates of vehicle $i \in \mathcal{V}$ at time-step $\tau + 1$ are represented as: Some examples of the neural network $\phi{(\tau)}$ include social generative adversarial network (SGAN) and graph-based spatial-temporal convolutional network (GSTCN).
 
 ### Remark 2
 
 Interactive predictions over planning horizon $T_{p}$ are computed recursively using $\phi{(t)}$ with $T_{pred} = 1$ based on the latest reactive predictions and ego vehicle positions from the MPC's candidate solution trajectory.
 
-We model the vehicle shape using a single circle to obtain a smooth and continuously differentiable distance measure to enable gradient-based optimization methods. Let $(x,y)$ and $({\hat{x}}_{i},{\hat{y}}_{i})$ be the position of the ego vehicle and the predicted positions of the surrounding vehicles $i \in \mathcal{V}$ (obtained using $\phi{(\tau)}$), respectively. Let ${r,r_{i}} \in {\mathbb{R}}_{> 0}$ be the radius of circles modeling ego vehicle and vehicle $i$, respectively. The safety constraint for the ego vehicle w.r.t vehicle $i$ then reads:
-
-where $\epsilon \in {\mathbb{R}}_{> 0}$ is a safety bound.
+We model the vehicle shape using a single circle to obtain a smooth and continuously differentiable distance measure to enable gradient-based optimization methods. Let $(x,y)$ and $({\hat{x}}_{i},{\hat{y}}_{i})$ be the position of the ego vehicle and the predicted positions of the surrounding vehicles $i \in \mathcal{V}$ (obtained using $\phi{(\tau)}$), respectively. Let ${r,r_{i}} \in {\mathbb{R}}_{> 0}$ be the radius of circles modeling ego vehicle and vehicle $i$, respectively. The safety constraint for the ego vehicle w.r.t vehicle $i$ then reads: where $\epsilon \in {\mathbb{R}}_{> 0}$ is a safety bound.
 
 ### Remark 3
 
@@ -66,59 +50,33 @@ Using the single circle model, the safety constraints can be conservative, and c
 
 ### II-D Formulation of the Optimization problem
 
-We now present the complete optimization problem for the receding horizon control in a compact form:
-
-In the next section, we solve the optimization using ADMM to determine a safe and interactive ego vehicle's trajectory.
+We now present the complete optimization problem for the receding horizon control in a compact form: In the next section, we solve the optimization using ADMM to determine a safe and interactive ego vehicle's trajectory.
 
 ## Solving MPC with ADMM
 
 There are many mathematical challenges associated with the MPC problem in Section II. Namely, it has the non-linear system dynamics, non-convex safety constraints, and dependence of the neural network predictions on its predictions in previous time steps ($T_{obs} \neq 1$). We now detail the systematic steps to solve the complex problem using ADMM, addressing the aforementioned mathematical challenges.
 
-First, we construct a Lagrangian by moving the safety constraints, ${{b_{i}{({\mathbf{Z}})}} > 0},{i \in \mathcal{V}}$, in the optimization objective:
-
-where $\lambda_{s} \in {\mathbb{R}}_{> 0}^{T_{p}}$ is the vector of Lagrange multipliers.
+First, we construct a Lagrangian by moving the safety constraints, ${{b_{i}{({\mathbf{Z}})}} > 0},{i \in \mathcal{V}}$, in the optimization objective: where $\lambda_{s} \in {\mathbb{R}}_{> 0}^{T_{p}}$ is the vector of Lagrange multipliers.
 
 ### Remark 4
 
 For theoretical analysis, we incorporate safety constraints into the optimization objective, but for our simulation study, we enforce them as hard constraints.
 
-The optimization problem - is separable and the optimization variables $\mathbf{\Delta},{\mathbf{α}},{\mathbf{Z}}$ are decoupled in the objective function. Following the convention in, the augmented Lagrangian is given by:
+The optimization problem - is separable and the optimization variables $\mathbf{\Delta},{\mathbf{α}},{\mathbf{Z}}$ are decoupled in the objective function. Following the convention, the augmented Lagrangian is given: where $\rho > 0$ is the ADMM Lagrangian parameter and $\mu$ is the dual variable associated with the constraint. The complete algorithm is given by the Algorithm 1.
 
-where $\rho > 0$ is the ADMM Lagrangian parameter and $\mu$ is the dual variable associated with the constraint. The complete algorithm is given by the Algorithm 1.
+Init: states z = z0, controls δ = δ0, a = a0 Surrounding vehicles’ position: 2 Find the optimal control that minimizes the cumulative cost over horizon Tp Init: ${\hat{\mathbf{\Delta}} = \mathbf{\Delta}_{0}},{{\hat{\mathbf{α}} = {\mathbf{α}}_{0}},{{\hat{\mathbf{Z}} = {\mathbf{Z}}_{0}},{\hat{\mu} = \mu_{0}}}}$ 3 while convergence criterion is not met do 4 $\hat{\mathbf{\Delta}}\leftarrow{{{argmin}_{\mathbf{\Delta}}\mathcal{L}_{\rho}}{(\mathbf{\Delta},\hat{\mathbf{α}},\hat{\mathbf{Z}})}}$ 5 $\hat{\mathbf{α}}\leftarrow{{{argmin}_{\mathbf{α}}\mathcal{L}_{\rho}}{(\hat{\mathbf{\Delta}},{\mathbf{α}},\hat{\mathbf{Z}})}}$ 6 $\hat{\mathbf{Z}}\leftarrow{{{argmin}_{\mathbf{Z}}\mathcal{L}_{\rho}}{(\hat{\mathbf{\Delta}},\hat{\mathbf{α}},{\mathbf{Z}})}}$ 7 $\hat{\mu}\leftarrow{\hat{\mu} + {\rho{({F{(\hat{\mathbf{\Delta}},\hat{\mathbf{α}},\hat{\mathbf{Z}})}})}}}$ 11 Update the states through non-linear state dynamics with first elements of controls 12 $z\leftarrow{f{({\lbrack\hat{\mathbf{\Delta}}\rbrack}_{0},{\lbrack\hat{\mathbf{α}}\rbrack}_{0},z)}}$ 14 Observe positions of other vehicles at the current time t Algorithm 1 MPC with ADMM Next, we provide details for solving each of the local optimization problems at iteration $k$, for solving the MPC.
 
-Init: states z = z0, controls δ = δ0, a = a0
-Surrounding vehicles’ position:
-2 Find the optimal control that minimizes the cumulative cost over horizon Tp
-Init: ${\hat{\mathbf{\Delta}} = \mathbf{\Delta}_{0}},{{\hat{\mathbf{α}} = {\mathbf{α}}_{0}},{{\hat{\mathbf{Z}} = {\mathbf{Z}}_{0}},{\hat{\mu} = \mu_{0}}}}$
-3 while convergence criterion is not met do
-4 $\hat{\mathbf{\Delta}}\leftarrow{{{argmin}_{\mathbf{\Delta}}\mathcal{L}_{\rho}}{(\mathbf{\Delta},\hat{\mathbf{α}},\hat{\mathbf{Z}})}}$
-5 $\hat{\mathbf{α}}\leftarrow{{{argmin}_{\mathbf{α}}\mathcal{L}_{\rho}}{(\hat{\mathbf{\Delta}},{\mathbf{α}},\hat{\mathbf{Z}})}}$
-6 $\hat{\mathbf{Z}}\leftarrow{{{argmin}_{\mathbf{Z}}\mathcal{L}_{\rho}}{(\hat{\mathbf{\Delta}},\hat{\mathbf{α}},{\mathbf{Z}})}}$
-7 $\hat{\mu}\leftarrow{\hat{\mu} + {\rho{({F{(\hat{\mathbf{\Delta}},\hat{\mathbf{α}},\hat{\mathbf{Z}})}})}}}$
-11 Update the states through non-linear state dynamics with first elements of controls
-12 $z\leftarrow{f{({\lbrack\hat{\mathbf{\Delta}}\rbrack}_{0},{\lbrack\hat{\mathbf{α}}\rbrack}_{0},z)}}$
-14 Observe positions of other vehicles at the current time t
-Algorithm 1 MPC with ADMM
+### III-A Update $\mathbf{\Delta}^{({k + 1})} = {{{argmin}_{\mathbf{\Delta} \in \mathcal{D}}\mathcal{L}_{\rho}}{(\mathbf{\Delta},{\mathbf{α}}^{(k)},\mathbf{Z}^{(k)})}}$
 
-Next, we provide details for solving each of the local optimization problems at iteration $k$, for solving the MPC.
+The sub-optimization problem for $\mathbf{\Delta}^{({k + 1})}$ is given by where $c_{\mathbf{\Delta}}^{(k)} = {{A\mathbf{\Delta}^{(k)}} - {F{(\mathbf{\Delta}^{(k)},{\mathbf{α}}^{(k)},{\mathbf{Z}}^{(k)})}}}$. It is a convex problem; hence, we can use a canonical convex optimization algorithm to find the optimal solution.
 
-### III-A Update $\mathbf{\Delta}^{({k + 1})} = {{{argmin}_{\mathbf{\Delta} \in \mathcal{D}}\mathcal{L}_{\rho}}\hspace{0pt}{(\mathbf{\Delta},{\mathbf{α}}^{(k)},\mathbf{Z}^{(k)})}}$
+### III-B Update ${\mathbf{α}}^{({k + 1})} = {{{argmin}_{{\mathbf{α}} \in \mathcal{A}}\mathcal{L}_{\rho}}{(\mathbf{\Delta}^{({k + 1})},{\mathbf{α}},\mathbf{Z}^{(k)})}}$
 
-The sub-optimization problem for $\mathbf{\Delta}^{({k + 1})}$ is given by
+The sub-optimization problem for ${\mathbf{α}}^{({k + 1})}$ is given by where $c_{\mathbf{α}}^{(k)} = {{B{\mathbf{α}}^{(k)}} - {F{(\mathbf{\Delta}^{({k + 1})},{\mathbf{α}}^{(k)},{\mathbf{Z}}^{(k)})}}}$. It is a convex problem; hence, we can use a canonical convex optimization algorithm to find the optimal solution.
 
-where $c_{\mathbf{\Delta}}^{(k)} = {{A\mathbf{\Delta}^{(k)}} - {F{(\mathbf{\Delta}^{(k)},{\mathbf{α}}^{(k)},{\mathbf{Z}}^{(k)})}}}$. It is a convex problem; hence, we can use a canonical convex optimization algorithm to find the optimal solution.
+### III-C Update $\mathbf{Z}^{({k + 1})} = {{{argmin}_{\mathbf{Z} \in \mathcal{Z}}\mathcal{L}_{\rho}}{(\mathbf{\Delta}^{({k + 1})},{\mathbf{α}}^{({k + 1})},\mathbf{Z})}}$
 
-### III-B Update ${\mathbf{α}}^{({k + 1})} = {{{argmin}_{{\mathbf{α}} \in \mathcal{A}}\mathcal{L}_{\rho}}\hspace{0pt}{(\mathbf{\Delta}^{({k + 1})},{\mathbf{α}},\mathbf{Z}^{(k)})}}$
-
-The sub-optimization problem for ${\mathbf{α}}^{({k + 1})}$ is given by
-
-where $c_{\mathbf{α}}^{(k)} = {{B{\mathbf{α}}^{(k)}} - {F{(\mathbf{\Delta}^{({k + 1})},{\mathbf{α}}^{(k)},{\mathbf{Z}}^{(k)})}}}$. It is a convex problem; hence, we can use a canonical convex optimization algorithm to find the optimal solution.
-
-### III-C Update $\mathbf{Z}^{({k + 1})} = {{{argmin}_{\mathbf{Z} \in \mathcal{Z}}\mathcal{L}_{\rho}}\hspace{0pt}{(\mathbf{\Delta}^{({k + 1})},{\mathbf{α}}^{({k + 1})},\mathbf{Z})}}$
-
-The sub-optimization problem for ${\mathbf{Z}}^{({k + 1})}$ is given by
-
-where $c_{\mathbf{Z}}^{(k)} = {{C{\mathbf{Z}}^{(k)}} - {F{(\mathbf{\Delta}^{({k + 1})},{\mathbf{α}}^{({k + 1})},{\mathbf{Z}}^{(k)})}}}$. Due to the nonconvexity of the neural network in $b_{i}{({\mathbf{Z}})}$, the objective function (16 ‣ III Solving MPC with ADMM ‣ Interaction-Aware Trajectory Planning for Autonomous Vehicles with Analytic Integration of Neural Networks into Model Predictive Control")) is non-convex. We prefer the Quasi-Newton method for optimization to avoid expensive Hessian computation at each step. Hence, we utilize BFGS-SQP method, which employs BFGS Hessian approximations within a sequential quadratic optimization, and does not assume any special structure in the objective or constraints. For a solver, we use PyGranso, a PyTorch-enabled port of GRANSO, that enables gradients computation by back-propagating the neural network's gradients at each iteration.
+The sub-optimization problem for ${\mathbf{Z}}^{({k + 1})}$ is given by where $c_{\mathbf{Z}}^{(k)} = {{C{\mathbf{Z}}^{(k)}} - {F{(\mathbf{\Delta}^{({k + 1})},{\mathbf{α}}^{({k + 1})},{\mathbf{Z}}^{(k)})}}}$. Due to the nonconvexity of the neural network in $b_{i}{({\mathbf{Z}})}$, the objective function (16 ‣ III Solving MPC with ADMM ‣ Interaction-Aware Trajectory Planning for Autonomous Vehicles with Analytic Integration of Neural Networks into Model Predictive Control")) is non-convex. We prefer the Quasi-Newton method for optimization to avoid expensive Hessian computation at each step. Hence, we utilize BFGS-SQP method, which employs BFGS Hessian approximations within a sequential quadratic optimization, and does not assume any special structure in the objective or constraints. For a solver, we use PyGranso, a PyTorch-enabled port of GRANSO, that enables gradients computation by back-propagating the neural network's gradients at each iteration.
 
 ### Remark 5
 
@@ -128,9 +86,7 @@ Henceforth, we refer to our method as ADMM-NNMPC.
 
 ## Convergence of MPC with ADMM
 
-Due to the inherent non-convexity of the neural network, the rigorous convergence analysis of ADMM in is not readily applicable. Thus, we extend the convergence analysis of ADMM with an integrated neural network, i.e., the convergence of the inner while loop in Algorithm 1. We first make the following assumptions on the neural network:
-
-At any time-step $\tau \in {\lbrack 0,T_{p}\rbrack}$, the neural network's outputs are bounded, i.e. ${|{\phi_{i,x}{(\tau)}}|} \leq s_{x}$ and ${|{\phi_{i,y}{(\tau)}}|} \leq s_{y}$, $i \in \mathcal{V}$, where ${s_{x},s_{y}} \in {\mathbb{R}}_{> 0}$ are constants.
+Due to the inherent non-convexity of the neural network, the rigorous convergence analysis of ADMM in is not readily applicable. Thus, we extend the convergence analysis of ADMM with an integrated neural network, i.e., the convergence of the inner while loop in Algorithm 1. We first make the following assumptions on the neural network: At any time-step $\tau \in {\lbrack 0,T_{p}\rbrack}$, the neural network's outputs are bounded, i.e. ${|{\phi_{i,x}{(\tau)}}|} \leq s_{x}$ and ${|{\phi_{i,y}{(\tau)}}|} \leq s_{y}$, $i \in \mathcal{V}$, where ${s_{x},s_{y}} \in {\mathbb{R}}_{> 0}$ are constants.
 
 At any time-step $\tau \in {\lbrack 0,T_{p}\rbrack}$, the gradients of the neural network's outputs w.r.t the input ego trajectory exist and are bounded, i.e. ${\|\frac{\partial{\phi_{i,x}{(t)}}}{\partial{\mathbf{Z}}}\|}_{\infty} \leq \theta_{x}$ and ${\|\frac{\partial{\phi_{i,y}{(t)}}}{\partial{\mathbf{Z}}}\|}_{\infty} \leq \theta_{y}$ for all $i \in \mathcal{V}$, where ${\theta_{x},\theta_{y}} \in {\mathbb{R}}_{> 0}$ are constants and $\parallel \cdot \parallel_{\infty}$ is the max. norm of a vector.
 
@@ -144,7 +100,7 @@ Assumptions (A1)-(A3) are sufficient conditions and not necessary conditions. If
 
 ### Theorem 1
 
-\[Convergence of MPC with ADMM\] Under the assumptions (A1)--(A3), the inner while loop in Algorithm 1 converges subsequently for any sufficiently large $\rho > {\max{\{ 1,{{({1 + {2\sigma_{\min}{(C)}}})}L_{J}M}\}}}$, where $\sigma_{\min}{(C)}$ is the smallest positive singular value of $C$ in (II-B), $L_{J}$ is the Lipschitz constant for $J$ in, and $M$ is the Lipschitz constant for sub-minimization paths as defined in Lemma 2. Therefore, starting from any $\mathbf{\Delta}^{},{\mathbf{α}}^{},\mathbf{Z}^{},\mu^{}$, it generates a sequence that is bounded, has at least one limit point, and that each limit point $\mathbf{\Delta}^{\ast},{\mathbf{α}}^{\ast},\mathbf{Z}^{\ast},\mu^{\ast}$ is a stationary point of $\mathcal{L}_{\rho}$ satisfying ${{\nabla\mathcal{L}_{\rho}}{(\mathbf{\Delta}^{\ast},{\mathbf{α}}^{\ast},\mathbf{Z}^{\ast},\mu^{\ast})}} = 0$.
+\[Convergence of MPC with ADMM\] Under the assumptions (A1)--(A3), the inner while loop in Algorithm 1 converges subsequently for any sufficiently large $\rho > {\max{\{ 1,{{({1 + {2\sigma_{\min}{(C)}}})}L_{J}M}\}}}$, where $\sigma_{\min}{(C)}$ is the smallest positive singular value of $C$ in (II-B), $L_{J}$ is the Lipschitz constant for $J$ , and $M$ is the Lipschitz constant for sub-minimization paths as defined in Lemma 2. Therefore, starting from any $\mathbf{\Delta}^{},{\mathbf{α}}^{},\mathbf{Z}^{},\mu^{}$, it generates a sequence that is bounded, has at least one limit point, and that each limit point $\mathbf{\Delta}^{\ast},{\mathbf{α}}^{\ast},\mathbf{Z}^{\ast},\mu^{\ast}$ is a stationary point of $\mathcal{L}_{\rho}$ satisfying ${{\nabla\mathcal{L}_{\rho}}{(\mathbf{\Delta}^{\ast},{\mathbf{α}}^{\ast},\mathbf{Z}^{\ast},\mu^{\ast})}} = 0$.
 
 We prove Theorem 1 using Lemmas 1-3.
 
@@ -158,15 +114,11 @@ See Appendix -A for the proof. ∎
 
 ### Lemma 2
 
-\[Lipschitz sub-minimization paths\] The following statements hold for the optimization problem:
-
-For any fixed ${\mathbf{α}},{\mathbf{Z}}$, $H_{1}:{{Im{(A)}}\rightarrow{\mathbb{R}}^{T_{p}}}$ defined by ${H_{1}{(u)}} \triangleq {{argmin}_{\mathbf{\Delta}}{\{{{J{(\mathbf{\Delta},{\mathbf{α}},{\mathbf{Z}})}}:{{A\mathbf{\Delta}} = u}}\}}}$ is unique and a Lipschitz continuous map.
+\[Lipschitz sub-minimization paths\] The following statements hold for the optimization problem: For any fixed ${\mathbf{α}},{\mathbf{Z}}$, $H_{1}:{{Im{(A)}}\rightarrow{\mathbb{R}}^{T_{p}}}$ defined by ${H_{1}{(u)}} \triangleq {{argmin}_{\mathbf{\Delta}}{\{{{J{(\mathbf{\Delta},{\mathbf{α}},{\mathbf{Z}})}}:{{A\mathbf{\Delta}} = u}}\}}}$ is unique and a Lipschitz continuous map.
 
 For any fixed $\mathbf{\Delta},{\mathbf{Z}}$, $H_{2}:{{Im{(B)}}\rightarrow{\mathbb{R}}^{T_{p}}}$ defined by ${H_{2}{(u)}} \triangleq {{argmin}_{\mathbf{α}}{\{{{J{(\mathbf{\Delta},{\mathbf{α}},{\mathbf{Z}})}}:{{B{\mathbf{α}}} = u}}\}}}$ is unique and a Lipschitz continuous map.
 
-For any fixed $\mathbf{\Delta},{\mathbf{α}}$, $H_{3}:{{Im{(C)}}\rightarrow{\mathbb{R}}^{4T_{p}}}$ defined by ${H_{3}{(u)}} \triangleq {{argmin}_{\mathbf{Z}}{\{{{J{(\mathbf{\Delta},{\mathbf{α}},{\mathbf{Z}})}}:{{C{\mathbf{Z}}} = u}}\}}}$ is unique and a Lipschitz continuous map,
-
-where ${A,B},$ and $C$ is defined in (II-B). Moreover, $H_{1},H_{2},H_{3}$ have a universal Lipschitz constant $M > 0$.
+For any fixed $\mathbf{\Delta},{\mathbf{α}}$, $H_{3}:{{Im{(C)}}\rightarrow{\mathbb{R}}^{4T_{p}}}$ defined by ${H_{3}{(u)}} \triangleq {{argmin}_{\mathbf{Z}}{\{{{J{(\mathbf{\Delta},{\mathbf{α}},{\mathbf{Z}})}}:{{C{\mathbf{Z}}} = u}}\}}}$ is unique and a Lipschitz continuous map, where ${A,B},$ and $C$ is defined in (II-B). Moreover, $H_{1},H_{2},H_{3}$ have a universal Lipschitz constant $M > 0$.
 
 ### Proof
 
@@ -178,27 +130,11 @@ See Appendix -B for the proof. ∎
 
 ### Proof
 
-See Appendix -C for the proof. ∎
-
-Proof of Theorem 1: See Appendix -D for the proof. $\blacksquare$
-
-Figure 2: Two lane scenario: (a)-(d) shows the ADMM-NNMPC solution in a two-lane scenario after 0, 5, 7, and 13 time steps, respectively. The ego vehicle (red) opens a gap by nudging the vehicles to change their speeds.
+See Appendix -C for the proof. ∎ Proof of Theorem 1: See Appendix -D for the proof. $\blacksquare$ Figure 2: Two lane scenario: (a)-(d) shows the ADMM-NNMPC solution in a two-lane scenario after 0, 5, 7, and 13 time steps, respectively. The ego vehicle (red) opens a gap by nudging the vehicles to change their speeds.
 
 Figure 3: Three lane scenario: (a)-(d) shows the ADMM-NNMPC solution in a three-lane scenario after 0, 3, 5, and 9 time steps, respectively. The ego vehicle (red) opens a gap for itself by nudging the vehicles to transition into the left-most lane.
 
-Weight on divergence from target lane
-
-Weight on divergence from target speed
-
-Weight on steering angle
-
-Weight on steering rate
-
-ADMM Lagrangian parameter
-
-TABLE I: Objective function coefficients
-
-TABLE II: Simulation results for ADMM-NNMPC and NNMPC in the two-lane and three-lane scenario. tm e r g e are the number of time steps taken by the ego vehicle to merge into the target lane. Cmax and dmin are the maximum cost and minimum distance between the ego vehicle and other vehicles at any point of the simulation, respectively.
+Weight on divergence from target lane Weight on divergence from target speed Weight on steering angle Weight on steering rate ADMM Lagrangian parameter TABLE I: Objective function coefficients TABLE II: Simulation results for ADMM-NNMPC and NNMPC in the two-lane and three-lane scenario. tm e r g e are the number of time steps taken by the ego vehicle to merge into the target lane. Cmax and dmin are the maximum cost and minimum distance between the ego vehicle and other vehicles at any point of the simulation, respectively.
 
 ## Simulation Study
 
@@ -228,15 +164,9 @@ $A$ and $B$ are full column rank matrices of column rank $T_{p}$. Furthermore, $
 
 ### C Proof of Lemma 3
 
-$\Phi_{1}{(\mathbf{\Delta})}$, $\Phi_{2}{({\mathbf{α}})}$, and $\Phi_{3}{({\mathbf{Z}})}$ are $C^{2}$ functions, and hence, Lipschitz differentiable. Therefore, to show the Lipschitz differentiability of $J$, it is sufficient to show that $b_{i}{({\mathbf{Z}})}$, $i \in \mathcal{V}$, is Lipschitz differentiable for any $\tau \in {\{ 1,\ldots,T_{p}\}}$. For brevity of space, we define our notations in terms of $w \in {\{ x,y\}}$ where $w$ can either be $x$ or $y$. Let ${q_{w}{(\tau)}}:={2{({{w{(\tau)}} - {\phi_{i,w}{({\tau - 1})}}})}}$. We have
+$\Phi_{1}{(\mathbf{\Delta})}$, $\Phi_{2}{({\mathbf{α}})}$, and $\Phi_{3}{({\mathbf{Z}})}$ are $C^{2}$ functions, and hence, Lipschitz differentiable. Therefore, to show the Lipschitz differentiability of $J$, it is sufficient to show that $b_{i}{({\mathbf{Z}})}$, $i \in \mathcal{V}$, is Lipschitz differentiable for any $\tau \in {\{ 1,\ldots,T_{p}\}}$. For brevity of space, we define our notations in terms of $w \in {\{ x,y\}}$ where $w$ can either be $x$ or $y$. Let ${q_{w}{(\tau)}}:={2{({{w{(\tau)}} - {\phi_{i,w}{({\tau - 1})}}})}}$. We have Let $T_{k}^{w}:=\left| {\frac{\partial{b_{i}{({\mathbf{Z}}_{1})}}}{\partial{w{(k)}}} - \frac{\partial{b_{i}{({\mathbf{Z}}_{2})}}}{\partial{w{(k)}}}} \right|$ for some ${{\mathbf{Z}}_{1},{\mathbf{Z}}_{2}} \in \mathcal{Z}$, and let $({x^{m}{(\tau)}},{y^{m}{(\tau)}})$ denote the ego vehicle positions in ${\mathbf{Z}}_{m}$, where $m \in {\{ 1,2\}}$. Let $\phi_{i,w}^{{\mathbf{Z}}_{m}}$ denote $\phi_{i,w}$ corresponding to ${\mathbf{Z}}_{m}$. Using assumption (A2) and mean-value theorem, the neural network's outputs are Lipschitz continuous, i.e., ${\|{\phi_{i,w}^{{\mathbf{Z}}_{1}} - \phi_{i,w}^{{\mathbf{Z}}_{2}}}\|} \leq {\theta_{w}{\|{{\mathbf{Z}}_{1} - {\mathbf{Z}}_{2}}\|}}$. Let ${\Deltaw{(\tau)}} = {|{{w^{1}{(\tau)}} - {w^{2}{(\tau)}}}|}$, ${\varphi_{w}{({\tau - 1})}} = {|{{\phi_{i,w}^{{\mathbf{Z}}_{2}}{({\tau - 1})}} - {\phi_{i,w}^{{\mathbf{Z}}_{1}}{({\tau - 1})}}}|}$, and ${\nu_{x}^{w}{({\tau - 1})}} = \left| {\frac{\partial{\phi_{i,w}^{{\mathbf{Z}}_{1}}{({\tau - 1})}}}{\partial{x{(k)}}} - \frac{\partial{\phi_{i,w}^{{\mathbf{Z}}_{2}}{({\tau - 1})}}}{\partial{x{(k)}}}} \right|$. For any $k \in {\{ 1,\ldots,{\tau - 1}\}}$: where $L_{1}:={2{({{\theta_{x}{({1 + \theta_{x}})}} + {\theta_{y}{({1 + \theta_{y}})}} + {{({x_{max} + y_{max} + s_{x} + s_{y}})}L_{\nabla\phi}}})}}$, $x_{\max}$ and $y_{\max}$ are the bounds on the ego vehicle's $x$ and $y$ coordinates, respectively.
 
-Let $T_{k}^{w}:=\left| {\frac{\partial{b_{i}{({\mathbf{Z}}_{1})}}}{\partial{w{(k)}}} - \frac{\partial{b_{i}{({\mathbf{Z}}_{2})}}}{\partial{w{(k)}}}} \right|$ for some ${{\mathbf{Z}}_{1},{\mathbf{Z}}_{2}} \in \mathcal{Z}$, and let $({x^{m}{(\tau)}},{y^{m}{(\tau)}})$ denote the ego vehicle positions in ${\mathbf{Z}}_{m}$, where $m \in {\{ 1,2\}}$. Let $\phi_{i,w}^{{\mathbf{Z}}_{m}}$ denote $\phi_{i,w}$ corresponding to ${\mathbf{Z}}_{m}$. Using assumption (A2) and mean-value theorem, the neural network's outputs are Lipschitz continuous, i.e., ${\|{\phi_{i,w}^{{\mathbf{Z}}_{1}} - \phi_{i,w}^{{\mathbf{Z}}_{2}}}\|} \leq {\theta_{w}{\|{{\mathbf{Z}}_{1} - {\mathbf{Z}}_{2}}\|}}$. Let ${\Deltaw{(\tau)}} = {|{{w^{1}{(\tau)}} - {w^{2}{(\tau)}}}|}$, ${\varphi_{w}{({\tau - 1})}} = {|{{\phi_{i,w}^{{\mathbf{Z}}_{2}}{({\tau - 1})}} - {\phi_{i,w}^{{\mathbf{Z}}_{1}}{({\tau - 1})}}}|}$, and ${\nu_{x}^{w}{({\tau - 1})}} = \left| {\frac{\partial{\phi_{i,w}^{{\mathbf{Z}}_{1}}{({\tau - 1})}}}{\partial{x{(k)}}} - \frac{\partial{\phi_{i,w}^{{\mathbf{Z}}_{2}}{({\tau - 1})}}}{\partial{x{(k)}}}} \right|$. For any $k \in {\{ 1,\ldots,{\tau - 1}\}}$:
-
-where $L_{1}:={2{({{\theta_{x}{({1 + \theta_{x}})}} + {\theta_{y}{({1 + \theta_{y}})}} + {{({x_{max} + y_{max} + s_{x} + s_{y}})}L_{\nabla\phi}}})}}$, $x_{\max}$ and $y_{\max}$ are the bounds on the ego vehicle's $x$ and $y$ coordinates, respectively.
-
-Similarly, for $k = \tau$, we have:
-
-Similarly, $T_{k}^{y} \leq {L_{1}{\|{{\mathbf{Z}}_{1} - {\mathbf{Z}}_{2}}\|}}$ for any $k \in {\{ 0,\ldots,{\tau - 1}\}}$, and $T_{k}^{y} \leq {L_{3}{\|{{\mathbf{Z}}_{1} - {\mathbf{Z}}_{2}}\|}}$, where $L_{3} = {2{({1 + \theta_{y}})}}$, for $k = \tau$.
+Similarly, for $k = \tau$, we have: Similarly, $T_{k}^{y} \leq {L_{1}{\|{{\mathbf{Z}}_{1} - {\mathbf{Z}}_{2}}\|}}$ for any $k \in {\{ 0,\ldots,{\tau - 1}\}}$, and $T_{k}^{y} \leq {L_{3}{\|{{\mathbf{Z}}_{1} - {\mathbf{Z}}_{2}}\|}}$, where $L_{3} = {2{({1 + \theta_{y}})}}$, for $k = \tau$.
 
 Therefore, ${\|{{{\nabla b_{i}}{({\mathbf{Z}}_{1})}} - {{\nabla b_{i}}{({\mathbf{Z}}_{2})}}}\|} \leq {L_{g}{\|{{\mathbf{Z}}_{1} - {\mathbf{Z}}_{2}}\|}}$, where $L_{g} = {T_{p}{({{\max{\{ L_{1},L_{2}\}}} + {\max{\{ L_{1},L_{3}\}}}})}}$. Hence, $J{(\mathbf{\Delta},{\mathbf{α}},{\mathbf{Z}})}$ in is Lipschitz differentiable. $\blacksquare$
 

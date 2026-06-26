@@ -36,9 +36,7 @@ Considerable milestones have been achieved in autonomous driving, as evidenced b
 
 ### III-A Challenges
 
-The challenges in IVs are summarised below:
-
-Perception: autonomous driving frameworks heavily rely on perception data, however, most sensors are vulnerable to environmental effects and suffer from partial perception issues. As a result, potential hazards may be ignored, and these drawbacks present security challenges for autonomous driving.
+The challenges in IVs are summarised below: Perception: autonomous driving frameworks heavily rely on perception data, however, most sensors are vulnerable to environmental effects and suffer from partial perception issues. As a result, potential hazards may be ignored, and these drawbacks present security challenges for autonomous driving.
 
 Planning: both pipeline and end-to-end planning have intrinsic limitations, and ensuring the production of high-quality outputs under uncertain and complex scenarios is an indispensable research objective.
 

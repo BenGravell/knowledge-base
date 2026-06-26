@@ -12,9 +12,7 @@ Several efficient optimization solvers suitable for embedded MPC have emerged in
 
 Inspired by the recent success of "TinyML," which has enabled the deployment of neural networks on microcontrollers, we introduce TinyMPC, an MCU-optimized implementation of convex MPC using the alternating direction method of multipliers (ADMM) algorithm. Our approach leverages the structure of the MPC problem by precomputing and caching as much as possible and completely avoiding divisions and matrix inversions online. This approach facilitates rapid computation and has a very small memory footprint, enabling deployment onto resource-constrained MCUs. To the best of the authors' knowledge, TinyMPC is the first MPC solver tailored for execution on MCUs that has been demonstrated onboard a highly dynamic, compute-limited robotic system.
 
-Our contributions include:
-
-A novel quadratic programming algorithm that: is optimized for MPC, is matrix-inversion free, and achieves high efficiency and a very low memory footprint. This combination makes it suitable for deployment on resource-constrained microcontrollers.
+Our contributions include: A novel quadratic programming algorithm that: is optimized for MPC, is matrix-inversion free, and achieves high efficiency and a very low memory footprint. This combination makes it suitable for deployment on resource-constrained microcontrollers.
 
 An open-source solver implementation of TinyMPC in C++ that delivers state-of-the-art real-time performance for convex MPC problems on microcontrollers.
 
@@ -26,37 +24,21 @@ This paper proceeds as follows: Section II reviews linear-quadratic optimal cont
 
 ### II-A The Linear-Quadratic Regulator
 
-The linear-quadratic regulator (LQR) is a widely used approach for solving robotic control problems. LQR optimizes a quadratic cost function subject to a set of linear dynamics constraints:
+The linear-quadratic regulator (LQR) is a widely used approach for solving robotic control problems. LQR optimizes a quadratic cost function subject to a set of linear dynamics constraints: where $x_{k} \in {\mathbb{R}}^{n}$ $u_{k} \in {\mathbb{R}}^{m}$ are the state and control input at time step $k$, $N$ is the number of time steps (also referred to as the horizon), $A \in {\mathbb{R}}^{n \times n}$ and $B \in {\mathbb{R}}^{n \times m}$ define the system dynamics, $Q \succeq 0$, $R \succ 0$, and $Q_{f} \succeq 0$ are symmetric cost weight matrices and $q$ and $r$ are the linear cost vectors.
 
-where $x_{k} \in {\mathbb{R}}^{n}$ $u_{k} \in {\mathbb{R}}^{m}$ are the state and control input at time step $k$, $N$ is the number of time steps (also referred to as the horizon), $A \in {\mathbb{R}}^{n \times n}$ and $B \in {\mathbb{R}}^{n \times m}$ define the system dynamics, $Q \succeq 0$, $R \succ 0$, and $Q_{f} \succeq 0$ are symmetric cost weight matrices and $q$ and $r$ are the linear cost vectors.
-
-Equation has a closed-form solution in the form of a linear feedback controller:
-
-$K_{k}$ and $d_{k}$ can be obtained by solving the discrete Riccati equation backwards in time, starting with $P_{N} = Q_{f}$ and $p_{N} = q_{f}$, where $P_{k}$ and $p_{k}$ are the Hessian and linear terms of the cost-to-go (or value) function:
+Equation has a closed-form solution in the form of a linear feedback controller: $K_{k}$ and $d_{k}$ can be obtained by solving the discrete Riccati equation backwards in time, starting with $P_{N} = Q_{f}$ and $p_{N} = q_{f}$, where $P_{k}$ and $p_{k}$ are the Hessian and linear terms of the cost-to-go (or value) function:
 
 ### II-B Convex Model-Predictive Control
 
-Convex MPC extends the LQR formulation to admit additional convex constraints on the system states and control inputs such as joint and torque limits, hyperplanes for obstacle avoidance, and contact constraints:
+Convex MPC extends the LQR formulation to admit additional convex constraints on the system states and control inputs such as joint and torque limits, hyperplanes for obstacle avoidance, and contact constraints: where $\mathcal{X}$ and $\mathcal{U}$ are convex sets. The convexity of this problem means that it can be solved efficiently and reliably, enabling real-time deployment in a variety of control applications including the landing of rockets, legged locomotion, and autonomous driving.
 
-where $\mathcal{X}$ and $\mathcal{U}$ are convex sets. The convexity of this problem means that it can be solved efficiently and reliably, enabling real-time deployment in a variety of control applications including the landing of rockets, legged locomotion, and autonomous driving.
-
-When $\mathcal{X}$ and $\mathcal{U}$ can be expressed as linear equality or inequality constraints, is a QP, and can be put into the standard form:
+When $\mathcal{X}$ and $\mathcal{U}$ can be expressed as linear equality or inequality constraints, is a QP, and can be put into the standard form: | | $\min\limits_{x \in {\mathbb{R}}^{n}}$ | ${\frac{1}{2}x^{\intercal}Px} + {q^{\intercal}x}$ | | \(5\) |
 
 ### II-C The Alternating Direction Method of Multipliers
 
 The alternating direction method of multipliers (ADMM) is a popular and efficient approach for solving convex optimization problems, including QPs like. We provide a very brief summary here and refer readers to for more details.
 
-Given a generic problem:
-
-with $f$ and $\mathcal{C}$ convex, we define the indicator function for the set $\mathcal{C}$:
-
-We can now form the following equivalent problem by introducing the slack variable $z$:
-
-The augmented Lagrangian of the transformed problem is as follows where $\lambda$ is a Lagrange multiplier and $\rho$ is a scalar penalty weight:
-
-If we alternate minimization over $x$ and $z$, rather than simultaneously minimizing over both, we arrive at the three-step ADMM iteration,
-
-the last step of which is a dual-ascent update on the Lagrange multiplier. These steps can be iterated until a desired convergence tolerance is achieved.
+Given a generic problem: with $f$ and $\mathcal{C}$ convex, we define the indicator function for the set $\mathcal{C}$: We can now form the following equivalent problem by introducing the slack variable $z$: | | $\min\limits_{x}$ | ${f{(x)}} + {I_{\mathcal{C}}{(z)}}$ | | \(8\) | The augmented Lagrangian of the transformed problem is as follows where $\lambda$ is a Lagrange multiplier and $\rho$ is a scalar penalty weight: If we alternate minimization over $x$ and $z$, rather than simultaneously minimizing over both, we arrive at the three-step ADMM iteration, the last step of which is a dual-ascent update on the Lagrange multiplier. These steps can be iterated until a desired convergence tolerance is achieved.
 
 In the special case of a QP, each step of the ADMM algorithm becomes very simple to compute: the primal update is the solution to a linear system, and the dual update is a linear projection. ADMM-based QP solvers, like OSQP, have demonstrated state-of-the-art results.
 
@@ -66,34 +48,15 @@ TinyMPC trades generality for speed by exploiting the special structure of the M
 
 ### III-A Combining LQR and ADMM for MPC
 
-We solve the following problem, introducing slack variables as in and transforming into the following:
-
-where $z$, $w$, $\lambda$, $\mu$ are the state slack, input slack, state dual, and input dual variables over the entire horizon. The primal update for becomes an equality-constrained QP:
-
-We leverage a scaled form of by introducing the scaled dual variables $y$ and $g$:
-
-We observe that because exhibits the same LQR problem structure as in, can be solved with. The slack update for becomes a simple linear projection onto the feasible set:
-
-Finally, the dual update for simply becomes
-
-Figure 3: Comparison of average iteration times (top) and memory usage (bottom) for OSQP and TinyMPC on randomly generated trajectory tracking problems on a Teensy 4.1 development board (ARM Cortex-M7 running at 600MHz with 32-bit floating point support, 7.75Mb of flash, and 512kB of tightly coupled RAM). Error bars show the maximum and minimum time per iteration over all MPC steps executed for a given problem. In (a), the input dimension and time horizon are held constant at m = 4 and N = 10 while the state dimension n varies from 4 to 32. In (b), n = 10 and N = 10 while the m varies from 4 to 32. In (c), n = 10, m = 4 and N varies from 4 to 50. The dotted black line indicates the memory limit of the Teensy 4.1.
+We solve the following problem, introducing slack variables as in and transforming into the following: | | | ${I_{\mathcal{X}}\left(z_{1:N} \right)} + {{I_{\mathcal{U}}\left(w_{1:{N - 1}} \right)} +}$ | | | | | | $\sum\limits_{k = 1}^{N}\left(\frac{\rho}{2}\left(x_{k} - z_{k} \right)^{\intercal}\left(x_{k} - z_{k} \right) + \right.$ | | | | | | $\left. \lambda_{k}^{\intercal}\left(x_{k} - z_{k} \right) \right) +$ | | | | | | $\sum\limits_{k = 1}^{N - 1}\left(\frac{\rho}{2}\left(u_{k} - w_{k} \right)^{\intercal}\left(x_{k} - w_{k} \right) + \right.$ | | | | | | $\left. \mu_{k}^{\intercal}\left(u_{k} - w_{k} \right) \right)$ | | | where $z$, $w$, $\lambda$, $\mu$ are the state slack, input slack, state dual, and input dual variables over the entire horizon. The primal update for becomes an equality-constrained QP: | | $\min\limits_{x_{1:N},u_{1:{N - 1}}}$ | ${\frac{1}{2}x_{N}^{\intercal}{\overset{\sim}{Q}}_{f}x_{N}} + {{{\overset{\sim}{q}}_{f}^{\intercal}x_{N}} +}$ | | \(14\) | | | $\sum\limits_{k = 1}^{N - 1}$ | ${\frac{1}{2}x_{k}^{\intercal}\overset{\sim}{Q}x_{k}} + {{\overset{\sim}{q}}_{k}^{\intercal}x_{k}} + {\frac{1}{2}u_{k}^{\intercal}\overset{\sim}{R}x_{k}} + {{\overset{\sim}{r}}^{\intercal}u_{k}}$ | | | We leverage a scaled form of by introducing the scaled dual variables $y$ and $g$: We observe that because exhibits the same LQR problem structure as, can be solved. The slack update for becomes a simple linear projection onto the feasible set: Finally, the dual update for simply becomes Figure 3: Comparison of average iteration times (top) and memory usage (bottom) for OSQP and TinyMPC on randomly generated trajectory tracking problems on a Teensy 4.1 development board (ARM Cortex-M7 running at 600MHz with 32-bit floating point support, 7.75Mb of flash, and 512kB of tightly coupled RAM). Error bars show the maximum and minimum time per iteration over all MPC steps executed for a given problem. In (a), the input dimension and time horizon are held constant at m = 4 and N = 10 while the state dimension n varies from 4 to 32. In (b), n = 10 and N = 10 while the m varies from 4 to 32. In (c), n = 10, m = 4 and N varies from 4 to 50. The dotted black line indicates the memory limit of the Teensy 4.1.
 
 ### III-B Pre-Computation and Penalty Scaling
 
-Solving the linear system in each primal update is the most expensive step in each ADMM iteration. In our case, this is the solution to the Riccati equation, which has properties we can leverage to significantly reduce computation and memory usage. Given a long enough horizon, the Riccati recursion converges to the solution of the infinite-horizon LQR problem. As such, we can pre-compute a single LQR gain matrix $K_{\text{inf}}$ and cost-to-go Hessian $P_{\text{inf}}$. We then cache the following matrices:
+Solving the linear system in each primal update is the most expensive step in each ADMM iteration. In our case, this is the solution to the Riccati equation, which has properties we can leverage to significantly reduce computation and memory usage. Given a long enough horizon, the Riccati recursion converges to the solution of the infinite-horizon LQR problem. As such, we can pre-compute a single LQR gain matrix $K_{\text{inf}}$ and cost-to-go Hessian $P_{\text{inf}}$. We then cache the following matrices: | | $C_{1}$ | $= {({R + {B^{\intercal}P_{\text{inf}}B}})}^{- 1}$ | | \(19\) | | | $C_{2}$ | $= {({A - {BK_{\text{inf}}}})}^{\intercal}$ | | | | | $C_{3}$ | $= {{K_{\text{inf}}^{\intercal}R} - {C_{2}P_{\text{inf}}B}}$ | | | A careful analysis of the Riccati equation then reveals that only the linear terms need to be updated as part of the ADMM iteration: As a result, we can completely avoid matrix factorizations online and only compute matrix-vector products using the pre-computed matrices.
 
-A careful analysis of the Riccati equation then reveals that only the linear terms need to be updated as part of the ADMM iteration:
+ADMM is also sensitive to the value of the penalty term $\rho$ . Adaptively scaling $\rho$ is standard in solvers like OSQP. However, this requires additional matrix factorizations that we are trying to avoid. Therefore, we pre-compute and cache a set of matrices corresponding to several values of $\rho$. Online, we switch between these cached matrices according to the primal and dual residual values, in a scheme adapted from OSQP. The resulting TinyMPC algorithm is summarized in Algorithm 1.
 
-As a result, we can completely avoid matrix factorizations online and only compute matrix-vector products using the pre-computed matrices.
-
-ADMM is also sensitive to the value of the penalty term $\rho$ in. Adaptively scaling $\rho$ is standard in solvers like OSQP. However, this requires additional matrix factorizations that we are trying to avoid. Therefore, we pre-compute and cache a set of matrices corresponding to several values of $\rho$. Online, we switch between these cached matrices according to the primal and dual residual values, in a scheme adapted from OSQP. The resulting TinyMPC algorithm is summarized in Algorithm 1.
-
-1:function TinyMPC(input)
-2: while not converged do
-4: p1: N − 1, d1: N − 1 ← Backward pass via ()
-5: x1: N, u1: N − 1 ← Forward pass via ()
-7: z1: N, w1: N − 1 ← Projected to feasible set ()
-10: q1: N, r1: N − 1, pN ← Update linear cost terms return x1: N, u1: N − 1
+1:function TinyMPC(input) 2: while not converged do 4: p1: N − 1, d1: N − 1 ← Backward pass via 5: x1: N, u1: N − 1 ← Forward pass via 7: z1: N, w1: N − 1 ← Projected to feasible set 10: q1: N, r1: N − 1, pN ← Update linear cost terms return x1: N, u1: N − 1
 
 ## Experiments
 
@@ -123,7 +86,7 @@ We demonstrate the efficacy of our solver for real-time execution of dynamic con
 
 The Crazyflie 2.1 is a 27 g quadrotor. Its main MCU is an ARM Cortex-M4 (STM32F405) clocked at 168MHz with 192kB of SRAM and 1MB of flash. OSQP could not fit within the memory available on this MCU. Instead, we compare against the four controllers shipped with the Crazyflie firmware: Cascaded PID, Mellinger, INDI, and Brescianini. These are reactive controllers that often clip the control input to meet hardware constraints.
 
-All experiments shown were performed in an OptiTrack motion capture environment sending pose data to the Crazyflie at 100 Hz. We ran TinyMPC at 500Hz with the horizon length $N = 15$ for the figure-eight tracking task and the attitude-recovery task. For the obstacle-avoidance task, we sent the location of the end of a stick to the Crazyflie using the onboard radio. Additionally, we reduced the MPC frequency to 100 Hz and increased $N$ to 20. In all experiments, we linearize the quadrotor's dynamics about a hover and represent its attitude with a quaternion using the formulation in. We solve a problem with state dimension $n = 12$ and $m = 4$ for the Crazyflie's full state pose and four PWM motor control commands.
+All experiments shown were performed in an OptiTrack motion capture environment sending pose data to the Crazyflie at 100 Hz. We ran TinyMPC at 500Hz with the horizon length $N = 15$ for the figure-eight tracking task and the attitude-recovery task. For the obstacle-avoidance task, we sent the location of the end of a stick to the Crazyflie using the onboard radio. Additionally, we reduced the MPC frequency to 100 Hz and increased $N$ to 20. In all experiments, we linearize the quadrotor's dynamics about a hover and represent its attitude with a quaternion using the formulation . We solve a problem with state dimension $n = 12$ and $m = 4$ for the Crazyflie's full state pose and four PWM motor control commands.
 
 ### IV-B2 Evaluation----Figure-Eight Trajectory Tracking
 

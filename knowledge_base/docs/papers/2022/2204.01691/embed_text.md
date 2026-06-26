@@ -18,7 +18,7 @@ In this work, we utilize the vast semantic knowledge contained in LLMs to determ
 
 ### Value functions and RL
 
-Our goal is to be able to accurately predict whether a skill (given by a language command) is feasible at a current state. We use temporal-difference-based (TD) reinforcement learning to accomplish this goal. In particular, we define a Markov decision process (MDP) $\mathcal{M} = {(\mathcal{S},\mathcal{A},P,R,\gamma)}$, where $\mathcal{S}$ and $\mathcal{A}$ are state and action spaces, $P:{{\mathcal{S} \times \mathcal{A} \times \mathcal{S}}\rightarrow{\mathbb{R}}_{+}}$ is a state-transition probability function, $R:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ is a reward function and $\gamma$ is a discount factor. The goal of TD methods is to learn state or state-action value functions (Q-function) $Q^{\pi}{(s,a)}$, which represents the discounted sum of rewards when starting from state $s$ and action $a$, followed by the actions produced by the policy $\pi$, i.e. ${Q^{\pi}{(s,a)}} = {{\mathbb{E}}_{a \sim {\pi{({a|s})}}}{\sum_{t}{R{(s_{t},a_{t})}}}}$. The Q-function, $Q^{\pi}{(s,a)}$ can be learned via approximate dynamic programming approaches that optimize the following loss: ${L_{TD}{(\theta)}} = {{\mathbb{E}}_{{(s,a,s^{\prime})} \sim \mathcal{D}}\left\lbrack {{{R{(s,a)}} + {\gamma{\mathbb{E}}_{a^{\ast} \sim \pi}Q_{\theta}^{\pi}{(s^{\prime},a^{\ast})}}} - {Q_{\theta}^{\pi}{(s,a)}}} \right\rbrack}$, where $\mathcal{D}$ is the dataset of states and actions and $\theta$ are the parameters of the Q-function.
+Our goal is to be able to accurately predict whether a skill (given by a language command) is feasible at a current state. We use temporal-difference-based (TD) reinforcement learning to accomplish this goal. In particular, we define a Markov decision process (MDP) $\mathcal{M} = {(\mathcal{S},\mathcal{A},P,R,\gamma)}$, where $\mathcal{S}$ and $\mathcal{A}$ are state and action spaces, $P:{{\mathcal{S} \times \mathcal{A} \times \mathcal{S}}\rightarrow{\mathbb{R}}_{+}}$ is a state-transition probability function, $R:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ is a reward function and $\gamma$ is a discount factor. The goal of TD methods is to learn state or state-action value functions (Q-function) $Q^{\pi}{(s,a)}$, which represents the discounted sum of rewards when starting from state $s$ and action $a$, followed by the actions produced by the policy $\pi$, i.e. ${Q^{\pi}{(s,a)}} = {{\mathbb{E}}_{a \sim {\pi{({a|s})}}}{\sum_{t}{R{(s_{t},a_{t})}}}}$. The Q-function, $Q^{\pi}{(s,a)}$ can be learned via approximate dynamic programming approaches that optimize the following loss: ${L_{TD}{(\theta)}} = {{\mathbb{E}}_{{(s,a,s')} \sim \mathcal{D}}\left\lbrack {{{R{(s,a)}} + {\gamma{\mathbb{E}}_{a^{\ast} \sim \pi}Q_{\theta}^{\pi}{(s',a^{\ast})}}} - {Q_{\theta}^{\pi}{(s,a)}}} \right\rbrack}$, where $\mathcal{D}$ is the dataset of states and actions and $\theta$ are the parameters of the Q-function.
 
 In this work, we utilize TD-based methods to learn said value function that is additionally conditioned on the language command and utilize those to determine whether a given command is feasible from the given state. It is worth noting that in the undiscounted, sparse reward case, where the agent receives the reward of $1.0$ at the end of the episode if it was successful and $0.0$ otherwise, the value function trained via RL corresponds to an affordance function that specifies whether a skill is possible in a given state. We leverage that intuition in our setup and express affordances via value functions of sparse reward tasks.
 
@@ -32,20 +32,13 @@ Connecting Large Language Models to Robots. While large language models can draw
 
 Scoring language models open an avenue to constrained responses by outputting the probabilities assigned by a language model to fixed outputs. A language model represents a *distribution* over potential completions $p{(\left. w_{k} \middle| w_{< k} \right.)}$, where $w_{k}$ is a word that appears at a $k^{\text{th}}$ position in a text. While typical generation applications (e.g., conversational agents) sample from this distribution or decode the maximum likelihood completion, we can also use the model to *score* a candidate completion selected from a set of options. Formally in SayCan, given a set of low-level skills $\Pi$, their language descriptions $\ell_{\Pi}$ and an instruction $i$, we compute the probability of a language description of a skill $\ell_{\pi} \in \ell_{\Pi}$ making progress towards executing the instruction $i$: $p{(\left. \ell_{\pi} \middle| i \right.)}$, which corresponds to querying the model over potential completions. The optimal skill according to the language model is computed via $\ell_{\pi} = {{{\arg\max}_{\ell_{\pi} \in \ell_{\Pi}}p}{(\left. \ell_{\pi} \middle| i \right.)}}$. Once selected, the process proceeds by iteratively selecting a skill and appending it to the instruction. Practically, in this work we structure the planning as a dialog between a user and a robot, in which a user provides the high level-instruction (e.g., "How would you bring me a coke can?") and the language model responds with an explicit sequence ("$\text{I would: 1.~}\ell_{\pi}$", e.g., "I would: 1. find a coke can, 2. pick up the coke can, 3. bring it to you").
 
-This has the added benefit of interpretability, as the model not only outputs generative responses, but also gives a notion of likelihood across many possible responses. Figure 3 (and Appendix Figure 12 in more detail) shows this process of forcing the LLM into a language pattern, where the set of tasks are the skills the low-level policy is capable of and prompt engineering shows plan examples and dialog between the user and the robot. With this approach, we are able to effectively extract knowledge from the language model, but it leaves a major issue: while the decoding of the instruction obtained in this way always consists of skills that are available to the robot, these skills may not necessarily be appropriate for executing the desired high-level task in the *specific* situation that the robot is currently in. For example, if I ask a robot to "bring me an apple", the optimal set of skills changes if there is no apple in view or if it already has one in its hand.
+This has the added benefit of interpretability, as the model not only outputs generative responses, but also gives a notion of likelihood across many possible responses. Figure 3 (and Appendix Figure 12 in more detail) shows this process of forcing the LLM into a language pattern, where the set of tasks are the skills the low-level policy is capable of and prompt engineering shows plan examples and dialog between the user and the robot. With this approach, we are able to effectively extract knowledge from the language model, but it leaves a major issue: while the decoding of the instruction obtained in this way always consists of skills that are available to the robot, these skills may not necessarily be appropriate for executing the desired high-level task in the *specific* situation that the robot is currently . For example, if I ask a robot to "bring me an apple", the optimal set of skills changes if there is no apple in view or if it already has one in its hand.
 
 SayCan. The key idea of SayCan is to ground large language models through value functions -- affordance functions that capture the log likelihood that a particular skill will be able to succeed in the current state. Given a skill $\pi \in \Pi$, its language description $\ell_{\pi}$ and its corresponding value function, which provides $p{(\left. c_{\pi} \middle| {s,\ell_{\pi}} \right.)}$, the probability of $c$-ompletion for the skill described by $\ell_{\pi}$ in state $s$, we form an affordance space ${\{{p{(\left. c_{\pi} \middle| {s,\ell_{\pi}} \right.)}}\}}_{\pi \in \Pi}$. This value function space captures affordances across all skills (see Figure 2). For each skill, the affordance function and the LLM probability are then multiplied together and ultimately the most probable skill is selected, i.e. $\pi = {{{\arg\max}_{\pi \in \Pi}p}{(\left. c_{\pi} \middle| {s,\ell_{\pi}} \right.)}p{(\left. \ell_{\pi} \middle| i \right.)}}$. Once the skill is selected, the corresponding policy is executed by the agent and the LLM query is amended to include $\ell_{\pi}$ and the process is run again until a termination token (e.g., "done") is chosen. This process is shown in Figure 3 and described in Algorithm 1. These two mirrored processes together lead to a probabilistic interpretation of SayCan, where the LLM provides probabilities of a skill being useful for the high-level instruction and the affordances provide probabilities of successfully executing each skill. Combining these two probabilities together provides a probability that this skill furthers the execution of the high-level instruction commanded by the user.
 
 Figure 2: A value function module (2(a)) is queried to form a value function space of action primitives based on the current observation. Visualizing “pick” value functions, in (2(b)) “Pick up the red bull can” and “Pick up the apple” have high values because both objects are in the scene, while in (2(c)) the robot is navigating an empty space, and thus none of the pick up actions receive high values.
 
-1:A high level instruction i, state s0, and a set of skills Π and their language descriptions ℓΠ
-6: pπLLM = p (ℓπ|i,ℓπn − 1,…,ℓπ0) ⊳ Evaluate scoring of LLM
-7: pπaffordance = p (cπ|sn,ℓπ) ⊳ Evaluate affordance function
-8: pπcombined = pπaffordance pπLLM
-12: Execute πn (sn) in the environment, updating state sn + 1
-
-[\capbeside\thisfloatsetupcapbesideposition=right,top,capbesidewidth=0.3]figure[\FBwidth]
-Figure 3: Given a high-level instruction, SayCan combines probabilities from a LLM (the probability that a skill is useful for the instruction) with the probabilities from a value function (the probability of successfully executing said skill) to select the skill to perform. This emits a skill that is both possible and useful. The process is repeated by appending the skill to the response and querying the models again, until the output step is to terminate. Appendix Figures 12 and 2 focus on the LLM and VFS components.
+1:A high level instruction i, state s0, and a set of skills Π and their language descriptions ℓΠ 6: pπLLM = p (ℓπ|i, ℓπn − 1, …, ℓπ0) ⊳ Evaluate scoring of LLM 7: pπaffordance = p (cπ|sn, ℓπ) ⊳ Evaluate affordance function 8: pπcombined = pπaffordance pπLLM 12: Execute πn (sn) in the environment, updating state sn + 1 [\capbeside\thisfloatsetupcapbesideposition=right,top,capbesidewidth=0.3]figure[\FBwidth] Figure 3: Given a high-level instruction, SayCan combines probabilities from a LLM (the probability that a skill is useful for the instruction) with the probabilities from a value function (the probability of successfully executing said skill) to select the skill to perform. This emits a skill that is both possible and useful. The process is repeated by appending the skill to the response and querying the models again, until the output step is to terminate. Appendix Figures 12 and 2 focus on the LLM and VFS components.
 
 ## Implementing SayCan in a Robotic System
 
@@ -63,31 +56,13 @@ Robotic System and Skills. For the control policies, we study a diverse set of m
 
 Figure 4: The experiments were performed in an office kitchen and a mock kitchen mirroring this setup, with 5 locations and 15 objects. The robot is a mobile manipulator with policies trained from an RGB observation.
 
-Experimental Setup. We evaluate SayCan with a mobile manipulator and a set of object manipulation and navigation skills in two office kitchen environments. Figure 4 shows the environment setup and the robot. We use 15 objects commonly found in an office kitchen and 5 known locations with semantic meaning (two counters, a table, a trash can, and the user location). We test our method in two environments: a real office kitchen and a mock environment mirroring the kitchen, which is also the environment in which the robot's skills were trained. The robot used is a mobile manipulator from [Everyday Robots](https://everydayrobots.com/) ^22^2[https://everydayrobots.com/](https://everydayrobots.com/) with a 7 degree-of-freedom arm and a two-fingered gripper. The LLM used is 540B PaLM unless stated otherwise for LLM ablations. We refer to SayCan with PaLM as PaLM-SayCan.
+Experimental Setup. We evaluate SayCan with a mobile manipulator and a set of object manipulation and navigation skills in two office kitchen environments. Figure 4 shows the environment setup and the robot. We use 15 objects commonly found in an office kitchen and 5 known locations with semantic meaning (two counters, a table, a trash can, and the user location). We test our method in two environments: a real office kitchen and a mock environment mirroring the kitchen, which is also the environment in which the robot's skills were trained. The robot used is a mobile manipulator from Everyday Robots ^22^2 with a 7 degree-of-freedom arm and a two-fingered gripper. The LLM used is 540B PaLM unless stated otherwise for LLM ablations. We refer to SayCan with PaLM as PaLM-SayCan.
 
 Instructions. To evaluate PaLM-SayCan, we test across 101 instructions from 7 instruction families, summarized in Table 1 and enumerated in Appendix E.1. These were developed to test various aspects of SayCan and were inspired by crowd sourcing via Amazon Mechanical Turk and in-person kitchen users, as well as benchmarks such as ALFRED and BEHAVIOR. The instructions span multiple axes of variation: time-horizon (from single primitives to 10+ in a row), language complexity (from structured language to fully crowd-sourced requests), and embodiment (variations over the robot and environment state). Table 1 details examples for each family.
 
-NL queries for a single primitive
-Let go of the coke can
+NL queries for a single primitive Let go of the coke can NL queries focused on abstract nouns NL queries focused on abstract verbs Restock the rice chips on the far counter Structured language queries, mirror NL Verbs Move the rice chips to the far counter.
 
-NL queries focused on abstract nouns
-
-NL queries focused on abstract verbs
-Restock the rice chips on the far counter
-
-Structured language queries, mirror NL Verbs
-Move the rice chips to the far counter.
-
-Queries to test SayCan’s understanding of the current state of the environment and robot
-Put the coke on the counter. (starting from different completion stages)
-
-Queries in unstructured formats
-My favorite drink is redbull, bring one
-
-Long-horizon queries that require many steps of reasoning
-I spilled my coke on the table, throw it away and bring me something to clean
-
-Table 1: List of instruction family definitions: We evaluate the algorithm on 101 instructions. We group the instructions into different families, with each family focusing on testing one aspect of the proposed method.
+Queries to test SayCan’s understanding of the current state of the environment and robot Put the coke on the counter. (starting from different completion stages) Queries in unstructured formats My favorite drink is redbull, bring one Long-horizon queries that require many steps of reasoning I spilled my coke on the table, throw it away and bring me something to clean Table 1: List of instruction family definitions: We evaluate the algorithm on 101 instructions. We group the instructions into different families, with each family focusing on testing one aspect of the proposed method.
 
 Metrics. To understand the performance of the proposed method we measure two main metrics. The first is plan success rate, which measures whether the skills selected by the model are correct for the instruction, regardless of whether or not they actually successfully executed. We ask 3 human raters to indicate whether the plan generated by the model can achieve the instruction, and if 2 out of 3 raters agree that the plan is valid, it is marked a success. Note that for many instructions there may be multiple valid solutions. For example if the instruction is to "bring a sponge and throw away the soda can", the plan can choose to bring sponge first or throw away the soda can first.
 
@@ -99,11 +74,7 @@ Table 2 shows the performance of PaLM-SayCan across 101 tasks. In the mock kitch
 
 Figure 5 shows two long-horizon queries and the resulting rollouts. These tasks require PaLM-SayCan to plan many steps without error and for the robot to navigate and interact with a significant portion of the kitchen. Each query requires PaLM-SayCan to understand context implicit within the instruction. In Figure 5(a), the algorithm must understand the operator has asked for something to "recover from a workout", i.e. something healthy, and thus it brings water and an apple rather than, e.g., a soda and chips. Furthermore, the algorithm must understand ordering and history, that it has already brought a drink and now must bring a snack before terminating. In Figure 5(b), PaLM-SayCan must track which objects are the "them" that need to be disposed of and where the sponge should be brought.
 
-(a) “I just worked out, can you bring me a drink and a snack to recover?”
-
-(b) “I left out a coke, apple, and water, can you throw them away and then bring me a sponge to wipe the table?”
-
-Figure 5: Timelapse of rollouts to two long-horizon queries. The robot interacts with a large portion of the kitchen environment and successfully performs sequences of manipulation and navigation skills.
+(a) “I just worked out, can you bring me a drink and a snack to recover?” (b) “I left out a coke, apple, and water, can you throw them away and then bring me a sponge to wipe the table?” Figure 5: Timelapse of rollouts to two long-horizon queries. The robot interacts with a large portion of the kitchen environment and successfully performs sequences of manipulation and navigation skills.
 
 Figure 6 highlights PaLM-SayCan's decision making, along with its interpretability. The decision making process can be understood as it solves instructions by visualizing what the two sides of the algorithm output. This allows a user to understand what options PaLM-SayCan is considering as language completions and what it believes is possible. We find that sequence order is understood (approaching objects before picking them up and picking them up before bringing them). Figure 6 shows that though the query mentions a coke, PaLM-SayCan understands that the important object is something to clean and brings a sponge. Appendix E.6 shows additional rollouts with complex decisions, embodiment grounding, and long-horizon tasks in Figures 21-24 as well as failures in Figure 23. We believe such real-time and clear interpretability opens avenues to more interactive operation.
 
@@ -139,21 +110,15 @@ Human: Can you bring a fruit-flavored drink without caffeine?
 
 Explanation: The user has asked for a drink that is fruit-flavored and does not have caffeine, I will bring the lime soda.
 
-Robot: 1. find a lime soda, 2. pick up the lime soda, 3. bring it to you, 4. put down the lime soda, 5. done
-
-Human: Bring me the spicy chips.
+Robot: 1. find a lime soda, 2. pick up the lime soda, 3. bring it to you, 4. put down the lime soda, 5. done Human: Bring me the spicy chips.
 
 Explanation: The user has asked for chips that are spicy, I will bring the Jalapeno chips.
 
-Robot: 1. find the jalapeno chips, 2. pick up the jalapeno chips, 3. bring it to you, 4. put down the jalapeno chips, 5.done
-
-Human: The snack is too small, bring me something more filling.
+Robot: 1. find the jalapeno chips, 2. pick up the jalapeno chips, 3. bring it to you, 4. put down the jalapeno chips, 5.done Human: The snack is too small, bring me something more filling.
 
 Explanation: The user has asked for a snack that is more filling, I will bring the multigrain chips.
 
-Robot: 1. find the multigrain chips, 2. pick up the multigrain chips, 3. bring it to you, 4. put down the multigrain chips, 5. done
-
-Table 4: Chain-of-thought planning rollout with PaLM-SayCan. The highlighted part is the chain of thought generated by PaLM-SayCan.
+Robot: 1. find the multigrain chips, 2. pick up the multigrain chips, 3. bring it to you, 4. put down the multigrain chips, 5. done Table 4: Chain-of-thought planning rollout with PaLM-SayCan. The highlighted part is the chain of thought generated by PaLM-SayCan.
 
 Chain of Thought Reasoning. SayCan can be integrated with recent work improving LLM reasoning, such as Chain of Thought. One limitation of vanilla SayCan is that it doesn't handle tasks that involves negation. This is inherited from underline language models, and studied in the NLP community. However, we found by using chain-of-thought prompting we can improve SayCan on this front.
 
@@ -169,12 +134,7 @@ Closed-Loop Planning. As presented herein, SayCan only receives environmental fe
 
 We have open-sourced an implementation of SayCan in a Google Colab notebook at [say-can.github.io/#open-source](say-can.github.io/#open-source). The environment is shown in Figure 8 and is a tabletop with a UR5 robot and randomly generated sets of colored blocks and bowls. The low-level policy is implemented with CLIPort, which is trained to output a pick and place location. Due to the lack of a value function for this policy, the affordances are implemented with a ViLD object detector. GPT-3 is used as the open source language model. Steps are output in the form "pick up the object and place it in location", leveraging the ability of LLMs to output code structures.
 
-Task: move all the blocks into their matching colored bowls.
-Step 1. pick up the blue block and place it in the blue bowl
-Step 2. pick up the green block and place it in the green bowl
-Step 3. pick up the yellow block and place it in the yellow bowl
-
-Figure 8: We have open sourced a Colab with a tabletop environment, a UR5 robot, and CLIPort-based policy.
+Task: move all the blocks into their matching colored bowls. Step 1. pick up the blue block and place it in the blue bowl Step 2. pick up the green block and place it in the green bowl Step 3. pick up the yellow block and place it in the yellow bowl Figure 8: We have open sourced a Colab with a tabletop environment, a UR5 robot, and CLIPort-based policy.
 
 ## Related Work
 

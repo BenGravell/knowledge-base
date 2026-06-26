@@ -28,19 +28,13 @@ The main architectural idea of PaLM-E is to inject continuous, embodied observat
 
 The *inputs* to PaLM-E consist of text and (multiple) continuous observations. The multimodal tokens corresponding to these observations are interleaved with the text to form *multi-modal sentences*. An example of such a multi-modal sentence is Q: What happened between \<img_1\> and \<img_2\>? where \ represents an embedding of an image. The *output* of PaLM-E is text generated auto-regressively by the model, which could be an answer to a question, or a sequence of decisions produced by PaLM-E in textual form that should be executed by a robot. When PaLM-E is tasked with producing decisions or plans, we assume that there exists a low-level policy or planner that can translate these decisions into low-level actions. Prior work has discussed a variety of ways to train such low-level policies, and we use these prior methods directly without modification. In the following, we describe our approach more formally.
 
-Decoder-only LLMs. Decoder-only large language models (LLMs) are generative models trained to predict the probability $p{(w_{1:L})}$ of a piece of text $w_{1:L} = {(w_{1},\ldots,w_{L})}$ that is represented as a sequence of tokens $w_{i} \in \mathcal{W}$. Typical neural architectures realize this by factorizing into
+Decoder-only LLMs. Decoder-only large language models (LLMs) are generative models trained to predict the probability $p{(w_{1:L})}$ of a piece of text $w_{1:L} = {(w_{1},\ldots,w_{L})}$ that is represented as a sequence of tokens $w_{i} \in \mathcal{W}$. Typical neural architectures realize this by factorizing into where $p_{\text{LM}}$ is a large transformer network.
 
-where $p_{\text{LM}}$ is a large transformer network.
-
-Prefix-decoder-only LLMs. Since the LLM is auto-regressive, a pre-trained model can be conditioned on a prefix $w_{1:n}$ without the necessity to change the architecture
-
-The prefix or *prompt* $w_{1:n}$ provides the context based on which the LLM continues to predict the subsequent tokens $w_{{n + 1}:L}$. This is often used for inference to steer the predictions of the model. For example, the prompt can contain a description of the task the LLM should solve or examples of desired text completions for similar tasks.
+Prefix-decoder-only LLMs. Since the LLM is auto-regressive, a pre-trained model can be conditioned on a prefix $w_{1:n}$ without the necessity to change the architecture The prefix or *prompt* $w_{1:n}$ provides the context based on which the LLM continues to predict the subsequent tokens $w_{{n + 1}:L}$. This is often used for inference to steer the predictions of the model. For example, the prompt can contain a description of the task the LLM should solve or examples of desired text completions for similar tasks.
 
 Token embedding space. The tokens $w_{i}$ are elements of a fixed vocabulary $\mathcal{W}$ which is a discrete, finite set corresponding to (sub)words in natural language. Internally, the LLM embeds $w_{i}$ into a word token embedding space $\mathcal{X} \subset {\mathbb{R}}^{k}$ via $\gamma:{\mathcal{W}\rightarrow\mathcal{X}}$, i.e. $p_{\text{LM}}{(\left. w_{l} \middle| x_{1:{l - 1}} \right.)}$ with $x_{i} = {\gamma{(w_{i})}} \in {\mathbb{R}}^{k}$. The mapping $\gamma$ is typically represented as a large embedding matrix of size $k \times {|\mathcal{W}|}$ and trained end-to-end. In our case, ${|\mathcal{W}|} = 256\, 000$ Chowdhery et al..
 
-Multi-modal sentences: injection of continuous observations. Multi-modal information such as image observations can be injected into the LLM by skipping the discrete token level and directly mapping the continuous observations into the language embedding space $\mathcal{X}$. To this end, we train an encoder $\phi:{\mathcal{O}\rightarrow\mathcal{X}^{q}}$ that maps a (continuous) observation space $\mathcal{O}$ (refer to Sec. 4 for details) into a *sequence* of $q$-many vectors in $\mathcal{X}$. These vectors are then interleaved with normal embedded text tokens to form the prefix for the LLM. This means that each vector $x_{i}$ in the prefix is formed from either the word token embedder $\gamma$ or an encoder $\phi_{i}$:
-
-Note that a single observation $O_{j}$ is usually encoded into multiple embedding vectors. It is possible to interleave different encoders $\phi_{i}$ at different locations in the prefix to combine, e.g., information from different observation spaces. Injecting the continuous information this way into the LLM reuses its existing positional encodings. In contrast to other VLM approaches (e.g, Chen et al. ), the observation embeddings are not inserted at fixed positions, but instead placed dynamically within the surrounding text.
+Multi-modal sentences: injection of continuous observations. Multi-modal information such as image observations can be injected into the LLM by skipping the discrete token level and directly mapping the continuous observations into the language embedding space $\mathcal{X}$. To this end, we train an encoder $\phi:{\mathcal{O}\rightarrow\mathcal{X}^{q}}$ that maps a (continuous) observation space $\mathcal{O}$ (refer to Sec. 4 for details) into a *sequence* of $q$-many vectors in $\mathcal{X}$. These vectors are then interleaved with normal embedded text tokens to form the prefix for the LLM. This means that each vector $x_{i}$ in the prefix is formed from either the word token embedder $\gamma$ or an encoder $\phi_{i}$: Note that a single observation $O_{j}$ is usually encoded into multiple embedding vectors. It is possible to interleave different encoders $\phi_{i}$ at different locations in the prefix to combine, e.g., information from different observation spaces. Injecting the continuous information this way into the LLM reuses its existing positional encodings. In contrast to other VLM approaches (e.g, Chen et al.), the observation embeddings are not inserted at fixed positions, but instead placed dynamically within the surrounding text.
 
 Embodying the output: PaLM-E in a robot control loop. PaLM-E is a generative model producing text based on multi-model sentences as input. In order to connect the output of the model to an embodiment, we distinguish two cases. If the task can be accomplished by outputting text only as, e.g., in embodied question answering or scene description tasks, then the output of the model is directly considered to be the solution for the task.
 
@@ -70,7 +64,7 @@ Co-training across tasks. In our experiments, we investigate the effects of co-t
 
 ## Experiments
 
-Our experiments consider diverse robotic (mobile) manipulation tasks across three different robot embodiments, in simulation and with two different real robots. We refer to [https://palm-e.github.io](https://palm-e.github.io) for videos showing the capabilities of PaLM-E on those tasks. Although not the focus of our work, we evaluate PaLM-E also on general vision-language tasks such as visual-question-answering (VQA), image captioning, and established language modeling tasks.
+Our experiments consider diverse robotic (mobile) manipulation tasks across three different robot embodiments, in simulation and with two different real robots. We refer to for videos showing the capabilities of PaLM-E on those tasks. Although not the focus of our work, we evaluate PaLM-E also on general vision-language tasks such as visual-question-answering (VQA), image captioning, and established language modeling tasks.
 
 We split our experimental investigation into two broad categories. First, we compare the different input representations from Sec. 4 with respect to performance, generalization, and data-efficiency. The second thread of experiments focuses on one architecture, the main PaLM-E version, consisting of a pre-trained ViT and PaLM language model that takes in raw images as the continuous inputs. Here we show that a single model, trained on a mixture of many datasets, across diverse tasks, and across robot embodiments, can simultaneously achieve high performance on all of those tasks. Crucially, we investigate whether co-training on these datasets enables *transfer* (Fig. 3): despite different tasks and embodiments, the performance on the individual tasks increases by training on the mixture of tasks. We study the influence on performance, generalization, and data efficiency with respect to co-training strategies and model parameter size. Finally, we consider if freezing the LLM and just training the ViT that injects vision into the LLM is a viable path.
 
@@ -94,13 +88,7 @@ SayCan (oracle afford.) Ahn et al.
 
 PaLI (zero-shot) Chen et al.
 
-PaLM-E (ours) w/ input enc:
-
-ViT-4B single robot
-
-ViT-4B full mixture
-
-Table 1: Comparison of different input representations on TAMP environment (in terms of success rates), where data from TAMP constitutes only 1% (i.e., 320 samples for p1, p2 each) of total training data size. PaLM-E outperforms both PaLI and SayCan on embodied VQA and planning tasks. Cross-domain transfer is observed, since the PaLM-E with ViT-4B trained on our full data mixture improves planning performance. OSRT, despite using no large-scale data, provides the most effective input encodings for learning. (GT) means ground-truth object-centric information provided. In all experiments, the LLM is frozen. The non-object centric ViT-4B variant utilizes color to reference objects, hence q1 cannot be evaluated here. The LLM is frozen in these experiments (except for the case where it is not pre-trained). Sec. B.1 describes the tasks q1-q4, p1, q2.
+PaLM-E (ours) w/ input enc: ViT-4B single robot ViT-4B full mixture Table 1: Comparison of different input representations on TAMP environment (in terms of success rates), where data from TAMP constitutes only 1% (i.e., 320 samples for p1, p2 each) of total training data size. PaLM-E outperforms both PaLI and SayCan on embodied VQA and planning tasks. Cross-domain transfer is observed, since the PaLM-E with ViT-4B trained on our full data mixture improves planning performance. OSRT, despite using no large-scale data, provides the most effective input encodings for learning. (GT) means ground-truth object-centric information provided. In all experiments, the LLM is frozen. The non-object centric ViT-4B variant utilizes color to reference objects, hence q1 cannot be evaluated here. The LLM is frozen in these experiments (except for the case where it is not pre-trained). Sec. B.1 describes the tasks q1-q4, p1, q2.
 
 SayCan (oracle afford.) Ahn et al.
 
@@ -108,21 +96,9 @@ SayCan (oracle afford.) Ahn et al.
 
 Table 2: Results on planning tasks in the simulated environment from Lynch et al..
 
-Task 1. Q: There is a block that is closest to
+Task 1. Q: There is a block that is closest to {i.e., top right corner}. Push that block to the other block of the same color.
 
-{i.e., top right corner}. Push that block to
-
-the other block of the same color.
-
-Task 2. Q: How to sort the blocks by colors
-
-Task 3. Q: How to push all the blocks that
-
-are on the {left/right} side together,
-
-without bringing over any of the blocks
-
-that are on the {right/left} side?
+Task 2. Q: How to sort the blocks by colors Task 3. Q: How to push all the blocks that are on the {left/right} side together, without bringing over any of the blocks that are on the {right/left} side?
 
 Table 3: Task prompts for Tab. 3.
 
@@ -152,13 +128,7 @@ Real robot results: Long-horizon planning. Finally, we use PaLM-E to perform *em
 
 Although it is not the focus of our work, we report in Tab. 5 results on general vision-language tasks, including OK-VQA Marino et al., VQA v2 Goyal et al. and COCO captioning Chen et al.. A single, generalist PaLM-E-562B model achieves the highest reported number on OK-VQA, including outperforming models finetuned specifically on OK-VQA. Compared to Tsimpoukelli et al., PaLM-E achieves the highest performance on VQA v2 with a frozen LLM to the best of our knowledge. This establishes that PaLM-E is a competitive visual-language generalist, in addition to being an embodied reasoner on robotic tasks.
 
-Generalist (one model)
-
-Task-specific finetuned models
-
-Generalist (one model), with frozen LLM
-
-Table 5: Results on general visual-language tasks. For the generalist models, they are the same checkpoint across the different evaluations, while task-specific finetuned models use different-finetuned models for the different tasks. COCO uses Karpathy splits. † is 32-shot on OK-VQA (not finetuned).
+Generalist (one model) Task-specific finetuned models Generalist (one model), with frozen LLM Table 5: Results on general visual-language tasks. For the generalist models, they are the same checkpoint across the different evaluations, while task-specific finetuned models use different-finetuned models for the different tasks. COCO uses Karpathy splits. † is 32-shot on OK-VQA (not finetuned).
 
 Figure 6: Results on general language tasks (NLG = natural language generation): increasing scale leads to less catastrophic forgetting between a corresponding PaLM-E model and its inherited PaLM model. See full suite of tasks and results in Tab. 8.
 

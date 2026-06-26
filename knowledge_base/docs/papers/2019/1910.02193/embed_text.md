@@ -22,19 +22,9 @@ For Markov chain with state space $\lbrack n\rbrack$ and row stochastic transiti
 
 ### Preliminaries
 
-The Markov switched model we consider has the following form:
+The Markov switched model we consider has the following form: where $y_{t},u_{t},n_{t}$ are scalars and represent the model output, input and noise at time $t$ respectively. And $y_{t}$ depends on ${\{ y_{t - i}\}}_{i = 1}^{n_{a}},{\{ u_{t - j}\}}_{j = 1}^{n_{c}}$ linearly through the parameters ${\{{a_{i}{(X_{t})}}\}}_{i = 1}^{n_{a}},{\{{c_{j}{(X_{t})}}\}}_{j = 1}^{n_{c}}$ from mode $X_{t}$ at time $t$. There are $n$ modes in total and the mode sequence $X_{0:N}$ is assumed to follow a Markov chain with row stochastic Markov matrix $\mathbf{P} \in {n1{\mathbb{R}}^{n}{\mathbb{R}}^{n\mathsf{x}n}}$. The initial state distribution ${\mathbf{π}}_{0}$ can be arbitrary. Note that one can omit input $u_{t}$ by taking $n_{c} = 0$, which corresponds to an autonomous model. If we let then we obtain a simpler representation of the model: where the pair $\{ y_{t},\mathbf{\phi}_{t}\}$ can be viewed as the observation/data.
 
-where $y_{t},u_{t},n_{t}$ are scalars and represent the model output, input and noise at time $t$ respectively. And $y_{t}$ depends on ${\{ y_{t - i}\}}_{i = 1}^{n_{a}},{\{ u_{t - j}\}}_{j = 1}^{n_{c}}$ linearly through the parameters ${\{{a_{i}{(X_{t})}}\}}_{i = 1}^{n_{a}},{\{{c_{j}{(X_{t})}}\}}_{j = 1}^{n_{c}}$ from mode $X_{t}$ at time $t$. There are $n$ modes in total and the mode sequence $X_{0:N}$ is assumed to follow a Markov chain with row stochastic Markov matrix $\mathbf{P} \in {n1{\mathbb{R}}^{n}{\mathbb{R}}^{n\mathsf{x}n}}$. The initial state distribution ${\mathbf{π}}_{0}$ can be arbitrary. Note that one can omit input $u_{t}$ by taking $n_{c} = 0$, which corresponds to an autonomous model. If we let
-
-then we obtain a simpler representation of the model:
-
-where the pair $\{ y_{t},\mathbf{\phi}_{t}\}$ can be viewed as the observation/data.
-
-Furthermore, we assume the Markov matrix $\mathbf{P}$ has the following structure:
-
-where $\overline{\mathbf{P}}$ is a Markov matrix that is $r$-aggregatable, i.e. there exists an $r$-cluster partition $\{\Omega_{1},\Omega_{2},\ldots,\Omega_{r}\}$ on the state space $\lbrack n\rbrack$ such that
-
-We assume ${rank{(\overline{\mathbf{P}})}} = r$, which guarantees there are only $r$ unique rows in $\overline{\mathbf{P}}$. Matrix $\mathbf{\Delta}$ is the perturbation that accounts for the difference of the true Markov matrix $\mathbf{P}$ and the $r$-aggregatable Markov matrix $\overline{\mathbf{P}}$. Note that so far we only assume modes are clustered based on their similarities in transition distributions and for future work we will take the mode dynamics and group connectivity into account.
+Furthermore, we assume the Markov matrix $\mathbf{P}$ has the following structure: where $\overline{\mathbf{P}}$ is a Markov matrix that is $r$-aggregatable, i.e. there exists an $r$-cluster partition $\{\Omega_{1},\Omega_{2},\ldots,\Omega_{r}\}$ on the state space $\lbrack n\rbrack$ such that We assume ${rank{(\overline{\mathbf{P}})}} = r$, which guarantees there are only $r$ unique rows in $\overline{\mathbf{P}}$. Matrix $\mathbf{\Delta}$ is the perturbation that accounts for the difference of the true Markov matrix $\mathbf{P}$ and the $r$-aggregatable Markov matrix $\overline{\mathbf{P}}$. Note that so far we only assume modes are clustered based on their similarities in transition distributions and for future work we will take the mode dynamics and group connectivity into account.
 
 ### Problem Formulation
 
@@ -44,11 +34,7 @@ We seek an $r$-aggregatable approximation of the original Markov matrix while pr
 
 ### Theorem 1
 
-The differences between two Markov matrices $\mathbf{P}$ and $\overset{\sim}{\mathbf{P}}$ in terms of stationary distribution satisfy
-
-Furthermore, if $\mathbf{P}$ and $\overset{\sim}{\mathbf{P}}$ are both ergodic, their transient distributions and satisfy
-
-for some $C > 0$ and $0 < \rho < 1$.
+The differences between two Markov matrices $\mathbf{P}$ and $\overset{\sim}{\mathbf{P}}$ in terms of stationary distribution satisfy Furthermore, if $\mathbf{P}$ and $\overset{\sim}{\mathbf{P}}$ are both ergodic, their transient distributions and satisfy for some $C > 0$ and $0 < \rho < 1$.
 
 We can see that as long as the approximation error ${\|{\mathbf{P} - \overset{\sim}{\mathbf{P}}}\|}_{\infty}$ is upper bounded, the stationary and transient behavior differences between the true Markov matrix $\mathbf{P}$ and the $r$-aggregatable approximation $\overset{\sim}{\mathbf{P}}$ can be bounded. This gives the justification for using $\overset{\sim}{\mathbf{P}}$ as a surrogate for $\mathbf{P}$ in the power method. The distance ${\|{\mathbf{P} - \overset{\sim}{\mathbf{P}}}\|}_{\infty}$ with $\overset{\sim}{\mathbf{P}}$ obtained from our approach is bounded in Theorem 4.
 
@@ -56,26 +42,7 @@ We can see that as long as the approximation error ${\|{\mathbf{P} - \overset{\s
 
 Our approach to solve the problem mentioned above is given in Algorithm 1.
 
-Input: Observation {yt, ut}t = 0N, dynamics {wk}k = 1n
-3 ${\hat{X}}_{t} = {\underset{k\in{\lbrack n\rbrack}}{\arg ⁡\min}{|{y_{t} - {\mathbf{w}_{k}^{\intercal}\mathbf{\phi}_{t}}}|}}$
-6 Compute empirical Markov matrix:
-
-7 SVD decomposition: $\hat{\mathbf{P}} = {\mathbf{U}\mathbf{\Sigma}\mathbf{V}^{\intercal}}$
-9 Solve the following k-means problem:
-
-$${{\hat{\Omega}}_{1:r},{\hat{\mathbf{c}}}_{1:r}} = {\underset{\begin{matrix}
-{{\hat{\Omega}}_{1},\ldots,{\hat{\Omega}}_{r}} \\
-{{\hat{\mathbf{c}}}_{1},\ldots,{\hat{\mathbf{c}}}_{r}}
-\end{matrix}}{\arg ⁡\min}{\sum\limits_{k = 1}^{r}{\sum\limits_{i \in {\hat{\Omega}}_{k}}{\|{{\mathbf{U}_{r}{(i,:)}} - {\hat{\mathbf{c}}}_{k}}\|}^{2}}}}$$
-
-10 Aggregatable approximation: assume i ∈ Ω̂s
-
-$${\overset{\sim}{\mathbf{P}}{(i,j)}} = \frac{\sum_{k \in {\hat{\Omega}}_{s}}{\sum_{t = 1}^{N}{\mathbb{1}{\{{{{\hat{X}}_{t - 1} = k},{{\hat{X}}_{t} = j}}\}}}}}{\sum_{k \in {\hat{\Omega}}_{s}}{\sum_{t = 1}^{N}{\mathbb{1}{\{{{\hat{X}}_{t - 1} = k}\}}}}}$$
-
-Output: Partition {Ω̂1, …, Ω̂r} and matrix $\overset{\sim}{\mathbf{P}}$
-Algorithm 1 Mode Clustering for Markov Jump Model
-
-In Line 1, we estimate the active mode at time $t$ by picking the mode whose dynamics gives the smallest residual error $|{y_{t} - {\mathbf{w}_{k}^{\intercal}\mathbf{\phi}_{t}}}|$. Then, in Line 10, based on the estimated mode sequence, we estimate $\mathbf{P}$ with the empirical Markov matrix $\hat{\mathbf{P}}$ in which the transition probability from mode $i$ to mode $j$ is estimated with the frequency of transition pair $(i,j)$ with respect to mode $i$. In Line 1, we take the SVD of $\hat{\mathbf{P}}$ and preserve the first $r$ singular value components. This is essentially a denoising step that reduces the influence of perturbation $\mathbf{\Delta}$ and estimation error in $\hat{\mathbf{P}}$, and the obtained $\mathbf{U}_{r}$ is a dimension-reduced representation of $\hat{\mathbf{P}}$ that bears the low-rank structure in $\overline{\mathbf{P}}$. Then, we use k-means to estimate the clustering information in $\overline{\mathbf{P}}$. Finally, in Line 12, we compute $\overset{\sim}{\mathbf{P}}$ by taking modes within the same estimated cluster as a single mode and re-computing the empirical Markov matrix.
+Input: Observation {yt, ut}t = 0N, dynamics {wk}k = 1n 3 ${\hat{X}}_{t} = {\underset{k\in{\lbrack n\rbrack}}{\arg ⁡\min}{|{y_{t} - {\mathbf{w}_{k}^{\intercal}\mathbf{\phi}_{t}}}|}}$ 6 Compute empirical Markov matrix: 7 SVD decomposition: $\hat{\mathbf{P}} = {\mathbf{U}\mathbf{\Sigma}\mathbf{V}^{\intercal}}$ 9 Solve the following k-means problem: $${{\hat{\Omega}}_{1:r},{\hat{\mathbf{c}}}_{1:r}} = {\underset{\begin{matrix} {{\hat{\Omega}}_{1},\ldots,{\hat{\Omega}}_{r}} \\{{\hat{\mathbf{c}}}_{1},\ldots,{\hat{\mathbf{c}}}_{r}} \end{matrix}}{\arg ⁡\min}{\sum\limits_{k = 1}^{r}{\sum\limits_{i \in {\hat{\Omega}}_{k}}{\|{{\mathbf{U}_{r}{(i,:)}} - {\hat{\mathbf{c}}}_{k}}\|}^{2}}}}$$ 10 Aggregatable approximation: assume i ∈ Ω̂s $${\overset{\sim}{\mathbf{P}}{(i,j)}} = \frac{\sum_{k \in {\hat{\Omega}}_{s}}{\sum_{t = 1}^{N}{\mathbb{1}{\{{{{\hat{X}}_{t - 1} = k},{{\hat{X}}_{t} = j}}\}}}}}{\sum_{k \in {\hat{\Omega}}_{s}}{\sum_{t = 1}^{N}{\mathbb{1}{\{{{\hat{X}}_{t - 1} = k}\}}}}}$$ Output: Partition {Ω̂1, …, Ω̂r} and matrix $\overset{\sim}{\mathbf{P}}$ Algorithm 1 Mode Clustering for Markov Jump Model In Line 1, we estimate the active mode at time $t$ by picking the mode whose dynamics gives the smallest residual error $|{y_{t} - {\mathbf{w}_{k}^{\intercal}\mathbf{\phi}_{t}}}|$. Then, in Line 10, based on the estimated mode sequence, we estimate $\mathbf{P}$ with the empirical Markov matrix $\hat{\mathbf{P}}$ in which the transition probability from mode $i$ to mode $j$ is estimated with the frequency of transition pair $(i,j)$ with respect to mode $i$. In Line 1, we take the SVD of $\hat{\mathbf{P}}$ and preserve the first $r$ singular value components. This is essentially a denoising step that reduces the influence of perturbation $\mathbf{\Delta}$ and estimation error in $\hat{\mathbf{P}}$, and the obtained $\mathbf{U}_{r}$ is a dimension-reduced representation of $\hat{\mathbf{P}}$ that bears the low-rank structure in $\overline{\mathbf{P}}$. Then, we use k-means to estimate the clustering information in $\overline{\mathbf{P}}$. Finally, in Line 12, we compute $\overset{\sim}{\mathbf{P}}$ by taking modes within the same estimated cluster as a single mode and re-computing the empirical Markov matrix.
 
 Note that if a certain mode does not show up at all in the trajectory, i.e. the denominators in Line 10 and Line 12 might be 0, then we simply assign uniform distribution to that mode, i.e. ${\hat{\mathbf{P}}{(i,j)}} = {1/n}$. We show in the proof that when the trajectory is long enough, every mode will show up with high probability.
 
@@ -87,47 +54,37 @@ Before discussing theoretical guarantees of the proposed approach, we introduce 
 
 ### Definition 1 (Mixing Time of MC)
 
-Let $\mathbf{P} \in {n1{\mathbb{R}}^{n}{\mathbb{R}}^{n\mathsf{x}n}}$ be a row stochastic Markov transition matrix with stationary distribution $\mathbf{π}$. Then for all $\epsilon > 0$, the $\epsilon -$mixing time is defined as
-
-Moreover, we let $\tau_{\ast} = {\tau{(\frac{1}{4})}}$.
+Let $\mathbf{P} \in {n1{\mathbb{R}}^{n}{\mathbb{R}}^{n\mathsf{x}n}}$ be a row stochastic Markov transition matrix with stationary distribution $\mathbf{π}$. Then for all $\epsilon > 0$, the $\epsilon -$mixing time is defined as Moreover, we let $\tau_{\ast} = {\tau{(\frac{1}{4})}}$.
 
 Since k-means is used in Algorithm 1, we assume a $({1 + \epsilon})$ solution to the k-means problem can be obtained and later show how $\epsilon$ affects the overall clustering error.
 
 ### Definition 2 (Approximate Solution to k-means Clustering Problem)
 
-For problem in, we say ${\hat{\Omega}}_{1},\ldots,{\hat{\Omega}}_{r},{\hat{\mathbf{c}}}_{1},\ldots,{\hat{\mathbf{c}}}_{r}$ is a $({1 + \epsilon})$ solution if
+For problem , we say ${\hat{\Omega}}_{1},\ldots,{\hat{\Omega}}_{r},{\hat{\mathbf{c}}}_{1},\ldots,{\hat{\mathbf{c}}}_{r}$ is a $({1 + \epsilon})$ solution if
 
 ### Definition 3 (Misclustering Rate)
 
-Let $\{\Omega_{1},\Omega_{2},\ldots,\Omega_{r}\}$ be the underlying true clustering partition of $\lbrack n\rbrack$ and $\{{\hat{\Omega}}_{1},{\hat{\Omega}}_{2},\ldots,{\hat{\Omega}}_{r}\}$ be an estimate of the true partition. We define *misclustering rate* of $\{{\hat{\Omega}}_{1},{\hat{\Omega}}_{2},\ldots,{\hat{\Omega}}_{r}\}$ as
-
-where $\mathcal{K}$ is the set of all bijections from $\lbrack r\rbrack$ to $\lbrack r\rbrack$.
+Let $\{\Omega_{1},\Omega_{2},\ldots,\Omega_{r}\}$ be the underlying true clustering partition of $\lbrack n\rbrack$ and $\{{\hat{\Omega}}_{1},{\hat{\Omega}}_{2},\ldots,{\hat{\Omega}}_{r}\}$ be an estimate of the true partition. We define *misclustering rate* of $\{{\hat{\Omega}}_{1},{\hat{\Omega}}_{2},\ldots,{\hat{\Omega}}_{r}\}$ as where $\mathcal{K}$ is the set of all bijections from $\lbrack r\rbrack$ to $\lbrack r\rbrack$.
 
 Since the partition is invariant to the labels of clusters, when we evaluate the misclustering rate, we compute the error under the best label matching, which is the reason we need $\mathcal{K}$. Note that in (15. ‣ 4.1 Relevant Definitions ‣ 4 Theoretical Guarantees ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")), each summand has numerator no larger than the its denominator, so ${M{({\hat{\Omega}}_{1},{\hat{\Omega}}_{2},\ldots,{\hat{\Omega}}_{r})}} \leq r$ trivially.
 
 ### Main Results
 
-Let $N^{\prime}:={\sum_{t = 0}^{N - 1}{\mathbb{1}{\{{{\hat{X}}_{t} \neq X_{t}}\}}}}$ denote the number of mistakes in the estimated mode sequence and $\eta:=\frac{N^{\prime}}{N}$ denote the mistake rate. In the following analyses, Lemma 2 gives conditions under which $N^{\prime} = 0$. Theorem 3 and Theorem 4 give the upper bounds on misclustering rate and approximation error.
+Let $N':={\sum_{t = 0}^{N - 1}{\mathbb{1}{\{{{\hat{X}}_{t} \neq X_{t}}\}}}}$ denote the number of mistakes in the estimated mode sequence and $\eta:=\frac{N'}{N}$ denote the mistake rate. In the following analyses, Lemma 2 gives conditions under which $N' = 0$. Theorem 3 and Theorem 4 give the upper bounds on misclustering rate and approximation error.
 
 ### Lemma 2
 
-Assume for all ${t,{|n_{t}|}} < n_{\max}$ and for all $j \in {{\lbrack n\rbrack}\backslash X_{t}}$,
-
-then the sequence estimated in Line 1 of Algorithm 1 is correct, i.e. $N^{\prime} = 0$.
+Assume for all ${t,{|n_{t}|}} < n_{\max}$ and for all $j \in {{\lbrack n\rbrack}\backslash X_{t}}$, then the sequence estimated in Line 1 of Algorithm 1 is correct, i.e. $N' = 0$.
 
 When $n_{t} = 0$, the dynamics given in defines a hyperplane plus noise. Data points at the intersection of these hyperplanes (a set of measure zero in the noiseless case) are not useful in distinguishing the mode. essentially means that such data points do not exist.
 
 ### Theorem 3
 
-Assume: (i) the framework in Section 2.2 holds; (ii) $\mathbf{P}$ is ergodic; (iii) $\{{\hat{\Omega}}_{1},\ldots,{\hat{\Omega}}_{r}\}$ is a $({1 + \epsilon_{1}})$ solution to the k-means problem; (iv) ${\|\mathbf{\Delta}\|} \leq {\frac{\sigma_{r}{(\overline{\mathbf{P}})}}{8\sqrt{{({2 + \epsilon_{1}})}r}}\sqrt{\frac{|\Omega_{(r)}|}{|\Omega_{}|} + 1}}$; (v) mistake rate $\eta < \frac{\pi_{\min}}{2}$. Then for all $\epsilon_{2} > 0$, let ${\overset{\sim}{\epsilon}}_{2} = {\min\left\{ \epsilon_{2},{\frac{\pi_{\min}}{2} - \eta},{\frac{\pi_{\min}}{4{({{\sigma_{1}{(\overline{\mathbf{P}})}} + {\|\mathbf{\Delta}\|}})}}\left( {{\frac{\sigma_{r}{(\overline{\mathbf{P}})}}{8\sqrt{{({2 + \epsilon_{1}})}r}}\sqrt{\frac{|\Omega_{(r)}|}{|\Omega_{}|} + 1}} - {\|\mathbf{\Delta}\|}} \right)} \right\}}$, if $N \geq {200\tau_{\ast}\pi_{\max}{\log{({\overset{\sim}{\epsilon}}_{2}^{- 1})}}{\overset{\sim}{\epsilon}}_{2}^{- 2}{\lbrack{{\log{({24n\tau_{\ast}})}} + {\log{({\log{({\overset{\sim}{\epsilon_{2}}}^{- 1})}})}}}\rbrack}}$, with probability no less than
-
-In Theorem 3, the ergodicity condition on Markov matrix $\mathbf{P}$ and mistake rate $\eta \leq \frac{\pi_{\min}}{2}$ guarantees that $\mathbf{P}$ can be well learned from a single trajectory. When $\epsilon_{2}$ is small enough, ${\overset{\sim}{\epsilon}}_{2}$ becomes $\epsilon_{2}$, which will be more interpretable for the probability and trajectory length lower bounds. Through some further inspection of Theorem 3, we could see the bounds improve as any of the following decreases: number of modes $n$, number of clusters $r$, perturbation $\|\mathbf{\Delta}\|$, mixing time $\tau_{\ast}$, condition number ${{\sigma_{1}{(\overline{\mathbf{P}})}}/\sigma_{r}}{(\overline{\mathbf{P}})}$, and disparities in stationary distribution $\mathbf{π}$ and cluster population, namely $\pi_{\max}/\pi_{\min}$ and ${|\Omega_{}|}/{|\Omega_{(r)}|}$. The disparities play a role here because as disparities increases, certain modes or clusters may be dominated by the others and become less likely to show up in the data. This will make them less learned in the algorithm and the estimation and clustering error will increase accordingly.
+Assume: (i) the framework in Section 2.2 holds; (ii) $\mathbf{P}$ is ergodic; (iii) $\{{\hat{\Omega}}_{1},\ldots,{\hat{\Omega}}_{r}\}$ is a $({1 + \epsilon_{1}})$ solution to the k-means problem; (iv) ${\|\mathbf{\Delta}\|} \leq {\frac{\sigma_{r}{(\overline{\mathbf{P}})}}{8\sqrt{{({2 + \epsilon_{1}})}r}}\sqrt{\frac{|\Omega_{(r)}|}{|\Omega_{}|} + 1}}$; (v) mistake rate $\eta < \frac{\pi_{\min}}{2}$. Then for all $\epsilon_{2} > 0$, let ${\overset{\sim}{\epsilon}}_{2} = {\min\left\{ \epsilon_{2},{\frac{\pi_{\min}}{2} - \eta},{\frac{\pi_{\min}}{4{({{\sigma_{1}{(\overline{\mathbf{P}})}} + {\|\mathbf{\Delta}\|}})}}\left({{\frac{\sigma_{r}{(\overline{\mathbf{P}})}}{8\sqrt{{({2 + \epsilon_{1}})}r}}\sqrt{\frac{|\Omega_{(r)}|}{|\Omega_{}|} + 1}} - {\|\mathbf{\Delta}\|}} \right)} \right\}}$, if $N \geq {200\tau_{\ast}\pi_{\max}{\log{({\overset{\sim}{\epsilon}}_{2}^{- 1})}}{\overset{\sim}{\epsilon}}_{2}^{- 2}{\lbrack{{\log{({24n\tau_{\ast}})}} + {\log{({\log{({\overset{\sim}{\epsilon_{2}}}^{- 1})}})}}}\rbrack}}$, with probability no less than In Theorem 3, the ergodicity condition on Markov matrix $\mathbf{P}$ and mistake rate $\eta \leq \frac{\pi_{\min}}{2}$ guarantees that $\mathbf{P}$ can be well learned from a single trajectory. When $\epsilon_{2}$ is small enough, ${\overset{\sim}{\epsilon}}_{2}$ becomes $\epsilon_{2}$, which will be more interpretable for the probability and trajectory length lower bounds. Through some further inspection of Theorem 3, we could see the bounds improve as any of the following decreases: number of modes $n$, number of clusters $r$, perturbation $\|\mathbf{\Delta}\|$, mixing time $\tau_{\ast}$, condition number ${{\sigma_{1}{(\overline{\mathbf{P}})}}/\sigma_{r}}{(\overline{\mathbf{P}})}$, and disparities in stationary distribution $\mathbf{π}$ and cluster population, namely $\pi_{\max}/\pi_{\min}$ and ${|\Omega_{}|}/{|\Omega_{(r)}|}$. The disparities play a role here because as disparities increases, certain modes or clusters may be dominated by the others and become less likely to show up in the data. This will make them less learned in the algorithm and the estimation and clustering error will increase accordingly.
 
 ### Theorem 4
 
-Under the same conditions as Theorem 3, if ${MR} = 0$, then with the same probability lower bound we could have
-
-Theorem 4 gives the upper bound on the approximation error of $\overset{\sim}{\mathbf{P}}$, which can be used to upper bound the stationary and transient behavior differences in Theorem 1. The limitation of the theorem is that the result holds only when the clustering error is $0$.
+Under the same conditions as Theorem 3, if ${MR} = 0$, then with the same probability lower bound we could have Theorem 4 gives the upper bound on the approximation error of $\overset{\sim}{\mathbf{P}}$, which can be used to upper bound the stationary and transient behavior differences in Theorem 1. The limitation of the theorem is that the result holds only when the clustering error is $0$.
 
 ## Experiments
 
@@ -149,11 +106,7 @@ Figure 1: Performance vs: (a,b) N and r; (c,d) N and nmax; (e,f) ∥Δ∥
 
 ### Practically Motivated Example---Patrol Robot
 
-Now we consider a more realistic case involving Markov jump system that can possibly benefit from our approach. Assume in a region, we have $n$ stations each with position $p_{i} \in {\mathbb{R}}$ and at time $t$ there is only one active station $s_{t}$ that generates requests; the sequence of active stations $s_{0:t}$ follows a Markov chain $\mathbf{P}$. There is a robot with position $x_{t} \in {\mathbb{R}}$ at time $t$ aiming to reach the active station as fast and close as possible. Assuming the dynamics and control law of the robot are given by
-
-the closed-loop dynamics take the form
-
-which is a Markov jump model. In this setting, if the underlying Markov chain bears aggregatability property to some extent, we could use our approach to uncover the corresponding partition of modes as well as find an approximation of Markov transition matrix with stationary distribution that is easier to compute. Understanding the similarities between the stations' activation schedule can be useful to design improved control strategies for the robot.
+Now we consider a more realistic case involving Markov jump system that can possibly benefit from our approach. Assume in a region, we have $n$ stations each with position $p_{i} \in {\mathbb{R}}$ and at time $t$ there is only one active station $s_{t}$ that generates requests; the sequence of active stations $s_{0:t}$ follows a Markov chain $\mathbf{P}$. There is a robot with position $x_{t} \in {\mathbb{R}}$ at time $t$ aiming to reach the active station as fast and close as possible. Assuming the dynamics and control law of the robot are given by the closed-loop dynamics take the form which is a Markov jump model. In this setting, if the underlying Markov chain bears aggregatability property to some extent, we could use our approach to uncover the corresponding partition of modes as well as find an approximation of Markov transition matrix with stationary distribution that is easier to compute. Understanding the similarities between the stations' activation schedule can be useful to design improved control strategies for the robot.
 
 In the experiment, we set ${n = 50},{{p_{i} = i},{{K = 0.7},{{n_{t} \sim {\mathcal{N}{(0,0.1)}}},{N = 10^{6}}}}}$ and sample $\overline{\mathbf{P}},\mathbf{P}$ same as 5.1.1 ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076."). Over the average of 100 runs, clustering error $\text{CE} = 0.04$ and ${\|{\overset{\sim}{\mathbf{π}} - {\mathbf{π}}}\|}_{1} = 0.07$.
 

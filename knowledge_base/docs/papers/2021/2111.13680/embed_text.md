@@ -14,9 +14,7 @@ We would like to point out that although our pipeline shares the conceptual majo
 
 In this paper, we propose a GMFlow framework to realize the global matching formulation for optical flow. Specifically, the dense features extracted from a convolutional backbone network are fed into a Transformer that consists of self-, cross-attentions and feed-forward network to obtain more discriminative features. We then compare the feature similarities by correlating all pair-wise features. After that, the flow prediction is obtained with a differentiable softmax matching layer. To address occluded and out-of-boundary pixels, we incorporate an additional self-attention layer to propagate the high-quality flow prediction from matched pixels to unmatched ones by exploiting the feature self-similarity. We further introduce a refinement step that reuses GMFlow at higher feature resolution for residual flow prediction. Our full framework achieves competitive performance and higher efficiency compared with the state-of-the-art methods. Specifically, with only one refinement, GMFlow outperforms 31-refinements RAFT on the challenging Sintel dataset, while running faster.
 
-Our major contributions can be summarized as follows:
-
-We completely revamp the dominant flow regression pipeline by reformulating optical flow as a global matching problem, which effectively addresses the long-standing challenge of large displacements.
+Our major contributions can be summarized as follows: We completely revamp the dominant flow regression pipeline by reformulating optical flow as a global matching problem, which effectively addresses the long-standing challenge of large displacements.
 
 We propose a GMFlow framework to realize the global matching formulation, which consists of three main components: a Transformer for feature enhancement, a correlation and softmax layer for global feature matching, and a self-attention layer for flow propagation.
 
@@ -42,25 +40,15 @@ In the following, we first provide a general description of our global matching 
 
 ### Formulation
 
-Given two consecutive video frames ${\mathbf{I}}_{1}$ and ${\mathbf{I}}_{2}$, we first extract downsampled dense features ${{\mathbf{F}}_{1},{\mathbf{F}}_{2}} \in {\mathbb{R}}^{H \times W \times D}$ with a weight-sharing convolutional network, where $H,W$ and $D$ denote height, width and feature dimension, respectively. Considering the correspondences in the two frames should share high similarity, we first compare the feature similarity for each pixel in ${\mathbf{F}}_{1}$ with respect to all pixels in ${\mathbf{F}}_{2}$ by computing their correlations. This can be implemented efficiently with a simple matrix multiplication:
+Given two consecutive video frames ${\mathbf{I}}_{1}$ and ${\mathbf{I}}_{2}$, we first extract downsampled dense features ${{\mathbf{F}}_{1},{\mathbf{F}}_{2}} \in {\mathbb{R}}^{H \times W \times D}$ with a weight-sharing convolutional network, where $H,W$ and $D$ denote height, width and feature dimension, respectively. Considering the correspondences in the two frames should share high similarity, we first compare the feature similarity for each pixel in ${\mathbf{F}}_{1}$ with respect to all pixels in ${\mathbf{F}}_{2}$ by computing their correlations. This can be implemented efficiently with a simple matrix multiplication: where each element in the correlation matrix $\mathbf{C}$ represents the correlation value between coordinates ${\mathbf{p}}_{1} = {(i,j)}$ in ${\mathbf{F}}_{1}$ and ${\mathbf{p}}_{2} = {(k,l)}$ in ${\mathbf{F}}_{2}$, and $\frac{1}{\sqrt{D}}$ is a normalization factor to avoid large values after the dot-product operation.
 
-where each element in the correlation matrix $\mathbf{C}$ represents the correlation value between coordinates ${\mathbf{p}}_{1} = {(i,j)}$ in ${\mathbf{F}}_{1}$ and ${\mathbf{p}}_{2} = {(k,l)}$ in ${\mathbf{F}}_{2}$, and $\frac{1}{\sqrt{D}}$ is a normalization factor to avoid large values after the dot-product operation.
-
-To identify the correspondence, one naïve approach is to directly take the location that gives the highest correlation. However, this operation is unfortunately non-differentiable, which prevents end-to-end training. To tackle this issue, we use a differentiable matching layer. Specifically, we normalize the last two dimensions of $\mathbf{C}$ with the softmax operation, which gives us a matching distribution
-
-for each location in ${\mathbf{F}}_{1}$ with respect to all locations in ${\mathbf{F}}_{2}$. Then, the correspondence $\hat{\mathbf{G}}$ can be obtained by taking a weighted average of the 2D coordinates of pixel grid ${\mathbf{G}} \in {\mathbb{R}}^{H \times W \times 2}$ with the matching distribution $\mathbf{M}$:
-
-Finally, the optical flow $\mathbf{V}$ can be obtained by computing the difference between the corresponding pixel coordinates
-
-Such a softmax-based approach can not only enable end-to-end training but also provide sub-pixel accuracy.
+To identify the correspondence, one naïve approach is to directly take the location that gives the highest correlation. However, this operation is unfortunately non-differentiable, which prevents end-to-end training. To tackle this issue, we use a differentiable matching layer. Specifically, we normalize the last two dimensions of $\mathbf{C}$ with the softmax operation, which gives us a matching distribution for each location in ${\mathbf{F}}_{1}$ with respect to all locations in ${\mathbf{F}}_{2}$. Then, the correspondence $\hat{\mathbf{G}}$ can be obtained by taking a weighted average of the 2D coordinates of pixel grid ${\mathbf{G}} \in {\mathbb{R}}^{H \times W \times 2}$ with the matching distribution $\mathbf{M}$: Finally, the optical flow $\mathbf{V}$ can be obtained by computing the difference between the corresponding pixel coordinates Such a softmax-based approach can not only enable end-to-end training but also provide sub-pixel accuracy.
 
 ### Feature Enhancement
 
 Key to our formulation lies in obtaining high-quality discriminative features for matching. Recall that the features ${\mathbf{F}}_{1}$ and ${\mathbf{F}}_{2}$ in Sec. 3.1 are extracted *independently* from a weight-sharing convolutional network. To further consider their mutual dependencies, a natural choice is Transformer, which is particularly suitable for modeling the mutual relationship between two sets with the attention mechanism, as demonstrated in sparse matching methods. Since ${\mathbf{F}}_{1}$ and ${\mathbf{F}}_{2}$ are only two sets of features, they have no notion of the spatial position, we first add the fixed 2D sine and cosine positional encodings (following DETR ) to the features. Adding the position information also makes the matching process consider not only the feature similarity but also their spatial distance, which can help resolve ambiguities and improve the performance (Table LABEL:tab:transformer).
 
-After adding the position information, we perform six stacked self-, cross-attentions and feed-forward network (FFN) to improve the quality of the initial features. Specifically, for self-attention, the query, key and value in the attention mechanism are the same feature. For cross-attention, the key and value are same but different from the query to introduce their mutual dependencies. This process is performed for both ${\mathbf{F}}_{1}$ and ${\mathbf{F}}_{2}$ symmetrically, *i.e*.,
-
-where $\mathcal{T}$ is a Transformer, $\mathbf{P}$ is the positional encoding, the first input of $\mathcal{T}$ is query and the second is key and value.
+After adding the position information, we perform six stacked self-, cross-attentions and feed-forward network (FFN) to improve the quality of the initial features. Specifically, for self-attention, the query, key and value in the attention mechanism are the same feature. For cross-attention, the key and value are same but different from the query to introduce their mutual dependencies. This process is performed for both ${\mathbf{F}}_{1}$ and ${\mathbf{F}}_{2}$ symmetrically, *i.e*., where $\mathcal{T}$ is a Transformer, $\mathbf{P}$ is the positional encoding, the first input of $\mathcal{T}$ is query and the second is key and value.
 
 One issue in the standard Transformer architecture is the quadratic computational complexity due to the pair-wise attention operation. To improve the efficiency, we adopt the shifted local window attention strategy from Swin Transformer. However, unlike Swin that uses *fixed window size*, we split the feature to *fixed number of local windows* to make the window size adaptive with the feature size. Specifically, we split the input feature of size $H \times W$ to $K \times K$ windows (each with size $\frac{H}{K} \times \frac{W}{K}$), and perform self- and cross-attentions within each local window independently. For every two consecutive local windows, we shift the window partition by $(\frac{H}{2K},\frac{W}{2K})$ to introduce cross-window connections. In our framework, we split to $2 \times 2$ windows (each with size $\frac{H}{2} \times \frac{W}{2}$), which represents a good speed-accuracy trade-off (Table LABEL:tab:split_attn).
 
@@ -68,18 +56,11 @@ Figure 3: GMFlow also simplifies backward flow computation by transposing the gl
 
 ### Flow Propagation
 
-Our softmax-based flow estimation method implicitly assumes that the corresponding pixels are visible in both images and thus they can be matched by comparing their similarities. However, this assumption will be invalid for occluded and out-of-boundary pixels. To remedy this, by observing that the optical flow field and the image itself share high structure similarity, we propose to propagate the high-quality flow predictions in matched pixels to unmatched ones by measuring the feature self-similarity. This operation can be implemented efficiently with a simple self-attention layer (illustrated in Fig. 2):
-
-is the optical flow prediction from the softmax layer, which is obtained by substituting the stronger features in Eq. into the softmax matching layer in Sec. 3.1. Fig. 2 provides an overview of our GMFlow framework.
+Our softmax-based flow estimation method implicitly assumes that the corresponding pixels are visible in both images and thus they can be matched by comparing their similarities. However, this assumption will be invalid for occluded and out-of-boundary pixels. To remedy this, by observing that the optical flow field and the image itself share high structure similarity, we propose to propagate the high-quality flow predictions in matched pixels to unmatched ones by measuring the feature self-similarity. This operation can be implemented efficiently with a simple self-attention layer (illustrated in Fig. 2): is the optical flow prediction from the softmax layer, which is obtained by substituting the stronger features in Eq. into the softmax matching layer in Sec. 3.1. Fig. 2 provides an overview of our GMFlow framework.
 
 #blocks
-Things (val, clean)
-Sintel (train, clean)
-Sintel (train, final)
 
-cost volume + conv
-
-Table 1: Methodology comparison. We stack different number of convolutional residual blocks or Transformer blocks to see how the performance varies. All models are trained on Chairs and Things training sets. We report the performance on Things validation clean set and the cross-dataset generalization results on Sintel training clean and final sets.
+Things (val, clean) Sintel (train, clean) Sintel (train, final) cost volume + conv Table 1: Methodology comparison. We stack different number of convolutional residual blocks or Transformer blocks to see how the performance varies. All models are trained on Chairs and Things training sets. We report the performance on Things validation clean set and the cross-dataset generalization results on Sintel training clean and final sets.
 
 ### Refinement
 
@@ -89,16 +70,11 @@ Note that here we share the Transformer and self-attention weights in the refine
 
 ### Training Loss
 
-We supervise all flow predictions using $\ell_{1}$ loss between the ground truth:
-
-where $N$ is the number of flow predictions including the intermediate and final ones, and $\gamma$ (set to 0.9) is the weight that is exponentially increasing to give higher weights for later predictions following RAFT.
+We supervise all flow predictions using $\ell_{1}$ loss between the ground truth: where $N$ is the number of flow predictions including the intermediate and final ones, and $\gamma$ (set to 0.9) is the weight that is exponentially increasing to give higher weights for later predictions following RAFT.
 
 #splits
-Things (val, clean)
 
-Things (val, clean)
-
-Table 2: GMFlow ablations. All models are trained on Chairs and Things training sets.
+Things (val, clean) Things (val, clean) Table 2: GMFlow ablations. All models are trained on Chairs and Things training sets.
 
 ## Experiments
 
@@ -115,11 +91,8 @@ Flow estimation approach. We compare our Transformer and softmax-based flow esti
 Bidirectional flow prediction. Our framework also simplifies backward optical flow computation by directly transposing the global correlation matrix in Eq.. Note that during training we only predict unidirectional flow while at inference we can obtain bidirectional flow for free, without requiring to forward the network twice, unlike previous regression-based methods. The bidirectional flow can be used for occlusion detection with forward-backward consistency check (following ), as shown in Fig. 3.
 
 #refine.
-Things (val, clean)
-Sintel (train, clean)
-Sintel (train, final)
 
-Table 3: RAFT’s iterative refinement framework vs. our GMFlow framework. The models are trained on Chairs and Things training sets. We use RAFT’s officially released model for evaluation. The inference time is measured on a single V100 and A100 (in parentheses) GPU at Sintel resolution (436 × 1024). Our framework gains more speedup than RAFT (2.29× vs. 1.87×, i.e., ours: 151 → 66, RAFT: 170 → 91) on the high-end A100 GPU since our method doesn’t require a large number of sequential computation.
+Things (val, clean) Sintel (train, clean) Sintel (train, final) Table 3: RAFT’s iterative refinement framework vs. our GMFlow framework. The models are trained on Chairs and Things training sets. We use RAFT’s officially released model for evaluation. The inference time is measured on a single V100 and A100 (in parentheses) GPU at Sintel resolution (436 × 1024). Our framework gains more speedup than RAFT (2.29× vs. 1.87×, i.e., ours: 151 → 66, RAFT: 170 → 91) on the high-end A100 GPU since our method doesn’t require a large number of sequential computation.
 
 ### Ablations
 
@@ -168,3 +141,5 @@ Our framework still has room for future improvement in occluded regions, as can 
 We have presented a new global matching formulation for optical flow and demonstrated its strong performance. We hope our new perspective will pave a way towards a new paradigm for accurate and efficient optical flow estimation.
 
 Broader impact. Our proposed method might produce unreliable results in occluded regions, thus care should be taken when using the prediction results from our model, especially for safety-critical scenarios like self-driving cars.
+
+Acknowledgement. This research is supported in part by Monash FIT Start-up Grant. Dr. Jing Zhang is supported by ARC FL-170100117.

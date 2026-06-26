@@ -14,19 +14,15 @@ Contributions. We summarize the main contributions below.
 
 Closed-loop non-causal FIR identification without controller knowledge. We develop a non-causal Laurent/FIR framework for estimating the Markov parameters of stable and unstable LTI systems from a single closed-loop trajectory. The learner uses the measured input and output together with the known injected excitation, but does not require full-state observations, knowledge of the stabilizing controller, an intermediate observer, or a prior stable and unstable decomposition of the plant. The injected excitation is used as an instrumental variable to remove the bias caused by closed-loop correlation between the feedback input and the process noise.
 
-Finite-sample guarantees with controlled unstable and process-noise terms. We prove finite-sample error bounds for the estimated Laurent/FIR Markov parameters, with an $\mathcal{O}{(N^{- {1/2}})}$ statistical rate up to logarithmic factors and truncation terms. The non-causal representation captures unstable dynamics through reverse-time stable coefficients, so the terms multiplying both the input and the process noise are controlled by stable and reverse-time stable decay rates rather than by growing forward-time unstable dynamics. The resulting bound separates the effects of process noise, measurement noise, truncation tails, and instrument conditioning.
+Finite-sample guarantees with controlled unstable and process-noise terms. We prove finite-sample error bounds for the estimated Laurent/FIR Markov parameters, with an $\mathcal{O}(N^{-1/2})$ statistical rate up to logarithmic factors and truncation terms. The non-causal representation captures unstable dynamics through reverse-time stable coefficients, so the terms multiplying both the input and the process noise are controlled by stable and reverse-time stable decay rates rather than by growing forward-time unstable dynamics. The resulting bound separates the effects of process noise, measurement noise, truncation tails, and instrument conditioning.
 
 Controller-dependent sample complexity and recursive implementation. The analysis makes explicit how the unknown stabilizing controller affects sample complexity through closed-loop state moments, empirical concentration of the feedback and instrument cross-covariance, and the strength of the injected excitation as an instrument. This shows that a controller may stabilize the plant while still producing weak instrument conditioning and requiring more samples. The proposed formulation also supports recursive updates of the non-causal FIR coefficients with a fixed $d$-sample delay; for closed-loop data, the recursive IV update uses the empirical cross-covariance between the input regressor and the instrument regressor.
 
 ## Background and Preliminaries
 
-Consider a discrete-time linear time-invariant (LTI) system
+Consider a discrete-time linear time-invariant (LTI) system where $x(k)\in\mathbb{R}^{n}$, $u(k)\in\mathbb{R}^{p}$, $y(k)\in\mathbb{R}^{m}$, $w(k)\in\mathbb{R}^{l}$, $v(k)\in\mathbb{R}^{m}$, $A\in\mathbb{R}^{n\times n}$, $B\in\mathbb{R}^{n\times p}$, $B_{w}\in\mathbb{R}^{n\times l}$, $C\in\mathbb{R}^{m\times n}$, and $D\in\mathbb{R}^{m\times p}$. The learner observes a single trajectory $\{y(k),u(k),c(k)\}_{k=0}^{\ell}$, where $\ell+1$ is the number of samples and $c(k)$ is the known injected excitation used as the instrumental variable. The system matrices are unknown to the learner.
 
-where ${x{(k)}} \in {\mathbb{R}}^{n}$, ${u{(k)}} \in {\mathbb{R}}^{p}$, ${y{(k)}} \in {\mathbb{R}}^{m}$, ${w{(k)}} \in {\mathbb{R}}^{l}$, ${v{(k)}} \in {\mathbb{R}}^{m}$, $A \in {\mathbb{R}}^{n \times n}$, $B \in {\mathbb{R}}^{n \times p}$, $B_{w} \in {\mathbb{R}}^{n \times l}$, $C \in {\mathbb{R}}^{m \times n}$, and $D \in {\mathbb{R}}^{m \times p}$. The learner observes a single trajectory ${\{{y{(k)}},{u{(k)}},{c{(k)}}\}}_{k = 0}^{\ell}$, where $\ell + 1$ is the number of samples and $c{(k)}$ is the known injected excitation used as the instrumental variable. The system matrices are unknown to the learner.
-
-Because open-loop experiments with unstable plants may be unsafe, we consider data collected under feedback. The control input at time step $k$ takes the form
-
-where $\mathcal{K}$ is a strictly causal, possibly nonlinear controller that is unknown to the learner, and ${c{(k)}} \in {\mathbb{R}}^{p}$ is a known excitation signal injected on top of the feedback action. The notation $\mathcal{K}{({y{}},\ldots,{y{({k - 1})}})}$ means that, at time $k$, the controller maps the finite output history $({y{}},\ldots,{y{({k - 1})}})$ to a vector in ${\mathbb{R}}^{p}$. For $k = 0$, the controller acts on the empty output history. Strict causality means that $\mathcal{K}$ depends on outputs only up to time step $k - 1$ and therefore cannot depend on the current output $y{(k)}$ or on the current injected excitation $c{(k)}$ through $y{(k)}$.
+Because open-loop experiments with unstable plants may be unsafe, we consider data collected under feedback. The control input at time step $k$ takes the form where $\mathcal{K}$ is a strictly causal, possibly nonlinear controller that is unknown to the learner, and $c(k)\in\mathbb{R}^{p}$ is a known excitation signal injected on top of the feedback action. The notation $\mathcal{K}(y,\ldots,y(k-1))$ means that, at time $k$, the controller maps the finite output history $(y,\ldots,y(k-1))$ to a vector in $\mathbb{R}^{p}$. For $k=0$, the controller acts on the empty output history. Strict causality means that $\mathcal{K}$ depends on outputs only up to time step $k-1$ and therefore cannot depend on the current output $y(k)$ or on the current injected excitation $c(k)$ through $y(k)$.
 
 ### Assumption 2.1
 
@@ -34,173 +30,85 @@ The feedback interconnection defined by and is well posed and mean-square stable
 
 ### Assumption 2.2
 
-The sequences $\{{c{(k)}}\}$, $\{{w{(k)}}\}$, and $\{{v{(k)}}\}$ are mutually independent i.i.d. Gaussian such that
-
-and the initial state satisfies ${x{}} = 0$.
+The sequences $\{c(k)\}$, $\{w(k)\}$, and $\{v(k)\}$ are mutually independent i.i.d. Gaussian such that and the initial state satisfies $x=0$.
 
 ### Assumption 2.3
 
+$(A,B,C)$ is a minimal realization of $G(z)=C(zI-A)^{-1}B+D$.
+
 ### Assumption 2.4
 
-The transfer matrix ${G{(z)}} = {{C{({{zI} - A})}^{- 1}B} + D}$ has no poles on the unit circle.
+The transfer matrix $G(z)=C(zI-A)^{-1}B+D$ has no poles on the unit circle.
 
 By Assumption 2.1, the closed-loop state has uniformly bounded second moments. We denote this bound by
 
 ### Non-causal FIR representation via Laurent expansion
 
-Under Assumptions 2.3 and 2.4, $G$ can be uniquely decomposed as
+Under Assumptions 2.3 and 2.4, $G$ can be uniquely decomposed as where $D\stackrel{{\scriptstyle\Delta}}{{=}}G(\infty)$, $G_{\mathrm{s}}$ is the strictly proper stable part, whose poles lie inside the open unit disk, and $G_{\mathrm{u}}$ is the strictly proper unstable part, whose poles lie outside the closed unit disk.
 
-where $D\overset{\Delta}{=}{G{(\infty)}}$, $G_{s}$ is the strictly proper stable part, whose poles lie inside the open unit disk, and $G_{u}$ is the strictly proper unstable part, whose poles lie outside the closed unit disk.
+Equivalently, after a similarity transformation, the realization can be written as | | $\displaystyle A$ | $\displaystyle=\begin{bmatrix}A_{\mathrm{s}}&0\\ | $\displaystyle B$ | $\displaystyle=\begin{bmatrix}B_{\mathrm{s}}^{\top}&B_{\mathrm{u}}^{\top}\end{bmatrix}^{\top},$ | | \(6\) | | | | 0&A_{\mathrm{u}}\end{bmatrix},$ | | | | | | | $\displaystyle B_{w}$ | $\displaystyle=\begin{bmatrix}B_{\mathrm{s},w}^{\top}&B_{\mathrm{u},w}^{\top}\end{bmatrix}^{\top},$ | $\displaystyle C$ | $\displaystyle=\begin{bmatrix}C_{\mathrm{s}}&C_{\mathrm{u}}\end{bmatrix}.$ | | | where $\rho(A_{\mathrm{s}})<1$, $\rho(A_{\mathrm{u}}^{-1})<1$, and $n_{\mathrm{s}}+n_{\mathrm{u}}=n$.
 
-Equivalently, after a similarity transformation, the realization can be written as
+The key insight is that $G_{\mathrm{s}}(z)$ admits a causal power series in $z^{-1}$, while $G_{\mathrm{u}}(z)$ admits a non-causal power series in $z$. Together they form a Laurent series analytic in an open annulus $\rho_{\mathrm{s}}<|z|<\rho_{\mathrm{u}}$ containing the unit circle: For $i\geq 1$, the positive-lag Markov parameters are so their norms decay geometrically with $i$ because $\rho(A_{\mathrm{s}})<1$. For the negative-lag coefficients, let $i=-j$ with $j\geq 1$. Then Thus the negative-lag coefficients decay geometrically with $j$ because $\rho(A_{\mathrm{u}}^{-1})<1$. Hence, although $A_{\mathrm{u}}$ is unstable in forward time, its contribution to the Laurent series is governed by the stable reverse-time dynamics $A_{\mathrm{u}}^{-1}$. This is why the non-causal FIR representation can approximate unstable dynamics using bounded, decaying coefficients.
 
-The key insight is that $G_{s}{(z)}$ admits a causal power series in $z^{- 1}$, while $G_{u}{(z)}$ admits a non-causal power series in $z$. Together they form a Laurent series analytic in an open annulus $\rho_{s} < {|z|} < \rho_{u}$ containing the unit circle:
+A non-causal FIR model is obtained by truncating the Laurent series: The Laurent expansion of the transfer function $G_{y,w}(z)=C(zI-A)^{-1}B_{w}$ from the process noise $w$ to the output $y$ is As above, the negative-lag coefficients contain powers of $A_{\mathrm{u}}^{-1}$ rather than growing powers of $A_{\mathrm{u}}$. Thus the process-noise coefficients are controlled by the reverse-time stable dynamics, up to realization-conditioning constants.
 
-For $i \geq 1$, the positive-lag Markov parameters are
+Using and, the output can be written as The causal tail decays as $\rho(A_{\mathrm{s}})^{r}$ with the lookback horizon $r$, and the non-causal tail decays as $\rho(A_{\mathrm{u}}^{-1})^{d}$ with the preview $d$. The regressor $\phi_{w,r,d}(k)$ is used only for the analysis of the process-noise contribution; the estimator does not require observing $w(k)$.
 
-so their norms decay geometrically with $i$ because ${\rho{(A_{s})}} < 1$. For the negative-lag coefficients, let $i = {- j}$ with $j \geq 1$. Then
-
-Thus the negative-lag coefficients decay geometrically with $j$ because ${\rho{(A_{u}^{- 1})}} < 1$. Hence, although $A_{u}$ is unstable in forward time, its contribution to the Laurent series is governed by the stable reverse-time dynamics $A_{u}^{- 1}$. This is why the non-causal FIR representation can approximate unstable dynamics using bounded, decaying coefficients.
-
-A non-causal FIR model is obtained by truncating the Laurent series:
-
-The Laurent expansion of the transfer function ${G_{y,w}{(z)}} = {C{({{zI} - A})}^{- 1}B_{w}}$ from the process noise $w$ to the output $y$ is
-
-As above, the negative-lag coefficients contain powers of $A_{u}^{- 1}$ rather than growing powers of $A_{u}$. Thus the process-noise coefficients are controlled by the reverse-time stable dynamics, up to realization-conditioning constants.
-
-Using and, the output can be written as
-
-The causal tail decays as $\rho{(A_{s})}^{r}$ with the lookback horizon $r$, and the non-causal tail decays as $\rho{(A_{u}^{- 1})}^{d}$ with the preview $d$. The regressor $\phi_{w,r,d}{(k)}$ is used only for the analysis of the process-noise contribution; the estimator does not require observing $w{(k)}$.
-
-The representation reduces identification to estimating the finite block of Laurent coefficients $\theta_{r,d}$. If the input were generated independently of the process noise, ordinary least squares could be applied directly to. In closed loop, however, the input is generated from past outputs, and those outputs are affected by the process noise. Thus the regressor $\phi_{r,d}{(k)}$ can be correlated with the error terms . The next subsection introduces an instrumental-variable estimator that removes this closed-loop bias by using the injected excitation $c$ as an instrument.
+The representation reduces identification to estimating the finite block of Laurent coefficients $\theta_{r,d}$. If the input were generated independently of the process noise, ordinary least squares could be applied directly to. In closed loop, however, the input is generated from past outputs, and those outputs are affected by the process noise. Thus the regressor $\phi_{r,d}(k)$ can be correlated with the error terms . The next subsection introduces an instrumental-variable estimator that removes this closed-loop bias by using the injected excitation $c$ as an instrument.
 
 ### Instrumental-variable estimation for closed-loop data
 
-The goal of this subsection is to construct an estimator for $\theta_{r,d}$ that remains valid when the data are collected under feedback. The key observation is that the known excitation $c$ is independent of the process and measurement noises, but it is still correlated with the measured input $u$ through the identity $u = {f + c}$. Therefore, $c$ can be used as an instrument for the input regressor. Recall from that
+The goal of this subsection is to construct an estimator for $\theta_{r,d}$ that remains valid when the data are collected under feedback. The key observation is that the known excitation $c$ is independent of the process and measurement noises, but it is still correlated with the measured input $u$ through the identity $u=f+c$. Therefore, $c$ can be used as an instrument for the input regressor. Recall from that The feedback component $f(k)$ depends on past measured outputs and can therefore be correlated with process noise through the closed-loop dynamics. Consequently, ordinary least squares using the input regressor $\phi_{r,d}(k)$ can be biased. To remove this closed-loop bias, we use the injected excitation $c$ as an instrumental variable.
 
-The feedback component $f{(k)}$ depends on past measured outputs and can therefore be correlated with process noise through the closed-loop dynamics. Consequently, ordinary least squares using the input regressor $\phi_{r,d}{(k)}$ can be biased. To remove this closed-loop bias, we use the injected excitation $c$ as an instrumental variable.
+Define the instrument regressor The feedback signal $f(k)$ is not an additional input observed separately from $u(k)$. It is a conceptual decomposition of the measured input into the unknown feedback action and the known injected excitation. This decomposition is used to analyze the population cross-covariance, while the estimator itself uses the observed signals $u$, $y$, and $c$.
 
-Define the instrument regressor
-
-The feedback signal $f{(k)}$ is not an additional input observed separately from $u{(k)}$. It is a conceptual decomposition of the measured input into the unknown feedback action and the known injected excitation. This decomposition is used to analyze the population cross-covariance, while the estimator itself uses the observed signals $u$, $y$, and $c$.
-
-Since ${u{(k)}} = {{f{(k)}} + {c{(k)}}}$, the FIR input regressor decomposes as
-
-For $\ell = {{N + r + d} - 1}$, define the data matrices
-
-The batch instrumental-variable estimator is
-
-The IV estimator in normalizes by the empirical input and instrument cross-covariance $\Phi_{r,d,\ell}\Phi_{c,r,d,\ell}^{\top}$. Hence, the population counterpart of this matrix determines whether the instrument is informative enough to identify $\theta_{r,d}$. This motivates the following definition. Define the finite-horizon input and instrument cross-covariance
-
-The first term comes from the direct excitation $c$ in $u = {f + c}$. The second term captures how past injected excitations propagate through the feedback loop and reappear in the feedback signal.
+Since $u(k)=f(k)+c(k)$, the FIR input regressor decomposes as For $\ell=N+r+d-1$, define the data matrices The batch instrumental-variable estimator is The IV estimator in normalizes by the empirical input and instrument cross-covariance $\Phi_{r,d,\ell}\Phi_{c,r,d,\ell}^{\top}$. Hence, the population counterpart of this matrix determines whether the instrument is informative enough to identify $\theta_{r,d}$. This motivates the following definition. Define the finite-horizon input and instrument cross-covariance The first term comes from the direct excitation $c$ in $u=f+c$. The second term captures how past injected excitations propagate through the feedback loop and reappear in the feedback signal.
 
 We now inspect the block structure of $R_{uc}$. The following indexing simply maps a block position in the non-causal regressor to the corresponding time instant.
 
-Thus ${t_{1}{(k)}} = {k + d}$ corresponds to the first, most future, block of the regressor, while ${t_{\mu}{(k)}} = {k - r}$ corresponds to the last, most past, block. The $(i,j)$ block of $R_{uc}$ is
+Thus $t_{1}(k)=k+d$ corresponds to the first, most future, block of the regressor, while $t_{\mu}(k)=k-r$ corresponds to the last, most past, block. The $(i,j)$ block of $R_{uc}$ is The direct excitation term in $u=f+c$ contributes $\sigma_{c}^{2}I_{p}$ when $i=j$ and zero otherwise. The remaining term is Because the controller is strictly causal, $f(t_{i}(k))$ depends only on outputs before time $t_{i}(k)$. Those outputs may depend on past values of $c$, but they cannot depend on $c(t_{i}(k))$ or on future values of $c$. If $j\leq i$, then $t_{j}(k)\geq t_{i}(k)$, so $c(t_{j}(k))$ is current or future relative to $f(t_{i}(k))$. Therefore, When $j>i$, $t_{j}(k)<t_{i}(k)$, so $c(t_{j}(k))$ is a past excitation and may influence $f(t_{i}(k))$ through the closed-loop dynamics. Hence the feedback contribution can be nonzero only above the block diagonal.
 
-The direct excitation term in $u = {f + c}$ contributes $\sigma_{c}^{2}I_{p}$ when $i = j$ and zero otherwise. The remaining term is
-
-Because the controller is strictly causal, $f{({t_{i}{(k)}})}$ depends only on outputs before time $t_{i}{(k)}$. Those outputs may depend on past values of $c$, but they cannot depend on $c{({t_{i}{(k)}})}$ or on future values of $c$. If $j \leq i$, then ${t_{j}{(k)}} \geq {t_{i}{(k)}}$, so $c{({t_{j}{(k)}})}$ is current or future relative to $f{({t_{i}{(k)}})}$. Therefore,
-
-When $j > i$, ${t_{j}{(k)}} < {t_{i}{(k)}}$, so $c{({t_{j}{(k)}})}$ is a past excitation and may influence $f{({t_{i}{(k)}})}$ through the closed-loop dynamics. Hence the feedback contribution can be nonzero only above the block diagonal.
-
-Consequently, $S_{fc}$ is block strictly upper triangular and
-
-This triangular structure explains why strict causality is useful: the diagonal blocks of $R_{uc}$ are fixed by the injected excitation, while feedback affects only the upper-triangular off-diagonal blocks. The matrix is therefore invertible at every finite horizon, but its smallest singular value can still be small. This is why we impose a quantitative conditioning assumption below.
+Consequently, $S_{fc}$ is block strictly upper triangular and This triangular structure explains why strict causality is useful: the diagonal blocks of $R_{uc}$ are fixed by the injected excitation, while feedback affects only the upper-triangular off-diagonal blocks. The matrix is therefore invertible at every finite horizon, but its smallest singular value can still be small. This is why we impose a quantitative conditioning assumption below.
 
 ### Assumption 2.5
 
-The finite-horizon input and instrument cross-covariance is quantitatively well conditioned. Specifically,
-
-We also define the normalized instrument-strength parameter
-
-The normalized parameter $\lambda_{IV}$ is used to express the statistical error in a scale-invariant way. In the IV error identity, the inverse cross-covariance contributes a factor proportional to $1/s_{IV}$, while products involving the instrument have scale $\sigma_{c}$. Therefore the relevant ratio is
-
-Small values of $\lambda_{IV}$ correspond to weak instruments and lead to larger estimation error.
+The finite-horizon input and instrument cross-covariance is quantitatively well conditioned. Specifically, We also define the normalized instrument-strength parameter The normalized parameter $\lambda_{\mathrm{IV}}$ is used to express the statistical error in a scale-invariant way. In the IV error identity, the inverse cross-covariance contributes a factor proportional to $1/s_{\mathrm{IV}}$, while products involving the instrument have scale $\sigma_{c}$. Therefore the relevant ratio is Small values of $\lambda_{\mathrm{IV}}$ correspond to weak instruments and lead to larger estimation error.
 
 Controller interpretations and instrument conditioning. The construction above only uses strict causality, the independence of the injected excitation from the noise sequences, and the conditioning of the finite-horizon cross-covariance $R_{uc}$. The following observations clarify how the same definitions specialize to nonlinear, linear, and open-loop settings.
 
-Nonlinear controllers. For a general strictly causal nonlinear controller, no differentiability or impulse-response representation of $\mathcal{K}$ is assumed. The blocks of $\mathcal{U}$ are defined directly by the cross-covariances . Strict causality gives the triangular population structure because $f{(t)}$ cannot depend on $c{(t)}$ or on future values of $c$. The additional difficulty for nonlinear controllers is finite-sample concentration of the empirical feedback and instrument cross-covariance. This is handled explicitly in Assumption 3.1.
+Nonlinear controllers. For a general strictly causal nonlinear controller, no differentiability or impulse-response representation of $\mathcal{K}$ is assumed. The blocks of $\mathcal{U}$ are defined directly by the cross-covariances . Strict causality gives the triangular population structure because $f(t)$ cannot depend on $c(t)$ or on future values of $c$. The additional difficulty for nonlinear controllers is finite-sample concentration of the empirical feedback and instrument cross-covariance. This is handled explicitly in Assumption 3.1.
 
-Linear closed-loop interpretation. The definition of $f{(k)}$ in is the general definition used throughout the paper. The triangular argument above does not require a linear controller. It only uses strict causality and the independence of the injected excitation from the noise sequences.
+Linear closed-loop interpretation. The definition of $f(k)$ in is the general definition used throughout the paper. The triangular argument above does not require a linear controller. It only uses strict causality and the independence of the injected excitation from the noise sequences.
 
-When the closed-loop map from the exogenous signals to the feedback action is linear and stable, the same feedback signal can be interpreted through impulse responses. In particular, its component driven by the injected excitation can be written as
+When the closed-loop map from the exogenous signals to the feedback action is linear and stable, the same feedback signal can be interpreted through impulse responses. In particular, its component driven by the injected excitation can be written as where $\mathcal{T}_{s}^{c}$ is the closed-loop impulse response from the injected excitation $c$ to the feedback action $f$. The remaining part of $f(k)$ is driven by the process and measurement noises. These noise-driven components do not contribute to $\mathbb{E}[f(t)c(\tau)^{\top}]$ because $w$, $v$, and $c$ are mutually independent. Therefore, in the linear case, This linear impulse-response interpretation is useful for understanding the off-diagonal blocks of $\mathcal{U}$, but it is not an additional assumption in the IV estimator or in the finite-sample analysis below.
 
-where $\mathcal{T}_{s}^{c}$ is the closed-loop impulse response from the injected excitation $c$ to the feedback action $f$. The remaining part of $f{(k)}$ is driven by the process and measurement noises. These noise-driven components do not contribute to ${\mathbb{E}}{\lbrack{f{(t)}c{(\tau)}^{\top}}\rbrack}$ because $w$, $v$, and $c$ are mutually independent. Therefore, in the linear case,
+A conservative conditioning bound. In the linear interpretation above, define This quantity measures the total closed-loop gain from the injected excitation $c$ to the feedback signal $f$. Since the strictly upper triangular blocks of $\mathcal{U}$ are generated by these lagged responses, one obtains the conservative bound Thus, if $\mathcal{T}_{\infty}<1$, then This condition is only sufficient. It is not required by the IV estimator or by the finite-sample analysis below. Large values of $\mathcal{T}_{\infty}$ should be interpreted as an indication that the instrument may be weakly conditioned, which increases the sample size needed for accurate estimation.
 
-This linear impulse-response interpretation is useful for understanding the off-diagonal blocks of $\mathcal{U}$, but it is not an additional assumption in the IV estimator or in the finite-sample analysis below.
-
-A conservative conditioning bound. In the linear interpretation above, define
-
-This quantity measures the total closed-loop gain from the injected excitation $c$ to the feedback signal $f$. Since the strictly upper triangular blocks of $\mathcal{U}$ are generated by these lagged responses, one obtains the conservative bound
-
-Thus, if $\mathcal{T}_{\infty} < 1$, then
-
-This condition is only sufficient. It is not required by the IV estimator or by the finite-sample analysis below. Large values of $\mathcal{T}_{\infty}$ should be interpreted as an indication that the instrument may be weakly conditioned, which increases the sample size needed for accurate estimation.
-
-Open-loop stable case. If the system is open-loop stable and no feedback is used, then ${f{(k)}} = 0$ and ${u{(k)}} = {c{(k)}}$. Therefore,
-
-In this case, the IV estimator reduces to ordinary least squares.
+Open-loop stable case. If the system is open-loop stable and no feedback is used, then $f(k)=0$ and $u(k)=c(k)$. Therefore, In this case, the IV estimator reduces to ordinary least squares.
 
 ### Recursive least squares and recursive IV implementation
 
-As the number of data samples increases, constructing the full data matrices may be impractical. Recursive updates address this by incrementally updating the estimates and the corresponding inverse matrices. Because the non-causal regressor
+As the number of data samples increases, constructing the full data matrices may be impractical. Recursive updates address this by incrementally updating the estimates and the corresponding inverse matrices. Because the non-causal regressor contains the future inputs $u(k+1),\ldots,u(k+d)$, the update associated with the output sample $y(k)$ can be performed only after time $k+d$. Thus the implementation is online with a fixed delay of $d$ samples. When $d=0$, it reduces to the usual causal online update.
 
-contains the future inputs ${u{({k + 1})}},\ldots,{u{({k + d})}}$, the update associated with the output sample $y{(k)}$ can be performed only after time $k + d$. Thus the implementation is online with a fixed delay of $d$ samples. When $d = 0$, it reduces to the usual causal online update.
+For notational compactness, write The vector $\varphi_{k}$ is the non-causal input regressor, while $z_{k}$ is the corresponding instrument regressor. For ordinary least squares, the standard RLS update rules apply directly to $\varphi_{k}$. For each admissible output index $k=r,\ldots,\ell-d$, define where $P_{k}^{\mathrm{LS}}\in\mathbb{R}^{p\mu\times p\mu}$ and $\lambda_{\mathrm{f}}\in(0,1]$ is the forgetting factor. The LS estimate is updated as This recursion is memory efficient because it avoids explicitly storing the full regressor matrix. However, for closed-loop data, LS may still be biased because $\varphi_{k}$ can be correlated with the effective regression error.
 
-For notational compactness, write
-
-The vector $\varphi_{k}$ is the non-causal input regressor, while $z_{k}$ is the corresponding instrument regressor. For ordinary least squares, the standard RLS update rules apply directly to $\varphi_{k}$. For each admissible output index $k = {r,\ldots,{\ell - d}}$, define
-
-where $P_{k}^{LS} \in {\mathbb{R}}^{{{p\mu} \times p}\mu}$ and $\lambda_{f} \in {(0,1\rbrack}$ is the forgetting factor. The LS estimate is updated as
-
-This recursion is memory efficient because it avoids explicitly storing the full regressor matrix. However, for closed-loop data, LS may still be biased because $\varphi_{k}$ can be correlated with the effective regression error.
-
-For closed-loop data, the recursive IV update is different from simply substituting $z_{k}$ for $\varphi_{k}$ in the LS gain. The batch IV estimate satisfies the normal equation
-
-Thus, the recursive implementation must update the empirical cross-covariance between the input regressor and the instrument regressor. Define
-
-The recursive IV estimate is then
-
-Using the Sherman-Morrison formula, define
-
-Then the recursive IV update can be written as
-
-Unlike the LS recursion, $P_{k}^{IV}$ is the inverse of a generally non-symmetric cross-covariance matrix. Therefore, the recursion should be initialized with a regularized matrix, for example
-
-and the denominator
-
-must remain nonzero. This recursive IV implementation is the online counterpart of the batch estimator . The finite-sample analysis below is stated for the batch IV estimator.
+For closed-loop data, the recursive IV update is different from simply substituting $z_{k}$ for $\varphi_{k}$ in the LS gain. The batch IV estimate satisfies the normal equation Thus, the recursive implementation must update the empirical cross-covariance between the input regressor and the instrument regressor. Define The recursive IV estimate is then Using the Sherman-Morrison formula, define Then the recursive IV update can be written as Unlike the LS recursion, $P_{k}^{\mathrm{IV}}$ is the inverse of a generally non-symmetric cross-covariance matrix. Therefore, the recursion should be initialized with a regularized matrix, for example and the denominator must remain nonzero. This recursive IV implementation is the online counterpart of the batch estimator. The finite-sample analysis below is stated for the batch IV estimator.
 
 ## Finite-Time Guarantees for Markov Parameter Estimation
 
-We now derive a finite-sample error bound for the IV estimator . The goal is to quantify how accurately the finite block of Laurent coefficients $\theta_{r,d}$ can be estimated from one closed-loop trajectory. The unknown controller affects this error through the closed-loop state moments, the concentration of the feedback and instrument cross-covariance, and the instrument-strength parameter $\lambda_{IV}$. The remaining terms in the bound capture the sample size, the FIR horizons, the process and measurement noise levels, and the stable and reverse-time unstable truncation tails.
+We now derive a finite-sample error bound for the IV estimator . The goal is to quantify how accurately the finite block of Laurent coefficients $\theta_{r,d}$ can be estimated from one closed-loop trajectory. The unknown controller affects this error through the closed-loop state moments, the concentration of the feedback and instrument cross-covariance, and the instrument-strength parameter $\lambda_{\mathrm{IV}}$. The remaining terms in the bound capture the sample size, the FIR horizons, the process and measurement noise levels, and the stable and reverse-time unstable truncation tails.
 
-Under Assumption 2.1, the closed-loop state has bounded second moments. We use the stable and unstable components of the state-space decomposition and define
+Under Assumption 2.1, the closed-loop state has bounded second moments. We use the stable and unstable components of the state-space decomposition and define | | $\displaystyle\Gamma_{\mathrm{cl,s}}$ | $\displaystyle\stackrel{{\scriptstyle\Delta}}{{=}}\sup_{k\geq 0}\left\|\mathbb{E}[x_{\mathrm{s}}(k)x_{\mathrm{s}}(k)^{\top}]\right\|<\infty,$ | | \(38\) | | | $\displaystyle\Gamma_{\mathrm{cl,u}}$ | $\displaystyle\stackrel{{\scriptstyle\Delta}}{{=}}\sup_{k\geq 0}\left\|\mathbb{E}[x_{\mathrm{u}}(k)x_{\mathrm{u}}(k)^{\top}]\right\|<\infty.$ | | | Here $x_{\mathrm{s}}(k)$ and $x_{\mathrm{u}}(k)$ are the stable and unstable state components associated with the stable and unstable realization of $G$.
 
-Here $x_{s}{(k)}$ and $x_{u}{(k)}$ are the stable and unstable state components associated with the stable and unstable realization of $G$.
+Why closed-loop stability enters. If an unstable plant is excited in open loop, the unstable state component can grow without bound. Then the non-causal truncation error $C_{\mathrm{u}}A_{\mathrm{u}}^{-d-1}x_{\mathrm{u}}(k+d+1)$ may have uncontrolled variance. Closed-loop stabilization is therefore needed to keep the state moments bounded, while the non-causal representation makes the multiplier $A_{\mathrm{u}}^{-d-1}$ contractive as $d$ increases.
 
-Why closed-loop stability enters. If an unstable plant is excited in open loop, the unstable state component can grow without bound. Then the non-causal truncation error $C_{u}A_{u}^{{- d} - 1}x_{u}{({k + d + 1})}$ may have uncontrolled variance. Closed-loop stabilization is therefore needed to keep the state moments bounded, while the non-causal representation makes the multiplier $A_{u}^{{- d} - 1}$ contractive as $d$ increases.
+The stable and reverse-time unstable truncation scales are | | $\displaystyle\sigma_{e,\mathrm{s}}^{\mathrm{cl}}$ | $\displaystyle\stackrel{{\scriptstyle\Delta}}{{=}}\Phi(A_{\mathrm{s}})\|C_{\mathrm{s}}A_{\mathrm{s}}^{r}\|\sqrt{\frac{r\Gamma_{\mathrm{cl,s}}}{1-\rho(A_{\mathrm{s}})^{r}}},$ | | \(39\) | | | $\displaystyle\sigma_{e,\mathrm{u}}^{\mathrm{cl}}$ | $\displaystyle\stackrel{{\scriptstyle\Delta}}{{=}}\Phi(A_{\mathrm{u}}^{-1})\|C_{\mathrm{u}}A_{\mathrm{u}}^{-d-1}\|\sqrt{\frac{d\Gamma_{\mathrm{cl,u}}}{1-\rho(A_{\mathrm{u}}^{-1})^{d}}},$ | | | where $\Phi(A)\stackrel{{\scriptstyle\Delta}}{{=}}\sup_{\tau\geq 0}\frac{\|A^{\tau}\|}{\rho(A)^{\tau/2}}$ measures transient amplification. The quantities in decay geometrically with $r$ and $d$, up to transient-amplification and closed-loop covariance factors.
 
-The stable and reverse-time unstable truncation scales are
-
-where ${\Phi{(A)}}\overset{\Delta}{=}{\sup_{\tau \geq 0}\frac{\| A^{\tau}\|}{\rho{(A)}^{\tau/2}}}$ measures transient amplification. The quantities in decay geometrically with $r$ and $d$, up to transient-amplification and closed-loop covariance factors.
-
-For a confidence level $\delta \in {}$, define the logarithmic factor used for the instrument covariance concentration:
-
-For the process-noise and instrument product, define
-
-where ${{L_{w,1}{(\delta)}}\overset{\Delta}{=}{\log\left( \frac{16\mu{({l + p})}}{\delta} \right)}},$ ${L_{w,2}{(\delta)}}\overset{\Delta}{=}{\log\left( \frac{16N{({l + p})}}{\delta} \right)}$, and $\kappa_{w} > 0$ is an absolute constant. To keep the error terms compact, define
-
-The four error scales used in the theorem are then
-
-The constants $c_{w},c_{v},c_{e,s},c_{e,u}$ are universal positive constants.
+For a confidence level $\delta\in$, define the logarithmic factor used for the instrument covariance concentration: For the process-noise and instrument product, define where $L_{w,1}(\delta)\stackrel{{\scriptstyle\Delta}}{{=}}\log\!\left(\frac{16\mu(l+p)}{\delta}\right),$ $L_{w,2}(\delta)\stackrel{{\scriptstyle\Delta}}{{=}}\log\!\left(\frac{16N(l+p)}{\delta}\right)$, and $\kappa_{w}>0$ is an absolute constant. To keep the error terms compact, define | | $\displaystyle D_{\mathrm{s}}(N,r)$ | $\displaystyle\stackrel{{\scriptstyle\Delta}}{{=}}1+\frac{mr}{N(1-\rho(A_{\mathrm{s}})^{r})},$ | | \(43\) | | | $\displaystyle M_{\mathrm{s}}(r,\delta)$ | $\displaystyle\stackrel{{\scriptstyle\Delta}}{{=}}rp+m+\log\!\left(\frac{16(r+1)}{\delta}\right),$ | | | | | $\displaystyle D_{\mathrm{u}}(N,d)$ | $\displaystyle\stackrel{{\scriptstyle\Delta}}{{=}}1+\frac{md}{N(1-\rho(A_{\mathrm{u}}^{-1})^{d})},$ | | | | | $\displaystyle M_{\mathrm{u}}(d,\delta)$ | $\displaystyle\stackrel{{\scriptstyle\Delta}}{{=}}dp+m+\log\!\left(\frac{16(d+1)}{\delta}\right).$ | | | The four error scales used in the theorem are then The constants $c_{w},c_{v},c_{e,\mathrm{s}},c_{e,\mathrm{u}}$ are universal positive constants.
 
 ### Assumption 3.1
 
-For the selected finite horizon $(r,d)$ and sample size $N$, the closed-loop process induced by the unknown controller $\mathcal{K}$ satisfies the following empirical concentration event with probability at least $1 - {\delta/4}$:
-
-Here $S_{fc}$ is the population feedback and instrument cross-covariance defined . The matrices $\Psi_{e_{s},\ell}$ and $\Psi_{e_{u},\ell}$ are formed from the stable and reverse-time unstable truncation tails .
+For the selected finite horizon $(r,d)$ and sample size $N$, the closed-loop process induced by the unknown controller $\mathcal{K}$ satisfies the following empirical concentration event with probability at least $1-\delta/4$: Here $S_{fc}$ is the population feedback and instrument cross-covariance defined. The matrices $\Psi_{e_{\mathrm{s}},\ell}$ and $\Psi_{e_{\mathrm{u}},\ell}$ are formed from the stable and reverse-time unstable truncation tails.
 
 Interpretation of Assumption 3.1. Assumption 3.1 is a closed-loop concentration condition. It is used to control empirical cross-products involving the feedback component and the truncation tails. The first inequality requires the empirical feedback and instrument cross-covariance to concentrate around its population value. The second and third inequalities require the stable and reverse-time unstable truncation tails to have controlled empirical correlation with the instrument.
 
@@ -208,31 +116,15 @@ For stable linear closed loops driven by Gaussian or sub-Gaussian signals, such 
 
 ### Theorem 3.2
 
-Consider the system under the standing assumptions and Assumption 2.5. Fix FIR horizons ${r,d} \geq 0$, let
-
-and let $\delta \in {}$. Suppose that the closed-loop empirical concentration condition in Assumption 3.1 holds for the selected horizon $(r,d)$ and sample size $N$. If
-
-where $c_{0} > 0$ is a universal constant, then, with probability at least $1 - \delta$,
-
-Proof. See Appendix B. ∎
-
-The bound in separates four effects. The process-noise term comes from the independent product of $w$ and $c$. The measurement-noise term comes from the independent product of $v$ and $c$. The two truncation terms are controlled by the stable decay $\rho{(A_{s})}^{r}$ and the reverse-time unstable decay $\rho{(A_{u}^{- 1})}^{d}$. The instrument quality enters through
-
-Thus small $\lambda_{IV}$ corresponds to a weak instrument and increases the estimation error.
+Consider the system under the standing assumptions and Assumption 2.5. Fix FIR horizons $r,d\geq 0$, let and let $\delta\in$. Suppose that the closed-loop empirical concentration condition in Assumption 3.1 holds for the selected horizon $(r,d)$ and sample size $N$. If where $c_{0}>0$ is a universal constant, then, with probability at least $1-\delta$, Proof. See Appendix B. ∎ The bound in separates four effects. The process-noise term comes from the independent product of $w$ and $c$. The measurement-noise term comes from the independent product of $v$ and $c$. The two truncation terms are controlled by the stable decay $\rho(A_{\mathrm{s}})^{r}$ and the reverse-time unstable decay $\rho(A_{\mathrm{u}}^{-1})^{d}$. The instrument quality enters through Thus small $\lambda_{\mathrm{IV}}$ corresponds to a weak instrument and increases the estimation error.
 
 ### Corollary 3.3
 
-Choose FIR orders
+Choose FIR orders | | $\displaystyle r$ | $\displaystyle=\mathcal{O}\left(\frac{1}{|\log\rho(A_{\mathrm{s}})|}\log\left(\frac{N}{\varepsilon_{0}}\right)\right),$ | | \(53\) | | | $\displaystyle d$ | $\displaystyle=\mathcal{O}\left(\frac{1}{|\log\rho(A_{\mathrm{u}}^{-1})|}\log\left(\frac{N}{\varepsilon_{0}}\right)\right),$ | | | where $\varepsilon_{0}\in$ is a truncation tolerance. Then, with probability at least $1-\delta$, where $C>0$ is a universal constant. If the error is measured with respect to the infinite Laurent operator rather than the truncated FIR parameter $\theta_{r,d}$, an additional deterministic approximation term of order $\varepsilon_{0}$ must be added to the right-hand side.
 
-where $\varepsilon_{0} \in {}$ is a truncation tolerance. Then, with probability at least $1 - \delta$,
+Proof. See Appendix B.6. ∎ The order choice is logarithmic in the target accuracy $N/\varepsilon_{0}$ and inverse-logarithmic in the stable and reverse-time unstable spectral radii. Near the unit circle, $1/|\log\rho|$ behaves like the inverse stability gap, so the required horizon grows when stable or reverse-time unstable modes are close to the unit circle.
 
-where $C > 0$ is a universal constant. If the error is measured with respect to the infinite Laurent operator rather than the truncated FIR parameter $\theta_{r,d}$, an additional deterministic approximation term of order $\varepsilon_{0}$ must be added to the right-hand side.
-
-Proof. See Appendix B.6. ∎
-
-The order choice is logarithmic in the target accuracy $N/\varepsilon_{0}$ and inverse-logarithmic in the stable and reverse-time unstable spectral radii. Near the unit circle, $1/{|{\log\rho}|}$ behaves like the inverse stability gap, so the required horizon grows when stable or reverse-time unstable modes are close to the unit circle.
-
-The finite-time result is best interpreted as follows: the FIR horizon needed to control truncation depends on the decay rates $\rho{(A_{s})}$ and $\rho{(A_{u}^{- 1})}$. The constants in the Markov-parameter bound may also depend on transient amplification, closed-loop state moments, noise dimensions, and the instrument-conditioning parameter $\lambda_{IV}$. Therefore, the result provides a finite-sample guarantee for estimating the Laurent/FIR Markov parameters from closed-loop data. Standard realization methods can be applied to the estimated Markov parameters when a state-space model is desired, but the present analysis focuses on the Markov-parameter estimation step.
+The finite-time result is best interpreted as follows: the FIR horizon needed to control truncation depends on the decay rates $\rho(A_{\mathrm{s}})$ and $\rho(A_{\mathrm{u}}^{-1})$. The constants in the Markov-parameter bound may also depend on transient amplification, closed-loop state moments, noise dimensions, and the instrument-conditioning parameter $\lambda_{\mathrm{IV}}$. Therefore, the result provides a finite-sample guarantee for estimating the Laurent/FIR Markov parameters from closed-loop data. Standard realization methods can be applied to the estimated Markov parameters when a state-space model is desired, but the present analysis focuses on the Markov-parameter estimation step.
 
 ## Experimental Results
 
@@ -240,33 +132,29 @@ In this section we consider numerical and real-world examples.
 
 ### Example 4.1
 
-Consider the seventh-order unstable transfer function
+Consider the seventh-order unstable transfer function with four stable poles ($-0.6$, $-0.5$, $\pm 0.4j$) and three unstable poles ($1.5$, $1.6$, $1.7$), so $n_{\mathrm{s}}=4$, $n_{\mathrm{u}}=3$. Consider also a corresponding state space realization $(A,B,C,D).$ We stabilize the plant with an LQR law ($Q=I_{7}$, $R=1$)and collect a single closed-loop trajectory: a Gaussian excitation $c(k)\sim\mathcal{N}(0,\sigma_{c}^{2})$ is added to the control input, so that $u(k)=-Kx(k)+c(k)$, and the measured output $y(k)=Cx(k)+Du(k)+v(k)$ is corrupted by zero-mean Gaussian measurement noise. The feedback gain $K$ is used only to generate the closed-loop data and is not used by the identification algorithm. The recorded signals are the measured input and output together with the injected excitation.
 
-with four stable poles ($- 0.6$, $- 0.5$, $\pm {0.4j}$) and three unstable poles ($1.5$, $1.6$, $1.7$), so $n_{s} = 4$, $n_{u} = 3$. Consider also a corresponding state space realization ${(A,B,C,D)}.$ We stabilize the plant with an LQR law ($Q = I_{7}$, $R = 1$)and collect a single closed-loop trajectory: a Gaussian excitation ${c{(k)}} \sim {\mathcal{N}{(0,\sigma_{c}^{2})}}$ is added to the control input, so that ${u{(k)}} = {{- {Kx{(k)}}} + {c{(k)}}}$, and the measured output ${y{(k)}} = {{Cx{(k)}} + {Du{(k)}} + {v{(k)}}}$ is corrupted by zero-mean Gaussian measurement noise. The feedback gain $K$ is used only to generate the closed-loop data and is not used by the identification algorithm. The recorded signals are the measured input and output together with the injected excitation.
+We benchmark three approaches: The proposed non-causal IV-FIR model with $r=d=25$ and $\mu=51$. The regressor $\phi_{r,d}(k)=[u(k+d),\ldots,u(k),\ldots,u(k-r)]^{\top}$ contains future and past inputs, while the corresponding instrument regressor is $\phi_{c,r,d}(k)=[c(k+d),\ldots,c(k),\ldots,c(k-r)]^{\top}.$ The Laurent/FIR coefficients are estimated using the batch IV estimator $\hat{\theta}_{r,d,\ell}^{\mathrm{IV}}=\Psi_{y,\ell}\Phi_{c,r,d,\ell}^{\top}\left(\Phi_{r,d,\ell}\Phi_{c,r,d,\ell}^{\top}\right)^{-1}.$ No knowledge of the stabilizing controller or exact system order is required; only the FIR horizons $r$ and $d$ are chosen.
 
-We benchmark three approaches:
+A seventh-order IIR model via IV: MATLAB's iv4 is used with ARX structure $n_{a}\!=\!n_{b}\!=\!7$; the instruments are simulated outputs from an auxiliary ARX model estimated in a preliminary step.
 
-The proposed non-causal IV-FIR model with $r = d = 25$ and $\mu = 51$. The regressor ${\phi_{r,d}{(k)}} = {\lbrack{u{({k + d})}},\ldots,{u{(k)}},\ldots,{u{({k - r})}}\rbrack}^{\top}$ contains future and past inputs, while the corresponding instrument regressor is ${{\phi_{c,r,d}{(k)}} = {\lbrack{c{({k + d})}},\ldots,{c{(k)}},\ldots,{c{({k - r})}}\rbrack}^{\top}}.$ The Laurent/FIR coefficients are estimated using the batch IV estimator ${{\hat{\theta}}_{r,d,\ell}^{IV} = {\Psi_{y,\ell}\Phi_{c,r,d,\ell}^{\top}\left( {\Phi_{r,d,\ell}\Phi_{c,r,d,\ell}^{\top}} \right)^{- 1}}}.$ No knowledge of the stabilizing controller or exact system order is required; only the FIR horizons $r$ and $d$ are chosen.
+A seventh-order IIR model via PEM, representing predictor-based approaches; Jones and Dahleh, 2022; Lale et al., 2021b; Lee and Lamperski, 2020). MATLAB's pem is used with state-space model order $n\!=\!7$.
 
-A seventh-order IIR model via IV: MATLAB's iv4 is used with ARX structure $n_{a} = n_{b} = 7$; the instruments are simulated outputs from an auxiliary ARX model estimated in a preliminary step.
+Note that both IIR baselines are given the true system order $n=7$, whereas the proposed IV-FIR approach only requires the chosen FIR horizons $r$ and $d$.
 
-A seventh-order IIR model via PEM, representing predictor-based approaches; Jones and Dahleh, 2022; Lale et al., 2021b; Lee and Lamperski, 2020). MATLAB's pem is used with state-space model order $n = 7$.
+Figure 1 plots $\|\theta_{r,d}-\hat{\theta}_{r,d,\ell}^{\mathrm{IV}}\|$ versus $N$ for SNR$\,\in\{1,10,50,100\}$. Across all noise levels, the proposed non-causal IV-FIR method attains the smallest Markov-parameter error and exhibits a smooth $\mathcal{O}(1/\sqrt{N})$ learning curve. The IIR baselines remain larger and exhibit higher variance, since they rely on finite-order IIR model fitting and, in the PEM case, a nonconvex optimization. In contrast, the proposed FIR estimator is a finite-dimensional linear IV estimator for the Laurent/FIR coefficients.
 
-Note that both IIR baselines are given the true system order $n = 7$, whereas the proposed IV-FIR approach only requires the chosen FIR horizons $r$ and $d$.
+We then split $\hat{\theta}_{r,d,\ell}$ into causal and non-causal parts and apply the Ho-Kalman algorithm to recover separate stable and unstable realizations, that is, $(\hat{A}_{\mathrm{s}},\hat{B}_{\mathrm{s}},\hat{C}_{\mathrm{s}})$ and $(\hat{A}_{\mathrm{u}},\hat{B}_{\mathrm{u}},\hat{C}_{\mathrm{u}})$, respectively, which can be combined to reconstruct the transfer function $\hat{G}(z)=\hat{G}_{\mathrm{s}}(z)+\hat{G}_{\mathrm{u}}(z)$. Figure 2 compares the frequency response of the estimated transfer function $\hat{G}$ with the true transfer function $G$. The close agreement in both magnitude and phase supports the quality of the estimated Laurent/FIR Markov parameters.
 
-Figure 1 plots $\|{\theta_{r,d} - {\hat{\theta}}_{r,d,\ell}^{IV}}\|$ versus $N$ for SNR$\in {\{ 1,10,50,100\}}$. Across all noise levels, the proposed non-causal IV-FIR method attains the smallest Markov-parameter error and exhibits a smooth $\mathcal{O}{({1/\sqrt{N}})}$ learning curve. The IIR baselines remain larger and exhibit higher variance, since they rely on finite-order IIR model fitting and, in the PEM case, a nonconvex optimization. In contrast, the proposed FIR estimator is a finite-dimensional linear IV estimator for the Laurent/FIR coefficients.
+Figure 1: Example 4.1: Markov-parameter estimation error ∥θ̂r, d − θr, d∥ versus N for IV-FIR (proposed), IV-IIR (n = 7), and PEM-IIR (n = 7) at four SNR levels. The dashed line indicates the $\mathcal{O}\!\left(1/\sqrt{N}\right)$ rate.
 
-We then split ${\hat{\theta}}_{r,d,\ell}$ into causal and non-causal parts and apply the Ho-Kalman algorithm to recover separate stable and unstable realizations, that is, $({\hat{A}}_{s},{\hat{B}}_{s},{\hat{C}}_{s})$ and $({\hat{A}}_{u},{\hat{B}}_{u},{\hat{C}}_{u})$, respectively, which can be combined to reconstruct the transfer function ${\hat{G}{(z)}} = {{{\hat{G}}_{s}{(z)}} + {{\hat{G}}_{u}{(z)}}}$. Figure 2 compares the frequency response of the estimated transfer function $\hat{G}$ with the true transfer function $G$. The close agreement in both magnitude and phase supports the quality of the estimated Laurent/FIR Markov parameters.
-
-Figure 1: Example 4.1: Markov-parameter estimation error ∥θ̂r, d − θr, d∥ versus N for IV-FIR (proposed), IV-IIR (n = 7), and PEM-IIR (n = 7) at four SNR levels. The dashed line indicates the $\mathcal{O}\left( {1/\sqrt{N}} \right)$ rate.
-
-Figure 2: Example 4.1: Frequency response of the true G (z) and the reconstructed model Ĝs (z) + Ĝu (z) obtained via Ho–Kalman from the estimated Markov parameters (SNR = 100, N = 16, 000).
+Figure 2: Example 4.1: Frequency response of the true G(z) and the reconstructed model Ĝs(z) + Ĝu(z) obtained via Ho–Kalman from the estimated Markov parameters (SNR = 100, N = 16, 000).
 
 ### Example 4.2
 
 We next consider input-output data from a hair dryer system DaISy, where the input is the heater voltage and the output is the air temperature. This benchmark is useful because no stability information is provided to the estimator a priori. The purpose of this example is to illustrate that the non-causal FIR parameterization can be used without knowing in advance whether the underlying dynamics are stable or unstable.
 
-We estimate a non-causal FIR model with $r = d = 25$ using the recursive least-squares implementation described in Section 2.3. Since the regressor contains future inputs, the recursive update is available with a fixed $d$-sample delay. We compare the resulting RLS-FIR estimate with IV-IIR and PEM-IIR baselines. Figure 3 shows that the non-causal RLS-FIR estimator converges faster and reaches a lower steady-state prediction error than the IIR baselines.
+We estimate a non-causal FIR model with $r=d=25$ using the recursive least-squares implementation described in Section 2.3. Since the regressor contains future inputs, the recursive update is available with a fixed $d$-sample delay. We compare the resulting RLS-FIR estimate with IV-IIR and PEM-IIR baselines. Figure 3 shows that the non-causal RLS-FIR estimator converges faster and reaches a lower steady-state prediction error than the IIR baselines.
 
 Figure 4 shows the measured and predicted outputs, together with the estimated Laurent/FIR coefficients. The estimated negative-lag coefficients are close to zero, while the positive-lag coefficients capture the dominant response. This behavior is consistent with a stable thermal system: if the dynamics are stable, the non-causal part of the Laurent representation should be negligible. Thus, although the estimator is not given stability information, the estimated coefficients reveal that the data are well described by a stable causal response.
 
@@ -276,9 +164,9 @@ Figure 4: Example 4.2: Predicted vs. measured output and estimated Laurent/FIR c
 
 ### Example 4.3
 
-The DaISy CD-player arm benchmark is a $2 \times 2$ MIMO system with actuator force inputs and laser-based position outputs. The data were collected in closed loop. This example is used as a real-data illustration of the non-causal FIR parameterization in a MIMO setting, rather than as a direct validation of the finite-sample IV theorem.
+The DaISy CD-player arm benchmark is a $2\times 2$ MIMO system with actuator force inputs and laser-based position outputs. The data were collected in closed loop. This example is used as a real-data illustration of the non-causal FIR parameterization in a MIMO setting, rather than as a direct validation of the finite-sample IV theorem.
 
-We estimate a non-causal FIR model with $r = d = 50$ using the recursive least-squares implementation of Section 2.3. Since the regressor contains future inputs, the recursive update is available with a fixed $d$-sample delay. Figure 5 shows the measured and predicted outputs, together with the estimated Laurent/FIR coefficients. The predicted outputs are obtained directly from the estimated non-causal FIR model.
+We estimate a non-causal FIR model with $r=d=50$ using the recursive least-squares implementation of Section 2.3. Since the regressor contains future inputs, the recursive update is available with a fixed $d$-sample delay. Figure 5 shows the measured and predicted outputs, together with the estimated Laurent/FIR coefficients. The predicted outputs are obtained directly from the estimated non-causal FIR model.
 
 The left panel of Figure 5 shows strong agreement between the predicted and measured outputs. The estimated coefficients in the right panel contain significant values at both positive and negative lags. The positive-lag coefficients represent the causal stable component, while the negative-lag coefficients represent the non-causal component associated with reverse-time stable dynamics. Thus, although some standard preprocessing may suggest a stable model, the estimated Laurent/FIR coefficients indicate that a non-causal component is useful for explaining the closed-loop MIMO data. This supports the role of the proposed representation as a diagnostic and modeling tool for systems whose stability structure is not known a priori.
 
@@ -288,19 +176,17 @@ Figure 5: Example 4.3: Predicted and measured outputs with estimated Laurent/FIR
 
 In this example, we examine how the choice of stabilizing controller affects the sample complexity of closed-loop identification. As discussed in Section 2.2, the controller influences the IV estimator through the feedback and instrument cross-covariance. In the linear case, the quantity $\mathcal{T}_{\infty}$ provides a conservative measure of how strongly past injected excitations are recirculated through the feedback signal.
 
-Consider the third-order plant $A = {{diag}{(0.3,\, 1.5,\, 2.0)}}$, $B = {\lbrack 1\;\;1\;\;1\rbrack}^{\top}$, $C = {\lbrack 1\;\;1\;\;1\rbrack}$ with two unstable poles. We design eight stabilizing linear controllers: one LQR law and seven pole-placement designs. The closed-loop spectral radii range from $\rho_{cl} = 0.50$ to $\rho_{cl} = 0.96$, producing $\mathcal{T}_{\infty}$ values ranging from approximately $6$ to $1258$. For each controller, we run $80$ simulation trials at SNR$= 20$ using $r = d = 20$ and $N \in {\{ 50,\ldots,6400\}}$. The Markov parameters are estimated using the non-causal IV-FIR estimator with the injected excitation $c$ as the instrument.
+Consider the third-order plant $A=\mathrm{diag}(0.3,\,1.5,\,2.0)$, $B=[1\;\;1\;\;1]^{\top}$, $C=[1\;\;1\;\;1]$ with two unstable poles. We design eight stabilizing linear controllers: one LQR law and seven pole-placement designs. The closed-loop spectral radii range from $\rho_{\mathrm{cl}}=0.50$ to $\rho_{\mathrm{cl}}=0.96$, producing $\mathcal{T}_{\infty}$ values ranging from approximately $6$ to $1258$. For each controller, we run $80$ simulation trials at SNR$\,=20$ using $r=d=20$ and $N\in\{50,\ldots,6400\}$. The Markov parameters are estimated using the non-causal IV-FIR estimator with the injected excitation $c$ as the instrument.
 
-Figure 6 shows the Markov-parameter error $\|{{\hat{\theta}}_{r,d} - \theta_{r,d}}\|$ versus the number of samples $N$. Two observations stand out. First, all tested controllers exhibit the predicted $\mathcal{O}{({1/\sqrt{N}})}$ decay, consistent with the finite-sample analysis. Second, the vertical gap between the curves is strongly correlated with $\mathcal{T}_{\infty}$. As the closed-loop poles move closer to the unit circle, the impulse response from the injected excitation $c$ to the feedback signal $f$ decays more slowly. This increases $\mathcal{T}_{\infty}$ and is associated with weaker instrument conditioning, reflected by a smaller effective $\lambda_{IV}$.
+Figure 6 shows the Markov-parameter error $\|\hat{\theta}_{r,d}-\theta_{r,d}\|$ versus the number of samples $N$. Two observations stand out. First, all tested controllers exhibit the predicted $\mathcal{O}(1/\sqrt{N})$ decay, consistent with the finite-sample analysis. Second, the vertical gap between the curves is strongly correlated with $\mathcal{T}_{\infty}$. As the closed-loop poles move closer to the unit circle, the impulse response from the injected excitation $c$ to the feedback signal $f$ decays more slowly. This increases $\mathcal{T}_{\infty}$ and is associated with weaker instrument conditioning, reflected by a smaller effective $\lambda_{\mathrm{IV}}$.
 
-The barely stabilizing controller ($\mathcal{T}_{\infty} \approx 1258$) requires substantially more samples than the LQR design ($\mathcal{T}_{\infty} \approx 6$) to reach comparable accuracy. Since all controllers in this experiment are linear and strictly causal, the finite-horizon population cross-covariance $R_{uc}$ retains the triangular structure described in Section 2.2. Thus large $\mathcal{T}_{\infty}$ does not make the IV construction invalid; rather, it worsens the conditioning and therefore increases the sample complexity. This experiment highlights that controller design is an important degree of freedom in closed-loop identification: a controller may stabilize the plant while still leading to weak instrument conditioning and slower learning.
+The barely stabilizing controller ($\mathcal{T}_{\infty}\approx 1258$) requires substantially more samples than the LQR design ($\mathcal{T}_{\infty}\approx 6$) to reach comparable accuracy. Since all controllers in this experiment are linear and strictly causal, the finite-horizon population cross-covariance $R_{uc}$ retains the triangular structure described in Section 2.2. Thus large $\mathcal{T}_{\infty}$ does not make the IV construction invalid; rather, it worsens the conditioning and therefore increases the sample complexity. This experiment highlights that controller design is an important degree of freedom in closed-loop identification: a controller may stabilize the plant while still leading to weak instrument conditioning and slower learning.
 
 Figure 6: Example 4.4: Markov-parameter error of the non-causal IV-FIR estimator for different stabilizing controllers. Larger 𝒯∞ corresponds to slower decay of the feedback response from the injected excitation to the feedback signal, which leads to weaker instrument conditioning and larger sample complexity.
 
 ### Example 4.5
 
-Following the benchmark of, consider the SISO plant
-
-This system is open-loop stable. Therefore, a purely causal FIR model would be sufficient if the stability information were known in advance. Here, however, we intentionally apply the full non-causal FIR parameterization with $r = d = 10$ to illustrate that the proposed representation does not require prior knowledge of the stability structure. In this stable case, the estimated negative-lag coefficients ${\hat{H}}_{- 1},\ldots,{\hat{H}}_{- d}$ are close to zero, so the non-causal model effectively reduces to a causal FIR model.
+Following the benchmark of, consider the SISO plant This system is open-loop stable. Therefore, a purely causal FIR model would be sufficient if the stability information were known in advance. Here, however, we intentionally apply the full non-causal FIR parameterization with $r=d=10$ to illustrate that the proposed representation does not require prior knowledge of the stability structure. In this stable case, the estimated negative-lag coefficients $\hat{H}_{-1},\ldots,\hat{H}_{-d}$ are close to zero, so the non-causal model effectively reduces to a causal FIR model.
 
 Since this benchmark is open-loop stable and no feedback-induced correlation is present, the IV estimator reduces to ordinary least squares. We therefore report the LS implementation of the FIR estimator for this example. This experiment is intended to illustrate the computational simplicity and predictive accuracy of the FIR parameterization, rather than the closed-loop IV bias-removal effect.
 
@@ -314,4 +200,4 @@ Table 1: Training time and model complexity.
 
 ## Conclusion
 
-This paper introduced a non-causal FIR framework for finite-time identification of stable and unstable LTI systems from a single closed-loop trajectory. The Laurent/FIR representation captures unstable dynamics through reverse-time stable coefficients, which keeps the input and process-noise terms controlled by stable decay rates rather than by growing unstable dynamics. To address closed-loop bias, we used the injected excitation as an instrumental variable, without requiring knowledge of the stabilizing controller. Under explicit instrument-strength and closed-loop concentration conditions, we established an $\mathcal{O}{(N^{- {1/2}})}$ Markov-parameter error bound, up to logarithmic factors and truncation terms. The analysis also shows how the controller affects sample complexity through instrument conditioning, and the numerical results support the predicted finite-sample behavior.
+This paper introduced a non-causal FIR framework for finite-time identification of stable and unstable LTI systems from a single closed-loop trajectory. The Laurent/FIR representation captures unstable dynamics through reverse-time stable coefficients, which keeps the input and process-noise terms controlled by stable decay rates rather than by growing unstable dynamics. To address closed-loop bias, we used the injected excitation as an instrumental variable, without requiring knowledge of the stabilizing controller. Under explicit instrument-strength and closed-loop concentration conditions, we established an $\mathcal{O}(N^{-1/2})$ Markov-parameter error bound, up to logarithmic factors and truncation terms. The analysis also shows how the controller affects sample complexity through instrument conditioning, and the numerical results support the predicted finite-sample behavior.

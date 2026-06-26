@@ -8,23 +8,13 @@ However, these advantages have only been established for the true gradient setti
 
 The conditions used in vanilla stochastic gradient convergence analysis, *i.e.*, unbiased and variance-bounded gradient estimator, has been exploited to attempt to explain such a trade-off in policy gradients. However, the bounded variance requires the sample policy to be bounded away from zero everywhere, which is impractical. Meanwhile, a variant of NPG can converge even with unbounded variance. These gaps raise the question that if not the bounded variance, then what is the key factor to ensure the convergence of stochastic policy optimization algorithms? Motivated by this question, we introduce the concept committal rate to characterize the update behaviors, which significantly affect whether convergence to a correct solution can be guaranteed in the stochastic on-policy setting. In particular, we make the following contributions.
 
-*First*, we illustrate the anomaly that the preferability of policy optimization algorithms (softmax PG vs. NPG and GNPG) changes dramatically depending on whether true versus on-policy stochastic gradients are considered, and reveal the impracticality and unnecessity of a bounded variance requirement in Section 2;
-
-*Second*, we introduce the concept of the committal rate in Section 3 to characterize the aggressiveness of an update, which provide us tools for analyzing the stochasticity effect in convergences;
-
-*Third*, we use the committal rate to study general stochastic policy optimization behaviors rigorously and reveal the inherent geometry-convergence trade-off in Section 4;
-
-*Finally*, we explain the sensitivity to random initialization in practical policy optimization algorithms. From these results, we then develop an ensemble method that can achieve fast convergence to global optima with high probability in Section 5.
+*First*, we illustrate the anomaly that the preferability of policy optimization algorithms (softmax PG vs. NPG and GNPG) changes dramatically depending on whether true versus on-policy stochastic gradients are considered, and reveal the impracticality and unnecessity of a bounded variance requirement in Section 2; *Second*, we introduce the concept of the committal rate in Section 3 to characterize the aggressiveness of an update, which provide us tools for analyzing the stochasticity effect in convergences; *Third*, we use the committal rate to study general stochastic policy optimization behaviors rigorously and reveal the inherent geometry-convergence trade-off in Section 4; *Finally*, we explain the sensitivity to random initialization in practical policy optimization algorithms. From these results, we then develop an ensemble method that can achieve fast convergence to global optima with high probability in Section 5.
 
 ## Understanding Algorithm Preferability in On-line Policy Optimization
 
 To illustrate the key aspects of policy optimization methods and their comparative preferability, it suffices to consider deterministic, single-state, finite-action Markov decision processes (MDPs). The main results extend to general finite MDPs, but for clarity of exposition we restrict attention to one-state MDPs.
 
-A deterministic, single-state, finite-action MDP can be simply be specified by an action space is ${\lbrack K\rbrack} ≔ \left\{ 1,2,{\ldotsK} \right\}$ and a $K$-dimensional reward vector $r \in {\mathbb{R}}^{K}$. The problem is to maximize the expected reward of a parametric policy $\pi_{\theta}$,
-
-where $\pi_{\theta}$ is parameterized by $\theta$ using the standard softmax transform,
-
-Without loss of generality, we assume there exists a unique optimal action $a^{\ast} = {{{\arg\max}_{a \in {\lbrack K\rbrack}}r}{(a)}}$, hence there exists a unique optimal deterministic policy $\pi^{\ast}$ such that ${{}_{}^{}r} = {\sup_{\theta \in {\mathbb{R}}^{K}}{\pi_{\theta}^{\top}r}} = {r{(a^{\ast})}}$. We make the following assumption on the reward.
+A deterministic, single-state, finite-action MDP can be simply be specified by an action space is ${\lbrack K\rbrack} ≔ \left\{ 1,2,{\ldotsK} \right\}$ and a $K$-dimensional reward vector $r \in {\mathbb{R}}^{K}$. The problem is to maximize the expected reward of a parametric policy $\pi_{\theta}$, where $\pi_{\theta}$ is parameterized by $\theta$ using the standard softmax transform, Without loss of generality, we assume there exists a unique optimal action $a^{\ast} = {{{\arg\max}_{a \in {\lbrack K\rbrack}}r}{(a)}}$, hence there exists a unique optimal deterministic policy $\pi^{\ast}$ such that ${\pi_{}^{\ast \top}r} = {\sup_{\theta \in {\mathbb{R}}^{K}}{\pi_{\theta}^{\top}r}} = {r{(a^{\ast})}}$. We make the following assumption on the reward.
 
 ### Assumption 1 (Positive reward)
 
@@ -44,17 +34,17 @@ $\theta_{t + 1}\leftarrow{\theta_{t} + {\eta \cdot \frac{d\pi_{\theta_{t}}^{\top
 
 As shown in Mei et al., the convergence of this update to a globally optimal policy, given exact gradients, can be established by considering the following non-uniform Łojasiewicz (NŁ) inequality,
 
-### Lemma 1 (NŁ, \[2\])
+### Lemma 1 (NŁ, )
 
 $\left\| \frac{d\pi_{\theta}^{\top}r}{d\theta} \right\|_{2} \geq {{{\pi_{\theta}{(a^{\ast})}} \cdot {({\pi^{\ast} - \pi_{\theta}})}^{\top}}r}$.
 
 By considering smoothness of $\pi_{\theta}^{\top}r$, Mei et al. shows that the progress in each iteration of PG can be lower bounded by the squared norm of the gradient, $\left\| \frac{d\pi_{\theta_{t}}^{\top}r}{d\theta_{t}} \right\|_{2}^{2}$, which leads to a $O{({1/t})}$ rate.
 
-### Proposition 1 (PG upper bound \[2\])
+### Proposition 1 (PG upper bound )
 
 Using Update 1. ‣ 2.1.1 Softmax PG ‣ 2.1 Exact Gradient Setting ‣ 2 Understanding Algorithm Preferability in On-line Policy Optimization ‣ Understanding the Effect of Stochasticity in Policy Optimization") with $\eta = {2/5}$, we have ${{({\pi^{\ast} - \pi_{\theta_{t}}})}^{\top}r} \leq {5/{({c^{2} \cdot t})}}$ for all $t \geq 1$, such that $c = {\inf_{t \geq 1}{\pi_{\theta_{t}}{(a^{\ast})}}} > 0$ is a constant that depends on $r$ and $\theta_{1}$, but it does not depend on the time $t$. In particular, if ${\pi_{\theta_{1}}{(a)}} = {1/K}$ $\forall a$ then $c \geq {1/K}$.
 
-### Proposition 2 (PG lower bound \[2\])
+### Proposition 2 (PG lower bound )
 
 For sufficiently large $t \geq 1$, Update 1. ‣ 2.1.1 Softmax PG ‣ 2.1 Exact Gradient Setting ‣ 2 Understanding Algorithm Preferability in On-line Policy Optimization ‣ Understanding the Effect of Stochasticity in Policy Optimization") with $\eta \in {(0,1\rbrack}$ exhibits ${{({\pi^{\ast} - \pi_{\theta_{t}}})}^{\top}r} \geq {\Delta^{2}/\left( {6 \cdot t} \right)}$, where $\Delta = {{r{(a^{\ast})}} - {{\max_{a \neq a^{\ast}}r}{(a)}}} > 0$ is the reward gap of $r$.
 
@@ -80,15 +70,11 @@ $\left\langle \frac{d\pi_{\theta}^{\top}r}{d\theta},r \right\rangle \geq {{{\pi_
 
 ### Lemma 3 (Natural NŁ, discrete)
 
-Let ${\pi^{\prime}{(a)}} ≔ \frac{{\pi{(a)}} \cdot e^{{\eta \cdot r}{(a)}}}{\sum_{a^{\prime}}{{\pi{(a^{\prime})}} \cdot e^{{\eta \cdot r}{(a^{\prime})}}}}$, ${\forall a} \in {\lbrack K\rbrack}$, where $\eta > 0$. Then,
-
-In particular, by using a non-Euclidean update and analysis, the progress of each iteration of NPG can be lower bounded by the larger bound $\left\langle \frac{d\pi_{\theta_{t}}^{\top}r}{d\theta_{t}},r \right\rangle$ instead of the weaker bound $\left\| \frac{d\pi_{\theta_{t}}^{\top}r}{d\theta_{t}} \right\|_{2}^{2}$ established for standard PG. Based on this inequality, one can easily establish a much faster $O{(e^{- {c \cdot t}})}$ convergence to a globally optimal solution for NPG, making it far preferable to PG if true gradients are available.
+Let ${\pi'{(a)}} ≔ \frac{{\pi{(a)}} \cdot e^{{\eta \cdot r}{(a)}}}{\sum_{a'}{{\pi{(a')}} \cdot e^{{\eta \cdot r}{(a')}}}}$, ${\forall a} \in {\lbrack K\rbrack}$, where $\eta > 0$. Then, In particular, by using a non-Euclidean update and analysis, the progress of each iteration of NPG can be lower bounded by the larger bound $\left\langle \frac{d\pi_{\theta_{t}}^{\top}r}{d\theta_{t}},r \right\rangle$ instead of the weaker bound $\left\| \frac{d\pi_{\theta_{t}}^{\top}r}{d\theta_{t}} \right\|_{2}^{2}$ established for standard PG. Based on this inequality, one can easily establish a much faster $O{(e^{- {c \cdot t}})}$ convergence to a globally optimal solution for NPG, making it far preferable to PG if true gradients are available.
 
 ### Theorem 1 (NPG upper bound)
 
-Using Update 2, true gradient). ‣ 2.1.2 Natural PG (NPG) ‣ 2.1 Exact Gradient Setting ‣ 2 Understanding Algorithm Preferability in On-line Policy Optimization ‣ Understanding the Effect of Stochasticity in Policy Optimization") with any $\eta > 0$, we have, for all $t \geq 1$,
-
-where $c ≔ {\log\left( {{{\pi_{\theta_{1}}{(a^{\ast})}} \cdot \left( {e^{\eta \cdot \Delta} - 1} \right)} + 1} \right)} > 0$ for any $\eta > 0$, and $\Delta = {{r{(a^{\ast})}} - {{\max_{a \neq a^{\ast}}r}{(a)}}} > 0$.
+Using Update 2, true gradient). ‣ 2.1.2 Natural PG (NPG) ‣ 2.1 Exact Gradient Setting ‣ 2 Understanding Algorithm Preferability in On-line Policy Optimization ‣ Understanding the Effect of Stochasticity in Policy Optimization") with any $\eta > 0$, we have, for all $t \geq 1$, where $c ≔ {\log\left({{{\pi_{\theta_{1}}{(a^{\ast})}} \cdot \left({e^{\eta \cdot \Delta} - 1} \right)} + 1} \right)} > 0$ for any $\eta > 0$, and $\Delta = {{r{(a^{\ast})}} - {{\max_{a \neq a^{\ast}}r}{(a)}}} > 0$.
 
 ### Geometry-aware Normalized PG (GNPG)
 
@@ -100,17 +86,15 @@ $\theta_{t + 1}\leftarrow{\theta_{t} + \left. {\eta \cdot \frac{d\pi_{\theta_{t}
 
 The analysis in focuses on exploiting non-uniform smoothness (NS) rather than improving the NŁ inequality as for NPG above.
 
-### Lemma 4 (NS, \[9\])
+### Lemma 4 (NS, )
 
 The spectral radius of Hessian matrix $\frac{d^{2}\pi_{\theta}^{\top}r}{d\theta^{2}}$ is upper bounded by $3 \cdot \left\| \frac{d\pi_{\theta}^{\top}r}{d\theta} \right\|_{2}$.
 
 Given this NS property, shows that the progress in GNPG can be lower bounded by the larger quantity $\left\| \frac{d\pi_{\theta_{t}}^{\top}r}{d\theta_{t}} \right\|_{2}$ instead of the weaker $\left\| \frac{d\pi_{\theta_{t}}^{\top}r}{d\theta_{t}} \right\|_{2}^{2}$ for standard PG. Then, using the same NŁ inequality as for PG, GNPG also converges to a globally optimal solution at rate $O{(e^{- {c \cdot t}})}$. Again, one naturally concludes that GNPG is preferable to PG if exact gradients are used.
 
-### Proposition 3 (GNPG upper bound \[9\])
+### Proposition 3 (GNPG upper bound )
 
-Using Update 3, true gradient). ‣ 2.1.3 Geometry-aware Normalized PG (GNPG) ‣ 2.1 Exact Gradient Setting ‣ 2 Understanding Algorithm Preferability in On-line Policy Optimization ‣ Understanding the Effect of Stochasticity in Policy Optimization") with $\eta = {1/6}$, we have, for all $t \geq 1$,
-
-where $c = {\inf_{t \geq 1}{\pi_{\theta_{t}}{(a^{\ast})}}} > 0$ does not depend on $t$. If ${\pi_{\theta_{1}}{(a)}} = {1/K}$, $\forall a$, then $c \geq {1/K}$.
+Using Update 3, true gradient). ‣ 2.1.3 Geometry-aware Normalized PG (GNPG) ‣ 2.1 Exact Gradient Setting ‣ 2 Understanding Algorithm Preferability in On-line Policy Optimization ‣ Understanding the Effect of Stochasticity in Policy Optimization") with $\eta = {1/6}$, we have, for all $t \geq 1$, where $c = {\inf_{t \geq 1}{\pi_{\theta_{t}}{(a^{\ast})}}} > 0$ does not depend on $t$. If ${\pi_{\theta_{1}}{(a)}} = {1/K}$, $\forall a$, then $c \geq {1/K}$.
 
 ### The Anomalous Behaviour of Some On-policy Stochastic Gradient Updates
 
@@ -194,11 +178,7 @@ A second reason is that the on-policy setting presents unique challenges and as 
 
 Another observation that suggests that it is worthwhile to consider methods which potentially unbounded variance is made by Chung et al. who explored the role of baselines in policy optimization. They show that variance reduction techniques are not able to overcome unbounded variance, while NPG can still achieve global convergence almost surely with a judicious choice of baseline even though its variance remains *unbounded* (see Update 7. ‣ 3 Committal Rate of Stochastic Policy Optimization Algorithms ‣ Understanding the Effect of Stochasticity in Policy Optimization") for details). This is another example that shows that bounded variance is not necessary for convergence, and some other factors rather than variance account for the convergence behaviour of stochastic policy optimization algorithms.
 
-This leave us an important question to be answered to bridge the gap between theory and practice,
-
-*What are the key factors determining the convergence of stochastic policy optimization?*
-
-As an answer to this question we propose a new notion, the *committal rate* of policy optimization methods and will demonstrate that small committal rates are necessary to ensure the convergent behavior of policy optimization methods.
+This leave us an important question to be answered to bridge the gap between theory and practice, *What are the key factors determining the convergence of stochastic policy optimization?* As an answer to this question we propose a new notion, the *committal rate* of policy optimization methods and will demonstrate that small committal rates are necessary to ensure the convergent behavior of policy optimization methods.
 
 ## Committal Rate of Stochastic Policy Optimization Algorithms
 
@@ -206,17 +186,13 @@ Although the baseline study only focuses on two- and three-action bandits primar
 
 ### Definition 2 (Committal Rate)
 
-Fix a reward function $r \in {(0,1\rbrack}^{K}$ and an initial parameter vector $\theta_{1} \in {\mathbb{R}}^{K}$. Consider a policy optimization algorithm $\mathcal{A}$. Let action $a$ be the sampled action forever after initialization and let $\theta_{t}$ be the resulting parameter vector obtained by using $\mathcal{A}$ on the first $t$ observations. The committal rate of algorithm $\mathcal{A}$ on action $a$ (given $r$ and $\theta_{1}$) is then defined as
-
-Note that in the definition we have suppressed the dependence of $\kappa$ on the rewards and the initial parameter vector. Definition 2. ‣ 3 Committal Rate of Stochastic Policy Optimization Algorithms ‣ Understanding the Effect of Stochasticity in Policy Optimization") accounts for how aggressive an update rule is: An algorithm with committal rate $\alpha$ will make $\pi_{\theta_{t}}{(a)}$ approach $1$ at the polynomial rate of $1/t^{\alpha}$ provided that the sampling rule only chooses action $a$. Thus, a larger value of $\kappa{(\mathcal{A},a)}$ indicates an algorithm that quickly commits to the action $a$. For example, if ${\pi_{\theta_{t}}{(a)}} = {1 - {1/{({t \cdot {\log{(t)}}})}}}$, then ${\kappa{(\mathcal{A},a)}} = 1$. Similarly, if ${\pi_{\theta_{t}}{(a)}} = {1 - {1/e^{t}}}$, then ${\kappa{(\mathcal{A},a)}} = \infty$, which means $\pi_{\theta_{t}}{(a)}$ approaches $1$ extremely quickly. On the other hand, if ${1 - {\pi_{\theta_{t}}{(a)}}} \in {\Omega{}}$, then ${\kappa{(\mathcal{A},a)}} = 0$, implying that $\pi_{\theta_{t}}$ never becomes committal, since $\pi_{\theta_{t}}{(a)}$ never approaches $1$.
+Fix a reward function $r \in {(0,1\rbrack}^{K}$ and an initial parameter vector $\theta_{1} \in {\mathbb{R}}^{K}$. Consider a policy optimization algorithm $\mathcal{A}$. Let action $a$ be the sampled action forever after initialization and let $\theta_{t}$ be the resulting parameter vector obtained by using $\mathcal{A}$ on the first $t$ observations. The committal rate of algorithm $\mathcal{A}$ on action $a$ (given $r$ and $\theta_{1}$) is then defined as Note that in the definition we have suppressed the dependence of $\kappa$ on the rewards and the initial parameter vector. Definition 2. ‣ 3 Committal Rate of Stochastic Policy Optimization Algorithms ‣ Understanding the Effect of Stochasticity in Policy Optimization") accounts for how aggressive an update rule is: An algorithm with committal rate $\alpha$ will make $\pi_{\theta_{t}}{(a)}$ approach $1$ at the polynomial rate of $1/t^{\alpha}$ provided that the sampling rule only chooses action $a$. Thus, a larger value of $\kappa{(\mathcal{A},a)}$ indicates an algorithm that quickly commits to the action $a$. For example, if ${\pi_{\theta_{t}}{(a)}} = {1 - {1/{({t \cdot {\log{(t)}}})}}}$, then ${\kappa{(\mathcal{A},a)}} = 1$. Similarly, if ${\pi_{\theta_{t}}{(a)}} = {1 - {1/e^{t}}}$, then ${\kappa{(\mathcal{A},a)}} = \infty$, which means $\pi_{\theta_{t}}{(a)}$ approaches $1$ extremely quickly. On the other hand, if ${1 - {\pi_{\theta_{t}}{(a)}}} \in {\Omega{}}$, then ${\kappa{(\mathcal{A},a)}} = 0$, implying that $\pi_{\theta_{t}}$ never becomes committal, since $\pi_{\theta_{t}}{(a)}$ never approaches $1$.
 
 Our next results shows that a small committal rate with respect to sub-optimal actions is necessary for almost sure convergence to a globally optimal policy.
 
 ### Theorem 5 (Committal rate main theorem)
 
-Consider a policy optimization method $\mathcal{A}$, together with $r \in {(0,1\rbrack}^{K}$ and an initial parameter vector $\theta_{1} \in {\mathbb{R}}^{K}$. Then,
-
-is a necessary condition for ensuring the almost sure convergence of the policies obtained using $\mathcal{A}$ and online sampling to the global optimum starting from $\theta_{1}$.
+Consider a policy optimization method $\mathcal{A}$, together with $r \in {(0,1\rbrack}^{K}$ and an initial parameter vector $\theta_{1} \in {\mathbb{R}}^{K}$. Then, is a necessary condition for ensuring the almost sure convergence of the policies obtained using $\mathcal{A}$ and online sampling to the global optimum starting from $\theta_{1}$.
 
 In words, Eq. 7. ‣ 3 Committal Rate of Stochastic Policy Optimization Algorithms ‣ Understanding the Effect of Stochasticity in Policy Optimization") shows that slow reaction to constantly sampling sub-optimal actions is necessary for the success of policy optimization methods when they are used with online sampling.
 

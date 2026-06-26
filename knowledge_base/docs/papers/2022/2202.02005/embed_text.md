@@ -8,7 +8,7 @@ Figure 1: Overview of BC-Z. We collect a large-scale dataset (25,877 episodes) o
 
 We develop an interactive imitation learning system with two key properties that enable high-quality data collection and generalization to entirely new tasks. First, our system incorporates shared autonomy into teleoperation to allow us to collect both raw demonstration data and human interventions to correct the robot's current policy. Second, our system flexibly conditions the policy on different forms of task specification, including a language instruction or a video of a person performing the task. Unlike discrete one-hot task identifiers, these continuous forms of task specification can in principle enable the robot to generalize zero-shot or few-shot to new tasks by providing a language or video command of the new task at test time. These properties have been explored previously; our aim is to empirically study whether these ideas scale to a broad range of real-world tasks.
 
-Our main contribution is an empirical study of a large-scale interactive imitation learning system that solves a breadth of tasks, including zero-shot and few-shot generalization to tasks *not seen* during training. Using this system, we collect a large dataset of 100 robotic manipulation tasks, through a combination of expert teleoperation and a shared autonomy process where the human operator "coaches" the learned policy by fixing its mistakes. Across 12 robots, 7 different operators collected 25,877 robot demonstrations that totaled 125 hours of robot time, as well as 18,726 human videos of the same tasks. At test time, the system is capable of performing 24 unseen manipulation tasks between objects that have never previously appeared together in the same scene. These closed-loop visuomotor policies perform asynchronous inference and control at 10Hz, amounting to well over 100 decisions per episode. We open-source the demonstrations used to train this policy at [https://www.kaggle.com/google/bc-z-robot](https://www.kaggle.com/google/bc-z-robot).
+Our main contribution is an empirical study of a large-scale interactive imitation learning system that solves a breadth of tasks, including zero-shot and few-shot generalization to tasks *not seen* during training. Using this system, we collect a large dataset of 100 robotic manipulation tasks, through a combination of expert teleoperation and a shared autonomy process where the human operator "coaches" the learned policy by fixing its mistakes. Across 12 robots, 7 different operators collected 25,877 robot demonstrations that totaled 125 hours of robot time, as well as 18,726 human videos of the same tasks. At test time, the system is capable of performing 24 unseen manipulation tasks between objects that have never previously appeared together in the same scene. These closed-loop visuomotor policies perform asynchronous inference and control at 10Hz, amounting to well over 100 decisions per episode. We open-source the demonstrations used to train this policy at
 
 ## Related Work
 
@@ -48,13 +48,11 @@ The data collection procedure above results in a large multi-task dataset. For e
 
 ### Language and Video Encoders
 
-Our encoder $q{(\left. z \middle| w \right.)}$ takes either a language command $w_{\ell}^{i}$ or a video of a human $w_{h}$ as input and produces a task embedding $z$. If the command is a language command, we use a pretrained multilingual sentence encoder ^11^1Checkpoint from [https://tfhub.dev/google/universal-sentence-encoder-multilingual/3](https://tfhub.dev/google/universal-sentence-encoder-multilingual/3) as our encoder, producing a 512-dim language vector for each task. Despite the simplicity, we find that these encoders work well in our experiments.
+Our encoder $q{(\left. z \middle| w \right.)}$ takes either a language command $w_{\ell}^{i}$ or a video of a human $w_{h}$ as input and produces a task embedding $z$. If the command is a language command, we use a pretrained multilingual sentence encoder ^11^1Checkpoint from as our encoder, producing a 512-dim language vector for each task. Despite the simplicity, we find that these encoders work well in our experiments.
 
 When task commands are instead a video of a human performing the task, we use a convolutional neural network to produce $z$, specifically a ResNet-18 based model. Inspired by recent works, we train this network in an end-to-end manner. We collected a dataset of 18,726 videos of humans doing each training task, in a variety of home and office locations, camera viewpoints, and object configurations. Using paired examples of a human video $w_{h}^{i}$ and corresponding demonstration demo ${\{{(s,a)}\}}^{i}$, we encode the human video $z^{i} \sim q{( \cdot \mid w_{h}^{i})}$, then pass the embedding to the control layer $\pi{(\left. a \middle| {s,z^{i}} \right.)}$, and then backpropagate gradient of the behavior cloning loss to both the policy and encoder parameters.
 
-Visualizations of learned embeddings in Appendix E indicate that by itself, this end-to-end approach tends to overfit to initial object scenes, learn poor embeddings, and show poor task generalization. To help align the video embeddings more semantically, we therefore further introduce an auxiliary language regression loss. Concretely, this auxiliary loss trains the video encoder to predict the embedding of the task's language command with a cosine loss. The resulting video encoder objective is as follows:
-
-where $D_{\text{cos}}$ denotes the cosine distance. Since robot demos double as videos of the task, we also train encoded robot videos to match to the language vector. This language loss is critical to learning a more organized embedding space. Additional architecture and training details are in Appendix E.
+Visualizations of learned embeddings in Appendix E indicate that by itself, this end-to-end approach tends to overfit to initial object scenes, learn poor embeddings, and show poor task generalization. To help align the video embeddings more semantically, we therefore further introduce an auxiliary language regression loss. Concretely, this auxiliary loss trains the video encoder to predict the embedding of the task's language command with a cosine loss. The resulting video encoder objective is as follows: where $D_{\text{cos}}$ denotes the cosine distance. Since robot demos double as videos of the task, we also train encoded robot videos to match to the language vector. This language loss is critical to learning a more organized embedding space. Additional architecture and training details are in Appendix E.
 
 ### Policy Training
 
@@ -82,11 +80,7 @@ We first aim to verify that BC-Z can learn individual vision-based tasks before 
 
 ## Runs
 
-BC-Z (24 Train Doors)
-
-BC-Z (4 Holdout Doors)
-
-Table 1: Single-task bin and door performance, average and standard deviation across runs.
+BC-Z (24 Train Doors) BC-Z (4 Holdout Doors) Table 1: Single-task bin and door performance, average and standard deviation across runs.
 
 In Table 1, we see that the BC-Z model is able to reach a pick-rate of 3.4 picks per minute, over half the speed of a human teleoperator. Further, we see that BC-Z reaches a success rate of $87\%$ on the training door scenes and $94\%$ on held-out door scenes. These results validate that the BC-Z model and data collect system can achieve good performance on both training and held-out scenes in the single-task setting. Additional analysis is provided in Appendix H.
 
@@ -100,77 +94,15 @@ We evaluate BC-Z on 29 held-out tasks. Language conditioned policies are given a
 
 In Table 2, we see that language-conditioned BC-Z is able to generalize zero-shot to both kinds of held-out tasks, averaging at 32% success and showing non-zero success on 24 held-out tasks. Among the 24 hold-out tasks with non-zero success rates, BC-Z achieves an average success of 44% when conditioned on language embeddings it has never seen. When conditioning on videos of humans, we find that generalization is much more difficult, but that BC-Z is still able to generalize to nine novel tasks with a non-zero success rate, particularly when the task does not involve novel object combinations. Qualitatively, we observe that the language-conditioned policy usually moves towards the correct objects, clearly indicating that the task embedding is reflective of the correct task, as we further illustrate in the supplementary video. The most common source of failures are "last-centimeter" errors: failing to close the gripper, failing to let go of objects, or a near miss of the target object when letting go of an object in the gripper.
 
-(no demos during training)
+(no demos during training) ‘place sponge in tray’ ‘place grapes in red bowl’ ‘place apple in paper cup’ ‘wipe tray with sponge’ ‘place banana in ceramic bowl’ ‘place bottle in red bowl’ ‘place grapes in ceramic bowl’ ‘place bottle in table surface’ ‘place white sponge in purple bowl’ ‘place white sponge in tray’ ‘place apple in ceramic bowl’ ‘place bottle in purple bowl’ ‘place banana in ceramic cup’ ‘place banana on white sponge’ ‘place metal cup in red bowl’ ‘pick up the red bowl’ ‘drag grapes across the table’ ‘wipe table surface with banana’ ‘wipe tray with white sponge’ ‘wipe ceramic bowl with brush’ ‘push purple bowl across the table’ ‘push tray across the table’ ‘push red bowl across the table’ Holdout Task Overall Table 2: Success rates for zero-shot (language) and few-shot (video) generalization to tasks not in the training dataset. The first 4 tasks only use objects from the 79-task family. The remaining tasks mix objects between the 21-task and 79-task families, requiring further generalization. Numbers in parentheses are 1 unit standard deviation. The language conditioning generalizes to several holdout tasks, whereas the video conditioning shows promise on tasks that do not mix objects between task families. Overall performance improves slightly with fewer distractor objects.
 
-‘place sponge in tray’
-
-‘place grapes in red bowl’
-
-‘place apple in paper cup’
-
-‘wipe tray with sponge’
-
-‘place banana in ceramic bowl’
-
-‘place bottle in red bowl’
-
-‘place grapes in ceramic bowl’
-
-‘place bottle in table surface’
-
-‘place white sponge in purple bowl’
-
-‘place white sponge in tray’
-
-‘place apple in ceramic bowl’
-
-‘place bottle in purple bowl’
-
-‘place banana in ceramic cup’
-
-‘place banana on white sponge’
-
-‘place metal cup in red bowl’
-
-‘pick up the red bowl’
-
-‘drag grapes across the table’
-
-‘wipe table surface with banana’
-
-‘wipe tray with white sponge’
-
-‘wipe ceramic bowl with brush’
-
-‘push purple bowl across the table’
-
-‘push tray across the table’
-
-‘push red bowl across the table’
-
-Holdout Task Overall
-
-Table 2: Success rates for zero-shot (language) and few-shot (video) generalization to tasks not in the training dataset. The first 4 tasks only use objects from the 79-task family. The remaining tasks mix objects between the 21-task and 79-task families, requiring further generalization. Numbers in parentheses are 1 unit standard deviation. The language conditioning generalizes to several holdout tasks, whereas the video conditioning shows promise on tasks that do not mix objects between task families. Overall performance improves slightly with fewer distractor objects.
-
-Is Performance Bottlenecked on the Encoder or the Policy? Now that we see that BC-Z can generalize to a substantial number of held-out tasks to some degree, we ask whether the performance is
-
-Table 3: Training vs. generalization performance, averaged across 21 of the training tasks and all 28 held-out tasks.
-
-limited more by the generalization of the encoder $q{(\left. z \middle| w \right.)}$, the control layer $\pi{(\left. a \middle| {s,z} \right.)}$, or both. To disentangle these factors, we measure the policy success rate on the training tasks conditioned in three ways: a one-hot task identifier, language embeddings of the training task commands, and video embeddings of held-out human videos of the training tasks. This comparison is in Table 3. The similar performance between one-hot and language suggests the latent language space is sufficient, and that language-conditioned performance on held-out tasks is bottlenecked on the control layer more than the embedding. The more significant drop in performance of video-conditioned policies suggests inferring tasks from videos is much more difficult, particularly for held-out tasks.
+Is Performance Bottlenecked on the Encoder or the Policy? Now that we see that BC-Z can generalize to a substantial number of held-out tasks to some degree, we ask whether the performance is Table 3: Training vs. generalization performance, averaged across 21 of the training tasks and all 28 held-out tasks. limited more by the generalization of the encoder $q{(\left. z \middle| w \right.)}$, the control layer $\pi{(\left. a \middle| {s,z} \right.)}$, or both. To disentangle these factors, we measure the policy success rate on the training tasks conditioned in three ways: a one-hot task identifier, language embeddings of the training task commands, and video embeddings of held-out human videos of the training tasks. This comparison is in Table 3. The similar performance between one-hot and language suggests the latent language space is sufficient, and that language-conditioned performance on held-out tasks is bottlenecked on the control layer more than the embedding. The more significant drop in performance of video-conditioned policies suggests inferring tasks from videos is much more difficult, particularly for held-out tasks.
 
 ### Ablation Studies and Comparisons
 
 We validate the importance of several BC-Z design decisions using the (training) 21-task family. Our first set of ablations evaluate on the "place the bottle in ceramic bowl" command, which has the most demos of any task. We first test whether multi-task training is helpful for performance: we compare the multi-task system trained on 25,877 demos across all tasks, to a single-task policy trained on just the 1000 demos for the target task. In Table 4 (left), the single-task baseline achieves just 5% success. The low number is consistent with the low single-task performance on holdout tasks from Section 6.2: collecting data over several robots and operators likely makes the task harder to learn. Only when pooling data across many tasks does BC-Z learn to solve the task. We ablate the adaptive state diff scheme described in Section 5.3 and find that it is important; when naively choosing the $N = 1$ future state to compute the expert actions, the policy fits the noise and moves too slowly, resulting in state drift away from good trajectories.
 
-Multi-task, language conditioned
-
-Multi-task, one-hot conditioned
-
-Single-task baseline (1000 demos)
-
-Multi-task, one-hot, no adaptive state-diff
-
-Table 4: Ablation Studies. Left: Multi-task vs. single task models on the ‘place the bottle in the ceramic bowl’ task. Training across tasks and with adaptive state-diffs is important for good training performance. Right: DAgger comparison on ’place the bottle in the ceramic bowl’ (1-Task) and the 8-Task subset from Table 7. Controlled for the same amount of data, DAgger reaches higher success numbers significantly more quickly.
+Multi-task, language conditioned Multi-task, one-hot conditioned Single-task baseline (1000 demos) Multi-task, one-hot, no adaptive state-diff Table 4: Ablation Studies. Left: Multi-task vs. single task models on the ‘place the bottle in the ceramic bowl’ task. Training across tasks and with adaptive state-diffs is important for good training performance. Right: DAgger comparison on ’place the bottle in the ceramic bowl’ (1-Task) and the 8-Task subset from Table 7. Controlled for the same amount of data, DAgger reaches higher success numbers significantly more quickly.
 
 Figure 5: Mean number of interventions vs. task success rate. Each point represents a policy evaluated during HG-DAgger data collection. There is a clear correlation between the mean number of interventions and success rate, suggesting that interventions can be used as a live proxy for performance.
 

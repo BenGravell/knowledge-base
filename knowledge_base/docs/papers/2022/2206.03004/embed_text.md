@@ -8,9 +8,7 @@ Our DriveIRL system works by *generating*, *checking*, and *scoring* trajectorie
 
 DriveIRL achieves strong real-world driving performance on the Las Vegas Strip. The Strip is a major thoroughfare in Las Vegas which connects many of the major hotels and casinos. Challenges include dense traffic, aggressive cut-ins, erratic drivers, and busy passenger pickup/dropoff zones near the hotels. We deployed DriveIRL on a self-driving car and drove fully autonomously on the Strip in these scenarios, showing the practical utility of our approach.
 
-Our main contributions towards learning-based planning for self-driving cars are:
-
-The first learning-based planner to drive a car in dense, urban traffic using IRL.
+Our main contributions towards learning-based planning for self-driving cars are: The first learning-based planner to drive a car in dense, urban traffic using IRL.
 
 A simple yet powerful modeling framework that focuses learning on the aspect of driving that is most challenging to specify.
 
@@ -30,7 +28,7 @@ Closely related is work by Zeng et al. which learns a costmap over the environme
 
 Another similar approach is that of Vitelli et al., where a hybrid model with a learned planner and an interpretable fallback layer drive in San Francisco. Our IRL-based model is simpler and less reliant on a fallback layer. Furthermore, the recursive check of our safety filter is less conservative.
 
-Reinforcement learning (RL): RL approaches learn a driving policy by optimizing a reward function. The standard approach requires a simulator to update the environment that the driving policy interacts with. There have been a variety of approaches that have shown strong performance in simulation.
+Reinforcement learning (RL): RL approaches learn a driving policy by optimizing a reward function. The standard approach requires a simulator to update the environment that the driving policy interacts . There have been a variety of approaches that have shown strong performance in simulation.
 
 Real-world applications of RL for self-driving cars have been rarer, likely due to the difficulty in modeling the environment and specifying the reward function. An early notable example is Riedmiller et al., where they learn a steering policy for a real car. More recently, lane following was demonstrated using deep RL. This approach controlled both speed and steering on a real car. We contrast the rural driving evaluations above with our experiments in busy Las Vegas.
 
@@ -62,13 +60,7 @@ Figure 2: Proposed trajectories for the ego (red rectangle). Each trajectory is 
 
 Figure 3: Safety filter. Left: toy scenario with three trajectories (ego is in red, vehicle ahead is in yellow). Middle: modified trajectories. Right: unsafe trajectories excluded from trajectory set.
 
-Before scoring candidate trajectories, we apply an interpretable safety filter (Fig 3) to guarantee basic safety (i.e., no collisions). It consists of:
-
-a set of world assumptions used to predict the behavior of the non-ego road users,
-
-a set of trajectory modifiers which are applied to the ego trajectory, and
-
-a set of safety checks which the modified ego trajectory needs to pass.
+Before scoring candidate trajectories, we apply an interpretable safety filter (Fig 3) to guarantee basic safety (i.e., no collisions). It consists of: a set of world assumptions used to predict the behavior of the non-ego road users, a set of trajectory modifiers which are applied to the ego trajectory, and a set of safety checks which the modified ego trajectory needs to pass.
 
 For a candidate trajectory to be considered safe, it must pass all safety checks, under the given trajectory modifications and assumptions about the other road users. See A.2 for details.
 
@@ -80,9 +72,7 @@ Appropriately scoring trajectories is the core challenge of our planning approac
 
 Trajectories are scored by a deep neural network trained with a maximum entropy IRL loss. We use expert demonstrations collected from a skilled human driving our vehicle. The loss favors trajectories that most closely match the expert demonstration $\tau^{\star}$ in feature space. In particular, let $r{(\tau)}$ represent the reward of the trajectory $\tau \in \mathcal{T}$, the probability of a trajectory $\tau^{\ast}$ being selected according to the maximum entropy principle is ${P{(\tau^{\star})}} = \frac{{\exp r}{(\tau^{\star})}}{\sum\limits_{\tau}{{\exp r}{(\tau)}}}$.
 
-The negative log-likelihood loss (NLL) on a dataset $D$ is defined as ${\ell{(D)}} = {- {\sum\limits_{d \in D}{{\log P}{({\tau^{\star}{(d)}})}}}}$ where $\tau^{\star}{(d)}$ is the demonstrated trajectory on the token $d \in D$. To address data imbalance issues, we augment NLL with focal loss (with a $\gamma$ of $2.0$)
-
-Features: We compute features for each proposed trajectory to use as inputs to our neural network. These features can be based on any combination of a proposed trajectory $\tau$, ego state $\mathcal{S}$, other road users $\mathcal{U}$, the map $\mathcal{M}$, route $\mathcal{R}$, and history $\mathcal{H}$, meaning that $F_{i}:{{(\tau,\mathcal{S},\mathcal{U},\mathcal{M},\mathcal{R},\mathcal{H})}\mapsto f_{i} \in {\mathbb{R}}^{k_{i}}}$, where $F_{i}$ is the feature extraction function corresponding to feature $i$ and $k_{i}$ is its dimension.
+The negative log-likelihood loss (NLL) on a dataset $D$ is defined as ${\ell{(D)}} = {- {\sum\limits_{d \in D}{{\log P}{({\tau^{\star}{(d)}})}}}}$ where $\tau^{\star}{(d)}$ is the demonstrated trajectory on the token $d \in D$. To address data imbalance issues, we augment NLL with focal loss (with a $\gamma$ of $2.0$) Features: We compute features for each proposed trajectory to use as inputs to our neural network. These features can be based on any combination of a proposed trajectory $\tau$, ego state $\mathcal{S}$, other road users $\mathcal{U}$, the map $\mathcal{M}$, route $\mathcal{R}$, and history $\mathcal{H}$, meaning that $F_{i}:{{(\tau,\mathcal{S},\mathcal{U},\mathcal{M},\mathcal{R},\mathcal{H})}\mapsto f_{i} \in {\mathbb{R}}^{k_{i}}}$, where $F_{i}$ is the feature extraction function corresponding to feature $i$ and $k_{i}$ is its dimension.
 
 Time-to-collision (TTC): the minimum number of seconds before the ego would collide with another road user in the (predicted) future. Evaluated at multiple points.
 
@@ -140,11 +130,7 @@ Table 2: Ablation study on the importance of each feature. The row indicates the
 
 Data augmentation: Data augmentation is important to ensure that our model can learn how to recover from errors. Since the reference trajectory is never followed perfectly by the vehicle, errors can accumulate. We perturb the ego's initial state during training to reduce the sensitivity to such errors. For our low noise baseline, we use zero-mean Gaussian data augmentation for longitudinal offset ($1.2\ {m\text{/}}$ std), lateral offset ($0.8\ {m\text{/}}$ std), heading offset ($0.1\ {{rad}\text{/}}$ std), and velocity ($0.1\ {m\text{/}s}$ std). For the high noise ablation, we respectively use $2.5\ {m\text{/}}$ std, $1.5\ {m\text{/}}$ std, $0.3\ {{rad}\text{/}}$ std, and $0.2\ {m\text{/}s}$ std. We clamp velocity to avoid negative values. Several example images are shown in A.6.
 
-Base (low noise)
-
-Low past + present
-
-Table 3: Comparison between different augmentation schemes.
+Base (low noise) Low past + present Table 3: Comparison between different augmentation schemes.
 
 Architecture: We perform several ablations on the model architecture before selecting an architecture in which the extracted features are processed separately before interacting with one another through a masked self-attention mechanism. We show in Tab. 4 that the other two extremes, namely, concatenating all input features and using them as one monolithic feature in a single feedforward network or siloing all input features (not allowing any interaction through attention or otherwise) have resulted in inferior performance. It is also seen that input normalization and attention input masking are beneficial.
 
@@ -152,21 +138,13 @@ Table 4: Comparison between different model architectures.
 
 Loss: Tab. 5 shows that it is better to maximize the probability the projection of the ground truth onto the trajectory set (the best approximation in average $\ell_{2}$ norm) instead of the ground truth itself. This makes sense because the ground truth does not come from the same distribution as the proposals and is not available at inference time. Filtering possibly unsafe trajectories from the set before finding the ground truth projection is also crucial to obtaining a safe model. Doing the projection using the average $\ell_{2}$ norm instead of an $\ell_{2}$ norm with a yaw error penalty also seems favorable. Lastly from the same table, we can see that using focal loss as in Equation 1 improves performance. Another experiment in Appendix A.7 that compares focal loss against training on a better balanced dataset also shows that using focal loss is actually more effective for DriveIRL.
 
-Possibly unsafe demo
-
-Demo w/ weighted yaw
-
-Without focal loss
-
-Table 5: Comparison between different loss functions.
+Possibly unsafe demo Demo w/ weighted yaw Without focal loss Table 5: Comparison between different loss functions.
 
 ### Baselines
 
 In this section, we evaluate our model on a test dataset and compare it with an Intelligent Driver Model (IDM) and a constant speed (CS) lane follow model. The IDM baseline is a reasonable choice because it is a well-known version of an expert planner that focuses on adaptive cruise control. Meanwhile, the CS lane follow model is a simple lower-bound. The results are shown in Tab. 6. Our base model plus safety filter outperforms others in all safety related metrics, and that shows the safety filter protects the vehicle on several collision cases our model cannot handle perfectly. Without the safety filter, our base model still outperforms the IDM baseline. The IDM model has significantly higher $\ell_{2}$ error, indicating that the IDM model does not drive like a human expert. Furthermore, our base model also has higher scores in all safety related metrics in both high- and low-level scores like collision rate and tailgate rate.
 
-Base + Safety (ours)
-
-Table 6: Baselines on the test set. IDM = Intelligent Driver Model. CS = constant speed.
+Base + Safety (ours) Table 6: Baselines on the test set. IDM = Intelligent Driver Model. CS = constant speed.
 
 ### Simulation results
 

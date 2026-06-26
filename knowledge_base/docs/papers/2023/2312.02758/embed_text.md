@@ -14,22 +14,13 @@ Notation. The expected value, standard deviation, and covariance are denoted by 
 
 ## Problem Formulation
 
-Consider the observable part of a stable discrete-time linear time-invariant (LTI) dynamical system with disturbance and output noise, given by
+Consider the observable part of a stable discrete-time linear time-invariant (LTI) dynamical system with disturbance and output noise, given by where $x_{t} \in {\mathbb{R}}^{n_{x}}$, $u_{t} \in {\mathbb{R}}^{n_{u}}$, $y_{t} \in {\mathbb{R}}^{n_{y}}$, $w_{t} \in {\mathbb{R}}^{n_{w}}$, $v_{t} \in {\mathbb{R}}^{n_{y}}$ are the states, inputs, outputs, disturbance, and output noise, respectively. The noise-free output is denoted by $y_{t}^{0}$. In this paper, the noise $v_{t}$ is considered to be zero-mean i.i.d. with covariance ${\text{cov}\left(v_{t} \right)} = {\sigma^{2}{\mathbb{I}}_{n_{y}}}$.
 
-where $x_{t} \in {\mathbb{R}}^{n_{x}}$, $u_{t} \in {\mathbb{R}}^{n_{u}}$, $y_{t} \in {\mathbb{R}}^{n_{y}}$, $w_{t} \in {\mathbb{R}}^{n_{w}}$, $v_{t} \in {\mathbb{R}}^{n_{y}}$ are the states, inputs, outputs, disturbance, and output noise, respectively. The noise-free output is denoted by $y_{t}^{0}$. In this paper, the noise $v_{t}$ is considered to be zero-mean i.i.d. with covariance ${\text{cov}\left( v_{t} \right)} = {\sigma^{2}{\mathbb{I}}_{n_{y}}}$.
+The model parameters $(A,B,C,D,E)$ are unknown, but a matrix of input-disturbance-output trajectory data $Z = \begin{bmatrix} \end{bmatrix}$ has been collected, where each column is a length-$L$ trajectory of the system, where the superscript $d$ denotes collected offline data. The availability of offline disturbance trajectories retroactively is commonly assumed in DDPC algorithms, e.g., Pan et al., and is practical in many applications. The noise in each column of outputs is assumed to be independent. This assumption holds exactly when the columns are separate trajectories or truncated from a longer trajectory with $t_{i + 1} = {t_{i} + L}$, known as the Page construction. Another common construction of $Z$ is by choosing $t_{i + 1} = {t_{i} + 1}$, forming a block Hankel matrix. The matrix $Z$ is dubbed the signal matrix.
 
-The model parameters $(A,B,C,D,E)$ are unknown, but a matrix of input-disturbance-output trajectory data $Z = \begin{bmatrix}
-\end{bmatrix}$ has been collected, where each column
+We are interested in designing a receding horizon control algorithm with a predictor derived from the signal matrix $Z$ instead of the model parameters. Such algorithms are known as indirect DDPC. Let $L = {L_{0} + L'}$, and $L_{0}$ be no smaller than the observability index of the system. In this paper, we consider the stochastic optimal tracking problem within a horizon of $L'$ that minimizes the following expected control cost at time $t$, where ${\hat{u}}_{k}^{t}$ is the designed input at time $({t + k})$, ${\hat{y}}_{k}^{t}$ is a random variable that predicts the noise-free future output $y_{t + k}^{0}$, $r_{t}$ denotes the reference trajectory, and $Q,R$ are the output and the input cost matrices respectively.
 
-is a length-$L$ trajectory of the system, where the superscript $d$ denotes collected offline data. The availability of offline disturbance trajectories retroactively is commonly assumed in DDPC algorithms, e.g., Pan et al., and is practical in many applications. The noise in each column of outputs is assumed to be independent. This assumption holds exactly when the columns are separate trajectories or truncated from a longer trajectory with $t_{i + 1} = {t_{i} + L}$, known as the Page construction. Another common construction of $Z$ is by choosing $t_{i + 1} = {t_{i} + 1}$, forming a block Hankel matrix. The matrix $Z$ is dubbed the signal matrix.
-
-We are interested in designing a receding horizon control algorithm with a predictor derived from the signal matrix $Z$ instead of the model parameters. Such algorithms are known as indirect DDPC. Let $L = {L_{0} + L^{\prime}}$, and $L_{0}$ be no smaller than the observability index of the system. In this paper, we consider the stochastic optimal tracking problem within a horizon of $L^{\prime}$ that minimizes the following expected control cost
-
-at time $t$, where ${\hat{u}}_{k}^{t}$ is the designed input at time $({t + k})$, ${\hat{y}}_{k}^{t}$ is a random variable that predicts the noise-free future output $y_{t + k}^{0}$, $r_{t}$ denotes the reference trajectory, and $Q,R$ are the output and the input cost matrices respectively.
-
-It is also desired to constrain the outputs within a polytopic set $\mathcal{Y}_{t}:=\left\{ y_{t} \middle| {{H^{t}y_{t}} \leq q^{t}} \right\}$ at time $t$, where $H^{t}:=\left\lbrack {h_{1}^{t}\ldots h_{n_{c}}^{t}} \right\rbrack^{\top} \in {\mathbb{R}}^{n_{c} \times n_{y}}$ and $q^{t}:={\text{col}\left( q_{1}^{t},\ldots,q_{n_{c}}^{t} \right)} \in {\mathbb{R}}^{n_{c}}$. However, due to the existence of unbounded noise, the output constraints can only be satisfied with high probability as chance constraints, which will be detailed in later sections. The input is constrained to be in the set $\mathcal{U}^{t}$ at time $t$, i.e.,
-
-Then, the first element in the optimal input sequence is applied to the system, i.e., $u_{t}:={\hat{u}}_{0}^{t}$ and the noisy output $y_{t} = {y_{t}^{0} + v_{t}}$ is measured.
+It is also desired to constrain the outputs within a polytopic set $\mathcal{Y}_{t}:=\left\{ y_{t} \middle| {{H^{t}y_{t}} \leq q^{t}} \right\}$ at time $t$, where $H^{t}:=\left\lbrack {h_{1}^{t}\ldots h_{n_{c}}^{t}} \right\rbrack^{\top} \in {\mathbb{R}}^{n_{c} \times n_{y}}$ and $q^{t}:={\text{col}\left(q_{1}^{t},\ldots,q_{n_{c}}^{t} \right)} \in {\mathbb{R}}^{n_{c}}$. However, due to the existence of unbounded noise, the output constraints can only be satisfied with high probability as chance constraints, which will be detailed in later sections. The input is constrained to be in the set $\mathcal{U}^{t}$ at time $t$, i.e., Then, the first element in the optimal input sequence is applied to the system, i.e., $u_{t}:={\hat{u}}_{0}^{t}$ and the noisy output $y_{t} = {y_{t}^{0} + v_{t}}$ is measured.
 
 There are multiple aspects to consider when solving this problem, which will be discussed in the following sections.
 
@@ -47,9 +38,7 @@ With sufficiently persistently exciting inputs, the range space of $Z$ contains 
 
 ### Proposition 1
 
-where $U \in {\mathbb{R}}^{{n_{u}L} \times M}$, $W \in {\mathbb{R}}^{{n_{w}L} \times M}$, $Y_{p} \in {\mathbb{R}}^{{n_{y}L_{0}} \times M}$, $Y_{f} \in {\mathbb{R}}^{{n_{y}L^{\prime}} \times M}$, and $\Psi \in {\mathbb{R}}^{{{({n_{u} + n_{w}})}L} \times M}$. If $v_{t} = \mathbf{0}_{n_{y}}$ and ${\text{𝑟𝑎𝑛𝑘}{(Z)}} = {{{({n_{u} + n_{w}})}L} + n_{x}}$, we have
-
-where ${\hat{\mathbf{u}}}^{t}:={({\hat{u}}_{k}^{t})}_{k = 0}^{L^{\prime} - 1}$ denotes the input sequence within the control horizon, $\mathbf{u}_{\text{𝑖𝑛𝑖}}^{t}:={(u_{k})}_{k = {t - L_{0}}}^{t - 1}$, $\mathbf{y}_{\text{𝑖𝑛𝑖}}^{t}:={(y_{k})}_{k = {t - L_{0}}}^{t - 1}$ denote the immediate past input and output sequences of length $L_{0}$, and $\mathbf{w}^{t}:={(w_{k})}_{k = {t - L_{0}}}^{{t + L^{\prime}} - 1}$ denotes the immediate past and future disturbance sequence of length $L$. The output sequence ${\hat{\mathbf{y}}}^{t}:={({\hat{y}}_{k}^{t})}_{k = 0}^{L^{\prime} - 1}$ provides a deterministic output prediction within the control horizon.
+where $U \in {\mathbb{R}}^{{n_{u}L} \times M}$, $W \in {\mathbb{R}}^{{n_{w}L} \times M}$, $Y_{p} \in {\mathbb{R}}^{{n_{y}L_{0}} \times M}$, $Y_{f} \in {\mathbb{R}}^{{n_{y}L'} \times M}$, and $\Psi \in {\mathbb{R}}^{{{({n_{u} + n_{w}})}L} \times M}$. If $v_{t} = \mathbf{0}_{n_{y}}$ and ${\text{𝑟𝑎𝑛𝑘}{(Z)}} = {{{({n_{u} + n_{w}})}L} + n_{x}}$, we have where ${\hat{\mathbf{u}}}^{t}:={({\hat{u}}_{k}^{t})}_{k = 0}^{L' - 1}$ denotes the input sequence within the control horizon, $\mathbf{u}_{\text{𝑖𝑛𝑖}}^{t}:={(u_{k})}_{k = {t - L_{0}}}^{t - 1}$, $\mathbf{y}_{\text{𝑖𝑛𝑖}}^{t}:={(y_{k})}_{k = {t - L_{0}}}^{t - 1}$ denote the immediate past input and output sequences of length $L_{0}$, and $\mathbf{w}^{t}:={(w_{k})}_{k = {t - L_{0}}}^{{t + L'} - 1}$ denotes the immediate past and future disturbance sequence of length $L$. The output sequence ${\hat{\mathbf{y}}}^{t}:={({\hat{y}}_{k}^{t})}_{k = 0}^{L' - 1}$ provides a deterministic output prediction within the control horizon.
 
 Indirect DDPC with deterministic predictor is known as subspace predictive control.
 
@@ -57,35 +46,21 @@ Indirect DDPC with deterministic predictor is known as subspace predictive contr
 
 In this work, two sources of uncertainties are considered. 1) Noise in output measurements. This induces noise in the output part of the signal matrix $Y_{p}$, $Y_{f}$, and the past output sequence $\mathbf{y}_{\text{ini}}^{t}$ with ${{\mathbb{E}}\left\lbrack \mathbf{y}_{\text{ini}}^{t} \right\rbrack} = {\overline{\mathbf{y}}}_{\text{ini}}^{t}$, ${\text{cov}\left( \mathbf{y}_{\text{ini}}^{t} \right)} = P_{t}$. 2) Uncertainties in the online disturbance sequence $\mathbf{w}^{t}$ with ${{\mathbb{E}}\left\lbrack \mathbf{w}^{t} \right\rbrack} = {\overline{\mathbf{w}}}^{t}$, ${\text{cov}\left( \mathbf{w}^{t} \right)} = \Sigma_{w}$. Statistics ${\overline{\mathbf{w}}}^{t}$ and $\Sigma_{w}$ can come from online measurements and predictions or prior knowledge.
 
-Multiple algorithms have been developed to extend the deterministic prediction to the stochastic case. Such algorithms typically involve solving the following quadratic program:
-
-where $\lambda$ and $S$ are design parameters. Different choices of $\lambda$ and $S$ have been proposed:
-
-Subspace predictor: $S = {\mathbb{I}}_{n_{y}L_{0}}$, $\lambda\rightarrow 0^{+}$.
+Multiple algorithms have been developed to extend the deterministic prediction to the stochastic case. Such algorithms typically involve solving the following quadratic program: where $\lambda$ and $S$ are design parameters. Different choices of $\lambda$ and $S$ have been proposed: Subspace predictor: $S = {\mathbb{I}}_{n_{y}L_{0}}$, $\lambda\rightarrow 0^{+}$.
 
 Wasserstein distance minimization: $S = {\mathbb{I}}_{n_{y}L_{0}}$, $\lambda = {n_{y}L_{0}\sigma^{2}}$.
 
-Signal matrix model: $S = {\mathbb{I}}_{n_{y}L_{0}}$,
+Signal matrix model: $S = {\mathbb{I}}_{n_{y}L_{0}}$, Minimum mean-squared error: $S = {{\overline{\Gamma}}^{\top}\overline{\Gamma}}$, $\lambda = {{n_{y}L'\sigma^{2}} + {\text{tr}(S)\sigma^{2}}}$, where $\overline{\Gamma}$ is the last $n_{y}L_{0}$ columns of $Y_{f}\text{col}\left(\Psi,Y_{p} \right)^{\dagger}$.
 
-Minimum mean-squared error: $S = {{\overline{\Gamma}}^{\top}\overline{\Gamma}}$, $\lambda = {{n_{y}L^{\prime}\sigma^{2}} + {\text{tr}(S)\sigma^{2}}}$, where $\overline{\Gamma}$ is the last $n_{y}L_{0}$ columns of $Y_{f}\text{col}\left( \Psi,Y_{p} \right)^{\dagger}$.
-
-See Yin et al. for a comparison between these choices. The quadratic program admits the following closed-form solution:
-
-and $F:={{\lambda{\mathbb{I}}_{M}} + {Y_{p}^{\top}SY_{p}}}$.
+See Yin et al. for a comparison between these choices. The quadratic program admits the following closed-form solution: and $F:={{\lambda{\mathbb{I}}_{M}} + {Y_{p}^{\top}SY_{p}}}$.
 
 The stochastic predictor can be constructed based on the solution $g^{t}$ with the following lemma.
 
 ### Lemma 2
 
-The stochastic output sequence within the control horizon is given by
+The stochastic output sequence within the control horizon is given by is the autonomous transformation matrix from $\mathbf{y}_{\text{𝑖𝑛𝑖}}^{t}$ to ${\hat{\mathbf{y}}}^{t}$.
 
-is the autonomous transformation matrix from $\mathbf{y}_{\text{𝑖𝑛𝑖}}^{t}$ to ${\hat{\mathbf{y}}}^{t}$.
-
-This comes directly from the proof of Theorem 1 in Yin et al. by considering the augmented inputs $\psi_{t}$. $\square$
-
-Unfortunately, $\Gamma$ cannot be obtained exactly since $A$ and $C$ are unknown. However, this transformation matrix can also be estimated using a data-driven approach. Note that the true output prediction is given by ${\hat{\mathbf{y}}}_{0}^{t} = {\Gamma{\overline{\mathbf{y}}}_{\text{ini}}^{t}}$ if ${\text{col}\left( \mathbf{u}_{\text{ini}}^{t},{\hat{\mathbf{u}}}^{t},\mathbf{w}^{t} \right)} = \mathbf{0}$ and $P_{t} = \mathbf{0}$. Using the certainty equivalence principle, an estimate ${\hat{\Gamma}}_{Z}$ can be found by replacing ${\hat{\mathbf{y}}}_{0}^{t}$ with ${\overline{\mathbf{y}}}^{t}$. Then we have
-
-In what follows, it is assumed that $\Gamma = {\hat{\Gamma}}_{Z}$. This estimate is correct in the noise-free case and consistent under mild conditions as shown in the following propositions.
+This comes directly from the proof of Theorem 1 in Yin et al. by considering the augmented inputs $\psi_{t}$. $\square$ Unfortunately, $\Gamma$ cannot be obtained exactly since $A$ and $C$ are unknown. However, this transformation matrix can also be estimated using a data-driven approach. Note that the true output prediction is given by ${\hat{\mathbf{y}}}_{0}^{t} = {\Gamma{\overline{\mathbf{y}}}_{\text{ini}}^{t}}$ if ${\text{col}\left(\mathbf{u}_{\text{ini}}^{t},{\hat{\mathbf{u}}}^{t},\mathbf{w}^{t} \right)} = \mathbf{0}$ and $P_{t} = \mathbf{0}$. Using the certainty equivalence principle, an estimate ${\hat{\Gamma}}_{Z}$ can be found by replacing ${\hat{\mathbf{y}}}_{0}^{t}$ with ${\overline{\mathbf{y}}}^{t}$. Then we have In what follows, it is assumed that $\Gamma = {\hat{\Gamma}}_{Z}$. This estimate is correct in the noise-free case and consistent under mild conditions as shown in the following propositions.
 
 ### Proposition 3
 
@@ -101,7 +76,7 @@ Let ${\text{col}\left( \Psi,Y_{p} \right)}:={\Omega SV^{\top}}$ be the singular 
 
 ### Remark 5
 
-The singular value condition $\sigma_{L_{\sigma}}\rightarrow\infty$ requires that the columns of $\text{𝑐𝑜𝑙}\left( \Psi,Y_{p} \right)$ activate all directions persistently as $M\rightarrow\infty$. This is satisfied for, for example, independent random or repeated full-rank inputs and disturbances.
+The singular value condition $\sigma_{L_{\sigma}}\rightarrow\infty$ requires that the columns of $\text{𝑐𝑜𝑙}\left( \Psi,Y_{p} \right)$ activate all directions persistently as $M\rightarrow\infty$. This is satisfied , for example, independent random or repeated full-rank inputs and disturbances.
 
 ## Stochastic Indirect Data-Driven Predictive Control
 
@@ -113,35 +88,21 @@ The stochastic control cost $J_{t}$ is formulated as a quadratic function in the
 
 ### Lemma 6
 
-The expected control cost is given by
+The expected control cost is given by where $\overline{R}:={{\mathbb{I}}_{L'} \otimes R}$, $\overline{Q}:={{\mathbb{I}}_{L'} \otimes Q}$, $\mathbf{r}^{t}:={(r_{t + k})}_{k = 0}^{L' - 1}$ and $T:={\sigma^{2}\left({{\Gamma\Gamma^{\top}} + {\mathbb{I}}_{n_{y}L'}} \right)}$. The cost is quadratic with respect to the optimization variable ${\hat{\mathbf{u}}}^{t}$.
 
-where $\overline{R}:={{\mathbb{I}}_{L^{\prime}} \otimes R}$, $\overline{Q}:={{\mathbb{I}}_{L^{\prime}} \otimes Q}$, $\mathbf{r}^{t}:={(r_{t + k})}_{k = 0}^{L^{\prime} - 1}$ and $T:={\sigma^{2}\left( {{\Gamma\Gamma^{\top}} + {\mathbb{I}}_{n_{y}L^{\prime}}} \right)}$. The cost is quadratic with respect to the optimization variable ${\hat{\mathbf{u}}}^{t}$.
-
-The expected output cost is calculated as:
-
-where $\mathbf{e}^{t}$: ${{\mathbb{E}}\left\lbrack \mathbf{e}^{t} \right\rbrack} = \mathbf{0}$, ${\text{cov}\left( \mathbf{e}^{t} \right)} = \Sigma^{t}$ is the prediction error. The second to last equality is due to the cyclic property of the trace function. This cost is quadratic with respect to ${\hat{\mathbf{u}}}^{t}$ since both $g^{t}$ and ${\overline{\mathbf{y}}}^{t}$ are linear with respect to ${\hat{\mathbf{u}}}^{t}$. $\square$ The stochastic control cost adds a $\left. \parallel g^{t}\parallel \right._{2}^{2}$-regularization term to the nominal cost. Such regularization is required in direct DDPC for well-definedness and is proposed to enhance robustness in indirect DDPC. However, it was unclear how to tune the weighting factor for the regularizer other than trial and error. By considering the regularizer as the uncertainty term in the expected output cost, the weighting factor can be reliably selected as ${tr}\left( {\overline{Q}T} \right)$, which depends on the output cost matrix and the noise level.
+The expected output cost is calculated as: where $\mathbf{e}^{t}$: ${{\mathbb{E}}\left\lbrack \mathbf{e}^{t} \right\rbrack} = \mathbf{0}$, ${\text{cov}\left(\mathbf{e}^{t} \right)} = \Sigma^{t}$ is the prediction error. The second to last equality is due to the cyclic property of the trace function. This cost is quadratic with respect to ${\hat{\mathbf{u}}}^{t}$ since both $g^{t}$ and ${\overline{\mathbf{y}}}^{t}$ are linear with respect to ${\hat{\mathbf{u}}}^{t}$. $\square$ The stochastic control cost adds a $\left. \parallel g^{t}\parallel \right._{2}^{2}$-regularization term to the nominal cost. Such regularization is required in direct DDPC for well-definedness and is proposed to enhance robustness in indirect DDPC. However, it was unclear how to tune the weighting factor for the regularizer other than trial and error. By considering the regularizer as the uncertainty term in the expected output cost, the weighting factor can be reliably selected as ${tr}\left({\overline{Q}T} \right)$, which depends on the output cost matrix and the noise level.
 
 ### Initial Condition Estimation
 
-In model-based output-feedback MPC, an estimator has to be designed to estimate the initial state of the predictor, which is not measurable. This is not required in DDPC since the output initial condition ${\overline{\mathbf{y}}}_{\text{ini}}^{t}$ can be directly measured. In fact, in most existing DDPC implementations with stochastic data, the output initial condition ${\overline{\mathbf{y}}}_{\text{ini}}^{t}$ comes from measurements as in the deterministic case, i.e., ${\overline{\mathbf{y}}}_{\text{ini}}^{t}:={(y_{k})}_{k = {t - L_{0}}}^{t - 1}$. Thus, the associated covariance $P_{t} = {\sigma^{2}{\mathbb{I}}}$ is constant in. This source of uncertainty can be alleviated by choosing a larger $L_{0}$. On the other hand, in the presence of stochastic uncertainties, a properly designed estimator can estimate the initial state with a diminishing covariance that is much smaller than the noise level in the measurements.
+In model-based output-feedback MPC, an estimator has to be designed to estimate the initial state of the predictor, which is not measurable. This is not required in DDPC since the output initial condition ${\overline{\mathbf{y}}}_{\text{ini}}^{t}$ can be directly measured. In fact, in most existing DDPC implementations with stochastic data, the output initial condition ${\overline{\mathbf{y}}}_{\text{ini}}^{t}$ comes from measurements as in the deterministic case, i.e., ${\overline{\mathbf{y}}}_{\text{ini}}^{t}:={(y_{k})}_{k = {t - L_{0}}}^{t - 1}$. Thus, the associated covariance $P_{t} = {\sigma^{2}{\mathbb{I}}}$ is constant . This source of uncertainty can be alleviated by choosing a larger $L_{0}$. On the other hand, in the presence of stochastic uncertainties, a properly designed estimator can estimate the initial state with a diminishing covariance that is much smaller than the noise level in the measurements.
 
 Therefore, although not required, it can be beneficial to improve the output initial condition measurements based on output predictions at previous time steps by designing an estimator, especially in cases where the online measurement error is large. In this subsection, a Kalman filter is designed as the estimator. In particular, we replace $y_{k}$ with its Kalman-filtered counterpart for the output initial condition. This reduces the prediction errors by shrinking $P_{t}$ as time progresses.
 
-In detail, the same predictor for predictive control design at time $({t - 1})$ is used to filter the output at time $t$ and update ${\overline{\mathbf{y}}}_{\text{ini}}^{t}$. The predictor can be considered as a non-minimal state-space "model" with "state"
-
-Let ${\overline{y}}_{i}^{t}$ and $e_{i}^{t}$ denote the $({i + 1})$-th block element of ${\overline{\mathbf{y}}}^{t}$ and $\mathbf{e}^{t}$, respectively, and $\Sigma_{i}^{t}$ be the covariance of $e_{i}^{t}$, i.e., the $({i + 1})$-th $n_{y} \times n_{y}$ block on the diagonal of $\Sigma^{t}$. The data-driven "model" is then given by
-
-where $\Lambda^{k}$ denotes the $k$-step upper shift matrix with ones on the $k$-th superdiagonal. The covariances of the "process noise" $e_{0}^{t}$ and the measurement noise $v_{t}$ are $\Sigma_{0}^{t}$ and $\sigma^{2}{\mathbb{I}}_{n_{y}}$, respectively. Then, a Kalman filter for can be designed to estimate the initial condition ${\overline{x}}_{t}$. Let the state estimate and the output part of the state error covariance be ${\overline{x}}_{t,t}$ and $P_{t,t}$, respectively. Then, the initial conditions for the DDPC problem can be set as ${\text{col}\left( \mathbf{u}_{\text{ini}}^{t},{\overline{\mathbf{y}}}_{\text{ini}}^{t} \right)}:={\overline{x}}_{t,t}$ and $P_{t}:=P_{t,t}$. The Kalman filtering algorithm is summarized in Algorithm 1.
-
-${:={{\overline{\Lambda}{\overline{x}}_{t,t}} + {\text{col}\left( \mathbf{0},{\hat{u}}_{0}^{t},\mathbf{0},{\overline{y}}_{0}^{t} \right)}}},$
-
-${:={{\overline{x}}_{t,{t + 1}} + {\text{col}\left( \mathbf{0},{K_{t + 1}\left( {y_{t} - {\overline{y}}_{0}^{t}} \right)} \right)}}},$
-
-Algorithm 1 Kalman filter in stochastic indirect DDPC
+In detail, the same predictor for predictive control design at time $({t - 1})$ is used to filter the output at time $t$ and update ${\overline{\mathbf{y}}}_{\text{ini}}^{t}$. The predictor can be considered as a non-minimal state-space "model" with "state" Let ${\overline{y}}_{i}^{t}$ and $e_{i}^{t}$ denote the $({i + 1})$-th block element of ${\overline{\mathbf{y}}}^{t}$ and $\mathbf{e}^{t}$, respectively, and $\Sigma_{i}^{t}$ be the covariance of $e_{i}^{t}$, i.e., the $({i + 1})$-th $n_{y} \times n_{y}$ block on the diagonal of $\Sigma^{t}$. The data-driven "model" is then given by where $\Lambda^{k}$ denotes the $k$-step upper shift matrix with ones on the $k$-th superdiagonal. The covariances of the "process noise" $e_{0}^{t}$ and the measurement noise $v_{t}$ are $\Sigma_{0}^{t}$ and $\sigma^{2}{\mathbb{I}}_{n_{y}}$, respectively. Then, a Kalman filter for can be designed to estimate the initial condition ${\overline{x}}_{t}$. Let the state estimate and the output part of the state error covariance be ${\overline{x}}_{t,t}$ and $P_{t,t}$, respectively. Then, the initial conditions for the DDPC problem can be set as ${\text{col}\left(\mathbf{u}_{\text{ini}}^{t},{\overline{\mathbf{y}}}_{\text{ini}}^{t} \right)}:={\overline{x}}_{t,t}$ and $P_{t}:=P_{t,t}$. The Kalman filtering algorithm is summarized in Algorithm 1. ${:={{\overline{\Lambda}{\overline{x}}_{t,t}} + {\text{col}\left(\mathbf{0},{\hat{u}}_{0}^{t},\mathbf{0},{\overline{y}}_{0}^{t} \right)}}},$ ${:={{\overline{x}}_{t,{t + 1}} + {\text{col}\left(\mathbf{0},{K_{t + 1}\left({y_{t} - {\overline{y}}_{0}^{t}} \right)} \right)}}},$ Algorithm 1 Kalman filter in stochastic indirect DDPC
 
 ### Remark 7
 
-Only one-step ahead prediction is required to run the Kalman filter. Here, it is obtained by truncating the same $L^{\prime}$-step ahead predictor used in predictive control for simplicity. One can also similarly construct a one-step ahead data-driven predictor with $L^{\prime} = 1$, specifically for the Kalman filter.
+Only one-step ahead prediction is required to run the Kalman filter. Here, it is obtained by truncating the same $L'$-step ahead predictor used in predictive control for simplicity. One can also similarly construct a one-step ahead data-driven predictor with $L' = 1$, specifically for the Kalman filter.
 
 ### Remark 8
 
@@ -149,59 +110,33 @@ A similar idea was proposed in Alpago et al. for a direct DDPC algorithm. Howeve
 
 ### Chance Constraint Satisfaction
 
-As mentioned in Section 2, the output constraints $y_{t} \in \mathcal{Y}_{t}$ cannot be guaranteed robustly under unbounded noise. Instead, high-probability chance constraints are considered, either element-wise as
-
-where $p$ is the targeted probability. These chance constraints are typically guaranteed by tightening the nominal constraints to account for prediction uncertainties. However, unlike standard model-based predictors with additive uncertainties, the prediction error covariance of the data-driven predictor depends on the particular inputs and initial conditions via $g^{t}$. So the amount of constraint tightening cannot be calculated offline. Define the augmented linear constraints by ${\overline{\mathcal{Y}}}_{t} = \left\{ \mathbf{y} \middle| {{{\overline{H}}^{t}\mathbf{y}} \leq {\overline{q}}^{t}} \right\}$, where
-
-The following lemma guarantees chance constraint satisfaction by constraint tightening.
+As mentioned in Section 2, the output constraints $y_{t} \in \mathcal{Y}_{t}$ cannot be guaranteed robustly under unbounded noise. Instead, high-probability chance constraints are considered, either element-wise as where $p$ is the targeted probability. These chance constraints are typically guaranteed by tightening the nominal constraints to account for prediction uncertainties. However, unlike standard model-based predictors with additive uncertainties, the prediction error covariance of the data-driven predictor depends on the particular inputs and initial conditions via $g^{t}$. So the amount of constraint tightening cannot be calculated offline. Define the augmented linear constraints by ${\overline{\mathcal{Y}}}_{t} = \left\{ \mathbf{y} \middle| {{{\overline{H}}^{t}\mathbf{y}} \leq {\overline{q}}^{t}} \right\}$, where The following lemma guarantees chance constraint satisfaction by constraint tightening.
 
 ### Lemma 9
 
 guarantees the satisfaction of the chance constraints if $\mu \geq \sqrt{\frac{1}{1 - p} - 1}$ and if $\mu \geq \sqrt{\frac{n_{y}}{1 - p}}$.
 
-Applying the one-sided Chebyshev's inequality, we have
+Applying the one-sided Chebyshev's inequality, we have where ${\text{std}\left({{\overline{h}}_{i}^{t}{\hat{\mathbf{y}}}^{t}} \right)} = \sqrt{{\overline{h}}_{i}^{t}\Sigma^{t}{\overline{h}}_{i}^{t\top}}$. From, we have Equations and lead to for $\mu \geq \sqrt{\frac{1}{1 - p} - 1}$.
 
-where ${\text{std}\left( {{\overline{h}}_{i}^{t}{\hat{\mathbf{y}}}^{t}} \right)} = \sqrt{{\overline{h}}_{i}^{t}\Sigma^{t}\left. h \right.¯_{}^{}}$. From, we have
-
-Equations and lead to for $\mu \geq \sqrt{\frac{1}{1 - p} - 1}$.
-
-From the multi-dimensional Chebyshev's inequality, the ellipsoidal set
-
-is a confidence region of prediction error $\mathbf{e}^{t}$ with at least probability $p$. Then, the chance constraint is satisfied if
-
-where $\ominus$ denotes the Pontryagin difference. For polytope ${\overline{\mathcal{Y}}}_{t}$ and ellipsoid $\mathcal{E}_{t}$, we have
-
-where ${\eta_{\mathcal{E}_{t}}\left( {\overline{h}}_{i} \right)}:=\sqrt{\frac{n_{y}}{1 - p}{\overline{h}}_{i}^{\top}\Sigma^{t}{\overline{h}}_{i}}$ is the support function of $\mathcal{E}_{t}$. Aggregating the constraints for all $i$ leads to for $\mu \geq \sqrt{\frac{n_{y}}{1 - p}}$. $\square$
+From the multi-dimensional Chebyshev's inequality, the ellipsoidal set is a confidence region of prediction error $\mathbf{e}^{t}$ with at least probability $p$. Then, the chance constraint is satisfied if where $\ominus$ denotes the Pontryagin difference. For polytope ${\overline{\mathcal{Y}}}_{t}$ and ellipsoid $\mathcal{E}_{t}$, we have where ${\eta_{\mathcal{E}_{t}}\left({\overline{h}}_{i} \right)}:=\sqrt{\frac{n_{y}}{1 - p}{\overline{h}}_{i}^{\top}\Sigma^{t}{\overline{h}}_{i}}$ is the support function of $\mathcal{E}_{t}$. Aggregating the constraints for all $i$ leads to for $\mu \geq \sqrt{\frac{n_{y}}{1 - p}}$. $\square$
 
 ### Remark 10
 
-Let $F_{\chi_{d}^{2}}{( \cdot )}$ and $F_{\mathcal{N}}{( \cdot )}$ be the cumulative distribution function of the $\chi^{2}$-distribution with $d$ degrees of freedom and the unit Gaussian distribution, respectively. The lemma can be tightened if Gaussian uncertainties are considered, i.e., both $v_{t}$ and $\mathbf{w}^{t}$ are Gaussian, by choosing ${F_{\mathcal{N}}{(\mu)}} \geq p$ for and ${F_{\chi_{n_{y}}^{2}}{(\mu^{2})}} \geq p$ for, respectively. The proof is very similar to that of Lemma 9.
+Let $F_{\chi_{d}^{2}}{( \cdot )}$ and $F_{\mathcal{N}}{( \cdot )}$ be the cumulative distribution function of the $\chi^{2}$-distribution with $d$ degrees of freedom and the unit Gaussian distribution, respectively. The lemma can be tightened if Gaussian uncertainties are considered, i.e., both $v_{t}$ and $\mathbf{w}^{t}$ are Gaussian, by choosing ${F_{\mathcal{N}}{(\mu)}} \geq p$ for and ${F_{\chi_{n_{y}}^{2}}{(\mu^{2})}} \geq p$ , respectively. The proof is very similar to that of Lemma 9.
 
 Unfortunately, the tightened constraint is not convex. The following corollary provides a convex surrogate of.
 
 ### Corollary 11
 
-The SOC constraint
+The SOC constraint guarantees the satisfaction of.
 
-guarantees the satisfaction of.
+Since $\sqrt{\sum_{i}a_{i}} \leq {\sum_{i}\sqrt{a_{i}}}$, we have The proposed stochastic indirect DDPC algorithm is summarized in Algorithm 2.
 
-Since $\sqrt{\sum_{i}a_{i}} \leq {\sum_{i}\sqrt{a_{i}}}$, we have
-
-The proposed stochastic indirect DDPC algorithm is summarized in Algorithm 2.
-
-1:Select a data-driven predictor and calculate predictor parameters from and.
-2:Initialize the Kalman filter from Algorithm 1.
-4: ${\text{col}\left( \mathbf{u}_{\text{ini}}^{t},\mathbf{y}_{\text{ini}}^{t} \right)}\leftarrow{\overline{x}}_{t,t}$, Pt ← Pt, t
-5: ${\hat{\mathbf{u}}}^{t}\leftarrow{{\text{arg}\underset{{\hat{\mathbf{u}}}^{t}}{\text{min}}}\quad{()}\quad{\text{s.t.~}()},{()},{()},{()}}$.
-6: Apply ut = û0t to the system and measure yt.
-7: Run the Kalman filter from Algorithm 1.
-Algorithm 2 Stochastic indirect DDPC
+1:Select a data-driven predictor and calculate predictor parameters from and. 2:Initialize the Kalman filter from Algorithm 1. 4: ${\text{col}\left(\mathbf{u}_{\text{ini}}^{t},\mathbf{y}_{\text{ini}}^{t} \right)}\leftarrow{\overline{x}}_{t,t}$, Pt ← Pt, t 5: ${\hat{\mathbf{u}}}^{t}\leftarrow{{\text{arg}\underset{{\hat{\mathbf{u}}}^{t}}{\text{min}}}\quad{}\quad{\text{s.t.~}},{},{},{}}$. 6: Apply ut = û0t to the system and measure yt. 7: Run the Kalman filter from Algorithm 1. Algorithm 2 Stochastic indirect DDPC
 
 ## Numerical Example
 
-In this section, we compare the performance of nominal DDPC (N-DDPC), DDPC with initial condition estimation in Algorithm 1 (KF-DDPC), and stochastic DDPC in Algorithm 2 (S-DDPC). Consider the following fourth-order dynamics:
-
-The following parameters are used in the example: $L_{0} = 4$, $L^{\prime} = 10$, $Q = 20$, $R = 1$, $\sigma^{2} = 0.01$, $p = 0.95$. An offline trajectory of length 500 is collected with unit Gaussian inputs and the signal matrix is constructed with a Hankel structure, which leads to $M = 487$. The statistics of the disturbance are given by ${\overline{\mathbf{w}}}^{t} = \mathbf{0}$ and $\Sigma_{w} = {0.001 \cdot {\mathbb{I}}}$. The elementwise chance constraints are used. The same online noise and disturbance sequences are used to compare the three algorithms. The minimum mean-squared error predictor in Yin et al. is employed as the predictor. No input constraint is considered in this example, i.e., $\mathcal{U}_{t} = {\mathbb{R}}$. Upper and lower output bounds are specified as the output constraints.
+In this section, we compare the performance of nominal DDPC (N-DDPC), DDPC with initial condition estimation in Algorithm 1 (KF-DDPC), and stochastic DDPC in Algorithm 2 (S-DDPC). Consider the following fourth-order dynamics: The following parameters are used in the example: $L_{0} = 4$, $L' = 10$, $Q = 20$, $R = 1$, $\sigma^{2} = 0.01$, $p = 0.95$. An offline trajectory of length 500 is collected with unit Gaussian inputs and the signal matrix is constructed with a Hankel structure, which leads to $M = 487$. The statistics of the disturbance are given by ${\overline{\mathbf{w}}}^{t} = \mathbf{0}$ and $\Sigma_{w} = {0.001 \cdot {\mathbb{I}}}$. The elementwise chance constraints are used. The same online noise and disturbance sequences are used to compare the three algorithms. The minimum mean-squared error predictor in Yin et al. is employed as the predictor. No input constraint is considered in this example, i.e., $\mathcal{U}_{t} = {\mathbb{R}}$. Upper and lower output bounds are specified as the output constraints.
 
 The closed-loop trajectories of the algorithms are presented in Figure 1, alongside the reference trajectory and the output bounds. As observed in Figure 1, KF-DDPC outperforms N-DDPC by introducing the initial condition estimator, although constraint violations are still evident. S-DDPC further enhances KF-DDPC, particularly in terms of constraint satisfaction. To underscore the effectiveness of the Kalman filter, Figure 2 showcases the comparison between the filtered output initial conditions and the measured ones for S-DDPC. The filtered trajectory is notably closer to the true trajectory compared to the measured trajectory.
 

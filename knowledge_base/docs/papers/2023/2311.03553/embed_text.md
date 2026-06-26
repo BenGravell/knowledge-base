@@ -12,9 +12,7 @@ Optimization-based planners scale polynomially rather than exponentially with th
 
 Thus, optimization approaches are typically combined with a sampling-based planner that generates an initial path with a simplified version of the dynamics, e.g., a geometric planner that avoids obstacles. This strategy is not guaranteed to produce valid motion plans and requires in-depth knowledge of the dynamical system to choose an informative, yet simple enough, dynamics model. For instance, a simple linear position model can be used to plan quadcopter motions around the hovering state but fails to plan trajectories that recover from upside-down configurations.
 
-Our main contribution is Iterative Discontinuity Bounded A\* (iDb-A\*), a novel kinodynamic motion planner that combines a search algorithm, Discontinuity-Bounded A\* (Db-A\*), and trajectory optimization in an Iterative fashion.
-
-iDb-A\* combines key ideas and strengths of the previously introduced methods. We rely on a graph search with short trajectories that are connected with bounded discontinuity because it provides a theoretically grounded exploration-exploitation trade-off. We avoid predefined discretization and instead use a set of randomized motions similar to sampling-based planning.
+Our main contribution is Iterative Discontinuity Bounded A\* (iDb-A\*), a novel kinodynamic motion planner that combines a search algorithm, Discontinuity-Bounded A\* (Db-A\*), and trajectory optimization in an Iterative fashion. iDb-A\* combines key ideas and strengths of the previously introduced methods. We rely on a graph search with short trajectories that are connected with bounded discontinuity because it provides a theoretically grounded exploration-exploitation trade-off. We avoid predefined discretization and instead use a set of randomized motions similar to sampling-based planning.
 
 Introducing discontinuity when connecting primitives makes the search tractable: we can reuse the primitives and have a finite number of states to expand. While the output trajectory of the search algorithm is not feasible, it can be used as an initial guess for trajectory optimization that locally repairs the discontinuous trajectory into a valid one. We execute search and optimization iteratively, where the value of the discontinuity bound decreases with each iteration, and the number of primitives increases. For large discontinuity bounds, the search is fast, but the optimizer might fail to find a valid solution. For small bounds, the search requires a longer runtime, but the optimizer has a better initial guess. Thus, the iterative combination results in an efficient anytime planner with probabilistic optimality guarantees.
 
@@ -22,9 +20,7 @@ Our algorithm is implemented in C++ and is publicly available. Our second contri
 
 Statement of Extension: This article is based on our previous conference paper, but it provides algorithmic improvements, a faster implementation, and a more extensive evaluation, which includes several problems that require obstacle avoidance and aggressive movements with flying robots.
 
-*New Algorithmic Contributions:*
-
-A new strategy to optimize trajectories with free terminal time in the optimization step of iDb-A\*.
+*New Algorithmic Contributions:* A new strategy to optimize trajectories with free terminal time in the optimization step of iDb-A\*.
 
 The generalization of iDb-A\* from translation-invariant systems to systems without invariance (e.g., the acrobot), or with additional linear velocity invariance (e.g., multirotors).
 
@@ -50,7 +46,7 @@ Hybrid approaches combine search, sampling, and optimization. For instance, one 
 
 Our algorithm, iDb-A\*, combines ideas and tools from the three main approaches to kinodynamic motion planning. The most closely related works are methods that reuse edges within a sampling-based planning framework and search-based methods with duplicate detection. Compared to these works, we include trajectory optimization and reuse locally optimal precomputed motion primitives interconnected with bounded discontinuity for better success and faster convergence.
 
-Apart from the aforementioned approaches, a popular approach to kinodynamic motion planning problems is to first plan with simplified dynamic models and to use trajectory optimization or a local controller to follow the reference path while accounting for the true dynamics. The simplest model is a geometric model (holonomic, first-order integrator), which enables geometric motion planning with, e.g., RRT, RRT\*, PRM, or PRM\*. Second-order systems can be approximated by a double integrator linear model.
+Apart from the aforementioned approaches, a popular approach to kinodynamic motion planning problems is to first plan with simplified dynamic models and to use trajectory optimization or a local controller to follow the reference path while accounting for the true dynamics. The simplest model is a geometric model (holonomic, first-order integrator), which enables geometric motion planning , e.g., RRT, RRT\*, PRM, or PRM\*. Second-order systems can be approximated by a double integrator linear model.
 
 The trajectories computed with simplified dynamics can then be used as initial guesses for trajectory optimization (that is, optimization-based approaches as previously discussed), model predictive control, or system-specific controllers for quadcopters, unicycle-like robots, or car-like robots. System-specific motion planners can exploit certain properties of the dynamics, such as differential flatness in quadcopters, which allows faster motion planning as shown for quadcopters and for some specific fixed-wing UAVs. However, differential flatness cannot account for actuation constraints directly---leading to either conservative or infeasible trajectories, especially for small UAVs with a low thrust-to-weight ratio.
 
@@ -58,21 +54,9 @@ Notably, planning with simplified dynamics does not guarantee the generation of 
 
 ## Problem Description
 
-We consider a robot with a continuous state $\mathbf{x} \in \mathcal{X}$ (e.g., $\mathcal{X} \subseteq {\mathbb{R}}^{d_{x}}$) that is actuated by actions $\mathbf{u} \in \mathcal{U} \subset {\mathbb{R}}^{d_{u}}$. The dynamics of the robot are deterministic, described by a differential equation,
+We consider a robot with a continuous state $\mathbf{x} \in \mathcal{X}$ (e.g., $\mathcal{X} \subseteq {\mathbb{R}}^{d_{x}}$) that is actuated by actions $\mathbf{u} \in \mathcal{U} \subset {\mathbb{R}}^{d_{u}}$. The dynamics of the robot are deterministic, described by a differential equation, To employ gradient-based optimization, we assume that we can compute the Jacobian of $\mathbf{f}$ with respect to $\mathbf{x}$ and $\mathbf{u}$, typically available in systems studied in kinodynamic motion planning, such as mobile robots or rigid-body articulated systems. We use $\mathcal{X}_{\text{free}} \subseteq \mathcal{X}$ to denote the collision-free space, i.e., the subset of states that are not in collision with the obstacles in the environment.
 
-To employ gradient-based optimization, we assume that we can compute the Jacobian of $\mathbf{f}$ with respect to $\mathbf{x}$ and $\mathbf{u}$, typically available in systems studied in kinodynamic motion planning, such as mobile robots or rigid-body articulated systems. We use $\mathcal{X}_{\text{free}} \subseteq \mathcal{X}$ to denote the collision-free space, i.e., the subset of states that are not in collision with the obstacles in the environment.
-
-We discretize the dynamics with a zero-order hold, i.e., we assume the applied action is constant during a time step of duration $\Deltat$. The discretized dynamics can then be written as,
-
-using a small $\Deltat$ to ensure the accuracy of the Euler approximation. We use $K \in {\mathbb{N}}$ to denote the number of time steps (which is not fixed but subject to optimization), $\mathbf{X} = {\langle\mathbf{x}_{0},\mathbf{x}_{1},\ldots,\mathbf{x}_{K}\rangle}$ to denote the sequence of states sampled at times $0,{\Deltat},\ldots,{K\Deltat}$ and $\mathbf{U} = {\langle\mathbf{u}_{0},\mathbf{u}_{1},\ldots,\mathbf{u}_{K - 1}\rangle}$ to denote the sequence of actions applied to the system for the time frames ${\lbrack 0,{\Deltat})},{\lbrack{\Deltat},{2\Deltat})},\ldots,{\lbrack{{({K - 1})}\Deltat},{K\Deltat})}$. The objective of navigating the robot from its start state $\mathbf{x}_{s}$ to a goal state $\mathbf{x}_{g}$ can then be framed as the optimization problem,
-
-${{\min\limits_{\mathbf{U},\mathbf{X},K}J}{(\mathbf{U},\mathbf{X})}},$ (3a)
-s.t. $\mathbf{x}_{k + 1} = {\text{step}{(\mathbf{x}_{k},\mathbf{u}_{k})}}$ ${{\forall k} \in {\{ 0,\ldots,{K - 1}\}}},$ (3b)
-$\mathbf{u}_{k} \in \mathcal{U}$ ${{\forall k} \in {\{ 0,\ldots,{K - 1}\}}},$ (3c)
-$\mathbf{x}_{k} \in \mathcal{X}_{\text{free}} \subseteq \mathcal{X}$ ${{\forall k} \in {\{ 0,\ldots,K\}}},$ (3d)
-${{\mathbf{x}_{0} = \mathbf{x}_{s}};{\mathbf{x}_{K} = \mathbf{x}_{g}}},$ (3e)
-
-with the cost term ${J{(\mathbf{U},\mathbf{X})}} = {\sum_{k = 0}^{K - 1}{j{(\mathbf{u}_{k},\mathbf{x}_{k})}\Deltat}}$, where ${j{(\mathbf{u}_{k},\mathbf{x}_{k})}} \geq 0$. In this paper, we will focus on time-optimal trajectories, i.e., ${j{(\mathbf{u}_{k},\mathbf{x}_{k})}} = 1$; ${J{(\mathbf{U},\mathbf{X},K)}} = {K\Deltat}$, but our framework can be applied to optimize any additive cost function, for example, minimum control effort ${j{(\mathbf{u}_{k},\mathbf{x}_{k})}} = {\|\mathbf{u}_{k}\|}^{2}$.
+We discretize the dynamics with a zero-order hold, i.e., we assume the applied action is constant during a time step of duration $\Deltat$. The discretized dynamics can then be written as, using a small $\Deltat$ to ensure the accuracy of the Euler approximation. We use $K \in {\mathbb{N}}$ to denote the number of time steps (which is not fixed but subject to optimization), $\mathbf{X} = {\langle\mathbf{x}_{0},\mathbf{x}_{1},\ldots,\mathbf{x}_{K}\rangle}$ to denote the sequence of states sampled at times $0,{\Deltat},\ldots,{K\Deltat}$ and $\mathbf{U} = {\langle\mathbf{u}_{0},\mathbf{u}_{1},\ldots,\mathbf{u}_{K - 1}\rangle}$ to denote the sequence of actions applied to the system for the time frames ${\lbrack 0,{\Deltat})},{\lbrack{\Deltat},{2\Deltat})},\ldots,{\lbrack{{({K - 1})}\Deltat},{K\Deltat})}$. The objective of navigating the robot from its start state $\mathbf{x}_{s}$ to a goal state $\mathbf{x}_{g}$ can then be framed as the optimization problem, with the cost term ${J{(\mathbf{U},\mathbf{X})}} = {\sum_{k = 0}^{K - 1}{j{(\mathbf{u}_{k},\mathbf{x}_{k})}\Deltat}}$, where ${j{(\mathbf{u}_{k},\mathbf{x}_{k})}} \geq 0$. In this paper, we will focus on time-optimal trajectories, i.e., ${j{(\mathbf{u}_{k},\mathbf{x}_{k})}} = 1$; ${J{(\mathbf{U},\mathbf{X},K)}} = {K\Deltat}$, but our framework can be applied to optimize any additive cost function, for example, minimum control effort ${j{(\mathbf{u}_{k},\mathbf{x}_{k})}} = {\|\mathbf{u}_{k}\|}^{2}$.
 
 We assume the dynamics function $\text{step}{(\mathbf{x},\mathbf{u})}$, control space $\mathcal{U}$, state space $\mathcal{X}$, and cost function $j{(\mathbf{x},\mathbf{u})}$, are known before solving the problem, which allows us to precompute motion primitives.
 
@@ -82,48 +66,29 @@ Consider a unicycle robot with state $\mathbf{x} = {\lbrack x,y,\theta\rbrack} \
 
 ### Example 2
 
-Consider a quadrotor $\mathbf{x} = {\lbrack\mathbf{p},\mathbf{v},\mathbf{q},\mathbf{w}\rbrack}$ in ${{\mathbb{R}}^{9} \times S}O{}$ where $\mathbf{p}$ represents the position, $\mathbf{v}$ is the velocity, $\mathbf{q}$ represents the orientation using a quaternion, and $\mathbf{w}$ is the angular velocity in the body frame. The control input is the force at each rotor, $\mathbf{u} \in {\mathbb{R}}^{4}$. The dynamics are,
-
-${\overset{˙}{\mathbf{v}} = {{m^{- 1}\mathbf{R}{(\mathbf{q})}\mathbf{B}_{1}\mathbf{u}} + \mathbf{g}}},$ (4a)
-${\overset{˙}{\mathbf{w}} = {\mathbf{I}^{- 1}{({{\mathbf{B}_{0}\mathbf{u}} - {\mathbf{w} \times {\mathbf{I}\mathbf{w}}}})}}},$ (4b)
-${{\overset{˙}{\mathbf{p}} = \mathbf{v}},{\overset{˙}{\mathbf{q}} = {{\frac{1}{2}\mathbf{q}} \otimes \mathbf{w}}}},$ (4c)
-
-where $m$ is the mass, $\mathbf{I}$ represents the inertia matrix, $\mathbf{g}$ is the gravity vector, $\mathbf{R}{(\mathbf{q})}$ is the rotation matrix corresponding to the quaternion $\mathbf{q}$, and $\otimes$ denotes the quaternion product. The matrices ${\mathbf{B}_{0},\mathbf{B}_{1}} \in {\mathbb{R}}^{3 \times 4}$ are constant and depend on the quadcopter's geometry. The parameters of the Bitcraze Crazyflie 2.1 robot are used, which, with a very low thrust-to-weight ratio of 1.3 (i.e., $0 \leq u_{i} \leq {{1.3 \times g \times m}/4}$), pose significant challenges for kinodynamic motion planning.
+Consider a quadrotor $\mathbf{x} = {\lbrack\mathbf{p},\mathbf{v},\mathbf{q},\mathbf{w}\rbrack}$ in ${{\mathbb{R}}^{9} \times S}O{}$ where $\mathbf{p}$ represents the position, $\mathbf{v}$ is the velocity, $\mathbf{q}$ represents the orientation using a quaternion, and $\mathbf{w}$ is the angular velocity in the body frame. The control input is the force at each rotor, $\mathbf{u} \in {\mathbb{R}}^{4}$. The dynamics are, where $m$ is the mass, $\mathbf{I}$ represents the inertia matrix, $\mathbf{g}$ is the gravity vector, $\mathbf{R}{(\mathbf{q})}$ is the rotation matrix corresponding to the quaternion $\mathbf{q}$, and $\otimes$ denotes the quaternion product. The matrices ${\mathbf{B}_{0},\mathbf{B}_{1}} \in {\mathbb{R}}^{3 \times 4}$ are constant and depend on the quadcopter's geometry. The parameters of the Bitcraze Crazyflie 2.1 robot are used, which, with a very low thrust-to-weight ratio of 1.3 (i.e., $0 \leq u_{i} \leq {{1.3 \times g \times m}/4}$), pose significant challenges for kinodynamic motion planning.
 
 Figure 2: Visual representation of iDb-A* in the problem Planar rotor – Recovery obstacles (i.e., a recovery maneuver with a planar multirotor). Start and goal configurations are shown in solid green (note that the multirotor starts upside down) and red, respectively. (a) In the search step of iDb-A*, called Db-A*, we expand states (in this case, the initial state) using motion primitives that are applicable with bounded discontinuity. (b) Intermediate search tree during the execution of Db-A*. For visualization, the 6D configuration space is projected into a 2D space. (c) Solution found by Db-A*. The transparent, border-only green and red shapes show the start and end of each motion primitive, respectively. They do not match exactly, which highlights the allowed discontinuities when stitching motion primitives (note that the discontinuities in the velocities are not shown in this 2D representation). (d) The output of Db-A* is used to warm-start nonlinear trajectory optimization. The resulting trajectory, shown in blue, fulfills the dynamics constraints and is locally optimal.
 
 ## iDb-A\* - Overview
 
-Our iterative approach, which combines search and optimization, is detailed in Algorithm 1. We require a *large* set of *motion primitives* $\mathcal{M}_{L}$, which will be used incrementally and can be computed offline. Motion primitives are short trajectories that fulfill our dynamics (see Definition 1. ‣ V Discontinuity Bounded A* Search ‣ iDb-A*: Iterative Search and Optimization for Optimal Kinodynamic Motion Planning") and Section VII for a formal definition and details on primitive generation). In every iteration of iDb-A\*, the following steps are performed:
-
-We increase the number of available motion primitives for the search (by choosing new primitives from $\mathcal{M}_{L}$) and decrease the allowed discontinuity bound $\delta$ (Algorithms 1 and 1).
+Our iterative approach, which combines search and optimization, is detailed in Algorithm 1. We require a *large* set of *motion primitives* $\mathcal{M}_{L}$, which will be used incrementally and can be computed offline. Motion primitives are short trajectories that fulfill our dynamics (see Definition 1. ‣ V Discontinuity Bounded A* Search ‣ iDb-A*: Iterative Search and Optimization for Optimal Kinodynamic Motion Planning") and Section VII for a formal definition and details on primitive generation). In every iteration of iDb-A\*, the following steps are performed: We increase the number of available motion primitives for the search (by choosing new primitives from $\mathcal{M}_{L}$) and decrease the allowed discontinuity bound $\delta$ (Algorithms 1 and 1).
 
 The discrete planner, Db-A\*, computes a trajectory using the current set of motion primitives. This trajectory may include a bounded violation of the dynamic constraints (Db-A\* in Algorithm 1, see Section V).
 
 The result of Db-A\* is used to initialize an optimization-based motion planner that attempts to compute a feasible and locally optimal trajectory (Algorithm 1). See Optimization (Section VI).
 
-Additional motion primitives are extracted from the output of the trajectory optimization (Extract Primitives in Algorithm 1).
-
-iDb-A\* executes a sequence of A\*-searches using a growing, randomized set of motion primitives, akin to Batch Informed Tree (BIT\*), a successful sampling-based planner for geometric motion planning. In each iteration, the computation time and the success of the search and optimization steps depend on the number of motion primitives $n_{i} = {|\mathcal{M}_{i}|}$ and the allowed discontinuity bound $\delta_{i}$. We can choose AddPrimitives (Algorithm 1) and DecreaseDelta (Algorithm 1) so that these parameters follow geometric sequences $n_{i + 1} = {n_{i}n_{r}}$ and $\delta_{i + 1} = {\delta_{i}\delta_{r}}$, with $n_{r} > 1$, $\delta_{r} < 1$ and initial values $n_{0}$, $\delta_{0}$. We find this strategy easier to tune than the alternative approach presented in our prior work, where we choose only the scheduling for the number of motion primitives and estimate the allowed discontinuity bound based on a desired approximate branching factor.
+Additional motion primitives are extracted from the output of the trajectory optimization (Extract Primitives in Algorithm 1). iDb-A\* executes a sequence of A\*-searches using a growing, randomized set of motion primitives, akin to Batch Informed Tree (BIT\*), a successful sampling-based planner for geometric motion planning. In each iteration, the computation time and the success of the search and optimization steps depend on the number of motion primitives $n_{i} = {|\mathcal{M}_{i}|}$ and the allowed discontinuity bound $\delta_{i}$. We can choose AddPrimitives (Algorithm 1) and DecreaseDelta (Algorithm 1) so that these parameters follow geometric sequences $n_{i + 1} = {n_{i}n_{r}}$ and $\delta_{i + 1} = {\delta_{i}\delta_{r}}$, with $n_{r} > 1$, $\delta_{r} < 1$ and initial values $n_{0}$, $\delta_{0}$. We find this strategy easier to tune than the alternative approach presented in our prior work, where we choose only the scheduling for the number of motion primitives and estimate the allowed discontinuity bound based on a desired approximate branching factor.
 
 Motion primitives can also be extracted online in Algorithm 1. The ExtractPrimitives procedure utilizes the output of the optimization by dividing the trajectory into small sections. The resulting primitives can be particularly useful for the planning problem at hand as they are computed with full knowledge of the environment.
 
 A visual representation of some key components of iDb-A\* is shown in Fig. 2 using the problem *Planar rotor -- Recovery obstacles*.
 
-Input: xs, xg, step, 𝒳free, 𝒰, ℳL
-⊳ Initial Set of motion primitives
-⊳ Solution cost bound
-4 Xd, Ud← Db-A*(xs, xg, 𝒳free, ℳi, δi, cmax)
-5 if Xd, Ud successfully computed then
-6 X, U← Optimization(Xd, Ud, xs, xg, step, 𝒳free, 𝒰)
-7 if X, U successfully computed then
-⊳ New solution found
-cmax ← min (cmax,J (X,U))
-Algorithm 1 iDb-A* – Iterative Discontinuity Bounded A*
+Input: xs, xg, step, 𝒳free, 𝒰, ℳL ⊳ Initial Set of motion primitives ⊳ Solution cost bound 4 Xd, Ud← Db-A*(xs, xg, 𝒳free, ℳi, δi, cmax) 5 if Xd, Ud successfully computed then 6 X, U← Optimization(Xd, Ud, xs, xg, step, 𝒳free, 𝒰) 7 if X, U successfully computed then ⊳ New solution found cmax ← min (cmax, J (X, U)) Algorithm 1 iDb-A* – Iterative Discontinuity Bounded A*
 
 ## Discontinuity Bounded A\* Search
 
-Figure 3: (a, b, c) A graphical description of Db-A*. The gray edges represent motion primitives, and the states xs and xg are the start and the goal, respectively. (a) Given an initial state xs, we can only apply primitives that start with a discontinuity lower than α δ (gray circumference) and are collision-free. The applicable primitives are shown with solid black edges. (b) The search is ordered by a heuristic (e.g., the Euclidean heuristic, shown with a dotted line for the best node) and the cost-to-come. When expanding a node, we create new states only if they are not within (1−α) δ of a previously discovered state (i.e., the dashed edge is not expanded). (c) The search is terminated when a node close to the goal is expanded. (d) The solution of Db-A* will be used to warm-start a trajectory optimization algorithm that repairs the discontinuities and locally optimizes the trajectory. The optimized trajectory is shown in blue.
+Figure 3: (a, b, c) A graphical description of Db-A*. The gray edges represent motion primitives, and the states xs and xg are the start and the goal, respectively. (a) Given an initial state xs, we can only apply primitives that start with a discontinuity lower than α δ (gray circumference) and are collision-free. The applicable primitives are shown with solid black edges. (b) The search is ordered by a heuristic (e.g., the Euclidean heuristic, shown with a dotted line for the best node) and the cost-to-come. When expanding a node, we create new states only if they are not within (1 − α) δ of a previously discovered state (i.e., the dashed edge is not expanded). (c) The search is terminated when a node close to the goal is expanded. (d) The solution of Db-A* will be used to warm-start a trajectory optimization algorithm that repairs the discontinuities and locally optimizes the trajectory. The optimized trajectory is shown in blue.
 
 Discontinuity Bounded A\* (Db-A\*) is a search algorithm that uses a set of motion primitives, which are connected while allowing for a maximum discontinuity.
 
@@ -137,15 +102,7 @@ In the following, we rely on a user-specified *metric* $d:{{\mathcal{X} \times \
 
 ### Definition 2
 
-The pair of sequences $\mathbf{X} = {\langle\mathbf{x}_{0},\ldots,\mathbf{x}_{K}\rangle}$, $\mathbf{U} = {\langle\mathbf{u}_{0},\ldots,\mathbf{u}_{K - 1}\rangle}$ is a $\delta$-discontinuity bounded solution (with $\delta > 0$) to the kinodynamic motion planning problem 3 if and only if the following conditions hold:
-
-${{{d{(\mathbf{x}_{k + 1},{{step}{(\mathbf{x}_{k},\mathbf{u}_{k})}})}} \leq \delta}\mspace{21mu}{{\forall k} \in {\{ 0,\ldots,{K - 1}\}}}},$ (5a)
-${{\mathbf{u}_{k} \in \mathcal{U}}\mspace{21mu}{{\forall k} \in {\{ 0,\ldots,{K - 1}\}}}},$ (5b)
-${{\mathbf{x}_{k} \in \mathcal{X}_{free}}\mspace{21mu}{{\forall k} \in {\{ 0,\ldots,K\}}}},$ (5c)
-${{d{(\mathbf{x}_{0},\mathbf{x}_{s})}} \leq \delta},$ (5d)
-${{d{(\mathbf{x}_{K},\mathbf{x}_{g})}} \leq \delta}.$ (5e)
-
-Intuitively, Definition 2 enforces that the sequences connect the start and goal states with a bounded error $\delta$ in the dynamics, which corresponds to "stitching" primitives together.
+The pair of sequences $\mathbf{X} = {\langle\mathbf{x}_{0},\ldots,\mathbf{x}_{K}\rangle}$, $\mathbf{U} = {\langle\mathbf{u}_{0},\ldots,\mathbf{u}_{K - 1}\rangle}$ is a $\delta$-discontinuity bounded solution (with $\delta > 0$) to the kinodynamic motion planning problem 3 if and only if the following conditions hold: Intuitively, Definition 2 enforces that the sequences connect the start and goal states with a bounded error $\delta$ in the dynamics, which corresponds to "stitching" primitives together.
 
 ### V-A Algorithm
 
@@ -157,23 +114,13 @@ The algorithm is shown in Algorithm 2, and Fig. 3 provides a graphical represent
 
 New states are added to $\mathcal{O}$ (Algorithm 2) only if they are not within ${({1 - \alpha})}\delta$ of previously discovered nodes. If the state is close to a previous node, the previous node is updated if the new cost-to-come is reduced (Algorithm 2). Therefore, unlike A\*, we consider two states to be equivalent if they are within ${({1 - \alpha})}\delta$ of each other.
 
-For computing and updating the cost to come, we consider the cost of the motion primitive $m.c$ and the cost of the discontinuity bound using a lower bound function $l:{{\mathcal{X} \times \mathcal{X}}\rightarrow{\mathbb{R}}^{+}}$ of the true cost. Therefore, given a state $\mathbf{x}$ with cost to come $g{(\mathbf{x})}$, the cost of a new state ${\mathbf{x}^{\prime} = {\mathbf{x} \oplus m} = m}.\mathbf{x}_{f}$ is $g{(\mathbf{x}^{\prime})} = g{(\mathbf{x})} + l{(\mathbf{x},m.\mathbf{x}_{s})} + m.c$ (Algorithm 2).
+For computing and updating the cost to come, we consider the cost of the motion primitive $m.c$ and the cost of the discontinuity bound using a lower bound function $l:{{\mathcal{X} \times \mathcal{X}}\rightarrow{\mathbb{R}}^{+}}$ of the true cost. Therefore, given a state $\mathbf{x}$ with cost to come $g{(\mathbf{x})}$, the cost of a new state ${\mathbf{x}' = {\mathbf{x} \oplus m} = m}.\mathbf{x}_{f}$ is $g{(\mathbf{x}')} = g{(\mathbf{x})} + l{(\mathbf{x},m.\mathbf{x}_{s})} + m.c$ (Algorithm 2).
 
 The search terminates when we find a node that is within $\delta$ distance of the goal state (Algorithm 2).
 
 For efficient search, we employ two k-d trees. The first tree indexes the start states of all provided motion primitives, which can be done once at the beginning. The second k-d tree contains the states of all explored nodes and grows dynamically. It is used to find nearby previously explored states. The discontinuity with a magnitude of up to $\delta$ may occur in two cases: first, when we select suitable motion primitives for expansion (Algorithm 2), and second, when we prune a potential new node in favor of already existing states (Algorithm 2). The tradeoff between the two can be adjusted by a user-specified parameter $\alpha \in {}$.
 
-Input: xs, xg, 𝒳free, ℳ, δ, cmax
-𝒪 ← {Node(x:xs,g:0,h:h(xs),p:None,a:None)} ⊳ Initialize open list (priority queue)
-⊳ Initialize list of closed nodes
-⊳ Remove node with lowest f-value
-⊳ Trace back solution
-⊳ Find applicable motion primitives with discontinuity up to α δ
-⊳ Motion is not collision-free
-⊳ Tentative new state
-⊳ Check if we have previously discovered states within (1−α) δ
-⊳ Update node. If it is in closed list, reinsert in open list.
-Algorithm 2 Db-A* – Discontinuity Bounded A*
+Input: xs, xg, 𝒳free, ℳ, δ, cmax 𝒪 ← {Node(x: xs, g: 0, h: h(xs), p: None, a: None)} ⊳ Initialize open list (priority queue) ⊳ Initialize list of closed nodes ⊳ Remove node with lowest f-value ⊳ Trace back solution ⊳ Find applicable motion primitives with discontinuity up to α δ ⊳ Motion is not collision-free ⊳ Tentative new state ⊳ Check if we have previously discovered states within (1 − α) δ ⊳ Update node. If it is in closed list, reinsert in open list. Algorithm 2 Db-A* – Discontinuity Bounded A*
 
 ### V-B Heuristic Functions
 
@@ -185,9 +132,7 @@ The Euclidean heuristic is based on the Euclidean distance to the goal, consider
 
 ### Roadmap Heuristic
 
-The Roadmap heuristic approximates the collision-free space using a geometric roadmap, thus taking collisions and control bounds into account but ignoring the dynamics. It requires a precomputation step to build the geometric roadmap, which can be reused between iterations of iDb-A\*, and it is usually more informative in problems where obstacles play a significant role. Given a finite set of state-cost pairs $S = \left. \{{(\mathbf{s}_{i},c_{i})} \middle| {{\mathbf{s}_{i} \in \mathcal{X}},{c_{i} \in {\mathbb{R}}}}\} \right.$, the heuristic function is given by:
-
-where $l$ is a lower bound on the cost for reaching $\mathbf{s}_{i}$ from $\mathbf{x}$, and $R$ is a user-defined connection radius. To compute $S$, we construct a roadmap with randomly sampled configurations and annotate each vertex with the geometric cost-to-go (i.e., using the Euclidean heuristic for each collision-free edge). Each query requires a nearest-neighbor search (implemented using a k-d tree).
+The Roadmap heuristic approximates the collision-free space using a geometric roadmap, thus taking collisions and control bounds into account but ignoring the dynamics. It requires a precomputation step to build the geometric roadmap, which can be reused between iterations of iDb-A\*, and it is usually more informative in problems where obstacles play a significant role. Given a finite set of state-cost pairs $S = \left. \{{(\mathbf{s}_{i},c_{i})} \middle| {{\mathbf{s}_{i} \in \mathcal{X}},{c_{i} \in {\mathbb{R}}}}\} \right.$, the heuristic function is given: where $l$ is a lower bound on the cost for reaching $\mathbf{s}_{i}$ from $\mathbf{x}$, and $R$ is a user-defined connection radius. To compute $S$, we construct a roadmap with randomly sampled configurations and annotate each vertex with the geometric cost-to-go (i.e., using the Euclidean heuristic for each collision-free edge). Each query requires a nearest-neighbor search (implemented using a k-d tree).
 
 ### Blind Heuristic
 
@@ -195,9 +140,7 @@ Lastly, we also evaluate the Blind heuristic, where ${h{(\mathbf{x})}} = {0,{\fo
 
 ### Example 3
 
-Consider the unicycle robot, with state and dynamics as in Example 1. Given a state $\mathbf{x} = {\lbrack x,y,\theta\rbrack}$, goal $\mathbf{g} = {\lbrack g_{x},g_{y},g_{\theta}\rbrack}$, and the control bounds ${|v|} \leq v_{\text{max}}$, ${|w|} \leq w_{\text{max}}$, the Euclidean heuristic is:
-
-where $D_{\theta}{( \cdot, \cdot )}$ is the distance metric in SO.
+Consider the unicycle robot, with state and dynamics as in Example 1. Given a state $\mathbf{x} = {\lbrack x,y,\theta\rbrack}$, goal $\mathbf{g} = {\lbrack g_{x},g_{y},g_{\theta}\rbrack}$, and the control bounds ${|v|} \leq v_{\text{max}}$, ${|w|} \leq w_{\text{max}}$, the Euclidean heuristic is: where $D_{\theta}{(\cdot, \cdot)}$ is the distance metric in SO.
 
 ### V-C Equivalence Between Continuous States
 
@@ -231,19 +174,11 @@ The problem is nonconvex even for systems with linear dynamics and constraints, 
 
 ### Joint Optimization of Trajectory and Terminal Time (Free-dt)
 
-This approach adds the duration of the time interval as an optimization variable for joint nonlinear optimization of time and trajectory:
-
-$\min\limits_{\mathbf{X},\mathbf{U},{\Deltat}}$ ${\sum\limits_{k}{\Deltatj{(\mathbf{x}_{k},\mathbf{u}_{k})}}},$ (8a)
-s.t. ${\mathbf{x}_{k + 1} = {\mathbf{x}_{k} + {\mathbf{f}{(\mathbf{x}_{k},\mathbf{u}_{k})}\Deltat}}},$ (8b)
-${{\text{Constraints}()},{()\text{and}()}}.$ (8c)
-
-Here, $\Deltat$ is a variable, initialized to $\Deltat_{\text{ref}}$, the reference value used for time-discretization in the motion primitives for the given dynamical system. The number of time steps $K$ is fixed. After solving (8 ‣ VI Trajectory Optimization ‣ iDb-A*: Iterative Search and Optimization for Optimal Kinodynamic Motion Planning")), we would like to have the solution trajectory discretized with the original time step duration for consistency. Thus, we recompute the state and control trajectories using the reference time step $\Deltat_{\text{ref}}$. This requires i) interpolation of the solution of (8 ‣ VI Trajectory Optimization ‣ iDb-A*: Iterative Search and Optimization for Optimal Kinodynamic Motion Planning")) with $\Deltat_{\text{ref}}$, and ii) a second run of trajectory optimization, now with fixed ${\Deltat} = {\Deltat_{\text{ref}}}$ to repair the small errors arising from the Euler integration with different step sizes (note that the second optimization is very efficient because the interpolation of the solution of (8 ‣ VI Trajectory Optimization ‣ iDb-A*: Iterative Search and Optimization for Optimal Kinodynamic Motion Planning")) is already accurate).
+This approach adds the duration of the time interval as an optimization variable for joint nonlinear optimization of time and trajectory: Here, $\Deltat$ is a variable, initialized to $\Deltat_{\text{ref}}$, the reference value used for time-discretization in the motion primitives for the given dynamical system. The number of time steps $K$ is fixed. After solving (8 ‣ VI Trajectory Optimization ‣ iDb-A*: Iterative Search and Optimization for Optimal Kinodynamic Motion Planning")), we would like to have the solution trajectory discretized with the original time step duration for consistency. Thus, we recompute the state and control trajectories using the reference time step $\Deltat_{\text{ref}}$. This requires i) interpolation of the solution of (8 ‣ VI Trajectory Optimization ‣ iDb-A*: Iterative Search and Optimization for Optimal Kinodynamic Motion Planning")) with $\Deltat_{\text{ref}}$, and ii) a second run of trajectory optimization, now with fixed ${\Deltat} = {\Deltat_{\text{ref}}}$ to repair the small errors arising from the Euler integration with different step sizes (note that the second optimization is very efficient because the interpolation of the solution of (8 ‣ VI Trajectory Optimization ‣ iDb-A*: Iterative Search and Optimization for Optimal Kinodynamic Motion Planning")) is already accurate).
 
 ### Hierarchical Time Search (Search-T)
 
-A hierarchical approach that combines a linear search on the terminal time with trajectory optimization with a fixed terminal time. Given the time bounds $\{ T_{\text{min}},T_{\text{max}}\}$ and a time resolution $h$, we define a set of candidate times $\mathcal{T} = {\{ T_{\text{min}},{T_{\text{min}} + h},\ldots,T_{\text{max}}\}}$, and solve the hierarchical optimization problem:
-
-where $\text{Trajectory\_Optimization}{(T_{i})}$ first rescales temporally the initial guess to have a time duration of $T_{i}$ (the time step size $\Deltat$ is kept constant, but the number of time steps of the trajectory varies) and then solves with a fixed number of time steps $K_{i}$ and fixed $\Deltat$. For time-optimal trajectories, we start the search at $T_{\text{min}}$, and stop at the first $T_{i}$ when $\text{Trajectory\_Optimization}{(T_{i})}$ is feasible. Based on the duration $T_{0}$ of the initial guess, a reasonable choice of the parameters is, e.g., $T_{\text{min}} = {0.5T_{0}}$, $T_{\text{max}} = {2T_{0}}$, and $h = {{({T_{\text{max}} - T_{\text{min}}})}/10}$.
+A hierarchical approach that combines a linear search on the terminal time with trajectory optimization with a fixed terminal time. Given the time bounds $\{ T_{\text{min}},T_{\text{max}}\}$ and a time resolution $h$, we define a set of candidate times $\mathcal{T} = {\{ T_{\text{min}},{T_{\text{min}} + h},\ldots,T_{\text{max}}\}}$, and solve the hierarchical optimization problem: where $\text{Trajectory_Optimization}{(T_{i})}$ first rescales temporally the initial guess to have a time duration of $T_{i}$ (the time step size $\Deltat$ is kept constant, but the number of time steps of the trajectory varies) and then solves with a fixed number of time steps $K_{i}$ and fixed $\Deltat$. For time-optimal trajectories, we start the search at $T_{\text{min}}$, and stop at the first $T_{i}$ when $\text{Trajectory_Optimization}{(T_{i})}$ is feasible. Based on the duration $T_{0}$ of the initial guess, a reasonable choice of the parameters is, e.g., $T_{\text{min}} = {0.5T_{0}}$, $T_{\text{max}} = {2T_{0}}$, and $h = {{({T_{\text{max}} - T_{\text{min}}})}/10}$.
 
 ### VI-A Sliding Window Optimization
 
@@ -253,34 +188,17 @@ The following two approaches are inspired by two optimal control formulations, n
 
 ### Subgoal Following (MPC)
 
-The optimization problem in each step is:
-
-$\min\limits_{\mathbf{X}_{W},\mathbf{U}_{W}}$ ${{k_{1}d{(\mathbf{x}_{W},\mathbf{g})}^{2}} + {\Deltat{\sum\limits_{w}{j{(\mathbf{x}_{w},\mathbf{u}_{w})}}}}},$ (10a)
-s.t. ${{\text{Constraints}()},{()},{\text{and}()}}.$ (10b)
-
-Here, $\mathbf{X}_{W},\mathbf{U}_{W}$ are the sequence of states and controls in the optimization window, $\mathbf{x}_{W}$ is the last state of the current window, and $\mathbf{g}$ is the subgoal state for this optimization window, chosen from the Db-A\* initial guess to encourage making progress in the path. The weight $k_{1} > 0$ combines the objective of minimizing the distance to the subgoal $d{(\mathbf{x}_{W},\mathbf{g})}$ with the original control cost function.
+The optimization problem in each step is: Here, $\mathbf{X}_{W},\mathbf{U}_{W}$ are the sequence of states and controls in the optimization window, $\mathbf{x}_{W}$ is the last state of the current window, and $\mathbf{g}$ is the subgoal state for this optimization window, chosen from the Db-A\* initial guess to encourage making progress in the path. The weight $k_{1} > 0$ combines the objective of minimizing the distance to the subgoal $d{(\mathbf{x}_{W},\mathbf{g})}$ with the original control cost function.
 
 ### Path Following (MPCC)
 
-The optimization problem in each step is:
-
-$\min\limits_{\mathbf{X}_{W},\mathbf{U}_{W},\alpha}$ ${- {k_{1}\alpha}} + {{k_{2}d{(\mathbf{x}_{W},{\pi{(\alpha)}})}^{2}} +}$
-${\Deltat{\sum\limits_{w}{j{(\mathbf{x}_{w},\mathbf{u}_{w})}}}},$ (11a)
-s.t. ${0 \leq \alpha \leq 1},$ (11b)
-${{\text{Constraints}()},{()},{\text{and}()}}.$ (11c)
-
-The function ${\pi{( \cdot )}}:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{X}}$ is a smooth parameterization of the initial guess (e.g., a spline through the waypoints), and the scalar variable $\alpha$ indicates the progress on the path. The term $k_{1}\alpha$, with $k_{1} > 0$, tries to maximize the progress along the path. The term $k_{2}d{(\mathbf{x}_{W},{\pi{(\alpha)}})}^{2}$, with $k_{2} > 0$, minimizes the distance between the last state in the window and the progress on the path. Together, these two terms push the last state $\mathbf{x}_{W}$ to make progress along the path while following it closely (note that, compared to other MPCC formulations, we only apply the contouring cost to the last state in the window).
+The optimization problem in each step is: The function ${\pi{(\cdot)}}:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{X}}$ is a smooth parameterization of the initial guess (e.g., a spline through the waypoints), and the scalar variable $\alpha$ indicates the progress on the path. The term $k_{1}\alpha$, with $k_{1} > 0$, tries to maximize the progress along the path. The term $k_{2}d{(\mathbf{x}_{W},{\pi{(\alpha)}})}^{2}$, with $k_{2} > 0$, minimizes the distance between the last state in the window and the progress on the path. Together, these two terms push the last state $\mathbf{x}_{W}$ to make progress along the path while following it closely (note that, compared to other MPCC formulations, we only apply the contouring cost to the last state in the window).
 
 ### VI-B Algorithm for Trajectory Optimization
 
 All different approaches for trajectory optimization require solving nonlinear optimal control problems. In our previous work, we used a direct control method, namely k-order optimization, and the Augmented Lagrangian algorithm. In this revised version, we switch to an indirect control method, Differential Dynamic Programming (DDP), which ensures precise dynamics during shooting and therefore more reliable convergence to locally optimal solutions in systems with complex dynamics.
 
-Differential Dynamic Programming is a second-order method for solving optimal control problems of the form:
-
-$\min\limits_{\mathbf{X},\mathbf{U}}$ ${{\sum\limits_{k}{c{(\mathbf{x}_{k},\mathbf{u}_{k})}}} + {c_{K}{(\mathbf{x}_{K})}}},$ (12a)
-s.t. ${{\mathbf{x}_{k + 1} = {\text{step}{(\mathbf{x}_{k},\mathbf{u}_{k})}}}\mspace{21mu}{{\forall k} \in {\{ 0,\ldots,{K - 1}\}}}},$ (12b)
-
-It iteratively computes a quadratic approximation of the cost-to-go using a backward pass and updates states and controls using a forward pass. For more details, we refer to,.
+Differential Dynamic Programming is a second-order method for solving optimal control problems of the form: It iteratively computes a quadratic approximation of the cost-to-go using a backward pass and updates states and controls using a forward pass. For more details, we refer to,.
 
 To deal with collisions, goal constraints, and state and control bounds, we use a squared penalty method---adding all constraints in the cost term with a squared penalty.
 
@@ -314,26 +232,13 @@ We are interested in invariances that preserve optimality. For instance, the tra
 
 ### Example 4 (Translation Invariance in the Unicycle)
 
-Consider the unicycle from Example 1. The dynamics ${f{(\mathbf{x},\mathbf{u})}} = {f{(\theta,\mathbf{u})}} = {\lbrack{v{\cos{(\theta)}}},{v{\sin{(\theta)}}},w\rbrack}$ depend only on the orientation $\theta$, but not on the position $\lbrack x,y\rbrack$. Using translation invariance, we can translate a motion primitive $m = {(\mathbf{X},\mathbf{U},\mathbf{x}_{s},\mathbf{x}_{f},c)}$ with $\mathbf{t} \in {\mathbb{R}}^{2}$, resulting in $m \oplus \mathbf{t} = m^{\prime} = {(\mathbf{X}^{\prime},\mathbf{U}^{\prime} = \mathbf{U},\mathbf{x}_{s}^{\prime},\mathbf{x}_{f}^{\prime},c^{\prime} = c)}$. The states in $\mathbf{X}^{\prime}$, $\mathbf{x}_{s}^{\prime}$, and $\mathbf{x}_{f}^{\prime}$ are transformed as follows:
-
-$\mathbf{x}^{\prime}{\lbrack x\rbrack}$ ${= {{\mathbf{x}{\lbrack x\rbrack}} + {\mathbf{t}{\lbrack x\rbrack}}}},$ (13a)
-$\mathbf{x}^{\prime}{\lbrack y\rbrack}$ ${= {{\mathbf{x}{\lbrack y\rbrack}} + {\mathbf{t}{\lbrack y\rbrack}}}},$ (13b)
-$\mathbf{x}^{\prime}{\lbrack\theta\rbrack}$ ${= {\mathbf{x}{\lbrack\theta\rbrack}}}.$ (13c)
-
-The operator $\lbrack \bullet \rbrack$ indicates the $\bullet$-component of a state $\mathbf{x}$ or translation vector $\mathbf{t}$ (e.g., ${\mathbf{x}{\lbrack x\rbrack}} \in {\mathbb{R}}$ is the "x-component" of the state $\mathbf{x}$).
+Consider the unicycle from Example 1. The dynamics ${f{(\mathbf{x},\mathbf{u})}} = {f{(\theta,\mathbf{u})}} = {\lbrack{v{\cos{(\theta)}}},{v{\sin{(\theta)}}},w\rbrack}$ depend only on the orientation $\theta$, but not on the position $\lbrack x,y\rbrack$. Using translation invariance, we can translate a motion primitive $m = {(\mathbf{X},\mathbf{U},\mathbf{x}_{s},\mathbf{x}_{f},c)}$ with $\mathbf{t} \in {\mathbb{R}}^{2}$, resulting in $m \oplus \mathbf{t} = m' = {(\mathbf{X}',\mathbf{U}' = \mathbf{U},\mathbf{x}_{s}',\mathbf{x}_{f}',c' = c)}$. The states in $\mathbf{X}'$, $\mathbf{x}_{s}'$, and $\mathbf{x}_{f}'$ are transformed as follows: The operator $\lbrack \bullet \rbrack$ indicates the $\bullet$-component of a state $\mathbf{x}$ or translation vector $\mathbf{t}$ (e.g., ${\mathbf{x}{\lbrack x\rbrack}} \in {\mathbb{R}}$ is the "x-component" of the state $\mathbf{x}$).
 
 In some second-order systems, such as the quadrotor, the acceleration depends only on the orientation and the angular velocity but is invariant to both translation and linear velocity. Thus, we can modify primitives to match the starting position and velocity.
 
 ### Example 5 (Translation and Linear Velocity Invariance in the Quadrotor)
 
-The second-order dynamics of the quadrotor from Example 2 depend only on the rotation and angular velocity $\mathbf{q},\mathbf{w}$ but not on the position $\mathbf{p}$ or linear velocity $\mathbf{v}$. We can transform a motion primitive $m = {(\mathbf{X},\mathbf{U},\mathbf{x}_{s},\mathbf{x}_{f},c)}$ with $\mathbf{t} = {\lbrack\mathbf{t}_{p},\mathbf{t}_{v}\rbrack}$, $\mathbf{t}_{p} \in {\mathbb{R}}^{3}$, $\mathbf{t}_{v} \in {\mathbb{R}}^{3}$, resulting in $m \oplus \mathbf{t} = m^{\prime} = {(\mathbf{X}^{\prime},\mathbf{U}^{\prime} = \mathbf{U},\mathbf{x}_{s}^{\prime},\mathbf{x}_{f}^{\prime},c^{\prime} = c)}$. The states in $\mathbf{X}^{\prime}$, $\mathbf{x}_{s}^{\prime}$, and $\mathbf{x}_{f}^{\prime}$ are transformed as follows:
-
-$\mathbf{x}^{\prime}{\lbrack v\rbrack}$ ${= {{\mathbf{x}{\lbrack v\rbrack}} + \mathbf{t}_{v}}},$ (14a)
-$\mathbf{x}^{\prime}{\lbrack w\rbrack}$ ${= {\mathbf{x}{\lbrack w\rbrack}}},$ (14b)
-$\mathbf{x}^{\prime}{\lbrack q\rbrack}$ ${= {\mathbf{x}{\lbrack q\rbrack}}},$ (14c)
-$\mathbf{x}_{k}^{\prime}{\lbrack p\rbrack}$ ${= {{\mathbf{x}_{k}{\lbrack p\rbrack}} + \mathbf{t}_{p} + {k\mathbf{t}_{v}\Deltat}}}.$ (14d)
-
-While invariance and equivariance are advantageous properties, they require an individual study of each new dynamical system. For simplicity, in our work, we focus only on translation invariance and linear velocity invariance as two classical and ubiquitous properties. Additional properties, such as rotation invariance (for car-like robots), rotation symmetries (for 3D quadcopters), or angular rotational invariance (for planar multirotors), could be exploited to improve performance in particular systems.
+The second-order dynamics of the quadrotor from Example 2 depend only on the rotation and angular velocity $\mathbf{q},\mathbf{w}$ but not on the position $\mathbf{p}$ or linear velocity $\mathbf{v}$. We can transform a motion primitive $m = {(\mathbf{X},\mathbf{U},\mathbf{x}_{s},\mathbf{x}_{f},c)}$ with $\mathbf{t} = {\lbrack\mathbf{t}_{p},\mathbf{t}_{v}\rbrack}$, $\mathbf{t}_{p} \in {\mathbb{R}}^{3}$, $\mathbf{t}_{v} \in {\mathbb{R}}^{3}$, resulting in $m \oplus \mathbf{t} = m' = {(\mathbf{X}',\mathbf{U}' = \mathbf{U},\mathbf{x}_{s}',\mathbf{x}_{f}',c' = c)}$. The states in $\mathbf{X}'$, $\mathbf{x}_{s}'$, and $\mathbf{x}_{f}'$ are transformed as follows: While invariance and equivariance are advantageous properties, they require an individual study of each new dynamical system. For simplicity, in our work, we focus only on translation invariance and linear velocity invariance as two classical and ubiquitous properties. Additional properties, such as rotation invariance (for car-like robots), rotation symmetries (for 3D quadcopters), or angular rotational invariance (for planar multirotors), could be exploited to improve performance in particular systems.
 
 ## Theoretical Properties
 
@@ -363,13 +268,7 @@ When Db-A\* terminates, we trace back the solution by following the parent point
 
 ### Definition 3
 
-Given a start state $\mathbf{x}_{s}$ and a goal state $\mathbf{x}_{g}$, a set of motion primitives $\mathcal{M}$, and a discontinuity bound $\delta$, we define the implicit graph $G_{\delta,\mathcal{M}} = {(V,E)}$ with,
-
-$V$ $= \bigcup\limits_{m \in \mathcal{M}}{\{ m.\mathbf{x}_{s},m.\mathbf{x}_{f}\}} \cup {\{\mathbf{x}_{s},\mathbf{x}_{g}\}},$ (15a)
-$E$ $= {\{{(m.\mathbf{x}_{s},m.\mathbf{x}_{f})}|m \in \mathcal{M}\}} \cup {\{{(m.\mathbf{x}_{f},m^{\prime}.\mathbf{x}_{s})}}$
-$|m,m^{\prime} \in \mathcal{M}\text{and}d{(m.\mathbf{x}_{f},m^{\prime}.\mathbf{x}_{s})} \leq \delta\}$
-$\cup {\{{(\mathbf{x}_{s},m.\mathbf{x}_{s})}|m \in \mathcal{M}\text{and}d{(\mathbf{x}_{s},m.\mathbf{x}_{s})} \leq \delta\}}$
-$\cup {\{{(m.\mathbf{x}_{f},\mathbf{x}_{g})}|m \in \mathcal{M}\text{and}d{(m.\mathbf{x}_{f},\mathbf{x}_{g})} \leq \delta\}}.$ (15b)
+Given a start state $\mathbf{x}_{s}$ and a goal state $\mathbf{x}_{g}$, a set of motion primitives $\mathcal{M}$, and a discontinuity bound $\delta$, we define the implicit graph $G_{\delta,\mathcal{M}} = {(V,E)}$ ,
 
 ### Remark 2
 
@@ -405,7 +304,7 @@ Our optimization-based approach for generating motion primitives, as well as pro
 
 ### Definition 4
 
-A set of primitives $\mathcal{M}$ covers the state space with discontinuity $\epsilon > 0$ if and only if, for all pairs of states ${\mathbf{x},\mathbf{x}^{\prime}} \in \mathcal{X}$, there exists a $\epsilon$-discontinuity bounded trajectory from $\mathbf{x}$ to $\mathbf{x}^{\prime}$ (Definition 2) using the primitives $m \in \mathcal{M}$.
+A set of primitives $\mathcal{M}$ covers the state space with discontinuity $\epsilon > 0$ if and only if, for all pairs of states ${\mathbf{x},\mathbf{x}'} \in \mathcal{X}$, there exists a $\epsilon$-discontinuity bounded trajectory from $\mathbf{x}$ to $\mathbf{x}'$ (Definition 2) using the primitives $m \in \mathcal{M}$.
 
 ### Definition 5
 
@@ -423,17 +322,11 @@ To prove asymptotic optimality for iDb-A\*, we use techniques from sampling-base
 
 ### Theorem 3
 
-If the set of motion primitives asymptotically optimally covers the state space with discontinuity $\overset{\sim}{\delta}$, and assuming convergence of the optimizer, iDb-A\* (Algorithm 1) is asymptotically optimal, i.e.,
-
-where $c_{n}$ is the cost in iteration $n$ and $c^{\ast}$ is the optimal cost.
+If the set of motion primitives asymptotically optimally covers the state space with discontinuity $\overset{\sim}{\delta}$, and assuming convergence of the optimizer, iDb-A\* (Algorithm 1) is asymptotically optimal, i.e., where $c_{n}$ is the cost in iteration $n$ and $c^{\ast}$ is the optimal cost.
 
 ### Proof
 
-We closely follow the proof strategy from previous work in sampling-based motion planning \[18, Th. 3\]. Let $S_{1},\ldots,S_{n}$ be random variables denoting the suboptimality $c_{n} - c^{\ast}$. In every iteration of Algorithm 1, we either reduce the cost if we find a new solution or we remain at the same cost, i.e., $c_{n + 1} \leq c_{n}$. We now aim to show that, with sufficient motion primitives, the solution of Db-A\* will be close to the true solution, and thus can be correctly optimized by trajectory optimization. Crucially, in each iteration of iDb-A\*, there is a positive probability that the new primitives will improve the solution, ${E{\lbrack\left. S_{n} \middle| S_{n - 1} \right.\rbrack}} \leq {{({1 - \omega})}S_{n - 1}}$, i.e., in expectation, the solution improves by at least a constant amount $\omega > 0$ every iteration. This nonzero probability only holds if the motion primitives asymptotically cover the entire state space with discontinuity $\overset{\sim}{\delta}$ (Definition 5). Then, we have
-
-Applying the Markov inequality, we have ${P{({S_{n} > \epsilon})}} \leq {{E{\lbrack S_{n}\rbrack}}/\epsilon} = {{{({1 - \omega})}^{n - 1}E{\lbrack S_{1}\rbrack}}/\epsilon}$, which approaches 0 as $n$ approaches infinity. ∎
-
-It remains an open question what the theoretical convergence rate of our proposed algorithm is, a property that is known for some sampling-based planners. Empirically, we have shown that our initial solution is often much closer to the optimum compared to our baselines, and that the region of attraction for trajectory optimization is large enough to plan with a few primitives and large discontinuity bounds.
+We closely follow the proof strategy from previous work in sampling-based motion planning \[18, Th. 3\]. Let $S_{1},\ldots,S_{n}$ be random variables denoting the suboptimality $c_{n} - c^{\ast}$. In every iteration of Algorithm 1, we either reduce the cost if we find a new solution or we remain at the same cost, i.e., $c_{n + 1} \leq c_{n}$. We now aim to show that, with sufficient motion primitives, the solution of Db-A\* will be close to the true solution, and thus can be correctly optimized by trajectory optimization. Crucially, in each iteration of iDb-A\*, there is a positive probability that the new primitives will improve the solution, ${E{\lbrack\left. S_{n} \middle| S_{n - 1} \right.\rbrack}} \leq {{({1 - \omega})}S_{n - 1}}$, i.e., in expectation, the solution improves by at least a constant amount $\omega > 0$ every iteration. This nonzero probability only holds if the motion primitives asymptotically cover the entire state space with discontinuity $\overset{\sim}{\delta}$ (Definition 5). Then, we have Applying the Markov inequality, we have ${P{({S_{n} > \epsilon})}} \leq {{E{\lbrack S_{n}\rbrack}}/\epsilon} = {{{({1 - \omega})}^{n - 1}E{\lbrack S_{1}\rbrack}}/\epsilon}$, which approaches 0 as $n$ approaches infinity. ∎ It remains an open question what the theoretical convergence rate of our proposed algorithm is, a property that is known for some sampling-based planners. Empirically, we have shown that our initial solution is often much closer to the optimum compared to our baselines, and that the region of attraction for trajectory optimization is large enough to plan with a few primitives and large discontinuity bounds.
 
 ## Experimental Evaluation
 
@@ -491,9 +384,7 @@ For nearest-neighbors computation in iDb-A^∗^, SST^∗^, and RRT^∗^-TO, we u
 
 ### IX-C Metrics
 
-In the following, we report the metrics:
-
-Success Rate ($p$): The ratio of trials where a solution was found within the planning budget of $120\ s$.
+In the following, we report the metrics: Success Rate ($p$): The ratio of trials where a solution was found within the planning budget of $120\ s$.
 
 Median time required to find a solution ($t^{\text{st}}$).
 
@@ -507,31 +398,17 @@ Figure 5: Example of the first trajectory computed by iDb-A∗, SST∗, and RRT�
 
 We conducted our benchmark on a workstation with a CPU AMD EPYC 7502 32-Core Processor \@2.50 GHz. All planners use a single core. Our results are summarized in Table I, where we provide a selection of 16 problems (two for each dynamical system). For brevity, Table I does not include any standard deviations. The complete results (43 problems) are available on the project webpage. In general, we found that SBPL has almost no variance, SST^∗^ has very high variance, and RRT^∗^-TO and iDb-A^∗^ are somewhere in between the two extremes. The plots in Fig. 6 show the convergence behavior and the variance in three representative problems, which are discussed later.
 
-We summarize the main results as follows:
-
-$\bullet$ SBPL has been excluded from the table because it is only readily applicable to the three problems that use *Unicycle 1 v0*. In this setting, it consistently finds a solution in competitive time: $2.1\ s$ in *Bugtrap*, $0.2\ s$ in *Kink*, and $0.1\ s$ in *Park*.
+We summarize the main results as follows: $\bullet$ SBPL has been excluded from the table because it is only readily applicable to the three problems that use *Unicycle 1 v0*. In this setting, it consistently finds a solution in competitive time: $2.1\ s$ in *Bugtrap*, $0.2\ s$ in *Kink*, and $0.1\ s$ in *Park*.
 
 However, due to the limited number of lattice-based primitives, the initial and final costs are rather constant: $36.6$ in *Bugtrap*, $22.6$ in *Kink*, and $6.2$ in *Park* (and higher than the costs achieved by iDb-A^∗^ ).
 
-Car with trailer
+Car with trailer Car with trailer TABLE I: Benchmark with selected problems. Bold indicates the best result.
 
-Car with trailer
-
-TABLE I: Benchmark with selected problems. Bold indicates the best result.
-
-Figure 6: Success and cost convergence plots for three representative systems. Cost is only plotted when 50% of the runs have found a solution. The shaded region indicates the 95% non-parametric confidence interval for the median.
-
-$\bullet$ SST^∗^ can find an initial solution quickly in problems with car-like dynamics; however, the quality of the initial solution is poor, especially in the larger, higher-dimensional systems. The convergence is slow---our $120\ s$ timeout was not sufficient for SST^∗^ to fully converge in most cases. Notably, in problems involving multirotors, it was unable to find solutions within the time limit for most problems (for instance, we observed a 0% success rate in the dynamics of *Quadrotor v0* and 10% with *Quadrotor v1*). Because SST^∗^ relies on propagating random control inputs, it is very inefficient for multirotor systems, where random inputs quickly bring the system into unstable configurations. However, in low-dimensional and stable dynamical systems like cars and unicycles, it finds the first solution faster but is clearly outperformed in terms of the cost of initial and final solutions by both iDb-A^∗^ and RRT^∗^-TO.
-
-$\bullet$ RRT^∗^-TO can find near-optimal initial solutions in some problems but fails if the geometric initial guess is not close to dynamically feasible motion, which occurs more often in environments with flying robots. Thus, the main drawback is that this approach is incomplete, with success rates below 70% on several problems and complete failures in others. The cost at convergence is often worse than that of iDb-A^∗^. In general, we conclude that RRT^∗^-TO is a good method when the simplified model is informative and when the primary challenge is obstacle avoidance. In these settings, it often matches the time to first solution of iDb-A^∗^.
-
-$\bullet$ iDb-A^∗^ finds the highest-quality first solution in 14 out of 16 selected problems (better in the $J^{\text{st}}$ column), converged to the lowest-cost solution in 12 out of 16 problems (column $J^{\text{f}}$), and achieved a 100% success rate in 15 out of 16 problems (column $p$) (and 41 out of 43 total problems). The time to generate the first solution (column $t^{\text{st}}$) is competitive with the other approaches in the problems solved by all methods, while it is the only method that consistently solves all problems with multirotor flying robots.
+Figure 6: Success and cost convergence plots for three representative systems. Cost is only plotted when 50% of the runs have found a solution. The shaded region indicates the 95% non-parametric confidence interval for the median. $\bullet$ SST^∗^ can find an initial solution quickly in problems with car-like dynamics; however, the quality of the initial solution is poor, especially in the larger, higher-dimensional systems. The convergence is slow---our $120\ s$ timeout was not sufficient for SST^∗^ to fully converge in most cases. Notably, in problems involving multirotors, it was unable to find solutions within the time limit for most problems (for instance, we observed a 0% success rate in the dynamics of *Quadrotor v0* and 10% with *Quadrotor v1*). Because SST^∗^ relies on propagating random control inputs, it is very inefficient for multirotor systems, where random inputs quickly bring the system into unstable configurations. However, in low-dimensional and stable dynamical systems like cars and unicycles, it finds the first solution faster but is clearly outperformed in terms of the cost of initial and final solutions by both iDb-A^∗^ and RRT^∗^-TO. $\bullet$ RRT^∗^-TO can find near-optimal initial solutions in some problems but fails if the geometric initial guess is not close to dynamically feasible motion, which occurs more often in environments with flying robots. Thus, the main drawback is that this approach is incomplete, with success rates below 70% on several problems and complete failures in others. The cost at convergence is often worse than that of iDb-A^∗^. In general, we conclude that RRT^∗^-TO is a good method when the simplified model is informative and when the primary challenge is obstacle avoidance. In these settings, it often matches the time to first solution of iDb-A^∗^. $\bullet$ iDb-A^∗^ finds the highest-quality first solution in 14 out of 16 selected problems (better in the $J^{\text{st}}$ column), converged to the lowest-cost solution in 12 out of 16 problems (column $J^{\text{f}}$), and achieved a 100% success rate in 15 out of 16 problems (column $p$) (and 41 out of 43 total problems). The time to generate the first solution (column $t^{\text{st}}$) is competitive with the other approaches in the problems solved by all methods, while it is the only method that consistently solves all problems with multirotor flying robots.
 
 We can conclude that our method performs well across all systems and environments, from navigation among obstacles with car models to recovery flights with control-limited quadrotors. Note that the performance we report here is considerably better than our previous results. This improvement is due to an improved implementation of the search algorithm, a superior trajectory optimization algorithm and formulation, and a better strategy for choosing the number of primitives and the discontinuity bound.
 
-Fig. 5 shows the different first solutions found by iDb-A^∗^, RRT^∗^-TO, and SST^∗^ in the Unicycle 2 -- Bugtrap problem. We also display the convergence and success plots for some instructive problems in Fig. 6:
-
-*Rotor pole -- Swing up obstacles*: This problem involves swinging the pole upwards while avoiding obstacles (Fig. 1(c)). Only iDb-A^∗^ consistently solves the problem within a competitive timeframe. On average, RRT^∗^-TO requires 10x more computational time to find a solution and does not achieve a 100% success rate. The disparate performance across runs of RRT^∗^-TO stems from the uninformative geometric guess, which often leads to failure in the subsequent optimization and thus requires multiple trials with different initial guesses. SST^∗^ does not find any solution within the computational budget.
+Fig. 5 shows the different first solutions found by iDb-A^∗^, RRT^∗^-TO, and SST^∗^ in the Unicycle 2 -- Bugtrap problem. We also display the convergence and success plots for some instructive problems in Fig. 6: *Rotor pole -- Swing up obstacles*: This problem involves swinging the pole upwards while avoiding obstacles (Fig. 1(c)). Only iDb-A^∗^ consistently solves the problem within a competitive timeframe. On average, RRT^∗^-TO requires 10x more computational time to find a solution and does not achieve a 100% success rate. The disparate performance across runs of RRT^∗^-TO stems from the uninformative geometric guess, which often leads to failure in the subsequent optimization and thus requires multiple trials with different initial guesses. SST^∗^ does not find any solution within the computational budget.
 
 *Quadrotor v1 -- Window*: In this problem, the quadrotor needs to find a path through a window; see Fig. 4(a). SST^∗^ achieves a low success rate because propagating random controls is often inefficient, with a low probability of generating useful trajectories. iDb-A^∗^ consistently solves the problem in at most two seconds and improves the solution with more compute time. RRT^∗^-TO fails to find a solution in some runs and the median cost is considerably higher.
 
@@ -539,9 +416,7 @@ Fig. 5 shows the different first solutions found by iDb-A^∗^, RRT^∗^-TO, and
 
 ### IX-E Ablation Studies of iDb-A\*
 
-We analyze the main algorithmic components of iDb-A^∗^ to study the impact on the overall performance and to justify the most important design decisions, namely:
-
-Scheduling for increasing/decreasing the number of primitives and the discontinuity bound.
+We analyze the main algorithmic components of iDb-A^∗^ to study the impact on the overall performance and to justify the most important design decisions, namely: Scheduling for increasing/decreasing the number of primitives and the discontinuity bound.
 
 Euclidean heuristic in the search step.
 
@@ -575,9 +450,7 @@ We analyze the computational speed, the success, and the cost value in a set of 
 
 Figure 8: Analysis of four different strategies for trajectory optimization with free terminal time with six different initial guesses (two per problem). The label r2-bug is short for Planar rotor – Bugtrap, the label q-rec is short for Quadrotor v0 – Recovery, and the label u2-bug is short for Unicycle 2 – Bugtrap. The number after the hyphen indicates the discontinuity bound of each initial guess. A bar reaching the top of the plot indicates the algorithm’s failure to find a solution.
 
-First, we note that the results highlight a strong variation across the dynamical systems, scenarios, and initial guesses. We can draw the following general conclusions:
-
-*Robustness*: Free-dt and Search-T are more robust and are able to successfully optimize more initial guesses than MPC and MPCC. On the contrary, MPC and MPCC are harder to tune and sometimes fail, especially for larger values of the discontinuity bound. The sliding window approaches repair the trajectory locally, step by step, and often cannot reach the final goal if doing so requires jointly improving the initial guess trajectory (where we need to propagate information about the goal across the entire trajectory).
+First, we note that the results highlight a strong variation across the dynamical systems, scenarios, and initial guesses. We can draw the following general conclusions: *Robustness*: Free-dt and Search-T are more robust and are able to successfully optimize more initial guesses than MPC and MPCC. On the contrary, MPC and MPCC are harder to tune and sometimes fail, especially for larger values of the discontinuity bound. The sliding window approaches repair the trajectory locally, step by step, and often cannot reach the final goal if doing so requires jointly improving the initial guess trajectory (where we need to propagate information about the goal across the entire trajectory).
 
 *Computation speed*: When MPC and MPCC manage to find a solution, they are the fastest methods. Comparing Free-dt and Search-T, Free-dt is between 1.5 and 5 times faster than Search-T.
 
@@ -617,13 +490,11 @@ From a practical standpoint, the main limitation of iDb-A^∗^ is that it necess
 
 The number of required motion primitives grows exponentially with the state dimension. To mitigate this issue, a possible solution is to use a more informative distance metric (instead of the weighted Euclidean metric) when deciding which primitive to apply, which correlates better with the underlying dynamics and the subsequent trajectory optimization. Additionally, more informed sampling strategies for start and goal configurations when generating motion primitives could reduce the number of primitives needed.
 
-To improve the computation time required to find the first solution in some problems (e.g., $1.5\ s$ in Quadrotor v0 - Recovery obstacles or $12.3\ s$ in Planar rotor - Bugtrap) and scale to larger environments with more obstacles, we see great potential in combining our discontinuity-based approach with an RRT-like planner, instead of an incremental A\* search. We are also interested in exploring hybrid approaches between our method and the control propagation used in.
+To improve the computation time required to find the first solution in some problems (e.g., $1.5\ s$ in Quadrotor v0 - Recovery obstacles or $12.3\ s$ in Planar rotor - Bugtrap) and scale to larger environments with more obstacles, we see great potential in combining our discontinuity-based approach with an RRT-like planner, instead of an incremental A\* search. We are also interested in exploring hybrid approaches between our method and the control propagation used .
 
 ## Conclusion
 
-We present iDb-A\*, a new kinodynamic motion planner that combines a novel graph-search method with trajectory optimization iteratively. For the graph search, we introduce Db-A\*, a generalization of A\* that reuses motion primitives to compute trajectories with bounded discontinuity, which are later used as a warm start for trajectory optimization.
-
-iDb-A\* amalgamates the ideas and advantages of sampling-based, search-based, and optimization-based kinodynamic motion planners: it converges asymptotically to the optimal solution, rapidly finds a near-optimal solution, and does not require any additional post-processing.
+We present iDb-A\*, a new kinodynamic motion planner that combines a novel graph-search method with trajectory optimization iteratively. For the graph search, we introduce Db-A\*, a generalization of A\* that reuses motion primitives to compute trajectories with bounded discontinuity, which are later used as a warm start for trajectory optimization. iDb-A\* amalgamates the ideas and advantages of sampling-based, search-based, and optimization-based kinodynamic motion planners: it converges asymptotically to the optimal solution, rapidly finds a near-optimal solution, and does not require any additional post-processing.
 
 We evaluate iDb-A\* on a diverse set of challenging, time-optimal kinodynamic motion planning problems, from obstacle avoidance with car-like robots to highly dynamic maneuvers with quadcopters. iDb-A\* consistently outperforms other algorithms on these benchmarks and solves problems that were beyond the capabilities of previous motion planners.
 

@@ -4,17 +4,7 @@ Model predictive control (MPC) is an optimization-based control strategy, which 
 
 ### Related work
 
-Historically, MPC emerged from the process control industry using impulse/step response models, which are simple to identify/adapt. These approaches have early been extended to robustly account for the parametric uncertainty of such finite impulse response (FIR) models. However, the underlying assumptions result in intrinsic limitations, and hence, over the last three decades, state space models have become the de facto standard in (theoretical) research on MPC. A variety of results are available to ensure robustness w.r.t. parametric uncertainty in state space models by using tube-based approaches. More recently, a number of predictive control approaches have been proposed that directly exploit multi-step predictors, as also done in early MPC approaches:
-
-dual/adaptive MPC using FIR models or more general orthonormal basis functions (OBFs ) in;
-
-data-driven/enabled predictive control based on an implicit model characterization using Hankel matrices, compare also;
-
-set-membership estimation for multi-step predictors in MPC;
-
-feedback optimization in MPC using system responses, compare also;
-
-nonlinear MPC using parametric and non-parametric multi-step predictors.
+Historically, MPC emerged from the process control industry using impulse/step response models, which are simple to identify/adapt. These approaches have early been extended to robustly account for the parametric uncertainty of such finite impulse response (FIR) models. However, the underlying assumptions result in intrinsic limitations, and hence, over the last three decades, state space models have become the de facto standard in (theoretical) research on MPC. A variety of results are available to ensure robustness w.r.t. parametric uncertainty in state space models by using tube-based approaches. More recently, a number of predictive control approaches have been proposed that directly exploit multi-step predictors, as also done in early MPC approaches: dual/adaptive MPC using FIR models or more general orthonormal basis functions (OBFs); data-driven/enabled predictive control based on an implicit model characterization using Hankel matrices, compare also; set-membership estimation for multi-step predictors in MPC; feedback optimization in MPC using system responses, compare also; nonlinear MPC using parametric and non-parametric multi-step predictors.
 
 The main commonality is that multi-step predictors allow for simple bounds on the prediction error, compare Section IV-C for a more detailed discussion of the individual approaches. More generally, forecasting problems (e.g., based on machine learning) are similarly divided between sequential/recursive strategies and direct/independent strategies.
 
@@ -32,15 +22,7 @@ We first state the control problem (Sec. II-A) and convert it into a determinist
 
 ### II-A Problem setup
 
-We consider a linear discrete-time system of the form
-
-with state $x_{k} \in {\mathbb{R}}^{n}$, input $u_{k} \in {\mathbb{U}} \subseteq {\mathbb{R}}^{m}$, disturbances $w_{k} \in {\mathbb{R}}^{q}$, time $k \in {\mathbb{I}}_{\geq 0}$, and input constraint set $\mathbb{U}$. The disturbances are i.i.d. Gaussian variables $w_{k} \sim {\mathcal{N}{(0,\Sigma_{w})}}$ and the initial state is uncertain with $x_{0} \sim {\mathcal{N}{({\overline{x}}_{0},\Sigma_{x,0})}}$, which is independent of $w_{k}$. We consider the following stochastic optimal control problem
-
-${\min\limits_{u_{\lbrack 0,{N - 1}\rbrack} \in {\mathbb{U}}^{N}}{\mathbb{E}}}\left\lbrack {{\sum\limits_{k = 0}^{N - 1}{\| x_{k + 1}\|}_{Q}^{2}} + {\| u_{k}\|}_{R}^{2}} \right\rbrack$
-
-${{{{Prob}\left\lbrack {{H_{x,j}^{\top}x_{k}} \leq 1} \right\rbrack} \geq p},{{j \in {\mathbb{I}}_{\lbrack 1,r\rbrack}},{k \in {\mathbb{I}}_{\lbrack 0,N\rbrack}}}},$
-
-with ${Q,R} \succ 0$, $H_{x,j} \in {\mathbb{R}}^{n}$, $j \in {\mathbb{I}}_{\lbrack 1,r\rbrack}$, and probability $p \in {}$ for the chance constraints (2b). We consider the stochastic and open-loop control problem to allow for a simple system identification using MLE (Sec. III) and an easier comparison between the two model parametrizations, respectively. Generalizations of this problem setup (e.g., receding horizon, robust, input-output models) are discussed in Sections III-C, IV-C, IV-D. In order to introduce the problem, we assume that the model parameters are known. The problem of system identification and predictive control with probabilistic bounds on the model parameters is treated in Sections III and IV, respectively.
+We consider a linear discrete-time system of the form with state $x_{k} \in {\mathbb{R}}^{n}$, input $u_{k} \in {\mathbb{U}} \subseteq {\mathbb{R}}^{m}$, disturbances $w_{k} \in {\mathbb{R}}^{q}$, time $k \in {\mathbb{I}}_{\geq 0}$, and input constraint set $\mathbb{U}$. The disturbances are i.i.d. Gaussian variables $w_{k} \sim {\mathcal{N}{(0,\Sigma_{w})}}$ and the initial state is uncertain with $x_{0} \sim {\mathcal{N}{({\overline{x}}_{0},\Sigma_{x,0})}}$, which is independent of $w_{k}$. We consider the following stochastic optimal control problem ${\min\limits_{u_{\lbrack 0,{N - 1}\rbrack} \in {\mathbb{U}}^{N}}{\mathbb{E}}}\left\lbrack {{\sum\limits_{k = 0}^{N - 1}{\| x_{k + 1}\|}_{Q}^{2}} + {\| u_{k}\|}_{R}^{2}} \right\rbrack$ ${{{{Prob}\left\lbrack {{H_{x,j}^{\top}x_{k}} \leq 1} \right\rbrack} \geq p},{{j \in {\mathbb{I}}_{\lbrack 1,r\rbrack}},{k \in {\mathbb{I}}_{\lbrack 0,N\rbrack}}}},$ with ${Q,R} \succ 0$, $H_{x,j} \in {\mathbb{R}}^{n}$, $j \in {\mathbb{I}}_{\lbrack 1,r\rbrack}$, and probability $p \in {}$ for the chance constraints (2b). We consider the stochastic and open-loop control problem to allow for a simple system identification using MLE (Sec. III) and an easier comparison between the two model parametrizations, respectively. Generalizations of this problem setup (e.g., receding horizon, robust, input-output models) are discussed in Sections III-C, IV-C, IV-D. In order to introduce the problem, we assume that the model parameters are known. The problem of system identification and predictive control with probabilistic bounds on the model parameters is treated in Sections III and IV, respectively.
 
 ### II-B State space model
 
@@ -48,11 +30,7 @@ Problem (II-A) is commonly used in stochastic MPC and we derive a deterministic 
 
 ### II-C Multi-step predictors
 
-Multi-step predictors are given by
-
-where the matrices $G_{u},G_{0},G_{w}$ directly map to the future state sequence, instead of sequentially applying the one-step prediction of the state space model. The rows in correspond to different horizon steps $k \in {\mathbb{I}}_{\lbrack 1,N\rbrack}$ with
-
-This model corresponds to a compressed/condensed version of the recursive application of the state space model, as is often used for the numerical solution of the QP (cf. \[1, Chap. 7, Sec. 8.8.4\]). This model structure is prevalent in MPC schemes based on FIR models or subspace predictive control (SPC), and is recently employed in many (robust) predictive control approaches (cf. discussion Section IV-C).
+Multi-step predictors are given by where the matrices $G_{u},G_{0},G_{w}$ directly map to the future state sequence, instead of sequentially applying the one-step prediction of the state space model. The rows in correspond to different horizon steps $k \in {\mathbb{I}}_{\lbrack 1,N\rbrack}$ with This model corresponds to a compressed/condensed version of the recursive application of the state space model, as is often used for the numerical solution of the QP (cf. \[1, Chap. 7, Sec. 8.8.4\]). This model structure is prevalent in MPC schemes based on FIR models or subspace predictive control (SPC), and is recently employed in many (robust) predictive control approaches (cf. discussion Section IV-C).
 
 Considering the model (II-C) with initial state $x_{0} \sim {\mathcal{N}{({\overline{x}}_{0},\Sigma_{x,0})}}$, we obtain $x_{k} \sim {\mathcal{N}{({\overline{x}}_{k},\Sigma_{x,k})}}$ with ${\overline{x}}_{k} = {{G_{u,k}u_{\lbrack 0,{k - 1}\rbrack}} + {G_{0,k}{\overline{x}}_{0}}}$ and $\Sigma_{x,k} = {{G_{0,k}\Sigma_{x,0}G_{0,k}^{\top}} + {G_{w,k}{diag}_{k}{(\Sigma_{w})}G_{w,k}^{\top}}}$, $k \in {\mathbb{I}}_{\lbrack 1,N\rbrack}$. Thus, we can reformulate Problem (II-A) as the following QP:
 
@@ -78,27 +56,17 @@ As noted early, subspace identification computes the matrices $G_{u}$, $G_{0}$ a
 
 ### Lemma 2
 
-Suppose we have a uniform prior over the parameters $\theta_{k}$. Consider the noisy regressor ${\overset{\sim}{\Phi}}_{j}^{k}:={{\lbrack{\overset{\sim}{x}}_{j}^{\top},u_{\lbrack j,{{j + k} - 1}\rbrack}^{\top}\rbrack} \otimes I_{n}} \in {\mathbb{R}}^{{{n \times n}km} + n^{2}}$, the covariance matrix ${\overset{\sim}{\Sigma}}_{w,{corr},k}$ according to (III-A) below, and suppose that $\Sigma_{\theta,k}^{- 1}:={{\overset{\sim}{\Phi}}_{\lbrack 0,{T - k}\rbrack}^{k,\top}{\overset{\sim}{\Sigma}}_{w,{corr},k}^{- 1}{\overset{\sim}{\Phi}}_{\lbrack 0,{T - k}\rbrack}^{k}} \succ 0$.^22^2In case ${\overset{\sim}{\Sigma}}_{w,{corr},k}$ is singular, the identification problem should be projected on the corresponding subspace. Then, for any $\delta \in {}$, we have ${{Prob}\left\lbrack {{\theta_{k} - {\hat{\theta}}_{k}} \in \Theta_{\delta,k}} \right\rbrack} \geq \delta$ with
-
-and the weighted least-squares estimate
+Suppose we have a uniform prior over the parameters $\theta_{k}$. Consider the noisy regressor ${\overset{\sim}{\Phi}}_{j}^{k}:={{\lbrack{\overset{\sim}{x}}_{j}^{\top},u_{\lbrack j,{{j + k} - 1}\rbrack}^{\top}\rbrack} \otimes I_{n}} \in {\mathbb{R}}^{{{n \times n}km} + n^{2}}$, the covariance matrix ${\overset{\sim}{\Sigma}}_{w,{corr},k}$ according to (III-A) below, and suppose that $\Sigma_{\theta,k}^{- 1}:={{\overset{\sim}{\Phi}}_{\lbrack 0,{T - k}\rbrack}^{k,\top}{\overset{\sim}{\Sigma}}_{w,{corr},k}^{- 1}{\overset{\sim}{\Phi}}_{\lbrack 0,{T - k}\rbrack}^{k}} \succ 0$.^22^2In case ${\overset{\sim}{\Sigma}}_{w,{corr},k}$ is singular, the identification problem should be projected on the corresponding subspace. Then, for any $\delta \in {}$, we have ${{Prob}\left\lbrack {{\theta_{k} - {\hat{\theta}}_{k}} \in \Theta_{\delta,k}} \right\rbrack} \geq \delta$ with and the weighted least-squares estimate
 
 ### Proof
 
-This result is inspired by the MLE in \[40, Lemma 3.1\] and classical techniques to account for correlated data \[41, Sec. 5\]. Following the steps in \[40, A.1.1\], the dynamics (II-C) satisfy $x_{j + k} = {{\Phi_{j}^{k}\theta_{k}} + {G_{w,k}w_{\lbrack j,{{j + k} - 1}\rbrack}}}$ with the regressor $\Phi_{j}^{k} = {{\lbrack x_{j}^{\top},u_{\lbrack j,{{j + k} - 1}\rbrack}^{\top}\rbrack} \otimes I_{n}}$. Given the noisy state ${\overset{\sim}{x}}_{k + j} = {x_{k + j} + \epsilon_{k + j}}$ and regressor ${\overset{\sim}{\Phi}}_{j}^{k} = {\Phi_{j}^{k} + {{\lbrack\epsilon_{j}^{\top},0_{{1 \times k}m}\rbrack} \otimes I_{n}}}$, we have ${\overset{\sim}{x}}_{k + j} = {{{\overset{\sim}{\Phi}}_{j}^{k}\theta_{k}} + {\overset{\sim}{w}}_{j}^{k}}$, with the residual ${\overset{\sim}{w}}_{j}^{k} = {{{G_{w,k}w_{\lbrack j,{{j + k} - 1}\rbrack}} - {G_{0,k}\epsilon_{j}}} + \epsilon_{k + j}}$. By stacking these regression equations we get ${\overset{\sim}{x}}_{\lbrack k,T\rbrack} = {{{\overset{\sim}{\Phi}}_{\lbrack 0,{T - k}\rbrack}^{k}\theta_{k}} + {\overset{\sim}{w}}_{\lbrack 0,{T - k}\rbrack}}$. The residual ${\overset{\sim}{w}}_{\lbrack 0,{T - k}\rbrack}$ is a linear combination of independent Gaussian variables $w_{k}$, $\epsilon_{k}$ and hence also follows a Gaussian distribution, i.e., ${\overset{\sim}{w}}_{\lbrack 0,{T - k}\rbrack} \sim {\mathcal{N}{(0,{\overset{\sim}{\Sigma}}_{w,{corr},k})}}$, with covariance ${\overset{\sim}{\Sigma}}_{w,{corr},k} = {{\mathbb{E}}\left\lbrack {{\overset{\sim}{w}}_{\lbrack 0,{T - k}\rbrack}^{k}{\overset{\sim}{w}}_{\lbrack 0,{T - k}\rbrack}^{k,\top}} \right\rbrack}$. The matrix $\Sigma_{w,{corr},k}$ is a band-diagonal matrix with the elements
-
-The likelihood is given by
-
-and hence the weighted least-squares estimate yields the MLE. The uniform prior over $\theta_{k}$ ensures that the posterior distribution is proportional to the likelihood (cf. \[40, Equ. \]) and hence $\theta_{k} \sim {\mathcal{N}{({\hat{\theta}}_{k},\Sigma_{\theta,k})}}$. The set follows from the multivariate Gaussian distribution. ∎
-
-This result provides a simple identification method in terms of a weighted least-squares estimate and provides a high-probability bound on the parameter error ${\overset{\sim}{\theta}}_{k}:={\theta_{k} - {\hat{\theta}}_{k}}$. However, to directly apply the result we need to know the covariance matrix ${\overset{\sim}{\Sigma}}_{w,{corr},k}$, which explicitly depends on $G_{0,k}$, i.e., the impulse response to be identified. This is comparable to the generalized least-squares method, where the correlation information is used to filter the data prior to applying the least-squares estimate (cf. \[41, Sec. 5\]). As this information is typically not known (exactly) a-priori, the corresponding parameters can be jointly optimized in the MLE, resulting in a highly nonlinear optimization problem, which can be solved using the expectation-maximisation technique. Note that neglecting this correlation results in a bias in the least-squares estimate, compare also the overview on linear system identification \[41, Sec. 5\].
+This result is inspired by the MLE in \[40, Lemma 3.1\] and classical techniques to account for correlated data \[41, Sec. 5\]. Following the steps in \[40, A.1.1\], the dynamics (II-C) satisfy $x_{j + k} = {{\Phi_{j}^{k}\theta_{k}} + {G_{w,k}w_{\lbrack j,{{j + k} - 1}\rbrack}}}$ with the regressor $\Phi_{j}^{k} = {{\lbrack x_{j}^{\top},u_{\lbrack j,{{j + k} - 1}\rbrack}^{\top}\rbrack} \otimes I_{n}}$. Given the noisy state ${\overset{\sim}{x}}_{k + j} = {x_{k + j} + \epsilon_{k + j}}$ and regressor ${\overset{\sim}{\Phi}}_{j}^{k} = {\Phi_{j}^{k} + {{\lbrack\epsilon_{j}^{\top},0_{{1 \times k}m}\rbrack} \otimes I_{n}}}$, we have ${\overset{\sim}{x}}_{k + j} = {{{\overset{\sim}{\Phi}}_{j}^{k}\theta_{k}} + {\overset{\sim}{w}}_{j}^{k}}$, with the residual ${\overset{\sim}{w}}_{j}^{k} = {{{G_{w,k}w_{\lbrack j,{{j + k} - 1}\rbrack}} - {G_{0,k}\epsilon_{j}}} + \epsilon_{k + j}}$. By stacking these regression equations we get ${\overset{\sim}{x}}_{\lbrack k,T\rbrack} = {{{\overset{\sim}{\Phi}}_{\lbrack 0,{T - k}\rbrack}^{k}\theta_{k}} + {\overset{\sim}{w}}_{\lbrack 0,{T - k}\rbrack}}$. The residual ${\overset{\sim}{w}}_{\lbrack 0,{T - k}\rbrack}$ is a linear combination of independent Gaussian variables $w_{k}$, $\epsilon_{k}$ and hence also follows a Gaussian distribution, i.e., ${\overset{\sim}{w}}_{\lbrack 0,{T - k}\rbrack} \sim {\mathcal{N}{(0,{\overset{\sim}{\Sigma}}_{w,{corr},k})}}$, with covariance ${\overset{\sim}{\Sigma}}_{w,{corr},k} = {{\mathbb{E}}\left\lbrack {{\overset{\sim}{w}}_{\lbrack 0,{T - k}\rbrack}^{k}{\overset{\sim}{w}}_{\lbrack 0,{T - k}\rbrack}^{k,\top}} \right\rbrack}$. The matrix $\Sigma_{w,{corr},k}$ is a band-diagonal matrix with the elements The likelihood is given by and hence the weighted least-squares estimate yields the MLE. The uniform prior over $\theta_{k}$ ensures that the posterior distribution is proportional to the likelihood (cf. \[40, Equ. \]) and hence $\theta_{k} \sim {\mathcal{N}{({\hat{\theta}}_{k},\Sigma_{\theta,k})}}$. The set follows from the multivariate Gaussian distribution. ∎ This result provides a simple identification method in terms of a weighted least-squares estimate and provides a high-probability bound on the parameter error ${\overset{\sim}{\theta}}_{k}:={\theta_{k} - {\hat{\theta}}_{k}}$. However, to directly apply the result we need to know the covariance matrix ${\overset{\sim}{\Sigma}}_{w,{corr},k}$, which explicitly depends on $G_{0,k}$, i.e., the impulse response to be identified. This is comparable to the generalized least-squares method, where the correlation information is used to filter the data prior to applying the least-squares estimate (cf. \[41, Sec. 5\]). As this information is typically not known (exactly) a-priori, the corresponding parameters can be jointly optimized in the MLE, resulting in a highly nonlinear optimization problem, which can be solved using the expectation-maximisation technique. Note that neglecting this correlation results in a bias in the least-squares estimate, compare also the overview on linear system identification \[41, Sec. 5\].
 
 For long predictions $k \gg 1$, this result simplifies if we have only measurement noise $\epsilon_{k}$ and no disturbances $w_{k}$. In this case, the covariance $\Sigma_{w,{corr}}$ has only two off-diagonal terms corresponding to $- {\Sigma_{\epsilon}G_{0,k}}$. For open-loop stable systems, we have ${\lim_{k\rightarrow\infty}{\| G_{0,k}\|}} = 0$ or in case of FIR models we directly have $G_{0} = 0$. Hence, in case of open-loop systems without additive disturbances, the bias of a simple least-squares estimation tends to zero for $k\rightarrow\infty$.
 
 ### III-B State space model
 
-Note that $\theta_{1} = {{vec}\left( {\lbrack G_{0,1},G_{u,1}\rbrack} \right)} = {{vec}\left( {\lbrack A,B\rbrack} \right)} \in {\mathbb{R}}^{n{({n + m})}}$, i.e., the MLE in Lemma 2 also covers the state space problem as a special case. Specifically, in this case the structure of the corresponding covariance matrix simplifies with ${\overset{\sim}{\Sigma}}_{w} = {{E\Sigma_{w}E^{\top}} + \Sigma_{\epsilon} + {A\Sigma_{\epsilon}A^{\top}}}$ and
-
-The following corollary shows that we can use a simple least-squares estimate for state space models if we assume noise-free state measurements.
+Note that $\theta_{1} = {{vec}\left({\lbrack G_{0,1},G_{u,1}\rbrack} \right)} = {{vec}\left({\lbrack A,B\rbrack} \right)} \in {\mathbb{R}}^{n{({n + m})}}$, i.e., the MLE in Lemma 2 also covers the state space problem as a special case. Specifically, in this case the structure of the corresponding covariance matrix simplifies with ${\overset{\sim}{\Sigma}}_{w} = {{E\Sigma_{w}E^{\top}} + \Sigma_{\epsilon} + {A\Sigma_{\epsilon}A^{\top}}}$ and The following corollary shows that we can use a simple least-squares estimate for state space models if we assume noise-free state measurements.
 
 ### Corollary 1
 
@@ -106,9 +74,7 @@ Suppose we have a uniform prior over the parameters $\theta_{1}$ and noise-free 
 
 ### Proof
 
-For $\Sigma_{\epsilon} = 0$, the matrix ${\overset{\sim}{\Sigma}}_{w,{corr},1}$ is block-diagonal with elements ${\overset{\sim}{\Sigma}}_{w}$. Hence, the least-squares estimate and the covariance matrix can be equivalently written as a sum. ∎
-
-This result essentially recovers the MLE bounds from \[40, Prop. 2.1\]. The ellipsoidal bound on the parameters $\theta$ also implies an ellipsoidal bound on the system matrices (cf. \[40, Lemma. 3.1\]), which may be easier to use for robust control.
+For $\Sigma_{\epsilon} = 0$, the matrix ${\overset{\sim}{\Sigma}}_{w,{corr},1}$ is block-diagonal with elements ${\overset{\sim}{\Sigma}}_{w}$. Hence, the least-squares estimate and the covariance matrix can be equivalently written as a sum. ∎ This result essentially recovers the MLE bounds from \[40, Prop. 2.1\]. The ellipsoidal bound on the parameters $\theta$ also implies an ellipsoidal bound on the system matrices (cf. \[40, Lemma. 3.1\]), which may be easier to use for robust control.
 
 ### III-C Discussion
 
@@ -124,17 +90,17 @@ Hence, in case of unstable/marginally-stable systems or physical priors on model
 
 ### Impact of noise or disturbances on identification
 
-The state space identification problem becomes simpler if we assume noise-free state measurements (cf. Cor. 1). On the other hand, the identification of multi-step predictors (Lemma 2) for long horizons ($k \gg 1$) simplifies if only measurement noise is present. For comparison, early MPC approaches based on impulse responses, e.g. dynamic matrix control, are restricted to "disturbances on the output". OBFs, a structured parametrization of, also allow for a simple identification under measurement noise. The identification of multi-step predictors is also related to the (implicit) data-driven models based on Hankel matrices, which typically also consider noisy output measurements without disturbances. A corresponding MLE with an ellipsoidal confidence bound was recently derived in, which is also applicable to unbiased impulse response estimation \[22, Sec. 6\]. In particular, this approach also considers only output measurement noise without disturbances, the MLE is nonlinear including non-diagonal weights to account for cross correlation, which require prior knowledge of $G_{0,k}$. In \[29, Sec. 3.4\], a multi-step predictor subject to both noisy measurements and disturbances is identified using simple a least-squares estimate or the MLE, however, without deriving corresponding error bounds.
+The state space identification problem becomes simpler if we assume noise-free state measurements (cf. Cor. 1). On the other hand, the identification of multi-step predictors (Lemma 2) for long horizons ($k \gg 1$) simplifies if only measurement noise is present. For comparison, early MPC approaches based on impulse responses, e.g. dynamic matrix control, are restricted to "disturbances on the output". OBFs, a structured parametrization of, also allow for a simple identification under measurement noise. The identification of multi-step predictors is also related to the (implicit) data-driven models based on Hankel matrices, which typically also consider noisy output measurements without disturbances. A corresponding MLE with an ellipsoidal confidence bound was recently derived , which is also applicable to unbiased impulse response estimation \[22, Sec. 6\]. In particular, this approach also considers only output measurement noise without disturbances, the MLE is nonlinear including non-diagonal weights to account for cross correlation, which require prior knowledge of $G_{0,k}$. In \[29, Sec. 3.4\], a multi-step predictor subject to both noisy measurements and disturbances is identified using simple a least-squares estimate or the MLE, however, without deriving corresponding error bounds.
 
 We note that by using non-overlapping data-segments (structured in a page matrix), the cross correlation in Lemma 2 can be removed. For the special case of state space models, this corresponds to skipping every second measurement. In both parametrizations, the resulting uncorrelated residuals allow for a simple least-squares estimate.
 
 ### Robust identification methods
 
-The challenge inherent in MLE with correlated disturbances can also be avoided by considering robust identification methods. In particular, given a compact bound on the disturbances, set-membership estimation can be used to identify the non-falsified set that contains the true parameters, which is frequently used in robust adaptive MPC formulations. In particular, the approaches in \[12, Sec. 5.4\] and are applicable to both noisy measurements and disturbances; \[12, Cor. 3\] provides convergence results for fixed complexity estimates; and multi-step predictors (II-C) are explicitly considered in. Note that most of the discussion in this paper regarding predictive control based on multi-step predictors equally applies to such a robust setup.
+The challenge inherent in MLE with correlated disturbances can also be avoided by considering robust identification methods. In particular, given a compact bound on the disturbances, set-membership estimation can be used to identify the non-falsified set that contains the true parameters, which is frequently used in robust adaptive MPC formulations. In particular, the approaches in \[12, Sec. 5.4\] and are applicable to both noisy measurements and disturbances; \[12, Cor. 3\] provides convergence results for fixed complexity estimates; and multi-step predictors (II-C) are explicitly considered . Note that most of the discussion in this paper regarding predictive control based on multi-step predictors equally applies to such a robust setup.
 
 ### Input experiment design
 
-The derived estimation bounds are such that collecting more (informative) data reduces the parametric uncertainty. A related problem is choosing the probing input signal $u_{\lbrack 0,{T - 1}\rbrack}$, which is studied in dual control or optimal experiment design. Given, e.g., Corollary 1, a natural approach is to ensure a lower bound on the persistence of excitation, i.e., ${\sum_{k = 0}^{T - 1}{\Phi_{k}^{\top}{\overset{\sim}{\Sigma}}_{w}^{- 1}\Phi_{k}}} \succeq {\beta I}$, given a rough model description. This issue is, e.g., addressed in, which introduce conservatism due to convex relaxations, and only obtain approximations or require more complex robust propagation methods \[12, Sec 3.4\]. On the other hand, if the problem is addressed for multi-step predictors with only measurement noise, the variance can be deterministically predicted, which is, e.g., exploited in.
+The derived estimation bounds are such that collecting more (informative) data reduces the parametric uncertainty. A related problem is choosing the probing input signal $u_{\lbrack 0,{T - 1}\rbrack}$, which is studied in dual control or optimal experiment design. Given, e.g., Corollary 1, a natural approach is to ensure a lower bound on the persistence of excitation, i.e., ${\sum_{k = 0}^{T - 1}{\Phi_{k}^{\top}{\overset{\sim}{\Sigma}}_{w}^{- 1}\Phi_{k}}} \succeq {\beta I}$, given a rough model description. This issue is, e.g., addressed , which introduce conservatism due to convex relaxations, and only obtain approximations or require more complex robust propagation methods \[12, Sec 3.4\]. On the other hand, if the problem is addressed for multi-step predictors with only measurement noise, the variance can be deterministically predicted, which is, e.g., exploited .
 
 ## Data-driven predictive control with parametric uncertainty
 
@@ -142,9 +108,7 @@ In the following, we revisit the stochastic optimal control problem (Sec. II) gi
 
 ### IV-A State space model
 
-The predicted states are Gaussian $x_{k} \sim {\mathcal{N}{({\overline{x}}_{k},\Sigma_{x,k})}}$ (Sec. II), however, ${\overline{x}}_{k}$ and $\Sigma_{x,k}$ depend on the uncertain parameters $\theta_{1} = {{vec}\left( {\lbrack A,B\rbrack} \right)}$. Conceptually, we can solve Problem (II-A) using the following problem
-
-with $c_{\overset{\sim}{p}}:=\sqrt{\chi_{1}^{2}{({{2\overset{\sim}{p}} - 1})}}$. This deterministic $\min - \max$ problem is a non-conservative solution to Problem (II-A), given ${{Prob}\left\lbrack {{\overset{\sim}{\theta}}_{1} \in \Theta_{1,\delta}} \right\rbrack} \geq \delta$. However, $\Sigma_{x,k}$ and ${\overline{x}}_{k}$ are highly nonlinear in ${\overset{\sim}{\theta}}_{1}$ and the problem is in general intractable.
+The predicted states are Gaussian $x_{k} \sim {\mathcal{N}{({\overline{x}}_{k},\Sigma_{x,k})}}$ (Sec. II), however, ${\overline{x}}_{k}$ and $\Sigma_{x,k}$ depend on the uncertain parameters $\theta_{1} = {{vec}\left({\lbrack A,B\rbrack} \right)}$. Conceptually, we can solve Problem (II-A) using the following problem with $c_{\overset{\sim}{p}}:=\sqrt{\chi_{1}^{2}{({{2\overset{\sim}{p}} - 1})}}$. This deterministic $\min - \max$ problem is a non-conservative solution to Problem (II-A), given ${{Prob}\left\lbrack {{\overset{\sim}{\theta}}_{1} \in \Theta_{1,\delta}} \right\rbrack} \geq \delta$. However, $\Sigma_{x,k}$ and ${\overline{x}}_{k}$ are highly nonlinear in ${\overset{\sim}{\theta}}_{1}$ and the problem is in general intractable.
 
 We briefly mention standard approaches from the MPC literature to compute a feasible (but suboptimal) solution to (IV-A). By ignoring the time-invariance of $\theta$, an upper bound for $\Sigma_{x,k}$ can be computed offline(!) using semi-definite programs (SDP), compare, e.g., \[40, Lemma 4.1, Thm. 4.2\],. Determining the reachable set for the mean ${\overline{x}}_{k}$ is addressed in tube-based MPC formulations for multiplicative/parametric uncertainty, \[7, Sec. 5.5\]. These approaches use a fixed parametrization (polytopes/ellipses) and provide sufficient conditions for an over-approximation of the reachable set. The size of this "tube/funnel" depends on the nominal input $u_{\lbrack 0,{N - 1}\rbrack}$ and is computed by adding linear/conic constraints over the prediction horizon.
 
@@ -154,25 +118,11 @@ The following lemma shows how to enforce the chance constraints (2b) despite the
 
 ### Lemma 3
 
-Suppose the conditions in Lemma 2 hold and the input sequence $u_{\lbrack 0,{k - 1}\rbrack}$ satisfies
-
-with ${\overline{h}}_{j,k}$ according to below. Then, the chance constraints (2b) hold.
+Suppose the conditions in Lemma 2 hold and the input sequence $u_{\lbrack 0,{k - 1}\rbrack}$ satisfies with ${\overline{h}}_{j,k}$ according to below. Then, the chance constraints (2b) hold.
 
 ### Proof
 
-Define ${{vec}{({\lbrack{\overset{\sim}{G}}_{0,k},{\overset{\sim}{G}}_{u,k}\rbrack})}} = {\overset{\sim}{\theta}}_{k}$. Given that ${{Prob}\left\lbrack {{\overset{\sim}{\theta}}_{k} \in \Theta_{\delta,k}} \right\rbrack} \geq \delta$ is independent of $w_{\lbrack 0,{N - 1}\rbrack}$, $x_{0}$, the chance constraints (2b) hold if
-
-for all ${\overset{\sim}{\theta}}_{k} \in \Theta_{\delta,k}$, $j \in {\mathbb{I}}_{\lbrack 1,r\rbrack}$ with $\Sigma_{x,k} = {{G_{w,k}{diag}_{k}{(\Sigma_{w})}G_{w,k}^{\top}} + {G_{0,k}\Sigma_{x,0}G_{0,k}^{\top}}}$. For the mean trajectory ${\overline{x}}_{k}$, the properties of the Kronecker product yield
-
-Similarly, for the variance we obtain
-
-By combining these bounds, we obtain
-
-for all ${\overset{\sim}{\theta}}_{k} \in \Theta_{\delta,k}$. Thus, Inequality implies (2b). ∎
-
-For the derived mean and variance bound, there exist parameters ${\overset{\sim}{\theta}}_{k} \in \Theta_{\delta,k}$, such that the bounds hold individually with equality (although the combined bound is not tight). Computing the constants requires maximizing a quadratic function over an ellipsoid, which is an SDP \[45, Prop. 2.2\], and a simple upper bound is given by:
-
-Given the parameter estimates ${\hat{\theta}}_{k}$ with variance $\Sigma_{\theta,k}$ (Lemma 2) and constants ${\overline{h}}_{j,k}$ for each prediction step $k \in {\mathbb{I}}_{\lbrack 1,N\rbrack}$, we can pose the following problem:
+Define ${{vec}{({\lbrack{\overset{\sim}{G}}_{0,k},{\overset{\sim}{G}}_{u,k}\rbrack})}} = {\overset{\sim}{\theta}}_{k}$. Given that ${{Prob}\left\lbrack {{\overset{\sim}{\theta}}_{k} \in \Theta_{\delta,k}} \right\rbrack} \geq \delta$ is independent of $w_{\lbrack 0,{N - 1}\rbrack}$, $x_{0}$, the chance constraints (2b) hold if for all ${\overset{\sim}{\theta}}_{k} \in \Theta_{\delta,k}$, $j \in {\mathbb{I}}_{\lbrack 1,r\rbrack}$ with $\Sigma_{x,k} = {{G_{w,k}{diag}_{k}{(\Sigma_{w})}G_{w,k}^{\top}} + {G_{0,k}\Sigma_{x,0}G_{0,k}^{\top}}}$. For the mean trajectory ${\overline{x}}_{k}$, the properties of the Kronecker product yield Similarly, for the variance we obtain By combining these bounds, we obtain for all ${\overset{\sim}{\theta}}_{k} \in \Theta_{\delta,k}$. Thus, Inequality implies (2b). ∎ For the derived mean and variance bound, there exist parameters ${\overset{\sim}{\theta}}_{k} \in \Theta_{\delta,k}$, such that the bounds hold individually with equality (although the combined bound is not tight). Computing the constants requires maximizing a quadratic function over an ellipsoid, which is an SDP \[45, Prop. 2.2\], and a simple upper bound is given: Given the parameter estimates ${\hat{\theta}}_{k}$ with variance $\Sigma_{\theta,k}$ (Lemma 2) and constants ${\overline{h}}_{j,k}$ for each prediction step $k \in {\mathbb{I}}_{\lbrack 1,N\rbrack}$, we can pose the following problem:
 
 ### Corollary 2
 
@@ -180,9 +130,7 @@ Suppose the conditions in Lemma 2 hold. Problem is a QP subject to second-order 
 
 ### Proof
 
-The chance constraints (2b) follow directly from Lemmas 2 and 3. This result exploits that we have individual chance constraints (2b) for each $k \in {\mathbb{I}}_{\lbrack 1,N\rbrack}$ and hence do not require the joint distribution of $(\theta_{k},\theta_{k + 1})$. ∎
-
-Problem addresses the chance constraints. A performance bound may require a modified cost.
+The chance constraints (2b) follow directly from Lemmas 2 and 3. This result exploits that we have individual chance constraints (2b) for each $k \in {\mathbb{I}}_{\lbrack 1,N\rbrack}$ and hence do not require the joint distribution of $(\theta_{k},\theta_{k + 1})$. ∎ Problem addresses the chance constraints. A performance bound may require a modified cost.
 
 ### IV-C Existing approaches using multi-step predictor bounds
 
@@ -190,7 +138,7 @@ In the following, we detail some approaches from the literature that, similar to
 
 ### Impulse response models
 
-Early MPC implementations, especially in process control, are focused on impulse/step response models. Corresponding robust designs for FIR models with parametric uncertainty have also been derived using $\min - \max$ problems. By additionally considering set-membership estimation to identify the parametric error, a robust data-driven/adaptive MPC for FIR models is derived in. For a more general parametrization with OBFs, and assuming only output measurement noise, robust/chance constraints under parametric uncertainty can also be enforced without conservatism. Notably, the parameter dimension with OBF can be significantly smaller, which reduces the computational complexity of the vertex enumeration.
+Early MPC implementations, especially in process control, are focused on impulse/step response models. Corresponding robust designs for FIR models with parametric uncertainty have also been derived using $\min - \max$ problems. By additionally considering set-membership estimation to identify the parametric error, a robust data-driven/adaptive MPC for FIR models is derived . For a more general parametrization with OBFs, and assuming only output measurement noise, robust/chance constraints under parametric uncertainty can also be enforced without conservatism. Notably, the parameter dimension with OBF can be significantly smaller, which reduces the computational complexity of the vertex enumeration.
 
 ### Data-driven/enabled predictive control
 
@@ -208,12 +156,9 @@ SLS is a method to jointly optimize over feedback policies by parametrizing the 
 
 ### Complexity and conservatism
 
-For both model parametrizations, the considered derivation (Sec. IV-A/IV-B) introduces conservatism by: a) separately bounding the variance and mean (which allows for a pre-computation of the variance related terms); b) using ${{Prob}\left\lbrack {{\overset{\sim}{\theta}}_{k} \in \Theta_{\delta,k}} \right\rbrack} \geq \delta$ (Lemma 2) instead of directly working with the distribution $\theta_{k} \in {\mathcal{N}{({\hat{\theta}}_{k},\Sigma_{\theta,k})}}$. Apart from this simplification, the derivation in Lemma 3 is tight. Another major benefit of Problem is its simplicity, i.e., compared to Problem we only require the following changes:
+For both model parametrizations, the considered derivation (Sec. IV-A/IV-B) introduces conservatism: a) separately bounding the variance and mean (which allows for a pre-computation of the variance related terms); b) using ${{Prob}\left\lbrack {{\overset{\sim}{\theta}}_{k} \in \Theta_{\delta,k}} \right\rbrack} \geq \delta$ (Lemma 2) instead of directly working with the distribution $\theta_{k} \in {\mathcal{N}{({\hat{\theta}}_{k},\Sigma_{\theta,k})}}$. Apart from this simplification, the derivation in Lemma 3 is tight. Another major benefit of Problem is its simplicity, i.e., compared to Problem we only require the following changes: The probability level is increased with $\overset{\sim}{p} > p$.
 
-The probability level is increased with $\overset{\sim}{p} > p$.
-
-The constraint is further tightened by a scaled norm of the vector ${{\Sigma_{\theta,k}^{1/2}\begin{bmatrix}
-\end{bmatrix}} \otimes H_{x,j}} \in {\mathbb{R}}^{{nkm} + n^{2}}$.
+The constraint is further tightened by a scaled norm of the vector ${{\Sigma_{\theta,k}^{1/2}\begin{bmatrix} \end{bmatrix}} \otimes H_{x,j}} \in {\mathbb{R}}^{{nkm} + n^{2}}$.
 
 Constants ${\overline{h}}_{j,k} \geq {\| H_{x,j}\|}_{\Sigma_{x,k}}$ can be computed offline using or (IV-B).
 
@@ -235,15 +180,7 @@ While we focus on linear systems throughout the paper, similar conclusions can b
 
 ## Conclusion
 
-We have provided a tutorial-style exposition of data-driven stochastic predictive control using state space models or multi-step predictors. In particular, we have investigated the challenges associated with parametric uncertainty in both model parametrizations. Tube-based methods for state space models need to trade-off computational complexity and conservatism, and require additional offline designs with various free design parameters. On the other hand, we derived simple (partially tight) bounds for multi-step predictors (Lemma 3), which do not suffer from similar conservatism. However, an a-priori comparison of the closed-loop performance in a receding horizon implementation is challenging due to the required modifications with multi-step predictors (e.g., multi-rate implementation). A direct comparison of the computational complexity is also difficult, as even within tube-based approaches the complexity can vary by orders of magnitude (cf. \[11, Tab. 1\]). Nonetheless, tube based approaches retain the sparse structure of the state space formulation and hence result in a reduced computational complexity for long horizons $N$ (cf. \[39, Sec. 3\]). In addition to these differences, main factors that should guide the choice of parametrizations are:
-
-magnitude of the parametric uncertainty;
-
-simplicity in receding horizon implementation;
-
-scalability for long prediction horizons;
-
-different model priors and the prevalence of disturbances or noise in the parameter identification.
+We have provided a tutorial-style exposition of data-driven stochastic predictive control using state space models or multi-step predictors. In particular, we have investigated the challenges associated with parametric uncertainty in both model parametrizations. Tube-based methods for state space models need to trade-off computational complexity and conservatism, and require additional offline designs with various free design parameters. On the other hand, we derived simple (partially tight) bounds for multi-step predictors (Lemma 3), which do not suffer from similar conservatism. However, an a-priori comparison of the closed-loop performance in a receding horizon implementation is challenging due to the required modifications with multi-step predictors (e.g., multi-rate implementation). A direct comparison of the computational complexity is also difficult, as even within tube-based approaches the complexity can vary by orders of magnitude (cf. \[11, Tab. 1\]). Nonetheless, tube based approaches retain the sparse structure of the state space formulation and hence result in a reduced computational complexity for long horizons $N$ (cf. \[39, Sec. 3\]). In addition to these differences, main factors that should guide the choice of parametrizations are: magnitude of the parametric uncertainty; simplicity in receding horizon implementation; scalability for long prediction horizons; different model priors and the prevalence of disturbances or noise in the parameter identification.
 
 ### Open-issues
 

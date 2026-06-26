@@ -12,9 +12,7 @@ We present Dreamer, an agent that learns long-horizon behaviors from images pure
 
 In comparison to actor critic algorithms that learn online or by experience replay, world models can interpolate past experience and offer analytic gradients of multi-step returns for efficient policy optimization.
 
-The key contributions of this paper are summarized as follows:
-
-Learning long-horizon behaviors by latent imagination Model-based agents can be shortsighted if they use a finite imagination horizon. We approach this limitation by predicting both actions and state values. Training purely by imagination in a latent space lets us efficiently learn the policy by propagating analytic value gradients back through the latent dynamics.
+The key contributions of this paper are summarized as follows: Learning long-horizon behaviors by latent imagination Model-based agents can be shortsighted if they use a finite imagination horizon. We approach this limitation by predicting both actions and state values. Training purely by imagination in a latent space lets us efficiently learn the policy by propagating analytic value gradients back through the latent dynamics.
 
 Empirical performance for visual control We pair Dreamer with existing representation learning methods and evaluate it on the DeepMind Control Suite with image inputs, illustrated in Figure 2. Using the same hyper parameters for all tasks, Dreamer exceeds previous model-based and model-free agents in terms of data-efficiency, computation time, and final performance.
 
@@ -28,9 +26,7 @@ We formulate visual control as a partially observable Markov decision process (P
 
 ### Agent components
 
-The classical components of agents that learn in imagination are dynamics learning, behavior learning, and environment interaction. In the case of Dreamer, the behavior is learned by predicting hypothetical trajectories in the compact latent space of the world model. As outlined in Figure 3 and detailed in Algorithm 1, Dreamer performs the following operations throughout the agent's life time, either interleaved or in parallel:
-
-Learning the latent dynamics model from the dataset of past experience to predict future rewards from actions and past observations. Any learning objective for the world model can be incorporated with Dreamer. We review existing methods for learning latent dynamics in Section 4.
+The classical components of agents that learn in imagination are dynamics learning, behavior learning, and environment interaction. In the case of Dreamer, the behavior is learned by predicting hypothetical trajectories in the compact latent space of the world model. As outlined in Figure 3 and detailed in Algorithm 1, Dreamer performs the following operations throughout the agent's life time, either interleaved or in parallel: Learning the latent dynamics model from the dataset of past experience to predict future rewards from actions and past observations. Any learning objective for the world model can be incorporated with Dreamer. We review existing methods for learning latent dynamics in Section 4.
 
 Learning action and value models from predicted latent trajectories, as described in Section 3. The value model optimizes Bellman consistency for imagined rewards and the action model is updated by propagating gradients of value estimates back through the neural network dynamics.
 
@@ -38,44 +34,15 @@ Executing the learned action model in the world to collect new experience for gr
 
 ### Latent dynamics
 
-Dreamer uses a latent dynamics model that consists of three components. The representation model encodes observations and actions to create continuous vector-valued model states $s_{t}$ with Markovian transitions. The transition model predicts future model states without seeing the corresponding observations that will later cause them. The reward model predicts the rewards given the model states,
-
-We use $p$ for distributions that generate samples in the real environment and $q$ for their approximations that enable latent imagination. Specifically, the transition model lets us predict ahead in the compact latent space without having to observe or imagine the corresponding images. This results in a low memory footprint and fast predictions of thousands of imagined trajectories in parallel.
+Dreamer uses a latent dynamics model that consists of three components. The representation model encodes observations and actions to create continuous vector-valued model states $s_{t}$ with Markovian transitions. The transition model predicts future model states without seeing the corresponding observations that will later cause them. The reward model predicts the rewards given the model states, We use $p$ for distributions that generate samples in the real environment and $q$ for their approximations that enable latent imagination. Specifically, the transition model lets us predict ahead in the compact latent space without having to observe or imagine the corresponding images. This results in a low memory footprint and fast predictions of thousands of imagined trajectories in parallel.
 
 The model mimics a non-linear Kalman filter, latent state space model, or HMM with real-valued states. However, it is conditioned on actions and predicts rewards, allowing the agent to imagine the outcomes of potential action sequences without executing them in the environment.
 
 ## Learning Behaviors by Latent Imagination
 
-(a) Learn dynamics from experience
+(a) Learn dynamics from experience (b) Learn behavior in imagination (c) Act in the environment Figure 3: Components of Dreamer. (a) From the dataset of past experience, the agent learns to encode observations and actions into compact latent states, for example via reconstruction, and predicts environment rewards. (b) In the compact latent space, Dreamer predicts state values and actions that maximize future value predictions by propagating gradients back through imagined trajectories. (c) The agent encodes the history of the episode to compute the current model state and predict the next action to execute in the environment. See Algorithm 1 for pseudo code of the agent.
 
-(b) Learn behavior in imagination
-
-(c) Act in the environment
-
-Figure 3: Components of Dreamer. (a) From the dataset of past experience, the agent learns to encode observations and actions into compact latent states (), for example via reconstruction, and predicts environment rewards (). (b) In the compact latent space, Dreamer predicts state values () and actions () that maximize future value predictions by propagating gradients back through imagined trajectories. (c) The agent encodes the history of the episode to compute the current model state and predict the next action to execute in the environment. See Algorithm 1 for pseudo code of the agent.
-
-Initialize dataset 𝒟 with S random seed episodes.;
-Initialize neural network parameters θ, ϕ, ψ randomly.;
-while not converged do
-for update step c = 1..C do
-Draw B data sequences {(at,ot,rt)}t = kk + L ∼ 𝒟.;
-Compute model states st ∼ pθ (st t − 1,at − 1,ot).;
-Update θ using representation learning.;
-Imagine trajectories {(sτ,aτ)}τ = tt + H from each st.;
-Predict rewards E(qθ (rτ τ)) and values vψ (sτ).;
-Compute value estimates Vλ (sτ) via Equation 6.;
-Update $\phi\leftarrow{\phi + {\alpha\nabla_{\phi}{\sum_{\tau = t}^{t + H}{V_{\lambda}{(s_{\tau})}}}}}$.;
-Update $\psi\leftarrow{\psi - {\alpha\nabla_{\psi}{\sum_{\tau = t}^{t + H}{\frac{1}{2}\left\| {v_{\psi}{(s_{\tau})}V_{\lambda}{(s_{\tau})}} \right\|^{2}}}}}$.
-for time step t = 1..T do
-Compute st ∼ pθ (st t − 1,at − 1,ot) from history.;
-Compute at ∼ qϕ (at t) with the action model.;
-Add exploration noise to action.;
-
-Add experience to dataset 𝒟 ← 𝒟 ∪ {(ot,at,rt)t = 1T}.;
-
-Model components Representation pθ (st t - 1,at - 1,ot) Transition qθ (st t - 1,at - 1) Reward qθ (rt t) Action qϕ (at t) Value vψ (st) Hyper parameters Seed episodes S Collect interval C Batch size B Sequence length L Imagination horizon H Learning rate α
-
-Figure 4: Imagination horizons. We compare the final performance of Dreamer, learning an action model without value prediction, and online planning using PlaNet. Learning a state value model to estimate rewards beyond the imagination horizon makes Dreamer more robust to the horizon length. The agents use pixel reconstruction for representation learning and an action repeat of R = 2.
+Initialize dataset 𝒟 with S random seed episodes.; Initialize neural network parameters θ, ϕ, ψ randomly.; while not converged do for update step c = 1..C do Draw B data sequences {(, ot, rt)}t = kk + L ∼ 𝒟.; Compute model states st ∼ pθ (st t − 1, at − 1, ot).; Update θ using representation learning.; Imagine trajectories {(sτ, aτ)}τ = tt + H from each st.; Predict rewards E(qθ (rτ τ)) and values vψ (sτ).; Compute value estimates Vλ (sτ) via Equation 6.; Update $\phi\leftarrow{\phi + {\alpha\nabla_{\phi}{\sum_{\tau = t}^{t + H}{V_{\lambda}{(s_{\tau})}}}}}$.; Update $\psi\leftarrow{\psi - {\alpha\nabla_{\psi}{\sum_{\tau = t}^{t + H}{\frac{1}{2}\left\| {v_{\psi}{(s_{\tau})}V_{\lambda}{(s_{\tau})}} \right\|^{2}}}}}$. for time step t = 1..T do Compute st ∼ pθ (st t − 1, at − 1, ot) from history.; Compute at ∼ qϕ (at t) with the action model.; Add exploration noise to action.; Add experience to dataset 𝒟 ← 𝒟 ∪ {(ot,, rt)t = 1T}.; Model components Representation pθ (st t - 1, at - 1, ot) Transition qθ (st t - 1, at - 1) Reward qθ (rt t) Action qϕ (at t) Value vψ (st) Hyper parameters Seed episodes S Collect interval C Batch size B Sequence length L Imagination horizon H Learning rate α Figure 4: Imagination horizons. We compare the final performance of Dreamer, learning an action model without value prediction, and online planning using PlaNet. Learning a state value model to estimate rewards beyond the imagination horizon makes Dreamer more robust to the horizon length. The agents use pixel reconstruction for representation learning and an action repeat of R = 2.
 
 Dreamer learns long-horizon behaviors in the compact latent space of a learned world model by efficiently leveraging the neural network latent dynamics. For this, we propagate stochastic gradients of multi-step returns through neural network predictions of actions, states, rewards, and values using reparameterization. This section describes the main contribution of our paper.
 
@@ -85,23 +52,17 @@ The latent dynamics define a Markov decision process that is fully observed beca
 
 ### Action and value models
 
-Consider imagined trajectories with a finite horizon $H$. Dreamer uses an actor critic approach to learn behaviors that consider rewards beyond the horizon. We learn an action model and a value model in the latent space of the world model for this. The action model implements the policy and aims to predict actions that solve the imagination environment. The value model estimates the expected imagined rewards that the action model achieves from each state $s_{\tau}$,
-
-The action and value models are trained cooperatively as typical in policy iteration: the action model aims to maximize an estimate of the value, while the value model aims to match an estimate of the value that changes as the action model changes.
+Consider imagined trajectories with a finite horizon $H$. Dreamer uses an actor critic approach to learn behaviors that consider rewards beyond the horizon. We learn an action model and a value model in the latent space of the world model for this. The action model implements the policy and aims to predict actions that solve the imagination environment. The value model estimates the expected imagined rewards that the action model achieves from each state $s_{\tau}$, | | Value model: | | | ${{v_{\psi}{(s_{\tau})}} \approx {E_{q{(\cdot |s_{\tau})}}\left({\sum_{\tau = t}^{t + H}{\gamma^{\tau - t}r_{\tau}}} \right)}}.$ | | | The action and value models are trained cooperatively as typical in policy iteration: the action model aims to maximize an estimate of the value, while the value model aims to match an estimate of the value that changes as the action model changes.
 
 We use dense neural networks for the action and value models with parameters $\phi$ and $\psi$, respectively. The action model outputs a tanh-transformed Gaussian with sufficient statistics predicted by the neural network. This allows for reparameterized sampling that views sampled actions as deterministically dependent on the neural network output, allowing us to backpropagate analytic gradients through the sampling operation,
 
 ### Value estimation
 
-To learn the action and value models, we need to estimate the state values of imagined trajectories ${\{ s_{\tau},a_{\tau},r_{\tau}\}}_{\tau = t}^{t + H}$. These trajectories branch off of the model states $s_{t}$ of sequence batches drawn from the agent's dataset of experience and predict forward for the imagination horizon $H$ using actions sampled from the action model. State values can be estimated in multiple ways that trade off bias and variance,
-
-where the expectations are estimated under the imagined trajectories. $V_{R}$ simply sums the rewards from $\tau$ until the horizon and ignores rewards beyond it. This allows learning the action model without a value model, an ablation we compare to in our experiments. $V_{N}^{k}$ estimates rewards beyond $k$ steps with the learned value model. Dreamer uses $V_{\lambda}$, an exponentially-weighted average of the estimates for different $k$ to balance bias and variance. Figure 4 shows that learning a value model in imagination enables Dreamer to solve long-horizon tasks while being robust to the imagination horizon. The experimental details and results on all tasks are described in Section 6.
+To learn the action and value models, we need to estimate the state values of imagined trajectories ${\{ s_{\tau},a_{\tau},r_{\tau}\}}_{\tau = t}^{t + H}$. These trajectories branch off of the model states $s_{t}$ of sequence batches drawn from the agent's dataset of experience and predict forward for the imagination horizon $H$ using actions sampled from the action model. State values can be estimated in multiple ways that trade off bias and variance, where the expectations are estimated under the imagined trajectories. $V_{R}$ simply sums the rewards from $\tau$ until the horizon and ignores rewards beyond it. This allows learning the action model without a value model, an ablation we compare to in our experiments. $V_{N}^{k}$ estimates rewards beyond $k$ steps with the learned value model. Dreamer uses $V_{\lambda}$, an exponentially-weighted average of the estimates for different $k$ to balance bias and variance. Figure 4 shows that learning a value model in imagination enables Dreamer to solve long-horizon tasks while being robust to the imagination horizon. The experimental details and results on all tasks are described in Section 6.
 
 ### Learning objective
 
-To update the action and value models, we first compute the value estimates $V_{\lambda}{(s_{\tau})}$ for all states $s_{\tau}$ along the imagined trajectories. The objective for the action model $q_{\phi}{({a_{\tau}{}_{\tau}})}$ is to predict actions that result in state trajectories with high value estimates. The objective for the value model $v_{\psi}{(s_{\tau})}$, in turn, is to regress the value estimates,
-
-The value model is updated to regress the targets, around which we stop the gradient as typical. The action model uses analytic gradients through the learned dynamics to maximize the value estimates. To understand this, we note that the value estimates depend on the reward and value predictions, which depend on the imagined states, which in turn depend on the imagined actions. Since all steps are implemented as neural networks, we analytically compute ${\nabla_{\phi}E_{q_{\theta},q_{\phi}}}\left( {\sum_{\tau = t}^{t + H}{V_{\lambda}{(s_{\tau})}}} \right)$ by stochastic backpropagation. We use reparameterization for continuous actions and latent states and straight-through gradients for discrete actions. The world model is fixed while learning behaviors.
+To update the action and value models, we first compute the value estimates $V_{\lambda}{(s_{\tau})}$ for all states $s_{\tau}$ along the imagined trajectories. The objective for the action model $q_{\phi}{({a_{\tau}{}_{\tau}})}$ is to predict actions that result in state trajectories with high value estimates. The objective for the value model $v_{\psi}{(s_{\tau})}$, in turn, is to regress the value estimates, The value model is updated to regress the targets, around which we stop the gradient as typical. The action model uses analytic gradients through the learned dynamics to maximize the value estimates. To understand this, we note that the value estimates depend on the reward and value predictions, which depend on the imagined states, which in turn depend on the imagined actions. Since all steps are implemented as neural networks, we analytically compute ${\nabla_{\phi}E_{q_{\theta},q_{\phi}}}\left({\sum_{\tau = t}^{t + H}{V_{\lambda}{(s_{\tau})}}} \right)$ by stochastic backpropagation. We use reparameterization for continuous actions and latent states and straight-through gradients for discrete actions. The world model is fixed while learning behaviors.
 
 In tasks with early termination, the world model also predicts the discount factor from each latent state to weigh the time steps in Equations 7 and 8 by the cumulative product of the predicted discount factors, so terms are weighted down based on how likely the imagined trajectory would have ended.
 
@@ -125,19 +86,11 @@ Latent imagination requires a representation model $p{({s_{t}{}_{t - 1}},a_{t - 
 
 ### Reconstruction
 
-We first describe the world model used by PlaNet that learns latent dynamics by reconstructing images as shown in Figure 3(a). The world model consists of the following components, where the observation model is only used to provide a learning signal,
-
-The components are optimized jointly to increase the variational lower bound or more generally the variational information bottleneck. As derived in Appendix B, the bound includes reconstruction terms for observations and rewards and a KL regularizer. The expectation is taken under the dataset and representation model,
-
-We implement the transition model as a recurrent state space model, the representation model by combining the RSSM with a convolutional neural network applied to the image observation, the observation model as a transposed CNN, and the reward model as a dense network. The combined parameter vector $\theta$ is updated by stochastic backpropagation. Figure 5 shows video predictions of this model. We refer to Appendix A and Hafner et al. model details.
+We first describe the world model used by PlaNet that learns latent dynamics by reconstructing images as shown in Figure 3(a). The world model consists of the following components, where the observation model is only used to provide a learning signal, The components are optimized jointly to increase the variational lower bound or more generally the variational information bottleneck. As derived in Appendix B, the bound includes reconstruction terms for observations and rewards and a KL regularizer. The expectation is taken under the dataset and representation model, | | | ${\mathcal{J}_{REC} \doteq {{E_{p}\left({\sum\limits_{t}\left({\mathcal{J}_{O}^{t} + \mathcal{J}_{R}^{t} + \mathcal{J}_{D}^{t}} \right)} \right)} + \text{const}}}\qquad{\mathcal{J}_{O}^{t} \doteq {{\ln q}{({o_{t}{}_{t}})}}}$ | | \(10\) | We implement the transition model as a recurrent state space model, the representation model by combining the RSSM with a convolutional neural network applied to the image observation, the observation model as a transposed CNN, and the reward model as a dense network. The combined parameter vector $\theta$ is updated by stochastic backpropagation. Figure 5 shows video predictions of this model. We refer to Appendix A and Hafner et al. model details.
 
 ### Contrastive estimation
 
-Predicting pixels can require high model capacity. We can also encourage mutual information between model states and observations by instead predicting the states from the images. This replaces the observation model with a state model,
-
-While the reconstruction objective used the fact that the observation marginal is a constant, we now face the state marginal. As shown in Appendix B, this can be estimated via noise contrastive estimation by averaging the state model over observations $o^{\prime}$ of the current sequence batch. Intuitively, $q{({s_{t}{}_{t}})}$ makes the state predictable from the current image while $\ln{\sum_{o^{\prime}}{q{({s_{t}{}^{\prime}})}}}$ keeps it diverse to prevent collapse,
-
-We implement the state model as a CNN and again optimize the bound with respect to the combined parameter vector $\theta$ using stochastic backpropagation. While avoiding pixel prediction, the amount of information this bound can extract efficiently is limited. We empirically compare reward, reconstruction, and contrastive objectives in our experiments in Figure 8.
+Predicting pixels can require high model capacity. We can also encourage mutual information between model states and observations by instead predicting the states from the images. This replaces the observation model with a state model, While the reconstruction objective used the fact that the observation marginal is a constant, we now face the state marginal. As shown in Appendix B, this can be estimated via noise contrastive estimation by averaging the state model over observations $o'$ of the current sequence batch. Intuitively, $q{({s_{t}{}_{t}})}$ makes the state predictable from the current image while $\ln{\sum_{o'}{q{({s_{t}{}'})}}}$ keeps it diverse to prevent collapse, We implement the state model as a CNN and again optimize the bound with respect to the combined parameter vector $\theta$ using stochastic backpropagation. While avoiding pixel prediction, the amount of information this bound can extract efficiently is limited. We empirically compare reward, reconstruction, and contrastive objectives in our experiments in Figure 8.
 
 ## Related Work
 
@@ -159,7 +112,7 @@ DPG, DDPG, and SAC leverage gradients of learned immediate action values to lear
 
 Figure 8: Comparison of representation learning objectives to be used with Dreamer. Pixel reconstruction performs best for the majority of tasks. The contrastive objective solves about half of the tasks, while predicting rewards alone was not sufficient in our experiments. The results suggest that future developments in learning representations are likely to translate into improved task performance for Dreamer. The performance curves for all tasks are included in Appendix E.
 
-We experimentally evaluate Dreamer on a variety of control tasks. We designed the experiments to compare Dreamer to current best methods in the literature, and to evaluate its ability to solve tasks with long horizons, continuous actions, discrete actions, and early termination. We further compare the orthogonal choice of learning objective for the world model. The source code for all our experiments and videos of Dreamer are available at [https://danijar.com/dreamer](https://danijar.com/dreamer).
+We experimentally evaluate Dreamer on a variety of control tasks. We designed the experiments to compare Dreamer to current best methods in the literature, and to evaluate its ability to solve tasks with long horizons, continuous actions, discrete actions, and early termination. We further compare the orthogonal choice of learning objective for the world model. The source code for all our experiments and videos of Dreamer are available at
 
 ### Control tasks
 

@@ -12,7 +12,7 @@ In this work, we use automated search techniques to discover novel activation fu
 
 In order to utilize search techniques, a search space that contains promising candidate activation functions must be designed. An important challenge in designing search spaces is balancing the size and expressivity of the search space. An overly constrained search space will not contain novel activation functions, whereas a search space that is too large will be difficult to effectively search. To balance the two criteria, we design a simple search space inspired by the optimizer search space of Bello et al. that composes unary and binary functions to construct the activation function.
 
-Figure 1: An example activation function structure. The activation function is composed of multiple repetitions of the “core unit”, which consists of two inputs, two unary functions, and one binary function. Unary functions take in a single scalar input and return a single scalar output, such u (x) = x2 or u (x) = σ (x). Binary functions take in two scalar inputs and return a single scalar output, such as b (x1,x2) = x1 ⋅ x2 or b (x1,x2) = exp (−(x1−x2)2).
+Figure 1: An example activation function structure. The activation function is composed of multiple repetitions of the “core unit”, which consists of two inputs, two unary functions, and one binary function. Unary functions take in a single scalar input and return a single scalar output, such u (x) = x2 or u (x) = σ (x). Binary functions take in two scalar inputs and return a single scalar output, such as b (x1, x2) = x1 ⋅ x2 or b (x1, x2) = exp (−(x1 − x2)2).
 
 As shown in Figure 1, the activation function is constructed by repeatedly composing the the "core unit", which is defined as $b{({u_{1}{(x_{1})}},{u_{2}{(x_{2})}})}$. The core unit takes in two scalar inputs, passes each input independently through an unary function, and combines the two unary outputs with a binary function that outputs a scalar. Since our aim is to find scalar activation functions which transform a single scalar input into a single scalar output, the inputs of the unary functions are restricted to the layer preactivation $x$ and the binary function outputs.
 
@@ -28,15 +28,11 @@ Since evaluating a single activation function requires training a child network,
 
 ## Search Findings
 
-We conduct all our searches with the ResNet-20 as the child network architecture, and train on CIFAR-10 for 10K steps. This constrained environment could potentially skew the results because the top performing activation functions might only perform well for small networks. However, we show in the experiments section that many of the discovered functions generalize to larger models. Exhaustive search is used for small search spaces, while an RNN controller is used for larger search spaces. The RNN controller is trained with Policy Proximal Optimization, using the exponential moving average of rewards as a baseline to reduce variance. The full list unary and binary functions considered are as follows:
-
-where $\beta$ indicates a per-channel trainable parameter and ${\sigma{(x)}} = {({1 + {\exp{({- x})}}})}^{- 1}$ is the sigmoid function. Different search spaces are created by varying the number of core units used to construct the activation function and varying the unary and binary functions available to the search algorithm.
+We conduct all our searches with the ResNet-20 as the child network architecture, and train on CIFAR-10 for 10K steps. This constrained environment could potentially skew the results because the top performing activation functions might only perform well for small networks. However, we show in the experiments section that many of the discovered functions generalize to larger models. Exhaustive search is used for small search spaces, while an RNN controller is used for larger search spaces. The RNN controller is trained with Policy Proximal Optimization, using the exponential moving average of rewards as a baseline to reduce variance. The full list unary and binary functions considered are as follows: where $\beta$ indicates a per-channel trainable parameter and ${\sigma{(x)}} = {({1 + {\exp{({- x})}}})}^{- 1}$ is the sigmoid function. Different search spaces are created by varying the number of core units used to construct the activation function and varying the unary and binary functions available to the search algorithm.
 
 Figure 3: The top novel activation functions found by the searches. Separated into two diagrams for visual clarity. Best viewed in color.
 
-Figure 3 plots the top performing novel activation functions found by the searches. We highlight several noteworthy trends uncovered by the searches:
-
-Complicated activation functions consistently underperform simpler activation functions, potentially due to an increased difficulty in optimization. The best performing activation functions can be represented by $1$ or $2$ core units.
+Figure 3 plots the top performing novel activation functions found by the searches. We highlight several noteworthy trends uncovered by the searches: Complicated activation functions consistently underperform simpler activation functions, potentially due to an increased difficulty in optimization. The best performing activation functions can be represented by $1$ or $2$ core units.
 
 A common structure shared by the top activation functions is the use of the raw preactivation $x$ as input to the final binary function: $b{(x,{g{(x)}})}$. The ReLU function also follows this structure, where ${b{(x_{1},x_{2})}} = {\max{(x_{1},x_{2})}}$ and ${g{(x)}} = 0$.
 
@@ -62,12 +58,9 @@ Figure 4: The Swish activation function.
 
 Figure 5: First derivatives of Swish.
 
-Like ReLU, Swish is unbounded above and bounded below. Unlike ReLU, Swish is smooth and non-monotonic. In fact, the non-monotonicity property of Swish distinguishes itself from most common activation functions. The derivative of Swish is
+Like ReLU, Swish is unbounded above and bounded below. Unlike ReLU, Swish is smooth and non-monotonic. In fact, the non-monotonicity property of Swish distinguishes itself from most common activation functions. The derivative of Swish is The first derivative of Swish is shown in Figure 5 for different values of $\beta$. The scale of $\beta$ controls how fast the first derivative asymptotes to $0$ and $1$. When $\beta = 1$, the derivative has magnitude less than $1$ for inputs that are less than around $1.25$. Thus, the success of Swish with $\beta = 1$ implies that the gradient preserving property of ReLU (i.e., having a derivative of 1 when $x > 0$) may no longer be a distinct advantage in modern architectures.
 
-The first derivative of Swish is shown in Figure 5 for different values of $\beta$. The scale of $\beta$ controls how fast the first derivative asymptotes to $0$ and $1$. When $\beta = 1$, the derivative has magnitude less than $1$ for inputs that are less than around $1.25$. Thus, the success of Swish with $\beta = 1$ implies that the gradient preserving property of ReLU (i.e., having a derivative of 1 when $x > 0$) may no longer be a distinct advantage in modern architectures.
-
-Figure 6: Preactivation distribution after
-training of Swish with β = 1 on ResNet-32.
+Figure 6: Preactivation distribution after training of Swish with β = 1 on ResNet-32.
 
 Figure 7: Distribution of trained β values of Swish on Mobile NASNet-A.
 
@@ -83,21 +76,13 @@ Table 3: The number of models on which Swish outperforms, is equivalent to, or u
 
 ### Experimental Set Up
 
-We compare Swish against several additional baseline activation functions on a variety of models and datasets. Since many activation functions have been proposed, we choose the most common activation functions to compare against, and follow the guidelines laid out in each work:
-
-Leaky ReLU (*LReLU*):
-
-where $\alpha = 0.01$. LReLU enables a small amount of information to flow when $x < 0$.
+We compare Swish against several additional baseline activation functions on a variety of models and datasets. Since many activation functions have been proposed, we choose the most common activation functions to compare against, and follow the guidelines laid out in each work: Leaky ReLU (*LReLU*): where $\alpha = 0.01$. LReLU enables a small amount of information to flow when $x < 0$.
 
 Parametric ReLU (*PReLU*): The same form as LReLU but $\alpha$ is a learnable parameter. Each channel has a shared $\alpha$ which is initialized to $0.25$.
 
 Softplus: ${f{(x)}} = {\log{({1 + {\exp{(x)}}})}}$. Softplus is a smooth function with properties similar to Swish, but is strictly positive and monotonic. It can be viewed as a smooth version of ReLU.
 
-Exponential Linear Unit (*ELU*):
-
-Scaled Exponential Linear Unit (*SELU*):
-
-with $\alpha \approx 1.6733$ and $\lambda \approx 1.0507$.
+Exponential Linear Unit (*ELU*): Scaled Exponential Linear Unit (*SELU*): with $\alpha \approx 1.6733$ and $\lambda \approx 1.0507$.
 
 Gaussian Error Linear Unit (*GELU*): ${f{(x)}} = {{x \cdot \Phi}{(x)}}$, where $\Phi{(x)}$ is the cumulative distribution function of the standard normal distribution. GELU is a nonmonotonic function that has a shape similar to Swish with $\beta = 1.4$.
 
@@ -119,9 +104,7 @@ Next, we benchmark Swish against the baseline activation functions on the ImageN
 
 We compare all the activation functions on a variety of architectures designed for ImageNet: Inception-ResNet-v2, Inception-v4, Inception-v3, MobileNet, and Mobile NASNet-A. All these architectures were designed with ReLUs. We again replace the ReLU activation function with different activation functions and train for a fixed number of steps, determined by the convergence of the ReLU baseline. For each activation function, we try 3 different learning rates with RMSProp and pick the best.^22^2For some of the models with ELU, SELU, and PReLU, we train with an additional 3 learning rates (so a total of 6 learning rates) because the original 3 learning rates did not converge. All networks are initialized with He initialization.^33^3For SELU, we tried both He initialization and the initialization recommended in Klambauer et al., and choose the best result for each model separately. To verify that the performance differences are reproducible, we run the Inception-ResNet-v2 and Mobile NASNet-A experiments 3 times with the best learning rate from the first experiment. We plot the learning curves for Mobile NASNet-A in Figure 8.
 
-Figure 8: Training curves of Mobile NASNet-A on ImageNet. Best viewed in color
-
-Table 6: Mobile NASNet-A on ImageNet, with 3 different runs ordered by top-1 accuracy. The additional 2 GELU experiments are still training at the time of submission.
+Figure 8: Training curves of Mobile NASNet-A on ImageNet. Best viewed in color Table 6: Mobile NASNet-A on ImageNet, with 3 different runs ordered by top-1 accuracy. The additional 2 GELU experiments are still training at the time of submission.
 
 Table 7: Inception-ResNet-v2 on ImageNet with 3 different runs. Note that the ELU sometimes has instabilities at the start of training, which accounts for the first result.
 

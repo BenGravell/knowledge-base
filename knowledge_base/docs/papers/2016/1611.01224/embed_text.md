@@ -6,11 +6,7 @@ The abstract paragraph should be indented $1/2$ inch (3 picas) on both the left-
 
 There is a new style file for papers submitted in 2016!
 
-NIPS requires electronic submissions. The electronic submission site is
-
-[https://cmt.research.microsoft.com/NIPS2016/](https://cmt.research.microsoft.com/NIPS2016/)
-
-Please read carefully the instructions below and follow them faithfully.
+NIPS requires electronic submissions. The electronic submission site is Please read carefully the instructions below and follow them faithfully.
 
 ### Style
 
@@ -22,11 +18,7 @@ Authors are required to use the NIPS LaTeX style files obtainable at the NIPS we
 
 ### Retrieval of style files
 
-The style files for NIPS and other conference information are available on the World Wide Web at
-
-[http://www.nips.cc/](http://www.nips.cc/)
-
-The file `nips_2016.pdf` contains these instructions and illustrates the various formatting requirements your NIPS paper must satisfy.
+The style files for NIPS and other conference information are available on the World Wide Web at The file `nips_2016.pdf` contains these instructions and illustrates the various formatting requirements your NIPS paper must satisfy.
 
 The only supported style file for NIPS 2016 is `nips_2016.sty`, rewritten for LaTeX 2ε. Previous style files for LaTeX 2.09, Microsoft Word, and RTF are no longer supported!
 
@@ -74,23 +66,7 @@ These instructions apply to everyone.
 
 The `natbib` package will be loaded for you by default. Citations may be author/year or numeric, as long as you maintain internal consistency. As to the format of the references themselves, any style is acceptable as long as it is used consistently.
 
-The documentation for `natbib` may be found at
-
-[http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf](http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf)
-
-Of note is the command `\citet`, which produces citations appropriate for use in inline text. For example,
-
-\citet{hasselmo} investigated\dots
-
-If you wish to load the `natbib` package with options, you may add the following before loading the `nips_2016` package:
-
-\PassOptionsToPackage{options}{natbib}
-
-If `natbib` clashes with another package you load, you can add the optional argument `nonatbib` when loading the style file:
-
-\usepackage[nonatbib]{nips_2016}
-
-As submission is double blind, refer to your own published work in the third person. That is, use "In the previous work of Jones et al.," not "In our previous work." If you cite your other papers that are not widely available (e.g., a journal paper under review), use anonymous author names in the citation, e.g., an author of the form "A. Anonymous."
+The documentation for `natbib` may be found at Of note is the command ``, which produces citations appropriate for use in inline text. For example, If you wish to load the `natbib` package with options, you may add the following before loading the `nips_2016` package: \PassOptionsToPackage{options}{natbib} If `natbib` clashes with another package you load, you can add the optional argument `nonatbib` when loading the style file: \usepackage[nonatbib]{nips_2016} As submission is double blind, refer to your own published work in the third person. That is, use "In the previous work of Jones et al.," not "In our previous work." If you cite your other papers that are not widely available (e.g., a journal paper under review), use anonymous author names in the citation, e.g., an author of the form "A. Anonymous."
 
 ### Footnotes
 
@@ -112,11 +88,7 @@ All tables must be centered, neat, clean and legible. The table number and title
 
 Place one line space before the table title, one line space after the table title, and one line space after the table. The table title must be lower case (except for first word and proper nouns); tables are numbered consecutively.
 
-Note that publication-quality tables *do not contain vertical rules.* We strongly suggest the use of the `booktabs` package, which allows for typesetting high-quality, professional tables:
-
-[https://www.ctan.org/pkg/booktabs](https://www.ctan.org/pkg/booktabs)
-
-This package was used to typeset Table 1.
+Note that publication-quality tables *do not contain vertical rules.* We strongly suggest the use of the `booktabs` package, which allows for typesetting high-quality, professional tables: This package was used to typeset Table 1.
 
 Table 1: Sample table title
 
@@ -134,29 +106,12 @@ You should directly generate PDF files using `pdflatex`.
 
 You can check which fonts a PDF files uses. In Acrobat Reader, select the menu Files$>$Document Properties$>$Fonts and select Show All Fonts. You can also use the program `pdffonts` which comes with `xpdf` and is available out-of-the-box on most Linux machines.
 
-The IEEE has recommendations for generating PDF files whose fonts are also acceptable for NIPS. Please see [http://www.emfield.org/icuwb2010/downloads/IEEE-PDF-.pdf](http://www.emfield.org/icuwb2010/downloads/IEEE-PDF-.pdf)
+The IEEE has recommendations for generating PDF files whose fonts are also acceptable for NIPS. Please see `xfig` \"patterned\" shapes are implemented with bitmap fonts. Use \"solid\" shapes instead.
 
-`xfig` \"patterned\" shapes are implemented with bitmap fonts. Use \"solid\" shapes instead.
-
-The `\bbold` package almost always uses bitmap fonts. You should use the equivalent AMS Fonts:
-
-followed by, e.g., `\mathbb{R}`, `\mathbb{N}`, or `\mathbb{C}` for $\mathbb{R}$, $\mathbb{N}$ or $\mathbb{C}$. You can also use the following workaround for reals, natural and complex:
-
-\newcommand{\RR}{I\!\!R} %real numbers
-\newcommand{\Nat}{I\!\!N} %natural numbers
-\newcommand{\CC}{I\!\!\!\!C} %complex numbers
-
-Note that `amsfonts` is automatically loaded by the `amssymb` package.
+The `\bbold` package almost always uses bitmap fonts. You should use the equivalent AMS Fonts: followed, e.g., `\mathbb{R}`, `\mathbb{N}`, or `\mathbb{C}` for $\mathbb{R}$, $\mathbb{N}$ or $\mathbb{C}$. You can also use the following workaround for reals, natural and complex: \newcommand{\RR}{I\!\!R} %real numbers \newcommand{\Nat}{I\!\!N} %natural numbers \newcommand{\CC}{I\!\!\!\!C} %complex numbers Note that `amsfonts` is automatically loaded by the `amssymb` package.
 
 If your file contains type 3 fonts or non embedded TrueType fonts, we will ask you to fix it.
 
 ### Margins in LaTeX
 
-Most of the margin problems come from figures positioned by hand using `\special` or other commands. We suggest using the command `\includegraphics` from the `graphicx` package. Always specify the figure width as a multiple of the line width as in the example below:
-
-\usepackage[pdftex]{graphicx}...
-\includegraphics[width=0.8\linewidth]{myfile.pdf}
-
-See Section 4.4 in the graphics bundle documentation ([http://mirrors.ctan.org/macros/latex/required/graphics/grfguide.pdf](http://mirrors.ctan.org/macros/latex/required/graphics/grfguide.pdf))
-
-A number of width problems arise when LaTeX cannot properly hyphenate a line. Please give LaTeX hyphenation hints using the `\-` command when necessary.
+Most of the margin problems come from figures positioned by hand using `\special` or other commands. We suggest using the command `\includegraphics` from the `graphicx` package. Always specify the figure width as a multiple of the line width as in the example below: \usepackage[pdftex]{graphicx}... \includegraphics[width=0.8\linewidth]{myfile.pdf} See Section 4.4 in the graphics bundle documentation A number of width problems arise when LaTeX cannot properly hyphenate a line. Please give LaTeX hyphenation hints using the `\-` command when necessary.

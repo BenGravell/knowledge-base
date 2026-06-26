@@ -20,13 +20,7 @@ Stable World Model (SWM) goal is to support researchers by reducing the idea-to-
 
 ### The World interface: streamlined WM research
 
-1 import stable_worldmodel as swm
-3 world = swm.World(’swm/PushT-v1’, num_envs=8)
-4 world.set_policy(YourExpertPolicy)
-6 world.reset # initialize the world
-7 world.step # update the world state with policy
-8 world.infos # current world state (dict)
-Listing 1: World Interface Logic. After specifying the environment ID (e.g., swm/PushT-v1) and the number of simulations, a policy can be attached to enable online interaction with the environment. At any time, all simulation-related information can be accessed via the infos dictionary.
+1 import stable_worldmodel as swm 3 world = swm.World(’swm/PushT-v1’, num_envs=8) 4 world.set_policy(YourExpertPolicy) 6 world.reset # initialize the world 7 world.step # update the world state with policy 8 world.infos # current world state (dict) Listing 1: World Interface Logic. After specifying the environment ID (e.g., swm/PushT-v1) and the number of simulations, a policy can be attached to enable online interaction with the environment. At any time, all simulation-related information can be accessed via the infos dictionary.
 
 The core abstraction in SWM is the World. A World wraps one or more Gymnasium tow environments and provides a unified interface for simulation, data collection, debugging, and evaluation. Internally, it leverages Gymnasium's synchronous environment API to manage and step multiple environments within a single object.
 
@@ -42,17 +36,7 @@ Figure 1: SWM Environment Suite. We support (and extend) a diverse set of establ
 
 SWM is designed as a collection of diverse environments that span a wide range of design choices, including continuous and discrete state/action spaces, different action modalities, and varied agent embodiments. These environments differ not only in their task structure but also in their underlying dynamics or observation spaces, as illustrated in Figure 1. Such diversity allows evaluation across qualitatively distinct settings and supports broad comparisons of learning algorithms. However, evaluating generalization solely across different environments can obscure more fine-grained sources of variation that commonly arise within a single task or domain.
 
-A key feature of SWM is the notion of factors of variation (FoV). Each environment in the library exposes a set of optional controllable properties that enable systematic customization of the environment configuration. These factors of variation span multiple aspects, including visual attributes (e.g., color, shape, textures, lighting), geometric properties (e.g., size, orientation, position), and physical parameters (e.g., friction, damping, mass, gravity). By explicitly exposing these controls, SWM enables fine-grained studies of robustness, generalization, domain shift, and continual learning within a single, unified environment. We provide a toy example in Listing LABEL:lst:swm-fov. More details about FoV can be found in Appendix B
-
-1 import stable_worldmodel as swm
-3 world = swm.World(’swm/PushT-v1’, num_envs=2)
-4 world.set_policy(YourExpertPolicy)
-6 print(world.single_variation_space.names) # available FoV
-8 # dataset with changing all agent FoV, and T color.
-9 world.record_dataset(
-10 dataset_name=’pusht_demo’,episodes=4, seed=0,
-11 options={"variation": ["agent", "block.color"]},
-Listing 2: SWM Factor of Variation Logic. During data collection or world reset, factors of variation (FoV) can optionally be specified via the options argument. In this illustrative Push-T example, all agent-related FoVs (e.g., color and size) are sampled, along with the color of the T-shaped object.
+A key feature of SWM is the notion of factors of variation (FoV). Each environment in the library exposes a set of optional controllable properties that enable systematic customization of the environment configuration. These factors of variation span multiple aspects, including visual attributes (e.g., color, shape, textures, lighting), geometric properties (e.g., size, orientation, position), and physical parameters (e.g., friction, damping, mass, gravity). By explicitly exposing these controls, SWM enables fine-grained studies of robustness, generalization, domain shift, and continual learning within a single, unified environment. We provide a toy example in Listing LABEL:lst:swm-fov. More details about FoV can be found in Appendix B 1 import stable_worldmodel as swm 3 world = swm.World(’swm/PushT-v1’, num_envs=2) 4 world.set_policy(YourExpertPolicy) 6 print(world.single_variation_space.names) # available FoV 8 # dataset with changing all agent FoV, and T color. 9 world.record_dataset(10 dataset_name=’pusht_demo’,episodes=4, seed=0, 11 options={"variation": ["agent", "block.color"]}, Listing 2: SWM Factor of Variation Logic. During data collection or world reset, factors of variation (FoV) can optionally be specified via the options argument. In this illustrative Push-T example, all agent-related FoVs (e.g., color and size) are sampled, along with the color of the T-shaped object.
 
 Internally, FoVs are implemented as a new type of Gymnasium dictionary Space (in addition to the standard action and observation space), which stores an internal value that can be initialized, sampled with or without constraint.
 

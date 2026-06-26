@@ -16,7 +16,7 @@ We employ a data engine (§5) to generate training data by using our model in th
 
 Our experiments (§6) show that SAM 2 delivers a step-change in the video segmentation experience. SAM 2 can produce better segmentation accuracy while using 3$\times$ fewer interactions than prior approaches. Further, SAM 2 outperforms prior work in established video object segmentation benchmarks, under multiple evaluation settings, and delivers better performance compared to SAM on image segmentation benchmarks, while being 6$\times$ faster. SAM 2 is shown to be effective across a variety of video and image distributions as observed through numerous zero-shot benchmarks including 17 for video segmentation and 37 for single-image segmentation.
 
-We are releasing our work under permissive open licences, including the SA-V dataset (CC by 4.0), the SAM 2 model checkpoints^11^1All the results presented in this paper are based on a new version of SAM 2 (improved over our initial release; denoted as "SAM 2.1" in [https://github.com/facebookresearch/sam2](https://github.com/facebookresearch/sam2)), which we will refer to as SAM 2 throughout for brevity., training code (Apache 2.0), and code for our interactive online demo (Apache 2.0).
+We are releasing our work under permissive open licences, including the SA-V dataset (CC by 4.0), the SAM 2 model checkpoints^11^1All the results presented in this paper are based on a new version of SAM 2, which we will refer to as SAM 2 throughout for brevity., training code (Apache 2.0), and code for our interactive online demo (Apache 2.0).
 
 ## Related work
 
@@ -124,20 +124,13 @@ To uphold a high standard for annotation, we introduce a verification step. A se
 
 Ensuring diversity in annotation is important to enable the anything capability of our model. As human annotators might typically focus more on salient objects, we augment the annotations with automatically generated masklets (referred to as "Auto"). This serves a dual purpose of increasing the coverage of annotations and helping identify model failure cases. To generate auto masklets, we prompt SAM 2 with a regular grid of points in the first frame and generate candidate masklets. These are then sent to the masklet verification step for filtering. Automatic masklets tagged as "satisfactory" are added to the SA-V dataset. Masklets identified as "unsatisfactory" (i.e., model failure cases) are sampled and presented to annotators to refine with SAM 2 in the loop (Phase 3 of the data engine). These automatic masklets cover large salient central objects but also objects of varying sizes and positions in the background.
 
-Model in the Loop
-Time per Frame
-Clicks per Clicked Frame
-Phase 1 Mask Alignment Score (IoU&gt;0.75)
-
-SAM + SAM 2 Mask
-
-Table 1: Evolution of data engine phases showing the average annotation time per frame, the average percent of edited frames per masklet, the number of manual clicks per clicked frame, and Mask Alignment to Phase 1 by mask size.
+Model in the Loop Time per Frame Clicks per Clicked Frame Phase 1 Mask Alignment Score (IoU>0.75) SAM + SAM 2 Mask Table 1: Evolution of data engine phases showing the average annotation time per frame, the average percent of edited frames per masklet, the number of manual clicks per clicked frame, and Mask Alignment to Phase 1 by mask size.
 
 ### Analysis
 
 Table 1 shows a comparison of the annotation protocol in each data engine phase through a controlled experiment (details in §E.2.2). We compare the average annotation time per frame, the average percentage of manually edited frames per masklet, and the average number of clicks per clicked frame. For quality evaluation, we define the *Phase 1 Mask Alignment Score* as the percentage of masks whose IoU compared to the corresponding masks in Phase 1 exceeds 0.75. Phase 1 data is chosen as a reference as it has per-frame high quality manual annotations. Phase 3 with SAM 2 in the loop leads to increased efficiency and comparable quality: it is 8.4$\times$ faster than Phase 1, has the lowest edited frame percentage and clicks per frame, and results in better alignment.
 
-Table 2: Segmentation accuracy (𝒥&amp;ℱ metric) improvement from adding data from each data engine phase. “VOS” is a set of video object segmentation datasets. Details are in §F.
+Table 2: Segmentation accuracy (𝒥&ℱ metric) improvement from adding data from each data engine phase. “VOS” is a set of video object segmentation datasets. Details are in §F.
 
 In Table 2, we show the performance comparison of SAM 2 trained on the available data at the end of each phase keeping the number of iterations fixed, therefore measuring solely the impact of the additional data. We evaluate on our own SA-V val set and also on 9 zero-shot benchmarks (see §F.1 for details) using the standard $\mathcal{J}\&\mathcal{F}$ accuracy metric (the higher the better) when prompting with 3-clicks on the first frame. We note a consistent improvement after iteratively including the data from each phase, not only on the in-domain SA-V val set, but also on the 9 zero-shot benchmarks.
 
@@ -166,13 +159,14 @@ We also used internally available licensed video data to further augment our tra
 See Appendix E for more details on the data engine and SA-V dataset, including a fairness evaluation.
 
 #Videos
+
 #Masklets
+
 #Masks
+
 #Frames
 
-SA-V Manual+Auto
-
-Table 3: Comparison of our datasets with open source VOS datasets in terms of number of videos, duration, number of masklets, masks, frames, and disappearance rate. SA-V Manual contains only manually annotated labels. SA-V Manual+Auto combines manually annotated labels with automatically generated masklets.
+SA-V Manual+Auto Table 3: Comparison of our datasets with open source VOS datasets in terms of number of videos, duration, number of masklets, masks, frames, and disappearance rate. SA-V Manual contains only manually annotated labels. SA-V Manual+Auto combines manually annotated labels with automatically generated masklets.
 
 ## Zero-shot experiments
 
@@ -180,18 +174,15 @@ Here, we compare SAM 2 with previous work on zero-shot video and image tasks. We
 
 ### Promptable video segmentation
 
-(a) offline average 𝒥&amp;ℱ across datasets (3-click)
-(b) online average 𝒥&amp;ℱ across datasets (3-click)
+(a) offline average 𝒥&ℱ across datasets (3-click) (b) online average 𝒥&ℱ across datasets (3-click) Figure 5: Zero-shot accuracy over 9 datasets in interactive offline and online evaluation settings.
 
-Figure 5: Zero-shot accuracy over 9 datasets in interactive offline and online evaluation settings.
-
-We first evaluate promptable video segmentation, which involves simulating an interactive setting that resembles the user experience. We have two settings, offline evaluation, where multiple passes are made through a video to select frames to interact with based on the largest model error, and online evaluation, where the frames are annotated in a single forward pass through the video. These evaluations are conducted on 9 densely annotated zero-shot video datasets using $N_{click} = 3$ clicks per frame (see §F.1 for details).
+We first evaluate promptable video segmentation, which involves simulating an interactive setting that resembles the user experience. We have two settings, offline evaluation, where multiple passes are made through a video to select frames to interact with based on the largest model error, and online evaluation, where the frames are annotated in a single forward pass through the video. These evaluations are conducted on 9 densely annotated zero-shot video datasets using $N_{\mathrm{click}}=3$ clicks per frame (see §F.1 for details).
 
 We create two strong baselines, SAM+XMem++ and SAM+Cutie, based on two state-of-the-art models for video object segmentation, XMem++ and Cutie.
 
 We use XMem++ to generate a video segmentation based on mask inputs on one or multiple frames. SAM is used to provide an initial mask or to refine an output (by feeding the current segmentation as a mask prompt to SAM). For the SAM+Cutie baseline, we modify Cutie to allow taking mask inputs on multiple frames.
 
-In Fig. 5, we report the average $\mathcal{J}\&\mathcal{F}$ accuracy over $N_{frame} = {1,\ldots,8}$ interacted frames. SAM 2 outperforms SAM+XMem++ and SAM+Cutie for both offline and online evaluation settings. Across all 9 datasets (see per-dataset results in §F.1), SAM 2 dominates both methods, generating high-quality video segmentation from a few clicks while allowing continued refinement with prompts. Overall, SAM 2 can generate better segmentation accuracy, with $>$`<!-- -->`{=html}3$\times$ fewer interactions.
+In Fig. 5, we report the average $\mathcal{J}\&\mathcal{F}$ accuracy over $N_{\mathrm{frame}}=1,\ldots,8$ interacted frames. SAM 2 outperforms SAM+XMem++ and SAM+Cutie for both offline and online evaluation settings. Across all 9 datasets (see per-dataset results in §F.1), SAM 2 dominates both methods, generating high-quality video segmentation from a few clicks while allowing continued refinement with prompts. Overall, SAM 2 can generate better segmentation accuracy, with $>$`<!-- -->`{=html}3$\times$ fewer interactions.
 
 ### Semi-supervised video object segmentation
 
@@ -213,7 +204,7 @@ Table 5: Zero-shot accuracy on the Segment Anything (SA) task across 37 datasets
 
 ## Comparison to state-of-the-art in semi-supervised VOS
 
-Table 6: VOS comparison to prior work. SAM 2 performs well in accuracy (𝒥&amp;ℱ, 𝒢) for video segmentation based on first-frame ground-truth mask prompts. SAM 2 performs significantly better on SA-V val/test.
+Table 6: VOS comparison to prior work. SAM 2 performs well in accuracy (𝒥&ℱ, 𝒢) for video segmentation based on first-frame ground-truth mask prompts. SAM 2 performs significantly better on SA-V val/test.
 
 Our primary focus is on the general, interactive PVS task, but we also address the specific semi-supervised VOS setting (where the prompt is a ground-truth mask on the first frame), as it is a historically common protocol. We evaluate two versions of SAM 2 with varying image encoder sizes (Hiera-B+/-L) with different speed-vs-accuracy tradeoffs. We measure frames per second (FPS) on a single A100 GPU using a batch-size of one. SAM 2 based on Hiera-B+ and Hiera-L runs at real-time speeds of 43.8 and 30.2 FPS, respectively.
 

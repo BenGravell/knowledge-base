@@ -6,9 +6,7 @@ A popular family of algorithms for planning paths for robot arms are randomized 
 
 This paper evaluates optimal path planners for the problem of using a six degree-of-freedom robot arm to reach and prune (cut) a grape vine, and the problem of reaching into cubicles. We propose improving convergence speed by integrating a local 'short-cutting' optimiser to improve intermediate solutions. For these applications we demonstrate that combining RRTConnect\* (a bidirectional variation of RRT\*) and short-cutting results in substantially faster convergence.
 
-One run of RRTConnect followed by short-cutting optimizer
-
-Multiple restarts of RRTConnect + short-cut where the best path is kept. A leading contemporary approach. See Fig. 2.
+One run of RRTConnect followed by short-cutting optimizer Multiple restarts of RRTConnect + short-cut where the best path is kept. A leading contemporary approach. See Fig. 2.
 
 Asymptotically optimal RRTConnect. We also use the informed heuristics.
 
@@ -36,10 +34,7 @@ Local optimization algorithms can be used with path planners to quickly improve 
 
 A common approach to finding short paths is to find an initial collision-free solution with a feasible planner, e.g. RRTConnect (a bidirectional RRT), and to optimise this path with a local optimiser e.g. short-cutting. Another approach is to perform multiple restarts of the feasible planner, optimise each solution and return the best solution as shown in Fig. 2. This has been shown to work well in empirical experiments when compared to asymptotically optimal planners. We compare our approach of RRTConnect\* integrated with short-cutting to multiple restarts of RRTConnect with short-cutting, as well as one run of RRTConnect with short-cutting.
 
-1:function MRRTConnect+S(vstart, Vgoal, termination_condition)
-5: p ← RRTConnect(vstart, Vgoal)
-12: while not termination_condition
-Figure 2: Multiple restarts of RRTConnect with short-cutting.
+1:function MRRTConnect+S(vstart, Vgoal, termination_condition) 5: p ← RRTConnect(vstart, Vgoal) 12: while not termination_condition Figure 2: Multiple restarts of RRTConnect with short-cutting.
 
 There has been some recent interest in combining asymptotically optimal path planners with local optimisers to speed up convergence to optimal solutions. Choudhury et. al. use the CHOMP local optimiser to avoid collisions in edges between vertices in their Regionally Accelerated Batch Informed Trees (RABIT\*) planner. This differs from our work because our approach uses a local optimiser to improve a complete path.
 
@@ -51,21 +46,9 @@ In this paper we build on the interleaving approach in two ways: Firstly, optimi
 
 Our approach speeds up RRTConnect\* by integrating a short-cutting local optimiser. Good intermediate solutions found by RRTConnect\* are shortcut and inserted into RRTConnect\*'s graph as shown in Fig. 3. $v_{\text{start}}$ and $V_{\text{goal}}$ represent the start vertex and goal vertices for the planning query. Planning continues until the termination_condition expires, e.g. this could be an iteration count or a timeout.
 
-1:function RRTConnect*+S(vstart, Vgoal, opt_threshold, termination_condition)
-4: G ← RRTConnect*(vstart, Vgoal, G) // One iteration
-5: best_path ← Best cost path from vstart to Vgoal through G
-6: Cbest ← Cost of best_path
-7: if $\frac{C_{\text{last\_opt}} - C_{\text{best}}}{C_{\text{last\_opt}}} &gt;$ opt_threshold then
-8: poptimized ← Shortcut(pshortest)
-9: G ← InsertPath(G, poptimised, vstart)
-10: Clast_optimized ← Cshortest
-12: while not termination_condition
-13: return Lowest cost path from vstart to Vgoal through G
-Figure 3: RRTConnect* with short-cutting. The blue lines show our proposed changes to RRTConnect*.
+1:function RRTConnect*+S(vstart, Vgoal, opt_threshold, termination_condition) 4: G ← RRTConnect*(vstart, Vgoal, G) // One iteration 5: best_path ← Best cost path from vstart to Vgoal through G 6: Cbest ← Cost of best_path 7: if $\frac{C_{\text{last_opt}} - C_{\text{best}}}{C_{\text{last_opt}}} >$ opt_threshold then 8: poptimized ← Shortcut(pshortest) 9: G ← InsertPath(G, poptimised, vstart) 10: Clast_optimized ← Cshortest 12: while not termination_condition 13: return Lowest cost path from vstart to Vgoal through G Figure 3: RRTConnect* with short-cutting. The blue lines show our proposed changes to RRTConnect*.
 
-To maintain asymptotic optimality, vertices from the short-cut path are rewired into RRTConnect\*'s graph. To ensure that the short-cut path is recoverable through RRTConnect\*'s graph, the neighbourhood of each of the path's vertices is expanded to include the path's previous vertex as shown in Fig. 4. After path insertion the cost of the best path through the planner's graph $C_{\text{best}}^{\prime}$ is:
-
-Where $C_{\text{path}}$ is the cost of the path that was inserted and $C_{\text{best}}$ is the cost of the best cost path before the new path was inserted. In our experiments we terminate the Shortcut routine after a fixed number of iterations.
+To maintain asymptotic optimality, vertices from the short-cut path are rewired into RRTConnect\*'s graph. To ensure that the short-cut path is recoverable through RRTConnect\*'s graph, the neighbourhood of each of the path's vertices is expanded to include the path's previous vertex as shown in Fig. 4. After path insertion the cost of the best path through the planner's graph $C_{\text{best}}'$ is: Where $C_{\text{path}}$ is the cost of the path that was inserted and $C_{\text{best}}$ is the cost of the best cost path before the new path was inserted. In our experiments we terminate the Shortcut routine after a fixed number of iterations.
 
 (a) Planner’s existing graph G with one solution.
 

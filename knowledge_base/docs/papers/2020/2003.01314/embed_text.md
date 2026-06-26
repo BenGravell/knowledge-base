@@ -8,15 +8,7 @@ Furthermore, there currently exists very little standardisation between the phys
 
 Figure 1: 49 3D-printed evaluation objects chosen from over 2000 diverse objects in EGAD. The objects provide a range of objects from simple to complex geometry (left to right), and easy to difficult graspability (bottom to top), allowing for improved and reproducible evaluation of robotic grasping algorithms.
 
-To address these issues, we use evolutionary algorithms to generate a dataset of objects that is diverse in the space of shape complexity, grasp difficulty and geometric similarity, aimed specifically at training and evaluating visual grasp detection algorithms. The Evolved Grasping Analysis Dataset (EGAD) contains over 2000 generated objects, including a specified 3D-printable subset of 49 evaluation objects (Fig. 1). As such, EGAD can be used for training and evaluating robotic grasping algorithms in both simulation and the real world. To summarise our contributions, in this paper we:
-
-Use evolutionary algorithms to create EGAD, a large dataset of over 2000 diverse objects, which fill a space of both shape complexity and grasp difficulty;
-
-Release EGAD as both 3D mesh files and in the commonly used Dex-Net database format, with over 1 million precomputed grasp poses and the ability to easily create vision-based datasets for training grasp prediction networks;
-
-Specify a set of 49 diverse objects from the dataset which can be used as a reproducible, real-world testing suite, along with guidelines for reproducing objects and reporting results; and
-
-Perform robotic experiments using a state-of-the-art grasp detection algorithm as a template for using the evaluation set, and use the results to gain insights for future improvement of the algorithm.
+To address these issues, we use evolutionary algorithms to generate a dataset of objects that is diverse in the space of shape complexity, grasp difficulty and geometric similarity, aimed specifically at training and evaluating visual grasp detection algorithms. The Evolved Grasping Analysis Dataset (EGAD) contains over 2000 generated objects, including a specified 3D-printable subset of 49 evaluation objects (Fig. 1). As such, EGAD can be used for training and evaluating robotic grasping algorithms in both simulation and the real world. To summarise our contributions, in this paper we: Use evolutionary algorithms to create EGAD, a large dataset of over 2000 diverse objects, which fill a space of both shape complexity and grasp difficulty; Release EGAD as both 3D mesh files and in the commonly used Dex-Net database format, with over 1 million precomputed grasp poses and the ability to easily create vision-based datasets for training grasp prediction networks; Specify a set of 49 diverse objects from the dataset which can be used as a reproducible, real-world testing suite, along with guidelines for reproducing objects and reporting results; and Perform robotic experiments using a state-of-the-art grasp detection algorithm as a template for using the evaluation set, and use the results to gain insights for future improvement of the algorithm.
 
 ## Related Work
 
@@ -36,27 +28,13 @@ Rather than rely on realistic object models, show that simulated objects, genera
 
 The Cornell Grasping Dataset provides 885 top-down RGB-D images of single objects placed on a table, hand-labelled with positive and negative grasp examples represented by a rectangle. Due to the manual collection process, the dataset is limited in size, containing only approximately 8000 labelled grasps. The Jacquard dataset overcomes this limitation by using a simulator to generate 54k images of 11k objects, labelled with over 1 million grasps using the rectangle representation. However, as these datasets are image-based and don't provide 3D models of objects, they are limited to training for top-down, tabletop grasping.
 
-Legend (See text for full details)
-
-Random (“Household”) Objects
-
-Cornell Grasping Dataset (IoU Metric)
-
-YCB Objects (or subset)
-
-APB Objects (or subset)
-
-Dex-Net Adversarial Objects
-
-TABLE I: Survey of use of evaluation datasets in visual grasp detection literature. The majority of work uses irreproducible “household” objects for evaluation.
+Legend (See text for full details) Random (“Household”) Objects Cornell Grasping Dataset (IoU Metric) YCB Objects (or subset) APB Objects (or subset) Dex-Net Adversarial Objects TABLE I: Survey of use of evaluation datasets in visual grasp detection literature. The majority of work uses irreproducible “household” objects for evaluation.
 
 Figure 2: Overview of our method for creating EGAD. We define a discretised search space for objects in terms of shape complexity and grasp difficulty. Shapes are encoded using 3D CPPNs, which are queried to generate a voxel grid and processed into a 3D mesh. We compute the shape complexity and grasp difficulty metrics to place the object in a cell of the search space. Only the most geometrically diverse objects are kept at each cell. At each iteration, objects are are sampled from the search space and evolved to create new objects, until the search space is full of diverse objects.
 
 ### II-C Evaluation for Robotic Grasping
 
-Previous work has specified datasets of physical objects and protocols for manipulation, with notable examples being the YCB dataset and ACRV picking benchmark. However, despite the prevalence of these datasets, Table I clearly shows that neither has become commonplace for evaluating visual grasp detection systems. Instead, authors often opt to test on sets of random "household" objects, making comparing results between different algorithms very difficult, as the decision of which items are included is ultimately left to the intuition of the researchers.
-
-proposed a set of eight adversarial objects with complex geometry which allow testing of algorithms under difficult conditions. The objects are easily reproducible with 3D-printing, removing the need to purchase matching objects. As such, the objects are also scalable relative to gripper size, allowing for fairer comparisons between robotic systems. We expand on this idea by specifying a larger and more diverse set of reproducible objects of varying complexity and difficulty that can be used to comprehensively evaluate a visual grasp detection algorithm.
+Previous work has specified datasets of physical objects and protocols for manipulation, with notable examples being the YCB dataset and ACRV picking benchmark. However, despite the prevalence of these datasets, Table I clearly shows that neither has become commonplace for evaluating visual grasp detection systems. Instead, authors often opt to test on sets of random "household" objects, making comparing results between different algorithms very difficult, as the decision of which items are included is ultimately left to the intuition of the researchers. proposed a set of eight adversarial objects with complex geometry which allow testing of algorithms under difficult conditions. The objects are easily reproducible with 3D-printing, removing the need to purchase matching objects. As such, the objects are also scalable relative to gripper size, allowing for fairer comparisons between robotic systems. We expand on this idea by specifying a larger and more diverse set of reproducible objects of varying complexity and difficulty that can be used to comprehensively evaluate a visual grasp detection algorithm.
 
 A common method of evaluation is an offline metric using the Cornell Grasping Dataset or Jacquard dataset. A predicted grasp is successful if it has an intersection-over-union (IoU) of greater than 25% with and is within $30^{\circ}$ of a positive labelled grasp when using the grasping rectangle representation. While reproducible, this metric is susceptible to a large number of false-positive and false-negative detections due to the sparse labelling of the dataset, and low requirements for considering a match. The Jacquard dataset provides a cloud-based physics simulator where results are evaluated using Simulated Grasping Trials (SGTs), however this relies on a closed-source evaluation server. Recent work has also shown that offline performance on either dataset may not be representative of real-world performance due to the domain shift from the dataset to reality.
 
@@ -72,19 +50,15 @@ Our search space is defined by two features, shape complexity and grasp difficul
 
 ### III-A1 Shape Complexity
 
-To compute a measure of shape complexity, we use the measure of morphological complexity from. The measure is based in information theory and has been shown to also correlate well with humans' intuition about shape complexity. To compute the complexity metric for a given mesh, we first compute the angular deficit $\Phi_{j}$ for each vertex $j$:
-
-where $\phi_{i}$ is the internal angle of each triangle $i$ where it meets vertex $j$. The deficit values are placed in a histogram over the range $\lbrack{- {2\pi}},{2\pi})$ with bin width $\Delta$, which is normalised as a probability density function (PDF) such that each bin $b$ contains a probability $p{(\Phi_{b})}$. The shape complexity is then equivalent to the entropy of the PDF:
+To compute a measure of shape complexity, we use the measure of morphological complexity. The measure is based in information theory and has been shown to also correlate well with humans' intuition about shape complexity. To compute the complexity metric for a given mesh, we first compute the angular deficit $\Phi_{j}$ for each vertex $j$: where $\phi_{i}$ is the internal angle of each triangle $i$ where it meets vertex $j$. The deficit values are placed in a histogram over the range $\lbrack{- {2\pi}},{2\pi})$ with bin width $\Delta$, which is normalised as a probability density function (PDF) such that each bin $b$ contains a probability $p{(\Phi_{b})}$. The shape complexity is then equivalent to the entropy of the PDF:
 
 ### III-A2 Grasp Difficulty
 
-To estimate a single scalar feature representing grasping difficulty per object, we use the 75^th^ percentile method described by. Using the Dex-Net analytical grasp planner, we sample a number of antipodal grasps on each object and compute the robust Ferrari-Canny quality metric for each. The grasp difficulty feature is then obtained by taking the 75^th^ percentile grasp quality of all sampled grasps.
+To estimate a single scalar feature representing grasping difficulty per object, we use the 75^th^ percentile method described . Using the Dex-Net analytical grasp planner, we sample a number of antipodal grasps on each object and compute the robust Ferrari-Canny quality metric for each. The grasp difficulty feature is then obtained by taking the 75^th^ percentile grasp quality of all sampled grasps.
 
 ### III-A3 Geometric Diversity
 
-In order to compute the geometric diversity of an object, we first define a metric of geometric similarity between any two objects. We use the Topology Matching metric based on Multiresolutional Reeb Graphs (MRGs) proposed by, which provides a shape similarity score $\text{sim} \in {\lbrack 0,1\rbrack}$ between two object meshes that is robust to translation, rotation, scale and changes in mesh connectivity (e.g. through mesh resampling or decimation). This method has been shown to work effectively with arbitrary meshes and CAD models. We define the distance dist between two object meshes $m_{1}$ and $m_{2}$ as the inverse of similarity:
-
-Similar to, we then define the diversity of a mesh $\rho{(m)}$ as the mean distance to the $k$ most similar meshes to $m$ in the whole search space:
+In order to compute the geometric diversity of an object, we first define a metric of geometric similarity between any two objects. We use the Topology Matching metric based on Multiresolutional Reeb Graphs (MRGs) proposed, which provides a shape similarity score $\text{sim} \in {\lbrack 0,1\rbrack}$ between two object meshes that is robust to translation, rotation, scale and changes in mesh connectivity (e.g. through mesh resampling or decimation). This method has been shown to work effectively with arbitrary meshes and CAD models. We define the distance dist between two object meshes $m_{1}$ and $m_{2}$ as the inverse of similarity: Similar to, we then define the diversity of a mesh $\rho{(m)}$ as the mean distance to the $k$ most similar meshes to $m$ in the whole search space:
 
 ### III-B Evolutionary Algorithm
 
@@ -102,24 +76,7 @@ Our implementation of MAP-Elites begins with a population of randomly initialise
 
 ## Evolved Grasping Analysis Dataset
 
-Search Space Size
-
-Max Objects per Cell
-
-Difficulty Feature Range
-
-Complexity Feature Range
-
-Histogram Bin Width (Δ)
-
-Sampled Grasps per Object
-
-CPPN Activation Functions
-sin, sigmoid, gaussian, idenity
-
-TABLE II: Parameters used for dataset generation
-
-Figure 3: The distribution and diversity of EGAD in our object search space, compared to the object models found in Dex-Net 2.0 and YCB object sets. NB: For YCB objects, only models with an associated laser scan were used. High resolution versions are available on the project webpage.
+Search Space Size Max Objects per Cell Difficulty Feature Range Complexity Feature Range Histogram Bin Width (Δ) Sampled Grasps per Object CPPN Activation Functions sin, sigmoid, gaussian, idenity TABLE II: Parameters used for dataset generation Figure 3: The distribution and diversity of EGAD in our object search space, compared to the object models found in Dex-Net 2.0 and YCB object sets. NB: For YCB objects, only models with an associated laser scan were used. High resolution versions are available on the project webpage.
 
 Using the method described in Section III and the parameters defined in Table II, we generate a set of objects which we call the Evolved Grasping Analysis Dataset (EGAD). In this section we present the dataset with analysis of the objects and a comparison to other existing grasping datasets.
 
@@ -173,7 +130,7 @@ We use the Generative Grasping Convolutional Neural Network (GG-CNN) from as a v
 
 ### V-B Equipment
 
-For robotic grasping experiments we use a Franka Emika Panda robot, fitted with 3D-printed fingers with silicone tips based on. The maximum opening of the fingers is 75mm, and the evaluation objects were scaled according to this. An Intel Realsense D435 depth camera is attached to the end effector of the robot to provide visual input. Videos of the experiments are available on the [project webpage](https://dougsm.github.io/egad/).
+For robotic grasping experiments we use a Franka Emika Panda robot, fitted with 3D-printed fingers with silicone tips based . The maximum opening of the fingers is 75mm, and the evaluation objects were scaled according to this. An Intel Realsense D435 depth camera is attached to the end effector of the robot to provide visual input. Videos of the experiments are available on the project webpage.
 
 ### V-C Procedure
 
@@ -195,7 +152,7 @@ Top-Down Grasping Like many other visual grasp detection algorithms, GG-CNN is l
 
 Grasping Object Parts Unlike many other visual grasp detection algorithms, GG-CNN predicts the gripper width for each grasp. This is advantageous for objects such as B1 (in certain orientations), G3 and F5 (Fig. 7), where precise, narrow grasps are required to avoid collision with object parts, resulting in a higher than average success rate despite these objects' complexity and difficulty. On the other hand, a number of failures were noted for objects such as B5 and E1, where depressions in the objects cause grasps that result in collisions and grasp failures.
 
-Finger Material In addition to visual aspects, physical properties of the gripper also effect the results. Objects such as E5 and D6 (Fig. 7) are largely difficult due to their uneven surface with many acute protrusions, making grasps performed with a rigid gripper surface unstable. However, the compliant nature of the silicone fingertips used, as explored by, largely accounts for this by moulding to the surface resulting in stable grasps and a high success rate for these objects.
+Finger Material In addition to visual aspects, physical properties of the gripper also effect the results. Objects such as E5 and D6 (Fig. 7) are largely difficult due to their uneven surface with many acute protrusions, making grasps performed with a rigid gripper surface unstable. However, the compliant nature of the silicone fingertips used, as explored , largely accounts for this by moulding to the surface resulting in stable grasps and a high success rate for these objects.
 
 Figure 7: Examples chosen from experimental grasp attempts to highlight strenghts and limitations of GG-CNN. × indicates grasp failure and ✓ indicates success. Refer to Section V-D for details.
 

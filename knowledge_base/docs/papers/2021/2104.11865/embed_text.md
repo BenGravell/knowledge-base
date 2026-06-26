@@ -26,11 +26,7 @@ Consider a multi-task optimal control problem $(\mathcal{X},\mathcal{U},\Phi,\Pi
 
 ### Standard LQR problem
 
-A continuous-time, deterministic, infinite-horizon, time-invariant LQR problem with full-state feedback is defined by state space $\mathcal{X} = {\mathbb{R}}^{n}$, action space $\mathcal{U} = {\mathbb{R}}^{m}$, linear dynamics ${\overset{˙}{x} = {{Ax} + {Bu}}},$ where ${A \in {\mathbb{R}}^{n \times n}},{B \in {\mathbb{R}}^{n \times m}}$, and quadratic cost
-
-where $Q \succeq \mathbf{0}$ and $R \succ \mathbf{0}$ are cost matrices of appropriate dimensions and $\mathcal{N}{(\mathbf{0},I)}$ is the unit Gaussian distribution. For the purposes of this paper, the pair $(A,B)$ is *controllable* if ${J{(\pi)}} < \infty$ for some policy $\pi$. If $(A,B)$ is controllable, then the optimal policy is the linear $u = {K^{\star}x}$, where $K^{\star} \in {\mathbb{R}}^{m \times n}$ can be computed by finding the unique maximal positive semidefinite solution $P$ of the algebraic Riccati equation ${{{{A^{\top}P} + {PA}} - {PBR^{- 1}B^{\top}P}} + Q} = \mathbf{0}$ (henceforth called the *maximal solution*) and letting $K^{\star} = {- {R^{- 1}B^{\top}P}}$. Additionally, ${J{(K^{\star})}} = {{Tr}\lbrack P\rbrack}$. An arbitrary controller $K \in {\mathbb{R}}^{m \times n}$ is *stabilizing* if ${J{(K)}} < \infty$, in which case $J{(K)}$ satisfies
-
-$W$ can be computed by solving the Lyapunov equation ${{{{({A + {BK}})}^{\top}W} + {W{({A + {BK}})}} + I} = \mathbf{0}}.$
+A continuous-time, deterministic, infinite-horizon, time-invariant LQR problem with full-state feedback is defined by state space $\mathcal{X} = {\mathbb{R}}^{n}$, action space $\mathcal{U} = {\mathbb{R}}^{m}$, linear dynamics ${\overset{˙}{x} = {{Ax} + {Bu}}},$ where ${A \in {\mathbb{R}}^{n \times n}},{B \in {\mathbb{R}}^{n \times m}}$, and quadratic cost where $Q \succeq \mathbf{0}$ and $R \succ \mathbf{0}$ are cost matrices of appropriate dimensions and $\mathcal{N}{(\mathbf{0},I)}$ is the unit Gaussian distribution. For the purposes of this paper, the pair $(A,B)$ is *controllable* if ${J{(\pi)}} < \infty$ for some policy $\pi$. If $(A,B)$ is controllable, then the optimal policy is the linear $u = {K^{\star}x}$, where $K^{\star} \in {\mathbb{R}}^{m \times n}$ can be computed by finding the unique maximal positive semidefinite solution $P$ of the algebraic Riccati equation ${{{{A^{\top}P} + {PA}} - {PBR^{- 1}B^{\top}P}} + Q} = \mathbf{0}$ (henceforth called the *maximal solution*) and letting $K^{\star} = {- {R^{- 1}B^{\top}P}}$. Additionally, ${J{(K^{\star})}} = {{Tr}\lbrack P\rbrack}$. An arbitrary controller $K \in {\mathbb{R}}^{m \times n}$ is *stabilizing* if ${J{(K)}} < \infty$, in which case $J{(K)}$ satisfies $W$ can be computed by solving the Lyapunov equation ${{{{({A + {BK}})}^{\top}W} + {W{({A + {BK}})}} + I} = \mathbf{0}}.$
 
 ### Multi-dynamics LQR
 
@@ -50,9 +46,7 @@ The continuity of the LQR cost with respect to $B$ and the compactness of $\Phi$
 
 As an example of a realistic DDF problem, we consider the quadrotor helicopter illustrated in Figure 1. Near the hover state, its full nonlinear dynamics are well approximated by a linearization. The state is given by ${x = {(\mathbf{x},\mathbf{v},\mathbf{r},{\mathbf{ω}})}},$ where $\mathbf{x} \in {\mathbb{R}}^{3}$ is position, $\mathbf{v} \in {\mathbb{R}}^{3}$ is linear velocity, $\mathbf{r} \in {\mathbb{R}}^{3}$ is attitude Euler angles, and ${\mathbf{ω}} \in {\mathbb{R}}^{3}$ is angular velocity. The inputs $u \in {\mathbb{R}}_{\geq 0}^{4}$ are the squared angular velocities of the propellers.
 
-Many factors influence the response to inputs, including geometry, mass, moments of inertia, motor properties, and propeller aerodynamics. These can be combined and partially nondimensionalized into four control authority parameters to form $\phi \in \Phi$. The hover state occurs at ${x = \mathbf{0}},{u \propto \mathbf{1}}$, where the constant input counteracts gravity. The linearized dynamics are given by
-
-where $g$ is the gravitational constant and ${\hat{e}}_{z} = {\lbrack 0\ 0\ 1\rbrack}^{\top}$. The parameters $(\sigma_{z},\sigma_{\phi},\sigma_{\theta},\sigma_{\psi})$ denote the thrust, roll, pitch, and yaw authority constants respectively. Since we use the convention $\sigma \in {\lbrack\frac{1}{\theta},1\rbrack}$, the maximum value of each constant can be varied by scaling the columns of $U$.
+Many factors influence the response to inputs, including geometry, mass, moments of inertia, motor properties, and propeller aerodynamics. These can be combined and partially nondimensionalized into four control authority parameters to form $\phi \in \Phi$. The hover state occurs at ${x = \mathbf{0}},{u \propto \mathbf{1}}$, where the constant input counteracts gravity. The linearized dynamics are given by where $g$ is the gravitational constant and ${\hat{e}}_{z} = {\lbrack 0\ 0\ 1\rbrack}^{\top}$. The parameters $(\sigma_{z},\sigma_{\phi},\sigma_{\theta},\sigma_{\psi})$ denote the thrust, roll, pitch, and yaw authority constants respectively. Since we use the convention $\sigma \in {\lbrack\frac{1}{\theta},1\rbrack}$, the maximum value of each constant can be varied by scaling the columns of $U$.
 
 Figure 1: Quadrotor helicopter with position states x, y, z, attitude states ϕ, θ, ψ, and propeller speed inputs u1, u2, u3, u4. The linearized dynamics at hover, subject to variations in mass, geometry, etc., can be expressed in decomposed dynamics form—see Section 2.
 
@@ -60,11 +54,9 @@ Figure 1: Quadrotor helicopter with position states x, y, z, attitude states ϕ,
 
 In this section we show logarithmic upper and lower bounds on the growth of $N_{\alpha}{(\Phi_{\theta})}$ in $\theta$ for scalar DDF problems. We present several intermediate results in matrix form because they are needed for our empirical results later. We begin with a key lemma in the framework of *guaranteed cost control* (GCC) from Petersen and McFarlane, simplified for our use case.
 
-### Lemma 3.1 (GCC synthesis, Petersen and McFarlane (1994))
+### Lemma 3.1 (GCC synthesis, Petersen and McFarlane )
 
-Given the multi-task LQR problem $\mathbf{A} = {\{ A\}}$, $\mathbf{B} = {\{{{B_{1}\Delta} + B_{2}}:{{\parallel\Delta\parallel} \leq 1}\}}$, where ${B_{1},B_{2}} \in {\mathbb{R}}^{m \times p}$ are arbitrary for arbitrary $p$, and the state cost matrix is $Q \succ \mathbf{0}$, if there exists $\tau > 0$ such that $P \succ \mathbf{0}$ solves the Riccati equation
-
-then the controller $K = {- {\frac{1}{1 + \tau}B_{2}^{\top}P}}$ has cost ${J_{B}{(K)}} \leq {{Tr}\lbrack P\rbrack}$ for all $B \in \mathbf{B}$. Also, ${Tr}\lbrack P\rbrack$ is a convex function of $\tau$.
+Given the multi-task LQR problem $\mathbf{A} = {\{ A\}}$, $\mathbf{B} = {\{{{B_{1}\Delta} + B_{2}}:{{\parallel\Delta\parallel} \leq 1}\}}$, where ${B_{1},B_{2}} \in {\mathbb{R}}^{m \times p}$ are arbitrary for arbitrary $p$, and the state cost matrix is $Q \succ \mathbf{0}$, if there exists $\tau > 0$ such that $P \succ \mathbf{0}$ solves the Riccati equation then the controller $K = {- {\frac{1}{1 + \tau}B_{2}^{\top}P}}$ has cost ${J_{B}{(K)}} \leq {{Tr}\lbrack P\rbrack}$ for all $B \in \mathbf{B}$. Also, ${Tr}\lbrack P\rbrack$ is a convex function of $\tau$.
 
 We use the notation ${P,\tau,K} = {\text{GCC}{(A,B_{1},B_{2},Q)}}$ to indicate that $P,\tau$ solve. ‣ 3 Theoretical results ‣ Suboptimal coverings for continuous spaces of control tasks")) and $K$ is the corresponding controller. It is straightforward to show that any DDF problem can be expressed in the form required by \\lemmareflem:petersen-gcc with additional constraints on $\Delta$.
 
@@ -76,23 +68,13 @@ For the DDF problem $(A,U,V,\theta)$, if $B \in \mathbf{B}$ and $\alpha > 1$, th
 
 ### Proof 3.3
 
-For this proof, it will be more convenient to write the algebraic Riccati equation as
-
-where $D \succeq \mathbf{0}$. Let $\mathcal{D} = {\{{D \succeq \mathbf{0}}:{{(A,D)}\text{~is controllable}}\}}$. Controllability of $(A,B)$ implies that ${BB^{\top}} \in \mathcal{D}$ (Corollary 4.1.3 ). Let ${Ric}_{+}$ denote the map from $\mathcal{D}$ to the maximal solution of, which is continuous (Theorem 11.2.1 ), and let $\mathcal{D}_{\alpha} = {\{{D \in \mathcal{D}}:{{{Tr}\left\lbrack {{Ric}_{+}{(D)}} \right\rbrack} < {\alphaJ_{B}^{\star}}}\}}$. The set $\mathcal{D}_{\alpha}$ is open in $\mathcal{D}$ by continuity and is nonempty because it contains $BB^{\top}$. Now define ${B_{1}{(\tau)}} = {\tauB}$ for $\tau \in {(0,\frac{1}{2})}$. The equivalent of $D$ in the GCC Riccati equation. ‣ 3 Theoretical results ‣ Suboptimal coverings for continuous spaces of control tasks")) becomes
-
-As a positive multiple of $BB^{\top}$, we know ${D{(\tau)}} \in \mathcal{D}$, and because ${\lim_{\tau\rightarrow 0}{D{(\tau)}}} = {BB^{\top}}$, the set of $\tau$ for which ${D{(\tau)}} \in \mathcal{D}_{\alpha}$ is nonempty. Any such $\tau$ and $B_{1}{(\tau)}$ provide a solution.
+For this proof, it will be more convenient to write the algebraic Riccati equation as where $D \succeq \mathbf{0}$. Let $\mathcal{D} = {\{{D \succeq \mathbf{0}}:{{(A,D)}\text{~is controllable}}\}}$. Controllability of $(A,B)$ implies that ${BB^{\top}} \in \mathcal{D}$ (Corollary 4.1.3). Let ${Ric}_{+}$ denote the map from $\mathcal{D}$ to the maximal solution of, which is continuous (Theorem 11.2.1), and let $\mathcal{D}_{\alpha} = {\{{D \in \mathcal{D}}:{{{Tr}\left\lbrack {{Ric}_{+}{(D)}} \right\rbrack} < {\alphaJ_{B}^{\star}}}\}}$. The set $\mathcal{D}_{\alpha}$ is open in $\mathcal{D}$ by continuity and is nonempty because it contains $BB^{\top}$. Now define ${B_{1}{(\tau)}} = {\tauB}$ for $\tau \in {(0,\frac{1}{2})}$. The equivalent of $D$ in the GCC Riccati equation. ‣ 3 Theoretical results ‣ Suboptimal coverings for continuous spaces of control tasks")) becomes As a positive multiple of $BB^{\top}$, we know ${D{(\tau)}} \in \mathcal{D}$, and because ${\lim_{\tau\rightarrow 0}{D{(\tau)}}} = {BB^{\top}}$, the set of $\tau$ for which ${D{(\tau)}} \in \mathcal{D}_{\alpha}$ is nonempty. Any such $\tau$ and $B_{1}{(\tau)}$ provide a solution.
 
 Finally, the following comparison result will be useful in several places.
 
-### Lemma 3.4 (Lan95, Corollary 9.1.6)
+### Lemma 3.4 (, Corollary 9.1.6)
 
-Given two algebraic Riccati equations
-
-with maximal solutions $P$ and $\overset{\sim}{P}$, let $X = \begin{bmatrix}
-\end{bmatrix}$ and $\overset{\sim}{X} = \begin{bmatrix}
-\overset{\sim}{Q} & {\overset{\sim}{A}}^{\top} \\
-\overset{\sim}{A} & {- {\overset{\sim}{B}{\overset{\sim}{B}}^{\top}}}
-\end{bmatrix}$. If $X \succeq \overset{\sim}{X}$, then $P \succeq \overset{\sim}{P}$.
+Given two algebraic Riccati equations with maximal solutions $P$ and $\overset{\sim}{P}$, let $X = \begin{bmatrix} \end{bmatrix}$ and $\overset{\sim}{X} = \begin{bmatrix} \overset{\sim}{Q} & {\overset{\sim}{A}}^{\top} \\\overset{\sim}{A} & {- {\overset{\sim}{B}{\overset{\sim}{B}}^{\top}}} \end{bmatrix}$. If $X \succeq \overset{\sim}{X}$, then $P \succeq \overset{\sim}{P}$.
 
 ### Scalar upper bound
 
@@ -108,13 +90,11 @@ The lower bound is visible from the closed-form solution for the scalar Riccati 
 
 ### Lemma 3.7
 
-If ${p,\tau,k} = {\text{GCC}{(a,b_{1},b_{2},q)}}$, then for any $\beta \in {}$, there exists $k^{\prime} \in {\mathbb{R}}$ such that ${p^{\prime},\tau,k^{\prime}} = {\text{GCC}\left( a,{\betab_{1}},{\betab_{2}},{\beta^{- 2}q} \right)}$, where $p^{\prime} = {\beta^{- 2}p}$.
+If ${p,\tau,k} = {\text{GCC}{(a,b_{1},b_{2},q)}}$, then for any $\beta \in {}$, there exists $k' \in {\mathbb{R}}$ such that ${p',\tau,k'} = {\text{GCC}\left( a,{\betab_{1}},{\betab_{2}},{\beta^{- 2}q} \right)}$, where $p' = {\beta^{- 2}p}$.
 
 ### Proof 3.8
 
-In the scalar system, the GCC matrix Riccati equation. ‣ 3 Theoretical results ‣ Suboptimal coverings for continuous spaces of control tasks")) reduces to the quadratic equation
-
-Substituting $p^{\prime} = {\beta^{- 2}p}$ into and multiplying by $\beta^{- 2}$ yields a new instance of with the parameters $b_{1}^{\prime} = {\betab_{1}}$, $b_{2}^{\prime} = {\betab_{2}}$, $q^{\prime} = {\beta^{- 2}q}$, for which $p^{\prime}$ is a solution with $\tau$ unchanged.
+In the scalar system, the GCC matrix Riccati equation. ‣ 3 Theoretical results ‣ Suboptimal coverings for continuous spaces of control tasks")) reduces to the quadratic equation Substituting $p' = {\beta^{- 2}p}$ into and multiplying by $\beta^{- 2}$ yields a new instance of with the parameters $b_{1}' = {\betab_{1}}$, $b_{2}' = {\betab_{2}}$, $q' = {\beta^{- 2}q}$, for which $p'$ is a solution with $\tau$ unchanged.
 
 ### Theorem 3.9
 
@@ -124,13 +104,9 @@ For the scalar DDF problem defined by $\mathbf{A} = {\{ a\}}$, where $a > 0$, an
 
 We construct a cover from the upper end of $\mathbf{B}$. By \\lemmareflem:scalar-cost-ub, the condition $\alpha \geq \frac{{2a} + 1}{2a}$ implies that ${J_{b = 1}^{\star} < {\alpha2a} < {\alphaJ_{b = 1}^{\star}}}.$ Therefore, by \\lemmareflem:petersen-gcc,lem:petersen-existence, there exists $\beta \in {}$ and $p,\tau,k$ such that ${p,\tau,k} = {\text{GCC}{(a,{{({1 - \beta})}/2},{{({1 + \beta})}/2},1)}}$ and $p \leq {\alpha2a}$.
 
-Proceeding inductively, suppose that for $N \geq 1$, we have covered $\lbrack\beta^{N},1\rbrack$ by the intervals $\mathbf{B}_{n} = {\lbrack\beta^{n + 1},\beta^{n}\rbrack}$ for $n \in {\{ 0,\ldots,{N - 1}\}}$, and each $\mathbf{B}_{n}$ has a controller $k_{n}$ such that
+Proceeding inductively, suppose that for $N \geq 1$, we have covered $\lbrack\beta^{N},1\rbrack$ by the intervals $\mathbf{B}_{n} = {\lbrack\beta^{n + 1},\beta^{n}\rbrack}$ for $n \in {\{ 0,\ldots,{N - 1}\}}$, and each $\mathbf{B}_{n}$ has a controller $k_{n}$ such that Then the existence of the desired $\mathbf{B}_{N},k_{N}$ follows immediately from \\lemmareflem:scalar-cover-recursion.
 
-Then the existence of the desired $\mathbf{B}_{N},k_{N}$ follows immediately from \\lemmareflem:scalar-cover-recursion.
-
-By \\lemmareflem:lancaster-ARE-domination, for each $\mathbf{B}_{n}$ the GCC state cost $q_{n} = \beta^{- {2n}} \geq 1$ is an upper bound on the cost if we replace $q_{n}$ with $1$ to match the DDF problem. Therefore, for each interval $\mathbf{B}_{n}$, for all $b \in \mathbf{B}_{n}$,
-
-where first inequality is due to \\lemmareflem:lancaster-ARE-domination, the second is due to \\lemmareflem:scalar-cost-ub, the third is by construction of $p$, and last is due to the GCC guarantee of $k_{n}$. Hence, $\mathbf{B}_{n} \subseteq {\mathcal{N}_{\alpha}{(k_{n})}}$. We cover the full $\mathbf{B}$ when $\beta^{N} \leq \frac{1}{\theta}$, which is satisfied by $N \geq {- {\log{\theta/{\log\beta}}}}$.
+By \\lemmareflem:lancaster-ARE-domination, for each $\mathbf{B}_{n}$ the GCC state cost $q_{n} = \beta^{- {2n}} \geq 1$ is an upper bound on the cost if we replace $q_{n}$ with $1$ to match the DDF problem. Therefore, for each interval $\mathbf{B}_{n}$, for all $b \in \mathbf{B}_{n}$, where first inequality is due to \\lemmareflem:lancaster-ARE-domination, the second is due to \\lemmareflem:scalar-cost-ub, the third is by construction of $p$, and last is due to the GCC guarantee of $k_{n}$. Hence, $\mathbf{B}_{n} \subseteq {\mathcal{N}_{\alpha}{(k_{n})}}$. We cover the full $\mathbf{B}$ when $\beta^{N} \leq \frac{1}{\theta}$, which is satisfied by $N \geq {- {\log{\theta/{\log\beta}}}}$.
 
 ### Scalar lower bound
 
@@ -142,9 +118,7 @@ For a scalar DDF problem with ${a \geq 1},{\mathbf{B} = {\lbrack\frac{1}{\theta}
 
 ### Proof 3.12
 
-Beginning with the closed-form solution for $J_{b}{(k)}$, which can be derived from, we define
-
-By \\lemmareflem:scalar-cost-ub, we have $\left. J_{b}^{\star} < 3a/b^{2} \triangleq \overline{J_{b}^{\star}} \right.$, so $\left. \overset{\sim}{r} = \underset{¯}{J_{b}}{(k)}/\overline{J_{b}^{\star}} \right.$ is a lower bound on the suboptimality of $k$. Computing $\partial^{2}{\overset{\sim}{r}/{\partial b^{2}}}$ shows that $\overset{\sim}{r}$ is strictly convex in $b$ on the domain ${a + {bk}} < 0$, so the $\alpha$-sublevel set of $\overset{\sim}{r}$ is the closed interval with boundaries where $\overset{\sim}{r} = \alpha$. This equation is quadratic in $b$ with the solutions $b = {- {{a{({{3\alpha} \pm \sqrt{{9\alpha^{2}} - {6\alpha}}})}}/k}}$. The resulting interval contains $\mathcal{N}_{\alpha}{(k)}$.
+Beginning with the closed-form solution for $J_{b}{(k)}$, which can be derived, we define By \\lemmareflem:scalar-cost-ub, we have $\left. J_{b}^{\star} < 3a/b^{2} \triangleq \overline{J_{b}^{\star}} \right.$, so $\left. \overset{\sim}{r} = \underset{¯}{J_{b}}{(k)}/\overline{J_{b}^{\star}} \right.$ is a lower bound on the suboptimality of $k$. Computing $\partial^{2}{\overset{\sim}{r}/{\partial b^{2}}}$ shows that $\overset{\sim}{r}$ is strictly convex in $b$ on the domain ${a + {bk}} < 0$, so the $\alpha$-sublevel set of $\overset{\sim}{r}$ is the closed interval with boundaries where $\overset{\sim}{r} = \alpha$. This equation is quadratic in $b$ with the solutions $b = {- {{a{({{3\alpha} \pm \sqrt{{9\alpha^{2}} - {6\alpha}}})}}/k}}$. The resulting interval contains $\mathcal{N}_{\alpha}{(k)}$.
 
 ### Lemma 3.13
 
@@ -160,17 +134,11 @@ For a scalar DDF problem with ${a = 1},{\mathbf{B} = {\lbrack\frac{1}{\theta},1\
 
 ### Proof 3.16
 
-From the closed-form solution $k_{a,b}^{\star} = {- {{({a + \sqrt{a^{2} + b^{2}}})}/b}}$, we observe that $k_{b}^{\star} < {- 1}$ for all $b \in \mathbf{B}$. This, along with the quasiconvexity of $J_{b}{(k)}$ in $k$, implies that there exists a minimal $\alpha$-suboptimal cover $\mathcal{C}$ for which all $k_{i} < {- 1}$. Suppose $\mathcal{C} = {k_{1},\ldots,k_{N}}$ is such a cover, ordered such that $k_{i} < k_{i + 1}$. Then by \\lemmareflem:subopt-convex, $\mathcal{N}_{\alpha}{(k_{i})}$ and $\mathcal{N}_{\alpha}{(k_{i + 1})}$ must intersect, so their overestimates according to \\lemmareflem:scalar-neighborhood-optimistic certainly intersect, therefore satisfying
-
-By \\lemmareflem:scalar-neighborhood-optimistic, to cover $b = 1$ controller $k_{1}$ must satisfy $k_{1} \geq {- {({c_{1} + c_{2}})}}$, and to cover $b = \frac{1}{\theta}$, controller $k_{N}$ must satisfy $k_{N} \leq {- {\theta{({c_{1} - c_{2}})}}}$. Along with the previous result, this implies
-
-Recalling that $c_{1}$ and $c_{2}$ only depend on $a$ and $\alpha$, the $\Omega{({\log\theta})}$ dependence on $\theta$ is established.
+From the closed-form solution $k_{a,b}^{\star} = {- {{({a + \sqrt{a^{2} + b^{2}}})}/b}}$, we observe that $k_{b}^{\star} < {- 1}$ for all $b \in \mathbf{B}$. This, along with the quasiconvexity of $J_{b}{(k)}$ in $k$, implies that there exists a minimal $\alpha$-suboptimal cover $\mathcal{C}$ for which all $k_{i} < {- 1}$. Suppose $\mathcal{C} = {k_{1},\ldots,k_{N}}$ is such a cover, ordered such that $k_{i} < k_{i + 1}$. Then by \\lemmareflem:subopt-convex, $\mathcal{N}_{\alpha}{(k_{i})}$ and $\mathcal{N}_{\alpha}{(k_{i + 1})}$ must intersect, so their overestimates according to \\lemmareflem:scalar-neighborhood-optimistic certainly intersect, therefore satisfying By \\lemmareflem:scalar-neighborhood-optimistic, to cover $b = 1$ controller $k_{1}$ must satisfy $k_{1} \geq {- {({c_{1} + c_{2}})}}$, and to cover $b = \frac{1}{\theta}$, controller $k_{N}$ must satisfy $k_{N} \leq {- {\theta{({c_{1} - c_{2}})}}}$. Along with the previous result, this implies Recalling that $c_{1}$ and $c_{2}$ only depend on $a$ and $\alpha$, the $\Omega{({\log\theta})}$ dependence on $\theta$ is established.
 
 ### Remarks
 
-For the upper bound, it may be possible to compute or bound $\beta$ in the scalar case as a function of $a$ and $\alpha$, but the analogous result will likely be much more complicated in the matrix case.
-
-thm:covering-scalar imposes a lower bound on $\alpha$ greater than $1$. We believe this is a mild condition in practice: if the application demands a suboptimality ratio very close to 1, then the size of the suboptimal cover is likely to become impractical for storage. However, further theoretical results building upon suboptimal coverings may require eliminating the bound.
+For the upper bound, it may be possible to compute or bound $\beta$ in the scalar case as a function of $a$ and $\alpha$, but the analogous result will likely be much more complicated in the matrix case. thm:covering-scalar imposes a lower bound on $\alpha$ greater than $1$. We believe this is a mild condition in practice: if the application demands a suboptimality ratio very close to 1, then the size of the suboptimal cover is likely to become impractical for storage. However, further theoretical results building upon suboptimal coverings may require eliminating the bound.
 
 ## Empirical results
 
@@ -182,7 +150,7 @@ Given a DDF problem with $\mathbf{\Sigma} = {\lbrack\frac{1}{\theta},1\rbrack}^{
 
 Figure 2: Application of geometric grid cover to linearized quadrotor. (a) Illustration of geometric grid partition. (b) Empirical upper bound on covering number. (c) Suboptimality ratios for corner cells in empirical cover. Discussion in Section 4.
 
-### Empirical upper bound on $N_{\alpha}\hspace{0pt}{(\Phi)}$
+### Empirical upper bound on $N_{\alpha}{(\Phi)}$
 
 In this experiment, we construct an $\alpha$-suboptimal cover $\mathcal{C}$ using geometric grids, such that each $K \in \mathcal{C}$ is $\alpha$-suboptimal for a full grid cell. For each cell $\mathbf{\Sigma}{(j)}$, we attempt GCC synthesis. If it succeeds, we check if ${\mathbf{\Sigma}{(j)}} \subseteq {\mathcal{N}_{\alpha}{({K{(j)}})}}$. If not, we increment the grid pitch $k$ and try again. Termination is guaranteed by continuity. We show results for the linearized quadrotor with $\alpha = 2$ in Figure 2. The data follow roughly logarithmic growth, as indicated by the linear least-squares best-fit curve in black. Small values of $\theta$ are excluded from the fit (indicated by grey points), as we do not expect the asymptotic growth pattern to appear yet.
 
@@ -194,14 +162,11 @@ Given an $\alpha$-suboptimal geometric grid cover, we examine a measurable quant
 
 ### Efficiency of GCC synthesis
 
-One possible source of conservativeness is that \\lemmareflem:petersen-gcc applies to the affine image of a $m \times n$-dimensional matrix norm ball, but we only require guaranteed cost on a $d$-dimensional affine subspace of diagonal matrices. In other words, we ask GCC synthesis to ensure $\alpha$-suboptimality on systems that are not actually part of $\Phi$. If this is negatively affecting the result, then we should observe that the worst-case cost of $K{(j)}$ on $\mathbf{\Sigma}{(j)}$ is less than the trace of the solution $P$ for the GCC Riccati equation. ‣ 3 Theoretical results ‣ Suboptimal coverings for continuous spaces of control tasks")). The worst-case cost always occurs at the minimal $\Sigma \in {\mathbf{\Sigma}{(j)}}$ by \\lemmareflem:lancaster-ARE-domination; we evaluate it with. For the quadrotor, a mismatch sometimes occurs for smaller values of $\theta$, but it does not occur for the large values of $\theta$.
+One possible source of conservativeness is that \\lemmareflem:petersen-gcc applies to the affine image of a $m \times n$-dimensional matrix norm ball, but we only require guaranteed cost on a $d$-dimensional affine subspace of diagonal matrices. In other words, we ask GCC synthesis to ensure $\alpha$-suboptimality on systems that are not actually part of $\Phi$. If this is negatively affecting the result, then we should observe that the worst-case cost of $K{(j)}$ on $\mathbf{\Sigma}{(j)}$ is less than the trace of the solution $P$ for the GCC Riccati equation. ‣ 3 Theoretical results ‣ Suboptimal coverings for continuous spaces of control tasks")). The worst-case cost always occurs at the minimal $\Sigma \in {\mathbf{\Sigma}{(j)}}$ by \\lemmareflem:lancaster-ARE-domination; we evaluate it . For the quadrotor, a mismatch sometimes occurs for smaller values of $\theta$, but it does not occur for the large values of $\theta$.
 
 ### Suboptimal neighborhood visualizations
 
-We now present intuition-building experiments towards a covering number lower bound for matrix DDF problems. A lower bound requires a class of DDF problem that can be instantiated for any dimensionality $d$. Two choices come to mind: *minimum coupling*, where $A = I$, and *maximum coupling*, where $A = {\frac{1}{n}\mathbf{1}}$. Note that for minimum coupling, an $\alpha$-suboptimal policy is not necessarily $\alpha$-suboptimal on each scalar subsystem---if it were, the lower bound $\log{(\theta)}^{d}$ would trivially follow from the results in Section 3.
-
-$\overset{A{= I}}{\overbrace{}}\mspace{51mu}\overset{A{= {\frac{1}{n}\mathbf{1}}}}{\overbrace{}}$
-Figure 3: α-suboptimal neighborhoods for geometric grid partition in 2D system. Left: minimum coupling; A = I. Right: maximum coupling; $A = {\frac{1}{n}\mathbf{1}}$. Columns: varying suboptimality threshold α. All axes are logarithmic. Colors have no meaning. Discussion in Section 4.1.
+We now present intuition-building experiments towards a covering number lower bound for matrix DDF problems. A lower bound requires a class of DDF problem that can be instantiated for any dimensionality $d$. Two choices come to mind: *minimum coupling*, where $A = I$, and *maximum coupling*, where $A = {\frac{1}{n}\mathbf{1}}$. Note that for minimum coupling, an $\alpha$-suboptimal policy is not necessarily $\alpha$-suboptimal on each scalar subsystem---if it were, the lower bound $\log{(\theta)}^{d}$ would trivially follow from the results in Section 3. $\overset{A{= I}}{\overbrace{}}\mspace{51mu}\overset{A{= {\frac{1}{n}\mathbf{1}}}}{\overbrace{}}$ Figure 3: α-suboptimal neighborhoods for geometric grid partition in 2D system. Left: minimum coupling; A = I. Right: maximum coupling; $A = {\frac{1}{n}\mathbf{1}}$. Columns: varying suboptimality threshold α. All axes are logarithmic. Colors have no meaning. Discussion in Section 4.1.
 
 We show approximate suboptimal neighborhoods for a two-dimensional system in Figure 3. We select a geometric grid of $\Sigma$ values (indicated by the circular markers) and synthesize their LQR-optimal controllers. Then, we evaluate the suboptimality ratio of each controller on a finer grid of $\Sigma$ values to get approximate neighborhoods, indicated by the semi-transparent regions. We repeat this experiment with three values of $\alpha$ for both choices of $A$.
 

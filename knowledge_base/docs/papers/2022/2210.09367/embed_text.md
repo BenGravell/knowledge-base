@@ -40,7 +40,7 @@ TMIT\* extends AIT\* to plan in multimodal spaces. AIT\*'s lazy reverse search a
 
 TMP solvers adapt advances in standalone symbolic planning to the TMP context. Symbolic planning for TMP is uniquely challenging since valid symbolic plans may not correspond to valid motion plans. TMP symbolic planners must be able to efficiently incorporate geometric feasibility constraints to generate alternative plans. TMP solvers have addressed this need with custom action formulations, top-$k$ symbolic planning with Monte Carlo tree search, and incremental constraint construction.
 
-TMIT\* extends the incremental Boolean-satisfiability-based (SAT-based) symbolic planner proposed by and adapted for TMP by. Compared to this original adaptation, we neither include symbolic representations of continuous scenegraphs nor prediscretize the continuous problem state. We also solve a relaxed symbolic planning problem, do not require a translation step between discrete and continuous state, and use a new feature of the Z3 SMT solver to improve planner performance and extensibility. Other work has encoded the full Planning Domain Definition Language+ (PDDL+) symbolic language into SMT. TMIT\* uses a subset of the simpler, more common PDDL 2.1.
+TMIT\* extends the incremental Boolean-satisfiability-based (SAT-based) symbolic planner proposed by and adapted for TMP . Compared to this original adaptation, we neither include symbolic representations of continuous scenegraphs nor prediscretize the continuous problem state. We also solve a relaxed symbolic planning problem, do not require a translation step between discrete and continuous state, and use a new feature of the Z3 SMT solver to improve planner performance and extensibility. Other work has encoded the full Planning Domain Definition Language+ (PDDL+) symbolic language into SMT. TMIT\* uses a subset of the simpler, more common PDDL 2.1.
 
 ### II-E Deferred Action Parameter Sampling
 
@@ -66,15 +66,11 @@ The state space for our problem is the combination of the discrete and continuou
 
 ### Definition 3: State Space
 
-The state space of the planning problem is the Cartesian product of the continuous robot configuration and object poses and the discrete symbolic state,
-
-where $\mathcal{Q}_{R}$ is the robot configuration space, $\mathcal{Q}_{\mathcal{O}}$ is the space of all the objects' poses, and ${\mathbb{B}}^{|S|}$ is a Boolean domain representing the value of the discrete symbols.
+The state space of the planning problem is the Cartesian product of the continuous robot configuration and object poses and the discrete symbolic state, where $\mathcal{Q}_{R}$ is the robot configuration space, $\mathcal{Q}_{\mathcal{O}}$ is the space of all the objects' poses, and ${\mathbb{B}}^{|S|}$ is a Boolean domain representing the value of the discrete symbols.
 
 ### Definition 4: Modes and Mode Families
 
-A mode family, ${\mathbb{M}} \subseteq \mathcal{Q}$, of a specific setting of the discrete state, $\xi \in {\mathbb{B}}^{|S|}$, is defined as:
-
-A mode, $\mathcal{M} \subseteq {\mathbb{M}}$, for a specific set of movable object poses, $\rho \in \mathcal{Q}_{\mathcal{O}}$, is defined as:
+A mode family, ${\mathbb{M}} \subseteq \mathcal{Q}$, of a specific setting of the discrete state, $\xi \in {\mathbb{B}}^{|S|}$, is defined as: A mode, $\mathcal{M} \subseteq {\mathbb{M}}$, for a specific set of movable object poses, $\rho \in \mathcal{Q}_{\mathcal{O}}$, is defined as:
 
 ### Definition 5: Motion
 
@@ -98,25 +94,15 @@ The TMP problem is then formally defined as the search for a plan of actions and
 
 ### Definition 9: Task and Motion Planning (TMP) Problem
 
-Let ${\mathbf{q}}_{0} \in \mathcal{Q}$ be an initial state, $\phi_{\text{g}}$ be a goal specified as a constraint, and $\mathcal{A}$ be a set of discrete actions executable by a robot. The TMP problem is then formally defined as the search for motions, $\sigma_{i} \in \Sigma$, and symbolic actions, $\alpha_{i} \in \mathcal{A}$, that can be interleaved into a task-and-motion plan, $(\sigma_{1},\alpha_{1},\sigma_{2},\alpha_{2},\ldots,\sigma_{n},\alpha_{n})$, such that:
+Let ${\mathbf{q}}_{0} \in \mathcal{Q}$ be an initial state, $\phi_{\text{g}}$ be a goal specified as a constraint, and $\mathcal{A}$ be a set of discrete actions executable by a robot. The TMP problem is then formally defined as the search for motions, $\sigma_{i} \in \Sigma$, and symbolic actions, $\alpha_{i} \in \mathcal{A}$, that can be interleaved into a task-and-motion plan, $(\sigma_{1},\alpha_{1},\sigma_{2},\alpha_{2},\ldots,\sigma_{n},\alpha_{n})$, such that: The plan begins at the initial state, ${\sigma_{1}{}} = {\mathbf{q}}_{0}$.
 
-The plan begins at the initial state, ${\sigma_{1}{}} = {\mathbf{q}}_{0}$.
-
-Robot and object motions are valid (e.g., collision free),
-
-The final state of each motion, $\sigma_{i}{}$, satisfies the requirements to execute the following action, $\alpha_{i}$,
-
-The effect of each intermediate action, $\alpha_{i}$, results in the initial state of the following motion, $\sigma_{i + 1}{}$, and
-
-The effect of the final action, $\psi_{\alpha_{n}}$, meets the specified goal constraint, ${\phi_{\text{g}}{({\psi_{\alpha_{n}}{({\sigma_{n}{}})}})}} = \text{true}$.
+Robot and object motions are valid (e.g., collision free), The final state of each motion, $\sigma_{i}{}$, satisfies the requirements to execute the following action, $\alpha_{i}$, The effect of each intermediate action, $\alpha_{i}$, results in the initial state of the following motion, $\sigma_{i + 1}{}$, and The effect of the final action, $\psi_{\alpha_{n}}$, meets the specified goal constraint, ${\phi_{\text{g}}{({\psi_{\alpha_{n}}{({\sigma_{n}{}})}})}} = \text{true}$.
 
 Optimal TMP finds TMP solutions which optimize a given cost function (Def. 10: Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")).
 
 ### Definition 10: Optimal TMP
 
-Let $\Theta$ be the set of all valid solutions to a TMP problem (Def. 9 Problem ‣ III Problem formulation ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")) and $\gamma:{\Theta\rightarrow{\mathbb{R}}^{\geq 0}}$ be a cost function. The optimal TMP problem is the search for a lowest cost solution, $\theta^{\ast} \in \Theta$, such that $\theta^{\ast} = {{{\arg\min}_{\theta \in \Theta}\gamma}{(\theta)}}$
-
-Solving TMP as independent symbolic and motion planning problems is commonly infeasible; TMIT\* presents a holistic approach that solves the integrated problem.
+Let $\Theta$ be the set of all valid solutions to a TMP problem (Def. 9 Problem ‣ III Problem formulation ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")) and $\gamma:{\Theta\rightarrow{\mathbb{R}}^{\geq 0}}$ be a cost function. The optimal TMP problem is the search for a lowest cost solution, $\theta^{\ast} \in \Theta$, such that $\theta^{\ast} = {{{\arg\min}_{\theta \in \Theta}\gamma}{(\theta)}}$ Solving TMP as independent symbolic and motion planning problems is commonly infeasible; TMIT\* presents a holistic approach that solves the integrated problem.
 
 ## Task and Motion Informed Trees (TMIT\*)
 
@@ -138,7 +124,7 @@ Predicate distance functions can be defined in different ways. We automatically 
 
 ### IV-B Symbolic planning
 
-TMIT\* solves the symbolic planning subproblem with an incremental SMT-based symbolic planning algorithm inspired by. SMT solvers generalize SAT by extending the variable types (to include integers, real numbers, arrays, etc.) and relations, which are backed by efficient solvers for the corresponding formal theories.
+TMIT\* solves the symbolic planning subproblem with an incremental SMT-based symbolic planning algorithm inspired . SMT solvers generalize SAT by extending the variable types (to include integers, real numbers, arrays, etc.) and relations, which are backed by efficient solvers for the corresponding formal theories.
 
 Basic SAT-based symbolic planning 1. creates Boolean variables for each action and symbol, 2. adds constraints encoding the initial and goal state, 3. constrains variables to remain consistent between steps (i.e., the "frame axioms"), 4. constrains actions to imply their preconditions and effects, and 5. iteratively increases the number of plan steps until the resulting formula is satisfiable. \\Citetdantam_incremental_constraint-based_2018 extend this core approach by encoding discretized geometric state and using the Z3 SMT solver's incremental constraint stack to reuse solver effort when adding plan steps.
 
@@ -162,9 +148,7 @@ The symbolic planning loop is a typical incremental SAT-based planner. We first 
 
 ### IV-B5 Generating alternative plan candidates
 
-TMIT\* has two methods of generating alternative symbolic plan candidates. The first enumerates all candidate symbolic plans by requiring new plans to differ from previous plans by at least one action, ensuring completeness. This method adds constraints:
-
-for a current solution with length $n$, and where $\text{value}_{k}$ returns the value of a variable in the $k$-th candidate plan.
+TMIT\* has two methods of generating alternative symbolic plan candidates. The first enumerates all candidate symbolic plans by requiring new plans to differ from previous plans by at least one action, ensuring completeness. This method adds constraints: for a current solution with length $n$, and where $\text{value}_{k}$ returns the value of a variable in the $k$-th candidate plan.
 
 A *prefix* of a symbolic plan is a subsequence of the actions in the plan starting with the initial action. The second method forces new plans to avoid *failing prefixes* of symbolic plan candidates by adding constraints of the same form as Eq. 4 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning"), but only until the first step for which precondition-satisfying state sampling failed. Precondition-satisfying state sampling may fail if sample projection (Sec. IV-A ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")) fails to converge, if it converges to a local minimum off the precondition-satisfying manifold, or if the resulting state is invalid (i.e., in collision). This can quickly eliminate broader groups of candidate symbolic plans and find a solution more efficiently, but may remove prefixes that would prove feasible with more computation. We use this prefix-blocking method in the experiments of Sec. VI: Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning").
 
@@ -178,13 +162,7 @@ The set of precondition-satisfying states for an action is often a manifold of m
 
 We avoid wasted effort by projecting uniform-random samples onto precondition-satisfying manifolds only when the samples are within a tunable distance threshold (e.g., ) of the manifold^44^4Sampling a precondition-satisfying state takes on the order of 10--100 optimizer iterations; testing the distance takes less than one., which effectively *inflates* the manifold to positive measure. This strategy avoids computing unusable precondition-satisfying samples by only invoking this process starting from states that are 1. in the RGG and 2. close enough to a precondition region to improve the solution cost. Starting from valid states close to a precondition region may additionally improve the likelihood that the resulting precondition-satisfying sample will be valid.
 
-Input: Mode queue ω, connection radius μ, goal ϕg
-Output: Batch of samples B
-2 while |ω| &gt; 0: // All reachable modes
-16 if not AtGoal() or NoActions(): NewTaskPlan()
-Algorithm 1 Multimodal batch sampling
-
-Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") shows the multimodal batch sampling function. SampleValid draws each state uniformly at random from the valid configuration space of a given mode. The viable actions (Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")) of a mode, $\mathcal{M} \in {\mathbb{M}}$, are symbolic actions that are used at $\mathbb{M}$ in a candidate symbolic plan and have been attempted less than a heuristically determined number of times. Attempting an action means trying to sample a valid state satisfying its precondition constraint. The heuristic limit on attempts per action provides a budget of computation per candidate symbolic plan; IncreaseBudget increments this heuristic threshold. NoActions tests if any actions in any reachable mode are viable, and $d{( \cdot, \cdot )}$ returns the distance from a state to the nearest precondition-satisfying state. SamplePrecond projects the given state onto the manifold of precondition-satisfying states by gradient-based optimization. UpdateModes adds newly reached modes to the mode queue, AtGoal checks if the total set of samples contains goal mode states, and NewTaskPlan invokes the task planner (Secs. IV-B4 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") and IV-B5 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")).
+Input: Mode queue ω, connection radius μ, goal ϕg Output: Batch of samples B 2 while |ω| > 0: // All reachable modes 16 if not AtGoal or NoActions: NewTaskPlan Algorithm 1 Multimodal batch sampling Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") shows the multimodal batch sampling function. SampleValid draws each state uniformly at random from the valid configuration space of a given mode. The viable actions (Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")) of a mode, $\mathcal{M} \in {\mathbb{M}}$, are symbolic actions that are used at $\mathbb{M}$ in a candidate symbolic plan and have been attempted less than a heuristically determined number of times. Attempting an action means trying to sample a valid state satisfying its precondition constraint. The heuristic limit on attempts per action provides a budget of computation per candidate symbolic plan; IncreaseBudget increments this heuristic threshold. NoActions tests if any actions in any reachable mode are viable, and $d{(\cdot, \cdot)}$ returns the distance from a state to the nearest precondition-satisfying state. SamplePrecond projects the given state onto the manifold of precondition-satisfying states by gradient-based optimization. UpdateModes adds newly reached modes to the mode queue, AtGoal checks if the total set of samples contains goal mode states, and NewTaskPlan invokes the task planner (Secs. IV-B4 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") and IV-B5 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")).
 
 The mode queue is ordered to prioritize recently reached modes. This ordering creates behavior akin to the "enforced hill climbing" of the FastForward (FF) task planner by continuing the search in the resulting mode when an action succeeds, effectively following the corresponding task plan candidate as far as possible. Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") returns early if it reaches a goal-satisfying state. The mode queue persists across invocations of Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") for the same batch.
 
@@ -196,7 +174,7 @@ AIT\* uses the reverse search to calculate a heuristic to guide the forward sear
 
 ### IV-E Implementation
 
-We provide a proof-of-concept implementation of TMIT\* in C++^66^6[https://robotic-esp.com/code/tmitstar](https://robotic-esp.com/code/tmitstar). We use the implementation of AIT\* and associated sampling-based motion planning utilities from the Open Motion Planning Library and use Bullet for collision checking. The geometric predicate implementation is an improved version of using the Autodiff library for automatic differentiation, NLOpt for optimization, and a bespoke dual-number automatic differentiation implementation in LuaJIT for predicate functions.
+We provide a proof-of-concept implementation of TMIT\* in C++^66^6 We use the implementation of AIT\* and associated sampling-based motion planning utilities from the Open Motion Planning Library and use Bullet for collision checking. The geometric predicate implementation is an improved version of using the Autodiff library for automatic differentiation, NLOpt for optimization, and a bespoke dual-number automatic differentiation implementation in LuaJIT for predicate functions.
 
 The planner's input is simpler than most other TMP solvers and does not include specialized samplers or planners, or prediscretized state. It requires only a description of the initial scene, a specification of the robot morphology and kinematics, object and robot geometries, the symbolic planning domain and problem, and functions for geometric predicates.
 
@@ -210,9 +188,7 @@ Given a TMP problem as in Def. 9 Problem ‣ III Problem formulation ‣ Task an
 
 ### Proof
 
-TMIT\* eventually attempts every possible symbolic plan candidate, since SATPlan (Sec. IV-B ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")) is complete, and the constraints described in Sec. IV-B5 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") ensure that candidate symbolic plans are distinct. The symbolic planner will be invoked infinitely often until a TMP solution is found, since Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") requests a new task plan whenever it fails to reach the goal mode or runs out of viable actions. Actions have a finite attempt budget and the mode queue is always emptied before completing a batch. AIT\* is probabilistically complete and will eventually sample within the connection radius of each precondition region infinitely often. Each precondition-satisfying manifold is convex by assumption, so projecting uniform-random samples onto the precondition regions will eventually sample every point in the manifold. Thus, we will find a valid path through our planning space if one exists, and therefore are probabilistically complete. ∎
-
-The sketch of almost-sure asymptotic optimality is similar.
+TMIT\* eventually attempts every possible symbolic plan candidate, since SATPlan (Sec. IV-B ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")) is complete, and the constraints described in Sec. IV-B5 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") ensure that candidate symbolic plans are distinct. The symbolic planner will be invoked infinitely often until a TMP solution is found, since Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") requests a new task plan whenever it fails to reach the goal mode or runs out of viable actions. Actions have a finite attempt budget and the mode queue is always emptied before completing a batch. AIT\* is probabilistically complete and will eventually sample within the connection radius of each precondition region infinitely often. Each precondition-satisfying manifold is convex by assumption, so projecting uniform-random samples onto the precondition regions will eventually sample every point in the manifold. Thus, we will find a valid path through our planning space if one exists, and therefore are probabilistically complete. ∎ The sketch of almost-sure asymptotic optimality is similar.
 
 ### Theorem 2: Almost-Sure Asymptotic Optimality
 

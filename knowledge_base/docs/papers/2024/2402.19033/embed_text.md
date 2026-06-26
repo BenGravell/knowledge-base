@@ -8,8 +8,7 @@ While early methods of trajectory planning of aerial swarm in cluttered environm
 
 Asynchronous approaches do not require periodic communication between agents. EGO-Swarm, an extension of a gradient-based planner for a single agent, is a recent example of an asynchronous multi-drone planner. However, it cannot handle communication delay between the agents and assumes perfect knowledge of occluded obstacles. EGO-Swarm2 uses the MINCO trajectory parametrization instead of B-Splines of EGO-Swarm to produce smoother trajectories and a lower optimization time. However, it cannot handle communication delay and it flies slower in unknown environments. EDG-Team improves over EGO-Swarm2 by dealing with deadlocks between multiple agents that pass through narrow gaps. This is achieved by switching the method to a centralized and synchronous planner in dense environments. The method was proven to be more robust to communication delay but could not guarantee collision-free navigation. MADER and its delay-robust version RMADER are another family of asynchronous planners. They both use the MINVO basis to generate trajectories that can pass through narrow gaps. Both approaches assume perfect knowledge of the obstacle positions and shapes within a bounding box around each agent and do not account for the unknown part of the environment, which could lead to collisions. DREAM is another asynchronous planning method for aerial swarms that minimizes collision probabilities, but cannot guarantee safety in unknown environments. MRNAV was built on top of DREAM to provide collision-free and deadlock-free flight using a centralized, long-horizon planning module. MRNAV retains communication delay robustness of DREAM but still does not guarantee safety in unknown environments.
 
-In dense environments, EDG-Team switches to a centralized and synchronous planner that executes joint optimization.
-The long horizon module runs on a centralized system that communicates with the planning robots periodically.
+In dense environments, EDG-Team switches to a centralized and synchronous planner that executes joint optimization. The long horizon module runs on a centralized system that communicates with the planning robots periodically.
 
 TABLE I: Comparison of recent motion planning methods according to key properties: asynchronous or synchronous (Async); decentralized or centralized (Decentr.); handling of communication delay between agents (Delay); explicit handling of unknown parts of the environment (Unkn.).
 
@@ -73,11 +72,7 @@ During each planning iteration, every agent requires the previously generated tr
 
 ## Simulation Results
 
-Mean flight time (s)
-Mean flight velocity (m/s)
-Mean flight distance (m)
-
-TABLE II: Comparison between EGO-Swarm2 (ES2), MADER, RMADER and our method HDSM. The comparison is over 10 simulations (100 simulations for MADER and RMADER) of 10 agents in a circle of radius 10 m exchanging positions (Fig. 6(a)). The metrics displayed in the table are whether the method is synchronous or asynchronous (Async?), the percentage of generated trajectories that resulted in a collision, the average number of agent stops per simulation, the jerk cost (∫∥j (t)∥2 dt), mean flight time, velocity and distance, and the deadlock rate (agents blocking each other indefinitely).
+Mean flight time (s) Mean flight velocity (m/s) Mean flight distance (m) TABLE II: Comparison between EGO-Swarm2 (ES2), MADER, RMADER and our method HDSM. The comparison is over 10 simulations (100 simulations for MADER and RMADER) of 10 agents in a circle of radius 10 m exchanging positions (Fig. 6(a)). The metrics displayed in the table are whether the method is synchronous or asynchronous (Async?), the percentage of generated trajectories that resulted in a collision, the average number of agent stops per simulation, the jerk cost (∫∥j (t)∥2 dt), mean flight time, velocity and distance, and the deadlock rate (agents blocking each other indefinitely).
 
 (b) Comunication latency percentile.
 
@@ -105,7 +100,7 @@ Our method outperforms the other methods in mean speed and flight time as shown 
 
 ### III-C Environment with obstacles
 
-Figure 7: The velocity profile of 10 agents traversing an environment from x = 0 m to x = 96 m (Fig. 7(a)). The obstacles are shown in red. The environment consists of 2 areas of different obstacle densities (0.1 obs/m2 for 3 &lt; x &lt; 33 and 0.2 obs/m2 for 63 &lt; x &lt; 93). These areas are separated by a wall with small openings at varying heights (orange wall in Fig. 7(b)). The agents are the green spheres, their previous positions are the green lines and their predicted trajectories (MIQP/MPC solutions) are the yellow lines.
+Figure 7: The velocity profile of 10 agents traversing an environment from x = 0 m to x = 96 m (Fig. 7(a)). The obstacles are shown in red. The environment consists of 2 areas of different obstacle densities (0.1 obs/m2 for 3 < x < 33 and 0.2 obs/m2 for 63 < x < 93). These areas are separated by a wall with small openings at varying heights (orange wall in Fig. 7(b)). The agents are the green spheres, their previous positions are the green lines and their predicted trajectories (MIQP/MPC solutions) are the yellow lines.
 
 Figure 8: The velocity profile of 10 agents in a circular configuration exchanging their positions. The circle is of radius 22 m and contains a forest of cylinders of density of density 0.1 obst/m2.
 

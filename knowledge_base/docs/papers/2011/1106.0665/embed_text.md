@@ -14,43 +14,21 @@ These "policy-gradient" algorithms have a long history in Operations Research, S
 
 For large-scale problems or problems where the system dynamics are unknown, the performance gradient will not be computable in closed form^11^1See equation for a closed-form expression for the performance gradient.. Thus the challenging aspect of the policy-gradient approach is to find an algorithm for estimating the gradient via simulation. Naively, the gradient can be calculated numerically by adjusting each parameter in turn and estimating the effect on performance via simulation (the so-called crude Monte-Carlo technique), but that will be prohibitively inefficient for most problems. Somewhat surprisingly, under mild regularity conditions, it turns out that the full gradient can be estimated from a single simulation of the system. The technique is called the score function or likelihood ratio method and appears to have been first proposed in the sixties ( ?, ?) for computing performance gradients in i.i.d. (independently and identically distributed) processes.
 
-Specifically, suppose $r{(X)}$ is a performance function that depends on some random variable $X$, and $q{(\theta,x)}$ is the probability that $X = x$, parameterized by $\theta \in {\mathbb{R}}^{K}$. Under mild regularity conditions, the gradient with respect to $\theta$ of the expected performance,
+Specifically, suppose $r{(X)}$ is a performance function that depends on some random variable $X$, and $q{(\theta,x)}$ is the probability that $X = x$, parameterized by $\theta \in {\mathbb{R}}^{K}$. Under mild regularity conditions, the gradient with respect to $\theta$ of the expected performance, To see this, rewrite as a sum differentiate (one source of the requirement of "mild regularity conditions") to obtain and observe that this formula is equivalent to.
 
-To see this, rewrite as a sum
-
-differentiate (one source of the requirement of "mild regularity conditions") to obtain
-
-and observe that this formula is equivalent to.
-
-If a simulator is available to generate samples $X$ distributed according to $q{(\theta,x)}$, then any sequence $X_{1},X_{2},\ldots,X_{N}$ generated i.i.d. according to $q{(\theta,x)}$ gives an unbiased estimate,
-
-of ${\nabla\eta}{(\theta)}$. By the law of large numbers, ${\hat{\nabla}\eta{(\theta)}}\rightarrow{{\nabla\eta}{(\theta)}}$ with probability one. The quantity ${{{\nabla q}{(\theta,X)}}/q}{(\theta,X)}$ is known as the likelihood ratio or score function in classical statistics. If the performance function $r{(X)}$ also depends on $\theta$, then ${{r{(X)}{\nabla q}{(\theta,X)}}/q}{(\theta,X)}$ is replaced by ${{\nabla r}{(\theta,X)}} + {{{r{(\theta,X)}{\nabla q}{(\theta,X)}}/q}{(\theta,X)}}$ in.
+If a simulator is available to generate samples $X$ distributed according to $q{(\theta,x)}$, then any sequence $X_{1},X_{2},\ldots,X_{N}$ generated i.i.d. according to $q{(\theta,x)}$ gives an unbiased estimate, of ${\nabla\eta}{(\theta)}$. By the law of large numbers, ${\hat{\nabla}\eta{(\theta)}}\rightarrow{{\nabla\eta}{(\theta)}}$ with probability one. The quantity ${{{\nabla q}{(\theta,X)}}/q}{(\theta,X)}$ is known as the likelihood ratio or score function in classical statistics. If the performance function $r{(X)}$ also depends on $\theta$, then ${{r{(X)}{\nabla q}{(\theta,X)}}/q}{(\theta,X)}$ is replaced by ${{\nabla r}{(\theta,X)}} + {{{r{(\theta,X)}{\nabla q}{(\theta,X)}}/q}{(\theta,X)}}$.
 
 ### Unbiased Estimates of the Performance Gradient for Regenerative Processes
 
-Extensions of the likelihood-ratio method to regenerative processes (including Markov Decision Processes or $MDP$s) were given by ? (?, ?, ?) and ? (?, ?), and independently for episodic Partially Observable Markov Decision Processes ($POMDP$s) by ? (?), who introduced the $REINFORCE$ algorithm^22^2A thresholded version of these algorithms for neuron-like elements was described earlier in ? (?).. Here the i.i.d. samples $X$ of the previous section are sequences of states $X_{0},\ldots,X_{T}$ (of random length) encountered between visits to some designated recurrent state $i^{\ast}$, or sequences of states from some start state to a goal state. In this case ${{{\nabla q}{(\theta,X)}}/q}{(\theta,X)}$ can be written as a sum
-
-where $p_{X_{t}X_{t + 1}}{(\theta)}$ is the transition probability from $X_{t}$ to $X_{t + 1}$ given parameters $\theta$. Equation admits a recursive computation over the course of a regenerative cycle of the form $z_{0} = 0 \in {\mathbb{R}}^{K}$, and after each state transition $X_{t}\rightarrow X_{t + 1}$,
-
-so that each term ${{r{(X)}{\nabla q}{(\theta,X)}}/q}{(\theta,X)}$ in the estimate is of the form^33^3The vector $z_{T}$ is known in reinforcement learning as an eligibility trace. This terminology is used in ? (?). $r{(X_{0},\ldots,X_{T})}z_{T}$. If, in addition, $r{(X_{0},\ldots,X_{T})}$ can be recursively computed by
-
-for some function $\phi$, then the estimate $r{(X_{0},\ldots,X_{T})}z_{T}$ for each cycle can be computed using storage of only $K + 1$ parameters ($K$ for $z_{t}$ and $1$ parameter to update the performance function $r$). Hence, the entire estimate can be computed with storage of only ${2K} + 1$ real parameters, as follows.
+Extensions of the likelihood-ratio method to regenerative processes (including Markov Decision Processes or $MDP$s) were given by ? (?, ?, ?) and ? (?, ?), and independently for episodic Partially Observable Markov Decision Processes ($POMDP$s) by ? (?), who introduced the $REINFORCE$ algorithm^22^2A thresholded version of these algorithms for neuron-like elements was described earlier in ? (?).. Here the i.i.d. samples $X$ of the previous section are sequences of states $X_{0},\ldots,X_{T}$ (of random length) encountered between visits to some designated recurrent state $i^{\ast}$, or sequences of states from some start state to a goal state. In this case ${{{\nabla q}{(\theta,X)}}/q}{(\theta,X)}$ can be written as a sum where $p_{X_{t}X_{t + 1}}{(\theta)}$ is the transition probability from $X_{t}$ to $X_{t + 1}$ given parameters $\theta$. Equation admits a recursive computation over the course of a regenerative cycle of the form $z_{0} = 0 \in {\mathbb{R}}^{K}$, and after each state transition $X_{t}\rightarrow X_{t + 1}$, so that each term ${{r{(X)}{\nabla q}{(\theta,X)}}/q}{(\theta,X)}$ in the estimate is of the form^33^3The vector $z_{T}$ is known in reinforcement learning as an eligibility trace. This terminology is used in ? (?). $r{(X_{0},\ldots,X_{T})}z_{T}$. If, in addition, $r{(X_{0},\ldots,X_{T})}$ can be recursively computed by for some function $\phi$, then the estimate $r{(X_{0},\ldots,X_{T})}z_{T}$ for each cycle can be computed using storage of only $K + 1$ parameters ($K$ for $z_{t}$ and $1$ parameter to update the performance function $r$). Hence, the entire estimate can be computed with storage of only ${2K} + 1$ real parameters, as follows.
 
 ### Algorithm 1.1: Policy-Gradient Algorithm for Regenerative Processes
 
-For each state transition $X_{t}\rightarrow X_{t + 1}$:
+For each state transition $X_{t}\rightarrow X_{t + 1}$: If the episode is finished (that is, $X_{t + 1} = i^{\ast})$, set\If $j = N$ return $\Delta_{N}/N$, otherwise goto 2.
 
-If the episode is finished (that is, $X_{t + 1} = i^{\ast})$, set\
+Examples of recursive performance functions include the sum of a scalar reward over a cycle, ${r{(X_{0},\ldots,X_{T})}} = {\sum_{t = 0}^{T}{r{(X_{t})}}}$ where $r{(i)}$ is a scalar reward associated with state $i$ (this corresponds to $\eta{(\theta)}$ being the average reward multiplied by the expected recurrence time $\mathbf{E}_{\theta}\lbrack T\rbrack$); the negative length of the cycle (which can be implemented by assigning a reward of $- 1$ to each state, and is used when the task is to mimimize time taken to get to a goal state, since $\eta{(\theta)}$ in this case is just $- {\mathbf{E}_{\theta}\lbrack T\rbrack}$); the discounted reward from the start state, ${r{(X_{0},\ldots,X_{T})}} = {\sum_{t = 0}^{T}{\alpha^{t}r{(X_{t})}}}$, where $\alpha \in {\lbrack 0,1)}$ is the discount factor, and so .
 
-If $j = N$ return $\Delta_{N}/N$, otherwise goto 2.
-
-Examples of recursive performance functions include the sum of a scalar reward over a cycle, ${r{(X_{0},\ldots,X_{T})}} = {\sum_{t = 0}^{T}{r{(X_{t})}}}$ where $r{(i)}$ is a scalar reward associated with state $i$ (this corresponds to $\eta{(\theta)}$ being the average reward multiplied by the expected recurrence time $\mathbf{E}_{\theta}\lbrack T\rbrack$); the negative length of the cycle (which can be implemented by assigning a reward of $- 1$ to each state, and is used when the task is to mimimize time taken to get to a goal state, since $\eta{(\theta)}$ in this case is just $- {\mathbf{E}_{\theta}\lbrack T\rbrack}$); the discounted reward from the start state, ${r{(X_{0},\ldots,X_{T})}} = {\sum_{t = 0}^{T}{\alpha^{t}r{(X_{t})}}}$, where $\alpha \in {\lbrack 0,1)}$ is the discount factor, and so on.
-
-As ? (?) pointed out, a further simplification is possible in the case that $r_{T} = {r{(X_{0},\ldots,X_{T})}}$ is a sum of scalar rewards $r{(X_{t},t)}$ depending on the state and possibly the time $t$ since the starting state (such as ${r{(X_{t},t)}} = {r{(X_{t})}}$, or ${r{(X_{t},t)}} = {\alpha^{t}r{(X_{t})}}$ as above). In that case, the update $\Delta$ from a single regenerative cycle may be written as
-
-Because changes in $p_{X_{t}X_{t + 1}}{(\theta)}$ have no influence on the rewards $r{(X_{s},s)}$ associated with earlier states ($s \leq t$), we should be able to drop the first term in the parentheses on the right-hand-side and write
-
-Although the proof is not entirely trivial, this intuition can indeed be shown to be correct.
+As ? (?) pointed out, a further simplification is possible in the case that $r_{T} = {r{(X_{0},\ldots,X_{T})}}$ is a sum of scalar rewards $r{(X_{t},t)}$ depending on the state and possibly the time $t$ since the starting state (such as ${r{(X_{t},t)}} = {r{(X_{t})}}$, or ${r{(X_{t},t)}} = {\alpha^{t}r{(X_{t})}}$ as above). In that case, the update $\Delta$ from a single regenerative cycle may be written as Because changes in $p_{X_{t}X_{t + 1}}{(\theta)}$ have no influence on the rewards $r{(X_{s},s)}$ associated with earlier states ($s \leq t$), we should be able to drop the first term in the parentheses on the right-hand-side and write Although the proof is not entirely trivial, this intuition can indeed be shown to be correct.
 
 Equation allows an even simpler recursive formula for estimating the performance gradient. Set $z_{0} = \Delta_{0} = 0$, and introduce a new variable $s = 0$. As before, set $z_{t + 1} = {z_{t} + {{{{\nabla p_{X_{t}X_{t + 1}}}{(\theta)}}/p_{X_{t}X_{t + 1}}}{(\theta)}}}$ and $s = {s + 1}$ if $X_{t + 1} \neq i^{\ast}$, or $s = 0$ and $z_{t + 1} = 0$ otherwise. But now, on each iteration, set $\Delta_{t + 1} = {{r{(X_{t},s)}z_{t}} + \Delta_{t}}$. Then $\Delta_{t}/t$ is our estimate of ${\nabla\eta}{(\theta)}$. Since $\Delta_{t}$ is updated on every iteration, this suggests that we can do away with $\Delta_{t}$ altogether and simply update $\theta$ directly: $\theta_{t + 1} = {\theta_{t} + {\gamma_{t}r{(X_{t},s)}z_{t}}}$, where the $\gamma_{t}$ are suitable step-sizes^44^4The usual requirements on $\gamma_{t}$ for convergence of a stochastic gradient algorithm are $\gamma_{t} > 0$, ${\sum_{t = 0}^{\infty}\gamma_{t}} = \infty$, and ${\sum_{t = 0}^{\infty}\gamma_{t}^{2}} < \infty$.. Proving convergence of such an algorithm is not as straightforward as normal stochastic gradient algorithms because the updates $r{(X_{t})}z_{t}$ are not in the gradient direction (in expectation), although the sum of these updates over a regenerative cycle are. ? (?) provide the only convergence proof that we know of, albeit for a slightly different update of the form $\theta_{t + 1} = {\theta_{t} + {\gamma_{t}\left\lbrack {{r{(X_{t},s)}} - {\hat{\eta}{(\theta_{t})}}} \right\rbrackz_{t}}}$, where $\hat{\eta}{(\theta_{t})}$ is a moving estimate of the expected performance, and is also updated on-line (this update was first suggested in the context of $POMDP$s by ? (?)).
 
@@ -62,27 +40,13 @@ Algorithm 1.1 and the variants above have been extended to cover multiple agents
 
 ### Biased Estimates of the Performance Gradient
 
-All the algorithms described in the previous section rely on an identifiable recurrent state $i^{\ast}$, either to update the gradient estimate, or in the case of the on-line algorithm, to zero the eligibility trace $z$. This reliance on a recurrent state can be problematic for two main reasons:
-
-The variance of the algorithms is related to the recurrence time between visits to $i^{\ast}$, which will typically grow as the state space grows. Furthermore, the time between visits depends on the parameters of the policy, and states that are frequently visited for the initial value of the parameters may become very rare as performance improves.
+All the algorithms described in the previous section rely on an identifiable recurrent state $i^{\ast}$, either to update the gradient estimate, or in the case of the on-line algorithm, to zero the eligibility trace $z$. This reliance on a recurrent state can be problematic for two main reasons: The variance of the algorithms is related to the recurrence time between visits to $i^{\ast}$, which will typically grow as the state space grows. Furthermore, the time between visits depends on the parameters of the policy, and states that are frequently visited for the initial value of the parameters may become very rare as performance improves.
 
 In situations of partial observability it may be difficult to estimate the underlying states, and therefore to determine when the gradient estimate should be updated, or the eligibility trace zeroed.
 
-If the system is available only through simulation, it seems difficult (if not impossible) to obtain unbiased estimates of the gradient direction without access to a recurrent state. Thus, to solve 1 and 2, we must look to biased estimates. Two principle techniques for introducing bias have been proposed, both of which may be viewed as artificial truncations of the eligibility trace $z$. The first method takes as a starting point the formula^55^5For ease of exposition, we have kept the expression for $z$ in terms of the likelihood ratios ${{{\nabla p_{X_{s}X_{s + 1}}}{(\theta)}}/p_{X_{s}X_{s + 1}}}{(\theta)}$ which rely on the availability of the underlying state $X_{s}$. If $X_{s}$ is not available, ${{{\nabla p_{X_{s}X_{s + 1}}}{(\theta)}}/p_{X_{s}X_{s + 1}}}{(\theta)}$ should be replaced with ${{{\nabla\mu_{U_{s}}}{(\theta,Y_{s})}}/\mu_{U_{s}}}{(\theta,Y_{s})}$. for the eligibility trace at time $t$:
+If the system is available only through simulation, it seems difficult (if not impossible) to obtain unbiased estimates of the gradient direction without access to a recurrent state. Thus, to solve 1 and 2, we must look to biased estimates. Two principle techniques for introducing bias have been proposed, both of which may be viewed as artificial truncations of the eligibility trace $z$. The first method takes as a starting point the formula^55^5For ease of exposition, we have kept the expression for $z$ in terms of the likelihood ratios ${{{\nabla p_{X_{s}X_{s + 1}}}{(\theta)}}/p_{X_{s}X_{s + 1}}}{(\theta)}$ which rely on the availability of the underlying state $X_{s}$. If $X_{s}$ is not available, ${{{\nabla p_{X_{s}X_{s + 1}}}{(\theta)}}/p_{X_{s}X_{s + 1}}}{(\theta)}$ should be replaced with ${{{\nabla\mu_{U_{s}}}{(\theta,Y_{s})}}/\mu_{U_{s}}}{(\theta,Y_{s})}$. for the eligibility trace at time $t$: and simply truncates it at some (fixed, not random) number of terms $n$ looking backwards (?, ?, ?, ?): The eligibility trace $z_{t}{(n)}$ is then updated after each transition $X_{t}\rightarrow X_{t + 1}$ by and in the case of state-based rewards $r{(X_{t})}$, the estimated gradient direction after $T$ steps is Unless $n$ exceeds the maximum recurrence time (which is infinite in an ergodic Markov chain), ${\hat{\nabla}}_{n}\eta{(\theta)}$ is a biased estimate of the gradient direction, although as $n\rightarrow\infty$, the bias approaches zero. However the variance of ${\hat{\nabla}}_{n}\eta{(\theta)}$ diverges in the limit of large $n$. This illustrates a natural trade-off in the selection of the parameter $n$: it should be large enough to ensure the bias is acceptable (the expectation of ${\hat{\nabla}}_{n}\eta{(\theta)}$ should at least be within $90^{\circ}$ of the true gradient direction), but not so large that the variance is prohibitive. Experimental results by ? (?) illustrate nicely this bias/variance trade-off.
 
-and simply truncates it at some (fixed, not random) number of terms $n$ looking backwards ( ?, ?, ?, ?):
-
-The eligibility trace $z_{t}{(n)}$ is then updated after each transition $X_{t}\rightarrow X_{t + 1}$ by
-
-and in the case of state-based rewards $r{(X_{t})}$, the estimated gradient direction after $T$ steps is
-
-Unless $n$ exceeds the maximum recurrence time (which is infinite in an ergodic Markov chain), ${\hat{\nabla}}_{n}\eta{(\theta)}$ is a biased estimate of the gradient direction, although as $n\rightarrow\infty$, the bias approaches zero. However the variance of ${\hat{\nabla}}_{n}\eta{(\theta)}$ diverges in the limit of large $n$. This illustrates a natural trade-off in the selection of the parameter $n$: it should be large enough to ensure the bias is acceptable (the expectation of ${\hat{\nabla}}_{n}\eta{(\theta)}$ should at least be within $90^{\circ}$ of the true gradient direction), but not so large that the variance is prohibitive. Experimental results by ? (?) illustrate nicely this bias/variance trade-off.
-
-One potential difficulty with this method is that the likelihood ratios ${{{\nabla p_{X_{s}X_{s + 1}}}{(\theta)}}/p_{X_{s}X_{s + 1}}}{(\theta)}$ must be remembered for the previous $n$ time steps, requiring storage of $Kn$ parameters. Thus, to obtain small bias, the memory may have to grow without bound. An alternative approach that requires a fixed amount of memory is to discount the eligibility trace, rather than truncating it:
-
-where ${z_{0}{(\beta)}} = 0$ and $\beta \in {\lbrack 0,1)}$ is a discount factor. In this case the estimated gradient direction after $T$ steps is simply
-
-This is precisely the estimate we analyze in the present paper. A similar estimate with $r{(X_{t})}z_{t}{(\beta)}$ replaced by ${({{r{(X_{t})}} - b})}z_{t}{(\beta)}$ where $b$ is a reward baseline was proposed by ? (?, ?) and for continuous control by ? (?). In fact the use of $({{r{(X_{t})}} - b})$ in place of $r{(X_{t})}$ does not affect the expectation of the estimates of the algorithm (although judicious choice of the reward baseline $b$ can reduce the variance of the estimates). While the algorithm presented by ? (?) provides estimates of the expectation under the stationary distribution of the gradient of the discounted reward, we will show that these are in fact biased estimates of the gradient of the expected discounted reward. This arises because the stationary distribution itself depends on the parameters. A similar estimate to was also proposed by ? (?), but this time with $r{(X_{t})}z_{t}{(\beta)}$ replaced by ${({{r{(X_{t})}} - {\hat{\eta}{(\theta)}}})}z_{t}{(\beta)}$, where $\hat{\eta}{(\theta)}$ is an estimate of the average reward, and with $z_{t}$ zeroed on visits to an identifiable recurrent state.
+One potential difficulty with this method is that the likelihood ratios ${{{\nabla p_{X_{s}X_{s + 1}}}{(\theta)}}/p_{X_{s}X_{s + 1}}}{(\theta)}$ must be remembered for the previous $n$ time steps, requiring storage of $Kn$ parameters. Thus, to obtain small bias, the memory may have to grow without bound. An alternative approach that requires a fixed amount of memory is to discount the eligibility trace, rather than truncating it: where ${z_{0}{(\beta)}} = 0$ and $\beta \in {\lbrack 0,1)}$ is a discount factor. In this case the estimated gradient direction after $T$ steps is simply This is precisely the estimate we analyze in the present paper. A similar estimate with $r{(X_{t})}z_{t}{(\beta)}$ replaced by ${({{r{(X_{t})}} - b})}z_{t}{(\beta)}$ where $b$ is a reward baseline was proposed by ? (?, ?) and for continuous control by ? (?). In fact the use of $({{r{(X_{t})}} - b})$ in place of $r{(X_{t})}$ does not affect the expectation of the estimates of the algorithm (although judicious choice of the reward baseline $b$ can reduce the variance of the estimates). While the algorithm presented by ? (?) provides estimates of the expectation under the stationary distribution of the gradient of the discounted reward, we will show that these are in fact biased estimates of the gradient of the expected discounted reward. This arises because the stationary distribution itself depends on the parameters. A similar estimate to was also proposed by ? (?), but this time with $r{(X_{t})}z_{t}{(\beta)}$ replaced by ${({{r{(X_{t})}} - {\hat{\eta}{(\theta)}}})}z_{t}{(\beta)}$, where $\hat{\eta}{(\theta)}$ is an estimate of the average reward, and with $z_{t}$ zeroed on visits to an identifiable recurrent state.
 
 As a final note, observe that the eligibility traces $z_{t}{(\beta)}$ and $z_{t}{(n)}$ defined by and are simply filtered versions of the sequence ${{{\nabla p_{X_{t}X_{t + 1}}}{(\theta)}}/p_{X_{t}X_{t + 1}}}{(\theta)}$, a first-order, infinite impulse response filter in the case of $z_{t}{(\beta)}$ and an $n$-th order, finite impulse response filter in the case of $z_{t}{(n)}$. This raises the question, not addressed in this paper, of whether there is an interesting theory of optimal filtering for policy-gradient estimators.
 
@@ -100,9 +64,7 @@ We model reinforcement learning as a Markov decision process ($MDP$) with a fini
 
 ### Assumption 1
 
-Each ${P{(\theta)}} \in \mathcal{P}$ has a unique stationary distribution ${\pi{(\theta)}}:=\left\lbrack {\pi{(\theta,1)}},\ldots,{\pi{(\theta,n)}} \right\rbrack^{\prime}$ satisfying the balance equations
-
-(throughout $\pi^{\prime}$ denotes the transpose of $\pi$).
+Each ${P{(\theta)}} \in \mathcal{P}$ has a unique stationary distribution ${\pi{(\theta)}}:=\left\lbrack {\pi{(\theta,1)}},\ldots,{\pi{(\theta,n)}} \right\rbrack'$ satisfying the balance equations (throughout $\pi'$ denotes the transpose of $\pi$).
 
 ### Assumption 2
 
@@ -112,11 +74,7 @@ Assumption 1 ensures that the Markov chain forms a single recurrent class for al
 
 Ordinarily, a discussion of $MDP$s would not be complete without some mention of the actions available in each state and the space of policies available to the learner. In particular, the parameters $\theta$ would usually determine a policy (either directly or indirectly via a value function), which would then determine the transition probabilities $P{(\theta)}$. However, for our purposes we do not care how the dependence of $P$ on $\theta$ arises, just that it satisfies Assumption 1 (and some differentiability assumptions that we shall meet in the next section). Note also that it is easy to extend this setup to the case where the rewards also depend on the parameters $\theta$ or on the transitions $i\rightarrow j$. It is equally straightforward to extend our algorithms and results to these cases. See Section 6.1 for an illustration.
 
-The goal is to find a $\theta \in {\mathbb{R}}^{K}$ maximizing the average reward:
-
-where $\mathbf{E}_{\theta}$ denotes the expectation over all sequences ${X_{0},X_{1},\ldots},$ with transitions generated according to $P{(\theta)}$. Under Assumption 1, $\eta{(\theta)}$ is independent of the starting state $i$ and is equal to
-
-where $r = \left\lbrack {r{}},\ldots,{r{(n)}} \right\rbrack^{\prime}$ ( ?).
+The goal is to find a $\theta \in {\mathbb{R}}^{K}$ maximizing the average reward: where $\mathbf{E}_{\theta}$ denotes the expectation over all sequences ${X_{0},X_{1},\ldots},$ with transitions generated according to $P{(\theta)}$. Under Assumption 1, $\eta{(\theta)}$ is independent of the starting state $i$ and is equal to where $r = \left\lbrack {r{}},\ldots,{r{(n)}} \right\rbrack'$ (?).
 
 ## Computing the Gradient of the Average Reward
 
@@ -126,27 +84,9 @@ To ensure the existence of suitable gradients (and the boundedness of certain ra
 
 ### Assumption 3
 
-exist for all $\theta \in {\mathbb{R}}^{K}$. The ratios
+exist for all $\theta \in {\mathbb{R}}^{K}$. The ratios are uniformly bounded by $B < \infty$ for all $\theta \in {\mathbb{R}}^{K}$.
 
-are uniformly bounded by $B < \infty$ for all $\theta \in {\mathbb{R}}^{K}$.
-
-The second part of this assumption allows zero-probability transitions ${p_{ij}{(\theta)}} = 0$ only if ${\nabla p_{ij}}{(\theta)}$ is also zero, in which case we set ${0/0} = 0$. One example is if $i\rightarrow j$ is a forbidden transition, so that ${p_{ij}{(\theta)}} = 0$ for all $\theta \in {\mathbb{R}}^{K}$. Another example satisfying the assumption is
-
-where $\theta = \left\lbrack \theta_{11},\ldots,\theta_{1n},\ldots,\theta_{nn} \right\rbrack \in {\mathbb{R}}^{n^{2}}$ are the parameters of $P{(\theta)}$, for then
-
-Assuming for the moment that ${\nabla\pi}{(\theta)}$ exists (this will be justified shortly), then, suppressing $\theta$ dependencies,
-
-since the reward $r$ does not depend on $\theta$. Note that our convention for $\nabla$ in this paper is that it takes precedence over all other operations, so ${{\nabla g}{(\theta)}f{(\theta)}} = {\left\lbrack {{\nabla g}{(\theta)}} \right\rbrackf{(\theta)}}$. Equations like should be regarded as shorthand notation for $K$ equations of the form
-
-where $k = {1,\ldots,K}$. To compute $\nabla\pi$, first differentiate the balance equations to obtain
-
-The system of equations defined by is under-constrained because $I - P$ is not invertible (the balance equations show that $I - P$ has a left eigenvector with zero eigenvalue). However, let $e$ denote the $n$-dimensional column vector consisting of all $1$s, so that $e\pi^{\prime}$ is the $n \times n$ matrix with the stationary distribution $\pi^{\prime}$ in each row. Since ${\nabla{\pi^{\prime}e}} = {\nabla{({\pi^{\prime}e})}} = {\nabla{}} = 0$, we can rewrite as
-
-To see that the inverse $\left\lbrack {I - {({P - {e\pi^{\prime}}})}} \right\rbrack^{- 1}$ exists, let $A$ be any matrix satisfying ${\lim_{t\rightarrow\infty}A^{t}} = 0$. Then we can write
-
-It is easy to prove by induction that $\left\lbrack {P - {e\pi^{\prime}}} \right\rbrack^{t} = {P^{t} - {e\pi^{\prime}}}$ which converges to $0$ as $t\rightarrow\infty$ by Assumption 1. So $\left\lbrack {I - {({P - {e\pi^{\prime}}})}} \right\rbrack^{- 1}$ exists and is equal to $\sum_{t = 0}^{\infty}\left\lbrack {P^{t} - {e\pi^{\prime}}} \right\rbrack$. Hence, we can write
-
-and so^99^9The argument leading to coupled with the fact that $\pi{(\theta)}$ is the unique solution to can be used to justify the existence of $\nabla\pi$. Specifically, we can run through the same steps computing the value of $\pi{({\theta + \delta})}$ for small $\delta$ and show that the expression for $\nabla\pi$ is the unique matrix satisfying ${\pi{({\theta + \delta})}} = {{\pi{(\theta)}} + {\delta{\nabla\pi}{(\theta)}} + {O{({\|\delta\|}^{2})}}}$.
+The second part of this assumption allows zero-probability transitions ${p_{ij}{(\theta)}} = 0$ only if ${\nabla p_{ij}}{(\theta)}$ is also zero, in which case we set ${0/0} = 0$. One example is if $i\rightarrow j$ is a forbidden transition, so that ${p_{ij}{(\theta)}} = 0$ for all $\theta \in {\mathbb{R}}^{K}$. Another example satisfying the assumption is where $\theta = \left\lbrack \theta_{11},\ldots,\theta_{1n},\ldots,\theta_{nn} \right\rbrack \in {\mathbb{R}}^{n^{2}}$ are the parameters of $P{(\theta)}$, for then Assuming for the moment that ${\nabla\pi}{(\theta)}$ exists (this will be justified shortly), then, suppressing $\theta$ dependencies, since the reward $r$ does not depend on $\theta$. Note that our convention for $\nabla$ in this paper is that it takes precedence over all other operations, so ${{\nabla g}{(\theta)}f{(\theta)}} = {\left\lbrack {{\nabla g}{(\theta)}} \right\rbrackf{(\theta)}}$. Equations like should be regarded as shorthand notation for $K$ equations of the form where $k = {1,\ldots,K}$. To compute $\nabla\pi$, first differentiate the balance equations to obtain The system of equations defined by is under-constrained because $I - P$ is not invertible (the balance equations show that $I - P$ has a left eigenvector with zero eigenvalue). However, let $e$ denote the $n$-dimensional column vector consisting of all $1$s, so that $e\pi'$ is the $n \times n$ matrix with the stationary distribution $\pi'$ in each row. Since ${\nabla{\pi'e}} = {\nabla{({\pi'e})}} = {\nabla{}} = 0$, we can rewrite as To see that the inverse $\left\lbrack {I - {({P - {e\pi'}})}} \right\rbrack^{- 1}$ exists, let $A$ be any matrix satisfying ${\lim_{t\rightarrow\infty}A^{t}} = 0$. Then we can write It is easy to prove by induction that $\left\lbrack {P - {e\pi'}} \right\rbrack^{t} = {P^{t} - {e\pi'}}$ which converges to $0$ as $t\rightarrow\infty$ by Assumption 1. So $\left\lbrack {I - {({P - {e\pi'}})}} \right\rbrack^{- 1}$ exists and is equal to $\sum_{t = 0}^{\infty}\left\lbrack {P^{t} - {e\pi'}} \right\rbrack$. Hence, we can write and so^99^9The argument leading to coupled with the fact that $\pi{(\theta)}$ is the unique solution to can be used to justify the existence of $\nabla\pi$. Specifically, we can run through the same steps computing the value of $\pi{({\theta + \delta})}$ for small $\delta$ and show that the expression for $\nabla\pi$ is the unique matrix satisfying ${\pi{({\theta + \delta})}} = {{\pi{(\theta)}} + {\delta{\nabla\pi}{(\theta)}} + {O{({\|\delta\|}^{2})}}}$.
 
 For $MDP$s with a sufficiently small number of states, could be solved exactly to yield the precise gradient direction. However, in general, if the state space is small enough that an exact solution of is possible, then it will be small enough to derive the optimal policy using policy iteration and table-lookup, and there would be no point in pursuing a gradient based approach in the first place^1010^10Equation may still be useful for $POMDP$s, since in that case there is no tractable dynamic programming algorithm..
 
@@ -156,9 +96,7 @@ Thus, for problems of practical interest, will be intractable and we will need t
 
 In this section, we show that the gradient can be split into two components, one of which becomes negligible as a discount factor $\beta$ approaches $1$.
 
-For all $\beta \in {\lbrack 0,1)}$, let ${J_{\beta}{(\theta)}} = \left\lbrack {J_{\beta}{(\theta,1)}},\ldots,{J_{\beta}{(\theta,n)}} \right\rbrack$ denote the vector of expected discounted rewards from each state $i$:
-
-Where the $\theta$ dependence is obvious, we just write $J_{\beta}$.
+For all $\beta \in {\lbrack 0,1)}$, let ${J_{\beta}{(\theta)}} = \left\lbrack {J_{\beta}{(\theta,1)}},\ldots,{J_{\beta}{(\theta,n)}} \right\rbrack$ denote the vector of expected discounted rewards from each state $i$: Where the $\theta$ dependence is obvious, we just write $J_{\beta}$.
 
 ### Proposition 1
 
@@ -166,9 +104,7 @@ For all $\theta \in {\mathbb{R}}^{K}$ and $\beta \in {\lbrack 0,1)}$,
 
 ### Proof
 
-Observe that $J_{\beta}$ satisfies the Bellman equations:
-
-We shall see in the next section that the second term in can be estimated from a single sample path of the Markov chain. In fact, Theorem 1 in ( ?) shows that the gradient estimates of the algorithm presented in that paper converge to ${({1 - \beta})}\pi^{\prime}{\nabla J_{\beta}}$. By the Bellman equations, this is equal to ${({1 - \beta})}\beta{({{\pi^{\prime}{\nabla{PJ_{\beta}}}} + {\pi^{\prime}{\nabla J_{\beta}}}})}$, which implies ${{({1 - \beta})}\pi^{\prime}{\nabla J_{\beta}}} = {\beta\pi^{\prime}{\nabla{PJ_{\beta}}}}$. Thus the algorithm of ? (?) also estimates the second term in the expression for ${\nabla\eta}{(\theta)}$ given by. It is important to note that ${\pi^{\prime}{\nabla J_{\beta}}} \neq {\nabla\left\lbrack {\pi^{\prime}J_{\beta}} \right\rbrack}$---the two quantities disagree by the first term in. This arises because the the stationary distribution itself depends on the parameters. Hence, the algorithm of ? (?) does not estimate the gradient of the expected discounted reward. In fact, the expected discounted reward is simply $1/{({1 - \beta})}$ times the average reward $\eta{(\theta)}$ ( ?, Fact 7), so the gradient of the expected discounted reward is proportional to the gradient of the average reward.
+Observe that $J_{\beta}$ satisfies the Bellman equations: | | $\nabla\eta$ | $= {\nabla{\pi'r}}$ | | | | | $= {{\nabla\pi'}\left\lbrack {J_{\beta} - {\betaPJ_{\beta}}} \right\rbrack}$ | | | | | $= {{{\nabla{\pi'J_{\beta}}} - {\beta{\nabla{\pi'J_{\beta}}}}} + {\beta\pi'{\nabla{PJ_{\beta}}}}}$ | by | | | | | ${= {{{({1 - \beta})}{\nabla{\pi'J_{\beta}}}} + {\beta\pi'{\nabla{PJ_{\beta}}}}}}.$ | | We shall see in the next section that the second term in can be estimated from a single sample path of the Markov chain. In fact, Theorem 1 in (?) shows that the gradient estimates of the algorithm presented in that paper converge to ${({1 - \beta})}\pi'{\nabla J_{\beta}}$. By the Bellman equations, this is equal to ${({1 - \beta})}\beta{({{\pi'{\nabla{PJ_{\beta}}}} + {\pi'{\nabla J_{\beta}}}})}$, which implies ${{({1 - \beta})}\pi'{\nabla J_{\beta}}} = {\beta\pi'{\nabla{PJ_{\beta}}}}$. Thus the algorithm of ? (?) also estimates the second term in the expression for ${\nabla\eta}{(\theta)}$ given. It is important to note that ${\pi'{\nabla J_{\beta}}} \neq {\nabla\left\lbrack {\pi'J_{\beta}} \right\rbrack}$---the two quantities disagree by the first term. This arises because the the stationary distribution itself depends on the parameters. Hence, the algorithm of ? (?) does not estimate the gradient of the expected discounted reward. In fact, the expected discounted reward is simply $1/{({1 - \beta})}$ times the average reward $\eta{(\theta)}$ (?, Fact 7), so the gradient of the expected discounted reward is proportional to the gradient of the average reward.
 
 The following theorem shows that the first term in becomes negligible as $\beta$ approaches $1$. Notice that this is not immediate from Proposition 1, since $J_{\beta}$ can become arbitrarily large in the limit $\beta\rightarrow 1$.
 
@@ -178,33 +114,21 @@ For all $\theta \in {\mathbb{R}}^{K}$,
 
 ### Proof
 
-Recalling equation and the discussion preceeding it, we have^1111^11Since ${e\pi^{\prime}r} = {e\eta}$, motivates a different kind of algorithm for estimating $\nabla\eta$ based on differential rewards ( ?).
+Recalling equation and the discussion preceeding it, we have^1111^11Since ${e\pi'r} = {e\eta}$, motivates a different kind of algorithm for estimating $\nabla\eta$ based on differential rewards ( ?).
 
-But ${\nabla{Pe}} = {\nabla{({Pe})}} = {\nabla{}} = 0$ since $P$ is a stochastic matrix, so can be rewritten as
+But ${\nabla{Pe}} = {\nabla{({Pe})}} = {\nabla{}} = 0$ since $P$ is a stochastic matrix, so can be rewritten as Now let $\beta \in {\lbrack 0,1\rbrack}$ be a discount factor and consider the expression Clearly ${\nabla\eta} = {\lim_{\beta\rightarrow 1}{f{(\beta)}}}$. To complete the proof we just need to show that ${f{(\beta)}} = {\nabla_{\beta}\eta}$.
 
-Now let $\beta \in {\lbrack 0,1\rbrack}$ be a discount factor and consider the expression
+Since ${({\betaP})}^{t} = {\beta^{t}P^{t}}\rightarrow{\beta^{t}e\pi'}\rightarrow 0$, we can invoke the observation before to write In particular, $\sum_{t = 0}^{\infty}{({\betaP})}^{t}$ converges, so we can take $\nabla P$ back out of the sum in the right-hand-side of and write^1212^12We cannot back $\nabla P$ out of the sum in the right-hand-side of because $\sum_{t = 0}^{\infty}P^{t}$ diverges ($P^{t}\rightarrow{e\pi'}$). The reason $\sum_{t = 0}^{\infty}{\nabla{PP^{t}}}$ converges is that $P^{t}$ becomes orthogonal to $\nabla P$ in the limit of large $t$. Thus, we can view $\sum_{t = 0}^{\infty}P^{t}$ as a sum of two orthogonal components: an infinite one in the direction $e$ and a finite one in the direction $e^{\perp}$. It is the finite component that we need to estimate. Approximating $\sum_{t = 0}^{\infty}P^{t}$ with $\sum_{t = 0}^{\infty}{({\betaP})}^{t}$ is a way of rendering the $e$-component finite while hopefully not altering the $e^{\perp}$-component too much. There should be other substitutions that lead to better approximations (in this context, see the final paragraph in Section 1.1).
 
-Clearly ${\nabla\eta} = {\lim_{\beta\rightarrow 1}{f{(\beta)}}}$. To complete the proof we just need to show that ${f{(\beta)}} = {\nabla_{\beta}\eta}$.
+But ${\left\lbrack {\sum_{t = 0}^{\infty}{\beta^{t}P^{t}}} \right\rbrackr} = J_{\beta}$. Thus ${f{(\beta)}} = {\pi'{\nabla{PJ_{\beta}}}} = {\nabla_{\beta}\eta}$. ∎ Theorem 2 shows that $\nabla_{\beta}\eta$ is a good approximation to the gradient as $\beta$ approaches $1$, but it turns out that values of $\beta$ very close to $1$ lead to large variance in the estimates of $\nabla_{\beta}\eta$ that we describe in the next section. However, the following theorem shows that $1 - \beta$ need not be too small, provided the transition probability matrix $P{(\theta)}$ has distinct eigenvalues, and the Markov chain has a short mixing time. From any initial state, the distribution over states of a Markov chain converges to the stationary distribution, provided the assumption (Assumption 1) about the existence and uniqueness of the stationary distribution is satisfied (see, for example, ?, Theorem 15.8.1, p. 552). The spectral resolution theorem (?, Theorem 9.5.1, p. 314) implies that the distribution converges to stationarity at an exponential rate, and the time constant in this convergence rate (the mixing time) depends on the eigenvalues of the transition probability matrix. The existence of a unique stationary distribution implies that the largest magnitude eigenvalue is $1$ and has multiplicity $1$, and the corresponding left eigenvector is the stationary distribution. We sort the eigenvalues $\lambda_{i}$ in decreasing order of magnitude, so that $1 = \lambda_{1} > {|\lambda_{2}|} > \cdots > {|\lambda_{s}|}$ for some $2 \leq s \leq n$. It turns out that $|\lambda_{2}|$ determines the mixing time of the chain.
 
-Since ${({\betaP})}^{t} = {\beta^{t}P^{t}}\rightarrow{\beta^{t}e\pi^{\prime}}\rightarrow 0$, we can invoke the observation before to write
-
-In particular, $\sum_{t = 0}^{\infty}{({\betaP})}^{t}$ converges, so we can take $\nabla P$ back out of the sum in the right-hand-side of and write^1212^12We cannot back $\nabla P$ out of the sum in the right-hand-side of because $\sum_{t = 0}^{\infty}P^{t}$ diverges ($P^{t}\rightarrow{e\pi^{\prime}}$). The reason $\sum_{t = 0}^{\infty}{\nabla{PP^{t}}}$ converges is that $P^{t}$ becomes orthogonal to $\nabla P$ in the limit of large $t$. Thus, we can view $\sum_{t = 0}^{\infty}P^{t}$ as a sum of two orthogonal components: an infinite one in the direction $e$ and a finite one in the direction $e^{\perp}$. It is the finite component that we need to estimate. Approximating $\sum_{t = 0}^{\infty}P^{t}$ with $\sum_{t = 0}^{\infty}{({\betaP})}^{t}$ is a way of rendering the $e$-component finite while hopefully not altering the $e^{\perp}$-component too much. There should be other substitutions that lead to better approximations (in this context, see the final paragraph in Section 1.1).
-
-But ${\left\lbrack {\sum_{t = 0}^{\infty}{\beta^{t}P^{t}}} \right\rbrackr} = J_{\beta}$. Thus ${f{(\beta)}} = {\pi^{\prime}{\nabla{PJ_{\beta}}}} = {\nabla_{\beta}\eta}$. ∎
-
-Theorem 2 shows that $\nabla_{\beta}\eta$ is a good approximation to the gradient as $\beta$ approaches $1$, but it turns out that values of $\beta$ very close to $1$ lead to large variance in the estimates of $\nabla_{\beta}\eta$ that we describe in the next section. However, the following theorem shows that $1 - \beta$ need not be too small, provided the transition probability matrix $P{(\theta)}$ has distinct eigenvalues, and the Markov chain has a short mixing time. From any initial state, the distribution over states of a Markov chain converges to the stationary distribution, provided the assumption (Assumption 1) about the existence and uniqueness of the stationary distribution is satisfied (see, for example, ?, Theorem 15.8.1, p. 552). The spectral resolution theorem ( ?, Theorem 9.5.1, p. 314) implies that the distribution converges to stationarity at an exponential rate, and the time constant in this convergence rate (the mixing time) depends on the eigenvalues of the transition probability matrix. The existence of a unique stationary distribution implies that the largest magnitude eigenvalue is $1$ and has multiplicity $1$, and the corresponding left eigenvector is the stationary distribution. We sort the eigenvalues $\lambda_{i}$ in decreasing order of magnitude, so that $1 = \lambda_{1} > {|\lambda_{2}|} > \cdots > {|\lambda_{s}|}$ for some $2 \leq s \leq n$. It turns out that $|\lambda_{2}|$ determines the mixing time of the chain.
-
-The following theorem shows that if $1 - \beta$ is small compared to $1 - {|\lambda_{2}|}$, the gradient approximation described above is accurate. Since we will be using the estimate as a direction in which to update the parameters, the theorem compares the directions of the gradient and its estimate. In this theorem, $\kappa_{2}{(A)}$ denotes the spectral condition number of a nonsingular matrix $A$, which is defined as the product of the spectral norms of the matrices $A$ and $A^{- 1}$,
-
-and $\| x\|$ denotes the Euclidean norm of the vector $x$.
+The following theorem shows that if $1 - \beta$ is small compared to $1 - {|\lambda_{2}|}$, the gradient approximation described above is accurate. Since we will be using the estimate as a direction in which to update the parameters, the theorem compares the directions of the gradient and its estimate. In this theorem, $\kappa_{2}{(A)}$ denotes the spectral condition number of a nonsingular matrix $A$, which is defined as the product of the spectral norms of the matrices $A$ and $A^{- 1}$, and $\| x\|$ denotes the Euclidean norm of the vector $x$.
 
 ### Theorem 3
 
-Suppose that the transition probability matrix $P{(\theta)}$ satisfies Assumption 1 with stationary distribution $\pi^{\prime} = {(\pi_{1},\ldots,\pi_{n})}$, and has $n$ distinct eigenvalues. Let $S = {({x_{1}x_{2}\cdotsx_{n}})}$ be the matrix of right eigenvectors of $P$ corresponding, in order, to the eigenvalues $1 = \lambda_{1} > {|\lambda_{2}|} \geq \cdots \geq {|\lambda_{n}|}$. Then the normalized inner product between $\nabla\eta$ and $\beta{\nabla_{\beta}\eta}$ satisfies
+Suppose that the transition probability matrix $P{(\theta)}$ satisfies Assumption 1 with stationary distribution $\pi' = {(\pi_{1},\ldots,\pi_{n})}$, and has $n$ distinct eigenvalues. Let $S = {({x_{1}x_{2}\cdotsx_{n}})}$ be the matrix of right eigenvectors of $P$ corresponding, in order, to the eigenvalues $1 = \lambda_{1} > {|\lambda_{2}|} \geq \cdots \geq {|\lambda_{n}|}$. Then the normalized inner product between $\nabla\eta$ and $\beta{\nabla_{\beta}\eta}$ satisfies where $\Pi = {{diag}{(\pi_{1},\ldots,\pi_{n})}}$.
 
-where $\Pi = {{diag}{(\pi_{1},\ldots,\pi_{n})}}$.
-
-Notice that $r^{\prime}\Pir$ is the expectation under the stationary distribution of $r{(X)}^{2}$.
+Notice that $r'\Pir$ is the expectation under the stationary distribution of $r{(X)}^{2}$.
 
 As well as the mixing time (via $|\lambda_{2}|$), the bound in the theorem depends on another parameter of the Markov chain: the spectral condition number of $\Pi^{1/2}S$. If the Markov chain is reversible (which implies that the eigenvectors $x_{1},\ldots,x_{n}$ are orthogonal), this is equal to the ratio of the maximum to the minimum probability of states under the stationary distribution. However, the eigenvectors do not need to be nearly orthogonal. In fact, the condition that the transition probability matrix have $n$ distinct eigenvalues is not necessary; without it, the condition number is replaced by a more complicated expression involving spectral norms of matrices of the form $({P - {\lambda_{i}I}})$.
 
@@ -212,32 +136,13 @@ As well as the mixing time (via $|\lambda_{2}|$), the bound in the theorem depen
 
 The existence of $n$ distinct eigenvalues implies that $P$ can be expressed as $S\LambdaS^{- 1}$, where $\Lambda = {{diag}{(\lambda_{1},\ldots,\lambda_{n})}}$ ( ?, Theorem 4.10.2, p 153). It follows that for any polynomial $f$, we can write ${f{(P)}} = {Sf{(\Lambda)}S^{- 1}}$.
 
-Now, Proposition 1 shows that ${{\nabla\eta} - {\beta{\nabla_{\beta}\eta}}} = {{\nabla\pi^{\prime}}{({1 - \beta})}J_{\beta}}$. But
-
-where $S^{- 1} = {(y_{1},\ldots,y_{n})}^{\prime}$.
-
-It is easy to verify that $y_{i}$ is the left eigenvector corresponding to $\lambda_{i}$, and that we can choose $y_{1} = \pi$ and $x_{1} = e$. Thus we can write
-
-It follows from this and Proposition 1 that
-
-by the Cauchy-Schwartz inequality. Since ${\nabla\pi^{\prime}} = {{\nabla\left( \sqrt{\pi^{\prime}} \right)}\Pi^{1/2}}$, we can apply the Cauchy-Schwartz inequality again to obtain
-
-We use spectral norms to bound the second factor in the numerator. It is clear from the definition that the spectral norm of a product of nonsingular matrices satisfies ${\|{AB}\|}_{2} \leq {{\| A\|}_{2}{\| B\|}_{2}}$, and that the spectral norm of a diagonal matrix is given by ${\|{{diag}{(d_{1},\ldots,d_{n})}}\|}_{2} = {\max_{i}{|d_{i}|}}$. It follows that
-
-Combining with Equation proves. ∎
+Now, Proposition 1 shows that ${{\nabla\eta} - {\beta{\nabla_{\beta}\eta}}} = {{\nabla\pi'}{({1 - \beta})}J_{\beta}}$. But It is easy to verify that $y_{i}$ is the left eigenvector corresponding to $\lambda_{i}$, and that we can choose $y_{1} = \pi$ and $x_{1} = e$. Thus we can write It follows from this and Proposition 1 that by the Cauchy-Schwartz inequality. Since ${\nabla\pi'} = {{\nabla\left(\sqrt{\pi'} \right)}\Pi^{1/2}}$, we can apply the Cauchy-Schwartz inequality again to obtain We use spectral norms to bound the second factor in the numerator. It is clear from the definition that the spectral norm of a product of nonsingular matrices satisfies ${\|{AB}\|}_{2} \leq {{\| A\|}_{2}{\| B\|}_{2}}$, and that the spectral norm of a diagonal matrix is given by ${\|{{diag}{(d_{1},\ldots,d_{n})}}\|}_{2} = {\max_{i}{|d_{i}|}}$. It follows that Combining with Equation proves. ∎
 
 ## Estimating the Gradient in Parameterized Markov Chains
 
-Algorithm 1 introduces $MCG$ (Markov Chain Gradient), an algorithm for estimating the approximate gradient $\nabla_{\beta}\eta$ from a single on-line sample path $X_{0},X_{1},\ldots$ from the Markov chain $M{(\theta)}$. $MCG$ requires only $2K$ reals to be stored, where $K$ is the dimension of the parameter space: $K$ parameters for the eligibility trace $z_{t}$, and $K$ parameters for the gradient estimate $\Delta_{t}$. Note that after $T$ time steps $\Delta_{T}$ is the average so far of $r{(X_{t})}z_{t}$,
+Algorithm 1 introduces $MCG$ (Markov Chain Gradient), an algorithm for estimating the approximate gradient $\nabla_{\beta}\eta$ from a single on-line sample path $X_{0},X_{1},\ldots$ from the Markov chain $M{(\theta)}$. $MCG$ requires only $2K$ reals to be stored, where $K$ is the dimension of the parameter space: $K$ parameters for the eligibility trace $z_{t}$, and $K$ parameters for the gradient estimate $\Delta_{t}$. Note that after $T$ time steps $\Delta_{T}$ is the average so far of $r{(X_{t})}z_{t}$, Parameterized class of stochastic matrices 𝒫 = {P (θ): θ ∈ ℝK} satisfying Assumptions 3 and 1. Arbitrary starting state X0. State sequence X0, X1, … generated by M (θ) (i.e. the Markov chain with transition probabilities P (θ)). Reward sequence r (X0), r (X1), … satisfying Assumption 2.
 
-Parameterized class of stochastic matrices 𝒫 = {P (θ): θ ∈ ℝK} satisfying Assumptions 3 and 1.
-Arbitrary starting state X0.
-State sequence X0, X1, … generated by M (θ) (i.e. the Markov chain with transition probabilities P (θ)).
-Reward sequence r (X0), r (X1), … satisfying Assumption 2.
-
-3: for each state Xt + 1 visited do
-5: $\Delta_{t + 1} = {\Delta_{t} + {\frac{1}{t + 1}\left\lbrack {{r{(X_{t + 1})}z_{t + 1}} - \Delta_{t}} \right\rbrack}}$
-Algorithm 1 The MCG (Markov Chain Gradient) algorithm
+3: for each state Xt + 1 visited do 5: $\Delta_{t + 1} = {\Delta_{t} + {\frac{1}{t + 1}\left\lbrack {{r{(X_{t + 1})}z_{t + 1}} - \Delta_{t}} \right\rbrack}}$ Algorithm 1 The MCG (Markov Chain Gradient) algorithm
 
 ### Theorem 4
 
@@ -245,25 +150,7 @@ Under Assumptions [1, 2 and 3, the $MCG$ algorithm starting from any initial sta
 
 ### Proof
 
-Let ${\{ X_{t}\}} = {\{ X_{0},X_{1},\ldots\}}$ denote the random process corresponding to $M{(\theta)}$. If $X_{0} \sim \pi$ then the entire process is stationary. The proof can easily be generalized to arbitrary initial distributions using the fact that under Assumption 1, $\{ X_{t}\}$ is asymptotically stationary. When $\{ X_{t}\}$ is stationary, we can write
-
-where the first probability is with respect to the stationary distribution and $J{({t + 1})}$ is the process
-
-The fact that ${\mathbf{E}{(\left. {J{({t + 1})}} \middle| X_{t + 1} \right.)}} = {J_{\beta}{(X_{t + 1})}}$ for all $X_{t + 1}$ follows from the boundedness of the magnitudes of the rewards (Assumption 2) and Lebesgue's dominated convergence theorem. We can rewrite Equation as
-
-where $\chi_{i}{( \cdot )}$ denotes the indicator function for state $i$,
-
-and the expectation is again with respect to the stationary distribution. When $X_{t}$ is chosen according to the stationary distribution, the process $\{ X_{t}\}$ is ergodic. Since the process $\{ Z_{t}\}$ defined by
-
-is obtained by taking a fixed function of $\{ X_{t}\}$, $\{ Z_{t}\}$ is also stationary and ergodic ( ?, Proposition 6.31). Since $\left| \frac{{\nabla p_{ij}}{(\theta)}}{p_{ij}{(\theta)}} \right|$ is bounded by Assumption 3, from the ergodic theorem we have (almost surely):
-
-Concentrating on the second term in the right-hand-side of, observe that:
-
-where $R$ and $B$ are the bounds on the magnitudes of the rewards and $\frac{|{\nabla p_{ij}}|}{p_{ij}}$ from Assumptions 2 and 3. Hence,
-
-Unrolling the equation for $\Delta_{T}$ in the $MCG$ algorithm shows it is equal to
-
-hence $\Delta_{T}\rightarrow{\pi^{\prime}{\nabla{PJ_{\beta}}}}$ w.p.1 as required. ∎
+Let ${\{ X_{t}\}} = {\{ X_{0},X_{1},\ldots\}}$ denote the random process corresponding to $M{(\theta)}$. If $X_{0} \sim \pi$ then the entire process is stationary. The proof can easily be generalized to arbitrary initial distributions using the fact that under Assumption 1, $\{ X_{t}\}$ is asymptotically stationary. When $\{ X_{t}\}$ is stationary, we can write where the first probability is with respect to the stationary distribution and $J{({t + 1})}$ is the process The fact that ${\mathbf{E}{(\left. {J{({t + 1})}} \middle| X_{t + 1} \right.)}} = {J_{\beta}{(X_{t + 1})}}$ for all $X_{t + 1}$ follows from the boundedness of the magnitudes of the rewards (Assumption 2) and Lebesgue's dominated convergence theorem. We can rewrite Equation as where $\chi_{i}{(\cdot)}$ denotes the indicator function for state $i$, and the expectation is again with respect to the stationary distribution. When $X_{t}$ is chosen according to the stationary distribution, the process $\{ X_{t}\}$ is ergodic. Since the process $\{ Z_{t}\}$ defined by is obtained by taking a fixed function of $\{ X_{t}\}$, $\{ Z_{t}\}$ is also stationary and ergodic (?, Proposition 6.31). Since $\left| \frac{{\nabla p_{ij}}{(\theta)}}{p_{ij}{(\theta)}} \right|$ is bounded by Assumption 3, from the ergodic theorem we have (almost surely): Concentrating on the second term in the right-hand-side of, observe that: where $R$ and $B$ are the bounds on the magnitudes of the rewards and $\frac{|{\nabla p_{ij}}|}{p_{ij}}$ from Assumptions 2 and 3. Hence, Unrolling the equation for $\Delta_{T}$ in the $MCG$ algorithm shows it is equal to hence $\Delta_{T}\rightarrow{\pi'{\nabla{PJ_{\beta}}}}$ w.p.1 as required. ∎
 
 ## Estimating the Gradient in Partially Observable Markov Decision Processes
 
@@ -271,30 +158,19 @@ Algorithm 1 applies to any parameterized class of stochastic matrices $P{(\theta
 
 Specifically, assume that there are $N$ controls $\mathcal{U} = {\{ 1,\ldots,N\}}$ and $M$ observations $\mathcal{Y} = {\{ 1,\ldots,M\}}$. Each $u \in \mathcal{U}$ determines a stochastic matrix $P{(u)}$ which does not depend on the parameters $\theta$. For each state $i \in \mathcal{S}$, an observation $Y \in \mathcal{Y}$ is generated independently according to a probability distribution $\nu{(i)}$ over observations in $\mathcal{Y}$. We denote the probability of observation $y$ by $\nu_{y}{(i)}$. A randomized policy is simply a function $\mu$ mapping observations $y \in \mathcal{Y}$ into probability distributions over the controls $\mathcal{U}$. That is, for each observation $y$, $\mu{(y)}$ is a distribution over the controls in $\mathcal{U}$. Denote the probability under $\mu$ of control $u$ given observation $y$ by $\mu_{u}{(y)}$.
 
-To each randomized policy $\mu{( \cdot )}$ and observation distribution $\nu{( \cdot )}$ there corresponds a Markov chain in which state transitions are generated by first selecting an observation $y$ in state $i$ according to the distribution $\nu{(i)}$, then selecting a control $u$ according to the distribution $\mu{(y)}$, and then generating a transition to state $j$ according to the probability $p_{ij}{(u)}$. To parameterize these chains we parameterize the policies, so that $\mu$ now becomes a function $\mu{(\theta,y)}$ of a set of parameters $\theta \in {\mathbb{R}}^{K}$ as well as the observation $y$. The Markov chain corresponding to $\theta$ has state transition matrix $\lbrack{p_{ij}{(\theta)}}\rbrack$ given by
-
-Algorithm 2 introduces the $GPOMDP$ algorithm (for Gradient of a Partially Observable Markov Decision Process), a modified form of Algorithm 1 in which updates of $z_{t}$ are based on $\mu_{U_{t}}{(\theta,Y_{t})}$, rather than $p_{X_{t}X_{t + 1}}{(\theta)}$. Note that Algorithm 2 does not require knowledge of the transition probability matrix $P$, nor of the observation process $\nu$; it only requires knowledge of the randomized policy $\mu$. $GPOMDP$ is essentially the algorithm proposed by ? (?) without the reward baseline.
+To each randomized policy $\mu{(\cdot)}$ and observation distribution $\nu{(\cdot)}$ there corresponds a Markov chain in which state transitions are generated by first selecting an observation $y$ in state $i$ according to the distribution $\nu{(i)}$, then selecting a control $u$ according to the distribution $\mu{(y)}$, and then generating a transition to state $j$ according to the probability $p_{ij}{(u)}$. To parameterize these chains we parameterize the policies, so that $\mu$ now becomes a function $\mu{(\theta,y)}$ of a set of parameters $\theta \in {\mathbb{R}}^{K}$ as well as the observation $y$. The Markov chain corresponding to $\theta$ has state transition matrix $\lbrack{p_{ij}{(\theta)}}\rbrack$ given by Algorithm 2 introduces the $GPOMDP$ algorithm (for Gradient of a Partially Observable Markov Decision Process), a modified form of Algorithm 1 in which updates of $z_{t}$ are based on $\mu_{U_{t}}{(\theta,Y_{t})}$, rather than $p_{X_{t}X_{t + 1}}{(\theta)}$. Note that Algorithm 2 does not require knowledge of the transition probability matrix $P$, nor of the observation process $\nu$; it only requires knowledge of the randomized policy $\mu$. $GPOMDP$ is essentially the algorithm proposed by ? (?) without the reward baseline.
 
 The algorithm $GPOMDP$ assumes that the policy $\mu$ is a function only of the current observation. It is immediate that the same algorithm works for any finite history of observations. In general, an optimal policy needs to be a function of the entire observation history. $GPOMDP$ can be extended to apply to policies with internal state ( ?).
 
-Parameterized class of randomized policies {μ (θ,⋅):θ ∈ ℝK} satisfying Assumption 4.
-Partially observable Markov decision process which when controlled by the randomized policies μ (θ,⋅) corresponds to a parameterized class of Markov chains satisfying Assumption 1.
-Arbitrary (unknown) starting state X0.
-Observation sequence Y0, Y1, … generated by the POMDP with controls U0, U1, … generated randomly according to μ (θ,Yt).
-Reward sequence r (X0), r (X1), … satisfying Assumption 2, where X0, X1, … is the (hidden) sequence of states of the Markov decision process.
+Parameterized class of randomized policies {μ (θ, ⋅): θ ∈ ℝK} satisfying Assumption 4. Partially observable Markov decision process which when controlled by the randomized policies μ (θ, ⋅) corresponds to a parameterized class of Markov chains satisfying Assumption 1. Arbitrary (unknown) starting state X0. Observation sequence Y0, Y1, … generated by the POMDP with controls U0, U1, … generated randomly according to μ (θ, Yt). Reward sequence r (X0), r (X1), … satisfying Assumption 2, where X0, X1, … is the (hidden) sequence of states of the Markov decision process.
 
-3: for each observation Yt, control Ut, and subsequent reward r (Xt + 1) do
-4: $z_{t + 1} = {{\betaz_{t}} + \frac{{\nabla\mu_{U_{t}}}{(\theta,Y_{t})}}{\mu_{U_{t}}{(\theta,Y_{t})}}}$
-5: $\Delta_{t + 1} = {\Delta_{t} + {\frac{1}{t + 1}\left\lbrack {{r{(X_{t + 1})}z_{t + 1}} - \Delta_{t}} \right\rbrack}}$
-Algorithm 2 The GPOMDP algorithm.
+3: for each observation Yt, control Ut, and subsequent reward r (Xt + 1) do 4: $z_{t + 1} = {{\betaz_{t}} + \frac{{\nabla\mu_{U_{t}}}{(\theta,Y_{t})}}{\mu_{U_{t}}{(\theta,Y_{t})}}}$ 5: $\Delta_{t + 1} = {\Delta_{t} + {\frac{1}{t + 1}\left\lbrack {{r{(X_{t + 1})}z_{t + 1}} - \Delta_{t}} \right\rbrack}}$ Algorithm 2 The GPOMDP algorithm.
 
 For convergence of Algorithm [2 we need to replace Assumption 3 with a similar bound on the gradient of $\mu$:
 
 ### Assumption 4
 
-exist for all $u \in \mathcal{U}$, $y \in \mathcal{Y}$ and $\theta \in {\mathbb{R}}^{K}$. The ratios
-
-are uniformly bounded by $B_{\mu} < \infty$ for all $\theta \in {\mathbb{R}}^{K}$.
+exist for all $u \in \mathcal{U}$, $y \in \mathcal{Y}$ and $\theta \in {\mathbb{R}}^{K}$. The ratios are uniformly bounded by $B_{\mu} < \infty$ for all $\theta \in {\mathbb{R}}^{K}$.
 
 ### Theorem 5
 
@@ -302,41 +178,21 @@ Under Assumptions 1, 2 and 4, Algorithm 2 starting from any initial state $X_{0}
 
 ### Proof
 
-The proof follows the same lines as the proof of Theorem 4. In this case,
-
-where the expectation is with respect to the stationary distribution of $\{ X_{t}\}$, and the process $\{ Z_{t}^{\prime}\}$ is defined by
-
-where $U_{t}$ is the control process and $Y_{t}$ is the observation process. The result follows from the same arguments used in the proof of Theorem 4. ∎
+The proof follows the same lines as the proof of Theorem 4. In this case, where the expectation is with respect to the stationary distribution of $\{ X_{t}\}$, and the process $\{ Z_{t}'\}$ is defined by where $U_{t}$ is the control process and $Y_{t}$ is the observation process. The result follows from the same arguments used in the proof of Theorem 4. ∎
 
 ### Control dependent rewards
 
-There are many circumstances in which the rewards may themselves depend on the controls $u$. For example, some controls may consume more energy than others and so we may wish to add a penalty term to the reward function in order to conserve energy. The simplest way to deal with this is to define for each state $i$ the expected reward $\overline{r}{(i)}$ by
+There are many circumstances in which the rewards may themselves depend on the controls $u$. For example, some controls may consume more energy than others and so we may wish to add a penalty term to the reward function in order to conserve energy. The simplest way to deal with this is to define for each state $i$ the expected reward $\overline{r}{(i)}$ by and then redefine $J_{\beta}$ in terms of $\overline{r}$: where the expectation is over all trajectories $X_{0},X_{1},\ldots$. The performance gradient then becomes which can be approximated by due to the fact that ${\overline{J}}_{\beta}$ satisfies the Bellman equations with $\overline{r}$ replaced by $r$.
 
-and then redefine $J_{\beta}$ in terms of $\overline{r}$:
-
-where the expectation is over all trajectories $X_{0},X_{1},\ldots$. The performance gradient then becomes
-
-which can be approximated by
-
-due to the fact that ${\overline{J}}_{\beta}$ satisfies the Bellman equations with $\overline{r}$ replaced by $r$.
-
-For $GPOMDP$ to take account of the dependence of $r$ on the controls, its fifth line should be replaced by
-
-It is straightforward to extend the proofs of Theorems 2, 3 and 5 to this setting.
+For $GPOMDP$ to take account of the dependence of $r$ on the controls, its fifth line should be replaced by It is straightforward to extend the proofs of Theorems 2, 3 and 5 to this setting.
 
 ### Parameter dependent rewards
 
-It is possible to modify $GPOMDP$ when the rewards themselves depend directly on $\theta$. In this case, the fifth line of $GPOMDP$ is replaced with
-
-Again, the convergence and approximation theorems will carry through, provided ${\nabla r}{(\theta,i)}$ is uniformly bounded. Parameter-dependent rewards have been considered by ? (?), ? (?), and ? (?). In particular, ? (?) showed how suitable choices of $r{(\theta,i)}$ lead to a combination of value and policy search, or "$VAPS$". For example, if $\overset{\sim}{J}{(\theta,i)}$ is an approximate value-function, then setting^1313^13The use of rewards $r{(\theta,X_{t},X_{t - 1})}$ that depend on the current and previous state does not substantially alter the analysis.
-
-where $r{(X_{t})}$ is the usual reward and $\alpha \in {\lbrack 0,1)}$ is a discount factor, gives an update that seeks to minimize the expected Bellman error
-
-This will have the effect of both minimizing the Bellman error in $\overset{\sim}{J}{(\theta,i)}$, and driving the system (via the policy) to states with small Bellman error. The motivation behind such an approach can be understood if one considers a $\overset{\sim}{J}$ that has zero Bellman error for all states. In that case a greedy policy derived from $\overset{\sim}{J}$ will be optimal, and regardless of how the actual policy is parameterized, the expectation of $z_{t}r{(\theta,X_{t},X_{t - 1})}$ will be zero and so will be the gradient computed by $GPOMDP$. This kind of update is known as an actor-critic algorithm ( ?), with the policy playing the role of the actor, and the value function playing the role of the critic.
+It is possible to modify $GPOMDP$ when the rewards themselves depend directly on $\theta$. In this case, the fifth line of $GPOMDP$ is replaced with Again, the convergence and approximation theorems will carry through, provided ${\nabla r}{(\theta,i)}$ is uniformly bounded. Parameter-dependent rewards have been considered by ? (?), ? (?), and ? (?). In particular, ? (?) showed how suitable choices of $r{(\theta,i)}$ lead to a combination of value and policy search, or "$VAPS$". For example, if $\overset{\sim}{J}{(\theta,i)}$ is an approximate value-function, then setting^1313^13The use of rewards $r{(\theta,X_{t},X_{t - 1})}$ that depend on the current and previous state does not substantially alter the analysis. where $r{(X_{t})}$ is the usual reward and $\alpha \in {\lbrack 0,1)}$ is a discount factor, gives an update that seeks to minimize the expected Bellman error This will have the effect of both minimizing the Bellman error in $\overset{\sim}{J}{(\theta,i)}$, and driving the system (via the policy) to states with small Bellman error. The motivation behind such an approach can be understood if one considers a $\overset{\sim}{J}$ that has zero Bellman error for all states. In that case a greedy policy derived from $\overset{\sim}{J}$ will be optimal, and regardless of how the actual policy is parameterized, the expectation of $z_{t}r{(\theta,X_{t},X_{t - 1})}$ will be zero and so will be the gradient computed by $GPOMDP$. This kind of update is known as an actor-critic algorithm (?), with the policy playing the role of the actor, and the value function playing the role of the critic.
 
 ### Extensions to infinite state, observation, and control spaces
 
-The convergence proof for Algorithm 2 relied on finite state ($\mathcal{S}$), observation ($\mathcal{Y}$) and control ($\mathcal{U}$) spaces. However, it should be clear that with no modification Algorithm 2 can be applied immediately to $POMDP$s with countably or uncountably infinite $\mathcal{S}$ and $\mathcal{Y}$, and countable $\mathcal{U}$. All that changes is that $p_{ij}{(u)}$ becomes a kernel $p{(x,x^{\prime},u)}$ and $\nu{(i)}$ becomes a density on observations. In addition, with the appropriate interpretation of $\nabla{\mu/\mu}$, it can be applied to uncountable $\mathcal{U}$. Specifically, if $\mathcal{U}$ is a subset of ${\mathbb{R}}^{N}$ then $\mu{(y,\theta)}$ will be a probability density function on $\mathcal{U}$ with $\mu_{u}{(y,\theta)}$ the density at $u$. If $\mathcal{U}$ and $\mathcal{Y}$ are subsets of Euclidean space (but $\mathcal{S}$ is a finite set), Theorem 5 can be extended to show that the estimates produced by this algorithm converge almost surely to $\nabla_{\beta}\eta$. In fact, we can prove a more general result that implies both this case of densities on subsets of ${\mathbb{R}}^{N}$ as well as the finite case of Theorem 5. We allow $\mathcal{U}$ and $\mathcal{Y}$ to be general spaces satisfying the following topological assumption. (For definitions see, for example, ( ?).)
+The convergence proof for Algorithm 2 relied on finite state ($\mathcal{S}$), observation ($\mathcal{Y}$) and control ($\mathcal{U}$) spaces. However, it should be clear that with no modification Algorithm 2 can be applied immediately to $POMDP$s with countably or uncountably infinite $\mathcal{S}$ and $\mathcal{Y}$, and countable $\mathcal{U}$. All that changes is that $p_{ij}{(u)}$ becomes a kernel $p{(x,x',u)}$ and $\nu{(i)}$ becomes a density on observations. In addition, with the appropriate interpretation of $\nabla{\mu/\mu}$, it can be applied to uncountable $\mathcal{U}$. Specifically, if $\mathcal{U}$ is a subset of ${\mathbb{R}}^{N}$ then $\mu{(y,\theta)}$ will be a probability density function on $\mathcal{U}$ with $\mu_{u}{(y,\theta)}$ the density at $u$. If $\mathcal{U}$ and $\mathcal{Y}$ are subsets of Euclidean space (but $\mathcal{S}$ is a finite set), Theorem 5 can be extended to show that the estimates produced by this algorithm converge almost surely to $\nabla_{\beta}\eta$. In fact, we can prove a more general result that implies both this case of densities on subsets of ${\mathbb{R}}^{N}$ as well as the finite case of Theorem 5. We allow $\mathcal{U}$ and $\mathcal{Y}$ to be general spaces satisfying the following topological assumption. (For definitions see, for example, ( ?).)
 
 ### Assumption 5
 
@@ -350,19 +206,13 @@ In the case of Theorem 5, where $\mathcal{U}$ and $\mathcal{Y}$ are finite, the 
 
 For every $y \in \mathcal{Y}$ and $\theta \in {\mathbb{R}}^{K}$, the probability measure $\mu{(\theta,y)}$ is absolutely continuous with respect to the reference measure for $\mathcal{U}$. For every $i \in \mathcal{S}$, the probability measure $\nu{(i)}$ is absolutely continuous with respect to the reference measure for $\mathcal{Y}$.
 
-Let $\lambda$ be the reference measure for $\mathcal{U}$. For all $u \in \mathcal{U}$, $y \in \mathcal{Y}$, $\theta \in {\mathbb{R}}^{K}$, and $k \in {\{ 1,\ldots,K\}}$, the derivatives
-
-exist and the ratios
-
-are bounded by $B_{\mu} < \infty$.
+Let $\lambda$ be the reference measure for $\mathcal{U}$. For all $u \in \mathcal{U}$, $y \in \mathcal{Y}$, $\theta \in {\mathbb{R}}^{K}$, and $k \in {\{ 1,\ldots,K\}}$, the derivatives exist and the ratios are bounded by $B_{\mu} < \infty$.
 
 With these assumptions, we can replace $\mu$ in Algorithm 2 with the Radon-Nikodym derivative of $\mu$ with respect to the reference measure on $\mathcal{U}$. In this case, we have the following convergence result. This generalizes Theorem 5, and also applies to densities $\mu$ on a Euclidean space $\mathcal{U}$.
 
 ### Theorem 6
 
-Suppose the control space $\mathcal{U}$ and the observation space $\mathcal{Y}$ satisfy Assumption 5 and let $\lambda$ be the reference measure on the control space $\mathcal{U}$. Consider Algorithm 2 with
-
-Under Assumptions 1, 2 and 6, this algorithm, starting from any initial state $X_{0}$ will generate a sequence $\Delta_{0},\Delta_{1},\ldots,\Delta_{t},\ldots$ satisfying
+Suppose the control space $\mathcal{U}$ and the observation space $\mathcal{Y}$ satisfy Assumption 5 and let $\lambda$ be the reference measure on the control space $\mathcal{U}$. Consider Algorithm 2 with Under Assumptions 1, 2 and 6, this algorithm, starting from any initial state $X_{0}$ will generate a sequence $\Delta_{0},\Delta_{1},\ldots,\Delta_{t},\ldots$ satisfying
 
 ### Proof
 
@@ -380,15 +230,7 @@ So far we have only considered purely reactive or memoryless policies in which t
 
 ### Higher-Order Derivatives
 
-$GPOMDP$ can be generalized to compute estimates of second and higher-order derivatives of the average reward (assuming they exist), still from a single sample path of the underlying $POMDP$. To see this for second-order derivatives, observe that if ${\eta{(\theta)}} = {\int{q{(\theta,x)}r{(x)}{dx}}}$ for some twice-differentiable density $q{(\theta,x)}$ and performance measure $r{(x)}$, then
-
-where $\nabla^{2}$ denotes the matrix of second derivatives (Hessian). It can be verified that
-
-where the second term on the right-hand-side is the outer product between ${{\nabla\log}q}{(\theta,x)}$ and itself (that is, the matrix with entries $\partial/{\partial{{\theta_{i}{\log q}{(\theta,x)}\partial}/{\partial{\theta_{j}{\log q}{(\theta,x)}}}}}$). Taking $x$ to be a sequence of states $X_{0},X_{1},\ldots,X_{T}$ between visits to a recurrent state $i^{\ast}$ in a parameterized Markov chain (recall Section 1.1.1), we have ${q{(\theta,X)}} = {\Pi_{t = 0}^{T - 1}p_{X_{t}X_{t + 1}}{(\theta)}}$, which combined with yields
-
-(the squared terms in this expression are also outer products). From this expression we can derive a $GPOMDP$-like algorithm for computing a biased estimate of the Hessian ${\nabla^{2}\eta}{(\theta)}$, which involves maintaining---in addition to the usual eligibility trace $z_{t}$---a second matrix trace updated as follows:
-
-After $T$ time steps the algorithm returns the average so far of $r{(X_{t})}\left\lbrack {Z_{t} + z_{t}^{2}} \right\rbrack$ where the second term is again an outer product. Computation of higher-order derivatives could be used in second-order gradient methods for optimization of policy parameters.
+$GPOMDP$ can be generalized to compute estimates of second and higher-order derivatives of the average reward (assuming they exist), still from a single sample path of the underlying $POMDP$. To see this for second-order derivatives, observe that if ${\eta{(\theta)}} = {\int{q{(\theta,x)}r{(x)}{dx}}}$ for some twice-differentiable density $q{(\theta,x)}$ and performance measure $r{(x)}$, then where $\nabla^{2}$ denotes the matrix of second derivatives (Hessian). It can be verified that where the second term on the right-hand-side is the outer product between ${{\nabla\log}q}{(\theta,x)}$ and itself (that is, the matrix with entries $\partial/{\partial{{\theta_{i}{\log q}{(\theta,x)}\partial}/{\partial{\theta_{j}{\log q}{(\theta,x)}}}}}$). Taking $x$ to be a sequence of states $X_{0},X_{1},\ldots,X_{T}$ between visits to a recurrent state $i^{\ast}$ in a parameterized Markov chain (recall Section 1.1.1), we have ${q{(\theta,X)}} = {\Pi_{t = 0}^{T - 1}p_{X_{t}X_{t + 1}}{(\theta)}}$, which combined with yields (the squared terms in this expression are also outer products). From this expression we can derive a $GPOMDP$-like algorithm for computing a biased estimate of the Hessian ${\nabla^{2}\eta}{(\theta)}$, which involves maintaining---in addition to the usual eligibility trace $z_{t}$---a second matrix trace updated as follows: After $T$ time steps the algorithm returns the average so far of $r{(X_{t})}\left\lbrack {Z_{t} + z_{t}^{2}} \right\rbrack$ where the second term is again an outer product. Computation of higher-order derivatives could be used in second-order gradient methods for optimization of policy parameters.
 
 ### Bias and Variance Bounds
 

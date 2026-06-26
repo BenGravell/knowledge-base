@@ -4,19 +4,9 @@ There is a fundamental tension in decision making between choosing the action th
 
 In reinforcement learning, an approach to addressing the tension is the use of *softmax* operators for value-function optimization, and softmax policies for action selection. Examples include value-based methods such as SARSA or expected SARSA, and policy-search methods such as REINFORCE.
 
-An ideal softmax operator is a parameterized set of operators that:
+An ideal softmax operator is a parameterized set of operators that: has parameter settings that allow it to approximate maximization arbitrarily accurately to perform reward-seeking behavior; is a non-expansion for all parameter settings ensuring convergence to a unique fixed point; is differentiable to make it possible to improve via gradient-based optimization; and avoids the starvation of non-maximizing actions.
 
-has parameter settings that allow it to approximate maximization arbitrarily accurately to perform reward-seeking behavior;
-
-is a non-expansion for all parameter settings ensuring convergence to a unique fixed point;
-
-is differentiable to make it possible to improve via gradient-based optimization; and
-
-avoids the starvation of non-maximizing actions.
-
-Let $\text{X} = {x_{1},\ldots,x_{n}}$ be a vector of values. We define the following operators:
-
-The first operator, $\max{(\text{X})}$, is known to be a non-expansion. However, it is non-differentiable (Property 3), and ignores non-maximizing selections (Property 4).
+Let $\text{X} = {x_{1},\ldots,x_{n}}$ be a vector of values. We define the following operators: The first operator, $\max{(\text{X})}$, is known to be a non-expansion. However, it is non-differentiable (Property 3), and ignores non-maximizing selections (Property 4).
 
 The next operator, $\text{mean}{(\text{X})}$, computes the average of its inputs. It is differentiable and, like any operator that takes a fixed convex combination of its inputs, is a non-expansion. However, it does not allow for maximization (Property 1).
 
@@ -28,18 +18,9 @@ In the following section, we provide a simple example illustrating why the non-e
 
 ## Boltzmann Misbehaves
 
-We first show that $\text{boltz}_{\beta}$ can lead to problematic behavior. To this end, we ran SARSA with Boltzmann softmax policy (Algorithm 1) on the MDP shown in Figure 1. The edges are labeled with a transition probability (unsigned) and a reward number (signed). Also, state $s_{2}$ is a terminal state, so we only consider two action values, namely $\hat{Q}{(s_{1},a)}$ and $\hat{Q}{(s_{2},b)}$. Recall that the Boltzmann softmax policy assigns the following probability to each action:
+We first show that $\text{boltz}_{\beta}$ can lead to problematic behavior. To this end, we ran SARSA with Boltzmann softmax policy (Algorithm 1) on the MDP shown in Figure 1. The edges are labeled with a transition probability (unsigned) and a reward number (signed). Also, state $s_{2}$ is a terminal state, so we only consider two action values, namely $\hat{Q}{(s_{1},a)}$ and $\hat{Q}{(s_{2},b)}$. Recall that the Boltzmann softmax policy assigns the following probability to each action: Figure 1: A simple MDP with two states, two actions, and γ = 0.98. The use of a Boltzmann softmax policy is not sound in this simple domain.
 
-Figure 1: A simple MDP with two states, two actions, and γ = 0.98. The use of a Boltzmann softmax policy is not sound in this simple domain.
-
-Input: initial Q̂ (s,a) ∀s ∈ 𝒮 ∀a ∈ 𝒜, α, and β
-for each episode do
-a∼ Boltzmann with parameter β
-Take action a, observe r, s′
-a′∼ Boltzmann with parameter β
-Algorithm 1 SARSA with Boltzmann softmax policy
-
-In Figure 2, we plot state--action value estimates at the end of each episode of a single run (smoothed by averaging over ten consecutive points). We set $\alpha =.1$ and $\beta = 16.55$. The value estimates are unstable.
+Input: initial Q̂ (s, a) ∀s ∈ 𝒮 ∀a ∈ 𝒜, α, and β for each episode do a∼ Boltzmann with parameter β Take action a, observe r, s′ a′∼ Boltzmann with parameter β Algorithm 1 SARSA with Boltzmann softmax policy In Figure 2, we plot state--action value estimates at the end of each episode of a single run (smoothed by averaging over ten consecutive points). We set $\alpha =.1$ and $\beta = 16.55$. The value estimates are unstable.
 
 Figure 2: Values estimated by SARSA with Boltzmann softmax. The algorithm never achieves stable values.
 
@@ -49,27 +30,13 @@ SARSA is known to converge in the tabular setting using $\epsilon$-greedy explor
 
 A Markov decision process, or MDP, is specified by the tuple $\langle\mathcal{S},\mathcal{A},\mathcal{R},\mathcal{P},\gamma\rangle$, where $\mathcal{S}$ is the set of states and $\mathcal{A}$ is the set of actions. The functions $\mathcal{R}:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ and $\mathcal{P}:{{\mathcal{S} \times \mathcal{A} \times \mathcal{S}}\rightarrow{\lbrack 0,1\rbrack}}$ denote the reward and transition dynamics of the MDP. Finally, $\gamma \in {\lbrack 0,1)}$, the discount rate, determines the relative importance of immediate reward as opposed to the rewards received in the future.
 
-A typical approach to finding a good policy is to estimate how good it is to be in a particular state---the state value function. The value of a particular state $s$ given a policy $\pi$ and initial action $a$ is written $Q_{\pi}{(s,a)}$. We define the optimal value of a state--action pair ${{Q^{\star}{(s,a)}} = {{\max_{\pi}Q_{\pi}}{(s,a)}}}.$ It is possible to define $Q^{\star}{(s,a)}$ recursively and as a function of the optimal value of the other state--action pairs:
+A typical approach to finding a good policy is to estimate how good it is to be in a particular state---the state value function. The value of a particular state $s$ given a policy $\pi$ and initial action $a$ is written $Q_{\pi}{(s,a)}$. We define the optimal value of a state--action pair ${{Q^{\star}{(s,a)}} = {{\max_{\pi}Q_{\pi}}{(s,a)}}}.$ It is possible to define $Q^{\star}{(s,a)}$ recursively and as a function of the optimal value of the other state--action pairs: Bellman equations, such as the above, are at the core of many reinforcement-learning algorithms such as Value Iteration. The algorithm computes the value of the best policy in an iterative fashion: Regardless of its initial value, $\hat{Q}$ will converge to $Q^{\ast}$.
 
-Bellman equations, such as the above, are at the core of many reinforcement-learning algorithms such as Value Iteration. The algorithm computes the value of the best policy in an iterative fashion:
-
-Regardless of its initial value, $\hat{Q}$ will converge to $Q^{\ast}$.
-
-Littman & Szepesvári generalized this algorithm by replacing the $\max$ operator by any arbitrary operator $\bigotimes$, resulting in the generalized value iteration (GVI) algorithm with the following update rule:
-
-Input: initial Q̂ (s,a) ∀s ∈ 𝒮 ∀a ∈ 𝒜 and δ ∈ ℛ+
-diff ← max {diff,|Qc o p y−Q̂ (s,a)|}
-Algorithm 2 GVI algorithm
-
-Crucially, convergence of GVI to a unique fixed point follows if operator $\bigotimes$ is a non-expansion with respect to the infinity norm:
-
-for any $\hat{Q}$, ${\hat{Q}}^{\prime}$ and $s$.
+Littman & Szepesvári generalized this algorithm by replacing the $\max$ operator by any arbitrary operator $\bigotimes$, resulting in the generalized value iteration (GVI) algorithm with the following update rule: Input: initial Q̂ (s, a) ∀s ∈ 𝒮 ∀a ∈ 𝒜 and δ ∈ ℛ+ diff ← max {diff, |Qc o p y − Q̂ (s, a)|} Algorithm 2 GVI algorithm Crucially, convergence of GVI to a unique fixed point follows if operator $\bigotimes$ is a non-expansion with respect to the infinity norm: for any $\hat{Q}$, ${\hat{Q}}'$ and $s$.
 
 Figure 3: max is a non-expansion under the infinity norm.
 
-As mentioned earlier, the $\max$ operator is known to be a non-expansion, as illustrated in Figure 3. mean and $\text{eps}_{\epsilon}$ operators are also non-expansions. Therefore, each of these operators can play the role of $\bigotimes$ in GVI, resulting in convergence to the corresponding unique fixed point. However, the Boltzmann softmax operator, $\text{boltz}_{\beta}$, is not a non-expansion. Note that we can relate GVI to SARSA by observing that SARSA's update is a stochastic implementation of GVI's update. Under a Boltzmann softmax policy $\pi$, the target of the (expected) SARSA update is the following:
-
-This matches the GVI update when $\bigotimes = \text{boltz}_{\beta}$.
+As mentioned earlier, the $\max$ operator is known to be a non-expansion, as illustrated in Figure 3. mean and $\text{eps}_{\epsilon}$ operators are also non-expansions. Therefore, each of these operators can play the role of $\bigotimes$ in GVI, resulting in convergence to the corresponding unique fixed point. However, the Boltzmann softmax operator, $\text{boltz}_{\beta}$, is not a non-expansion. Note that we can relate GVI to SARSA by observing that SARSA's update is a stochastic implementation of GVI's update. Under a Boltzmann softmax policy $\pi$, the target of the (expected) SARSA update is the following: | | ${\underset{\pi}{\mathbb{E}}\left\lbrack {r + \left. {\gamma\hat{Q}{(s',a')}} \middle| {s,a} \right.} \right\rbrack} =$ | | | | | | ${{\mathcal{R}{(s,a)}} + {\gamma{\sum\limits_{s' \in \mathcal{S}}{\mathcal{P}{(s,a,s')}\underset{\text{boltz}_{\beta}{({\hat{Q}{(s', \cdot)}})}}{\underbrace{\underset{a^{\prime}\in\mathcal{A}}{\sum}{\pi{(\left. a^{\prime} \middle| s^{\prime} \right.)}\hat{Q}{(s^{\prime},a^{\prime})}}}}}}}}.$ | | This matches the GVI update when $\bigotimes = \text{boltz}_{\beta}$.
 
 ## Boltzmann Has Multiple Fixed Points
 
@@ -81,9 +48,7 @@ Figure 5: A vector field showing GVI updates under boltzβ = 16.55. Fixed points
 
 ## Mellowmax and its Properties
 
-We advocate for an alternative softmax operator defined as follows:
-
-which can be viewed as a particular instantiation of the quasi-arithmetic mean. It can also be derived from information theoretical principles as a way of regularizing policies with a cost function defined by KL divergence. Note that the operator has previously been utilized in other areas, such as power engineering.
+We advocate for an alternative softmax operator defined as follows: which can be viewed as a particular instantiation of the quasi-arithmetic mean. It can also be derived from information theoretical principles as a way of regularizing policies with a cost function defined by KL divergence. Note that the operator has previously been utilized in other areas, such as power engineering.
 
 We show that $\text{mm}_{\omega}$, which we refer to as *mellowmax*, has the desired properties and that it compares quite favorably to $\text{boltz}_{\beta}$ in practice.
 
@@ -91,67 +56,43 @@ We show that $\text{mm}_{\omega}$, which we refer to as *mellowmax*, has the des
 
 We prove that $\text{mm}_{\omega}$ is a non-expansion (Property 2), and therefore, GVI and SARSA under $\text{mm}_{\omega}$ are guaranteed to converge to a unique fixed point.
 
-Let $\text{X} = {x_{1},\ldots,x_{n}}$ and $\text{Y} = {y_{1},\ldots,y_{n}}$ be two vectors of values. Let $\Delta_{i} = {x_{i} - y_{i}}$ for $i \in {\{ 1,\ldots,n\}}$ be the difference of the $i$th components of the two vectors. Also, let $i^{\ast}$ be the index with the maximum component-wise difference, $i^{\ast} = {\operatorname{argmax}_{i}\Delta_{i}}$. For simplicity, we assume that $i^{\ast}$ is unique and $\omega > 0$. Also, without loss of generality, we assume that ${x_{i^{\ast}} - y_{i^{\ast}}} \geq 0$. It follows that:
-
-allowing us to conclude that mellowmax is a non-expansion under the infinity norm.
+Let $\text{X} = {x_{1},\ldots,x_{n}}$ and $\text{Y} = {y_{1},\ldots,y_{n}}$ be two vectors of values. Let $\Delta_{i} = {x_{i} - y_{i}}$ for $i \in {\{ 1,\ldots,n\}}$ be the difference of the $i$th components of the two vectors. Also, let $i^{\ast}$ be the index with the maximum component-wise difference, $i^{\ast} = {\operatorname{argmax}_{i}\Delta_{i}}$. For simplicity, we assume that $i^{\ast}$ is unique and $\omega > 0$. Also, without loss of generality, we assume that ${x_{i^{\ast}} - y_{i^{\ast}}} \geq 0$. It follows that: | | $\left| {{\text{mm}_{\omega}{(\text{X})}} - {\text{mm}_{\omega}{(\text{Y})}}} \right|$ | | | | | $=$ | $\left| {{{\log{({\frac{1}{n}{\sum\limits_{i = 1}^{n}e^{\omegax_{i}}}})}}/\omega} - {{\log{({\frac{1}{n}{\sum\limits_{i = 1}^{n}e^{\omegay_{i}}}})}}/\omega}} \right|$ | | | | | $=$ | $\left| {\log{\frac{\frac{1}{n}{\sum_{i = 1}^{n}e^{\omegax_{i}}}}{\frac{1}{n}{\sum_{i = 1}^{n}e^{\omegay_{i}}}}/\omega}} \right|$ | | | | | $=$ | $\left| {\log{\frac{\sum_{i = 1}^{n}e^{\omega{({y_{i} + \Delta_{i}})}}}{\sum_{i = 1}^{n}e^{\omegay_{i}}}/\omega}} \right|$ | | | | | $\leq$ | $\left| {\log{\frac{\sum_{i = 1}^{n}e^{\omega{({y_{i} + \Delta_{i^{\ast}}})}}}{\sum_{i = 1}^{n}e^{\omegay_{i}}}/\omega}} \right|$ | | allowing us to conclude that mellowmax is a non-expansion under the infinity norm.
 
 ### Maximization
 
 Mellowmax includes parameter settings that allow for maximization (Property 1) as well as for minimization. In particular, as $\omega$ goes to infinity, $\text{mm}_{\omega}$ acts like $\max$.
 
-Let $m = {\max{(\text{X})}}$ and let $W = {|\left. \{{x_{i} = m} \middle| {i \in {\{ 1,\ldots,n\}}}\} \right.|}$. Note that $W \geq 1$ is the number of maximum values ("winners") in X. Then:
-
-That is, the operator acts more and more like pure maximization as the value of $\omega$ is increased. Conversely, as $\omega$ goes to $- \infty$, the operator approaches the minimum.
+Let $m = {\max{(\text{X})}}$ and let $W = {|\left. \{{x_{i} = m} \middle| {i \in {\{ 1,\ldots,n\}}}\} \right.|}$. Note that $W \geq 1$ is the number of maximum values ("winners") in X. Then: That is, the operator acts more and more like pure maximization as the value of $\omega$ is increased. Conversely, as $\omega$ goes to $- \infty$, the operator approaches the minimum.
 
 ### Derivatives
 
-We can take the derivative of mellowmax with respect to each one of the arguments $x_{i}$ and for any non-zero $\omega$:
+We can take the derivative of mellowmax with respect to each one of the arguments $x_{i}$ and for any non-zero $\omega$: Note that the operator is non-decreasing in each component of X.
 
-Note that the operator is non-decreasing in each component of X.
-
-Moreover, we can take the derivative of mellowmax with respect to $\omega$. We define ${n_{\omega}{(\text{X})}} = {\log{({\frac{1}{n}{\sum_{i = 1}^{n}e^{\omegax_{i}}}})}}$ and ${d_{\omega}{(\text{X})}} = \omega$. Then:
-
-ensuring differentiablity of the operator (Property 3).
+Moreover, we can take the derivative of mellowmax with respect to $\omega$. We define ${n_{\omega}{(\text{X})}} = {\log{({\frac{1}{n}{\sum_{i = 1}^{n}e^{\omegax_{i}}}})}}$ and ${d_{\omega}{(\text{X})}} = \omega$. Then: ensuring differentiablity of the operator (Property 3).
 
 ### Averaging
 
 Because of the division by $\omega$ in the definition of $\text{mm}_{\omega}$, the parameter $\omega$ cannot be set to zero. However, we can examine the behavior of $\text{mm}_{\omega}$ as $\omega$ approaches zero and show that the operator computes an average in the limit.
 
-Since both the numerator and denominator go to zero as $\omega$ goes to zero, we will use L'Hôpital's rule and the derivative given in the previous section to derive the value in the limit:
-
-That is, as $\omega$ gets closer to zero, $\text{mm}_{\omega}{(\text{X})}$ approaches the mean of the values in X.
+Since both the numerator and denominator go to zero as $\omega$ goes to zero, we will use L'Hôpital's rule and the derivative given in the previous section to derive the value in the limit: That is, as $\omega$ gets closer to zero, $\text{mm}_{\omega}{(\text{X})}$ approaches the mean of the values in X.
 
 ## Maximum Entropy Mellowmax Policy
 
 As described, $\text{mm}_{\omega}$ computes a value for a list of numbers somewhere between its minimum and maximum. However, it is often useful to actually provide a probability distribution over the actions such that a non-zero probability mass is assigned to each action, and the resulting expected value equals the computed value. Such a probability distribution can then be used for action selection in algorithms such as SARSA.
 
-In this section, we address the problem of identifying such a probability distribution as a maximum entropy problem---over all distributions that satisfy the properties above, pick the one that maximizes information entropy. We formally define the maximum entropy mellowmax policy of a state $s$ as:
+In this section, we address the problem of identifying such a probability distribution as a maximum entropy problem---over all distributions that satisfy the properties above, pick the one that maximizes information entropy. We formally define the maximum entropy mellowmax policy of a state $s$ as: Note that this optimization problem is convex and can be solved reliably using any numerical convex optimization library.
 
-Note that this optimization problem is convex and can be solved reliably using any numerical convex optimization library.
+One way of finding the solution, which leads to an interesting policy form, is to use the method of Lagrange multipliers. Here, the Lagrangian is: Taking the partial derivative of the Lagrangian with respect to each $\pi{(\left. a \middle| s \right.)}$ and setting them to zero, we obtain: These $|\mathcal{A}|$ equations, together with the two linear constraints, form ${|\mathcal{A}|} + 2$ equations to constrain the ${|\mathcal{A}|} + 2$ variables ${\pi{(\left. a \middle| s \right.)}{\forall a}} \in \mathcal{A}$ and the two Lagrangian multipliers $\lambda_{1}$ and $\lambda_{2}$.
 
-One way of finding the solution, which leads to an interesting policy form, is to use the method of Lagrange multipliers. Here, the Lagrangian is:
-
-Taking the partial derivative of the Lagrangian with respect to each $\pi{(\left. a \middle| s \right.)}$ and setting them to zero, we obtain:
-
-These $|\mathcal{A}|$ equations, together with the two linear constraints in, form ${|\mathcal{A}|} + 2$ equations to constrain the ${|\mathcal{A}|} + 2$ variables ${\pi{(\left. a \middle| s \right.)}{\forall a}} \in \mathcal{A}$ and the two Lagrangian multipliers $\lambda_{1}$ and $\lambda_{2}$.
-
-Solving this system of equations, the probability of taking an action under the maximum entropy mellowmax policy has the form:
-
-where $\beta$ is a value for which:
-
-The argument for the existence of a unique root is simple. As $\beta\rightarrow\infty$ the term corresponding to the best action dominates, and so, the function is positive. Conversely, as $\beta\rightarrow{- \infty}$ the term corresponding to the action with lowest utility dominates, and so the function is negative. Finally, by taking the derivative, it is clear that the function is monotonically increasing, allowing us to conclude that there exists only a single root. Therefore, we can find $\beta$ easily using any root-finding algorithm. In particular, we use Brent's method available in the Numpy library of Python.
+Solving this system of equations, the probability of taking an action under the maximum entropy mellowmax policy has the form: where $\beta$ is a value for which: The argument for the existence of a unique root is simple. As $\beta\rightarrow\infty$ the term corresponding to the best action dominates, and so, the function is positive. Conversely, as $\beta\rightarrow{- \infty}$ the term corresponding to the action with lowest utility dominates, and so the function is negative. Finally, by taking the derivative, it is clear that the function is monotonically increasing, allowing us to conclude that there exists only a single root. Therefore, we can find $\beta$ easily using any root-finding algorithm. In particular, we use Brent's method available in the Numpy library of Python.
 
 This policy has the same form as Boltzmann softmax, but with a parameter $\beta$ whose value depends indirectly on $\omega$. This mathematical form arose not from the structure of $\text{mm}_{\omega}$, but from maximizing the entropy. One way to view the use of the mellowmax operator, then, is as a form of Boltzmann policy with a temperature parameter chosen adaptively in each state to ensure that the non-expansion property holds.
 
-Finally, note that the SARSA update under the maximum entropy mellowmax policy could be thought of as a stochastic implementation of the GVI update under the $\text{mm}_{\omega}$ operator:
-
-due to the first constraint of the convex optimization problem. Because mellowmax is a non-expansion, SARSA with the maximum entropy mellowmax policy is guaranteed to converge to a unique fixed point. Note also that, similar to other variants of SARSA, the algorithm simply bootstraps using the value of the next state while implementing the new policy.
+Finally, note that the SARSA update under the maximum entropy mellowmax policy could be thought of as a stochastic implementation of the GVI update under the $\text{mm}_{\omega}$ operator: | | ${\underset{\pi_{mm}}{\mathbb{E}}\left\lbrack {r + \left. {\gamma\hat{Q}{(s',a')}} \middle| {s,a} \right.} \right\rbrack} =$ | | | | | | ${\sum\limits_{s' \in \mathcal{S}}{\mathcal{R}{(s,a,s')}}} + {\gamma\mathcal{P}{(s,a,s')}\underset{\text{mm}_{\omega}{(\hat{Q}{(s',.)})}}{\underbrace{\left. \underset{a^{\prime}\in\mathcal{A}}{\sum}\pi_{mm}{(a^{\prime}|s^{\prime})}\hat{Q}{(s^{\prime},a^{\prime})} \right\rbrack}}}$ | | due to the first constraint of the convex optimization problem. Because mellowmax is a non-expansion, SARSA with the maximum entropy mellowmax policy is guaranteed to converge to a unique fixed point. Note also that, similar to other variants of SARSA, the algorithm simply bootstraps using the value of the next state while implementing the new policy.
 
 ## Experiments on MDPs
 
-We observed that in practice computing mellowmax can yield overflow if the exponentiated values are large. In this case, we can safely shift the values by a constant before exponentiating them due to the following equality:
-
-A value of $c = {\max_{i}x_{i}}$ usually avoids overflow.
+We observed that in practice computing mellowmax can yield overflow if the exponentiated values are large. In this case, we can safely shift the values by a constant before exponentiating them due to the following equality: A value of $c = {\max_{i}x_{i}}$ usually avoids overflow.
 
 We repeat the experiment from Figure 5 for mellowmax with $\omega = 16.55$ to get a vector field. The result, presented in Figure 6, show a rapid and steady convergence towards the unique fixed point. As a result, GVI under $\text{mm}_{\omega}$ can terminate significantly faster than GVI under $\text{boltz}_{\beta}$, as illustrated in Figure 7.
 
@@ -173,7 +114,7 @@ MDPs, no terminate MDPs, $> 1$ fixed points average iterations
 
 We evaluated SARSA on the multi-passenger taxi domain introduced by Dearden et al.. (See Figure 8.)
 
-Figure 8: Multi-passenger taxi domain. The discount rate γ is 0.99. Reward is + 1 for delivering one passenger, + 3 for two passengers, and + 15 for three passengers. Reward is zero for all the other transitions. Here F, S, and D denote passengers, start state, and destination respectively.
+Figure 8: Multi-passenger taxi domain. The discount rate γ is 0.99. Reward is +1 for delivering one passenger, +3 for two passengers, and +15 for three passengers. Reward is zero for all the other transitions. Here F, S, and D denote passengers, start state, and destination respectively.
 
 One challenging aspect of this domain is that it admits many locally optimal policies. Exploration needs to be set carefully to avoid either over-exploring or under-exploring the state space. Note also that Boltzmann softmax performs remarkably well on this domain, outperforming sophisticated Bayesian reinforcement-learning algorithms.
 

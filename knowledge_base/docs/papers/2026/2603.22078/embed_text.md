@@ -32,9 +32,7 @@ In visual navigation, world models are increasingly used to support tasks such a
 
 #Params
 
-Stable Video Diffusion (SVD)
-
-Table 1: Summary of world action models (WAMs). MOT: mixture-of-transformers, indicating that separate transformer backbones are used for video and action streams, with cross-modal interactions facilitated via attention at each layer. Note that the released LingBot-VA model adopts a unified transformer for both modalities, instead of the mixture-of-transformer architecture described in the paper. Pretrain Free: the method does not require task-agnostic embodied pre-training. Causal Pred.: action prediction is conditioned on the generated visual state, or vice versa. AR Gen.: auto-regressive generation.
+Stable Video Diffusion (SVD) Table 1: Summary of world action models (WAMs). MOT: mixture-of-transformers, indicating that separate transformer backbones are used for video and action streams, with cross-modal interactions facilitated via attention at each layer. Note that the released LingBot-VA model adopts a unified transformer for both modalities, instead of the mixture-of-transformer architecture described in the paper. Pretrain Free: the method does not require task-agnostic embodied pre-training. Causal Pred.: action prediction is conditioned on the generated visual state, or vice versa. AR Gen.: auto-regressive generation.
 
 ### World Models as Auxiliary Tasks
 
@@ -48,6 +46,4 @@ GigaWorld-Policy (ye2026gigaworld) and Fast-WAM (yuan2026fast) aim to mitigate t
 
 The key characteristics of recent WAMs are summarized in Table˜1. We only consider the methods that leverage a pretrained world model backbone for robot action generation, with minimal or no architecture modifications. Consequently, MOTUS is excluded from this list: although it adopts a pretrained Wan2.2-5B for video generation, it relies on an additional VLM for action generation rather than the world model backbone itself. Typically, lightweight modifications are introduced to the video backbones to encode robot joint state and produce robot actions. While some approaches (e.g., Cosmos-Policy, GigaWorld-Policy) employ a unified transformer backbone for both video and action streams, others such as GE-Act and Fast-WAM adopt mixture-of-transformers (MOT) architectures, using a smaller, dedicated transformer for action modeling. Regarding training objectives, WAM models are typically trained to predict future visual state and actions, and in most cases require embodied pre-training on large-scale robot data. The design of causal attention also varies across methods. For instance, LingBot-VA conditions action generation on predicted visual state, whereas Cosmos-Policy and DreamZero jointly denoise both modalities. In contrast, GigaWorld-Policy conditions video generation on actions. Autoregressive generation is employed in GE-Act, LingBot-VA and DreamZero to condition prediction on historical context, improving temporal consistency and inference efficiency.
 
-Semantic Understanding &amp; Spatial Grounding
-
-Table 2: Training data of VLAs and WAMs across different training stages. Training stages: Embodied Pre-training, Embodied Post-training, Task-specific Finetuning. PT: filtered data for embodied post-training.
+Semantic Understanding & Spatial Grounding Table 2: Training data of VLAs and WAMs across different training stages. Training stages: Embodied Pre-training, Embodied Post-training, Task-specific Finetuning. PT: filtered data for embodied post-training.

@@ -10,11 +10,7 @@ Existing methods for time series classification typically focus on a single repr
 
 In contrast to learned convolutional kernels as used in typical convolutional neural networks, we show that it is effective to generate a large number of random convolutional kernels which, in combination, capture features relevant for time series classification (even though, in isolation, a single random convolutional kernel may only very approximately capture a relevant feature in a given time series).
 
-Rocket achieves state-of-the-art classification accuracy on the datasets in the UCR archive, but requires only a fraction of the training time of existing methods. Figure 1 shows the mean rank of Rocket versus several state-of-the-art methods for time series classification on the 85 'bake off' datasets from the UCR archive. Restricted to a single CPU core, the total training time for Rocket is:
-
-6 minutes for the 'bake off' dataset with the largest training set (ElectricDevices, with 8,926 training examples), compared to 1 hour 35 minutes for Proximity Forest, 2 hours 24 minutes for TS-CHIEF, and 7 hours 46 minutes for InceptionTime (trained on GPUs); and
-
-4 minutes and 52 seconds for the 'bake off' dataset with the longest time series (HandOutlines, with time series of length 2,709), compared to 8 hours 10 minutes for InceptionTime (trained on GPUs), almost 3 days for Proximity Forest, and more than 4 days for TS-CHIEF.
+Rocket achieves state-of-the-art classification accuracy on the datasets in the UCR archive, but requires only a fraction of the training time of existing methods. Figure 1 shows the mean rank of Rocket versus several state-of-the-art methods for time series classification on the 85 'bake off' datasets from the UCR archive. Restricted to a single CPU core, the total training time for Rocket is: 6 minutes for the 'bake off' dataset with the largest training set (ElectricDevices, with 8,926 training examples), compared to 1 hour 35 minutes for Proximity Forest, 2 hours 24 minutes for TS-CHIEF, and 7 hours 46 minutes for InceptionTime (trained on GPUs); and 4 minutes and 52 seconds for the 'bake off' dataset with the longest time series (HandOutlines, with time series of length 2,709), compared to 8 hours 10 minutes for InceptionTime (trained on GPUs), almost 3 days for Proximity Forest, and more than 4 days for TS-CHIEF.
 
 The total compute time (training and test) for Rocket on all 85 'bake off' datasets is 1 hour 50 minutes, compared to more than 6 days for InceptionTime (trained and tested using GPUs), and more than 11 days for each of Proximity Forest and TS-CHIEF. (Timings for Rocket are averages over 10 runs, performed on a cluster using a mixture of Intel Xeon E5-2680 v3 and Intel Xeon Gold 6150 processors, restricted to a single CPU core per dataset per run.)
 
@@ -84,9 +80,7 @@ A number of things distinguish Rocket from convolutional layers as used in typic
 
 Rocket transforms time series using a large number of random convolutional kernels, i.e., kernels with random length, weights, bias, dilation, and padding. The transformed features are used to train a linear classifier. The combination of Rocket and logistic regression forms, in effect, a single-layer convolutional neural network with random kernel weights, where the transformed features form the input for a trained softmax layer. However, in practice, for all but the largest datasets, we use a ridge regression classifier, which has the advantage of fast cross-validation for the regularization hyperparameter (and no other hyperparameters). Nonetheless, as logistic regression trained using stochastic gradient descent is more scalable for very large datasets, we use logistic regression when the number of training examples is substantially greater than the number of features.
 
-Four things distinguish Rocket from convolutional layers as used in typical convolutional neural networks, and from previous work using convolutional kernels (including random kernels) with time series:
-
-Rocket uses a very large number of kernels. As there is only a single 'layer' of kernels, and as the kernel weights are not learned, the computational cost of computing the convolutions is low, and it is possible to use a very large number of kernels with relatively little computational expense.
+Four things distinguish Rocket from convolutional layers as used in typical convolutional neural networks, and from previous work using convolutional kernels (including random kernels) with time series: Rocket uses a very large number of kernels. As there is only a single 'layer' of kernels, and as the kernel weights are not learned, the computational cost of computing the convolutions is low, and it is possible to use a very large number of kernels with relatively little computational expense.
 
 Rocket uses a massive variety of kernels. In contrast to typical convolutional networks, where it is common for groups of kernels to share the same size, dilation, and padding, for Rocket each kernel has random length, dilation, and padding, as well as random weights and bias.
 
@@ -96,15 +90,11 @@ As well as using the maximum value of the resulting feature maps (broadly speaki
 
 In effect, the only hyperparameter for Rocket is the number of kernels, $k$. In setting $k$, there is a tradeoff between classification accuracy and computation time. Generally speaking, a larger value of $k$ results in higher classification accuracy (see section 4.3.1), but at the expense of proportionally longer computation. (The complexity of the transform is linear with respect to $k$.) However, even with a very large number of kernels (we use 10,000 by default), Rocket is extremely fast.
 
-We implement Rocket in Python, using just-in-time compilation via Numba. For the experiments on the datasets in the UCR archive, we use a ridge regression classifier from scikit-learn. For the experiments studying scalability, we integrate Rocket with logistic regression and Adam, implemented using PyTorch. Our code will be made available at [https://github.com/angus924/rocket](https://github.com/angus924/rocket).
-
-In developing Rocket, we have endeavoured to not overfit the entire UCR archive. At the same time, in order to develop the method, we required representative time series datasets. Accordingly, we chose to develop the method on a subset of 40 randomly-selected datasets from the 85 'bake off' datasets. We refer to these as the 'development' datasets. We provide a separate evaluation of the performance of Rocket on the 'development' datasets and the remaining 'holdout' datasets in Appendix B.
+We implement Rocket in Python, using just-in-time compilation via Numba. For the experiments on the datasets in the UCR archive, we use a ridge regression classifier from scikit-learn. For the experiments studying scalability, we integrate Rocket with logistic regression and Adam, implemented using PyTorch. Our code will be made available at In developing Rocket, we have endeavoured to not overfit the entire UCR archive. At the same time, in order to develop the method, we required representative time series datasets. Accordingly, we chose to develop the method on a subset of 40 randomly-selected datasets from the 85 'bake off' datasets. We refer to these as the 'development' datasets. We provide a separate evaluation of the performance of Rocket on the 'development' datasets and the remaining 'holdout' datasets in Appendix B.
 
 ### Kernels
 
-Rocket transforms time series using convolutional kernels, as found in typical convolutional neural networks. Essentially all aspects of the kernels are random: length, weights, bias, dilation, and padding. For each kernel, these values are set as follows (as determined by experimentation to produce the highest classification accuracy on the 'development' datasets):
-
-Length. Length is selected randomly from $\{ 7,9,11\}$ with equal probability, making kernels considerably shorter than input time series in most cases.
+Rocket transforms time series using convolutional kernels, as found in typical convolutional neural networks. Essentially all aspects of the kernels are random: length, weights, bias, dilation, and padding. For each kernel, these values are set as follows (as determined by experimentation to produce the highest classification accuracy on the 'development' datasets): Length. Length is selected randomly from $\{ 7,9,11\}$ with equal probability, making kernels considerably shorter than input time series in most cases.
 
 Weights. The weights are sampled from a normal distribution, ${\forall w} \in {\mathbf{W}}$, $w \sim {\mathcal{N}{}}$, and are mean centered after being set, $\omega = {{\mathbf{W}} - \overline{\mathbf{W}}}$. As such, most weights are relatively small, but can take on larger magnitudes.
 
@@ -120,13 +110,7 @@ As noted above, these parameters were determined to produce the highest classifi
 
 ### Transform
 
-Each kernel is applied to each input time series, producing a feature map. The convolution operation involves a sliding dot product between a kernel and an input time series. The result of applying a kernel, $\omega$, with dilation, $d$, to a given time series, $X$, from position $i$ in $X$, is given by:
-
-Rocket computes two aggregate features from each feature map, producing two real-valued numbers as features per kernel, and composing our transform:
-
-the maximum value (broadly speaking, equivalent to global max pooling); and
-
-the proportion of positive values (or ppv).
+Each kernel is applied to each input time series, producing a feature map. The convolution operation involves a sliding dot product between a kernel and an input time series. The result of applying a kernel, $\omega$, with dilation, $d$, to a given time series, $X$, from position $i$ in $X$, is given: Rocket computes two aggregate features from each feature map, producing two real-valued numbers as features per kernel, and composing our transform: the maximum value (broadly speaking, equivalent to global max pooling); and the proportion of positive values (or ppv).
 
 Pooling, including global average pooling, and global max pooling, is used in convolutional neural networks for dimensionality reduction and spatial (or temporal) invariance.
 
@@ -256,11 +240,7 @@ Even though Rocket is nondeterministic, the variability in accuracy is reasonabl
 
 Figure 6: Mean ranks for different choices in terms of kernel length.
 
-We vary kernel length, comparing the baseline (selecting length randomly from $\{ 7,9,11\}$) to:
-
-fixed lengths of 3, 5, 7, 9, 11, 13, and 15; and
-
-Figure 6 shows the effect of these choices on accuracy. Fixed lengths of 7, 9, and 11, as well as selecting length randomly from $\{ 5,7,9\}$ and $\{ 9,11,13\}$ result in similar accuracy to the default configuration, and the differences are not statistically significant (see also Figure 17, Appendix C). Shorter kernels are undesirable, being more strongly correlated with each other for a large number of kernels.
+We vary kernel length, comparing the baseline (selecting length randomly from $\{ 7,9,11\}$) to: fixed lengths of 3, 5, 7, 9, 11, 13, and 15; and Figure 6 shows the effect of these choices on accuracy. Fixed lengths of 7, 9, and 11, as well as selecting length randomly from $\{ 5,7,9\}$ and $\{ 9,11,13\}$ result in similar accuracy to the default configuration, and the differences are not statistically significant (see also Figure 17, Appendix C). Shorter kernels are undesirable, being more strongly correlated with each other for a large number of kernels.
 
 ### Weights (Including Centering) and Bias
 
@@ -268,11 +248,7 @@ Figure 6 shows the effect of these choices on accuracy. Fixed lengths of 7, 9, a
 
 Figure 7: Mean ranks for different choices in terms of the sampling distribution for the weights.
 
-We vary the distribution from which the weights are sampled, comparing the baseline (sampling from a normal distribution) to:
-
-sampling from a uniform distribution, ${\forall w} \in {\mathbf{W}}$, $w \sim {\mathcal{U}{({- 1},1)}}$; and
-
-sampling integer weights uniformly from $\{{- 1},0,1\}$.
+We vary the distribution from which the weights are sampled, comparing the baseline (sampling from a normal distribution) to: sampling from a uniform distribution, ${\forall w} \in {\mathbf{W}}$, $w \sim {\mathcal{U}{({- 1},1)}}$; and sampling integer weights uniformly from $\{{- 1},0,1\}$.
 
 Figure 7 and Bias ‣ 4.3 Sensitivity Analysis ‣ 4 Experiments ‣ ROCKET: Exceptionally fast and accurate time series classification using random convolutional kernels") shows the effect of these choices on accuracy. While sampling from a normal distribution produces higher accuracy, the actual difference in accuracy is small and not statistically significant (see also Figure 18, Appendix C). While it may seem surprising that weights sampled from only three integer values are so effective, note that kernels are still mean centered by default and have random bias, and there is still substantial variety in terms of length and dilation.
 
@@ -280,11 +256,7 @@ Figure 7 and Bias ‣ 4.3 Sensitivity Analysis ‣ 4 Experiments ‣ ROCKET: Exc
 
 Figure 8: Mean ranks for different choices in terms of centering.
 
-We vary centering, comparing the baseline (always centering) against:
-
-never centering the kernel weights; and
-
-centering or not centering at random with equal probability.
+We vary centering, comparing the baseline (always centering) against: never centering the kernel weights; and centering or not centering at random with equal probability.
 
 Figure 8 and Bias ‣ 4.3 Sensitivity Analysis ‣ 4 Experiments ‣ ROCKET: Exceptionally fast and accurate time series classification using random convolutional kernels") shows the effect of these choices on accuracy. It is clear that centering produces higher accuracy, but the difference between always centering and centering at random is very small and not statistically significant. Always centering, however, is noticeably more accurate on some datasets (Figure 19, Appendix C).
 
@@ -292,11 +264,7 @@ Figure 8 and Bias ‣ 4.3 Sensitivity Analysis ‣ 4 Experiments ‣ ROCKET: Exc
 
 Figure 9: Mean ranks for different choices in terms of bias.
 
-We vary bias, comparing the baseline (using a uniform distribution) against:
-
-using zero bias; and
-
-sampling bias from a normal distribution, $b \sim {\mathcal{N}{}}$.
+We vary bias, comparing the baseline (using a uniform distribution) against: using zero bias; and sampling bias from a normal distribution, $b \sim {\mathcal{N}{}}$.
 
 Figure 9 and Bias ‣ 4.3 Sensitivity Analysis ‣ 4 Experiments ‣ ROCKET: Exceptionally fast and accurate time series classification using random convolutional kernels") shows the effect of these choices on accuracy. Using a bias term produces higher accuracy, but the difference between sampling bias from a uniform distribution or a normal distribution is relatively small and not statistically significant (see also Figure 20, Appendix C.)
 
@@ -304,11 +272,7 @@ Figure 9 and Bias ‣ 4.3 Sensitivity Analysis ‣ 4 Experiments ‣ ROCKET: Exc
 
 Figure 10: Mean ranks for different choices in terms of dilation.
 
-We vary dilation, comparing the baseline (sampling dilation on an exponential scale) against:
-
-no dilation (i.e., a fixed dilation of one); and
-
-sampling dilation uniformly, $d = {\lfloor x\rfloor}$, $x \sim {\mathcal{U}{(1,\frac{l_{\text{input}} - 1}{l_{\text{kernel}} - 1})}}$.
+We vary dilation, comparing the baseline (sampling dilation on an exponential scale) against: no dilation (i.e., a fixed dilation of one); and sampling dilation uniformly, $d = {\lfloor x\rfloor}$, $x \sim {\mathcal{U}{(1,\frac{l_{\text{input}} - 1}{l_{\text{kernel}} - 1})}}$.
 
 Figure 10 shows the effect of these choices in terms of accuracy. It is clear that dilation is key to performance. Dilation produces obviously higher accuracy than no dilation. Exponential dilation produces higher accuracy than uniform dilation on most datasets (significantly higher on some datasets), and the difference is statistically significant (see also Figure 21, Appendix C).
 
@@ -316,13 +280,7 @@ Figure 10 shows the effect of these choices in terms of accuracy. It is clear th
 
 Figure 11: Mean ranks for different choices in terms of padding.
 
-We vary padding, comparing the baseline (applying padding at random) against:
-
-always padding, such that the 'middle' element of a given kernel is centered on the first element of the time series, $p = {{({{({l_{\text{kernel}} - 1})} \times d})}/2}$;
-
-sampling padding uniformly, $p \sim {\mathcal{U}{(0,{{({{({l_{\text{kernel}} - 1})} \times d})}/2})}}$; and
-
-Figure 11 shows the effect of these choices on accuracy. Padding is superior to not padding, but none of the differences are statistically significant. Different choices produce very similar results (Figure 22, Appendix C).
+We vary padding, comparing the baseline (applying padding at random) against: always padding, such that the 'middle' element of a given kernel is centered on the first element of the time series, $p = {{({{({l_{\text{kernel}} - 1})} \times d})}/2}$; sampling padding uniformly, $p \sim {\mathcal{U}{(0,{{({{({l_{\text{kernel}} - 1})} \times d})}/2})}}$; and Figure 11 shows the effect of these choices on accuracy. Padding is superior to not padding, but none of the differences are statistically significant. Different choices produce very similar results (Figure 22, Appendix C).
 
 ### Features
 

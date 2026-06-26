@@ -20,37 +20,21 @@ We want to optimize a function $F:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$. We
 
 ### Adaptive methods
 
-We study both Adagrad and Adam using a unified formulation. We assume we have $0 < \beta_{2} \leq 1$, $0 \leq \beta_{1} < \beta_{2}$, and a non negative sequence ${(\alpha_{n})}_{n \in {\mathbb{N}}^{\ast}}$. We define three vectors ${m_{n},v_{n},x_{n}} \in {\mathbb{R}}^{d}$ iteratively. Given $x_{0} \in {\mathbb{R}}^{d}$ our starting point, $m_{0} = 0$, and $v_{0} = 0$, we define for all iterations $n \in {\mathbb{N}}^{\ast}$,
-
-The parameter $\beta_{1}$ is a heavy-ball style momentum parameter, while $\beta_{2}$ controls the decay rate of the per-coordinate exponential moving average of the squared gradients. Taking $\beta_{1} = 0$, $\beta_{2} = 1$ and $\alpha_{n} = \alpha$ gives Adagrad. While the original Adagrad algorithm did not include a heavy-ball-like momentum, our analysis also applies to the case $\beta_{1} > 0$.
+We study both Adagrad and Adam using a unified formulation. We assume we have $0 < \beta_{2} \leq 1$, $0 \leq \beta_{1} < \beta_{2}$, and a non negative sequence ${(\alpha_{n})}_{n \in {\mathbb{N}}^{\ast}}$. We define three vectors ${m_{n},v_{n},x_{n}} \in {\mathbb{R}}^{d}$ iteratively. Given $x_{0} \in {\mathbb{R}}^{d}$ our starting point, $m_{0} = 0$, and $v_{0} = 0$, we define for all iterations $n \in {\mathbb{N}}^{\ast}$, The parameter $\beta_{1}$ is a heavy-ball style momentum parameter, while $\beta_{2}$ controls the decay rate of the per-coordinate exponential moving average of the squared gradients. Taking $\beta_{1} = 0$, $\beta_{2} = 1$ and $\alpha_{n} = \alpha$ gives Adagrad. While the original Adagrad algorithm did not include a heavy-ball-like momentum, our analysis also applies to the case $\beta_{1} > 0$.
 
 ### Adam and its corrective terms
 
-The original Adam algorithm uses a weighed average, rather than a weighted sum for and, i.e. it uses
-
-We can achieve the same definition by taking $\alpha_{\text{adam}} = {\alpha \cdot \frac{1 - \beta_{1}}{\sqrt{1 - \beta_{2}}}}$. The original Adam algorithm further includes two corrective terms to account for the fact that $m_{n}$ and $v_{n}$ are biased towards 0 for the first few iterations. Those corrective terms are equivalent to taking a step-size $\alpha_{n}$ of the form
-
-Those corrective terms can be seen as the normalization factors for the weighted sum given by and Note that each term goes to its limit value within a few times $1/{({1 - \beta})}$ updates (with $\beta \in {\{\beta_{1},\beta_{2}\}}$). which explains the $({1 - \beta_{1}})$ term in. In the present work, we propose to drop the corrective term for $m_{n}$, and to keep only the one for $v_{n}$, thus using the alternative step size
-
-This simplification motivated by several observations:
-
-By dropping either corrective terms, $\alpha_{n}$ becomes monotonic, which simplifies the proof.
+The original Adam algorithm uses a weighed average, rather than a weighted sum for and, i.e. it uses We can achieve the same definition by taking $\alpha_{\text{adam}} = {\alpha \cdot \frac{1 - \beta_{1}}{\sqrt{1 - \beta_{2}}}}$. The original Adam algorithm further includes two corrective terms to account for the fact that $m_{n}$ and $v_{n}$ are biased towards 0 for the first few iterations. Those corrective terms are equivalent to taking a step-size $\alpha_{n}$ of the form Those corrective terms can be seen as the normalization factors for the weighted sum given by and Note that each term goes to its limit value within a few times $1/{({1 - \beta})}$ updates (with $\beta \in {\{\beta_{1},\beta_{2}\}}$). which explains the $({1 - \beta_{1}})$ term. In the present work, we propose to drop the corrective term for $m_{n}$, and to keep only the one for $v_{n}$, thus using the alternative step size This simplification motivated by several observations: By dropping either corrective terms, $\alpha_{n}$ becomes monotonic, which simplifies the proof.
 
 For typical values of $\beta_{1}$ and $\beta_{2}$ (e.g. 0.9 and 0.999), the corrective term for $m_{n}$ converges to its limit value much faster than the one for $v_{n}$.
 
 Removing the corrective term for $m_{n}$ is equivalent to a learning-rate warmup, which is popular in deep learning, while removing the one for $v_{n}$ would lead to an increased step size during early training. For values of $\beta_{2}$ close to 1, this can lead to divergence in practice.
 
-We experimentally verify in Section 6.3 that dropping the corrective term for $m_{n}$ has no observable effect on the training process, while dropping the corrective term for $v_{n}$ leads to observable perturbations. In the following, we thus consider the variation of Adam obtained by taking $\alpha_{n}$ provided by.
+We experimentally verify in Section 6.3 that dropping the corrective term for $m_{n}$ has no observable effect on the training process, while dropping the corrective term for $v_{n}$ leads to observable perturbations. In the following, we thus consider the variation of Adam obtained by taking $\alpha_{n}$ provided .
 
 ### Assumptions
 
-We make three assumptions. We first assume $F$ is bounded below by $F_{\ast}$, that is,
-
-We then assume *the $\ell_{\infty}$ norm of the stochastic gradients is uniformly almost surely bounded*, i.e. there is $R \geq \sqrt{\epsilon}$ ($\sqrt{\epsilon}$ is used here to simplify the final bounds) so that
-
-and finally, the *smoothness of the objective function*, e.g., its gradient is $L$-Liptchitz-continuous with respect to the $\ell_{2}$-norm:
-
-We discuss the use of assumption in Section 4.2.
+We make three assumptions. We first assume $F$ is bounded below by $F_{\ast}$, that is, We then assume *the $\ell_{\infty}$ norm of the stochastic gradients is uniformly almost surely bounded*, i.e. there is $R \geq \sqrt{\epsilon}$ ($\sqrt{\epsilon}$ is used here to simplify the final bounds) so that and finally, the *smoothness of the objective function*, e.g., its gradient is $L$-Liptchitz-continuous with respect to the $\ell_{2}$-norm: We discuss the use of assumption in Section 4.2.
 
 ## Related work
 
@@ -66,9 +50,7 @@ Non adaptive methods like SGD are also well studied in the non convex setting, w
 
 ## Main results
 
-For a number of iterations $N \in {\mathbb{N}}^{\ast}$, we note $\tau_{N}$ a random index with value in $\{ 0,\ldots,{N - 1}\}$, so that
-
-If $\beta_{1} = 0$, this is equivalent to sampling $\tau$ uniformly in $\{ 0,\ldots,{N - 1}\}$. If $\beta_{1} > 0$, the last few $\frac{1}{1 - \beta_{1}}$ iterations are sampled rarely, and iterations older than a few times that number are sampled almost uniformly. Our results bound the expected squared norm of the gradient at iteration $\tau$, which is standard for non convex stochastic optimization.
+For a number of iterations $N \in {\mathbb{N}}^{\ast}$, we note $\tau_{N}$ a random index with value in $\{ 0,\ldots,{N - 1}\}$, so that If $\beta_{1} = 0$, this is equivalent to sampling $\tau$ uniformly in $\{ 0,\ldots,{N - 1}\}$. If $\beta_{1} > 0$, the last few $\frac{1}{1 - \beta_{1}}$ iterations are sampled rarely, and iterations older than a few times that number are sampled almost uniformly. Our results bound the expected squared norm of the gradient at iteration $\tau$, which is standard for non convex stochastic optimization.
 
 ### Convergence bounds
 
@@ -78,25 +60,21 @@ For simplicity, we first give convergence results for $\beta_{1} = 0$, along wit
 
 ### Theorem 1 (Convergence of Adagrad without momentum)
 
-Given the assumptions from Section 2.3, the iterates $x_{n}$ defined in Section 2.2 with hyper-parameters verifying $\beta_{2} = 1$, $\alpha_{n} = \alpha$ with $\alpha > 0$ and $\beta_{1} = 0$, and $\tau$ defined by, we have for any $N \in {\mathbb{N}}^{\ast}$,
+Given the assumptions from Section 2.3, the iterates $x_{n}$ defined in Section 2.2 with hyper-parameters verifying $\beta_{2} = 1$, $\alpha_{n} = \alpha$ with $\alpha > 0$ and $\beta_{1} = 0$, and $\tau$ defined , we have for any $N \in {\mathbb{N}}^{\ast}$,
 
 ### Theorem 2 (Convergence of Adam without momentum)
 
-Given the assumptions from Section 2.3, the iterates $x_{n}$ defined in Section 2.2 with hyper-parameters verifying $0 < \beta_{2} < 1$, $\alpha_{n} = {\alpha\sqrt{\frac{1 - \beta_{2}^{n}}{1 - \beta_{2}}}}$ with $\alpha > 0$ and $\beta_{1} = 0$, and $\tau$ defined by, we have for any $N \in {\mathbb{N}}^{\ast}$,
+Given the assumptions from Section 2.3, the iterates $x_{n}$ defined in Section 2.2 with hyper-parameters verifying $0 < \beta_{2} < 1$, $\alpha_{n} = {\alpha\sqrt{\frac{1 - \beta_{2}^{n}}{1 - \beta_{2}}}}$ with $\alpha > 0$ and $\beta_{1} = 0$, and $\tau$ defined , we have for any $N \in {\mathbb{N}}^{\ast}$,
 
 ### With heavy-ball momentum
 
 ### Theorem 3 (Convergence of Adagrad with momentum)
 
-Given the assumptions from Section 2.3, the iterates $x_{n}$ defined in Section 2.2 with hyper-parameters verifying $\beta_{2} = 1$, $\alpha_{n} = \alpha$ with $\alpha > 0$ and $0 \leq \beta_{1} < 1$, and $\tau$ defined by, we have for any $N \in {\mathbb{N}}^{\ast}$ such that $N > \frac{\beta_{1}}{1 - \beta_{1}}$,
-
-with $\overset{\sim}{N} = {N - \frac{\beta_{1}}{1 - \beta_{1}}}$, and,
+Given the assumptions from Section 2.3, the iterates $x_{n}$ defined in Section 2.2 with hyper-parameters verifying $\beta_{2} = 1$, $\alpha_{n} = \alpha$ with $\alpha > 0$ and $0 \leq \beta_{1} < 1$, and $\tau$ defined, we have for any $N \in {\mathbb{N}}^{\ast}$ such that $N > \frac{\beta_{1}}{1 - \beta_{1}}$, with $\overset{\sim}{N} = {N - \frac{\beta_{1}}{1 - \beta_{1}}}$, and,
 
 ### Theorem 4 (Convergence of Adam with momentum)
 
-Given the assumptions from Section 2.3, the iterates $x_{n}$ defined in Section 2.2 with hyper-parameters verifying $0 < \beta_{2} < 1$, $0 \leq \beta_{1} < \beta_{2}$, and, $\alpha_{n} = {\alpha{({1 - \beta_{1}})}\sqrt{\frac{1 - \beta_{2}^{n}}{1 - \beta_{2}}}}$ with $\alpha > 0$, and $\tau$ defined by, we have for any $N \in {\mathbb{N}}^{\ast}$ such that $N > \frac{\beta_{1}}{1 - \beta_{1}}$,
-
-with $\overset{\sim}{N} = {N - \frac{\beta_{1}}{1 - \beta_{1}}}$, and
+Given the assumptions from Section 2.3, the iterates $x_{n}$ defined in Section 2.2 with hyper-parameters verifying $0 < \beta_{2} < 1$, $0 \leq \beta_{1} < \beta_{2}$, and, $\alpha_{n} = {\alpha{({1 - \beta_{1}})}\sqrt{\frac{1 - \beta_{2}^{n}}{1 - \beta_{2}}}}$ with $\alpha > 0$, and $\tau$ defined, we have for any $N \in {\mathbb{N}}^{\ast}$ such that $N > \frac{\beta_{1}}{1 - \beta_{1}}$, with $\overset{\sim}{N} = {N - \frac{\beta_{1}}{1 - \beta_{1}}}$, and
 
 ### Analysis of the bounds
 
@@ -108,7 +86,7 @@ Diving into the technicalities of the proof to come, we will see in Section 5 �
 
 ### Almost sure bound on the gradient
 
-We chose to assume the existence of an almost sure uniform $\ell_{\infty}$-bound on the gradients given by. This is a strong assumption, although it is weaker than the one used by Duchi et al. for Adagrad in the convex case, where the iterates were assumed to be almost surely bounded. There exist a few real life problems that verifies this assumption, for instance logistic regression without weight penalty, and with bounded inputs. It is possible instead to assume only a uniform bound on the expected gradient ${\nabla F}{(x)}$, as done by Ward et al. and Zou et al.. This however lead to a bound on ${\mathbb{E}}\left\lbrack \left\| {{\nabla F}{(x_{\tau})}} \right\|_{2}^{4/3} \right\rbrack^{2/3}$ instead of a bound on ${\mathbb{E}}\left\lbrack \left\| {{\nabla F}{(x_{\tau})}} \right\|_{2}^{2} \right\rbrack$, all the other terms staying the same. We provide the sketch of the proof using Hölder inequality in the Appendix, Section A.7.
+We chose to assume the existence of an almost sure uniform $\ell_{\infty}$-bound on the gradients given . This is a strong assumption, although it is weaker than the one used by Duchi et al. for Adagrad in the convex case, where the iterates were assumed to be almost surely bounded. There exist a few real life problems that verifies this assumption, for instance logistic regression without weight penalty, and with bounded inputs. It is possible instead to assume only a uniform bound on the expected gradient ${\nabla F}{(x)}$, as done by Ward et al. and Zou et al.. This however lead to a bound on ${\mathbb{E}}\left\lbrack \left\| {{\nabla F}{(x_{\tau})}} \right\|_{2}^{4/3} \right\rbrack^{2/3}$ instead of a bound on ${\mathbb{E}}\left\lbrack \left\| {{\nabla F}{(x_{\tau})}} \right\|_{2}^{2} \right\rbrack$, all the other terms staying the same. We provide the sketch of the proof using Hölder inequality in the Appendix, Section A.7.
 
 It is also possible to replace the bound on the gradient with an affine growth condition, i.e. the norm of the stochastic gradient is bounded by an affine function of the norm of the expected gradient. A proof for scalar Adagrad is provided by Faw et al.. Shi et al. do the same for RMSProp, however their convergence bound is decays as $O{({{\log{(T)}}/\sqrt{T}})}$ with $T$ the number of epoch, not the number of updates, leading to a significantly less tight bound for large datasets.
 
@@ -120,17 +98,11 @@ As discussed in Section 3, previous bounds for Adagrad in the non-convex setting
 
 ### On sampling of $\tau$
 
-Note that in, we sample with a lower probability the latest iterations. This can be explained by the fact that the proof technique for stochastic optimization in the non-convex case is based on the idea that for every iteration $n$, either ${\nabla F}{(x_{n})}$ is small, or $F{(x_{n + 1})}$ will decrease by some amount. However, when introducing momentum, and especially when taking the limit $\beta_{1}\rightarrow 1$, the latest gradient ${\nabla F}{(x_{n})}$ has almost no influence over $x_{n + 1}$, as the momentum term updates slowly. Momentum *spreads* the influence of the gradients over time, and thus, it will take a few updates for a gradient to have fully influenced the iterate $x_{n}$ and thus the value of the function $F{(x_{n})}$. From a formal point of view, the sampling weights given by naturally appear as part of the proof which is presented in Section A.6.
+Note that , we sample with a lower probability the latest iterations. This can be explained by the fact that the proof technique for stochastic optimization in the non-convex case is based on the idea that for every iteration $n$, either ${\nabla F}{(x_{n})}$ is small, or $F{(x_{n + 1})}$ will decrease by some amount. However, when introducing momentum, and especially when taking the limit $\beta_{1}\rightarrow 1$, the latest gradient ${\nabla F}{(x_{n})}$ has almost no influence over $x_{n + 1}$, as the momentum term updates slowly. Momentum *spreads* the influence of the gradients over time, and thus, it will take a few updates for a gradient to have fully influenced the iterate $x_{n}$ and thus the value of the function $F{(x_{n})}$. From a formal point of view, the sampling weights given by naturally appear as part of the proof which is presented in Section A.6.
 
 ### Optimal finite horizon Adam is Adagrad
 
-Let us take a closer look at the result from Theorem 2. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad"). It could seem like some quantities can explode but actually not for any reasonable values of $\alpha$, $\beta_{2}$ and $N$. Let us try to find the best possible rate of convergence for Adam for a finite horizon $N$, i.e. $q \in {\mathbb{R}}_{+}$ such that ${{\mathbb{E}}\left\lbrack \left\| {{\nabla F}{(x_{\tau})}} \right\|^{2} \right\rbrack} = {O{({{\ln{(N)}}N^{- q}})}}$ for some choice of the hyper-parameters $\alpha{(N)}$ and $\beta_{2}{(N)}$. Given that the upper bound in (11. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad")) is a sum of non-negative terms, we need each term to be of the order of ${\ln{(N)}}N^{- q}$ or negligible. Let us assume that this rate is achieved for $\alpha{(N)}$ and $\beta_{2}{(N)}$. The bound tells us that convergence can only be achieved if ${\lim{\alpha{(N)}}} = 0$ and ${\lim{\beta_{2}{(N)}}} = 1$, with the limits taken for $N\rightarrow\infty$. This motivates us to assume that there exists an asymptotic development of ${\alpha{(N)}} \propto {N^{- a} + {o{(N^{- a})}}}$, and of ${1 - {\beta_{2}{(N)}}} \propto {N^{- b} + {o{(N^{- b})}}}$ for $a$ and $b$ positive. Thus, let us consider only the leading term in those developments, ignoring the leading constant (which is assumed to be non-zero). Let us further assume that $\epsilon \ll R^{2}$, we have
-
-with $E = {{4dR^{2}N^{b/2}} + {dRLN^{b - a}}}$. Let us ignore the log terms for now, and use $\frac{N^{- b}}{1 - N^{- b}} \sim N^{- b}$ for $N\rightarrow\infty$, to get
-
-Adding back the logarithmic term, the best rate we can obtain is $O{({{\ln{(N)}}/\sqrt{N}})}$, and it is only achieved for $a = {1/2}$ and $b = 1$, i.e., $\alpha = {\alpha_{1}/\sqrt{N}}$ and $\beta_{2} = {1 - {1/N}}$. We can see the resemblance between Adagrad on one side and Adam with a finite horizon and such parameters on the other. Indeed, an exponential moving average with a parameter $\beta_{2} = {1 - {1/N}}$ as a typical averaging window length of size $N$, while Adagrad would be an exact average of the past $N$ terms. In particular, the bound for Adam now becomes
-
-which differ from (10. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad")) only by a $+ {N/{({N - 1})}}$ next to the log term.
+Let us take a closer look at the result from Theorem 2. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad"). It could seem like some quantities can explode but actually not for any reasonable values of $\alpha$, $\beta_{2}$ and $N$. Let us try to find the best possible rate of convergence for Adam for a finite horizon $N$, i.e. $q \in {\mathbb{R}}_{+}$ such that ${{\mathbb{E}}\left\lbrack \left\| {{\nabla F}{(x_{\tau})}} \right\|^{2} \right\rbrack} = {O{({{\ln{(N)}}N^{- q}})}}$ for some choice of the hyper-parameters $\alpha{(N)}$ and $\beta_{2}{(N)}$. Given that the upper bound in (11. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad")) is a sum of non-negative terms, we need each term to be of the order of ${\ln{(N)}}N^{- q}$ or negligible. Let us assume that this rate is achieved for $\alpha{(N)}$ and $\beta_{2}{(N)}$. The bound tells us that convergence can only be achieved if ${\lim{\alpha{(N)}}} = 0$ and ${\lim{\beta_{2}{(N)}}} = 1$, with the limits taken for $N\rightarrow\infty$. This motivates us to assume that there exists an asymptotic development of ${\alpha{(N)}} \propto {N^{- a} + {o{(N^{- a})}}}$, and of ${1 - {\beta_{2}{(N)}}} \propto {N^{- b} + {o{(N^{- b})}}}$ for $a$ and $b$ positive. Thus, let us consider only the leading term in those developments, ignoring the leading constant (which is assumed to be non-zero). Let us further assume that $\epsilon \ll R^{2}$, we have with $E = {{4dR^{2}N^{b/2}} + {dRLN^{b - a}}}$. Let us ignore the log terms for now, and use $\frac{N^{- b}}{1 - N^{- b}} \sim N^{- b}$ for $N\rightarrow\infty$, to get Adding back the logarithmic term, the best rate we can obtain is $O{({{\ln{(N)}}/\sqrt{N}})}$, and it is only achieved for $a = {1/2}$ and $b = 1$, i.e., $\alpha = {\alpha_{1}/\sqrt{N}}$ and $\beta_{2} = {1 - {1/N}}$. We can see the resemblance between Adagrad on one side and Adam with a finite horizon and such parameters on the other. Indeed, an exponential moving average with a parameter $\beta_{2} = {1 - {1/N}}$ as a typical averaging window length of size $N$, while Adagrad would be an exact average of the past $N$ terms. In particular, the bound for Adam now becomes which differ from (10. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad")) only by a $+ {N/{({N - 1})}}$ next to the log term.
 
 ### Adam and Adagrad are twins
 
@@ -138,13 +110,7 @@ Our analysis highlights an important fact: *Adam is to Adagrad like constant ste
 
 ## Proofs for $\beta_{1} = 0$ (no momentum)
 
-We assume here for simplicity that $\beta_{1} = 0$, i.e., there is no heavy-ball style momentum. Taking $n \in {\mathbb{N}}^{\ast}$, the recursions introduced in Section 2.2 can be simplified into
-
-Remember that we recover Adagrad when $\alpha_{n} = \alpha$ for $\alpha > 0$ and $\beta_{2} = 1$, while Adam can be obtained taking $0 < \beta_{2} < 1$, $\alpha > 0$,
-
-Throughout the proof we denote by ${\mathbb{E}}_{n - 1}\lbrack \cdot \rbrack$ the conditional expectation with respect to $f_{1},\ldots,f_{n - 1}$. In particular, $x_{n - 1}$ and $v_{n - 1}$ are deterministic knowing $f_{1},\ldots,f_{n - 1}$. For all $n \in {\mathbb{N}}^{\ast}$, we also define ${\overset{\sim}{v}}_{n} \in {\mathbb{R}}^{d}$ so that for all $i \in {\lbrack d\rbrack}$,
-
-i.e., we replace the last gradient contribution by its expected value conditioned on $f_{1},\ldots,f_{n - 1}$.
+We assume here for simplicity that $\beta_{1} = 0$, i.e., there is no heavy-ball style momentum. Taking $n \in {\mathbb{N}}^{\ast}$, the recursions introduced in Section 2.2 can be simplified into Remember that we recover Adagrad when $\alpha_{n} = \alpha$ for $\alpha > 0$ and $\beta_{2} = 1$, while Adam can be obtained taking $0 < \beta_{2} < 1$, $\alpha > 0$, Throughout the proof we denote by ${\mathbb{E}}_{n - 1}\lbrack \cdot \rbrack$ the conditional expectation with respect to $f_{1},\ldots,f_{n - 1}$. In particular, $x_{n - 1}$ and $v_{n - 1}$ are deterministic knowing $f_{1},\ldots,f_{n - 1}$. For all $n \in {\mathbb{N}}^{\ast}$, we also define ${\overset{\sim}{v}}_{n} \in {\mathbb{R}}^{d}$ so that for all $i \in {\lbrack d\rbrack}$, i.e., we replace the last gradient contribution by its expected value conditioned on $f_{1},\ldots,f_{n - 1}$.
 
 ### Technical lemmas
 
@@ -158,29 +124,7 @@ For all $n \in {\mathbb{N}}^{\ast}$ and $i \in {\lbrack d\rbrack}$, we have:
 
 We take $i \in {\lbrack d\rbrack}$ and note $G = {{\nabla_{i}F}{(x_{n - 1})}}$, $g = {{\nabla_{i}f_{n}}{(x_{n - 1})}}$, $v = v_{n,i}$ and $\overset{\sim}{v} = {\overset{\sim}{v}}_{n,i}$.
 
-Given that $g$ and $\overset{\sim}{v}$ are independent knowing $f_{1},\ldots,f_{n - 1}$, we immediately have
-
-Now we need to control the size of the second term $A$,
-
-The last inequality comes from the fact that ${\sqrt{\epsilon + v} + \sqrt{\epsilon + \overset{\sim}{v}}} \geq {\max{(\sqrt{\epsilon + v},\sqrt{\epsilon + \overset{\sim}{v}})}}$ and $\left| {{{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack} - g^{2}} \right| \leq {{{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack} + g^{2}}$. Following Ward et al., we can use the following inequality to bound $\kappa$ and $\rho$,
-
-First applying (22 ‣ A Simple Convergence Proof of Adam and Adagrad")) to $\kappa$ with
-
-Given that ${\epsilon + \overset{\sim}{v}} \geq {{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack}$ and taking the conditional expectation, we can simplify as
-
-Given that $\sqrt{{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack} \leq \sqrt{\epsilon + \overset{\sim}{v}}$ and $\sqrt{{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack} \leq R$, we can simplify (23 ‣ A Simple Convergence Proof of Adam and Adagrad")) as
-
-Now turning to $\rho$, we use (22 ‣ A Simple Convergence Proof of Adam and Adagrad")) with
-
-Given that ${\epsilon + v} \geq g^{2}$ and taking the conditional expectation we obtain
-
-which we simplify using the same argument as for (24 ‣ A Simple Convergence Proof of Adam and Adagrad")) into
-
-Notice that in (25 ‣ A Simple Convergence Proof of Adam and Adagrad")), we possibly divide by zero. It suffice to notice that if ${{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack} = 0$ then $g^{2} = 0$ a.s. so that $\rho = 0$ and (27 ‣ A Simple Convergence Proof of Adam and Adagrad")) is still verified. Summing (24 ‣ A Simple Convergence Proof of Adam and Adagrad")) and (27 ‣ A Simple Convergence Proof of Adam and Adagrad")) we can bound
-
-Injecting (28 ‣ A Simple Convergence Proof of Adam and Adagrad")) and (21 ‣ A Simple Convergence Proof of Adam and Adagrad")) into (20 ‣ A Simple Convergence Proof of Adam and Adagrad")) finishes the proof. ∎
-
-Anticipating on Section 5.2 ‣ A Simple Convergence Proof of Adam and Adagrad"), the previous Lemma gives us a bound on the deviation from a descent direction. While for a specific iteration, this deviation can take us away from a descent direction, the next lemma tells us that the sum of those deviations cannot grow larger than a logarithmic term. This key insight introduced in Ward et al. is what makes the proof work.
+Given that $g$ and $\overset{\sim}{v}$ are independent knowing $f_{1},\ldots,f_{n - 1}$, we immediately have Now we need to control the size of the second term $A$, The last inequality comes from the fact that ${\sqrt{\epsilon + v} + \sqrt{\epsilon + \overset{\sim}{v}}} \geq {\max{(\sqrt{\epsilon + v},\sqrt{\epsilon + \overset{\sim}{v}})}}$ and $\left| {{{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack} - g^{2}} \right| \leq {{{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack} + g^{2}}$. Following Ward et al., we can use the following inequality to bound $\kappa$ and $\rho$, First applying (22 ‣ A Simple Convergence Proof of Adam and Adagrad")) to $\kappa$ with Given that ${\epsilon + \overset{\sim}{v}} \geq {{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack}$ and taking the conditional expectation, we can simplify as Given that $\sqrt{{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack} \leq \sqrt{\epsilon + \overset{\sim}{v}}$ and $\sqrt{{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack} \leq R$, we can simplify (23 ‣ A Simple Convergence Proof of Adam and Adagrad")) as Now turning to $\rho$, we use (22 ‣ A Simple Convergence Proof of Adam and Adagrad")) with Given that ${\epsilon + v} \geq g^{2}$ and taking the conditional expectation we obtain which we simplify using the same argument as for (24 ‣ A Simple Convergence Proof of Adam and Adagrad")) into Notice that in (25 ‣ A Simple Convergence Proof of Adam and Adagrad")), we possibly divide by zero. It suffice to notice that if ${{\mathbb{E}}_{n - 1}\left\lbrack g^{2} \right\rbrack} = 0$ then $g^{2} = 0$ a.s. so that $\rho = 0$ and (27 ‣ A Simple Convergence Proof of Adam and Adagrad")) is still verified. Summing (24 ‣ A Simple Convergence Proof of Adam and Adagrad")) and (27 ‣ A Simple Convergence Proof of Adam and Adagrad")) we can bound Injecting (28 ‣ A Simple Convergence Proof of Adam and Adagrad")) and (21 ‣ A Simple Convergence Proof of Adam and Adagrad")) into (20 ‣ A Simple Convergence Proof of Adam and Adagrad")) finishes the proof. ∎ Anticipating on Section 5.2 ‣ A Simple Convergence Proof of Adam and Adagrad"), the previous Lemma gives us a bound on the deviation from a descent direction. While for a specific iteration, this deviation can take us away from a descent direction, the next lemma tells us that the sum of those deviations cannot grow larger than a logarithmic term. This key insight introduced in Ward et al. is what makes the proof work.
 
 ### Lemma 5.2 (sum of ratios with the denominator being the sum of past numerators)
 
@@ -188,9 +132,7 @@ We assume we have $0 < \beta_{2} \leq 1$ and a non-negative sequence ${(a_{n})}_
 
 ### Proof
 
-Given that $\ln$ is increasing, and the fact that $b_{j} > a_{j} \geq 0$, we have for all $j \in {\mathbb{N}}^{\ast}$,
-
-The first term forms a telescoping series, while the second one is bounded by $- {\ln{(\beta_{2})}}$. Summing over all $j \in {\lbrack N\rbrack}$ gives the desired result. ∎
+Given that $\ln$ is increasing, and the fact that $b_{j} > a_{j} \geq 0$, we have for all $j \in {\mathbb{N}}^{\ast}$, The first term forms a telescoping series, while the second one is bounded by $- {\ln{(\beta_{2})}}$. Summing over all $j \in {\lbrack N\rbrack}$ gives the desired result. ∎
 
 ### Proof of Adam and Adagrad without momentum
 
@@ -198,29 +140,15 @@ Let us take an iteration $n \in {\mathbb{N}}^{\ast}$, we define the update $u_{n
 
 ### Adagrad
 
-As explained in Section 2.2, we have $\alpha_{n} = \alpha$ for $\alpha > 0$. Using the smoothness of $F$, we have
-
-Taking the conditional expectation with respect to $f_{0},\ldots,f_{n - 1}$ we can apply the descent Lemma 5.1. ‣ 5.1 Technical lemmas ‣ 5 Proofs for 𝛽₁=0 (no momentum) ‣ A Simple Convergence Proof of Adam and Adagrad"). Notice that due to the a.s. $\ell_{\infty}$ bound on the gradients, we have for any $i \in {\lbrack d\rbrack}$, $\sqrt{\epsilon + {\overset{\sim}{v}}_{n,i}} \leq {R\sqrt{n}}$, so that,
-
-Summing the previous inequality for all $n \in {\lbrack N\rbrack}$, taking the complete expectation, and using that $\sqrt{n} \leq \sqrt{N}$ gives us,
-
-From there, we can bound the last sum on the right hand side using Lemma 5.2. ‣ 5.1 Technical lemmas ‣ 5 Proofs for 𝛽₁=0 (no momentum) ‣ A Simple Convergence Proof of Adam and Adagrad") once for each dimension. Rearranging the terms, we obtain the result of Theorem 1. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad").
+As explained in Section 2.2, we have $\alpha_{n} = \alpha$ for $\alpha > 0$. Using the smoothness of $F$, we have Taking the conditional expectation with respect to $f_{0},\ldots,f_{n - 1}$ we can apply the descent Lemma 5.1. ‣ 5.1 Technical lemmas ‣ 5 Proofs for 𝛽₁=0 (no momentum) ‣ A Simple Convergence Proof of Adam and Adagrad"). Notice that due to the a.s. $\ell_{\infty}$ bound on the gradients, we have for any $i \in {\lbrack d\rbrack}$, $\sqrt{\epsilon + {\overset{\sim}{v}}_{n,i}} \leq {R\sqrt{n}}$, so that, Summing the previous inequality for all $n \in {\lbrack N\rbrack}$, taking the complete expectation, and using that $\sqrt{n} \leq \sqrt{N}$ gives us, From there, we can bound the last sum on the right hand side using Lemma 5.2. ‣ 5.1 Technical lemmas ‣ 5 Proofs for 𝛽₁=0 (no momentum) ‣ A Simple Convergence Proof of Adam and Adagrad") once for each dimension. Rearranging the terms, we obtain the result of Theorem 1. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad").
 
 ### Adam
 
-As given by in Section 2.2, we have $\alpha_{n} = {\alpha\sqrt{\frac{1 - \beta_{2}^{n}}{1 - \beta_{2}}}}$ for $\alpha > 0$. Using the smoothness of $F$ defined in, we have
-
-We have for any $i \in {\lbrack d\rbrack}$, $\sqrt{\epsilon + {\overset{\sim}{v}}_{n,i}} \leq {R\sqrt{\sum_{j = 0}^{n - 1}\beta_{2}^{j}}} = {R\sqrt{\frac{1 - \beta_{2}^{n}}{1 - \beta_{2}}}}$, thanks to the a.s. $\ell_{\infty}$ bound on the gradients, so that,
-
-Taking the conditional expectation with respect to $f_{1},\ldots,f_{n - 1}$ we can apply the descent Lemma 5.1. ‣ 5.1 Technical lemmas ‣ 5 Proofs for 𝛽₁=0 (no momentum) ‣ A Simple Convergence Proof of Adam and Adagrad") and use (34 ‣ A Simple Convergence Proof of Adam and Adagrad")) to obtain from (33 ‣ A Simple Convergence Proof of Adam and Adagrad")),
-
-Given that $\beta_{2} < 1$, we have $\alpha_{n} \leq \frac{\alpha}{\sqrt{1 - \beta_{2}}}$. Summing the previous inequality for all $n \in {\lbrack N\rbrack}$ and taking the complete expectation yields
-
-Applying Lemma 5.2. ‣ 5.1 Technical lemmas ‣ 5 Proofs for 𝛽₁=0 (no momentum) ‣ A Simple Convergence Proof of Adam and Adagrad") for each dimension and rearranging the terms finishes the proof of Theorem 2. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad").
+As given by in Section 2.2, we have $\alpha_{n} = {\alpha\sqrt{\frac{1 - \beta_{2}^{n}}{1 - \beta_{2}}}}$ for $\alpha > 0$. Using the smoothness of $F$ defined, we have We have for any $i \in {\lbrack d\rbrack}$, $\sqrt{\epsilon + {\overset{\sim}{v}}_{n,i}} \leq {R\sqrt{\sum_{j = 0}^{n - 1}\beta_{2}^{j}}} = {R\sqrt{\frac{1 - \beta_{2}^{n}}{1 - \beta_{2}}}}$, thanks to the a.s. $\ell_{\infty}$ bound on the gradients, so that, Taking the conditional expectation with respect to $f_{1},\ldots,f_{n - 1}$ we can apply the descent Lemma 5.1. ‣ 5.1 Technical lemmas ‣ 5 Proofs for 𝛽₁=0 (no momentum) ‣ A Simple Convergence Proof of Adam and Adagrad") and use (34 ‣ A Simple Convergence Proof of Adam and Adagrad")) to obtain from (33 ‣ A Simple Convergence Proof of Adam and Adagrad")), Given that $\beta_{2} < 1$, we have $\alpha_{n} \leq \frac{\alpha}{\sqrt{1 - \beta_{2}}}$. Summing the previous inequality for all $n \in {\lbrack N\rbrack}$ and taking the complete expectation yields Applying Lemma 5.2. ‣ 5.1 Technical lemmas ‣ 5 Proofs for 𝛽₁=0 (no momentum) ‣ A Simple Convergence Proof of Adam and Adagrad") for each dimension and rearranging the terms finishes the proof of Theorem 2. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad").
 
 (a) Average squared norm of the gradient on a toy task, see Section 6, for more details. For the α and 1 − β2 curves, we initialize close to the optimum to make the F0 − F* term negligible.
 
-(b) Average squared norm of the gradient of a small convolutional model Gitman &amp; Ginsburg trained on CIFAR-10, with a random initialization. The full gradient is evaluated every epoch.
+(b) Average squared norm of the gradient of a small convolutional model Gitman & Ginsburg trained on CIFAR-10, with a random initialization. The full gradient is evaluated every epoch.
 
 Figure 1: Observed average squared norm of the objective gradients after a fixed number of iterations when varying a single parameter out of α, 1 − β1 and 1 − β2, on a toy task (left, 106 iterations) and on CIFAR-10 (right, 600 epochs with a batch size 128). All curves are averaged over 3 runs, error bars are negligible except for small values of α on CIFAR-10. See Section 6 for details.
 
@@ -234,17 +162,13 @@ On Figure 1 ‣ A Simple Convergence Proof of Adam and Adagrad"), we compare the
 
 ### Toy problem
 
-In order to support the bounds presented in Section 4, in particular the dependency in $\beta_{2}$, we test Adam on a specifically crafted toy problem. We take $x \in {\mathbb{R}}^{6}$ and define for all $i \in {\lbrack 6\rbrack}$, $p_{i} = 10^{- i}$. We take ${(Q_{i})}_{i \in {\lbrack 6\rbrack}}$, Bernoulli variables with ${{\mathbb{P}}\left\lbrack {Q_{i} = 1} \right\rbrack} = p_{i}$. We then define $f$ for all $x \in {\mathbb{R}}^{d}$ as
-
-with for all $y \in {\mathbb{R}}$,
-
-Intuitively, each coordinate is pointing most of the time towards 1, but exceptionally towards -1 with a weight of $1/\sqrt{p_{i}}$. Those rare events happens less and less often as $i$ increase, but with an increasing weight. Those weights are chosen so that all the coordinates of the gradient have the same variance^11^1We deviate from the a.s. bounded gradient assumption for this experiment, see Section 4.2 for a discussion on a.s. bound vs bound in expectation.. It is necessary to take different probabilities for each coordinate. If we use the same $p$ for all, we observe a phase transition when ${1 - \beta_{2}} \approx p$, but not the continuous improvement we obtain on Figure 1(a) ‣ A Simple Convergence Proof of Adam and Adagrad").
+In order to support the bounds presented in Section 4, in particular the dependency in $\beta_{2}$, we test Adam on a specifically crafted toy problem. We take $x \in {\mathbb{R}}^{6}$ and define for all $i \in {\lbrack 6\rbrack}$, $p_{i} = 10^{- i}$. We take ${(Q_{i})}_{i \in {\lbrack 6\rbrack}}$, Bernoulli variables with ${{\mathbb{P}}\left\lbrack {Q_{i} = 1} \right\rbrack} = p_{i}$. We then define $f$ for all $x \in {\mathbb{R}}^{d}$ as with for all $y \in {\mathbb{R}}$, Intuitively, each coordinate is pointing most of the time towards 1, but exceptionally towards -1 with a weight of $1/\sqrt{p_{i}}$. Those rare events happens less and less often as $i$ increase, but with an increasing weight. Those weights are chosen so that all the coordinates of the gradient have the same variance^11^1We deviate from the a.s. bounded gradient assumption for this experiment, see Section 4.2 for a discussion on a.s. bound vs bound in expectation.. It is necessary to take different probabilities for each coordinate. If we use the same $p$ for all, we observe a phase transition when ${1 - \beta_{2}} \approx p$, but not the continuous improvement we obtain on Figure 1(a) ‣ A Simple Convergence Proof of Adam and Adagrad").
 
 We plot the variation of ${\mathbb{E}}\left\lbrack \left\| {F{(x_{\tau})}} \right\|_{2}^{2} \right\rbrack$ after $10^{6}$ iterations with batch size 1 when varying either $\alpha$, $1 - \beta_{1}$ or $1 - \beta_{2}$ through a range of 13 values uniformly spaced in log-scale between $10^{- 6}$ and $1$. When varying $\alpha$, we take $\beta_{1} = 0$ and $\beta_{2} = {1 - 10^{- 6}}$. When varying $\beta_{1}$, we take $\alpha = 10^{- 5}$ and $\beta_{2} = {1 - 10^{- 6}}$ (i.e. $\beta_{2}$ is so that we are in the Adagrad-like regime). Finally, when varying $\beta_{2}$, we take $\beta_{1} = 0$ and $\alpha = 10^{- 6}$. We start from $x_{0}$ close to the optimum by running first $10^{6}$ iterations with $\alpha = 10^{- 4}$, then $10^{6}$ iterations with $\alpha = 10^{- 5}$, always with $\beta_{2} = {1 - 10^{- 6}}$. This allows to have ${{F{(x_{0})}} - F_{\ast}} \approx 0$ in (11. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad")) and (13. ‣ With heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad")) and focus on the second part of both bounds. All curves are averaged over three runs. Error bars are plotted but not visible in log-log scale.
 
 ### CIFAR-10
 
-We train a simple convolutional network on the CIFAR-10^22^2[https://www.cs.toronto.edu/\~kriz/cifar.html](https://www.cs.toronto.edu/~kriz/cifar.html) image classification dataset. Starting from a random initialization, we train the model on a single V100 for 600 epochs with a batch size of 128, evaluating the full training gradient after each epoch. This is a proxy for ${\mathbb{E}}\left\lbrack \left\| {F{(x_{\tau})}} \right\|_{2}^{2} \right\rbrack$, which would be to costly to evaluate exactly. All runs use the default config $\alpha = 10^{- 3}$, $\beta_{2} = 0.999$ and $\beta_{1} = 0.9$, and we then change one of the parameter.
+We train a simple convolutional network on the CIFAR-10^22^2 image classification dataset. Starting from a random initialization, we train the model on a single V100 for 600 epochs with a batch size of 128, evaluating the full training gradient after each epoch. This is a proxy for ${\mathbb{E}}\left\lbrack \left\| {F{(x_{\tau})}} \right\|_{2}^{2} \right\rbrack$, which would be to costly to evaluate exactly. All runs use the default config $\alpha = 10^{- 3}$, $\beta_{2} = 0.999$ and $\beta_{1} = 0.9$, and we then change one of the parameter.
 
 We take $\alpha$ from a uniform range in log-space between $10^{- 6}$ and $10^{- 2}$ with 9 values, for $1 - \beta_{1}$ the range is from $10^{- 5}$ to $0.3$ with 9 values, and for $1 - \beta_{2}$, from $10^{- 6}$ to $10^{- 1}$ with 11 values. Unlike for the toy problem, we do not initialize close to the optimum, as even after 600 epochs, the norm of the gradients indicates that we are not at a critical point. All curves are averaged over three runs. Error bars are plotted but not visible in log-log scale, except for large values of $\alpha$.
 

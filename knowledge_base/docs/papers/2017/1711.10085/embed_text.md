@@ -70,19 +70,7 @@ We cover four top journals and four top conferences in the robotics field since 
 
 The UAV papers identification process involves three major steps. We first use a script to automatically collect more than thirty thousand instances of title and abstract from the mentioned eight journal/conference web pages since 2001, namely TRO, TME, IJRR, RAS, IROS, ICRA, ICUAS, HRI, and ROMAN. We also manually review the hard copies of the IROS and ICRA conferences' table of contents from 2001 to 2004, as we find that not all UAV papers in those years are listed on the website (IEEE Xplore).
 
-At the second step, we design a list of keywords (Table I) to search drone papers systematically from the titles and abstracts collected in the first step. Note that we search for both the full name of each keyword (e.g., Unmanned Aerial Vehicle) and its abbreviation (i.e., UAV) with an automatic program script. The keywords include most of the words that describe a UAV. For example, the word "quadcopter" or "quadrotor" could be detected by the keyword "copter" or "rotor". As long as one of the keywords is detected, the paper will pass this automated screening process.
-
-micro aerial vehicle
-
-unmmaned aerial vehicle
-
-unmanned aircraft system
-
-vertical takeoff and landing
-
-MAV, UAV, UAS, VTOL
-
-TABLE I: 35 keywords used to search drone papers systematically from the collected titles and abstracts.
+At the second step, we design a list of keywords (Table I) to search drone papers systematically from the titles and abstracts collected in the first step. Note that we search for both the full name of each keyword (e.g., Unmanned Aerial Vehicle) and its abbreviation (i.e., UAV) with an automatic program script. The keywords include most of the words that describe a UAV. For example, the word "quadcopter" or "quadrotor" could be detected by the keyword "copter" or "rotor". As long as one of the keywords is detected, the paper will pass this automated screening process. micro aerial vehicle unmmaned aerial vehicle unmanned aircraft system vertical takeoff and landing MAV, UAV, UAS, VTOL TABLE I: 35 keywords used to search drone papers systematically from the collected titles and abstracts.
 
 At the third step, we perform a manual screening to reject some non-drone papers. We read the abstract, section titles, related works, and experiment results of all the papers from the second step. If a paper passes all the five criteria below, we consider it a drone paper for this survey.
 
@@ -100,9 +88,7 @@ It is interesting to note that using the keyword "air" in the second step increa
 
 ### IV-C Survey Updates and Online Sharing
 
-The full survey results (with all raw information) is shared and updated frequently online via Google Sheets.^44^4 Tables with full survey results can be viewed on https://goo.gl/cCoCwL. Major updates, such as additional drone papers from the latest conferences/journals, will be carried out once every three months. While Google Sheets contains all the survey results, we find that it is not possible to tag the papers, and it is also difficult to search multiple keywords in the long paper list effectively. To overcome these issues, we use an open-source file tagging and organization software called TagSpaces. Figure 4 shows a screenshot of TagSpaces. TagSpaces enables readers to search papers with multiple tags or/and keywords effectively. For example, to search all IROS papers in 2016 that are related to quadcopter, users only need to input "+IROS +2016 +Quadcopter" into the search column. Moreover, since original papers (PDF files) cannot be shared with readers due to copyright issues, for each paper entry, we create an HTML file that contains the most important information inside (such as abstract, keywords, country, paper URL link, and video URL link) for easier reference. To setup TagSpaces and download all the HTML files, refer to our website at https://sites.google.com/view/drone-survey.
-
-Figure 4: A screenshot of TagSpaces with different categories of tags on the left hand side, list of drone papers that match the search criterion at the middle, and info of the selected paper in HTML format on the right hand side. Best viewed in color.
+The full survey results (with all raw information) is shared and updated frequently online via Google Sheets.^44^4 Tables with full survey results can be viewed on Major updates, such as additional drone papers from the latest conferences/journals, will be carried out once every three months. While Google Sheets contains all the survey results, we find that it is not possible to tag the papers, and it is also difficult to search multiple keywords in the long paper list effectively. To overcome these issues, we use an open-source file tagging and organization software called TagSpaces. Figure 4 shows a screenshot of TagSpaces. TagSpaces enables readers to search papers with multiple tags or/and keywords effectively. For example, to search all IROS papers in 2016 that are related to quadcopter, users only need to input "+IROS +2016 +Quadcopter" into the search column. Moreover, since original papers (PDF files) cannot be shared with readers due to copyright issues, for each paper entry, we create an HTML file that contains the most important information inside (such as abstract, keywords, country, paper URL link, and video URL link) for easier reference. To setup TagSpaces and download all the HTML files, refer to our website at Figure 4: A screenshot of TagSpaces with different categories of tags on the left hand side, list of drone papers that match the search criterion at the middle, and info of the selected paper in HTML format on the right hand side. Best viewed in color.
 
 ## Survey Results Overview
 

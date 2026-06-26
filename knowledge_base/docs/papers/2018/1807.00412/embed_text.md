@@ -6,17 +6,7 @@ In order to make autonomous driving a truly ubiquitous technology, we advocate f
 
 In the recent years, reinforcement learning (RL) -- a machine learning subfield focused on solving Markov Decision Problems (MDP) where an agent learns to select actions in an environment in an attempt to maximise some reward function -- has shown an ability to achieve super-human results at games such as Go or chess, a great deal of potential in simulated environments like computer games, and on simple tasks with robotic manipulators. We argue that the generality of reinforcement learning makes it a useful framework to apply to autonomous driving. Most importantly, it provides a corrective mechanism to improve learned autonomous driving behaviour.
 
-Figure 1: We design a deep reinforcement learning algorithm for autonomous driving. This figure illustrates the actor-critic algorithm which we use to learn a policy and value function for driving. Our agent maximises the reward of distance travelled before intervention by a safety driver. A video of our vehicle learning to drive is available at https://wayve.ai/blog/l2diad
-
-To this end, in this paper we:
-
-pose autonomous driving as an MDP, explain how to design the various elements of this problem to make it simpler to solve, whilst keeping it general and extensible,
-
-show that a canonical RL algorithm (deep deterministic policy gradients ) can rapidly learn a simple autonomous driving task in a simulation environment,
-
-discuss the system set-up required to make learning to drive efficient and safe on a real-world vehicle,
-
-learn to drive a real-world autonomous vehicle in a few episodes with a continuous deep reinforcement learning algorithm, using only on-board computation.
+Figure 1: We design a deep reinforcement learning algorithm for autonomous driving. This figure illustrates the actor-critic algorithm which we use to learn a policy and value function for driving. Our agent maximises the reward of distance travelled before intervention by a safety driver. A video of our vehicle learning to drive is available at To this end, in this paper we: pose autonomous driving as an MDP, explain how to design the various elements of this problem to make it simpler to solve, whilst keeping it general and extensible, show that a canonical RL algorithm (deep deterministic policy gradients) can rapidly learn a simple autonomous driving task in a simulation environment, discuss the system set-up required to make learning to drive efficient and safe on a real-world vehicle, learn to drive a real-world autonomous vehicle in a few episodes with a continuous deep reinforcement learning algorithm, using only on-board computation.
 
 We therefore present the first demonstration of a deep reinforcement learning agent driving a real car.
 
@@ -38,31 +28,13 @@ A more recent approach to some driving tasks is imitation learning, which aims t
 
 ### Reinforcement learning
 
-Reinforcement learning is a broad class of algorithms for solving Markov Decision Problems (MDPs). An MDP consists of:
+Reinforcement learning is a broad class of algorithms for solving Markov Decision Problems (MDPs). An MDP consists of: a set $\mathcal{S}$ of states, a set $\mathcal{A}$ of actions, a transition probability function $p:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathcal{P}{(\mathcal{S})}}}$, which to every pair ${(s,a)} \in {\mathcal{S} \times \mathcal{A}}$ assigns a probability distribution $p{(\cdot |s,a)}$ representing the probability of entering a state from state $s$ using action $a$, a reward function $R:{{\mathcal{S} \times \mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$, which describes the reward $R{(s_{t + 1},s_{t},a_{t})}$ associated with entering state $s_{t + 1}$ from state $s_{t}$ using action $a_{t}$, a future discount factor $\gamma \in {\lbrack 0,1\rbrack}$ representing how much we care about future rewards.
 
-a set $\mathcal{S}$ of states,
-
-a set $\mathcal{A}$ of actions,
-
-a transition probability function $p:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathcal{P}{(\mathcal{S})}}}$, which to every pair ${(s,a)} \in {\mathcal{S} \times \mathcal{A}}$ assigns a probability distribution $p{( \cdot |s,a)}$ representing the probability of entering a state from state $s$ using action $a$,
-
-a reward function $R:{{\mathcal{S} \times \mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$, which describes the reward $R{(s_{t + 1},s_{t},a_{t})}$ associated with entering state $s_{t + 1}$ from state $s_{t}$ using action $a_{t}$,
-
-a future discount factor $\gamma \in {\lbrack 0,1\rbrack}$ representing how much we care about future rewards.
-
-The solution of an MDP is a policy $\pi:{\mathcal{S}\rightarrow\mathcal{A}}$ that for every $s_{0} \in \mathcal{S}$ maximises:
-
-where the expectation is taken over states $s_{t + 1}$ sampled according to $p{(\left. s_{t + 1} \middle| {s_{t},{\pi{(s_{t})}}} \right.)}$.
+The solution of an MDP is a policy $\pi:{\mathcal{S}\rightarrow\mathcal{A}}$ that for every $s_{0} \in \mathcal{S}$ maximises: where the expectation is taken over states $s_{t + 1}$ sampled according to $p{(\left. s_{t + 1} \middle| {s_{t},{\pi{(s_{t})}}} \right.)}$.
 
 In our setting, we use a finite time horizon $T$ in place of infinity in the above formula. This is equivalent to one of the states being terminal, i.e. it cannot be escaped and any action at that state gives zero reward.
 
-Rearranging the above equation into a recurrent form, we get one of the two Bellman equations:
-
-Here the expectation is taken only over $s_{1}$ sampled according to $p{(\left. s_{1} \middle| {s_{0},{\pi{(s_{0})}}} \right.)}$. For reference, let us present the other Bellman equation:
-
-where $Q_{\pi}{(s_{0},a_{0})}$ is the expected cumulative discounted reward received while starting from state $s_{0}$ with action $a_{0}$ and following policy $\pi$ thereafter. Again the expectation is taken over $s_{1}$ sampled according to $p{(\left. s_{1} \middle| {s_{0},a_{0}} \right.)}$
-
-In other words, reinforcement learning algorithms aim to learn a policy $\pi$ that obtains a high cumulative reward. They are generally split into two categories: model-based and model-free reinforcement learning. In the former approach, explicit models for the transition and reward functions are learnt, and then used to find a policy that maximises cumulative reward under those estimated functions. In the latter, we directly estimate the value $Q{(s,a)}$ of taking action $a$ in state $s$, and then follow a policy that selects the action with the highest estimated value in each state.
+Rearranging the above equation into a recurrent form, we get one of the two Bellman equations: Here the expectation is taken only over $s_{1}$ sampled according to $p{(\left. s_{1} \middle| {s_{0},{\pi{(s_{0})}}} \right.)}$. For reference, let us present the other Bellman equation: where $Q_{\pi}{(s_{0},a_{0})}$ is the expected cumulative discounted reward received while starting from state $s_{0}$ with action $a_{0}$ and following policy $\pi$ thereafter. Again the expectation is taken over $s_{1}$ sampled according to $p{(\left. s_{1} \middle| {s_{0},a_{0}} \right.)}$ In other words, reinforcement learning algorithms aim to learn a policy $\pi$ that obtains a high cumulative reward. They are generally split into two categories: model-based and model-free reinforcement learning. In the former approach, explicit models for the transition and reward functions are learnt, and then used to find a policy that maximises cumulative reward under those estimated functions. In the latter, we directly estimate the value $Q{(s,a)}$ of taking action $a$ in state $s$, and then follow a policy that selects the action with the highest estimated value in each state.
 
 Model-free reinforcement learning is extremely general. Using it, we can (in theory) learn any task we can imagine, whereas model-based algorithms can be only as good as the model learned. On the other hand, model-based methods tend to be more data-efficient than model-free ones. For further discussion, see.
 
@@ -78,7 +50,7 @@ A key focus of this paper is the set-up of driving as an MDP. Our goal is that o
 
 ### State space
 
-Key to defining the state space is the definition of the observations $O_{t}$ that the algorithm receives at each time step. Many sensors have been developed in order to provide sophisticated observations for driving algorithms, not limited to LIDAR, IMUs, GPS units and IR depth sensors; an endless budget could be spent on advanced sensing technology. In this paper, we show that for simple driving tasks it is sufficient to use a monocular camera image, together with the observed vehicle speed and steering angle. Theoretically, state $s_{t}$ is to be a Markov representation of all previous observations. An approximation a fixed length approximately Markov state could be obtained by, for example, using a Recurrent Neural Network to recursively combine observations. However, for the tasks we consider, the observation itself serves as a good enough approximation of the state.
+Key to defining the state space is the definition of the observations $O_{t}$ that the algorithm receives at each time step. Many sensors have been developed in order to provide sophisticated observations for driving algorithms, not limited to LIDAR, IMUs, GPS units and IR depth sensors; an endless budget could be spent on advanced sensing technology. In this paper, we show that for simple driving tasks it is sufficient to use a monocular camera image, together with the observed vehicle speed and steering angle. Theoretically, state $s_{t}$ is to be a Markov representation of all previous observations. An approximation a fixed length approximately Markov state could be obtained , for example, using a Recurrent Neural Network to recursively combine observations. However, for the tasks we consider, the observation itself serves as a good enough approximation of the state.
 
 A second consideration is how to treat the image itself: the raw image could be fed directly into the reinforcement learning algorithm through a series of convolutions; alternatively, a small compressed representation of the image, using, for example, a Variational Autoencoder (VAE), could be used. We compare the performance of reinforcement learning using these two approaches in Section IV. In our experiments, we train the VAE online from five purely random exploration episodes, using a KL loss and a L2 reconstruction loss.
 
@@ -88,34 +60,19 @@ Driving itself has what one might think are a natural set of actions: throttle, 
 
 ### Reward function
 
-Design of reward functions can approach supervised learning -- given a lane classification system, a reward to learn lane-following can be set up in terms of minimising the predicted distance from centre of lane, the approach taken in. This approach is limited in scale: the system can only be as good as the human intuition behind the hand-crafted reward. We do not take this approach. Instead, we define the reward as forward speed and terminate an episode upon an infraction of traffic rules -- thus the value of a given state $V{(s_{t})}$ corresponds to the average distance travelled before an infraction. A fault that may be identified is that the agent may choose to avoid more difficult manoeuvres, e.g. turning right in the UK (left in US). Command conditional rewards may be utilised in future work to avoid this.
+Design of reward functions can approach supervised learning -- given a lane classification system, a reward to learn lane-following can be set up in terms of minimising the predicted distance from centre of lane, the approach taken . This approach is limited in scale: the system can only be as good as the human intuition behind the hand-crafted reward. We do not take this approach. Instead, we define the reward as forward speed and terminate an episode upon an infraction of traffic rules -- thus the value of a given state $V{(s_{t})}$ corresponds to the average distance travelled before an infraction. A fault that may be identified is that the agent may choose to avoid more difficult manoeuvres, e.g. turning right in the UK (left in US). Command conditional rewards may be utilised in future work to avoid this.
 
 ### III-B Reinforcement Learning Algorithm -- Deep Deterministic Policy Gradients
 
 We selected a simple continuous action domain model-free reinforcement learning algorithm: deep deterministic policy gradients (DDPG), to show that an off-the-shelf reinforcement learning algorithm with no task-specific adaptation is capable of solving the MDP posed in Section III-A.
 
-DDPG consists of two function approximators: a critic $Q:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$, which estimates the value $Q{(s,a)}$ of the expected cumulative discounted reward upon using action $a$ in state $s$, trained to satisfy the Bellman equation
-
-under a policy given by the actor $\pi:{\mathcal{S}\rightarrow\mathcal{A}}$, which attempts to estimate a $Q$-optimal policy ${\pi{(s)}} = {{argmax}_{a}Q{(s,a)}}$; here $(s_{t},a_{t},r_{t + 1},d_{t + 1},s_{t + 1})$ is an experience tuple, a transition from state $s_{t}$ to $s_{t + 1}$ using action $a_{t}$ and receiving reward $r_{t + 1}$ and "done" flag $d_{t + 1}$, selected from a buffer of past experiences. The error in the Bellman equality, which the critic attempts to minimise, is termed the temporal difference ($TD$) error. Many variants of actor-critic methods exist, see e.g..
+DDPG consists of two function approximators: a critic $Q:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$, which estimates the value $Q{(s,a)}$ of the expected cumulative discounted reward upon using action $a$ in state $s$, trained to satisfy the Bellman equation under a policy given by the actor $\pi:{\mathcal{S}\rightarrow\mathcal{A}}$, which attempts to estimate a $Q$-optimal policy ${\pi{(s)}} = {{argmax}_{a}Q{(s,a)}}$; here $(s_{t},a_{t},r_{t + 1},d_{t + 1},s_{t + 1})$ is an experience tuple, a transition from state $s_{t}$ to $s_{t + 1}$ using action $a_{t}$ and receiving reward $r_{t + 1}$ and "done" flag $d_{t + 1}$, selected from a buffer of past experiences. The error in the Bellman equality, which the critic attempts to minimise, is termed the temporal difference ($TD$) error. Many variants of actor-critic methods exist, see e.g..
 
 DDPG training is done online. Beyond the infrastructure of setting up such a buffer for use on a real vehicle (which requires it to be tolerant of missing/faulty episodes and any-time stoppable), reinforcement learning can be sped up by selecting the most "informative" examples from the replay buffer. We do so using a commonly established method called prioritised experience replay: we sample experience tuples with probability proportional to the $TD$ error made by the critic. The weights used for this sampling are updated upon each optimisation step with minimal overhead; new samples are given infinite weight to ensure all samples are seen at least once.
 
-DDPG is an off-policy learning algorithm, meaning that actions performed during training come from a policy distinct from the learn optimal policy by the actor. This happens in order to gain diverse state-action data outside of the narrow distribution that would be seen by the optimal policy, and thus increase robustness. We use a standard method of achieving this in the context of continuous reinforcement learning methods: our exploration policy is formed by adding discrete Ornstein-Uhlenbeck process noise to the optimal policy. Therefore, at each step we add to optimal actions noise $x_{t}$ given by:
+DDPG is an off-policy learning algorithm, meaning that actions performed during training come from a policy distinct from the learn optimal policy by the actor. This happens in order to gain diverse state-action data outside of the narrow distribution that would be seen by the optimal policy, and thus increase robustness. We use a standard method of achieving this in the context of continuous reinforcement learning methods: our exploration policy is formed by adding discrete Ornstein-Uhlenbeck process noise to the optimal policy. Therefore, at each step we add to optimal actions noise $x_{t}$ given: where $\theta,\mu,\sigma$ are hyperparameters and ${\{\epsilon_{t}\}}_{t}$ are i.i.d. random variables sampled from the normal distribution $N{}$. These parameters need to be tuned carefully, as there is a direct trade-off between noise utility and comfort of the safety driver. Strongly mean reverting noise with lower variance is easier to anticipate, whilst higher variance noise provides better state-action space coverage.
 
-where $\theta,\mu,\sigma$ are hyperparameters and ${\{\epsilon_{t}\}}_{t}$ are i.i.d. random variables sampled from the normal distribution $N{}$. These parameters need to be tuned carefully, as there is a direct trade-off between noise utility and comfort of the safety driver. Strongly mean reverting noise with lower variance is easier to anticipate, whilst higher variance noise provides better state-action space coverage.
-
-3: Waiting for environment reset
-4: if task is train then
-5: Run episode with noisy policy
-6: if exploration time is over then
-9: else if task is test then
-10: Run episode with optimal policy
-11: else if task is undo then
-12: Revert previous train/test task
-13: else if task is done then
-(a) Task-based workflow for on-vehicle training
-
-(b) Policy execution architecture, used to run episodes during model training or testing.
+3: Waiting for environment reset 4: if task is train then 5: Run episode with noisy policy 6: if exploration time is over then 9: else if task is test then 10: Run episode with optimal policy 11: else if task is undo then 12: Revert previous train/test task 13: else if task is done then (a) Task-based workflow for on-vehicle training (b) Policy execution architecture, used to run episodes during model training or testing.
 
 Figure 2: Outline of the workflow and the architecture for efficiently training the algorithm from a safety driver’s feedback.
 
@@ -133,7 +90,7 @@ The undo and done tasks depict the key differences in the architecture. The syst
 
 ## Experiments
 
-The main task we use to showcase the vehicle is that of lane-following; this is the same task as addressed in, however done on a real vehicle as well as on simulation, and done from image input, without knowledge of lane position. It is a task core to driving, and was the cornerstone of the seminal ALVINN. We first accomplish this task in simulation in Section IV-A, and then use these results and knowledge of appropriate hyperparameters to demonstrate a solution on a real vehicle in Section IV-B.
+The main task we use to showcase the vehicle is that of lane-following; this is the same task as addressed , however done on a real vehicle as well as on simulation, and done from image input, without knowledge of lane position. It is a task core to driving, and was the cornerstone of the seminal ALVINN. We first accomplish this task in simulation in Section IV-A, and then use these results and knowledge of appropriate hyperparameters to demonstrate a solution on a real vehicle in Section IV-B.
 
 For both simulation and real-world experiments we use a small convolutional neural network. Our model has four convolutional layers, with $3 \times 3$ kernels, stride of 2 and 16 feature dimensions, shared between the actor and critic models. We then flatten the encoded state and concatenate the vector the scalar state for the actor, additionally concatenating the actions for the critic network. For both networks we then apply one fully-connected layer with feature size 8 before regressing to the output. For the VAE experiments, a decoder of the same size as the encoder is used, replacing strided convolution with transposed convolution to upsample the features. A graphical depiction is shown in Figure 1.
 
@@ -156,15 +113,12 @@ We conduct our experiments using a modified Renault Twizy vehicle, which is a tw
 Figure 4: Using a VAE with DDPG greatly improves data efficiency in training over DDPG from raw pixels, suggesting that state representation is an important consideration for applying reinforcement learning on real systems. The 250m driving route used for our experiments is shown on the right.
 
 Meters per Disengagement
+
 ## Disengagements
 
-Deep RL from Pixels
+Deep RL from Pixels Deep RL from VAE TABLE I: Deep reinforcement learning results on an autonomous vehicle over a 250m length of road. We report the best performance for each model. We observe the baseline RL agent can learn to lane follow from scratch, while the VAE variant is much more efficient, learning to succesfully drive the route after only 11 training episodes.
 
-Deep RL from VAE
-
-TABLE I: Deep reinforcement learning results on an autonomous vehicle over a 250m length of road. We report the best performance for each model. We observe the baseline RL agent can learn to lane follow from scratch, while the VAE variant is much more efficient, learning to succesfully drive the route after only 11 training episodes.
-
-Table I shows the results of these experiments. Here, the major finding is that reinforcement learning can solve this problem in a handful of trials. Using 250 optimisation steps with batch size 64 took approximately 25 seconds, which made the experiment extremely manageable, considering manoeuvring the car to the centre of the lane to commence the next episode takes approximately 10 seconds anyway. We also observe in the real world, where the visual complexity is much more difficult than simulation, a compressed state representation provided by a Variational Autoencoder trained online together with the policy greatly improved reliability of the algorithm. We compare our method to a zero policy (driving straight with constant speed) and random exploration noise, in order to confirm that the trial indeed required a non-trivial policy. ^11^1A video of the training process for our vehicle learning to drive the 250m length of private road with the stateful RL training architecture (Section III-C) is available at https://wayve.ai/blog/l2diad
+Table I shows the results of these experiments. Here, the major finding is that reinforcement learning can solve this problem in a handful of trials. Using 250 optimisation steps with batch size 64 took approximately 25 seconds, which made the experiment extremely manageable, considering manoeuvring the car to the centre of the lane to commence the next episode takes approximately 10 seconds anyway. We also observe in the real world, where the visual complexity is much more difficult than simulation, a compressed state representation provided by a Variational Autoencoder trained online together with the policy greatly improved reliability of the algorithm. We compare our method to a zero policy (driving straight with constant speed) and random exploration noise, in order to confirm that the trial indeed required a non-trivial policy. ^11^1A video of the training process for our vehicle learning to drive the 250m length of private road with the stateful RL training architecture (Section III-C) is available at
 
 ## Discussion
 
@@ -182,7 +136,7 @@ However, unsupervised state encoding alone will likely not be sufficient. In ord
 
 Two areas that could greatly improve the availability of data for the application of reinforcement learning to real autonomous driving are semi-supervised learning and domain transfer. Whilst only a small portion of driving data might have rewards and terminals associated with it, as those are costly to obtain, the image embeddings -- and perhaps other aspects of models -- could benefit from driving data captured from dashcams in every-day vehicles. These could be used to pre-train the image autoencoder. In the context of a model-based RL system, these could also be used to approximate state transition functions, whilst advances in semi-supervised learning might allow us to utilise this data without reward/terminal labels data. Domain transfer, on the other hand, may allow us to create simulations sufficiently convincing that data from these may be used to train a policy that can be transferred directly onto a real car.
 
-The algorithm used here is intentionally a common canonical approach, chosen to demonstrate the ease with which reinforcement learning may be applied to driving. Many improvements to it have been developed in the wider literature, including the use of natural gradients. Other research has looked at better transformation of observations into states, typically using an RNN, as well as methods to perform multi-step planning, as in. It is no question that these could provide superior performance.
+The algorithm used here is intentionally a common canonical approach, chosen to demonstrate the ease with which reinforcement learning may be applied to driving. Many improvements to it have been developed in the wider literature, including the use of natural gradients. Other research has looked at better transformation of observations into states, typically using an RNN, as well as methods to perform multi-step planning, as . It is no question that these could provide superior performance.
 
 New advances in model-based reinforcement provide alternative exciting avenues for autonomous driving research, with work such as showing outstanding performance of models when observing directly the state of a physical system. This could offer significant benefits to an image-based domain. Alternative model-based approaches include which learn to simulate episodes and learn in imagination.
 

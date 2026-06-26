@@ -8,7 +8,7 @@ Figure 1: A high level overview of RobotPerf. It targets industry-grade real-tim
 
 In this paper, we introduce RobotPerf, an open-source and community-driven benchmarking tool designed to assess the performance of robotic computing systems in a standardized, architecture-neutral, and reproducible way, accommodating the various combinations of hardware and software in different robotic platforms (see Figure 1). RobotPerf focuses on evaluating robotic workloads in the form of ROS 2 computational graphs on a wide array of hardware setups, encompassing a complete robotics pipeline and emphasizing real-time critical metrics. The framework incorporates two distinct benchmarking methodologies that utilize various forms of instrumentation and ROS *nodes* to capture critical metrics in robotic systems. These approaches are: black-box testing, which measures performance by eliminating upper layers and replacing them with a test application, and grey-box testing, an application-specific measure that observes internal system states with minimal interference. The framework is user-friendly, easily extendable for evaluating custom ROS 2 computational graphs, and collaborates with major hardware acceleration vendors for a standardized benchmarking approach. It aims to foster research and innovation as an open-source project. We validate the framework's capabilities by conducting benchmarks on diverse hardware platforms, including CPUs, GPUs, and FPGAs, thereby showcasing RobotPerf's utility in drawing valuable performance insights.
 
-RobotPerf's source code and documentation are available at [https://github.com/robotperf/benchmarks](https://github.com/robotperf/benchmarks) and its methodologies are currently being used in industry to benchmark industry-strength, production-grade systems.
+RobotPerf's source code and documentation are available at and its methodologies are currently being used in industry to benchmark industry-strength, production-grade systems.
 
 ## Background & Related Work
 
@@ -20,14 +20,7 @@ ROS 2 builds upon ROS and addresses many of its key limitations. Constructed to 
 
 ROS 2 also provides standardized APIs to connect user code through language-specific client libraries, rclcpp and rclpy, which handle the scheduling and invocation of callbacks such as timers, subscriptions, and services. Without a ROS Master, ROS 2 creates a decentralized framework where nodes discover each other and manage their own parameters.
 
-Real-time Performance Metrics
-Spans Multiple Pipeline Categories
-Evaluation on Heterogeneous Hardware
-Integration with ROS/ROS 2 Framework
-Functional Performance Testing
-Non-functional Performance Testing
-
-TABLE I: Comparative evaluation of representative existing robotics benchmarks with RobotPerf across essential characteristics for robotic systems.
+Real-time Performance Metrics Spans Multiple Pipeline Categories Evaluation on Heterogeneous Hardware Integration with ROS/ROS 2 Framework Functional Performance Testing Non-functional Performance Testing TABLE I: Comparative evaluation of representative existing robotics benchmarks with RobotPerf across essential characteristics for robotic systems.
 
 ### II-B Robotics Benchmarks
 
@@ -57,23 +50,17 @@ RobotPerf is designed specifically to evaluate ROS 2 computational graphs, rathe
 
 RobotPerf allows for the evaluation of benchmarks on a variety of hardware platforms, including general-purpose CPUs and GPUs, reconfigurable FPGAs, and specialized accelerators (e.g., ray tracing accelerators ). Benchmarking robotic workloads on heterogeneous platforms is vital to evaluate their respective capabilities and limitations. This facilitates optimizations for efficiency, speed, and adaptability, as well as fine-tuning of resource allocations, ensuring robust and responsive operation across diverse contexts.
 
-Utilizes tracers from in-code instrumentation.
-Limited to ROS 2 message subscriptions.
+Utilizes tracers from in-code instrumentation. Limited to ROS 2 message subscriptions.
 
-Low overhead. Driven by kernelspace.
-Restricted to ROS 2 message callbacks. Recorded by userspace processes.
+Low overhead. Driven by kernelspace. Restricted to ROS 2 message callbacks. Recorded by userspace processes.
 
-Multiple event types.
-Limited to message subscriptions in current implementation.
+Multiple event types. Limited to message subscriptions in current implementation.
 
-Requires a valid tracer. Standard format (CTF).
-Standard ROS 2 APIs. Custom JSON format.
+Requires a valid tracer. Standard format (CTF). Standard ROS 2 APIs. Custom JSON format.
 
-Requires code modifications and data postprocessing.
-Tests unmodified software with minor node additions.
+Requires code modifications and data postprocessing. Tests unmodified software with minor node additions.
 
-Does not modify the computational graph.
-Modifies the computational graph adding extra dataflow.
+Does not modify the computational graph. Modifies the computational graph adding extra dataflow.
 
 TABLE II: Grey-box vs. black-box benchmarking trade-offs.
 
@@ -89,49 +76,13 @@ Grey-box testing enables precise probe placement within a robot's computational 
 
 The black-box methodology utilizes a user-level node called the MonitorNode to evaluate the performance of a ROS 2 node. The MonitorNode subscribes to the target node, recording the timestamp when each message is received. By accessing the propagated ID, the MonitorNode determines the end-to-end latency by comparing its timestamp against the PlaybackNode's recorded timestamp for each message. While this approach does not need extra instrumentation, and is easier to implement, it offers a less detailed analysis and alters the computational graph by introducing new nodes and dataflow.
 
-Graph with 2 components: rectify and resize.
-
-a3_stereo_image_proc
-Computes disparity map from left and right images.
-
-a4_depth_image_proc
-Computes point cloud from rectified depth and color images.
+Graph with 2 components: rectify and resize. a3_stereo_image_proc Computes disparity map from left and right images. a4_depth_image_proc Computes point cloud from rectified depth and color images.
 
 Visual SLAM component.
 
 Map localization component.
 
-Apriltag detection component.
-
-c1_rrbot_joint_trajectory_controller
-Joint trajectory controller.
-
-c2_diffbot_diff_driver_controller
-Differential driver controller.
-
-c3_rrbot_forward_command_controller_position
-Position-based forward command controller.
-
-c4_rrbot_forward_command_controller_velocity
-Velocity-based forward command controller.
-
-c5_rrbot_forward_command_controller_acceleration
-Acceleration-based forward command controller.
-
-d1_xarm6_planning_and_traj_execution
-Manipulator planning and trajectory execution.
-
-d2_collision_checking_fcl
-Collision check: manipulator and box (FCL ).
-
-d3_collision_checking_bullet
-Collision check: manipulator and box (Bullet ).
-
-d4_inverse_kinematics_kdl
-Inverse kinematics (KDL plugin ).
-
-d5_inverse_kinematics_lma
-Inverse kinematics (LMA plugin ).
+Apriltag detection component. c1_rrbot_joint_trajectory_controller Joint trajectory controller. c2_diffbot_diff_driver_controller Differential driver controller. c3_rrbot_forward_command_controller_position Position-based forward command controller. c4_rrbot_forward_command_controller_velocity Velocity-based forward command controller. c5_rrbot_forward_command_controller_acceleration Acceleration-based forward command controller. d1_xarm6_planning_and_traj_execution Manipulator planning and trajectory execution. d2_collision_checking_fcl Collision check: manipulator and box (FCL). d3_collision_checking_bullet Collision check: manipulator and box (Bullet). d4_inverse_kinematics_kdl Inverse kinematics (KDL plugin). d5_inverse_kinematics_lma Inverse kinematics (LMA plugin).
 
 Direct kinematics for manipulator.
 
@@ -143,9 +94,9 @@ The requirement for packages to be instrumented directly within the source code 
 
 ### III-F Reproducibility & Consistency
 
-To ensure consistent and reproducible evaluations, RobotPerf adheres to specific common robotic dataformats. In particular, it uses ROS 2 rosbags, including our own available at [https://github.com/robotperf/rosbags](https://github.com/robotperf/rosbags), as well third-party bags (e.g., the r2b dataset ).
+To ensure consistent and reproducible evaluations, RobotPerf adheres to specific common robotic dataformats. In particular, it uses ROS 2 rosbags, including our own available at as well third-party bags (e.g., the r2b dataset ).
 
-To ensure consistent data loading and finer control over message delivery rates, we drew inspiration from. Our computational graphs incorporate *modified and improved* DataLoaderNode and PlaybackNode implementations, which can be accessed at [https://github.com/robotperf/ros2_benchmark](https://github.com/robotperf/ros2_benchmark). These enhanced nodes offer improvements that report worst-case latency and enable the reporting of maximum latency, introduce the ability to profile power consumption and so forth.
+To ensure consistent data loading and finer control over message delivery rates, we drew inspiration . Our computational graphs incorporate *modified and improved* DataLoaderNode and PlaybackNode implementations, which can be accessed at These enhanced nodes offer improvements that report worst-case latency and enable the reporting of maximum latency, introduce the ability to profile power consumption and so forth.
 
 ### III-G Metrics
 
@@ -161,7 +112,7 @@ To ensure the reliability and reproducibility of the performance data, we adhere
 
 ## Evaluation
 
-We conduct comprehensive benchmarking using RobotPerf to evaluate its capabilities on three key aspects vital for a robotics-focused computing benchmark. First, we validate the framework's capacity to provide comparative insights across divergent heterogeneous platforms from edge devices to server-class hardware. Second, we analyze the results to understand RobotPerf's ability to guide selection of the optimal hardware solution tailored to particular robotic workloads. Finally, we assess how effectively RobotPerf reveals the advantages conferred by hardware and software acceleration techniques relative to general-purpose alternatives. All of our results and source code can be found open-source at: [https://github.com/robotperf/benchmarks](https://github.com/robotperf/benchmarks).
+We conduct comprehensive benchmarking using RobotPerf to evaluate its capabilities on three key aspects vital for a robotics-focused computing benchmark. First, we validate the framework's capacity to provide comparative insights across divergent heterogeneous platforms from edge devices to server-class hardware. Second, we analyze the results to understand RobotPerf's ability to guide selection of the optimal hardware solution tailored to particular robotic workloads. Finally, we assess how effectively RobotPerf reveals the advantages conferred by hardware and software acceleration techniques relative to general-purpose alternatives. All of our results and source code can be found open-source :
 
 ### IV-A Fair and Representative Assessment of Heterogeneity
 

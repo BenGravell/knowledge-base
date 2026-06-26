@@ -4,7 +4,7 @@ Convolutional networks (ConvNets) have recently enjoyed a great success in large
 
 With ConvNets becoming more of a commodity in the computer vision field, a number of attempts have been made to improve the original architecture of Krizhevsky et al. in a bid to achieve better accuracy. For instance, the best-performing submissions to the ILSVRC-2013 utilised smaller receptive window size and smaller stride of the first convolutional layer. Another line of improvements dealt with training and testing the networks densely over the whole image and over multiple scales. In this paper, we address another important aspect of ConvNet architecture design -- its depth. To this end, we fix other parameters of the architecture, and steadily increase the depth of the network by adding more convolutional layers, which is feasible due to the use of very small ($3 \times 3$) convolution filters in all layers.
 
-As a result, we come up with significantly more accurate ConvNet architectures, which not only achieve the state-of-the-art accuracy on ILSVRC classification and localisation tasks, but are also applicable to other image recognition datasets, where they achieve excellent performance even when used as a part of a relatively simple pipelines (e.g. deep features classified by a linear SVM without fine-tuning). We have released our two best-performing models^11^1[http://www.robots.ox.ac.uk/\~vgg/research/very_deep/](http://www.robots.ox.ac.uk/~vgg/research/very_deep/) to facilitate further research.
+As a result, we come up with significantly more accurate ConvNet architectures, which not only achieve the state-of-the-art accuracy on ILSVRC classification and localisation tasks, but are also applicable to other image recognition datasets, where they achieve excellent performance even when used as a part of a relatively simple pipelines (e.g. deep features classified by a linear SVM without fine-tuning). We have released our two best-performing models^11^1 to facilitate further research.
 
 The rest of the paper is organised as follows. In Sect. 2, we describe our ConvNet configurations. The details of the image classification training and evaluation are then presented in Sect. 3, and the configurations are compared on the ILSVRC classification task in Sect. 4. Sect. 5 concludes the paper. For completeness, we also describe and assess our ILSVRC-2014 object localisation system in Appendix A, and discuss the generalisation of very deep features to other datasets in Appendix B. Finally, Appendix C contains the list of major paper revisions.
 
@@ -24,17 +24,13 @@ All hidden layers are equipped with the rectification (ReLU ) non-linearity. We 
 
 The ConvNet configurations, evaluated in this paper, are outlined in Table 1, one per column. In the following we will refer to the nets by their names (A--E). All configurations follow the generic design presented in Sect. 2.1, and differ only in the depth: from 11 weight layers in the network A (8 conv. and 3 FC layers) to 19 weight layers in the network E (16 conv. and 3 FC layers). The width of conv. layers (the number of channels) is rather small, starting from $64$ in the first layer and then increasing by a factor of $2$ after each max-pooling layer, until it reaches $512$.
 
-In Table 2 we report the number of parameters for each configuration. In spite of a large depth, the number of weights in our nets is not greater than the number of weights in a more shallow net with larger conv. layer widths and receptive fields (144M weights in ).
-
-input (224 × 224 RGB image)
-
-Table 1: ConvNet configurations (shown in columns). The depth of the configurations increases from the left (A) to the right (E), as more layers are added (the added layers are shown in bold). The convolutional layer parameters are denoted as “conv⟨receptive field size⟩-⟨number of channels⟩”. The ReLU activation function is not shown for brevity.
+In Table 2 we report the number of parameters for each configuration. In spite of a large depth, the number of weights in our nets is not greater than the number of weights in a more shallow net with larger conv. layer widths and receptive fields (144M weights in). input (224 × 224 RGB image) Table 1: ConvNet configurations (shown in columns). The depth of the configurations increases from the left (A) to the right (E), as more layers are added (the added layers are shown in bold). The convolutional layer parameters are denoted as “conv⟨receptive field size⟩-⟨number of channels⟩”. The ReLU activation function is not shown for brevity.
 
 Table 2: Number of parameters (in millions).
 
 ### Discussion
 
-Our ConvNet configurations are quite different from the ones used in the top-performing entries of the ILSVRC-2012 and ILSVRC-2013 competitions. Rather than using relatively large receptive fields in the first conv. layers (e.g. $11 \times 11$ with stride $4$ in, or $7 \times 7$ with stride $2$ in ), we use very small $3 \times 3$ receptive fields throughout the whole net, which are convolved with the input at every pixel (with stride $1$). It is easy to see that a stack of two $3 \times 3$ conv. layers (without spatial pooling in between) has an effective receptive field of $5 \times 5$; three such layers have a $7 \times 7$ effective receptive field. So what have we gained by using, for instance, a stack of three $3 \times 3$ conv. layers instead of a single $7 \times 7$ layer? First, we incorporate three non-linear rectification layers instead of a single one, which makes the decision function more discriminative. Second, we decrease the number of parameters: assuming that both the input and the output of a three-layer $3 \times 3$ convolution stack has $C$ channels, the stack is parametrised by ${3\left( {3^{2}C^{2}} \right)} = {27C^{2}}$ weights; at the same time, a single $7 \times 7$ conv. layer would require ${7^{2}C^{2}} = {49C^{2}}$ parameters, i.e. $81\%$ more. This can be seen as imposing a regularisation on the $7 \times 7$ conv. filters, forcing them to have a decomposition through the $3 \times 3$ filters (with non-linearity injected in between).
+Our ConvNet configurations are quite different from the ones used in the top-performing entries of the ILSVRC-2012 and ILSVRC-2013 competitions. Rather than using relatively large receptive fields in the first conv. layers (e.g. $11 \times 11$ with stride $4$ , or $7 \times 7$ with stride $2$ in ), we use very small $3 \times 3$ receptive fields throughout the whole net, which are convolved with the input at every pixel (with stride $1$). It is easy to see that a stack of two $3 \times 3$ conv. layers (without spatial pooling in between) has an effective receptive field of $5 \times 5$; three such layers have a $7 \times 7$ effective receptive field. So what have we gained by using, for instance, a stack of three $3 \times 3$ conv. layers instead of a single $7 \times 7$ layer? First, we incorporate three non-linear rectification layers instead of a single one, which makes the decision function more discriminative. Second, we decrease the number of parameters: assuming that both the input and the output of a three-layer $3 \times 3$ convolution stack has $C$ channels, the stack is parametrised by ${3\left( {3^{2}C^{2}} \right)} = {27C^{2}}$ weights; at the same time, a single $7 \times 7$ conv. layer would require ${7^{2}C^{2}} = {49C^{2}}$ parameters, i.e. $81\%$ more. This can be seen as imposing a regularisation on the $7 \times 7$ conv. filters, forcing them to have a decomposition through the $3 \times 3$ filters (with non-linearity injected in between).
 
 The incorporation of $1 \times 1$ conv. layers (configuration C, Table 1) is a way to increase the non-linearity of the decision function without affecting the receptive fields of the conv. layers. Even though in our case the $1 \times 1$ convolution is essentially a linear projection onto the space of the same dimensionality (the number of input and output channels is the same), an additional non-linearity is introduced by the rectification function. It should be noted that $1 \times 1$ conv. layers have recently been utilised in the "Network in Network" architecture of Lin et al..
 
@@ -90,12 +86,7 @@ Second, we observe that the classification error decreases with the increased Co
 
 Finally, scale jittering at training time ($S \in {\lbrack 256;512\rbrack}$) leads to significantly better results than training on images with fixed smallest side ($S = 256$ or $S = 384$), even though a single scale is used at test time. This confirms that training set augmentation by scale jittering is indeed helpful for capturing multi-scale image statistics.
 
-ConvNet config. (Table 1)
-smallest image side
-top-1 val. error (%)
-top-5 val. error (%)
-
-Table 3: ConvNet performance at a single test scale.
+ConvNet config. (Table 1) smallest image side top-1 val. error (%) top-5 val. error (%) Table 3: ConvNet performance at a single test scale.
 
 ### Multi-Scale Evaluation
 
@@ -103,26 +94,13 @@ Having evaluated the ConvNet models at a single scale, we now assess the effect 
 
 The results, presented in Table 4, indicate that scale jittering at test time leads to better performance (as compared to evaluating the same model at a single scale, shown in Table 3). As before, the deepest configurations (D and E) perform the best, and scale jittering is better than training with a fixed smallest side $S$. Our best single-network performance on the validation set is ${24.8\%}/{7.5\%}$ top-1/top-5 error (highlighted in bold in Table 4). On the test set, the configuration E achieves $7.3\%$ top-5 error.
 
-ConvNet config. (Table 1)
-smallest image side
-top-1 val. error (%)
-top-5 val. error (%)
-
-Table 4: ConvNet performance at multiple test scales.
+ConvNet config. (Table 1) smallest image side top-1 val. error (%) top-5 val. error (%) Table 4: ConvNet performance at multiple test scales.
 
 ### Multi-crop evaluation
 
 In Table 5 we compare dense ConvNet evaluation with mult-crop evaluation (see Sect. 3.2 for details). We also assess the complementarity of the two evaluation techniques by averaging their soft-max outputs. As can be seen, using multiple crops performs slightly better than dense evaluation, and the two approaches are indeed complementary, as their combination outperforms each of them. As noted above, we hypothesize that this is due to a different treatment of convolution boundary conditions.
 
-ConvNet config. (Table 1)
-top-1 val. error (%)
-top-5 val. error (%)
-
-multi-crop &amp; dense
-
-multi-crop &amp; dense
-
-Table 5: ConvNet evaluation techniques comparison. In all experiments the training scale S was sampled from, and three test scales Q were considered: {256,384,512}.
+ConvNet config. (Table 1) top-1 val. error (%) top-5 val. error (%) Table 5: ConvNet evaluation techniques comparison. In all experiments the training scale S was sampled, and three test scales Q were considered: {256, 384, 512}.
 
 ### ConvNet Fusion
 
@@ -130,11 +108,9 @@ Up until now, we evaluated the performance of individual ConvNet models. In this
 
 The results are shown in Table 6. By the time of ILSVRC submission we had only trained the single-scale networks, as well as a multi-scale model D (by fine-tuning only the fully-connected layers rather than all layers). The resulting ensemble of 7 networks has $7.3\%$ ILSVRC test error. After the submission, we considered an ensemble of only two best-performing multi-scale models (configurations D and E), which reduced the test error to $7.0\%$ using dense evaluation and $6.8\%$ using combined dense and multi-crop evaluation. For reference, our best-performing single model achieves $7.1\%$ error (model E, Table 5).
 
-Combined ConvNet models
+Combined ConvNet models \pbox11cm (D//256,384,512), (E//256,384,512), dense eval.
 
-\pbox11cm (D//256,384,512), (E//256,384,512), dense eval.
-
-\pbox11cm (D//256,384,512), (E//256,384,512), multi-crop &amp; dense eval.
+\pbox11cm (D//256,384,512), (E//256,384,512), multi-crop & dense eval.
 
 Table 6: Multiple ConvNet fusion results.
 
@@ -142,25 +118,13 @@ Table 6: Multiple ConvNet fusion results.
 
 Finally, we compare our results with the state of the art in Table 7. In the classification task of ILSVRC-2014 challenge, our "VGG" team secured the 2nd place with $7.3\%$ test error using an ensemble of 7 models. After the submission, we decreased the error rate to $6.8\%$ using an ensemble of 2 models.
 
-As can be seen from Table 7, our very deep ConvNets significantly outperform the previous generation of models, which achieved the best results in the ILSVRC-2012 and ILSVRC-2013 competitions. Our result is also competitive with respect to the classification task winner (GoogLeNet with $6.7\%$ error) and substantially outperforms the ILSVRC-2013 winning submission Clarifai, which achieved $11.2\%$ with outside training data and $11.7\%$ without it. This is remarkable, considering that our best result is achieved by combining just two models -- significantly less than used in most ILSVRC submissions. In terms of the single-net performance, our architecture achieves the best result ($7.0\%$ test error), outperforming a single GoogLeNet by $0.9\%$. Notably, we did not depart from the classical ConvNet architecture of LeCun et al., but improved it by substantially increasing the depth.
+As can be seen from Table 7, our very deep ConvNets significantly outperform the previous generation of models, which achieved the best results in the ILSVRC-2012 and ILSVRC-2013 competitions. Our result is also competitive with respect to the classification task winner (GoogLeNet with $6.7\%$ error) and substantially outperforms the ILSVRC-2013 winning submission Clarifai, which achieved $11.2\%$ with outside training data and $11.7\%$ without it. This is remarkable, considering that our best result is achieved by combining just two models -- significantly less than used in most ILSVRC submissions. In terms of the single-net performance, our architecture achieves the best result ($7.0\%$ test error), outperforming a single GoogLeNet by $0.9\%$. Notably, we did not depart from the classical ConvNet architecture of LeCun et al., but improved it by substantially increasing the depth. top-1 val. error (%) top-5 val. error (%) top-5 test error (%) VGG (2 nets, multi-crop & dense eval.)
 
-top-1 val. error (%)
-top-5 val. error (%)
-top-5 test error (%)
-
-VGG (2 nets, multi-crop &amp; dense eval.)
-
-VGG (1 net, multi-crop &amp; dense eval.)
+VGG (1 net, multi-crop & dense eval.)
 
 VGG (ILSVRC submission, 7 nets, dense eval.)
 
-Clarifai (multiple nets)
-
-Zeiler &amp; Fergus (6 nets)
-
-Zeiler &amp; Fergus (1 net)
-
-Table 7: Comparison with the state of the art in ILSVRC classification. Our method is denoted as “VGG”. Only the results obtained without outside training data are reported.
+Clarifai (multiple nets) Zeiler & Fergus (6 nets) Zeiler & Fergus (1 net) Table 7: Comparison with the state of the art in ILSVRC classification. Our method is denoted as “VGG”. Only the results obtained without outside training data are reported.
 
 ## Conclusion
 

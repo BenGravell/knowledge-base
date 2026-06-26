@@ -22,10 +22,9 @@ Finally, we beat patterns with two novel additions. We diverge from introsort by
 
 ## A faster solution for the Dutch national flag problem
 
-A naive quicksort implementation might trigger the $\Theta{(n^{2})}$ worst case on the all-equal input distribution by placing equal comparing elements in the same partition. A smarter implementation either always or never swaps equal elements, resulting in average case performance as equal elements will be distributed evenly across the partitions. However, an input with many equal comparing elements is rather common^11^1It is a common technique to define a custom comparison function that only uses a subset of the available data to sort on, e.g. sorting cars by their color. Then you have many elements that aren't fundamentally equal, but do compare equal in the context of a sorting operation., and we can do better. Handling equal elements efficiently requires tripartite partitioning, which is equivalent to Dijkstra's Dutch national flag problem.
+A naive quicksort implementation might trigger the $\Theta{(n^{2})}$ worst case on the all-equal input distribution by placing equal comparing elements in the same partition. A smarter implementation either always or never swaps equal elements, resulting in average case performance as equal elements will be distributed evenly across the partitions. However, an input with many equal comparing elements is rather common^11^1It is a common technique to define a custom comparison function that only uses a subset of the available data to sort , e.g. sorting cars by their color. Then you have many elements that aren't fundamentally equal, but do compare equal in the context of a sorting operation., and we can do better. Handling equal elements efficiently requires tripartite partitioning, which is equivalent to Dijkstra's Dutch national flag problem.
 
-Figure 1: The invariant used by Bentley-McIlroy. After partitioning the equal elements stored at the beginning and at the end are swapped to the middle.
-Figure 2: The invariant used by partition_right of pdqsort, shown at respectively the initial, halfway and finished state. When the loop is done the pivot gets swapped into its correct position. p is the single pivot element. r is the pointer returned by the partition routine indicating the pivot position. The dotted lines indicate how i and j change as the algorithm progresses. This is a simplified representation, e.g. i is actually off by one.
+Figure 1: The invariant used by Bentley-McIlroy. After partitioning the equal elements stored at the beginning and at the end are swapped to the middle. Figure 2: The invariant used by partition_right of pdqsort, shown at respectively the initial, halfway and finished state. When the loop is done the pivot gets swapped into its correct position. p is the single pivot element. r is the pointer returned by the partition routine indicating the pivot position. The dotted lines indicate how i and j change as the algorithm progresses. This is a simplified representation, e.g. i is actually off by one.
 
 Pattern-defeating quicksort uses the fast 'approaching pointers' method for partitioning. Two indices are initialized, $i$ at the start and $j$ at the end of the sequence. $i$ is incremented and $j$ is decremented while maintaining an invariant, and when both invariants are invalidated the elements at the pointers are swapped, restoring the invariant. The algorithm ends when the pointers cross. Implementers must take great care, as this algorithm is conceptually simple, but is very easy to get wrong.
 
@@ -35,24 +34,13 @@ Unlike previous algorithms, pdqsort's partitioning scheme is not self contained.
 
 For brevity we will be using a simplified, incomplete C++ implementation to illustrate pdqsort. It only supports int and compares using comparison operators. It is however trivial to extend this to arbitrary types and custom comparator functions. To pass subsequences^22^2Without exception, in this paper subsequences are assumed to be contiguous. around, the C++ convention is used of one pointer at the start, and one pointer at one-past-the-end. For the exact details refer to the full implementation.
 
-Both partition functions assume the pivot is the first element, and that it has been selected as a median of at least three elements in the subsequence. This saves a bound check in the first iteration.
+Both partition functions assume the pivot is the first element, and that it has been selected as a median of at least three elements in the subsequence. This saves a bound check in the first iteration. int* part_left(int* l, int* r) { int* part_right(int* l, int* r) { int* i = l; int* j = r; int* i = l; int* j = r; std::swap(*i, *j); std::swap(*i, *j); std::swap(*l, *j); std::swap(*l, *(i - 1)); Figure 3: An efficient implementation of partition_left and partition_right (named part_left and part_right here due to limited page width). Note the (almost) lack of bound checks, we assume that p was selected as the median of at least three elements, and in later iterations previous elements are used as sentinels to prevent going out of bounds. Also note that a pre-partitioned subsequence will perform no swaps and that it is possible to detect this with a single comparison of pointers, no_swaps. This is used for a heuristic later.
 
-int* part_left(int* l, int* r) { int* part_right(int* l, int* r) {
-int* i = l; int* j = r; int* i = l; int* j = r;
-while (i &lt; j &amp;&amp; *++i &lt;= p); while (i &lt; j &amp;&amp; *--j &gt;= p);
-std::swap(*i, *j); std::swap(*i, *j);
-std::swap(*l, *j); std::swap(*l, *(i - 1));
-Figure 3: An efficient implementation of partition_left and partition_right (named part_left and part_right here due to limited page width). Note the (almost) lack of bound checks, we assume that p was selected as the median of at least three elements, and in later iterations previous elements are used as sentinels to prevent going out of bounds. Also note that a pre-partitioned subsequence will perform no swaps and that it is possible to detect this with a single comparison of pointers, no_swaps. This is used for a heuristic later.
+Given a subsequence $\alpha$ let us partition it using partition_right using pivot $p$. We then inspect the right partition, calling its first element $q$ and the remaining subsequence of elements $\beta$: If $p \neq q$ we have $q > p$, and apply partition_right on $q,\beta$. Rename $q,\beta$ to be the left partition of this operation (marked as $q',\beta'$ in the diagram to emphasize renaming). The right partition is marked as '$>$', because in this process we have the perspective of pivot $p$, but it's definitely possible for elements equal to $q$ to be in the partition marked '$>$'.
 
-Given a subsequence $\alpha$ let us partition it using partition_right using pivot $p$. We then inspect the right partition, calling its first element $q$ and the remaining subsequence of elements $\beta$:
+We apply the above step recursively as long as $p \neq q$. If at some point $q,\beta$ becomes empty, we can conclude there were no elements equal to $p$ and the tripartite partitioning was done when we initially partitioned $\alpha$. Otherwise, consider $p = q$. We know that ${{\forall x} \in \beta}:{x \geq p}$, thus ${{\nexistsx} \in \beta}:{x < q}$. If we were to partition $q,\beta$ using partition_left, any element smaller than or equal to $q$ would be partitioned left. However, we just concluded that $\beta$ can not contain elements smaller than $q$. Thus, $\beta$'s left partition only contains elements equal to $q$ (and thus equal to $p$), and its right partition only contains elements bigger than $q$: This leads to the partitioning algorithm used by pdqsort. The predecessor of a subsequence is the element directly preceding it in the original sequence. A subsequence that is leftmost has no predecessor. If a subsequence has a predecessor $p$ that compares equal to the chosen pivot $q$, apply partition_left, otherwise apply partition_right. No recursion on the left partition of partition_left is needed, as it contains only equivalent elements.
 
-If $p \neq q$ we have $q > p$, and apply partition_right on $q,\beta$. Rename $q,\beta$ to be the left partition of this operation (marked as $q^{\prime},\beta^{\prime}$ in the diagram to emphasize renaming). The right partition is marked as '$>$', because in this process we have the perspective of pivot $p$, but it's definitely possible for elements equal to $q$ to be in the partition marked '$>$'.
-
-We apply the above step recursively as long as $p \neq q$. If at some point $q,\beta$ becomes empty, we can conclude there were no elements equal to $p$ and the tripartite partitioning was done when we initially partitioned $\alpha$. Otherwise, consider $p = q$. We know that ${{\forall x} \in \beta}:{x \geq p}$, thus ${{\nexistsx} \in \beta}:{x < q}$. If we were to partition $q,\beta$ using partition_left, any element smaller than or equal to $q$ would be partitioned left. However, we just concluded that $\beta$ can not contain elements smaller than $q$. Thus, $\beta$'s left partition only contains elements equal to $q$ (and thus equal to $p$), and its right partition only contains elements bigger than $q$:
-
-This leads to the partitioning algorithm used by pdqsort. The predecessor of a subsequence is the element directly preceding it in the original sequence. A subsequence that is leftmost has no predecessor. If a subsequence has a predecessor $p$ that compares equal to the chosen pivot $q$, apply partition_left, otherwise apply partition_right. No recursion on the left partition of partition_left is needed, as it contains only equivalent elements.
-
-### An $O\hspace{0pt}{({n\hspace{0pt}k})}$ worst case of pdqsort with $k$ distinct elements
+### An $O{({nk})}$ worst case of pdqsort with $k$ distinct elements
 
 ### Lemma 1
 
@@ -100,7 +88,7 @@ Lemma 4 proves that every distinct value can be selected as a pivot at most twic
 
 ## Other novel techniques
 
-### Preventing quicksort's $O\hspace{0pt}{(n^{2})}$ worst case
+### Preventing quicksort's $O{(n^{2})}$ worst case
 
 Pattern-defeating quicksort calls any partition operation which is more unbalanced than $p$ (where $p$ is the percentile of the pivot, e.g. $\frac{1}{2}$ for a perfect partition) a bad partition. Initially, it sets a counter to $\log n$. Every time it encounters a bad partition, it decrements the counter before recursing^55^5This counter is maintained separately in every subtree of the call graph - it is not a global to the sort process. Thus, if after the first partition the left partition degenerates in the worst case it does not imply the right partition also does.. If at the start of a recursive call the counter is 0 it uses heapsort to sort this subsequence, rather than quicksort.
 
@@ -118,9 +106,7 @@ At most $O{({n{\log n}})}$ time is spent in pdqsort on good partitions.
 
 ### Proof
 
-Consider a scenario where quicksort's partition operation always puts $pn$ elements in the left partition, and ${({1 - p})}n$ in the right. This consistently forms the worst possible good partition. Its runtime can be described with the following recurrence relation:
-
-For any $p \in {}$ the Akra-Bazzi theorem shows ${\Theta{({T{(n,p)}})}} = {\Theta{({n{\log n}})}}$.
+Consider a scenario where quicksort's partition operation always puts $pn$ elements in the left partition, and ${({1 - p})}n$ in the right. This consistently forms the worst possible good partition. Its runtime can be described with the following recurrence relation: For any $p \in {}$ the Akra-Bazzi theorem shows ${\Theta{({T{(n,p)}})}} = {\Theta{({n{\log n}})}}$.
 
 ### Theorem 4.1
 
@@ -132,13 +118,7 @@ Pattern-defeating quicksort spends $O{({n{\log n}})}$ time on good partitions, b
 
 We have proven that for any choice of $p \in {}$ the complexity of pattern-defeating quicksort is $O{({n{\log n}})}$. However, this does not tell use what a good choice for $p$ is.
 
-Yuval Filmus solves above recurrence, allowing us to study the slowdown of quicksort compared to the optimal case of $p = \frac{1}{2}$. He finds that the solution is
-
-where $H$ is Shannon's binary entropy function:
-
-Plotting this function gives us a look at quicksort's fundamental performance characteristics:
-
-Figure 4: Slowdown of T (n,p) compared to $T{(n,\frac{1}{2})}$. This beautifully shows why quicksort is generally so fast. Even if every partition is split 80/20, we’re still running only 40% slower than the ideal case.
+Yuval Filmus solves above recurrence, allowing us to study the slowdown of quicksort compared to the optimal case of $p = \frac{1}{2}$. He finds that the solution is where $H$ is Shannon's binary entropy function: Plotting this function gives us a look at quicksort's fundamental performance characteristics: Figure 4: Slowdown of T (n, p) compared to $T{(n,\frac{1}{2})}$. This beautifully shows why quicksort is generally so fast. Even if every partition is split 80/20, we’re still running only 40% slower than the ideal case.
 
 From benchmarks we've found that heapsort is roughly about twice as slow as quicksort for sorting randomly shuffled data. If we then choose $p$ such that ${H{(p)}^{- 1}} = 2$ a bad partition becomes roughly synonymous with 'worse than heapsort'.
 
@@ -156,7 +136,7 @@ The classical way to deal with this is by randomizing pivot selection (also know
 
 Pattern-defeating quicksort takes a different approach. After partitioning we check if the partition was bad. If it was, we swap our pivot candidates for others. In our implementation pdqsort chooses the median of the first, middle and last element in a subsequence as the pivot, and swaps the first and last candidate for ones found at the 25% and 75% percentile after encountering a bad partition. When our partition is big enough that we would be using Tukey's ninther for pivot selection we also swap the ninther candidates for ones at roughly the 25% and 75% percentile of the partition.
 
-With this scheme pattern-defeating quicksort is still fully deterministic, and with minimal overhead breaks up many of the patterns that regular quicksort struggles with. If the downsides of non-determinism do not scare you and you like the guarantees that randomized quicksort provides (e.g. protection against DoS attacks) you can also swap out the pivot candidates with random candidates. It's still a good idea to only do this after a bad partition to prevent breaking up beneficial patterns.
+With this scheme pattern-defeating quicksort is still fully deterministic, and with minimal overhead breaks up many of the patterns that regular quicksort struggles . If the downsides of non-determinism do not scare you and you like the guarantees that randomized quicksort provides (e.g. protection against DoS attacks) you can also swap out the pivot candidates with random candidates. It's still a good idea to only do this after a bad partition to prevent breaking up beneficial patterns.
 
 ## Previously known techniques
 
@@ -182,37 +162,7 @@ One of the most important optimizations for a modern quicksort is Edelkamp and W
 
 Branch predictions are eliminated by replacing them with data-dependent moves. First some static block size is determined^99^9In our implementation we settled on a static 64 elements, but the optimal number depends on your CPU and cache architecture as well as the data you're sorting.. Then, until there are fewer than 2\*bsize elements remaining, we repeat the following process.
 
-We look at the first bsize elements on the left hand side. If an element in this block is bigger or equal to the pivot, it belongs on the right hand side. If not, it should keep its current position. For each element that needs to be moved we store its offset in offsets_l. We do the same for offsets_r, but now for the last bsize elements, and finding elements that are strictly less than the pivot:
-
-[⬇](data:text/plain;base64,aW50IG51bV9sID0gMDsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludCBudW1fciA9IDA7CmZvciAoaW50IGkgPSAwOyBpIDwgYnNpemU7ICsraSkgeyAgICAgICAgICBmb3IgKGludCBpID0gMDsgaSA8IGJzaXplOyArK2kpIHsKICAgIGlmICgqKGwgKyBpKSA+PSBwaXZvdCkgeyAgICAgICAgICAgICAgICAgICBpZiAoKihyIC0gMSAtIGkpIDwgcGl2b3QpIHsKICAgICAgICBvZmZzZXRzX2xbbnVtX2xdID0gaTsgICAgICAgICAgICAgICAgICAgICAgb2Zmc2V0c19yW251bV9yXSA9IGkgKyAxOwogICAgICAgIG51bV9sKys7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBudW1fcisrOwogICAgfSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0KfSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0=){download=""}
-
-int num_l = 0; int num_r = 0;
-
-for (int i = 0; i \< bsize; ++i) { for (int i = 0; i \< bsize; ++i) {
-
-offsets_l\[num_l\] = i; offsets_r\[num_r\] = i + 1;
-
-But this still contains branches. So instead we do the following:
-
-[⬇](data:text/plain;base64,aW50IG51bV9sID0gMDsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludCBudW1fciA9IDA7CmZvciAoaW50IGkgPSAwOyBpIDwgYnNpemU7ICsraSkgeyAgICAgICAgICBmb3IgKGludCBpID0gMDsgaSA8IGJzaXplOyArK2kpIHsKICAgIG9mZnNldHNfbFtudW1fbF0gPSBpOyAgICAgICAgICAgICAgICAgICAgICBvZmZzZXRzX3JbbnVtX3JdID0gaSArIDE7CiAgICBudW1fbCArPSAqKGwgKyBpKSA+PSBwaXZvdDsgICAgICAgICAgICAgICAgbnVtX3IgKz0gKihyIC0gMSAtIGkpIDwgcGl2b3Q7Cn0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9){download=""}
-
-int num_l = 0; int num_r = 0;
-
-for (int i = 0; i \< bsize; ++i) { for (int i = 0; i \< bsize; ++i) {
-
-offsets_l\[num_l\] = i; offsets_r\[num_r\] = i + 1;
-
-num_l += \*(l + i) \>= pivot; num_r += \*(r - 1 - i) \< pivot;
-
-This contains no branches. Now we can unconditionally swap elements from the offset buffers:
-
-[⬇](data:text/plain;base64,Zm9yIChpbnQgaSA9IDA7IGkgPCBzdGQ6Om1pbihudW1fbCwgbnVtX3IpOyArK2kpIHsKICAgIHN0ZDo6aXRlcl9zd2FwKGwgKyBvZmZzZXRzX2xbaV0sIHIgLSBvZmZzZXRzX3JbaV0pOwp9){download=""}
-
-for (int i = 0; i \< std::min(num_l, num_r); ++i) {
-
-std::iter_swap(l + offsets_l\[i\], r - offsets_r\[i\]);
-
-Notice that we only swap std::min(num_l, num_r) elements, because we need to pair each element that belongs on the left with an element that belongs on the right. Any leftover elements are re-used in the next iteration^1010^10After each iteration at least one offsets buffer is empty. We fill any buffer that is empty., however it takes a bit of extra code to do so. It is also possible to re-use the last remaining buffer for the final elements to prevent any wasted comparisons, again at the cost of a bit of extra code. For the full implementation^1111^11We skip over many important details and optimizations here as they are more relevant to BlockQuicksort than to pattern-defeating quicksort. The full implementation has loop unrolling, swaps elements using only two moves per element rather than three and uses all comparison information gained while filling blocks. and more explanation we invite the reader to check the Github repository, and read Edelkamp and Weiß' original paper.
+We look at the first bsize elements on the left hand side. If an element in this block is bigger or equal to the pivot, it belongs on the right hand side. If not, it should keep its current position. For each element that needs to be moved we store its offset in offsets_l. We do the same for offsets_r, but now for the last bsize elements, and finding elements that are strictly less than the pivot: [⬇](data:text/plain;base64,aW50IG51bV9sID0gMDsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludCBudW1fciA9IDA7CmZvciAoaW50IGkgPSAwOyBpIDwgYnNpemU7ICsraSkgeyAgICAgICAgICBmb3IgKGludCBpID0gMDsgaSA8IGJzaXplOyArK2kpIHsKICAgIGlmICgqKGwgKyBpKSA+PSBwaXZvdCkgeyAgICAgICAgICAgICAgICAgICBpZiAoKihyIC0gMSAtIGkpIDwgcGl2b3QpIHsKICAgICAgICBvZmZzZXRzX2xbbnVtX2xdID0gaTsgICAgICAgICAgICAgICAgICAgICAgb2Zmc2V0c19yW251bV9yXSA9IGkgKyAxOwogICAgICAgIG51bV9sKys7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBudW1fcisrOwogICAgfSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0KfSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0=){download=""} int num_l = 0; int num_r = 0; for (int i = 0; i \< bsize; ++i) { for (int i = 0; i \< bsize; ++i) { offsets_l\[num_l\] = i; offsets_r\[num_r\] = i + 1; But this still contains branches. So instead we do the following: [⬇](data:text/plain;base64,aW50IG51bV9sID0gMDsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludCBudW1fciA9IDA7CmZvciAoaW50IGkgPSAwOyBpIDwgYnNpemU7ICsraSkgeyAgICAgICAgICBmb3IgKGludCBpID0gMDsgaSA8IGJzaXplOyArK2kpIHsKICAgIG9mZnNldHNfbFtudW1fbF0gPSBpOyAgICAgICAgICAgICAgICAgICAgICBvZmZzZXRzX3JbbnVtX3JdID0gaSArIDE7CiAgICBudW1fbCArPSAqKGwgKyBpKSA+PSBwaXZvdDsgICAgICAgICAgICAgICAgbnVtX3IgKz0gKihyIC0gMSAtIGkpIDwgcGl2b3Q7Cn0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9){download=""} int num_l = 0; int num_r = 0; for (int i = 0; i \< bsize; ++i) { for (int i = 0; i \< bsize; ++i) { offsets_l\[num_l\] = i; offsets_r\[num_r\] = i + 1; num_l += \*(l + i) \>= pivot; num_r += \*(r - 1 - i) \< pivot; This contains no branches. Now we can unconditionally swap elements from the offset buffers: [⬇](data:text/plain;base64,Zm9yIChpbnQgaSA9IDA7IGkgPCBzdGQ6Om1pbihudW1fbCwgbnVtX3IpOyArK2kpIHsKICAgIHN0ZDo6aXRlcl9zd2FwKGwgKyBvZmZzZXRzX2xbaV0sIHIgLSBvZmZzZXRzX3JbaV0pOwp9){download=""} for (int i = 0; i \< std::min(num_l, num_r); ++i) { std::iter_swap(l + offsets_l\[i\], r - offsets_r\[i\]); Notice that we only swap std::min(num_l, num_r) elements, because we need to pair each element that belongs on the left with an element that belongs on the right. Any leftover elements are re-used in the next iteration^1010^10After each iteration at least one offsets buffer is empty. We fill any buffer that is empty., however it takes a bit of extra code to do so. It is also possible to re-use the last remaining buffer for the final elements to prevent any wasted comparisons, again at the cost of a bit of extra code. For the full implementation^1111^11We skip over many important details and optimizations here as they are more relevant to BlockQuicksort than to pattern-defeating quicksort. The full implementation has loop unrolling, swaps elements using only two moves per element rather than three and uses all comparison information gained while filling blocks. and more explanation we invite the reader to check the Github repository, and read Edelkamp and Weiß' original paper.
 
 The concept is important here: replacing branches with data-dependent moves followed by unconditional swaps. This eliminates virtually all branches in the sorting code, as long as the comparison function used is branchless. This means in practice that the speedup is limited to integers, floats, small tuples of those or similar. However, it's still a comparison sort. You can give it arbitrarily complicated branchless comparison functions (e.g. a\*c \> b-c) and it will work.
 

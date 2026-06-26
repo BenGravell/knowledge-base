@@ -18,19 +18,15 @@ In this section, we define notations and review model-based RL. We then discuss 
 
 ### Markov Decision Process
 
-We consider a multi-task, finite-horizon, partially observable Markov Decision Process (POMDP), specified by $\mathcal{M} = {(S,A,O,G,R,T,\mathcal{E},H)}$, which consists of state, action, observation, and task spaces, reward, transition, and emission functions, and horizon length. A policy $\pi$ interacts with the environment for a task starting from an initial state ${{g,s_{0}} \sim G},{o_{0} \sim {\mathcal{E}{(s_{0})}}}$, producing a distribution $\pi{( \cdot |o_{t},g)}$ over $A$ from which an action $a_{t}$ is sampled and applied to the environment at each step $t \in {\lbrack 0,H\rbrack}$. The environment produces a scalar reward $r_{t} = {R{(s_{t},g)}}$, and transitions to a new state $s_{t + 1} \sim {T{(s_{t},a_{t})}}$ and emits a new observation $o_{t + 1} \sim {\mathcal{E}{(s_{t + 1})}}$.
+We consider a multi-task, finite-horizon, partially observable Markov Decision Process (POMDP), specified by $\mathcal{M}=(S,A,O,G,R,T,\mathcal{E},H)$, which consists of state, action, observation, and task spaces, reward, transition, and emission functions, and horizon length. A policy $\pi$ interacts with the environment for a task starting from an initial state $g,s_{0}\sim G,o_{0}\sim\mathcal{E}(s_{0})$, producing a distribution $\pi(\cdot|o_{t},g)$ over $A$ from which an action $a_{t}$ is sampled and applied to the environment at each step $t\in[0,H]$. The environment produces a scalar reward $r_{t}=R(s_{t},g)$, and transitions to a new state $s_{t+1}\sim T(s_{t},a_{t})$ and emits a new observation $o_{t+1}\sim\mathcal{E}(s_{t+1})$.
 
 The value of a policy $\pi$ can be defined as the total expected future reward:
 
 ### Model-Based RL with Foundation Models
 
-RL aims to maximize $\rho{(\pi)}$ through trial-and-error interactions between the policy and the environment. Model-based RL considers the setting where $T$ and $R$ are unknown and need to be estimated from samples from the environment, which can be an offline dataset logged from previous interactions $D = {\{{\tau_{i} = {g,s_{0},o_{0},a_{0},\ldots,s_{H},o_{H},r_{H}}}\}}$. Motivated by characteristics of a real-world system such as image based observations and high control frequencies, the learned model $\hat{T}{( \cdot |\mathbf{o},\mathbf{a})}$ can often take a sequence of previous image observations and a sequence of next actions. After $\hat{T}$ and $\hat{R}$ are estimated from data, a policy can perform rollout in the learned model
+RL aims to maximize $\rho(\pi)$ through trial-and-error interactions between the policy and the environment. Model-based RL considers the setting where $T$ and $R$ are unknown and need to be estimated from samples from the environment, which can be an offline dataset logged from previous interactions $D=\{\tau_{i}=g,s_{0},o_{0},a_{0},...,s_{H},o_{H},r_{H}\}$. Motivated by characteristics of a real-world system such as image based observations and high control frequencies, the learned model $\hat{T}(\cdot|\mathbf{o},\mathbf{a})$ can often take a sequence of previous image observations and a sequence of next actions. After $\hat{T}$ and $\hat{R}$ are estimated from data, a policy can perform rollout in the learned model Recent work has shown that $\hat{T}$ can be parametrized using an action-conditioned video generation model (world model) while $\hat{R}$ can be parametrized using a vision-language model (VLM).
 
-Recent work has shown that $\hat{T}$ can be parametrized using an action-conditioned video generation model (world model) while $\hat{R}$ can be parametrized using a vision-language model (VLM).
-
-Policy gradient methods estimates the gradient of Equation 2 with respect to the policy $\pi$, and maximizes $\rho{(\pi)}$ directly via gradient ascent. The most commonly used gradient estimator has the form
-
-where $\hat{A}$ is some advantage function that can be separately estimated via Monte-Carlo returns from $\pi,T,R$. With model-based policy gradient, these advantages can be estimated from Monte-Carlo samples from $\pi,\hat{T},\hat{R}$.
+Policy gradient methods estimates the gradient of Equation 2 with respect to the policy $\pi$, and maximizes $\rho(\pi)$ directly via gradient ascent. The most commonly used gradient estimator has the form where $\hat{A}$ is some advantage function that can be separately estimated via Monte-Carlo returns from $\pi,T,R$. With model-based policy gradient, these advantages can be estimated from Monte-Carlo samples from $\pi,\hat{T},\hat{R}$.
 
 ## RL with a World Model
 
@@ -40,13 +36,7 @@ In this section, we describe the RL algorithm World-Gymnast uses in Section 3.1.
 
 To optimize the policy $\pi_{\theta}$ from Equation, World-Gymnast uses the learned world model $\hat{T}$ from Quevedo et al.. We adopt Group Relative Policy Optimization (GRPO), a policy gradient algorithm that estimates $\hat{A}$ using group-based score normalization.
 
-For a given task instruction $g$ and an initial observation $o_{0}$, we generate a group of $K$ independent trajectories $\{\tau_{1},\ldots,\tau_{K}\}$ by rolling out the policy $\pi_{\theta}$ in the world model $\hat{T}$. Specifically, for the $k$-th trajectory, the policy samples an action $a_{t,k} \sim \pi_{\theta}{( \cdot |o_{t,k},g)}$, and the world model predicts the next observation $o_{{t + 1},k} \sim {\hat{T}{(o_{t,k},a_{t,k})}}$. This process repeats until the horizon $H$ is reached, yielding a trajectory $\tau_{k} = {(o_{0,k},a_{0,k},\ldots,o_{H,k})}$. Once the rollouts are complete, we employ a VLM $\hat{R}$ to assign a binary task completion reward to each trajectory $r_{k} = {\hat{R}{(\tau_{k},g)}}$. To compute the advantages, we treat the group of $K$ outputs as a baseline. We compute the mean and standard deviation of the rewards within the group:
-
-The advantage for the $k$-th trajectory is then calculated via normalization:
-
-where $\epsilon$ is a small constant for numerical stability. We assign the trajectory-level advantage to every time step $t$ within that trajectory. That is, ${\hat{A}}_{t,k} = {\hat{A}}_{k}$ for all $t \in {\lbrack 0,{H - 1}\rbrack}$. Finally, we optimize the policy $\pi_{\theta}$ using a PPO-style objective clipped based on the computed advantages. The loss function is defined as:
-
-where ${r_{t,k}{(\theta)}} = \frac{\pi_{\theta}{(\left. a_{t,k} \middle| {o_{t,k},g} \right.)}}{\pi_{\theta_{old}}{(\left. a_{t,k} \middle| {o_{t,k},g} \right.)}}$ denotes the probability ratio.
+For a given task instruction $g$ and an initial observation $o_{0}$, we generate a group of $K$ independent trajectories $\{\tau_{1},\dots,\tau_{K}\}$ by rolling out the policy $\pi_{\theta}$ in the world model $\hat{T}$. Specifically, for the $k$-th trajectory, the policy samples an action $a_{t,k}\sim\pi_{\theta}(\cdot|o_{t,k},g)$, and the world model predicts the next observation $o_{t+1,k}\sim\hat{T}(o_{t,k},a_{t,k})$. This process repeats until the horizon $H$ is reached, yielding a trajectory $\tau_{k}=(o_{0,k},a_{0,k},\dots,o_{H,k})$. Once the rollouts are complete, we employ a VLM $\hat{R}$ to assign a binary task completion reward to each trajectory $r_{k}=\hat{R}(\tau_{k},g)$. To compute the advantages, we treat the group of $K$ outputs as a baseline. We compute the mean and standard deviation of the rewards within the group: The advantage for the $k$-th trajectory is then calculated via normalization: where $\epsilon$ is a small constant for numerical stability. We assign the trajectory-level advantage to every time step $t$ within that trajectory. That is, $\hat{A}_{t,k}=\hat{A}_{k}$ for all $t\in[0,H-1]$. Finally, we optimize the policy $\pi_{\theta}$ using a PPO-style objective clipped based on the computed advantages. The loss function is defined as: where $r_{t,k}(\theta)=\frac{\pi_{\theta}(a_{t,k}|o_{t,k},g)}{\pi_{\theta_{old}}(a_{t,k}|o_{t,k},g)}$ denotes the probability ratio.
 
 Following the successful training setup of VLA training using RL in Li et al., we employ some of their techniques: 1) discarding the KL penalty term, 2) dynamic sampling to filter out groups with no variance in reward, 3) clipping higher in GRPO, and 4) using a higher temperature to sample actions during rollouts. These tricks helped stabilize training and improved exploration during training.
 
@@ -94,17 +84,9 @@ Successful RL finetuning requires a reasonably competent initial policy. To this
 
 ### Training Details
 
-For RL training, we use 4 NVIDIA H200 GPUs (140GB each) for full-parameter finetuning over 1--2 days. We use the following training parameters: learning rate $5 \cdot 10^{- 6}$, group size $8$, size of training batch $20$, length of action chunk $5$, clip ratio ($\epsilon_{high} = 0.28$, $\epsilon_{low} = 0.2$), temperature $1.6$. More detailed hyperparameter setup is available in Appendix A.4.
+For RL training, we use 4 NVIDIA H200 GPUs (140GB each) for full-parameter finetuning over 1--2 days. We use the following training parameters: learning rate $5\cdot 10^{-6}$, group size $8$, size of training batch $20$, length of action chunk $5$, clip ratio ($\epsilon_{high}=0.28$, $\epsilon_{low}=0.2$), temperature $1.6$. More detailed hyperparameter setup is available in Appendix A.4.
 
-Open the drawer
-
-Close the drawer
-
-Put the eggplant into the blue sink
-
-Put the eggplant into the yellow basket
-
-Table 1: Real-robot success rate from AutoEval of World-Gymnast compared to running RL in a software simulator SIMPLER. RL with a world model significantly outperforms RL in a simulator in terms of real-robot success for 3 out of the 4 tasks.
+Open the drawer Close the drawer Put the eggplant into the blue sink Put the eggplant into the yellow basket Table 1: Real-robot success rate from AutoEval of World-Gymnast compared to running RL in a software simulator SIMPLER. RL with a world model significantly outperforms RL in a simulator in terms of real-robot success for 3 out of the 4 tasks.
 
 ### Evaluating RL with World-Gymnast
 
@@ -116,15 +98,7 @@ World-Gymnast outperformed training with SIMPLER on all tasks except close the d
 
 Figure 2: Qualitative evaluation of policy rollouts in WorldGym with distractors. We compare rollout quality among SFT, World-Gymnast and World-Gymnast-Distract under visual distractions. The task on the left is put blue cup on plate and the SFT policy clearly picks up the wrong cup, while both World-Gymnast variants are able to correctly execute the task. On the right task (put carrot on plate), we can see SFT struggle again and seems to grab the dinosaur along with the carrot. Both World-Gymnast variants are again successful but World-Gymnast-Distract has better grasping and placing movements. It is worth noting that even with the visual artifacts introduced by the imperfect world model, the policies transfer effectively to the real robot setting.
 
-Open the drawer
-
-Close the drawer
-
-Put the eggplant into the blue sink
-
-Put the eggplant into the yellow basket
-
-Table 2: Real-robot task success rate of World-Gymnast and supervised learning approaches. Standard errors are calculated between groups of 10 consecutive roll-outs.
+Open the drawer Close the drawer Put the eggplant into the blue sink Put the eggplant into the yellow basket Table 2: Real-robot task success rate of World-Gymnast and supervised learning approaches. Standard errors are calculated between groups of 10 consecutive roll-outs.
 
 ### Comparing World-Gymnast to Supervised Learning
 
@@ -150,7 +124,7 @@ One advantage of World-Gymnast is its ability to train on a diverse set of tasks
 
 ### Evaluating Test-Time Optimization
 
-Pretrained policies often struggle at generalizing well to novel real world scenarios. While online data collection followed by finetuning can address this gap, it is prohibitively expensive in terms of time and effort. With a pretrained world model, we show that World-Gymnast improves the performance of a base policy through test-time training without real world roll-outs. Specifically, provided only with the initial observation and the task instructions of the 4 scenarios from AutoEval, we fine-tune our base policy with RL (details in Appendix A.4) using imagined roll-outs generated by the world model in a zero-shot manner from the testing frame. Test time training significantly improves the performance and robustness of close the drawer in the real world, improving the success rate from $62 \pm {6\%}$ success rate to $100 \pm {0\%}$ for the *Close the drawer* task. However, we noted that test-time training overfits the model to this single task, and performance in other tasks generally degrade. Test-time training across diverse tasks is an interesting venue of future work.
+Pretrained policies often struggle at generalizing well to novel real world scenarios. While online data collection followed by finetuning can address this gap, it is prohibitively expensive in terms of time and effort. With a pretrained world model, we show that World-Gymnast improves the performance of a base policy through test-time training without real world roll-outs. Specifically, provided only with the initial observation and the task instructions of the 4 scenarios from AutoEval, we fine-tune our base policy with RL (details in Appendix A.4) using imagined roll-outs generated by the world model in a zero-shot manner from the testing frame. Test time training significantly improves the performance and robustness of close the drawer in the real world, improving the success rate from $62\pm 6\%$ success rate to $100\pm 0\%$ for the *Close the drawer* task. However, we noted that test-time training overfits the model to this single task, and performance in other tasks generally degrade. Test-time training across diverse tasks is an interesting venue of future work.
 
 ### Evaluating Iterative World and Policy Improvement
 

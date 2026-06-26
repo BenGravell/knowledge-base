@@ -22,66 +22,11 @@ Beyond the taxonomy, we examine how agent-initiated code interaction appears acr
 
 ### Contents
 
-2. 2 Harness Interface: Code for Reasoning, Acting, and Environment Modeling
-1. 2.1 Code for Reasoning
-2. 2.1.2 Formal Verification and Symbolic Reasoning Interfaces
-3. 2.1.3 Iterative Code-Grounded Reasoning
-2. 2.2 Code for Acting
-1. 2.2.1 Grounded Skill Selection
-2. 2.2.2 Programmatic Policy Generation
-3. 2.2.3 Lifelong Code-Based Agents
-3. 2.3 Code for Environment
-1. 2.3.1 Structured World Representations
-2. 2.3.2 Execution-Trace World Modeling
-3. 2.3.3 Code-Grounded Evaluation Environments
-4. 2.3.4 Verifiable Environment Construction
-3. 3 Harness Mechanisms: Planning, Memory, Tool Use, Control, and Optimization
-1. 3.1 Planning for Agent Harness
-1. 3.1.1 Linear Decomposition Planning
-2. 3.2 Memory and Context Engineering for Agent Harness
-6. 3.2.6 Context Compaction and State Offloading
-3. 3.3 Tool Use for Agent Harness
-1. 3.3.1 Function-Oriented Tool Use
-2. 3.3.2 Environment-Interaction Tool Use
-3. 3.3.3 Verification-Driven Tool Use
-4. 3.3.4 Workflow-Orchestration Tool Use
-4. 3.4 Harness Control through the Plan, Execute, and Verify Loop
-1. 3.4.1 From Debugging to Harness-Level Control
-2. 3.4.2 Planning as Contract Formation
-3. 3.4.3 Sandboxed Execution and Permissioned State Transition
-4. 3.4.4 Verification through Deterministic Sensors
-5. 3.5 Agentic Harness Engineering for Adaptive Harness Optimization
-1. 3.5.1 Deep Telemetry as the Optimization Substrate
-2. 3.5.2 The Evolution Agent
-3. 3.5.3 Governed Harness Mutation
-4. 4 Scaling the Harness: Multi-Agent Orchestration over Code
-1. 4.1 Improved Coding Support through Multi-agent Collaboration
-1. 4.1.1 Functional Role Specialization and Human-Guided Planning
-2. 4.1.2 Diverse Interaction Modes Grounded in Shared Program State
-3. 4.1.3 Optimized Workflow Topology for Agentic Coordination
-2. 4.2 Execution Feedback and Shared-Harness Synchronization
-1. 4.2.1 Execution Feedback Integration
-3. 4.3 Position: The Shared Code-Centric Harness Substrate
-1. 4.3.1 Shared Harness Representation
-4. 4.4 Patterns and Trends
-5. 5 Emerging Fields and Open Problems
-1. 5.1 Emerging Fields and Tangible Applications
-2. 5.1.2 GUI/OS Agents as a Program World
-3. 5.1.3 Autonomous Embodied Agents
-4. 5.1.4 Agents for Scientific Discovery as Program Worlds
-1. 5.2.1 Harness-Level Evaluation and Oracle Adequacy
-2. 5.2.2 Semantic Verification Beyond Executable Feedback
-3. 5.2.3 Self-Evolving Harnesses without Regression
-4. 5.2.4 Transactional Shared Program State and Semantic Conflict Resolution
-5. 5.2.5 Human-in-the-Loop Safety and Accountability as Harness State
-6. 5.2.6 Multimodal Code-Harness Systems
-7. 5.2.7 Toward a Science of Harness Engineering
+2. 2 Harness Interface: Code for Reasoning, Acting, and Environment Modeling 1. 2.1 Code for Reasoning 2. 2.1.2 Formal Verification and Symbolic Reasoning Interfaces 3. 2.1.3 Iterative Code-Grounded Reasoning 2. 2.2 Code for Acting 1. 2.2.1 Grounded Skill Selection 2. 2.2.2 Programmatic Policy Generation 3. 2.2.3 Lifelong Code-Based Agents 3. 2.3 Code for Environment 1. 2.3.1 Structured World Representations 2. 2.3.2 Execution-Trace World Modeling 3. 2.3.3 Code-Grounded Evaluation Environments 4. 2.3.4 Verifiable Environment Construction 3. 3 Harness Mechanisms: Planning, Memory, Tool Use, Control, and Optimization 1. 3.1 Planning for Agent Harness 1. 3.1.1 Linear Decomposition Planning 2. 3.2 Memory and Context Engineering for Agent Harness 6. 3.2.6 Context Compaction and State Offloading 3. 3.3 Tool Use for Agent Harness 1. 3.3.1 Function-Oriented Tool Use 2. 3.3.2 Environment-Interaction Tool Use 3. 3.3.3 Verification-Driven Tool Use 4. 3.3.4 Workflow-Orchestration Tool Use 4. 3.4 Harness Control through the Plan, Execute, and Verify Loop 1. 3.4.1 From Debugging to Harness-Level Control 2. 3.4.2 Planning as Contract Formation 3. 3.4.3 Sandboxed Execution and Permissioned State Transition 4. 3.4.4 Verification through Deterministic Sensors 5. 3.5 Agentic Harness Engineering for Adaptive Harness Optimization 1. 3.5.1 Deep Telemetry as the Optimization Substrate 2. 3.5.2 The Evolution Agent 3. 3.5.3 Governed Harness Mutation 4. 4 Scaling the Harness: Multi-Agent Orchestration over Code 1. 4.1 Improved Coding Support through Multi-agent Collaboration 1. 4.1.1 Functional Role Specialization and Human-Guided Planning 2. 4.1.2 Diverse Interaction Modes Grounded in Shared Program State 3. 4.1.3 Optimized Workflow Topology for Agentic Coordination 2. 4.2 Execution Feedback and Shared-Harness Synchronization 1. 4.2.1 Execution Feedback Integration 3. 4.3 Position: The Shared Code-Centric Harness Substrate 1. 4.3.1 Shared Harness Representation 4. 4.4 Patterns and Trends 5. 5 Emerging Fields and Open Problems 1. 5.1 Emerging Fields and Tangible Applications 2. 5.1.2 GUI/OS Agents as a Program World 3. 5.1.3 Autonomous Embodied Agents 4. 5.1.4 Agents for Scientific Discovery as Program Worlds 1. 5.2.1 Harness-Level Evaluation and Oracle Adequacy 2. 5.2.2 Semantic Verification Beyond Executable Feedback 3. 5.2.3 Self-Evolving Harnesses without Regression 4. 5.2.4 Transactional Shared Program State and Semantic Conflict Resolution 5. 5.2.5 Human-in-the-Loop Safety and Accountability as Harness State 6. 5.2.6 Multimodal Code-Harness Systems 7. 5.2.7 Toward a Science of Harness Engineering
 
 ## Harness Interface: Code for Reasoning, Acting, and Environment Modeling
 
-A harness turns a stateless language model into a functional agent by grounding its outputs in external execution, persistent state, and verifiable feedback. The most fundamental design question for any harness is therefore: *what medium connects the model to its task environment?*
-
-We argue that code is the answer. Unlike natural language, code is *executable*, meaning model outputs become operations with formally verifiable outcomes; *inspectable*, meaning intermediate computation is exposed as structured traces that the harness can read, store, and act upon; and *stateful*, meaning the evolving program represents task progress in a persistent, modifiable form across steps. Crucially, these are not merely properties of code as a notation; they are properties that make code functional as a harness interface. Executability means the harness can verify what the model intended. Inspectability means failures can be diagnosed and fed back. Statefulness means the agent's interaction history is not lost between steps.
+A harness turns a stateless language model into a functional agent by grounding its outputs in external execution, persistent state, and verifiable feedback. The most fundamental design question for any harness is therefore: *what medium connects the model to its task environment?* We argue that code is the answer. Unlike natural language, code is *executable*, meaning model outputs become operations with formally verifiable outcomes; *inspectable*, meaning intermediate computation is exposed as structured traces that the harness can read, store, and act upon; and *stateful*, meaning the evolving program represents task progress in a persistent, modifiable form across steps. Crucially, these are not merely properties of code as a notation; they are properties that make code functional as a harness interface. Executability means the harness can verify what the model intended. Inspectability means failures can be diagnosed and fed back. Statefulness means the agent's interaction history is not lost between steps.
 
 ### Scope boundary
 
@@ -117,73 +62,13 @@ A complementary line of work uses machine-verifiable formal languages as the rea
 
 Iterative code-grounded reasoning focuses on closed-loop interaction between generation, execution, and feedback. In these systems, reasoning is not a single-pass process, but an iterative computational trajectory grounded in executable state transitions. Early work such as NExT \[ni2024next\] trains models to anticipate execution behavior by reasoning over program traces, thereby grounding intermediate reasoning in runtime semantics. Related efforts \[armengol2025cannot\] similarly emphasize that executable traces provide a richer supervision signal than final textual outputs alone. Building on this foundation, subsequent approaches introduce explicit generate--execute--verify--refine loops. Methods such as CodePRM \[li2025codeprm\] and ORPS \[yu2024reasoning\] use execution outcomes to evaluate and refine intermediate reasoning trajectories, enabling the harness to guide reasoning through runtime feedback rather than pure next-token prediction. Along the same direction, systems such as CYCLE \[ding2024cycle\] and Self-Edit \[zhang2023self\] iteratively revise generated solutions using execution-aware correction signals. Reinforcement learning further strengthens this paradigm by treating execution feedback as an optimization signal over reasoning trajectories. Methods such as CodeRL \[le2022coderl\], CodeRL+ \[jiang2025coderl+\], and RLTF \[liu2023rltf\] optimize functional correctness through unit-test-based rewards, while approaches such as StepCoder \[dou2024stepcoder\] incorporate fine-grained compiler and runtime feedback during optimization. RLEF \[gehring2024rlef\] formalizes this interaction as policy optimization grounded in multi-step execution feedback, allowing reasoning policies to adapt through iterative runtime interaction. More recent approaches move toward fully interactive reasoning environments. For example, EG-CFG \[lavon2025execution\] injects execution signals directly during generation to support step-level correction, while systems such as R1-Code-Interpreter \[chen2025r1\] interleave reasoning and multiple rounds of code execution within persistent interactive sessions.
 
-PoT [chen2022program]
-Merges code with natural language CoT
+PoT [chen2022program] Merges code with natural language CoT PAL [gao2023pal] Decouples logic from computation CodeAdapt [zhang2025code] Code-enabled LLMs outperforming reasoning models Converts code into verifiable input-output reasoning tasks SAT/SMT solving Uses symbolic solvers as machine-checkable reasoning backends ReProver [yang2023leandojo] Lean proof search Combines LLM generation with proof-assistant feedback Dpsk-Prover [xin2025deepseek] Lean theorem proving Trains LLMs for formal mathematical proof generation Dpsk-Prover-V2 [ren2025deepseek2] Lean proof search through decomposition and self-correction Lean code proof Searches hierarchical Lean proofs for code verification Lean4Agent [wang2026lean4agent] Models and verifies agent workflows and trajectories in Lean4 Chain of Code [li2023chain] Simulates non-executable semantic code Uses SAT/SMT solvers as reasoning backend CodeSteer [chen2025codesteer] Explicitly transitions between symbolic code and neural text VisualCoder [chi-etal-2025-visualcoder] Aligns code reasoning with visual control-flow artifacts.
 
-PAL [gao2023pal]
-Decouples logic from computation
+Anticipates execution behavior via program traces MathCoder [wang2023mathcoder] Interleaves code, output, and reflection Learns reward functions over reasoning-execution trajectories RLEF [gehring2024rlef] Optimizes policy directly using execution feedback EG-CFG [lavon2025execution] Integrates execution signals directly during generation Autonomously interleaves reasoning and multiple executions ExecVerify [tang2026execverifywhiteboxrlverifiable] Uses statement- and variable-level execution rewards.
 
-CodeAdapt [zhang2025code]
-Code-enabled LLMs outperforming reasoning models
+FunPRM [zhang2026funprmfunctionasstepprocessreward] Treats functions as verifiable process-reward units.
 
-Converts code into verifiable input-output reasoning tasks
-
-SAT/SMT solving
-Uses symbolic solvers as machine-checkable reasoning backends
-
-ReProver [yang2023leandojo]
-Lean proof search
-Combines LLM generation with proof-assistant feedback
-
-Dpsk-Prover [xin2025deepseek]
-Lean theorem proving
-Trains LLMs for formal mathematical proof generation
-
-Dpsk-Prover-V2 [ren2025deepseek2]
-Lean proof search through decomposition and self-correction
-
-Lean code proof
-Searches hierarchical Lean proofs for code verification
-
-Lean4Agent [wang2026lean4agent]
-Models and verifies agent workflows and trajectories in Lean4
-
-Chain of Code [li2023chain]
-Simulates non-executable semantic code
-
-Uses SAT/SMT solvers as reasoning backend
-
-CodeSteer [chen2025codesteer]
-Explicitly transitions between symbolic code and neural text
-
-VisualCoder [chi-etal-2025-visualcoder]
-Aligns code reasoning with visual control-flow artifacts.
-
-Anticipates execution behavior via program traces
-
-MathCoder [wang2023mathcoder]
-Interleaves code, output, and reflection
-
-Learns reward functions over reasoning-execution trajectories
-
-RLEF [gehring2024rlef]
-Optimizes policy directly using execution feedback
-
-EG-CFG [lavon2025execution]
-Integrates execution signals directly during generation
-
-Autonomously interleaves reasoning and multiple executions
-
-ExecVerify [tang2026execverifywhiteboxrlverifiable]
-Uses statement- and variable-level execution rewards.
-
-FunPRM [zhang2026funprmfunctionasstepprocessreward]
-Treats functions as verifiable process-reward units.
-
-ReCode [fan2026recodereinforcingcodegeneration]
-Reinforces code generation with reasoning-process rewards
-
-Table 1: Representative systems where code serves as a reasoning substrate.
+ReCode [fan2026recodereinforcingcodegeneration] Reinforces code generation with reasoning-process rewards Table 1: Representative systems where code serves as a reasoning substrate.
 
 ### Code for Acting
 
@@ -193,66 +78,7 @@ Importantly, executable action code is an interface to these components, not a r
 
 Code-for-acting therefore introduces structured executable programs as the control interface between the model and the environment, allowing the harness to execute, monitor, validate, reuse, and refine actions through interaction feedback. This interface can be realized in different forms: a predefined skill library, a generated control policy, a persistent skill memory, a GUI/API tool protocol, or an explicit action-validation harness. AutoHarness \[lou2026autoharnessimprovingllmagents\] makes the last form explicit by automatically synthesizing a code harness that mediates between the LLM and the environment, filtering invalid actions before execution. This highlights the core harness view of code-for-acting: code is not only the action to be executed, but also the executable boundary that connects model intent to perception, grounding, affordance estimates, controllers, APIs, actuators, and safety constraints.
 
-AutoHarness [lou2026autoharnessimprovingllmagents]
-Synthesizes code harnesses that mediate model actions and filter invalid environment interactions
-
-SayCan [ahn2022can]
-Links LLM plans to physical feasibility
-
-KnowNo [ren2023robots]
-Calibrates planner uncertainty for ambiguous instructions
-
-SkillVLA [zhai2026skillvla]
-Extends grounding to combinatorial skill reuse
-
-BOSS [zhang2023bootstrap]
-Synthesizes new executable skill chains via guided practice
-
-LLM-Guided Traj. [ha2023scaling]
-Generates diverse manipulation trajectories and executable success conditions
-
-LRLL [tziafas2024lifelong]
-Evolving skill interface via memory and self-exploration
-
-CaP [liang2023code]
-Generates reactive robot control policies
-
-Synthesizes tree-structured code across navigation
-
-Code-BT [zhang2025codebt]
-Imposes rule constraints via code-to-behavior-tree planning
-
-ALRM [santos2026alrm]
-Integrates programmatic generation with ReAct execution
-
-Uses persistent execution loops for formal constraint-model repair
-
-Robot-Code Sim. [wang2025llm]
-Uses LLMs as static simulators for robot code evaluation
-
-Coordinates policy generation and deployment across robotic agents
-
-NormCode [guan2025normcode]
-Enforces auditability and data isolation through semi-formal code
-
-RACAS [ashley2026racas]
-Robot-agnostic architecture for closed-loop cooperative agents
-
-Voyager [wang2023voyager]
-Autonomous curriculum for open-ended tasks
-
-LYRA [meng2025growing]
-Encodes human corrections into reusable structured skills
-
-ViReSkill [kagaya2025vireskill]
-Replanning on failure using a skill-memory cache
-
-Rejection fine-tuning and self-distillation for mobile GUI agents
-
-SkillsCrafter [wang2026lifelong]
-Mitigates forgetting as executable manipulation skills accumulate
-
-Table 2: Representative systems where code serves as an action interface.
+AutoHarness [lou2026autoharnessimprovingllmagents] Synthesizes code harnesses that mediate model actions and filter invalid environment interactions SayCan [ahn2022can] Links LLM plans to physical feasibility KnowNo [ren2023robots] Calibrates planner uncertainty for ambiguous instructions SkillVLA [zhai2026skillvla] Extends grounding to combinatorial skill reuse BOSS [zhang2023bootstrap] Synthesizes new executable skill chains via guided practice LLM-Guided Traj. [ha2023scaling] Generates diverse manipulation trajectories and executable success conditions LRLL [tziafas2024lifelong] Evolving skill interface via memory and self-exploration CaP [liang2023code] Generates reactive robot control policies Synthesizes tree-structured code across navigation Code-BT [zhang2025codebt] Imposes rule constraints via code-to-behavior-tree planning ALRM [santos2026alrm] Integrates programmatic generation with ReAct execution Uses persistent execution loops for formal constraint-model repair Robot-Code Sim. [wang2025llm] Uses LLMs as static simulators for robot code evaluation Coordinates policy generation and deployment across robotic agents NormCode [guan2025normcode] Enforces auditability and data isolation through semi-formal code RACAS [ashley2026racas] Robot-agnostic architecture for closed-loop cooperative agents Voyager [wang2023voyager] Autonomous curriculum for open-ended tasks LYRA [meng2025growing] Encodes human corrections into reusable structured skills ViReSkill [kagaya2025vireskill] Replanning on failure using a skill-memory cache Rejection fine-tuning and self-distillation for mobile GUI agents SkillsCrafter [wang2026lifelong] Mitigates forgetting as executable manipulation skills accumulate Table 2: Representative systems where code serves as an action interface.
 
 ### Grounded Skill Selection
 
@@ -272,71 +98,7 @@ The agent must also maintain an explicit representation of the environment with 
 
 Code-for-environment addresses this limitation by introducing executable programs as the environment interface itself. Instead of treating the environment as an opaque external process, these systems materialize environment structure and dynamics through computational artifacts such as simulators, repositories, tests, execution traces, logs, and state-transition programs. This allows the agent to explicitly store, inspect, execute, and modify environment state throughout interaction. Representing environments through executable code provides two major advantages. First, executable environments expose verifiable state transitions, allowing the agent to evaluate interaction outcomes through execution rather than ambiguous natural-language judgment. Second, code-based environments are persistent and modifiable that agents can query, simulate, edit, and refine during interaction. Rather than interacting with an opaque world solely through language, agent harness can ground reasoning and action in explicit computational state and runtime dynamics. Existing work in this direction can be organized into four paradigms: structured world representations, execution-trace world modeling, code-grounded evaluation environments, and verifiable environment construction.
 
-ViStruct [chen2023vistruct]
-Class/object hierarchy
-Encodes visual scenes as data structures
-
-FactoredScenes [hsu2025programs]
-Composes object/relation functions for 3D layout generation
-
-PoE-World [piriyakulkij2025poe]
-Scales symbolic world models beyond simple grid-worlds
-
-Code2World [zheng2026code2world]
-Re-frames GUI state prediction as renderable HTML generation
-
-SemCoder [ding2024semcoder]
-Pairs code with detailed execution traces
-
-WorldCoder [tang2024worldcoder]
-Synthesizes transition and reward models
-
-CWM [copet2025cwm]
-Trains large LLMs natively on program execution traces
-
-Aligns simulated next states with realized environment states
-
-AWM [wang2026agent]
-Aligns multiple executable world models across tasks
-
-WorldMind [ren2026aligning]
-Coordinates executable world models from knowledge sources
-
-SWE-bench [jimenez2023swe]
-Uses unit tests as objective world states
-
-AgentBench [liu2023agentbench]
-Benchmarks across OS, databases, and games
-
-Benchmarks functional input and output prediction
-
-End Terms. [gandhi2026endless]
-Automates generation of terminal-use evaluation tasks
-
-InterCode [yang2023intercode]
-Frames coding tasks as actions with sandbox feedback
-
-LiveCodeBench [jain2024livecodebench]
-Live coding eval
-Continuously updates execution-based evaluation pipelines
-
-Extends input-output execution evaluation across languages
-
-CoRe [xie2025core]
-Evaluates code reasoning through execution-centered tasks
-
-CodeGlance [wang2026codeglance]
-Multimodal code eval
-Evaluates code understanding under visual and structural settings
-
-SWE-smith [yang2025swesmithscalingdatasoftware]
-Synthetic SWE envs
-Generates repository-level tasks and execution environments
-
-EnvScaler [song2026envscalerscalingtoolinteractiveenvironments]
-Synthesizes tool-use environments with programmatic validators
-
-Table 3: Representative systems where code serves as an environment representation.
+ViStruct [chen2023vistruct] Class/object hierarchy Encodes visual scenes as data structures FactoredScenes [hsu2025programs] Composes object/relation functions for 3D layout generation PoE-World [piriyakulkij2025poe] Scales symbolic world models beyond simple grid-worlds Code2World [zheng2026code2world] Re-frames GUI state prediction as renderable HTML generation SemCoder [ding2024semcoder] Pairs code with detailed execution traces WorldCoder [tang2024worldcoder] Synthesizes transition and reward models CWM [copet2025cwm] Trains large LLMs natively on program execution traces Aligns simulated next states with realized environment states AWM [wang2026agent] Aligns multiple executable world models across tasks WorldMind [ren2026aligning] Coordinates executable world models from knowledge sources SWE-bench [jimenez2023swe] Uses unit tests as objective world states AgentBench [liu2023agentbench] Benchmarks across OS, databases, and games Benchmarks functional input and output prediction End Terms. [gandhi2026endless] Automates generation of terminal-use evaluation tasks InterCode [yang2023intercode] Frames coding tasks as actions with sandbox feedback LiveCodeBench [jain2024livecodebench] Live coding eval Continuously updates execution-based evaluation pipelines Extends input-output execution evaluation across languages CoRe [xie2025core] Evaluates code reasoning through execution-centered tasks CodeGlance [wang2026codeglance] Multimodal code eval Evaluates code understanding under visual and structural settings SWE-smith [yang2025swesmithscalingdatasoftware] Synthetic SWE envs Generates repository-level tasks and execution environments EnvScaler [song2026envscalerscalingtoolinteractiveenvironments] Synthesizes tool-use environments with programmatic validators Table 3: Representative systems where code serves as an environment representation.
 
 ### Structured World Representations
 
@@ -382,25 +144,7 @@ In this line of work, the agent does not derive its action sequence solely from 
 
 Search-Based Planning allocates inference-time compute to systematically explore, evaluate, and select among multiple candidate solution paths. Rather than committing the agent to a single plan, the key idea is to expand the decision space and use feedback to control which alternatives should be pursued, revised, or discarded. A first group of methods \[wang2024planning, li2025rethinkmcts\] instantiates this harness in the thought space. Instead of directly writing code, they first branch over high-level observations, strategies, or reasoning traces, with the goal of increasing conceptual diversity before implementation. In this view, better planning comes from covering a broader idea space and using feedback to refine reasoning itself, rather than merely repairing final code. A second group \[li2025codetree, ni2024treeofcode, dainese2024codegenerating, aggarwal2025dars\] performs search in the trajectory space of coding actions: these methods model coding as a branching process over strategy choice, implementation, debugging, and revision, and rely on execution signals or learned critics to decide which nodes to expand. Therefore, long-horizon coding quality improves when the agent can backtrack from suboptimal decisions and compare partial trajectories. Another line of these works, such as ReLoc \[lyu2025reloc\] and SFS \[light2025sfs\], treats planning as search in code space. Here the methods iteratively explore neighboring programs through mutation, revision, or local optimization, guided by validation feedback or fine-grained scoring signals. Beyond the above methods, recent systems increasingly treat candidate plans, patches, logs, tests, and execution traces as persistent artifacts rather than transient generations. SWE-Search \[sweSearch2024\] combines Monte Carlo Tree Search with software-engineering agents to explore alternative repair trajectories, while CodeTree \[li2025codetree\] organizes strategy exploration, solution generation, and refinement within a unified tree. More broadly, Meta-Harness \[lee2026metaharness\] pushes this idea to the harness level itself: it searches over harness code by giving an agent access to prior source code, scores, and execution traces through a filesystem. These developments suggest that search-based planning is not only a model-side sampling strategy, but also a harness-level state management problem: the runtime must preserve candidates, expose evidence, run validators, and decide which branch deserves further computation.
 
-Self-Planning [jiang2024selfplanning]
-
-WebAgent [gur2023webagent]
-
-CodePlan [bairi2024codeplan]
-
-Task-circuit relation graph
-Test pass/fail
-
-Trajectory tree search
-Test pass/fail
-
-MCTS over reasoning paths
-
-MapCoder [islam2024mapcoder]
-
-Blueprint2Code [mao2025blueprint2code]
-
-Table 4: Representative planning modules for code agents.
+Self-Planning [jiang2024selfplanning] WebAgent [gur2023webagent] CodePlan [bairi2024codeplan] Task-circuit relation graph Test pass/fail Trajectory tree search Test pass/fail MCTS over reasoning paths MapCoder [islam2024mapcoder] Blueprint2Code [mao2025blueprint2code] Table 4: Representative planning modules for code agents.
 
 ### Orchestration-based Planning
 
@@ -426,78 +170,7 @@ Working memory supports state maintenance along the current coding-task trajecto
 
 Semantic memory provides task-relevant external evidence for the current coding process \[wu2025human, huang2026rethinking\]. In code-agent settings, such evidence is usually repository-specific and program-structured, including class definitions, function implementations, call relations, configuration files, documentation, issue descriptions, dependency metadata, and historical implementation patterns. Semantic memory therefore transforms the external codebase into a queryable evidence space that the harness can retrieve from and inject into the active context \[zhang2024autocoderover, zhang2024codeagent, biswal2026agentsm, zhang2025coderag, phan2025repohyper\]. Representative works such as AutoCodeRover \[zhang2024autocoderover\] and RepoCoder \[zhang2023repocoder\] show that repository-level coding tasks benefit not simply from retrieving more content, but from retrieving evidence aligned with program structure. Mechanisms such as AST-based structured chunking, iterative query rewriting, and retrieval strategies conditioned on current localization clues can substantially improve the utility of retrieved context for downstream generation. In this sense, semantic memory turns the codebase into a structured evidence layer for the current decision process.
 
-SWE-agent [yang2024swe]
-Repair trajectory; runtime state
-Structured state tracking
-Grounds repo repair in files, commands, and tests
-
-CodeMem [gaurav2025codemem]
-Context slots; edit state
-Budgeted slot management
-Stabilizes multi-step edits under context limits
-
-RepairAgent [bouzenia2025repairagent]
-Bug evidence; tool outputs
-Dynamic prompt-state updates
-Carries evidence across autonomous cycles
-
-AutoCodeRover [zhang2024autocoderover]
-Repo structure; code evidence
-Grounds localization and patching in repo structure
-
-RepoCoder [zhang2023repocoder]
-Retrieved repo context; snippets
-Iterative repo retrieval
-Expands evidence for context-aware generation
-
-CodeRAG [zhang2025coderag]
-Repo knowledge; code paths
-Querying; multi-path retrieval; reranking
-Selects repo knowledge for long-context completion
-
-MemGovern [wang2026memgovern]
-Trajectories; reflections; critiques
-Governed experience replay
-Reuses quality experience while filtering noise
-
-ExpeL [zhao2024expel]
-Reflection traces; learned lessons
-Reuses reflections as task-solving strategies
-
-MemCoder [deng2026your]
-Commits; root causes; validated fixes
-Structured memory; self-internalization
-Learns repo-specific intent-to-code mappings
-
-TALM [shen2025talm]
-Task histories; reasoning traces; validated code
-Vector retrieval; consolidation
-Reuses past episodes for tree-structured generation
-
-MIRIX [wang2025mirix]
-Cross-agent state; interaction history
-Cross-agent memory routing
-Routes shared memory across specialized roles
-
-ChatDev [qian2024chatdev]
-Dialogue history; software artifacts
-Phase-level context passing
-Maintains context across role-based phases
-
-LongCodeZip [shi2025longcodezip]
-Long code context; repo snippets
-Compresses code while preserving reasoning cues
-
-SWE-Pruner [wang2026swe]
-Interaction context; surrounding code
-Removes irrelevant context before agent decisions
-
-SWEZZE [jia2026compressing]
-Issue context; fix ingredients
-Lightweight learned compression
-Distills compact, fix-relevant evidence
-
-Table 5: Representative memory and context management mechanisms for code-agent harnesses.
+SWE-agent [yang2024swe] Repair trajectory; runtime state Structured state tracking Grounds repo repair in files, commands, and tests CodeMem [gaurav2025codemem] Context slots; edit state Budgeted slot management Stabilizes multi-step edits under context limits RepairAgent [bouzenia2025repairagent] Bug evidence; tool outputs Dynamic prompt-state updates Carries evidence across autonomous cycles AutoCodeRover [zhang2024autocoderover] Repo structure; code evidence Grounds localization and patching in repo structure RepoCoder [zhang2023repocoder] Retrieved repo context; snippets Iterative repo retrieval Expands evidence for context-aware generation CodeRAG [zhang2025coderag] Repo knowledge; code paths Querying; multi-path retrieval; reranking Selects repo knowledge for long-context completion MemGovern [wang2026memgovern] Trajectories; reflections; critiques Governed experience replay Reuses quality experience while filtering noise ExpeL [zhao2024expel] Reflection traces; learned lessons Reuses reflections as task-solving strategies MemCoder [deng2026your] Commits; root causes; validated fixes Structured memory; self-internalization Learns repo-specific intent-to-code mappings TALM [shen2025talm] Task histories; reasoning traces; validated code Vector retrieval; consolidation Reuses past episodes for tree-structured generation MIRIX [wang2025mirix] Cross-agent state; interaction history Cross-agent memory routing Routes shared memory across specialized roles ChatDev [qian2024chatdev] Dialogue history; software artifacts Phase-level context passing Maintains context across role-based phases LongCodeZip [shi2025longcodezip] Long code context; repo snippets Compresses code while preserving reasoning cues SWE-Pruner [wang2026swe] Interaction context; surrounding code Removes irrelevant context before agent decisions SWEZZE [jia2026compressing] Issue context; fix ingredients Lightweight learned compression Distills compact, fix-relevant evidence Table 5: Representative memory and context management mechanisms for code-agent harnesses.
 
 ### Experiential Memory
 
@@ -525,53 +198,7 @@ Tool usage is the action and observation layer of the code-agent harness. Once c
 
 Existing work on tool usage for code agents can therefore be organized according to the primary harness function that tools serve: function-oriented tool use, environment-interaction tool use, verification-driven tool use, and workflow-orchestration tool use. Function-oriented tools ground the agent in APIs, libraries, and external documentation. Environment-interaction tools allow the agent to act inside repositories, terminals, IDEs, browsers, and sandboxes. Verification-driven tools provide deterministic feedback through tests, linters, type checkers, static analyzers, and runtime errors. Workflow-orchestration tools coordinate multiple tools, roles, memory updates, and lifecycle policies into a reliable long-horizon execution process. Representative works are illustrated in Table 6.
 
-ToolCoder [zhang2023toolcoder]
-API search tools
-API selection via trigger prediction
-Grounds generation in retrieved APIs
-
-CodeQA [ahmed2024codeqa]
-API/doc query tools
-Retrieves API evidence for coding
-
-RAG-for-Code [zhao2025rag]
-Repo, docs, API
-Knowledge for long-tail libraries
-
-CodeAgent [zhang2024codeagent]
-Repo files, tests
-Repo navigation, editing, validation
-Repo-level coding via environment interaction
-
-SWE-agent [yang2024swe]
-Shell, editor, repo, tests
-Agent–computer interface loop
-Resolves GitHub issues via shell commands
-
-AgentCoder [huang2023agentcoder]
-Programmer–tester–executor loop
-Refines code via generated tests
-
-VeriGuard [miculicich2025veriguard]
-Execution, tests, verifier
-Verifier-guided tool loop
-Gates and repairs code via verification
-
-ToolNet [liu2024toolnet]
-APIs, tools, execution
-Learned multi-tool policy routing
-Routes tool invocations across workflows
-
-MapCoder [islam2024mapcoder]
-Multi-agent tool-supported workflow
-Coordinates planning, generation, debugging
-
-OpenHands [wang2024openhands]
-Workspace, terminal, browser, files, runtime
-Unified software-agent workspace
-Long-horizon tasks via reusable interfaces
-
-Table 6: Representative tool-use mechanisms for code-agent harnesses.
+ToolCoder [zhang2023toolcoder] API search tools API selection via trigger prediction Grounds generation in retrieved APIs CodeQA [ahmed2024codeqa] API/doc query tools Retrieves API evidence for coding RAG-for-Code [zhao2025rag] Repo, docs, API Knowledge for long-tail libraries CodeAgent [zhang2024codeagent] Repo files, tests Repo navigation, editing, validation Repo-level coding via environment interaction SWE-agent [yang2024swe] Shell, editor, repo, tests Agent–computer interface loop Resolves GitHub issues via shell commands AgentCoder [huang2023agentcoder] Programmer–tester–executor loop Refines code via generated tests VeriGuard [miculicich2025veriguard] Execution, tests, verifier Verifier-guided tool loop Gates and repairs code via verification ToolNet [liu2024toolnet] APIs, tools, execution Learned multi-tool policy routing Routes tool invocations across workflows MapCoder [islam2024mapcoder] Multi-agent tool-supported workflow Coordinates planning, generation, debugging OpenHands [wang2024openhands] Workspace, terminal, browser, files, runtime Unified software-agent workspace Long-horizon tasks via reusable interfaces Table 6: Representative tool-use mechanisms for code-agent harnesses.
 
 ### Function-Oriented Tool Use
 
@@ -603,67 +230,7 @@ The preceding subsections describe planning as trajectory control, memory as sta
 
 In this view, the harness acts as a *cybernetic governor*: a control layer that observes the effects of agent actions and regulates subsequent state transitions. Rather than merely forwarding error messages to the model, it observes the repository and execution environment through deterministic sensors such as linters, parsers, compilers, type checkers, unit tests, integration tests, static analyzers, fuzzers, runtime monitors, and CI pipelines. These sensors turn a coding trajectory into inspectable signals, including pass/fail outcomes, diagnostics, failing traces, coverage gaps, security warnings, resource limits, and policy violations. The harness can then decide whether to continue execution, revise a patch, request more context, route the task to another module, reduce permissions, or escalate to a human reviewer. Table 7 summarizes this control surface; the remainder of this subsection follows the loop from contract formation, through sandboxed state transition, to deterministic verification and evidence-grounded repair.
 
-Signals and Gates
-
-CodePlan [bairi2024codeplan]
-Dependency plan graph
-Repo links, critiques
-
-MapCoder [islam2024mapcoder]
-Handoffs, tests, failures
-
-OpenHands [wang2025openhands]
-Full PEV harness
-Stateful edit-exec workspace
-Diffs, logs, tests, approvals
-
-SWE-agent [yang2024swe]
-Replayable shell interface
-Commands, patches, tests
-
-Execute, cloud sandbox
-Isolated dev workspace
-Files, limits, snapshots
-
-Execute, code-browser sandbox
-Cloud code-browser sandbox
-Stdout, limits, UI state
-
-Self-Debugging [chen2023teaching]
-
-Reflexion [shinn2023reflexion]
-Verify, reflection memory
-Verbal feedback memory
-
-Debug Like a Human [zhong2024debug]
-Verify, stepwise debug
-Traces, variables, asserts
-
-Iterative Refinement [bi2024iterative]
-Plan–Verify feedback
-
-Verify, quality gate
-Quality feedback routing
-Tests, success, stopping
-
-AgentCoder [huang2023agentcoder]
-Verify, multi-agent repair
-Tests, failures, critique
-
-AutoSafeCoder [Nunez2024AutoSafeCoder]
-Verify, safety sensors
-Static checks, fuzzing
-Alerts, traces, tests
-
-VeriGuard [miculicich2025veriguard]
-Verify, verified gen.
-Verifier guard layer
-Proofs, tests, alerts
-
-Proxy policy routing
-Approvals, denials, cost logs
-
-Table 7: Representative methods and systems for PEV-loop harness control.
+Signals and Gates CodePlan [bairi2024codeplan] Dependency plan graph Repo links, critiques MapCoder [islam2024mapcoder] Handoffs, tests, failures OpenHands [wang2025openhands] Full PEV harness Stateful edit-exec workspace Diffs, logs, tests, approvals SWE-agent [yang2024swe] Replayable shell interface Commands, patches, tests Execute, cloud sandbox Isolated dev workspace Files, limits, snapshots Execute, code-browser sandbox Cloud code-browser sandbox Stdout, limits, UI state Self-Debugging [chen2023teaching] Reflexion [shinn2023reflexion] Verify, reflection memory Verbal feedback memory Debug Like a Human [zhong2024debug] Verify, stepwise debug Traces, variables, asserts Iterative Refinement [bi2024iterative] Plan–Verify feedback Verify, quality gate Quality feedback routing Tests, success, stopping AgentCoder [huang2023agentcoder] Verify, multi-agent repair Tests, failures, critique AutoSafeCoder [Nunez2024AutoSafeCoder] Verify, safety sensors Static checks, fuzzing Alerts, traces, tests VeriGuard [miculicich2025veriguard] Verify, verified gen. Verifier guard layer Proofs, tests, alerts Proxy policy routing Approvals, denials, cost logs Table 7: Representative methods and systems for PEV-loop harness control.
 
 ### Planning as Contract Formation
 
@@ -703,61 +270,7 @@ An *Evolution Agent* is a meta-level agent that uses deep telemetry to propose, 
 
 A typical Evolution-Agent loop contains five stages. First, it *observes* trajectories by collecting telemetry from PEV executions. Second, it *diagnoses* failure modes by attributing cost, latency, invalid actions, test failures, or permission denials to specific harness components. Third, it *proposes* candidate revisions, such as rewriting tool descriptions, changing context packing rules, adding a linter, modifying retry limits, or inserting a HITL gate before risky commands. Fourth, it *evaluates* the revised harness on held-out tasks or replayed traces using deterministic sensors and regression tests. Finally, it *promotes* only changes that improve reliability, cost, or safety without regressing previously solved cases. This keeps AHE within the same engineering discipline as the PEV loop: proposed changes must be executed, verified, and made auditable before adoption.
 
-AutoHarness [lou2026autoharness]
-Failures, fixtures, assertions
-Harness code and tests
-
-Meta-Harness [lee2026metaharness]
-Code, scores, traces
-Prompts, tools, scripts
-
-AHE [lin2026agentic]
-Cost, decisions, latency, failures
-Context, tools, validators
-
-GEPA [agrawal2025gepa]
-Reflective prompt evolution
-Scores, feedback, critiques
-Prompts and instructions
-
-Workflow topology evolution
-Handoffs, idle roles, loops
-Agent roles and graph
-
-SEW [Liu2025SEW]
-Workflow scores, failures
-Stage order and roles
-
-Live-SWE [xia2025live]
-Online agent evolution
-Live issue trajectories
-Policies, tools, memory
-
-GroundedTTA [chen2026grounded]
-
-RLEF [gehring2024rlef]
-Execution rewards, failures
-Feedback reward signal
-
-Scenario and metric traces
-Regression suites, gates
-
-FeedbackEval [dai2025feedbackeval]
-Repair evaluation benchmark
-Failure taxonomy and eval set
-
-Spans, cost, latency, evals
-Dashboards and replay
-
-OpenTelemetry spans, calls
-
-Scores, regressions, failures
-Eval gates and red tests
-
-Routing, budgets, failures
-Budgets, fallbacks, tiers
-
-Table 8: Representative methods for Agentic Harness Engineering with telemetry-driven revision targets.
+AutoHarness [lou2026autoharness] Failures, fixtures, assertions Harness code and tests Meta-Harness [lee2026metaharness] Code, scores, traces Prompts, tools, scripts AHE [lin2026agentic] Cost, decisions, latency, failures Context, tools, validators GEPA [agrawal2025gepa] Reflective prompt evolution Scores, feedback, critiques Prompts and instructions Workflow topology evolution Handoffs, idle roles, loops Agent roles and graph SEW [Liu2025SEW] Workflow scores, failures Stage order and roles Live-SWE [xia2025live] Online agent evolution Live issue trajectories Policies, tools, memory GroundedTTA [chen2026grounded] RLEF [gehring2024rlef] Execution rewards, failures Feedback reward signal Scenario and metric traces Regression suites, gates FeedbackEval [dai2025feedbackeval] Repair evaluation benchmark Failure taxonomy and eval set Spans, cost, latency, evals Dashboards and replay OpenTelemetry spans, calls Scores, regressions, failures Eval gates and red tests Routing, budgets, failures Budgets, fallbacks, tiers Table 8: Representative methods for Agentic Harness Engineering with telemetry-driven revision targets.
 
 ### Governed Harness Mutation
 
@@ -779,55 +292,7 @@ Figure 11: Roadmap of scaling code harnesses for multi-agent orchestration, orga
 
 The most immediate contribution of multi-agent systems is that they improve coding support by decomposing the harness into specialized but coordinated components. Instead of integrating planning, synthesis, execution, and verification into a single agent loop, these systems distribute responsibility across roles that interact through shared code artifacts and feedback signals. This division of labor makes the overall harness more capable of handling complex software tasks, while also making its internal workflow more inspectable and controllable. In practice, this improvement is realized through three closely related design dimensions: how roles are specialized, how agents interact over shared program artifacts, and how the workflow topology organizes their collaboration.
 
-Self-Collaboration [Dong2024SelfCollaboration]
-Plan, Synth., Verif. (simulated)
-
-CodePori [Rasheed2024Codepori]
-Plan, Synth., Verif.
-Pre-defined chain, cyclic
-
-MAGIS [Tao2024Magis]
-Repository, evolution memory
-Plan, Understand, Synth., Verif.
-Critique-repair, debate, delegation
-Hierarchical, cyclic, dynamic pool
-
-HyperAgent [Phan2024HyperAgent]
-Plan, Understand, Synth., Exec
-Pre-defined hierarchical, cyclic
-
-PairCoder [Zhang2024PairProgramming]
-Pre-defined cyclic with conditional branch
-
-FlowGen [Lin2025Soen101]
-Plan, Understand, Synth., Verif.
-Pre-defined chain, cyclic (Scrum)
-
-Trae Agent [gao2025traeagent]
-Generate, Prune, Select
-Collab-Synth., search (selection)
-Pre-defined search pipeline
-
-Orchestrate, Localize, Edit, Validate
-Delegation, adaptive selection
-
-FlowReasoner [gao2025flowreasoner]
-Runtime workflow generation
-
-ChatDev [Qian2023ChatDev]
-Implicit, borderline exec
-Plan, Synth., Verif., Exec
-Pre-defined chain (waterfall)
-
-MetaGPT [Hong2023MetaGPT]
-Implicit, partial blackboard
-Plan×3, Synth., Verif.
-Critique-repair, pub-sub scheduling
-Pre-defined chain (waterfall)
-
-GameGPT [chen2023gamegpt]
-Blackboard (dual collaboration)
-Plan, Synth., Verif.
+Self-Collaboration [Dong2024SelfCollaboration] Plan, Synth., Verif. (simulated) CodePori [Rasheed2024Codepori] Plan, Synth., Verif. Pre-defined chain, cyclic MAGIS [Tao2024Magis] Repository, evolution memory Plan, Understand, Synth., Verif. Critique-repair, debate, delegation Hierarchical, cyclic, dynamic pool HyperAgent [Phan2024HyperAgent] Plan, Understand, Synth., Exec Pre-defined hierarchical, cyclic PairCoder [Zhang2024PairProgramming] Pre-defined cyclic with conditional branch FlowGen [Lin2025Soen101] Plan, Understand, Synth., Verif. Pre-defined chain, cyclic (Scrum) Trae Agent [gao2025traeagent] Generate, Prune, Select Collab-Synth., search (selection) Pre-defined search pipeline Orchestrate, Localize, Edit, Validate Delegation, adaptive selection FlowReasoner [gao2025flowreasoner] Runtime workflow generation ChatDev [Qian2023ChatDev] Implicit, borderline exec Plan, Synth., Verif., Exec Pre-defined chain (waterfall) MetaGPT [Hong2023MetaGPT] Implicit, partial blackboard Plan×3, Synth., Verif. Critique-repair, pub-sub scheduling Pre-defined chain (waterfall) GameGPT [chen2023gamegpt] Blackboard (dual collaboration) Plan, Synth., Verif.
 
 Table 9: Representative MAS collaboration designs by role specialization and interaction structure.
 
@@ -907,50 +372,13 @@ Runtime self-reorganization is SEW \[Liu2025SEW\]'s approach: the system generat
 
 We discuss how a group of agents can exploit the executability of code, and how they maintain a consistent shared view of the program state. This dimension is the defining one for code-centric MAS: the shared harness is uniquely executable and produces objective oracle signals. We address two sub-questions: what types of execution feedback are used, and how is shared state synchronized across agents.
 
-AgentCoder [huang2023agentcoder]
-Test pass/fail
-
-MAGE [Zhao2024MAGE]
-
-MapCoder [islam2024mapcoder]
-Test pass/fail
-
-AutoSafeCoder [Nunez2024AutoSafeCoder]
-Execution (static, fuzzer)
-CWE warnings, crashes
-
-Execution (real, imagined)
-Pass/fail, imagined exec
-
-CodeCoR [Pan2025CodeCoR]
-Syntax, test pass/fail
-Score-based soft correctness
-
-MARCO [Rahman2025MACRO]
-Time, memory, FLOPS
-
-SoA [Ishibashi2024SelfOrganized]
-Execution, implicit gap
-Test pass/fail
-Correctness (implicit fallback)
-
-SEW [Liu2025SEW]
-Test pass/fail
-
-Compiler, execution logs
-
-FlowReasoner [gao2025flowreasoner]
-
-Trae Agent [gao2025traeagent]
-Test, pruning signals
-
-Table 10: Representative MAS execution-feedback and convergence designs.
+AgentCoder [huang2023agentcoder] Test pass/fail MAGE [Zhao2024MAGE] MapCoder [islam2024mapcoder] Test pass/fail AutoSafeCoder [Nunez2024AutoSafeCoder] Execution (static, fuzzer) CWE warnings, crashes Execution (real, imagined) Pass/fail, imagined exec CodeCoR [Pan2025CodeCoR] Syntax, test pass/fail Score-based soft correctness MARCO [Rahman2025MACRO] Time, memory, FLOPS SoA [Ishibashi2024SelfOrganized] Execution, implicit gap Test pass/fail Correctness (implicit fallback) SEW [Liu2025SEW] Test pass/fail Compiler, execution logs FlowReasoner [gao2025flowreasoner] Trae Agent [gao2025traeagent] Test, pruning signals Table 10: Representative MAS execution-feedback and convergence designs.
 
 ### Execution Feedback Integration
 
 ### Compiler and syntax feedback
 
-Compiler and syntax feedback catch structural errors before runtime and are used by many systems. ChatDev \[Qian2023ChatDev\] feeds compiler errors from the testing phase back to the programmer, though only as one-off corrections within a single phase. L2MAC \[Holt2023L2MAC\] runs syntax checks via its evaluator module $E{(D)}$ after every file write, treating them as blocking conditions that prevent the instruction pipeline from advancing.
+Compiler and syntax feedback catch structural errors before runtime and are used by many systems. ChatDev \[Qian2023ChatDev\] feeds compiler errors from the testing phase back to the programmer, though only as one-off corrections within a single phase. L2MAC \[Holt2023L2MAC\] runs syntax checks via its evaluator module $E(D)$ after every file write, treating them as blocking conditions that prevent the instruction pipeline from advancing.
 
 ### Test pass/fail signals
 
@@ -1004,39 +432,7 @@ QualityFlow \[Hu2025QualityFlow\]'s revert mechanism represents a synchronizatio
 
 We propose a new position for the next generation of multi-agent intelligence: the shared code-centric harness substrate. This position is motivated by the central gap identified in the literature: the lack of formal, persistent representations of the shared code state that agents can query and update across iterations. We argue that building such a harness substrate is both feasible and necessary for achieving robust, scalable multi-agent intelligence.
 
-L2MAC [Holt2023L2MAC]
-Blackboard, repository, execution
-Plan, Synth, Verif (evaluator)
-Syntax, test pass/fail
-Correctness per instruction step
-
-Blackboard (3-tier memory)
-Hierarchical memory synchronization
-
-Execution (weak), implicit
-Plan, Understand, Synth, Exec
-Correctness through execution success
-
-Lingma SWE-GPT [Ma2024Lingma]
-Syntax, git apply, tests
-Fixed-limit implicit convergence
-
-SyncMind [Guo2025SyncMind]
-Repository, execution (formal Sk/Bk)
-Synth-Understand, oracle Understand
-Test pass/fail, runtime errors
-Correctness, resource-constrained synchronization
-
-Orchestrator with specialized sub-agents
-Test pass/fail, validation reward
-Hierarchy discovery, coordination
-
-Execution (Java, JaCoCo)
-Plan, Synth, Verif, Understand, Debate
-Compiler, coverage, tests
-Correctness, coverage, consensus
-
-Table 11: Representative MAS designs centered on shared program-state representation and synchronization.
+L2MAC [Holt2023L2MAC] Blackboard, repository, execution Plan, Synth, Verif (evaluator) Syntax, test pass/fail Correctness per instruction step Blackboard (3-tier memory) Hierarchical memory synchronization Execution (weak), implicit Plan, Understand, Synth, Exec Correctness through execution success Lingma SWE-GPT [Ma2024Lingma] Syntax, git apply, tests Fixed-limit implicit convergence SyncMind [Guo2025SyncMind] Repository, execution (formal Sk/Bk) Synth-Understand, oracle Understand Test pass/fail, runtime errors Correctness, resource-constrained synchronization Orchestrator with specialized sub-agents Test pass/fail, validation reward Hierarchy discovery, coordination Execution (Java, JaCoCo) Plan, Synth, Verif, Understand, Debate Compiler, coverage, tests Correctness, coverage, consensus Table 11: Representative MAS designs centered on shared program-state representation and synchronization.
 
 ### Shared Harness Representation
 
@@ -1080,7 +476,7 @@ Performance convergence is the focus of MACRO \[Rahman2025MACRO\]: the optimizat
 
 ### Score-based convergence
 
-Score-based convergence uses quantitative quality scores computed by agents evaluating intermediate outputs to determine when to stop. MAGE \[Zhao2024MAGE\] ranks candidate programs by their simulation mismatch score ${s{(r)}} = {1 - {{{m{(r)}}/t}c{(r)}}}$ and continues iterating until the maximum score reaches 1.0. CodeCoR \[Pan2025CodeCoR\] uses a four-criteria binary score (clarity, relevance, conciseness, context) to prune intermediate outputs at each agent stage and selects the highest-ranked code in its Ranked Code Set as the final output. It sets a soft correctness convergence that submits the best available result rather than waiting for a perfect solution. Trae Agent \[gao2025traeagent\] introduces a closely related search-and-selection view at repository scale: it formulates issue resolution as an optimal solution search problem and uses modular generation, pruning, and selection agents to navigate a large ensemble space of candidate patches. In this setting, convergence is not only a matter of repeated repair, but also of ranking, filtering, and selecting among competing solutions under repository-aware evidence.
+Score-based convergence uses quantitative quality scores computed by agents evaluating intermediate outputs to determine when to stop. MAGE \[Zhao2024MAGE\] ranks candidate programs by their simulation mismatch score $s(r)=1-m(r)/tc(r)$ and continues iterating until the maximum score reaches 1.0. CodeCoR \[Pan2025CodeCoR\] uses a four-criteria binary score (clarity, relevance, conciseness, context) to prune intermediate outputs at each agent stage and selects the highest-ranked code in its Ranked Code Set as the final output. It sets a soft correctness convergence that submits the best available result rather than waiting for a perfect solution. Trae Agent \[gao2025traeagent\] introduces a closely related search-and-selection view at repository scale: it formulates issue resolution as an optimal solution search problem and uses modular generation, pruning, and selection agents to navigate a large ensemble space of candidate patches. In this setting, convergence is not only a matter of repeated repair, but also of ranking, filtering, and selecting among competing solutions under repository-aware evidence.
 
 ### Consensus convergence
 
@@ -1088,7 +484,7 @@ Consensus convergence aggregates judgments from multiple reviewer agents. CANDOR
 
 ### Implicit convergence
 
-Pipeline termination after a fixed number of stages or iterations with no objective quality criterion is the most prevalent convergence pattern in the literature and represents the most significant gap in the field. ChatDev \[Qian2023ChatDev\] terminates after a fixed number of phases, or when two consecutive rounds produce identical code, or after 10 rounds, none of which is an objective quality signal. MetaGPT \[Hong2023MetaGPT\] terminates after completing the fixed SOP stages. Self-Collaboration \[Dong2024SelfCollaboration\] falls back to implicit convergence after $n = 4$ iterations if the tester never approves. EvoMAC \[Hu2025EvoMAC\] runs a fixed $K$ iterations of the textual backpropagation loop. The prevalence of implicit convergence is a direct consequence of the lack of formal shared substrates: without an objective representation of the program state, systems have no principled criterion for convergence.
+Pipeline termination after a fixed number of stages or iterations with no objective quality criterion is the most prevalent convergence pattern in the literature and represents the most significant gap in the field. ChatDev \[Qian2023ChatDev\] terminates after a fixed number of phases, or when two consecutive rounds produce identical code, or after 10 rounds, none of which is an objective quality signal. MetaGPT \[Hong2023MetaGPT\] terminates after completing the fixed SOP stages. Self-Collaboration \[Dong2024SelfCollaboration\] falls back to implicit convergence after $n=4$ iterations if the tester never approves. EvoMAC \[Hu2025EvoMAC\] runs a fixed $K$ iterations of the textual backpropagation loop. The prevalence of implicit convergence is a direct consequence of the lack of formal shared substrates: without an objective representation of the program state, systems have no principled criterion for convergence.
 
 ### Patterns and Trends
 
@@ -1120,7 +516,7 @@ A striking pattern is that many systems have developed sophisticated context-man
 
 ### Agent specialization increases the criticality of shared state metrics
 
-As agent role diversity increases, from basic coder-tester pairs to systems with Architect, Manager, Navigator, Executor, and Verifier roles, the need for a unified shared substrate becomes urgent. Without shared understanding of code state, the Planning Agent may decompose tasks based on an outdated codebase snapshot, the Execution Agent may run tests against a different version than the Synthesis Agent intended, and the Verification Agent's feedback may misfire. EvoMAC \[Hu2025EvoMAC\] addresses this through its Gradient and Updating agents that explicitly monitor failure attribution at the MAS level. SyncMind \[Guo2025SyncMind\] formalizes the problem as agent belief divergence $|{B_{k} - S_{k}}|$, proposing explicit synchronization protocols. The proliferation of agent roles is thus not merely an engineering choice. It is a forcing function for developing more mature shared harnesses. Multi-agent systems with rich role repertoires cannot function robustly without them.
+As agent role diversity increases, from basic coder-tester pairs to systems with Architect, Manager, Navigator, Executor, and Verifier roles, the need for a unified shared substrate becomes urgent. Without shared understanding of code state, the Planning Agent may decompose tasks based on an outdated codebase snapshot, the Execution Agent may run tests against a different version than the Synthesis Agent intended, and the Verification Agent's feedback may misfire. EvoMAC \[Hu2025EvoMAC\] addresses this through its Gradient and Updating agents that explicitly monitor failure attribution at the MAS level. SyncMind \[Guo2025SyncMind\] formalizes the problem as agent belief divergence $|B_{k}-S_{k}|$, proposing explicit synchronization protocols. The proliferation of agent roles is thus not merely an engineering choice. It is a forcing function for developing more mature shared harnesses. Multi-agent systems with rich role repertoires cannot function robustly without them.
 
 ## Emerging Fields and Open Problems
 
@@ -1184,7 +580,7 @@ Graphical user interfaces and operating systems constitute, perhaps more than an
 
 ### GUI/OS as a Partially Observable Program World
 
-We model a GUI/OS environment as a Partially Observable Markov Decision Process $\langle\mathcal{S},\mathcal{A},\mathcal{O},T,R\rangle$ in which the latent state s $\in \mathcal{S}$ is the full program state of one or more processes (a browser's full DOM and JavaScript heap, an Android emulator's Activity stack and content providers, a Linux VM's filesystem and window tree). The agent never observes s directly; it observes o $\in \mathcal{O}$, which in modern systems takes one of four code-defined forms: (i) a serialized DOM or HTML subtree as in WebArena and Mind2Web \[zhou2024webarenarealisticwebenvironment, deng2023mind2webgeneralistagentweb\]; (ii) an accessibility tree (AXTree) exposed by Android's UIAutomator or by macOS/Windows accessibility APIs as in AndroidWorld and WindowsAgentArena, for example, adopted by AgentOccam \[rawles2025androidworlddynamicbenchmarkingenvironment, bonatti2024windowsagentarenaevaluating, yang2024agentoccam\]; (iii) a screenshot annotated with bounding-box or Set-of-Mark coordinates, the representation adopted by SeeAct, WebVoyager, OSWorld, and most recent native models \[zheng2024gpt4visiongeneralistwebagent, he2024webvoyagerbuildingendtoendweb, xie2024osworldbenchmarkingmultimodalagents, yang2023setofmarkpromptingunleashesextraordinary\]; or (iv) hybrid representations that interleave pixels, accessibility metadata and HTML, as in WebArena's BrowserGym observation space and in CogAgent's dual-resolution encoder \[drouin2024workarenacapablewebagents, hong2024cogagentvisuallanguagemodel\]. The action space $\mathcal{A}$ is likewise code: a tuple $\langle{action\_type},{target},{value}\rangle$ that compiles either to a DOM/accessibility call (element.click, setText(node_id, ''\...'')) or to OS-level keyboard/mouse primitives (pyautogui.click(x,y), xdotool key). Crucially, the transition function $T$ is not learned but executed: the browser engine, the Android runtime, or the host OS deterministically produces the next observation. Agents are commonly framed as human-like computer users: they perceive the visual interface, reason over the user instruction, and execute actions through the same graphical channel available to humans. The agent's policy $\pi{(\left. a \middle| h \right.)}$ is therefore best thought of as a program synthesizer that, conditioned on a history h, emits the next snippet of executable code; the environment is the interpreter.
+We model a GUI/OS environment as a Partially Observable Markov Decision Process $\langle\mathcal{S},\mathcal{A},\mathcal{O},T,R\rangle$ in which the latent state s $\in\mathcal{S}$ is the full program state of one or more processes (a browser's full DOM and JavaScript heap, an Android emulator's Activity stack and content providers, a Linux VM's filesystem and window tree). The agent never observes s directly; it observes o $\in\mathcal{O}$, which in modern systems takes one of four code-defined forms: (i) a serialized DOM or HTML subtree as in WebArena and Mind2Web \[zhou2024webarenarealisticwebenvironment, deng2023mind2webgeneralistagentweb\]; (ii) an accessibility tree (AXTree) exposed by Android's UIAutomator or by macOS/Windows accessibility APIs as in AndroidWorld and WindowsAgentArena, for example, adopted by AgentOccam \[rawles2025androidworlddynamicbenchmarkingenvironment, bonatti2024windowsagentarenaevaluating, yang2024agentoccam\]; (iii) a screenshot annotated with bounding-box or Set-of-Mark coordinates, the representation adopted by SeeAct, WebVoyager, OSWorld, and most recent native models \[zheng2024gpt4visiongeneralistwebagent, he2024webvoyagerbuildingendtoendweb, xie2024osworldbenchmarkingmultimodalagents, yang2023setofmarkpromptingunleashesextraordinary\]; or (iv) hybrid representations that interleave pixels, accessibility metadata and HTML, as in WebArena's BrowserGym observation space and in CogAgent's dual-resolution encoder \[drouin2024workarenacapablewebagents, hong2024cogagentvisuallanguagemodel\]. The action space $\mathcal{A}$ is likewise code: a tuple $\langle action_type,target,value\rangle$ that compiles either to a DOM/accessibility call (element.click, setText(node_id, ''\...'')) or to OS-level keyboard/mouse primitives (pyautogui.click(x,y), xdotool key). Crucially, the transition function $T$ is not learned but executed: the browser engine, the Android runtime, or the host OS deterministically produces the next observation. Agents are commonly framed as human-like computer users: they perceive the visual interface, reason over the user instruction, and execute actions through the same graphical channel available to humans. The agent's policy $\pi(a|h)$ is therefore best thought of as a program synthesizer that, conditioned on a history h, emits the next snippet of executable code; the environment is the interpreter.
 
 ### Code as a Bridge Between User Interfaces and GUI Agents
 

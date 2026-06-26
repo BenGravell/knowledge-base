@@ -16,15 +16,11 @@ Dimension reduction, eigenvalue decomposition, interpolative decomposition, John
 
 ## Overview
 
-On a well-known list of the "Top 10 Algorithms" that have influenced the practice of science and engineering during the 20th century, we find an entry that is not really an algorithm: the *idea* of using matrix factorizations to accomplish basic tasks in numerical linear algebra. In the accompanying article, Stewart explains that
-
-> The underlying principle of the decompositional approach to matrix computation is that it is not the business of the matrix algorithmicists to solve particular problems but to construct computational platforms from which a variety of problems can be solved.
+On a well-known list of the "Top 10 Algorithms" that have influenced the practice of science and engineering during the 20th century, we find an entry that is not really an algorithm: the *idea* of using matrix factorizations to accomplish basic tasks in numerical linear algebra. In the accompanying article, Stewart explains that > The underlying principle of the decompositional approach to matrix computation is that it is not the business of the matrix algorithmicists to solve particular problems but to construct computational platforms from which a variety of problems can be solved.
 
 Stewart goes on to argue that this point of view has had many fruitful consequences, including the development of robust software for performing these factorizations in a highly accurate and provably correct manner.
 
-The decompositional approach to matrix computation remains fundamental, but developments in computer hardware and the emergence of new applications in the information sciences have rendered the classical algorithms for this task inadequate in many situations:
-
-A salient feature of modern applications, especially in data mining, is that the matrices are stupendously big. Classical algorithms are not always well adapted to solving the type of large-scale problems that now arise.
+The decompositional approach to matrix computation remains fundamental, but developments in computer hardware and the emergence of new applications in the information sciences have rendered the classical algorithms for this task inadequate in many situations: A salient feature of modern applications, especially in data mining, is that the matrices are stupendously big. Classical algorithms are not always well adapted to solving the type of large-scale problems that now arise.
 
 In the information sciences, it is common that data are missing or inaccurate. Classical algorithms are designed to produce highly accurate matrix decompositions, but it seems profligate to spend extra computational resources when the imprecision of the data inherently limits the resolution of the output.
 
@@ -44,13 +40,9 @@ Our experience suggests that many practitioners of scientific computing view ran
 
 ### Approximation by low-rank matrices
 
-The roster of standard matrix decompositions includes the pivoted QR factorization, the eigenvalue decomposition, and the singular value decomposition (SVD), all of which expose the (numerical) range of a matrix. Truncated versions of these factorizations are often used to express a *low-rank approximation* of a given matrix:
+The roster of standard matrix decompositions includes the pivoted QR factorization, the eigenvalue decomposition, and the singular value decomposition (SVD), all of which expose the (numerical) range of a matrix. Truncated versions of these factorizations are often used to express a *low-rank approximation* of a given matrix: The inner dimension $k$ is sometimes called the *numerical rank* of the matrix. When the numerical rank is much smaller than either dimension $m$ or $n$, a factorization such as allows the matrix to be stored inexpensively and to be multiplied rapidly with vectors or other matrices. The factorizations can also be used for data interpretation or to solve computational problems, such as least squares.
 
-The inner dimension $k$ is sometimes called the *numerical rank* of the matrix. When the numerical rank is much smaller than either dimension $m$ or $n$, a factorization such as allows the matrix to be stored inexpensively and to be multiplied rapidly with vectors or other matrices. The factorizations can also be used for data interpretation or to solve computational problems, such as least squares.
-
-Matrices with low numerical rank appear in a wide variety of scientific applications. We list only a few:
-
-A basic method in statistics and data mining is to compute the directions of maximal variance in vector-valued data by performing *principal component analysis* (PCA) on the data matrix. PCA is nothing other than a low-rank matrix approximation \[71, §14.5\].
+Matrices with low numerical rank appear in a wide variety of scientific applications. We list only a few: A basic method in statistics and data mining is to compute the directions of maximal variance in vector-valued data by performing *principal component analysis* (PCA) on the data matrix. PCA is nothing other than a low-rank matrix approximation \[71, §14.5\].
 
 Another standard technique in data analysis is to perform low-dimensional embedding of data under the assumption that there are fewer degrees of freedom than the ambient dimension would suggest. In many cases, the method reduces to computing a partial SVD of a matrix derived from the data. See \[71, §§14.8--14.9\] or.
 
@@ -64,9 +56,7 @@ Models of multiscale physical phenomena often involve PDEs with rapidly oscillat
 
 The task of computing a low-rank approximation to a given matrix can be split naturally into two computational stages. The first is to construct a low-dimensional subspace that captures the action of the matrix. The second is to restrict the matrix to the subspace and then compute a standard factorization (QR, SVD, etc.) of the reduced matrix. To be slightly more formal, we subdivide the computation as follows.
 
-Stage A: Compute an approximate basis for the range of the input matrix $\mathbf{A}$. In other words, we require a matrix $\mathbf{Q}$ for which
-
-We would like the basis matrix $\mathbf{Q}$ to contain as few columns as possible, but it is even more important to have an accurate approximation of the input matrix.
+Stage A: Compute an approximate basis for the range of the input matrix $\mathbf{A}$. In other words, we require a matrix $\mathbf{Q}$ for which We would like the basis matrix $\mathbf{Q}$ to contain as few columns as possible, but it is even more important to have an accurate approximation of the input matrix.
 
 Stage B: Given a matrix $\mathbf{Q}$ that satisfies, we use $\mathbf{Q}$ to help compute a standard factorization (QR, SVD, etc.) of $\mathbf{A}$.
 
@@ -74,9 +64,7 @@ The task in Stage A can be executed very efficiently with random sampling method
 
 Stage B can be completed with well-established deterministic methods. Section 3.3.3 contains an introduction to these techniques, and §5 shows how we apply them to produce low-rank factorizations.
 
-At this point in the development, it may not be clear why the output from Stage A facilitates our job in Stage B. Let us illustrate by describing how to obtain an approximate SVD of the input matrix $\mathbf{A}$ given a matrix $\mathbf{Q}$ that satisfies. More precisely, we wish to compute matrices $\mathbf{U}$ and $\mathbf{V}$ with orthonormal columns and a nonnegative, diagonal matrix $\mathbf{\Sigma}$ such that ${\mathbf{A}} \approx {{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}$. This goal is achieved after three simple steps:
-
-Form ${\mathbf{B}} = {{\mathbf{Q}}^{\ast}{\mathbf{A}}}$, which yields the low-rank factorization ${\mathbf{A}} \approx {{\mathbf{Q}}{\mathbf{B}}}$.
+At this point in the development, it may not be clear why the output from Stage A facilitates our job in Stage B. Let us illustrate by describing how to obtain an approximate SVD of the input matrix $\mathbf{A}$ given a matrix $\mathbf{Q}$ that satisfies. More precisely, we wish to compute matrices $\mathbf{U}$ and $\mathbf{V}$ with orthonormal columns and a nonnegative, diagonal matrix $\mathbf{\Sigma}$ such that ${\mathbf{A}} \approx {{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}$. This goal is achieved after three simple steps: Form ${\mathbf{B}} = {{\mathbf{Q}}^{\ast}{\mathbf{A}}}$, which yields the low-rank factorization ${\mathbf{A}} \approx {{\mathbf{Q}}{\mathbf{B}}}$.
 
 Compute an SVD of the small matrix: ${\mathbf{B}} = {\overset{\sim}{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}$.
 
@@ -92,17 +80,11 @@ This paper describes a class of randomized algorithms for completing Stage A of 
 
 ### Problem formulations
 
-The basic challenge in producing low-rank matrix approximations is a primitive question that we call the *fixed-precision approximation problem*. Suppose we are given a matrix $\mathbf{A}$ and a positive error tolerance $\varepsilon$. We seek a matrix $\mathbf{Q}$ with $k = {k{(\varepsilon)}}$ orthonormal columns such that
+The basic challenge in producing low-rank matrix approximations is a primitive question that we call the *fixed-precision approximation problem*. Suppose we are given a matrix $\mathbf{A}$ and a positive error tolerance $\varepsilon$. We seek a matrix $\mathbf{Q}$ with $k = {k{(\varepsilon)}}$ orthonormal columns such that where $\left. \parallel \cdot \parallel \right.$ denotes the $\ell_{2}$ operator norm. The range of $\mathbf{Q}$ is a $k$-dimensional subspace that captures most of the action of $\mathbf{A}$, and we would like $k$ to be as small as possible.
 
-where $\left. \parallel \cdot \parallel \right.$ denotes the $\ell_{2}$ operator norm. The range of $\mathbf{Q}$ is a $k$-dimensional subspace that captures most of the action of $\mathbf{A}$, and we would like $k$ to be as small as possible.
+The singular value decomposition furnishes an optimal answer to the fixed-precision problem. Let $\sigma_{j}$ denote the $j$th largest singular value of $\mathbf{A}$. For each $j \geq 0$, One way to construct a minimizer is to choose ${\mathbf{X}} = {{\mathbf{Q}}{\mathbf{Q}}^{\ast}{\mathbf{A}}}$, where the columns of $\mathbf{Q}$ are $k$ dominant left singular vectors of $\mathbf{A}$. Consequently, the minimal rank $k$ where holds equals the number of singular values of $\mathbf{A}$ that exceed the tolerance $\varepsilon$.
 
-The singular value decomposition furnishes an optimal answer to the fixed-precision problem. Let $\sigma_{j}$ denote the $j$th largest singular value of $\mathbf{A}$. For each $j \geq 0$,
-
-One way to construct a minimizer is to choose ${\mathbf{X}} = {{\mathbf{Q}}{\mathbf{Q}}^{\ast}{\mathbf{A}}}$, where the columns of $\mathbf{Q}$ are $k$ dominant left singular vectors of $\mathbf{A}$. Consequently, the minimal rank $k$ where holds equals the number of singular values of $\mathbf{A}$ that exceed the tolerance $\varepsilon$.
-
-To simplify the development of algorithms, it is convenient to assume that the desired rank $k$ is specified in advance. We call the resulting problem the *fixed-rank approximation problem*. Given a matrix $\mathbf{A}$, a target rank $k$, and an oversampling parameter $p$, we seek to construct a matrix $\mathbf{Q}$ with $k + p$ orthonormal columns such that
-
-Although there exists a minimizer $\mathbf{Q}$ that solves the fixed rank problem for $p = 0$, the opportunity to use a small number of additional columns provides a flexibility that is crucial for the effectiveness of the computational methods we discuss.
+To simplify the development of algorithms, it is convenient to assume that the desired rank $k$ is specified in advance. We call the resulting problem the *fixed-rank approximation problem*. Given a matrix $\mathbf{A}$, a target rank $k$, and an oversampling parameter $p$, we seek to construct a matrix $\mathbf{Q}$ with $k + p$ orthonormal columns such that Although there exists a minimizer $\mathbf{Q}$ that solves the fixed rank problem for $p = 0$, the opportunity to use a small number of additional columns provides a flexibility that is crucial for the effectiveness of the computational methods we discuss.
 
 We will demonstrate that algorithms for the fixed-rank problem can be adapted to solve the fixed-precision problem. The connection is based on the observation that we can build the basis matrix $\mathbf{Q}$ incrementally and, at any point in the computation, we can inexpensively estimate the residual error $\left\| {{\mathbf{A}} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}{\mathbf{A}}}} \right\|$. Refer to §4.4 for free ‣ 4 Stage A: Randomized schemes for approximating the range ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") for the details of this reduction.
 
@@ -110,13 +92,9 @@ We will demonstrate that algorithms for the fixed-rank problem can be adapted to
 
 To understand how randomness helps us solve the fixed-rank problem, it is helpful to consider some motivating examples.
 
-First, suppose that we seek a basis for the range of a matrix $\mathbf{A}$ with exact rank $k$. Draw a random vector $\mathbf{ω}$, and form the product ${\mathbf{y}} = {{\mathbf{A}}{\mathbf{ω}}}$. For now, the precise distribution of the random vector is unimportant; just think of $\mathbf{y}$ as a random sample from the range of $\mathbf{A}$. Let us repeat this sampling process $k$ times:
+First, suppose that we seek a basis for the range of a matrix $\mathbf{A}$ with exact rank $k$. Draw a random vector $\mathbf{ω}$, and form the product ${\mathbf{y}} = {{\mathbf{A}}{\mathbf{ω}}}$. For now, the precise distribution of the random vector is unimportant; just think of $\mathbf{y}$ as a random sample from the range of $\mathbf{A}$. Let us repeat this sampling process $k$ times: Owing to the randomness, the set $\{{\mathbf{ω}}^{(i)}:{i = {1,2,\ldots,k}}\}$ of random vectors is likely to be in general linear position. In particular, the random vectors form a linearly independent set and no linear combination falls in the null space of $\mathbf{A}$. As a result, the set $\{{\mathbf{y}}^{(i)}:{i = {1,2,\ldots,k}}\}$ of sample vectors is also linearly independent, so it spans the range of $\mathbf{A}$. Therefore, to produce an orthonormal basis for the range of $\mathbf{A}$, we just need to orthonormalize the sample vectors.
 
-Owing to the randomness, the set $\{{\mathbf{ω}}^{(i)}:{i = {1,2,\ldots,k}}\}$ of random vectors is likely to be in general linear position. In particular, the random vectors form a linearly independent set and no linear combination falls in the null space of $\mathbf{A}$. As a result, the set $\{{\mathbf{y}}^{(i)}:{i = {1,2,\ldots,k}}\}$ of sample vectors is also linearly independent, so it spans the range of $\mathbf{A}$. Therefore, to produce an orthonormal basis for the range of $\mathbf{A}$, we just need to orthonormalize the sample vectors.
-
-Now, imagine that ${\mathbf{A}} = {{\mathbf{B}} + {\mathbf{E}}}$ where $\mathbf{B}$ is a rank-$k$ matrix containing the information we seek and $\mathbf{E}$ is a small perturbation. Our priority is to obtain a basis that covers as much of the range of $\mathbf{B}$ as possible, rather than to minimize the number of basis vectors. Therefore, we fix a small number $p$, and we generate $k + p$ samples
-
-The perturbation $\mathbf{E}$ shifts the direction of each sample vector outside the range of $\mathbf{B}$, which can prevent the span of $\{{\mathbf{y}}^{(i)}:{i = {1,2,\ldots,k}}\}$ from covering the entire range of $\mathbf{B}$. In contrast, the enriched set $\{{\mathbf{y}}^{(i)}:{i = {1,2,\ldots,{k + p}}}\}$ of samples has a much better chance of spanning the required subspace.
+Now, imagine that ${\mathbf{A}} = {{\mathbf{B}} + {\mathbf{E}}}$ where $\mathbf{B}$ is a rank-$k$ matrix containing the information we seek and $\mathbf{E}$ is a small perturbation. Our priority is to obtain a basis that covers as much of the range of $\mathbf{B}$ as possible, rather than to minimize the number of basis vectors. Therefore, we fix a small number $p$, and we generate $k + p$ samples The perturbation $\mathbf{E}$ shifts the direction of each sample vector outside the range of $\mathbf{B}$, which can prevent the span of $\{{\mathbf{y}}^{(i)}:{i = {1,2,\ldots,k}}\}$ from covering the entire range of $\mathbf{B}$. In contrast, the enriched set $\{{\mathbf{y}}^{(i)}:{i = {1,2,\ldots,{k + p}}}\}$ of samples has a much better chance of spanning the required subspace.
 
 Just how many extra samples do we need? Remarkably, for certain types of random sampling schemes, the failure probability decreases superexponentially with the oversampling parameter $p$; see. As a practical matter, setting $p = 5$ or $p = 10$ often gives superb results. This observation is one of the principal facts supporting the randomized approach to numerical linear algebra.
 
@@ -124,13 +102,11 @@ Just how many extra samples do we need? Remarkably, for certain types of random 
 
 The intuitive approach of §1.3.2 can be applied to general matrices. Omitting computational details for now, we formalize the procedure in the figure labeled Proto-Algorithm.
 
-Proto-Algorithm: Solving the Fixed-Rank Problem Given an m × n matrix A, a target rank k, and an oversampling parameter p, this procedure computes an m × (k+p) matrix Q whose columns are orthonormal and whose range approximates the range of A. 1 Draw a random n × (k+p) test matrix Ω. 2 Form the matrix product Y = A Ω. 3 Construct a matrix Q whose columns form an orthonormal basis for the range of Y.
+Proto-Algorithm: Solving the Fixed-Rank Problem Given an m × n matrix A, a target rank k, and an oversampling parameter p, this procedure computes an m × (k + p) matrix Q whose columns are orthonormal and whose range approximates the range of A. 1 Draw a random n × (k + p) test matrix Ω. 2 Form the matrix product Y = A Ω. 3 Construct a matrix Q whose columns form an orthonormal basis for the range of Y.
 
 This simple algorithm is by no means new. It is essentially the first step of a subspace iteration with a random initial subspace \[61, §7.3.2\]. The novelty comes from the additional observation that the initial subspace should have a slightly higher dimension than the invariant subspace we are trying to approximate. With this revision, it is often the case that *no further iteration is required* to obtain a high-quality solution to. We believe this idea can be traced to.
 
-In order to invoke the proto-algorithm with confidence, we must address several practical and theoretical issues:
-
-What random matrix $\mathbf{\Omega}$ should we use? How much oversampling do we need?
+In order to invoke the proto-algorithm with confidence, we must address several practical and theoretical issues: What random matrix $\mathbf{\Omega}$ should we use? How much oversampling do we need?
 
 The matrix $\mathbf{Y}$ is likely to be ill-conditioned. How do we orthonormalize its columns to form the matrix $\mathbf{Q}$?
 
@@ -184,15 +160,11 @@ Let us offer a taste of this theory. The following theorem describes the average
 
 ### Theorem 1
 
-Suppose that $\mathbf{A}$ is a real $m \times n$ matrix. Select a target rank $k \geq 2$ and an oversampling parameter $p \geq 2$, where ${k + p} \leq {\min{\{ m,n\}}}$. Execute the proto-algorithm with a standard Gaussian test matrix to obtain an $m \times {({k + p})}$ matrix $\mathbf{Q}$ with orthonormal columns. Then
-
-where $\mathbb{E}$ denotes expectation with respect to the random test matrix and $\sigma_{k + 1}$ is the $({k + 1})$th singular value of $\mathbf{A}$.
+Suppose that $\mathbf{A}$ is a real $m \times n$ matrix. Select a target rank $k \geq 2$ and an oversampling parameter $p \geq 2$, where ${k + p} \leq {\min{\{ m,n\}}}$. Execute the proto-algorithm with a standard Gaussian test matrix to obtain an $m \times {({k + p})}$ matrix $\mathbf{Q}$ with orthonormal columns. Then where $\mathbb{E}$ denotes expectation with respect to the random test matrix and $\sigma_{k + 1}$ is the $({k + 1})$th singular value of $\mathbf{A}$.
 
 We recall that the term $\sigma_{k + 1}$ appearing in is the smallest possible error achievable with any basis matrix $\mathbf{Q}$. The theorem asserts that, on average, the algorithm produces a basis whose error lies within a small polynomial factor of the theoretical minimum. Moreover, the error bound in the randomized algorithm is slightly sharper than comparable bounds for deterministic techniques based on rank-revealing QR algorithms.
 
-The reader might be worried about whether the expectation provides a useful account of the approximation error. Fear not: the actual outcome of the algorithm is almost always very close to the typical outcome because of measure concentration effects. As we discuss in §10.3, the probability that the error satisfies
-
-is at least $1 - {6 \cdot p^{- p}}$ under very mild assumptions on $p$. This fact justifies the use of an oversampling term as small as $p = 5$. This simplified estimate is very similar to the major results in.
+The reader might be worried about whether the expectation provides a useful account of the approximation error. Fear not: the actual outcome of the algorithm is almost always very close to the typical outcome because of measure concentration effects. As we discuss in §10.3, the probability that the error satisfies is at least $1 - {6 \cdot p^{- p}}$ under very mild assumptions on $p$. This fact justifies the use of an oversampling term as small as $p = 5$. This simplified estimate is very similar to the major results.
 
 The theory developed in this paper provides much more detailed information about the performance of the proto-algorithm.
 
@@ -212,21 +184,15 @@ The two-stage randomized method offers a natural approach to SVD computations. U
 
 Prototype for Randomized SVD Given an m × n matrix A, a target number k of singular vectors, and an exponent q (say q = 1 or q = 2), this procedure computes an approximate rank-2 k factorization U Σ V*, where U and V are orthonormal, and Σ is nonnegative and diagonal. Stage A: 1 Generate an n × 2 k Gaussian test matrix Ω. 2 Form Y = (A A*)q A Ω by multiplying alternately with A and A*. 3 Construct a matrix Q whose columns form an orthonormal basis for the range of Y. Stage B: 4 Form B = Q* A. 5 Compute an SVD of the small matrix: ${\mathbf{B}} = {\overset{\sim}{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}$. 6 Set ${\mathbf{U}} = {{\mathbf{Q}}\overset{\sim}{\mathbf{U}}}$. Note: The computation of Y in Step 2 is vulnerable to round-off errors. When high accuracy is required, we must incorporate an orthonormalization step between each application of A and A*; see Algorithm LABEL:alg:subspaceiteration.
 
-The Randomized SVD procedure requires only $2{({q + 1})}$ passes over the matrix, so it is efficient even for matrices stored out-of-core. The flop count satisfies
-
-where $T_{mult}$ is the flop count of a matrix--vector multiply with $\mathbf{A}$ or ${\mathbf{A}}^{\ast}$. We have the following theorem on the performance of this method in exact arithmetic, which is a consequence of Corollary 23. ‣ 10.4 Analysis of the power scheme ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions").
+The Randomized SVD procedure requires only $2{({q + 1})}$ passes over the matrix, so it is efficient even for matrices stored out-of-core. The flop count satisfies where $T_{mult}$ is the flop count of a matrix--vector multiply with $\mathbf{A}$ or ${\mathbf{A}}^{\ast}$. We have the following theorem on the performance of this method in exact arithmetic, which is a consequence of Corollary 23. ‣ 10.4 Analysis of the power scheme ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions").
 
 ### Theorem 2
 
-Suppose that $\mathbf{A}$ is a real $m \times n$ matrix. Select an exponent $q$ and a target number $k$ of singular vectors, where $2 \leq k \leq {0.5{\min{\{ m,n\}}}}$. Execute the Randomized SVD algorithm to obtain a rank-$2k$ factorization $\mathbf{U}\mathbf{\Sigma}\mathbf{V}^{\ast}$. Then
-
-where $\mathbb{E}$ denotes expectation with respect to the random test matrix and $\sigma_{k + 1}$ is the $({k + 1})$th singular value of $\mathbf{A}$.
+Suppose that $\mathbf{A}$ is a real $m \times n$ matrix. Select an exponent $q$ and a target number $k$ of singular vectors, where $2 \leq k \leq {0.5{\min{\{ m,n\}}}}$. Execute the Randomized SVD algorithm to obtain a rank-$2k$ factorization $\mathbf{U}\mathbf{\Sigma}\mathbf{V}^{\ast}$. Then where $\mathbb{E}$ denotes expectation with respect to the random test matrix and $\sigma_{k + 1}$ is the $({k + 1})$th singular value of $\mathbf{A}$.
 
 This result is new. Observe that the bracket in is essentially the same as the bracket in the basic error bound. We find that the power iteration drives the leading constant to one exponentially fast as the power $q$ increases. The rank-$k$ approximation of $\mathbf{A}$ can never achieve an error smaller than $\sigma_{k + 1}$, so the randomized procedure computes $2k$ approximate singular vectors that capture as much of the matrix as the first $k$ actual singular vectors.
 
-In practice, we can truncate the approximate SVD, retaining only the first $k$ singular values and vectors. Equivalently, we replace the diagonal factor $\mathbf{\Sigma}$ by the matrix $\mathbf{\Sigma}_{(k)}$ formed by zeroing out all but the largest $k$ entries of $\mathbf{\Sigma}$. For this truncated SVD, we have the error bound
-
-In words, we pay no more than an additive term $\sigma_{k + 1}$ when we perform the truncation step. Our numerical experience suggests that the error bound is pessimistic. See Remark 5.1 and §9.4 for some discussion of truncation.
+In practice, we can truncate the approximate SVD, retaining only the first $k$ singular values and vectors. Equivalently, we replace the diagonal factor $\mathbf{\Sigma}$ by the matrix $\mathbf{\Sigma}_{(k)}$ formed by zeroing out all but the largest $k$ entries of $\mathbf{\Sigma}$. For this truncated SVD, we have the error bound In words, we pay no more than an additive term $\sigma_{k + 1}$ when we perform the truncation step. Our numerical experience suggests that the error bound is pessimistic. See Remark 5.1 and §9.4 for some discussion of truncation.
 
 ### Outline of paper
 
@@ -240,9 +206,7 @@ Randomness has occasionally surfaced in the numerical linear algebra literature;
 
 Matrices of low numerical rank contain little information relative to their apparent dimension owing to the linear dependency in their columns (or rows). As a result, it is reasonable to expect that these matrices can be approximated with far fewer degrees of freedom. A less obvious fact is that randomized schemes can be used to produce these approximations efficiently.
 
-Several types of approximation techniques build on this idea. These methods all follow the same basic pattern:
-
-Preprocess the matrix, usually to calculate sampling probabilities.
+Several types of approximation techniques build on this idea. These methods all follow the same basic pattern: Preprocess the matrix, usually to calculate sampling probabilities.
 
 Take random samples from the matrix, where the term *sample* refers generically to a linear function of the matrix.
 
@@ -256,25 +220,19 @@ The simplest approach to matrix approximation is the method of *sparsification* 
 
 Sparsification typically involves very simple elementwise calculations. Each entry in the approximation is drawn independently at random from a distribution determined from the corresponding entry of the input matrix. The expected value of the random approximation equals the original matrix, but the distribution is designed so that a typical realization is much sparser.
 
-The first method of this form was devised by Achlioptas and McSherry, who built on earlier work on graph sparsification due to Karger. Arora--Hazan--Kale presented a different sampling method in. See for some recent work on sparsification.
+The first method of this form was devised by Achlioptas and McSherry, who built on earlier work on graph sparsification due to Karger. Arora--Hazan--Kale presented a different sampling method . See for some recent work on sparsification.
 
 ### Column selection methods
 
-A second approach to matrix approximation is based on the idea that a small set of columns describes most of the action of a numerically low-rank matrix. Indeed, classical existential results demonstrate that every $m \times n$ matrix $\mathbf{A}$ contains a $k$-column submatrix $\mathbf{C}$ for which
-
-where $k$ is a parameter, the dagger $\dagger$ denotes the pseudoinverse, and ${\mathbf{A}}_{(k)}$ is a best rank-$k$ approximation of $\mathbf{A}$. It is $\mathsf{N}\mathsf{P}$-hard to perform column selection by optimizing natural objective functions, such as the condition number of the submatrix. Nevertheless, there are efficient deterministic algorithms, such as the rank-revealing QR method of, that can nearly achieve the error bound.
+A second approach to matrix approximation is based on the idea that a small set of columns describes most of the action of a numerically low-rank matrix. Indeed, classical existential results demonstrate that every $m \times n$ matrix $\mathbf{A}$ contains a $k$-column submatrix $\mathbf{C}$ for which where $k$ is a parameter, the dagger $\dagger$ denotes the pseudoinverse, and ${\mathbf{A}}_{(k)}$ is a best rank-$k$ approximation of $\mathbf{A}$. It is $\mathsf{N}\mathsf{P}$-hard to perform column selection by optimizing natural objective functions, such as the condition number of the submatrix. Nevertheless, there are efficient deterministic algorithms, such as the rank-revealing QR method of, that can nearly achieve the error bound.
 
 There is a class of randomized algorithms that approach the fixed-rank approximation problem using this intuition. These methods first compute a sampling probability for each column, either using the squared Euclidean norms of the columns or their *leverage scores*. (Leverage scores reflect the relative importance of the columns to the action of the matrix; they can be calculated easily from the dominant $k$ right singular vectors of the matrix.) Columns are then selected randomly according to this distribution. Afterward, a postprocessing step is invoked to produce a more refined approximation of the matrix.
 
-We believe that the earliest method of this form appeared in a 1998 paper of Frieze--Kannan--Vempala. This work was refined substantially in the papers. The basic algorithm samples columns from a distribution related to the squared $\ell_{2}$ norms of the columns. This sampling step produces a small column submatrix whose range is aligned with the range of the input matrix. The final approximation is obtained from a truncated SVD of the submatrix. Given a target rank $k$ and a parameter $\varepsilon > 0$, this approach samples $\ell = {\ell{(k,\varepsilon)}}$ columns of the matrix to produce a rank-$k$ approximation $\mathbf{B}$ that satisfies
-
-where $\left. \parallel \cdot \parallel{}_{F} \right.$ denotes the Frobenius norm. We note that the algorithm of requires only a constant number of passes over the data.
+We believe that the earliest method of this form appeared in a 1998 paper of Frieze--Kannan--Vempala. This work was refined substantially in the papers. The basic algorithm samples columns from a distribution related to the squared $\ell_{2}$ norms of the columns. This sampling step produces a small column submatrix whose range is aligned with the range of the input matrix. The final approximation is obtained from a truncated SVD of the submatrix. Given a target rank $k$ and a parameter $\varepsilon > 0$, this approach samples $\ell = {\ell{(k,\varepsilon)}}$ columns of the matrix to produce a rank-$k$ approximation $\mathbf{B}$ that satisfies where $\left. \parallel \cdot \parallel{}_{F} \right.$ denotes the Frobenius norm. We note that the algorithm of requires only a constant number of passes over the data.
 
 Rudelson and Vershynin later showed that the same type of column sampling method also yields spectral-norm error bounds. The techniques in their paper have been very influential; their work has found other applications in randomized regression, sparse approximation, and compressive sampling.
 
-Deshpande et al. demonstrated that the error in the column sampling approach can be improved by iteration and adaptive volume sampling. They showed that it is possible to produce a rank-$k$ matrix $\mathbf{B}$ that satisfies
-
-using a $k$-pass algorithm. Around the same time, Har-Peled independently developed a recursive algorithm that offers the same approximation guarantees. Very recently, Desphande and Rademacher have improved the running time of volume-based sampling methods.
+Deshpande et al. demonstrated that the error in the column sampling approach can be improved by iteration and adaptive volume sampling. They showed that it is possible to produce a rank-$k$ matrix $\mathbf{B}$ that satisfies using a $k$-pass algorithm. Around the same time, Har-Peled independently developed a recursive algorithm that offers the same approximation guarantees. Very recently, Desphande and Rademacher have improved the running time of volume-based sampling methods.
 
 Drineas et al. and Boutsidis et al. have also developed randomized algorithms for the *column subset selection problem*, which requests a column submatrix $\mathbf{C}$ that achieves a bound of the form. Via the methods of Rudelson and Vershynin, they showed that sampling columns according to their leverage scores is likely to produce the required submatrix. Subsequent work showed that postprocessing the sampled columns with a rank-revealing QR algorithm can reduce the number of output columns required. The argument in explicitly decouples the linear algebraic part of the analysis from the random matrix theory. The theoretical analysis in the present work involves a very similar technique.
 
@@ -300,39 +258,23 @@ Very recently, Clarkson and Woodruff have developed one-pass algorithms for perf
 
 The matrix approximation literature contains a subgenre that discusses methods for building an approximation from a submatrix and computed coefficient matrices. For example, we can construct an approximation using a subcollection of columns (the interpolative decomposition), a subcollection of rows and a subcollection of columns (the CUR decomposition), or a square submatrix (the matrix skeleton). This type of decomposition was developed and studied in several papers, including. For data analysis applications, see the recent paper.
 
-A number of works develop randomized algorithms for this class of matrix approximations. Drineas et al. have developed techniques for computing CUR decompositions, which express ${\mathbf{A}} \approx {{\mathbf{C}}{\mathbf{U}}{\mathbf{R}}}$, where $\mathbf{C}$ and $\mathbf{R}$ denote small column and row submatrices of $\mathbf{A}$ and where $\mathbf{U}$ is a small linkage matrix. These methods identify columns (rows) that approximate the range (corange) of the matrix; the linkage matrix is then computed by solving a small least-squares problem. A randomized algorithm for CUR approximation with controlled absolute error appears in; a relative error algorithm appears in. We also mention a paper on computing a closely related factorization called the *compact matrix decomposition*.
+A number of works develop randomized algorithms for this class of matrix approximations. Drineas et al. have developed techniques for computing CUR decompositions, which express ${\mathbf{A}} \approx {{\mathbf{C}}{\mathbf{U}}{\mathbf{R}}}$, where $\mathbf{C}$ and $\mathbf{R}$ denote small column and row submatrices of $\mathbf{A}$ and where $\mathbf{U}$ is a small linkage matrix. These methods identify columns (rows) that approximate the range (corange) of the matrix; the linkage matrix is then computed by solving a small least-squares problem. A randomized algorithm for CUR approximation with controlled absolute error appears ; a relative error algorithm appears . We also mention a paper on computing a closely related factorization called the *compact matrix decomposition*.
 
 It is also possible to produce interpolative decompositions and matrix skeletons using randomized methods, as discussed in and §5.2 of the present work.
 
 ### Other numerical problems
 
-The literature contains a variety of other randomized algorithms for solving standard problems in and around numerical linear algebra. We list some of the basic references.
+The literature contains a variety of other randomized algorithms for solving standard problems in and around numerical linear algebra. We list some of the basic references.: Randomized column selection methods can be used to produce CUR-type decompositions of higher-order tensors.: Column selection and dimension reduction techniques can be used to accelerate the multiplication of rank-deficient matrices. See also.
 
-: Randomized column selection methods can be used to produce CUR-type decompositions of higher-order tensors.
+Overdetermined linear systems.: The randomized Kaczmarz algorithm is a linearly convergent iterative method that can be used to solve overdetermined linear systems.
 
-: Column selection and dimension reduction techniques can be used to accelerate the multiplication of rank-deficient matrices. See also.
+Overdetermined least squares.: Fast dimension-reduction maps can sometimes accelerate the solution of overdetermined least-squares problems.
 
-Overdetermined linear systems.
+Nonnegative least squares.: Fast dimension reduction maps can be used to reduce the size of nonnegative least-squares problems.
 
-: The randomized Kaczmarz algorithm is a linearly convergent iterative method that can be used to solve overdetermined linear systems.
+Preconditioned least squares.: Randomized matrix approximations can be used to precondition conjugate gradient to solve least-squares problems.
 
-Overdetermined least squares.
-
-: Fast dimension-reduction maps can sometimes accelerate the solution of overdetermined least-squares problems.
-
-Nonnegative least squares.
-
-: Fast dimension reduction maps can be used to reduce the size of nonnegative least-squares problems.
-
-Preconditioned least squares.
-
-: Randomized matrix approximations can be used to precondition conjugate gradient to solve least-squares problems.
-
-Other regression problems.
-
-: Randomized algorithms for $\ell_{1}$ regression are described in. Regression in $\ell_{p}$ for $p \in {\lbrack 1,\infty)}$ has also been considered.
-
-: The Fermat--Weber facility location problem can be viewed as matrix approximation with respect to a different discrepancy measure. Randomized algorithms for this type of problem appear in.
+Other regression problems.: Randomized algorithms for $\ell_{1}$ regression are described. Regression in $\ell_{p}$ for $p \in {\lbrack 1,\infty)}$ has also been considered.: The Fermat--Weber facility location problem can be viewed as matrix approximation with respect to a different discrepancy measure. Randomized algorithms for this type of problem appear.
 
 ### Compressive sampling
 
@@ -356,7 +298,7 @@ The field of random embeddings is a major precursor to randomized matrix approxi
 
 These observations suggest that we might be able to solve some computational problems of a geometric nature more efficiently by translating them into a lower-dimensional space and solving them there. This idea was cultivated by the theoretical computer science community beginning in the late 1980s, with research flowering in the late 1990s. In particular, nearest-neighbor search can benefit from dimension-reduction techniques. The papers were apparently the first to apply this approach to linear algebra.
 
-Around the same time, researchers became interested in simplifying the form of dimension reduction maps and improving the computational cost of applying the map. Several researchers developed refined results on the performance of a Gaussian matrix as a linear dimension reduction map. Achlioptas demonstrated that discrete random matrices would serve nearly as well. In 2006, Ailon and Chazelle proposed the *fast Johnson--Lindenstrauss transform*, which combines the speed of the FFT with the favorable embedding properties of a Gaussian matrix. Subsequent refinements appear in. Sarlós then imported these techniques to study several problems in numerical linear algebra, which has led to some of the fastest algorithms currently available.
+Around the same time, researchers became interested in simplifying the form of dimension reduction maps and improving the computational cost of applying the map. Several researchers developed refined results on the performance of a Gaussian matrix as a linear dimension reduction map. Achlioptas demonstrated that discrete random matrices would serve nearly as well. In 2006, Ailon and Chazelle proposed the *fast Johnson--Lindenstrauss transform*, which combines the speed of the FFT with the favorable embedding properties of a Gaussian matrix. Subsequent refinements appear . Sarlós then imported these techniques to study several problems in numerical linear algebra, which has led to some of the fastest algorithms currently available.
 
 ### Data streams
 
@@ -376,9 +318,7 @@ Among other interesting applications of randomness, we mention the work by Parke
 
 ### Scientific computing
 
-One of the first algorithmic applications of randomness is the method of Monte Carlo integration introduced by Von Neumann and Ulam, and its extensions, such as the Metropolis algorithm for simulations in statistical physics. (See for an introduction.) The most basic technique is to estimate an integral by sampling $m$ points from the measure and computing an empirical mean of the integrand evaluated at the sample locations:
-
-where $X_{i}$ are independent and identically distributed according to the probability measure $\mu$. The law of large numbers (usually) ensures that this approach produces the correct result in the limit as $m\rightarrow\infty$. Unfortunately, the approximation error typically has a standard deviation of $m^{- {1/2}}$, and the method provides no certificate of success.
+One of the first algorithmic applications of randomness is the method of Monte Carlo integration introduced by Von Neumann and Ulam, and its extensions, such as the Metropolis algorithm for simulations in statistical physics. (See for an introduction.) The most basic technique is to estimate an integral by sampling $m$ points from the measure and computing an empirical mean of the integrand evaluated at the sample locations: where $X_{i}$ are independent and identically distributed according to the probability measure $\mu$. The law of large numbers (usually) ensures that this approach produces the correct result in the limit as $m\rightarrow\infty$. Unfortunately, the approximation error typically has a standard deviation of $m^{- {1/2}}$, and the method provides no certificate of success.
 
 The disappointing computational profile of Monte Carlo integration seems to have inspired a distaste for randomized approaches within the scientific computing community. Fortunately, there are many other types of randomized algorithms---such as the ones in this paper---that do not suffer from the same shortcomings.
 
@@ -388,13 +328,11 @@ There is one more character that plays a central role in our story: the probabil
 
 Dvoretsky's theorem states (roughly) that every infinite-dimensional Banach space contains an $n$-dimensional subspace whose geometry is essentially the same as an $n$-dimensional Hilbert space, where $n$ is an arbitrary natural number. In 1971, V. D. Milman developed a striking proof of this result by showing that a *random* $n$-dimensional subspace of an $N$-dimensional Banach space has this property with exceedingly high probability, provided that $N$ is large enough. Milman's article debuted the *concentration of measure phenomenon*, which is a geometric interpretation of the classical idea that regular functions of independent random variables rarely deviate far from their mean. This work opened a new era in geometric analysis where the probabilistic method became a basic instrument.
 
-Another prominent example of measure concentration is Kashin's computation of the Gel'fand widths of the $\ell_{1}$ ball, subsequently refined in. This work showed that a *random* $({N - n})$-dimensional projection of the $N$-dimensional $\ell_{1}$ ball has an astonishingly small Euclidean diameter: approximately $\sqrt{{({1 + {\log{({N/n})}}})}/n}$. In contrast, a nonzero projection of the $\ell_{2}$ ball always has Euclidean diameter one. This basic geometric fact undergirds recent developments in compressive sampling.
+Another prominent example of measure concentration is Kashin's computation of the Gel'fand widths of the $\ell_{1}$ ball, subsequently refined . This work showed that a *random* $({N - n})$-dimensional projection of the $N$-dimensional $\ell_{1}$ ball has an astonishingly small Euclidean diameter: approximately $\sqrt{{({1 + {\log{({N/n})}}})}/n}$. In contrast, a nonzero projection of the $\ell_{2}$ ball always has Euclidean diameter one. This basic geometric fact undergirds recent developments in compressive sampling.
 
 We have already described a third class of examples: the randomized embeddings of Johnson--Lindenstrauss and of Bourgain.
 
-Finally, we mention Maurey's technique of empirical approximation. The original work was unpublished; one of the earliest applications appears in \[24, §1\]. Although Maurey's idea has not received as much press as the examples above, it can lead to simple and efficient algorithms for sparse approximation. For some examples in machine learning, consider
-
-The importance of random constructions in the geometric analysis community has led to the development of powerful techniques for studying random matrices. Classical random matrix theory focuses on a detailed asymptotic analysis of the spectral properties of special classes of random matrices. In contrast, geometric analysts know methods for determining the approximate behavior of rather complicated finite-dimensional random matrices. See for a fairly current survey article. We also mention the works of Rudelson and Rudelson--Vershynin, which describe powerful tools for studying random matrices drawn from certain discrete distributions. Their papers are rooted deeply in the field of geometric functional analysis, but they reach out toward computational applications.
+Finally, we mention Maurey's technique of empirical approximation. The original work was unpublished; one of the earliest applications appears in \[24, §1\]. Although Maurey's idea has not received as much press as the examples above, it can lead to simple and efficient algorithms for sparse approximation. For some examples in machine learning, consider The importance of random constructions in the geometric analysis community has led to the development of powerful techniques for studying random matrices. Classical random matrix theory focuses on a detailed asymptotic analysis of the spectral properties of special classes of random matrices. In contrast, geometric analysts know methods for determining the approximate behavior of rather complicated finite-dimensional random matrices. See for a fairly current survey article. We also mention the works of Rudelson and Rudelson--Vershynin, which describe powerful tools for studying random matrices drawn from certain discrete distributions. Their papers are rooted deeply in the field of geometric functional analysis, but they reach out toward computational applications.
 
 ## Linear algebraic preliminaries
 
@@ -402,25 +340,9 @@ This section summarizes the background we need for the detailed description of r
 
 ### Basic definitions
 
-The standard Hermitian geometry for ${\mathbb{C}}^{n}$ is induced by the inner product
+The standard Hermitian geometry for ${\mathbb{C}}^{n}$ is induced by the inner product The associated norm is We usually measure the magnitude of a matrix $\mathbf{A}$ with the operator norm which is often referred to as the *spectral norm*. The Frobenius norm is given by The conjugate transpose, or *adjoint*, of a matrix $\mathbf{A}$ is denoted ${\mathbf{A}}^{\ast}$. The important identities hold for each matrix $\mathbf{A}$.
 
-The associated norm is
-
-We usually measure the magnitude of a matrix $\mathbf{A}$ with the operator norm
-
-which is often referred to as the *spectral norm*. The Frobenius norm is given by
-
-The conjugate transpose, or *adjoint*, of a matrix $\mathbf{A}$ is denoted ${\mathbf{A}}^{\ast}$. The important identities
-
-hold for each matrix $\mathbf{A}$.
-
-We say that a matrix $\mathbf{U}$ is *orthonormal* if its columns form an orthonormal set with respect to the Hermitian inner product. An orthonormal matrix $\mathbf{U}$ preserves geometry in the sense that $\left\| {{\mathbf{U}}{\mathbf{x}}} \right\| = \left\| {\mathbf{x}} \right\|$ for every vector $\mathbf{x}$. A *unitary* matrix is a square orthonormal matrix, and an *orthogonal* matrix is a real unitary matrix. Unitary matrices satisfy the relations ${{\mathbf{U}}{\mathbf{U}}^{\ast}} = {{\mathbf{U}}^{\ast}{\mathbf{U}}} = \mathbf{I}$. Both the operator norm and the Frobenius norm are *unitarily invariant*, which means that
-
-for every matrix $\mathbf{A}$ and all orthonormal matrices $\mathbf{U}$ and $\mathbf{V}$
-
-We use the notation of to denote submatrices. If $\mathbf{A}$ is a matrix with entries $a_{ij}$, and if $I = {\lbrack i_{1},i_{2},\ldots,i_{p}\rbrack}$ and $J = {\lbrack j_{1},j_{2},\ldots,j_{q}\rbrack}$ are two index vectors, then the associated $p \times q$ submatrix is expressed as
-
-For column- and row-submatrices, we use the standard abbreviations
+We say that a matrix $\mathbf{U}$ is *orthonormal* if its columns form an orthonormal set with respect to the Hermitian inner product. An orthonormal matrix $\mathbf{U}$ preserves geometry in the sense that $\left\| {{\mathbf{U}}{\mathbf{x}}} \right\| = \left\| {\mathbf{x}} \right\|$ for every vector $\mathbf{x}$. A *unitary* matrix is a square orthonormal matrix, and an *orthogonal* matrix is a real unitary matrix. Unitary matrices satisfy the relations ${{\mathbf{U}}{\mathbf{U}}^{\ast}} = {{\mathbf{U}}^{\ast}{\mathbf{U}}} = \mathbf{I}$. Both the operator norm and the Frobenius norm are *unitarily invariant*, which means that for every matrix $\mathbf{A}$ and all orthonormal matrices $\mathbf{U}$ and $\mathbf{V}$ We use the notation of to denote submatrices. If $\mathbf{A}$ is a matrix with entries $a_{ij}$, and if $I = {\lbrack i_{1},i_{2},\ldots,i_{p}\rbrack}$ and $J = {\lbrack j_{1},j_{2},\ldots,j_{q}\rbrack}$ are two index vectors, then the associated $p \times q$ submatrix is expressed as For column- and row-submatrices, we use the standard abbreviations
 
 ### Standard matrix factorizations
 
@@ -428,33 +350,19 @@ This section defines three basic matrix decompositions. Methods for computing th
 
 ### The pivoted QR factorization
 
-Each $m \times n$ matrix $\mathbf{A}$ of rank $k$ admits a decomposition
-
-where $\mathbf{Q}$ is an $m \times k$ orthonormal matrix, and $\mathbf{R}$ is a $k \times n$ *weakly upper-triangular* matrix. That is, there exists a permutation $J$ of the numbers $\{ 1,\, 2,\ldots,n\}$ such that ${\mathbf{R}}_{(:,J)}$ is upper triangular. Moreover, the diagonal entries of ${\mathbf{R}}_{(:,J)}$ are weakly decreasing. See \[61, §5.4.1\] for details.
+Each $m \times n$ matrix $\mathbf{A}$ of rank $k$ admits a decomposition where $\mathbf{Q}$ is an $m \times k$ orthonormal matrix, and $\mathbf{R}$ is a $k \times n$ *weakly upper-triangular* matrix. That is, there exists a permutation $J$ of the numbers $\{ 1,\, 2,\ldots,n\}$ such that ${\mathbf{R}}_{(:,J)}$ is upper triangular. Moreover, the diagonal entries of ${\mathbf{R}}_{(:,J)}$ are weakly decreasing. See \[61, §5.4.1\] for details.
 
 ### The singular value decomposition (SVD)
 
-Each $m \times n$ matrix $\mathbf{A}$ of rank $k$ admits a factorization
+Each $m \times n$ matrix $\mathbf{A}$ of rank $k$ admits a factorization where $\mathbf{U}$ is an $m \times k$ orthonormal matrix, $\mathbf{V}$ is an $n \times k$ orthonormal matrix, and $\mathbf{\Sigma}$ is a $k \times k$ nonnegative, diagonal matrix The numbers $\sigma_{j}$ are called the *singular values* of $\mathbf{A}$. They are arranged in weakly decreasing order: The columns of $\mathbf{U}$ and $\mathbf{V}$ are called *left singular vectors* and *right singular vectors*, respectively.
 
-where $\mathbf{U}$ is an $m \times k$ orthonormal matrix, $\mathbf{V}$ is an $n \times k$ orthonormal matrix, and $\mathbf{\Sigma}$ is a $k \times k$ nonnegative, diagonal matrix
-
-The numbers $\sigma_{j}$ are called the *singular values* of $\mathbf{A}$. They are arranged in weakly decreasing order:
-
-The columns of $\mathbf{U}$ and $\mathbf{V}$ are called *left singular vectors* and *right singular vectors*, respectively.
-
-Singular values are connected with the approximability of matrices. For each $j$, the number $\sigma_{j + 1}$ equals the spectral-norm discrepancy between $\mathbf{A}$ and an optimal rank-$j$ approximation. That is,
-
-In particular, $\sigma_{1} = \left\| {\mathbf{A}} \right\|$. See \[61, §2.5.3 and §5.4.5\] for additional details.
+Singular values are connected with the approximability of matrices. For each $j$, the number $\sigma_{j + 1}$ equals the spectral-norm discrepancy between $\mathbf{A}$ and an optimal rank-$j$ approximation. That is, In particular, $\sigma_{1} = \left\| {\mathbf{A}} \right\|$. See \[61, §2.5.3 and §5.4.5\] for additional details.
 
 ### The interpolative decomposition (ID)
 
-Our final factorization identifies a collection of $k$ columns from a rank-$k$ matrix $\mathbf{A}$ that span the range of $\mathbf{A}$. To be precise, we can compute an index set $J = {\lbrack j_{1},\ldots,j_{k}\rbrack}$ such that
+Our final factorization identifies a collection of $k$ columns from a rank-$k$ matrix $\mathbf{A}$ that span the range of $\mathbf{A}$. To be precise, we can compute an index set $J = {\lbrack j_{1},\ldots,j_{k}\rbrack}$ such that where $\mathbf{X}$ is a $k \times n$ matrix that satisfies ${\mathbf{X}}_{(:,J)} = \mathbf{I}_{k}$. Furthermore, no entry of $\mathbf{X}$ has magnitude larger than two. In other words, this decomposition expresses each column of $\mathbf{A}$ using a linear combination of $k$ fixed columns with *bounded* coefficients. Stable and efficient algorithms for computing the ID appear in the papers.
 
-where $\mathbf{X}$ is a $k \times n$ matrix that satisfies ${\mathbf{X}}_{(:,J)} = \mathbf{I}_{k}$. Furthermore, no entry of $\mathbf{X}$ has magnitude larger than two. In other words, this decomposition expresses each column of $\mathbf{A}$ using a linear combination of $k$ fixed columns with *bounded* coefficients. Stable and efficient algorithms for computing the ID appear in the papers.
-
-It is also possible to compute a two-sided ID
-
-where $J^{\prime}$ is an index set identifying $k$ of the rows of $\mathbf{A}$, and $\mathbf{W}$ is an $m \times k$ matrix that satisfies ${\mathbf{W}}_{(J^{\prime},:)} = \mathbf{I}_{k}$ and whose entries are all bounded by two.
+It is also possible to compute a two-sided ID where $J'$ is an index set identifying $k$ of the rows of $\mathbf{A}$, and $\mathbf{W}$ is an $m \times k$ matrix that satisfies ${\mathbf{W}}_{(J',:)} = \mathbf{I}_{k}$ and whose entries are all bounded by two.
 
 ### Remark 3.1
 
@@ -472,13 +380,9 @@ It is possible to compute the full QR factorization or the full SVD of an $m \ti
 
 Suppose that an $m \times n$ matrix has numerical rank $k$, where $k$ is substantially smaller than $m$ and $n$. In this case, it is possible to produce a structured low-rank decomposition that approximates the matrix well. Sections 4 and 5 describe a set of randomized techniques for obtaining these partial decompositions. This section briefly reviews the classical techniques, which also play a role in developing randomized methods.
 
-To compute a partial QR decomposition, the classical device is the Businger--Golub algorithm, which performs successive orthogonalization with pivoting on the columns of the matrix. The procedure halts when the Frobenius norm of the remaining columns is less than a computational tolerance $\varepsilon$. Letting $\ell$ denote the number of steps required, the process results in a partial factorization
+To compute a partial QR decomposition, the classical device is the Businger--Golub algorithm, which performs successive orthogonalization with pivoting on the columns of the matrix. The procedure halts when the Frobenius norm of the remaining columns is less than a computational tolerance $\varepsilon$. Letting $\ell$ denote the number of steps required, the process results in a partial factorization where $\mathbf{Q}$ is an $m \times \ell$ orthonormal matrix, $\mathbf{R}$ is a $\ell \times n$ weakly upper-triangular matrix, and $\mathbf{E}$ is a residual that satisfies $\left\| {\mathbf{E}} \right\|_{F} \leq \varepsilon$. The computational cost is $O{({\ellmn})}$, and the number $\ell$ of steps taken is typically close to the minimal rank $k$ for which precision $\varepsilon$ (in the Frobenius norm) is achievable. The Businger--Golub algorithm can in principle significantly overpredict the rank, but in practice this problem is very rare provided that orthonormality is maintained scrupulously.
 
-where $\mathbf{Q}$ is an $m \times \ell$ orthonormal matrix, $\mathbf{R}$ is a $\ell \times n$ weakly upper-triangular matrix, and $\mathbf{E}$ is a residual that satisfies $\left\| {\mathbf{E}} \right\|_{F} \leq \varepsilon$. The computational cost is $O{({\ellmn})}$, and the number $\ell$ of steps taken is typically close to the minimal rank $k$ for which precision $\varepsilon$ (in the Frobenius norm) is achievable. The Businger--Golub algorithm can in principle significantly overpredict the rank, but in practice this problem is very rare provided that orthonormality is maintained scrupulously.
-
-Subsequent research has led to strong rank-revealing QR algorithms that succeed for all matrices. For example, the Gu--Eisenstat algorithm (setting their parameter $f = 2$) produces an QR decomposition of the form, where
-
-Recall that $\sigma_{k + 1}$ is the minimal error possible in a rank-$k$ approximation. The cost of the Gu--Eisenstat algorithm is typically $O{({kmn})}$, but it can be slightly higher in rare cases. The algorithm can also be used to obtain an approximate ID.
+Subsequent research has led to strong rank-revealing QR algorithms that succeed for all matrices. For example, the Gu--Eisenstat algorithm (setting their parameter $f = 2$) produces an QR decomposition of the form, where Recall that $\sigma_{k + 1}$ is the minimal error possible in a rank-$k$ approximation. The cost of the Gu--Eisenstat algorithm is typically $O{({kmn})}$, but it can be slightly higher in rare cases. The algorithm can also be used to obtain an approximate ID.
 
 To compute an approximate SVD of a general $m \times n$ matrix, the most straightforward technique is to compute the full SVD and truncate it. This procedure is stable and accurate, but it requires $O{({mn{\min{\{ m,n\}}}})}$ flops. A more efficient approach is to compute a partial QR factorization and postprocess the factors to obtain a partial SVD using the methods described below in §3.3.3. This scheme takes only $O{({kmn})}$ flops. Krylov subspace methods can also compute partial SVDs at a comparable cost of $O{({kmn})}$, but they are less robust.
 
@@ -486,13 +390,9 @@ Note that all the techniques described in this section require extensive random 
 
 ### Converting from one partial factorization to another
 
-Suppose that we have obtained a partial decomposition of a matrix $\mathbf{A}$ by some means:
+Suppose that we have obtained a partial decomposition of a matrix $\mathbf{A}$ by some means: where $\mathbf{B}$ and $\mathbf{C}$ have rank $k$. Given this information, we can efficiently compute any of the basic factorizations.
 
-where $\mathbf{B}$ and $\mathbf{C}$ have rank $k$. Given this information, we can efficiently compute any of the basic factorizations.
-
-We construct a partial QR factorization using the following three steps:
-
-Compute a QR factorization of $\mathbf{C}$ so that ${\mathbf{C}} = {{\mathbf{Q}}_{1}{\mathbf{R}}_{1}}$.
+We construct a partial QR factorization using the following three steps: Compute a QR factorization of $\mathbf{C}$ so that ${\mathbf{C}} = {{\mathbf{Q}}_{1}{\mathbf{R}}_{1}}$.
 
 Form the product ${\mathbf{D}} = {{\mathbf{R}}_{1}{\mathbf{B}}}$, and compute a QR factorization: ${\mathbf{D}} = {{\mathbf{Q}}_{2}{\mathbf{R}}}$.
 
@@ -500,9 +400,7 @@ Form the product ${\mathbf{Q}} = {{\mathbf{Q}}_{1}{\mathbf{Q}}_{2}}$.
 
 The result is an orthonormal matrix $\mathbf{Q}$ and a weakly upper-triangular matrix $\mathbf{R}$ such that $\left\| {{\mathbf{A}} - {{\mathbf{Q}}{\mathbf{R}}}} \right\| \leq \varepsilon$.
 
-An analogous technique yields a partial SVD:
-
-Compute a QR factorization of $\mathbf{C}$ so that ${\mathbf{C}} = {{\mathbf{Q}}_{1}{\mathbf{R}}_{1}}$.
+An analogous technique yields a partial SVD: Compute a QR factorization of $\mathbf{C}$ so that ${\mathbf{C}} = {{\mathbf{Q}}_{1}{\mathbf{R}}_{1}}$.
 
 Form the product ${\mathbf{D}} = {{\mathbf{R}}_{1}{\mathbf{B}}}$, and compute an SVD: ${\mathbf{D}} = {{\mathbf{U}}_{2}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}$.
 
@@ -510,21 +408,15 @@ Form the product ${\mathbf{U}} = {{\mathbf{Q}}_{1}{\mathbf{U}}_{2}}$.
 
 The result is a diagonal matrix $\mathbf{\Sigma}$ and orthonormal matrices $\mathbf{U}$ and $\mathbf{V}$ such that $\left\| {{\mathbf{A}} - {{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}} \right\| \leq \varepsilon$.
 
-Converting $\mathbf{B}$ and $\mathbf{C}$ into a partial ID is a one-step process:
-
-Compute $J$ and $\mathbf{X}$ such that ${\mathbf{B}} = {{\mathbf{B}}_{(:,J)}{\mathbf{X}}}$.
+Converting $\mathbf{B}$ and $\mathbf{C}$ into a partial ID is a one-step process: Compute $J$ and $\mathbf{X}$ such that ${\mathbf{B}} = {{\mathbf{B}}_{(:,J)}{\mathbf{X}}}$.
 
 Then ${\mathbf{A}} \approx {{\mathbf{A}}_{(:,J)}{\mathbf{X}}}$, but the approximation error may deteriorate from the initial estimate. For example, if we compute the ID using the Gu--Eisenstat algorithm with the parameter $f = 2$, then the error ${\parallel{{\mathbf{A}} - {{\mathbf{A}}_{(:,J)}{\mathbf{X}}}}\parallel} \leq {{({1 + \sqrt{1 + {4k{({n - k})}}}})} \cdot \varepsilon}$. Compare this bound with Lemma 4 below.
 
 ### Krylov-subspace methods
 
-Suppose that the matrix $\mathbf{A}$ can be applied rapidly to vectors, as happens when $\mathbf{A}$ is sparse or structured. Then Krylov subspace techniques can very effectively and accurately compute partial spectral decompositions. For concreteness, assume that $\mathbf{A}$ is Hermitian. The idea of these techniques is to fix a starting vector $\mathbf{ω}$ and to seek approximations to the eigenvectors within the corresponding *Krylov subspace*
+Suppose that the matrix $\mathbf{A}$ can be applied rapidly to vectors, as happens when $\mathbf{A}$ is sparse or structured. Then Krylov subspace techniques can very effectively and accurately compute partial spectral decompositions. For concreteness, assume that $\mathbf{A}$ is Hermitian. The idea of these techniques is to fix a starting vector $\mathbf{ω}$ and to seek approximations to the eigenvectors within the corresponding *Krylov subspace* Krylov methods also come in blocked versions, in which the starting vector $\mathbf{ω}$ is replaced by a starting matrix $\mathbf{\Omega}$. A common recommendation is to draw a starting vector $\mathbf{ω}$ (or starting matrix $\mathbf{\Omega}$) from a standardized Gaussian distribution, which indicates a significant overlap between Krylov methods and the methods in this paper.
 
-Krylov methods also come in blocked versions, in which the starting vector $\mathbf{ω}$ is replaced by a starting matrix $\mathbf{\Omega}$. A common recommendation is to draw a starting vector $\mathbf{ω}$ (or starting matrix $\mathbf{\Omega}$) from a standardized Gaussian distribution, which indicates a significant overlap between Krylov methods and the methods in this paper.
-
-The most basic versions of Krylov methods for computing spectral decompositions are numerically unstable. High-quality implementations require that we incorporate restarting strategies, techniques for maintaining high-quality bases for the Krylov subspaces, etc. The diversity and complexity of such methods make it hard to state a precise computational cost, but in the environment we consider in this paper, a typical cost for a fully stable implementation would be
-
-where $T_{mult}$ is the cost of a matrix--vector multiplication.
+The most basic versions of Krylov methods for computing spectral decompositions are numerically unstable. High-quality implementations require that we incorporate restarting strategies, techniques for maintaining high-quality bases for the Krylov subspaces, etc. The diversity and complexity of such methods make it hard to state a precise computational cost, but in the environment we consider in this paper, a typical cost for a fully stable implementation would be where $T_{mult}$ is the cost of a matrix--vector multiplication.
 
 This part of the paper, §§4--7, provides detailed descriptions of randomized algorithms for constructing low-rank approximations to matrices. As discussed in §1.2, we split the problem into two stages. In Stage A, we construct a subspace that captures the action of the input matrix. In Stage B, we use this subspace to obtain an approximate factorization of the matrix.
 
@@ -540,37 +432,25 @@ The most natural way to implement the proto-algorithm from §1.3 is to draw a ra
 
 Algorithm LABEL:alg:basic: Randomized Range Finder Given an m × n matrix A, and an integer ℓ, this scheme computes an m × ℓ orthonormal matrix Q whose range approximates the range of A. 1 Draw an n × ℓ Gaussian random matrix Ω. 2 Form the m × ℓ matrix Y = A Ω. 3 Construct an m × ℓ matrix Q whose columns form an orthonormal basis for the range of Y, e.g., using the QR factorization Y = Q R.
 
-The number $T_{basic}$ of flops required by Algorithm LABEL:alg:basic satisfies
-
-where $T_{rand}$ is the cost of generating a Gaussian random number and $T_{mult}$ is the cost of multiplying $\mathbf{A}$ by a vector. The three terms in correspond directly with the three steps of Algorithm LABEL:alg:basic.
+The number $T_{basic}$ of flops required by Algorithm LABEL:alg:basic satisfies where $T_{rand}$ is the cost of generating a Gaussian random number and $T_{mult}$ is the cost of multiplying $\mathbf{A}$ by a vector. The three terms in correspond directly with the three steps of Algorithm LABEL:alg:basic.
 
 Empirically, we have found that the performance of Algorithm LABEL:alg:basic depends very little on the quality of the random number generator used in Step 1.
 
-The actual cost of Step 2 depends substantially on the matrix $\mathbf{A}$ and the computational environment that we are working in. The estimate suggests that Algorithm LABEL:alg:basic is especially efficient when the matrix--vector product ${\mathbf{x}}\mapsto{{\mathbf{A}}{\mathbf{x}}}$ can be evaluated rapidly. In particular, the scheme is appropriate for approximating sparse or structured matrices. Turn to §6 for more details.
+The actual cost of Step 2 depends substantially on the matrix $\mathbf{A}$ and the computational environment that we are working . The estimate suggests that Algorithm LABEL:alg:basic is especially efficient when the matrix--vector product ${\mathbf{x}}\mapsto{{\mathbf{A}}{\mathbf{x}}}$ can be evaluated rapidly. In particular, the scheme is appropriate for approximating sparse or structured matrices. Turn to §6 for more details.
 
-The most important implementation issue arises when performing the basis calculation in Step 3. Typically, the columns of the sample matrix $\mathbf{Y}$ are almost linearly dependent, so it is imperative to use stable methods for performing the orthonormalization. We have found that the Gram--Schmidt procedure, augmented with the *double orthogonalization* described in, is both convenient and reliable. Methods based on Householder reflectors or Givens rotations also work very well. Note that very little is gained by pivoting because the columns of the random matrix $\mathbf{Y}$ are independent samples drawn from the same distribution.
+The most important implementation issue arises when performing the basis calculation in Step 3. Typically, the columns of the sample matrix $\mathbf{Y}$ are almost linearly dependent, so it is imperative to use stable methods for performing the orthonormalization. We have found that the Gram--Schmidt procedure, augmented with the *double orthogonalization* described , is both convenient and reliable. Methods based on Householder reflectors or Givens rotations also work very well. Note that very little is gained by pivoting because the columns of the random matrix $\mathbf{Y}$ are independent samples drawn from the same distribution.
 
 ### The number of samples required
 
-The goal of Algorithm LABEL:alg:basic is to produce an orthonormal matrix $\mathbf{Q}$ with few columns that achieves
+The goal of Algorithm LABEL:alg:basic is to produce an orthonormal matrix $\mathbf{Q}$ with few columns that achieves where $\varepsilon$ is a specified tolerance. The number of columns $\ell$ that the algorithm needs to reach this threshold is usually slightly larger than the minimal rank $k$ of the smallest basis that verifies. We refer to this discrepancy $p = {\ell - k}$ as the *oversampling parameter*. The size of the oversampling parameter depends on several factors: The matrix dimensions.: Very large matrices may require more oversampling.
 
-where $\varepsilon$ is a specified tolerance. The number of columns $\ell$ that the algorithm needs to reach this threshold is usually slightly larger than the minimal rank $k$ of the smallest basis that verifies. We refer to this discrepancy $p = {\ell - k}$ as the *oversampling parameter*. The size of the oversampling parameter depends on several factors:
+The singular spectrum.: The more rapid the decay of the singular values, the less oversampling is needed. In the extreme case that the matrix has exact rank $k$, it is not necessary to oversample.
 
-The matrix dimensions.
-
-: Very large matrices may require more oversampling.
-
-The singular spectrum.
-
-: The more rapid the decay of the singular values, the less oversampling is needed. In the extreme case that the matrix has exact rank $k$, it is not necessary to oversample.
-
-The random test matrix.
-
-: Gaussian matrices succeed with very little oversampling, but are not always the most cost-effective option. The structured random matrices discussed in §4.6 may require substantial oversampling, but they still yield computational gains in certain settings.
+The random test matrix.: Gaussian matrices succeed with very little oversampling, but are not always the most cost-effective option. The structured random matrices discussed in §4.6 may require substantial oversampling, but they still yield computational gains in certain settings.
 
 The theoretical results in Part III provide detailed information about how the behavior of randomized schemes depends on these factors. For the moment, we limit ourselves to some general remarks on implementation issues.
 
-For Gaussian test matrices, it is adequate to choose the oversampling parameter to be a small constant, such as $p = 5$ or $p = 10$. There is rarely any advantage to select $p > k$. This observation, first presented in, demonstrates that a Gaussian test matrix results in a negligible amount of extra computation.
+For Gaussian test matrices, it is adequate to choose the oversampling parameter to be a small constant, such as $p = 5$ or $p = 10$. There is rarely any advantage to select $p > k$. This observation, first presented , demonstrates that a Gaussian test matrix results in a negligible amount of extra computation.
 
 In practice, the target rank $k$ is rarely known in advance. Randomized algorithms are usually implemented in an adaptive fashion where the number of samples is increased until the error satisfies the desired tolerance. In other words, the user never *chooses* the oversampling parameter. Theoretical results that bound the amount of oversampling are valuable primarily as aids for designing algorithms. We develop an adaptive approach in §§4.3--4.4 for free ‣ 4 Stage A: Randomized schemes for approximating the range ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions").
 
@@ -580,15 +460,11 @@ The computational bottleneck in Algorithm LABEL:alg:basic is usually the formati
 
 Algorithm LABEL:alg:basic is designed for solving the fixed-rank problem, where the target rank of the input matrix is specified in advance. To handle the fixed-precision problem, where the parameter is the computational tolerance, we need a scheme for estimating how well a putative basis matrix $\mathbf{Q}$ captures the action of the matrix $\mathbf{A}$. To do so, we develop a probabilistic error estimator. These methods are inspired by work of Dixon; our treatment follows.
 
-The exact approximation error is $\left\| {{({\mathbf{I} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}}})}{\mathbf{A}}} \right\|$. It is intuitively plausible that we can obtain some information about this quantity by computing $\left\| {{({\mathbf{I} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}}})}{\mathbf{A}}{\mathbf{ω}}} \right\|$, where $\mathbf{ω}$ is a standard Gaussian vector. This notion leads to the following method. Draw a sequence $\{{\mathbf{ω}}^{(i)}:{i = {1,2,\ldots,r}}\}$ of standard Gaussian vectors, where $r$ is a small integer that balances computational cost and reliability. Then
-
-with probability at least $1 - 10^{- r}$. This statement follows by setting ${\mathbf{B}} = {{({\mathbf{I} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}}})}{\mathbf{A}}}$ and $\alpha = 10$ in the following lemma, whose proof appears in \[137, §3.4\].
+The exact approximation error is $\left\| {{({\mathbf{I} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}}})}{\mathbf{A}}} \right\|$. It is intuitively plausible that we can obtain some information about this quantity by computing $\left\| {{({\mathbf{I} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}}})}{\mathbf{A}}{\mathbf{ω}}} \right\|$, where $\mathbf{ω}$ is a standard Gaussian vector. This notion leads to the following method. Draw a sequence $\{{\mathbf{ω}}^{(i)}:{i = {1,2,\ldots,r}}\}$ of standard Gaussian vectors, where $r$ is a small integer that balances computational cost and reliability. Then with probability at least $1 - 10^{- r}$. This statement follows by setting ${\mathbf{B}} = {{({\mathbf{I} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}}})}{\mathbf{A}}}$ and $\alpha = 10$ in the following lemma, whose proof appears in \[137, §3.4\].
 
 ### Lemma 3
 
-Let $\mathbf{B}$ be a real $m \times n$ matrix. Fix a positive integer $r$ and a real number $\alpha > 1$. Draw an independent family $\{{\mathbf{ω}}^{(i)}:{i = {1,2,\ldots,r}}\}$ of standard Gaussian vectors. Then
-
-except with probability $\alpha^{- r}$.
+Let $\mathbf{B}$ be a real $m \times n$ matrix. Fix a positive integer $r$ and a real number $\alpha > 1$. Draw an independent family $\{{\mathbf{ω}}^{(i)}:{i = {1,2,\ldots,r}}\}$ of standard Gaussian vectors. Then except with probability $\alpha^{- r}$.
 
 The critical point is that the error estimate is computationally inexpensive because it requires only a small number of matrix--vector products. Therefore, we can make a lowball guess for the numerical rank of $\mathbf{A}$ and add more samples if the error estimate is too large. The asymptotic cost of Algorithm LABEL:alg:basic is preserved if we double our guess for the rank at each step. For example, we can start with 32 samples, compute another 32, then another 64, etc.
 
@@ -600,19 +476,15 @@ The estimate is actually somewhat crude. We can obtain a better estimate at a si
 
 The error estimate described in §4.3 can be combined with any method for constructing an approximate basis for the range of a matrix. In this section, we explain how the error estimator can be incorporated into Algorithm LABEL:alg:basic at almost no additional cost.
 
-To be precise, let us suppose that $\mathbf{A}$ is an $m \times n$ matrix and $\varepsilon$ is a computational tolerance. We seek an integer $\ell$ and an $m \times \ell$ orthonormal matrix ${\mathbf{Q}}^{(\ell)}$ such that
+To be precise, let us suppose that $\mathbf{A}$ is an $m \times n$ matrix and $\varepsilon$ is a computational tolerance. We seek an integer $\ell$ and an $m \times \ell$ orthonormal matrix ${\mathbf{Q}}^{(\ell)}$ such that The size $\ell$ of the basis will typically be slightly larger than the size $k$ of the smallest basis that achieves this error.
 
-The size $\ell$ of the basis will typically be slightly larger than the size $k$ of the smallest basis that achieves this error.
-
-The basic observation behind the adaptive scheme is that we can generate the basis in Step 3 of Algorithm LABEL:alg:basic incrementally. Starting with an empty basis matrix ${\mathbf{Q}}^{}$, the following scheme generates an orthonormal matrix whose range captures the action of $\mathbf{A}$:
-
-How do we know when we have reached a basis ${\mathbf{Q}}^{(\ell)}$ that verifies (21 for free ‣ 4 Stage A: Randomized schemes for approximating the range ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"))? The answer becomes apparent once we observe that the vectors ${\overset{\sim}{\mathbf{q}}}^{(i)}$ are precisely the vectors that appear in the error bound. The resulting rule is that we break the loop once we observe $r$ consecutive vectors ${\overset{\sim}{\mathbf{q}}}^{(i)}$ whose norms are smaller than $\varepsilon/{({10\sqrt{2/\pi}})}$.
+The basic observation behind the adaptive scheme is that we can generate the basis in Step 3 of Algorithm LABEL:alg:basic incrementally. Starting with an empty basis matrix ${\mathbf{Q}}^{}$, the following scheme generates an orthonormal matrix whose range captures the action of $\mathbf{A}$: How do we know when we have reached a basis ${\mathbf{Q}}^{(\ell)}$ that verifies (21 for free ‣ 4 Stage A: Randomized schemes for approximating the range ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"))? The answer becomes apparent once we observe that the vectors ${\overset{\sim}{\mathbf{q}}}^{(i)}$ are precisely the vectors that appear in the error bound. The resulting rule is that we break the loop once we observe $r$ consecutive vectors ${\overset{\sim}{\mathbf{q}}}^{(i)}$ whose norms are smaller than $\varepsilon/{({10\sqrt{2/\pi}})}$.
 
 A formal description of the resulting algorithm appears as Algorithm LABEL:alg:adaptive2. A potential complication of the method is that the vectors ${\overset{\sim}{\mathbf{q}}}^{(i)}$ become small as the basis starts to capture most of the action of $\mathbf{A}$. In finite-precision arithmetic, their direction is extremely unreliable. To address this problem, we simply reproject the normalized vector ${\mathbf{q}}^{(i)}$ onto ${range}{({\mathbf{Q}}^{({i - 1})})}^{\perp}$ in steps 7 and 8 of Algorithm LABEL:alg:adaptive2.
 
 The CPU time requirements of Algorithms LABEL:alg:adaptive2 and LABEL:alg:basic are essentially identical. Although Algorithm LABEL:alg:adaptive2 computes the last few samples purely to obtain the error estimate, this apparent extra cost is offset by the fact that Algorithm LABEL:alg:basic always includes an oversampling factor. The failure probability stated for Algorithm LABEL:alg:adaptive2 is pessimistic because it is derived from a simple union bound argument. In practice, the error estimator is reliable in a range of circumstances when we take $r = 10$.
 
-Algorithm LABEL:alg:adaptive2: Adaptive Randomized Range Finder Given an m × n matrix A, a tolerance ε, and an integer r (e.g. r = 10), the following scheme computes an orthonormal matrix Q such that holds with probability at least 1 − min {m, n} 10−r. 1 Draw standard Gaussian vectors ω, …, ω(r) of length n. 2 For i = 1, 2, …, r, compute y(i) = A ω(i). 3 j = 0. 4 Q = [], the m × 0 empty matrix. 5 while ${\max\left\{ {\parallel{\mathbf{y}}^{({j + 1})}\parallel},{\parallel{\mathbf{y}}^{({j + 2})}\parallel},\ldots,{\parallel{\mathbf{y}}^{({j + r})}\parallel} \right\}} &gt; {\varepsilon/{({10\sqrt{2/\pi}})}}$, 6 j = j + 1. 7 Overwrite y(j) by (I−Q(j−1) (Q(j−1))*) y(j). 8 q(j) = y(j)/∥y(j)∥. 9 Q(j) = [Q(j−1) q(j)]. 10 Draw a standard Gaussian vector ω(j+r) of length n. 11 y(j+r) = (I−Q(j) (Q(j))*) A ω(j+r). 12 for i = (j+1), (j+2), …, (j + r−1), 13 Overwrite y(i) by y(i) − q(j) ⟨q(j),y(i)⟩. 14 end for 15 end while 16 Q = Q(j).
+Algorithm LABEL:alg:adaptive2: Adaptive Randomized Range Finder Given an m × n matrix A, a tolerance ε, and an integer r (e.g. r = 10), the following scheme computes an orthonormal matrix Q such that holds with probability at least 1 − min {m, n} 10−r. 1 Draw standard Gaussian vectors ω, …, ω(r) of length n. 2 For i = 1, 2, …, r, compute y(i) = A ω(i). 3 j = 0. 4 Q =, the m × 0 empty matrix. 5 while ${\max\left\{ {\parallel{\mathbf{y}}^{({j + 1})}\parallel},{\parallel{\mathbf{y}}^{({j + 2})}\parallel},\ldots,{\parallel{\mathbf{y}}^{({j + r})}\parallel} \right\}} > {\varepsilon/{({10\sqrt{2/\pi}})}}$, 6 j = j + 1. 7 Overwrite y(j) by (I − Q(j − 1) (Q(j − 1))*) y(j). 8 q(j) = y(j)/∥y(j)∥. 9 Q(j) = [Q(j − 1) q(j)]. 10 Draw a standard Gaussian vector ω(j + r) of length n. 11 y(j + r) = (I − Q(j) (Q(j))*) A ω(j + r). 12 for i = (j + 1), (j + 2), …, (j + r − 1), 13 Overwrite y(i) by y(i) − q(j) ⟨q(j), y(i)⟩. 14 end for 15 end while 16 Q = Q(j).
 
 ### Remark 4.2
 
@@ -620,11 +492,9 @@ The calculations in Algorithm LABEL:alg:adaptive2 can be organized so that each 
 
 ### A modified scheme for matrices whose singular values decay slowly
 
-The techniques described in §4.1 and §4.4 for free ‣ 4 Stage A: Randomized schemes for approximating the range ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") work well for matrices whose singular values exhibit some decay, but they may produce a poor basis when the input matrix has a flat singular spectrum or when the input matrix is very large. In this section, we describe techniques, originally proposed in, for improving the accuracy of randomized algorithms in these situations. Related earlier work includes and the literature on classical orthogonal iteration methods \[61, p. 332\].
+The techniques described in §4.1 and §4.4 for free ‣ 4 Stage A: Randomized schemes for approximating the range ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") work well for matrices whose singular values exhibit some decay, but they may produce a poor basis when the input matrix has a flat singular spectrum or when the input matrix is very large. In this section, we describe techniques, originally proposed , for improving the accuracy of randomized algorithms in these situations. Related earlier work includes and the literature on classical orthogonal iteration methods \[61, p. 332\].
 
-The intuition behind these techniques is that the singular vectors associated with small singular values interfere with the calculation, so we reduce their weight relative to the dominant singular vectors by taking powers of the matrix to be analyzed. More precisely, we wish to apply the randomized sampling scheme to the matrix ${\mathbf{B}} = {{({{\mathbf{A}}{\mathbf{A}}^{\ast}})}^{q}{\mathbf{A}}}$, where $q$ is a small integer. The matrix $\mathbf{B}$ has the same singular vectors as the input matrix $\mathbf{A}$, but its singular values decay much more quickly:
-
-We modify Algorithm LABEL:alg:basic by replacing the formula ${\mathbf{Y}} = {{\mathbf{A}}\mathbf{\Omega}}$ in Step 2 by the formula ${\mathbf{Y}} = {{\mathbf{B}}\mathbf{\Omega}} = {\left( {{\mathbf{A}}{\mathbf{A}}^{\ast}} \right)^{q}{\mathbf{A}}\mathbf{\Omega}}$, and we obtain Algorithm LABEL:alg:poweriteration.
+The intuition behind these techniques is that the singular vectors associated with small singular values interfere with the calculation, so we reduce their weight relative to the dominant singular vectors by taking powers of the matrix to be analyzed. More precisely, we wish to apply the randomized sampling scheme to the matrix ${\mathbf{B}} = {{({{\mathbf{A}}{\mathbf{A}}^{\ast}})}^{q}{\mathbf{A}}}$, where $q$ is a small integer. The matrix $\mathbf{B}$ has the same singular vectors as the input matrix $\mathbf{A}$, but its singular values decay much more quickly: We modify Algorithm LABEL:alg:basic by replacing the formula ${\mathbf{Y}} = {{\mathbf{A}}\mathbf{\Omega}}$ in Step 2 by the formula ${\mathbf{Y}} = {{\mathbf{B}}\mathbf{\Omega}} = {\left({{\mathbf{A}}{\mathbf{A}}^{\ast}} \right)^{q}{\mathbf{A}}\mathbf{\Omega}}$, and we obtain Algorithm LABEL:alg:poweriteration.
 
 Algorithm LABEL:alg:poweriteration: Randomized Power Iteration Given an m × n matrix A and integers ℓ and q, this algorithm computes an m × ℓ orthonormal matrix Q whose range approximates the range of A. 1 Draw an n × ℓ Gaussian random matrix Ω. 2 Form the m × ℓ matrix Y = (A A*)q A Ω via alternating application of A and A*. 3 Construct an m × ℓ matrix Q whose columns form an orthonormal basis for the range of Y, e.g., via the QR factorization Y = Q R. Note: This procedure is vulnerable to round-off errors; see Remark 4.3. The recommended implementation appears as Algorithm LABEL:alg:subspaceiteration.
 
@@ -640,27 +510,19 @@ Algorithm LABEL:alg:subspaceiteration: Randomized Subspace Iteration Given an m 
 
 ### An accelerated technique for general dense matrices
 
-This section describes a set of techniques that allow us to compute an approximate rank-$\ell$ factorization of a general dense $m \times n$ matrix in roughly $O{({mn{\log{(\ell)}}})}$ flops, in contrast to the asymptotic cost $O{({mn\ell})}$ required by earlier methods. We can tailor this scheme for the real or complex case, but we focus on the conceptually simpler complex case. These algorithms were introduced in; similar techniques were proposed in.
+This section describes a set of techniques that allow us to compute an approximate rank-$\ell$ factorization of a general dense $m \times n$ matrix in roughly $O{({mn{\log{(\ell)}}})}$ flops, in contrast to the asymptotic cost $O{({mn\ell})}$ required by earlier methods. We can tailor this scheme for the real or complex case, but we focus on the conceptually simpler complex case. These algorithms were introduced ; similar techniques were proposed .
 
 The first step toward this accelerated technique is to observe that the bottleneck in Algorithm LABEL:alg:basic is the computation of the matrix product ${\mathbf{A}}\mathbf{\Omega}$. When the test matrix $\mathbf{\Omega}$ is standard Gaussian, the cost of this multiplication is $O{({mn\ell})}$, the same as a rank-revealing QR algorithm. The key idea is to use a *structured* random matrix that allows us to compute the product in $O{({mn{\log{(\ell)}}})}$ flops.
 
-The *subsampled random Fourier transform*, or SRFT, is perhaps the simplest example of a structured random matrix that meets our goals. An SRFT is an $n \times \ell$ matrix of the form
+The *subsampled random Fourier transform*, or SRFT, is perhaps the simplest example of a structured random matrix that meets our goals. An SRFT is an $n \times \ell$ matrix of the form $\mathbf{D}$ is an $n \times n$ diagonal matrix whose entries are independent random variables uniformly distributed on the complex unit circle, $\mathbf{F}$ is the $n \times n$ unitary discrete Fourier transform (DFT), whose entries take the values $f_{pq} = {n^{- {1/2}}e^{- {{2\pii{({p - 1})}{({q - 1})}}/n}}}$ for ${{p,q} = 1},{2,\ldots,n}$, and $\mathbf{R}$ is an $n \times \ell$ matrix that samples $\ell$ coordinates from $n$ uniformly at random, i.e., its $\ell$ columns are drawn randomly without replacement from the columns of the $n \times n$ identity matrix.
 
-$\mathbf{D}$ is an $n \times n$ diagonal matrix whose entries are independent random variables uniformly distributed on the complex unit circle,
-
-$\mathbf{F}$ is the $n \times n$ unitary discrete Fourier transform (DFT), whose entries take the values $f_{pq} = {n^{- {1/2}}e^{- {{2\pii{({p - 1})}{({q - 1})}}/n}}}$ for ${{p,q} = 1},{2,\ldots,n}$, and
-
-$\mathbf{R}$ is an $n \times \ell$ matrix that samples $\ell$ coordinates from $n$ uniformly at random, i.e., its $\ell$ columns are drawn randomly without replacement from the columns of the $n \times n$ identity matrix.
-
-When $\mathbf{\Omega}$ is defined by, we can compute the sample matrix ${\mathbf{Y}} = {{\mathbf{A}}\mathbf{\Omega}}$ using $O{({mn{\log{(\ell)}}})}$ flops via a subsampled FFT. Then we form the basis $\mathbf{Q}$ by orthonormalizing the columns of $\mathbf{Y}$, as described in §4.1. This scheme appears as Algorithm LABEL:alg:fastbasic. The total number $T_{struct}$ of flops required by this procedure is
-
-Note that if $\ell$ is substantially larger than the numerical rank $k$ of the input matrix, we can perform the orthogonalization with $O{({k\elln})}$ flops because the columns of the sample matrix are almost linearly dependent.
+When $\mathbf{\Omega}$ is defined, we can compute the sample matrix ${\mathbf{Y}} = {{\mathbf{A}}\mathbf{\Omega}}$ using $O{({mn{\log{(\ell)}}})}$ flops via a subsampled FFT. Then we form the basis $\mathbf{Q}$ by orthonormalizing the columns of $\mathbf{Y}$, as described in §4.1. This scheme appears as Algorithm LABEL:alg:fastbasic. The total number $T_{struct}$ of flops required by this procedure is Note that if $\ell$ is substantially larger than the numerical rank $k$ of the input matrix, we can perform the orthogonalization with $O{({k\elln})}$ flops because the columns of the sample matrix are almost linearly dependent.
 
 The test matrix is just one choice among many possibilities. Other suggestions that appear in the literature include subsampled Hadamard transforms, chains of Givens rotations acting on randomly chosen coordinates, and many more. See and its bibliography. Empirically, we have found that the transform summarized in Remark 4.6 below performs very well in a variety of environments.
 
 At this point, it is not well understood how to quantify and compare the behavior of structured random transforms. One reason for this uncertainty is that it has been difficult to analyze the amount of oversampling that various transforms require. Section 11 establishes that the random matrix can be used to identify a near-optimal basis for a rank-$k$ matrix using $\ell \sim {{({k + {\log{(n)}}})}{\log{(k)}}}$ samples. In practice, the transforms and typically require no more oversampling than a Gaussian test matrix requires. (For a numerical example, see §7.4.) As a consequence, setting $\ell = {k + 10}$ or $\ell = {k + 20}$ is typically more than adequate. Further research on these questions would be valuable.
 
-Algorithm LABEL:alg:fastbasic: Fast Randomized Range Finder Given an m × n matrix A, and an integer ℓ, this scheme computes an m × ℓ orthonormal matrix Q whose range approximates the range of A. 1 Draw an n × ℓ SRFT test matrix Ω, as defined by. 2 Form the m × ℓ matrix Y = A Ω using a (subsampled) FFT. 3 Construct an m × ℓ matrix Q whose columns form an orthonormal basis for the range of Y, e.g., using the QR factorization Y = Q R.
+Algorithm LABEL:alg:fastbasic: Fast Randomized Range Finder Given an m × n matrix A, and an integer ℓ, this scheme computes an m × ℓ orthonormal matrix Q whose range approximates the range of A. 1 Draw an n × ℓ SRFT test matrix Ω, as defined . 2 Form the m × ℓ matrix Y = A Ω using a (subsampled) FFT. 3 Construct an m × ℓ matrix Q whose columns form an orthonormal basis for the range of Y, e.g., using the QR factorization Y = Q R.
 
 ### Remark 4.4
 
@@ -672,11 +534,7 @@ When using the SRFT for matrix approximation, we have a choice whether to use a 
 
 ### Remark 4.6
 
-Among the structured random matrices that we have tried, one of the strongest candidates involves sequences of random Givens rotations. This matrix takes the form
-
-where the prime symbol ^′^ indicates an independent realization of a random matrix. The matrices $\mathbf{R}$, $\mathbf{F}$, and $\mathbf{D}$ are defined after. The matrix $\mathbf{\Theta}$ is a chain of random Givens rotations:
-
-where $\mathbf{\Pi}$ is a random $n \times n$ permutation matrix; where $\theta_{1},\ldots,\theta_{n - 1}$ are independent random variables uniformly distributed on the interval $\lbrack 0,{2\pi}\rbrack$; and where ${\mathbf{G}}{(i,j;\theta)}$ denotes a rotation on ${\mathbb{C}}^{n}$ by the angle $\theta$ in the $(i,j)$ coordinate plane \[61, §5.1.8\].
+Among the structured random matrices that we have tried, one of the strongest candidates involves sequences of random Givens rotations. This matrix takes the form where the prime symbol ^′^ indicates an independent realization of a random matrix. The matrices $\mathbf{R}$, $\mathbf{F}$, and $\mathbf{D}$ are defined after. The matrix $\mathbf{\Theta}$ is a chain of random Givens rotations: where $\mathbf{\Pi}$ is a random $n \times n$ permutation matrix; where $\theta_{1},\ldots,\theta_{n - 1}$ are independent random variables uniformly distributed on the interval $\lbrack 0,{2\pi}\rbrack$; and where ${\mathbf{G}}{(i,j;\theta)}$ denotes a rotation on ${\mathbb{C}}^{n}$ by the angle $\theta$ in the $(i,j)$ coordinate plane \[61, §5.1.8\].
 
 ### Remark 4.7
 
@@ -684,23 +542,17 @@ When the singular values of the input matrix $\mathbf{A}$ decay slowly, Algorith
 
 ## Stage B: Construction of standard factorizations
 
-The algorithms for Stage A described in §4 produce an orthonormal matrix $\mathbf{Q}$ whose range captures the action of an input matrix $\mathbf{A}$:
-
-where $\varepsilon$ is a computational tolerance. This section describes methods for approximating standard factorizations of $\mathbf{A}$ using the information in the basis $\mathbf{Q}$.
+The algorithms for Stage A described in §4 produce an orthonormal matrix $\mathbf{Q}$ whose range captures the action of an input matrix $\mathbf{A}$: where $\varepsilon$ is a computational tolerance. This section describes methods for approximating standard factorizations of $\mathbf{A}$ using the information in the basis $\mathbf{Q}$.
 
 To accomplish this task, we pursue the idea from §3.3.3 that any low-rank factorization ${\mathbf{A}} \approx {{\mathbf{C}}{\mathbf{B}}}$ can be manipulated to produce a standard decomposition. When the bound holds, the low-rank factors are simply ${\mathbf{C}} = {\mathbf{Q}}$ and ${\mathbf{B}} = {{\mathbf{Q}}^{\ast}{\mathbf{A}}}$. The simplest scheme (§5.1) computes the factor $\mathbf{B}$ directly with a matrix--matrix product to ensure a minimal error in the final approximation. An alternative approach (§5.2) constructs factors $\mathbf{B}$ and $\mathbf{C}$ without forming any matrix--matrix product. The approach of §5.2 is often faster than the approach of §5.1 but typically results in larger errors. Both schemes can be streamlined for an Hermitian input matrix (§5.3) and a positive semidefinite input matrix (§5.4). Finally, we develop single-pass algorithms that exploit other information generated in Stage A to avoid revisiting the input matrix (§5.5).
 
 Throughout this section, $\mathbf{A}$ denotes an $m \times n$ matrix, and $\mathbf{Q}$ is an $m \times k$ orthonormal matrix that verifies. For purposes of exposition, we concentrate on methods for constructing the partial SVD.
 
-### Factorizations based on forming ${\mathbf{Q}}^{\ast}\hspace{0pt}{\mathbf{A}}$ directly
+### Factorizations based on forming ${\mathbf{Q}}^{\ast}{\mathbf{A}}$ directly
 
 The relation implies that $\left\| {{\mathbf{A}} - {{\mathbf{Q}}{\mathbf{B}}}} \right\| \leq \varepsilon$, where ${\mathbf{B}} = {{\mathbf{Q}}^{\ast}{\mathbf{A}}}$. Once we have computed $\mathbf{B}$, we can produce any standard factorization using the methods of §3.3.3. Algorithm LABEL:alg:Atranspose illustrates how to build an approximate SVD.
 
-Algorithm LABEL:alg:Atranspose: Direct SVD Given matrices A and Q such that holds, this procedure computes an approximate factorization A ≈ U Σ V*, where U and V are orthonormal, and Σ is a nonnegative diagonal matrix. 1 Form the matrix B = Q* A. 2 Compute an SVD of the small matrix: ${{\mathbf{B}} = {\overset{\sim}{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}}.$ 3 Form the orthonormal matrix ${{\mathbf{U}} = {{\mathbf{Q}}\overset{\sim}{\mathbf{U}}}}.$
-
-The factors produced by Algorithm LABEL:alg:Atranspose satisfy
-
-In other words, the approximation error does not degrade.
+Algorithm LABEL:alg:Atranspose: Direct SVD Given matrices A and Q such that holds, this procedure computes an approximate factorization A ≈ U Σ V*, where U and V are orthonormal, and Σ is a nonnegative diagonal matrix. 1 Form the matrix B = Q* A. 2 Compute an SVD of the small matrix: ${{\mathbf{B}} = {\overset{\sim}{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}}.$ 3 Form the orthonormal matrix ${{\mathbf{U}} = {{\mathbf{Q}}\overset{\sim}{\mathbf{U}}}}.$ The factors produced by Algorithm LABEL:alg:Atranspose satisfy In other words, the approximation error does not degrade.
 
 The cost of Algorithm LABEL:alg:Atranspose is generally dominated by the cost of the product ${\mathbf{Q}}^{\ast}{\mathbf{A}}$ in Step 1, which takes $O{({kmn})}$ flops for a general dense matrix. Note that this scheme is particularly well suited to environments where we have a fast method for computing the matrix--vector product ${\mathbf{x}}\mapsto{{\mathbf{A}}^{\ast}{\mathbf{x}}}$, for example when $\mathbf{A}$ is sparse or structured. This approach retains a strong advantage over Krylov-subspace methods and rank-revealing QR because Step 1 can be accelerated using BLAS3, parallel processors, and so forth. Steps 2 and 3 require $O{({k^{2}n})}$ and $O{({k^{2}m})}$ flops respectively.
 
@@ -710,19 +562,13 @@ Algorithm LABEL:alg:Atranspose produces an approximate SVD with the same rank as
 
 ### Postprocessing via row extraction
 
-Given a matrix $\mathbf{Q}$ such that holds, we can obtain a rank-$k$ factorization
+Given a matrix $\mathbf{Q}$ such that holds, we can obtain a rank-$k$ factorization where $\mathbf{B}$ is a $k \times n$ matrix consisting of $k$ rows extracted from $\mathbf{A}$. The approximation can be produced without computing any matrix--matrix products, which makes this approach to postprocessing very fast. The drawback comes because the error $\left\| {{\mathbf{A}} - {{\mathbf{X}}{\mathbf{B}}}} \right\|$ is usually larger than the initial error $\left\| {{\mathbf{A}} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}{\mathbf{A}}}} \right\|$, especially when the dimensions of $\mathbf{A}$ are large. See Remark 5.3 for more discussion.
 
-where $\mathbf{B}$ is a $k \times n$ matrix consisting of $k$ rows extracted from $\mathbf{A}$. The approximation can be produced without computing any matrix--matrix products, which makes this approach to postprocessing very fast. The drawback comes because the error $\left\| {{\mathbf{A}} - {{\mathbf{X}}{\mathbf{B}}}} \right\|$ is usually larger than the initial error $\left\| {{\mathbf{A}} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}{\mathbf{A}}}} \right\|$, especially when the dimensions of $\mathbf{A}$ are large. See Remark 5.3 for more discussion.
-
-To obtain the factorization, we simply construct the interpolative decomposition (§3.2.3 ‣ 3.2 Standard matrix factorizations ‣ 3 Linear algebraic preliminaries ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) of the matrix $\mathbf{Q}$:
-
-The index set $J$ marks $k$ rows of $\mathbf{Q}$ that span the row space of $\mathbf{Q}$, and $\mathbf{X}$ is an $m \times k$ matrix whose entries are bounded in magnitude by two and contains the $k \times k$ identity as a submatrix: ${\mathbf{X}}_{(J,:)} = \mathbf{I}_{k}$. Combining and, we reach
-
-Since ${\mathbf{X}}_{(J,:)} = \mathbf{I}_{k}$, equation implies that ${\mathbf{A}}_{(J,:)} \approx {{\mathbf{Q}}_{(J,:)}{\mathbf{Q}}^{\ast}{\mathbf{A}}}$. Therefore, follows when we put ${\mathbf{B}} = {\mathbf{A}}_{(J,:)}$.
+To obtain the factorization, we simply construct the interpolative decomposition (§3.2.3 ‣ 3.2 Standard matrix factorizations ‣ 3 Linear algebraic preliminaries ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) of the matrix $\mathbf{Q}$: The index set $J$ marks $k$ rows of $\mathbf{Q}$ that span the row space of $\mathbf{Q}$, and $\mathbf{X}$ is an $m \times k$ matrix whose entries are bounded in magnitude by two and contains the $k \times k$ identity as a submatrix: ${\mathbf{X}}_{(J,:)} = \mathbf{I}_{k}$. Combining and, we reach Since ${\mathbf{X}}_{(J,:)} = \mathbf{I}_{k}$, equation implies that ${\mathbf{A}}_{(J,:)} \approx {{\mathbf{Q}}_{(J,:)}{\mathbf{Q}}^{\ast}{\mathbf{A}}}$. Therefore, follows when we put ${\mathbf{B}} = {\mathbf{A}}_{(J,:)}$.
 
 Provided with the factorization, we can obtain any standard factorization using the techniques of §3.3.3. Algorithm LABEL:alg:extractrows illustrates an SVD calculation. This procedure requires $O{({k^{2}{({m + n})}})}$ flops. The following lemma guarantees the accuracy of the computed factors.
 
-Algorithm LABEL:alg:extractrows: SVD via Row Extraction Given matrices A and Q such that holds, this procedure computes an approximate factorization A ≈ U Σ V*, where U and V are orthonormal, and Σ is a nonnegative diagonal matrix. 1 Compute an ID Q = X Q(J,:). (The ID is defined in §3.2.3.) 2 Extract A(J,:), and compute a QR factorization A(J,:) = R* W*. 3 Form the product Z = X R*. 4 Compute an SVD ${{\mathbf{Z}} = {{\mathbf{U}}\mathbf{\Sigma}{\overset{\sim}{\mathbf{V}}}^{\ast}}}.$ 5 Form the orthonormal matrix ${{\mathbf{V}} = {{\mathbf{W}}\overset{\sim}{\mathbf{V}}}}.$ Note: Algorithm LABEL:alg:extractrows is faster than Algorithm LABEL:alg:Atranspose but less accurate. Note: It is advantageous to replace the basis Q by the sample matrix Y produced in Stage A, cf. Remark 5.2.
+Algorithm LABEL:alg:extractrows: SVD via Row Extraction Given matrices A and Q such that holds, this procedure computes an approximate factorization A ≈ U Σ V*, where U and V are orthonormal, and Σ is a nonnegative diagonal matrix. 1 Compute an ID Q = X Q(J,: ). (The ID is defined in §3.2.3.) 2 Extract A(J,: ), and compute a QR factorization A(J,: ) = R* W*. 3 Form the product Z = X R*. 4 Compute an SVD ${{\mathbf{Z}} = {{\mathbf{U}}\mathbf{\Sigma}{\overset{\sim}{\mathbf{V}}}^{\ast}}}.$ 5 Form the orthonormal matrix ${{\mathbf{V}} = {{\mathbf{W}}\overset{\sim}{\mathbf{V}}}}.$ Note: Algorithm LABEL:alg:extractrows is faster than Algorithm LABEL:alg:Atranspose but less accurate. Note: It is advantageous to replace the basis Q by the sample matrix Y produced in Stage A, cf. Remark 5.2.
 
 ### Lemma 4
 
@@ -730,17 +576,7 @@ Let $\mathbf{A}$ be an $m \times n$ matrix and let $\mathbf{Q}$ be an $m \times 
 
 ### Proof
 
-The factors $\mathbf{U}$, $\mathbf{\Sigma}$, $\mathbf{V}$ constructed by the algorithm satisfy
-
-Define the approximation
-
-Since $\hat{\mathbf{A}} = {{\mathbf{X}}{\mathbf{Q}}_{(J,:)}{\mathbf{Q}}^{\ast}{\mathbf{A}}}$ and since ${\mathbf{X}}_{(J,:)} = \mathbf{I}_{k}$, it must be that ${\hat{\mathbf{A}}}_{(J,:)} = {{\mathbf{Q}}_{(J,:)}{\mathbf{Q}}^{\ast}{\mathbf{A}}}$. Consequently,
-
-We have the chain of relations
-
-Inequality ensures that ${\parallel{{\mathbf{A}} - \hat{\mathbf{A}}}\parallel} \leq \varepsilon$. Since ${\mathbf{A}}_{(J,:)} - {\hat{\mathbf{A}}}_{(J,:)}$ is a submatrix of ${\mathbf{A}} - \hat{\mathbf{A}}$, we must also have ${\parallel{{\mathbf{A}}_{(J,:)} - {\hat{\mathbf{A}}}_{(J,:)}}\parallel} \leq \varepsilon$. Thus, (5.2) reduces to
-
-The bound follows from after we observe that $\mathbf{X}$ contains a $k \times k$ identity matrix and that the entries of the remaining ${({n - k})} \times k$ submatrix are bounded in magnitude by two. ∎
+The factors $\mathbf{U}$, $\mathbf{\Sigma}$, $\mathbf{V}$ constructed by the algorithm satisfy Define the approximation Since $\hat{\mathbf{A}} = {{\mathbf{X}}{\mathbf{Q}}_{(J,:)}{\mathbf{Q}}^{\ast}{\mathbf{A}}}$ and since ${\mathbf{X}}_{(J,:)} = \mathbf{I}_{k}$, it must be that ${\hat{\mathbf{A}}}_{(J,:)} = {{\mathbf{Q}}_{(J,:)}{\mathbf{Q}}^{\ast}{\mathbf{A}}}$. Consequently, We have the chain of relations Inequality ensures that ${\parallel{{\mathbf{A}} - \hat{\mathbf{A}}}\parallel} \leq \varepsilon$. Since ${\mathbf{A}}_{(J,:)} - {\hat{\mathbf{A}}}_{(J,:)}$ is a submatrix of ${\mathbf{A}} - \hat{\mathbf{A}}$, we must also have ${\parallel{{\mathbf{A}}_{(J,:)} - {\hat{\mathbf{A}}}_{(J,:)}}\parallel} \leq \varepsilon$. Thus, (5.2) reduces to The bound follows from after we observe that $\mathbf{X}$ contains a $k \times k$ identity matrix and that the entries of the remaining ${({n - k})} \times k$ submatrix are bounded in magnitude by two. ∎
 
 ### Remark 5.2
 
@@ -748,15 +584,11 @@ To maintain a unified presentation, we have formulated all the postprocessing te
 
 ### Remark 5.3
 
-As the inequality suggests, the factorization produced by Algorithm LABEL:alg:extractrows is potentially less accurate than the basis that it uses as input. This loss of accuracy is problematic when $\varepsilon$ is not so small or when $kn$ is large. In such cases, we recommend Algorithm LABEL:alg:Atranspose over Algorithm LABEL:alg:extractrows; the former is more costly, but it does not amplify the error, as shown in.
+As the inequality suggests, the factorization produced by Algorithm LABEL:alg:extractrows is potentially less accurate than the basis that it uses as input. This loss of accuracy is problematic when $\varepsilon$ is not so small or when $kn$ is large. In such cases, we recommend Algorithm LABEL:alg:Atranspose over Algorithm LABEL:alg:extractrows; the former is more costly, but it does not amplify the error, as shown .
 
 ### Postprocessing an Hermitian matrix
 
-When $\mathbf{A}$ is Hermitian, the postprocessing becomes particularly elegant. In this case, the columns of $\mathbf{Q}$ form a good basis for both the column space *and* the row space of $\mathbf{A}$ so that we have ${\mathbf{A}} \approx {{\mathbf{Q}}{\mathbf{Q}}^{\ast}{\mathbf{A}}{\mathbf{Q}}{\mathbf{Q}}^{\ast}}$. More precisely, when is in force, we have
-
-The last inequality relies on the facts that $\left\| {{\mathbf{Q}}{\mathbf{Q}}^{\ast}} \right\| = 1$ and that
-
-Since ${\mathbf{A}} \approx {{\mathbf{Q}}\left( {{\mathbf{Q}}^{\ast}{\mathbf{A}}{\mathbf{Q}}} \right){\mathbf{Q}}^{\ast}}$ is a low-rank approximation of $\mathbf{A}$, we can form any standard factorization using the techniques from §3.3.3.
+When $\mathbf{A}$ is Hermitian, the postprocessing becomes particularly elegant. In this case, the columns of $\mathbf{Q}$ form a good basis for both the column space *and* the row space of $\mathbf{A}$ so that we have ${\mathbf{A}} \approx {{\mathbf{Q}}{\mathbf{Q}}^{\ast}{\mathbf{A}}{\mathbf{Q}}{\mathbf{Q}}^{\ast}}$. More precisely, when is in force, we have The last inequality relies on the facts that $\left\| {{\mathbf{Q}}{\mathbf{Q}}^{\ast}} \right\| = 1$ and that Since ${\mathbf{A}} \approx {{\mathbf{Q}}\left({{\mathbf{Q}}^{\ast}{\mathbf{A}}{\mathbf{Q}}} \right){\mathbf{Q}}^{\ast}}$ is a low-rank approximation of $\mathbf{A}$, we can form any standard factorization using the techniques from §3.3.3.
 
 For Hermitian $\mathbf{A}$, it is more common to compute an eigenvalue decomposition than an SVD. We can accomplish this goal using Algorithm LABEL:alg:hermeig, which adapts the scheme from §5.1. This procedure delivers a factorization that satisfies the error bound $\left\| {{\mathbf{A}} - {{\mathbf{U}}\mathbf{\Lambda}{\mathbf{U}}^{\ast}}} \right\| \leq {2\varepsilon}$. The calculation requires $O{({kn^{2}})}$ flops.
 
@@ -764,17 +596,13 @@ We can also pursue the row extraction approach from §5.2, which is faster but l
 
 Algorithm LABEL:alg:hermeig: Direct Eigenvalue Decomposition Given an Hermitian matrix A and a basis Q such that holds, this procedure computes an approximate eigenvalue decomposition A ≈ U Λ U*, where U is orthonormal, and Λ is a real diagonal matrix. 1 Form the small matrix B = Q* A Q. 2 Compute an eigenvalue decomposition B = V Λ V*. 3 Form the orthonormal matrix U = Q V.
 
-Algorithm LABEL:alg:hermeigrows: Eigenvalue Decomposition via Row Extraction Given an Hermitian matrix A and a basis Q such that holds, this procedure computes an approximate eigenvalue decomposition A ≈ U Λ U*, where U is orthonormal, and Λ is a real diagonal matrix. 1 Compute an ID Q = X Q(J,:). 2 Perform a QR factorization X = V R. 3 Form the product Z = R A(J,J) R*. 4 Compute an eigenvalue decomposition Z = W Λ W*. 5 Form the orthonormal matrix U = V W. Note: Algorithm LABEL:alg:hermeigrows is faster than Algorithm LABEL:alg:hermeig but less accurate. Note: It is advantageous to replace the basis Q by the sample matrix Y produced in Stage A, cf. Remark 5.2.
+Algorithm LABEL:alg:hermeigrows: Eigenvalue Decomposition via Row Extraction Given an Hermitian matrix A and a basis Q such that holds, this procedure computes an approximate eigenvalue decomposition A ≈ U Λ U*, where U is orthonormal, and Λ is a real diagonal matrix. 1 Compute an ID Q = X Q(J,: ). 2 Perform a QR factorization X = V R. 3 Form the product Z = R A(J, J) R*. 4 Compute an eigenvalue decomposition Z = W Λ W*. 5 Form the orthonormal matrix U = V W. Note: Algorithm LABEL:alg:hermeigrows is faster than Algorithm LABEL:alg:hermeig but less accurate. Note: It is advantageous to replace the basis Q by the sample matrix Y produced in Stage A, cf. Remark 5.2.
 
 ### Postprocessing a positive semidefinite matrix
 
-When the input matrix $\mathbf{A}$ is positive semidefinite, the *Nyström method* can be used to improve the quality of standard factorizations at almost no additional cost; see and its bibliography. To describe the main idea, we first recall that the direct method presented in §5.3 manipulates the approximate rank-$k$ factorization
+When the input matrix $\mathbf{A}$ is positive semidefinite, the *Nyström method* can be used to improve the quality of standard factorizations at almost no additional cost; see and its bibliography. To describe the main idea, we first recall that the direct method presented in §5.3 manipulates the approximate rank-$k$ factorization In contrast, the Nyström scheme builds a more sophisticated rank-$k$ approximation, namely where $\mathbf{F}$ is an approximate Cholesky factor of $\mathbf{A}$ with dimension $n \times k$. To compute the factor $\mathbf{F}$ numerically, first form the matrices ${\mathbf{B}}_{1} = {{\mathbf{A}}{\mathbf{Q}}}$ and ${\mathbf{B}}_{2} = {{\mathbf{Q}}^{\ast}{\mathbf{B}}_{1}}$. Then decompose the psd matrix ${\mathbf{B}}_{2} = {{\mathbf{C}}^{\ast}{\mathbf{C}}}$ into its Cholesky factors. Finally compute the factor ${\mathbf{F}} = {{\mathbf{B}}_{1}{\mathbf{C}}^{- 1}}$ by performing a triangular solve. The low-rank factorization can be converted to a standard decomposition using the techniques from §3.3.3.
 
-In contrast, the Nyström scheme builds a more sophisticated rank-$k$ approximation, namely
-
-where $\mathbf{F}$ is an approximate Cholesky factor of $\mathbf{A}$ with dimension $n \times k$. To compute the factor $\mathbf{F}$ numerically, first form the matrices ${\mathbf{B}}_{1} = {{\mathbf{A}}{\mathbf{Q}}}$ and ${\mathbf{B}}_{2} = {{\mathbf{Q}}^{\ast}{\mathbf{B}}_{1}}$. Then decompose the psd matrix ${\mathbf{B}}_{2} = {{\mathbf{C}}^{\ast}{\mathbf{C}}}$ into its Cholesky factors. Finally compute the factor ${\mathbf{F}} = {{\mathbf{B}}_{1}{\mathbf{C}}^{- 1}}$ by performing a triangular solve. The low-rank factorization can be converted to a standard decomposition using the techniques from §3.3.3.
-
-The literature contains an explicit expression \[48, Lem. 4\] for the approximation error in. This result implies that, in the spectral norm, the Nyström approximation error never exceeds $\left\| {{\mathbf{A}} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}{\mathbf{A}}}} \right\|$, and it is often substantially smaller. We omit a detailed discussion.
+The literature contains an explicit expression \[48, Lem. 4\] for the approximation error . This result implies that, in the spectral norm, the Nyström approximation error never exceeds $\left\| {{\mathbf{A}} - {{\mathbf{Q}}{\mathbf{Q}}^{\ast}{\mathbf{A}}}} \right\|$, and it is often substantially smaller. We omit a detailed discussion.
 
 For an example of the Nyström technique, consider Algorithm LABEL:alg:nystrom, which computes an approximate eigenvalue decomposition of a positive semidefinite matrix. This method should be compared with the scheme for Hermitian matrices, Algorithm LABEL:alg:hermeig. In both cases, the dominant cost occurs when we form ${\mathbf{A}}{\mathbf{Q}}$, so the two procedures have roughly the same running time. On the other hand, Algorithm LABEL:alg:nystrom is typically much more accurate than Algorithm LABEL:alg:hermeig. In a sense, we are exploiting the fact that $\mathbf{A}$ is positive semidefinite to take one step of subspace iteration (Algorithm LABEL:alg:subspaceiteration) for free.
 
@@ -786,25 +614,17 @@ The techniques described in §§5.1--5.4 all require us to revisit the input mat
 
 For motivation, we begin with the case where $\mathbf{A}$ is Hermitian. Let us recall the proto-algorithm from §1.3.3: Draw a random test matrix $\mathbf{\Omega}$; form the sample matrix ${\mathbf{Y}} = {{\mathbf{A}}\mathbf{\Omega}}$; then construct a basis $\mathbf{Q}$ for the range of $\mathbf{Y}$. It turns out that the matrices $\mathbf{\Omega}$, $\mathbf{Y}$, and $\mathbf{Q}$ contain all the information we need to approximate $\mathbf{A}$.
 
-To see why, define the (currently unknown) matrix $\mathbf{B}$ via ${\mathbf{B}} = {{\mathbf{Q}}^{\ast}{\mathbf{A}}{\mathbf{Q}}}$. Postmultiplying the definition by ${\mathbf{Q}}^{\ast}\mathbf{\Omega}$, we obtain the identity ${{\mathbf{B}}{\mathbf{Q}}^{\ast}\mathbf{\Omega}} = {{\mathbf{Q}}^{\ast}{\mathbf{A}}{\mathbf{Q}}{\mathbf{Q}}^{\ast}\mathbf{\Omega}}$. The relationships ${{\mathbf{A}}{\mathbf{Q}}{\mathbf{Q}}^{\ast}} \approx {\mathbf{A}}$ and ${{\mathbf{A}}\mathbf{\Omega}} = {\mathbf{Y}}$ show that $\mathbf{B}$ must satisfy
-
-All three matrices $\mathbf{\Omega}$, $\mathbf{Y}$, and $\mathbf{Q}$ are available, so we can solve to obtain the matrix $\mathbf{B}$. Then the low-rank factorization ${\mathbf{A}} \approx {{\mathbf{Q}}{\mathbf{B}}{\mathbf{Q}}^{\ast}}$ can be converted to an eigenvalue decomposition via familiar techniques. The entire procedure requires $O{({k^{2}n})}$ flops, and it is summarized as Algorithm LABEL:alg:postsym.
+To see why, define the (currently unknown) matrix $\mathbf{B}$ via ${\mathbf{B}} = {{\mathbf{Q}}^{\ast}{\mathbf{A}}{\mathbf{Q}}}$. Postmultiplying the definition by ${\mathbf{Q}}^{\ast}\mathbf{\Omega}$, we obtain the identity ${{\mathbf{B}}{\mathbf{Q}}^{\ast}\mathbf{\Omega}} = {{\mathbf{Q}}^{\ast}{\mathbf{A}}{\mathbf{Q}}{\mathbf{Q}}^{\ast}\mathbf{\Omega}}$. The relationships ${{\mathbf{A}}{\mathbf{Q}}{\mathbf{Q}}^{\ast}} \approx {\mathbf{A}}$ and ${{\mathbf{A}}\mathbf{\Omega}} = {\mathbf{Y}}$ show that $\mathbf{B}$ must satisfy All three matrices $\mathbf{\Omega}$, $\mathbf{Y}$, and $\mathbf{Q}$ are available, so we can solve to obtain the matrix $\mathbf{B}$. Then the low-rank factorization ${\mathbf{A}} \approx {{\mathbf{Q}}{\mathbf{B}}{\mathbf{Q}}^{\ast}}$ can be converted to an eigenvalue decomposition via familiar techniques. The entire procedure requires $O{({k^{2}n})}$ flops, and it is summarized as Algorithm LABEL:alg:postsym.
 
 Algorithm LABEL:alg:postsym: Eigenvalue Decomposition in One Pass Given an Hermitian matrix A, a random test matrix Ω, a sample matrix Y = A Ω, and an orthonormal matrix Q that verifies and Y = Q Q* Y, this algorithm computes an approximate eigenvalue decomposition A ≈ U Λ U*. 1 Use a standard least-squares solver to find an Hermitian matrix Bapprox that approximately satisfies the equation Bapprox (Q* Ω) ≈ Q* Y. 2 Compute the eigenvalue decomposition Bapprox = V Λ V*. 3 Form the product U = Q V.
 
-When $\mathbf{A}$ is not Hermitian, it is still possible to devise single-pass algorithms, but we must modify the initial Stage A of the approximation framework to simultaneously construct bases for the ranges of $\mathbf{A}$ and ${\mathbf{A}}^{\ast}$:
-
-Generate random matrices $\mathbf{\Omega}$ and $\overset{\sim}{\mathbf{\Omega}}$.
+When $\mathbf{A}$ is not Hermitian, it is still possible to devise single-pass algorithms, but we must modify the initial Stage A of the approximation framework to simultaneously construct bases for the ranges of $\mathbf{A}$ and ${\mathbf{A}}^{\ast}$: Generate random matrices $\mathbf{\Omega}$ and $\overset{\sim}{\mathbf{\Omega}}$.
 
 Compute ${\mathbf{Y}} = {{\mathbf{A}}\mathbf{\Omega}}$ and $\overset{\sim}{\mathbf{Y}} = {{\mathbf{A}}^{\ast}\overset{\sim}{\mathbf{\Omega}}}$ in a single pass over $\mathbf{A}$.
 
 Compute QR factorizations ${\mathbf{Y}} = {{\mathbf{Q}}{\mathbf{R}}}$ and $\overset{\sim}{\mathbf{Y}} = {\overset{\sim}{\mathbf{Q}}\overset{\sim}{\mathbf{R}}}$.
 
-This procedure results in matrices $\mathbf{Q}$ and $\overset{\sim}{\mathbf{Q}}$ such that ${\mathbf{A}} \approx {{\mathbf{Q}}{\mathbf{Q}}^{\ast}{\mathbf{A}}\overset{\sim}{\mathbf{Q}}{\overset{\sim}{\mathbf{Q}}}^{\ast}}$. The reduced matrix we must approximate is ${\mathbf{B}} = {{\mathbf{Q}}^{\ast}{\mathbf{A}}\overset{\sim}{\mathbf{Q}}}$. In analogy with, we find that
-
-An analogous calculation shows that $\mathbf{B}$ should also satisfy
-
-Now, the reduced matrix ${\mathbf{B}}_{approx}$ can be determined by finding a minimum-residual solution to the system of relations and.
+This procedure results in matrices $\mathbf{Q}$ and $\overset{\sim}{\mathbf{Q}}$ such that ${\mathbf{A}} \approx {{\mathbf{Q}}{\mathbf{Q}}^{\ast}{\mathbf{A}}\overset{\sim}{\mathbf{Q}}{\overset{\sim}{\mathbf{Q}}}^{\ast}}$. The reduced matrix we must approximate is ${\mathbf{B}} = {{\mathbf{Q}}^{\ast}{\mathbf{A}}\overset{\sim}{\mathbf{Q}}}$. In analogy, we find that An analogous calculation shows that $\mathbf{B}$ should also satisfy Now, the reduced matrix ${\mathbf{B}}_{approx}$ can be determined by finding a minimum-residual solution to the system of relations and.
 
 ### Remark 5.4
 
@@ -822,15 +642,9 @@ For concreteness, we focus on the problem of computing an approximate SVD of an 
 
 ### General matrices that fit in core memory
 
-Suppose that $\mathbf{A}$ is a general matrix presented as an array of numbers that fits in core memory. In this case, the appropriate method for Stage A is to use a structured random matrix (§4.6), which allows us to find a basis that captures the action of the matrix using $O{({{mn{\log{(k)}}} + {k^{2}m}})}$ flops. For Stage B, we apply the row-extraction technique (§5.2), which costs an additional $O{({k^{2}{({m + n})}})}$ flops. The total number of operations $T_{random}$ for this approach satisfies
+Suppose that $\mathbf{A}$ is a general matrix presented as an array of numbers that fits in core memory. In this case, the appropriate method for Stage A is to use a structured random matrix (§4.6), which allows us to find a basis that captures the action of the matrix using $O{({{mn{\log{(k)}}} + {k^{2}m}})}$ flops. For Stage B, we apply the row-extraction technique (§5.2), which costs an additional $O{({k^{2}{({m + n})}})}$ flops. The total number of operations $T_{random}$ for this approach satisfies As a rule of thumb, the approximation error of this procedure satisfies where $\sigma_{k + 1}$ is the $({k + 1})$th singular value of $\mathbf{A}$. The estimate, which follows from Theorem 25. ‣ 11.2 Performance guarantees ‣ 11 SRFT test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") and Lemma 4, reflects the worst-case scenario; actual errors are usually smaller.
 
-As a rule of thumb, the approximation error of this procedure satisfies
-
-where $\sigma_{k + 1}$ is the $({k + 1})$th singular value of $\mathbf{A}$. The estimate, which follows from Theorem 25. ‣ 11.2 Performance guarantees ‣ 11 SRFT test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") and Lemma 4, reflects the worst-case scenario; actual errors are usually smaller.
-
-This algorithm should be compared with modern deterministic techniques, such as rank-revealing QR followed by postprocessing (§3.3.2) which typically require
-
-operations to achieve a comparable error.
+This algorithm should be compared with modern deterministic techniques, such as rank-revealing QR followed by postprocessing (§3.3.2) which typically require operations to achieve a comparable error.
 
 In this setting, the randomized algorithm can be several times faster than classical techniques even for problems of moderate size, say ${m,n} \sim 10^{3}$ and $k \sim 10^{2}$. See §7.4 for numerical evidence.
 
@@ -842,25 +656,15 @@ In case row extraction is impractical, there is an alternative $O{({mn{\log{(k)}
 
 In many problems in data mining and scientific computing, the cost $T_{mult}$ of performing the matrix--vector multiplication ${\mathbf{x}}\mapsto{{\mathbf{A}}{\mathbf{x}}}$ is substantially smaller than the nominal cost $O{({mn})}$ for the dense case. It is not uncommon that $O{({m + n})}$ flops suffice. Standard examples include (i) very sparse matrices; (ii) structured matrices, such as Töplitz operators, that can be applied using the FFT or other means; and (iii) matrices that arise from physical problems, such as discretized integral operators, that can be applied via, e.g., the fast multipole method.
 
-Suppose that both $\mathbf{A}$ and ${\mathbf{A}}^{\ast}$ admit fast multiplies. The appropriate randomized approach for this scenario completes Stage A using Algorithm LABEL:alg:basic with $p$ constant (for the fixed-rank problem) or Algorithm LABEL:alg:adaptive2 (for the fixed-precision problem) at a cost of ${{({k + p})}T_{mult}} + {O{({k^{2}m})}}$ flops. For Stage B, we invoke Algorithm LABEL:alg:Atranspose, which requires ${{({k + p})}T_{mult}} + {O{({k^{2}{({m + n})}})}}$ flops. The total cost $T_{sparse}$ satisfies
+Suppose that both $\mathbf{A}$ and ${\mathbf{A}}^{\ast}$ admit fast multiplies. The appropriate randomized approach for this scenario completes Stage A using Algorithm LABEL:alg:basic with $p$ constant (for the fixed-rank problem) or Algorithm LABEL:alg:adaptive2 (for the fixed-precision problem) at a cost of ${{({k + p})}T_{mult}} + {O{({k^{2}m})}}$ flops. For Stage B, we invoke Algorithm LABEL:alg:Atranspose, which requires ${{({k + p})}T_{mult}} + {O{({k^{2}{({m + n})}})}}$ flops. The total cost $T_{sparse}$ satisfies As a rule of thumb, the approximation error of this procedure satisfies The estimate follows from Corollary 22. ‣ 10.3 Probabilistic error bounds for Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") and the discussion in §5.1. Actual errors are usually smaller.
 
-As a rule of thumb, the approximation error of this procedure satisfies
-
-The estimate follows from Corollary 22. ‣ 10.3 Probabilistic error bounds for Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") and the discussion in §5.1. Actual errors are usually smaller.
-
-When the singular spectrum of $\mathbf{A}$ decays slowly, we can incorporate $q$ iterations of the power method (Algorithm LABEL:alg:poweriteration) to obtain superior solutions to the fixed-rank problem. The computational cost increases to, cf.,
-
-while the error improves to
-
-The estimate takes into account the discussion in §10.4. The power scheme can also be adapted for the fixed-precision problem (§4.5).
+When the singular spectrum of $\mathbf{A}$ decays slowly, we can incorporate $q$ iterations of the power method (Algorithm LABEL:alg:poweriteration) to obtain superior solutions to the fixed-rank problem. The computational cost increases to, cf., while the error improves to The estimate takes into account the discussion in §10.4. The power scheme can also be adapted for the fixed-precision problem (§4.5).
 
 In this setting, the classical prescription for obtaining a partial SVD is some variation of a Krylov-subspace method; see §3.3.4. These methods exhibit great diversity, so it is hard to specify a "typical" computational cost. To a first approximation, it is fair to say that in order to obtain an approximate SVD of rank $k$, the cost of a numerically stable implementation of a Krylov method is no less than the cost with $p$ set to zero. At this price, the Krylov method often obtains better accuracy than the basic randomized method obtained by combining Algorithms LABEL:alg:basic and LABEL:alg:Atranspose, especially for matrices whose singular values decay slowly. On the other hand, the randomized schemes are inherently more robust and allow much more freedom in organizing the computation to suit a particular application or a particular hardware architecture. The latter point is in practice of crucial importance because it is usually much faster to apply a matrix to $k$ vectors simultaneously than it is to execute $k$ matrix--vector multiplications consecutively. In practice, blocking and parallelism can lead to enough gain that a few steps of the power method (Algorithm LABEL:alg:poweriteration) can be performed more quickly than $k$ steps of a Krylov method.
 
 ### Remark 6.2
 
-Any comparison between randomized sampling schemes and Krylov variants becomes complicated because of the fact that "basic" Krylov schemes such as Lanczos \[61, p. 473\] or Arnoldi \[61, p. 499\] are inherently unstable. To obtain numerical robustness, we must incorporate sophisticated modifications such as restarts, reorthogonalization procedures, etc. Constructing a high-quality implementation is sufficiently hard that the authors of a popular book on "numerical recipes" qualify their treatment of spectral computations as follows \[109, p. 567\]:
-
-> You have probably gathered by now that the solution of eigensystems is a fairly complicated business. It is. It is one of the few subjects covered in this book for which we do *not* recommend that you avoid canned routines. On the contrary, the purpose of this chapter is precisely to give you some appreciation of what is going on inside such canned routines, so that you can make intelligent choices about using them, and intelligent diagnoses when something goes wrong.
+Any comparison between randomized sampling schemes and Krylov variants becomes complicated because of the fact that "basic" Krylov schemes such as Lanczos \[61, p. 473\] or Arnoldi \[61, p. 499\] are inherently unstable. To obtain numerical robustness, we must incorporate sophisticated modifications such as restarts, reorthogonalization procedures, etc. Constructing a high-quality implementation is sufficiently hard that the authors of a popular book on "numerical recipes" qualify their treatment of spectral computations as follows \[109, p. 567\]: > You have probably gathered by now that the solution of eigensystems is a fairly complicated business. It is. It is one of the few subjects covered in this book for which we do *not* recommend that you avoid canned routines. On the contrary, the purpose of this chapter is precisely to give you some appreciation of what is going on inside such canned routines, so that you can make intelligent choices about using them, and intelligent diagnoses when something goes wrong.
 
 Randomized sampling does not eliminate the difficulties referred to in this quotation; however it reduces the task of computing a *partial* spectral decomposition of a very large matrix to the task of computing a *full* decomposition of a small dense matrix. (For example, in Algorithm LABEL:alg:Atranspose, the input matrix $\mathbf{A}$ is large and $\mathbf{B}$ is small.) The latter task is much better understood and is eminently suitable for using canned routines. Random sampling schemes interact with the large matrix only through matrix--matrix products, which can easily be implemented by a user in a manner appropriate to the application and to the available hardware.
 
@@ -870,7 +674,7 @@ The comparison is further complicated by the fact that there is significant over
 
 The traditional metric for numerical algorithms is the number of floating-point operations they require. When the data does not fit in fast memory, however, the computational time is often dominated by the cost of memory access. In this setting, a more appropriate measure of algorithmic performance is *pass-efficiency*, which counts how many times the data needs to be cycled through fast memory. Flop counts become largely irrelevant.
 
-All the classical matrix factorization techniques that we discuss in §3.2---including dense SVD, rank-revealing QR, Krylov methods, and so forth---require at least $k$ passes over the the matrix, which is prohibitively expensive for huge data matrices. A desire to reduce the pass count of matrix approximation algorithms served as one of the early motivations for developing randomized schemes. Detailed recent work appears in.
+All the classical matrix factorization techniques that we discuss in §3.2---including dense SVD, rank-revealing QR, Krylov methods, and so forth---require at least $k$ passes over the the matrix, which is prohibitively expensive for huge data matrices. A desire to reduce the pass count of matrix approximation algorithms served as one of the early motivations for developing randomized schemes. Detailed recent work appears .
 
 For many matrices, randomized techniques can produce an accurate approximation using just one pass over the data. For Hermitian matrices, we obtain a single-pass algorithm by combining Algorithm LABEL:alg:basic, which constructs an approximate basis, with Algorithm LABEL:alg:postsym, which produces an eigenvalue decomposition without any additional access to the matrix. Section 5.5 describes the analogous technique for general matrices.
 
@@ -888,23 +692,19 @@ Section 7.1 starts with two examples from the physical sciences involving discre
 
 Sections 7.1--7.3 focus on the algorithms for Stage A that we presented in §4 because we wish to isolate the performance of the randomized step.
 
-Computational examples illustrating truly large data matrices have been reported elsewhere, for instance in.
+Computational examples illustrating truly large data matrices have been reported elsewhere, for instance .
 
 ### Two matrices with rapidly decaying singular values
 
 We first illustrate the behavior of the adaptive range approximation method, Algorithm LABEL:alg:adaptive2. We apply it to two matrices associated with the numerical analysis of differential and integral operators. The matrices in question have rapidly decaying singular values and our intent is to demonstrate that in this environment, the approximation error of a bare-bones randomized method such as Algorithm LABEL:alg:adaptive2 is *very* close to the minimal error achievable by any method. We observe that the approximation error of a randomized method is itself a random variable (it is a function of the random matrix $\mathbf{\Omega}$) so what we need to demonstrate is not only that the error is small in a typical realization, but also that it clusters tightly around the mean value.
 
-We first consider a $200 \times 200$ matrix $\mathbf{A}$ that results from discretizing the following single-layer operator associated with the Laplace equation:
+We first consider a $200 \times 200$ matrix $\mathbf{A}$ that results from discretizing the following single-layer operator associated with the Laplace equation: where $\Gamma_{1}$ and $\Gamma_{2}$ are the two contours in ${\mathbb{R}}^{2}$ illustrated in Figure 1(a). We approximate the integral with the trapezoidal rule, which converges superalgebraically because the kernel is smooth. In the absence of floating-point errors, we estimate that the discretization error would be less than $10^{- 20}$ for a smooth source $\sigma$. The leading constant is selected so the matrix $\mathbf{A}$ has unit operator norm.
 
-where $\Gamma_{1}$ and $\Gamma_{2}$ are the two contours in ${\mathbb{R}}^{2}$ illustrated in Figure 1(a). We approximate the integral with the trapezoidal rule, which converges superalgebraically because the kernel is smooth. In the absence of floating-point errors, we estimate that the discretization error would be less than $10^{- 20}$ for a smooth source $\sigma$. The leading constant is selected so the matrix $\mathbf{A}$ has unit operator norm.
-
-We implement Algorithm LABEL:alg:adaptive2 in Matlab v6.5. Gaussian test matrices are generated using the randn command. For each number $\ell$ of samples, we compare the following three quantities:
-
-The minimum rank-$\ell$ approximation error $\sigma_{\ell + 1}$ is determined using svd.
+We implement Algorithm LABEL:alg:adaptive2 in Matlab v6.5. Gaussian test matrices are generated using the randn command. For each number $\ell$ of samples, we compare the following three quantities: The minimum rank-$\ell$ approximation error $\sigma_{\ell + 1}$ is determined using svd.
 
 The actual error $e_{\ell} = \left\| {\left( {\mathbf{I} - {{\mathbf{Q}}^{(\ell)}{({\mathbf{Q}}^{(\ell)})}^{\ast}}} \right){\mathbf{A}}} \right\|$ is computed with norm.
 
-A random estimator $f_{\ell}$ for the actual error $e_{\ell}$ is obtained from, with the parameter $r$ set to $5$.
+A random estimator $f_{\ell}$ for the actual error $e_{\ell}$ is obtained , with the parameter $r$ set to $5$.
 
 Note that any values less than $10^{- 15}$ should be considered numerical artifacts.
 
@@ -928,11 +728,7 @@ Fig. 4: Approximating the inverse of a discrete Laplacian. One execution of Algo
 
 Our next example involves a matrix that arises in image processing. A recent line of work uses information about the local geometry of an image to develop promising new algorithms for standard tasks, such as denoising, inpainting, and so forth. These methods are based on approximating a *graph Laplacian* associated with the image. The dominant eigenvectors of this matrix provide "coordinates" that help us smooth out noisy image patches.
 
-We begin with a $95 \times 95$ pixel grayscale image. The intensity of each pixel is represented as an integer in the range $0$ to $4095$. We form for each pixel $i$ a vector ${\mathbf{x}}^{(i)} \in {\mathbb{R}}^{25}$ by gathering the $25$ intensities of the pixels in a $5 \times 5$ neighborhood centered at pixel $i$ (with appropriate modifications near the edges). Next, we form the $9025 \times 9025$ *weight matrix* $\overset{\sim}{\mathbf{W}}$ that reflects the similarities between patches:
-
-where the parameter $\sigma = 50$ controls the level of sensitivity. We obtain a sparse weight matrix $\mathbf{W}$ by zeroing out all entries in $\overset{\sim}{\mathbf{W}}$ except the seven largest ones in each row. The object is then to construct the low frequency eigenvectors of the graph Laplacian matrix
-
-where $\mathbf{D}$ is the diagonal matrix with entries $d_{ii} = {\sum_{j}w_{ij}}$. These are the eigenvectors associated with the dominant eigenvalues of the auxiliary matrix ${\mathbf{A}} = {{\mathbf{D}}^{- {1/2}}{\mathbf{W}}{\mathbf{D}}^{- {1/2}}}$.
+We begin with a $95 \times 95$ pixel grayscale image. The intensity of each pixel is represented as an integer in the range $0$ to $4095$. We form for each pixel $i$ a vector ${\mathbf{x}}^{(i)} \in {\mathbb{R}}^{25}$ by gathering the $25$ intensities of the pixels in a $5 \times 5$ neighborhood centered at pixel $i$ (with appropriate modifications near the edges). Next, we form the $9025 \times 9025$ *weight matrix* $\overset{\sim}{\mathbf{W}}$ that reflects the similarities between patches: where the parameter $\sigma = 50$ controls the level of sensitivity. We obtain a sparse weight matrix $\mathbf{W}$ by zeroing out all entries in $\overset{\sim}{\mathbf{W}}$ except the seven largest ones in each row. The object is then to construct the low frequency eigenvectors of the graph Laplacian matrix where $\mathbf{D}$ is the diagonal matrix with entries $d_{ii} = {\sum_{j}w_{ij}}$. These are the eigenvectors associated with the dominant eigenvalues of the auxiliary matrix ${\mathbf{A}} = {{\mathbf{D}}^{- {1/2}}{\mathbf{W}}{\mathbf{D}}^{- {1/2}}}$.
 
 The matrix $\mathbf{A}$ is large, and its eigenvalues decay slowly, so we use the power scheme summarized in Algorithm LABEL:alg:poweriteration to approximate it. Figure 5\[left\] illustrates how the approximation error $e_{\ell}$ declines as the number $\ell$ of samples increases. When we set the exponent $q = 0$, which corresponds with the basic Algorithm LABEL:alg:basic, the approximation is rather poor. The graph illustrates that increasing the exponent $q$ slightly results in a tremendous improvement in the accuracy of the power scheme.
 
@@ -960,13 +756,9 @@ Our final set of experiments illustrates that the structured random matrices des
 
 First, we compare the computational speeds of four methods for computing an approximation to the $\ell$ dominant terms in the SVD of an $n \times n$ matrix $\mathbf{A}$. For now, we are interested in execution time only (not accuracy), so the choice of matrix is irrelevant and we have selected $\mathbf{A}$ to be a Gaussian matrix. The four methods are summarized in the following table; Remark 7.1 provides more details on the implementation.
 
-Method Stage A Stage B
+Method Stage A Stage B Table 1 lists the measured runtime of a single execution of each algorithm for various choices of the dimension $n$ of the input matrix and the rank $\ell$ of the approximation. Of course, the cost of the full SVD does not depend on the number $\ell$ of components required. A more informative way to look at the runtime data is to compare the *relative* cost of the algorithms. The direct method is the best deterministic approach for dense matrices, so we calculate the factor by which the randomized methods improve on this benchmark. Figure 7 displays the results. We make two observations: (i) Using an SRFT often leads to a dramatic speed-up over classical techniques, even for moderate problem sizes. (ii) Using a standard Gaussian test matrix typically leads to a moderate speed-up over classical methods, primarily because performing a matrix--matrix multiplication is faster than a QR factorization.
 
-Table 1 lists the measured runtime of a single execution of each algorithm for various choices of the dimension $n$ of the input matrix and the rank $\ell$ of the approximation. Of course, the cost of the full SVD does not depend on the number $\ell$ of components required. A more informative way to look at the runtime data is to compare the *relative* cost of the algorithms. The direct method is the best deterministic approach for dense matrices, so we calculate the factor by which the randomized methods improve on this benchmark. Figure 7 displays the results. We make two observations: (i) Using an SRFT often leads to a dramatic speed-up over classical techniques, even for moderate problem sizes. (ii) Using a standard Gaussian test matrix typically leads to a moderate speed-up over classical methods, primarily because performing a matrix--matrix multiplication is faster than a QR factorization.
-
-Second, we investigate how the choice of random test matrix influences the error in approximating an input matrix. For these experiments, we return to the $200 \times 200$ matrix $\mathbf{A}$ defined in Section 7.1. Consider variations of Algorithm LABEL:alg:basic obtained when the random test matrix $\mathbf{\Omega}$ is drawn from the following four distributions:
-
-Intuitively, we expect that Ortho should provide the best performance.
+Second, we investigate how the choice of random test matrix influences the error in approximating an input matrix. For these experiments, we return to the $200 \times 200$ matrix $\mathbf{A}$ defined in Section 7.1. Consider variations of Algorithm LABEL:alg:basic obtained when the random test matrix $\mathbf{\Omega}$ is drawn from the following four distributions: Intuitively, we expect that Ortho should provide the best performance.
 
 For each distribution, we perform 100 000 trials of the following experiment. Apply the corresponding version of Algorithm LABEL:alg:basic to the matrix $\mathbf{A}$, and calculate the approximation error $e_{\ell} = \left\| {{\mathbf{A}} - {{\mathbf{Q}}_{\ell}{\mathbf{Q}}_{\ell}^{\ast}{\mathbf{A}}}} \right\|$. Figure 8 displays the empirical probability density function for the error $e_{\ell}$ obtained with each algorithm. We offer three observations: (i) The SRFT actually performs slightly better than a Gaussian random matrix for this example. (ii) The standard SRFT and the modified SRFT have essentially identical errors. (iii) There is almost no difference between the Gaussian random matrix and the random orthonormal matrix in the first three plots, while the fourth plot shows that the random orthonormal matrix performs better. This behavior occurs because, with high probability, a tall Gaussian matrix is well conditioned and a (nearly) square Gaussian matrix is not.
 
@@ -980,11 +772,7 @@ Fig. 7: Acceleration factor. The relative cost of computing an ℓ-term partial 
 
 Fig. 8: Empirical probability density functions for the error in Algorithm LABEL:alg:basic. As described in §7.4, the algorithm is implemented with four distributions for the random test matrix and used to approximate the 200 × 200 input matrix obtained by discretizing the integral operator. The four panels capture the empirical error distribution for each version of the algorithm at the moment when ℓ = 25, 50, 75, 100 random samples have been drawn.
 
-Part III: Theory
-
-This part of the paper, §§8--11, provides a detailed analysis of randomized sampling schemes for constructing an approximate basis for the range of a matrix, the task we refer to as Stage A in the framework of §1.2. More precisely, we assess the quality of the basis $\mathbf{Q}$ that the proto-algorithm of §1.3 produces by establishing rigorous bounds for the approximation error
-
-where $\left| \middle| \middle| \cdot \middle| \middle| \right|$ denotes either the spectral norm or the Frobenius norm. The difficulty in developing these bounds is that the matrix $\mathbf{Q}$ is random, and its distribution is a complicated nonlinear function of the input matrix $\mathbf{A}$ and the random test matrix $\mathbf{\Omega}$. Naturally, any estimate for the approximation error must depend on the properties of the input matrix and the distribution of the test matrix.
+Part III: Theory This part of the paper, §§8--11, provides a detailed analysis of randomized sampling schemes for constructing an approximate basis for the range of a matrix, the task we refer to as Stage A in the framework of §1.2. More precisely, we assess the quality of the basis $\mathbf{Q}$ that the proto-algorithm of §1.3 produces by establishing rigorous bounds for the approximation error where $\left| \middle| \middle| \cdot \middle| \middle| \right|$ denotes either the spectral norm or the Frobenius norm. The difficulty in developing these bounds is that the matrix $\mathbf{Q}$ is random, and its distribution is a complicated nonlinear function of the input matrix $\mathbf{A}$ and the random test matrix $\mathbf{\Omega}$. Naturally, any estimate for the approximation error must depend on the properties of the input matrix and the distribution of the test matrix.
 
 To address these challenges, we split the argument into two pieces. The first part exploits techniques from linear algebra to deliver a generic error bound that depends on the interaction between the test matrix $\mathbf{\Omega}$ and the right singular vectors of the input matrix $\mathbf{A}$, as well as the tail singular values of $\mathbf{A}$. In the second part of the argument, we take into account the distribution of the random matrix to estimate the error for specific instantiations of the proto-algorithm. This bipartite proof is common in the literature on randomized linear algebra, but our argument is most similar in spirit to.
 
@@ -998,17 +786,11 @@ We proceed with some additional background from linear algebra. Section 8.1 sets
 
 An Hermitian matrix $\mathbf{M}$ is *positive semidefinite* (briefly, *psd*) when ${{\mathbf{u}}^{\ast}{\mathbf{M}}{\mathbf{u}}} \geq 0$ for all ${\mathbf{u}} \neq \mathbf{0}$. If the inequalities are strict, $\mathbf{M}$ is *positive definite* (briefly, *pd*). The psd matrices form a convex cone, which induces a partial ordering on the linear space of Hermitian matrices: ${\mathbf{M}} \preccurlyeq {\mathbf{N}}$ if and only if ${\mathbf{N}} - {\mathbf{M}}$ is psd. This ordering allows us to write ${\mathbf{M}} \succcurlyeq \mathbf{0}$ to indicate that the matrix $\mathbf{M}$ is psd.
 
-Alternatively, we can define a psd (resp., pd) matrix as an Hermitian matrix with nonnegative (resp., positive) eigenvalues. In particular, each psd matrix is diagonalizable, and the inverse of a pd matrix is also pd. The spectral norm of a psd matrix $\mathbf{M}$ has the variational characterization
-
-according to the Rayleigh--Ritz theorem \[72, Thm. 4.2.2\]. It follows that
-
-A fundamental fact is that conjugation preserves the psd property.
+Alternatively, we can define a psd (resp., pd) matrix as an Hermitian matrix with nonnegative (resp., positive) eigenvalues. In particular, each psd matrix is diagonalizable, and the inverse of a pd matrix is also pd. The spectral norm of a psd matrix $\mathbf{M}$ has the variational characterization according to the Rayleigh--Ritz theorem \[72, Thm. 4.2.2\]. It follows that A fundamental fact is that conjugation preserves the psd property.
 
 ### Proposition 5 (Conjugation Rule)
 
-Suppose that $\mathbf{M} \succcurlyeq \mathbf{0}$. For every $\mathbf{A}$, the matrix ${\mathbf{A}^{\ast}\mathbf{M}\mathbf{A}} \succcurlyeq \mathbf{0}$. In particular,
-
-Our argument invokes the conjugation rule repeatedly. As a first application, we establish a perturbation bound for the matrix inverse near the identity matrix.
+Suppose that $\mathbf{M} \succcurlyeq \mathbf{0}$. For every $\mathbf{A}$, the matrix ${\mathbf{A}^{\ast}\mathbf{M}\mathbf{A}} \succcurlyeq \mathbf{0}$. In particular, Our argument invokes the conjugation rule repeatedly. As a first application, we establish a perturbation bound for the matrix inverse near the identity matrix.
 
 ### Proposition 6 (Perturbation of Inverses)
 
@@ -1016,11 +798,7 @@ Suppose that $\mathbf{M} \succcurlyeq \mathbf{0}$. Then
 
 ### Proof
 
-Define ${\mathbf{R}} = {\mathbf{M}}^{1/2}$, the psd square root of $\mathbf{M}$ promised by \[72, Thm. 7.2.6\]. We have the chain of relations
-
-The first equality can be verified algebraically. The second holds because rational functions of a diagonalizable matrix, such as $\mathbf{R}$, commute. The last relation follows from the conjugation rule because ${({\mathbf{I} + {\mathbf{R}}^{2}})}^{- 1} \preccurlyeq \mathbf{I}$. ∎
-
-Next, we present a generalization of the fact that the spectral norm of a psd matrix is controlled by its trace.
+Define ${\mathbf{R}} = {\mathbf{M}}^{1/2}$, the psd square root of $\mathbf{M}$ promised by \[72, Thm. 7.2.6\]. We have the chain of relations The first equality can be verified algebraically. The second holds because rational functions of a diagonalizable matrix, such as $\mathbf{R}$, commute. The last relation follows from the conjugation rule because ${({\mathbf{I} + {\mathbf{R}}^{2}})}^{- 1} \preccurlyeq \mathbf{I}$. ∎ Next, we present a generalization of the fact that the spectral norm of a psd matrix is controlled by its trace.
 
 ### Proposition 7
 
@@ -1028,17 +806,11 @@ We have $\left\| \mathbf{M} \right\| \leq {\left\| \mathbf{A} \right\| + \left\|
 
 ### Proof
 
-The variational characterization of the spectral norm implies that
-
-The block generalization of Hadamard's psd criterion \[72, Thm. 7.7.7\] states that $\left\| {\mathbf{B}} \right\|^{2} \leq {\left\| {\mathbf{A}} \right\|\left\| {\mathbf{C}} \right\|}$. Thus,
-
-This point completes the argument. ∎
+The variational characterization of the spectral norm implies that The block generalization of Hadamard's psd criterion \[72, Thm. 7.7.7\] states that $\left\| {\mathbf{B}} \right\|^{2} \leq {\left\| {\mathbf{A}} \right\|\left\| {\mathbf{C}} \right\|}$. Thus, This point completes the argument. ∎
 
 ### Orthogonal projectors
 
-An *orthogonal projector* is an Hermitian matrix $\mathbf{P}$ that satisfies the polynomial ${\mathbf{P}}^{2} = {\mathbf{P}}$. This identity implies $\mathbf{0} \preccurlyeq {\mathbf{P}} \preccurlyeq \mathbf{I}$. An orthogonal projector is completely determined by its range. For a given matrix $\mathbf{M}$, we write ${\mathbf{P}}_{\mathbf{M}}$ for the unique orthogonal projector with ${{range}{({\mathbf{P}}_{\mathbf{M}})}} = {{range}{({\mathbf{M}})}}$. When $\mathbf{M}$ has full column rank, we can express this projector explicitly:
-
-The orthogonal projector onto the complementary subspace, ${range}{({\mathbf{P}})}^{\perp}$, is the matrix $\mathbf{I} - {\mathbf{P}}$. Our argument hinges on several other facts about orthogonal projectors.
+An *orthogonal projector* is an Hermitian matrix $\mathbf{P}$ that satisfies the polynomial ${\mathbf{P}}^{2} = {\mathbf{P}}$. This identity implies $\mathbf{0} \preccurlyeq {\mathbf{P}} \preccurlyeq \mathbf{I}$. An orthogonal projector is completely determined by its range. For a given matrix $\mathbf{M}$, we write ${\mathbf{P}}_{\mathbf{M}}$ for the unique orthogonal projector with ${{range}{({\mathbf{P}}_{\mathbf{M}})}} = {{range}{({\mathbf{M}})}}$. When $\mathbf{M}$ has full column rank, we can express this projector explicitly: The orthogonal projector onto the complementary subspace, ${range}{({\mathbf{P}})}^{\perp}$, is the matrix $\mathbf{I} - {\mathbf{P}}$. Our argument hinges on several other facts about orthogonal projectors.
 
 ### Proposition 8
 
@@ -1046,9 +818,7 @@ Suppose $\mathbf{U}$ is unitary. Then ${\mathbf{U}^{\ast}\mathbf{P}_{\mathbf{M}}
 
 ### Proof
 
-Abbreviate ${\mathbf{P}} = {{\mathbf{U}}^{\ast}{\mathbf{P}}_{\mathbf{M}}{\mathbf{U}}}$. It is clear that $\mathbf{P}$ is an orthogonal projector since it is Hermitian and ${\mathbf{P}}^{2} = {\mathbf{P}}$. Evidently,
-
-Since the range determines the orthogonal projector, we conclude ${\mathbf{P}} = {\mathbf{P}}_{{\mathbf{U}}^{\ast}{\mathbf{M}}}$. ∎
+Abbreviate ${\mathbf{P}} = {{\mathbf{U}}^{\ast}{\mathbf{P}}_{\mathbf{M}}{\mathbf{U}}}$. It is clear that $\mathbf{P}$ is an orthogonal projector since it is Hermitian and ${\mathbf{P}}^{2} = {\mathbf{P}}$. Evidently, Since the range determines the orthogonal projector, we conclude ${\mathbf{P}} = {\mathbf{P}}_{{\mathbf{U}}^{\ast}{\mathbf{M}}}$. ∎
 
 ### Proposition 9
 
@@ -1056,13 +826,7 @@ Suppose ${{range}{(\mathbf{N})}} \subset {{range}{(\mathbf{M})}}$. Then, for eac
 
 ### Proof
 
-The projector ${\mathbf{P}}_{\mathbf{N}} \preccurlyeq \mathbf{I}$, so the conjugation rule yields ${{\mathbf{P}}_{\mathbf{M}}{\mathbf{P}}_{\mathbf{N}}{\mathbf{P}}_{\mathbf{M}}} \preccurlyeq {\mathbf{P}}_{\mathbf{M}}$. The hypothesis ${{range}{({\mathbf{N}})}} \subset {{range}{({\mathbf{M}})}}$ implies that ${{\mathbf{P}}_{\mathbf{M}}{\mathbf{P}}_{\mathbf{N}}} = {\mathbf{P}}_{\mathbf{N}}$, which results in
-
-In summary, ${\mathbf{P}}_{\mathbf{N}} \preccurlyeq {\mathbf{P}}_{\mathbf{M}}$. The conjugation rule shows that ${{\mathbf{A}}^{\ast}{\mathbf{P}}_{\mathbf{N}}{\mathbf{A}}} \preccurlyeq {{\mathbf{A}}^{\ast}{\mathbf{P}}_{\mathbf{M}}{\mathbf{A}}}$. We conclude from that
-
-The second statement follows from the first by taking orthogonal complements. ∎
-
-Finally, we need a generalization of the scalar inequality $\left| {px} \right|^{q} \leq {|p||x|^{q}}$, which holds when $|p| \leq 1$ and $q \geq 1$.
+The projector ${\mathbf{P}}_{\mathbf{N}} \preccurlyeq \mathbf{I}$, so the conjugation rule yields ${{\mathbf{P}}_{\mathbf{M}}{\mathbf{P}}_{\mathbf{N}}{\mathbf{P}}_{\mathbf{M}}} \preccurlyeq {\mathbf{P}}_{\mathbf{M}}$. The hypothesis ${{range}{({\mathbf{N}})}} \subset {{range}{({\mathbf{M}})}}$ implies that ${{\mathbf{P}}_{\mathbf{M}}{\mathbf{P}}_{\mathbf{N}}} = {\mathbf{P}}_{\mathbf{N}}$, which results in In summary, ${\mathbf{P}}_{\mathbf{N}} \preccurlyeq {\mathbf{P}}_{\mathbf{M}}$. The conjugation rule shows that ${{\mathbf{A}}^{\ast}{\mathbf{P}}_{\mathbf{N}}{\mathbf{A}}} \preccurlyeq {{\mathbf{A}}^{\ast}{\mathbf{P}}_{\mathbf{M}}{\mathbf{A}}}$. We conclude from that The second statement follows from the first by taking orthogonal complements. ∎ Finally, we need a generalization of the scalar inequality $\left| {px} \right|^{q} \leq {|p||x|^{q}}$, which holds when $|p| \leq 1$ and $q \geq 1$.
 
 ### Proposition 10
 
@@ -1070,19 +834,9 @@ Let $\mathbf{P}$ be an orthogonal projector, and let $\mathbf{M}$ be a matrix. F
 
 ### Proof
 
-Suppose that $\mathbf{R}$ is an orthogonal projector, $\mathbf{D}$ is a nonnegative diagonal matrix, and $t \geq 1$. We claim that
+Suppose that $\mathbf{R}$ is an orthogonal projector, $\mathbf{D}$ is a nonnegative diagonal matrix, and $t \geq 1$. We claim that Granted this inequality, we quickly complete the proof. Using an SVD ${\mathbf{M}} = {{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}$, we compute We have used the unitary invariance of the spectral norm in the second and fourth relations. The inequality applies because ${\mathbf{U}}^{\ast}{\mathbf{P}}{\mathbf{U}}$ is an orthogonal projector. Take a square root to finish the argument.
 
-Granted this inequality, we quickly complete the proof. Using an SVD ${\mathbf{M}} = {{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}$, we compute
-
-We have used the unitary invariance of the spectral norm in the second and fourth relations. The inequality applies because ${\mathbf{U}}^{\ast}{\mathbf{P}}{\mathbf{U}}$ is an orthogonal projector. Take a square root to finish the argument.
-
-Now, we turn to the claim. This relation follows immediately from \[11, Thm. IX.2.10\], but we offer a direct argument based on more elementary considerations. Let $\mathbf{x}$ be a unit vector at which
-
-We must have ${{\mathbf{R}}{\mathbf{x}}} = {\mathbf{x}}$. Otherwise, $\left\| {{\mathbf{R}}{\mathbf{x}}} \right\| < 1$ because $\mathbf{R}$ is an orthogonal projector, which implies that the unit vector ${\mathbf{y}} = {{{\mathbf{R}}{\mathbf{x}}}/\left\| {{\mathbf{R}}{\mathbf{x}}} \right\|}$ verifies
-
-Writing $x_{j}$ for the entries of $\mathbf{x}$ and $d_{j}$ for the diagonal entries of $\mathbf{D}$, we find that
-
-The inequality is Jensen's, which applies because ${\sum x_{j}^{2}} = 1$ and the function $z\mapsto|z|^{t}$ is convex for $t \geq 1$. ∎
+Now, we turn to the claim. This relation follows immediately from \[11, Thm. IX.2.10\], but we offer a direct argument based on more elementary considerations. Let $\mathbf{x}$ be a unit vector at which We must have ${{\mathbf{R}}{\mathbf{x}}} = {\mathbf{x}}$. Otherwise, $\left\| {{\mathbf{R}}{\mathbf{x}}} \right\| < 1$ because $\mathbf{R}$ is an orthogonal projector, which implies that the unit vector ${\mathbf{y}} = {{{\mathbf{R}}{\mathbf{x}}}/\left\| {{\mathbf{R}}{\mathbf{x}}} \right\|}$ verifies Writing $x_{j}$ for the entries of $\mathbf{x}$ and $d_{j}$ for the diagonal entries of $\mathbf{D}$, we find that The inequality is Jensen's, which applies because ${\sum x_{j}^{2}} = 1$ and the function $z\mapsto|z|^{t}$ is convex for $t \geq 1$. ∎
 
 ## Error bounds via linear algebra
 
@@ -1092,37 +846,17 @@ We are now prepared to develop a deterministic error analysis for the proto-algo
 
 Let $\mathbf{A}$ be an $m \times n$ matrix that has a singular value decomposition ${\mathbf{A}} = {{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}$, as described in Section 3.2.2 ‣ 3.2 Standard matrix factorizations ‣ 3 Linear algebraic preliminaries ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). Roughly speaking, the proto-algorithm tries to approximate the subspace spanned by the first $k$ left singular vectors, where $k$ is now a fixed number. To perform the analysis, it is appropriate to partition the singular value decomposition as follows.
 
-\end{matrix}\lbrack} & \begin{matrix}
-\end{matrix} & \begin{matrix}
-\end{matrix} & {\rbrack\begin{matrix}
+\end{matrix}\lbrack} & \begin{matrix} \end{matrix} & \begin{matrix} \end{matrix} & {\rbrack\begin{matrix} \end{matrix}} & \begin{bmatrix} \end{bmatrix} & \begin{matrix} The matrices $\mathbf{\Sigma}_{1}$ and $\mathbf{\Sigma}_{2}$ are square. We will see that the left unitary factor $\mathbf{U}$ does not play a significant role in the analysis.
 
-\end{matrix}} & \begin{bmatrix}
-\end{bmatrix} & \begin{matrix}
-
-The matrices $\mathbf{\Sigma}_{1}$ and $\mathbf{\Sigma}_{2}$ are square. We will see that the left unitary factor $\mathbf{U}$ does not play a significant role in the analysis.
-
-Let $\mathbf{\Omega}$ be an $n \times \ell$ test matrix, where $\ell$ denotes the number of samples. We assume only that $\ell \geq k$. Decompose the test matrix in the coordinate system determined by the right unitary factor of $\mathbf{A}$:
-
-The error bound for the proto-algorithm depends critically on the properties of the matrices $\mathbf{\Omega}_{1}$ and $\mathbf{\Omega}_{2}$. With this notation, the sample matrix $\mathbf{Y}$ can be expressed as
-
-\end{matrix}\lbrack} & \begin{matrix}
-{\mathbf{\Sigma}_{1}\mathbf{\Omega}_{1}} \\
-{\mathbf{\Sigma}_{2}\mathbf{\Omega}_{2}}
-\end{matrix} & {\rbrack\begin{matrix}
-
-It is a useful intuition that the block $\mathbf{\Sigma}_{1}\mathbf{\Omega}_{1}$ in (9.1) reflects the gross behavior of $\mathbf{A}$, while the block $\mathbf{\Sigma}_{2}\mathbf{\Omega}_{2}$ represents a perturbation.
+Let $\mathbf{\Omega}$ be an $n \times \ell$ test matrix, where $\ell$ denotes the number of samples. We assume only that $\ell \geq k$. Decompose the test matrix in the coordinate system determined by the right unitary factor of $\mathbf{A}$: The error bound for the proto-algorithm depends critically on the properties of the matrices $\mathbf{\Omega}_{1}$ and $\mathbf{\Omega}_{2}$. With this notation, the sample matrix $\mathbf{Y}$ can be expressed as \end{matrix}\lbrack} & \begin{matrix} {\mathbf{\Sigma}_{1}\mathbf{\Omega}_{1}} \\{\mathbf{\Sigma}_{2}\mathbf{\Omega}_{2}} \end{matrix} & {\rbrack\begin{matrix} It is a useful intuition that the block $\mathbf{\Sigma}_{1}\mathbf{\Omega}_{1}$ in (9.1) reflects the gross behavior of $\mathbf{A}$, while the block $\mathbf{\Sigma}_{2}\mathbf{\Omega}_{2}$ represents a perturbation.
 
 ### A deterministic error bound for the proto-algorithm
 
-The proto-algorithm constructs an orthonormal basis $\mathbf{Q}$ for the range of the sample matrix $\mathbf{Y}$, and our goal is to quantify how well this basis captures the action of the input $\mathbf{A}$. Since ${{\mathbf{Q}}{\mathbf{Q}}^{\ast}} = {\mathbf{P}}_{\mathbf{Y}}$, the challenge is to obtain bounds on the approximation error
-
-The following theorem shows that the behavior of the proto-algorithm depends on the interaction between the test matrix and the right singular vectors of the input matrix, as well as the singular spectrum of the input matrix.
+The proto-algorithm constructs an orthonormal basis $\mathbf{Q}$ for the range of the sample matrix $\mathbf{Y}$, and our goal is to quantify how well this basis captures the action of the input $\mathbf{A}$. Since ${{\mathbf{Q}}{\mathbf{Q}}^{\ast}} = {\mathbf{P}}_{\mathbf{Y}}$, the challenge is to obtain bounds on the approximation error The following theorem shows that the behavior of the proto-algorithm depends on the interaction between the test matrix and the right singular vectors of the input matrix, as well as the singular spectrum of the input matrix.
 
 ### Theorem 11 (Deterministic error bound)
 
-Let $\mathbf{A}$ be an $m \times n$ matrix with singular value decomposition $\mathbf{A} = {\mathbf{U}\mathbf{\Sigma}\mathbf{V}^{\ast}}$, and fix $k \geq 0$. Choose a test matrix $\mathbf{\Omega}$, and construct the sample matrix $\mathbf{Y} = {\mathbf{A}\mathbf{\Omega}}$. Partition $\mathbf{\Sigma}$ as specified in, and define $\mathbf{\Omega}_{1}$ and $\mathbf{\Omega}_{2}$ via. Assuming that $\mathbf{\Omega}_{1}$ has full row rank, the approximation error satisfies
-
-where $\left| \middle| \middle| \cdot \middle| \middle| \right|$ denotes either the spectral norm or the Frobenius norm.
+Let $\mathbf{A}$ be an $m \times n$ matrix with singular value decomposition $\mathbf{A} = {\mathbf{U}\mathbf{\Sigma}\mathbf{V}^{\ast}}$, and fix $k \geq 0$. Choose a test matrix $\mathbf{\Omega}$, and construct the sample matrix $\mathbf{Y} = {\mathbf{A}\mathbf{\Omega}}$. Partition $\mathbf{\Sigma}$ as specified, and define $\mathbf{\Omega}_{1}$ and $\mathbf{\Omega}_{2}$ via. Assuming that $\mathbf{\Omega}_{1}$ has full row rank, the approximation error satisfies where $\left| \middle| \middle| \cdot \middle| \middle| \right|$ denotes either the spectral norm or the Frobenius norm.
 
 Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") sharpens the result \[17, Lem. 2\], which lacks the squares present in (55. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")). This refinement yields slightly better error estimates than the earlier bound, and it has consequences for the probabilistic behavior of the error when the test matrix $\mathbf{\Omega}$ is random. The proof here is different in spirit from the earlier analysis; our argument is inspired by the perturbation theory of orthogonal projectors.
 
@@ -1130,70 +864,23 @@ Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Er
 
 We establish the bound for the spectral-norm error. The bound for the Frobenius-norm error follows from an analogous argument that is slightly easier.
 
-Let us begin with some preliminary simplifications. First, we argue that the left unitary factor $\mathbf{U}$ plays no essential role in the argument. In effect, we execute the proof for an auxiliary input matrix $\overset{\sim}{\mathbf{A}}$ and an associated sample matrix $\overset{\sim}{\mathbf{Y}}$ defined by
+Let us begin with some preliminary simplifications. First, we argue that the left unitary factor $\mathbf{U}$ plays no essential role in the argument. In effect, we execute the proof for an auxiliary input matrix $\overset{\sim}{\mathbf{A}}$ and an associated sample matrix $\overset{\sim}{\mathbf{Y}}$ defined by Owing to the unitary invariance of the spectral norm and to Proposition 8, we have the identity In view of, it suffices to prove that Second, we assume that the number $k$ is chosen so the diagonal entries of $\mathbf{\Sigma}_{1}$ are strictly positive. Suppose not. Then $\mathbf{\Sigma}_{2}$ is zero because of the ordering of the singular values. As a consequence, This calculation uses the decompositions presented, as well as the fact that both ${\mathbf{V}}_{1}^{\ast}$ and $\mathbf{\Omega}_{1}$ have full row rank. We conclude that so the error bound holds trivially. (In fact, both sides are zero.)
 
-Owing to the unitary invariance of the spectral norm and to Proposition 8, we have the identity
+The main argument is based on ideas from perturbation theory. To illustrate the concept, we start with a matrix related to $\overset{\sim}{\mathbf{Y}}$: \end{matrix}\lbrack} & \begin{matrix} {\mathbf{\Sigma}_{1}\mathbf{\Omega}_{1}} \\\end{matrix} & {\rbrack\begin{matrix} The matrix $\mathbf{W}$ has the same range as a related matrix formed by "flattening out" the spectrum of the top block. Indeed, since $\mathbf{\Sigma}_{1}\mathbf{\Omega}_{1}$ has full row rank, \end{matrix}\lbrack} & \begin{matrix} \end{matrix} & {\rbrack\begin{matrix} The matrix on the right-hand side has full column rank, so it is legal to apply the formula for an orthogonal projector, which immediately yields In words, the range of $\mathbf{W}$ aligns with the first $k$ coordinates, which span the same subspace as the first $k$ left singular vectors of the auxiliary input matrix $\overset{\sim}{\mathbf{A}}$. Therefore, ${range}{({\mathbf{W}})}$ captures the action of $\overset{\sim}{\mathbf{A}}$, which is what we wanted from ${range}{(\overset{\sim}{\mathbf{Y}})}$.
 
-In view of, it suffices to prove that
+We treat the auxiliary sample matrix $\overset{\sim}{\mathbf{Y}}$ as a perturbation of $\mathbf{W}$, and we hope that their ranges are close to each other. To make the comparison rigorous, let us emulate the arguments outlined in the last paragraph. Referring to the display, we flatten out the top block of $\overset{\sim}{\mathbf{Y}}$ to obtain the matrix Let us return to the error bound. The construction ensures that ${{range}{({\mathbf{Z}})}} \subset {{range}{(\overset{\sim}{\mathbf{Y}})}}$, so Proposition 9 implies that the error satisfies Squaring this relation, we obtain The last identity follows from the definition $\overset{\sim}{\mathbf{A}} = {\mathbf{\Sigma}{\mathbf{V}}^{\ast}}$ and the unitary invariance of the spectral norm. Therefore, we can complete the proof of by producing a suitable bound for the right-hand side of.
 
-Second, we assume that the number $k$ is chosen so the diagonal entries of $\mathbf{\Sigma}_{1}$ are strictly positive. Suppose not. Then $\mathbf{\Sigma}_{2}$ is zero because of the ordering of the singular values. As a consequence,
+To continue, we need a detailed representation of the projector $\mathbf{I} - {\mathbf{P}}_{\mathbf{Z}}$. The construction ensures that $\mathbf{Z}$ has full column rank, so we can apply the formula for an orthogonal projector to see that Expanding this expression, we determine that the complementary projector satisfies The partitioning here conforms with the partitioning of $\mathbf{\Sigma}$. When we conjugate the matrix by $\mathbf{\Sigma}$, copies of $\mathbf{\Sigma}_{1}^{- 1}$, presently hidden in the top-left block, will cancel to happy effect.
 
-This calculation uses the decompositions presented in, as well as the fact that both ${\mathbf{V}}_{1}^{\ast}$ and $\mathbf{\Omega}_{1}$ have full row rank. We conclude that
+The latter point may not seem obvious, owing to the complicated form of. In reality, the block matrix is less fearsome than it looks. Proposition 6. ‣ 8.1 Positive semidefinite matrices ‣ 8 Theoretical preliminaries ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), on the perturbation of inverses, shows that the top-left block verifies The bottom-right block satisfies because the conjugation rule guarantees that ${{\mathbf{F}}{({\mathbf{I} + {{\mathbf{F}}^{\ast}{\mathbf{F}}}})}^{- 1}{\mathbf{F}}^{\ast}} \succcurlyeq \mathbf{0}$. We abbreviate the off-diagonal blocks with the symbol ${\mathbf{B}} = {- {{({\mathbf{I} + {{\mathbf{F}}^{\ast}{\mathbf{F}}}})}^{- 1}{\mathbf{F}}^{\ast}}}$. In summary, This relation exposes the key structural properties of the projector. Compare this relation with the expression for the "ideal" projector $\mathbf{I} - {\mathbf{P}}_{\mathbf{W}}$.
 
-so the error bound holds trivially. (In fact, both sides are zero.)
-
-The main argument is based on ideas from perturbation theory. To illustrate the concept, we start with a matrix related to $\overset{\sim}{\mathbf{Y}}$:
-
-\end{matrix}\lbrack} & \begin{matrix}
-{\mathbf{\Sigma}_{1}\mathbf{\Omega}_{1}} \\
-\end{matrix} & {\rbrack\begin{matrix}
-
-The matrix $\mathbf{W}$ has the same range as a related matrix formed by "flattening out" the spectrum of the top block. Indeed, since $\mathbf{\Sigma}_{1}\mathbf{\Omega}_{1}$ has full row rank,
-
-\end{matrix}\lbrack} & \begin{matrix}
-\end{matrix} & {\rbrack\begin{matrix}
-
-The matrix on the right-hand side has full column rank, so it is legal to apply the formula for an orthogonal projector, which immediately yields
-
-In words, the range of $\mathbf{W}$ aligns with the first $k$ coordinates, which span the same subspace as the first $k$ left singular vectors of the auxiliary input matrix $\overset{\sim}{\mathbf{A}}$. Therefore, ${range}{({\mathbf{W}})}$ captures the action of $\overset{\sim}{\mathbf{A}}$, which is what we wanted from ${range}{(\overset{\sim}{\mathbf{Y}})}$.
-
-We treat the auxiliary sample matrix $\overset{\sim}{\mathbf{Y}}$ as a perturbation of $\mathbf{W}$, and we hope that their ranges are close to each other. To make the comparison rigorous, let us emulate the arguments outlined in the last paragraph. Referring to the display, we flatten out the top block of $\overset{\sim}{\mathbf{Y}}$ to obtain the matrix
-
-Let us return to the error bound. The construction ensures that ${{range}{({\mathbf{Z}})}} \subset {{range}{(\overset{\sim}{\mathbf{Y}})}}$, so Proposition 9 implies that the error satisfies
-
-Squaring this relation, we obtain
-
-The last identity follows from the definition $\overset{\sim}{\mathbf{A}} = {\mathbf{\Sigma}{\mathbf{V}}^{\ast}}$ and the unitary invariance of the spectral norm. Therefore, we can complete the proof of by producing a suitable bound for the right-hand side of.
-
-To continue, we need a detailed representation of the projector $\mathbf{I} - {\mathbf{P}}_{\mathbf{Z}}$. The construction ensures that $\mathbf{Z}$ has full column rank, so we can apply the formula for an orthogonal projector to see that
-
-Expanding this expression, we determine that the complementary projector satisfies
-
-The partitioning here conforms with the partitioning of $\mathbf{\Sigma}$. When we conjugate the matrix by $\mathbf{\Sigma}$, copies of $\mathbf{\Sigma}_{1}^{- 1}$, presently hidden in the top-left block, will cancel to happy effect.
-
-The latter point may not seem obvious, owing to the complicated form of. In reality, the block matrix is less fearsome than it looks. Proposition 6. ‣ 8.1 Positive semidefinite matrices ‣ 8 Theoretical preliminaries ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), on the perturbation of inverses, shows that the top-left block verifies
-
-The bottom-right block satisfies
-
-because the conjugation rule guarantees that ${{\mathbf{F}}{({\mathbf{I} + {{\mathbf{F}}^{\ast}{\mathbf{F}}}})}^{- 1}{\mathbf{F}}^{\ast}} \succcurlyeq \mathbf{0}$. We abbreviate the off-diagonal blocks with the symbol ${\mathbf{B}} = {- {{({\mathbf{I} + {{\mathbf{F}}^{\ast}{\mathbf{F}}}})}^{- 1}{\mathbf{F}}^{\ast}}}$. In summary,
-
-This relation exposes the key structural properties of the projector. Compare this relation with the expression for the "ideal" projector $\mathbf{I} - {\mathbf{P}}_{\mathbf{W}}$.
-
-Moving toward the estimate required by, we conjugate the last relation by $\mathbf{\Sigma}$ to obtain
-
-The conjugation rule demonstrates that the matrix on the left-hand side is psd, so the matrix on the right-hand side is too. Proposition 7 results in the norm bound
-
-Recall that ${\mathbf{F}} = {\mathbf{\Sigma}_{2}\mathbf{\Omega}_{2}\mathbf{\Omega}_{1}^{\dagger}\mathbf{\Sigma}_{1}^{- 1}}$, so the factor $\mathbf{\Sigma}_{1}$ cancels neatly. Therefore,
-
-Finally, introduce the latter inequality into to complete the proof. ∎
+Moving toward the estimate required, we conjugate the last relation by $\mathbf{\Sigma}$ to obtain The conjugation rule demonstrates that the matrix on the left-hand side is psd, so the matrix on the right-hand side is too. Proposition 7 results in the norm bound Recall that ${\mathbf{F}} = {\mathbf{\Sigma}_{2}\mathbf{\Omega}_{2}\mathbf{\Omega}_{1}^{\dagger}\mathbf{\Sigma}_{1}^{- 1}}$, so the factor $\mathbf{\Sigma}_{1}$ cancels neatly. Therefore, Finally, introduce the latter inequality into to complete the proof. ∎
 
 ### Analysis of the power scheme
 
 Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") suggests that the performance of the proto-algorithm depends strongly on the relationship between the large singular values of $\mathbf{A}$ listed in $\mathbf{\Sigma}_{1}$ and the small singular values listed in $\mathbf{\Sigma}_{2}$. When a substantial proportion of the mass of $\mathbf{A}$ appears in the small singular values, the constructed basis $\mathbf{Q}$ may have low accuracy. Conversely, when the large singular values dominate, it is much easier to identify a good low-rank basis.
 
-To improve the performance of the proto-algorithm, we can run it with a closely related input matrix whose singular values decay more rapidly. Fix a positive integer $q$, and set
-
-We apply the proto-algorithm to $\mathbf{B}$, which generates a sample matrix ${\mathbf{Z}} = {{\mathbf{B}}\mathbf{\Omega}}$ and constructs a basis $\mathbf{Q}$ for the range of $\mathbf{Z}$. Section 4.5 elaborates on the implementation details, and describes a reformulation that sometimes improves the accuracy when the scheme is executed in finite-precision arithmetic. The following result describes how well we can approximate the *original* matrix $\mathbf{A}$ within the range of $\mathbf{Z}$.
+To improve the performance of the proto-algorithm, we can run it with a closely related input matrix whose singular values decay more rapidly. Fix a positive integer $q$, and set We apply the proto-algorithm to $\mathbf{B}$, which generates a sample matrix ${\mathbf{Z}} = {{\mathbf{B}}\mathbf{\Omega}}$ and constructs a basis $\mathbf{Q}$ for the range of $\mathbf{Z}$. Section 4.5 elaborates on the implementation details, and describes a reformulation that sometimes improves the accuracy when the scheme is executed in finite-precision arithmetic. The following result describes how well we can approximate the *original* matrix $\mathbf{A}$ within the range of $\mathbf{Z}$.
 
 ### Theorem 12 (Power scheme)
 
@@ -1201,13 +888,7 @@ Let $\mathbf{A}$ be an $m \times n$ matrix, and let $\mathbf{\Omega}$ be an $n \
 
 ### Proof
 
-as a direct consequence of Proposition 10. ∎
-
-Let us illustrate how the power scheme interacts with the main error bound (55. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")). Let $\sigma_{k + 1}$ denote the $({k + 1})$th singular value of $\mathbf{A}$. First, suppose we approximate $\mathbf{A}$ in the range of the sample matrix ${\mathbf{Y}} = {{\mathbf{A}}\mathbf{\Omega}}$. Since $\left\| \mathbf{\Sigma}_{2} \right\| = \sigma_{k + 1}$, Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") implies that
-
-Now, define ${\mathbf{B}} = {{({{\mathbf{A}}{\mathbf{A}}^{\ast}})}^{q}{\mathbf{A}}}$, and suppose we approximate $\mathbf{A}$ within the range of the sample matrix ${\mathbf{Z}} = {{\mathbf{B}}\mathbf{\Omega}}$. Together, Theorem 12. ‣ 9.3 Analysis of the power scheme ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") and Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") imply that
-
-because $\sigma_{k + 1}^{{2q} + 1}$ is the $({k + 1})$th singular value of $\mathbf{B}$. In effect, the power scheme drives down the suboptimality of the bound exponentially fast as the power $q$ increases. In principle, we can make the extra factor as close to one as we like, although this increases the cost of the algorithm.
+as a direct consequence of Proposition 10. ∎ Let us illustrate how the power scheme interacts with the main error bound (55. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")). Let $\sigma_{k + 1}$ denote the $({k + 1})$th singular value of $\mathbf{A}$. First, suppose we approximate $\mathbf{A}$ in the range of the sample matrix ${\mathbf{Y}} = {{\mathbf{A}}\mathbf{\Omega}}$. Since $\left\| \mathbf{\Sigma}_{2} \right\| = \sigma_{k + 1}$, Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") implies that Now, define ${\mathbf{B}} = {{({{\mathbf{A}}{\mathbf{A}}^{\ast}})}^{q}{\mathbf{A}}}$, and suppose we approximate $\mathbf{A}$ within the range of the sample matrix ${\mathbf{Z}} = {{\mathbf{B}}\mathbf{\Omega}}$. Together, Theorem 12. ‣ 9.3 Analysis of the power scheme ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") and Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") imply that because $\sigma_{k + 1}^{{2q} + 1}$ is the $({k + 1})$th singular value of $\mathbf{B}$. In effect, the power scheme drives down the suboptimality of the bound exponentially fast as the power $q$ increases. In principle, we can make the extra factor as close to one as we like, although this increases the cost of the algorithm.
 
 ### Analysis of truncated SVD
 
@@ -1221,11 +902,7 @@ Let $\mathbf{A}$ be an $m \times n$ matrix with singular values $\sigma_{1} \geq
 
 Apply the triangle inequality to split the error into two components.
 
-We have already developed a detailed theory for estimating the first term. To analyze the second term, we introduce a best rank-$k$ approximation ${\mathbf{A}}_{(k)}$ of the matrix $\mathbf{A}$. Note that
-
-because ${\hat{\mathbf{A}}}_{(k)}$ is a best rank-$k$ approximation to the matrix ${\mathbf{P}}_{\mathbf{Z}}{\mathbf{A}}$, whereas ${\mathbf{P}}_{\mathbf{Z}}{\mathbf{A}}_{(k)}$ is an undistinguished rank-$k$ matrix. It follows that
-
-The second inequality holds because the orthogonal projector is a contraction; the last identity follows from Mirsky's theorem. Combine and to reach the main result. ∎
+We have already developed a detailed theory for estimating the first term. To analyze the second term, we introduce a best rank-$k$ approximation ${\mathbf{A}}_{(k)}$ of the matrix $\mathbf{A}$. Note that because ${\hat{\mathbf{A}}}_{(k)}$ is a best rank-$k$ approximation to the matrix ${\mathbf{P}}_{\mathbf{Z}}{\mathbf{A}}$, whereas ${\mathbf{P}}_{\mathbf{Z}}{\mathbf{A}}_{(k)}$ is an undistinguished rank-$k$ matrix. It follows that The second inequality holds because the orthogonal projector is a contraction; the last identity follows from Mirsky's theorem. Combine and to reach the main result. ∎
 
 ### Remark 9.1
 
@@ -1245,31 +922,21 @@ Our analysis requires detailed information about the properties of Gaussian matr
 
 ### Proposition 14 (Expected norm of a scaled Gaussian matrix)
 
-Fix matrices $\mathbf{S},\mathbf{T}$, and draw a standard Gaussian matrix $\mathbf{G}$. Then
-
-The identity (66. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) follows from a direct calculation. The second bound (67. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) relies on methods developed by Gordon. See Propositions 26 and 27.
+Fix matrices $\mathbf{S},\mathbf{T}$, and draw a standard Gaussian matrix $\mathbf{G}$. Then The identity (66. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) follows from a direct calculation. The second bound (67. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) relies on methods developed by Gordon. See Propositions 26 and 27.
 
 ### Proposition 15 (Expected norm of a pseudo-inverted Gaussian matrix)
 
-Draw a $k \times {({k + p})}$ standard Gaussian matrix $\mathbf{G}$ with $k \geq 2$ and $p \geq 2$. Then
-
-The first identity is a standard result from multivariate statistics \[99, p. 96\]. The second follows from work of Chen and Dongarra. See Proposition 29 and 30.
+Draw a $k \times {({k + p})}$ standard Gaussian matrix $\mathbf{G}$ with $k \geq 2$ and $p \geq 2$. Then The first identity is a standard result from multivariate statistics \[99, p. 96\]. The second follows from work of Chen and Dongarra. See Proposition 29 and 30.
 
 To study the probability that Algorithm LABEL:alg:basic produces a large error, we rely on tail bounds for functions of Gaussian matrices. The next proposition rephrases a well-known result on concentration of measure \[14, Thm. 4.5.7\]. See also \[83, §1.1\] and \[82, §5.1\].
 
 ### Proposition 16 (Concentration for functions of a Gaussian matrix)
 
-Suppose that $h$ is a Lipschitz function on matrices:
-
-Draw a standard Gaussian matrix $\mathbf{G}$. Then
-
-Finally, we state some large deviation bounds for the norm of a pseudo-inverted Gaussian matrix.
+Suppose that $h$ is a Lipschitz function on matrices: Draw a standard Gaussian matrix $\mathbf{G}$. Then Finally, we state some large deviation bounds for the norm of a pseudo-inverted Gaussian matrix.
 
 ### Proposition 17 (Norm bounds for a pseudo-inverted Gaussian matrix)
 
-Let $\mathbf{G}$ be a $k \times {({k + p})}$ Gaussian matrix where $p \geq 4$. For all $t \geq 1$,
-
-Compare these estimates with Proposition 15. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). It seems that (70. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) is new; we were unable to find a comparable analysis in the random matrix literature. Although the form of (70. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) is not optimal, it allows us to produce more transparent results than a fully detailed estimate. The bound (71. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) essentially appears in the work of Chen and Dongarra. See Propositions 28 and Theorem 31 for more information.
+Let $\mathbf{G}$ be a $k \times {({k + p})}$ Gaussian matrix where $p \geq 4$. For all $t \geq 1$, Compare these estimates with Proposition 15. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). It seems that (70. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) is new; we were unable to find a comparable analysis in the random matrix literature. Although the form of (70. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) is not optimal, it allows us to produce more transparent results than a fully detailed estimate. The bound (71. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) essentially appears in the work of Chen and Dongarra. See Propositions 28 and Theorem 31 for more information.
 
 ### Average-case analysis of Algorithm LABEL:alg:basic
 
@@ -1279,9 +946,7 @@ We begin with the simplest result, which provides an estimate for the expected a
 
 ### Theorem 18 (Average Frobenius error)
 
-Suppose that $\mathbf{A}$ is a *real* $m \times n$ matrix with singular values $\sigma_{1} \geq \sigma_{2} \geq \sigma_{3} \geq \ldots$. Choose a target rank $k \geq 2$ and an oversampling parameter $p \geq 2$, where ${k + p} \leq {\min{\{ m,n\}}}$. Draw an $n \times {({k + p})}$ standard Gaussian matrix $\mathbf{\Omega}$, and construct the sample matrix $\mathbf{Y} = {\mathbf{A}\mathbf{\Omega}}$. Then the expected approximation error
-
-This theorem predicts several intriguing behaviors of Algorithm LABEL:alg:basic. The Eckart--Young theorem shows that ${({\sum_{j > k}\sigma_{j}^{2}})}^{1/2}$ is the minimal Frobenius-norm error when approximating $\mathbf{A}$ with a rank-$k$ matrix. This quantity is the appropriate benchmark for the performance of the algorithm. If the small singular values of $\mathbf{A}$ are very flat, the series may be as large as $\sigma_{k + 1}\sqrt{{\min{\{ m,n\}}} - k}$. On the other hand, when the singular values exhibit some decay, the error may be on the same order as $\sigma_{k + 1}$.
+Suppose that $\mathbf{A}$ is a *real* $m \times n$ matrix with singular values $\sigma_{1} \geq \sigma_{2} \geq \sigma_{3} \geq \ldots$. Choose a target rank $k \geq 2$ and an oversampling parameter $p \geq 2$, where ${k + p} \leq {\min{\{ m,n\}}}$. Draw an $n \times {({k + p})}$ standard Gaussian matrix $\mathbf{\Omega}$, and construct the sample matrix $\mathbf{Y} = {\mathbf{A}\mathbf{\Omega}}$. Then the expected approximation error This theorem predicts several intriguing behaviors of Algorithm LABEL:alg:basic. The Eckart--Young theorem shows that ${({\sum_{j > k}\sigma_{j}^{2}})}^{1/2}$ is the minimal Frobenius-norm error when approximating $\mathbf{A}$ with a rank-$k$ matrix. This quantity is the appropriate benchmark for the performance of the algorithm. If the small singular values of $\mathbf{A}$ are very flat, the series may be as large as $\sigma_{k + 1}\sqrt{{\min{\{ m,n\}}} - k}$. On the other hand, when the singular values exhibit some decay, the error may be on the same order as $\sigma_{k + 1}$.
 
 The error bound always exceeds this baseline error, but it may be polynomially larger, depending on the ratio between the target rank $k$ and the oversampling parameter $p$. For $p$ small (say, less than five), the error is somewhat variable because the small singular values of a nearly square Gaussian matrix are very unstable. As the oversampling increases, the performance improves quickly. When $p \sim k$, the error is already within a constant factor of the baseline.
 
@@ -1289,39 +954,19 @@ The error bound for the spectral norm is somewhat more complicated, but it revea
 
 ### Theorem 19 (Average spectral error)
 
-Under the hypotheses of Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"),
-
-Mirsky has shown that the quantity $\sigma_{k + 1}$ is the minimum spectral-norm error when approximating $\mathbf{A}$ with a rank-$k$ matrix, so the first term in Theorem 19. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") is analogous with the error bound in Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). The second term represents a new phenomenon: we also pay for the Frobenius-norm error in approximating $\mathbf{A}$. Note that, as the amount $p$ of oversampling increases, the polynomial factor in the second term declines much more quickly than the factor in the first term. When $p \sim k$, the factor on the $\sigma_{k + 1}$ term is constant, while the factor on the series has order $k^{- {1/2}}$
-
-We also note that the bound in Theorem 19. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") implies
-
-so the average spectral-norm error always lies within a small polynomial factor of the baseline $\sigma_{k + 1}$.
+Under the hypotheses of Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), Mirsky has shown that the quantity $\sigma_{k + 1}$ is the minimum spectral-norm error when approximating $\mathbf{A}$ with a rank-$k$ matrix, so the first term in Theorem 19. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") is analogous with the error bound in Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). The second term represents a new phenomenon: we also pay for the Frobenius-norm error in approximating $\mathbf{A}$. Note that, as the amount $p$ of oversampling increases, the polynomial factor in the second term declines much more quickly than the factor in the first term. When $p \sim k$, the factor on the $\sigma_{k + 1}$ term is constant, while the factor on the series has order $k^{- {1/2}}$ We also note that the bound in Theorem 19. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") implies so the average spectral-norm error always lies within a small polynomial factor of the baseline $\sigma_{k + 1}$.
 
 Let us continue with the proofs of these results.
 
 ### Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")
 
-Let $\mathbf{V}$ be the right unitary factor of $\mathbf{A}$. Partition ${\mathbf{V}} = {\lbrack\left. {\mathbf{V}}_{1} \middle| {\mathbf{V}}_{2} \right.\rbrack}$ into blocks containing, respectively, $k$ and $n - k$ columns. Recall that
+Let $\mathbf{V}$ be the right unitary factor of $\mathbf{A}$. Partition ${\mathbf{V}} = {\lbrack\left. {\mathbf{V}}_{1} \middle| {\mathbf{V}}_{2} \right.\rbrack}$ into blocks containing, respectively, $k$ and $n - k$ columns. Recall that The Gaussian distribution is rotationally invariant, so ${\mathbf{V}}^{\ast}\mathbf{\Omega}$ is also a standard Gaussian matrix. Observe that $\mathbf{\Omega}_{1}$ and $\mathbf{\Omega}_{2}$ are *nonoverlapping* submatrices of ${\mathbf{V}}^{\ast}\mathbf{\Omega}$, so these two matrices are not only standard Gaussian but also stochastically independent. Furthermore, the rows of a (fat) Gaussian matrix are almost surely in general position, so the $k \times {({k + p})}$ matrix $\mathbf{\Omega}_{1}$ has full row rank with probability one.
 
-The Gaussian distribution is rotationally invariant, so ${\mathbf{V}}^{\ast}\mathbf{\Omega}$ is also a standard Gaussian matrix. Observe that $\mathbf{\Omega}_{1}$ and $\mathbf{\Omega}_{2}$ are *nonoverlapping* submatrices of ${\mathbf{V}}^{\ast}\mathbf{\Omega}$, so these two matrices are not only standard Gaussian but also stochastically independent. Furthermore, the rows of a (fat) Gaussian matrix are almost surely in general position, so the $k \times {({k + p})}$ matrix $\mathbf{\Omega}_{1}$ has full row rank with probability one.
-
-Hölder's inequality and Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") together imply that
-
-We compute this expectation by conditioning on the value of $\mathbf{\Omega}_{1}$ and applying Proposition 14. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") to the scaled Gaussian matrix $\mathbf{\Omega}_{2}$. Thus,
-
-where the last expectation follows from relation (68. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) of Proposition 15. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). In summary,
-
-Observe that $\left\| \mathbf{\Sigma}_{2} \right\|_{F}^{2} = {\sum_{j > k}\sigma_{j}^{2}}$ to complete the proof. ∎
+Hölder's inequality and Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") together imply that We compute this expectation by conditioning on the value of $\mathbf{\Omega}_{1}$ and applying Proposition 14. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") to the scaled Gaussian matrix $\mathbf{\Omega}_{2}$. Thus, where the last expectation follows from relation (68. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) of Proposition 15. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). In summary, Observe that $\left\| \mathbf{\Sigma}_{2} \right\|_{F}^{2} = {\sum_{j > k}\sigma_{j}^{2}}$ to complete the proof. ∎
 
 ### Theorem 19. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")
 
-The argument is similar to the proof of Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). First, Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") implies that
-
-We condition on $\mathbf{\Omega}_{1}$ and apply Proposition 14. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") to bound the expectation with respect to $\mathbf{\Omega}_{2}$. Thus,
-
-where the second relation requires Hölder's inequality. Applying both parts of Proposition 15. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), we obtain
-
-Note that $\left\| \mathbf{\Sigma}_{2} \right\| = \sigma_{k + 1}$ to wrap up. ∎
+The argument is similar to the proof of Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). First, Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") implies that We condition on $\mathbf{\Omega}_{1}$ and apply Proposition 14. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") to bound the expectation with respect to $\mathbf{\Omega}_{2}$. Thus, where the second relation requires Hölder's inequality. Applying both parts of Proposition 15. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), we obtain Note that $\left\| \mathbf{\Sigma}_{2} \right\| = \sigma_{k + 1}$ to wrap up. ∎
 
 ### Probabilistic error bounds for Algorithm LABEL:alg:basic
 
@@ -1329,9 +974,7 @@ We can develop tail bounds for the approximation error, which demonstrate that t
 
 ### Theorem 20 (Deviation bounds for the Frobenius error)
 
-Frame the hypotheses of Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). Assume further that $p \geq 4$. For all ${u,t} \geq 1$,
-
-with failure probability at most ${5t^{- p}} + {2e^{- {u^{2}/2}}}$.
+Frame the hypotheses of Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). Assume further that $p \geq 4$. For all ${u,t} \geq 1$, with failure probability at most ${5t^{- p}} + {2e^{- {u^{2}/2}}}$.
 
 To parse this theorem, observe that the first term in the error bound corresponds with the expected approximation error in Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). The second term represents a deviation above the mean.
 
@@ -1339,9 +982,7 @@ An analogous result holds for the spectral norm.
 
 ### Theorem 21 (Deviation bounds for the spectral error)
 
-Frame the hypotheses of Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). Assume further that $p \geq 4$. For all ${u,t} \geq 1$,
-
-with failure probability at most ${5t^{- p}} + e^{- {u^{2}/2}}$.
+Frame the hypotheses of Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). Assume further that $p \geq 4$. For all ${u,t} \geq 1$, with failure probability at most ${5t^{- p}} + e^{- {u^{2}/2}}$.
 
 The bracket corresponds with the expected spectral-norm error while the remaining term represents a deviation above the mean. Neither the numerical constants nor the precise form of the bound are optimal because of the slackness in Proposition 17. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). Nevertheless, the theorem gives a fairly good picture of what is actually happening.
 
@@ -1349,37 +990,17 @@ We acknowledge that the current form of Theorem 21. ‣ 10.3 Probabilistic error
 
 ### Corollary 22 (Simplified deviation bounds for the spectral error)
 
-Frame the hypotheses of Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), and assume further that $p \geq 4$. Then
-
-with failure probability at most $6e^{- p}$. Moreover,
-
-with failure probability at most $6p^{- p}$.
+Frame the hypotheses of Theorem 18. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), and assume further that $p \geq 4$. Then with failure probability at most $6e^{- p}$. Moreover, with failure probability at most $6p^{- p}$.
 
 ### Proof
 
-The first part of the result follows from the choices $t = e$ and $u = \sqrt{2p}$, and the second emerges when $t = p$ and $u = \sqrt{2p{\log p}}$. Another interesting parameter selection is $t = p^{c/p}$ and $u = \sqrt{2c{\log p}}$, which yields a failure probability $6p^{- c}$. ∎
-
-Corollary 22. ‣ 10.3 Probabilistic error bounds for Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") should be compared with \[91, Obs. 4.4--4.5\]. Although our result contains sharper error estimates, the failure probabilities are usually worse. The error bound presented in §1.5 follows after further simplification of the second bound from Corollary 22. ‣ 10.3 Probabilistic error bounds for Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions").
+The first part of the result follows from the choices $t = e$ and $u = \sqrt{2p}$, and the second emerges when $t = p$ and $u = \sqrt{2p{\log p}}$. Another interesting parameter selection is $t = p^{c/p}$ and $u = \sqrt{2c{\log p}}$, which yields a failure probability $6p^{- c}$. ∎ Corollary 22. ‣ 10.3 Probabilistic error bounds for Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") should be compared with \[91, Obs. 4.4--4.5\]. Although our result contains sharper error estimates, the failure probabilities are usually worse. The error bound presented in §1.5 follows after further simplification of the second bound from Corollary 22. ‣ 10.3 Probabilistic error bounds for Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions").
 
 We continue with a proof of Theorem 21. ‣ 10.3 Probabilistic error bounds for Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). The same argument can be used to obtain a bound for the Frobenius-norm error, but we omit a detailed account.
 
 ### Theorem 21. ‣ 10.3 Probabilistic error bounds for Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")
 
-Since $\mathbf{\Omega}_{1}$ and $\mathbf{\Omega}_{2}$ are independent from each other, we can study how the error depends on the matrix $\mathbf{\Omega}_{2}$ by conditioning on the event that $\mathbf{\Omega}_{1}$ is not too irregular. To that end, we define a (parameterized) event on which the spectral and Frobenius norms of the matrix $\mathbf{\Omega}_{1}^{\dagger}$ are both controlled. For $t \geq 1$, let
-
-Invoking both parts of Proposition 17. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), we find that
-
-Consider the function ${h{({\mathbf{X}})}} = {\parallel{\mathbf{\Sigma}_{2}{\mathbf{X}}\mathbf{\Omega}_{1}^{\dagger}}\parallel}$. We quickly compute its Lipschitz constant $L$ with the lower triangle inequality and some standard norm estimates:
-
-Therefore, $L \leq {\left\| \mathbf{\Sigma}_{2} \right\|{\parallel\mathbf{\Omega}_{1}^{\dagger}\parallel}}$. Relation (67. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) of Proposition 14. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") implies that
-
-Applying the concentration of measure inequality, Proposition 16. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), conditionally to the random variable ${h{(\mathbf{\Omega}_{2})}} = {\parallel{\mathbf{\Sigma}_{2}\mathbf{\Omega}_{2}\mathbf{\Omega}_{1}^{\dagger}}\parallel}$ results in
-
-Under the event $E_{t}$, we have explicit bounds on the norms of $\mathbf{\Omega}_{1}^{\dagger}$, so
-
-Use the fact ${{\mathbb{P}}\left( E_{t}^{c} \right)} \leq {5t^{- p}}$ to remove the conditioning. Therefore,
-
-Insert the expressions for the norms of $\mathbf{\Sigma}_{2}$ into this result to complete the probability bound. Finally, introduce this estimate into the error bound from Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). ∎
+Since $\mathbf{\Omega}_{1}$ and $\mathbf{\Omega}_{2}$ are independent from each other, we can study how the error depends on the matrix $\mathbf{\Omega}_{2}$ by conditioning on the event that $\mathbf{\Omega}_{1}$ is not too irregular. To that end, we define a (parameterized) event on which the spectral and Frobenius norms of the matrix $\mathbf{\Omega}_{1}^{\dagger}$ are both controlled. For $t \geq 1$, let Invoking both parts of Proposition 17. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), we find that Consider the function ${h{({\mathbf{X}})}} = {\parallel{\mathbf{\Sigma}_{2}{\mathbf{X}}\mathbf{\Omega}_{1}^{\dagger}}\parallel}$. We quickly compute its Lipschitz constant $L$ with the lower triangle inequality and some standard norm estimates: Therefore, $L \leq {\left\| \mathbf{\Sigma}_{2} \right\|{\parallel\mathbf{\Omega}_{1}^{\dagger}\parallel}}$. Relation (67. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")) of Proposition 14. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") implies that Applying the concentration of measure inequality, Proposition 16. ‣ 10.1 Technical background ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), conditionally to the random variable ${h{(\mathbf{\Omega}_{2})}} = {\parallel{\mathbf{\Sigma}_{2}\mathbf{\Omega}_{2}\mathbf{\Omega}_{1}^{\dagger}}\parallel}$ results in Under the event $E_{t}$, we have explicit bounds on the norms of $\mathbf{\Omega}_{1}^{\dagger}$, so Use the fact ${{\mathbb{P}}\left(E_{t}^{c} \right)} \leq {5t^{- p}}$ to remove the conditioning. Therefore, Insert the expressions for the norms of $\mathbf{\Sigma}_{2}$ into this result to complete the probability bound. Finally, introduce this estimate into the error bound from Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). ∎
 
 ### Analysis of the power scheme
 
@@ -1391,19 +1012,9 @@ Frame the hypotheses of Theorem 18. ‣ 10.2 Average-case analysis of Algorithm 
 
 ### Proof
 
-By Hölder's inequality and Theorem 12. ‣ 9.3 Analysis of the power scheme ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"),
+By Hölder's inequality and Theorem 12. ‣ 9.3 Analysis of the power scheme ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"), Invoke Theorem 19. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") to bound the right-hand side, noting that ${\sigma_{j}{({\mathbf{B}})}} = \sigma_{j}^{{2q} + 1}$. ∎ The true message of Corollary 23. ‣ 10.4 Analysis of the power scheme ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") emerges if we bound the series using its largest term $\sigma_{k + 1}^{{4q} + 2}$ and draw the factor $\sigma_{k + 1}$ out of the bracket: In words, as we increase the exponent $q$, the power scheme drives the extra factor in the error to one exponentially fast. By the time $q \sim {\log\left({\min{\{ m,n\}}} \right)}$, which is the baseline for the spectral norm.
 
-Invoke Theorem 19. ‣ 10.2 Average-case analysis of Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") to bound the right-hand side, noting that ${\sigma_{j}{({\mathbf{B}})}} = \sigma_{j}^{{2q} + 1}$. ∎
-
-The true message of Corollary 23. ‣ 10.4 Analysis of the power scheme ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") emerges if we bound the series using its largest term $\sigma_{k + 1}^{{4q} + 2}$ and draw the factor $\sigma_{k + 1}$ out of the bracket:
-
-In words, as we increase the exponent $q$, the power scheme drives the extra factor in the error to one exponentially fast. By the time $q \sim {\log\left( {\min{\{ m,n\}}} \right)}$,
-
-which is the baseline for the spectral norm.
-
-In most situations, the error bound given by Corollary 23. ‣ 10.4 Analysis of the power scheme ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") is substantially better than the estimates discussed in the last paragraph. For example, suppose that the tail singular values exhibit the decay profile
-
-Then the series in Corollary 23. ‣ 10.4 Analysis of the power scheme ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") is comparable with its largest term, which allows us to remove the dimensional factor $\min{\{ m,n\}}$ from the error bound.
+In most situations, the error bound given by Corollary 23. ‣ 10.4 Analysis of the power scheme ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") is substantially better than the estimates discussed in the last paragraph. For example, suppose that the tail singular values exhibit the decay profile Then the series in Corollary 23. ‣ 10.4 Analysis of the power scheme ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") is comparable with its largest term, which allows us to remove the dimensional factor $\min{\{ m,n\}}$ from the error bound.
 
 To obtain large deviation bounds for the performance of the power scheme, simply combine Theorem 12. ‣ 9.3 Analysis of the power scheme ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") with Theorem 21. ‣ 10.3 Probabilistic error bounds for Algorithm ‣ 10 Gaussian test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions"). We omit a detailed statement.
 
@@ -1417,31 +1028,21 @@ Another way to implement the proto-algorithm from §1.3 is to use a structured r
 
 ### Construction and Properties
 
-Recall from §4.6 that an SRFT is a tall $n \times \ell$ matrix of the form $\mathbf{\Omega} = {{\sqrt{n/\ell} \cdot {\mathbf{D}}}{\mathbf{F}}{\mathbf{R}}^{\ast}}$ where
-
-$\mathbf{D}$ is a random $n \times n$ diagonal matrix whose entries are independent and uniformly distributed on the complex unit circle;
-
-$\mathbf{F}$ is the $n \times n$ unitary discrete Fourier transform; and
-
-$\mathbf{R}$ is a random $\ell \times n$ matrix that restricts an $n$-dimensional vector to $\ell$ coordinates, chosen uniformly at random.
+Recall from §4.6 that an SRFT is a tall $n \times \ell$ matrix of the form $\mathbf{\Omega} = {{\sqrt{n/\ell} \cdot {\mathbf{D}}}{\mathbf{F}}{\mathbf{R}}^{\ast}}$ where $\mathbf{D}$ is a random $n \times n$ diagonal matrix whose entries are independent and uniformly distributed on the complex unit circle; $\mathbf{F}$ is the $n \times n$ unitary discrete Fourier transform; and $\mathbf{R}$ is a random $\ell \times n$ matrix that restricts an $n$-dimensional vector to $\ell$ coordinates, chosen uniformly at random.
 
 Up to scaling, an SRFT is just a section of a unitary matrix, so it satisfies the norm identity $\left\| \mathbf{\Omega} \right\| = \sqrt{n/\ell}$. The critical fact is that an appropriately designed SRFT approximately preserves the geometry of an *entire subspace of vectors*.
 
 ### Theorem 24 (The SRFT preserves geometry)
 
-Fix an $n \times k$ orthonormal matrix $\mathbf{V}$, and draw an $n \times \ell$ SRFT matrix $\mathbf{\Omega}$ where the parameter $\ell$ satisfies
-
-with failure probability at most $O{(k^{- 1})}$.
+Fix an $n \times k$ orthonormal matrix $\mathbf{V}$, and draw an $n \times \ell$ SRFT matrix $\mathbf{\Omega}$ where the parameter $\ell$ satisfies with failure probability at most $O{(k^{- 1})}$.
 
 In words, the kernel of an SRFT of dimension $\ell \sim {k{\log{(k)}}}$ is unlikely to intersect a fixed $k$-dimensional subspace. In contrast with the Gaussian case, the logarithmic factor $\log{(k)}$ in the lower bound on $\ell$ cannot generally be removed (Remark 11.2).
 
-Theorem 24. ‣ 11.1 Construction and Properties ‣ 11 SRFT test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") follows from a straightforward variation of the argument in, which establishes equivalent bounds for a real analog of the SRFT, called the *subsampled randomized Hadamard transform* (SRHT). We omit further details.
+Theorem 24. ‣ 11.1 Construction and Properties ‣ 11 SRFT test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") follows from a straightforward variation of the argument , which establishes equivalent bounds for a real analog of the SRFT, called the *subsampled randomized Hadamard transform* (SRHT). We omit further details.
 
 ### Remark 11.1
 
-For large problems, we can obtain better numerical constants \[134, Thm. 3.2\]. Fix a small, positive number $\iota$. If $k \gg {\log{(n)}}$, then sampling
-
-coordinates is sufficient to ensure that ${\sigma_{k}{({{\mathbf{V}}^{\ast}\mathbf{\Omega}})}} \geq \iota$ with failure probability at most $O{(k^{- {c\iota}})}$. This sampling bound is essentially optimal because ${{({1 - \iota})} \cdot k}{\log{(k)}}$ samples are not adequate in the worst case; see Remark 11.2.
+For large problems, we can obtain better numerical constants \[134, Thm. 3.2\]. Fix a small, positive number $\iota$. If $k \gg {\log{(n)}}$, then sampling coordinates is sufficient to ensure that ${\sigma_{k}{({{\mathbf{V}}^{\ast}\mathbf{\Omega}})}} \geq \iota$ with failure probability at most $O{(k^{- {c\iota}})}$. This sampling bound is essentially optimal because ${{({1 - \iota})} \cdot k}{\log{(k)}}$ samples are not adequate in the worst case; see Remark 11.2.
 
 ### Remark 11.2
 
@@ -1455,11 +1056,7 @@ We are now prepared to present detailed information on the performance of the pr
 
 ### Theorem 25 (Error bounds for SRFT)
 
-Fix an $m \times n$ matrix $\mathbf{A}$ with singular values $\sigma_{1} \geq \sigma_{2} \geq \sigma_{3} \geq \ldots$. Draw an $n \times \ell$ SRFT matrix $\mathbf{\Omega}$, where
-
-Construct the sample matrix $\mathbf{Y} = {\mathbf{A}\mathbf{\Omega}}$. Then
-
-with failure probability at most $O{(k^{- 1})}$.
+Fix an $m \times n$ matrix $\mathbf{A}$ with singular values $\sigma_{1} \geq \sigma_{2} \geq \sigma_{3} \geq \ldots$. Draw an $n \times \ell$ SRFT matrix $\mathbf{\Omega}$, where Construct the sample matrix $\mathbf{Y} = {\mathbf{A}\mathbf{\Omega}}$. Then with failure probability at most $O{(k^{- 1})}$.
 
 As we saw in §10.2, the quantity $\sigma_{k + 1}$ is the minimal spectral-norm error possible when approximating $\mathbf{A}$ with a rank-$k$ matrix. Similarly, the series in the second bound is the minimal Frobenius-norm error when approximating $\mathbf{A}$ with a rank-$k$ matrix. We see that both error bounds lie within a polynomial factor of the baseline, and this factor decreases with the number $\ell$ of samples we retain.
 
@@ -1471,12 +1068,6 @@ We complete the section with the proof of Theorem 25. ‣ 11.2 Performance guara
 
 ### Theorem 25. ‣ 11.2 Performance guarantees ‣ 11 SRFT test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions")
 
-Let $\mathbf{V}$ be the right unitary factor of matrix $\mathbf{A}$, and partition ${\mathbf{V}} = {\lbrack\left. {\mathbf{V}}_{1} \middle| {\mathbf{V}}_{2} \right.\rbrack}$ into blocks containing, respectively, $k$ and $n - k$ columns. Recall that
+Let $\mathbf{V}$ be the right unitary factor of matrix $\mathbf{A}$, and partition ${\mathbf{V}} = {\lbrack\left. {\mathbf{V}}_{1} \middle| {\mathbf{V}}_{2} \right.\rbrack}$ into blocks containing, respectively, $k$ and $n - k$ columns. Recall that where $\mathbf{\Omega}$ is the conjugate transpose of an SRFT. Theorem 24. ‣ 11.1 Construction and Properties ‣ 11 SRFT test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") ensures that the submatrix $\mathbf{\Omega}_{1}$ has full row rank, with failure probability at most $O{(k^{- 1})}$. Therefore, Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") implies that where $\left| \middle| \middle| \cdot \middle| \middle| \right|$ denotes either the spectral norm or the Frobenius norm. Our application of Theorem 24. ‣ 11.1 Construction and Properties ‣ 11 SRFT test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") also ensures that the spectral norm of $\mathbf{\Omega}_{1}^{\dagger}$ is under control.
 
-where $\mathbf{\Omega}$ is the conjugate transpose of an SRFT. Theorem 24. ‣ 11.1 Construction and Properties ‣ 11 SRFT test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") ensures that the submatrix $\mathbf{\Omega}_{1}$ has full row rank, with failure probability at most $O{(k^{- 1})}$. Therefore, Theorem 11. ‣ 9.2 A deterministic error bound for the proto-algorithm ‣ 9 Error bounds via linear algebra ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") implies that
-
-where $\left| \middle| \middle| \cdot \middle| \middle| \right|$ denotes either the spectral norm or the Frobenius norm. Our application of Theorem 24. ‣ 11.1 Construction and Properties ‣ 11 SRFT test matrices ‣ Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions") also ensures that the spectral norm of $\mathbf{\Omega}_{1}^{\dagger}$ is under control.
-
-We may bound the spectral norm of $\mathbf{\Omega}_{2}$ deterministically.
-
-since ${\mathbf{V}}_{2}$ and $\sqrt{\ell/n} \cdot \mathbf{\Omega}$ are both orthonormal matrices. Combine these estimates to complete the proof. ∎
+We may bound the spectral norm of $\mathbf{\Omega}_{2}$ deterministically. since ${\mathbf{V}}_{2}$ and $\sqrt{\ell/n} \cdot \mathbf{\Omega}$ are both orthonormal matrices. Combine these estimates to complete the proof. ∎

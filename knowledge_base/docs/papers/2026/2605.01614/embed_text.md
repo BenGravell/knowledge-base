@@ -18,9 +18,7 @@ CvxCluster incorporates additional constraints and placement policies either dir
 
 We evaluate CvxCluster on three metrics: scalability, extensibility, and speed. For scalability, we show that CvxCluster schedules clusters of up to 100,480 servers and sustains arrival rates up to 500,000$\times$ the baseline trace rate. We also show that CvxCluster achieves up to 2,500$\times$ faster solves than a state-of-the-art MIP solver while placing within 3% of the optimal objective. For extensibility, we demonstrate that constraints such as anti-affinity translate naturally into the linear program's capacity form, and additional placement policies can be enforced directly in the greedy stage without slowing the convex solve. For speed, we show that CvxCluster achieves 38$\times$ higher scheduling throughput than DCM on a real Kubernetes cluster, enabling larger batches and faster reaction to workload dynamics. Overall, CvxCluster suggests a new paradigm for resource allocation: use convex optimization to extract globally meaningful resource prices, then use those prices to drive a simple, fast, and policy-flexible placement algorithm.
 
-This paper makes three contributions:
-
-A new two-stage scheduling paradigm that uses a convex relaxation to compute per-machine, per-resource shadow prices (dual variables) that summarize global resource scarcity and guide placement decisions.
+This paper makes three contributions: A new two-stage scheduling paradigm that uses a convex relaxation to compute per-machine, per-resource shadow prices (dual variables) that summarize global resource scarcity and guide placement decisions.
 
 A lightweight greedy placement algorithm that converts shadow prices into per-task net utilities, enabling fast ranking and packing while remaining compatible with discrete constraints and policy logic.
 
@@ -70,9 +68,7 @@ To place tasks, CvxCluster sorts all waiting tasks in descending order of their 
 
 ### Placement Constraints
 
-Tasks (e.g., in Kubernetes, Borg) often have placement constraints: they must use a particular processor type or a particular networking technology. They can also have anti-affinity constraints, where a collection of tasks are part of a larger job and for fault tolerance reasons need to be distributed across different servers. Placement constraints are enforced by constant-time or low-overhead checks during the placement attempt:
-
-Capacity feasibility: ensure the server has remaining CPU/memory/GPU capacity.
+Tasks (e.g., in Kubernetes, Borg) often have placement constraints: they must use a particular processor type or a particular networking technology. They can also have anti-affinity constraints, where a collection of tasks are part of a larger job and for fault tolerance reasons need to be distributed across different servers. Placement constraints are enforced by constant-time or low-overhead checks during the placement attempt: Capacity feasibility: ensure the server has remaining CPU/memory/GPU capacity.
 
 Machine-specific constraints: ensure the server satisfies task-required labels/resources.
 
@@ -106,7 +102,7 @@ The simulator drives scheduling with a priority-queue event loop over three even
 
 The Kubernetes scheduler integrates as a custom scheduler that watches for pending pods and batches them into scheduling rounds at a fixed interval. Each round runs the same linear program and greedy pipeline as the simulator.
 
-The greedy stage sorts tasks by net utility and, for each task, randomly selects a feasible server within the best-priced machine shape, since all servers of the same shape share a shadow price. Anti-affinity constraints are enforced with an $O{}$ per-task check that verifies the co-location limit for the task's job group on the candidate server.
+The greedy stage sorts tasks by net utility and, for each task, randomly selects a feasible server within the best-priced machine shape, since all servers of the same shape share a shadow price. Anti-affinity constraints are enforced with an $O$ per-task check that verifies the co-location limit for the task's job group on the candidate server.
 
 ### Mathematics
 
@@ -116,33 +112,19 @@ We define the cluster scheduling problem as a mixed-integer linear program (MILP
 
 Table 1. Static placement comparison across methods, averaged over 3 seeds. Solve time, weighted objective, placement rate, and speedup relative to MIP are shown for MIP, CvxCluster (Shape), and CvxCluster (Global). CvxCluster achieves up to 2,500× faster solves with comparable objective values. MIP achieves higher objective values, with the gap concentrated at the lowest priority level. All methods use Gurobi as the solver, with a 600 s time limit for MIP; a dash (–) indicates the solver did not produce a feasible solution within the time limit.
 
-Let $t$ be the number of tasks to schedule, $s$ the number of servers, and $r$ the number of resources (e.g., CPU, memory, GPU). The MILP defines the following matrices and vectors:
+Let $t$ be the number of tasks to schedule, $s$ the number of servers, and $r$ the number of resources (e.g., CPU, memory, GPU). The MILP defines the following matrices and vectors: The task demand matrix $T\in\mathbb{R}^{t\times r}$, where $T_{j,k}\geq 0$ is the demand of task $j$ for resource $k$.
 
-The task demand matrix $T \in {\mathbb{R}}^{t \times r}$, where $T_{j,k} \geq 0$ is the demand of task $j$ for resource $k$.
+The server capacity matrix $S\in\mathbb{R}^{s\times r}$, where $S_{i,k}$ is the capacity of server $i$ for resource $k$.
 
-The server capacity matrix $S \in {\mathbb{R}}^{s \times r}$, where $S_{i,k}$ is the capacity of server $i$ for resource $k$.
+The assignment matrix $A\in\{0,1\}^{s\times t}$, where $A_{i,j}=1$ if task $j$ is placed on server $i$.
 
-The assignment matrix $A \in {\{ 0,1\}}^{s \times t}$, where $A_{i,j} = 1$ if task $j$ is placed on server $i$.
+The priority vector $p\in\mathbb{R}^{t}$, where $p_{j}>0$ is the priority weight of task $j$.
 
-The priority vector $p \in {\mathbb{R}}^{t}$, where $p_{j} > 0$ is the priority weight of task $j$.
-
-An all-ones vector of appropriate dimension $\mathbf{1}$
-
-The program's objective is to maximize the total priority-weighted placement:
-
-subject to the following 3 constraints:
-
-Assignment. Each task is placed on at most one server:
-
-Capacity. Each server's resources must not be exceeded:
-
-Anti-affinity. For each job group $g$ with anti-affinity limit $\ell_{g}$, the number of co-located tasks on any server is bounded:
-
-The number of binary variables in this formulation is $t \cdot s$, and the number of constraints grows as $\mathcal{O}{({{s \cdot r} + t + {{|\mathcal{J}|} \cdot s}})}$ where $|\mathcal{J}|$ is the number of job groups with anti-affinity requirements. Even at moderate scale (e.g., $t = {3,000}$ tasks, $s = 250$ servers, $r = 2$ resources, and no anti-affinity constraints), the formulation contains 750,000 binary variables; solving this with a state-of-the-art commercial solver (Gurobi) takes an average of 14.4 seconds across five random seeds. This cost is incurred at every scheduling round, making frequent global re-optimization impractical under high arrival rates.
+An all-ones vector of appropriate dimension $\mathbf{1}$ The program's objective is to maximize the total priority-weighted placement: subject to the following 3 constraints: Assignment. Each task is placed on at most one server: Capacity. Each server's resources must not be exceeded: Anti-affinity. For each job group $g$ with anti-affinity limit $\ell_{g}$, the number of co-located tasks on any server is bounded: The number of binary variables in this formulation is $t\cdot s$, and the number of constraints grows as $\mathcal{O}(s\cdot r+t+|\mathcal{J}|\cdot s)$ where $|\mathcal{J}|$ is the number of job groups with anti-affinity requirements. Even at moderate scale (e.g., $t=3{,}000$ tasks, $s=250$ servers, $r=2$ resources, and no anti-affinity constraints), the formulation contains 750,000 binary variables; solving this with a state-of-the-art commercial solver (Gurobi) takes an average of 14.4 seconds across five random seeds. This cost is incurred at every scheduling round, making frequent global re-optimization impractical under high arrival rates.
 
 ### Convex Optimization
 
-The MILP formulation in Section 4 contains $t \cdot s$ binary variables, making it intractable at high scheduling frequency. Relaxing the binary constraint---replacing $A \in {\{ 0,1\}}^{s \times t}$ with $A \in {\lbrack 0,1\rbrack}^{s \times t}$---yields a linear program that scales as $O{({s^{2} \cdot t})}$ in practice, where $s$ is the number of servers and $t$ is the number of tasks. After shape aggregation, $s$ is replaced by $m$, the number of distinct machine shapes, reducing the practical cost to $O{({m^{2} \cdot t})}$ and making solve time independent of cluster size.
+The MILP formulation in Section 4 contains $t\cdot s$ binary variables, making it intractable at high scheduling frequency. Relaxing the binary constraint---replacing $A\in\{0,1\}^{s\times t}$ with $A\in^{s\times t}$---yields a linear program that scales as $O(s^{2}\cdot t)$ in practice, where $s$ is the number of servers and $t$ is the number of tasks. After shape aggregation, $s$ is replaced by $m$, the number of distinct machine shapes, reducing the practical cost to $O(m^{2}\cdot t)$ and making solve time independent of cluster size.
 
 There are two ways to obtain shadow prices from this relaxation. The first is to formulate the dual of the primal problem (Equation 1), in which the dual variables correspond directly to the shadow prices. The second is to solve the primal problem and extract the dual variables from the solver's output metadata, since modern solvers compute dual values as a byproduct of the primal solve. At the tested problem sizes, we use the second approach: solving the primal relaxation directly and reading the dual values from the solver is simpler to implement and incurs no significant computational cost.
 
@@ -174,7 +156,7 @@ CvxCluster closely tracks the optimal mixed-integer program solution while subst
 
 ### Anti-affinity constraints
 
-We evaluate CvxCluster under anti-affinity constraints, where each job comprises multiple replica tasks and at most one replica may be placed on any given server. These constraints couple tasks within a job and tighten the feasible region, making placement harder. As shown in the lower half of Table 1, CvxCluster continues to scale to 500k jobs ($\sim$`<!-- -->`{=html}1M tasks) on 25k servers, while MIP fails to produce a feasible solution beyond 5k jobs. Where MIP succeeds (500 and 5k jobs), the accuracy gap increases modestly compared to the unconstrained setting: shape pricing places within approximately 5% of the MIP objective and global pricing within approximately 6%, with speedups of over 550$\times$ and 1,300$\times$ respectively. This gap is concentrated at the lowest priority level. High-priority tasks are placed at near-identical rates across all three methods. CvxCluster 's greedy stage places tasks in decreasing order of price-adjusted net utility, so higher-priority tasks are placed first and lower-priority tasks absorb the capacity shortfall. MIP, by contrast, jointly optimizes across all priority tiers and can pack low-priority replicas more tightly across servers, closing the gap at the bottom of the distribution. In some instances, MIP will even sacrifice a small number of higher-priority placements when doing so frees capacity for a larger number of lower-priority tasks, a tradeoff that the greedy stage's monotone ordering does not exploit.
+We evaluate CvxCluster under anti-affinity constraints, where each job comprises multiple replica tasks and at most one replica may be placed on any given server. These constraints couple tasks within a job and tighten the feasible region, making placement harder. As shown in the lower half of Table 1, CvxCluster continues to scale to 500k jobs ($\scriptstyle\sim$`<!-- -->`{=html}1M tasks) on 25k servers, while MIP fails to produce a feasible solution beyond 5k jobs. Where MIP succeeds (500 and 5k jobs), the accuracy gap increases modestly compared to the unconstrained setting: shape pricing places within approximately 5% of the MIP objective and global pricing within approximately 6%, with speedups of over 550$\times$ and 1,300$\times$ respectively. This gap is concentrated at the lowest priority level. High-priority tasks are placed at near-identical rates across all three methods. CvxCluster 's greedy stage places tasks in decreasing order of price-adjusted net utility, so higher-priority tasks are placed first and lower-priority tasks absorb the capacity shortfall. MIP, by contrast, jointly optimizes across all priority tiers and can pack low-priority replicas more tightly across servers, closing the gap at the bottom of the distribution. In some instances, MIP will even sacrifice a small number of higher-priority placements when doing so frees capacity for a larger number of lower-priority tasks, a tradeoff that the greedy stage's monotone ordering does not exploit.
 
 (a) Scheduling throughput scales up to ∼20,000 tasks/sec.
 

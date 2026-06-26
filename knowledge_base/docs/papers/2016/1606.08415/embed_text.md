@@ -14,11 +14,7 @@ Figure 1: The GELU (μ = 0, σ = 1), ReLU, and ELU (α = 1).
 
 Masking inputs in this fashion retains non-determinism but maintains dependency upon the input value. A stochastically chosen mask amounts to a stochastic zero or identity transformation of the input. This is much like Adaptive Dropout, but adaptive dropout is used in tandem with nonlinearities and uses a logistic not standard normal distribution. We found that it is possible to train competitive MNIST and TIMIT networks solely with this stochastic regularizer, all without using any nonlinearity.
 
-We often want a deterministic decision from a neural network, and this gives rise to our new nonlinearity. The nonlinearity is the expected transformation of the stochastic regularizer on an input $x$, which is ${{{{\Phi{(x)}} \times I}x} + {{{({1 - {\Phi{(x)}}})} \times 0}x}} = {x\Phi{(x)}}$. Loosely, this expression states that we scale $x$ by how much greater it is than other inputs. Since the cumulative distribution function of a Gaussian is often computed with the error function, we define the Gaussian Error Linear Unit (GELU) as
-
-We can approximate the GELU with
-
-if greater feedforward speed is worth the cost of exactness.
+We often want a deterministic decision from a neural network, and this gives rise to our new nonlinearity. The nonlinearity is the expected transformation of the stochastic regularizer on an input $x$, which is ${{{{\Phi{(x)}} \times I}x} + {{{({1 - {\Phi{(x)}}})} \times 0}x}} = {x\Phi{(x)}}$. Loosely, this expression states that we scale $x$ by how much greater it is than other inputs. Since the cumulative distribution function of a Gaussian is often computed with the error function, we define the Gaussian Error Linear Unit (GELU) as We can approximate the GELU with if greater feedforward speed is worth the cost of exactness.
 
 We could use different CDFs. For example we could use Logistic Distribution CDF $\sigma{(x)}$ to get what we call the Sigmoid Linear Unit (SiLU) $x\sigma{(x)}$. We could use the CDF of $\mathcal{N}{(\mu,\sigma^{2})}$ and have $\mu$ and $\sigma$ be learnable hyperparameters, but throughout this work we simply let $\mu = 0$ and $\sigma = 1$. Consequently, we do not introduce any new hyperparameters in the following experiments. In the next section, we show that the GELU exceeds ReLUs and ELUs across numerous tasks.
 
@@ -48,7 +44,7 @@ Many datasets in natural language processing are relatively small, so it is impo
 
 Figure 5: TIMIT Frame Classification. Learning curves show training set convergence, and the lighter curves show the validation set convergence.
 
-Our next challenge is phone recognition with the TIMIT dataset which has recordings of 680 speakers in a noiseless environment. The system is a five-layer, 2048-neuron wide classifier as in with 39 output phone labels and a dropout rate of 0.5 as in. This network takes as input 11 frames and must predict the phone of the center frame using 26 MFCC, energy, and derivative features per frame. We tune over the learning rates $\{ 10^{- 3},10^{- 4},10^{- 5}\}$ and optimize with Adam. After five runs per setting, we obtain the median curves in Figure 5"), and median test error chosen at the lowest validation error is 29.3% for the GELU, 29.5% for the ReLU, and 29.6% for the ELU.
+Our next challenge is phone recognition with the TIMIT dataset which has recordings of 680 speakers in a noiseless environment. The system is a five-layer, 2048-neuron wide classifier as in with 39 output phone labels and a dropout rate of 0.5 as . This network takes as input 11 frames and must predict the phone of the center frame using 26 MFCC, energy, and derivative features per frame. We tune over the learning rates $\{ 10^{- 3},10^{- 4},10^{- 5}\}$ and optimize with Adam. After five runs per setting, we obtain the median curves in Figure 5"), and median test error chosen at the lowest validation error is 29.3% for the GELU, 29.5% for the ReLU, and 29.6% for the ELU.
 
 ### CIFAR-10/100 Classification
 
@@ -60,7 +56,7 @@ Our shallower convolutional neural network is a 9-layer network with the archite
 
 Next we consider a wide residual network on CIFAR-100 with 40 layers and a widening factor of $4$. We train for 50 epochs with the learning rate schedule described in (${T_{0} = 50},{\eta = 0.1}$) with Nesterov momentum, and with a dropout keep probability of 0.7. Some have noted that ELUs have an exploding gradient with residual networks, and this is alleviated with batch normalization at the end of a residual block. Consequently, we use a Conv-Activation-Conv-Activation-BatchNorm block architecture to be charitable to ELUs. Over three runs we obtain the median convergence curves in Figure 7"). Meanwhile, the GELU achieves a median error of 20.74%, the ReLU obtains 21.77% (without our changes described above, the original 40-4 WideResNet with a ReLU obtains 22.89% ), and the ELU obtains 22.98%.
 
-Figure 7: CIFAR-100 Wide Residual Network Results. Learning curves show training set convergence with dropout on, and the lighter curves show the test set convergence with dropout off.
+Figure 7: CIFAR-100 Wide Residual Network Results. Learning curves show training set convergence with dropout , and the lighter curves show the test set convergence with dropout off.
 
 ## Discussion
 
