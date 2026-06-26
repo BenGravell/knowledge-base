@@ -22,6 +22,7 @@ from knowledge_base.scripts.arxiv_full_text.settings import (
 )
 from knowledge_base.scripts.arxiv_full_text.text import (
     embed_text_path,
+    sidecar_current_for_entry,
     write_converted_sidecar,
     wrote,
 )
@@ -75,7 +76,7 @@ def try_arxiv_pdf(entry: Entry, path: Path, args: argparse.Namespace) -> str:
 
 def process_entry(entry: Entry, args: argparse.Namespace) -> str:
     path = embed_text_path(entry)
-    if path.exists() and not args.force:
+    if path.exists() and not args.force and sidecar_current_for_entry(entry, path):
         return f"skip existing {entry.id}"
     if not entry.arxiv_id:
         return f"skip no-arxiv-id {entry.id}"

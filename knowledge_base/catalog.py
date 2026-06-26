@@ -26,6 +26,8 @@ MetadataYear = int | str
 UrlKey = Literal["detail", "tree", "map", "timeline", "search"]
 EMBED_TEXT_SIDECAR = "embed_text.md"
 EMBED_INPUT_SIDECAR = "embed_input.md"
+EMBED_INPUT_SIDECAR_MARKER = "<!-- embedding-input:v1 -->"
+EMBED_TEXT_SIDECAR_MARKER_RE = re.compile(r"^<!--\s*arxiv-full-text:v1(?:\s+(\{.*\}))?\s*-->\s*$")
 
 # Loose storage safety valve; embedding backends may need chunking below this.
 EMBED_TEXT_MAX_CHARS = 5_000_000
@@ -439,12 +441,34 @@ class Entry:
         cached_embedding_chunks = (
             () if refresh_embedding_input_sidecar else embedding_input_sidecar_chunks(metadata_path)
         )
-        embedding_chunks = cached_embedding_chunks or build_embedding_chunks(
-            metadata_path=metadata_path,
-            title=title,
-            tags=tags,
-            summary=summary,
-            abstract=abstract,
+        generated_embedding_chunks: tuple[EmbeddingInputChunk, ...] = ()
+        generated_sidecar_text = generated_embedding_input_sidecar_text(metadata_path)
+        if refresh_embedding_input_sidecar or (write_embedding_input_sidecar and generated_sidecar_text):
+            generated_embedding_chunks = build_embedding_chunks(
+                metadata_path=metadata_path,
+                arxiv_id=arxiv_id,
+                title=title,
+                tags=tags,
+                summary=summary,
+                abstract=abstract,
+            )
+            if not refresh_embedding_input_sidecar and generated_sidecar_text == embedding_chunks_sidecar_text(
+                generated_embedding_chunks
+            ):
+                generated_embedding_chunks = ()
+            else:
+                cached_embedding_chunks = ()
+        embedding_chunks = (
+            generated_embedding_chunks
+            or cached_embedding_chunks
+            or build_embedding_chunks(
+                metadata_path=metadata_path,
+                arxiv_id=arxiv_id,
+                title=title,
+                tags=tags,
+                summary=summary,
+                abstract=abstract,
+            )
         )
         embedding_text = render_embedding_input_chunks(embedding_chunks)
         if (write_embedding_input_sidecar or refresh_embedding_input_sidecar) and not cached_embedding_chunks:
@@ -593,6 +617,7 @@ def paper_label(
 def build_embedding_text(
     *,
     metadata_path: Path | None = None,
+    arxiv_id: str = "",
     title: str,
     tags: tuple[str, ...],
     summary: str,
@@ -601,6 +626,7 @@ def build_embedding_text(
     return render_embedding_input_chunks(
         build_embedding_chunks(
             metadata_path=metadata_path,
+            arxiv_id=arxiv_id,
             title=title,
             tags=tags,
             summary=summary,
@@ -612,6 +638,7 @@ def build_embedding_text(
 def build_embedding_chunks(
     *,
     metadata_path: Path | None = None,
+    arxiv_id: str = "",
     title: str,
     tags: tuple[str, ...],
     summary: str,
@@ -640,7 +667,7 @@ def build_embedding_chunks(
     add("summary", "Summary", 2.0, summary)
     add("abstract", "Abstract", 2.0, abstract)
 
-    content = embedding_sidecar_text(metadata_path) if metadata_path else ""
+    content = embedding_sidecar_text(metadata_path, arxiv_id=arxiv_id) if metadata_path else ""
     if content:
         for block in embedding_content_blocks(content):
             if not keep_embedding_block(block):
@@ -675,6 +702,14 @@ def embedding_input_sidecar_chunks(metadata_path: Path) -> tuple[EmbeddingInputC
     if not path.is_file():
         return ()
     return parse_embedding_input_sidecar(path.read_text(encoding="utf-8"))
+
+
+def generated_embedding_input_sidecar_text(metadata_path: Path) -> str:
+    path = embedding_input_sidecar_path(metadata_path)
+    if not path.is_file():
+        return ""
+    text = path.read_text(encoding="utf-8")
+    return text if text.lstrip().startswith(EMBED_INPUT_SIDECAR_MARKER) else ""
 
 
 def parse_embedding_input_sidecar(text: str) -> tuple[EmbeddingInputChunk, ...]:
@@ -725,7 +760,7 @@ def render_embedding_input_chunks(chunks: Iterable[EmbeddingInputChunk]) -> str:
 
 
 def embedding_chunks_sidecar_text(chunks: Iterable[EmbeddingInputChunk]) -> str:
-    parts = ["<!-- embedding-input:v1 -->"]
+    parts = [EMBED_INPUT_SIDECAR_MARKER]
     for chunk in chunks:
         text = chunk.text.strip()
         if not text:
@@ -750,11 +785,32 @@ def write_text_if_changed(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
-def embedding_sidecar_text(metadata_path: Path) -> str:
+def embedding_sidecar_text(metadata_path: Path, *, arxiv_id: str = "") -> str:
     path = embedding_sidecar_path(metadata_path)
     if path is None:
         return ""
-    return clean_embedding_sidecar_text(path.read_text(encoding="utf-8"))
+    text = path.read_text(encoding="utf-8")
+    if not embedding_sidecar_current_for_arxiv_id(text, arxiv_id):
+        return ""
+    return clean_embedding_sidecar_text(text)
+
+
+def embedding_sidecar_current_for_arxiv_id(text: str, arxiv_id: str) -> bool:
+    first_line = next((line.strip() for line in text.splitlines() if line.strip()), "")
+    match = EMBED_TEXT_SIDECAR_MARKER_RE.match(first_line)
+    if not match:
+        return True
+    raw = match.group(1)
+    if raw is None:
+        return False
+    try:
+        metadata = json.loads(raw)
+    except json.JSONDecodeError:
+        return False
+    if not isinstance(metadata, dict):
+        return False
+    marked_id = normalize_arxiv_id(clean_scalar(metadata.get("arxiv_id")))
+    return bool(marked_id) and marked_id == arxiv_id
 
 
 def clean_embedding_chunk_text(text: str) -> str:
@@ -1118,7 +1174,10 @@ def strip_sidecar_header(markdown: str) -> str:
     if match and match.group(1) == "#":
         lines.pop(0)
     while lines and (
-        not lines[0].strip() or lines[0].startswith("- arXiv ID:") or lines[0].startswith("- HTML source:")
+        not lines[0].strip()
+        or EMBED_TEXT_SIDECAR_MARKER_RE.match(lines[0].strip())
+        or lines[0].startswith("- arXiv ID:")
+        or lines[0].startswith("- HTML source:")
     ):
         lines.pop(0)
     return "\n".join(lines)

@@ -135,6 +135,59 @@ class CatalogTests(unittest.TestCase):
         self.assertIn("<!-- embedding-input:v1 -->", refreshed_sidecar_text)
         self.assertEqual(parsed_refreshed_sidecar_text, refreshed_entry.embedding_text)
 
+    def test_generated_embedding_input_sidecar_refreshes_when_embed_text_changes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            metadata_root = Path(tmp) / "docs" / "papers"
+            metadata_path = metadata_root / "2024" / "2501.00001" / "metadata.yml"
+            metadata_path.parent.mkdir(parents=True)
+            metadata_path.write_text(VALID_METADATA, encoding="utf-8")
+            metadata_path.with_name("embed_text.md").write_text(
+                "## Introduction\n\n"
+                "In this paper, we propose initial policy optimization cache text that should be replaced "
+                "after the upstream embedding text sidecar changes.",
+                encoding="utf-8",
+            )
+
+            initial_entry = Catalog.from_metadata_root(metadata_root, write_embedding_input_sidecars=True).entries[0]
+            initial_sidecar_text = embedding_input_sidecar_path(metadata_path).read_text(encoding="utf-8")
+            metadata_path.with_name("embed_text.md").write_text(
+                "## Introduction\n\n"
+                "In this paper, we propose updated policy optimization cache text that should invalidate "
+                "the generated embedding input sidecar for this paper.",
+                encoding="utf-8",
+            )
+            refreshed_entry = Catalog.from_metadata_root(metadata_root, write_embedding_input_sidecars=True).entries[0]
+            refreshed_sidecar_text = embedding_input_sidecar_path(metadata_path).read_text(encoding="utf-8")
+
+        self.assertIn("initial policy optimization cache text", initial_entry.embedding_text)
+        self.assertIn("initial policy optimization cache text", initial_sidecar_text)
+        self.assertIn("updated policy optimization cache text", refreshed_entry.embedding_text)
+        self.assertIn("updated policy optimization cache text", refreshed_sidecar_text)
+        self.assertNotIn("initial policy optimization cache text", refreshed_entry.embedding_text)
+        self.assertNotIn("initial policy optimization cache text", refreshed_sidecar_text)
+
+    def test_stale_arxiv_embed_text_sidecar_is_not_used_for_embedding_input(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            metadata_root = Path(tmp) / "docs" / "papers"
+            metadata_path = metadata_root / "2024" / "2501.00002" / "metadata.yml"
+            metadata_path.parent.mkdir(parents=True)
+            metadata_path.write_text(
+                VALID_METADATA.replace("cond-mat/0112110v2", "2501.00002"),
+                encoding="utf-8",
+            )
+            metadata_path.with_name("embed_text.md").write_text(
+                '<!-- arxiv-full-text:v1 {"arxiv_id":"2501.00001","source":"arxiv-html"} -->\n\n'
+                "## Introduction\n\n"
+                "In this paper, we propose stale arxiv source text that must not reach embeddings.",
+                encoding="utf-8",
+            )
+
+            entry = Catalog.from_metadata_root(metadata_root, write_embedding_input_sidecars=True).entries[0]
+            sidecar_text = embedding_input_sidecar_path(metadata_path).read_text(encoding="utf-8")
+
+        self.assertNotIn("stale arxiv source text", entry.embedding_text)
+        self.assertNotIn("stale arxiv source text", sidecar_text)
+
     def test_catalog_reports_validation_errors_with_metadata_path(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             metadata_root = Path(tmp) / "docs" / "papers"
@@ -333,6 +386,14 @@ class CatalogHelperTests(unittest.TestCase):
 
         self.assertIn("The model improves by 5% while preserving useful semantic context.", cleaned)
         self.assertNotIn("on.", cleaned)
+
+    def test_embedding_sidecar_ignores_arxiv_full_text_provenance_marker(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            '<!-- arxiv-full-text:v1 {"arxiv_id":"2501.00001","source":"arxiv-html"} -->\n\n'
+            "## Introduction\n\nUseful paragraph with enough semantic words for embedding."
+        )
+
+        self.assertEqual(cleaned, "## Introduction\n\nUseful paragraph with enough semantic words for embedding.")
 
     def test_embedding_sidecar_heading_whitespace_does_not_crash(self) -> None:
         cleaned = clean_embedding_sidecar_text("##\tIntroduction\n\nUseful paragraph with enough words.")

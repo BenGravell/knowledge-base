@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import subprocess
 from pathlib import Path
+from typing import Any
 
 from knowledge_base.catalog import Entry, clean_embedding_sidecar_text
 from knowledge_base.config import KB_DIR
 from knowledge_base.scripts.arxiv_full_text.settings import MIN_BODY_CHARS, SIDECAR_NAME
+from knowledge_base.utils.arxiv_utils import normalize_arxiv_id
 
 IMAGE_MARKDOWN_RE = re.compile(r"!\[[^\]]*]\([^)]*\)")
 HTML_IMAGE_RE = re.compile(r"<(?:img|source)\b[^>]*>", re.IGNORECASE)
@@ -22,6 +25,8 @@ EMPTY_MARKDOWN_LINK_RE = re.compile(r"\[]\([^)]+\)")
 HTML_TAG_RE = re.compile(r"</?[A-Za-z][A-Za-z0-9:-]*(?:\s[^>]*)?>")
 BLANK_LINES_RE = re.compile(r"\n{3,}")
 DISPLAY_MATH_RE = re.compile(r"(?<!\\)\$\$")
+SIDECAR_MARKER = "arxiv-full-text:v1"
+SIDECAR_MARKER_RE = re.compile(r"^<!--\s*arxiv-full-text:v1\s+(\{.*\})\s*-->\s*$")
 NON_BODY_HEADING_RE = re.compile(
     r"^(?:"
     r"abstract|title:|authors?:|quick links|submission history|access paper|current browse context|"
@@ -36,6 +41,42 @@ NON_BODY_HEADING_RE = re.compile(
 
 def embed_text_path(entry: Entry) -> Path:
     return entry.metadata_path.with_name(SIDECAR_NAME)
+
+
+def sidecar_provenance(entry: Entry, source_label: str) -> str:
+    return json.dumps(
+        {
+            "arxiv_id": entry.arxiv_id,
+            "source": source_label,
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+    )
+
+
+def sidecar_header(entry: Entry, source_label: str) -> str:
+    return f"<!-- {SIDECAR_MARKER} {sidecar_provenance(entry, source_label)} -->"
+
+
+def parsed_sidecar_provenance(text: str) -> dict[str, Any] | None:
+    first_line = next((line.strip() for line in text.splitlines() if line.strip()), "")
+    match = SIDECAR_MARKER_RE.match(first_line)
+    if not match:
+        return None
+    try:
+        raw = json.loads(match.group(1))
+    except json.JSONDecodeError:
+        return None
+    return raw if isinstance(raw, dict) else None
+
+
+def sidecar_current_for_entry(entry: Entry, path: Path) -> bool:
+    if not path.exists():
+        return False
+    provenance = parsed_sidecar_provenance(path.read_text(encoding="utf-8"))
+    if provenance is None:
+        return True
+    return normalize_arxiv_id(str(provenance.get("arxiv_id") or "")) == entry.arxiv_id
 
 
 def remove_rich_content_from_html(html: str) -> str:
@@ -148,6 +189,13 @@ def write_sidecar(path: Path, text: str, dry_run: bool) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def display_path(path: Path) -> Path:
+    try:
+        return path.relative_to(KB_DIR)
+    except ValueError:
+        return path
+
+
 def write_converted_sidecar(
     entry: Entry, path: Path, markdown: str, source_label: str, args: argparse.Namespace
 ) -> str:
@@ -155,9 +203,9 @@ def write_converted_sidecar(
     if sidecar is None:
         return f"skip {reason} {entry.id}: {source_label}"
 
-    write_sidecar(path, sidecar, args.dry_run)
+    write_sidecar(path, f"{sidecar_header(entry, source_label)}\n\n{sidecar}", args.dry_run)
     action = "would write" if args.dry_run else "wrote"
-    return f"{action} {path.relative_to(KB_DIR)} from {source_label}"
+    return f"{action} {display_path(path)} from {source_label}"
 
 
 def wrote(message: str) -> bool:
@@ -217,3 +265,6 @@ def self_test() -> None:
     )
     assert readable_markdown_chars("# A\n\nSome real words.") > 10
     assert has_paper_body("A headingless conversion can still contain enough real paper body words.", min_chars=20)
+    assert parsed_sidecar_provenance('<!-- arxiv-full-text:v1 {"arxiv_id":"2401.00001"} -->') == {
+        "arxiv_id": "2401.00001"
+    }
