@@ -49,7 +49,20 @@
   --kb-color-green: #2f7d32;
   --kb-gradient-spectrum: linear-gradient(135deg, var(--kb-color-teal), var(--kb-color-blue) 58%, var(--kb-color-rose));
   --kb-gradient-blue-green: linear-gradient(135deg, var(--kb-color-blue), var(--kb-color-teal) 55%, var(--kb-color-green));
-  --kb-home-title-gradient: linear-gradient(90deg, #005cff 0%, #00a8c7 25%, #18c66f 50%, #00a8c7 75%, #005cff 100%);
+  /* Guppy colormap, lightness biased for clipped title contrast. */
+  --kb-home-title-gradient: linear-gradient(
+    90deg,
+    #007FAA 0%,
+    #00857C 12%,
+    #366CE8 26%,
+    #6326D2 40%,
+    #CC1249 52%,
+    #C65B2D 62%,
+    #6326D2 74%,
+    #366CE8 86%,
+    #00857C 94%,
+    #007FAA 100%
+  );
   --kb-gradient-warm: linear-gradient(135deg, var(--kb-color-rose), var(--kb-color-gold));
   --kb-link-internal: var(--kb-color-blue);
   --kb-link-external: var(--kb-color-gold);
@@ -101,7 +114,19 @@
   --kb-border-strong: color-mix(in srgb, var(--md-default-fg-color) 22%, transparent);
   --kb-shadow-soft: color-mix(in srgb, #000000 22%, transparent);
   --kb-highlight-inset: color-mix(in srgb, #ffffff 10%, transparent);
-  --kb-home-title-gradient: linear-gradient(90deg, #83bfff 0%, #61f0e7 25%, #a8f477 50%, #61f0e7 75%, #83bfff 100%);
+  --kb-home-title-gradient: linear-gradient(
+    90deg,
+    #259FCB 0%,
+    #1ECBBF 12%,
+    #4780FD 26%,
+    #9569FF 40%,
+    #F24366 52%,
+    #FA904F 62%,
+    #9569FF 74%,
+    #4780FD 86%,
+    #1ECBBF 94%,
+    #259FCB 100%
+  );
   --kb-app-panel: var(--kb-surface-muted);
   --kb-app-header-bg: var(--kb-surface-raised);
   --mm-node-muted: #5f6b78;

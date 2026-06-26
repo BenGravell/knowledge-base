@@ -101,8 +101,9 @@
   const MIN_CAMERA_RATIO = 0.04;
   const FALLBACK_MAX_CAMERA_RATIO = 6;
   const MAX_ZOOM_OUT_OVERSCAN_RATIO = 1.12;
-  const MIN_NODE_SCREEN_DIAMETER = 2;
+  const MIN_NODE_SCREEN_DIAMETER = 4;
   const MIN_NODE_SCREEN_RADIUS = MIN_NODE_SCREEN_DIAMETER / 2;
+  const MIN_NODE_SCREEN_RADIUS_BLEND_RATIO = 0.5;
   const MOBILE_MIN_NODE_SCREEN_DIAMETER = 4.4;
   const MOBILE_MIN_NODE_SCREEN_RADIUS = MOBILE_MIN_NODE_SCREEN_DIAMETER / 2;
   const AGGREGATE_EXTRA_AREA_UNITS_BY_LEVEL = [18, 12, 8, 5, 3];
@@ -506,7 +507,24 @@
     const graphToViewportRatio = graphToViewportRatioForCurrentCamera();
     if (!Number.isFinite(graphToViewportRatio) || graphToViewportRatio <= 0) return baseSize;
 
-    return Math.max(baseSize, minimumNodeScreenRadius() / graphToViewportRatio);
+    const screenRadius = softMinimumScreenRadius(
+      baseSize * graphToViewportRatio,
+      minimumNodeScreenRadius()
+    );
+    return screenRadius / graphToViewportRatio;
+  }
+
+  function softMinimumScreenRadius(radius, minimum) {
+    if (!Number.isFinite(radius) || radius <= 0) return minimum;
+
+    const blend = minimum * MIN_NODE_SCREEN_RADIUS_BLEND_RATIO;
+    if (!Number.isFinite(blend) || blend <= 0) return Math.max(radius, minimum);
+
+    const distance = Math.abs(radius - minimum);
+    if (distance >= blend) return Math.max(radius, minimum);
+
+    // Smooth max: dots stay proportional until near the floor, then ease into it.
+    return Math.max(radius, minimum) + ((blend - distance) * (blend - distance)) / (blend * 4);
   }
 
   function minimumNodeScreenRadius() {
@@ -2618,11 +2636,7 @@
     const attrs = graph.getNodeAttributes(node);
 
     if (attrs.kind === 'aggregate') {
-      const nextLevel = nextDetailLevel(attrs.detailLevel);
-      if (nextLevel) {
-        clearHoverClickNode(node);
-        applyDetailLevel(nextLevel);
-      }
+      activateBranchNode(attrs, node);
       return;
     }
 
@@ -4218,6 +4232,36 @@
 
   function branchCountLabel(count, singular, pluralLabel = `${singular}s`) {
     return `${count} ${count === 1 ? singular : pluralLabel}`;
+  }
+
+  function activeBranchKeyForAggregate(attrs) {
+    const path = paperNavPath(attrs);
+    const exactKey = `${attrs.hierarchyLevel || attrs.detailLevel}:${path.join('::')}`;
+    if (branchFilterGroups.has(exactKey)) return exactKey;
+
+    let best = null;
+    branchFilterGroups.forEach((group, key) => {
+      const groupPath = group.path || [];
+      if (groupPath.length > path.length) return;
+      if (!groupPath.every((part, index) => path[index] === part)) return;
+      if (!best || groupPath.length > best.pathLength) {
+        best = { key, pathLength: groupPath.length };
+      }
+    });
+    return best ? best.key : BRANCH_FILTER_ALL;
+  }
+
+  function activateBranchNode(attrs, node) {
+    clearHoverClickNode(node);
+    setActiveBranchFilter(activeBranchKeyForAggregate(attrs));
+
+    const nextLevel = nextDetailLevel(attrs.detailLevel);
+    if (nextLevel) {
+      applyDetailLevel(nextLevel);
+      return;
+    }
+
+    applyCategoryFilter();
   }
 
   function syncBranchFilterWidget() {

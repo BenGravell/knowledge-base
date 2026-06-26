@@ -138,7 +138,7 @@ render_macros: true
     <div class="kb-home-expander-content kb-home-about">
       <div class="kb-about-compare">
         <section class="kb-about-compare-panel kb-about-compare-panel--is">
-          <h3>What This Is</h3>
+          <h1>What This Is</h1>
           <p>My curated corpus of references organized for exploration across several complementary views.</p>
           <ul>
             <li>Only items that have passed my personal sniff test: papers, ideas, and methods I find useful, intriguing, or worth returning to.</li>
@@ -148,7 +148,7 @@ render_macros: true
         </section>
         <div class="kb-about-compare-divider" aria-hidden="true">vs</div>
         <section class="kb-about-compare-panel kb-about-compare-panel--not">
-          <h3>What This Is Not</h3>
+          <h1>What This Is Not</h1>
           <p>A neutral encyclopedia, universal index, or replacement for general retrieval tools.</p>
           <ul>
             <li>Not every single paper in the universe.</li>
@@ -159,11 +159,11 @@ render_macros: true
         </section>
       </div>
 
-      <h2>Why does this exist?</h2>
+      <h1>Why does this exist?</h1>
 
       <p>My goal is to make exploring research feel less like grasping at straws and more like (re-)discovering a world whose landmarks are slowly becoming familiar.</p>
 
-      <h2>Why not use an existing tool?</h2>
+      <h1>Why not use an existing tool?</h1>
 
       <p>Paper indexes, citation databases, search engines, and literature review tools are already good at retrieval. I wanted something a little different: a durable place for the special subset of references I have already triaged, cleaned up, summarized, and placed.</p>
 
@@ -176,27 +176,27 @@ render_macros: true
         <li>They can help find more papers, but they do not answer the quieter question: what have I already decided is worth keeping, and where does it sit relative to everything else I care about?</li>
       </ul>
 
-      <h2>Reach Out</h2>
+      <h1>Reach Out</h1>
 
       <p>If you'd like to suggest papers, discuss an idea, or share feedback, feel free to reach out on <a href="https://github.com/BenGravell">GitHub</a> or <a href="https://www.linkedin.com/in/benjamin-gravell/">LinkedIn</a>.</p>
 
-      <h2>Credits</h2>
+      <h1>Credits</h1>
 
-      <p>This site was built with the following tools and typefaces:</p>
+      <p>This site was built with the following tools:</p>
 
-      <h3>Fonts</h3>
-
-      <h3>Site Framework</h3>
+      <h2>Site Framework</h2>
 
       <ul>
         <li><a href="https://zensical.org/">Zensical</a></li>
       </ul>
 
-      <h3>Math Rendering</h3>
+      <h2>Math Rendering</h2>
 
       <ul>
         <li><a href="https://www.mathjax.org/">MathJax</a></li>
       </ul>
+
+      <h2>Fonts</h2>
 
       <ul>
         <li><a href="https://www.brailleinstitute.org/freefont/">Atkinson Hyperlegible Next</a></li>
@@ -204,7 +204,7 @@ render_macros: true
         <li><a href="https://fonts.google.com/specimen/Space+Grotesk">Space Grotesk</a></li>
       </ul>
 
-      <h3>Build Assistance</h3>
+      <h2>Build Assistance</h2>
 
       <ul>
         <li><a href="https://openai.com/codex/">Codex</a></li>

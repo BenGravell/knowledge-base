@@ -13,7 +13,8 @@
   padding: 0.05em 0 0.14em;
   background: var(--kb-home-title-gradient);
   background-clip: text;
-  background-position: 0% 50%;
+  background-position: 200% 50%;
+  background-repeat: repeat-x;
   background-size: 200% 100%;
   color: transparent;
   font-size: 3.4rem;
@@ -32,7 +33,7 @@
 
 @keyframes kb-home-title-gradient {
   to {
-    background-position: 200% 50%;
+    background-position: 0% 50%;
   }
 }
 
@@ -574,7 +575,15 @@
   line-height: 1.55;
 }
 
+.md-typeset .kb-home-about :is(h1, h2) {
+  margin: 1.35rem 0 0.5rem;
+}
+
 .md-typeset .kb-home-about > :first-child {
+  margin-top: 0;
+}
+
+.md-typeset .kb-about-compare-panel > :is(h1, h2):first-child {
   margin-top: 0;
 }
 
@@ -1230,4 +1239,3 @@
     right: 17%;
   }
 }
-

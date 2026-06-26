@@ -477,6 +477,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 .mm-label-toggle-state {
   justify-self: end;
+  transition: transform 0.16s ease;
+}
+.mm-label-toggle[aria-checked="true"] .mm-label-toggle-state {
+  transform: translateX(-1.28rem);
 }
 .mm-detail-controls button:hover,
 .mm-visibility-controls button:hover {
