@@ -88,14 +88,6 @@ add other URIs besides DOI since not all papers have DOI e.g. dissertations, arx
 
 Set up an automation orchestration script+skill to ingest from paper funnel, run prefill, ask ai for preliminary metadata fixup using audit script, generate map data, place papers in tree
 
-## Reading plans
-
-Hand-crafted
-
-- guide users thru papers in a nice sequence, with rationale provided as a pre amble
-- can have a "view from above" that just hits the most important papers
-- can have "deep dives" that go into weeds on topics
-
 ## Map
 
 ### UX
@@ -124,11 +116,26 @@ Tweak the settings ui for the selected node filter section. Checkmarks should no
 
 Clean up the settings menu ux layout. Fewer labels? Smaller buttons for single touch buttons like node labels vis, fit view.
 
-### Data export
+## Data export (new feature)
 
 Add an export button to get a json or csv of all currently displayed items
 CSV should include one item per row. Tree ancestry in a column.
 JSON can use tree hierarchy natively.
+
+## Reading plans (new feature)
+
+Hand-crafted
+
+- guide users thru papers in a nice sequence, with rationale provided as a pre amble
+- can have a "view from above" that just hits the most important papers
+- can have "deep dives" that go into weeds on topics
+
+## Quiz questions (new feature)
+
+- phrase them like "knowledge checks"
+- include content like concepts, experimental results, connections to other papers (differentials between papers to show incremental progress)
+- add a difficulty indicator (easy, medium, hard)
+- open ended responses for meditation
 
 ## Chain (New feature)
 
@@ -147,20 +154,3 @@ Create a special page (like a corner of a physical library) just for Dissertatio
 For this page, the UX should operate more like a gallery or a bookshelf. Each dissertation should get rendered in a nice card with emphasis placed on the title, author, and year.
 
 Include a link to the Advanced Search page for the selected dissertation's author.
-
-## Ideas
-
-### Creative idea
-
-Turn the map into a generative game like a cave crawler or rogue-like
-
-Encourage exploration between rooms or lands represented by research items
-
-Collect points for clicking links, answering quiz questions.
-
-### Quiz questions
-
-- phrase them like "knowledge checks"
-- include content like concepts, experimental results, connections to other papers (differentials between papers to show incremental progress)
-- add a difficulty indicator (easy, medium, hard)
-- open ended responses for meditation
