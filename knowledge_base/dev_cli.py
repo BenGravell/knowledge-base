@@ -132,6 +132,32 @@ def run_zensical(command: str, args: list[str]) -> int:
     return result
 
 
+def validate_site_output() -> bool:
+    index = SITE_DIR / "index.html"
+    if index.is_file():
+        return True
+
+    print(
+        "\n".join(
+            (
+                f"Zensical build finished without creating {rel(index)}.",
+                "One known cause is an exhausted inotify quota: Zensical may log success after",
+                "`inotify_add_watch` fails with ENOSPC. Close stale watcher-heavy processes",
+                "or raise fs.inotify.max_user_instances/fs.inotify.max_user_watches, then rebuild.",
+            )
+        ),
+        file=sys.stderr,
+    )
+    return False
+
+
+def build_site(args: list[str]) -> int:
+    result = run_zensical("build", args)
+    if result != 0:
+        return result
+    return 0 if validate_site_output() else 1
+
+
 def parse_dev_addr(dev_addr: str) -> tuple[str, int]:
     host, separator, port_text = dev_addr.rpartition(":")
     if not separator or not host or not port_text:
@@ -150,7 +176,7 @@ def serve_site(args: list[str]) -> int:
     if options.strict:
         build_args.append("-s")
 
-    result = run_zensical("build", build_args)
+    result = build_site(build_args)
     if result != 0:
         return result
 
@@ -175,7 +201,7 @@ def serve_site(args: list[str]) -> int:
 
 CUSTOM_COMMANDS: dict[str, Callable[[list[str]], int]] = {
     "serve": serve_site,
-    "build": lambda args: run_zensical("build", args),
+    "build": build_site,
 }
 
 
