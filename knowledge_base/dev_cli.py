@@ -28,9 +28,10 @@ GENERATED_DOCS_DIR_ENV = "KB_GENERATED_DOCS_DIR"
 
 GENERATED_FILE_SCRIPTS = (
     ("paper pages and search data", KB_DIR / "generate_papers.py"),
-    ("map assets", KB_DIR / "map" / "pipeline" / "copy_assets.py"),
-    ("semantic search assets", KB_DIR / "semantic_search" / "copy_assets.py"),
-    ("tree, analytics, and timeline data", KB_DIR / "tree" / "generate_tree_data.py"),
+    ("browser component assets", KB_DIR / "components" / "copy_assets.py"),
+    ("map assets", KB_DIR / "components" / "map" / "pipeline" / "copy_assets.py"),
+    ("semantic search assets", KB_DIR / "components" / "semantic_search" / "copy_assets.py"),
+    ("tree, analytics, and timeline data", KB_DIR / "components" / "tree" / "generate_tree_data.py"),
 )
 
 

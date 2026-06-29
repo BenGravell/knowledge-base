@@ -531,7 +531,7 @@ body:has(.paper-detail-title) .md-main__inner {
   }
 }
 
-/* Display math is scaled by docs/javascripts/math-fit.js when it would otherwise
+/* Display math is scaled by components/site_shell/browser/math-fit.js when it would otherwise
    overflow narrow viewports. Keep the fitted block inside the content column. */
 .md-typeset .arithmatex {
   max-width: 100%;

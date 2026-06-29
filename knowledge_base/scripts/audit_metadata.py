@@ -4052,7 +4052,7 @@ def _canonical_metadata_ids(
         path_list = ", ".join(str(path) for path in paths)
         issues.append(
             Issue(
-                kb_root / "map" / MAP_DATA.name,
+                kb_root / "components" / "map" / "generated" / MAP_DATA.name,
                 CHECK_PATH,
                 f"Canonical metadata ID {paper_id!r} is produced by multiple metadata files: {path_list}",
             )
@@ -4118,7 +4118,7 @@ def audit_map_data_paths(
     for issue in setup_issues:
         grouped.setdefault(issue.path, []).append(issue)
 
-    map_data_path = kb_root / "map" / MAP_DATA.name
+    map_data_path = kb_root / "components" / "map" / "generated" / MAP_DATA.name
     map_data, error = _load_map_data_js(map_data_path)
     if error:
         grouped.setdefault(map_data_path, []).append(Issue(map_data_path, CHECK_PATH, error))
@@ -4267,7 +4267,7 @@ def audit_map_data_paths(
                 )
             )
 
-    cache_path = kb_root / "map" / "cache" / "embedding_cache.json"
+    cache_path = kb_root / "components" / "map" / "cache" / "embedding_cache.json"
     cache, error = _load_json_file(cache_path)
     if error:
         grouped.setdefault(cache_path, []).append(Issue(cache_path, CHECK_PATH, error))
@@ -4292,7 +4292,7 @@ def audit_map_data_paths(
             Issue(cache_path, CHECK_PATH, "embedding_cache.json root is not an object")
         )
 
-    semantic_index_path = kb_root / "semantic_search" / SEMANTIC_SEARCH_INDEX.name
+    semantic_index_path = kb_root / "components" / "semantic_search" / SEMANTIC_SEARCH_INDEX.name
     semantic_index, error = _load_json_file(semantic_index_path)
     semantic_ids: list[str] = []
     if error:

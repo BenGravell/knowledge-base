@@ -50,22 +50,20 @@ HOT_START_STATUS_PATHS = (
     "knowledge_base/generated_files.py",
     "knowledge_base/generate_papers.py",
     "knowledge_base/scripts/refresh_offline_data.py",
-    "knowledge_base/map",
-    "knowledge_base/semantic_search",
-    "knowledge_base/tree",
+    "knowledge_base/components",
     "pyproject.toml",
     "poetry.lock",
 )
 HOT_START_REQUIRED_FILES = (
-    KB_DIR / "map" / "cache" / "embedding_cache.json",
-    KB_DIR / "map" / "cache" / "embedding_cache.vectors.npy",
-    KB_DIR / "map" / "generated" / "map-data.js",
-    KB_DIR / "map" / "generated" / "map-similarity.i16",
-    KB_DIR / "semantic_search" / "embedding_cache.json",
-    KB_DIR / "semantic_search" / "embedding_cache.vectors.npy",
-    KB_DIR / "semantic_search" / "semantic-search-index.json",
-    KB_DIR / "semantic_search" / "semantic-search-settings.json",
-    KB_DIR / "semantic_search" / "semantic-search-vectors.i8",
+    KB_DIR / "components" / "map" / "cache" / "embedding_cache.json",
+    KB_DIR / "components" / "map" / "cache" / "embedding_cache.vectors.npy",
+    KB_DIR / "components" / "map" / "generated" / "map-data.js",
+    KB_DIR / "components" / "map" / "generated" / "map-similarity.i16",
+    KB_DIR / "components" / "semantic_search" / "embedding_cache.json",
+    KB_DIR / "components" / "semantic_search" / "embedding_cache.vectors.npy",
+    KB_DIR / "components" / "semantic_search" / "semantic-search-index.json",
+    KB_DIR / "components" / "semantic_search" / "semantic-search-settings.json",
+    KB_DIR / "components" / "semantic_search" / "semantic-search-vectors.i8",
     KB_DIR / "site" / "index.html",
     KB_DIR / "site" / "map" / "index.html",
     KB_DIR / "site" / "search" / "index.html",
@@ -397,7 +395,7 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
     if not args.skip_semantic_search:
         semantic_search = [
             py,
-            "knowledge_base/semantic_search/generate_semantic_search_index.py",
+            "knowledge_base/components/semantic_search/generate_semantic_search_index.py",
             "--fastembed-device",
             args.fastembed_device,
         ]
@@ -415,7 +413,7 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
     if not args.skip_map:
         map_data = [
             py,
-            "knowledge_base/map/pipeline/generate_data.py",
+            "knowledge_base/components/map/pipeline/generate_data.py",
             "--fastembed-device",
             args.fastembed_device,
         ]
@@ -464,7 +462,7 @@ def parse_args() -> argparse.Namespace:
         default="fastembed",
         help=(
             "Map embedding backend. fastembed is the local default; auto lets "
-            "generate_map_data.py choose, including Voyage when configured."
+            "components/map/generate_map_data.py choose, including Voyage when configured."
         ),
     )
     parser.add_argument(
@@ -476,7 +474,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--skip-force-layout",
         action="store_true",
-        help="Pass through to map/generate_map_data.py for quicker Map refreshes.",
+        help="Pass through to components/map/generate_map_data.py for quicker Map refreshes.",
     )
     parser.add_argument(
         "--audit-severity",

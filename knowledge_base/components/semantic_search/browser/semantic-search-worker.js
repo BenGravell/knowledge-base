@@ -28,7 +28,7 @@ async function ensureReady() {
     const indexUrl = new URL(INDEX_URL, self.location.href);
     manifest = await fetchJson(indexUrl.href);
     if (!manifest || !manifest.count || !manifest.dimension) {
-      throw new Error('Semantic search index is empty. Run python semantic_search/generate_semantic_search_index.py from knowledge_base/.');
+      throw new Error('Semantic search index is empty. Run python knowledge_base/components/semantic_search/generate_semantic_search_index.py from the repo root.');
     }
 
     const vectorUrl = new URL(manifest.vectors || 'semantic-search-vectors.i8', indexUrl);

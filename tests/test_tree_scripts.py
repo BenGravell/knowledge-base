@@ -4,12 +4,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from knowledge_base.components.tree.model import TreeModel, TreeSource
 from knowledge_base.scripts.list_tree_algorithm_label_matches import collect_matches
 from knowledge_base.scripts.list_unplaced_papers import (
     collect_nav_locations,
     collect_tree_leaves,
 )
-from knowledge_base.tree.model import TreeModel, TreeSource
 
 
 class TreeScriptHelperTests(unittest.TestCase):

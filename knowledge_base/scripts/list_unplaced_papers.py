@@ -21,20 +21,20 @@ from typing import Any
 
 import yaml
 
-from knowledge_base.config import KB_DIR
-from knowledge_base.embedding_workbench import load_embedding_table
-from knowledge_base.progress import emit_progress
-from knowledge_base.tree.model import (
+from knowledge_base.components.tree.model import (
     TreeLeaf,
     TreeModel,
     load_tree_model,
 )
+from knowledge_base.config import KB_DIR
+from knowledge_base.embedding_workbench import load_embedding_table
+from knowledge_base.progress import emit_progress
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
 SITE_CONFIG = KB_DIR / "zensical.yml"
-EMBEDDING_CACHE = KB_DIR / "map" / "cache" / "embedding_cache.json"
+EMBEDDING_CACHE = KB_DIR / "components" / "map" / "cache" / "embedding_cache.json"
 TREE_YML = KB_DIR / "tree.yml"
 
 
@@ -455,7 +455,7 @@ def main() -> None:
         if not embeddings:
             sys.exit(
                 f"Could not load embeddings from {EMBEDDING_CACHE}. "
-                "Run `python knowledge_base/map/generate_map_data.py` first."
+                "Run `python knowledge_base/components/map/generate_map_data.py` first."
             )
         tree_leaves = collect_tree_leaves(tree_model)
         placed, skipped = write_tree_placements(

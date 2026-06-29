@@ -59,7 +59,7 @@ _Avoid_: map cache helper, semantic search cache helper, embedding script glue
 
 ### Browser Map Model
 
-Canonical browser-side view of generated Map data for `knowledge_base/map/browser/app.js`.
+Canonical browser-side view of generated Map data for `knowledge_base/components/map/browser/app.js`.
 It owns normalized paper facts, branch paths, aggregate groups, semantic and Tree proximity lookups, visibility membership, and colour grouping as in-memory facts before Sigma rendering, DOM controls, tooltips, or URL focus consume them.
 
 _Avoid_: map helpers, graph attrs as model, filter globals, category state

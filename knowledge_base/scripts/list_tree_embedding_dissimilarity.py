@@ -7,7 +7,7 @@ Usage:
   python scripts/list_tree_embedding_dissimilarity.py --fail-on-findings
 
 The script is read-only. It uses cached paper embeddings from
-map/cache/embedding_cache.json and reports papers whose mean cosine similarity to
+components/map/cache/embedding_cache.json and reports papers whose mean cosine similarity to
 other papers in the same Tree category is low.
 """
 
@@ -22,19 +22,19 @@ from typing import Any, Literal
 
 import yaml
 
-from knowledge_base.config import KB_DIR
-from knowledge_base.embedding_workbench import load_embedding_table
-from knowledge_base.tree.model import (
+from knowledge_base.components.tree.model import (
     TreeBranch as Branch,
 )
-from knowledge_base.tree.model import (
+from knowledge_base.components.tree.model import (
     load_tree_model,
 )
-from knowledge_base.tree.nav_source import TREE_YML
+from knowledge_base.components.tree.nav_source import TREE_YML
+from knowledge_base.config import KB_DIR
+from knowledge_base.embedding_workbench import load_embedding_table
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 METADATA_ROOT = KB_DIR / "docs" / "papers"
-EMBEDDING_CACHE = KB_DIR / "map" / "cache" / "embedding_cache.json"
+EMBEDDING_CACHE = KB_DIR / "components" / "map" / "cache" / "embedding_cache.json"
 Scope = Literal["direct", "descendants"]
 
 

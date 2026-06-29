@@ -81,13 +81,13 @@ timing report at the end. For deeper profiling, wrap it with `/usr/bin/time`.
 Generate and edit a `metadata.yml` entry from an arXiv ID:
 
 ```bash
-streamlit run knowledge_base/apps/generator_app.py
+streamlit run dev_apps/generator_app.py
 ```
 
 Review Tree and metadata algorithm-label disagreements interactively:
 
 ```bash
-streamlit run knowledge_base/apps/tree_label_review_app.py
+streamlit run dev_apps/tree_label_review_app.py
 ```
 
 The Tree Label Review app uses the same suggestions as
@@ -103,11 +103,12 @@ Applying a label writes back to `knowledge_base/tree.yml`, the affected `metadat
 - `knowledge_base/docs/papers/` contains paper entries.
 - `knowledge_base/docs/templates/metadata.yml` is the paper metadata template.
 - `knowledge_base/tree.yml` is the editable Tree nav source.
-- `knowledge_base/apps/` contains Streamlit apps.
+- `dev_apps/` contains Streamlit apps.
+- `knowledge_base/components/` contains Map, Tree, Search, and shared browser component source.
 - `knowledge_base/scripts/` contains maintenance, audit, placement, and prefill entrypoints.
 - `knowledge_base/scripts/prefill/` contains source-specific paper metadata importers.
-- `knowledge_base/map/` contains graph generation, preview, and site asset publishing.
-- `knowledge_base/semantic_search/` contains client-side semantic search index generation and asset publishing.
-- `knowledge_base/tree/` contains the Tree model, validation helpers, and Tree data generator.
+- `knowledge_base/components/map/` contains graph generation, preview, and site asset publishing.
+- `knowledge_base/components/semantic_search/` contains client-side semantic search index generation and asset publishing.
+- `knowledge_base/components/tree/` contains the Tree model, validation helpers, browser source, and Tree data generator.
 - `knowledge_base/utils/` contains shared DOI, arXiv, and prefill helpers.
 - `knowledge_base/site/` is generated output. Do not edit it directly.

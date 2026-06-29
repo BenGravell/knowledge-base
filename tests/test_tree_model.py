@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from knowledge_base.tree.model import (
+from knowledge_base.components.tree.model import (
     TreeModel,
     common_prefix_length,
     load_tree_model,

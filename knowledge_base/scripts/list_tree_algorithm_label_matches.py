@@ -17,12 +17,12 @@ from typing import Any
 
 import yaml
 
-from knowledge_base.config import KB_DIR
-from knowledge_base.tree.model import (
+from knowledge_base.components.tree.model import (
     TreeModel,
     load_tree_model,
 )
-from knowledge_base.tree.nav_source import TREE_YML
+from knowledge_base.components.tree.nav_source import TREE_YML
+from knowledge_base.config import KB_DIR
 
 METADATA_ROOT = KB_DIR / "docs" / "papers"
 

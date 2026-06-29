@@ -13,8 +13,8 @@ empirical semantic-similarity distribution, so tree proximity and semantic
 similarity both live on a comparable 0..1 scale.
 
 Usage:
-    python knowledge_base/map/suggest_relevance_defaults.py
-    python knowledge_base/map/suggest_relevance_defaults.py --primary-min-neighbors 3 --top 20
+    python knowledge_base/components/map/suggest_relevance_defaults.py
+    python knowledge_base/components/map/suggest_relevance_defaults.py --primary-min-neighbors 3 --top 20
 """
 
 from __future__ import annotations

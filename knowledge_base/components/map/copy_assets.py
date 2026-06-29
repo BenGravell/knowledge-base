@@ -2,4 +2,4 @@
 
 from importlib import import_module
 
-import_module("knowledge_base.map.pipeline.copy_assets")
+import_module("knowledge_base.components.map.pipeline.copy_assets")

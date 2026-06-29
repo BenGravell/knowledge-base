@@ -11,13 +11,11 @@ The public site is published at <https://bengravell.github.io/knowledge-base/>.
     - `papers/**/metadata.yml` drives generated paper pages.
     - `papers/**/embed_text.md` contains cleaned arXiv full-text conversions for embeddings.
   - `tree.yml` is the editable Tree navigation and classification source.
-  - `apps/` contains Streamlit apps.
+  - `components/` contains Map, Tree, Search, and shared browser component source.
   - `scripts/` contains maintenance, audit, placement, and prefill entrypoints.
-  - `map/` contains graph generation, preview, and site asset publishing.
-  - `semantic_search/` contains client-side semantic search index generation and asset publishing.
-  - `tree/` contains the Tree model, validation helpers, and Tree data generator.
   - `utils/` contains shared DOI, arXiv, and prefill helpers.
-  - `map/`, `tree/`, and `semantic_search/` derive Map, Timeline, Tree, and Semantic Search from `docs/papers/**/metadata.yml` plus `tree.yml`.
+- `dev_apps/` contains Streamlit apps and other human-facing development tools. `./dev` is the Pixi wrapper command.
+- `knowledge_base/components/map/`, `knowledge_base/components/tree/`, and `knowledge_base/components/semantic_search/` derive Map, Timeline, Tree, and Semantic Search from `docs/papers/**/metadata.yml` plus `tree.yml`.
 - `todo/PAPERS_FUNNEL.md` and `todo/papers/*.md` hold incoming paper URLs before ingest.
 - `docs/` contains repository docs for maintainers; it is not the published site content.
   - [Setup and development](docs/DEVELOPMENT.md)

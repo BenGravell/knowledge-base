@@ -18,17 +18,17 @@ from urllib.parse import quote
 import yaml
 
 from knowledge_base.catalog import Catalog
-from knowledge_base.config import KB_DIR
-from knowledge_base.generated_assets import ANALYTICS_DATA, TIMELINE_DATA, TREE_DATA, render_app_script_tags
-from knowledge_base.generated_files import open_generated
-from knowledge_base.tree.model import (
+from knowledge_base.components.tree.model import (
     TreeBranch,
     TreeChild,
     TreeLeaf,
     TreeModel,
     load_tree_model,
 )
-from knowledge_base.tree.validation import format_tree_validation_report, validate_tree
+from knowledge_base.components.tree.validation import format_tree_validation_report, validate_tree
+from knowledge_base.config import KB_DIR
+from knowledge_base.generated_assets import ANALYTICS_DATA, TIMELINE_DATA, TREE_DATA, render_app_script_tags
+from knowledge_base.generated_files import open_generated
 
 SITE_CONFIG = KB_DIR / "zensical.yml"
 TREE_YML = KB_DIR / "tree.yml"

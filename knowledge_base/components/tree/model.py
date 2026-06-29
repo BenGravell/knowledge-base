@@ -10,7 +10,7 @@ from typing import Any, Literal
 
 import yaml
 
-from knowledge_base.tree.nav_source import (
+from knowledge_base.components.tree.nav_source import (
     YAML_LOADER,
     metadata_source_path,
     tree_from_config,

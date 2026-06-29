@@ -4,7 +4,7 @@ The browser search embeds a free-form query with the same sentence-transformer
 model used here, then scores it against this static quantized vector table.
 Run this script from the repository root whenever paper metadata changes:
 
-    python knowledge_base/semantic_search/generate_semantic_search_index.py
+    python knowledge_base/components/semantic_search/generate_semantic_search_index.py
 """
 
 from __future__ import annotations
@@ -34,10 +34,11 @@ from knowledge_base.generated_assets import (
 )
 from knowledge_base.progress import emit_progress
 
-KB_DIR = Path(__file__).resolve().parents[1]
+SEMANTIC_SEARCH_DIR = Path(__file__).resolve().parent
+KB_DIR = SEMANTIC_SEARCH_DIR.parents[1]
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
-OUT_DIR = KB_DIR / "semantic_search"
+OUT_DIR = SEMANTIC_SEARCH_DIR
 DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 DEFAULT_BROWSER_MODEL = SEMANTIC_BROWSER_MODEL
 DEFAULT_CACHE = OUT_DIR / "embedding_cache.json"

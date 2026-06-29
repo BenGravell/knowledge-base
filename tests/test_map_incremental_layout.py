@@ -4,11 +4,11 @@ import unittest
 
 import numpy as np
 
-from knowledge_base.embedding_workbench import fastembed_effective_device
-from knowledge_base.map.generate_map_data import (
+from knowledge_base.components.map.generate_map_data import (
     added_only_cache_hit,
     incremental_neighbor_positions,
 )
+from knowledge_base.embedding_workbench import fastembed_effective_device
 
 
 class MapIncrementalLayoutTests(unittest.TestCase):

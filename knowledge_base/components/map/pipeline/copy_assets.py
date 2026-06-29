@@ -3,21 +3,21 @@ Generated-file script: publish Map assets into the served site.
 
 Runs before `zensical build` / `zensical serve` through the `kb` command.
 
-Copies source files from ``map/browser/`` and generated data from
-``map/generated/`` into the virtual ``javascripts/`` path:
+Copies source files from ``components/map/browser/`` and generated data from
+``components/map/generated/`` into the virtual ``javascripts/`` path:
 
-  map/browser/paper-derivations.js → site/javascripts/map-paper-derivations.js
-  map/browser/model.js             → site/javascripts/browser-map-model.js
-  map/browser/view-state.js        → site/javascripts/map-view-state.js
-  map/browser/rendering.js         → site/javascripts/map-rendering.js
-  map/browser/relevance-filter.js  → site/javascripts/map-relevance-filter.js
-  map/browser/overlays.js          → site/javascripts/map-overlays.js
-  map/browser/camera.js            → site/javascripts/map-camera.js
-  map/browser/branch-filter.js     → site/javascripts/map-branch-filter.js
-  map/browser/app.js               → site/javascripts/map.js
-  map/generated/map-data.js        → site/javascripts/map-data.js
-  map/generated/map-similarity.i16 → site/javascripts/map-similarity.i16
-  map/vendor/*                     → site/javascripts/vendor/*
+  components/map/browser/paper-derivations.js -> site/javascripts/map-paper-derivations.js
+  components/map/browser/model.js             -> site/javascripts/browser-map-model.js
+  components/map/browser/view-state.js        -> site/javascripts/map-view-state.js
+  components/map/browser/rendering.js         -> site/javascripts/map-rendering.js
+  components/map/browser/relevance-filter.js  -> site/javascripts/map-relevance-filter.js
+  components/map/browser/overlays.js          -> site/javascripts/map-overlays.js
+  components/map/browser/camera.js            -> site/javascripts/map-camera.js
+  components/map/browser/branch-filter.js     -> site/javascripts/map-branch-filter.js
+  components/map/browser/app.js               -> site/javascripts/map.js
+  components/map/generated/map-data.js        -> site/javascripts/map-data.js
+  components/map/generated/map-similarity.i16 -> site/javascripts/map-similarity.i16
+  components/map/vendor/*                     -> site/javascripts/vendor/*
 
 If ``map-data.js`` has not yet been generated (i.e. the user has not
 run ``generate_map_data.py`` yet), a minimal placeholder is written so
@@ -49,9 +49,9 @@ from knowledge_base.generated_files import open_generated
 MAP_DIR = Path(__file__).resolve().parents[1]
 BROWSER_DIR = MAP_DIR / "browser"
 GENERATED_DIR = MAP_DIR / "generated"
-KB_DIR = MAP_DIR.parent
+KB_DIR = MAP_DIR.parents[1]
 METADATA_ROOT = KB_DIR / "docs" / "papers"
-RUN_GENERATE_MAP_DATA = "python knowledge_base/map/generate_map_data.py"
+RUN_GENERATE_MAP_DATA = "python knowledge_base/components/map/generate_map_data.py"
 
 PLACEHOLDER_DATA = MAP_DATA.js_assignment(MAP_PLACEHOLDER_PAYLOAD, separators=(",", ":"))
 
@@ -60,21 +60,27 @@ def load_map_data(content: str) -> dict[str, object]:
     try:
         return MAP_DATA.loads_js_assignment(content)
     except json.JSONDecodeError as exc:
-        raise RuntimeError(f"map/generated/map-data.js is not valid JSON; run {RUN_GENERATE_MAP_DATA}") from exc
+        raise RuntimeError(
+            f"components/map/generated/map-data.js is not valid JSON; run {RUN_GENERATE_MAP_DATA}"
+        ) from exc
     except ValueError as exc:
-        raise RuntimeError(f"map/generated/map-data.js is malformed; run {RUN_GENERATE_MAP_DATA}") from exc
+        raise RuntimeError(f"components/map/generated/map-data.js is malformed; run {RUN_GENERATE_MAP_DATA}") from exc
 
 
 def validate_similarity_sidecar(map_data: dict[str, object]) -> tuple[str, Path]:
     similarity = map_data.get("similarity")
     if not isinstance(similarity, dict):
-        raise RuntimeError(f"map/generated/map-data.js has no similarity metadata; run {RUN_GENERATE_MAP_DATA}")
+        raise RuntimeError(
+            f"components/map/generated/map-data.js has no similarity metadata; run {RUN_GENERATE_MAP_DATA}"
+        )
 
     file_name = similarity.get("file")
     if not isinstance(file_name, str) or not file_name or Path(file_name).name != file_name:
-        raise RuntimeError("map/generated/map-data.js has an invalid similarity sidecar name")
+        raise RuntimeError("components/map/generated/map-data.js has an invalid similarity sidecar name")
     if similarity.get("dtype") != "int16":
-        raise RuntimeError(f"map/generated/map-data.js similarity dtype must be int16; run {RUN_GENERATE_MAP_DATA}")
+        raise RuntimeError(
+            f"components/map/generated/map-data.js similarity dtype must be int16; run {RUN_GENERATE_MAP_DATA}"
+        )
 
     shape = similarity.get("shape")
     if (
@@ -82,7 +88,9 @@ def validate_similarity_sidecar(map_data: dict[str, object]) -> tuple[str, Path]
         or len(shape) != 2
         or not all(isinstance(value, int) and value >= 0 for value in shape)
     ):
-        raise RuntimeError(f"map/generated/map-data.js has an invalid similarity shape; run {RUN_GENERATE_MAP_DATA}")
+        raise RuntimeError(
+            f"components/map/generated/map-data.js has an invalid similarity shape; run {RUN_GENERATE_MAP_DATA}"
+        )
 
     expected_bytes = int(shape[0]) * int(shape[1]) * 2
     sidecar = GENERATED_DIR / file_name
@@ -99,7 +107,7 @@ def validate_similarity_sidecar(map_data: dict[str, object]) -> tuple[str, Path]
 def validate_current_papers(map_data: dict[str, object]) -> None:
     nodes = map_data.get("nodes")
     if not isinstance(nodes, list):
-        raise RuntimeError(f"map/generated/map-data.js has no node list; run {RUN_GENERATE_MAP_DATA}")
+        raise RuntimeError(f"components/map/generated/map-data.js has no node list; run {RUN_GENERATE_MAP_DATA}")
     node_ids = [
         str(node["data"]["id"])
         for node in nodes
@@ -116,7 +124,7 @@ def validate_current_papers(map_data: dict[str, object]) -> None:
             detail.append(f"contains {len(extra)} stale paper(s)")
         reason = f" ({', '.join(detail)})" if detail else ""
         raise RuntimeError(
-            f"map/generated/map-data.js is stale for current metadata{reason}; run {RUN_GENERATE_MAP_DATA}"
+            f"components/map/generated/map-data.js is stale for current metadata{reason}; run {RUN_GENERATE_MAP_DATA}"
         )
 
 

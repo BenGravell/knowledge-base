@@ -17,9 +17,9 @@ import sys
 from dataclasses import dataclass
 from typing import Any, Literal
 
-from knowledge_base.tree.model import TreeBranch as Branch
-from knowledge_base.tree.model import TreeModel
-from knowledge_base.tree.nav_source import load_tree
+from knowledge_base.components.tree.model import TreeBranch as Branch
+from knowledge_base.components.tree.model import TreeModel
+from knowledge_base.components.tree.nav_source import load_tree
 
 CountMode = Literal["all", "branches"]
 

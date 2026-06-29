@@ -105,7 +105,7 @@ Suggest likely fixes for Tree and metadata algorithm-label disagreements:
 python knowledge_base/scripts/suggest_tree_algorithm_labels.py
 python knowledge_base/scripts/suggest_tree_algorithm_labels.py --min-confidence high
 python knowledge_base/scripts/suggest_tree_algorithm_labels.py --format json
-streamlit run knowledge_base/apps/tree_label_review_app.py
+streamlit run dev_apps/tree_label_review_app.py
 ```
 
 Find generated paper pages that are missing from the Tree nav:

@@ -16,9 +16,9 @@ from knowledge_base.generated_assets import (
 from knowledge_base.generated_files import open_generated
 
 ASSET_DIR = Path(__file__).resolve().parent
-KB_DIR = ASSET_DIR.parent
+KB_DIR = ASSET_DIR.parents[1]
 METADATA_ROOT = KB_DIR / "docs" / "papers"
-RUN_GENERATE_SEMANTIC_SEARCH = "python knowledge_base/semantic_search/generate_semantic_search_index.py"
+RUN_GENERATE_SEMANTIC_SEARCH = "python knowledge_base/components/semantic_search/generate_semantic_search_index.py"
 
 TEXT_ASSETS = {
     SEMANTIC_SEARCH_INDEX.name: SEMANTIC_SEARCH_INDEX.dumps(

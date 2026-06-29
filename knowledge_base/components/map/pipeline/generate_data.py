@@ -5,7 +5,7 @@ Generate the Sigma.js map data file for the knowledge-base site.
 
 This script reads every paper's ``metadata.yml``, embeds each paper's
 text using a high-quality embedding model, computes pairwise cosine
-similarities, and writes ``knowledge_base/map/generated/map-data.js``
+similarities, and writes ``knowledge_base/components/map/generated/map-data.js``
 which the Sigma.js visualisation loads at runtime.
 
 Incremental operation
@@ -55,31 +55,31 @@ the script falls back to fastembed automatically.
 Usage
 -----
 Basic (auto-selects backend, incremental):
-    python knowledge_base/map/generate_map_data.py
+    python knowledge_base/components/map/generate_map_data.py
 
 Force full re-embed (ignores cache):
-    python knowledge_base/map/generate_map_data.py --force
+    python knowledge_base/components/map/generate_map_data.py --force
 
 Choose a specific backend explicitly:
-    python knowledge_base/map/generate_map_data.py --backend voyage
-    python knowledge_base/map/generate_map_data.py --backend fastembed
+    python knowledge_base/components/map/generate_map_data.py --backend voyage
+    python knowledge_base/components/map/generate_map_data.py --backend fastembed
 
 Require CUDA for local fastembed inference:
-    python knowledge_base/map/generate_map_data.py --backend fastembed --fastembed-device cuda --force
+    python knowledge_base/components/map/generate_map_data.py --backend fastembed --fastembed-device cuda --force
 
 Use the heavier historical Map model with a separate chunk cache:
-    python knowledge_base/map/generate_map_data.py --backend fastembed \\
+    python knowledge_base/components/map/generate_map_data.py --backend fastembed \\
         --fastembed-model mixedbread-ai/mxbai-embed-large-v1 \\
-        --chunk-cache knowledge_base/map/cache/embedding_cache.chunks.json
+        --chunk-cache knowledge_base/components/map/cache/embedding_cache.chunks.json
 
 Custom paths:
-    python knowledge_base/map/generate_map_data.py \\
-        --cache knowledge_base/map/cache/my_cache.json \\
-        --output knowledge_base/map/generated/map-data.js
+    python knowledge_base/components/map/generate_map_data.py \\
+        --cache knowledge_base/components/map/cache/my_cache.json \\
+        --output knowledge_base/components/map/generated/map-data.js
 
 Output
 ------
-``knowledge_base/map/generated/map-data.js`` — a JS file that sets the
+``knowledge_base/components/map/generated/map-data.js`` — a JS file that sets the
 global ``mapData`` variable consumed by the browser Map app. The site
 generated-file script publishes this file into the served site automatically
 at build time.
@@ -116,6 +116,16 @@ from scipy.spatial import KDTree as cKDTree
 from sklearn.preprocessing import normalize
 
 from knowledge_base.catalog import Catalog, Entry, content_hash
+from knowledge_base.components.tree.model import (
+    TreeModel,
+)
+from knowledge_base.components.tree.model import (
+    common_prefix_length as tree_common_prefix_length,
+)
+from knowledge_base.components.tree.model import (
+    tree_distance as tree_model_distance,
+)
+from knowledge_base.components.tree.nav_source import load_tree
 from knowledge_base.embedding_workbench import (
     FASTEMBED_DEVICE_CHOICES,
     EmbeddingRow,
@@ -130,23 +140,13 @@ from knowledge_base.embedding_workbench import (
 )
 from knowledge_base.generated_assets import MAP_DATA, MAP_SIMILARITY
 from knowledge_base.progress import emit_progress
-from knowledge_base.tree.model import (
-    TreeModel,
-)
-from knowledge_base.tree.model import (
-    common_prefix_length as tree_common_prefix_length,
-)
-from knowledge_base.tree.model import (
-    tree_distance as tree_model_distance,
-)
-from knowledge_base.tree.nav_source import load_tree
 
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
 
-MAP_DIR = Path(__file__).resolve().parents[1]  # knowledge_base/map/
-KB_DIR = MAP_DIR.parent  # knowledge_base/
+MAP_DIR = Path(__file__).resolve().parents[1]  # knowledge_base/components/map/
+KB_DIR = MAP_DIR.parents[1]  # knowledge_base/
 REPO_ROOT = KB_DIR.parent  # repo root
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
@@ -157,7 +157,7 @@ DEFAULT_CACHE = CACHE_DIR / "embedding_cache.json"
 DEFAULT_OUTPUT = GENERATED_DIR / MAP_DATA.name
 DEFAULT_SIMILARITY_OUTPUT = GENERATED_DIR / MAP_SIMILARITY.name
 DEFAULT_FASTEMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-DEFAULT_SHARED_CHUNK_CACHE = KB_DIR / "semantic_search" / "embedding_cache.json"
+DEFAULT_SHARED_CHUNK_CACHE = KB_DIR / "components" / "semantic_search" / "embedding_cache.json"
 
 DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
 SIMILARITY_EXPORT_SCALE = 1000  # Store cosine similarities as compact rounded integers.

@@ -21,9 +21,11 @@ Important paths:
 - `knowledge_base/docs/papers/`: paper entries. New entries go here.
 - `knowledge_base/docs/templates/metadata.yml`: template for paper metadata.
 - `knowledge_base/tree.yml`: editable Tree taxonomy source used by generated Tree, Map, and Timeline assets.
-- `knowledge_base/map/`: embedding, UMAP, and graph generation scripts.
+- `knowledge_base/components/`: Map, Tree, Search, and shared browser component source.
+- `knowledge_base/components/map/`: embedding, UMAP, and graph generation scripts.
 - `knowledge_base/scripts/`: audit and utility scripts. Source-specific prefill entrypoints live in `knowledge_base/scripts/prefill/`.
 - `knowledge_base/site/`: generated site output. Do not edit it directly.
+- `dev_apps/`: human-facing Streamlit development apps. `./dev` is the Pixi wrapper.
 - `todo/papers/`: source-specific paper URL tracking lists.
 
 ## Commands
@@ -48,15 +50,15 @@ kb deploy
 Map utilities:
 
 ```bash
-python knowledge_base/map/generate_map_data.py
-python knowledge_base/map/preview_map.py
+python knowledge_base/components/map/generate_map_data.py
+python knowledge_base/components/map/preview_map.py
 ```
 
 Human-oriented dev tools:
 
 ```bash
 python knowledge_base/scripts/audit_metadata.py
-streamlit run knowledge_base/apps/generator_app.py
+streamlit run dev_apps/generator_app.py
 ```
 
 ## Conventions

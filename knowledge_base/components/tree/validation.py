@@ -10,12 +10,12 @@ from urllib.parse import urlparse
 
 import yaml
 
-from knowledge_base.config import KB_DIR
-from knowledge_base.tree.model import load_tree_model
-from knowledge_base.tree.nav_source import (
+from knowledge_base.components.tree.model import load_tree_model
+from knowledge_base.components.tree.nav_source import (
     YAML_LOADER,
     metadata_source_path,
 )
+from knowledge_base.config import KB_DIR
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"

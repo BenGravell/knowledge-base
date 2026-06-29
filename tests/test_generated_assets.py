@@ -31,6 +31,7 @@ from knowledge_base.utils.site_links import (
 
 DOCS_DIR = Path(__file__).resolve().parents[1] / "knowledge_base" / "docs"
 REPO_ROOT = Path(__file__).resolve().parents[1]
+COMPONENTS_DIR = REPO_ROOT / "knowledge_base" / "components"
 SITE_DIR = REPO_ROOT / "knowledge_base" / "site"
 SITE_URL = "https://bengravell.github.io/knowledge-base/"
 SITE_PREFIX = "/knowledge-base/"
@@ -135,7 +136,7 @@ def attrs_for_html_fragment_by_id(fragment: str, target_id: str) -> dict[str, st
 
 
 def search_page_input_attrs() -> dict[str, str | None]:
-    source = (DOCS_DIR / "javascripts" / "search.js").read_text(encoding="utf-8")
+    source = (COMPONENTS_DIR / "search" / "browser" / "search-page.js").read_text(encoding="utf-8")
     start = source.index('<input id="unified-search-input"')
     return attrs_for_html_fragment_by_id(source[start : source.index(">", start) + 1], "unified-search-input")
 
@@ -171,7 +172,10 @@ class GeneratedAssetTests(unittest.TestCase):
                     )
 
     def test_app_script_paths_are_not_hand_coded(self) -> None:
-        sources = [*DOCS_DIR.rglob("*.md"), REPO_ROOT / "knowledge_base" / "tree" / "generate_tree_data.py"]
+        sources = [
+            *DOCS_DIR.rglob("*.md"),
+            COMPONENTS_DIR / "tree" / "generate_tree_data.py",
+        ]
         offenders = [
             f"{path.relative_to(REPO_ROOT).as_posix()}: {src}"
             for path in sources

@@ -20,9 +20,8 @@ from typing import Any
 
 import yaml
 
-from knowledge_base.scripts.audit_metadata import find_algorithm_issues
-from knowledge_base.tree.nav_source import YAML_LOADER
-from knowledge_base.tree.validation import (
+from knowledge_base.components.tree.nav_source import YAML_LOADER
+from knowledge_base.components.tree.validation import (
     METADATA_ROOT,
     TREE_YML,
     TreeIssue,
@@ -30,6 +29,7 @@ from knowledge_base.tree.validation import (
     relative_to_kb,
     validate_tree,
 )
+from knowledge_base.scripts.audit_metadata import find_algorithm_issues
 
 ACTION_UPDATE_TREE = "update-tree-label"
 ACTION_UPDATE_METADATA = "update-metadata-algorithm"

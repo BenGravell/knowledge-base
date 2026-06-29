@@ -37,7 +37,7 @@ The generated site later publishes those papers as `papers/<paper_id>.md`.
 Use `load_tree_model(...)` when code needs the repository Tree with metadata-aware source resolution:
 
 ```python
-from knowledge_base.tree.model import load_tree_model
+from knowledge_base.components.tree.model import load_tree_model
 
 model = load_tree_model(
     tree_path,
@@ -73,7 +73,7 @@ Keep output-specific shaping in adapters:
 - Formatting-preserving `tree.yml` line edits stay in scripts that write the
   Tree, because those edits depend on the original YAML layout.
 - Map-specific aggregate rows, filters, and visualization data stay in
-  `map/generate_map_data.py`.
+  `components/map/generate_map_data.py`.
 
 ## Useful Checks
 
