@@ -34,7 +34,7 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
 SITE_CONFIG = KB_DIR / "zensical.yml"
-EMBEDDING_CACHE = KB_DIR / "map" / "embedding_cache.json"
+EMBEDDING_CACHE = KB_DIR / "map" / "cache" / "embedding_cache.json"
 TREE_YML = KB_DIR / "tree.yml"
 
 

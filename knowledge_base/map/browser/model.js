@@ -1,4 +1,4 @@
-/* browser-map-model.js - canonical browser-side model for the paper map. */
+/* browser/model.js - canonical browser-side model for the paper map. */
 
 'use strict';
 

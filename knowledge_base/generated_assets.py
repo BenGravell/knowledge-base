@@ -121,7 +121,12 @@ ANALYTICS_SCRIPT = GeneratedAsset("analytics.js")
 GRAPHOLOGY_VENDOR_SCRIPT = GeneratedAsset("graphology.umd.min.js", "javascripts/vendor")
 HOME_BENTO_SCRIPT = GeneratedAsset("home-bento.js")
 BROWSER_MAP_MODEL_SCRIPT = GeneratedAsset("browser-map-model.js")
+MAP_BRANCH_FILTER_SCRIPT = GeneratedAsset("map-branch-filter.js")
+MAP_CAMERA_SCRIPT = GeneratedAsset("map-camera.js")
+MAP_OVERLAYS_SCRIPT = GeneratedAsset("map-overlays.js")
 MAP_PAPER_DERIVATIONS_SCRIPT = GeneratedAsset("map-paper-derivations.js")
+MAP_RELEVANCE_FILTER_SCRIPT = GeneratedAsset("map-relevance-filter.js")
+MAP_RENDERING_SCRIPT = GeneratedAsset("map-rendering.js")
 MAP_VIEW_STATE_SCRIPT = GeneratedAsset("map-view-state.js")
 MAP_SCRIPT = GeneratedAsset("map.js")
 PAPER_LINK_PILLS_SCRIPT = GeneratedAsset("paper-link-pills.js")
@@ -147,6 +152,11 @@ MAP_APP_SCRIPTS = AppScriptBundle(
         MAP_PAPER_DERIVATIONS_SCRIPT,
         BROWSER_MAP_MODEL_SCRIPT,
         MAP_VIEW_STATE_SCRIPT,
+        MAP_RENDERING_SCRIPT,
+        MAP_RELEVANCE_FILTER_SCRIPT,
+        MAP_OVERLAYS_SCRIPT,
+        MAP_CAMERA_SCRIPT,
+        MAP_BRANCH_FILTER_SCRIPT,
         MAP_SCRIPT,
     ),
 )

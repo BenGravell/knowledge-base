@@ -20,7 +20,7 @@ Run from `knowledge_base/`:
 python scripts/list_unplaced_papers.py --neighbors 3
 ```
 
-The audit lists every `docs/papers/**/metadata.yml` item whose generated `papers/<ID>.md` page is not under the Tree nav in `tree.yml`. It also uses `map/embedding_cache.json` to show nearest already-placed neighbors as initial placement hints.
+The audit lists every `docs/papers/**/metadata.yml` item whose generated `papers/<ID>.md` page is not under the Tree nav in `tree.yml`. It also uses `map/cache/embedding_cache.json` to show nearest already-placed neighbors as initial placement hints.
 
 ## Placement Workflow
 

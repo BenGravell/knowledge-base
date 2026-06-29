@@ -4267,7 +4267,7 @@ def audit_map_data_paths(
                 )
             )
 
-    cache_path = kb_root / "map" / "embedding_cache.json"
+    cache_path = kb_root / "map" / "cache" / "embedding_cache.json"
     cache, error = _load_json_file(cache_path)
     if error:
         grouped.setdefault(cache_path, []).append(Issue(cache_path, CHECK_PATH, error))

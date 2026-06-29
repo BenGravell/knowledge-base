@@ -57,10 +57,10 @@ HOT_START_STATUS_PATHS = (
     "poetry.lock",
 )
 HOT_START_REQUIRED_FILES = (
-    KB_DIR / "map" / "embedding_cache.json",
-    KB_DIR / "map" / "embedding_cache.vectors.npy",
-    KB_DIR / "map" / "map-data.js",
-    KB_DIR / "map" / "map-similarity.i16",
+    KB_DIR / "map" / "cache" / "embedding_cache.json",
+    KB_DIR / "map" / "cache" / "embedding_cache.vectors.npy",
+    KB_DIR / "map" / "generated" / "map-data.js",
+    KB_DIR / "map" / "generated" / "map-similarity.i16",
     KB_DIR / "semantic_search" / "embedding_cache.json",
     KB_DIR / "semantic_search" / "embedding_cache.vectors.npy",
     KB_DIR / "semantic_search" / "semantic-search-index.json",
@@ -415,7 +415,7 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
     if not args.skip_map:
         map_data = [
             py,
-            "knowledge_base/map/generate_map_data.py",
+            "knowledge_base/map/pipeline/generate_data.py",
             "--fastembed-device",
             args.fastembed_device,
         ]

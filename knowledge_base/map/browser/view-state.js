@@ -1,4 +1,4 @@
-/* map-view-state.js - mutable browser view state for the paper map. */
+/* browser/view-state.js - mutable browser view state for the paper map. */
 
 'use strict';
 

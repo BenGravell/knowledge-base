@@ -34,7 +34,7 @@ class RefreshOfflineDataTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             input_path = root / "knowledge_base" / "docs" / "input.md"
-            output_path = root / "knowledge_base" / "map" / "map-data.js"
+            output_path = root / "knowledge_base" / "map" / "generated" / "map-data.js"
             state_path = root / "knowledge_base" / ".generated" / "refresh-state.json"
             input_path.parent.mkdir(parents=True)
             output_path.parent.mkdir(parents=True)
@@ -64,7 +64,7 @@ class RefreshOfflineDataTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             input_path = root / "knowledge_base" / "docs" / "input.md"
-            output_path = root / "knowledge_base" / "map" / "map-data.js"
+            output_path = root / "knowledge_base" / "map" / "generated" / "map-data.js"
             state_path = root / "knowledge_base" / ".generated" / "refresh-state.json"
             input_path.parent.mkdir(parents=True)
             output_path.parent.mkdir(parents=True)

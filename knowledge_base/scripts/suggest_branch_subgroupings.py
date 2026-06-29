@@ -8,7 +8,7 @@ Usage:
   python scripts/suggest_branch_subgroupings.py --branch "First-Order Methods" --write-tree
 
 The script is read-only unless ``--write-tree`` is passed. It uses cached paper
-text embeddings from ``map/embedding_cache.json`` and proposes natural
+text embeddings from ``map/cache/embedding_cache.json`` and proposes natural
 direct-child groupings for branches that would be reported as "too many" by
 ``list_branching_factor_violations.py``.
 """
@@ -46,7 +46,7 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
-EMBEDDING_CACHE = KB_DIR / "map" / "embedding_cache.json"
+EMBEDDING_CACHE = KB_DIR / "map" / "cache" / "embedding_cache.json"
 LANDING_PAGES = {"tree.md", "tree/index.md"}
 CountMode = Literal["all", "branches"]
 

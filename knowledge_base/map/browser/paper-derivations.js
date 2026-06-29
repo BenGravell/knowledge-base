@@ -1,4 +1,4 @@
-/* map-paper-derivations.js - derived paper fields for the browser map. */
+/* browser/paper-derivations.js - derived paper fields for the browser map. */
 
 'use strict';
 

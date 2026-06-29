@@ -29,7 +29,7 @@ except Exception:  # pragma: no cover - build fallback for environments without 
 metadata_root = KB_DIR / "docs" / "papers"
 template_file = KB_DIR / "docs" / "templates" / "paper_template.md"
 generated_root = Path("papers")
-embedding_cache_file = KB_DIR / "map" / "embedding_cache.json"
+embedding_cache_file = KB_DIR / "map" / "cache" / "embedding_cache.json"
 related_result_limit = 36
 top_similar_limit = 5
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
