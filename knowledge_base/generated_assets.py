@@ -120,6 +120,9 @@ SEMANTIC_SEARCH_VECTORS = GeneratedAsset("semantic-search-vectors.i8")
 ANALYTICS_SCRIPT = GeneratedAsset("analytics.js")
 GRAPHOLOGY_VENDOR_SCRIPT = GeneratedAsset("graphology.umd.min.js", "javascripts/vendor")
 HOME_BENTO_SCRIPT = GeneratedAsset("home-bento.js")
+BROWSER_MAP_MODEL_SCRIPT = GeneratedAsset("browser-map-model.js")
+MAP_PAPER_DERIVATIONS_SCRIPT = GeneratedAsset("map-paper-derivations.js")
+MAP_VIEW_STATE_SCRIPT = GeneratedAsset("map-view-state.js")
 MAP_SCRIPT = GeneratedAsset("map.js")
 PAPER_LINK_PILLS_SCRIPT = GeneratedAsset("paper-link-pills.js")
 SEARCH_SCRIPT = GeneratedAsset("search.js")
@@ -141,6 +144,9 @@ MAP_APP_SCRIPTS = AppScriptBundle(
         SITE_LINK_DATA,
         PAPER_LINK_PILLS_SCRIPT,
         TREE_NAVIGATOR_SCRIPT,
+        MAP_PAPER_DERIVATIONS_SCRIPT,
+        BROWSER_MAP_MODEL_SCRIPT,
+        MAP_VIEW_STATE_SCRIPT,
         MAP_SCRIPT,
     ),
 )

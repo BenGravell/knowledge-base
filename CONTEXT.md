@@ -57,6 +57,20 @@ Map layout, Semantic Search vector output, browser settings, and generated asset
 
 _Avoid_: map cache helper, semantic search cache helper, embedding script glue
 
+### Browser Map Model
+
+Canonical browser-side view of generated Map data for `knowledge_base/map/map.js`.
+It owns normalized paper facts, branch paths, aggregate groups, semantic and Tree proximity lookups, visibility membership, and colour grouping as in-memory facts before Sigma rendering, DOM controls, tooltips, or URL focus consume them.
+
+_Avoid_: map helpers, graph attrs as model, filter globals, category state
+
+### Map View State
+
+Canonical browser-side mutable state for the Map view.
+It owns current detail level, branch filter selection and membership, relevance filter inputs, paper selection, hover/focus state, label visibility, and visible-node cache before DOM controls, URL focus, Sigma reducers, or camera logic consume them.
+
+_Avoid_: scattered map globals, UI flags, selected node vars, filter state bag
+
 ### Generated Asset Contract
 
 Canonical in-process contract for generated static-site asset names, published

@@ -5,6 +5,9 @@ Runs before `zensical build` / `zensical serve` through the `kb` command.
 
 Copies files from ``map/`` into the virtual ``javascripts/`` path:
 
+  map/map-paper-derivations.js → site/javascripts/map-paper-derivations.js
+  map/browser-map-model.js → site/javascripts/browser-map-model.js
+  map/map-view-state.js → site/javascripts/map-view-state.js
   map/map.js     → site/javascripts/map.js
   map/map-data.js→ site/javascripts/map-data.js
   map/map-similarity.i16 → site/javascripts/map-similarity.i16
@@ -21,7 +24,15 @@ import json
 from pathlib import Path
 
 from knowledge_base.catalog import Catalog
-from knowledge_base.generated_assets import MAP_DATA, MAP_PLACEHOLDER_PAYLOAD, MAP_SIMILARITY
+from knowledge_base.generated_assets import (
+    BROWSER_MAP_MODEL_SCRIPT,
+    MAP_DATA,
+    MAP_PAPER_DERIVATIONS_SCRIPT,
+    MAP_PLACEHOLDER_PAYLOAD,
+    MAP_SCRIPT,
+    MAP_SIMILARITY,
+    MAP_VIEW_STATE_SCRIPT,
+)
 from knowledge_base.generated_files import open_generated
 
 MAP_DIR = Path(__file__).resolve().parent
@@ -105,7 +116,10 @@ if map_data_src.exists():
     similarity_name, similarity = validate_similarity_sidecar(parsed_map_data)
 
 text_assets = {
-    "map.js": MAP_DIR / "map.js",
+    MAP_PAPER_DERIVATIONS_SCRIPT.name: MAP_DIR / MAP_PAPER_DERIVATIONS_SCRIPT.name,
+    BROWSER_MAP_MODEL_SCRIPT.name: MAP_DIR / BROWSER_MAP_MODEL_SCRIPT.name,
+    MAP_VIEW_STATE_SCRIPT.name: MAP_DIR / MAP_VIEW_STATE_SCRIPT.name,
+    MAP_SCRIPT.name: MAP_DIR / MAP_SCRIPT.name,
     MAP_DATA.name: map_data_content,
 }
 

@@ -3,7 +3,10 @@
  * Loaded by map.md after:
  *   1. graphology.umd.min.js (sets window.graphology)
  *   2. sigma.min.js          (sets window.Sigma)
- *   3. map-data.js      (sets window.mapData, includes UMAP positions)
+ *   3. map-data.js           (sets window.mapData, includes UMAP positions)
+ *   4. map-paper-derivations.js (sets window.kbMapPaperDerivations)
+ *   5. browser-map-model.js  (sets window.kbBrowserMapModel)
+ *   6. map-view-state.js     (sets window.kbMapViewState)
  */
 
 'use strict';
@@ -156,6 +159,30 @@
   const navPathOrderIndex = new Map(
     NAV_PATH_ORDER.map((path, index) => [path.join('::'), index])
   );
+  if (
+    !window.kbMapPaperDerivations ||
+    typeof window.kbMapPaperDerivations.createMapPaperDerivations !== 'function' ||
+    !window.kbBrowserMapModel ||
+    typeof window.kbBrowserMapModel.createBrowserMapModel !== 'function' ||
+    !window.kbMapViewState ||
+    typeof window.kbMapViewState.createMapViewState !== 'function'
+  ) {
+    graphContainer.innerHTML =
+      '<p style="padding:2em;color:#ccc">Map viewer model scripts failed to load.</p>';
+    hideLoading();
+    return;
+  }
+  let aggregateLevelCount = 0;
+  const paperDerivations = window.kbMapPaperDerivations.createMapPaperDerivations({
+    uncategorizedCategory: UNCATEGORIZED_CATEGORY,
+    paperSuperCategory,
+    aggregateLevelCount: () => aggregateLevelCount,
+  });
+  const {
+    clamp,
+    paperNavPath,
+    paperSearchText,
+  } = paperDerivations;
   const HIERARCHY_LEVELS = buildHierarchyLevels();
   const HIERARCHY_LEVEL_BY_ID = new Map(HIERARCHY_LEVELS.map(level => [level.id, level]));
   const DETAIL_LEVELS = HIERARCHY_LEVELS.map(level => level.id);
@@ -163,50 +190,34 @@
   const AGGREGATE_LEVELS = new Set(
     HIERARCHY_LEVELS.filter(level => level.aggregate).map(level => level.id)
   );
+  aggregateLevelCount = AGGREGATE_LEVELS.size;
 
   /* -------------------------------------------------------------------------
    * State
    * -------------------------------------------------------------------------*/
   let graph = null;
   let renderer = null;
-  let currentDetailLevel = HIERARCHY_LEVELS[0].id;
-  let activeCategories = new Set();
-  let activeBranchFilterKey = BRANCH_FILTER_ALL;
-  let branchFilterGroups = new Map();
-  let relevanceFilter = {
-    enabled: false,
-    semantic: true,
-    taxonomy: true,
-    mode: 'and',
-    similarity: DEFAULT_RELEVANCE_SIMILARITY,
-    treeProximity: null,
-  };
-  let showNodeLabels = true;
-  let pinnedNode = null;
-  let hoveredNode = null;
-  let hoverClickNode = null;
-  let hoverTooltipNode = null;
-  let focus = { active: false, nodes: new Set(), mode: null };
+  const viewState = window.kbMapViewState.createMapViewState({
+    initialDetailLevel: HIERARCHY_LEVELS[0].id,
+    branchFilterAll: BRANCH_FILTER_ALL,
+    defaultRelevanceSimilarity: DEFAULT_RELEVANCE_SIMILARITY,
+    relevanceFilter: {
+      treeProximity: null,
+    },
+  });
   let theme = readTheme();
-  let hierarchyData = null;
-  let maxTreeDistanceCache = null;
-  let treeProximityScaleCache = null;
   let relevanceEvaluationCache = null;
-  let relevanceMetricsByEgo = new Map();
   let relevanceRefreshFrame = null;
   let activeLevelTransition = null;
   let topLabelContext = null;
   let lastLevelTransitionMetrics = null;
   let cachedPaperNodeRadius = PAPER_NODE_RADIUS_TARGET;
-  let visibleNodes = null;
-  let visibleNodeCount = 0;
   let visibilityColorContext = null;
   let visibilityPaletteCache = null;
   let graphToViewportRatioCache = null;
   let lastCameraRenderRatio = null;
   let graphPanGesture = null;
   let suppressGraphClickUntil = 0;
-  let visibleNodeList = [];
   let interactionRefreshFrame = null;
 
   /* -------------------------------------------------------------------------
@@ -279,10 +290,6 @@
 
     superCategoryOrderCache.value = ordered;
     return ordered;
-  }
-
-  function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
   }
 
   function hexToRgb(hexColor) {
@@ -615,7 +622,7 @@
   }
 
   function activeBranchDetailFloorIndex() {
-    const group = branchFilterGroups.get(activeBranchFilterKey);
+    const group = viewState.branchFilterGroups.get(viewState.activeBranchFilterKey);
     return group ? Math.max(Number(group.pathIndex) || 0, 0) : 0;
   }
 
@@ -763,31 +770,6 @@
     return limitedBody.concat(suffixLine).join('\n');
   }
 
-  function filterKey(category, subCategory) {
-    return subCategory ? `${category}::${subCategory}` : category;
-  }
-
-  function navPathFilterKey(path) {
-    return `path:${JSON.stringify((path || []).map(part => String(part || '')))}`;
-  }
-
-  function paperFilterKey(attrs) {
-    if (attrs._mmFilterKey) return attrs._mmFilterKey;
-    if (attrs.filterKey) return attrs.filterKey;
-    attrs._mmFilterKey = navPathFilterKey(paperNavPath(attrs));
-    return attrs._mmFilterKey;
-  }
-
-  function nodeKey(attrs) {
-    return attrs._mmFilterKey || attrs.filterKey || paperFilterKey(attrs);
-  }
-
-  function itemTypeKey(attrs) {
-    if (attrs._mmItemType) return attrs._mmItemType;
-    attrs._mmItemType = attrs.item_type || attrs.type || 'Unspecified';
-    return attrs._mmItemType;
-  }
-
   function paperSuperCategory(attrs) {
     if (isUncategorizedCategory(attrs.category)) return UNCATEGORIZED_CATEGORY;
     return attrs.super_category ||
@@ -796,146 +778,24 @@
       UNCATEGORIZED_CATEGORY;
   }
 
-  function paperNavPath(attrs) {
-    if (attrs._mmNavPath) return attrs._mmNavPath;
-
-    const rawPath = Array.isArray(attrs.nav_path)
-      ? attrs.nav_path
-      : [paperSuperCategory(attrs), attrs.category, attrs.sub_category].filter(Boolean);
-    const path = rawPath.map(part => String(part || '').trim()).filter(Boolean);
-    attrs._mmNavPath = path.length ? path : [UNCATEGORIZED_CATEGORY];
-    return attrs._mmNavPath;
-  }
-
-  function paddedPaperNavPath(attrs) {
-    if (attrs._mmPaddedNavPath) return attrs._mmPaddedNavPath.slice();
-
-    const path = paperNavPath(attrs);
-    const branchDepth = AGGREGATE_LEVELS.size;
-    const fallback = path[path.length - 1] || UNCATEGORIZED_CATEGORY;
-    const padded = path.slice();
-
-    while (padded.length < branchDepth) {
-      padded.push(fallback);
-    }
-
-    attrs._mmPaddedNavPath = padded.slice(0, branchDepth);
-    return attrs._mmPaddedNavPath.slice();
-  }
-
-  const paperDataById = new Map(DATA.nodes.map(node => [node.data.id, node.data]));
-  const similarityData = DATA.similarity || {};
-  const similarityScale = Number(similarityData.scale || (DATA.meta || {}).similarityScale || 1);
-  const similarityIdIndex = new Map((similarityData.ids || []).map((id, index) => [id, index]));
-  const similarityShape = Array.isArray(similarityData.shape) ? similarityData.shape.map(Number) : [];
-  let similarityRows = Array.isArray(similarityData.rows) ? similarityData.rows : null;
-
-  loadSimilarityRows();
-
-  function paperData(paperId) {
-    return paperDataById.get(paperId) || null;
-  }
-
-  function commonPrefixLength(a, b) {
-    const limit = Math.min(a.length, b.length);
-    let i = 0;
-    while (i < limit && a[i] === b[i]) i += 1;
-    return i;
-  }
-
-  function treeDistanceBetween(aId, bId) {
-    if (aId === bId) return 0;
-    const a = paperData(aId);
-    const b = paperData(bId);
-    if (!a || !b) return Infinity;
-
-    const aPath = paperNavPath(a);
-    const bPath = paperNavPath(b);
-    const common = commonPrefixLength(aPath, bPath);
-    return (aPath.length - common) + (bPath.length - common);
-  }
-
-  function similarityBetween(aId, bId) {
-    if (aId === bId) return 1;
-    const aIndex = similarityIdIndex.get(aId);
-    const bIndex = similarityIdIndex.get(bId);
-    if (aIndex === undefined || bIndex === undefined || !similarityRows) return null;
-
-    const raw = similarityValueAt(aIndex, bIndex);
-    const numeric = Number(raw);
-    if (!Number.isFinite(numeric)) return null;
-    return similarityScale ? numeric / similarityScale : numeric;
-  }
-
-  function similarityValueAt(row, col) {
-    if (Array.isArray(similarityRows)) {
-      const values = similarityRows[row];
-      return values ? values[col] : null;
-    }
-    const width = Number(similarityShape[1] || similarityIdIndex.size || 0);
-    if (!width || row < 0 || col < 0) return null;
-    return similarityRows[row * width + col];
-  }
-
-  function loadSimilarityRows() {
-    if (similarityRows || !similarityData.file) return;
-    const height = Number(similarityShape[0] || similarityIdIndex.size || 0);
-    const width = Number(similarityShape[1] || similarityIdIndex.size || 0);
-    if (!height || !width) return;
-
-    const url = new URL(String(similarityData.file), MAP_SCRIPT_URL);
-    fetch(url.href, { cache: 'no-cache' })
-      .then(response => {
-        if (!response.ok) throw new Error(`Could not load ${url.href}: ${response.status}`);
-        return response.arrayBuffer();
-      })
-      .then(buffer => {
-        const expectedBytes = height * width * Int16Array.BYTES_PER_ELEMENT;
-        if (buffer.byteLength !== expectedBytes) {
-          throw new Error(`Similarity matrix shape mismatch: expected ${expectedBytes} bytes, found ${buffer.byteLength}.`);
-        }
-        similarityRows = new Int16Array(buffer);
-        relevanceMetricsByEgo.clear();
-        if (relevanceFilterActive()) refreshView();
-      })
-      .catch(error => {
-        console.warn('[map] Similarity matrix unavailable:', error);
-      });
-  }
-
-  function maxTreeDistance() {
-    if (maxTreeDistanceCache === null) {
-      const depth = Math.max(
-        1,
-        ...DATA.nodes.map(node => paperNavPath(node.data || {}).length)
-      );
-      maxTreeDistanceCache = depth * 2;
-    }
-    return maxTreeDistanceCache;
-  }
-
-  function treeProximityScale() {
-    if (treeProximityScaleCache) return treeProximityScaleCache;
-
-    const configured = (DATA.meta || {}).treeProximity || {};
-    const configuredScale = Array.isArray(configured.scale)
-      ? configured.scale.map(value => Number(value)).filter(value => Number.isFinite(value))
-      : [];
-
-    treeProximityScaleCache = configuredScale.length
-      ? configuredScale
-      : Array.from({ length: maxTreeDistance() + 1 }, (_, distance) => (
-        maxTreeDistance() ? 1 - distance / maxTreeDistance() : 1
-      ));
-    return treeProximityScaleCache;
-  }
-
-  function treeProximityForDistance(distance) {
-    if (!Number.isFinite(distance)) return -Infinity;
-    const scale = treeProximityScale();
-    const index = Math.max(0, Math.min(scale.length - 1, Math.round(distance)));
-    return scale[index];
-  }
+  const mapModel = window.kbBrowserMapModel.createBrowserMapModel(DATA, {
+    scriptUrl: MAP_SCRIPT_URL,
+    helpers: paperDerivations,
+    hierarchyLevels: HIERARCHY_LEVELS,
+    navPathOrderIndex,
+    categoryOrder,
+    superCategoryOrder,
+    groupId,
+    branchColorForPath,
+    paperSuperCategory,
+    uncategorizedCategory: UNCATEGORIZED_CATEGORY,
+    aggregatePositionBiasByLevel: AGGREGATE_POSITION_BIAS_BY_LEVEL,
+    aggregatePositionOuterQuantile: AGGREGATE_POSITION_OUTER_QUANTILE,
+    onSimilarityRowsLoaded: () => {
+      relevanceEvaluationCache = null;
+      if (relevanceFilterActive()) refreshView();
+    },
+  });
 
   function defaultTreeProximity() {
     return DEFAULT_RELEVANCE_TREE_PROXIMITY;
@@ -965,78 +825,63 @@
   }
 
   function selectedRelevanceEgo() {
-    const paperId = paperIdForNode(pinnedNode);
-    return paperId && paperData(paperId) ? paperId : null;
+    const paperId = paperIdForNode(viewState.pinnedNode);
+    return paperId && mapModel.paper(paperId) ? paperId : null;
   }
 
   function relevanceFilterActive() {
-    return relevanceFilter.enabled && Boolean(selectedRelevanceEgo());
+    return viewState.relevanceFilter.enabled && Boolean(selectedRelevanceEgo());
   }
 
   function setSelectedNodeFilterEnabled(enabled) {
     const nextEnabled = Boolean(enabled);
-    if (relevanceFilter.enabled === nextEnabled) return;
+    if (viewState.relevanceFilter.enabled === nextEnabled) return;
 
-    relevanceFilter.enabled = nextEnabled;
+    viewState.relevanceFilter.enabled = nextEnabled;
     syncRelevanceControlValues();
   }
 
   function relevanceTreeThreshold() {
-    return Number.isFinite(relevanceFilter.treeProximity)
-      ? relevanceFilter.treeProximity
+    return Number.isFinite(viewState.relevanceFilter.treeProximity)
+      ? viewState.relevanceFilter.treeProximity
       : defaultTreeProximity();
   }
 
   function relevanceEvaluationKey(egoId, treeThreshold) {
-    if (!relevanceFilter.enabled || !egoId) return 'off';
+    if (!viewState.relevanceFilter.enabled || !egoId) return 'off';
 
     return [
       egoId,
-      relevanceFilter.semantic ? 1 : 0,
-      relevanceFilter.taxonomy ? 1 : 0,
-      relevanceFilter.mode,
-      relevanceFilter.similarity,
+      viewState.relevanceFilter.semantic ? 1 : 0,
+      viewState.relevanceFilter.taxonomy ? 1 : 0,
+      viewState.relevanceFilter.mode,
+      viewState.relevanceFilter.similarity,
       treeThreshold,
     ].join('|');
   }
 
   function relevanceMetricsForEgo(egoId) {
-    if (relevanceMetricsByEgo.has(egoId)) {
-      return relevanceMetricsByEgo.get(egoId);
-    }
-
-    const metrics = DATA.nodes.map(node => {
-      const paperId = node.data.id;
-      const distance = treeDistanceBetween(egoId, paperId);
-      return {
-        paperId,
-        semantic: similarityBetween(egoId, paperId) ?? -1,
-        treeProximity: treeProximityForDistance(distance),
-      };
-    });
-
-    relevanceMetricsByEgo.set(egoId, metrics);
-    return metrics;
+    return mapModel.relevanceMetrics(egoId);
   }
 
   function metricAllowedByRelevance(metric, egoId, treeThreshold) {
     if (metric.paperId === egoId) return true;
 
-    const semanticEnabled = relevanceFilter.semantic;
-    const taxonomyEnabled = relevanceFilter.taxonomy;
+    const semanticEnabled = viewState.relevanceFilter.semantic;
+    const taxonomyEnabled = viewState.relevanceFilter.taxonomy;
     if (!semanticEnabled && !taxonomyEnabled) return true;
 
-    const semanticPass = !semanticEnabled || metric.semantic >= relevanceFilter.similarity;
+    const semanticPass = !semanticEnabled || metric.semantic >= viewState.relevanceFilter.similarity;
     const taxonomyPass = !taxonomyEnabled || metric.treeProximity >= treeThreshold;
 
-    return relevanceFilter.mode === 'or'
+    return viewState.relevanceFilter.mode === 'or'
       ? semanticPass || taxonomyPass
       : semanticPass && taxonomyPass;
   }
 
   function relevanceEvaluation() {
     const egoId = selectedRelevanceEgo();
-    if (!relevanceFilter.enabled || !egoId) {
+    if (!viewState.relevanceFilter.enabled || !egoId) {
       return {
         active: false,
         allowedPaperIds: null,
@@ -1073,7 +918,7 @@
 
   function paperAllowedByCurrentFilters(attrs) {
     if (!attrs || !paperAllowedByRelevance(attrs.id)) return false;
-    return activeCategories.has(nodeKey(attrs));
+    return viewState.activeCategories.has(mapModel.nodeKey(attrs));
   }
 
   function nodeAllowedByRelevance(attrs) {
@@ -1090,9 +935,9 @@
   function visiblePaperPathsForColoring() {
     const paperIds = new Set();
 
-    if (!graph || !visibleNodes) return [];
+    if (!graph || !viewState.visibleNodes) return [];
 
-    visibleNodes.forEach(node => {
+    viewState.visibleNodes.forEach(node => {
       const attrs = graph.getNodeAttributes(node);
       if (attrs.kind === 'paper') {
         if (paperAllowedByCurrentFilters(attrs)) paperIds.add(attrs.id);
@@ -1100,15 +945,15 @@
       }
 
       (attrs.leafIds || []).forEach(paperId => {
-        const paper = paperData(paperId);
+        const paper = mapModel.paper(paperId);
         if (paperAllowedByCurrentFilters(paper)) paperIds.add(paperId);
       });
     });
 
     return [...paperIds]
-      .map(paperId => paperData(paperId))
+      .map(paperId => mapModel.paper(paperId))
       .filter(Boolean)
-      .map(attrs => paperNavPath(attrs));
+      .map(attrs => mapModel.paperPath(attrs));
   }
 
   function commonPathPrefix(paths) {
@@ -1187,7 +1032,7 @@
     }
 
     NAV_PATH_ORDER.forEach((path, index) => addPath(path, index));
-    DATA.nodes.forEach(node => addPath(paperNavPath(node.data || {})));
+    DATA.nodes.forEach(node => addPath(mapModel.paperPath(node.data || {})));
 
     const labels = [...branches.values()]
       .sort((a, b) => a.order - b.order || a.label.localeCompare(b.label))
@@ -1265,9 +1110,7 @@
   }
 
   function nodePathForColor(attrs) {
-    return attrs.kind === 'aggregate'
-      ? paperNavPath(attrs)
-      : paperNavPath(attrs);
+    return mapModel.paperPath(attrs);
   }
 
   function fallbackNodeColor(attrs) {
@@ -1305,363 +1148,14 @@
     return `agg:${level}:${parts.map(part => String(part || UNCATEGORIZED_CATEGORY)).join('::')}`;
   }
 
-  function paperSearchText(attrs) {
-    if (attrs._mmSearchText) return attrs._mmSearchText;
-    attrs._mmSearchText = [
-      attrs.title,
-      attrs.label,
-      attrs.category,
-      attrs.sub_category,
-      attrs.super_category,
-      itemTypeKey(attrs),
-      ...(attrs.tags || []),
-      attrs.summary,
-    ].filter(Boolean).join(' ').toLowerCase();
-    return attrs._mmSearchText;
-  }
-
-  function aggregateLabel(label, count) {
-    return `${label}\n${count}`;
-  }
-
-  function createHierarchyGroup({
-    level,
-    label,
-    superCategory,
-    category,
-    subCategory,
-    path = [],
-    pathIndex = 0,
-    color,
-    parent = null,
-    isCategoryLeaf = false,
-  }) {
-    const pathParts = path.length
-      ? path
-      : [superCategory, category, subCategory || (isCategoryLeaf ? category : null)].filter(Boolean);
-    return {
-      key: `${level}:${pathParts.join('::')}`,
-      level,
-      label,
-      superCategory,
-      category,
-      subCategory,
-      path,
-      pathIndex,
-      color,
-      parent,
-      isCategoryLeaf,
-      children: [],
-      childMap: new Map(),
-      leafIds: [],
-      filterKeys: new Set(),
-      itemTypes: new Set(),
-      searchParts: new Set([label, superCategory, category, subCategory].filter(Boolean)),
-      previewTitles: [],
-      x: 0,
-      y: 0,
-      layoutX: null,
-      layoutY: null,
-      leafPoints: [],
-    };
-  }
-
-  function ensureHierarchyChild(parent, key, spec) {
-    const map = parent ? parent.childMap : spec.rootMap;
-    if (map.has(key)) return map.get(key);
-
-    const group = createHierarchyGroup({ ...spec, parent });
-    map.set(key, group);
-    if (parent) parent.children.push(group);
-    else spec.roots.push(group);
-    return group;
-  }
-
-  function accumulateHierarchyGroup(group, paperNode) {
-    const attrs = paperNode.data;
-    group.leafIds.push(attrs.id);
-    group.filterKeys.add(nodeKey(attrs));
-    group.itemTypes.add(itemTypeKey(attrs));
-    group.searchParts.add(paperSearchText(attrs));
-    const x = Number(paperNode.position.x) || 0;
-    const y = Number(paperNode.position.y) || 0;
-    group.x += x;
-    group.y += y;
-    group.leafPoints.push({ x, y });
-    if (group.previewTitles.length < 4 && attrs.title) group.previewTitles.push(attrs.title);
-  }
-
-  function quantile(values, q) {
-    const sorted = values
-      .filter(value => Number.isFinite(value))
-      .sort((a, b) => a - b);
-    if (!sorted.length) return null;
-    if (sorted.length === 1) return sorted[0];
-
-    const index = clamp(q, 0, 1) * (sorted.length - 1);
-    const lower = Math.floor(index);
-    const upper = Math.ceil(index);
-    const t = index - lower;
-    return sorted[lower] * (1 - t) + sorted[upper] * t;
-  }
-
-  function hierarchyGroupCentroid(group) {
-    const count = group.leafIds.length || 1;
-    return {
-      x: group.x / count,
-      y: group.y / count,
-    };
-  }
-
-  function aggregatePositionBias(group) {
-    const index = Math.max(Number(group.pathIndex) || 0, 0);
-    if (index < AGGREGATE_POSITION_BIAS_BY_LEVEL.length) {
-      return AGGREGATE_POSITION_BIAS_BY_LEVEL[index];
-    }
-    return 0.18;
-  }
-
-  function biasedAggregatePosition(group, referencePoint) {
-    const centroid = hierarchyGroupCentroid(group);
-    const leafPoints = group.leafPoints || [];
-    if (leafPoints.length < 2 || !referencePoint) return centroid;
-
-    const dx = centroid.x - referencePoint.x;
-    const dy = centroid.y - referencePoint.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    if (!Number.isFinite(distance) || distance < 1e-6) return centroid;
-
-    const ux = dx / distance;
-    const uy = dy / distance;
-    const centroidProjection = dx * ux + dy * uy;
-    const outerProjection = quantile(
-      leafPoints.map(point => (point.x - referencePoint.x) * ux + (point.y - referencePoint.y) * uy),
-      AGGREGATE_POSITION_OUTER_QUANTILE
-    );
-
-    if (!Number.isFinite(outerProjection) || outerProjection <= centroidProjection) {
-      return centroid;
-    }
-
-    const bias = aggregatePositionBias(group);
-    const offset = (outerProjection - centroidProjection) * bias;
-    return {
-      x: centroid.x + ux * offset,
-      y: centroid.y + uy * offset,
-    };
-  }
-
-  function aggregateLayoutKey(path) {
-    return JSON.stringify((path || []).map(part => String(part || '')));
-  }
-
-  function precomputedAggregatePosition(group) {
-    const layouts = ((DATA.meta || {}).aggregateLayouts || {})[group.level] || {};
-    const raw = layouts[aggregateLayoutKey(group.path)];
-    if (!raw) return null;
-
-    const x = Array.isArray(raw) ? Number(raw[0]) : Number(raw.x);
-    const y = Array.isArray(raw) ? Number(raw[1]) : Number(raw.y);
-    return Number.isFinite(x) && Number.isFinite(y) ? { x, y } : null;
-  }
-
-  function computeAggregateLayoutPositions(roots) {
-    const rootTotals = roots.reduce(
-      (acc, group) => {
-        const count = group.leafIds.length || 0;
-        acc.x += group.x;
-        acc.y += group.y;
-        acc.count += count;
-        return acc;
-      },
-      { x: 0, y: 0, count: 0 }
-    );
-    const globalCentroid = rootTotals.count
-      ? { x: rootTotals.x / rootTotals.count, y: rootTotals.y / rootTotals.count }
-      : { x: 0, y: 0 };
-
-    function visit(group, parentCentroid = null) {
-      const referencePoint = parentCentroid || globalCentroid;
-      const position = precomputedAggregatePosition(group) ||
-        biasedAggregatePosition(group, referencePoint);
-      const centroid = hierarchyGroupCentroid(group);
-
-      group.layoutX = position.x;
-      group.layoutY = position.y;
-      group.centroidX = centroid.x;
-      group.centroidY = centroid.y;
-      group.children.forEach(child => visit(child, centroid));
-    }
-
-    roots.forEach(root => visit(root));
-  }
-
-  function hierarchySortKey(group) {
-    const pathKey = (group.path || []).join('::');
-    const pathIndex = navPathOrderIndex.has(pathKey) ? navPathOrderIndex.get(pathKey) : -1;
-    if (pathIndex >= 0) return [pathIndex, group.label];
-
-    if ((group.pathIndex || 0) === 0) {
-      const order = superCategoryOrder();
-      const index = order.indexOf(group.label);
-      return [index < 0 ? Number.MAX_SAFE_INTEGER : index, group.label];
-    }
-
-    if ((group.pathIndex || 0) === 1) {
-      const order = categoryOrder();
-      const index = order.indexOf(group.category);
-      return [index < 0 ? Number.MAX_SAFE_INTEGER : index, group.label];
-    }
-
-    const subOrder = ((DATA.meta || {}).subCategoryOrder || {})[group.category] || [];
-    const index = group.subCategory ? subOrder.indexOf(group.subCategory) : -1;
-    return [index < 0 ? Number.MAX_SAFE_INTEGER : index, group.label];
-  }
-
-  function sortHierarchyGroups(groups) {
-    groups.sort((a, b) => {
-      const ak = hierarchySortKey(a);
-      const bk = hierarchySortKey(b);
-      return ak[0] - bk[0] || String(ak[1]).localeCompare(String(bk[1]));
-    });
-
-    groups.forEach(group => sortHierarchyGroups(group.children));
-  }
-
-  function aggregateNodeId(detailLevel, group) {
-    return groupId(detailLevel, [group.key]);
-  }
-
-  function groupAncestorIds(group) {
-    const ancestors = {};
-    let cursor = group.parent;
-
-    while (cursor) {
-      ancestors[cursor.level] = aggregateNodeId(cursor.level, cursor);
-      cursor = cursor.parent;
-    }
-
-    return ancestors;
-  }
-
-  function buildAggregateNode(group, detailLevel) {
-    const count = group.leafIds.length || 1;
-    const ancestorIds = groupAncestorIds(group);
-    const parentId = group.parent
-      ? aggregateNodeId(group.parent.level, group.parent)
-      : null;
-
-    return {
-      data: {
-        id: aggregateNodeId(detailLevel, group),
-        kind: 'aggregate',
-        detailLevel,
-        hierarchyLevel: group.level,
-        parentId,
-        ancestorIds,
-        label: aggregateLabel(group.label, count),
-        fullLabel: group.label,
-        title: group.label,
-        authors: [],
-        year: null,
-        super_category: group.superCategory,
-        category: group.category,
-        sub_category: group.subCategory,
-        nav_path: group.path,
-        color: group.color,
-        count,
-        leafIds: group.leafIds,
-        filterKeys: [...group.filterKeys],
-        itemTypes: [...group.itemTypes],
-        previewTitles: group.previewTitles,
-        tags: [],
-        summary: `${count} ${count === 1 ? 'paper' : 'papers'}`,
-        searchText: [...group.searchParts].join(' ').toLowerCase(),
-      },
-      position: {
-        x: Math.round((Number.isFinite(group.layoutX) ? group.layoutX : group.x / count) * 10) / 10,
-        y: Math.round((Number.isFinite(group.layoutY) ? group.layoutY : group.y / count) * 10) / 10,
-      },
-    };
-  }
-
-  function buildHierarchyData() {
-    if (hierarchyData) return hierarchyData;
-
-    const roots = [];
-    const rootMap = new Map();
-    const branchLevels = HIERARCHY_LEVELS.filter(level => level.aggregate);
-    const groupsByLevel = Object.fromEntries(branchLevels.map(level => [level.id, []]));
-    const paperAncestors = {};
-    const aggregateNodes = [];
-
-    DATA.nodes.forEach(paperNode => {
-      const attrs = paperNode.data;
-      const path = paddedPaperNavPath(attrs);
-      const superCategory = path[0] || paperSuperCategory(attrs);
-      const category = path[1] || attrs.category || superCategory || UNCATEGORIZED_CATEGORY;
-      const subCategory = path[2] || attrs.sub_category || null;
-      let parent = null;
-      const ancestors = {};
-
-      branchLevels.forEach((level, index) => {
-        const label = path[index] || path[path.length - 1] || UNCATEGORIZED_CATEGORY;
-        const pathPrefix = path.slice(0, index + 1);
-        const group = ensureHierarchyChild(parent, label, {
-          rootMap,
-          roots,
-          level: level.id,
-          label,
-          superCategory,
-          category,
-          subCategory: index >= 2 ? label : subCategory,
-          path: pathPrefix,
-          pathIndex: index,
-          color: branchColorForPath(path, index),
-          isCategoryLeaf: index >= paperNavPath(attrs).length,
-        });
-        accumulateHierarchyGroup(group, paperNode);
-        ancestors[level.id] = aggregateNodeId(level.id, group);
-        parent = group;
-      });
-
-      paperAncestors[attrs.id] = ancestors;
-    });
-
-    sortHierarchyGroups(roots);
-    computeAggregateLayoutPositions(roots);
-
-    function collect(group) {
-      if (groupsByLevel[group.level]) groupsByLevel[group.level].push(group);
-      group.children.forEach(collect);
-    }
-    roots.forEach(collect);
-
-    HIERARCHY_LEVELS
-      .filter(level => level.aggregate)
-      .forEach(level => {
-        const groups = groupsByLevel[level.id] || [];
-        groups.forEach(group => aggregateNodes.push(buildAggregateNode(group, level.id)));
-      });
-
-    hierarchyData = {
-      roots,
-      levels: HIERARCHY_LEVELS,
-      groupsByLevel,
-      paperAncestors,
-      nodes: aggregateNodes,
-    };
-    return hierarchyData;
-  }
-
   function nodeAllowedByFilters(attrs) {
     if (!nodeAllowedByRelevance(attrs)) return false;
     return nodeAllowedByBaseFilters(attrs);
   }
 
   function nodeAllowedByBaseFilters(attrs) {
-    const filterKeys = attrs.filterKeys || [nodeKey(attrs)];
-    return filterKeys.some(key => activeCategories.has(key));
+    const filterKeys = attrs.filterKeys || [mapModel.nodeKey(attrs)];
+    return filterKeys.some(key => viewState.activeCategories.has(key));
   }
 
   function nodeVisibleAt(node, level, options = {}) {
@@ -1677,13 +1171,13 @@
   }
 
   function nodeVisible(node) {
-    return visibleNodes ? visibleNodes.has(node) : nodeVisibleAt(node, currentDetailLevel);
+    return viewState.visibleNodes ? viewState.visibleNodes.has(node) : nodeVisibleAt(node, viewState.currentDetailLevel);
   }
 
   function nodeGhostVisible(node) {
     return relevanceFilterActive() &&
       !nodeVisible(node) &&
-      nodeVisibleAt(node, currentDetailLevel, { ignoreRelevance: true });
+      nodeVisibleAt(node, viewState.currentDetailLevel, { ignoreRelevance: true });
   }
 
   function escHtml(s) {
@@ -1701,7 +1195,7 @@
     const g = window.graphology.UndirectedGraph ?
       new window.graphology.UndirectedGraph() :
       new window.graphology.Graph({ type: 'undirected' });
-    const hierarchy = buildHierarchyData();
+    const hierarchy = mapModel.hierarchy();
     const nodeSpecs = DATA.nodes.concat(hierarchy.nodes).map(n => {
       const attrs = n.data;
       const kind = attrs.kind || 'paper';
@@ -1723,7 +1217,7 @@
 
     nodeSpecs.forEach(spec => {
       const { raw: n, attrs, kind, detailLevel, staticSize } = spec;
-      const color = attrs.color || stableColorForPath(paperNavPath(attrs));
+      const color = attrs.color || stableColorForPath(mapModel.paperPath(attrs));
       const labelMetrics = labelMetricsByLevel.get(detailLevel) || {};
       const x = n.position.x;
       const y = n.position.y;
@@ -1733,10 +1227,10 @@
         ...attrs,
         kind,
         detailLevel,
-        item_type: itemTypeKey(attrs),
+        item_type: mapModel.itemType(attrs),
         parentId,
         ancestorIds,
-        filterKeys: attrs.filterKeys || [nodeKey(attrs)],
+        filterKeys: attrs.filterKeys || [mapModel.nodeKey(attrs)],
         searchText: attrs.searchText || paperSearchText(attrs),
         x,
         y,
@@ -1791,15 +1285,15 @@
 
     const size = nodeSizeWithMinimumScreenRadius(nodeDisplaySize(attrs));
     const baseZIndex = detailLevelZIndex(attrs.detailLevel);
-    const highlighted = focus.nodes.has(node);
+    const highlighted = viewState.focus.nodes.has(node);
     const primaryFocus = highlighted && (
-      node === pinnedNode ||
-      node === hoveredNode
+      node === viewState.pinnedNode ||
+      node === viewState.hoveredNode
     );
-    const muted = focus.active && focus.mode !== 'hover' && !primaryFocus;
-    const focusLabel = node === pinnedNode || node === hoveredNode;
+    const muted = viewState.focus.active && viewState.focus.mode !== 'hover' && !primaryFocus;
+    const focusLabel = node === viewState.pinnedNode || node === viewState.hoveredNode;
     const forceLabel = focusLabel;
-    const label = (showNodeLabels || focusLabel) ? attrs.label : '';
+    const label = (viewState.showNodeLabels || focusLabel) ? attrs.label : '';
 
     if (muted) {
       const mutedColor = highlighted ? theme.nodeMutedRelated : theme.nodeMuted;
@@ -2043,8 +1537,7 @@
    * -------------------------------------------------------------------------*/
   function setNeighborhoodFocus(node, mode) {
     const nodes = new Set([node]);
-
-    focus = { active: true, nodes, mode };
+    viewState.setFocus(nodes, mode);
   }
 
   function recomputeVisibleNodes() {
@@ -2052,30 +1545,26 @@
     const list = [];
 
     if (!graph) {
-      visibleNodes = nodes;
-      visibleNodeList = list;
-      visibleNodeCount = 0;
+      viewState.setVisibleNodes(nodes, list);
       return;
     }
 
     graph.forEachNode((node, attrs) => {
-      if (!nodeVisibleAt(node, currentDetailLevel)) return;
+      if (!nodeVisibleAt(node, viewState.currentDetailLevel)) return;
       nodes.add(node);
       list.push(node);
     });
 
-    visibleNodes = nodes;
-    visibleNodeList = list;
-    visibleNodeCount = nodes.size;
+    viewState.setVisibleNodes(nodes, list);
   }
 
   function recomputeFocus() {
-    if (pinnedNode) {
-      setNeighborhoodFocus(pinnedNode, 'pinned');
-    } else if (hoveredNode) {
-      setNeighborhoodFocus(hoveredNode, 'hover');
+    if (viewState.pinnedNode) {
+      setNeighborhoodFocus(viewState.pinnedNode, 'pinned');
+    } else if (viewState.hoveredNode) {
+      setNeighborhoodFocus(viewState.hoveredNode, 'hover');
     } else {
-      focus = { active: false, nodes: new Set(), mode: null };
+      viewState.clearFocus();
     }
   }
 
@@ -2128,11 +1617,11 @@
   }
 
   function clearHoverClickNode(node = null) {
-    if (!node || hoverClickNode === node) hoverClickNode = null;
+    if (!node || viewState.hoverClickNode === node) viewState.hoverClickNode = null;
   }
 
   function visibleNodeIds() {
-    if (visibleNodes) return visibleNodeList.filter(node => graphHasNode(node));
+    if (viewState.visibleNodes) return viewState.visibleNodeList.filter(node => graphHasNode(node));
 
     const nodes = [];
     if (!graph) return nodes;
@@ -2410,20 +1899,20 @@
       if (!nodeVisible(payload.node)) {
         clearHoverClickNode();
         hideHoverTooltip();
-        if (!pinnedNode && hoveredNode) {
-          hoveredNode = null;
+        if (!viewState.pinnedNode && viewState.hoveredNode) {
+          viewState.hoveredNode = null;
           hideTooltip();
           refreshInteractionFocus();
         }
         return;
       }
 
-      hoverClickNode = payload.node;
-      if (pinnedNode) {
-        if (payload.node !== pinnedNode) showHoverTooltip(payload.node);
+      viewState.hoverClickNode = payload.node;
+      if (viewState.pinnedNode) {
+        if (payload.node !== viewState.pinnedNode) showHoverTooltip(payload.node);
         return;
       }
-      hoveredNode = payload.node;
+      viewState.hoveredNode = payload.node;
       if (graph.getNodeAttribute(payload.node, 'kind') === 'paper') {
         hideTooltip();
         showHoverTooltip(payload.node);
@@ -2436,11 +1925,11 @@
 
     renderer.on('leaveNode', () => {
       clearHoverClickNode();
-      if (pinnedNode) {
+      if (viewState.pinnedNode) {
         hideHoverTooltip();
         return;
       }
-      hoveredNode = null;
+      viewState.hoveredNode = null;
       hideHoverTooltip();
       hideTooltip();
       refreshInteractionFocus();
@@ -2640,17 +2129,15 @@
       return;
     }
 
-    if (pinnedNode === node) {
-      pinnedNode = null;
+    if (viewState.pinnedNode === node) {
+      viewState.clearSelection();
       setSelectedNodeFilterEnabled(false);
-      hoveredNode = null;
       hideHoverTooltip();
       hideTooltip();
       hidePaperModal();
     } else {
-      pinnedNode = node;
+      viewState.selectNode(node);
       setSelectedNodeFilterEnabled(attrs.kind === 'paper');
-      hoveredNode = null;
       hideHoverTooltip();
       showNodeTooltip(node, nodeTooltipPosition(node) || eventPosition(payload), true);
     }
@@ -2659,9 +2146,8 @@
   }
 
   function clearGraphSelection() {
-    pinnedNode = null;
+    viewState.clearSelection();
     setSelectedNodeFilterEnabled(false);
-    hoveredNode = null;
     clearHoverClickNode();
     hideHoverTooltip();
     hideTooltip();
@@ -2710,7 +2196,7 @@
   }
 
   function roughLabelHalfExtents(attrs) {
-    const label = showNodeLabels ? attrs.label : '';
+    const label = viewState.showNodeLabels ? attrs.label : '';
     if (!label) return { width: 0, height: 0 };
 
     const lines = String(label).split('\n');
@@ -2734,7 +2220,7 @@
       const dx = pos.x - point.x;
       const dy = pos.y - point.y;
       const radius = Math.max(nodeScreenRadius(node), 6) + 18;
-      const labelExtents = (labelContext.labels.has(node) || node === pinnedNode || node === hoveredNode)
+      const labelExtents = (labelContext.labels.has(node) || node === viewState.pinnedNode || node === viewState.hoveredNode)
         ? roughLabelHalfExtents(attrs)
         : { width: 0, height: 0 };
       const hitWidth = Math.max(radius, labelExtents.width);
@@ -2841,8 +2327,8 @@
     const clicked = payload && payload.node && graphHasNode(payload.node) && nodeVisible(payload.node)
       ? payload.node
       : null;
-    const hovered = hoverClickNode && graphHasNode(hoverClickNode)
-      ? hoverClickNode
+    const hovered = viewState.hoverClickNode && graphHasNode(viewState.hoverClickNode)
+      ? viewState.hoverClickNode
       : null;
     const pos = eventPosition(payload);
 
@@ -2964,7 +2450,7 @@
       ? `${detailLevelLabel(d.detailLevel)} group · ${d.count || 0} items`
       : [formatAuthors(d.authors), d.year].filter(Boolean).join('  ');
 
-    hoverTooltipNode = node;
+    viewState.hoverTooltipNode = node;
     hoverTooltip.innerHTML =
       `<div class="tt-mini-title">${escHtml(label)}</div>` +
       (subtitle ? `<div class="tt-mini-subtitle">${escHtml(subtitle)}</div>` : '') +
@@ -2974,26 +2460,26 @@
   }
 
   function hideHoverTooltip() {
-    hoverTooltipNode = null;
+    viewState.hoverTooltipNode = null;
     if (hoverTooltip) hoverTooltip.classList.remove('visible');
   }
 
   function updateActiveTooltipPositions() {
-    if (pinnedNode && tooltip && tooltip.classList.contains('visible')) {
-      const pos = nodeTooltipPosition(pinnedNode);
+    if (viewState.pinnedNode && tooltip && tooltip.classList.contains('visible')) {
+      const pos = nodeTooltipPosition(viewState.pinnedNode);
       if (pos) placeTooltip(pos);
     }
 
-    if (hoverTooltipNode && hoverTooltip && hoverTooltip.classList.contains('visible')) {
-      if (!graphHasNode(hoverTooltipNode) || !nodeVisible(hoverTooltipNode)) {
+    if (viewState.hoverTooltipNode && hoverTooltip && hoverTooltip.classList.contains('visible')) {
+      if (!graphHasNode(viewState.hoverTooltipNode) || !nodeVisible(viewState.hoverTooltipNode)) {
         hideHoverTooltip();
         return;
       }
-      if (!pinnedNode && hoverTooltipNode !== hoveredNode) {
+      if (!viewState.pinnedNode && viewState.hoverTooltipNode !== viewState.hoveredNode) {
         hideHoverTooltip();
         return;
       }
-      const pos = nodeTooltipPosition(hoverTooltipNode);
+      const pos = nodeTooltipPosition(viewState.hoverTooltipNode);
       if (pos) placeTooltip(pos, { element: hoverTooltip });
     }
   }
@@ -3317,9 +2803,8 @@
   function closePaperModalSelection() {
     if (!modal || modal.hidden) return;
     hidePaperModal();
-    pinnedNode = null;
+    viewState.clearSelection();
     setSelectedNodeFilterEnabled(false);
-    hoveredNode = null;
     hideHoverTooltip();
     syncUrlToPinnedNode();
     refreshView();
@@ -3329,8 +2814,8 @@
    * Filters
    * -------------------------------------------------------------------------*/
   function applyCategoryFilter() {
-    if (pinnedNode && !nodeVisibleAt(pinnedNode, currentDetailLevel)) {
-      pinnedNode = null;
+    if (viewState.pinnedNode && !nodeVisibleAt(viewState.pinnedNode, viewState.currentDetailLevel)) {
+      viewState.clearSelection();
       setSelectedNodeFilterEnabled(false);
       hideHoverTooltip();
       hideTooltip();
@@ -3352,18 +2837,17 @@
   function applyDetailLevel(level) {
     const nextLevel = detailLevelForActiveBranch(level);
     if (!nextLevel) return;
-    if (currentDetailLevel === nextLevel) return;
-    const previousLevel = currentDetailLevel;
+    if (viewState.currentDetailLevel === nextLevel) return;
+    const previousLevel = viewState.currentDetailLevel;
 
     finishLevelTransition();
     const transitionNodes = renderer
       ? prepareLevelTransition(previousLevel, nextLevel)
       : [];
 
-    currentDetailLevel = nextLevel;
-    pinnedNode = null;
+    viewState.currentDetailLevel = nextLevel;
+    viewState.clearSelection();
     setSelectedNodeFilterEnabled(false);
-    hoveredNode = null;
     hideHoverTooltip();
     hideTooltip();
     hidePaperModal();
@@ -3377,7 +2861,7 @@
    * Stats
    * -------------------------------------------------------------------------*/
   function paperNodeRadiusForCurrentView() {
-    if (!graph || currentDetailLevel !== 'paper') return PAPER_NODE_RADIUS_TARGET;
+    if (!graph || viewState.currentDetailLevel !== 'paper') return PAPER_NODE_RADIUS_TARGET;
 
     const minDistance = minimumVisiblePaperGraphDistance();
     if (!Number.isFinite(minDistance) || minDistance <= 0) return PAPER_NODE_RADIUS_TARGET;
@@ -3400,7 +2884,7 @@
     panel.hidden = !egoId;
     if (!egoId) return;
 
-    const ego = paperData(egoId) || {};
+    const ego = mapModel.paper(egoId) || {};
     const title = document.getElementById('mm-relevance-ego');
     const count = document.getElementById('mm-relevance-match-count');
     const status = document.getElementById('mm-relevance-status');
@@ -3408,8 +2892,8 @@
     if (title) title.textContent = ego.title || ego.label || egoId;
     if (count) count.textContent = `${relevantPaperCount()} / ${DATA.nodes.length}`;
     if (status) {
-      status.textContent = relevanceFilter.enabled
-        ? `${relevanceFilter.mode.toUpperCase()} filter active`
+      status.textContent = viewState.relevanceFilter.enabled
+        ? `${viewState.relevanceFilter.mode.toUpperCase()} filter active`
         : 'Filter off';
     }
   }
@@ -3685,8 +3169,8 @@
       expandBBoxes(bboxes, attrs, framedPoint, rawRadius);
     };
 
-    if (visibleNodes) {
-      visibleNodes.forEach(node => visit(node, graph.getNodeAttributes(node)));
+    if (viewState.visibleNodes) {
+      viewState.visibleNodes.forEach(node => visit(node, graph.getNodeAttributes(node)));
     } else {
       graph.forEachNode((node, attrs) => {
         if (!nodeVisible(node)) return;
@@ -3738,8 +3222,8 @@
     if (!graph) return Infinity;
 
     const points = [];
-    if (visibleNodes) {
-      visibleNodes.forEach(node => {
+    if (viewState.visibleNodes) {
+      viewState.visibleNodes.forEach(node => {
         const attrs = graph.getNodeAttributes(node);
         points.push({ x: attrs.x, y: attrs.y });
       });
@@ -3762,8 +3246,8 @@
       points.push({ x: attrs.x, y: attrs.y });
     };
 
-    if (visibleNodes) {
-      visibleNodes.forEach(node => visit(node, graph.getNodeAttributes(node)));
+    if (viewState.visibleNodes) {
+      viewState.visibleNodes.forEach(node => visit(node, graph.getNodeAttributes(node)));
     } else {
       graph.forEachNode((node, attrs) => {
         if (!nodeVisible(node)) return;
@@ -3786,8 +3270,8 @@
       points.push(p);
     };
 
-    if (visibleNodes) {
-      visibleNodes.forEach(node => visit(graph.getNodeAttributes(node)));
+    if (viewState.visibleNodes) {
+      viewState.visibleNodes.forEach(node => visit(graph.getNodeAttributes(node)));
     } else {
       graph.forEachNode((node, attrs) => {
         if (!nodeVisible(node)) return;
@@ -3800,7 +3284,7 @@
 
   function fitNodes() {
     if (!graph) return [];
-    if (visibleNodes) return [...visibleNodes].filter(node => graphHasNode(node));
+    if (viewState.visibleNodes) return [...viewState.visibleNodes].filter(node => graphHasNode(node));
 
     const nodes = [];
     graph.forEachNode((node) => {
@@ -3830,7 +3314,7 @@
   }
 
   function labelTextHalfExtents(attrs, cameraState) {
-    const label = showNodeLabels ? attrs.label : '';
+    const label = viewState.showNodeLabels ? attrs.label : '';
     if (!label) return { width: 0, height: 0 };
 
     const context = labelMeasureContext();
@@ -4029,15 +3513,14 @@
   }
 
   function syncUrlToPinnedNode() {
-    writeFocusPaperId(paperIdForNode(pinnedNode));
+    writeFocusPaperId(paperIdForNode(viewState.pinnedNode));
   }
 
   function clearPinnedPaperSelection() {
-    if (!paperIdForNode(pinnedNode)) return false;
+    if (!paperIdForNode(viewState.pinnedNode)) return false;
 
-    pinnedNode = null;
+    viewState.clearSelection();
     setSelectedNodeFilterEnabled(false);
-    hoveredNode = null;
     hideHoverTooltip();
     hideTooltip();
     hidePaperModal();
@@ -4140,7 +3623,7 @@
   }
 
   function refocusPinnedPaper(duration) {
-    const paperId = paperIdForNode(pinnedNode) || readFocusPaperId();
+    const paperId = paperIdForNode(viewState.pinnedNode) || readFocusPaperId();
     if (!paperId || !graphHasNode(paperId)) return false;
 
     const attrs = graph.getNodeAttributes(paperId);
@@ -4163,11 +3646,10 @@
     const attrs = graph.getNodeAttributes(paperId);
     if (attrs.kind !== 'paper') return false;
 
-    currentDetailLevel = 'paper';
+    viewState.currentDetailLevel = 'paper';
     selectBranchForPaper(attrs);
-    pinnedNode = paperId;
+    viewState.selectNode(paperId);
     setSelectedNodeFilterEnabled(true);
-    hoveredNode = null;
     hideHoverTooltip();
     updateDetailButtons();
     refreshView();
@@ -4199,14 +3681,14 @@
   }
 
   function branchFilterChildren(group) {
-    const children = group ? group.children : buildHierarchyData().roots;
+    const children = group ? group.children : mapModel.hierarchy().roots;
     return children.filter(child => !child.isCategoryLeaf);
   }
 
   function branchFilterPaperChildren(group) {
     if (!group || branchFilterChildren(group).length) return [];
     return (group.leafIds || [])
-      .map(paperData)
+      .map(mapModel.paper)
       .filter(Boolean);
   }
 
@@ -4223,7 +3705,7 @@
   }
 
   function branchFilterItemCount(group) {
-    return group ? group.leafIds.length : DATA.nodes.length;
+    return group ? group.leafIds.length : mapModel.allPaperNodes().length;
   }
 
   function branchFilterChildCount(group) {
@@ -4235,12 +3717,12 @@
   }
 
   function activeBranchKeyForAggregate(attrs) {
-    const path = paperNavPath(attrs);
+    const path = mapModel.paperPath(attrs);
     const exactKey = `${attrs.hierarchyLevel || attrs.detailLevel}:${path.join('::')}`;
-    if (branchFilterGroups.has(exactKey)) return exactKey;
+    if (viewState.branchFilterGroups.has(exactKey)) return exactKey;
 
     let best = null;
-    branchFilterGroups.forEach((group, key) => {
+    viewState.branchFilterGroups.forEach((group, key) => {
       const groupPath = group.path || [];
       if (groupPath.length > path.length) return;
       if (!groupPath.every((part, index) => path[index] === part)) return;
@@ -4269,15 +3751,15 @@
   }
 
   function setActiveBranchFilter(key) {
-    const nextKey = branchFilterGroups.has(key) ? key : BRANCH_FILTER_ALL;
-    activeBranchFilterKey = nextKey;
-    activeCategories.clear();
+    const nextKey = viewState.branchFilterGroups.has(key) ? key : BRANCH_FILTER_ALL;
+    viewState.activeBranchFilterKey = nextKey;
+    viewState.activeCategories.clear();
 
     if (nextKey === BRANCH_FILTER_ALL) {
-      DATA.nodes.forEach(node => activeCategories.add(nodeKey(node.data || {})));
+      mapModel.allPaperNodes().forEach(node => viewState.activeCategories.add(mapModel.nodeKey(node.data || {})));
     } else {
-      branchFilterGroups.get(nextKey).filterKeys.forEach(filterKeyValue => {
-        activeCategories.add(filterKeyValue);
+      viewState.branchFilterGroups.get(nextKey).filterKeys.forEach(filterKeyValue => {
+        viewState.activeCategories.add(filterKeyValue);
       });
     }
 
@@ -4286,8 +3768,8 @@
   }
 
   function enforceActiveBranchDetailFloor() {
-    const nextLevel = detailLevelForActiveBranch(currentDetailLevel);
-    if (nextLevel && nextLevel !== currentDetailLevel) {
+    const nextLevel = detailLevelForActiveBranch(viewState.currentDetailLevel);
+    if (nextLevel && nextLevel !== viewState.currentDetailLevel) {
       applyDetailLevel(nextLevel);
       return;
     }
@@ -4295,9 +3777,9 @@
   }
 
   function selectBranchForPaper(attrs) {
-    const key = nodeKey(attrs);
+    const key = mapModel.nodeKey(attrs);
     let best = null;
-    branchFilterGroups.forEach((group, groupKey) => {
+    viewState.branchFilterGroups.forEach((group, groupKey) => {
       if (!group.filterKeys.has(key)) return;
       if (!best || (group.path || []).length > (best.group.path || []).length) {
         best = { group, groupKey };
@@ -4306,14 +3788,14 @@
     setActiveBranchFilter(best ? best.groupKey : BRANCH_FILTER_ALL);
   }
 
-  function buildCategoryFilters(selectedKey = activeBranchFilterKey) {
+  function buildCategoryFilters(selectedKey = viewState.activeBranchFilterKey) {
     const container = document.getElementById('mm-category-filters');
     if (!container) return;
 
-    const model = buildHierarchyData();
+    const model = mapModel.hierarchy();
     const groups = [];
     model.roots.forEach(root => collectBranchFilterGroups(root, groups));
-    branchFilterGroups = new Map(groups.map(group => [group.key, group]));
+    viewState.branchFilterGroups = new Map(groups.map(group => [group.key, group]));
 
     container.innerHTML = '';
     setActiveBranchFilter(selectedKey);
@@ -4323,7 +3805,7 @@
     const container = document.getElementById('mm-category-filters');
     if (!container) return;
 
-    const currentGroup = branchFilterGroups.get(activeBranchFilterKey) || null;
+    const currentGroup = viewState.branchFilterGroups.get(viewState.activeBranchFilterKey) || null;
     const ancestors = branchFilterAncestors(currentGroup);
     const branchChildren = branchFilterChildren(currentGroup);
     const paperChildren = branchFilterPaperChildren(currentGroup);
@@ -4344,7 +3826,7 @@
         focusPaperFromBranchFilter(key.slice(BRANCH_FILTER_PAPER_PREFIX.length));
         return;
       }
-      if (activeBranchFilterKey === key) return;
+      if (viewState.activeBranchFilterKey === key) return;
       setActiveBranchFilter(key);
       applyCategoryFilter();
     };
@@ -4391,7 +3873,7 @@
       id: key,
       kind: 'branch',
       label: branchFilterName(group),
-      current: key === activeBranchFilterKey,
+      current: key === viewState.activeBranchFilterKey,
       ancestor: sectionKind === 'path',
       parent: Boolean(currentGroup && (group
         ? currentGroup.parent && currentGroup.parent.key === group.key
@@ -4411,7 +3893,7 @@
     const paperId = attrs.id;
     const authors = Array.isArray(attrs.authors) ? attrs.authors.filter(Boolean) : [];
     const author = authors.length ? authors[0] + (authors.length > 1 ? ' et al.' : '') : '';
-    const meta = [author, attrs.year, itemTypeKey(attrs)].filter(Boolean).join(' / ');
+    const meta = [author, attrs.year, mapModel.itemType(attrs)].filter(Boolean).join(' / ');
     const label = attrs.label || attrs.title || paperId;
     return {
       id: BRANCH_FILTER_PAPER_PREFIX + paperId,
@@ -4429,9 +3911,8 @@
     if (!paperId || !graphHasNode(paperId)) return;
 
     applyDetailLevel('paper');
-    pinnedNode = paperId;
+    viewState.selectNode(paperId);
     setSelectedNodeFilterEnabled(true);
-    hoveredNode = null;
     hideHoverTooltip();
     refreshView();
     focusCameraOnNode(paperId, 320);
@@ -4471,7 +3952,7 @@
       button.dataset.level = level.id;
       button.title = label;
       button.setAttribute('aria-label', `Level of detail: ${label}`);
-      button.setAttribute('aria-pressed', level.id === currentDetailLevel ? 'true' : 'false');
+      button.setAttribute('aria-pressed', level.id === viewState.currentDetailLevel ? 'true' : 'false');
       button.innerHTML = detailLevelIconMarkup(level);
       container.appendChild(button);
     });
@@ -4479,7 +3960,7 @@
 
   function updateDetailButtons() {
     document.querySelectorAll('#mm-detail-controls button[data-level]').forEach(button => {
-      const active = button.dataset.level === currentDetailLevel;
+      const active = button.dataset.level === viewState.currentDetailLevel;
       const disabled = !detailLevelAllowedForActiveBranch(button.dataset.level);
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', active ? 'true' : 'false');
@@ -4492,11 +3973,11 @@
     const labelsToggle = document.getElementById('mm-labels-toggle');
 
     if (labelsToggle) {
-      labelsToggle.setAttribute('aria-checked', showNodeLabels ? 'true' : 'false');
+      labelsToggle.setAttribute('aria-checked', viewState.showNodeLabels ? 'true' : 'false');
       labelsToggle.setAttribute('aria-label', 'Node labels');
-      labelsToggle.title = showNodeLabels ? 'Hide node labels' : 'Show node labels';
+      labelsToggle.title = viewState.showNodeLabels ? 'Hide node labels' : 'Show node labels';
       const state = labelsToggle.querySelector('.mm-label-toggle-state');
-      if (state) state.textContent = showNodeLabels ? 'On' : 'Off';
+      if (state) state.textContent = viewState.showNodeLabels ? 'On' : 'Off';
     }
   }
 
@@ -4518,20 +3999,20 @@
     treeSlider.min = '0';
     treeSlider.max = '100';
     treeSlider.step = '1';
-    if (!Number.isFinite(relevanceFilter.treeProximity)) {
-      relevanceFilter.treeProximity = defaultTreeProximity();
+    if (!Number.isFinite(viewState.relevanceFilter.treeProximity)) {
+      viewState.relevanceFilter.treeProximity = defaultTreeProximity();
     }
-    relevanceFilter.treeProximity = Math.min(
-      Math.max(0, relevanceFilter.treeProximity),
+    viewState.relevanceFilter.treeProximity = Math.min(
+      Math.max(0, viewState.relevanceFilter.treeProximity),
       1
     );
 
-    enabled.checked = relevanceFilter.enabled;
-    semantic.checked = relevanceFilter.semantic;
-    taxonomy.checked = relevanceFilter.taxonomy;
-    mode.value = relevanceFilter.mode;
-    simSlider.value = relevanceThresholdToSliderValue(relevanceFilter.similarity);
-    treeSlider.value = relevanceThresholdToSliderValue(relevanceFilter.treeProximity);
+    enabled.checked = viewState.relevanceFilter.enabled;
+    semantic.checked = viewState.relevanceFilter.semantic;
+    taxonomy.checked = viewState.relevanceFilter.taxonomy;
+    mode.value = viewState.relevanceFilter.mode;
+    simSlider.value = relevanceThresholdToSliderValue(viewState.relevanceFilter.similarity);
+    treeSlider.value = relevanceThresholdToSliderValue(viewState.relevanceFilter.treeProximity);
     if (simVal) simVal.textContent = relevanceSliderValueLabel(simSlider.value);
     if (treeVal) treeVal.textContent = relevanceSliderValueLabel(treeSlider.value);
     updateRelevancePanel();
@@ -4550,28 +4031,28 @@
     if (!enabled || !semantic || !taxonomy || !mode || !simSlider || !treeSlider) return;
 
     enabled.addEventListener('change', () => {
-      relevanceFilter.enabled = enabled.checked;
+      viewState.relevanceFilter.enabled = enabled.checked;
       applyRelevanceFilter();
     });
     semantic.addEventListener('change', () => {
-      relevanceFilter.semantic = semantic.checked;
+      viewState.relevanceFilter.semantic = semantic.checked;
       applyRelevanceFilter();
     });
     taxonomy.addEventListener('change', () => {
-      relevanceFilter.taxonomy = taxonomy.checked;
+      viewState.relevanceFilter.taxonomy = taxonomy.checked;
       applyRelevanceFilter();
     });
     mode.addEventListener('change', () => {
-      relevanceFilter.mode = mode.value === 'or' ? 'or' : 'and';
+      viewState.relevanceFilter.mode = mode.value === 'or' ? 'or' : 'and';
       applyRelevanceFilter();
     });
     simSlider.addEventListener('input', () => {
-      relevanceFilter.similarity = relevanceSliderValueToThreshold(simSlider.value);
+      viewState.relevanceFilter.similarity = relevanceSliderValueToThreshold(simSlider.value);
       if (simVal) simVal.textContent = relevanceSliderValueLabel(simSlider.value);
       applyRelevanceFilter();
     });
     treeSlider.addEventListener('input', () => {
-      relevanceFilter.treeProximity = relevanceSliderValueToThreshold(treeSlider.value);
+      viewState.relevanceFilter.treeProximity = relevanceSliderValueToThreshold(treeSlider.value);
       if (treeVal) treeVal.textContent = relevanceSliderValueLabel(treeSlider.value);
       applyRelevanceFilter();
     });
@@ -4618,7 +4099,7 @@
     const labelsToggle = document.getElementById('mm-labels-toggle');
     if (labelsToggle) {
       labelsToggle.addEventListener('click', () => {
-        showNodeLabels = !showNodeLabels;
+        viewState.showNodeLabels = !viewState.showNodeLabels;
         updateVisibilityButtons();
         if (renderer) renderer.scheduleRefresh();
       });
@@ -4646,8 +4127,8 @@
   const themeObserver = new MutationObserver(() => {
     visibilityPaletteCache = null;
     theme = readTheme();
-    const selectedBranch = activeBranchFilterKey;
-    hierarchyData = null;
+    const selectedBranch = viewState.activeBranchFilterKey;
+    mapModel.invalidateHierarchy();
     buildCategoryFilters(selectedBranch);
     if (graph) recomputeVisibilityColors();
     if (renderer) renderer.refresh();
@@ -4678,10 +4159,10 @@
     graph: () => graph,
     renderer: () => renderer,
     fit: fitVisible,
-    detailLevel: () => currentDetailLevel,
+    detailLevel: () => viewState.currentDetailLevel,
     setDetailLevel: level => applyDetailLevel(level),
-    labelsVisible: () => showNodeLabels,
-    relevanceFilter: () => ({ ...relevanceFilter, active: relevanceFilterActive() }),
+    labelsVisible: () => viewState.showNodeLabels,
+    relevanceFilter: () => ({ ...viewState.relevanceFilter, active: relevanceFilterActive() }),
     colorContext: () => visibilityColorContext ? {
       colorScheme: theme.colorScheme,
       depth: visibilityColorContext.depth,
@@ -4690,12 +4171,12 @@
       colors: [...visibilityColorContext.colorByLabel.entries()],
     } : null,
     setRelevanceFilter: patch => {
-      relevanceFilter = { ...relevanceFilter, ...(patch || {}) };
+      viewState.relevanceFilter = { ...viewState.relevanceFilter, ...(patch || {}) };
       syncRelevanceControlValues();
       refreshView();
     },
     setLabelsVisible: visible => {
-      showNodeLabels = Boolean(visible);
+      viewState.showNodeLabels = Boolean(visible);
       updateVisibilityButtons();
       if (renderer) renderer.scheduleRefresh();
     },
@@ -4714,7 +4195,7 @@
         ? renderer.getSetting('maxCameraRatio')
         : null,
       clearanceRatio: PAPER_NODE_RADIUS_CLEARANCE_RATIO,
-      visibleNodeCount,
+      visibleNodeCount: viewState.visibleNodeCount,
       lastLevelTransition: lastLevelTransitionMetrics,
     }),
   };
