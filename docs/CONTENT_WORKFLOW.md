@@ -11,8 +11,8 @@ Create a new directory under `knowledge_base/docs/papers/` and add a
 After metadata exists:
 
 ```bash
-python knowledge_base/scripts/audit_metadata.py
-python knowledge_base/scripts/validate_tree.py
+kb audit-metadata
+kb validate-tree
 ```
 
 ## Batch funnel
@@ -22,8 +22,8 @@ into source-specific files under `todo/papers/`, or into `todo/PAPERS_MISC.md`
 when the source is unknown:
 
 ```bash
-python knowledge_base/scripts/funnel_papers.py --dry-run
-python knowledge_base/scripts/funnel_papers.py
+kb funnel --dry-run
+kb funnel
 ```
 
 ## Source prefill scripts
@@ -39,18 +39,18 @@ Generated metadata starts as `audit_status: raw` and should be reviewed with
 Run a prefill script with its default input file:
 
 ```bash
-python knowledge_base/scripts/prefill/arxiv.py
-python knowledge_base/scripts/prefill/ieee.py
+kb prefill arxiv
+kb prefill ieee
 ```
 
 Common options shared by the prefill scripts:
 
 ```bash
-python knowledge_base/scripts/prefill/<source>.py --input todo/papers/<SOURCE>.md
-python knowledge_base/scripts/prefill/<source>.py --first 5
-python knowledge_base/scripts/prefill/<source>.py --list-skipped
-python knowledge_base/scripts/prefill/<source>.py --overwrite
-python knowledge_base/scripts/prefill/<source>.py --reingest
+kb prefill <source> --input todo/papers/<SOURCE>.md
+kb prefill <source> --first 5
+kb prefill <source> --list-skipped
+kb prefill <source> --overwrite
+kb prefill <source> --reingest
 ```
 
 ## Metadata audit
@@ -58,26 +58,26 @@ python knowledge_base/scripts/prefill/<source>.py --reingest
 Audit all paper metadata files:
 
 ```bash
-python knowledge_base/scripts/audit_metadata.py
+kb audit-metadata
 ```
 
 Audit only entries marked `audit_status: partial`:
 
 ```bash
-python knowledge_base/scripts/audit_metadata.py --audit-status partial
+kb audit-metadata --audit-status partial
 ```
 
 List entries still marked `audit_status: raw`:
 
 ```bash
-python knowledge_base/scripts/list_raw_papers.py
+kb list-raw
 ```
 
 Add `audit_status` to older metadata files that do not have it yet:
 
 ```bash
-python knowledge_base/scripts/add_audit_status.py --dry-run
-python knowledge_base/scripts/add_audit_status.py
+kb add-audit-status --dry-run
+kb add-audit-status
 ```
 
 ## Tree placement
@@ -95,23 +95,23 @@ scenes.
 Validate `knowledge_base/tree.yml` local links and paper placement:
 
 ```bash
-python knowledge_base/scripts/validate_tree.py
-python knowledge_base/scripts/validate_tree.py --check-algorithm-labels
+kb validate-tree
+kb validate-tree --check-algorithm-labels
 ```
 
 Suggest likely fixes for Tree and metadata algorithm-label disagreements:
 
 ```bash
-python knowledge_base/scripts/suggest_tree_algorithm_labels.py
-python knowledge_base/scripts/suggest_tree_algorithm_labels.py --min-confidence high
-python knowledge_base/scripts/suggest_tree_algorithm_labels.py --format json
+kb suggest-tree-labels
+kb suggest-tree-labels --min-confidence high
+kb suggest-tree-labels --format json
 streamlit run dev_apps/tree_label_review_app.py
 ```
 
 Find generated paper pages that are missing from the Tree nav:
 
 ```bash
-python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
-python knowledge_base/scripts/list_unplaced_papers.py --format paths
-python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
+kb list-unplaced --neighbors 3
+kb list-unplaced --format paths
+kb list-unplaced --neighbors 0 --fail-on-missing
 ```

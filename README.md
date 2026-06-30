@@ -48,6 +48,7 @@ Pixi Code follows the upstream extension behavior: it auto-discovers `pixi` on
 If VS Code does not select it automatically, choose that Pixi environment manually.
 
 In a plain terminal without the Pixi environment active, use `./dev run serve` or `./dev run kb serve`.
+The `kb ...` examples below assume that environment is active; otherwise prefix them with `./dev run`.
 
 Open the URL printed by Zensical, usually <http://127.0.0.1:8000/>.
 
@@ -87,19 +88,19 @@ Put URLs in `todo/PAPERS_FUNNEL.md`, route them, prefill metadata, audit it, the
 
 ```bash
 # Route URLs into todo/papers/<SOURCE>.md or todo/PAPERS_MISC.md.
-python knowledge_base/scripts/funnel_papers.py
+kb funnel
 
 # List prefill sources, then run the populated ones.
-python -m knowledge_base.scripts.prefill --help
-python -m knowledge_base.scripts.prefill arxiv
-python -m knowledge_base.scripts.prefill openreview
+kb prefill --help
+kb prefill arxiv
+kb prefill openreview
 
 # Audit raw metadata after prefill and fix reported files.
-python knowledge_base/scripts/audit_metadata.py knowledge_base --audit-status raw
+kb audit-metadata knowledge_base --audit-status raw
 
 # Find unplaced papers, edit knowledge_base/tree.yml, then verify.
-python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
-python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
+kb list-unplaced --neighbors 3
+kb list-unplaced --neighbors 0 --fail-on-missing
 kb build
 ```
 
@@ -119,7 +120,7 @@ Reuse of paper text remains governed by each paper's original license and rights
 Run the ingest script from the repo root:
 
 ```bash
-./dev run python knowledge_base/scripts/ingest_arxiv_full_text.py --id 2402.08954
+kb ingest-arxiv --id 2402.08954
 ```
 
 The script skips existing sidecars unless `--force` is passed. For arXiv
@@ -133,7 +134,7 @@ project-managed `docling` CLI.
 For a script-only change, run a syntax/import check on the edited file:
 
 ```bash
-python -m py_compile knowledge_base/scripts/refresh_offline_data.py
+kb py-compile knowledge_base/scripts/refresh_offline_data.py
 ```
 
 Replace the path with the file you changed. If the change affects Zensical

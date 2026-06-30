@@ -36,11 +36,21 @@ GENERATED_FILE_SCRIPTS = (
 
 
 EXTERNAL_COMMANDS: dict[str, tuple[str, ...]] = {
-    "refresh": ("python", "knowledge_base/scripts/refresh_offline_data.py"),
-    "test": ("python", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"),
-    "lint": ("ruff", "check", "knowledge_base", "tests"),
+    "add-audit-status": ("python", "knowledge_base/scripts/add_audit_status.py"),
+    "audit-metadata": ("python", "knowledge_base/scripts/audit_metadata.py"),
     "format-check": ("black", "--check", "knowledge_base", "tests"),
+    "funnel": ("python", "knowledge_base/scripts/funnel_papers.py"),
+    "ingest-arxiv": ("python", "knowledge_base/scripts/ingest_arxiv_full_text.py"),
+    "lint": ("ruff", "check", "knowledge_base", "tests"),
+    "list-raw": ("python", "knowledge_base/scripts/list_raw_papers.py"),
+    "list-unplaced": ("python", "knowledge_base/scripts/list_unplaced_papers.py"),
+    "prefill": ("python", "-m", "knowledge_base.scripts.prefill"),
+    "py-compile": ("python", "-m", "py_compile"),
+    "refresh": ("python", "knowledge_base/scripts/refresh_offline_data.py"),
+    "suggest-tree-labels": ("python", "knowledge_base/scripts/suggest_tree_algorithm_labels.py"),
+    "test": ("python", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"),
     "typecheck": ("pyrefly", "check"),
+    "validate-tree": ("python", "knowledge_base/scripts/validate_tree.py"),
 }
 
 
