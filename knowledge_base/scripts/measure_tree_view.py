@@ -14,25 +14,7 @@ Examples, from the repository root:
 
 from __future__ import annotations
 
-import argparse
-import functools
-import json
-import statistics
-import sys
-import threading
-from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
-from typing import Any, override
-from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
-
-from knowledge_base.scripts.verify_map_view import (
-    CdpClient,
-    find_chrome,
-    get_tab_websocket,
-    launch_chrome,
-    parse_viewport,
-    shutdown_chrome,
-)
+from typing import Any
 
 DEFAULT_VIEWPORTS = ["1366x900"]
 DEFAULT_BRANCH = "Decision-making"
@@ -213,279 +195,43 @@ JS_MEASURE_INTERACTION = r"""
 """
 
 
-class QuietHandler(SimpleHTTPRequestHandler):
-    @override
-    def log_message(self, format: str, *args: Any) -> None:
-        _ = (format, args)
-
-
-def serve_site(site_dir: Path) -> tuple[ThreadingHTTPServer, str]:
-    if not site_dir.exists():
-        raise FileNotFoundError(f"{site_dir} does not exist. Run `kb build` first or pass --url.")
-    handler = functools.partial(QuietHandler, directory=str(site_dir))
-    server = ThreadingHTTPServer(("127.0.0.1", 0), handler)
-    thread = threading.Thread(target=server.serve_forever, daemon=True)
-    thread.start()
-    host = str(server.server_address[0])
-    port = int(server.server_address[1])
-    return server, f"http://{host}:{port}/tree/"
-
-
 def with_query_params(url: str, params: dict[str, str]) -> str:
-    parsed = urlparse(url)
-    query = dict(parse_qsl(parsed.query, keep_blank_values=True))
-    query.update(params)
-    return urlunparse(parsed._replace(query=urlencode(query)))
+    from knowledge_base.scripts.tree_view_measure.measure import with_query_params as impl
+
+    return impl(url, params)
 
 
-def wait_for_tree_ready(client: CdpClient, timeout: float = 25) -> None:
-    expression = """
-    Boolean(
-      window.treeData &&
-      window.__ctTreePerf &&
-      window.__ctTreePerf.enabled &&
-      document.getElementById('ct-app') &&
-      document.querySelector('#ct-sunburst-stage svg') &&
-      document.querySelector('#ct-ancestor-chain [data-ct-select]')
-    )
-    """
-    import time
+def wait_for_tree_ready(*args: Any, **kwargs: Any) -> Any:
+    from knowledge_base.scripts.tree_view_measure.measure import wait_for_tree_ready as impl
 
-    deadline = time.time() + timeout
-    last_error: Exception | None = None
-    while time.time() < deadline:
-        try:
-            if client.evaluate(expression, timeout=2):
-                return
-        except Exception as exc:
-            last_error = exc
-        time.sleep(0.15)
-    raise TimeoutError(f"Tree page did not become ready: {last_error}")
+    return impl(*args, **kwargs)
 
 
-def performance_metrics(client: CdpClient) -> dict[str, float]:
-    result = client.call("Performance.getMetrics")
-    metrics = result.get("metrics", [])
-    return {str(metric["name"]): float(metric["value"]) for metric in metrics}
+def performance_metrics(*args: Any, **kwargs: Any) -> Any:
+    from knowledge_base.scripts.tree_view_measure.measure import performance_metrics as impl
+
+    return impl(*args, **kwargs)
 
 
 def metric_delta(before: dict[str, float], after: dict[str, float]) -> dict[str, float]:
-    delta: dict[str, float] = {}
-    for name in PERFORMANCE_METRICS:
-        if name in before and name in after:
-            delta[name] = after[name] - before[name]
-    return delta
+    from knowledge_base.scripts.tree_view_measure.measure import metric_delta as impl
+
+    return impl(before, after)
 
 
-def run_once(
-    client: CdpClient,
-    url: str,
-    branch: str,
-    viewport: tuple[int, int, bool],
-    run_index: int,
-    reduced_motion: bool,
-) -> dict[str, Any]:
-    width, height, mobile = viewport
-    client.call("Page.enable")
-    client.call("Runtime.enable")
-    client.call("Performance.enable")
-    client.call(
-        "Emulation.setDeviceMetricsOverride",
-        {
-            "width": width,
-            "height": height,
-            "deviceScaleFactor": 1,
-            "mobile": mobile,
-        },
-    )
-    if reduced_motion:
-        client.call(
-            "Emulation.setEmulatedMedia",
-            {"features": [{"name": "prefers-reduced-motion", "value": "reduce"}]},
-        )
-    else:
-        client.call("Emulation.setEmulatedMedia", {"features": []})
+def run_once(*args: Any, **kwargs: Any) -> Any:
+    from knowledge_base.scripts.tree_view_measure.measure import run_once as impl
 
-    nav_url = with_query_params(
-        url,
-        {
-            "ct_perf": "1",
-            "_tree_measure": f"{width}x{height}_{int(mobile)}_{run_index}",
-        },
-    )
-    client.call("Page.navigate", {"url": nav_url})
-    wait_for_tree_ready(client)
-    before = performance_metrics(client)
-    result = client.evaluate(
-        JS_MEASURE_INTERACTION.replace("__BRANCH_LABEL__", json.dumps(branch)),
-        timeout=35,
-    )
-    after = performance_metrics(client)
-    result["cdpMetricDelta"] = metric_delta(before, after)
-    return result
-
-
-def median(values: list[float]) -> float:
-    return statistics.median(values) if values else 0.0
-
-
-def ms(value: float) -> float:
-    return value * 1000
-
-
-def fmt_ms(value: float) -> str:
-    return f"{value:.1f} ms"
-
-
-def collect_phase_durations(runs: list[dict[str, Any]], section: str) -> dict[str, list[float]]:
-    phases: dict[str, list[float]] = {}
-    for run in runs:
-        entries = run[section]["perf"].get("entries", [])
-        for entry in entries:
-            name = str(entry.get("name", ""))
-            duration = entry.get("duration")
-            if isinstance(duration, (int, float)):
-                phases.setdefault(name, []).append(float(duration))
-    return phases
-
-
-def top_phase_lines(phases: dict[str, list[float]], limit: int = 10) -> list[str]:
-    ranked = sorted(
-        phases.items(),
-        key=lambda item: median(item[1]),
-        reverse=True,
-    )
-    ordered = [item for item in ranked if item[0] in PHASE_ORDER]
-    ordered.extend(item for item in ranked if item[0] not in PHASE_ORDER)
-    return [f"    {name}: {fmt_ms(median(values))}" for name, values in ordered[:limit]]
-
-
-def summarize_viewport(label: str, runs: list[dict[str, Any]]) -> str:
-    timings = [run["interaction"]["timings"] for run in runs]
-    cdp = [run.get("cdpMetricDelta", {}) for run in runs]
-    long_tasks = [
-        sum(float(task.get("duration", 0.0)) for task in run["interaction"].get("longTasks", [])) for run in runs
-    ]
-    first = runs[0]
-    counts_after = first["interaction"]["countsAfter"]
-    target = first["target"]
-
-    lines = [
-        f"{label}: {len(runs)} measured run(s)",
-        f"  target: {target['label']} ({target['id']})",
-        (
-            "  rendered after click: "
-            f"{counts_after['childRows']} child rows, "
-            f"{counts_after['treeButtons']} tree buttons, "
-            f"{counts_after['sunburstSegments']} sunburst segments, "
-            f"{counts_after.get('sunburstCoarseMorphs', 0)} coarse morphs, "
-            f"{counts_after['previewTargets']} preview targets"
-        ),
-        "  wall-clock medians:",
-        f"    click handler sync: {fmt_ms(median([float(t['clickSync']) for t in timings]))}",
-        f"    forced layout probe: {fmt_ms(median([float(t['forcedLayout']) for t in timings]))}",
-        f"    to first frame: {fmt_ms(median([float(t['toFirstFrame']) for t in timings]))}",
-        f"    to second frame: {fmt_ms(median([float(t['toSecondFrame']) for t in timings]))}",
-        f"    to animation settled: {fmt_ms(median([float(t['toAnimationSettled']) for t in timings]))}",
-        f"    long-task total: {fmt_ms(median(long_tasks))}",
-        "  Chrome metric deltas:",
-    ]
-    for name in PERFORMANCE_METRICS:
-        values = [float(delta[name]) for delta in cdp if name in delta]
-        if not values:
-            continue
-        value = median(values)
-        if name.endswith("Duration"):
-            lines.append(f"    {name}: {fmt_ms(ms(value))}")
-        elif name in {"JSHeapUsedSize"}:
-            lines.append(f"    {name}: {value / (1024 * 1024):.2f} MiB")
-        else:
-            lines.append(f"    {name}: {value:.1f}")
-
-    lines.append("  initial-load Tree phase medians:")
-    lines.extend(top_phase_lines(collect_phase_durations(runs, "initial")))
-    lines.append("  click-render Tree phase medians:")
-    lines.extend(top_phase_lines(collect_phase_durations(runs, "interaction")))
-    return "\n".join(lines)
+    return impl(*args, **kwargs)
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Measure Tree page click timing in headless Chrome")
-    parser.add_argument("--url", help="Served Zensical Tree URL. Defaults to serving site/tree/ locally.")
-    parser.add_argument("--site-dir", default="site", help="Built Zensical site directory used when --url is omitted.")
-    parser.add_argument("--chrome", help="Path to Chrome/Chromium")
-    parser.add_argument("--branch", default=DEFAULT_BRANCH, help="First-level branch label to click")
-    parser.add_argument("--runs", type=int, default=5, help="Measured runs per viewport")
-    parser.add_argument("--warmups", type=int, default=1, help="Unreported warm-up runs per viewport")
-    parser.add_argument(
-        "--viewport",
-        action="append",
-        default=None,
-        help="Viewport to test, e.g. 1366x900 or 390x844:mobile. May be repeated.",
-    )
-    parser.add_argument(
-        "--reduced-motion",
-        action="store_true",
-        help="Emulate prefers-reduced-motion: reduce to isolate non-animation cost.",
-    )
-    parser.add_argument("--json", action="store_true", help="Emit raw JSON instead of a text summary")
-    args = parser.parse_args()
+    from knowledge_base.scripts.tree_view_measure.cli import main as measure_main
 
-    if args.runs < 1:
-        parser.error("--runs must be at least 1")
-    if args.warmups < 0:
-        parser.error("--warmups cannot be negative")
-
-    server: ThreadingHTTPServer | None = None
-    url = args.url
-    if not url:
-        server, url = serve_site(Path(args.site_dir))
-
-    chrome = find_chrome(args.chrome)
-    session = None
-    client = None
-    try:
-        session = launch_chrome(chrome)
-        client = CdpClient(get_tab_websocket(session, url))
-        viewports = args.viewport or DEFAULT_VIEWPORTS
-        results: dict[str, Any] = {
-            "url": url,
-            "branch": args.branch,
-            "reducedMotion": args.reduced_motion,
-            "viewports": {},
-        }
-        for viewport_label in viewports:
-            viewport = parse_viewport(viewport_label)
-            measured: list[dict[str, Any]] = []
-            for index in range(args.warmups + args.runs):
-                run = run_once(client, url, args.branch, viewport, index, args.reduced_motion)
-                if index >= args.warmups:
-                    measured.append(run)
-            results["viewports"][viewport_label] = measured
-
-        if args.json:
-            print(json.dumps(results, indent=2))
-        else:
-            print(f"Tree timing URL: {url}")
-            print(f"Scenario: default load, click {args.branch!r}")
-            if args.reduced_motion:
-                print("Motion: prefers-reduced-motion emulated")
-            for viewport_label, runs in results["viewports"].items():
-                print()
-                print(summarize_viewport(viewport_label, runs))
-        return 0
-    finally:
-        if client:
-            client.close()
-        shutdown_chrome(session)
-        if server:
-            server.shutdown()
-            server.server_close()
+    return measure_main()
 
 
 if __name__ == "__main__":
-    try:
-        raise SystemExit(main())
-    except Exception as exc:
-        print(f"FAIL: {exc}", file=sys.stderr)
-        raise SystemExit(1) from exc
+    from knowledge_base.scripts.tree_view_measure.cli import run
+
+    raise SystemExit(run())
