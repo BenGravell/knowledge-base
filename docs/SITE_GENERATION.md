@@ -60,14 +60,6 @@ python knowledge_base/components/map/generate_map_data.py --backend fastembed
 python knowledge_base/components/map/generate_map_data.py --skip-force-layout
 ```
 
-Preview the layout quickly with Plotly:
-
-```bash
-python knowledge_base/components/map/preview_map.py
-python knowledge_base/components/map/preview_map.py --serve
-python knowledge_base/components/map/preview_map.py --out preview.html
-```
-
 Smoke-test the served Zensical Map page in headless Chrome:
 
 ```bash

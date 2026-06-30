@@ -111,8 +111,8 @@ Applying a label writes back to `knowledge_base/tree.yml`, the affected
   component source.
 - `knowledge_base/scripts/` contains maintenance, audit, placement, and prefill entrypoints.
 - `knowledge_base/scripts/prefill/` contains source-specific paper metadata importers.
-- `knowledge_base/components/map/` contains graph generation, preview, and site
-  asset publishing.
+- `knowledge_base/components/map/` contains graph generation and site asset
+  publishing.
 - `knowledge_base/components/semantic_search/` contains client-side semantic
   search index generation and asset publishing.
 - `knowledge_base/components/tree/` contains the Tree model, validation helpers,
