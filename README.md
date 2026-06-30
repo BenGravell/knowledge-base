@@ -16,7 +16,7 @@ The public site is published at <https://bengravell.github.io/knowledge-base/>.
   - `publishing/` contains generated-site contracts, paper page generation, and shared asset publishing.
   - `prefill/` contains the metadata prefill workflow and source adapters.
   - `scripts/` contains maintenance, audit, placement, and prefill entrypoints.
-  - `utils/` contains small shared helpers and compatibility wrappers.
+  - `utils/` contains small shared helpers.
 - `dev_apps/` contains Streamlit apps and other human-facing development tools.
   `./dev` is the Pixi wrapper command.
 - `knowledge_base/components/map/`, `knowledge_base/tree/`, and

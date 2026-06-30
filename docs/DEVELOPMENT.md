@@ -120,6 +120,5 @@ Applying a label writes back to `knowledge_base/tree.yml`, the affected
   publishing.
 - `knowledge_base/components/semantic_search/` contains client-side semantic
   search index generation and asset publishing.
-- `knowledge_base/utils/` contains small shared helpers and compatibility
-  wrappers for older import paths.
+- `knowledge_base/utils/` contains small shared helpers.
 - `knowledge_base/site/` is generated output. Do not edit it directly.
