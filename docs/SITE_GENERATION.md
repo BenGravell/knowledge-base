@@ -57,7 +57,6 @@ Useful variants:
 ```bash
 python knowledge_base/components/map/generate_map_data.py --force
 python knowledge_base/components/map/generate_map_data.py --backend fastembed
-python knowledge_base/components/map/generate_map_data.py --backend voyage
 python knowledge_base/components/map/generate_map_data.py --skip-force-layout
 ```
 

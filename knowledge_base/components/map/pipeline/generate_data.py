@@ -36,32 +36,22 @@ kept, and new papers are placed near their nearest cached embedding neighbours.
 Any removal, changed existing paper, model change, or larger batch falls back
 to the full deterministic layout path.
 
-Embedding backends
-------------------
-Two backends are supported, tried in order of quality:
-
-  1. **Voyage AI** ``voyage-3-large`` (1024-d, state-of-the-art quality).
-     Requires the ``voyageai`` Python package and a ``VOYAGE_API_KEY``
-     environment variable.  Get a key at https://www.voyageai.com/.
-
-  2. **fastembed** ``sentence-transformers/all-MiniLM-L6-v2`` (384-d, local
-     ONNX, shared with Semantic Search's tracked chunk cache by default).
-     Requires the ``fastembed`` Python package:
-         pip install fastembed
-
-Set ``VOYAGE_API_KEY`` in your environment to use Voyage AI.  Without it
-the script falls back to fastembed automatically.
+Embedding backend
+-----------------
+The Map uses **fastembed** ``sentence-transformers/all-MiniLM-L6-v2`` (384-d,
+local ONNX, shared with Semantic Search's tracked chunk cache by default).
+Requires the ``fastembed`` Python package:
+    pip install fastembed
 
 Usage
 -----
-Basic (auto-selects backend, incremental):
+Basic (fastembed, incremental):
     python knowledge_base/components/map/generate_map_data.py
 
 Force full re-embed (ignores cache):
     python knowledge_base/components/map/generate_map_data.py --force
 
-Choose a specific backend explicitly:
-    python knowledge_base/components/map/generate_map_data.py --backend voyage
+Run with the backend explicit:
     python knowledge_base/components/map/generate_map_data.py --backend fastembed
 
 Require CUDA for local fastembed inference:
@@ -89,10 +79,7 @@ Requirements
 Always required:
     pyyaml numpy umap-learn
 
-For Voyage AI backend:
-    voyageai
-
-For fastembed backend:
+For fastembed:
     fastembed
 """
 
@@ -102,7 +89,6 @@ import argparse
 import hashlib
 import importlib.util
 import json
-import os
 import sys
 import time
 from collections.abc import Callable
@@ -1082,38 +1068,8 @@ def parse_nav_category_order(config: dict[str, Any]) -> dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Embedding backends
+# Embedding backend
 # ---------------------------------------------------------------------------
-
-
-def embed_voyage(texts: list[str], model: str = "voyage-3-large") -> np.ndarray:
-    """
-    Embed *texts* using the Voyage AI API.
-
-    Requires:
-        pip install voyageai
-        export VOYAGE_API_KEY=va-...
-
-    The API is called in batches of up to 128 texts (the per-request limit).
-    """
-    import voyageai  # type: ignore[import]
-
-    api_key = os.environ["VOYAGE_API_KEY"]
-    client = voyageai.Client(api_key=api_key)
-
-    batch_size = 128
-    all_embeddings: list[list[float]] = []
-    n_batches = (len(texts) - 1) // batch_size + 1
-
-    for i in range(0, len(texts), batch_size):
-        batch = texts[i : i + batch_size]
-        batch_num = i // batch_size + 1
-        print(f"    Voyage AI batch {batch_num}/{n_batches} ({len(batch)} texts)…")
-        result = client.embed(batch, model=model, input_type="document")
-        all_embeddings.extend(result.embeddings)
-        emit_progress(len(all_embeddings), len(texts), "Embed map chunks")
-
-    return np.array(all_embeddings, dtype=np.float32)
 
 
 def embed_fastembed(
@@ -1176,23 +1132,11 @@ def choose_backend(
     Returns (backend_name, embed_function).  The embed function has the
     signature: ``fn(texts: list[str]) -> np.ndarray``.
     """
-    if requested == "voyage" or (requested is None and os.environ.get("VOYAGE_API_KEY")):
-        if importlib.util.find_spec("voyageai") is None:
-            print("WARNING: voyageai package not installed. Falling back to fastembed.")
-            print("         Install with: pip install voyageai")
-        else:
-            print("Backend: Voyage AI voyage-3-large")
-            return "voyage-3-large", embed_voyage
-
-    if requested == "voyage":
-        sys.exit("ERROR: --backend voyage requested but VOYAGE_API_KEY is not set or voyageai is not installed.")
+    if requested not in (None, "fastembed"):
+        sys.exit(f"ERROR: unsupported embedding backend: {requested}")
 
     if importlib.util.find_spec("fastembed") is None:
-        sys.exit(
-            "ERROR: Neither Voyage AI nor fastembed is available.\n"
-            "  Install fastembed:  pip install fastembed\n"
-            "  Or set VOYAGE_API_KEY and install voyageai: pip install voyageai"
-        )
+        sys.exit("ERROR: fastembed is not available. Install fastembed: pip install fastembed")
 
     model = fastembed_model
     print(f"Backend: fastembed {model} (local ONNX)")
@@ -1394,9 +1338,9 @@ def main() -> None:
     )
     parser.add_argument(
         "--backend",
-        choices=["voyage", "fastembed"],
+        choices=["fastembed"],
         default=None,
-        help="Force a specific embedding backend (default: auto-select).",
+        help="Embedding backend (default: fastembed).",
     )
     parser.add_argument(
         "--fastembed-device",

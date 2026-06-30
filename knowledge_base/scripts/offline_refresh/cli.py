@@ -19,12 +19,9 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--map-backend",
-        choices=("fastembed", "voyage", "auto"),
+        choices=("fastembed", "auto"),
         default="fastembed",
-        help=(
-            "Map embedding backend. fastembed is the local default; auto lets "
-            "components/map/generate_map_data.py choose, including Voyage when configured."
-        ),
+        help="Map embedding backend. fastembed is the local default; auto lets the map generator choose.",
     )
     parser.add_argument(
         "--fastembed-device",
