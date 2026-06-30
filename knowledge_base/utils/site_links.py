@@ -199,9 +199,11 @@ def make_paper_site_link(
     return {
         "key": key,
         "label": label,
-        "url": paper_site_source_url(key, paper_id, from_source)
-        if from_source
-        else paper_site_url(key, paper_id, base_path),
+        "url": (
+            paper_site_source_url(key, paper_id, from_source)
+            if from_source
+            else paper_site_url(key, paper_id, base_path)
+        ),
         "detail": f"Open in {label}",
         "variant": "internal",
         "external": False,

@@ -18,10 +18,7 @@ ARXIV_OAI_API = "https://oaipmh.arxiv.org/oai"
 OAI_NS = "http://www.openarchives.org/OAI/2.0/"
 OAI_ARXIV_NS = "http://arxiv.org/OAI/arXiv/"
 _ARXIV_NEW_RE = re.compile(r"^(?P<yy>\d{2})(?P<mm>\d{2})\.\d{4,5}(?:[vV]\d+)?$")
-_ARXIV_OLD_RE = re.compile(
-    r"^[A-Za-z][A-Za-z0-9-]*(?:\.[A-Z]{2})?/"
-    r"(?P<yy>\d{2})(?P<mm>\d{2})\d{3}(?:[vV]\d+)?$"
-)
+_ARXIV_OLD_RE = re.compile(r"^[A-Za-z][A-Za-z0-9-]*(?:\.[A-Z]{2})?/" r"(?P<yy>\d{2})(?P<mm>\d{2})\d{3}(?:[vV]\d+)?$")
 # arXiv asks automated clients to identify themselves and stay contactable.
 # https://info.arxiv.org/help/api/tou.html
 ARXIV_CONTACT_EMAIL = os.environ.get("ARXIV_CONTACT_EMAIL", "bjgravell@gmail.com").strip()

@@ -110,3 +110,8 @@ can afford a larger offline model because embeddings are generated ahead of
 time and only the resulting graph data is served. Semantic Search also embeds
 arbitrary user queries on the client, so the model must be small, fast, and
 browser-compatible.
+
+The checked-in WordPiece vocabulary at `knowledge_base/tokenizers/all-MiniLM-L6-v2-vocab.txt` is kept intentionally.
+`Catalog` uses it to count MiniLM tokens while chunking paper text before embedding, so long inputs stay under the model limit instead of being truncated later by FastEmbed.
+The vocabulary is a model asset, not something the model name or package definition can reconstruct.
+Vendoring this small file keeps site generation deterministic and offline instead of depending on a Hugging Face cache or network download.

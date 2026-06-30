@@ -1187,10 +1187,7 @@ def choose_backend(
     if requested == "voyage":
         sys.exit("ERROR: --backend voyage requested but VOYAGE_API_KEY is not set or voyageai is not installed.")
 
-    # fastembed fallback
-    try:
-        import fastembed  # noqa: F401
-    except ImportError:
+    if importlib.util.find_spec("fastembed") is None:
         sys.exit(
             "ERROR: Neither Voyage AI nor fastembed is available.\n"
             "  Install fastembed:  pip install fastembed\n"

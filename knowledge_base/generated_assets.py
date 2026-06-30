@@ -201,9 +201,7 @@ APP_SCRIPT_PAGES = {
     "timeline.md": TIMELINE_APP_SCRIPTS,
 }
 APP_SCRIPT_BLOCK_RE = re.compile(
-    r"<!--\s*kb:app-scripts\s+(?P<bundle>[a-z0-9_-]+)\s*-->"
-    r".*?"
-    r"<!--\s*/kb:app-scripts\s*-->",
+    r"<!--\s*kb:app-scripts\s+(?P<bundle>[a-z0-9_-]+)\s*-->" r".*?" r"<!--\s*/kb:app-scripts\s*-->",
     re.S,
 )
 
