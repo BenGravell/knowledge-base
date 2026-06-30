@@ -39,7 +39,7 @@ EXTERNAL_COMMANDS: dict[str, tuple[str, ...]] = {
     "refresh": ("python", "knowledge_base/scripts/refresh_offline_data.py"),
     "test": ("python", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"),
     "lint": ("ruff", "check", "knowledge_base", "tests"),
-    "format-check": ("ruff", "format", "--check", "knowledge_base", "tests"),
+    "format-check": ("black", "--check", "knowledge_base", "tests"),
     "typecheck": ("pyrefly", "check"),
 }
 

@@ -5,11 +5,13 @@ repos:
         name: ruff check
         entry: bash -c './dev run --frozen ruff check --fix "$@" && git add -- "$@"' --
         language: system
+        require_serial: true
         types_or: [python, pyi]
-      - id: ruff-format
-        name: ruff format
-        entry: bash -c './dev run --frozen ruff format "$@" && git add -- "$@"' --
+      - id: black
+        name: black
+        entry: bash -c './dev run --frozen black "$@" && git add -- "$@"' --
         language: system
+        require_serial: true
         types_or: [python, pyi]
       - id: pyrefly
         name: pyrefly
