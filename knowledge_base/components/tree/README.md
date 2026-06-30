@@ -1,7 +1,8 @@
 # Tree Module
 
 This package owns the in-process model of the Knowledge Base Tree.
-The editable source of truth is still `knowledge_base/tree.yml`; the model gives scripts one place to ask what that Tree means.
+The editable source of truth is still `knowledge_base/tree.yml`; the model gives
+scripts one place to ask what that Tree means.
 
 ## Source Flow
 
@@ -34,7 +35,8 @@ The generated site later publishes those papers as `papers/<paper_id>.md`.
 
 ## Preferred Entry Point
 
-Use `load_tree_model(...)` when code needs the repository Tree with metadata-aware source resolution:
+Use `load_tree_model(...)` when code needs the repository Tree with
+metadata-aware source resolution:
 
 ```python
 from knowledge_base.components.tree.model import load_tree_model
@@ -47,7 +49,9 @@ model = load_tree_model(
 )
 ```
 
-Use `TreeModel.from_tree(...)` directly only when the caller already has raw nav data and intentionally wants custom source resolution, such as small unit tests or already-normalized Map category parsing.
+Use `TreeModel.from_tree(...)` directly only when the caller already has raw nav
+data and intentionally wants custom source resolution, such as small unit tests
+or already-normalized Map category parsing.
 
 ## Invariants
 
@@ -64,7 +68,8 @@ Use `TreeModel.from_tree(...)` directly only when the caller already has raw nav
 
 ## Adapter Boundaries
 
-Keep shared Tree meaning in `model.py`: source resolution, paper placement, branch ancestry, child counts, descendant paper IDs, order, and tree distance.
+Keep shared Tree meaning in `model.py`: source resolution, paper placement,
+branch ancestry, child counts, descendant paper IDs, order, and tree distance.
 
 Keep output-specific shaping in adapters:
 

@@ -55,6 +55,17 @@ lint = { cmd = "kb lint", description = "Run Ruff lint checks" }
 format-check = { cmd = "kb format-check", description = "Check Black formatting" }
 typecheck = { cmd = "kb typecheck", description = "Run Pyrefly type checks" }
 
+[tool.pymarkdown]
+mode.strict-config = true
+
+[tool.pymarkdown.plugins]
+md002.enabled = true
+md013.line_length = 120
+md013.code_block_line_length = 120
+md013.heading_line_length = 120
+md013.table_line_length = 120
+pml100.enabled = true
+
 [tool.black]
 line-length = 120
 target-version = ["py312"]

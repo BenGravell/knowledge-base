@@ -15,9 +15,9 @@ repos:
         types_or: [python, pyi]
       - id: pymarkdown
         name: pymarkdown
-        entry: ./dev run --frozen pymarkdown -d md013,md041 scan
+        entry: ./dev run --frozen pymarkdown scan
         language: system
-        files: ^(README|AGENTS|CLAUDE|CONTEXT)\.md$|^docs/.*\.md$|^knowledge_base/components/tree/README\.md$
+        files: ^README\.md$|^docs/.*\.md$|^knowledge_base/components/tree/README\.md$
         types: [markdown]
       - id: pyrefly
         name: pyrefly

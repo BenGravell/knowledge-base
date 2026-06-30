@@ -93,22 +93,29 @@ streamlit run dev_apps/tree_label_review_app.py
 The Tree Label Review app uses the same suggestions as
 `knowledge_base/scripts/suggest_tree_algorithm_labels.py`.
 
-It shows the current Tree label, metadata `algorithm`, paper context, nearby `tree.yml` lines, and candidate canonical labels.
+It shows the current Tree label, metadata `algorithm`, paper context, nearby
+`tree.yml` lines, and candidate canonical labels.
 
-Applying a label writes back to `knowledge_base/tree.yml`, the affected `metadata.yml`, or both, so review the resulting diff before committing.
+Applying a label writes back to `knowledge_base/tree.yml`, the affected
+`metadata.yml`, or both, so review the resulting diff before committing.
 
 ## Repo layout
 
-- `knowledge_base/docs/` contains Zensical markdown content, generated paper pages, paper metadata, and templates.
+- `knowledge_base/docs/` contains Zensical markdown content, generated paper
+  pages, paper metadata, and templates.
 - `knowledge_base/docs/papers/` contains paper entries.
 - `knowledge_base/docs/templates/metadata.yml` is the paper metadata template.
 - `knowledge_base/tree.yml` is the editable Tree nav source.
 - `dev_apps/` contains Streamlit apps.
-- `knowledge_base/components/` contains Map, Tree, Search, and shared browser component source.
+- `knowledge_base/components/` contains Map, Tree, Search, and shared browser
+  component source.
 - `knowledge_base/scripts/` contains maintenance, audit, placement, and prefill entrypoints.
 - `knowledge_base/scripts/prefill/` contains source-specific paper metadata importers.
-- `knowledge_base/components/map/` contains graph generation, preview, and site asset publishing.
-- `knowledge_base/components/semantic_search/` contains client-side semantic search index generation and asset publishing.
-- `knowledge_base/components/tree/` contains the Tree model, validation helpers, browser source, and Tree data generator.
+- `knowledge_base/components/map/` contains graph generation, preview, and site
+  asset publishing.
+- `knowledge_base/components/semantic_search/` contains client-side semantic
+  search index generation and asset publishing.
+- `knowledge_base/components/tree/` contains the Tree model, validation helpers,
+  browser source, and Tree data generator.
 - `knowledge_base/utils/` contains shared DOI, arXiv, and prefill helpers.
 - `knowledge_base/site/` is generated output. Do not edit it directly.
