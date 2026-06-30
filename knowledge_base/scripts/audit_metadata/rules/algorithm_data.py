@@ -188,8 +188,7 @@ _ALGORITHM_RELATIONAL_CUES: tuple[tuple[str, str, str], ...] = (
     ),
     (
         "transformer-based variant",
-        r"\btransformer-based\b[^.\n]{0,100}{name}|"
-        r"{name}[^.\n]{0,100}\btransformer-based\b",
+        r"\btransformer-based\b[^.\n]{0,100}{name}|" r"{name}[^.\n]{0,100}\btransformer-based\b",
         "Transformer-based {algorithm}",
     ),
     (

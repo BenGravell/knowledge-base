@@ -3,10 +3,7 @@
 import re
 
 _BIG_WHITESPACE_RE = re.compile(r" {3,}")
-_TIGHT_LETTER_PAREN_RE = re.compile(
-    r"\b(?P<left>[A-Za-z][A-Za-z0-9-]*)"
-    r"\((?P<inner>[A-Za-z][A-Za-z0-9+/-]{1,31})\)"
-)
+_TIGHT_LETTER_PAREN_RE = re.compile(r"\b(?P<left>[A-Za-z][A-Za-z0-9-]*)" r"\((?P<inner>[A-Za-z][A-Za-z0-9+/-]{1,31})\)")
 _ASCII_MULTI_DASH_RE = re.compile(r"-{2,}")
 _BIG_WHITESPACE_ISSUE_PREFIX = "Contains 3+ consecutive spaces"
 _TIGHT_LETTER_PAREN_ISSUE_PREFIX = "Contains tight letter-parenthetical spacing"

@@ -11,8 +11,7 @@ from knowledge_base.utils.prefill_utils import read_url_lines
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "MSP.md"
 
 _MSP_RE = re.compile(
-    r"msp\.org/(?P<journal>[^/]+)/(?P<year>\d{4})/(?P<volume>\d+)-\d+/"
-    r"[^/]+-p(?P<page>\d+)-p\.pdf$",
+    r"msp\.org/(?P<journal>[^/]+)/(?P<year>\d{4})/(?P<volume>\d+)-\d+/" r"[^/]+-p(?P<page>\d+)-p\.pdf$",
     re.I,
 )
 

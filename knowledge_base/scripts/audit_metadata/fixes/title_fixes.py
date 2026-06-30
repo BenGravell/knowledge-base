@@ -106,9 +106,7 @@ def _protect_title_spans(title: str) -> tuple[str, list[str], bool]:
         return protect(html.unescape(inner))
 
     paired_tag_re = re.compile(
-        r"<\s*(?P<tag>i|em|b|strong|sub|sup)\b[^>]*>"
-        r"(?P<inner>.*?)"
-        r"</\s*(?P=tag)\s*>",
+        r"<\s*(?P<tag>i|em|b|strong|sub|sup)\b[^>]*>" r"(?P<inner>.*?)" r"</\s*(?P=tag)\s*>",
         re.I,
     )
     title = paired_tag_re.sub(replace_paired_tag, title)

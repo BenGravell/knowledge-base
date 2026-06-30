@@ -126,15 +126,11 @@ def text_introduces_algorithm(algorithm: str, data: dict[str, Any]) -> bool:
         r"(?:paper|work|article|letter))\s+(?:first\s+)?"
         r"(?:introduce|propose|present|develop|derive|formulate)\b"
     )
-    method_word = (
-        r"(?:algorithm|method|approach|optimizer|planner|controller|"
-        r"framework|tool|system)"
-    )
+    method_word = r"(?:algorithm|method|approach|optimizer|planner|controller|" r"framework|tool|system)"
     patterns = (
         rf"^\s*{algorithm_pattern}\s*:",
         rf"{intro}[^.\n]{{0,180}}\b{algorithm_pattern}\b",
-        rf"{intro}[^.\n]{{0,180}}\b{method_word}\s+"
-        rf"(?:called\s+|named\s+)?{algorithm_pattern}\b",
+        rf"{intro}[^.\n]{{0,180}}\b{method_word}\s+" rf"(?:called\s+|named\s+)?{algorithm_pattern}\b",
         rf"\b(?:called|named|coined)\s+{algorithm_pattern}\b",
     )
     return any(re.search(pattern, text, re.I) for pattern in patterns)

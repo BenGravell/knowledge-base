@@ -3,11 +3,7 @@
 import re
 
 _AUTHOR_SUFFIX_RE = re.compile(
-    r"^(?:"
-    r"Jr\.?|Sr\.?|"
-    r"I{2,3}|IV|V|VI{0,3}|IX|X|"
-    r"Ph\.?D\.?|M\.?D\.?|DPhil|Esq\.?"
-    r")$",
+    r"^(?:" r"Jr\.?|Sr\.?|" r"I{2,3}|IV|V|VI{0,3}|IX|X|" r"Ph\.?D\.?|M\.?D\.?|DPhil|Esq\.?" r")$",
     re.I,
 )
 

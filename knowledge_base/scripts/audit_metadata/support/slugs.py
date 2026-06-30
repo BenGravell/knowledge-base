@@ -5,9 +5,7 @@ import unicodedata
 
 # arXiv ID patterns (version suffix optional)
 _ARXIV_NEW_RE = re.compile(r"^\d{4}\.\d{4,5}(v\d+)?$")  # e.g. 2401.09241
-_ARXIV_OLD_RE = re.compile(  # e.g. math.CO/0701001
-    r"^[a-z]+(-[a-z]+)?(\.[A-Z]{2})?/\d{7}(v\d+)?$"
-)
+_ARXIV_OLD_RE = re.compile(r"^[a-z]+(-[a-z]+)?(\.[A-Z]{2})?/\d{7}(v\d+)?$")  # e.g. math.CO/0701001
 _LAST_NAME_PARTICLES = {
     "da",
     "das",

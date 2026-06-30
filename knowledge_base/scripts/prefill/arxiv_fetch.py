@@ -31,8 +31,7 @@ EXPORT_BLOCK_COOLDOWN = 2 * 60 * 60
 RETRY_STATUS_CODES = {429, 500, 502, 503, 504}
 _PACING_NOTICE_SHOWN: set[str] = set()
 ARXIV_URL_RE = re.compile(
-    r"https?://(?:www\.)?(?:arxiv\.org|ar5iv\.labs\.arxiv\.org)/"
-    r"(?:abs|pdf|html)/([^\s?#\])>]+)",
+    r"https?://(?:www\.)?(?:arxiv\.org|ar5iv\.labs\.arxiv\.org)/" r"(?:abs|pdf|html)/([^\s?#\])>]+)",
     flags=re.IGNORECASE,
 )
 

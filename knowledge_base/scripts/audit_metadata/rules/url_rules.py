@@ -13,13 +13,11 @@ from knowledge_base.scripts.audit_metadata.support.text import _normalize_inline
 _SOURCE_YEAR_RE = re.compile(r"(?<!\d)(?:18|19|20)\d{2}(?!\d)")
 _URL_RE = re.compile(r"\b(?:https?://|ftp://|www\.)[^\s<>()]+", re.IGNORECASE)
 _GARBLED_MARKUP_RE = re.compile(
-    r"<\s*/?\s*(?:sub|sup|math|mml:[A-Za-z0-9_-]+)\b[^>]*>|"
-    r"<[^>]*\bxmlns(?::[A-Za-z0-9_-]+)?=",
+    r"<\s*/?\s*(?:sub|sup|math|mml:[A-Za-z0-9_-]+)\b[^>]*>|" r"<[^>]*\bxmlns(?::[A-Za-z0-9_-]+)?=",
     re.I,
 )
 _XML_URI_TAG_RE = re.compile(
-    r"<\s*(?:[A-Za-z0-9_.-]+:)?uri\b[^>]*>(?P<inner>.*?)"
-    r"</\s*(?:[A-Za-z0-9_.-]+:)?uri\s*>",
+    r"<\s*(?:[A-Za-z0-9_.-]+:)?uri\b[^>]*>(?P<inner>.*?)" r"</\s*(?:[A-Za-z0-9_.-]+:)?uri\s*>",
     re.I | re.S,
 )
 _XML_HTML_TAG_RE = re.compile(

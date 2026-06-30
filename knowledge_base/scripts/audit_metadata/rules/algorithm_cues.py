@@ -43,8 +43,7 @@ def _algorithm_intro_patterns(algorithm: str) -> tuple[tuple[str, str, int], ...
                 (
                     (
                         "title",
-                        rf"^\s*(?:[A-Z][A-Za-z0-9&./+-]*\s+){{1,3}}"
-                        rf"{name_pattern}\s*:",
+                        rf"^\s*(?:[A-Z][A-Za-z0-9&./+-]*\s+){{1,3}}" rf"{name_pattern}\s*:",
                         0,
                     ),
                     (
@@ -54,8 +53,7 @@ def _algorithm_intro_patterns(algorithm: str) -> tuple[tuple[str, str, int], ...
                     ),
                     (
                         "title",
-                        rf"^\s*(?:the\s+)?{name_pattern}\s+"
-                        rf"(?:for|in|via|using|with|to)\b",
+                        rf"^\s*(?:the\s+)?{name_pattern}\s+" rf"(?:for|in|via|using|with|to)\b",
                         re.I,
                     ),
                 )
@@ -115,8 +113,7 @@ def _algorithm_intro_patterns(algorithm: str) -> tuple[tuple[str, str, int], ...
                 ("text", rf"\bdenoted\s+by\s+{name_pattern}", re.I),
                 (
                     "text",
-                    rf"\b(?:which|that)\s+we\s+(?:call|name|coin)\b"
-                    rf"[^.\n]{{0,120}}\(\s*{name_pattern}\s*\)",
+                    rf"\b(?:which|that)\s+we\s+(?:call|name|coin)\b" rf"[^.\n]{{0,120}}\(\s*{name_pattern}\s*\)",
                     re.I,
                 ),
             )

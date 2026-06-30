@@ -7,8 +7,7 @@ from knowledge_base.utils.prefill_template import REPO_ROOT
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "OUP.md"
 
 _OUP_DOI_PATH_RE = re.compile(
-    r"academic\.oup\.com/[^/]+/article(?:-abstract)?/doi/"
-    r"(?P<doi>10\.\d{4,}/[^/?#]+/[^/?#]+)/",
+    r"academic\.oup\.com/[^/]+/article(?:-abstract)?/doi/" r"(?P<doi>10\.\d{4,}/[^/?#]+/[^/?#]+)/",
     re.I,
 )
 _OUP_COMJNL_RE = re.compile(r"academic\.oup\.com/comjnl/article(?:-abstract)?/(\d+)/(\d+)/(\d+)/", re.I)

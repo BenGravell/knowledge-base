@@ -1,7 +1,5 @@
 """String-field walking plus escaped/spacing/dash audit rules."""
 
-# ruff: noqa: F811
-
 import html
 import re
 from collections.abc import Iterator
@@ -24,7 +22,6 @@ from knowledge_base.scripts.audit_metadata.support.model import (
     RULE_ESCAPED_SEQUENCE,
     RULE_TIGHT_LETTER_PARENTHETICAL_SPACING,
     Issue,
-    Path,
 )
 from knowledge_base.scripts.audit_metadata.support.text import _normalize_inline_text
 

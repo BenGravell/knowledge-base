@@ -1,7 +1,5 @@
 """Tag normalization and validation rules for metadata audits."""
 
-# ruff: noqa: F811
-
 from pathlib import Path
 from typing import Any
 
@@ -18,25 +16,14 @@ from knowledge_base.scripts.audit_metadata.rules.tag_data import (
     _TAG_DATABASE_MISSING_ISSUE_PREFIX,
 )
 from knowledge_base.scripts.audit_metadata.rules.tag_database import (
-    _MAX_TAG_WORDS,
-    _TAG_DATABASE_MISSING_ISSUE_PREFIX,
-    _author_last_name_tag_proper_words,
-    _forbidden_tag_reason,
-    _is_long_tag_allowed,
-    _sentence_like_tag_reason,
-    _suggest_tag_capitalization,
-    _suggest_tag_without_leading_article,
     _tag_database_canonical,
     _tag_database_error,
-    _tag_word_count,
 )
 from knowledge_base.scripts.audit_metadata.rules.tag_duplicates import (
     _database_duplicate_tag_fix_suggestion,
     _database_tag_duplicate_groups,
-    _normalized_tag_for_duplicate_check,
     _plural_duplicate_tag_fix_suggestion,
     _plural_duplicate_tag_groups,
-    _tag_database_canonical,
 )
 from knowledge_base.scripts.audit_metadata.rules.tag_text import (
     _forbidden_tag_reason,
@@ -53,7 +40,6 @@ from knowledge_base.scripts.audit_metadata.support.model import (
     RULE_TAG_DATABASE_MISSING,
     RULE_TAG_VALUE,
     Issue,
-    Path,
 )
 from knowledge_base.utils.normalization_db import expand_tag_acronyms
 

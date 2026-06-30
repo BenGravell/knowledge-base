@@ -1,7 +1,5 @@
 """Apply metadata audit autofixes."""
 
-# ruff: noqa: F811
-
 from pathlib import Path
 
 from rich.console import Console
@@ -12,7 +10,6 @@ from knowledge_base.scripts.audit_metadata.fixes.author_fixes import (
 )
 from knowledge_base.scripts.audit_metadata.fixes.field_fixes import (
     _fix_folded_text_fields_in_yaml,
-    _fix_metadata_scalar_field_in_yaml,
     _fix_multiline_fields_in_yaml,
     _fix_source_in_yaml,
 )
@@ -52,14 +49,11 @@ from knowledge_base.scripts.audit_metadata.fixes.text_fixes import (
     _fix_big_whitespace_in_yaml,
     _fix_garbled_markup_in_yaml,
     _fix_high_confidence_ocr_artifacts_in_yaml,
-    _fix_metadata_scalar_field_in_yaml,
     _fix_mojibake_text_fields_in_yaml,
     _fix_tight_letter_parenthetical_spacing_in_yaml,
-    _yaml_safe_load,
 )
 from knowledge_base.scripts.audit_metadata.fixes.title_fixes import (
     _fix_title_in_yaml,
-    _yaml_safe_load,
 )
 from knowledge_base.scripts.audit_metadata.fixes.yaml_rewrite import (
     _fix_metadata_scalar_field_in_yaml,

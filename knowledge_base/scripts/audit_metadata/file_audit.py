@@ -1,7 +1,5 @@
 """Per-file metadata audit orchestration."""
 
-# ruff: noqa: F811
-
 from pathlib import Path
 from typing import Any
 
@@ -17,7 +15,6 @@ from knowledge_base.config import (
 from knowledge_base.scripts.audit_metadata.fixes.title_fixes import (
     _suggest_title_fix,
     _title_has_garbage,
-    _yaml_safe_load,
 )
 from knowledge_base.scripts.audit_metadata.rules.abstract_rules import (
     find_low_signal_summary_issues,
@@ -79,7 +76,6 @@ from knowledge_base.scripts.audit_metadata.support.model import (
     RULE_TITLE_VALUE,
     RULE_TYPE_VALUE,
     Issue,
-    Path,
     Severity,
 )
 from knowledge_base.scripts.audit_metadata.support.slugs import is_valid_arxiv_id
