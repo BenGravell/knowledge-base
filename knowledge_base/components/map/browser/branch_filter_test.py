@@ -7,7 +7,7 @@ from typing import Any
 
 from knowledge_base.generated_assets import MAP_DATA
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[4]
 MAP_DATA_PATH = REPO_ROOT / "knowledge_base" / "components" / "map" / "generated" / "map-data.js"
 QUADRATIC_PROGRAMMING_PATH = (
     "Decision-making",

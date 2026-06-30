@@ -122,7 +122,7 @@ ban-relative-imports = "all"
 
 [tool.pyrefly]
 preset = "strict"
-project-includes = ["knowledge_base", "tests"]
+project-includes = ["knowledge_base"]
 search-path = ["."]
 python-version = "3.12"
 

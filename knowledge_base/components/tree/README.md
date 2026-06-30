@@ -85,7 +85,10 @@ Keep output-specific shaping in adapters:
 Run focused checks from the repository root:
 
 ```bash
-.venv/bin/python -m unittest tests/test_tree_model.py tests/test_tree_scripts.py
+.venv/bin/python -m unittest \
+  knowledge_base.components.tree.model_test \
+  knowledge_base.scripts.list_unplaced_papers.tree_ops_test \
+  knowledge_base.scripts.list_tree_algorithm_label_matches_test
 .venv/bin/python knowledge_base/scripts/validate_tree.py --max-results 5
 ```
 

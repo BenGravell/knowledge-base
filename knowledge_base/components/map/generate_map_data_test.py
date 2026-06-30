@@ -8,21 +8,9 @@ from knowledge_base.components.map.generate_map_data import (
     added_only_cache_hit,
     incremental_neighbor_positions,
 )
-from knowledge_base.embedding_workbench import fastembed_effective_device
 
 
-class MapIncrementalLayoutTests(unittest.TestCase):
-    def test_fastembed_auto_device_uses_available_cuda_provider(self) -> None:
-        self.assertEqual(fastembed_effective_device("auto", ["CPUExecutionProvider"]), "cpu")
-        self.assertEqual(
-            fastembed_effective_device("auto", ["CUDAExecutionProvider", "CPUExecutionProvider"]),
-            "cuda",
-        )
-
-    def test_fastembed_cuda_device_requires_cuda_provider(self) -> None:
-        with self.assertRaises(SystemExit):
-            fastembed_effective_device("cuda", ["CPUExecutionProvider"])
-
+class MapDataIncrementalLayoutTests(unittest.TestCase):
     def test_added_only_cache_hit_accepts_single_new_paper(self) -> None:
         entry = {
             "ids": ["a", "b"],

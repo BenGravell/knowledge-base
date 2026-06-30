@@ -6,30 +6,9 @@ from pathlib import Path
 
 from knowledge_base.components.tree.model import TreeModel, TreeSource
 from knowledge_base.scripts.list_tree_algorithm_label_matches import collect_matches
-from knowledge_base.scripts.list_unplaced_papers import (
-    collect_nav_locations,
-    collect_tree_leaves,
-)
 
 
-class TreeScriptHelperTests(unittest.TestCase):
-    def test_unplaced_helpers_use_tree_model_paths_and_raw_sources(self) -> None:
-        model = TreeModel.from_tree(
-            [{"Area": [{"Tiny Paper": "docs/papers/2024/tiny/metadata.yml"}]}],
-            resolve_source=lambda _source: TreeSource(
-                paper_id="tiny",
-                generated_source="papers/tiny.md",
-            ),
-        )
-
-        self.assertEqual(
-            collect_nav_locations(model),
-            {"tiny": ["Area", "Tiny Paper"]},
-        )
-        leaves = collect_tree_leaves(model)
-        self.assertEqual(leaves["tiny"].source, "docs/papers/2024/tiny/metadata.yml")
-        self.assertEqual(leaves["tiny"].nav_path, ("Area", "Tiny Paper"))
-
+class ListTreeAlgorithmLabelMatchesTests(unittest.TestCase):
     def test_algorithm_label_matcher_uses_tree_model_metadata_paths(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             metadata_path = Path(tmp) / "metadata.yml"

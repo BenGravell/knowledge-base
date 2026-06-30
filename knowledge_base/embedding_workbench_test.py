@@ -6,10 +6,26 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from knowledge_base.embedding_workbench import EmbeddingRow, load_embedding_table, refresh_embedding_cache
+from knowledge_base.embedding_workbench import (
+    EmbeddingRow,
+    fastembed_effective_device,
+    load_embedding_table,
+    refresh_embedding_cache,
+)
 
 
 class EmbeddingWorkbenchTests(unittest.TestCase):
+    def test_fastembed_auto_device_uses_available_cuda_provider(self) -> None:
+        self.assertEqual(fastembed_effective_device("auto", ["CPUExecutionProvider"]), "cpu")
+        self.assertEqual(
+            fastembed_effective_device("auto", ["CUDAExecutionProvider", "CPUExecutionProvider"]),
+            "cuda",
+        )
+
+    def test_fastembed_cuda_device_requires_cuda_provider(self) -> None:
+        with self.assertRaises(SystemExit):
+            fastembed_effective_device("cuda", ["CPUExecutionProvider"])
+
     def test_cache_hit_returns_ordered_matrix_without_model_call(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             cache_path = Path(tmp) / "embedding_cache.json"
