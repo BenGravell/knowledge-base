@@ -31,7 +31,7 @@ Build the static files for GitHub Pages from the repository root:
 kb build
 ```
 
-GitHub Pages deployment is handled by `.github/workflows/docs.yml` on pushes to `main` or `master`.
+GitHub Pages deployment is handled by `.github/workflows/docs.yml` on pushes to `main`.
 
 ## Development checks
 

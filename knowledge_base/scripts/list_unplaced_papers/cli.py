@@ -22,14 +22,12 @@ from knowledge_base.scripts.list_unplaced_papers.paths import (
     METADATA_ROOT,
     SITE_CONFIG,
     TREE_YML,
-    collect_paper_paths,
-    load_paper,
+    collect_papers,
 )
 from knowledge_base.scripts.list_unplaced_papers.tree_ops import (
-    collect_nav_locations,
-    collect_tree_leaves,
     write_tree_placements,
 )
+from knowledge_base.scripts.tree_report_data import collect_nav_locations, collect_tree_leaves
 
 
 def main() -> None:
@@ -73,13 +71,13 @@ def main() -> None:
 
     tree_model = load_tree_model(args.tree_yml, config=config, base_dir=KB_DIR, metadata_root=METADATA_ROOT)
     nav_locations = collect_nav_locations(tree_model)
-    paper_paths = collect_paper_paths(METADATA_ROOT)
-    missing_ids = [paper_id for paper_id in sorted(paper_paths) if paper_id not in nav_locations]
+    papers_by_id = collect_papers(METADATA_ROOT)
+    missing_ids = [paper_id for paper_id in sorted(papers_by_id) if paper_id not in nav_locations]
     if not missing_ids:
         print_empty(args.format)
         return
 
-    missing = [paper for paper_id in missing_ids if (paper := load_paper(paper_paths[paper_id], paper_id)) is not None]
+    missing = [papers_by_id[paper_id] for paper_id in missing_ids]
     display = missing[: args.max_results] if args.max_results is not None else missing
     needs_embeddings = args.neighbors > 0 or args.write_tree
     embeddings: dict[str, list[float]] = load_embeddings(EMBEDDING_CACHE) if needs_embeddings else {}

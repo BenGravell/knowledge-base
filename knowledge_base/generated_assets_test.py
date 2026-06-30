@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import tempfile
 import unittest
 from html.parser import HTMLParser
 from pathlib import Path
@@ -19,9 +20,18 @@ from knowledge_base.generated_assets import (
     SEMANTIC_SEARCH_PLACEHOLDER_SETTINGS,
     SEMANTIC_SEARCH_VECTORS,
     SITE_LINK_DATA,
+    current_ids_error,
+    map_node_ids,
+    map_similarity_ids,
+    map_similarity_sidecar,
     page_relative_asset_path,
     render_app_script_blocks,
     render_app_script_tags,
+    semantic_paper_ids,
+    semantic_settings_errors,
+    semantic_vector_sidecar,
+    validate_map_data_contract,
+    validate_semantic_search_contract,
 )
 from knowledge_base.utils.site_links import (
     paper_site_source_url,
@@ -144,6 +154,76 @@ def search_page_input_attrs() -> dict[str, str | None]:
 class GeneratedAssetTests(unittest.TestCase):
     def test_js_asset_publishes_under_javascripts(self) -> None:
         self.assertEqual(SITE_LINK_DATA.published_path, "javascripts/site-link-data.js")
+
+    def test_map_validation_contract_extracts_ids_and_sidecar(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            generated_dir = Path(tmp)
+            sidecar_path = generated_dir / MAP_SIMILARITY.name
+            sidecar_path.write_bytes(b"12345678")
+            map_data: dict[str, object] = {
+                "nodes": [{"data": {"id": "a"}}, {"data": {"id": "b"}}, {"data": {}}],
+                "similarity": {
+                    "ids": ["a", "b"],
+                    "file": MAP_SIMILARITY.name,
+                    "dtype": "int16",
+                    "shape": [2, 2],
+                },
+            }
+
+            self.assertEqual(map_node_ids(map_data), (["a", "b"], 1))
+            self.assertEqual(map_similarity_ids(map_data), ["a", "b"])
+            self.assertEqual(
+                map_similarity_sidecar(map_data, generated_dir=generated_dir, expected_size=2).expected_bytes,
+                8,
+            )
+            self.assertIsNone(current_ids_error("map-data.js", ["a", "b"], ["a", "b"]))
+
+            valid_map_data: dict[str, object] = {
+                **map_data,
+                "nodes": [{"data": {"id": "a"}}, {"data": {"id": "b"}}],
+            }
+            contract = validate_map_data_contract(valid_map_data, generated_dir=generated_dir, current_ids=["a", "b"])
+            self.assertEqual(contract.node_ids, ["a", "b"])
+            self.assertEqual(contract.similarity_sidecar.path, sidecar_path)
+
+    def test_semantic_validation_contract_extracts_ids_settings_and_vector(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            asset_dir = Path(tmp)
+            vector_path = asset_dir / SEMANTIC_SEARCH_VECTORS.name
+            vector_path.write_bytes(b"123456")
+            manifest: dict[str, object] = {
+                "model": "m",
+                "browserModel": "b",
+                "count": 2,
+                "dimension": 3,
+                "vectors": SEMANTIC_SEARCH_VECTORS.name,
+                "quantization": {"type": "int8"},
+                "scoreThreshold": 0.25,
+                "papers": [{"id": "a"}, {"id": "b"}, {}],
+            }
+            settings: dict[str, object] = {
+                "model": "m",
+                "browserModel": "b",
+                "count": 2,
+                "scoreThreshold": 0.25,
+            }
+
+            self.assertEqual(semantic_paper_ids(manifest), (["a", "b"], 1))
+            self.assertEqual(semantic_settings_errors(manifest, settings), [])
+            self.assertEqual(semantic_vector_sidecar(manifest, asset_dir=asset_dir).expected_bytes, 6)
+
+            with self.assertRaisesRegex(ValueError, "paper\\(s\\) without id"):
+                validate_semantic_search_contract(manifest, settings, asset_dir=asset_dir, current_ids=["a", "b"])
+
+            manifest["papers"] = [{"id": "a"}, {"id": "b"}]
+            contract = validate_semantic_search_contract(
+                manifest,
+                settings,
+                asset_dir=asset_dir,
+                current_ids=["a", "b"],
+            )
+            self.assertEqual(contract.paper_ids, ["a", "b"])
+            self.assertEqual(contract.vector_sidecar.path, vector_path)
 
     def test_app_script_blocks_render_from_single_asset_contract(self) -> None:
         for page_name, bundle_name in APP_SCRIPT_PAGES.items():

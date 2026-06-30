@@ -7,8 +7,8 @@ from pathlib import Path
 
 import yaml
 
-from knowledge_base.scripts.suggest_branch_subgroupings.common import format_path, is_landing_item, tree_yml_path
 from knowledge_base.scripts.suggest_branch_subgroupings.model import Suggestion
+from knowledge_base.scripts.tree_report_data import format_path, is_landing_item, tree_yml_path
 
 
 @dataclass(frozen=True)

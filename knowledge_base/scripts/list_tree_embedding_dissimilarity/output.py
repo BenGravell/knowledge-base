@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import json
 
-from knowledge_base.scripts.list_tree_embedding_dissimilarity.data import display_path, format_path, relative_to_kb
 from knowledge_base.scripts.list_tree_embedding_dissimilarity.model import Finding, Scope
+from knowledge_base.scripts.tree_report_data import display_path, format_path, relative_to_kb
 
 
 def print_markdown(

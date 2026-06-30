@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 from knowledge_base.catalog import Catalog
@@ -12,6 +11,8 @@ from knowledge_base.generated_assets import (
     SEMANTIC_SEARCH_PLACEHOLDER_SETTINGS,
     SEMANTIC_SEARCH_SETTINGS,
     SEMANTIC_SEARCH_VECTORS,
+    load_json_object,
+    validate_semantic_search_contract,
 )
 from knowledge_base.generated_files import open_generated
 
@@ -36,16 +37,6 @@ BINARY_ASSETS = {
 }
 
 
-def read_json(path: Path) -> dict[str, object]:
-    try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
-        raise RuntimeError(f"{path} is not valid JSON; run {RUN_GENERATE_SEMANTIC_SEARCH}") from exc
-    if not isinstance(data, dict):
-        raise RuntimeError(f"{path} must contain an object; run {RUN_GENERATE_SEMANTIC_SEARCH}")
-    return data
-
-
 def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
     manifest_path = ASSET_DIR / SEMANTIC_SEARCH_INDEX.name
     settings_path = ASSET_DIR / SEMANTIC_SEARCH_SETTINGS.name
@@ -57,63 +48,29 @@ def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
             raise RuntimeError(f"Semantic Search assets are partial; run {RUN_GENERATE_SEMANTIC_SEARCH}")
         return TEXT_ASSETS, BINARY_ASSETS
 
-    manifest = read_json(manifest_path)
-    papers = manifest.get("papers")
-    if not isinstance(papers, list):
-        raise RuntimeError(f"semantic-search-index.json has no paper list; run {RUN_GENERATE_SEMANTIC_SEARCH}")
-    indexed_ids = [str(paper["id"]) for paper in papers if isinstance(paper, dict) and isinstance(paper.get("id"), str)]
+    manifest = load_json_object(manifest_path, run_hint=RUN_GENERATE_SEMANTIC_SEARCH)
     current_ids = [entry.id for entry in Catalog.from_metadata_root(METADATA_ROOT).entries]
-    if indexed_ids != current_ids:
-        missing = sorted(set(current_ids) - set(indexed_ids))
-        extra = sorted(set(indexed_ids) - set(current_ids))
-        detail = []
-        if missing:
-            detail.append(f"missing {len(missing)} current paper(s)")
-        if extra:
-            detail.append(f"contains {len(extra)} stale paper(s)")
-        reason = f" ({', '.join(detail)})" if detail else ""
-        raise RuntimeError(
-            f"semantic-search-index.json is stale for current metadata{reason}; run {RUN_GENERATE_SEMANTIC_SEARCH}"
-        )
 
     if not settings_path.exists():
         raise RuntimeError(f"Missing {settings_path}; run {RUN_GENERATE_SEMANTIC_SEARCH}")
-    settings = read_json(settings_path)
+    settings = load_json_object(settings_path, run_hint=RUN_GENERATE_SEMANTIC_SEARCH)
 
-    for key in ("model", "browserModel", "count", "scoreThreshold"):
-        if settings.get(key) != manifest.get(key):
-            raise RuntimeError(f"{settings_path} is stale for {key}; run {RUN_GENERATE_SEMANTIC_SEARCH}")
-
-    count = manifest.get("count")
-    dimension = manifest.get("dimension")
-    if not isinstance(count, int) or count < 0 or not isinstance(dimension, int) or dimension < 0:
-        raise RuntimeError(
-            f"semantic-search-index.json has invalid count/dimension; run {RUN_GENERATE_SEMANTIC_SEARCH}"
+    try:
+        contract = validate_semantic_search_contract(
+            manifest,
+            settings,
+            asset_dir=ASSET_DIR,
+            current_ids=current_ids,
         )
-
-    quantization = manifest.get("quantization")
-    if not isinstance(quantization, dict) or quantization.get("type") != "int8":
-        raise RuntimeError(f"semantic-search-index.json must point at int8 vectors; run {RUN_GENERATE_SEMANTIC_SEARCH}")
-
-    vector_name = manifest.get("vectors")
-    if not isinstance(vector_name, str) or not vector_name or Path(vector_name).name != vector_name:
-        raise RuntimeError("semantic-search-index.json has an invalid vectors filename")
-    vector_path = ASSET_DIR / vector_name
-    expected_bytes = count * dimension
-    if expected_bytes and not vector_path.exists():
-        raise RuntimeError(f"Missing {vector_path}; run {RUN_GENERATE_SEMANTIC_SEARCH}")
-    if vector_path.exists() and vector_path.stat().st_size != expected_bytes:
-        raise RuntimeError(
-            f"{vector_path} is stale ({vector_path.stat().st_size} bytes, expected {expected_bytes}); "
-            f"run {RUN_GENERATE_SEMANTIC_SEARCH}"
-        )
+    except ValueError as exc:
+        raise RuntimeError(f"{exc}; run {RUN_GENERATE_SEMANTIC_SEARCH}") from exc
 
     return (
         {
             SEMANTIC_SEARCH_INDEX.name: manifest_path.read_text(encoding="utf-8"),
             SEMANTIC_SEARCH_SETTINGS.name: settings_path.read_text(encoding="utf-8"),
         },
-        {vector_name: vector_path.read_bytes() if vector_path.exists() else b""},
+        {contract.vector_sidecar.name: contract.vector_sidecar.path.read_bytes()},
     )
 
 

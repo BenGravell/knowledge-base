@@ -4,7 +4,14 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from knowledge_base.generated_assets import SEMANTIC_SEARCH_INDEX, SEMANTIC_SEARCH_SETTINGS
+from knowledge_base.generated_assets import (
+    SEMANTIC_SEARCH_INDEX,
+    SEMANTIC_SEARCH_SETTINGS,
+    semantic_paper_ids,
+    semantic_settings_errors,
+    semantic_vector_sidecar,
+    validate_sidecar_file,
+)
 from knowledge_base.scripts.audit_metadata.generated_data.map_data_helpers import (
     _audit_id_set,
     _duplicate_values,
@@ -50,21 +57,12 @@ def _audit_semantic_papers(
     expected_ids: set[str],
     report_stale: bool,
 ) -> list[str]:
-    papers = semantic_index.get("papers")
-    semantic_ids: list[str] = []
-    if not isinstance(papers, list):
-        grouped.setdefault(semantic_index_path, []).append(
-            Issue(semantic_index_path, CHECK_PATH, "semantic-search-index.json papers field is not a list")
-        )
-        return semantic_ids
+    try:
+        semantic_ids, bad_papers = semantic_paper_ids(semantic_index)
+    except ValueError as exc:
+        grouped.setdefault(semantic_index_path, []).append(Issue(semantic_index_path, CHECK_PATH, str(exc)))
+        return []
 
-    bad_papers = 0
-    for paper in papers:
-        paper_id = paper.get("id") if isinstance(paper, dict) else None
-        if isinstance(paper_id, str) and paper_id:
-            semantic_ids.append(paper_id)
-        else:
-            bad_papers += 1
     if bad_papers:
         grouped.setdefault(semantic_index_path, []).append(
             Issue(
@@ -123,37 +121,16 @@ def _audit_semantic_metadata(
             Issue(semantic_index_path, CHECK_PATH, "semantic-search-index.json dimension is not a non-negative integer")
         )
 
-    quantization = semantic_index.get("quantization")
-    if not isinstance(quantization, dict) or quantization.get("type") != "int8":
+    try:
+        vector = semantic_vector_sidecar(semantic_index, asset_dir=semantic_index_path.parent)
+    except ValueError as exc:
         grouped.setdefault(semantic_index_path, []).append(
-            Issue(
-                semantic_index_path,
-                CHECK_PATH,
-                "semantic-search-index.json quantization.type is not int8",
-                "Regenerate Semantic Search data.",
-            )
+            Issue(semantic_index_path, CHECK_PATH, str(exc), "Regenerate Semantic Search data.")
         )
-
-    vector_name = semantic_index.get("vectors")
-    if not isinstance(vector_name, str) or not vector_name or Path(vector_name).name != vector_name:
-        grouped.setdefault(semantic_index_path, []).append(
-            Issue(semantic_index_path, CHECK_PATH, "semantic-search-index.json vectors field is invalid")
-        )
-    elif isinstance(count, int) and isinstance(dimension, int) and count >= 0 and dimension >= 0:
-        vector_path = semantic_index_path.with_name(vector_name)
-        expected_bytes = count * dimension
-        if not vector_path.exists():
-            grouped.setdefault(vector_path, []).append(
-                Issue(vector_path, CHECK_PATH, "Semantic Search vector sidecar is missing")
-            )
-        elif vector_path.stat().st_size != expected_bytes:
-            grouped.setdefault(vector_path, []).append(
-                Issue(
-                    vector_path,
-                    CHECK_PATH,
-                    f"Semantic Search vector sidecar is {vector_path.stat().st_size} bytes; expected {expected_bytes}",
-                    "Regenerate Semantic Search data.",
-                )
+    else:
+        if error := validate_sidecar_file(vector):
+            grouped.setdefault(vector.path, []).append(
+                Issue(vector.path, CHECK_PATH, error, "Regenerate Semantic Search data.")
             )
 
 
@@ -167,16 +144,10 @@ def _audit_semantic_settings(
     if settings_error:
         grouped.setdefault(settings_path, []).append(Issue(settings_path, CHECK_PATH, settings_error))
     elif isinstance(settings, dict):
-        for key in ("model", "browserModel", "count", "scoreThreshold"):
-            if settings.get(key) != semantic_index.get(key):
-                grouped.setdefault(settings_path, []).append(
-                    Issue(
-                        settings_path,
-                        CHECK_PATH,
-                        f"semantic-search-settings.json {key} does not match semantic-search-index.json",
-                        "Regenerate Semantic Search data.",
-                    )
-                )
+        for error in semantic_settings_errors(semantic_index, settings):
+            grouped.setdefault(settings_path, []).append(
+                Issue(settings_path, CHECK_PATH, error, "Regenerate Semantic Search data.")
+            )
     else:
         grouped.setdefault(settings_path, []).append(
             Issue(settings_path, CHECK_PATH, "semantic-search-settings.json root is not an object")

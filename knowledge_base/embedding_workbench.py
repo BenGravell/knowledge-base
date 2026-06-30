@@ -8,9 +8,12 @@ from collections import Counter
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 import numpy as np
+
+if TYPE_CHECKING:
+    from knowledge_base.catalog import Entry
 
 FORMAT_VERSION = "embedding-workbench-v2"
 FASTEMBED_DEVICE_CHOICES = ("auto", "cpu", "cuda")
@@ -53,6 +56,19 @@ class EmbeddingTable:
 EmbedTexts = Callable[[list[str]], Sequence[Sequence[float]] | np.ndarray]
 ProgressCallback = Callable[[int, int, str], None]
 MMapMode = Literal["c", "r", "r+", "w+"]
+
+
+def embedding_rows_for_entry(entry: Entry) -> list[EmbeddingRow]:
+    return [
+        EmbeddingRow(
+            id=f"{entry.id}:{chunk.id}",
+            text=chunk.text,
+            content_hash=_short_hash(chunk.text),
+            paper_id=entry.id,
+            weight=chunk.weight,
+        )
+        for chunk in entry.embedding_chunks
+    ]
 
 
 def _empty_embedding_cache(model: str | None = None) -> dict[str, Any]:

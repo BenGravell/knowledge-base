@@ -4,7 +4,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from knowledge_base.generated_assets import MAP_DATA
+from knowledge_base.generated_assets import (
+    MAP_DATA,
+    map_node_ids,
+    map_similarity_ids,
+    map_similarity_sidecar,
+    validate_sidecar_file,
+)
 from knowledge_base.scripts.audit_metadata.generated_data.map_data_helpers import (
     _audit_id_set,
     _duplicate_values,
@@ -55,20 +61,12 @@ def _audit_map_nodes(
     expected_ids: set[str],
     report_stale: bool,
 ) -> list[str]:
-    nodes = map_data.get("nodes")
-    if not isinstance(nodes, list):
-        grouped.setdefault(map_data_path, []).append(Issue(map_data_path, CHECK_PATH, "mapData.nodes is not a list"))
+    try:
+        node_ids, bad_nodes = map_node_ids(map_data)
+    except ValueError as exc:
+        grouped.setdefault(map_data_path, []).append(Issue(map_data_path, CHECK_PATH, str(exc)))
         node_ids: list[str] = []
     else:
-        node_ids = []
-        bad_nodes = 0
-        for node in nodes:
-            data = node.get("data") if isinstance(node, dict) else None
-            node_id = data.get("id") if isinstance(data, dict) else None
-            if isinstance(node_id, str) and node_id:
-                node_ids.append(node_id)
-            else:
-                bad_nodes += 1
         if bad_nodes:
             grouped.setdefault(map_data_path, []).append(
                 Issue(map_data_path, CHECK_PATH, f"mapData.nodes has {bad_nodes} node(s) without data.id")
@@ -104,21 +102,12 @@ def _audit_map_similarity(
     expected_ids: set[str],
     report_stale: bool,
 ) -> None:
-    similarity = map_data.get("similarity")
-    if not isinstance(similarity, dict):
-        grouped.setdefault(map_data_path, []).append(
-            Issue(map_data_path, CHECK_PATH, "mapData.similarity is not an object")
-        )
-        return
-
-    similarity_ids_raw = similarity.get("ids")
-    if not isinstance(similarity_ids_raw, list) or not all(isinstance(item, str) for item in similarity_ids_raw):
-        grouped.setdefault(map_data_path, []).append(
-            Issue(map_data_path, CHECK_PATH, "mapData.similarity.ids is not a string list")
-        )
+    try:
+        similarity_ids = map_similarity_ids(map_data)
+    except ValueError as exc:
+        grouped.setdefault(map_data_path, []).append(Issue(map_data_path, CHECK_PATH, str(exc)))
         similarity_ids: list[str] = []
     else:
-        similarity_ids = similarity_ids_raw
         grouped.setdefault(map_data_path, []).extend(
             _audit_id_set(
                 path=map_data_path,
@@ -138,6 +127,9 @@ def _audit_map_similarity(
                 )
             )
 
+    similarity = map_data.get("similarity")
+    if not isinstance(similarity, dict):
+        return
     rows = similarity.get("rows")
     if isinstance(rows, list) and similarity_ids:
         bad_row_count = len(rows) != len(similarity_ids)
@@ -161,44 +153,25 @@ def _audit_similarity_sidecar(
     similarity: dict[object, object],
     size: int,
 ) -> None:
-    sidecar = similarity.get("file")
-    shape = similarity.get("shape")
-    if not isinstance(sidecar, str) or not isinstance(shape, list) or len(shape) != 2:
+    try:
+        sidecar = map_similarity_sidecar(
+            {"similarity": similarity},
+            generated_dir=map_data_path.parent,
+            expected_size=size,
+        )
+    except ValueError as exc:
         grouped.setdefault(map_data_path, []).append(
             Issue(
                 map_data_path,
                 CHECK_PATH,
-                "mapData.similarity has neither rows nor a valid binary sidecar descriptor",
+                str(exc),
                 "Regenerate map data.",
             )
         )
         return
 
-    sidecar_path = map_data_path.with_name(sidecar)
-    expected_shape = [size, size]
-    expected_bytes = size * size * 2
-    if shape != expected_shape:
-        grouped.setdefault(map_data_path, []).append(
-            Issue(
-                map_data_path,
-                CHECK_PATH,
-                "mapData.similarity sidecar shape does not match similarity.ids",
-                "Regenerate map data.",
-            )
-        )
-    elif not sidecar_path.exists():
-        grouped.setdefault(map_data_path, []).append(
-            Issue(sidecar_path, CHECK_PATH, "mapData.similarity sidecar is missing", "Regenerate map data.")
-        )
-    elif sidecar_path.stat().st_size != expected_bytes:
-        grouped.setdefault(map_data_path, []).append(
-            Issue(
-                sidecar_path,
-                CHECK_PATH,
-                f"mapData.similarity sidecar is {sidecar_path.stat().st_size} bytes; expected {expected_bytes}",
-                "Regenerate map data.",
-            )
-        )
+    if error := validate_sidecar_file(sidecar):
+        grouped.setdefault(sidecar.path, []).append(Issue(sidecar.path, CHECK_PATH, error, "Regenerate map data."))
 
 
 def _audit_embedding_cache(

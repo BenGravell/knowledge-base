@@ -8,24 +8,10 @@ from pathlib import Path
 
 import yaml
 
-from knowledge_base.components.tree.model import TreeLeaf, TreeModel
+from knowledge_base.components.tree.model import TreeLeaf
 from knowledge_base.scripts.list_unplaced_papers.embeddings import nearest_placed_neighbors
 from knowledge_base.scripts.list_unplaced_papers.model import Paper
-from knowledge_base.scripts.list_unplaced_papers.paths import relative_to_kb
-
-
-def collect_nav_locations(model: TreeModel) -> dict[str, list[str]]:
-    """Map generated paper ID to the human-readable nav path containing it."""
-    return {paper_id: list(placement.nav_path) for paper_id, placement in model.placements_by_paper_id.items()}
-
-
-def collect_tree_leaves(model: TreeModel) -> dict[str, TreeLeaf]:
-    """Map generated paper ID to its raw tree source and nav path."""
-    leaves: dict[str, TreeLeaf] = {}
-    for leaf in model.leaves:
-        if leaf.paper_id:
-            leaves.setdefault(leaf.paper_id, leaf)
-    return leaves
+from knowledge_base.scripts.tree_report_data import relative_to_kb
 
 
 def yaml_key(value: str) -> str:

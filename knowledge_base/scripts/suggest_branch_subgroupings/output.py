@@ -2,8 +2,8 @@
 
 from typing import Any
 
-from knowledge_base.scripts.suggest_branch_subgroupings.common import CountMode, display_path, format_path
 from knowledge_base.scripts.suggest_branch_subgroupings.model import Suggestion
+from knowledge_base.scripts.tree_report_data import CountMode, display_path, format_path
 
 
 def print_markdown(

@@ -24,8 +24,6 @@ from knowledge_base.scripts.list_unplaced_papers.paths import (
     relative_to_kb,
 )
 from knowledge_base.scripts.list_unplaced_papers.tree_ops import (
-    collect_nav_locations,
-    collect_tree_leaves,
     insert_after_leaf,
     leaf_line_pattern,
     tree_label,
@@ -33,6 +31,7 @@ from knowledge_base.scripts.list_unplaced_papers.tree_ops import (
     write_tree_placements,
     yaml_key,
 )
+from knowledge_base.scripts.tree_report_data import collect_nav_locations, collect_tree_leaves
 
 __all__ = [
     "DOCS_DIR",

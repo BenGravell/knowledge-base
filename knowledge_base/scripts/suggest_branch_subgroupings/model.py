@@ -1,19 +1,10 @@
 """Data models for branch subgroup suggestions."""
 
 from dataclasses import dataclass
-from pathlib import Path
 
 from knowledge_base.components.tree.model import TreeBranch as Branch
 from knowledge_base.components.tree.model import TreeChild as ChildItem
-
-
-@dataclass(frozen=True)
-class Paper:
-    id: str
-    title: str
-    algorithm: str
-    tags: tuple[str, ...]
-    metadata_path: Path
+from knowledge_base.scripts.tree_report_data import ReportPaper as Paper
 
 
 @dataclass(frozen=True)

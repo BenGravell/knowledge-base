@@ -5,13 +5,11 @@ from __future__ import annotations
 import math
 from pathlib import Path
 
+from knowledge_base.scripts.tree_report_data import load_embedding_vectors
+
 
 def load_embeddings(cache_path: Path) -> dict[str, list[float]]:
-    if not cache_path.exists():
-        return {}
-    from knowledge_base.embedding_workbench import load_embedding_table
-
-    return {paper_id: vector.tolist() for paper_id, vector in load_embedding_table(cache_path).by_id().items()}
+    return {paper_id: vector.tolist() for paper_id, vector in load_embedding_vectors(cache_path).items()}
 
 
 def nearest_placed_neighbors(

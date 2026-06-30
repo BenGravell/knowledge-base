@@ -6,7 +6,12 @@ import json
 from pathlib import Path
 from typing import Any
 
-from knowledge_base.generated_assets import MAP_DATA
+from knowledge_base.generated_assets import (
+    MAP_DATA,
+    duplicate_values,
+    format_id_examples,
+    id_set_difference_messages,
+)
 from knowledge_base.scripts.audit_metadata.support.checks import CHECK_PATH
 from knowledge_base.scripts.audit_metadata.support.model import Issue
 from knowledge_base.scripts.audit_metadata.support.yaml_support import _yaml_safe_load
@@ -14,11 +19,7 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 
 def _format_id_examples(ids: set[str] | list[str], limit: int = 8) -> str:
-    ordered = sorted(ids)
-    examples = ", ".join(ordered[:limit])
-    if len(ordered) > limit:
-        examples += f", ... ({len(ordered)} total)"
-    return examples
+    return format_id_examples(ids, limit=limit)
 
 
 def _load_json_file(path: Path) -> tuple[object | None, str | None]:
@@ -99,36 +100,11 @@ def _audit_id_set(
     report_stale: bool,
     suggestion: str = "Regenerate map data, or run --fix after a metadata path change.",
 ) -> list[Issue]:
-    issues: list[Issue] = []
-    missing = expected_ids - actual_ids
-    if missing:
-        issues.append(
-            Issue(
-                path,
-                CHECK_PATH,
-                f"{label} missing {len(missing)} metadata-backed paper ID(s): {_format_id_examples(missing)}",
-                suggestion,
-            )
-        )
-
-    stale = actual_ids - expected_ids
-    if report_stale and stale:
-        issues.append(
-            Issue(
-                path,
-                CHECK_PATH,
-                f"{label} contains {len(stale)} stale paper ID(s) with no metadata.yml: {_format_id_examples(stale)}",
-                suggestion,
-            )
-        )
-    return issues
+    return [
+        Issue(path, CHECK_PATH, message, suggestion)
+        for message in id_set_difference_messages(label, actual_ids, expected_ids, report_stale=report_stale)
+    ]
 
 
 def _duplicate_values(values: list[str]) -> set[str]:
-    seen: set[str] = set()
-    dupes: set[str] = set()
-    for value in values:
-        if value in seen:
-            dupes.add(value)
-        seen.add(value)
-    return dupes
+    return duplicate_values(values)

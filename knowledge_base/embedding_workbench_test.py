@@ -5,9 +5,13 @@ import math
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from typing import cast
 
+from knowledge_base.catalog import Entry
 from knowledge_base.embedding_workbench import (
     EmbeddingRow,
+    embedding_rows_for_entry,
     fastembed_effective_device,
     load_embedding_table,
     refresh_embedding_cache,
@@ -25,6 +29,25 @@ class EmbeddingWorkbenchTests(unittest.TestCase):
     def test_fastembed_cuda_device_requires_cuda_provider(self) -> None:
         with self.assertRaises(SystemExit):
             fastembed_effective_device("cuda", ["CPUExecutionProvider"])
+
+    def test_embedding_rows_for_entry_projects_chunks(self) -> None:
+        entry = SimpleNamespace(
+            id="paper",
+            embedding_chunks=[
+                SimpleNamespace(id="metadata", text="Metadata text", weight=3.0),
+                SimpleNamespace(id="body", text="Body text", weight=1.0),
+            ],
+        )
+
+        rows = embedding_rows_for_entry(cast(Entry, entry))
+
+        self.assertEqual(
+            rows,
+            [
+                EmbeddingRow("paper:metadata", "Metadata text", "1f17db27375c8a49", paper_id="paper", weight=3.0),
+                EmbeddingRow("paper:body", "Body text", "751f5ed0ea11344a", paper_id="paper", weight=1.0),
+            ],
+        )
 
     def test_cache_hit_returns_ordered_matrix_without_model_call(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -5,14 +5,7 @@ from __future__ import annotations
 import json
 
 from knowledge_base.scripts.branching_factor_violations.model import Branch, CountMode, Violation
-
-
-def display_path(path: tuple[str, ...]) -> tuple[str, ...]:
-    return path if path == ("Tree",) else ("Tree", *path)
-
-
-def format_path(path: tuple[str, ...]) -> str:
-    return " > ".join(display_path(path))
+from knowledge_base.scripts.tree_report_data import display_path, format_path
 
 
 def child_labels(branch: Branch, *, show_children: int) -> list[str]:

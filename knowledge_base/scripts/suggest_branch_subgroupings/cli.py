@@ -5,8 +5,14 @@ import json
 import sys
 from pathlib import Path
 
-from knowledge_base.components.tree.nav_source import TREE_YML
-from knowledge_base.scripts.suggest_branch_subgroupings.common import relative_to_kb
+from knowledge_base.scripts.tree_report_data import (
+    EMBEDDING_CACHE,
+    TREE_YML,
+    collect_branches,
+    load_embedding_vectors,
+    relative_to_kb,
+)
+from knowledge_base.scripts.tree_report_data import load_report_papers as load_papers
 
 
 def main() -> None:
@@ -99,7 +105,6 @@ def main() -> None:
         sys.exit("--max-groups must be at least 2.")
 
     from knowledge_base.scripts.suggest_branch_subgroupings.clustering import build_suggestion, find_too_many_branches
-    from knowledge_base.scripts.suggest_branch_subgroupings.data import collect_branches, load_embeddings, load_papers
     from knowledge_base.scripts.suggest_branch_subgroupings.output import print_markdown, suggestion_to_json
     from knowledge_base.scripts.suggest_branch_subgroupings.tree_edit import apply_tree_suggestion
 
@@ -117,7 +122,7 @@ def main() -> None:
     )
 
     papers = load_papers()
-    embeddings = load_embeddings()
+    embeddings = load_embedding_vectors(EMBEDDING_CACHE, missing_ok=False)
     suggestions = []
     for branch in too_many:
         suggestion = build_suggestion(

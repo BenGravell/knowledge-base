@@ -16,7 +16,6 @@ from typing import Any
 
 import numpy as np
 
-from knowledge_base.catalog import Entry, content_hash
 from knowledge_base.components.map.pipeline.settings import (
     DEFAULT_FASTEMBED_MODEL,
     DEFAULT_SHARED_CHUNK_CACHE,
@@ -30,19 +29,6 @@ from knowledge_base.embedding_workbench import (
     preload_onnxruntime_cuda,
 )
 from knowledge_base.progress import emit_progress
-
-
-def embedding_rows_for_entry(entry: Entry) -> list[EmbeddingRow]:
-    return [
-        EmbeddingRow(
-            id=f"{entry.id}:{chunk.id}",
-            text=chunk.text,
-            content_hash=content_hash(chunk.text),
-            paper_id=entry.id,
-            weight=chunk.weight,
-        )
-        for chunk in entry.embedding_chunks
-    ]
 
 
 def paper_embedding_rows(papers: list[dict[str, Any]]) -> list[EmbeddingRow]:

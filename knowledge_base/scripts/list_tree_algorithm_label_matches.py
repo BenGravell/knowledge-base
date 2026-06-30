@@ -13,18 +13,13 @@ import argparse
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
-
-import yaml
 
 from knowledge_base.components.tree.model import (
     TreeModel,
     load_tree_model,
 )
-from knowledge_base.components.tree.nav_source import TREE_YML
 from knowledge_base.config import KB_DIR
-
-METADATA_ROOT = KB_DIR / "docs" / "papers"
+from knowledge_base.scripts.tree_report_data import METADATA_ROOT, TREE_YML, load_metadata, relative_to_kb
 
 
 @dataclass(frozen=True)
@@ -38,19 +33,6 @@ class Match:
 
 def normalize_label(value: str) -> str:
     return " ".join(value.split()).casefold()
-
-
-def relative_to_kb(path: Path) -> str:
-    try:
-        return str(path.relative_to(KB_DIR))
-    except ValueError:
-        return str(path)
-
-
-def load_metadata(path: Path) -> dict[str, Any]:
-    with path.open("r", encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
-    return data if isinstance(data, dict) else {}
 
 
 def load_algorithm_tree_model() -> TreeModel:

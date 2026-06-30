@@ -16,11 +16,12 @@ from typing import Any
 
 import numpy as np
 
-from knowledge_base.catalog import Catalog, Entry, content_hash
+from knowledge_base.catalog import Catalog
 from knowledge_base.embedding_workbench import (
     FASTEMBED_DEVICE_CHOICES,
     EmbeddingRow,
     available_onnx_providers,
+    embedding_rows_for_entry,
     fastembed_effective_device,
     preload_onnxruntime_cuda,
     refresh_embedding_cache,
@@ -55,19 +56,6 @@ EMBED_PROGRESS_INTERVAL = 32
 
 def clean_scalar(value: object) -> str:
     return str(value or "").strip()
-
-
-def embedding_rows_for_entry(entry: Entry) -> list[EmbeddingRow]:
-    return [
-        EmbeddingRow(
-            id=f"{entry.id}:{chunk.id}",
-            text=chunk.text,
-            content_hash=content_hash(chunk.text),
-            paper_id=entry.id,
-            weight=chunk.weight,
-        )
-        for chunk in entry.embedding_chunks
-    ]
 
 
 def load_papers() -> tuple[list[dict[str, Any]], list[EmbeddingRow]]:

@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from knowledge_base.components.tree.model import TreeBranch as Branch
-from knowledge_base.scripts.list_tree_embedding_dissimilarity.data import format_path
 from knowledge_base.scripts.list_tree_embedding_dissimilarity.model import Finding, Outlier, Paper, Scope
+from knowledge_base.scripts.tree_report_data import format_path
 
 
 def cosine(left: tuple[float, ...], right: tuple[float, ...]) -> float:

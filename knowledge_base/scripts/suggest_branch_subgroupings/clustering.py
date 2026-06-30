@@ -10,8 +10,9 @@ from sklearn.preprocessing import normalize
 
 from knowledge_base.components.tree.model import TreeBranch as Branch
 from knowledge_base.components.tree.model import TreeChild as ChildItem
-from knowledge_base.scripts.suggest_branch_subgroupings.common import BROAD_TERMS, CountMode, format_path
+from knowledge_base.scripts.suggest_branch_subgroupings.common import BROAD_TERMS
 from knowledge_base.scripts.suggest_branch_subgroupings.model import Cluster, Paper, Suggestion
+from knowledge_base.scripts.tree_report_data import CountMode, format_path
 
 
 def child_embedding(

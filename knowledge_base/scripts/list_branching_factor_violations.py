@@ -13,17 +13,10 @@ from __future__ import annotations
 
 import argparse
 import sys
-from typing import Any
 
-from knowledge_base.components.tree.model import TreeModel
-from knowledge_base.components.tree.nav_source import load_tree
 from knowledge_base.scripts.branching_factor_violations.model import Branch, CountMode, Violation
 from knowledge_base.scripts.branching_factor_violations.output import format_path, print_json, print_markdown
-
-
-def collect_branches(nav: Any, *, include_root: bool) -> list[Branch]:
-    model = TreeModel.from_tree(nav)
-    return [model.root, *model.branches] if include_root else list(model.branches)
+from knowledge_base.scripts.tree_report_data import collect_branches
 
 
 def find_violations(
@@ -142,7 +135,7 @@ def main() -> None:
     if args.max_depth is not None and args.max_depth < 0:
         sys.exit("--max-depth must be at least 0.")
 
-    branches = collect_branches(load_tree(), include_root=not args.exclude_root)
+    branches = collect_branches(include_root=not args.exclude_root)
     if args.max_depth is not None:
         branches = [branch for branch in branches if branch.depth <= args.max_depth]
     violations = find_violations(

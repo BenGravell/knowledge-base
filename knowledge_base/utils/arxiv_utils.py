@@ -2,6 +2,7 @@ import os
 import re
 import xml.etree.ElementTree as ET
 from collections.abc import Iterable
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote, unquote, urlparse
@@ -14,6 +15,7 @@ from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
 PAPERS_DIR = Path("docs/papers")
 ARXIV_API = "https://export.arxiv.org/api/query"
 ARXIV_NS = "http://www.w3.org/2005/Atom"
+ARXIV_SCHEMA_NS = "http://arxiv.org/schemas/atom"
 ARXIV_OAI_API = "https://oaipmh.arxiv.org/oai"
 OAI_NS = "http://www.openarchives.org/OAI/2.0/"
 OAI_ARXIV_NS = "http://arxiv.org/OAI/arXiv/"
@@ -27,6 +29,20 @@ ARXIV_HEADERS = {
     "From": ARXIV_CONTACT_EMAIL,
     "User-Agent": (f"knowledge-base-prefill/1.0 ({ARXIV_CONTACT_EMAIL}; https://github.com/bjgravell/knowledge-base)"),
 }
+
+
+@dataclass
+class ArxivRecord:
+    arxiv_id: str
+    title: str
+    authors: list[str]
+    year: int
+    abstract: str
+    doi: str = ""
+    journal_ref: str = ""
+    comment: str = ""
+    primary_category: str = ""
+    categories: list[str] = field(default_factory=list)
 
 
 def normalize_arxiv_id(arxiv_id: str | None) -> str:
@@ -91,49 +107,93 @@ def arxiv_html_url(arxiv_id: str | None) -> str:
     return f"https://ar5iv.labs.arxiv.org/html/{encoded}"
 
 
-def _entry_fields(entry: ET.Element, fallback_id: str = "") -> dict[str, Any]:
-    def text(tag: str) -> str:
-        el = entry.find(f"{{{ARXIV_NS}}}{tag}")
-        return el.text.strip() if el is not None and el.text else ""
+def _clean_space(text: str | None) -> str:
+    return re.sub(r"\s+", " ", text or "").strip()
 
-    arxiv_id = normalize_arxiv_id(text("id")) or normalize_arxiv_id(fallback_id)
-    title = re.sub(r"\s+", " ", text("title"))
-    abstract = re.sub(r"\s+", " ", text("summary"))
-    published = text("published")  # e.g. "2024-03-16T00:00:00Z"
-    year = int(published[:4]) if published else arxiv_year_from_id(arxiv_id)
 
-    authors = []
-    for a in entry.findall(f"{{{ARXIV_NS}}}author"):
-        name_el = a.find(f"{{{ARXIV_NS}}}name")
-        if name_el is not None and name_el.text:
-            authors.append(name_el.text.strip())
+def _entry_text(entry: ET.Element, ns: str, tag: str) -> str:
+    el = entry.find(f"{{{ns}}}{tag}")
+    return _clean_space(el.text if el is not None else "")
 
-    return {
-        "title": title,
-        "authors": authors,
-        "year": year,
-        "abstract": abstract,
-        "arxiv_id": arxiv_id,
-        "link": arxiv_pdf_url(arxiv_id),
+
+def arxiv_record_to_fields(record: ArxivRecord) -> dict[str, Any]:
+    fields: dict[str, Any] = {
+        "title": record.title,
+        "authors": record.authors,
+        "year": record.year,
+        "abstract": record.abstract,
+        "arxiv_id": record.arxiv_id,
+        "link": arxiv_pdf_url(record.arxiv_id),
     }
+    if record.doi:
+        fields["doi"] = record.doi
+    return fields
+
+
+def arxiv_atom_entry_record(entry: ET.Element, fallback_id: str = "") -> ArxivRecord:
+    def atom_text(tag: str) -> str:
+        return _entry_text(entry, ARXIV_NS, tag)
+
+    def arxiv_text(tag: str) -> str:
+        return _entry_text(entry, ARXIV_SCHEMA_NS, tag)
+
+    arxiv_id = normalize_arxiv_id(atom_text("id")) or normalize_arxiv_id(fallback_id)
+    published = atom_text("published")
+    primary_el = entry.find(f"{{{ARXIV_SCHEMA_NS}}}primary_category")
+    primary_category = primary_el.attrib.get("term", "") if primary_el is not None else ""
+    categories = [
+        category.attrib.get("term", "")
+        for category in entry.findall(f"{{{ARXIV_NS}}}category")
+        if category.attrib.get("term")
+    ]
+    if primary_category and primary_category not in categories:
+        categories.insert(0, primary_category)
+
+    return ArxivRecord(
+        arxiv_id=arxiv_id,
+        title=atom_text("title"),
+        authors=[
+            _clean_space(name.text)
+            for author in entry.findall(f"{{{ARXIV_NS}}}author")
+            if (name := author.find(f"{{{ARXIV_NS}}}name")) is not None and name.text
+        ],
+        year=int(published[:4]) if published else arxiv_year_from_id(arxiv_id),
+        abstract=atom_text("summary"),
+        doi=arxiv_text("doi"),
+        journal_ref=arxiv_text("journal_ref"),
+        comment=arxiv_text("comment"),
+        primary_category=primary_category,
+        categories=categories,
+    )
+
+
+def _entry_fields(entry: ET.Element, fallback_id: str = "") -> dict[str, Any]:
+    return arxiv_record_to_fields(arxiv_atom_entry_record(entry, fallback_id))
+
+
+def parse_arxiv_feed_records(feed_xml: str, fallback_id: str = "") -> dict[str, ArxivRecord]:
+    root = ET.fromstring(feed_xml)
+    records: dict[str, ArxivRecord] = {}
+    for entry in root.findall(f"{{{ARXIV_NS}}}entry"):
+        record = arxiv_atom_entry_record(entry, fallback_id)
+        arxiv_id = normalize_arxiv_id(record.arxiv_id)
+        if arxiv_id:
+            records[arxiv_id] = record
+    return records
 
 
 def _parse_arxiv_feed(feed_xml: str, fallback_id: str = "") -> dict[str, dict[str, Any]]:
-    root = ET.fromstring(feed_xml)
-    records: dict[str, dict[str, Any]] = {}
-    for entry in root.findall(f"{{{ARXIV_NS}}}entry"):
-        fields = _entry_fields(entry, fallback_id)
-        arxiv_id = normalize_arxiv_id(fields.get("arxiv_id"))
-        if arxiv_id:
-            records[arxiv_id] = fields
-    return records
+    return {
+        arxiv_id: arxiv_record_to_fields(record)
+        for arxiv_id, record in parse_arxiv_feed_records(feed_xml, fallback_id).items()
+    }
 
 
 def _element_text(element: ET.Element | None, ns: str, tag: str) -> str:
     if element is None:
         return ""
     child = element.find(f"{{{ns}}}{tag}")
-    return child.text.strip() if child is not None and child.text else ""
+    return _clean_space(child.text if child is not None else "")
 
 
 def _parse_oai_author(author: ET.Element) -> str:
@@ -143,7 +203,7 @@ def _parse_oai_author(author: ET.Element) -> str:
     return " ".join(part for part in (forenames, keyname, suffix) if part).strip()
 
 
-def _parse_arxiv_oai_record(record_xml: str, fallback_id: str = "") -> dict[str, Any]:
+def parse_arxiv_oai_record(record_xml: str, fallback_id: str = "") -> ArxivRecord:
     root = ET.fromstring(record_xml)
     error = root.find(f"{{{OAI_NS}}}error")
     if error is not None:
@@ -161,28 +221,26 @@ def _parse_arxiv_oai_record(record_xml: str, fallback_id: str = "") -> dict[str,
     created = _element_text(entry, OAI_ARXIV_NS, "created")
     year_match = re.search(r"\b(?:19|20)\d{2}\b", created)
     id_year = arxiv_year_from_id(arxiv_id)
-    year = id_year or (int(year_match.group(0)) if year_match else 0)
-    authors = [
-        author
-        for author in (_parse_oai_author(author_el) for author_el in entry.findall(f".//{{{OAI_ARXIV_NS}}}author"))
-        if author
-    ]
-
-    fields = {
-        "title": re.sub(r"\s+", " ", _element_text(entry, OAI_ARXIV_NS, "title")),
-        "authors": authors,
-        "year": year,
-        "abstract": re.sub(r"\s+", " ", _element_text(entry, OAI_ARXIV_NS, "abstract")),
-        "arxiv_id": arxiv_id,
-        "link": arxiv_pdf_url(arxiv_id),
-    }
-    doi = _element_text(entry, OAI_ARXIV_NS, "doi")
-    if doi:
-        fields["doi"] = doi
-    return fields
+    return ArxivRecord(
+        arxiv_id=arxiv_id,
+        title=_element_text(entry, OAI_ARXIV_NS, "title"),
+        authors=[
+            author
+            for author in (_parse_oai_author(author_el) for author_el in entry.findall(f".//{{{OAI_ARXIV_NS}}}author"))
+            if author
+        ],
+        year=id_year or (int(year_match.group(0)) if year_match else 0),
+        abstract=_element_text(entry, OAI_ARXIV_NS, "abstract"),
+        doi=_element_text(entry, OAI_ARXIV_NS, "doi"),
+        categories=[],
+    )
 
 
-def fetch_arxiv_oai(arxiv_id: str) -> dict[str, Any]:
+def _parse_arxiv_oai_record(record_xml: str, fallback_id: str = "") -> dict[str, Any]:
+    return arxiv_record_to_fields(parse_arxiv_oai_record(record_xml, fallback_id))
+
+
+def fetch_arxiv_oai_record(arxiv_id: str) -> ArxivRecord:
     """Fetch metadata for one arXiv ID from arXiv's OAI-PMH endpoint."""
     arxiv_id = normalize_arxiv_id(arxiv_id)
     r = requests.get(
@@ -196,11 +254,16 @@ def fetch_arxiv_oai(arxiv_id: str) -> dict[str, Any]:
         timeout=60,
     )
     r.raise_for_status()
-    return _parse_arxiv_oai_record(r.text, fallback_id=arxiv_id)
+    return parse_arxiv_oai_record(r.text, fallback_id=arxiv_id)
 
 
-def fetch_arxiv_many(arxiv_ids: Iterable[str]) -> dict[str, dict[str, Any]]:
-    """Fetch basic metadata for several arXiv IDs in one Atom API request."""
+def fetch_arxiv_oai(arxiv_id: str) -> dict[str, Any]:
+    """Fetch metadata for one arXiv ID from arXiv's OAI-PMH endpoint."""
+    return arxiv_record_to_fields(fetch_arxiv_oai_record(arxiv_id))
+
+
+def fetch_arxiv_records_many(arxiv_ids: Iterable[str], *, timeout: int = 60) -> dict[str, ArxivRecord]:
+    """Fetch parsed arXiv records for several IDs in one Atom API request."""
     ids = [normalize_arxiv_id(arxiv_id) for arxiv_id in arxiv_ids]
     ids = list(dict.fromkeys(arxiv_id for arxiv_id in ids if arxiv_id))
     if not ids:
@@ -210,26 +273,31 @@ def fetch_arxiv_many(arxiv_ids: Iterable[str]) -> dict[str, dict[str, Any]]:
         ARXIV_API,
         params={"id_list": ",".join(ids), "max_results": len(ids)},
         headers=ARXIV_HEADERS,
-        timeout=60,
+        timeout=timeout,
     )
     r.raise_for_status()
-    return _parse_arxiv_feed(r.text)
+    return parse_arxiv_feed_records(r.text)
+
+
+def fetch_arxiv_many(arxiv_ids: Iterable[str]) -> dict[str, dict[str, Any]]:
+    """Fetch basic metadata for several arXiv IDs in one Atom API request."""
+    return {
+        arxiv_id: arxiv_record_to_fields(record) for arxiv_id, record in fetch_arxiv_records_many(arxiv_ids).items()
+    }
+
+
+def fetch_arxiv_record(arxiv_id: str) -> ArxivRecord:
+    """Fetch one parsed arXiv Atom record."""
+    arxiv_id = normalize_arxiv_id(arxiv_id)
+    records = fetch_arxiv_records_many([arxiv_id])
+    if arxiv_id not in records:
+        raise ValueError(f"No entry found for arXiv ID '{arxiv_id}'")
+    return records[arxiv_id]
 
 
 def fetch_arxiv(arxiv_id: str) -> dict[str, Any]:
     """Fetch basic metadata from the arXiv Atom API and return a dict."""
-    arxiv_id = normalize_arxiv_id(arxiv_id)
-    r = requests.get(
-        ARXIV_API,
-        params={"id_list": arxiv_id, "max_results": 1},
-        headers=ARXIV_HEADERS,
-        timeout=60,
-    )
-    r.raise_for_status()
-    records = _parse_arxiv_feed(r.text, fallback_id=arxiv_id)
-    if arxiv_id not in records:
-        raise ValueError(f"No entry found for arXiv ID '{arxiv_id}'")
-    return records[arxiv_id]
+    return arxiv_record_to_fields(fetch_arxiv_record(arxiv_id))
 
 
 def build_metadata(fields: dict[str, Any]) -> dict[str, Any]:

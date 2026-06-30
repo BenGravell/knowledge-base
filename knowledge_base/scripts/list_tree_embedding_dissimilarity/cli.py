@@ -4,10 +4,22 @@ from __future__ import annotations
 
 import argparse
 
-from knowledge_base.components.tree.nav_source import TREE_YML
 from knowledge_base.scripts.list_tree_embedding_dissimilarity.analysis import find_outliers
-from knowledge_base.scripts.list_tree_embedding_dissimilarity.data import collect_branches, load_embeddings, load_papers
 from knowledge_base.scripts.list_tree_embedding_dissimilarity.output import print_json, print_markdown
+from knowledge_base.scripts.tree_report_data import (
+    EMBEDDING_CACHE,
+    TREE_YML,
+    collect_branches,
+    load_embedding_vectors,
+)
+from knowledge_base.scripts.tree_report_data import load_report_papers as load_papers
+
+
+def load_embeddings() -> dict[str, tuple[float, ...]]:
+    return {
+        paper_id: tuple(float(value) for value in vector)
+        for paper_id, vector in load_embedding_vectors(EMBEDDING_CACHE, normalize_rows=True).items()
+    }
 
 
 def main() -> int:
