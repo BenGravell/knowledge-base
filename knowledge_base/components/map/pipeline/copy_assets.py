@@ -30,6 +30,7 @@ import json
 from pathlib import Path
 
 from knowledge_base.catalog import Catalog
+from knowledge_base.components.map.pipeline.settings import BROWSER_DIR, GENERATED_DIR, METADATA_ROOT, VENDOR_DIR
 from knowledge_base.generated_assets import (
     BROWSER_MAP_MODEL_SCRIPT,
     MAP_BRANCH_FILTER_SCRIPT,
@@ -46,11 +47,6 @@ from knowledge_base.generated_assets import (
 )
 from knowledge_base.generated_files import open_generated
 
-MAP_DIR = Path(__file__).resolve().parents[1]
-BROWSER_DIR = MAP_DIR / "browser"
-GENERATED_DIR = MAP_DIR / "generated"
-KB_DIR = MAP_DIR.parents[1]
-METADATA_ROOT = KB_DIR / "docs" / "papers"
 RUN_GENERATE_MAP_DATA = "python knowledge_base/components/map/generate_map_data.py"
 
 PLACEHOLDER_DATA = MAP_DATA.js_assignment(MAP_PLACEHOLDER_PAYLOAD, separators=(",", ":"))
@@ -165,7 +161,6 @@ for fname, source in text_assets.items():
 with open_generated(f"javascripts/{similarity_name}", "wb") as out:
     out.write(similarity.read_bytes() if similarity.exists() else b"")
 
-VENDOR_DIR = MAP_DIR / "vendor"
 if VENDOR_DIR.exists():
     for src in sorted(VENDOR_DIR.iterdir()):
         if not src.is_file():

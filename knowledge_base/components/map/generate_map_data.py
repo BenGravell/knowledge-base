@@ -1,9 +1,9 @@
 """Compatibility wrapper for the Map data generator."""
 
-from knowledge_base.components.map.pipeline.generate_data import (
+from knowledge_base.components.map.pipeline.generate_data import main
+from knowledge_base.components.map.pipeline.layouts import (
     added_only_cache_hit,
     incremental_neighbor_positions,
-    main,
 )
 
 __all__ = ["added_only_cache_hit", "incremental_neighbor_positions", "main"]
