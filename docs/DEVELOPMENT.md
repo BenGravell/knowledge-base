@@ -107,15 +107,19 @@ Applying a label writes back to `knowledge_base/tree.yml`, the affected
 - `knowledge_base/docs/templates/metadata.yml` is the paper metadata template.
 - `knowledge_base/tree.yml` is the editable Tree nav source.
 - `dev_apps/` contains Streamlit apps.
-- `knowledge_base/components/` contains Map, Tree, Search, and shared browser
-  component source.
+- `knowledge_base/components/` contains browser component source and Map/Search
+  adapters.
+- `knowledge_base/tree/` contains the Tree model, validation helpers, and Tree
+  data generator.
+- `knowledge_base/publishing/` contains generated-site asset contracts and
+  publishing adapters.
+- `knowledge_base/prefill/` contains the metadata prefill workflow and
+  source-specific importers.
 - `knowledge_base/scripts/` contains maintenance, audit, placement, and prefill entrypoints.
-- `knowledge_base/scripts/prefill/` contains source-specific paper metadata importers.
 - `knowledge_base/components/map/` contains graph generation and site asset
   publishing.
 - `knowledge_base/components/semantic_search/` contains client-side semantic
   search index generation and asset publishing.
-- `knowledge_base/components/tree/` contains the Tree model, validation helpers,
-  browser source, and Tree data generator.
-- `knowledge_base/utils/` contains shared DOI, arXiv, and prefill helpers.
+- `knowledge_base/utils/` contains small shared helpers and compatibility
+  wrappers for older import paths.
 - `knowledge_base/site/` is generated output. Do not edit it directly.

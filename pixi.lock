@@ -1293,7 +1293,7 @@ packages:
 - pypi: ./
   name: knowledge-base
   version: 0.0.0
-  sha256: aeb9c7a50c36726ed3a188b581b03be53b78d06dc2f9270cdb75986495331203
+  sha256: e622628fb9b20a8777d9c7442d232df12c7f1f24a0ec8f190e04f8205726bcc7
   requires_dist:
   - zensical==0.0.43
   - streamlit[pdf]>=1.56.0,<2.0.0

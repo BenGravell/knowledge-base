@@ -4,7 +4,6 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-from knowledge_base.components.tree.validation import TreeIssue, validate_tree
 from knowledge_base.scripts.suggest_tree_algorithm_labels.constants import (
     ACTION_ACCEPT_ALIAS,
     ACTION_REVIEW,
@@ -30,6 +29,7 @@ from knowledge_base.scripts.suggest_tree_algorithm_labels.label_text import (
     words,
 )
 from knowledge_base.scripts.suggest_tree_algorithm_labels.model import Suggestion
+from knowledge_base.tree.validation import TreeIssue, validate_tree
 
 
 def metadata_algorithm_counts(metadata_root: Path) -> Counter[str]:

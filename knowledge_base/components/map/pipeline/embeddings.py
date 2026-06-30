@@ -21,7 +21,7 @@ from knowledge_base.components.map.pipeline.settings import (
     DEFAULT_SHARED_CHUNK_CACHE,
     EMBED_PROGRESS_INTERVAL,
 )
-from knowledge_base.embedding_workbench import (
+from knowledge_base.embeddings.workbench import (
     EmbeddingRow,
     available_onnx_providers,
     fastembed_effective_device,

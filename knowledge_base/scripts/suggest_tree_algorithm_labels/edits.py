@@ -6,10 +6,10 @@ from typing import Any
 
 import yaml
 
-from knowledge_base.components.tree.nav_source import YAML_LOADER
-from knowledge_base.components.tree.validation import TREE_YML
 from knowledge_base.scripts.suggest_tree_algorithm_labels.label_text import clean_text
 from knowledge_base.scripts.suggest_tree_algorithm_labels.model import Suggestion
+from knowledge_base.tree.nav_source import YAML_LOADER
+from knowledge_base.tree.validation import TREE_YML
 
 
 def load_metadata(path: Path) -> dict[str, Any]:

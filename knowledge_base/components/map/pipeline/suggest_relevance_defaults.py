@@ -28,7 +28,7 @@ from typing import Any
 
 import numpy as np
 
-from knowledge_base.generated_assets import MAP_DATA
+from knowledge_base.publishing.generated_assets import MAP_DATA
 
 MAP_DIR = Path(__file__).resolve().parents[1]
 DATA_FILE = MAP_DIR / "generated" / MAP_DATA.name

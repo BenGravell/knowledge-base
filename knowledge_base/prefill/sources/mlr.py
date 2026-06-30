@@ -1,0 +1,114 @@
+"""Batch-prefill metadata.yml files from a list of PMLR/MLR URLs.
+
+Usage:
+    python -m knowledge_base.prefill mlr [--input PATH] [--overwrite]
+
+Defaults:
+    --input      todo/papers/MLR.md
+    --overwrite  False (skip entries whose metadata.yml already exists)
+
+The script scrapes PMLR citation meta tags and abstract text, then writes a
+raw metadata.yml entry using the repository's non-arXiv folder convention.
+"""
+
+from collections.abc import Callable
+from pathlib import Path
+from typing import Any
+from urllib.parse import urlparse, urlunparse
+
+from knowledge_base.prefill.doi import (
+    fetch_page_html,
+)
+from knowledge_base.prefill.runner import REPO_ROOT
+from knowledge_base.prefill.todo_file import (
+    absolutize_url,
+    clean_text,
+    element_text_by_id,
+    first_element_text,
+    first_meta,
+    meta_contents,
+    read_url_lines,
+)
+
+DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "MLR.md"
+
+
+def normalize_url(url: str) -> str:
+    """Normalize a PMLR paper URL to the HTML page."""
+    parsed = urlparse(url.strip())
+    scheme = "https" if parsed.netloc == "proceedings.mlr.press" else parsed.scheme
+    path = parsed.path.rstrip("/")
+
+    if path.endswith(".pdf.html"):
+        path = path[: -len(".pdf.html")]
+    elif path.endswith(".pdf"):
+        path = path[: -len(".pdf")]
+    parts = path.split("/")
+    if len(parts) >= 2 and parts[-1] == parts[-2]:
+        parts.pop()
+        path = "/".join(parts)
+    if not path.endswith(".html"):
+        path = f"{path}.html"
+
+    return urlunparse((scheme, parsed.netloc, path, "", "", ""))
+
+
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[str]:
+    """Return deduplicated normalized PMLR URLs."""
+    seen: set[str] = set()
+    entries: list[str] = []
+    for url in read_url_lines(path):
+        if "proceedings.mlr.press/" not in url:
+            message = f"could not parse PMLR URL from: {url!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
+            continue
+        normalized = normalize_url(url)
+        if normalized not in seen:
+            seen.add(normalized)
+            entries.append(normalized)
+    return entries
+
+
+def fetch_mlr_fields(url: str) -> dict[str, Any]:
+    html = fetch_page_html(url)
+    title = first_meta(html, "citation_title") or first_element_text(html, "h1")
+    authors = meta_contents(html, "citation_author")
+    year_raw = first_meta(html, "citation_publication_date")
+    year = int(year_raw[:4]) if year_raw[:4].isdigit() else 0
+    source = first_meta(html, "citation_conference_title", "citation_inbook_title")
+
+    abstract = element_text_by_id(html, "abstract")
+    if not abstract:
+        abstract = clean_text(first_meta(html, "citation_abstract", "description"))
+
+    pdf_url = first_meta(html, "citation_pdf_url")
+    link = absolutize_url(url, pdf_url) if pdf_url else url
+    links_alt: list[str] = [url] if link != url else []
+
+    if not title or not authors or not year:
+        raise ValueError(f"Incomplete PMLR metadata at {url!r}")
+
+    return {
+        "title": title,
+        "authors": authors,
+        "year": year,
+        "source": source or "Proceedings of Machine Learning Research",
+        "type": "Conference Paper",
+        "abstract": abstract,
+        "link": link,
+        "links_alt": links_alt,
+    }
+
+
+def source_key_for_token(token: str) -> str | None:
+    if "proceedings.mlr.press/" not in token:
+        return None
+    return normalize_url(token)
+
+
+def fetch_fields(entry: str, context: dict[str, Any]) -> dict[str, Any]:
+    _ = context
+    return fetch_mlr_fields(entry)

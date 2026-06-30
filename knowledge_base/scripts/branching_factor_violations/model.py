@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal
 
-from knowledge_base.components.tree.model import TreeBranch as Branch
+from knowledge_base.tree.model import TreeBranch as Branch
 
 CountMode = Literal["all", "branches"]
 

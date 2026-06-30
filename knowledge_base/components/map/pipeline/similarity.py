@@ -7,8 +7,8 @@ from typing import Any
 import numpy as np
 
 from knowledge_base.components.map.pipeline.settings import TREE_PROXIMITY_HISTOGRAM_BINS, UNCATEGORIZED_CATEGORY
-from knowledge_base.components.tree.model import common_prefix_length as tree_common_prefix_length
-from knowledge_base.components.tree.model import tree_distance as tree_model_distance
+from knowledge_base.tree.model import common_prefix_length as tree_common_prefix_length
+from knowledge_base.tree.model import tree_distance as tree_model_distance
 
 
 def cosine_similarity_matrix(embeddings: np.ndarray) -> np.ndarray:

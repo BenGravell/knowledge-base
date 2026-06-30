@@ -1,5 +1,7 @@
-"""Generated-file script: publish paper search/link assets without pages."""
+"""Compatibility wrapper for paper asset generation."""
 
-from knowledge_base.generate_papers import main
+from knowledge_base.publishing.generate_paper_assets import *  # noqa: F403
+from knowledge_base.publishing.generate_paper_assets import main
 
-main(include_pages=False)
+if __name__ == "__main__":
+    main()

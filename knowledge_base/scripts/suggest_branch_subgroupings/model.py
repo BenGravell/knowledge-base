@@ -2,9 +2,9 @@
 
 from dataclasses import dataclass
 
-from knowledge_base.components.tree.model import TreeBranch as Branch
-from knowledge_base.components.tree.model import TreeChild as ChildItem
 from knowledge_base.scripts.tree_report_data import ReportPaper as Paper
+from knowledge_base.tree.model import TreeBranch as Branch
+from knowledge_base.tree.model import TreeChild as ChildItem
 
 
 @dataclass(frozen=True)

@@ -8,7 +8,6 @@ from pathlib import Path
 
 import yaml
 
-from knowledge_base.components.tree.model import load_tree_model
 from knowledge_base.config import KB_DIR
 from knowledge_base.scripts.list_unplaced_papers.embeddings import load_embeddings
 from knowledge_base.scripts.list_unplaced_papers.output import (
@@ -28,6 +27,7 @@ from knowledge_base.scripts.list_unplaced_papers.tree_ops import (
     write_tree_placements,
 )
 from knowledge_base.scripts.tree_report_data import collect_nav_locations, collect_tree_leaves
+from knowledge_base.tree.model import load_tree_model
 
 
 def main() -> None:

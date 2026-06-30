@@ -21,7 +21,7 @@ dependencies = [
 
 [project.scripts]
 kb = "knowledge_base.dev_cli:main"
-prefill = "knowledge_base.utils.prefill_template:main"
+prefill = "knowledge_base.prefill.runner:main"
 
 [dependency-groups]
 dev = [

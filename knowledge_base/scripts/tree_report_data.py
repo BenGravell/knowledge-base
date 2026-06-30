@@ -10,10 +10,10 @@ import numpy as np
 import yaml
 
 from knowledge_base.catalog import Catalog, Entry
-from knowledge_base.components.tree.model import TreeBranch, TreeLeaf, load_tree_model
 from knowledge_base.config import KB_DIR
-from knowledge_base.embedding_workbench import load_embedding_table
+from knowledge_base.embeddings.workbench import load_embedding_table
 from knowledge_base.progress import emit_progress
+from knowledge_base.tree.model import TreeBranch, TreeLeaf, load_tree_model
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"

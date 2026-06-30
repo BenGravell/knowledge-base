@@ -40,7 +40,7 @@ from knowledge_base.components.map.pipeline.settings import (
     PAPER_NODE_RADIUS_TARGET,
     UNCATEGORIZED_CATEGORY,
 )
-from knowledge_base.embedding_workbench import save_embedding_cache
+from knowledge_base.embeddings.workbench import save_embedding_cache
 from knowledge_base.progress import emit_progress
 
 

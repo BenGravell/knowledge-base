@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import unittest
 
-from knowledge_base.components.tree.model import TreeModel, TreeSource
 from knowledge_base.scripts.list_unplaced_papers import (
     collect_nav_locations,
     collect_tree_leaves,
 )
+from knowledge_base.tree.model import TreeModel, TreeSource
 
 
 class TreeOpsTests(unittest.TestCase):

@@ -8,10 +8,10 @@ from pathlib import Path
 
 import yaml
 
-from knowledge_base.components.tree.model import TreeLeaf
 from knowledge_base.scripts.list_unplaced_papers.embeddings import nearest_placed_neighbors
 from knowledge_base.scripts.list_unplaced_papers.model import Paper
 from knowledge_base.scripts.tree_report_data import relative_to_kb
+from knowledge_base.tree.model import TreeLeaf
 
 
 def yaml_key(value: str) -> str:

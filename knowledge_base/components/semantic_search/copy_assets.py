@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from knowledge_base.catalog import Catalog
-from knowledge_base.generated_assets import (
+from knowledge_base.publishing.generated_assets import (
     SEMANTIC_SEARCH_INDEX,
     SEMANTIC_SEARCH_PLACEHOLDER_MANIFEST,
     SEMANTIC_SEARCH_PLACEHOLDER_SETTINGS,
@@ -14,7 +14,7 @@ from knowledge_base.generated_assets import (
     load_json_object,
     validate_semantic_search_contract,
 )
-from knowledge_base.generated_files import open_generated
+from knowledge_base.publishing.generated_files import open_generated
 
 ASSET_DIR = Path(__file__).resolve().parent
 KB_DIR = ASSET_DIR.parents[1]

@@ -1,4 +1,5 @@
-"""Metadata prefill source handlers.
+"""Compatibility package for the prefill workflow."""
 
-Run sources with ``prefill SOURCE`` or ``python -m knowledge_base.scripts.prefill SOURCE``.
-"""
+from knowledge_base.prefill.runner import main
+
+__all__ = ["main"]

@@ -13,13 +13,13 @@ import json
 from pathlib import Path
 from typing import Any
 
-from knowledge_base.components.tree.validation import (
+from knowledge_base.config import KB_DIR
+from knowledge_base.progress import emit_progress
+from knowledge_base.tree.validation import (
     format_tree_validation_report,
     relative_to_kb,
     validate_tree,
 )
-from knowledge_base.config import KB_DIR
-from knowledge_base.progress import emit_progress
 
 
 def issue_to_dict(issue: Any) -> dict[str, Any]:

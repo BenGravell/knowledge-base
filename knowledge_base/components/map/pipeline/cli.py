@@ -11,7 +11,7 @@ from knowledge_base.components.map.pipeline.settings import (
     DEFAULT_OUTPUT,
     DEFAULT_SIMILARITY_OUTPUT,
 )
-from knowledge_base.embedding_workbench import FASTEMBED_DEVICE_CHOICES
+from knowledge_base.embeddings.workbench import FASTEMBED_DEVICE_CHOICES
 
 EPILOG = """
 Usage

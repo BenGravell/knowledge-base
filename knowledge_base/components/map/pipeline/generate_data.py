@@ -21,7 +21,7 @@ from knowledge_base.components.map.pipeline.layouts import (
 from knowledge_base.components.map.pipeline.navigation import parse_nav_categories, parse_nav_category_order
 from knowledge_base.components.map.pipeline.papers import collect_map_papers
 from knowledge_base.components.map.pipeline.settings import SITE_CONFIG
-from knowledge_base.embedding_workbench import (
+from knowledge_base.embeddings.workbench import (
     load_embedding_cache,
     materialize_embedding_table,
     refresh_embedding_cache,

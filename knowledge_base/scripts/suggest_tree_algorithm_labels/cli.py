@@ -4,7 +4,6 @@ import argparse
 import json
 from pathlib import Path
 
-from knowledge_base.components.tree.validation import METADATA_ROOT, TREE_YML
 from knowledge_base.scripts.suggest_tree_algorithm_labels.constants import ACTIONS, CONFIDENCE_LOW, CONFIDENCES
 from knowledge_base.scripts.suggest_tree_algorithm_labels.output import (
     filter_suggestions,
@@ -12,6 +11,7 @@ from knowledge_base.scripts.suggest_tree_algorithm_labels.output import (
     suggestion_to_dict,
 )
 from knowledge_base.scripts.suggest_tree_algorithm_labels.suggestions import collect_suggestions
+from knowledge_base.tree.validation import METADATA_ROOT, TREE_YML
 
 
 def parse_args() -> argparse.Namespace:

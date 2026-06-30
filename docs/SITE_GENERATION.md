@@ -26,11 +26,11 @@ Before `zensical serve` and `zensical build`, `kb` materializes
 `knowledge_base/.generated/docs/` from `knowledge_base/docs/`, then runs these
 generated-file scripts:
 
-- `knowledge_base/generate_papers.py` renders generated paper pages from `knowledge_base/docs/papers/**/metadata.yml`.
-- `knowledge_base/components/copy_assets.py` publishes shared browser component JavaScript.
+- `knowledge_base/publishing/generate_papers.py` renders generated paper pages from `knowledge_base/docs/papers/**/metadata.yml`.
+- `knowledge_base/publishing/browser_assets.py` publishes shared browser component JavaScript.
 - `knowledge_base/components/map/pipeline/copy_assets.py` publishes Map JavaScript and vendor assets.
 - `knowledge_base/components/semantic_search/copy_assets.py` publishes the Semantic Search index and vector table.
-- `knowledge_base/components/tree/generate_tree_data.py` publishes Tree browser data.
+- `knowledge_base/tree/generate_tree_data.py` publishes Tree browser data.
 
 The staging step intentionally skips `knowledge_base/docs/papers/`; generated
 paper pages are written from `metadata.yml` entries, so embed sidecars are never
@@ -39,7 +39,7 @@ handed to Zensical as source pages.
 `knowledge_base/zensical.yml` is the source Zensical site config. Tree data is
 generated directly from `knowledge_base/tree.yml`. For the in-process
 Tree model design, see
-[knowledge_base/components/tree/README.md](../knowledge_base/components/tree/README.md).
+[knowledge_base/tree/README.md](../knowledge_base/tree/README.md).
 
 ## Map
 

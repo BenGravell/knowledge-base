@@ -6,7 +6,7 @@ from typing import Any
 
 from knowledge_base.catalog import Catalog
 from knowledge_base.components.map.pipeline.settings import METADATA_ROOT, UNCATEGORIZED_CATEGORY
-from knowledge_base.embedding_workbench import EmbeddingRow, embedding_rows_for_entry
+from knowledge_base.embeddings.workbench import EmbeddingRow, embedding_rows_for_entry
 from knowledge_base.progress import emit_progress
 
 

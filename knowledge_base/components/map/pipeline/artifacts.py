@@ -23,8 +23,8 @@ from knowledge_base.components.map.pipeline.similarity import (
     quantile_unitize_similarity_matrix,
     tree_proximity_metadata,
 )
-from knowledge_base.embedding_workbench import save_embedding_cache
-from knowledge_base.generated_assets import MAP_DATA
+from knowledge_base.embeddings.workbench import save_embedding_cache
+from knowledge_base.publishing.generated_assets import MAP_DATA
 
 
 def map_data_cache_key(

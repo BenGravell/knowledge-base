@@ -17,7 +17,7 @@ from typing import Any
 import numpy as np
 
 from knowledge_base.catalog import Catalog
-from knowledge_base.embedding_workbench import (
+from knowledge_base.embeddings.workbench import (
     FASTEMBED_DEVICE_CHOICES,
     EmbeddingRow,
     available_onnx_providers,
@@ -26,14 +26,14 @@ from knowledge_base.embedding_workbench import (
     preload_onnxruntime_cuda,
     refresh_embedding_cache,
 )
-from knowledge_base.generated_assets import (
+from knowledge_base.progress import emit_progress
+from knowledge_base.publishing.generated_assets import (
     SEMANTIC_BROWSER_MODEL,
     SEMANTIC_SCORE_THRESHOLD,
     SEMANTIC_SEARCH_INDEX,
     SEMANTIC_SEARCH_SETTINGS,
     SEMANTIC_SEARCH_VECTORS,
 )
-from knowledge_base.progress import emit_progress
 
 SEMANTIC_SEARCH_DIR = Path(__file__).resolve().parent
 KB_DIR = SEMANTIC_SEARCH_DIR.parents[1]

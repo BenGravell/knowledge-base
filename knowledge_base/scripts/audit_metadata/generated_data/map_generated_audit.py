@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from knowledge_base.generated_assets import (
+from knowledge_base.publishing.generated_assets import (
     MAP_DATA,
     map_node_ids,
     map_similarity_ids,

@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from knowledge_base.generated_assets import (
+from knowledge_base.publishing.generated_assets import (
     MAP_DATA,
     duplicate_values,
     format_id_examples,

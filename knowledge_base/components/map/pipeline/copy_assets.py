@@ -31,7 +31,7 @@ from pathlib import Path
 
 from knowledge_base.catalog import Catalog
 from knowledge_base.components.map.pipeline.settings import BROWSER_DIR, GENERATED_DIR, METADATA_ROOT, VENDOR_DIR
-from knowledge_base.generated_assets import (
+from knowledge_base.publishing.generated_assets import (
     BROWSER_MAP_MODEL_SCRIPT,
     MAP_BRANCH_FILTER_SCRIPT,
     MAP_CAMERA_SCRIPT,
@@ -46,7 +46,7 @@ from knowledge_base.generated_assets import (
     MAP_VIEW_STATE_SCRIPT,
     validate_map_data_contract,
 )
-from knowledge_base.generated_files import open_generated
+from knowledge_base.publishing.generated_files import open_generated
 
 RUN_GENERATE_MAP_DATA = "python knowledge_base/components/map/generate_map_data.py"
 

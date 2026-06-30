@@ -14,12 +14,12 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from knowledge_base.components.tree.model import (
+from knowledge_base.config import KB_DIR
+from knowledge_base.scripts.tree_report_data import METADATA_ROOT, TREE_YML, load_metadata, relative_to_kb
+from knowledge_base.tree.model import (
     TreeModel,
     load_tree_model,
 )
-from knowledge_base.config import KB_DIR
-from knowledge_base.scripts.tree_report_data import METADATA_ROOT, TREE_YML, load_metadata, relative_to_kb
 
 
 @dataclass(frozen=True)

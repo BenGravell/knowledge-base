@@ -15,7 +15,7 @@ from pathlib import Path
 
 import yaml
 
-from knowledge_base.generated_assets import render_app_script_blocks
+from knowledge_base.publishing.generated_assets import render_app_script_blocks
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 KB_DIR = Path(__file__).resolve().parent
@@ -27,11 +27,11 @@ SITE_DIR = KB_DIR / "site"
 GENERATED_DOCS_DIR_ENV = "KB_GENERATED_DOCS_DIR"
 
 GENERATED_FILE_SCRIPTS = (
-    ("paper pages and search data", KB_DIR / "generate_papers.py"),
-    ("browser component assets", KB_DIR / "components" / "copy_assets.py"),
+    ("paper pages and search data", KB_DIR / "publishing" / "generate_papers.py"),
+    ("browser component assets", KB_DIR / "publishing" / "browser_assets.py"),
     ("map assets", KB_DIR / "components" / "map" / "pipeline" / "copy_assets.py"),
     ("semantic search assets", KB_DIR / "components" / "semantic_search" / "copy_assets.py"),
-    ("tree, analytics, and timeline data", KB_DIR / "components" / "tree" / "generate_tree_data.py"),
+    ("tree, analytics, and timeline data", KB_DIR / "tree" / "generate_tree_data.py"),
 )
 
 
@@ -44,7 +44,7 @@ EXTERNAL_COMMANDS: dict[str, tuple[str, ...]] = {
     "lint": ("ruff", "check", "knowledge_base"),
     "list-raw": ("python", "knowledge_base/scripts/list_raw_papers.py"),
     "list-unplaced": ("python", "knowledge_base/scripts/list_unplaced_papers.py"),
-    "prefill": ("python", "-m", "knowledge_base.scripts.prefill"),
+    "prefill": ("python", "-m", "knowledge_base.prefill"),
     "py-compile": ("python", "-m", "py_compile"),
     "refresh": ("python", "knowledge_base/scripts/refresh_offline_data.py"),
     "suggest-tree-labels": ("python", "knowledge_base/scripts/suggest_tree_algorithm_labels.py"),

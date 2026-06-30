@@ -21,9 +21,13 @@ Important paths:
 - `knowledge_base/docs/papers/`: paper entries. New entries go here.
 - `knowledge_base/docs/templates/metadata.yml`: template for paper metadata.
 - `knowledge_base/tree.yml`: editable Tree taxonomy source used by generated Tree, Map, and Timeline assets.
-- `knowledge_base/components/`: Map, Tree, Search, and shared browser component source.
+- `knowledge_base/tree/`: Tree Model, Tree validation, and Tree/Analytics/Timeline generated-site projections.
+- `knowledge_base/publishing/`: generated-site asset contracts, generated docs writer, paper page generation, site-link helpers, and shared browser asset publishing.
+- `knowledge_base/prefill/`: metadata prefill workflow and source-specific paper importers.
+- `knowledge_base/embeddings/`: Embedding Workbench and embedding cache helpers.
+- `knowledge_base/components/`: browser component source and Map/Search adapters.
 - `knowledge_base/components/map/`: embedding, UMAP, and graph generation scripts.
-- `knowledge_base/scripts/`: audit and utility scripts. Source-specific prefill entrypoints live in `knowledge_base/scripts/prefill/`.
+- `knowledge_base/scripts/`: command wrappers plus maintenance, audit, and placement entrypoints.
 - `knowledge_base/site/`: generated site output. Do not edit it directly.
 - `dev_apps/`: human-facing Streamlit development apps. `./dev` is the Pixi wrapper.
 - `todo/papers/`: source-specific paper URL tracking lists.
@@ -66,7 +70,7 @@ streamlit run dev_apps/generator_app.py
 - Python is `>=3.12, <3.13`; use `./dev` so Pixi can bootstrap the local environment.
 - New knowledge entries go under `knowledge_base/docs/` following the structure of existing files.
 - Paper URL lists live under `todo/papers/<SOURCE>.md`.
-- Source-specific prefill scripts live under `knowledge_base/scripts/prefill/<source>.py`.
+- Source-specific prefill adapters live under `knowledge_base/prefill/sources/<source>.py`.
 - Valid metadata fields, item types, and audit statuses are defined in `knowledge_base/config.py`.
 - Do not promote `audit_status` to `reviewed`. Agents may set it to `partial` after meaningful manual review or correction.
 - There is no general test suite.

@@ -3,9 +3,9 @@
 from collections import Counter
 from typing import Any
 
-from knowledge_base.components.tree.validation import format_nav_path, relative_to_kb
 from knowledge_base.scripts.suggest_tree_algorithm_labels.constants import ACTIONS, CONFIDENCE_RANK, CONFIDENCES
 from knowledge_base.scripts.suggest_tree_algorithm_labels.model import Suggestion
+from knowledge_base.tree.validation import format_nav_path, relative_to_kb
 
 
 def suggestion_to_dict(suggestion: Suggestion) -> dict[str, Any]:

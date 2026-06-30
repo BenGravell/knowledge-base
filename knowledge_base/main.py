@@ -1,7 +1,7 @@
 import itertools
 from typing import Any
 
-from knowledge_base.utils.site_links import site_icon_svg
+from knowledge_base.publishing.site_links import site_icon_svg
 
 TIMELINE_PREVIEW_PROFILES = (
     {

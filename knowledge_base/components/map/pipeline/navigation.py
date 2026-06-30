@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from knowledge_base.components.tree.model import TreeModel
-from knowledge_base.components.tree.nav_source import load_tree
+from knowledge_base.tree.model import TreeModel
+from knowledge_base.tree.nav_source import load_tree
 
 
 def find_tree_nav(config: dict[str, Any]) -> object | None:
