@@ -154,11 +154,15 @@ def write_browser_artifacts(
     similarity_output: Path,
     force_params: dict[str, Any],
     force: bool,
+    source_fingerprint: str = "",
 ) -> None:
     artifact_key = map_data_cache_key(papers, layout_coords, nav_order, model_name)
     artifact_entry_raw = cache.get("mapData")
     artifact_entry: dict[str, Any] = artifact_entry_raw if isinstance(artifact_entry_raw, dict) else dict[str, Any]()
     if not force and artifact_entry.get("key") == artifact_key and output.exists() and similarity_output.exists():
+        if source_fingerprint and artifact_entry.get("sourceFingerprint") != source_fingerprint:
+            cache["mapData"] = {**artifact_entry, "sourceFingerprint": source_fingerprint}
+            save_embedding_cache(cache_path, cache)
         print("    Map browser artifacts loaded from cache (inputs unchanged)")
         print(f"    Output: {output}")
         return
@@ -206,6 +210,7 @@ def write_browser_artifacts(
         "format": MAP_DATA_FORMAT_VERSION,
         "output": output.name,
         "similarity": similarity_output.name,
+        "sourceFingerprint": source_fingerprint,
     }
     save_embedding_cache(cache_path, cache)
 

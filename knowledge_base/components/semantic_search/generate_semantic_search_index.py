@@ -10,6 +10,7 @@ Run this script from the repository root whenever paper metadata changes:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,7 @@ from knowledge_base.embeddings.workbench import (
     available_onnx_providers,
     embedding_rows_for_entry,
     fastembed_effective_device,
+    load_embedding_cache,
     preload_onnxruntime_cuda,
     refresh_embedding_cache,
 )
@@ -52,6 +54,8 @@ THRESHOLD_ROUNDING_STEP = 0.05
 THRESHOLD_TARGET_RECALL = 0.85
 DEFAULT_SCORE_THRESHOLD = SEMANTIC_SCORE_THRESHOLD
 EMBED_PROGRESS_INTERVAL = 32
+ASSET_FORMAT_VERSION = 2
+SOURCE_FINGERPRINT_VERSION = 1
 
 
 def clean_scalar(value: object) -> str:
@@ -96,6 +100,104 @@ def l2_normalize(matrix: np.ndarray) -> np.ndarray:
 
 def quantize_normalized(matrix: np.ndarray) -> np.ndarray:
     return np.clip(np.rint(matrix * QUANTIZATION_SCALE), -128, 127).astype(np.int8)
+
+
+def source_fingerprint(root: Path, extra_files: tuple[Path, ...] = ()) -> str:
+    h = hashlib.sha256()
+    h.update(f"source-fingerprint:{SOURCE_FINGERPRINT_VERSION}".encode("ascii"))
+    paths = sorted(
+        path for pattern in ("metadata.yml", "embed_input.md") for path in root.rglob(pattern) if path.is_file()
+    )
+    paths.extend(path for path in extra_files if path.is_file())
+    for path in paths:
+        stat = path.stat()
+        h.update(path.as_posix().encode("utf-8"))
+        h.update(f"\0{stat.st_size}\0{stat.st_mtime_ns}\0".encode("ascii"))
+    return h.hexdigest()[:24]
+
+
+def semantic_asset_key(
+    papers: list[dict[str, Any]],
+    rows: list[EmbeddingRow],
+    *,
+    model: str,
+    browser_model: str,
+) -> str:
+    paper_keys = (
+        "id",
+        "title",
+        "label",
+        "algorithm",
+        "authors",
+        "year",
+        "tags",
+        "abstract",
+        "summary",
+        "url",
+        "mapUrl",
+        "treeUrl",
+        "timelineUrl",
+        "searchUrl",
+        "byline",
+        "hash",
+    )
+    payload = {
+        "format": ASSET_FORMAT_VERSION,
+        "model": model,
+        "browserModel": browser_model,
+        "quantizationScale": QUANTIZATION_SCALE,
+        "thresholdGridStep": THRESHOLD_GRID_STEP,
+        "thresholdRoundingStep": THRESHOLD_ROUNDING_STEP,
+        "thresholdTargetRecall": THRESHOLD_TARGET_RECALL,
+        "papers": [{key: paper.get(key) for key in paper_keys} for paper in papers],
+        "rows": [
+            {
+                "id": row.id,
+                "hash": row.content_hash,
+                "paperId": row.paper_id,
+                "weight": row.weight,
+            }
+            for row in rows
+        ],
+    }
+    encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()[:24]
+
+
+def embedding_cache_matches_rows(cache_path: Path, rows: list[EmbeddingRow], model: str) -> bool:
+    cache = load_embedding_cache(cache_path)
+    papers = cache.get("papers")
+    vectors = cache.get("vectors")
+    if cache.get("model") != model or not isinstance(papers, dict) or not isinstance(vectors, str):
+        return False
+    if not (cache_path.parent / vectors).exists() or len(papers) != len(rows):
+        return False
+    for index, row in enumerate(rows):
+        entry = papers.get(row.id)
+        if not isinstance(entry, dict):
+            return False
+        if entry.get("hash") != row.content_hash or entry.get("row") != index:
+            return False
+    return True
+
+
+def semantic_assets_current(
+    args: argparse.Namespace,
+    *,
+    asset_key: str | None = None,
+    source_key: str | None = None,
+) -> bool:
+    if not (args.manifest.exists() and args.settings.exists() and args.vectors.exists()):
+        return False
+    try:
+        manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    if not isinstance(manifest, dict):
+        return False
+    if asset_key is not None and manifest.get("assetKey") != asset_key:
+        return False
+    return not (source_key is not None and manifest.get("sourceFingerprint") != source_key)
 
 
 def normalize_tag(tag: object) -> str:
@@ -226,9 +328,28 @@ def write_bytes_atomic(path: Path, content: bytes) -> None:
 
 
 def generate(args: argparse.Namespace) -> None:
+    source_key = source_fingerprint(METADATA_ROOT)
+    if not args.force and semantic_assets_current(args, source_key=source_key):
+        print("Semantic search assets loaded from cache (source files unchanged)")
+        print(f"Manifest: {args.manifest} ({args.manifest.stat().st_size // 1024} KB)")
+        print(f"Settings: {args.settings} ({args.settings.stat().st_size} bytes)")
+        print(f"Vectors : {args.vectors} ({args.vectors.stat().st_size // 1024} KB)")
+        return
+
     print("Loading paper catalog")
     papers, rows = load_papers()
     print(f"Found {len(papers)} papers and {len(rows)} embedding chunk(s)")
+    asset_key = semantic_asset_key(papers, rows, model=args.model, browser_model=args.browser_model)
+    if (
+        not args.force
+        and semantic_assets_current(args, asset_key=asset_key)
+        and embedding_cache_matches_rows(args.cache, rows, args.model)
+    ):
+        print("Semantic search assets loaded from cache (inputs unchanged)")
+        print(f"Manifest: {args.manifest} ({args.manifest.stat().st_size // 1024} KB)")
+        print(f"Settings: {args.settings} ({args.settings.stat().st_size} bytes)")
+        print(f"Vectors : {args.vectors} ({args.vectors.stat().st_size // 1024} KB)")
+        return
 
     def embed_changed(texts: list[str]) -> np.ndarray:
         from fastembed import TextEmbedding
@@ -303,6 +424,9 @@ def generate(args: argparse.Namespace) -> None:
     paper_records = [{key: paper[key] for key in paper_keys} for paper in papers]
 
     manifest = {
+        "assetKey": asset_key,
+        "sourceFingerprint": source_key,
+        "format": ASSET_FORMAT_VERSION,
         "model": args.model,
         "browserModel": args.browser_model,
         "dimension": int(matrix.shape[1]),
@@ -326,6 +450,9 @@ def generate(args: argparse.Namespace) -> None:
         args.settings,
         json.dumps(
             {
+                "assetKey": asset_key,
+                "sourceFingerprint": source_key,
+                "format": ASSET_FORMAT_VERSION,
                 "model": args.model,
                 "browserModel": args.browser_model,
                 "count": len(papers),

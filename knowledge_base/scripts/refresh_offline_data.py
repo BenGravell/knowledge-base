@@ -35,10 +35,6 @@ CONSOLE = Console()
 CHILD_PROGRESS_RE = re.compile(rf"^\s*{re.escape(PROGRESS_PREFIX)}\s+(\d+)/(\d+)(?:\s+(.*))?$")
 REFRESH_STATE_VERSION = 1
 REFRESH_STATE_PATH = KB_DIR / ".generated" / "refresh-state.json"
-GENERATED_STEP_STATE_PATHS = {
-    "Semantic Search": KB_DIR / ".generated" / "semantic-search-refresh-state.json",
-    "Map data": KB_DIR / ".generated" / "map-refresh-state.json",
-}
 HOT_START_STATUS_PATHS = (
     "knowledge_base/docs",
     "knowledge_base/tree.yml",
@@ -69,21 +65,6 @@ HOT_START_REQUIRED_FILES = (
     KB_DIR / "site" / "map" / "index.html",
     KB_DIR / "site" / "search" / "index.html",
 )
-GENERATED_STEP_REQUIRED_FILES = {
-    "Semantic Search": (
-        KB_DIR / "components" / "semantic_search" / "embedding_cache.json",
-        KB_DIR / "components" / "semantic_search" / "embedding_cache.vectors.npy",
-        KB_DIR / "components" / "semantic_search" / "semantic-search-index.json",
-        KB_DIR / "components" / "semantic_search" / "semantic-search-settings.json",
-        KB_DIR / "components" / "semantic_search" / "semantic-search-vectors.i8",
-    ),
-    "Map data": (
-        KB_DIR / "components" / "map" / "cache" / "embedding_cache.json",
-        KB_DIR / "components" / "map" / "cache" / "embedding_cache.vectors.npy",
-        KB_DIR / "components" / "map" / "generated" / "map-data.js",
-        KB_DIR / "components" / "map" / "generated" / "map-similarity.i16",
-    ),
-}
 
 
 def subprocess_env() -> dict[str, str]:
@@ -108,44 +89,6 @@ def refresh_state_status() -> tuple[str, str]:
 
 def write_refresh_state() -> str | None:
     return _state.write_refresh_state(REFRESH_STATE_PATH, REPO_ROOT, HOT_START_STATUS_PATHS, REFRESH_STATE_VERSION)
-
-
-def step_refresh_state_status(step: Step) -> tuple[str, str]:
-    return _state.refresh_state_status(
-        GENERATED_STEP_STATE_PATHS[step.label],
-        REPO_ROOT,
-        HOT_START_STATUS_PATHS,
-        REFRESH_STATE_VERSION,
-    )
-
-
-def write_step_refresh_state(step: Step) -> str | None:
-    return _state.write_refresh_state(
-        GENERATED_STEP_STATE_PATHS[step.label],
-        REPO_ROOT,
-        HOT_START_STATUS_PATHS,
-        REFRESH_STATE_VERSION,
-    )
-
-
-def generated_step_can_hot_start(step: Step, args: argparse.Namespace) -> tuple[bool, str]:
-    if step.label not in GENERATED_STEP_STATE_PATHS:
-        return False, "not a generated-cache step"
-    if args.no_fast_path:
-        return False, "disabled by --no-fast-path"
-    if args.force:
-        return False, "disabled by --force"
-    if args.fastembed_device != "auto":
-        return False, "custom fastembed device"
-    if step.label == "Map data" and (args.map_backend != "fastembed" or args.skip_force_layout):
-        return False, "custom Map generation options"
-
-    missing = [path for path in GENERATED_STEP_REQUIRED_FILES[step.label] if not path.exists()]
-    if missing:
-        return False, f"missing {len(missing)} generated output(s)"
-
-    state, reason = step_refresh_state_status(step)
-    return state == "match", reason
 
 
 def writes_complete_default_outputs(args: argparse.Namespace) -> bool:
@@ -255,33 +198,16 @@ def main() -> int:
         progress_task = progress.add_task("Starting", total=len(steps))
         work_task = progress.add_task("Current work", total=1, visible=False)
         for index, step in enumerate(steps, start=1):
-            step_hot_start, step_reason = (False, "")
-            if not args.dry_run:
-                step_hot_start, step_reason = generated_step_can_hot_start(step, args)
-            if step_hot_start:
-                CONSOLE.rule(f"{index}/{len(steps)} {step.group}: {step.label}", style="cyan")
-                CONSOLE.print(f"Skipped: {step_reason}.", style="green")
-                progress.update(progress_task, description=f"{step.group}: {step.label}")
-                progress.advance(progress_task)
-                progress.update(work_task, visible=False)
-                result = StepResult(step, 0.0, 0)
-            else:
-                result = run_step(
-                    step,
-                    index=index,
-                    total=len(steps),
-                    dry_run=args.dry_run,
-                    console=CONSOLE,
-                    progress=progress,
-                    progress_task=progress_task,
-                    work_task=work_task,
-                )
-                if result.returncode == 0 and step.label in GENERATED_STEP_STATE_PATHS and not args.dry_run:
-                    state_error = write_step_refresh_state(step)
-                    if state_error:
-                        CONSOLE.print(
-                            f"Could not write {step.label} refresh state stamp: {state_error}", style="yellow"
-                        )
+            result = run_step(
+                step,
+                index=index,
+                total=len(steps),
+                dry_run=args.dry_run,
+                console=CONSOLE,
+                progress=progress,
+                progress_task=progress_task,
+                work_task=work_task,
+            )
             results.append(result)
             returncode = result.returncode
             if returncode:
