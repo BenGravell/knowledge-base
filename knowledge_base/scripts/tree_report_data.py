@@ -131,7 +131,7 @@ def format_path(path: tuple[str, ...]) -> str:
 
 
 def is_landing_item(label: str, child: Any) -> bool:
-    landing_pages = {"tree.md", "tree/index.md"}
+    landing_pages = {"tree.md"}
     return isinstance(child, str) and (
         child in landing_pages or (label.strip().lower() == "overview" and child in landing_pages)
     )

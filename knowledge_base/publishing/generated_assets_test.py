@@ -267,7 +267,7 @@ class GeneratedAssetTests(unittest.TestCase):
 
     def test_deliberate_page_relative_navigation_stays_under_deployed_site_prefix(self) -> None:
         cases = {
-            "tree/index.md": (
+            "tree.md": (
                 "../map/#paper=example",
                 "../tree/#paper=example",
                 "../timeline/#paper=example",
@@ -304,7 +304,7 @@ class GeneratedAssetTests(unittest.TestCase):
         self.assertEqual(source_relative_url("papers/current.md", "search.md?author=Ada"), "../search.md?author=Ada")
         self.assertEqual(paper_site_source_url("detail", "other", "papers/current.md"), "other.md")
         self.assertEqual(paper_site_source_url("map", "other", "papers/current.md"), "../map.md?paper=other")
-        self.assertEqual(paper_site_source_url("tree", "other", "papers/current.md"), "../tree/index.md?paper=other")
+        self.assertEqual(paper_site_source_url("tree", "other", "papers/current.md"), "../tree.md?paper=other")
         self.assertEqual(paper_site_source_url("timeline", "other", "papers/current.md"), "../timeline.md?paper=other")
         self.assertEqual(paper_site_source_url("search", "other", "papers/current.md"), "../search.md?paper=other")
 

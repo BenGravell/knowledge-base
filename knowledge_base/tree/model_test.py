@@ -71,7 +71,7 @@ class TreeModelTests(unittest.TestCase):
         model = TreeModel.from_tree(
             {
                 "Tree": [
-                    "tree/index.md",
+                    "tree.md",
                     {
                         "Theory": [
                             {"Direct": "papers/direct.md"},
@@ -84,7 +84,7 @@ class TreeModelTests(unittest.TestCase):
 
         self.assertEqual(
             [leaf.source for leaf in model.leaves],
-            ["tree/index.md", "papers/direct.md", "papers/leaf.md"],
+            ["tree.md", "papers/direct.md", "papers/leaf.md"],
         )
         self.assertEqual([child.label for child in model.root.children], ["Theory"])
         theory = next(branch for branch in model.branches if branch.path == ("Theory",))

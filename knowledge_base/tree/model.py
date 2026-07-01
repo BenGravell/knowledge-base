@@ -20,7 +20,7 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 TRANSPARENT_ROOT_LABELS = {"Tree"}
-LANDING_PAGES = {"tree.md", "tree/index.md"}
+LANDING_PAGES = {"tree.md"}
 GENERATED_PAPER_RE = re.compile(r"^papers/(?P<paper_id>.+)\.md$")
 
 

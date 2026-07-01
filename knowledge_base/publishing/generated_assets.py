@@ -217,7 +217,7 @@ APP_SCRIPT_PAGES = {
     "index.md": HOME_APP_SCRIPTS,
     "map.md": MAP_APP_SCRIPTS,
     "search.md": SEARCH_APP_SCRIPTS,
-    "tree/index.md": TREE_APP_SCRIPTS,
+    "tree.md": TREE_APP_SCRIPTS,
     "timeline.md": TIMELINE_APP_SCRIPTS,
 }
 APP_SCRIPT_BLOCK_RE = re.compile(

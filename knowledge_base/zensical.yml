@@ -88,7 +88,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Map: map.md
-  - Tree: tree/index.md
+  - Tree: tree.md
   - Timeline: timeline.md
   - Search: search.md
   - Portfolio: https://bengravell.github.io/portfolio/

@@ -23,7 +23,7 @@ PAPER_SITE_LINK_LABELS = {
 }
 PAPER_SITE_LINK_SOURCES = {
     "map": {"map.md"},
-    "tree": {"tree.md", "tree/index.md"},
+    "tree": {"tree.md"},
     "timeline": {"timeline.md"},
     "search": {"search.md"},
 }
@@ -178,7 +178,7 @@ def paper_site_source_url(key: str, paper_id: str, from_source: str) -> str:
     if key == "map":
         return source_relative_url(from_source, f"map.md?paper={quoted_paper_id}")
     if key == "tree":
-        return source_relative_url(from_source, f"tree/index.md?paper={quoted_paper_id}")
+        return source_relative_url(from_source, f"tree.md?paper={quoted_paper_id}")
     if key == "timeline":
         return source_relative_url(from_source, f"timeline.md?paper={quoted_paper_id}")
     if key == "search":
