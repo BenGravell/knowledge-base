@@ -16,17 +16,18 @@ from knowledge_base.scripts.list_unplaced_papers.output import (
     print_markdown,
     print_write_summary,
 )
-from knowledge_base.scripts.list_unplaced_papers.paths import (
+from knowledge_base.scripts.list_unplaced_papers.tree_ops import (
+    write_tree_placements,
+)
+from knowledge_base.scripts.tree_report_data import (
     EMBEDDING_CACHE,
     METADATA_ROOT,
     SITE_CONFIG,
     TREE_YML,
-    collect_papers,
+    collect_nav_locations,
+    collect_tree_leaves,
+    load_report_papers,
 )
-from knowledge_base.scripts.list_unplaced_papers.tree_ops import (
-    write_tree_placements,
-)
-from knowledge_base.scripts.tree_report_data import collect_nav_locations, collect_tree_leaves
 from knowledge_base.tree.model import load_tree_model
 
 
@@ -71,7 +72,7 @@ def main() -> None:
 
     tree_model = load_tree_model(args.tree_yml, config=config, base_dir=KB_DIR, metadata_root=METADATA_ROOT)
     nav_locations = collect_nav_locations(tree_model)
-    papers_by_id = collect_papers(METADATA_ROOT)
+    papers_by_id = load_report_papers(METADATA_ROOT)
     missing_ids = [paper_id for paper_id in sorted(papers_by_id) if paper_id not in nav_locations]
     if not missing_ids:
         print_empty(args.format)

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from knowledge_base.scripts.list_unplaced_papers import (
+from knowledge_base.scripts.tree_report_data import (
     collect_nav_locations,
     collect_tree_leaves,
 )

@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from knowledge_base.scripts.audit_metadata import find_algorithm_issues
+from knowledge_base.scripts.audit_metadata.rules.algorithm import find_algorithm_issues
 from knowledge_base.scripts.suggest_tree_algorithm_labels.constants import (
     GENERIC_ALGORITHM_LABELS,
     ROMAN_PART_LABELS,

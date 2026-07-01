@@ -9,7 +9,8 @@ import yaml
 
 from knowledge_base.config import AUDIT_STATUS_FIELD, KB_DIR, VALID_AUDIT_STATUSES
 from knowledge_base.progress import emit_progress
-from knowledge_base.scripts.audit_metadata.core import apply_fixes, audit_file, console
+from knowledge_base.scripts.audit_metadata.file_audit import audit_file
+from knowledge_base.scripts.audit_metadata.fixes.apply_fixes import apply_fixes, console
 from knowledge_base.scripts.audit_metadata.generated_data.map_data import audit_map_data_paths
 from knowledge_base.scripts.audit_metadata.support.checks import CHECK_PATH, CHECKS
 from knowledge_base.scripts.audit_metadata.support.cli_help import CHECKS_EPILOG

@@ -7,8 +7,8 @@ from typing import Any
 
 from knowledge_base.scripts.list_unplaced_papers.embeddings import nearest_placed_neighbors
 from knowledge_base.scripts.list_unplaced_papers.model import Paper
-from knowledge_base.scripts.list_unplaced_papers.paths import relative_to_kb
 from knowledge_base.scripts.list_unplaced_papers.tree_ops import tree_label
+from knowledge_base.scripts.tree_report_data import relative_to_kb
 from knowledge_base.tree.model import TreeLeaf
 
 

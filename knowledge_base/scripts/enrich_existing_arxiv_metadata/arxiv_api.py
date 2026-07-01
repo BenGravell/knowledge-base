@@ -4,9 +4,8 @@ from __future__ import annotations
 
 import xml.etree.ElementTree as ET
 
-from knowledge_base.scripts.enrich_existing_arxiv_metadata.model import ArxivRecord
 from knowledge_base.scripts.enrich_existing_arxiv_metadata.text import bare_arxiv_id
-from knowledge_base.utils.arxiv_utils import arxiv_atom_entry_record, fetch_arxiv_records_many
+from knowledge_base.utils.arxiv_utils import ArxivRecord, arxiv_atom_entry_record, fetch_arxiv_records_many
 
 
 def parse_entry(entry: ET.Element, requested_id: str) -> ArxivRecord:

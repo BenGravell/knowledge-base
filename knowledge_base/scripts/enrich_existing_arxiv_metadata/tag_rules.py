@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from knowledge_base.scripts.enrich_existing_arxiv_metadata.model import ArxivRecord
+from knowledge_base.utils.arxiv_utils import ArxivRecord
 
 CATEGORY_TAGS = {
     "cs.AI": "Artificial intelligence",

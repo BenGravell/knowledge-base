@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import re
 
-from knowledge_base.scripts.enrich_existing_arxiv_metadata.model import ArxivRecord
 from knowledge_base.scripts.enrich_existing_arxiv_metadata.text import clean_space
+from knowledge_base.utils.arxiv_utils import ArxivRecord
 
 GENERIC_ALGORITHMS = {
     "ai",
