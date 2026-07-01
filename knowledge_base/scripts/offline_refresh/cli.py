@@ -32,7 +32,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--skip-force-layout",
         action="store_true",
-        help="Pass through to components/map/generate_map_data.py for quicker Map refreshes.",
+        help="Pass through to knowledge_base.components.map.pipeline.generate_data for quicker Map refreshes.",
     )
     parser.add_argument(
         "--audit-severity",

@@ -33,7 +33,7 @@ fetch initial metadata, and write
 `knowledge_base/docs/papers/<YEAR>/<SLUG>/metadata.yml`.
 
 Generated metadata starts as `audit_status: raw` and should be reviewed with
-`knowledge_base/scripts/audit_metadata.py`. Agents may move reviewed entries to
+`python -m knowledge_base.scripts.audit_metadata`. Agents may move reviewed entries to
 `audit_status: partial`; `reviewed` is reserved for human review.
 
 Run a prefill script with its default input file:

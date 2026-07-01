@@ -44,7 +44,7 @@
   if (typeof mapData === 'undefined') {
     graphContainer.innerHTML =
       '<p style="padding:2em;color:#ccc">No map data found.<br>' +
-      'Run <code>python knowledge_base/components/map/generate_map_data.py</code> from the repo root first.</p>';
+      'Run <code>python -m knowledge_base.components.map.pipeline.generate_data</code> from the repo root first.</p>';
     hideLoading();
     return;
   }

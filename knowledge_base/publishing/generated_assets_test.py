@@ -254,7 +254,7 @@ class GeneratedAssetTests(unittest.TestCase):
     def test_app_script_paths_are_not_hand_coded(self) -> None:
         sources = [
             *DOCS_DIR.rglob("*.md"),
-            COMPONENTS_DIR / "tree" / "generate_tree_data.py",
+            REPO_ROOT / "knowledge_base" / "tree" / "generate_tree_data.py",
         ]
         offenders = [
             f"{path.relative_to(REPO_ROOT).as_posix()}: {src}"

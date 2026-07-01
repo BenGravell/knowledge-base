@@ -26,10 +26,14 @@ prefill = "knowledge_base.prefill.runner:main"
 [dependency-groups]
 dev = [
     "black>=26.0.0,<27.0.0",
-    "pyrefly>=1.0.0,<2.0.0",
-    "ruff>=0.15.17,<0.16.0",
+    "grimp>=3.14,<4",
+    "import-linter>=2.12,<3",
     "pre-commit>=4.6.0,<5.0.0",
+    "pyrefly>=1.0.0,<2.0.0",
     "pymarkdownlnt>=0.9.38,<0.10",
+    "radon>=6.0.1,<7",
+    "ruff>=0.15.17,<0.16.0",
+    "vulture>=2.16,<3",
 ]
 
 [tool.pixi.workspace]
@@ -65,6 +69,11 @@ md013.code_block_line_length = 120
 md013.heading_line_length = 120
 md013.table_line_length = 120
 pml100.enabled = true
+
+[tool.vulture]
+paths = ["knowledge_base", "dev_apps"]
+min_confidence = 100
+sort_by_size = true
 
 [tool.black]
 line-length = 120

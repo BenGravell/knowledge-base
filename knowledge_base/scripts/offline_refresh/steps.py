@@ -24,7 +24,8 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
             "Check that every metadata-backed paper is in the Tree",
             [
                 py,
-                "knowledge_base/scripts/list_unplaced_papers.py",
+                "-m",
+                "knowledge_base.scripts.list_unplaced_papers",
                 "--neighbors",
                 "0",
                 "--fail-on-missing",
@@ -73,7 +74,14 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
                 "Verify",
                 "Metadata audit",
                 "Audit metadata and generated Map/Search assets",
-                [py, "knowledge_base/scripts/audit_metadata.py", "knowledge_base", "--severity", args.audit_severity],
+                [
+                    py,
+                    "-m",
+                    "knowledge_base.scripts.audit_metadata",
+                    "knowledge_base",
+                    "--severity",
+                    args.audit_severity,
+                ],
             )
         )
 

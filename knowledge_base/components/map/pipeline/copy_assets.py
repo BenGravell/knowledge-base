@@ -48,7 +48,7 @@ from knowledge_base.publishing.generated_assets import (
 )
 from knowledge_base.publishing.generated_files import open_generated
 
-RUN_GENERATE_MAP_DATA = "python knowledge_base/components/map/generate_map_data.py"
+RUN_GENERATE_MAP_DATA = "python -m knowledge_base.components.map.pipeline.generate_data"
 
 PLACEHOLDER_DATA = MAP_DATA.js_assignment(MAP_PLACEHOLDER_PAYLOAD, separators=(",", ":"))
 

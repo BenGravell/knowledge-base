@@ -49,21 +49,21 @@ and renders the resulting node map with Sigma.js and Graphology.
 Regenerate embeddings and graph data:
 
 ```bash
-python knowledge_base/components/map/generate_map_data.py
+python -m knowledge_base.components.map.pipeline.generate_data
 ```
 
 Useful variants:
 
 ```bash
-python knowledge_base/components/map/generate_map_data.py --force
-python knowledge_base/components/map/generate_map_data.py --backend fastembed
-python knowledge_base/components/map/generate_map_data.py --skip-force-layout
+python -m knowledge_base.components.map.pipeline.generate_data --force
+python -m knowledge_base.components.map.pipeline.generate_data --backend fastembed
+python -m knowledge_base.components.map.pipeline.generate_data --skip-force-layout
 ```
 
 Smoke-test the served Zensical Map page in headless Chrome:
 
 ```bash
-python knowledge_base/scripts/verify_map_view.py --url http://127.0.0.1:8000/map/
+python -m knowledge_base.scripts.verify_map_view --url http://127.0.0.1:8000/map/
 ```
 
 Measure the Tree page default-load plus top-level branch-click timing:

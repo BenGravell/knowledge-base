@@ -61,6 +61,9 @@ Run all pre-commit hooks manually:
 pre-commit run --all-files
 ```
 
+Pre-commit also runs Vulture for high-confidence dead-code findings, Import
+Linter for architecture contracts, and Radon for new F-ranked complexity.
+
 ## Local generated data
 
 Refresh local generated data and validate that the site is self-consistent from
@@ -91,7 +94,7 @@ streamlit run dev_apps/tree_label_review_app.py
 ```
 
 The Tree Label Review app uses the same suggestions as
-`knowledge_base/scripts/suggest_tree_algorithm_labels.py`.
+`python -m knowledge_base.scripts.suggest_tree_algorithm_labels`.
 
 It shows the current Tree label, metadata `algorithm`, paper context, nearby
 `tree.yml` lines, and candidate canonical labels.

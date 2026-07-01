@@ -86,7 +86,7 @@ def main() -> None:
         if not embeddings:
             sys.exit(
                 f"Could not load embeddings from {EMBEDDING_CACHE}. "
-                "Run `python knowledge_base/components/map/generate_map_data.py` first."
+                "Run `python -m knowledge_base.components.map.pipeline.generate_data` first."
             )
         tree_leaves = collect_tree_leaves(tree_model)
         placed, skipped = write_tree_placements(

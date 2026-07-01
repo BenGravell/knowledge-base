@@ -17,16 +17,16 @@ EPILOG = """
 Usage
 -----
 Basic:
-    python knowledge_base/components/map/generate_map_data.py
+    python -m knowledge_base.components.map.pipeline.generate_data
 
 Force full re-embed:
-    python knowledge_base/components/map/generate_map_data.py --force
+    python -m knowledge_base.components.map.pipeline.generate_data --force
 
 Require CUDA for local fastembed inference:
-    python knowledge_base/components/map/generate_map_data.py --fastembed-device cuda --force
+    python -m knowledge_base.components.map.pipeline.generate_data --fastembed-device cuda --force
 
 Use a separate chunk cache:
-    python knowledge_base/components/map/generate_map_data.py \\
+    python -m knowledge_base.components.map.pipeline.generate_data \\
         --fastembed-model mixedbread-ai/mxbai-embed-large-v1 \\
         --chunk-cache knowledge_base/components/map/cache/embedding_cache.chunks.json
 """

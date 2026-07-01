@@ -17,8 +17,26 @@ repos:
         name: pymarkdown
         entry: ./dev run --frozen pymarkdown scan
         language: system
-        files: ^README\.md$|^docs/.*\.md$|^knowledge_base/components/tree/README\.md$
+        files: ^README\.md$|^docs/.*\.md$|^knowledge_base/tree/README\.md$
         types: [markdown]
+      - id: import-linter
+        name: import-linter architecture contracts
+        entry: ./dev run --frozen lint-imports
+        language: system
+        pass_filenames: false
+        types_or: [python, pyi]
+      - id: vulture
+        name: vulture dead code
+        entry: ./dev run --frozen vulture
+        language: system
+        pass_filenames: false
+        types_or: [python, pyi]
+      - id: radon-complexity
+        name: radon complexity gate
+        entry: bash -c 'output=$(./dev run --frozen radon cc knowledge_base dev_apps -n F -s -e "knowledge_base/scripts/audit_metadata/file_audit.py,knowledge_base/scripts/audit_metadata/cli.py,knowledge_base/scripts/audit_metadata/fixes/tag_fixes.py,knowledge_base/scripts/audit_metadata/fixes/apply_fixes.py"); test -z "$output" || { echo "$output"; exit 1; }'
+        language: system
+        pass_filenames: false
+        types_or: [python, pyi]
       - id: pyrefly
         name: pyrefly
         entry: ./dev run --frozen pyrefly check

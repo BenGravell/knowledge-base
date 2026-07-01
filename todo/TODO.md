@@ -13,11 +13,11 @@ Tree and Timeline pages need major performance increase for handling large numbe
 ## Taxonomy
 
 ```sh
-python knowledge_base/scripts/suggest_branch_subgroupings.py --max-results 1 --write-tree
+python -m knowledge_base.scripts.suggest_branch_subgroupings --max-results 1 --write-tree
 ```
 
 ```sh
-python knowledge_base/scripts/suggest_branch_subgroupings.py --branch "First-Order Methods" --write-tree
+python -m knowledge_base.scripts.suggest_branch_subgroupings --branch "First-Order Methods" --write-tree
 ```
 
 ```sh

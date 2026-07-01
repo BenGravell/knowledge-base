@@ -78,7 +78,7 @@ Keep output-specific shaping in adapters:
 - Formatting-preserving `tree.yml` line edits stay in scripts that write the
   Tree, because those edits depend on the original YAML layout.
 - Map-specific aggregate rows, filters, and visualization data stay in
-  `components/map/generate_map_data.py`.
+  `python -m knowledge_base.components.map.pipeline.generate_data`.
 
 ## Useful Checks
 

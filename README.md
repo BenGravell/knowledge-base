@@ -79,6 +79,9 @@ Run the hooks manually:
 ./dev run pre-commit run --all-files
 ```
 
+The hook set includes Ruff, Black, Pyrefly, unit tests, Vulture dead-code
+detection, Import Linter architecture contracts, and a Radon complexity gate.
+
 To run only one hook while iterating, pass its id and the files to check:
 
 ```bash

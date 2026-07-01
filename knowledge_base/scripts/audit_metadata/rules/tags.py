@@ -62,7 +62,7 @@ def find_tag_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
                 path,
                 "tags",
                 tag_db_error,
-                "Run `python knowledge_base/scripts/build_normalization_db.py --only tags` from the repo root.",
+                "Run `python -m knowledge_base.scripts.build_normalization_db --only tags` from the repo root.",
             )
         )
     for index, tag_raw in enumerate(tags):

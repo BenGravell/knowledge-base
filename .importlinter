@@ -1,0 +1,14 @@
+[importlinter]
+root_package = knowledge_base
+
+[importlinter:contract:workflow_modules_do_not_import_script_commands]
+name = Durable workflow modules do not import script commands
+type = forbidden
+source_modules =
+    knowledge_base.tree
+    knowledge_base.publishing
+    knowledge_base.prefill
+    knowledge_base.embeddings
+    knowledge_base.components
+forbidden_modules =
+    knowledge_base.scripts

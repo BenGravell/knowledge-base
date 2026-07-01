@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 
-from knowledge_base.components.map.generate_map_data import (
+from knowledge_base.components.map.pipeline.layouts import (
     added_only_cache_hit,
     incremental_neighbor_positions,
 )

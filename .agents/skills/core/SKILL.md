@@ -54,7 +54,7 @@ kb deploy
 Map utilities:
 
 ```bash
-python knowledge_base/components/map/generate_map_data.py
+python -m knowledge_base.components.map.pipeline.generate_data
 python knowledge_base/components/map/preview_map.py
 ```
 
