@@ -101,6 +101,42 @@ class RefreshOfflineDataTests(unittest.TestCase):
                 self.assertFalse(fast_path)
                 self.assertEqual(reason, "refresh state stamp is stale")
 
+    def test_generated_step_state_skips_when_outputs_and_inputs_match(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "knowledge_base" / "docs" / "input.md"
+            output_path = root / "knowledge_base" / "components" / "semantic_search" / "semantic-search-index.json"
+            state_path = root / "knowledge_base" / ".generated" / "semantic-search-refresh-state.json"
+            input_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            input_path.write_text("tracked input\n", encoding="utf-8")
+            output_path.write_text("generated output\n", encoding="utf-8")
+
+            subprocess.run(["git", "init"], cwd=root, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+            subprocess.run(["git", "add", "knowledge_base/docs/input.md"], cwd=root, check=True)
+
+            step = refresh.Step("Generate", "Semantic Search", "Regenerate Semantic Search", ["semantic"])
+            with (
+                patch.object(refresh, "REPO_ROOT", root),
+                patch.object(refresh, "HOT_START_STATUS_PATHS", ("knowledge_base/docs",)),
+                patch.object(refresh, "GENERATED_STEP_STATE_PATHS", {"Semantic Search": state_path}),
+                patch.object(refresh, "GENERATED_STEP_REQUIRED_FILES", {"Semantic Search": (output_path,)}),
+            ):
+                self.assertIsNone(refresh.write_step_refresh_state(step))
+
+                skip, reason = refresh.generated_step_can_hot_start(step, default_args())
+
+                self.assertTrue(skip)
+                self.assertIn("refresh state stamp matches", reason)
+
+                self.assertFalse(refresh.generated_step_can_hot_start(step, default_args(no_fast_path=True))[0])
+
+                input_path.write_text("changed after semantic search\n", encoding="utf-8")
+                skip, reason = refresh.generated_step_can_hot_start(step, default_args())
+
+                self.assertFalse(skip)
+                self.assertEqual(reason, "refresh state stamp is stale")
+
 
 if __name__ == "__main__":
     unittest.main()
