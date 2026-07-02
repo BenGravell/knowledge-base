@@ -45,7 +45,6 @@ repos:
         types_or: [python, pyi]
       - id: unit-tests
         name: unit tests for Python changes (10s max)
-        entry: timeout 10s ./dev run --frozen kb test
+        entry: timeout 10s ./dev run --frozen python knowledge_base/scripts/run_unit_tests.py
         language: system
-        pass_filenames: false
         types_or: [python, pyi]

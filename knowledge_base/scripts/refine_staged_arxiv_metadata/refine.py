@@ -8,7 +8,7 @@ from typing import Any
 
 import yaml
 
-from knowledge_base.scripts.enrich_existing_arxiv_metadata import dump_yaml
+from knowledge_base.scripts.enrich_existing_arxiv_metadata.yaml_io import dump_yaml
 from knowledge_base.scripts.refine_staged_arxiv_metadata.constants import ARXIV_DOI_RE, ARXIV_URL_RE
 from knowledge_base.scripts.refine_staged_arxiv_metadata.sources import (
     clean_links,
