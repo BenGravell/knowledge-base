@@ -12,7 +12,7 @@ import yaml
 
 from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
 
-PAPERS_DIR = Path("docs/papers")
+PAPERS_DIR = Path(__file__).parent.parent / "docs" / "papers"
 ARXIV_API = "https://export.arxiv.org/api/query"
 ARXIV_NS = "http://www.w3.org/2005/Atom"
 ARXIV_SCHEMA_NS = "http://arxiv.org/schemas/atom"
@@ -67,6 +67,7 @@ def normalize_arxiv_id(arxiv_id: str | None) -> str:
             text = parsed.path.strip("/")
 
     text = text.strip().strip("<>()[]").rstrip("/")
+    text = re.sub(r"^([A-Za-z][A-Za-z0-9-]*)\.[A-Za-z]{2}/", r"\1/", text)
     if text.lower().endswith("/pdf"):
         candidate = text[:-4].rstrip("/")
         if _ARXIV_NEW_RE.match(candidate) or _ARXIV_OLD_RE.match(candidate):

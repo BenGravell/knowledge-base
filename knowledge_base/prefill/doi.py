@@ -5,6 +5,7 @@ and HTML scraping for publisher-page DOI extraction (IEEE, Elsevier).
 """
 
 import argparse
+import html
 import re
 import time
 import unicodedata
@@ -362,6 +363,7 @@ def scrape_doi_from_html(html: str) -> str:
 
 
 _CROSSREF_BY_ALT_ID = "https://api.crossref.org/works?filter=alternative-id:{alt_id}&rows=1"
+_CROSSREF_SEARCH = "https://api.crossref.org/works"
 
 
 def fetch_doi_from_crossref_pii(pii: str) -> str:
@@ -384,6 +386,27 @@ def fetch_doi_from_crossref_pii(pii: str) -> str:
     if not doi:
         raise ValueError(f"Crossref returned an item but no DOI for PII {pii!r}")
     return doi
+
+
+def fetch_doi_from_crossref_title(title: str) -> str:
+    """Return the DOI of an exact-title Crossref match."""
+    clean_title = html.unescape(re.sub(r"<[^>]+>", "", title)).strip()
+    normalized = re.sub(r"[^a-z0-9]+", " ", clean_title.casefold()).strip()
+    r = requests.get(
+        _CROSSREF_SEARCH,
+        params={"query.title": clean_title, "rows": 5},
+        headers=CROSSREF_HEADERS,
+        timeout=60,
+    )
+    r.raise_for_status()
+    items = (r.json().get("message") or {}).get("items") or []
+    for item in items:
+        candidate = html.unescape(re.sub(r"<[^>]+>", "", ((item.get("title") or [""])[0]))).strip()
+        if re.sub(r"[^a-z0-9]+", " ", candidate.casefold()).strip() == normalized:
+            doi = (item.get("DOI") or "").strip()
+            if doi:
+                return doi
+    raise ValueError(f"No exact Crossref title match for {clean_title!r}")
 
 
 def fetch_page_html(url: str, extra_headers: dict[str, Any] | None = None) -> str:

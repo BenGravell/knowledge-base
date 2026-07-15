@@ -20,7 +20,10 @@ import re
 from collections.abc import Callable
 from pathlib import Path
 
+import requests
+
 from knowledge_base.prefill.doi import (
+    fetch_doi_from_crossref_title,
     fetch_page_html,
     scrape_doi_from_html,
 )
@@ -37,6 +40,7 @@ _IEEE_ARTICLE_RE = re.compile(
 # IEEE Xplore internal REST endpoint used by their own website
 _IEEE_REST_TMPL = "https://ieeexplore.ieee.org/rest/document/{article_id}/metadata"
 _IEEE_PAGE_TMPL = "https://ieeexplore.ieee.org/document/{article_id}"
+_READER_TMPL = "https://r.jina.ai/{page_url}"
 
 
 def extract_articles(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str]]:
@@ -67,8 +71,6 @@ def fetch_ieee_doi(article_id: str) -> str:
 
     # Try the internal REST API first (JSON, no JS required)
     try:
-        import requests
-
         r = requests.get(
             rest_url,
             headers={
@@ -91,8 +93,20 @@ def fetch_ieee_doi(article_id: str) -> str:
         pass  # fall through to HTML scraping
 
     # Fall back: fetch the full HTML page and scrape
-    html = fetch_page_html(page_url, extra_headers={"Referer": "https://ieeexplore.ieee.org/"})
-    return scrape_doi_from_html(html)
+    try:
+        html = fetch_page_html(page_url, extra_headers={"Referer": "https://ieeexplore.ieee.org/"})
+        return scrape_doi_from_html(html)
+    except Exception:
+        pass
+
+    rendered = fetch_page_html(_READER_TMPL.format(page_url=page_url))
+    try:
+        return scrape_doi_from_html(rendered)
+    except ValueError:
+        title_match = re.search(r"^Title:\s*(.+)$", rendered, re.MULTILINE)
+        if not title_match:
+            raise
+        return fetch_doi_from_crossref_title(title_match.group(1).strip())
 
 
 def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str]]:

@@ -2,12 +2,17 @@ import unittest
 
 from knowledge_base.utils.arxiv_utils import (
     arxiv_record_to_fields,
+    normalize_arxiv_id,
     parse_arxiv_feed_records,
     parse_arxiv_oai_record,
 )
 
 
 class ArxivRecordParsingTest(unittest.TestCase):
+    def test_normalize_legacy_subject_url_to_archive_id(self) -> None:
+        self.assertEqual(normalize_arxiv_id("https://arxiv.org/pdf/math.CA/0410542"), "math/0410542")
+        self.assertEqual(normalize_arxiv_id("https://arxiv.org/pdf/math.mg/0502327"), "math/0502327")
+
     def test_parse_atom_feed_returns_shared_record(self) -> None:
         feed = """\
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:arxiv="http://arxiv.org/schemas/atom">

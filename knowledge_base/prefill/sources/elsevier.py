@@ -19,6 +19,8 @@ import re
 from collections.abc import Callable
 from pathlib import Path
 
+import requests
+
 from knowledge_base.prefill.doi import (
     fetch_doi_from_crossref_pii,
     fetch_page_html,
@@ -31,6 +33,7 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ELSEVIER.md"
 
 _SD_PII_RE = re.compile(r"sciencedirect\.com/science/article/(?:abs/|pii/)?pii/([A-Z0-9]+)", re.I)
 _SD_PAGE_TMPL = "https://www.sciencedirect.com/science/article/pii/{pii}"
+_ELSEVIER_API_TMPL = "https://api.elsevier.com/content/article/pii/{pii}"
 
 
 def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str]]:
@@ -64,6 +67,16 @@ def fetch_elsevier_doi(url: str, pii: str) -> str:
         return fetch_doi_from_crossref_pii(pii)
     except Exception:
         pass
+    response = requests.get(
+        _ELSEVIER_API_TMPL.format(pii=pii),
+        headers={"Accept": "application/json"},
+        timeout=60,
+    )
+    if response.ok:
+        coredata = (response.json().get("full-text-retrieval-response") or {}).get("coredata") or {}
+        doi = (coredata.get("prism:doi") or "").strip()
+        if doi:
+            return doi
     html = fetch_page_html(
         url,
         extra_headers={

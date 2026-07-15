@@ -258,7 +258,12 @@ class ArxivBatchCache:
             attempted = batch[:OAI_BATCH_SIZE]
             return fetch_many_via_oai(attempted), attempted
         try:
-            return fetch_many_with_retry(batch), batch
+            records = fetch_many_with_retry(batch)
+            missing = [arxiv_id for arxiv_id in batch if arxiv_id not in records]
+            if missing:
+                print(f"    Atom API omitted {len(missing)} record(s); trying OAI-PMH")
+                records.update(fetch_many_via_oai(missing))
+            return records, batch
         except ArxivExportRateLimited:
             self.use_oai = True
             print("    export.arxiv.org returned 429 on a cold request; switching to OAI-PMH for this run")
