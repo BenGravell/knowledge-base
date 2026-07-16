@@ -1,0 +1,28 @@
+title: >
+  WildCity: A Real-World City-Scale Testbed for Rendering, Simulation, and Spatial Intelligence
+algorithm:
+authors:
+  - Xiangyu Han
+  - Mengyu Yang
+  - Jiaqi Li
+  - Bowen Chang
+  - Ziyu Chen
+  - Hexu Zhao
+  - Rahul Kumar Agrawal
+  - Anthony Rodriguez
+  - Fiona Hua
+  - Marco Pavone
+  - Chen Feng
+  - Yiming Li
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2607.06838"
+tags:
+abstract: >
+  Humans can navigate an unfamiliar city and gradually form a coherent spatial mental map spanning tens of square kilometers. Can AI build spatial representations at a comparable scale? Although recent foundation models have advanced scene reconstruction and embodied intelligence, scaling to entire cities remains an open challenge, primarily due to the lack of city-scale data. To bridge the gap, we introduce WildCity, a real-world multimodal dataset collected by autonomous fleets traversing complex urban environments. Our dataset includes 18 trajectories, each averaging 83.7 kilometers in length, and preserves the core challenges of in-the-wild perception, e.g., dynamic objects, lighting variations, and imperfect camera poses. We further establish an urban-tailored reconstruction baseline and convert the reconstructed environments into a closed-loop simulator. Beyond the dataset and baseline, we systematically analyze the key challenges on the path to simulation-ready urban digital twins: scalability, extrapolation, and uncertainty. Ultimately, WildCity aims to catalyze progress not only in city-scale rendering, but more broadly in the pursuit of AI that can perceive, remember, and reason across space at a scale comparable to human cognition. Project page: https://han-xiangyu.github.io/Wild-City/
+summary: ''
+link: https://arxiv.org/pdf/2607.06838
+links_alt:
+audit_status: raw

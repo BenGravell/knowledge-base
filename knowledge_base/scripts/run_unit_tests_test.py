@@ -19,7 +19,7 @@ class RunUnitTestsSelectionTests(unittest.TestCase):
         )
 
     def test_source_without_adjacent_test_runs_full_suite(self) -> None:
-        modules = selected_test_modules(["knowledge_base/config.py"])
+        modules = selected_test_modules(["knowledge_base/no_adjacent_test_fixture.py"])
 
         self.assertIn("knowledge_base.catalog_test", modules)
         self.assertIn("knowledge_base.scripts.run_unit_tests_test", modules)

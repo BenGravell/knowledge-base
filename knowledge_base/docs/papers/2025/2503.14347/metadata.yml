@@ -1,0 +1,19 @@
+title: >
+  A New Proof of Sub-Gaussian Norm Concentration Inequality
+algorithm:
+authors:
+  - Zishun Liu
+  - Sam Power
+  - Yongxin Chen
+year: 2025
+source:
+type: Preprint
+doi:
+arxiv_id: "2503.14347"
+tags:
+abstract: >
+  We present a new method for proving the norm concentration inequality of sub-Gaussian variables. Our proof is based on an averaged version of the moment generating function, termed the averaged moment generating function. Our method applies to both vector cases to bound the vector norm and matrix cases to bound the operator norm. Compared with the widely adopted epsilon-net technique-based proof of the sub-Gaussian norm concentration inequality, our method does not rely on the union bound and promises a tighter concentration bound.
+summary: ''
+link: https://arxiv.org/pdf/2503.14347
+links_alt:
+audit_status: raw

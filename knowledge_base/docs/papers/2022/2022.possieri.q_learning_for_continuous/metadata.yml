@@ -1,0 +1,18 @@
+title: >
+  Q-Learning for Continuous-Time Linear Systems: A Data-Driven Implementation of the Kleinman Algorithm
+algorithm:
+authors:
+  - Corrado Possieri
+  - Mario Sassano
+year: 2022
+source: 'IEEE Transactions on Systems, Man, and Cybernetics: Systems'
+type: Journal Paper
+doi: 10.1109/TSMC.2022.3145693
+arxiv_id:
+tags:
+abstract: >
+  A data-driven strategy to estimate the optimal feedback and the value function in an infinite-horizon, continuous-time, linear-quadratic optimal control problem for an unknown system is proposed. The method permits the construction of the optimal policy without any knowledge of the model, without requiring that the time derivatives of the state are available for the design, and without even assuming that an initial stabilizing feedback policy is available. Two alternative architectures are discussed: the first scheme revolves around the periodic computation of some matrix inversions involving the Q-function, whereas the second approach relies on a purely continuous-time implementation of some dynamic systems whose trajectories are uniformly attracted by the solutions to the above algebraic equations. Interestingly, the proposed strategy essentially constitutes a (direct) data-driven implementation of the celebrated Kleinman algorithm, hence subsuming the particularly appealing features of the latter, such as quadratic monotone convergence to the optimal solution. The theory is then validated by the means of practically motivated applications.
+summary: ''
+link: https://doi.org/10.1109/TSMC.2022.3145693
+links_alt:
+audit_status: raw

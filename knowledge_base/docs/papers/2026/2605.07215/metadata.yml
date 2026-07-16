@@ -1,0 +1,19 @@
+title: >
+  PISTO: Proximal Inference for Stochastic Trajectory Optimization
+algorithm:
+authors:
+  - Hongzhe Yu
+  - Zinuo Chang
+  - Yongxin Chen
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2605.07215"
+tags:
+abstract: >
+  Stochastic trajectory optimization methods like STOMP enable planning with non-differentiable costs, offering substantial flexibility over gradient-based approaches. We show that STOMP implicitly minimizes the KL divergence from a Boltzmann trajectory distribution, revealing an elegant Variational Inference (VI) structure underlying its updates. Building on this insight, we propose the \textit{Proximal Inference for Stochastic Trajectory Optimization} (PISTO) algorithm that stabilizes the updates by augmenting the objective with a KL regularization between successive Gaussian proposals. This proximal formulation admits a trust-region interpretation and yields closed-form mean updates computable as expectations under a surrogate distribution. We estimate these expectations via importance-weighted Monte Carlo sampling, producing a simple, derivative-free algorithm that inherits STOMP's ability to handle non-differentiable and discontinuous costs without modification. On robot arm motion planning benchmarks, PISTO achieves an 89\% success rate - outperforming CHOMP (63\%) and STOMP (68\%) - while producing shorter, smoother paths at twice the speed of competing stochastic methods. We further validate PISTO on contact-rich MuJoCo locomotion and manipulation tasks, where it consistently outperforms both CEM and MPPI baselines in reward.
+summary: ''
+link: https://arxiv.org/pdf/2605.07215
+links_alt:
+audit_status: raw

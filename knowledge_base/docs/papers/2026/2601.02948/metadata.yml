@@ -1,0 +1,21 @@
+title: >
+  Parameter-Robust MPPI for Safe Online Learning of Unknown Parameters
+algorithm:
+authors:
+  - Matti Vahs
+  - Jaeyoun Choi
+  - Niklas Schmid
+  - Jana Tumova
+  - Chuchu Fan
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2601.02948"
+tags:
+abstract: >
+  Robots deployed in dynamic environments must remain safe even when key physical parameters are uncertain or change over time. We propose Parameter-Robust Model Predictive Path Integral (PRMPPI) control, a framework that integrates online parameter learning with probabilistic safety constraints. PRMPPI maintains a particle-based belief over parameters via Stein Variational Gradient Descent, evaluates safety constraints using Conformal Prediction, and optimizes both a nominal performance-driven and a safety-focused backup trajectory in parallel. This yields a controller that is cautious at first, improves performance as parameters are learned, and ensures safety throughout. Simulation and hardware experiments demonstrate higher success rates, lower tracking error, and more accurate parameter estimates than baselines.
+summary: ''
+link: https://arxiv.org/pdf/2601.02948
+links_alt:
+audit_status: raw

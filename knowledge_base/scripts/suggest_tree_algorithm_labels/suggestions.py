@@ -4,6 +4,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from knowledge_base.config import PAPERS_DIR
 from knowledge_base.scripts.suggest_tree_algorithm_labels.constants import (
     ACTION_ACCEPT_ALIAS,
     ACTION_REVIEW,
@@ -32,9 +33,9 @@ from knowledge_base.scripts.suggest_tree_algorithm_labels.model import Suggestio
 from knowledge_base.tree.validation import TreeIssue, validate_tree
 
 
-def metadata_algorithm_counts(metadata_root: Path) -> Counter[str]:
+def metadata_algorithm_counts() -> Counter[str]:
     counts: Counter[str] = Counter()
-    for metadata_path in sorted(metadata_root.rglob("metadata.yml")):
+    for metadata_path in sorted(PAPERS_DIR.rglob("metadata.yml")):
         data = load_metadata(metadata_path)
         algorithm = clean_text(data.get("algorithm"))
         if algorithm:
@@ -263,11 +264,10 @@ def make_suggestion(
     )
 
 
-def collect_suggestions(tree_path: Path, metadata_root: Path) -> list[Suggestion]:
-    algorithm_counts = metadata_algorithm_counts(metadata_root)
+def collect_suggestions(tree_path: Path) -> list[Suggestion]:
+    algorithm_counts = metadata_algorithm_counts()
     report = validate_tree(
         tree_path,
-        metadata_root=metadata_root,
         check_algorithm_labels=True,
     )
     suggestions: list[Suggestion] = []

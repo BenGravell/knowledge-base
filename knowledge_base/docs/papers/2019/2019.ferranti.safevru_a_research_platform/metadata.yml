@@ -1,0 +1,26 @@
+title: >
+  SafeVRU: A Research Platform for the Interaction of Self-Driving Vehicles with Vulnerable Road Users
+algorithm:
+authors:
+  - L. Ferranti
+  - B. Brito
+  - E. Pool
+  - Y. Zheng
+  - R. M. Ensing
+  - R. Happee
+  - B. Shyrokau
+  - J. F. P. Kooij
+  - J. Alonso-Mora
+  - D. M. Gavrila
+year: 2019
+source: IEEE Intelligent Vehicles Symposium (IV)
+type: Conference Paper
+doi: 10.1109/ivs.2019.8813899
+arxiv_id:
+tags:
+abstract: >
+  This paper presents our research platform Safe VRU for the interaction of self-driving vehicles with Vulnerable Road Users (VRUs, i.e., pedestrians and cyclists). The paper details the design (implemented with a modular structure within ROS) of the full stack of vehicle localization, environment perception, motion planning, and control, with emphasis on the environment perception and planning modules. The environment perception detects the VRUs using a stereo camera and predicts their paths with Dynamic Bayesian Networks (DBNs), which can account for switching dynamics. The motion planner is based on model predictive contouring control (MPCC) and takes into account vehicle dynamics, control objectives (e.g., desired speed), and perceived environment (i.e., the predicted VRU paths with behavioral uncertainties) over a certain time horizon. We present simulation and real-world results to illustrate the ability of our vehicle to plan and execute collision-free trajectories in the presence of VRUs.
+summary: ''
+link: https://doi.org/10.1109/ivs.2019.8813899
+links_alt:
+audit_status: raw

@@ -17,14 +17,6 @@ console = Console(highlight=False)
 err_console = Console(stderr=True, highlight=False)
 
 
-def _default_kb_root() -> Path:
-    if (Path("docs") / "papers").exists():
-        return Path(".")
-    if (Path("knowledge_base") / "docs" / "papers").exists():
-        return Path("knowledge_base")
-    return KB_DIR
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="List papers with audit_status = raw.",
@@ -32,7 +24,7 @@ def main() -> None:
     parser.add_argument(
         "root",
         nargs="?",
-        default=_default_kb_root(),
+        default=KB_DIR,
         help="Knowledge base root containing docs/papers (default: auto-detect)",
     )
     parser.add_argument(

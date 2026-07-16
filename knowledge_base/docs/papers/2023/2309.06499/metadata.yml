@@ -1,0 +1,19 @@
+title: >
+  Belief Control Barrier Functions for Risk-aware Control
+algorithm:
+authors:
+  - Matti Vahs
+  - Christian Pek
+  - Jana Tumova
+year: 2023
+source:
+type: Preprint
+doi:
+arxiv_id: "2309.06499"
+tags:
+abstract: >
+  Ensuring safety in real-world robotic systems is often challenging due to unmodeled disturbances and noisy sensor measurements. To account for such stochastic uncertainties, many robotic systems leverage probabilistic state estimators such as Kalman filters to obtain a robot's belief, i.e. a probability distribution over possible states. We propose belief control barrier functions (BCBFs) to enable risk-aware control synthesis, leveraging all information provided by state estimators. This allows robots to stay in predefined safety regions with desired confidence under these stochastic uncertainties. BCBFs are general and can be applied to a variety of robotic systems that use extended Kalman filters as state estimator. We demonstrate BCBFs on a quadrotor that is exposed to external disturbances and varying sensing conditions. Our results show improved safety compared to traditional state-based approaches while allowing control frequencies of up to 1kHz.
+summary: ''
+link: https://arxiv.org/pdf/2309.06499
+links_alt:
+audit_status: raw

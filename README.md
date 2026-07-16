@@ -96,23 +96,28 @@ Put URLs in `todo/PAPERS_FUNNEL.md`, route them, prefill metadata, audit it, the
 # Route URLs into todo/papers/<SOURCE>.md or todo/PAPERS_MISC.md.
 kb funnel
 
-# List prefill sources, then run the populated ones.
-kb prefill --help
-kb prefill arxiv
-kb prefill openreview
+# Prefill every populated source queue automatically.
+kb prefill
 
-# Audit raw metadata after prefill and fix reported files.
-kb audit-metadata knowledge_base --audit-status raw
+# Audit metadata after prefill, apply safe automatic fixes, then fix remaining issues.
+kb audit-metadata --fix --metadata-only
 
-# Find unplaced papers, edit knowledge_base/tree.yml, then verify.
-kb list-unplaced --neighbors 3
+# Refresh Map embeddings used for automatic placement.
+python -m knowledge_base.components.map.pipeline.generate_data
+
+# Automatically place unplaced papers in knowledge_base/tree.yml, then verify.
+kb list-unplaced --write-tree
 kb list-unplaced --neighbors 0 --fail-on-missing
-kb build
+
+# Stage ingest and placement changes so refresh sees new paper files.
+git add -A -- knowledge_base/docs/papers knowledge_base/tree.yml todo
+
+# Refresh all generated data and build the site.
+kb refresh
 ```
 
-Use the source names printed by the prefill help, such as `ieee`, `mlr`, or
-`taylor_francis`; replace the example source commands with whichever
-`todo/papers/*.md` files the funnel populated.
+Use `kb prefill --help` to list sources. `kb prefill SOURCE` remains available
+for running or debugging one source at a time.
 
 ### Ingest arXiv embed text
 

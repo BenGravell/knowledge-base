@@ -7,10 +7,10 @@ from typing import Any
 
 import yaml
 
+from knowledge_base.config import KB_DIR, PAPERS_DIR
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
-KB_DIR = Path(__file__).resolve().parents[1]
-METADATA_ROOT = KB_DIR / "docs" / "papers"
+METADATA_ROOT = PAPERS_DIR
 TREE_YML = KB_DIR / "tree.yml"
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 

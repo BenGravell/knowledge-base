@@ -7,11 +7,11 @@ from pathlib import PurePosixPath
 from typing import Any
 
 from knowledge_base.catalog import Catalog
-from knowledge_base.config import KB_DIR
+from knowledge_base.config import KB_DIR, PAPERS_DIR
 
 SITE_CONFIG = KB_DIR / "zensical.yml"
 TREE_YML = KB_DIR / "tree.yml"
-METADATA_ROOT = KB_DIR / "docs" / "papers"
+METADATA_ROOT = PAPERS_DIR
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 
 

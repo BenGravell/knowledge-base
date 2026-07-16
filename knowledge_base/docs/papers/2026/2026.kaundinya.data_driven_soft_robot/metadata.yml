@@ -1,0 +1,23 @@
+title: >
+  Data-driven Soft Robot Control via Adiabatic Spectral Submanifolds
+algorithm:
+authors:
+  - Roshan S. Kaundinya
+  - John Irvin Alora
+  - Jonas G. Matt
+  - Luis A. Pabon
+  - Marco Pavone
+  - George Haller
+year: 2026
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/02783649261461630
+arxiv_id:
+tags:
+abstract: >
+  The mechanical complexity of soft robots creates significant challenges for their model-based control. Specifically, linear data-driven models have struggled to control soft robots on complex, spatially extended paths that explore regions with significant nonlinear behavior. To account for these nonlinearities, we develop here a model-predictive control strategy based on the recent theory of adiabatic spectral submanifolds (aSSMs). This theory is applicable because the internal vibrations of heavily overdamped robots decay at a speed that is much faster than the desired speed of the robot along its intended path. In that case, low-dimensional attracting invariant manifolds (aSSMs) emanate from the path and carry the dominant dynamics of the robot. Aided by this recent theory, we devise an aSSM-based model-predictive control scheme purely from data. We demonstrate the effectiveness of our data-driven model in tracking dynamic trajectories across diverse tasks. We validate on high-fidelity, high-dimensional finite-element models of a soft trunk robot and Cosserat-rod-based elastic soft arms, with additional experiments confirming robust performance even in the presence of experimental noise. Notably, we find that five- or six-dimensional aSSM-reduced models outperform the tracking performance of other data-driven modeling methods by a factor up to 10 across all closed-loop control tasks.
+summary: ''
+link: https://journals.sagepub.com/doi/10.1177/02783649261461630
+links_alt:
+  - https://doi.org/10.1177/02783649261461630
+audit_status: raw

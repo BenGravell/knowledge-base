@@ -8,6 +8,7 @@ from typing import Any
 
 import yaml
 
+from knowledge_base.config import PAPERS_DIR
 from knowledge_base.utils.normalization_db import load_yaml
 
 
@@ -21,11 +22,11 @@ def load_metadata(path: Path) -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
-def collect_values(metadata_root: Path) -> tuple[Counter[str], Counter[str], Counter[str]]:
+def collect_values() -> tuple[Counter[str], Counter[str], Counter[str]]:
     authors: Counter[str] = Counter()
     sources: Counter[str] = Counter()
     tags: Counter[str] = Counter()
-    for metadata_path in sorted(metadata_root.rglob("metadata.yml")):
+    for metadata_path in sorted(PAPERS_DIR.rglob("metadata.yml")):
         data = load_metadata(metadata_path)
         for author in as_list(data.get("authors")):
             author_text = str(author).strip()

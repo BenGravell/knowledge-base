@@ -32,6 +32,7 @@ from knowledge_base.prefill.todo_file import (
     citation_doi,
     extract_doi_from_url,
     fetch_citation_page_fields,
+    read_source_rows,
     read_url_lines,
     source_row_token,
     write_text_atomic,
@@ -482,13 +483,33 @@ def run_source(source: str, argv: Sequence[str] | None = None) -> None:
         print(f"\nDone: {ok} written, {skipped} skipped, {failed} failed, {source_removed} source row(s) removed")
 
 
+def run_populated_sources(specs: dict[str, SourceSpec]) -> None:
+    queued: list[tuple[str, int]] = []
+    for name, spec in sorted(specs.items()):
+        count = len(read_source_rows(spec.default_input)) if spec.default_input.is_file() else 0
+        if count:
+            queued.append((name, count))
+    if not queued:
+        print("No populated prefill sources found in todo/papers/.")
+        return
+
+    print(f"Prefilling {len(queued)} populated source(s): {', '.join(name for name, _ in queued)}")
+    for name, count in queued:
+        print(f"\n== {name} ({count} queued) ==")
+        run_source(name)
+
+
 def main(argv: Sequence[str] | None = None) -> None:
     from knowledge_base.prefill.sources.registry import source_specs
 
     args = list(sys.argv[1:] if argv is None else argv)
     specs = source_specs()
-    if not args or args[0] in {"-h", "--help"}:
-        print("usage: prefill SOURCE [prefill-options]\n")
+    if not args:
+        run_populated_sources(specs)
+        return
+    if args[0] in {"-h", "--help"}:
+        print("usage: prefill [SOURCE [prefill-options]]\n")
+        print("With no SOURCE, run every populated todo/papers queue.\n")
         print("sources:")
         for name in sorted(specs):
             print(f"  {name}")

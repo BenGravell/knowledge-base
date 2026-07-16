@@ -1,0 +1,20 @@
+title: >
+  Nonlinear Covariance Control via Differential Dynamic Programming
+algorithm:
+authors:
+  - Zeji Yi
+  - Zhefeng Cao
+  - Evangelos Theodorou
+  - Yongxin Chen
+year: 2019
+source:
+type: Preprint
+doi:
+arxiv_id: "1911.09283"
+tags:
+abstract: >
+  We consider covariance control problems for nonlinear stochastic systems. Our objective is to find an optimal control strategy to steer the state from an initial distribution to a terminal one with specified mean and covariance. This problem is considerably more complicated than previous studies on covariance control for linear systems. We leverage a widely used technique - differential dynamic programming - in nonlinear optimal control to achieve our goal. In particular, we adopt the stochastic differential dynamic programming framework to handle the stochastic dynamics. Additionally, to enforce the terminal statistical constraints, we construct a Lagrangian and apply a primal-dual type algorithm. Several examples are presented to demonstrate the effectiveness of our framework.
+summary: ''
+link: https://arxiv.org/pdf/1911.09283
+links_alt:
+audit_status: raw

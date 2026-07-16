@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 
 import yaml
 
-from knowledge_base.config import KB_DIR
+from knowledge_base.config import KB_DIR, PAPERS_DIR
 from knowledge_base.tree.model import load_tree_model
 from knowledge_base.tree.nav_source import (
     YAML_LOADER,
@@ -19,7 +19,7 @@ from knowledge_base.tree.nav_source import (
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"
-METADATA_ROOT = DOCS_DIR / "papers"
+METADATA_ROOT = PAPERS_DIR
 TREE_YML = KB_DIR / "tree.yml"
 ProgressCallback = Callable[[int, int, str], None]
 

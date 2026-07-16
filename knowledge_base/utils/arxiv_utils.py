@@ -10,9 +10,8 @@ from urllib.parse import quote, unquote, urlparse
 import requests
 import yaml
 
-from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
+from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS, PAPERS_DIR
 
-PAPERS_DIR = Path(__file__).parent.parent / "docs" / "papers"
 ARXIV_API = "https://export.arxiv.org/api/query"
 ARXIV_NS = "http://www.w3.org/2005/Atom"
 ARXIV_SCHEMA_NS = "http://arxiv.org/schemas/atom"

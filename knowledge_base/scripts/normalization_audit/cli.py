@@ -7,8 +7,9 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from knowledge_base.config import PAPERS_DIR
 from knowledge_base.scripts.normalization_audit.fixes import apply_fixes
-from knowledge_base.scripts.normalization_audit.io import AUTHORS_DB, METADATA_ROOT, SOURCES_DB, TAGS_DB, load_entries
+from knowledge_base.scripts.normalization_audit.io import AUTHORS_DB, SOURCES_DB, TAGS_DB, load_entries
 from knowledge_base.scripts.normalization_audit.model import Issue
 from knowledge_base.scripts.normalization_audit.output import print_json, print_markdown
 from knowledge_base.scripts.normalization_audit.rules import audit_file, build_author_lookup
@@ -50,7 +51,7 @@ def main() -> int:
     source_index = build_index(source_entries, key_fn=source_key)
     tag_index = build_index(tag_entries, key_fn=tag_key)
 
-    targets = [Path(args.file)] if args.file else sorted(METADATA_ROOT.rglob("metadata.yml"))
+    targets = [Path(args.file)] if args.file else sorted(PAPERS_DIR.rglob("metadata.yml"))
 
     results: list[tuple[Path, dict[str, Any], list[Issue]]] = []
     for target in targets:

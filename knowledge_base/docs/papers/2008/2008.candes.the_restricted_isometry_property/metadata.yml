@@ -1,0 +1,17 @@
+title: >
+  The Restricted Isometry Property and Its Implications for Compressed Sensing
+algorithm:
+authors:
+  - Emmanuel J. Candes
+year: 2008
+source: "Comptes Rendus. Math\xE9matique"
+type: Journal Paper
+doi: 10.1016/j.crma.2008.03.014
+arxiv_id:
+tags:
+abstract: >
+  It is now well-known that one can reconstruct sparse or compressible signals accurately from a very limited number of measurements, possibly contaminated with noise. This technique known as “compressed sensing” or “compressive sampling” relies on properties of the sensing matrix such as the restricted isometry property . In this Note, we establish new results about the accuracy of the reconstruction from undersampled measurements which improve on earlier estimates, and have the advantage of being more elegant.
+summary: ''
+link: https://doi.org/10.1016/j.crma.2008.03.014
+links_alt:
+audit_status: raw

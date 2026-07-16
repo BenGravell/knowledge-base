@@ -1,0 +1,21 @@
+title: >
+  Continuous Occupancy Mapping in Dynamic Environments Using Particles
+algorithm:
+authors:
+  - Gang Chen
+  - Wei Dong
+  - Peng Peng
+  - Javier Alonso-Mora
+  - Xiangyang Zhu
+year: 2022
+source:
+type: Preprint
+doi:
+arxiv_id: "2202.06273"
+tags:
+abstract: >
+  Particle-based dynamic occupancy maps were proposed in recent years to model the obstacles in dynamic environments. Current particle-based maps describe the occupancy status in discrete grid form and suffer from the grid size problem, wherein a large grid size is unfavorable for motion planning, while a small grid size lowers efficiency and causes gaps and inconsistencies. To tackle this problem, this paper generalizes the particle-based map into continuous space and builds an efficient 3D egocentric local map. A dual-structure subspace division paradigm, composed of a voxel subspace division and a novel pyramid-like subspace division, is proposed to propagate particles and update the map efficiently with the consideration of occlusions. The occupancy status of an arbitrary point in the map space can then be estimated with the particles' weights. To further enhance the performance of simultaneously modeling static and dynamic obstacles and minimize noise, an initial velocity estimation approach and a mixture model are utilized. Experimental results show that our map can effectively and efficiently model both dynamic obstacles and static obstacles. Compared to the state-of-the-art grid-form particle-based map, our map enables continuous occupancy estimation and substantially improves the performance in different resolutions.
+summary: ''
+link: https://arxiv.org/pdf/2202.06273
+links_alt:
+audit_status: raw

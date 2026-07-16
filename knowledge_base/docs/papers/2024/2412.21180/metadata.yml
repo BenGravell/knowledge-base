@@ -1,0 +1,18 @@
+title: >
+  STITCHER: Real-Time Trajectory Planning with Motion Primitive Search
+algorithm:
+authors:
+  - Helene J. Levy
+  - Brett T. Lopez
+year: 2024
+source:
+type: Preprint
+doi:
+arxiv_id: "2412.21180"
+tags:
+abstract: >
+  Autonomous high-speed navigation through large, complex environments requires real-time generation of agile trajectories that are dynamically feasible, collision-free, and satisfy constraints. Most modern trajectory planning techniques rely on numerical optimization because high-quality, expressive trajectories that satisfy constraints can be systematically computed. However, strict requirements on computation time and the risk of numerical instability can limit the use of optimization-based planners in safety-critical situations. This work presents an optimization-free planning framework called STITCHER that leverages graph search to generate long-range trajectories by stitching short trajectory segments together in real time. STITCHER is shown to outperform modern optimization-based planners through its innovative planning architecture and several algorithmic developments that make real-time planning possible. Simulation results show safe trajectories through complex environments can be generated in milliseconds that cover tens of meters.
+summary: ''
+link: https://arxiv.org/pdf/2412.21180
+links_alt:
+audit_status: raw

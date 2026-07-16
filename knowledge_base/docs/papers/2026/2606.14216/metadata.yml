@@ -1,0 +1,21 @@
+title: >
+  Short-Horizon Position Accuracy of Single-Track Models: Implications for Motion Planning of Autonomous Vehicles
+algorithm:
+authors:
+  - Aron J. Aertssen
+  - Lars A. T. H. van Alen
+  - Igo J. M. Besselink
+  - Rudolf G. M. Huisman
+  - Rene M. J. G. van de Molengraft
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2606.14216"
+tags:
+abstract: >
+  Accurate and computationally efficient vehicle models are essential for motion planning of autonomous vehicles, where positional accuracy directly affects trajectory feasibility and safety. However, the positional accuracy has not been systematically evaluated against real measurements. Therefore, this paper compares the short-horizon positional accuracy of three single-track vehicle models against vehicle measurements across various driving maneuvers. Model parameters are identified through dedicated experiments with the instrumented test vehicle. Rather than identifying a single best model, this work aims to provide insight into the trade-offs between model complexity, parameterization quality, and positional accuracy for informed model selection in Model Predictive Control applications.
+summary: ''
+link: https://arxiv.org/pdf/2606.14216
+links_alt:
+audit_status: raw

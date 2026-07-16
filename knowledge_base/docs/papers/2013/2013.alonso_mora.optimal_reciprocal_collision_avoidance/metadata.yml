@@ -1,0 +1,21 @@
+title: >
+  Optimal Reciprocal Collision Avoidance for Multiple Non-Holonomic Robots
+algorithm:
+authors:
+  - Javier Alonso-Mora
+  - Andreas Breitenmoser
+  - Martin Rufli
+  - Paul Beardsley
+  - Roland Siegwart
+year: 2013
+source: Springer Tracts in Advanced Robotics
+type: Conference Paper
+doi: 10.1007/978-3-642-32723-0_15
+arxiv_id:
+tags:
+abstract: >
+  In this paper an optimalmethod for distributed collision avoidance among multiple non-holonomic robots is presented in theory and experiments. Non-holonomic optimal reciprocal collision avoidance (NH-ORCA) builds on the concepts introduced in [2], but further guarantees smooth and collision-free motions under non-holonomic constraints. Optimal control inputs and constraints in velocity space are formally derived for the non-holonomic robots. The theoretical results are validated in several collision avoidance experiments with up to fourteen e-puck robots set on collision course. Even in scenarios with very crowded situations, NH-ORCA showed to be collision-free for all times.
+summary: ''
+link: https://doi.org/10.1007/978-3-642-32723-0_15
+links_alt:
+audit_status: raw

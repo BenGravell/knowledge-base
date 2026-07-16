@@ -54,7 +54,7 @@ def selected_test_modules(paths: list[str]) -> list[str]:
 def main(argv: list[str] | None = None) -> int:
     modules = selected_test_modules(list(sys.argv[1:] if argv is None else argv))
     suite = unittest.defaultTestLoader.loadTestsFromNames(modules)
-    result = unittest.TextTestRunner().run(suite)
+    result = unittest.TextTestRunner(buffer=True).run(suite)
     return 0 if result.wasSuccessful() else 1
 
 

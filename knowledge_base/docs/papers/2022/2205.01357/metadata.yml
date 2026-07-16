@@ -1,0 +1,20 @@
+title: >
+  Prediction-Based Reachability Analysis for Collision Risk Assessment on Highways
+algorithm:
+authors:
+  - Xinwei Wang
+  - Zirui Li
+  - Javier Alonso-Mora
+  - Meng Wang
+year: 2022
+source:
+type: Preprint
+doi:
+arxiv_id: "2205.01357"
+tags:
+abstract: >
+  Real-time safety systems are crucial components of intelligent vehicles. This paper introduces a prediction-based collision risk assessment approach on highways. Given a point mass vehicle dynamics system, a stochastic forward reachable set considering two-dimensional motion with vehicle state probability distributions is firstly established. We then develop an acceleration prediction model, which provides multi-modal probabilistic acceleration distributions to propagate vehicle states. The collision probability is calculated by summing up the probabilities of the states where two vehicles spatially overlap. Simulation results show that the prediction model has superior performance in terms of vehicle motion position errors, and the proposed collision detection approach is agile and effective to identify the collision in cut-in crash events.
+summary: ''
+link: https://arxiv.org/pdf/2205.01357
+links_alt:
+audit_status: raw

@@ -10,7 +10,6 @@ from pathlib import Path
 from knowledge_base.catalog import Catalog, Entry
 from knowledge_base.scripts.arxiv_full_text.ingest import (
     DEFAULT_SLEEP_SECONDS,
-    METADATA_ROOT,
     MIN_MARKDOWN_CHARS,
     embed_text_path,
     process_entry,
@@ -41,7 +40,7 @@ def record_skip(path: Path, entry: Entry, message: str) -> None:
 def missing_entries(offset: int, batch_size: int, skipped: set[str]) -> tuple[list[Entry], int]:
     entries = [
         entry
-        for entry in Catalog.from_metadata_root(METADATA_ROOT).entries
+        for entry in Catalog.from_metadata_root().entries
         if entry.arxiv_id and entry.arxiv_id not in skipped and not embed_text_path(entry).exists()
     ]
     return entries[offset : offset + batch_size], len(entries)

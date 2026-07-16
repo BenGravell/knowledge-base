@@ -64,12 +64,6 @@ def parse_args() -> argparse.Namespace:
         help="Path to the site docs directory.",
     )
     parser.add_argument(
-        "--metadata-root",
-        type=Path,
-        default=KB_DIR / "docs" / "papers",
-        help="Path to docs/papers metadata source.",
-    )
-    parser.add_argument(
         "--format",
         choices=("text", "json"),
         default="text",
@@ -94,7 +88,6 @@ def main() -> int:
     report = validate_tree(
         args.tree_yml,
         docs_dir=args.docs_dir,
-        metadata_root=args.metadata_root,
         check_algorithm_labels=args.check_algorithm_labels,
         progress_callback=lambda current, total, label: emit_progress(current, total, label, every=100),
     )

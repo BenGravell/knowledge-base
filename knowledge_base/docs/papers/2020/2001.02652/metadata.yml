@@ -1,0 +1,19 @@
+title: >
+  Sample-based Distributional Policy Gradient
+algorithm:
+authors:
+  - Rahul Singh
+  - Keuntaek Lee
+  - Yongxin Chen
+year: 2020
+source:
+type: Preprint
+doi:
+arxiv_id: "2001.02652"
+tags:
+abstract: >
+  Distributional reinforcement learning (DRL) is a recent reinforcement learning framework whose success has been supported by various empirical studies. It relies on the key idea of replacing the expected return with the return distribution, which captures the intrinsic randomness of the long term rewards. Most of the existing literature on DRL focuses on problems with discrete action space and value based methods. In this work, motivated by applications in robotics with continuous action space control settings, we propose sample-based distributional policy gradient (SDPG) algorithm. It models the return distribution using samples via a reparameterization technique widely used in generative modeling and inference. We compare SDPG with the state-of-art policy gradient method in DRL, distributed distributional deterministic policy gradients (D4PG), which has demonstrated state-of-art performance. We apply SDPG and D4PG to multiple OpenAI Gym environments and observe that our algorithm shows better sample efficiency as well as higher reward for most tasks.
+summary: ''
+link: https://arxiv.org/pdf/2001.02652
+links_alt:
+audit_status: raw

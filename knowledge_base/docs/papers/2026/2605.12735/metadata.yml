@@ -1,0 +1,26 @@
+title: >
+  The Unified Autonomy Stack: Toward a Blueprint for Generalizable Robot Autonomy
+algorithm:
+authors:
+  - Mihir Dharmadhikari
+  - Nikhil Khedekar
+  - Mihir Kulkarni
+  - Morten Nissov
+  - Martin Jacquet
+  - Angelos Zacharia
+  - Marvin Harms
+  - Albert Gassol Puigjaner
+  - Philipp Weiss
+  - Kostas Alexis
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2605.12735"
+tags:
+abstract: >
+  We introduce and open-source the Unified Autonomy Stack, a system-level solution that enables resilient autonomy across diverse aerial and ground robot morphologies. The architecture centers on three synergistic modules - multi-modal perception, multi-behavior planning, and multi-layered safe navigation - that together deliver comprehensive mission autonomy. The stack fuses data from LiDAR, radar, vision, and inertial sensing, enabling (a) robust localization and mapping through factor graph-based fusion, (b) semantic scene understanding, (c) motion and informative path planning through sampling-based techniques adaptive across spatial scales, as well as (d) multi-layered safe navigation both through planning on the online reconstructed map and deep learning-driven exteroceptive policies alongside last-resort safety filters using control barrier functions. The resulting behaviors include safe GNSS-denied navigation into unknown and perceptually-degraded regions, exploration of complex environments, object discovery, and efficient inspection planning. The stack has been field-tested and validated on both aerial (rotorcraft) and ground (legged) robots operating in a host of demanding environments, including self-similar and smoke-filled settings, with complex geometries and high obstacle clutter. These tests demonstrate resilient performance in challenging conditions. To facilitate ease of adoption, we open-source the implementation alongside supporting documentation, validation, and evaluation datasets https://github.com/ntnu-arl/unified_autonomy_stack. A video giving the overview of the paper and the field experiments is available at https://youtu.be/l8Su8OXsM-E.
+summary: ''
+link: https://arxiv.org/pdf/2605.12735
+links_alt:
+audit_status: raw

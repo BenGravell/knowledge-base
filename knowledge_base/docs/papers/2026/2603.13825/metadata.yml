@@ -1,0 +1,19 @@
+title: >
+  Building Explicit World Model for Zero-Shot Open-World Object Manipulation
+algorithm:
+authors:
+  - Xiaotong Li
+  - Gang Chen
+  - Javier Alonso-Mora
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2603.13825"
+tags:
+abstract: >
+  Open-world object manipulation remains a fundamental challenge in robotics. While Vision-Language-Action (VLA) models have demonstrated promising results, they rely heavily on large-scale robot action demonstrations, which are costly to collect and can hinder out-of-distribution generalization. In this paper, we propose an explicit-world-model-based framework for open-world manipulation that achieves zero-shot generalization by constructing a physically grounded digital twin of the environment. The framework integrates open-set perception, digital-twin reconstruction, sampling and evaluation of interaction strategies. By constructing a digital twin of the environment, our approach efficiently explores and evaluates manipulation strategies in physic-enabled simulator and reliably deploys the chosen strategy to the real world. Experimentally, the proposed framework is able to perform multiple open-set manipulation tasks without any task-specific action demonstrations, proving strong zero-shot generalization on both the task and object levels. Project Page: https://bojack-bj.github.io/projects/thesis/
+summary: ''
+link: https://arxiv.org/pdf/2603.13825
+links_alt:
+audit_status: raw

@@ -20,7 +20,7 @@ from knowledge_base.config import REPO_ROOT
 
 FUNNEL_FILE = REPO_ROOT / "todo" / "PAPERS_FUNNEL.md"
 MISC_FILE = REPO_ROOT / "todo" / "PAPERS_MISC.md"
-PAPERS_DIR = REPO_ROOT / "todo" / "papers"
+TODO_PAPERS_DIR = REPO_ROOT / "todo" / "papers"
 
 # (domain_suffix, file_stem) — more-specific entries must come before broader ones
 DOMAIN_RULES: list[tuple[str, str]] = [
@@ -169,7 +169,7 @@ def main() -> None:
 
     # Pre-load all existing URL sets for deduplication
     existing: dict[str, set[str]] = {"PAPERS_MISC": load_url_set(MISC_FILE)}
-    for md in PAPERS_DIR.glob("*.md"):
+    for md in TODO_PAPERS_DIR.glob("*.md"):
         existing[md.stem] = load_url_set(md)
 
     routed: dict[str, list[str]] = {}
@@ -204,7 +204,7 @@ def main() -> None:
         return
 
     for dest, urls in sorted(routed.items()):
-        target = MISC_FILE if dest == "PAPERS_MISC" else PAPERS_DIR / f"{dest}.md"
+        target = MISC_FILE if dest == "PAPERS_MISC" else TODO_PAPERS_DIR / f"{dest}.md"
         tag = "[DRY RUN] " if args.dry_run else ""
         print(f"{tag}{dest} ({target.relative_to(REPO_ROOT)}): +{len(urls)}")
         for u in urls:

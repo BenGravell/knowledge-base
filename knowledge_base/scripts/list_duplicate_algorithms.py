@@ -18,10 +18,8 @@ from typing import Any
 
 import yaml
 
-from knowledge_base.config import KB_DIR
+from knowledge_base.config import KB_DIR, PAPERS_DIR
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
-
-METADATA_ROOT = KB_DIR / "docs" / "papers"
 
 
 @dataclass(frozen=True)
@@ -49,16 +47,16 @@ def load_metadata(path: Path) -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
-def collect_papers(metadata_root: Path = METADATA_ROOT) -> list[Paper]:
+def collect_papers() -> list[Paper]:
     papers: list[Paper] = []
-    for metadata_path in sorted(metadata_root.rglob("metadata.yml")):
+    for metadata_path in sorted(PAPERS_DIR.rglob("metadata.yml")):
         data = load_metadata(metadata_path)
         algorithm = " ".join(str(data.get("algorithm") or "").split())
         if not algorithm:
             continue
         papers.append(
             Paper(
-                id=paper_id_from_metadata(metadata_path, data, metadata_root),
+                id=paper_id_from_metadata(metadata_path, data, PAPERS_DIR),
                 title=" ".join(str(data.get("title") or "").split()),
                 algorithm=algorithm,
                 metadata_path=metadata_path,

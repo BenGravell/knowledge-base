@@ -12,7 +12,6 @@ from knowledge_base.scripts.build_normalization_db.config import (
     AUTHORS_DB,
     AUTHORS_HEADER,
     KB_DIR,
-    METADATA_ROOT,
     SOURCES_DB,
     SOURCES_HEADER,
     TAGS_DB,
@@ -56,7 +55,7 @@ def main() -> int:
         )
         return 2
 
-    authors, sources, tags = collect_values(METADATA_ROOT)
+    authors, sources, tags = collect_values()
     author_entries: list[dict[str, Any]] = []
     source_entries: list[dict[str, Any]] = []
     tag_entries: list[dict[str, Any]] = []

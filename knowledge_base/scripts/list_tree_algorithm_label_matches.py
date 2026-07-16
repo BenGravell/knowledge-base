@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from knowledge_base.config import KB_DIR
-from knowledge_base.scripts.tree_report_data import METADATA_ROOT, TREE_YML, load_metadata, relative_to_kb
+from knowledge_base.scripts.tree_report_data import TREE_YML, load_metadata, relative_to_kb
 from knowledge_base.tree.model import (
     TreeModel,
     load_tree_model,
@@ -39,7 +39,6 @@ def load_algorithm_tree_model() -> TreeModel:
     return load_tree_model(
         TREE_YML,
         base_dir=KB_DIR,
-        metadata_root=METADATA_ROOT,
     )
 
 

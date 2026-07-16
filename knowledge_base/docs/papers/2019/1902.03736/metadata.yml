@@ -1,0 +1,21 @@
+title: >
+  A Short Note on Concentration Inequalities for Random Vectors with SubGaussian Norm
+algorithm:
+authors:
+  - Chi Jin
+  - Praneeth Netrapalli
+  - Rong Ge
+  - Sham M. Kakade
+  - Michael I. Jordan
+year: 2019
+source:
+type: Preprint
+doi:
+arxiv_id: "1902.03736"
+tags:
+abstract: >
+  In this note, we derive concentration inequalities for random vectors with subGaussian norm (a generalization of both subGaussian random vectors and norm bounded random vectors), which are tight up to logarithmic factors.
+summary: ''
+link: https://arxiv.org/pdf/1902.03736
+links_alt:
+audit_status: raw

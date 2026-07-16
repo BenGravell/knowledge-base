@@ -10,7 +10,6 @@ import yaml
 from knowledge_base.config import KB_DIR
 from knowledge_base.utils.normalization_db import load_yaml
 
-METADATA_ROOT = KB_DIR / "docs" / "papers"
 NORMALIZATION_DIR = KB_DIR / "normalization"
 AUTHORS_DB = NORMALIZATION_DIR / "authors.yml"
 SOURCES_DB = NORMALIZATION_DIR / "sources.yml"

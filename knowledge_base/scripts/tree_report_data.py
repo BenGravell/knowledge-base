@@ -10,14 +10,13 @@ import numpy as np
 import yaml
 
 from knowledge_base.catalog import Catalog, Entry
-from knowledge_base.config import KB_DIR
+from knowledge_base.config import KB_DIR, PAPERS_DIR
 from knowledge_base.embeddings.workbench import load_embedding_table
 from knowledge_base.progress import emit_progress
 from knowledge_base.tree.model import TreeBranch, TreeLeaf, load_tree_model
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"
-METADATA_ROOT = DOCS_DIR / "papers"
 SITE_CONFIG = KB_DIR / "zensical.yml"
 TREE_YML = KB_DIR / "tree.yml"
 EMBEDDING_CACHE = KB_DIR / "components" / "map" / "cache" / "embedding_cache.json"
@@ -47,12 +46,8 @@ def report_paper_from_entry(entry: Entry) -> ReportPaper:
     )
 
 
-def load_report_papers(
-    metadata_root: Path = METADATA_ROOT,
-    *,
-    progress_label: str | None = None,
-) -> dict[str, ReportPaper]:
-    entries = Catalog.from_metadata_root(metadata_root).entries
+def load_report_papers(*, progress_label: str | None = None) -> dict[str, ReportPaper]:
+    entries = Catalog.from_metadata_root().entries
     papers: dict[str, ReportPaper] = {}
     for index, entry in enumerate(entries, start=1):
         papers[entry.id] = report_paper_from_entry(entry)
@@ -68,7 +63,7 @@ def load_metadata(path: Path) -> dict[str, Any]:
 
 
 def paper_id_from_file(metadata_file: Path, data: dict[str, Any]) -> str:
-    return paper_id_from_metadata(metadata_file, data, METADATA_ROOT)
+    return paper_id_from_metadata(metadata_file, data, PAPERS_DIR)
 
 
 def as_list(value: Any) -> list[Any]:
@@ -79,7 +74,7 @@ def load_report_paper(metadata_file: Path, paper_id: str | None = None) -> Repor
     data = load_metadata(metadata_file)
     if not data:
         return None
-    entry = Entry.from_metadata(metadata_file, data, metadata_root=METADATA_ROOT)
+    entry = Entry.from_metadata(metadata_file, data, metadata_root=PAPERS_DIR)
     if paper_id is None or paper_id == entry.id:
         return report_paper_from_entry(entry)
     return ReportPaper(
@@ -93,10 +88,10 @@ def load_report_paper(metadata_file: Path, paper_id: str | None = None) -> Repor
     )
 
 
-def collect_paper_paths(metadata_root: Path = METADATA_ROOT) -> dict[str, Path]:
+def collect_paper_paths() -> dict[str, Path]:
     return {
         paper_id: paper.metadata_path
-        for paper_id, paper in load_report_papers(metadata_root, progress_label="Collect paper IDs").items()
+        for paper_id, paper in load_report_papers(progress_label="Collect paper IDs").items()
     }
 
 
@@ -138,7 +133,7 @@ def is_landing_item(label: str, child: Any) -> bool:
 
 
 def collect_branches(tree_path: Path = TREE_YML, *, include_root: bool = False) -> list[TreeBranch]:
-    model = load_tree_model(tree_path, base_dir=tree_path.parent, metadata_root=METADATA_ROOT)
+    model = load_tree_model(tree_path, base_dir=KB_DIR)
     return [model.root, *model.branches] if include_root else list(model.branches)
 
 
@@ -176,7 +171,6 @@ def load_embedding_vectors(
 __all__ = [
     "DOCS_DIR",
     "EMBEDDING_CACHE",
-    "METADATA_ROOT",
     "SITE_CONFIG",
     "TREE_YML",
     "CountMode",

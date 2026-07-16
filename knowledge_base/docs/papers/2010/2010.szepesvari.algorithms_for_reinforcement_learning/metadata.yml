@@ -1,0 +1,17 @@
+title: >
+  Algorithms for Reinforcement Learning
+algorithm:
+authors:
+  - Csaba Szepesvari
+year: 2010
+source: Synthesis Lectures on Artificial Intelligence and Machine Learning
+type: Other
+doi: 10.1007/978-3-031-01551-9
+arxiv_id:
+tags:
+abstract: >
+  In this book, we focus on those algorithms of reinforcement learning that build on the powerful theory of dynamic programming.
+summary: ''
+link: https://doi.org/10.1007/978-3-031-01551-9
+links_alt:
+audit_status: raw

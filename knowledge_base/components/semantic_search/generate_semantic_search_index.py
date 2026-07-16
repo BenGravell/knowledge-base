@@ -18,6 +18,7 @@ from typing import Any
 import numpy as np
 
 from knowledge_base.catalog import Catalog
+from knowledge_base.config import PAPERS_DIR as METADATA_ROOT
 from knowledge_base.embeddings.workbench import (
     FASTEMBED_DEVICE_CHOICES,
     EmbeddingRow,
@@ -38,9 +39,6 @@ from knowledge_base.publishing.generated_assets import (
 )
 
 SEMANTIC_SEARCH_DIR = Path(__file__).resolve().parent
-KB_DIR = SEMANTIC_SEARCH_DIR.parents[1]
-DOCS_DIR = KB_DIR / "docs"
-METADATA_ROOT = DOCS_DIR / "papers"
 OUT_DIR = SEMANTIC_SEARCH_DIR
 DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 DEFAULT_BROWSER_MODEL = SEMANTIC_BROWSER_MODEL

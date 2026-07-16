@@ -1,0 +1,17 @@
+title: >
+  Policy Algebraic Equation for the LQR and the H∞ Control Problems
+algorithm:
+authors:
+  - Mario Sassano
+year: 2024
+source: IEEE Control Systems Letters
+type: Journal Paper
+doi: 10.1109/lcsys.2024.3382439
+arxiv_id:
+tags:
+abstract: >
+  The Linear Quadratic Regulator (LQR) and the H∞ control problems for linear systems are revisited with the objective of deriving a novel algebraic (polynomial) equation alternative to the standard Algebraic Riccati Equation (ARE). Differently from the latter, the former is envisioned to involve the policy alone, in place of the value function as in the ARE. The resulting equation, referred to as the Policy Algebraic Equation, contains nm variables and equations, of order less than or equal to 2n, where n and m denote the dimension of the state and the input, respectively.
+summary: ''
+link: https://doi.org/10.1109/lcsys.2024.3382439
+links_alt:
+audit_status: raw

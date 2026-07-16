@@ -1,0 +1,20 @@
+title: >
+  Cover Trees for Nearest Neighbor
+algorithm:
+authors:
+  - Alina Beygelzimer
+  - Sham Kakade
+  - John Langford
+year: 2006
+source: Proceedings of the 23rd international conference on Machine learning - ICML '06
+type: Conference Paper
+doi: 10.1145/1143844.1143857
+arxiv_id:
+tags:
+abstract: >
+  We present a tree data structure for fast nearest neighbor operations in general n-point metric spaces (where the data set consists of n points). The data structure requires O(n) space regardless of the metric's structure yet maintains all performance properties of a navigating net (Krauthgamer & Lee, 2004b). If the point set has a bounded expansion constant c, which is a measure of the intrinsic dimensionality, as defined in (Karger & Ruhl, 2002), the cover tree data structure can be constructed in O (c6n log n) time. Furthermore, nearest neighbor queries require time only logarithmic in n, in particular O (c12 log n) time. Our experimental results show speedups over the brute force search varying between one and several orders of magnitude on natural machine learning datasets.
+summary: ''
+link: https://dl.acm.org/doi/10.1145/1143844.1143857
+links_alt:
+  - https://doi.org/10.1145/1143844.1143857
+audit_status: raw

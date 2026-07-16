@@ -14,7 +14,6 @@ from knowledge_base.scripts.arxiv_full_text.html import arxiv_html_markdown
 from knowledge_base.scripts.arxiv_full_text.html import self_test as html_self_test
 from knowledge_base.scripts.arxiv_full_text.settings import (
     DEFAULT_SLEEP_SECONDS,
-    METADATA_ROOT,
     MIN_MARKDOWN_CHARS,
     SIDECAR_NAME,
     executable_available,
@@ -139,7 +138,7 @@ def main(argv: list[str] | None = None) -> int:
     args.has_pandoc = executable_available(args.pandoc)
     args.has_docling = executable_available(args.docling)
 
-    entries = candidates(Catalog.from_metadata_root(METADATA_ROOT), args.id, args.paper_id)
+    entries = candidates(Catalog.from_metadata_root(), args.id, args.paper_id)
     if args.limit:
         entries = entries[: args.limit]
 

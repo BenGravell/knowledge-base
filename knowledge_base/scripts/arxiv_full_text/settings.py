@@ -4,10 +4,8 @@ import shutil
 import sys
 from pathlib import Path
 
-from knowledge_base.config import KB_DIR
 from knowledge_base.utils.arxiv_utils import ARXIV_HEADERS
 
-METADATA_ROOT = KB_DIR / "docs" / "papers"
 SIDECAR_NAME = "embed_text.md"
 DEFAULT_SLEEP_SECONDS = 3.0
 MIN_MARKDOWN_CHARS = 1_000

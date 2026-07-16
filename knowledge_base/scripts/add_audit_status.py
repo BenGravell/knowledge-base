@@ -22,14 +22,6 @@ console = Console(highlight=False)
 err_console = Console(stderr=True, highlight=False)
 
 
-def _default_kb_root() -> Path:
-    if (Path("docs") / "papers").exists():
-        return Path(".")
-    if (Path("knowledge_base") / "docs" / "papers").exists():
-        return Path("knowledge_base")
-    return KB_DIR
-
-
 def _has_audit_status(path: Path) -> bool:
     raw = path.read_text(encoding="utf-8")
     try:
@@ -70,7 +62,7 @@ Files that already have audit_status are left untouched.
     parser.add_argument(
         "root",
         nargs="?",
-        default=_default_kb_root(),
+        default=KB_DIR,
         help="Knowledge base root containing docs/papers (default: auto-detect)",
     )
     parser.add_argument(

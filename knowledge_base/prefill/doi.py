@@ -17,10 +17,8 @@ from urllib.parse import quote
 import requests
 import yaml
 
-from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
+from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS, PAPERS_DIR
 from knowledge_base.utils.arxiv_utils import normalize_arxiv_id
-
-PAPERS_DIR = Path(__file__).parent.parent / "docs" / "papers"
 
 CROSSREF_API = "https://api.crossref.org/works/{doi}"
 CROSSREF_HEADERS = {

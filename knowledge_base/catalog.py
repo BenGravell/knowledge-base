@@ -17,7 +17,7 @@ from urllib.parse import quote
 import yaml
 from pydantic import BaseModel, ConfigDict, ValidationError, field_validator
 
-from knowledge_base.config import VALID_AUDIT_STATUSES, VALID_TYPES
+from knowledge_base.config import PAPERS_DIR, VALID_AUDIT_STATUSES, VALID_TYPES
 from knowledge_base.utils.arxiv_utils import normalize_arxiv_id
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
@@ -535,7 +535,7 @@ class Catalog:
     @classmethod
     def from_metadata_root(
         cls,
-        metadata_root: Path = Path("docs/papers"),
+        metadata_root: Path = PAPERS_DIR,
         *,
         generated_root: Path = Path("papers"),
         write_embedding_input_sidecars: bool = False,

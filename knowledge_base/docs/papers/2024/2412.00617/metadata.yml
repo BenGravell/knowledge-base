@@ -1,0 +1,20 @@
+title: >
+  Flow Matching for Stochastic Linear Control Systems
+algorithm:
+authors:
+  - Yuhang Mei
+  - Mohammad Al-Jarrah
+  - Amirhossein Taghvaei
+  - Yongxin Chen
+year: 2024
+source:
+type: Preprint
+doi:
+arxiv_id: "2412.00617"
+tags:
+abstract: >
+  This paper addresses the problem of steering an initial probability distribution to a target probability distribution through a deterministic or stochastic linear control system. Our proposed approach is inspired by the flow matching methodology, with the difference that we can only affect the flow through the given control channels. The motivation comes from applications such as robotic swarms and stochastic thermodynamics, where agents or particles can only be manipulated through control actions. The feedback control law that achieves the task is characterized as the conditional expectation of the control inputs for the stochastic bridges that respect the given control system dynamics. Explicit forms are derived for special cases, and a numerical procedure is presented to approximate the control law, illustrated with examples.
+summary: ''
+link: https://arxiv.org/pdf/2412.00617
+links_alt:
+audit_status: raw

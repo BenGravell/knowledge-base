@@ -11,7 +11,7 @@ from knowledge_base.scripts.suggest_tree_algorithm_labels.output import (
     suggestion_to_dict,
 )
 from knowledge_base.scripts.suggest_tree_algorithm_labels.suggestions import collect_suggestions
-from knowledge_base.tree.validation import METADATA_ROOT, TREE_YML
+from knowledge_base.tree.validation import TREE_YML
 
 
 def parse_args() -> argparse.Namespace:
@@ -21,12 +21,6 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=TREE_YML,
         help="Path to the Tree YAML source.",
-    )
-    parser.add_argument(
-        "--metadata-root",
-        type=Path,
-        default=METADATA_ROOT,
-        help="Path to docs/papers metadata source.",
     )
     parser.add_argument(
         "--format",
@@ -60,7 +54,7 @@ def main() -> int:
     if args.max_results < 1:
         raise SystemExit("--max-results must be at least 1")
 
-    suggestions = collect_suggestions(args.tree_yml, args.metadata_root)
+    suggestions = collect_suggestions(args.tree_yml)
     filtered = filter_suggestions(
         suggestions,
         action=args.action,

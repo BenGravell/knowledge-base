@@ -16,7 +16,7 @@ from typing import Any
 
 import yaml
 
-from knowledge_base.config import KB_DIR
+from knowledge_base.config import PAPERS_DIR
 
 TEXT_FIELDS = ("abstract", "summary")
 
@@ -84,7 +84,7 @@ def staged_metadata_files() -> list[Path]:
 
 
 def all_metadata_files() -> list[Path]:
-    return sorted((KB_DIR / "docs" / "papers").rglob("metadata.yml"))
+    return sorted(PAPERS_DIR.rglob("metadata.yml"))
 
 
 def main() -> None:

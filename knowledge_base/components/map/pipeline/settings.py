@@ -4,13 +4,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from knowledge_base.config import KB_DIR, PAPERS_DIR
 from knowledge_base.publishing.generated_assets import MAP_DATA, MAP_SIMILARITY
 
 MAP_DIR = Path(__file__).resolve().parents[1]
-KB_DIR = MAP_DIR.parents[1]
-REPO_ROOT = KB_DIR.parent
-DOCS_DIR = KB_DIR / "docs"
-METADATA_ROOT = DOCS_DIR / "papers"
+METADATA_ROOT = PAPERS_DIR
 SITE_CONFIG = KB_DIR / "zensical.yml"
 CACHE_DIR = MAP_DIR / "cache"
 GENERATED_DIR = MAP_DIR / "generated"

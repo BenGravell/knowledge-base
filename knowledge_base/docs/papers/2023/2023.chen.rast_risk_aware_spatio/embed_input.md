@@ -1,0 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
+RAST: Risk-Aware Spatio-Temporal Safety Corridors for MAV Navigation in Dynamic Uncertain Environments
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Autonomous navigation of Micro Aerial Vehicles (MAVs) in dynamic and unknown environments is a complex and challenging task. Current works rely on assumptions to solve the problem. The MAV's pose is precisely known, the dynamic obstacles can be explicitly segmented from static ones, their number is known and fixed, or they can be modeled with given shapes. In this letter, we present a method for MAV navigation in dynamic uncertain environments without making any of these assumptions. The method employs a particle-based dynamic map to represent the local environment and predicts it to the near future. Collision risk is defined based on the predicted maps and a series of risk-aware spatio-temporal (RAST) safety corridors are constructed, which are finally used to optimize a dynamically-feasible collision-free trajectory for the MAV. We compared our method with several state-of-the-art works in 12000 simulation tests in Gazebo with the physical engine enabled. The results show that our method has the highest success rate at different uncertainty levels. Finally, we validated the proposed method in real experiments.

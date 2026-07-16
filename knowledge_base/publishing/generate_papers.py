@@ -9,7 +9,7 @@ import yaml
 from jinja2 import Environment
 
 from knowledge_base.catalog import Entry
-from knowledge_base.config import KB_DIR
+from knowledge_base.config import KB_DIR, PAPERS_DIR
 from knowledge_base.publishing.generated_assets import SEARCH_DATA, SITE_LINK_DATA, TAG_SEARCH_DATA
 from knowledge_base.publishing.generated_files import open_generated, set_edit_path
 from knowledge_base.publishing.site_links import (
@@ -31,7 +31,7 @@ except Exception:  # pragma: no cover - build fallback for environments without 
     np = None
 
 # Root folder for metadata
-metadata_root = KB_DIR / "docs" / "papers"
+metadata_root = PAPERS_DIR
 template_file = KB_DIR / "docs" / "templates" / "paper_template.md"
 generated_root = Path("papers")
 embedding_cache_file = KB_DIR / "components" / "map" / "cache" / "embedding_cache.json"

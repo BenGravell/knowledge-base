@@ -1,0 +1,19 @@
+title: >
+  A Tail Inequality for Quadratic Forms of Subgaussian Random Vectors
+algorithm:
+authors:
+  - Daniel Hsu
+  - Sham M. Kakade
+  - Tong Zhang
+year: 2011
+source:
+type: Preprint
+doi:
+arxiv_id: "1110.2842"
+tags:
+abstract: >
+  We prove an exponential probability tail inequality for positive semidefinite quadratic forms in a subgaussian random vector. The bound is analogous to one that holds when the vector has independent Gaussian entries.
+summary: ''
+link: https://arxiv.org/pdf/1110.2842
+links_alt:
+audit_status: raw

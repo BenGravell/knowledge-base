@@ -89,10 +89,6 @@ def _filter_results_by_severity(
 
 
 def _default_kb_root() -> Path:
-    if (Path("docs") / "papers").exists():
-        return Path(".")
-    if (Path("knowledge_base") / "docs" / "papers").exists():
-        return Path("knowledge_base")
     return KB_DIR
 
 
@@ -158,6 +154,11 @@ def main() -> None:
         help="Do not report or fail on ERROR issues for metadata with audit_status: reviewed",
     )
     parser.add_argument(
+        "--metadata-only",
+        action="store_true",
+        help="Audit metadata files without checking generated Map and Semantic Search data",
+    )
+    parser.add_argument(
         "--severity",
         choices=[severity.value for severity in Severity],
         default=Severity.INFO.value,
@@ -205,7 +206,8 @@ def main() -> None:
     results: list[tuple[Path, list[Issue]]] = []
     metadata_by_path: dict[Path, dict[str, Any]] = {}
     checked_file_count = len(targets)
-    checked_map_data = selected_checks is None or CHECK_PATH in selected_checks
+    checked_path_data = selected_checks is None or CHECK_PATH in selected_checks
+    checked_generated_data = checked_path_data and not args.metadata_only
     report_stale_map_ids = not args.file and args.audit_status is None
     for index, p in enumerate(targets, start=1):
         data, issues = audit_file(p, selected_checks=selected_checks)
@@ -217,7 +219,7 @@ def main() -> None:
         if issues:
             results.append((p, issues))
         emit_progress(index, len(targets), "Audit metadata files", every=25)
-    if checked_map_data:
+    if checked_generated_data:
         checked_file_count += 6
         results.extend(
             audit_map_data_paths(
@@ -237,7 +239,7 @@ def main() -> None:
     n_infos = sum(1 for i in all_issues if i.severity == Severity.INFO)
 
     if not all_issues:
-        if checked_map_data:
+        if checked_generated_data:
             console.print(f"[green]All {len(targets)} metadata.yml file(s) and generated data pass audit.[/]")
         else:
             console.print(f"[green]All {len(targets)} metadata.yml file(s) pass audit.[/]")
@@ -274,7 +276,7 @@ def main() -> None:
         path_replacements = apply_fixes(
             results,
             kb_root=kb_root,
-            fix_paths=checked_map_data,
+            fix_paths=checked_path_data,
         )
         if path_replacements:
             targets = [path_replacements.get(p, p) for p in targets]
@@ -284,7 +286,7 @@ def main() -> None:
             if args.skip_reviewed_errors:
                 issues, _ = _skip_reviewed_errors(data, issues)
             remaining_errors += sum(1 for i in issues if i.severity == Severity.ERROR)
-        if checked_map_data:
+        if checked_generated_data:
             map_results = audit_map_data_paths(
                 targets,
                 kb_root=kb_root,
