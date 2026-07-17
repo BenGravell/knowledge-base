@@ -83,8 +83,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 #mm-app {
   --mm-ribbon-h: clamp(12rem, 28vh, 17rem);
   --mm-ribbon-max-h: var(--mm-ribbon-h);
-  --mm-ribbon-header-h: 2.65rem;
-  --mm-branch-panel-w: clamp(18rem, 32vw, 25rem);
+  --mm-ribbon-header-h: 3rem;
+  --mm-branch-panel-w: clamp(16rem, 28vw, 21rem);
   --mm-overlay-gap: 0.55rem;
   --mm-control-height: 2.12rem;
   --mm-settings-tile-bg: color-mix(in srgb, var(--md-default-fg-color) 5%, var(--md-default-bg-color));
@@ -148,8 +148,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 2.65rem;
-  padding: 0.62rem 0.85rem;
+  min-height: var(--mm-ribbon-header-h);
+  padding: 0.38rem 0.65rem;
   gap: 0.75rem;
   background: var(--kb-app-header-bg);
   border: 1px solid var(--mm-border);
@@ -164,6 +164,35 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   font-weight: 850;
   color: var(--md-default-fg-color);
   white-space: nowrap;
+}
+.mm-header-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  min-width: 0;
+  margin-left: auto;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+#mm-panel-header .mm-section {
+  flex: 0 0 auto;
+}
+#mm-panel-header .mm-section--detail {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+#mm-panel-header .mm-section-label {
+  margin: 0;
+  white-space: nowrap;
+}
+#mm-panel-header .mm-detail-controls {
+  width: auto;
+}
+#mm-panel-header .mm-section--actions {
+  min-width: 5.8rem;
 }
 
 #mm-panel {
@@ -191,6 +220,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   opacity: 0;
   pointer-events: none;
   border-color: transparent;
+}
+#mm-panel:has(#mm-relevance-panel[hidden]) {
+  display: none;
 }
 
 #mm-branch-panel {
@@ -393,9 +425,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   accent-color: var(--md-accent-fg-color);
 }
 
-/* Detail level and visibility toggles */
-.mm-detail-controls,
-.mm-visibility-controls {
+/* Detail level controls */
+.mm-detail-controls {
   display: grid;
   gap: 4px;
   width: 100%;
@@ -407,11 +438,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   grid-template-columns: repeat(5, var(--mm-detail-button-size));
   justify-content: start;
 }
-.mm-visibility-controls {
-  grid-template-columns: minmax(0, 1fr);
-}
-.mm-detail-controls button,
-.mm-visibility-controls button {
+.mm-detail-controls button {
   min-width: 0;
   width: 100%;
   max-width: 100%;
@@ -435,60 +462,11 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   min-height: 0;
   aspect-ratio: 1;
 }
-.mm-label-toggle {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.46rem;
-  text-align: left;
-}
-.mm-label-toggle-track {
-  position: relative;
-  display: inline-grid;
-  align-items: center;
-  width: 2.35rem;
-  height: 1.05rem;
-  padding-inline: 0.34rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, currentColor 18%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 30%, transparent);
-  font-size: 0.58rem;
-  font-weight: 850;
-  line-height: 1;
-  text-transform: uppercase;
-}
-.mm-label-toggle-thumb {
-  position: absolute;
-  top: 0.16rem;
-  left: 0.16rem;
-  width: 0.6rem;
-  height: 0.6rem;
-  border-radius: 999px;
-  background: currentColor;
-  transition: transform 0.16s ease;
-}
-.mm-label-toggle[aria-checked="true"] .mm-label-toggle-thumb {
-  transform: translateX(1.28rem);
-}
-.mm-label-toggle-text {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.mm-label-toggle-state {
-  justify-self: end;
-  transition: transform 0.16s ease;
-}
-.mm-label-toggle[aria-checked="true"] .mm-label-toggle-state {
-  transform: translateX(-1.28rem);
-}
-.mm-detail-controls button:hover,
-.mm-visibility-controls button:hover {
+.mm-detail-controls button:hover {
   color: var(--md-default-fg-color);
   border-color: var(--md-default-fg-color--light);
 }
-.mm-detail-controls button.active,
-.mm-visibility-controls button[aria-checked="true"] {
+.mm-detail-controls button.active {
   background: color-mix(in srgb, var(--md-accent-fg-color) 16%, var(--md-default-bg-color));
   border-color: var(--md-accent-fg-color);
   color: var(--md-default-fg-color);
@@ -778,7 +756,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   }
 
   #mm-panel-header {
-    padding-inline: 0.55rem;
+    padding-inline: 0.45rem;
   }
 
   .mm-bento-tile,
@@ -795,8 +773,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     align-items: stretch;
   }
 
-  .mm-detail-controls,
-  .mm-visibility-controls {
+  .mm-detail-controls {
     width: 100%;
   }
 
@@ -850,7 +827,21 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   <!-- Settings ribbon header: always visible above the graph -->
   <div id="mm-panel-header" class="kb-app-header">
     <span id="mm-panel-title" class="kb-app-header-title">Map</span>
-    <button id="mm-panel-hide-btn" class="kb-app-header-action" type="button" title="Show Settings" aria-expanded="false" aria-controls="mm-panel mm-branch-panel">Show Settings</button>
+    <div class="mm-header-controls" aria-label="Map settings">
+      <div class="mm-section mm-section--detail">
+        <span class="mm-section-label">Level of Detail</span>
+        <div id="mm-detail-controls" class="mm-detail-controls"></div>
+      </div>
+
+      <div class="mm-section mm-section--actions mm-actions">
+        <button id="mm-fit-btn" type="button">Fit View</button>
+      </div>
+
+      <div class="mm-section mm-section--actions mm-actions">
+        <button id="mm-labels-toggle" type="button" aria-pressed="true" aria-label="Node labels: On" title="Hide node labels">Labels On</button>
+      </div>
+    </div>
+    <button id="mm-panel-hide-btn" class="kb-app-header-action" type="button" title="Show Branch Selector" aria-expanded="false" aria-controls="mm-panel mm-branch-panel">Show Branch Selector</button>
   </div>
 
   <!-- Settings ribbon body: collapses upward on hide -->
@@ -859,27 +850,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
       <section id="mm-settings" class="mm-settings-section" aria-label="Map settings">
         <div class="mm-settings-grid">
-          <div class="mm-section mm-section--detail">
-            <span class="mm-section-label">Level of Detail</span>
-            <div id="mm-detail-controls" class="mm-detail-controls"></div>
-          </div>
-
-          <div class="mm-section mm-section--actions mm-actions">
-            <button id="mm-fit-btn" type="button">Fit View</button>
-          </div>
-
-          <div class="mm-section mm-section--visibility">
-            <div class="mm-visibility-controls">
-              <button id="mm-labels-toggle" class="mm-label-toggle" type="button" role="switch" aria-checked="true" aria-label="Node labels" title="Hide node labels">
-                <span class="mm-label-toggle-text">Node labels</span>
-                <span class="mm-label-toggle-track" aria-hidden="true">
-                  <span class="mm-label-toggle-state">On</span>
-                  <span class="mm-label-toggle-thumb"></span>
-                </span>
-              </button>
-            </div>
-          </div>
-
           <div id="mm-relevance-panel" class="mm-section mm-relevance-panel" hidden>
             <div class="mm-relevance-head">
               <span class="mm-section-label" style="margin:0">Selected-node filter</span>
@@ -932,9 +902,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   </div>
 
   <aside id="mm-branch-panel" class="body-collapsed" aria-label="Map branch navigator">
-    <div class="mm-branch-panel-head">
-      <span class="mm-section-label">Branch</span>
-    </div>
     <div id="mm-category-filters"></div>
   </aside>
 

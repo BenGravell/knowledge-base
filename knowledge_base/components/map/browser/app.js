@@ -1909,11 +1909,10 @@
     const labelsToggle = document.getElementById('mm-labels-toggle');
 
     if (labelsToggle) {
-      labelsToggle.setAttribute('aria-checked', viewState.showNodeLabels ? 'true' : 'false');
-      labelsToggle.setAttribute('aria-label', 'Node labels');
+      labelsToggle.setAttribute('aria-pressed', viewState.showNodeLabels ? 'true' : 'false');
+      labelsToggle.setAttribute('aria-label', `Node labels: ${viewState.showNodeLabels ? 'On' : 'Off'}`);
       labelsToggle.title = viewState.showNodeLabels ? 'Hide node labels' : 'Show node labels';
-      const state = labelsToggle.querySelector('.mm-label-toggle-state');
-      if (state) state.textContent = viewState.showNodeLabels ? 'On' : 'Off';
+      labelsToggle.textContent = viewState.showNodeLabels ? 'Labels On' : 'Labels Off';
     }
   }
 
@@ -1936,15 +1935,15 @@
     if (window.matchMedia('(max-width: 700px)').matches) {
       panel.classList.add('body-collapsed');
       if (branchPanel) branchPanel.classList.add('body-collapsed');
-      hideBtn.textContent = 'Show Settings';
-      hideBtn.title = 'Show Settings';
+      hideBtn.textContent = 'Show Branch Selector';
+      hideBtn.title = 'Show Branch Selector';
       hideBtn.setAttribute('aria-expanded', 'false');
     }
     hideBtn.addEventListener('click', () => {
       const collapsed = panel.classList.toggle('body-collapsed');
       if (branchPanel) branchPanel.classList.toggle('body-collapsed', collapsed);
-      hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
-      hideBtn.title = collapsed ? 'Show Settings' : 'Hide Settings';
+      hideBtn.textContent = collapsed ? 'Show Branch Selector' : 'Hide Branch Selector';
+      hideBtn.title = collapsed ? 'Show Branch Selector' : 'Hide Branch Selector';
       hideBtn.setAttribute('aria-expanded', String(!collapsed));
       window.requestAnimationFrame(() => updateZoomOutLimit());
     });
