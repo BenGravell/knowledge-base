@@ -568,14 +568,21 @@
     camera.getState().ratio);
   assertNodeCenteredInUsableCanvas(target, 'paper hash focus with menu shown');
 
+  const branchPanel = document.getElementById('mm-branch-panel');
+  const branchToggle = document.getElementById('mm-panel-hide-btn');
   const beforePanelToggleCamera = { ...camera.getState() };
-  document.getElementById('mm-panel-header').click();
+  branchToggle.click();
   await sleep(600);
   renderer.refresh();
   await sleep(80);
+  assert(!branchPanel.classList.contains('body-collapsed'),
+    'branch selector button opens the branch selector');
+  assert(panel.classList.contains('body-collapsed'),
+    'branch selector button leaves the old settings panel collapsed');
   assert(cameraDelta(beforePanelToggleCamera, camera.getState()) < 1e-8,
-    'settings panel toggle keeps the camera stable',
+    'branch selector toggle keeps the camera stable',
     JSON.stringify({ before: beforePanelToggleCamera, after: camera.getState() }));
+  branchToggle.click();
 
   camera.setState({ x: 0, y: 0, ratio: 5 });
   await sleep(30);

@@ -221,10 +221,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   pointer-events: none;
   border-color: transparent;
 }
-#mm-panel:has(#mm-relevance-panel[hidden]) {
-  display: none;
-}
-
 #mm-branch-panel {
   position: absolute;
   top: calc(var(--mm-ribbon-header-h) + 0.35rem);
@@ -841,7 +837,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
         <button id="mm-labels-toggle" type="button" aria-pressed="true" aria-label="Node labels: On" title="Hide node labels">Labels On</button>
       </div>
     </div>
-    <button id="mm-panel-hide-btn" class="kb-app-header-action" type="button" title="Show Branch Selector" aria-expanded="false" aria-controls="mm-panel mm-branch-panel">Show Branch Selector</button>
+    <button id="mm-panel-hide-btn" class="kb-app-header-action" type="button" title="Show Branch Selector" aria-expanded="false" aria-controls="mm-branch-panel">Show Branch Selector</button>
   </div>
 
   <!-- Settings ribbon body: collapses upward on hide -->

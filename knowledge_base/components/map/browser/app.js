@@ -34,7 +34,7 @@
    * Guard: dependencies and data must be present
    * -------------------------------------------------------------------------*/
   const graphContainer = document.getElementById('mm-graph');
-  setupSettingsPanelToggle();
+  setupBranchPanelToggle();
 
   if (!graphContainer) {
     hideLoading();
@@ -1927,21 +1927,18 @@
   /* -------------------------------------------------------------------------
    * Wire up controls
    * -------------------------------------------------------------------------*/
-  function setupSettingsPanelToggle() {
-    const panel = document.getElementById('mm-panel');
+  function setupBranchPanelToggle() {
     const branchPanel = document.getElementById('mm-branch-panel');
     const hideBtn = document.getElementById('mm-panel-hide-btn');
-    if (!panel || !hideBtn) return;
+    if (!branchPanel || !hideBtn) return;
     if (window.matchMedia('(max-width: 700px)').matches) {
-      panel.classList.add('body-collapsed');
-      if (branchPanel) branchPanel.classList.add('body-collapsed');
+      branchPanel.classList.add('body-collapsed');
       hideBtn.textContent = 'Show Branch Selector';
       hideBtn.title = 'Show Branch Selector';
       hideBtn.setAttribute('aria-expanded', 'false');
     }
     hideBtn.addEventListener('click', () => {
-      const collapsed = panel.classList.toggle('body-collapsed');
-      if (branchPanel) branchPanel.classList.toggle('body-collapsed', collapsed);
+      const collapsed = branchPanel.classList.toggle('body-collapsed');
       hideBtn.textContent = collapsed ? 'Show Branch Selector' : 'Hide Branch Selector';
       hideBtn.title = collapsed ? 'Show Branch Selector' : 'Hide Branch Selector';
       hideBtn.setAttribute('aria-expanded', String(!collapsed));
