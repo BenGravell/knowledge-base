@@ -11,6 +11,14 @@ https://bengravell.github.io/knowledge-base/papers/1993_donald_kinodynamic_motio
 Description is garbled, ocr garbage
 
 
+## FIX
+
+https://bengravell.github.io/knowledge-base/papers/2402_01443/ 
+
+On mobile and narrow pages do not use additional padding before title.
+
+Use Wikipedia page layout as a guide for reasonable spacing to title text from top.
+
 
 ## ingest
 
