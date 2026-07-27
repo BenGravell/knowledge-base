@@ -1,5 +1,17 @@
 # TODO
 
+## map
+
+I think we lost the semantic similarity and tree similarity filters for selected node filters. That was a powerful tool that had good tunings. Restore it.
+
+## fix
+
+https://bengravell.github.io/knowledge-base/papers/1993_donald_kinodynamic_motion_planning/
+
+Description is garbled, ocr garbage
+
+
+
 ## ingest
 
 Need to find a way to represent and ingest all the numerous items in
