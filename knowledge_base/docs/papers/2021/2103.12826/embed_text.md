@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2103.12826", "source": "ar5iv"} -->
+
 ## Introduction
 
 A core component of any autonomous system is *motion planning*, which finds feasible motions that satisfy task requirements (e.g., reaching the goal, satisfying some motion constraint, etc.). There are many motion planning software system for general manipulators; a popular library for motion planning is MoveIt, which is built on top of the ubiquitous Robot Operating System (ros) framework. MoveIt has four key advantages: it is widely adopted in industry and research, it is easy to setup for new robots and over 150 robots are already available, it is easy to integrate with a ros system, and it has a large and vibrant open source community. However, due to MoveIt's massive scope and abstract architecture, many tasks are challenging for both engineers and researchers. For example, it can be difficult to evaluate and develop planning algorithms, extend a planner's functionality, extract low-level information from planners, or use a planner within the scope of a broader planning algorithm, e.g., task and motion planning.

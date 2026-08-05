@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.10739", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: A trajectory ζx (red) that satisfies an STL task ϕ is obtained by expanding a tree of trajectories, using an RRT, from a given initial state x0. The tree of trajectories is expanded within the time-varying set ℬϕ(t) such trajectory evolving into ℬϕ(t) also satisfy the STL task ϕ.

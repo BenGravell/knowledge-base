@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2203.02176", "source": "ar5iv"} -->
+
 ## Introduction
 
 Motion planning is a fundamental challenge in robotics. In many real-world applications, obstacles change positions over time and goals are only valid at specific times. For applications such as multi-robot assembly, multiple motion scheduling subproblems need to be solved. Assuming that obstacle trajectories are given a priori, the subproblems can be modelled as *navigation through dynamic environments*. Mathematically, this is formulated as planning through a space-time state space.

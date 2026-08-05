@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.12341", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Reliable uncertainty quantification is essential for deploying machine learning models in high-stakes settings, such as scientific inference, autonomous systems, and safety-critical decision-making. Beyond point predictions, these settings demand prediction sets - regions guaranteed to contain the true output with a user-specified probability - that are valid under minimal distributional assumptions. Conformal prediction has emerged as the leading framework for this purpose: given any pre-trained model and a held-out calibration set, it constructs prediction sets with finite-sample marginal coverage guarantees under the mild assumption of exchangeable data [Vovk et al., 1999, Lei et al., 2013, Angelopoulos and Bates, 2022].

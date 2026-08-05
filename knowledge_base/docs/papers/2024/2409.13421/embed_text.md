@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2409.13421", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Consider a pre-trained large language model (LLM) obtained via self-supervised learning by predicting the next word or token. While the performance on pre-training loss exhibits rather predictable behavior, Wei et al. observe that such models often exhibit a phase transition in their downstream capabilities as the number of trainable parameters (or training FLOPs) reaches a critical scale---they exhibit emergent capabilities such as successful in-context learning. While these models are typically extremely large in terms of their number of parameters, a recent line of work has shown that such behavior can also be recovered in smaller models by considering appropriately simplified tasks. Here, we offer a possible mechanistic explanation for this phenomenon by restricting to a simple class of auto-regressive learning models.

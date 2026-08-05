@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2105.12358", "source": "ar5iv"} -->
+
 ## Introduction
 
 The Linear Quadratic Regulator (LQR) is both theoretically well understood and commonly used in practice when the system dynamics are known. It also provides an interesting benchmark, when system dynamics are unknown, for reinforcement learning with continuous state and action spaces and for adaptive control.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2508.11858", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The Linear Quadratic Gaussian (LQG) control problem has served as a fundamental building block for a wide range of applications in management \Bensoussan et al., [2007, Holt et al., 1955\], economics \Hansen and Sargent finance \Abeille et al. engineering \Auger et al., [2013, Chen, 2012\], or medicine \Patek et al., [2007, Chakravarty et al., 2020, Kazemian et al., 2019, Todorov and Jordan, 2002\].

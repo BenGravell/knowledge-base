@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2106.10533", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Learning how to achieve a complex task has found numerous applications ranging from robotics to fluid dynamics. However, learning algorithms generally suffer from high sample complexity, often requiring millions of samples to achieve the desired performance. Such data requirements limit the practicability of learning algorithms in real-world scenarios where an excessive number of trials cannot be performed on a physical system. A rather extreme example of such a scenario is an aircraft trying to retain a certain degree of control after abrupt changes in its dynamics, e.g., due to the loss of an engine. In such a scenario, there is a need to learn the dynamics after the abrupt changes using data from only the current trajectory.

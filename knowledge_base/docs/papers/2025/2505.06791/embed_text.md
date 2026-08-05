@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2505.06791", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Many robotic tasks require constrained motion planning, where trajectories must not only avoid collisions but also satisfy task-specific constraints. These requirements significantly increase planning complexity, especially in high-dimensional spaces. Sampling-based approaches like CBiRRT address this by exploring the configuration space under constraints, but struggle in cluttered environments. To leverage GPU acceleration, cuRobo adopts an optimization-based approach for generating constrained motions efficiently. However, it lacks the global exploration guarantees provided by sampling-based methods. Recently, pRRTC introduces a GPU-accelerated RRT-Connect variant that achieves efficient exploration in high-dimensional, cluttered spaces, but it does not support constrained planning. This motivates the development of a GPU-based, sampling-driven framework that can handle both constraints and environmental complexity effectively.

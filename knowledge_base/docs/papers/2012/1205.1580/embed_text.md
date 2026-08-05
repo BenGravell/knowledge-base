@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1205.1580", "source": "ar5iv"} -->
+
 ## Introduction
 
 In modern data-intensive science, it is common to observe a superposition of multiple information-bearing signals. *Demixing* refers to the challenge of separating out the constituent signals from the observation. A fundamental computational question is to understand when a tractable algorithm can successfully complete the demixing. Problems of this sort arise in fields as diverse as acoustics, astronomy, communications geophysics, image processing machine learning, and statistics. Some well-known examples of convex methods for demixing include morphological component analysis, robust principal component analysis and inpainting.

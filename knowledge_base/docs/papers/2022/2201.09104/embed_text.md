@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2201.09104", "source": "ar5iv"} -->
+
 ## Introduction
 
 The policy gradient method is a popular optimization method for reinforcement learning problems; however, it suffers from unstable training due to high-variance gradient estimates. A promising solution is to leverage natural policy gradient methods, which preconditions the gradient with the inverse of the Fisher-information matrix to restrict how much the model can change between training iterations.

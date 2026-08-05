@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2208.12403", "source": "ar5iv"} -->
+
 ## Introduction
 
 Simulation is an integral part of developing effective robotic systems. Simulators allow developers to rapidly verify changes and triage erroneous behaviors before deploying to physical systems. Realistic simulators are especially crucial for autonomous vehicles (AVs), because it is costly and potentially dangerous to test new features and changes directly on the road. Yet, despite advances in physics simulation and high-fidelity sensor simulation, AV developers still primarily rely on large-scale, real-world road testing for validation and verification. One critical reason why is that existing simulation platforms do not generate realistic *behaviors* for simulated road users, such as cars and pedestrians, which is difficult because, unlike physics and graphics, it is challenging to design models that generate human-like behaviors from first principles.

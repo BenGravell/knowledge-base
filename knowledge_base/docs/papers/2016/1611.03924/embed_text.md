@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1611.03924", "source": "ar5iv"} -->
+
 ## Introduction
 
 Model predictive control (MPC) refers to a class of feedback controllers, which proceed by solving, at each time step, an optimal control problem predicting the future behavior of a dynamic system on a finite, receding time-horizon, using the current state estimate as initial condition. The predicted optimal control trajectory is applied to the actual system until the next measurement becomes available, and the process is then repeated. The implementation of such controllers is based on a certainty-equivalence principle, whereby the future of the system is optimized as if neither external disturbances nor model mismatch were present, despite the fact that such disturbances and mismatch are the reason why feedback is needed in the first place.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.06664", "source": "arxiv-html"} -->
+
 ## Introduction
 
 End-to-end multi-modal planning has emerged as a powerful approach in autonomous driving. Unlike traditional uni-modal planners that predict a single trajectory, multi-modal approaches generate multiple candidates, enabling greater adaptability during inference. This adaptability supports a wide range of applications, including responding to language instructions, accommodating different driving styles, and navigating complex driving environments.

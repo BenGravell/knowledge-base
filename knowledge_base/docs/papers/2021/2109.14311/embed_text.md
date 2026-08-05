@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2109.14311", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recently reinforcement learning (RL), in particular actor-critic approaches were shown to successfully solve a variety of continuous control problems. The simplicity of this approach has led to an explosion of research demonstrating the effectiveness of these methods. However, model-free RL suffers from two key disadvantages. First, model-free RL is sample inefficient, often requiring millions or billions of environment interactions. Second, the learned policies are tied to a specific task, making transfer of learned knowledge in multi-task settings or across related tasks difficult.

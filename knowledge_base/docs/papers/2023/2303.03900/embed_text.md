@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.03900", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Because of their relevance for empirical risk minimization in machine learning, stochastic optimization methods are becoming increasingly popular beyond their traditional application domains in operations research and economics. In the wake of the ongoing data revolution and the rapid emergence of ever more complex decision problems, there is also a growing need for stochastic optimization models outputting reliable decisions that are insensitive to input misspecification and easy to compute.

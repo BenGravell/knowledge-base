@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1812.09808", "source": "ar5iv"} -->
+
 ## Introduction
 
 The theory of stochastic optimal control is based on the assumption that the probability distribution of uncertain variables (e.g., disturbances) is fully known. However, this assumption is often restrictive in practice, because estimating an accurate distribution requires large-scale high-resolution sensor measurements over a long training period or multiple periods. Situations in which uncertain variables are not directly observed are much more challenging; computational methods, such as filtering or statistical learning techniques, are often used to obtain the (posterior) distribution of the uncertain variables given limited observations. The accuracy of the obtained distribution is often unsatisfactory, as it is subject to the quality of the collected data, computational methods, and prior knowledge regarding the variables. If poor distributional information is employed in constructing a stochastic optimal controller, it does not guarantee optimality and can even cause catastrophic system behaviors (e.g., ).

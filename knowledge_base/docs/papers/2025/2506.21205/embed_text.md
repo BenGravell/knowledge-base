@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.21205", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Mobile robots have the potential to enhance various aspects of daily life, from optimizing logistics in warehouses to enabling safer and more efficient transportation through autonomous vehicles. However, for robots to be successfully integrated into real-world settings like urban areas, they must be capable of safely and efficiently manoeuvring through human-populated spaces. Achieving this requires an ability to interpret and anticipate human movement---a task complicated by the inherent unpredictability of human behaviour. Prediction models, such as, provide probabilistic distributions over potential human trajectories. To ensure safe and efficient navigation, these probabilistic predictions must be incorporated into the motion planning process.

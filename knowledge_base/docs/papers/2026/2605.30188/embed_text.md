@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.30188", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Accurate classification is central to many machine learning applications, ranging from medical diagnosis and fraud detection to autonomous driving and weather forecasting. Beyond predicting class labels, modern classifiers output probability distributions that reflect their confidence that the instance belongs to each class. These probabilistic predictions play a critical role in downstream decision-making, especially in high-stake settings where uncertainty must be explicitly accounted .

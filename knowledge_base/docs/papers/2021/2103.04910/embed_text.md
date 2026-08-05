@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2103.04910", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 Machine Learning (ML) has surpassed human performance in many challenging tasks like pattern recognition [bishop2006pattern] and playing video games [mnih2013playing]. By recent progress in ML, specifically using deep networks, there is a renewed interest in applying ML techniques to control dynamical systems interacting with a physical environment [duan2016benchmarking,lillicrap2015continuous] to do more demanding tasks like autonomous driving, agile robotics [abbeel2007application], solving decision-making problems [mnih2015human], etc.

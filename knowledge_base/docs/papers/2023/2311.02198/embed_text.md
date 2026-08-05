@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2311.02198", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Despite achieving remarkable performance in many simulation domains, reinforcement learning (RL) has not been widely used in solving robotics and low level continuous control problems, especially in the real world. The main challenges of applying RL to continuous control problems are exploration and sample efficiency. In these settings, reward signals are often sparse by nature, and unlike learning in games where the sparse reward is often achievable within a fixed horizon, a randomly initialized neural policy may never finish a task, resulting in no signals for learning. Besides the hard exploration problem, RL often needs a large number of samples to converge, which hinders its adoption in the real world where massive parallel simulation is not available.

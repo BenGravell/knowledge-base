@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1609.03285", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 A multi-convex optimization problem is one in which the variables can be partitioned into sets over which the problem is convex when the other variables are fixed. Multi-convex problems appear in domains such as machine learning [, ], signal and information processing [ ], communication, and control [ ]. Typical problems in these fields include nonnegative matrix factorization (NMF) and bilinear matrix inequality (BMI) problems.

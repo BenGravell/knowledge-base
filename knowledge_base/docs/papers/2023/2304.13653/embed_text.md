@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2304.13653", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Creating general embodied intelligence, that is, creating agents that can act in the physical world with agility, dexterity, and understanding---as animals or humans do---is one of the long-standing goals of AI researchers and roboticists alike. Animals and humans are not just masters of their bodies, able to perform and combine complex movements fluently and effortlessly, but they also perceive and understand their environment and use their bodies to effect complex outcomes in the world.

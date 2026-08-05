@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2002.12915", "source": "ar5iv"} -->
+
 ## Introduction
 
 Dropout is a commonly used regularization technique for neural nets. In NLP, dropout is the norm on both small and large models, as it is much more effective than methods such as $\ell_{2}$ regularization. In vision, dropout is often used to train extremely large models such as EfficientNet-B7.

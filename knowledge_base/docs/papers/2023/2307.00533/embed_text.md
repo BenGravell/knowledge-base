@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2307.00533", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In robotics, the representation of a robot commonly relies on low-dimensional states, like joint configuration and end-effector poses. However, this low-dimensional representation lacks internal structure details and is insensitive to external factors, limiting the ability to interact with the environment and respond to real-world. To handle this problem, some geometric representations have been proposed, like primitives and meshes, with various applications. However, they either make simplified assumptions or require significant computational resources to obtain a detailed model.

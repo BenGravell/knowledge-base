@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1809.02399", "source": "ar5iv"} -->
+
 ## Introduction
 
 Motion planning is one of the fundamental problems in robotics, and consists of guiding the robot from an initial state to a final one along a collision-free path.

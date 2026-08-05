@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2212.11419", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Building an autonomous driving system that is deployable at scale presents many difficulties. First and foremost is the challenge of handling the numerous rare and challenging edge cases that occur in real-world driving. To this end, imitative learning based approaches have been proposed that allow the performance of the method to scale with the amount of data available. While situations that are well represented in the demonstration data are likely to be handled correctly by such a policy, more unusual or dangerous situations that occur only rarely in the data might cause the imitation policy -- which has not been explicitly instructed on what constitutes a risky or inappropriate response -- to respond unpredictably. The problem is compounded by complex interactions, where human expert driving data in similar scenarios may be scarce and sub-optimal.

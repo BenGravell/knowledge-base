@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.27817", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The core challenge of robot intelligence is one of generalization: we seek a system that can control a wide variety of embodiments to solve unseen tasks in new environments.

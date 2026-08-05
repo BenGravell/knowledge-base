@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1106.0665", "source": "ar5iv"} -->
+
 ## Introduction
 
 Dynamic Programming is the method of choice for solving problems of decision making under uncertainty ( ?). However, the application of Dynamic Programming becomes problematic in large or infinite state-spaces, in situations where the system dynamics are unknown, or when the state is only partially observed. In such cases one looks for approximate techniques that rely on simulation, rather than an explicit model, and parametric representations of either the value-function or the policy, rather than exact representations.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1604.06778", "source": "ar5iv"} -->
+
 ## Introduction
 
 Reinforcement learning addresses the problem of how agents should learn to take actions to maximize cumulative reward through interactions with the environment. The traditional approach for reinforcement learning algorithms requires carefully chosen feature representations, which are usually hand-engineered. Recently, significant progress has been made by combining advances in deep learning for learning feature representations with reinforcement learning, tracing back to much earlier work of Tesauro and Bertsekas & Tsitsiklis. Notable examples are training agents to play Atari games based on raw pixels and to acquire advanced manipulation skills using raw sensory inputs. Impressive results have also been obtained in training deep neural network policies for 3D locomotion and manipulation tasks.

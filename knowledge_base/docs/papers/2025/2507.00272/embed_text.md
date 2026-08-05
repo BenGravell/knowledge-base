@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2507.00272", "source": "arxiv-html"} -->
+
 ### Introduction
 
 The Kalman filter is the prevalent tool for state estimation, prized for its simplicity, low computational cost, and optimality for linear-Gaussian systems. It has found extensive use in many fields, including control, signal processing, robotics, navigation, neural interface systems, and econometrics \[Kalman1960, MalikTBH2010, SmetsW2007, Huber2022\]. Despite its popularity, the KF is notoriously vulnerable to outliers in the measurements and process noise in the dynamics \[MasreliezM1977\]. Measurement outliers may arise from occasional sensor malfunctions, while process noise outliers can result from sudden shocks to the system or unmodeled dynamics.

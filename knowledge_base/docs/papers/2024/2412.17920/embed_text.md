@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2412.17920", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Reliable closed-loop traffic simulation is essential for assessing autonomous vehicle (AV) safety in diverse and complex scenarios. Simulations must be both realistic, capturing the intricacies of real-world driving, and controllable, allowing customization aligned with user preferences. However, balancing realism with controllability remains a significant challenge. Previous works often prioritize one aspect, optimizing either realism or user-specified objectives. How to jointly achieve both objectives under safety-critical conditions remains fruitful yet unresolved.

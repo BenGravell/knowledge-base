@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1710.05941", "source": "ar5iv"} -->
+
 ## Introduction
 
 At the heart of every deep network lies a linear transformation followed by an activation function $f{( \cdot )}$. The activation function plays a major role in the success of training deep neural networks. Currently, the most successful and widely-used activation function is the Rectified Linear Unit (ReLU), defined as ${f{(x)}} = {\max{(x,0)}}$. The use of ReLUs was a breakthrough that enabled the fully supervised training of state-of-the-art deep networks. Deep networks with ReLUs are more easily optimized than networks with sigmoid or tanh units, because gradients are able to flow when the input to the ReLU function is positive. Thanks to its simplicity and effectiveness, ReLU has become the default activation function used across the deep learning community.

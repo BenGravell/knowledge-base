@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2402.05928", "source": "arxiv-html"} -->
+
 ## Introduction
 
 While a significant portion the data used in modern learning algorithms exhibits temporal dependencies, we still lack a sharp theory of supervised learning from dependent data. Examples exhibiting such dependencies are far ranging and abundant, and include forecasting applications and data from controls/robotics systems. Over the last several decades, an order-wise rather sharp theory of learning with *independent* data has emerged. An entirely incomplete list of these advances includes the introduction of local Rademacher compleixities by Bartlett et al., sharp rates in misspecified linear regression by Hsu et al., and culminates in the learning without concentration framework by Mendelson, which enables an instance-optimal understanding of many standard learning problems through a *critical radius* that is sensitive to both the noise scale and the (local) geometry of the hypothesis class.

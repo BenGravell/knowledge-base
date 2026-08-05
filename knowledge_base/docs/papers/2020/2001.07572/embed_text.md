@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2001.07572", "source": "ar5iv"} -->
+
 ## Introduction
 
 ### Fitting a linear policy to demonstrations

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2304.00346", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Legged robotics research has increasingly focused on enabling highly dynamic and agile motions such as jumping, leaping, and landing. Implementing these capabilities reliably would improve legged robot performance in applications such as extraterrestrial or urban environment navigation where jumping up on ledges or leaping across chasms may be necessary. However, jumping and leaping are dangerous maneuvers, with failure often resulting in catastrophic outcomes for the robot.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.07801", "source": "ar5iv"} -->
+
 ## Introduction
 
 Sampling-based model predictive control methods, such as cross-entropy method--model predictive control and model predictive path integral, have gained popularity for solving complex optimal control problems due to their ability to efficiently parallelize computations and handle arbitrary cost functions and system dynamics.

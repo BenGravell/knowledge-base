@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2511.09925", "source": "arxiv-html"} -->
+
 ## Introduction
 
 This paper investigates matrix factorization, a fundamental non-convex optimization problem, which in its canonical form seeks to optimize the following objective: where $W_{j}\in\mathbb{F}^{d\times d}$ denotes the $j^{\text{th}}$ layer weight matrix, $\Sigma\in\mathbb{F}^{d\times d}$ denotes the target matrix and $\mathcal{L}_{\rm reg}$ is a (optional) regularizer. Here $\mathbb{F}\in\{\mathbb{C},\mathbb{R}\}$ as we consider both real and complex matrices in this paper. Following a long line of works (arora2019convergenceanalysisgradientdescent; jiang2023algorithmic; ye2021globalconvergencegradientdescent; chou2024gradient), we aim to understand the dynamics of gradient descent (GD) on this problem: where $\eta\in\mathbb{R}^{+}$ is the learning rate.

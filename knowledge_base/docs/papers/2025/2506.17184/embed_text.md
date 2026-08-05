@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.17184", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Recent advances in parallel model-based simulation tools have shown the effectiveness of sampling-based algorithms like predictive sampling, the cross-entropy method (CEM), model predictive path integral control (MPPI), and more for generating rich, dynamic plans for a wide variety of tasks (including contact-rich ones) in real time with limited resources. Moreover, recent results demonstrate that these strategies can effectively solve real-world tasks, including quadrupedal and bipedal locomotion as well as dexterous, in-hand object reorientation. However, if the robotics community wishes to build upon these successes, simple and effective open-source software is critical for further investigating and deploying these methods.

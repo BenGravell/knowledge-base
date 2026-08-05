@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1706.05598", "source": "ar5iv"} -->
+
 ## Introduction
 
 Non-convex optimization is the dominating algorithmic technique behind many state-of-art results in machine learning, computer vision, natural language processing and reinforcement learning. Local search algorithms through stochastic gradient methods are simple, scalable and easy to implement. Surprisingly, they also return high-quality solutions for practical problems like training deep neural networks, which are NP-hard in the worst case. It has been conjectured \[DPG^+^14, CHM^+^15\] that on typical data, the landscape of the training objectives has the nice geometric property that all local minima are (approximate) global minima. Such property assures the local search algorithms to converge to global minima \[ \]. However, establishing it for concrete problems can be challenging.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2203.11419", "source": "ar5iv"} -->
+
 ## Introduction
 
 Convex optimization is used in many domains, including signal and image processing, control, and finance, to mention just a few. A (parametrized) convex optimization problem can be written as where $x \in \mathbf{R}^{n}$ is the optimization variable, $f_{0}$ is the objective function to be minimized, $f_{1},\ldots,f_{p}$ are the inequality constraint functions, and ${g_{1}\ldots},g_{r}$ are the equality constraint functions. We require that $f_{0},\ldots,f_{p}$ are convex functions, and $g_{1},\ldots,g_{r}$ are affine functions. The parameter $\theta \in \mathbf{R}^{d}$ specifies data that can change, but is constant and given when we solve an instance of the problem. We refer to the parametrized problem as a *problem family*; when we specify a fixed value of $\theta$, we refer to it as a *problem instance*. We let $x^{\star}$ denote an optimal point for the problem, assuming it exists.

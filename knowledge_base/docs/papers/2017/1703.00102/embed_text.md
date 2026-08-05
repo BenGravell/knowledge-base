@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1703.00102", "source": "ar5iv"} -->
+
 ## Introduction
 
 We are interested in solving a problem of the form where each $f_{i}$, $i \in {\lbrack n\rbrack}\overset{\text{def}}{=}{\{ 1,\ldots,n\}}$, is convex with a Lipschitz continuous gradient. Throughout the paper, we assume that there exists an optimal solution $w^{\ast}$ of.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2410.20990", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Existing autonomous vehicles are constrained to operate in a conservative driving envelope with low lateral accelerations. However, in certain situations, it may be necessary to temporarily operate the vehicle beyond its natural stability limits to avoid a collision. This style of driving is exemplified by drifting, a challenging cornering technique that involves deliberately saturating the rear tires to make the car slide while countersteering to maintain high sideslip angles. Skilled human drivers display incredible vehicle control and agility in drifting competitions, routinely sliding their cars within inches of concrete walls. Taking inspiration from their performance, this paper investigates an RL-based approach to stably push autonomous vehicles to their maximum agility potential.

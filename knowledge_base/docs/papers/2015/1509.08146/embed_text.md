@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1509.08146", "source": "ar5iv"} -->
+
 ## Introduction
 
 In this paper, we aim to monitor dynamic, interdependent phenomena, that is, phenomena with temporal and spatial correlations ---with the term "spatial" we refer to any kind of interdependencies between the phenomena. For example, the temperature at any point of an indoor environment depends across time ---temporal correlation--- on the temperatures of the adjacent points ---spatial correlation. Therefore, these correlations allow to monitor such phenomena using a reduced number of sensors; this is an important observation when operational constraints, such as limited bandwidth and communication power, necessitate the design of estimators using a small number of sensors. Hence, in this paper we consider to place a few sensors so to monitor this kind of phenomena. To this end, we also account for unknown interdependencies, disturbances and inputs in their dynamics, and so we consider the presence of process noise, i.e., noise that affects directly these dynamics. In addition, we account for noisy sensor measurements, and so we consider the presence of measurement noise.

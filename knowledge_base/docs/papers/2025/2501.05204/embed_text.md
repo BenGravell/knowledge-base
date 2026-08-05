@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2501.05204", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Three instances of our robotic character performing an unscripted show. Apart from their theming, they are identical. Each robot is remote-controlled by a separate operator.

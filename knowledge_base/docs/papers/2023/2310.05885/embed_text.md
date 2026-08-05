@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2310.05885", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 A fundamental requirement for autonomous vehicles is the ability to make decisions that are safe, informed, and human-like. Achieving this involves accurate prediction of the future behavior of traffic participants and planning that ensures safety, comfort, and adherence to traffic norms. Due to inherent uncertainties in the real world, the decision-making system should be capable of *policy planning* that accounts for different futures and options for the ego vehicle to react. To tackle this intractable continuous-space planning problem, tree-structured policy planners, such as Tree Policy Planning (TPP) and Monte-Carlo Tree Search (MCTS), employ a tree policy where the optimal action can be found by solving a discrete Markov Decision Process (MDP). Specifically, the TPP algorithm constructs two trees: a trajectory tree and a scenario tree. Each branch of the trajectory tree represents a candidate (multi-stage) trajectory for the ego agent, and each branch of the scenario tree contains the predicted outcomes of neighboring agents.

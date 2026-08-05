@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2311.03553", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: Examples of kinodynamic motion planning problems. Start and goal configurations are shown in green and red, respectively, while gray boxes represent obstacles. We display some trajectories found by our algorithm, iDb-A*, in blue. (a) A unicycle with asymmetric angular speed bounds and a positive minimum velocity. (b) A car pulling a trailer. (c) Acrobatics with a planar multirotor with an underactuated pendulum. (d) A recovery flight with a quadrotor with a very limited thrust-to-weight ratio.

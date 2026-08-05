@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1802.04367", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Optimal transport (OT) distances between probability measures or histograms, including the earth mover's distance and MongeKantorovich or Wasserstein distance, play an increasing role in different machine learning tasks, such as unsupervised learning, semi-supervised learning, clustering, text classification, as well as in image retrieval, clustering and clas- 1 Weierstrass Institute for Applied Analysis and Stochastics, Berlin, Germany 2 National Research University Higher School of Economics, Moscow, Russian Federation 3 Moscow Institute of Physics and Technology, Dolgoprudny, Moscow Region, Russia 4 Institute for Information Transmission Problems RAS, Moscow, Russia. Correspondence to: Pavel Dvurechensky < pavel.dvurechensky@wias-berlin.de >.

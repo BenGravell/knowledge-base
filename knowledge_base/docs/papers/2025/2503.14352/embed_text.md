@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.14352", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Unmanned Aerial Vehicles (UAVs), particularly quadrotors, have ushered in a new era of possibilities across diverse applications in recent years, such as photography, logistics, and exploration. Quadrotors have emerged as the predominant choice among UAVs owing to their adaptability and agility. Nevertheless, maneuvering quadrotors in cluttered environments typically demands the expertise of a skilled human pilot, leading to additional training requirements. Moreover, human response times can limit the full potential of quadrotors.

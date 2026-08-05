@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2502.08664", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Motion Forecasting is vital in the functionality of autonomous driving systems. It assists these vehicles in planning their forthcoming actions and mitigates the risk of accidents. This survey addresses motion forecasting in autonomous vehicles, focusing on the two main approaches: Scenario-based Motion Forecasting and Perception-based Motion Forecasting.

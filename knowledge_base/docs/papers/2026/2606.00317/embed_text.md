@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.00317", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Model Predictive Path Integral (MPPI) \[undef, undefa\] is a widely used sampling-based method for nonlinear optimal control. Its strong empirical performance, together with modern parallel simulation tools such as Mujoco \[undefb\] and Isaac Gym \[undefc\], has enabled real-time control in a broad range of robotic settings, including whole-body control \[undefd\], quadrotor navigation \[undefe\], and online policy adaptation \[undeff\]. MPPI updates control sequences by sampling noisy trajectories, evaluating their costs, and forming a weighted average of sampled controls, resulting in a simple update rule that can be efficiently parallelized.

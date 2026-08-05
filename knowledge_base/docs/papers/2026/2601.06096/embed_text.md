@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2601.06096", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The Hessian of a deep net is the matrix of second-order mixed partial derivatives of its loss with respect to its parameters. Decades ago, when deep nets had only hundreds or thousands of parameters, the Hessian matrix could be inverted to implement optimizers that converged much faster than gradient descent. But for large modern deep nets, relying on the Hessian has become impractical: The Hessian of a model with a billion parameters would have a quintillion entries, which is far larger than can be stored, multiplied, or inverted even in the largest data centers. A common workaround is to approximate the Hessian as a low-rank matrix or as a diagonal matrix. Such approximations make it easier to apply the inverse of the Hessian to a vector. This article shows how to compute and apply the inverse of the Hessian exactly without storing the Hessian or its inverse. The Hessian-inverse-vector product can be computed in time and storage that scale linearly with the number of layers in the model, and cubically in the number of parameters and activations in each layer.

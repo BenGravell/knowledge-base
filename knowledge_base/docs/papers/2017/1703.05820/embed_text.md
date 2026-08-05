@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1703.05820", "source": "ar5iv"} -->
+
 ## Introduction
 
 The expected return objective dominates the field of reinforcement learning, but makes it difficult to express a tolerance for unlikely rewards. This kind of risk sensitivity is desirable, e.g., in real-world settings such as financial trading or safety-critical applications where the risk required to achieve a specific return matters greatly. Even if we ultimately care about the expected return, it may be beneficial during training to tolerate high variance in order to discover high reward strategies.

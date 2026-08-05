@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1911.01831", "source": "ar5iv"} -->
+
 ## Introduction
 
 Off-policy actor-critic algorithms, in combination with deep neural networks, hold promise for solving problems in continuous control, as they can be used to learn complex non-linear policies in a data-efficient manner. Typically deep actor-critic approaches consist of two steps. First, a neural network is used to fit the Q-values of the current policy. After that, a parametric policy -- often a conditional Gaussian distribution -- is learned by maximising these learned Q-values. These two steps are then iterated to convergence. Ideally, the second policy optimisation step would not be needed. After all, optimising a policy against a learned Q-function just transforms action-preferences into a normalised distribution. This optimisation step cannot produce new information which was not already encoded in the Q-function. It can however introduce sub-optimal behaviour through approximation errors; either due to the choice in the parametric policy distribution or due to numerical fitting errors.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2412.19437", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In recent years, Large Language Models (LLMs) have been undergoing rapid iteration and evolution, progressively diminishing the gap towards Artificial General Intelligence (AGI). Beyond closed-source models, open-source models, including DeepSeek series, LLaMA series, Qwen series, and Mistral series, are also making significant strides, endeavoring to close the gap with their closed-source counterparts. To further push the boundaries of open-source model capabilities, we scale up our models and introduce DeepSeek-V3, a large Mixture-of-Experts (MoE) model with 671B parameters, of which 37B are activated for each token.

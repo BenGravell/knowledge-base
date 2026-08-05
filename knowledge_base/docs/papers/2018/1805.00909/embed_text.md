@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1805.00909", "source": "ar5iv"} -->
+
 ## Introduction
 
 Probabilistic graphical models (PGMs) offer a broadly applicable and useful toolbox for the machine learning researcher: by couching the entirety of the learning problem in the parlance of probability theory, they provide a consistent and flexible framework to devise principled objectives, set up models that reflect the causal structure in the world, and allow a common set of inference methods to be deployed against a broad range of problem domains. Indeed, if a particular learning problem can be set up as a probabilistic graphical model, this can often serve as the first and most important step to solving it. Crucially, in the framework of PGMs, it is sufficient to write down the model and pose the question, and the objectives for learning and inference emerge automatically.

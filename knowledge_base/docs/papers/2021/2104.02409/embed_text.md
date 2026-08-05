@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2104.02409", "source": "ar5iv"} -->
+
 ### Introduction
 
 How can we estimate the 2D motion of a point we only see once? This is the problem faced by optical flow algorithms for points that become occluded between frames. Estimating the optical flow, that is, the apparent motion of pixels in an image as the camera and scene move, is a classic problem in computer vision studied since the seminal work of Horn and Schunck. There are many factors that make optical flow prediction a hard problem, including large motions, motion and defocus blur, and featureless regions. Among these challenges, occlusion is one of the most difficult and under-explored. In this paper, we propose an approach that specifically targets the occlusion problem in the case of two-frame optical flow prediction.

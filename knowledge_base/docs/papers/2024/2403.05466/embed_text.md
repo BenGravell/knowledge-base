@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2403.05466", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In robot manipulation, planning a robot trajectory to grasp an object is a fundamental research problem. The problem is challenging since it requires motion planning to avoid obstacles in the task space and grasp planning to decide how to grasp a target object. Traditionally, the motion planning problem and the grasp planning problem are tackled separately. Motion planning approaches focus on finding a collision-free path to reach a given end-effector goal. For example, sampling-based motion planning methods such as Rapidly exploring Random Trees (RRTs) and Fast Marching Tree (FMT) find robot trajectories by incrementally building configuration space filling trees through directed sampling. Optimization-based motion planning methods solve optimization problems to find robot trajectories that minimize some loss functions and obey certain constraints, such as joint limits.

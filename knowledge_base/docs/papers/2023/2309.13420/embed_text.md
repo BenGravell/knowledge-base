@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.13420", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Data clustering, which is the process of gathering similar data samples into groups/clusters, has been found useful in different fields such as medical imaging (to differentiate between different types of tissues medical_applications_2018 ), market research (to partition consumers into perceptual market segments customers_segmentation_2018 ), document retrieval (to find documents that are relevant to a user query in a collection of documents document_retrieval_2018 ), and fraud detection (to detect suspicious fraudulent patterns) fraud_detection_2019 ), as well as many others clustering_survey_2013. In general, Clustering algorithms can be divided into the following types:

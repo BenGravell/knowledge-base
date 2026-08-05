@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2409.14562", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Achieving dexterity comparable to human hands has been a longstanding challenge in robotics. While even simple robots can produce dynamic, contact-rich behavior, general methods for doing so are still scarce. For contact-rich tasks, reinforcement learning (RL) has been the dominant paradigm due to its ability to generate real-world robust plans. One well-studied task is in-hand cube reorientation, where a hand must rotate a cube to match consecutive goal orientations. Pioneered by OpenAI and extended by others, RL policies trained with massively-parallelized, domain-randomized simulations have achieved remarkably robust sim-to-real transfer for cube rotation. But, this offline simulation-based approach requires substantial pre-execution computation and is inflexible to changing task specifications.

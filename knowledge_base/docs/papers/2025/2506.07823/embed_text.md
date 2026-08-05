@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.07823", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Among the many well-known control approaches available, Model Predictive Control (MPC) has proven to be highly effective in generating and controlling complex dynamic behaviors in robotic systems, especially legged robots, as shown by \[Mpc\] and \[Perceptive_based_MPC\]. At the core of an MPC is the transcription of a task we want the robot to perform into an Optimal Control Problem (OCP) and the ability to solve it fast enough to be used in a closed-loop controller.

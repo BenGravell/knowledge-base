@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1803.07055", "source": "ar5iv"} -->
+
 ## Introduction
 
 Model-free reinforcement learning (RL) aims to offer off-the-shelf solutions for controlling dynamical systems without requiring models of the system dynamics. Such methods have successfully produced RL agents that surpass human players in video games and games such as Go. Although these results are impressive, model-free methods have not yet been successfully deployed to control physical systems, outside of research demos. There are several factors prohibiting the adoption of model-free RL methods for controlling physical systems: the methods require too much data to achieve reasonable performance, the ever-increasing assortment of RL methods makes it difficult to choose what is the best method for a specific task, and many candidate algorithms are difficult to implement and deploy.

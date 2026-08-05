@@ -11,3 +11,299 @@ Autonomous navigation in dense traffic scenarios remains challenging for autonom
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 The presented results demonstrate that our method significantly reduces the number of collisions and increases the success rate with respect to both learning-based and optimization-based baselines.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Despite recent advancements in autonomous driving solutions (e.g., Waymo, Uber ), driving in real-world dense traffic scenarios such as highway merging and unprotected left turns still stands as a hurdle in the widespread deployment of autonomous vehicles (AVs). Driving in dense traffic conditions is intrinsically an interactive task, where the AVs' actions elicit immediate reactions from nearby traffic participants and vice-versa. An example of such behavior is illustrated in Fig. 1, where the autonomous vehicle needs to perform a merging maneuver onto the main lane. To accomplish this task, it needs to first reason about the other driver's intentions (e.g., to yield or not to yield) without any explicit inter-vehicle communication. Then, it needs to know how to interact with multiple road-users and leverage other vehicles' cooperativeness to induce them to yield, such that they create room for the AV to merge safely.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The development of interaction-aware prediction models has been studied, allowing AVs to reason about other drivers' intentions. In contrast, developing interactive motion planning algorithms that can reason and exploit other drivers cooperativeness is still challenging. The majority of traditional motion planning methods are too conservative and fail in dense scenarios because they do not account for the interaction between the autonomous vehicle and nearby traffic,. However, works that account for the interaction among agents do not scale for many agents due to the curse of dimensionality. Deep Reinforcement Learning (DRL) methods can overcome the latter, but either do not provide any safety guarantees or are overly conservative to ensure safety.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this paper, we introduce an interactive Model Predictive Controller (IntMPC) for safe navigation in dense traffic scenarios. We explore the insight that human drivers communicate their intentions and negotiate their driving maneuvers by adjusting both distance and time headway to the other vehicles. Studies show that in dense traffic scenarios, such as merging and left-turning, cooperative or aggressive behavior is strongly connected to higher or smaller average distance and time headway, respectively. These driving features (i.e., relative distance and time headway) can be directly translated into a velocity reference. Hence, we propose to learn, via Deep Reinforcement Learning (DRL), an interaction-aware policy as a velocity reference. This reference provides global guidance to a local optimization-based planner, which ensures that the generated trajectories are kino-dynamically feasible and safety constraints are respected. Our method leverages vehicles' interaction effects to create free-space areas for the AV to navigate and complete various driving maneuvers in cluttered environments.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "II-A Rule-based Methods", "weight": 1.0} -->
+
+Traditional autonomous navigation systems typically employ a sequential planning architecture hierarchically decomposing the planning and decision-making pipeline into different blocks such as perception, behavioral planning, motion planning and low-level control. Rule-based methods translate implicit and explicit human-driving rules into handcrafted functions directly influencing the motion planning phase. These methods have demonstrated excellent ability to solve specific problems (e.g., precedence at an intersection followed by waiting for the availability of enough free space for the vehicle to pass safely). Nevertheless, these methods do not consider the interactions between multiple traffic participants and thus can fail in dense traffic scenarios.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "II-B Search-based Methods", "weight": 1.0} -->
+
+The decision-making problem for autonomous navigation is inherently a Partially Observable Markov Decision Process (POMDP) because the other drivers' intentions are not directly observable but can be estimated from sensor data. To improve decision-making and intention estimation, it has been proposed to incorporate the road context information. To deal with a variable number of agents, dimensional reduction techniques have been employed to create a compressed and fixed-size representation of the other agents information. Yet, solving a POMDP online can become infeasible if the right assumptions on the state, action and observation space are not made. For instance, proposed to use Monte Carlo Tree Search (MCTS) algorithms to obtain an approximate optimal solution online and improved the interaction modeling by proposing to feedback the vehicle commands into planning. These methods demonstrated promising results but are limited to environments for which they were specifically designed, demand high computational power and can only consider a discrete set of actions.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "II-C Optimization-based Methods", "weight": 1.0} -->
+
+Optimization-based methods are widely used for motion planning since they allow to define collision and kino-dynamics constraints explicitly. These methods include receding-horizon control techniques which allow to plan in real-time and incorporate predicted information by optimizing over a time horizon. However, these works employ simple prediction models and do not consider interaction. Recently, data-driven methods allow to generate interaction-aware predictions that can be used for planning. However, these methods ignore the influence of the ego vehicle's actions in the planning phase struggling to find a collision free trajectory in highly dense traffic scenarios. Not only motion planners must account for the interaction among the driving agents but also generate motions plans which respect social constraints. Hence, to generate socially compatible plans, Inverse Optimal Control techniques have been used to learn human-drivers preferences,. These methods either fail to scale to interact with multiple agents or can only handle a discrete set of actions rendering them incapable to be used safely in highly interactive and dense traffic scenarios.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "II-D Game Theoretic Methods", "weight": 1.0} -->
+
+Game Theoretic approaches such as model the interaction among agents as a game allowing to infer the influence on each agent's plans. However, the task of modeling interactions requires the inter-dependency of all agents on each other's actions to be embedded within the framework. This results in an exponential growth of interactions as the number of agents increases, rendering the problem computationally intractable. Social value orientation (SVO) is a psychological metric used to classify human driving behavior. models the interaction problem as a dynamic game given the other driver's SVO. Similarly, a unscented Kalman filter is used to iteratively update an estimate of the other drivers'cost parameters. Nevertheless, these approaches require local approximations to find a solution in a tractable manner. Cognitive hierarchy reasoning allows to reduce the complexity of these algorithms by assuming that an agent performs a limited number of iterations of strategic reasoning. For instance, iterative level-k model based on cognitive hierarchy reasoning has been used to obtain a near optimal policy for performing merge maneuvers and lane change in highly dense traffic scenarios. However, these approaches consider a discrete action space and do not scale well with the number of vehicles.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "II-E Learning-based Methods", "weight": 1.0} -->
+
+Learning-based approaches leverage on large data collection to build interaction-aware prediction models or to learn a driving policy directly from sensor data. For instance, generative adversarial networks can be used to learn a driving policy imitating human-driving behavior. Conditioning these policies on high-level driving information allows to use it for planning. Moreover, to account for human-robot interaction these policies can be conditioned on the interaction history. Yet, the deployment of these models can lead to catastrophic failures when evaluated in new scenarios or if the training dataset is biased and unbalanced.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "II-E Learning-based Methods", "weight": 1.0} -->
+
+Reinforcement Learning (RL) has shown great potential for autonomous driving in dense traffic scenarios. For example, DQN has been employed to learn negotiating behavior for lane change and intersection scenarios. Yet, the latter consider a discrete and limited action space. In contrast, in it is proposed to learn a continuous policy (jerk and steering rate) allowing to achieve smooth control of the vehicle. These methods are able to learn a working policy under highly interactive traffic conditions involving multiple entities. However, they fail to provide safety guarantees and reliability, rendering these methods vulnerable to collisions. Recently, a vast amount of works has proposed different ways to introduce safety guarantees of learned RL policies. The key idea behind these works is to synthesize a safety controller when an unsafe action is detected by employing formal verification methods, computing offline safe reachability sets or employing safe barrier functions. To reduce conservativeness, proposes to use Linear Temporal Logic to enforce safety probabilistic guarantees. However, *safe RL* methods do not account for interaction among the agents, being highly conservative in dense environments.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "II-E Learning-based Methods", "weight": 1.0} -->
+
+Finally, close to our work, learned a decision-making policy to select from a discrete and limited set of predefined constraints which ones to enable in an MPC formulation and thus, controlling the vehicle behavior applied to intersection scenarios. In contrast, we propose to learn a continuous interaction-aware policy providing global guidance to an MPC through the cost function.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "II-F Contribution", "weight": 1.0} -->
+
+The main contributions of this work are: An Interactive Model Predictive Controller (IntMPC) for navigation in dense traffic environments combining DRL to learn an interaction-aware policy providing global guidance (velocity reference) in the cost function to a local optimization-based planner; Extensive simulation results demonstrate that our approach triggers interactive negotiating behavior to reason about the other drivers' cooperation and exploit their cooperativeness to induce them to yield while remaining safe.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "III-A Problem Formulation", "weight": 1.0} -->
+
+Consider a set $\mathcal{X}$ of $n$ vehicles interacting in a dense traffic scenario comprising an autonomous vehicle (AV) and $n - 1$ human drivers, henceforth referred to as other vehicles, exhibiting different levels of willingness to yield. The term "vehicles" is used to collectively refer to the AV and other vehicles. At the beginning of an episode, the AV receives a global reference path $P$ to follow from a path planner consisting of a sequence of $M$ waypoints $\mathbf{p}_{m}^{r} = {\lbrack x_{m}^{r},y_{m}^{r}\rbrack} \in {\mathbb{R}}^{2}$ with $m \in M:={\{ 1,\ldots,M\}}$.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "III-A Problem Formulation", "weight": 1.0} -->
+
+For each time-step $k$, the AV observes its state $\mathbf{s}_{k}$ and the states of other agents $\mathbf{S}_{k} = {\lbrack\mathbf{s}_{k}^{1},\ldots,\mathbf{s}_{k}^{n - 1}\rbrack}$, then takes action $\mathbf{a}_{k}$, leading to the immediate reward $R{(\mathbf{s}_{k},\mathbf{a}_{k})}$ and next state $\mathbf{s}_{k + 1} = {f{(\mathbf{s}_{k},\mathbf{u}_{k})}}$, under the dynamic model $f$^11^1This is identical to the Vehicle Model used in the simulation defined in Section IV-C1 and controller model $h$, with $\mathbf{u}_{k} =
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "III-A Problem Formulation", "weight": 1.0} -->
+
+The vehicle's state is defined as where $x_{k}$ and $y_{k}$ are the Cartesian position coordinates, $\psi_{k}$ the heading angle and $v_{k}$ the forward velocity in a global inertial frame $\mathcal{W}$ fixed in the main lane (see Fig. 2). $A^{\text{ego}}$ and $A^{i}$ denote the area occupied by the AV and the $i$-th other vehicle, respectively. We aim to learn a continuous policy $\pi{(\left.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "III-A Problem Formulation", "weight": 1.0} -->
+
+\mathbf{a}_{k} \middle| {\mathbf{s}_{k},\mathbf{S}_{k}} \right.)}$ conditioned on the AV's and other vehicles' states minimizing the expected driving time ${\mathbb{E}}{\lbrack t_{g}\rbrack}$ for the AV to reach its goal position while ensuring collision-free motions, defined as the following optimization problem: where (1a) are the kino-dynamic constraints, (1c) the collision avoidance constraints, and $\mathcal{S}$, $\mathcal{A}$ and $\mathcal{U}$ are the set of admissible states, actions, and control inputs (e.g., maximum vehicles' speed), respectively. We assume that each vehicle's current position and velocity are observed (e.g., from on-board sensor data) and no inter-vehicle communication.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "IV-A Overview", "weight": 1.0} -->
+
+This section introduces the proposed Interactive Model Predictive Control (IntMPC) framework for safe navigation in dense traffic scenarios. Figure 2 depicts our proposed motion planning architecture incorporating three main modules: an interactive reinforcement learner, a local optimization planner (MPCC), and an interactive simulation environment. Firstly, we define the RL framework to learn an interaction-aware navigation policy (Section IV-B), providing global guidance to a local optimization planner (Section IV-C). Secondly, we introduce the behavior module used to simulate dense traffic scenarios with various driving behavior, ranging from cooperative to non-cooperative. Here, we propose an expansion for the Intelligent Driver Model (IDM) model allowing the other vehicles to react to the other's predicted plans (SectionIV-D). To finalize, we introduce our training algorithm to jointly train the interaction-aware policy and the local optimization planner (SectionIV-E). Our IntMPC enhances the AV with interactive behavior, exploiting the other traffic participants' interaction effects.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "IV-B Interactive Planner", "weight": 1.0} -->
+
+Here, we propose to use deep RL to learn an interaction-aware velocity reference exploiting the interaction effects between the vehicles and providing global guidance to a local optimization-based planner.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-B1 RL Formulation", "weight": 1.0} -->
+
+The AV's observation vector is composed by the leader's (vehicle in front) and the follower's (vehicle behind the AV) state, $\mathbf{o}_{k} = {\lbrack\mathbf{s}_{k}^{l},\mathbf{s}_{k}^{f}\rbrack}$, relative to AV's frame. To enable interactive behavior with the other traffic participants, we define the RL policy's action as a velocity reference to directly control the interaction at the merging point. High-speed values lead to more aggressive and low-speed to more conservative behavior, respectively. Hence, we consider a continuous action space $\mathcal{A} \subset {\mathbb{R}}$ and aim to learn the optimal policy $\pi$ mapping the AV's state and observation to a probability distribution of actions. where $\theta$ are the policy's network parameters, $\mathcal{N}$ is a multivariate Gaussian density function, and $\mu$ and $\sigma$ are the Gaussian's mean and variance, respectively.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "IV-B1 RL Formulation", "weight": 1.0} -->
+
+We formulate a reward function to motivate progress along a reference path, to penalize collisions and infeasible solutions, and when moving too close to another vehicle. The reward function is the summation of the four terms described as follows: where $c_{k}^{c,i}$ is the collision avoidance constraint between the AV and the vehicle $i$ (Section IV-C3), $A_{k}^{ego} \cap A_{k}^{i}$ represents the common area occupied by the AV and the $i$-th other vehicle at step $k$. $d_{\text{min}}$ is the minimum distance to the closest nearby vehicle $i$ and $\Deltad_{\text{min}}$ is a hyper-parameter distance threshold. The first term $v_{k}$ is a reward proportional to the AV's velocity encouraging higher velocities and thus, encouraging interaction and minimizing the time to goal.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-B1 RL Formulation", "weight": 1.0} -->
+
+The second $r_{\text{infeasible}}$, third $r_{\text{collision}}$ and fourth term $r_{\text{near}}$ penalize the AV for infeasible solutions, collisions and for driving too close to other vehicles, respectively.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "IV-C Local Motion Planner", "weight": 1.0} -->
+
+Deep RL can be used to learn an end-to-end control policy in dense traffic scenarios,. However, their sample inefficiency and transferability issues makes it hard to apply them in real-world settings. In contrast, optimization-based methods have been widely used and deployed into actual autonomous vehicles. Therefore, we employ Model Predictive Contour Control (MPCC) to generate locally optimal control commands following a reference path while satisfying kino-dynamics and collision avoidance constraints if a feasible solution is found. The reference path can be provided by a global path planner such as Rapidly-exploring Random Trees (RRT).
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-C1 Vehicle Model", "weight": 1.0} -->
+
+We employ a kinematic bicycle model for the AV, described as follows: where $\beta$ is the velocity angle. The distances of the rear and front tires from the center of gravity of the vehicle are $l_{r}$ and $l_{f}$, respectively, and are assumed to be identical for simplicity. The vehicle control input $\mathbf{u}$ is the forward acceleration $u^{a}$ and steering angle $u^{\delta}$, $\mathbf{u} = {\lbrack u^{a},u^{\delta}\rbrack}$.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-C2 Cost Function", "weight": 1.0} -->
+
+The local controller receives a velocity reference $v_{\text{ref}}$, from the Interactive Planner (Section IV-B), exploiting for the interaction effects of the AV in the other vehicles to maximize long-term rewards.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-C2 Cost Function", "weight": 1.0} -->
+
+To track the reference path closely, we minimize two cost terms: the contour error ($e_{k}^{c}$) and lag error ($e_{k}^{l}$). Contour error gives a measure of how far the ego vehicle deviates from the reference path laterally whereas lag error measures the deviation of the ego vehicle from the reference path in the longitudinal direction. For more details on path parameterization and tracking error, please refer to. The third term, $\|{v_{k,\text{ref}} - v_{k}}\|$, motivates the planner to follow $v_{\text{ref}}$ closely. Finally, to generate smooth trajectories, we add a quadratic penalty to the control commands $u_{k}^{a}$ and $u_{k}^{\delta}$.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-C3 Dynamic Obstacle Avoidance", "weight": 1.0} -->
+
+To ensure collision-free motions, we define a set of non-linear constraints imposing that each circle $c$ of the AV with the elliptical area occupied by the $i$-th vehicle does not intersect: ${\forall k} \in {\{ 0,\ldots,H\}}$ and ${\forall i} \in {\{ 1,\ldots,{n - 1}\}}$. The parameters $\Deltax_{k}^{c}$ and $\Deltay_{k}^{c}$ represent x-y relative distances in AV's frame between the disc $c$ and the ellipse $i$ for prediction step $k$. To guarantee collision avoidance we enlarge the other vehicle's semi-major and semi-minor axis with a $r_{\text{disc}}$ coefficient, assuming $\alpha = {a + r_{\text{disc}}}$ and $\beta = {b + r_{\text{disc}}}$ as described.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-C4 Road boundaries", "weight": 1.0} -->
+
+We introduce constraints on the lateral distance (i.e., contour error) of the AV with respect to the reference path to ensure that the vehicle stays within the road boundaries: where $w_{\text{left}}^{\text{road}}$ and $w_{\text{right}}^{\text{road}}$ are the left and right load limits, respectively.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-C5 MPC Formulation", "weight": 1.0} -->
+
+We formulate the motion planning problem as a Receding Horizon Trajectory Optimization problem with planning horizon $H$ conditioned on the following constraints: where $\Deltat$ is the discretization time and $\mathbf{u}_{0:{H - 1}}^{\ast}$ the locally optimal control sequence for H time-steps. In this work, we assume a constant velocity model to estimate of the other vehicles' future positions, as.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-D Modeling Other Traffic Drivers' Behaviors", "weight": 1.0} -->
+
+We aim to simulate dense and complex negotiating behavior with varying degrees of willingness to yield. For instance, in a typical dense traffic scenario (e.g., on-ramp merging), human drivers trying to merge onto the main lane need to leverage other drivers' cooperativeness to create obstacle-free space to merge safely. In contrast, drivers on the main lane exhibit different levels of willingness to yield. Some drivers stop as soon as they spot the other vehicle on the adjacent lane (Cooperative). Other drivers ignore the other vehicles entirely and may even accelerate to deter it from merging (Non-Cooperative). Moreover, they also consider an internal belief about the other vehicle's motion plan on the adjacent lane in their decision-making process at the merging point. Here, we introduce the Predictive Intelligent Driver Model (P-IDM) to control the longitudinal driving behavior of the other vehicles, built on the Intelligent Driver Model (IDM). Our proposed model consists of three main steps: leader and follower selection, other vehicles' motion estimation, and control command computation.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-D1 Leader & Follower Selection", "weight": 1.0} -->
+
+For each vehicle, the model assigns a leader, denoted with up-script $l$, and a follower, denoted with up-script $f$. Consider $\mathcal{X}_{i}^{l}$ as the set of potential leaders for the vehicle $i$, then
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-D2 Motion Plan Estimation", "weight": 1.0} -->
+
+To enhance the IDM model with predictive driving behavior, we propose to condition the IDM on the beliefs of the other drivers' motion plans. Specifically, we assume that each vehicle on the main lane maintains an internal belief about the AV's motion plan (on the adjacent lane)^22^2For the Ramp Merging scenario (detailed in Sec. V-B1), the current lane corresponds to the main lane whereas the adjacent lane refers to the merge lane whereas for the Unprotected Left Turn scenario (detailed in Section V-B2), the current lane refers to the top lane and the adjacent lane corresponds to the bottom lane.. To estimate the AV's motion plans, different prediction models can be employed (e.g., constant velocity model). Later, in Section V-E3, we investigate our method's performance for different prediction models.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-D3 Control Command Computation", "weight": 1.0} -->
+
+Please note that we only do longitudinal control for the other vehicles on the main lane by employing Eq. 9. For the AV, we employ a local optimization-based planner (Section IV-C) for steering and acceleration control.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-E Training Procedure", "weight": 1.0} -->
+
+1:Inputs: planning horizon H, initial policy’s parameters θ, Q-functions’ parameters {ϕ1, ϕ2}, number of training episodes nepisodes, number of vehicles n, reward function R (sk, ok, ak) and number of control steps K 2:Initialize initial states: {s0, …, s0n − 1} ∼ 𝒮 3:Initialize replay buffer: 𝒟 ← ⌀ 5: Get observation ok and AV’s state sk 7: Sample velocity reference for the AV: vk, ref ∼ πθ (sk, ok) 9: Solve the optimization problem of Eq.8 without collision constraints (Eq.8e):
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-E Training Procedure", "weight": 1.0} -->
+
+15: Observe next vehicles’ states {s, …, sn − 1}, reward rk and done signal 16: Store (sk, ak, rk, sk + 1, done) in replay buffer 𝒟 21: if it’s time to update then Algorithm 1 Training Procedure In this work, we train the policy using Soft Actor-Critic (SAC) to learn the policy's probability distribution parameters.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-E Training Procedure", "weight": 1.0} -->
+
+SAC augments traditional RL algorithms' objective with the policy's entropy, embedding the notion of exploration into the policy while giving up on clearly unpromising paths. We propose to jointly train the guidance policy with the local motion planner allowing the trained policy to directly implement our method on a real system and learn with the cases resulting in infeasible solutions for the optimization solver. In contrast to prior works on safe RL, during training, we do not employ collision constraints (Eq.8e), exposing the policy to dangerous situations or collisions which is necessary to learn how to interact with other vehicles closely.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-E Training Procedure", "weight": 1.0} -->
+
+Algorithm 1 describes the proposed training strategy. Each episode begins with the initialization of all vehicle's states (see Sections V-C and V-B for more details). Every $K$ cycles, we sample a reference velocity $v_{\text{ref}}$ from the policy $\pi_{\theta}$. Querying the interaction-aware policy every $K$ control cycles helps to stabilize the training procedure and better assess the policy's impact on the environment (see Section V-E2). Then, the MPCC computes a locally optimal sequence of steering and acceleration commands $u_{0:{H - 1}}^{\ast}$ for the AV. If a feasible solution is found, we apply the first control command of the sequence and re-compute the motion plan in the next cycle considering new observations. If no feasible solution is found, we apply a braking command. Afterward, the P-IDM computes an action for each vehicle on the main lane while being aware of the AV on the adjacent lane.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-E Training Procedure", "weight": 1.0} -->
+
+An episode is over if: the AV reaches the goal position (finishes merging or turning left); the AV collides with another vehicle; it does not finish the maneuver in time (i.e., timeout). Finally, to update the policy's distribution parameters, we employ the Soft Actor-Critic (SAC) method. We refer the reader to for more details about the learning method's equations. Please note that our approach is agnostic to which RL algorithm we use.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-F Online Planning", "weight": 1.0} -->
+
+1:Inputs: AV’s state sk, observation ok and reference path pmr = [xmr, ymr] ∈ ℝ2 with m ∈ M:= {1, …, M} waypoints. 3: Get observation ok and AV’s state sk 4: Sample velocity reference for the AV: vk, ref = πθ (sk, ok) 5: Compute MPCC trajectory by solving Eq.8: uk: k + H* = MPCC(vk, ref, sk, ok) Algorithm 2 describes our Interactive Model Predictive Controller (IntMPC) algorithm. For every step $k$, we first obtain a velocity reference, $v_{\text{ref}}$, from the trained policy. Then, by solving the MPCC problem (Eq. 8), we obtain a locally optimal sequence of control commands $\mathbf{u}_{k:{k + H}}^{\ast}$.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-F Online Planning", "weight": 1.0} -->
+
+Finally, if the MPCC plan is feasible we employ the first control command, $\mathbf{u}_{k}^{\ast}$, and re-compute a new plan considering the new observations following a receding horizon control strategy. Else, we apply a braking command, $\mathbf{u}_{\text{safe}}$.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+This section presents simulation results for two dense traffic scenarios (Section V-B) considering different cooperation settings for the other vehicles (Section V-C). First, we provide an ablation study analyzing our method's design choices (Section V-E). After, we present qualitative (Section V-F) and performance results (Section V-G) of our approach against two baselines: DRL: state-of-the-art Deep Reinforcement Learning approach, SAC, learning a continuous policy controlling the AV's forward velocity.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+MPCC: Model Predictive Contour Controller with a constant velocity reference.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+All controller parameters were manually tuned to get the best possible performance.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "V-A Experimental setup", "weight": 1.0} -->
+
+Simulation results were carried out on an Intel Core i9, 32GB of RAM CPU @ 2.40GHz taking approximately 20 hours to train, approximately 20 million simulation steps. The non-linear and non-convex MPCC problem of Eq. 8 was solved using the ForcesPro solver. Our simulation environment, P-IDM, builds on an open-source highway simulator expanding it to incorporate complex interaction behavior. Hyperparameters values can be found in Table I. Our motion planner and simulation environment are open source^33^3 Number of parallel workers Q neural network model Policy neural network model Training batch size Initial entropy weight (α) Target entropy lower bound Target network update frequency Replay buffer size TABLE I: SAC’s Hyperparameters
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "V-B Driving scenarios", "weight": 1.0} -->
+
+We consider two densely populated driving scenarios: merging on a highway and unprotected left turn. The vehicles are modeled as rectangles with 5 m length and 2 m width. For each episode, the initial distance between the other vehicles is drawn from a uniform distribution ranging from m. Their initial and target velocities are sampled from a uniform distribution, $v_{0}^{0:n} \sim {\mathcal{U}{}}$ m/s. This initial configuration prevents early collisions while ensuring no gaps of more than 2 meters, typical of dense traffic scenarios. These scenarios compel the AV to leverage other vehicles' cooperativeness while also exposing it to a myriad of critical scenarios for the final policy's performance.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "V-B1 Ramp Merging", "weight": 1.0} -->
+
+Fig. 4(a) depicts an instance of the merging scenario. It comprises two lanes: the main lane and a merging lane. At the beginning of each episode, the main lane is populated with the other vehicles, moving from left to right. In contrast, the merge lane only includes the AV.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "V-B1 Ramp Merging", "weight": 1.0} -->
+
+(a) Ramp merging scenario. The AV on the main road, bottom lane, has to merge into the main top lane.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "V-B1 Ramp Merging", "weight": 1.0} -->
+
+(b) Unprotected left-turn scenario: The AV on the main road, bottom lane, has to make a left-turn while avoiding collision with the other vehicles on the main road, top lane.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "V-B2 Unprotected Left Turn", "weight": 1.0} -->
+
+Fig. 4(b) illustrates the unprotected left turn scenario. It consists of two roads: the main road and the left road perpendicular to each other. The main road is populated with the other vehicles (on the top lane) and the AV (on the bottom lane). The other vehicles move from right to left on the main road, whereas the AV is initialized at the bottom lane of the main road, and its objective is to take an unprotected left turn onto the left road.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "V-C Evaluation Scenarios", "weight": 1.0} -->
+
+We present simulation results considering different settings for the other vehicles' cooperation coefficient: Cooperative: In this scenario, most vehicles are cooperative ($c^{i} \sim {\mathcal{U}{}}$ m), implying that as soon as the AV shows intentions of merging into the main lane, the other vehicle starts considering the AV as its new leader, leaving space for it to merge into the main lane. This evaluation scenario helps in assessing the merging speed of the policy.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "V-C Evaluation Scenarios", "weight": 1.0} -->
+
+Non-Cooperative: This scenario comprises mostly non-cooperative vehicles ($c^{i} \sim {\mathcal{U}{}}$ m), meaning that the other vehicles would not stop for the AV unless the AV's lateral horizon state is in the top lane. This scenario explicitly assesses the policy's aggressiveness. In these scenarios, the best option for the AV is to stop and wait for gaps and then merge in as quickly as possible.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "V-C Evaluation Scenarios", "weight": 1.0} -->
+
+Mixed: This traffic scenario involves agents with varying degrees of cooperativeness ($c^{i} \sim {\mathcal{U}{}}$ m), featuring a continuous transition from cooperative to non-cooperative vehicles. Here, the goal is to assess how differently the AV behaves with cooperative and non-cooperative vehicles.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "V-C Evaluation Scenarios", "weight": 1.0} -->
+
+During training, we consider a mixed setting for the other vehicles. Rule based methods such as IDM, MOBIL fail in highly dense traffic conditions and thus have not been included for evaluation purposes.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "V-D Evaluation metrics", "weight": 1.0} -->
+
+To evaluate our proposed method, we employ the following evaluation metrics: Success Rate: Percentage of successful episodes. An episode is deemed successful if the AV is able to merge on to the main highway or perform a left term without colliding and before timeout.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "V-D Evaluation metrics", "weight": 1.0} -->
+
+Collisions: Percentage of episodes resulting in collision.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "V-D Evaluation metrics", "weight": 1.0} -->
+
+Timeout: Percentage of episodes in which the AV did not reach the goal within the maximum specified time. This metric does not include those episodes that resulted in collision.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "V-D Evaluation metrics", "weight": 1.0} -->
+
+Time-to-goal: Time in seconds for the AV to reach the goal position.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "V-E Performance analysis", "weight": 1.0} -->
+
+This section investigates the impact of two critical design choices for our proposed approach: MPCC's parameters and using a different number of control cycles per RL policy query. Moreover, we evaluate our method's robustness to different prediction models used by the other vehicles to estimate the AV's motion plans.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "V-E1 Local controller parameters", "weight": 1.0} -->
+
+Success (%) / Collision (%) / Timeout (%) TABLE II: Ablation study of the MPCC’s parameters considering a mixed setting for the other vehicles.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "V-E1 Local controller parameters", "weight": 1.0} -->
+
+The MPCC's parameters (i.e., weights and velocity reference) highly influence the local planner's performance. Here, we study the two key components controlling the AV's interaction with the other vehicles: the velocity tracking weight ($q_{v}$) and the reference velocity ($v_{\text{ref}}$). Table II presents performance results for different $q_{v}$ and $v_{\text{ref}}$ values. Increasing the reference velocity combined with high $q_{v}$ values generates more aggressive behavior and significantly reduces the timeout rate. However, it also increases the collision rate. In contrast, low $q_{v}$ values weaken the influence of the velocity reference on the MPCC performance. The presented results demonstrate that fine-tuning the MPCC's weights and velocity reference is insufficient for safe and efficient navigation in dense traffic environments, supporting the need for an interaction-aware velocity reference.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "V-E1 Local controller parameters", "weight": 1.0} -->
+
+$q_{v} = 1.0$ and $v_{\text{ref}} = 2$ m/s lead to the best performance, i.e., higher success rate and lower collision and timeout rate. For the following experiments, we use $q_{v} = 1.0$ and a velocity reference of $v_{\text{ref}} =$ 2 m/s for the MPCC baseline.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "V-E2 Hyperparameter selection", "weight": 1.0} -->
+
+A key design choice of the proposed framework is the number of control cycles per policy query, denoted by $K$. For instance, for $K = 1$, we query the policy network for a new velocity reference for each control cycle, while for $K = 4$, we use the same queried velocity reference during $4$ control cycles. Here, we study the impact on the learned policy's performance for $K = {\{ 1,\ldots,4\}}$. During testing, all the policies are evaluated using $K = 1$. Table III summarizes the obtained performance results. The policy trained with $K = 2$ outperforms the other policies in terms of success and collision rate. The policy trained with $K = 1$ elicits an overly aggressive response from AV, evident from a high collision rate and a low timeout percentage. In contrast, higher $K$ values lead the AV to exhibit an overly conservative behavior, thus, higher timeout percentage. This behavior can be attributed to the long duration for which the same action is applied after querying the interactive policy.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "V-E2 Hyperparameter selection", "weight": 1.0} -->
+
+For instance, using a large velocity reference value during many control cycles highly increases the collision likelihood at the merging point. This compels the RL algorithm to learn biased policy towards low-velocity references to avoid an impending collision resulting in an overly conservative behavior. Finally, the policy trained with $K = 2$ elicits a balanced response from the AV that is neither too conservative nor too aggressive, resulting in a high success rate and a low collision rate for all the scenarios.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "V-E3 Simulation environment", "weight": 1.0} -->
+
+This work introduces an IDM variant enhancing the other vehicles with anticipatory behavior. Our proposed model (P-IDM in Section IV-D) relies on the assumption that the other vehicles can infer the AV's motion plans. Here, we evaluate the influence of the prediction model used to infer the AV's plans on our method's performance. We consider the following prediction models variants: CV: Constant velocity (CV) model; CVPath: Constant velocity (CV) model along the AV's reference path; MPCC: MPCC plan (Eq. 8) assuming the AV's current velocity as the velocity reference, $v_{\text{ref}} = v_{k}$.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "V-E3 Simulation environment", "weight": 1.0} -->
+
+Moreover, we also evaluate our method's performance in reactive scenarios employing the IDM to model the other vehicles' behaviors. The interactive policy was trained considering a mixed setting of other vehicles following a P-IDM model with CV predictions. The presented results in Table IV demonstrate that our proposed approach is robust and generalizes well to environments with other vehicles exhibiting different behaviors. Employing the CV-Path prediction model results in highly cooperative behavior for other vehicles as shown by the high success rate. In contrast, the scenarios with vehicles following an IDM represents the most challenging scenario.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "V-F Qualitative Results", "weight": 1.0} -->
+
+(a) Successful merging maneuver: As the AV approaches the merging point, it tries to assess the reaction of its action on the vehicle titled ”25” by inching closer to the main lane. The vehicle’s non-cooperative behavior does not elicit a response typical of vehicles willing to yield, forcing the AV to stop. It tries the same with the vehicle titled ”29” by creeping closer to the main lane but fails again. Finally, the merge is successful when a cooperative vehicle titled ”91” emerges and gives way to the AV.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "V-F Qualitative Results", "weight": 1.0} -->
+
+(b) Attempting to merge with a non-cooperative vehicle: In this episode, the guidance policy wrongfully estimates the other vehicle’s non-cooperative nature, titled ”6”, compelling the AV to merge in front of the other agent. However, the obstacle avoidance constraint forces the AV to steer away from the other vehicle to avoid a collision. Finally, the AV merges in front of the cooperative vehicle titled ”84”.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "V-F Qualitative Results", "weight": 1.0} -->
+
+(c) Unprotected left-turn scenario: the AV approaches the center of the main lane to make the other vehicles yield. The first three vehicles it meets are non-cooperative and do not stop. When it meets a cooperative vehicle, titled ”82”, the AV behavior induces the other vehicle to yield allowing the AV to cross successfully.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "V-F Qualitative Results", "weight": 1.0} -->
+
+Fig. 5 presents visual results for our method for the merging and left-turn scenarios. In Fig. 5(a) ‣ Figure 5 ‣ V-F Qualitative Results ‣ V Experiments ‣ Learning Interaction-aware Guidance Policies for Motion Planning in Dense Traffic Scenarios"), the AV successfully merged onto the main lane by leveraging other vehicles' cooperativeness. In contrast, in Fig. 5(b) ‣ Figure 5 ‣ V-F Qualitative Results ‣ V Experiments ‣ Learning Interaction-aware Guidance Policies for Motion Planning in Dense Traffic Scenarios"), we highlight a critical advantage of our framework: the ability to perform a collision avoidance maneuver when the guidance policy wrongly estimates the other vehicle's cooperativeness. In this episode, at 12.1 s, the AV initiates a merging maneuver. However, the non-cooperative vehicle does not allow it. The local planner aborts and starts a collision avoidance maneuver at 15.5 s, merging successfully later when encountering a cooperative vehicle at 22.4 s.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "V-F Qualitative Results", "weight": 1.0} -->
+
+Finally, Fig. 5(a) ‣ Figure 5 ‣ V-F Qualitative Results ‣ V Experiments ‣ Learning Interaction-aware Guidance Policies for Motion Planning in Dense Traffic Scenarios") shows the AV performing an unprotected left-turn maneuver successfully. The presented qualitative results show that our proposed method enables the AV to safely and efficiently navigate in dense traffic scenarios. We refer the reader to the video accompanying this paper for more qualitative results.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "V-G Quantitative Results", "weight": 1.0} -->
+
+Aggregated results in Table V show that our method outperforms the baseline methods in terms of successful merges and number of collisions considering different settings for the other vehicles' behaviors (i.e., cooperative, mixed and, non-cooperative). The combined capability of interactive RL policy to implicitly embed inter-vehicle interactions into the velocity's policy and the safety provided by the collision avoidance constraints allows our method to succeed in all the environments. The optimization-based baseline (MPCC) shows poor performance for all settings, i.e., high collision rate. The reason is the lack of assimilation of inter-vehicle interactions into the policy and a tracking velocity reference error term in the cost function formulation that motivates the AV to keep the same velocity disregarding the nearby vehicles' cooperativeness. The DRL baseline achieves significantly higher performance, i.e., lower collision rate and a higher number of successful episodes. Nevertheless, it still leads to a significant number of collisions due to the lack of collision avoidance constraints to ensure safety when closely interacting with other vehicles. This demonstrates that employing collision constraints for navigation in dense traffic scenarios leads to superior performance over solely learning-based methods.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "V-G Quantitative Results", "weight": 1.0} -->
+
+Table VI presents statistical results of the time-to-goal for all methods. To evaluate the statistical significance, we performed pairwise Mann--Whitney U-tests between each method, considering a 95$\%$ confidence level. The results show statistical significance for the MPCC's results against the other methods for cooperative and mixed settings. In contrast, there is no statistical difference in terms of time-to-goal between the DRL and IntMPC. Similarly, between all methods in non-cooperative environments. The presented results show that employing collision avoidance constraints do not increase the average time-to-goal while improving safety. Moreover, in non-cooperative environments, all methods achieve comparable performance in terms of time-to-goal.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "V-G Quantitative Results", "weight": 1.0} -->
+
+To demonstrate our policy's ability to leverage agents' cooperativeness explicitly, we evaluate 600 episodes in a mixed scenario where we track the other vehicle' cooperation level in front of which the AV performs a successful merging maneuver. Fig. 6 depicts a histogram illustrating the number of successful episodes per cooperation coefficient, demonstrating that our method mostly merges with cooperative vehicles. A small number of successful merges can be seen with non-cooperative vehicles as well. This behavior can be attributed to the random sampling of IDM parameters resulting in different agents' acceleration values. Thus, the agents might leave a gap big enough for the AV to merge onto the lane when moving from a standstill position.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "V-G Quantitative Results", "weight": 1.0} -->
+
+Fig. 7 presents the number of infeasible solutions for our method (IntMPC) and the MPCC baseline. To jointly train the RL policy with the local controller and penalize the state and action tuples resulting in the solver infeasibility, significantly reduces the number of infeasible solutions. Finally, in terms of computation performance, our policy's network has an average computation time of $1.35 \pm 0.5$ ms. To solve the IntMPC's optimization problem (Eq. 8) takes on average $3.0 \pm 1.35$ ms for all experiments. There was no statistical difference on the policy's and solver's computation times for the different settings of the other vehicles (e.g., cooperative, mixed and non-cooperative). These results demonstrate out method's real-time applicability.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+This paper introduced an interaction-aware policy for guiding a local optimization planner through dense traffic scenarios. We proposed to model the interaction policy as a velocity reference and employed DRL methods to learn a policy maximizing long-term rewards by exploiting the interaction effects. Then, a MPCC is used to generate control commands satisfying collision and kino-dynamic constraints when a feasible solution is found. Learning an interaction-aware velocity reference policy enhances the MPCC planner with interactive behavior necessary to safely and efficiently navigate in dense traffic. The presented results show that our method outperforms solely learning-based and optimization-based planners in terms of collisions, successful maneuvers, and fewer deadlocks in cooperative, mixed, and non-cooperative scenarios.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+As future works, we plan to replace the simple constant velocity model with an interaction-aware prediction model learned from data. This will improve the prediction performance significantly and so, safety and performance. We intend to expand our framework to provide local guidance on the heading direction for the AV and evaluate it in more unconstrained scenarios, such as lane-changing in highways. Finally, we plan to implement and evaluate our method in a real autonomous vehicle.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2007.03465", "source": "ar5iv"} -->
+
 ## Introduction
 
 In recent years, progresses on different aspects of unmanned aerial vehicles (UAVs), especially quadrotor autonomy have been achieved and promote autonomous navigation. Nonetheless, high-speed flight in unknown and highly cluttered environments still remains one of the biggest challenges toward full autonomy. To achieve fast flight, trajectory replanning is of vital importance to cope with previously unknown obstacles, guaranteeing smooth and safe navigation.

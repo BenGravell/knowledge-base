@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.13704", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Efficient collision detection (both as binary classification and measuring distance to collision) is a fundamental challenge throughout robotics; algorithms and control strategies from real-time model-predictive control \[chiu2022collision, gaertner2021collision\], sampling-based motion planning \[sundaralingam2023curobo, thomason2024motions\], simulation \[Coumans2016, todorov2012mujoco\], and more all rely on effective collision detection of the robot's geometry with that of the environments. Although effective collision detection strategies exist for complex geometries (e.g., space decompositions, parallel approaches, GPU-accelerated algorithms), these approaches scale on the complexity of the involved geometry, and performance improves when the representative geometry of the robot and environment is simple.

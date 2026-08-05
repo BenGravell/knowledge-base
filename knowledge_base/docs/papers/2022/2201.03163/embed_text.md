@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2201.03163", "source": "ar5iv"} -->
+
 ## Introduction
 
 Path planning is a key component in autonomous parking tasks. Path planning methods for parking need to satisfy the following conditions. First, a collision-free path should be planned considering various obstacles around the parking spot. Second, the parking path should be obtained within a short planning time, even in complex parking situations. Third, the path needs to be a continuous-curvature path for the autonomous vehicle to track and park accurately. In other words, the method needs to consider the vehicle's kinematic constraints, such as minimum turning radius and maximum steering velocity.

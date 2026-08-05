@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2307.13782", "source": "ar5iv"} -->
+
 ## Introduction
 
 Modularity is a guiding principle behind the design of numerous autonomous platforms. For example, the autonomy stack of a typical robot consists of separate modules for perception, planning, and control. In spite of the requirement of safely executing tasks in real time with limited on board computational resources, such modules usually operate at different frequencies and levels of abstraction. Roughly speaking, higher levels of abstraction allow for faster decision making. However, if the degree of abstraction varies among the different modules beyond a suitable threshold, the system as a whole can behave in unexpected, unsafe ways. By and large, choosing the right level of abstraction in robotics applications has remained somewhat of an art. We focus on developing a quantitative method of bridging the potential mismatch between the trajectory planning and control modules in a data-driven manner.

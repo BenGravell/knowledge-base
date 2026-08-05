@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1912.09529", "source": "ar5iv"} -->
+
 ## Introduction
 
 ### Convex optimization control policies

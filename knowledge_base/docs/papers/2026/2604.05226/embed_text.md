@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.05226", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Language-Guided Task Generation in Structured Physical Domains. Natural language instructions are compiled into executable task templates within RoboPlayground, enabling open-ended task generation while preserving structure and control. Structured physical domains support systematic steering through controlled variations in task semantics, constraints, and asset composition (e.g., symbols, colors, and ordering). This combination enables user-aligned evaluation at scale that is expressive, reproducible, and continuously extensible.

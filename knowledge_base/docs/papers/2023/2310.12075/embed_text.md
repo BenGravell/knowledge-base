@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2310.12075", "source": "arxiv-html"} -->
+
 ## Introduction
 
 (a) An intricate urban intersection scenario, where an autonomous vehicle (blue) makes an unprotected left turn while interacting with other vehicles.

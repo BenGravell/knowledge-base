@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.14110", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Transformers dominate modern perception, yet dense attention over long image sequences and large 3D search spaces remains a barrier to real-time deployment. In autonomous driving, where latency and safety are critical, the challenge is not only to *reduce* computation but to *allocate* it selectively. Vision Transformer (ViT) backbones and Detection Transformer (DETR) decoders achieve strong 3D perception but incur quadratic costs over tokens and queries, even though urban scenes are dominated by background (sky, road, buildings) and agents that are inconsequential for motion planning. Uniform computation is thus wasteful, treating all tokens and candidate objects as equally important and misaligning perception with the downstream prediction and planning.

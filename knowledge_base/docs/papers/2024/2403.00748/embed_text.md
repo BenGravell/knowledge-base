@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2403.00748", "source": "arxiv-html"} -->
+
 ## Introduction
 
 ### II-A Unconstrained Discrete-Time Optimal Control Problems

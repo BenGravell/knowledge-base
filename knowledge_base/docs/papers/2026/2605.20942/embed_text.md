@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.20942", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 For self-driving cars to operate safely, they must be able to reason about the roads they are onunderstanding lane structure and geometry, interconnectivity, and relationships between traffic elements such as signs and lightsto determine what behaviors are permitted. This geometrical and relational substrate’’ of road understanding forms the foundation for downstream decision-making, and has motivated extensive work in road map prediction [li2022hdmapnet,liu2023vectormapnet,liao2022maptr], topology reasoning [wang2023openlane,li2023graph], and methods for incorporating high- and standard-definition maps into downstream tasks [yang2018hdnet]. In such pipelines, structured road understanding is explicitly represented and can be directly supervised.

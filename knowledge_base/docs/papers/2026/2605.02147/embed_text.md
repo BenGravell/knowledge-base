@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.02147", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Sampling-based model predictive control is a workhorse for real-time control of nonlinear and contact-rich robotic systems. Algorithms like Model Predictive Path Integral (MPPI) and the Cross-Entropy Method (CEM) leverage parallel simulation to optimize complex cost functions by sampling and scoring candidate trajectories. Unlike gradient-based methods, they require only the ability to evaluate trajectory costs---making them compatible with black-box simulators and learning-based models. This flexibility makes them a common choice for manipulation and locomotion, where gradients are unavailable or expensive.

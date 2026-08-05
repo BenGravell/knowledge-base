@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2602.18933", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Reinforcement learning (RL) has had a profound impact across a wide range of applications. A central component of RL is policy optimization, in which a parameterized policy is directly optimized with respect to a prescribed performance objective. Among various policy optimization framework, this work focuses on policy gradient (PG) methods. Understanding the behavior of PG methods, particularly their convergence to the optimal policy in the presence of uncertainty and stochastic disturbances, remains an active and important research direction, and is essential for their reliable deployment in real-world applications.

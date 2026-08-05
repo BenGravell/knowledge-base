@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2207.12517", "source": "ar5iv"} -->
+
 ## Introduction
 
 Model Predictive Control (MPC) has been effectively used to control complex dynamical systems in presence of input and state constraints, however, its performance is strongly affected by the accuracy of the prediction model. This aspect is critical when the system is too complex or too expensive to be accurately modelled and identification or learning algorithms are employed to obtain approximate plant dynamics. In the last decades, growing attention has been devoted to stochastic and robust MPC methods that can guarantee stability and constraint satisfaction in the presence of model uncertainties and exogenous disturbances.

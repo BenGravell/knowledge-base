@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1802.01548", "source": "ar5iv"} -->
+
 ## Introduction
 
 ^00^footnotetext: Accepted for publication at AAAI 2019, the Thirty-Third AAAI Conference on Artificial Intelligence.^00^footnotetext: A brief talk from Nov 2018 summarizes this paper at Until recently, most state-of-the-art image classifier architectures have been manually designed by human experts. To speed up the process, researchers have looked into automated methods. These methods are now collectively known as architecture-search algorithms. A traditional approach is neuro-evolution of topologies. Improved hardware now allows scaling up evolution to produce high-quality image classifiers. Yet, the architectures produced by evolutionary algorithms / genetic programming have not reached the accuracy of those directly designed by human experts. Here we evolve image classifiers that surpass hand-designs.

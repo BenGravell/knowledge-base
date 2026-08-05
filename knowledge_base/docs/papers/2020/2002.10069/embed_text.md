@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2002.10069", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Recent high profile successes and the resulting hype in machine learning and reinforcement learning are generating renewed interest in adaptive control and system identification, which have their own decades-long histories ˚ Astr¨ om and Wittenmark; Ljung. Classical work on adaptive control and system identification largely focused on asymptotics, including stability, consistency, asymptotic variance, etc. Emerging research at the intersection of learning and control shifts focus to non-asymptotic statistical analyses, including regret and sample efficiency in various adaptive control and learning algorithms Abbasi-Yadkori and Szepesv´ ari; Dean et al..

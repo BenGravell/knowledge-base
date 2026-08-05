@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.09164", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Inverse reinforcement learning (IRL) has become an important tool for recovering implicit performance criteria from expert behavior and then reproducing that behavior on a local system. In linear systems, this objective is closely related to inverse optimal control for quadratic costs, where the goal is to identify a cost function whose optimal controller explains a demonstrated state-feedback law. Because linear quadratic regulation (LQR) provides a precise connection among cost functions, Riccati equations, and stabilizing feedback policies, it offers a natural foundation for studying IRL in control applications lewis2012optimal. Such an inverse viewpoint is useful for imitation control, controller interpretation, and data-driven design when expert trajectories are available but the underlying objective function is not xue2021inverse; xue2021inverseQlearning; lian2022inverse.

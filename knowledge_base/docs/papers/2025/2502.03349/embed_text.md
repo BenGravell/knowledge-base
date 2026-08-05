@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2502.03349", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Self-play reinforcement learning yields a generalist policy. a, A single Gigaflow agent outperforms the best dataset-specific specialists across leading benchmarks. Gigaflow is evaluated zero-shot without training on a single benchmark, while dataset-specific specialists train on benchmark-specific datasets. Each benchmark includes different maps, scenarios, and evaluation metrics. b, Gigaflow enables cost-effective training of policies via self-play on a massive scale. Our largest policies drive over 1.6 billion km during training, more than the distance from the Sun to Saturn and orders of magnitude farther than prior datasets or simulations. At this scale, self-play yields a generalist policy. Dashed lines indicate points at which the performance of our single generalist policy passes the prior state of the art on each benchmark (‘prior best’) and points at which the performance on each benchmark plateaus (‘plateau’).

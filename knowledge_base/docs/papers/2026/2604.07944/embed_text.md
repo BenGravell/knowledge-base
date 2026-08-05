@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.07944", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Motion planning is a cornerstone capability of autonomous driving systems, requiring a vehicle to generate safe, comfortable, and goal-directed trajectories in the presence of complex, dynamic environments. Classical approaches have relied on hand-crafted rules or optimization-based methods, while modern learning-based planners leverage large-scale driving data to acquire planning behavior from human demonstrations. Despite their empirical success, both paradigms suffer from limited generalization in long-tail scenarios and, in the case of neural planners, a lack of interpretability. A separate line of work focuses on ensuring safety in the generation of foundation models through rule-based methods and learning-based approaches.

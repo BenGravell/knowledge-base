@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1707.02342", "source": "ar5iv"} -->
+
 ## Introduction
 
 Autonomous vehicles have the potential to revolutionize transportation by drastically reducing traffic injuries and fatalities, freeing commute time for more productive activities, and enabling more efficient infrastructure utilization. A key step in the design of an autonomous vehicle is the control methodology used to convert the vehicle state and world representation into physical actuation. Existing control methodologies have proven to be effective for many standard vehicle tasks such as lane keeping, turning, and parking. However, there is an important frontier of control at the limits of vehicle performance that has not been fully addressed by prior work. Autonomous racing and the mitigation of risk during collision avoidance are examples of *aggressive driving* domains in which success requires vehicles to operate near their dynamic performance limits.

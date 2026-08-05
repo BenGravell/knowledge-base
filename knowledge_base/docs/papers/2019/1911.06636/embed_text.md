@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1911.06636", "source": "ar5iv"} -->
+
 ## Introduction
 
 Endowing embodied agents with the motor intelligence that is required for natural and flexible goal-directed interaction with their physical environment is a longstanding challenge in artificial intelligence \Pfeifer and Scheier,. This is a problem of obvious practical relevance to a number of fields including robotics \Arkin et al., and motor neuroscience \Merel et al., [2019b\]. But it is also a topic of longstanding interest in the graphics and animation setting \since e.g. Raibert and Hodgins, [1991; Van de Panne and Fiume, 1993\] -- the ability to control agents with physically simulated bodies and sensors that naturally behave in response to high-level instructions may reduce the effort in creating realistic animations of agent-environment interactions.

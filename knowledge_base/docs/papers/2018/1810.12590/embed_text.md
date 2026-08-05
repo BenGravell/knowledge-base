@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1810.12590", "source": "ar5iv"} -->
+
 ## Introduction
 
 Proposed by Kalman, inverse optimal control has found a multitude of applications. The goal of a classical optimal control problem is to find the optimal control input as well as the optimal trajectory when the cost function, system dynamics, and initial conditions are given. In contrast, the objective of an inverse optimal control problem is to "reverse engineer" the cost function, given observations of optimal trajectories or control inputs, for known system dynamics.

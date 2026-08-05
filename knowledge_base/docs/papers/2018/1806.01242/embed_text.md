@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1806.01242", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: (Top) Our experimental physical systems. (Bottom) Samples of parametrized versions of these systems (see videos: link).

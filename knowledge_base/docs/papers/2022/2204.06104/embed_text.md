@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2204.06104", "source": "ar5iv"} -->
+
 ## Introduction
 
 State space models are the starting point in analysis of dynamical systems. They come in various forms of generality as follows The state at each time ${x{(t)}} \in {\mathbb{R}}^{n}$ is an $n$-vector, while the input ${u{(t)}} \in {\mathbb{R}}^{q}$ is also a vector at each $t$, with typically a different dimension than the state. For control problems, for example, the signal $u$ is the control input, and most interesting problems have the dimension of $u$ being much less than that of $x$ (controlling many states with a single or few inputs). If the signal $u$ is a disturbance or a noise signal, it typically has dimensions comparable to those of the state $x$.

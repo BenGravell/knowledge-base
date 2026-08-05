@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.10814", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Many applications in finance and engineering require controlling the risk of extreme outcomes. A widely used measure for tail risk is the *conditional value-at-risk* (CVaR), defined as the expected value of losses exceeding a given quantile. CVaR is a coherent and convex risk measure, so optimization problems involving CVaR can be reliably and efficiently solved.

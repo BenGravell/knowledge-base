@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.10165", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Agentic systems powered by large language models (LLMs) have been shown to significantly improve productivity and are now widely deployed in industrial settings \[openai2025codex, anthropic2025claudecode, openclaw2026\]. The data generated through agent usage, such as user replies, tool execution results, and GUI state transitions, constitutes a valuable source of insights for improving agent frameworks \[lee2026meta, zhang2024aflow\], building memory systems \[xu2025mem, rasmussen2025zep, wang2025mirix, chhikara2025mem0, packer2023memgpt\], and producing high-quality training data for the models \[ouyang2022training\]. However, both the infrastructure and methodology for leveraging such usage data to improve language models in real time remain little explored.

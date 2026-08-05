@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1906.09785", "source": "ar5iv"} -->
+
 ## Introduction
 
 Autonomous navigation for quadrotors in unknown environments has gained significant interest for its practical usage in various inspection and exploration tasks. To fulfill the need of fully autonomous exploration in unknown environments, trajectory replanning is of great significance. Replanning requires a real-time response to unexpected obstacles to guarantee safety while satisfying the low-level feasibility constraints induced by the non-trivial dynamics.

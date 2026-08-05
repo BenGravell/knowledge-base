@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2203.11108", "source": "ar5iv"} -->
+
 ## Introduction
 
 Motion planning for robots with known kinodynamics remains challenging, especially when a time-optimal motion is desired. Consider the example in Fig. 1 of a simple dynamical model in 2D (unicycle, 3-dimensional state space and 2-dimensional control space). Finding the time-optimal solution is surprisingly challenging for state-of-the-art methods when constraining the control space to model a plane with a malfunctioning rudder, i.e., with a positive minimum speed and asymmetric angular velocity limits.

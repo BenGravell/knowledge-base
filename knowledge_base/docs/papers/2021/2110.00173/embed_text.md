@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2110.00173", "source": "ar5iv"} -->
+
 ## Introduction
 
 For safe and reliable autonomous robot operation in a real-world environment, consideration of various uncertainties becomes necessary. These uncertainties may arise from an inaccurate motion model, actuation or sensor noise, partial sensing, and the presence of other agents moving in the same environment. In this paper, we study the safe motion planning problem of robot systems with nontrivial dynamics, motion uncertainty, and state-dependent measurement uncertainty, in an environment with non-convex obstacles.

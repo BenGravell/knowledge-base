@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2004.12553", "source": "ar5iv"} -->
+
 ## Introduction
 
 ### Log-log convex programs

@@ -7,3 +7,179 @@ WildCity: A Real-World City-Scale Testbed for Rendering, Simulation, and Spatial
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Humans can navigate an unfamiliar city and gradually form a coherent spatial mental map spanning tens of square kilometers. Can AI build spatial representations at a comparable scale? Although recent foundation models have advanced scene reconstruction and embodied intelligence, scaling to entire cities remains an open challenge, primarily due to the lack of city-scale data. To bridge the gap, we introduce WildCity, a real-world multimodal dataset collected by autonomous fleets traversing complex urban environments. Our dataset includes 18 trajectories, each averaging 83.7 kilometers in length, and preserves the core challenges of in-the-wild perception, e.g., dynamic objects, lighting variations, and imperfect camera poses. We further establish an urban-tailored reconstruction baseline and convert the reconstructed environments into a closed-loop simulator. Beyond the dataset and baseline, we systematically analyze the key challenges on the path to simulation-ready urban digital twins: scalability, extrapolation, and uncertainty. Ultimately, WildCity aims to catalyze progress not only in city-scale rendering, but more broadly in the pursuit of AI that can perceive, remember, and reason across space at a scale comparable to human cognition.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Humans can wander for hours through the streets of a city---turning down narrow alleys, crossing wide plazas, catching glimpses of a distant tower between buildings---and still, over time, piece together a coherent spatial mental map spanning tens of square kilometers. Such an internal representation of large-scale space can enable self-localization, long-term memory, and efficient planning \[epstein2017cognitive, bellmund2018navigating, maguire2000navigation\]. This leads to a question: Can AI, like a human, internalize the structure of an entire city from visual observations and use that knowledge to reason, plan, and act?
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Recent advances in foundation models, *e.g*., vision-language models (VLMs), have improved embodied intelligence across both virtual and real-world spatial environments---enabling tasks such as visual navigation \[Khanna_2024_goat\], vision-language navigation \[zheng2024navillm\], and active situated reasoning \[yu2025thinking360deghumanoidvisual\]. Yet these capabilities are typically demonstrated in small-scale scenarios---a single room, a synthetic apartment, or a city block. When scaling up spatial coverage or video duration, current models struggle to maintain spatial coherence and reason over long-range dependencies \[yang2025cambrian\]. This reveals a critical gap between the effortless scalability of human spatial cognition and the brittle, small-world reasoning of foundation models.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To bridge this gap, foundation models require access to continuous, long-range visual-spatial observations that capture both the scale and the complexity of real-world environments. Yet existing datasets fall short. Synthetic data offers controllability but suffers from a substantial sim-to-real gap \[li2023matrixcity\], while real-world benchmarks are typically limited to short video clips of isolated urban scenes \[caesar2020nuscenes, sun2020scalability, li2024multiagent\]. Without large-scale real-world visual-spatial data, it remains infeasible to build photorealistic city simulators---digital environments that faithfully mirror the complexity of real cities---and, in turn, to use such simulators for training and evaluating embodied agents powered by foundation models at scale.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this work, we introduce WildCity, a real-world dataset and testbed for city-scale spatial intelligence. Collected by autonomous vehicle fleets traversing complex urban environments, WildCity provides continuous, surround-view multimodal data with city-scale spatial coverage (over 1,500 km of traversed roads), diverse urban scenes (covering distinct functional zones), and long sensory streams (averaging 2.5 hours per log). In addition to its large scale, our dataset features a number of in-the-wild challenges---including dynamic objects, lighting variations, motion blur, and imperfect camera poses. Most importantly, WildCity supports a range of downstream tasks: from reconstructing urban digital twins for photorealistic rendering and closed-loop simulation \[tancik2022block, liu2025citygaussian, kerbl2024hierarchical\], to studying spatial memory, localization, perception, and reasoning with VLMs across a large city \[Liu_2025_citywalker, NEURIPS2020_MultiON\]. In this paper, we focus on city-scale rendering as a first concrete instantiation of this broader vision.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Beyond dataset curation, we build a strong baseline tailored to the challenges of large-scale, noisy, and unbounded scenes. We reconstruct urban environments at scale and integrate the resulting models into a closed-loop simulator, demonstrating their utility for downstream embodied tasks. Moreover, we conduct a systematic analysis of the key obstacles in real-world city-scale reconstruction: performance scalability, view extrapolation, and data uncertainty. This reveals fundamental limitations of existing methods and points toward promising directions for building simulation-ready urban digital twins and, more broadly, advancing city-scale spatial intelligence. Our main contributions are threefold: A city-scale real-world dataset. We introduce WildCity, a large-scale benchmark featuring various in-the-wild challenges---dynamic objects, lighting variations, and imperfect observations---making it a realistic platform for reconstruction, rendering, and embodied AI at city scale.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+An urban-tailored reconstruction baseline. We establish a baseline specifically designed for large, noisy, and unbounded street scenes, and integrate the resulting reconstructions into a closed-loop simulator to support downstream embodied tasks such as end-to-end autonomous driving.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A systematic analysis of key challenges. We identify fundamental limitations of existing pipelines, *i.e*., scalability, extrapolation, and uncertainty, and outline directions toward simulation-ready urban digital twins.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+Large-Scale 3D Reconstruction. Scaling neural rendering from objects and indoor scenes to unbounded outdoor environments remains a significant challenge \[tancik2022block, liu2025citygaussian\]. Early NeRF-based methods such as Block-NeRF \[tancik2022block\] and Mega-NeRF \[turki2022mega\] improve scalability by decomposing large scenes into spatial submodels, but their practical utility remains limited by high training and rendering costs. The emergence of 3D Gaussian Splatting (3DGS) \[kerbl3Dgaussians\] has substantially improved the efficiency of large-scale reconstruction.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+VastGaussian \[lin2024vastgaussian\], CityGaussian \[liu2025citygaussian, liu2024citygaussianv2\], UrbanGS \[li2026urbangs\], and FlashGS \[feng2025flashgs\] further enhance optimization and rendering efficiency for large scenes, though they primarily target aerial views or scenes below the scale of entire cities \[lin2024vastgaussian, liu2025citygaussian, liu2024citygaussianv2\]. In contrast, real-world street-view city-scale reconstruction involves long and narrow trajectories, limited viewpoint overlap, and substantial sensor noise \[yan2024street, hu2024ss3dm\].
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+More recently, feed-forward 3D reconstruction methods such as DUSt3R \[wang2024dust3r\] and VGGT \[wang2025vggt\], together with their longer-horizon extensions \[deng2025vggtlong, wang2025continuous, chen2025ttt3r\], have emerged as a promising alternative by predicting pixel-aligned geometry from learned 3D priors. However, they remain limited in multi-kilometer urban settings due to long-horizon pose drift and the restricted fidelity of sparse point-based representations \[wang2024dust3r, wang2025vggt, wang2025continuous, chen2025ttt3r\].
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+City-Scale Street-View Datasets. Existing datasets for urban scene reconstruction can be broadly grouped into synthetic city-scale benchmarks, real-world clip-level driving datasets, and real-world route- or block-level reconstruction datasets (see Tab.˜1). Synthetic datasets such as MatrixCity \[li2023matrixcity\] and SS3DM \[hu2024ss3dm\] provide broad coverage and clean annotations through controllable simulation, but suffer from sim-to-real gaps \[peng2018visda, safaei2025quantifying, yao2025style\].
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+Real-world driving datasets such as PandaSet \[xiao2021pandaset\], Argoverse 2 \[wilson2023argoverse\], WayveScenes101 \[zurn2024wayvescenes101\], nuScenes \[caesar2020nuscenes\], and Waymo \[sun2020scalability\] contain surround-view observations in real urban environments, but are primarily organized as short clips for perception tasks and therefore lack the continuous city-scale coverage. Route-level datasets such as KITTI-360 \[liao2022kitti\] and Oxford RobotCar \[maddern2020real\] offer longer traversals, yet remain limited in geographic diversity, sensor coverage, or benchmark design for neural rendering. Reconstruction-oriented datasets such as Block-NeRF \[tancik2022block\], Oxford Spires \[tao2024oxford\], and H-3DGS \[kerbl2024hierarchical\] move closer to large-scale scene reconstruction, but their geographic diversity and spatial coverage remain limited.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+Hence, a benchmark that jointly provides real-world data, surround-view sensing, continuous coverage, and street-view imagery across multiple cities is still missing.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+#Cities
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+Coverage (Avg / Total km) PandaSet [xiao2021pandaset] Argoverse 2 [wilson2023argoverse] WayveScenes101 [zurn2024wayvescenes101] nuScenes [caesar2020nuscenes] Waymo Open [sun2020scalability] KITTI-360 [liao2022kitti] Oxford RobotCar [maddern2020real] Block-NeRF [tancik2022block] Oxford Spires [tao2024oxford] H-3DGS [kerbl2024hierarchical] Table 1: Comparison with existing street-view urban reconstruction datasets. WildCity is the only real-world dataset that jointly provides multi-city coverage, long continuous traversals, surround-view sensing, and city-scale route length. “∼” indicates partial or limited support.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+Embodied Spatial Reasoning and Navigation. Researchers have long studied spatial reasoning and long-horizon decision-making for embodied agents. Early benchmarks such as MultiON \[NEURIPS2020_MultiON\] and Habitat-Web \[ramrakhya2022habitat\] emphasize memory, object-centric exploration, and large-scale embodied interaction in photorealistic environments, primarily indoors. More recent works expand toward richer multimodal and longer-horizon tasks. GOAT-Bench \[Khanna_2024_goat\] studies lifelong multimodal navigation over sequential open-vocabulary goals, while LH-VLN \[song2025lhvln\] targets long-horizon vision-language navigation with multi-stage planning. CityWalker \[Liu_2025_citywalker\] further moves toward urban embodied navigation by learning from web-scale city walking and driving videos. In autonomous driving, UniDrive-WM \[xiong2026unidrive\] couple visual understanding, and future scene generation for decision-making. However, these works still lack real-world, city-scale digital twins for interactive spatial reasoning and evaluation.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+In contrast, WildCity provides the sensory foundation for constructing such twins, enabling future research on city-scale spatial memory, localization, reasoning, and agent-based evaluation.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Sensor Setup", "weight": 1.0} -->
+
+Our data acquisition platform is equipped with a multi-modal sensor suite comprising a roof-mounted LiDAR, 6 surround-view RGB cameras, an IMU, and a GPS receiver. To ensure comprehensive spatial coverage, the vision system utilizes three narrow-angle cameras for forward-facing views and three wide-angle cameras for lateral and rear views. We provide rigorous calibration, including extrinsic parameters mapping each sensor to the ego-vehicle coordinate frame. Camera intrinsics and lens distortion coefficients are calibrated via AprilCal \[AprilCal\].
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Data Collection", "weight": 1.0} -->
+
+Our fleet currently operates in six U.S. cities: Atlanta, Arlington, Ann Arbor, Eden Prairie, Grand Rapids and Miami, as shown in Figure 2. These cities exhibit substantial diversity in urban style, geographic layout, and climate conditions. Across the dataset, the fleet traverses a broad range of street-level scenarios, including dense intersections, narrow local streets, multi-lane arterial roads, and high-speed parkways, under varying traffic patterns and scene complexity. The logs are collected on different days during regular daytime fleet operations, naturally introducing real-world variation in illumination, weather, appearance, and traffic dynamics. As a result, the dataset captures the uncertainty and noise inherent in real urban data, including dynamic objects, appearance changes, and imperfect pose estimates, constructing a challenging but valuable benchmark.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Data Processing", "weight": 1.0} -->
+
+The ego poses are initialized from the onboard SLAM system and further refined using GPS signals to improve global consistency, reduce long-range drift, and enforce loop closure when revisiting previously traversed areas. As the raw sensors operate at different frequencies, we extract their measurements directly from the raw logs and align them using the original timestamps instead of resampling them to a fixed frequency. To further improve accuracy, we apply motion compensation to each LiDAR sweep to obtain more accurately aligned geometry. In addition, we provide semantic masks to support broader downstream usage. Specifically, we generate masks for ground, sky, and potentially movable objects (e.g., pedestrians, vehicles, and bicycles) using SAM3 \[carion2025sam\] with text prompts. We then leverage 3D tracking cuboids from our onboard detection annotations to filter out stationary instances of typically dynamic categories, such as parked vehicles and standing pedestrians. As illustrated in Figure 3, this process produces region masks that support ground modeling, sky separation, and moving-object filtering for reconstruction.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Data Processing", "weight": 1.0} -->
+
+We further validate the generated masks quantitatively and qualitatively in Table 2 and Figure 4, showing that they provide reliable region-level annotations for reconstruction and other tasks that benefit from coarse semantic regions.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Data Organization", "weight": 1.0} -->
+
+To make long-horizon city logs tractable for reconstruction and benchmarking, we adopt a standardized trajectory discretization and segmentation scheme. We first spatially subsample keyframes at a fixed spacing of 0.5 m to balance reconstruction fidelity and training efficiency. Each log is then partitioned into contiguous 5 km chunks for convenient usage and reproducible comparisons. On top of these chunks, we provide sub-trajectories at multiple lengths \[50 m, 250 m, 500 m, 1 km, 2.5 km, and 5 km\] to support evaluation under increasing spatial scale; shorter segments emphasize local consistency while longer segments stress scalability and drift accumulation. Since all poses are aligned in a shared city-level coordinate system, segments can be directly concatenated into longer routes without additional registration.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Data Organization", "weight": 1.0} -->
+
+RGB cameras / resolution LiDAR points per frame Camera / LiDAR / GPS / IMU rate Table 3: Key dataset and reconstruction statistics. We summarize the sensor configuration, total data scale, and computational footprint required for reconstruction at increasing trajectory lengths.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Data Statistics", "weight": 1.0} -->
+
+As summarized in Table 3, WildCity provides 3.01M keyframes with synchronized surround-view RGB, LiDAR, GPS, and IMU measurements, along with sensor rates, point-cloud density, and reconstruction resource references to facilitate reproducible training and evaluation. At the route level, the spatial coverage is about 40.18 km^2^ per city, spanning a mixture of downtown regions, residential streets, arterial roads, and other urban corridors. Each driving log lasts about 2.5 hours and covers 83.7 km of route length, capturing long continuous traversals rather than isolated short clips. In total, we collect three logs per city, resulting in 18 logs and 1507.1 km of recorded driving distance across all cities. As illustrated in Figure 5, the route lengths vary across cities and logs, reflecting the natural diversity of real-world fleet operations rather than an artificially balanced collection process. This organization is particularly important for evaluating methods under realistic city-scale coverage, where both long-range continuity and cross-city diversity matter.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "3D Gaussian Splatting Preliminary", "weight": 1.0} -->
+
+3D Gaussian Splatting (3DGS) \[kerbl3Dgaussians\] represents a scene as a set of anisotropic Gaussians $\mathcal{G}=\{g_{i}\}_{i=1}^{N}$, where each Gaussian is parameterized by its opacity, mean position, rotation, scale, and view-dependent color. For rendering, the Gaussians are projected to the image plane and alpha-blended in depth order, where $\mathcal{N}$ denotes the set of projected Gaussians overlapping the pixel, $\alpha_{i}$ is the projected opacity of the $i$-th Gaussian and $c_{i}$ is the view-dependent color.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Urban-tailored Large-scale Reconstruction", "weight": 1.0} -->
+
+Rig pose optimization. Accurate poses are essential for high-quality neural reconstruction and rendering, but real-world pose estimates from raw logs are often not globally optimal. Although independent camera pose optimization is widely adopted \[chen2024omnire\], it ignores the rigid multi-camera setup at each keyframe and can lead to locally improved but globally inconsistent solutions. We therefore decompose pose optimization into two coupled components: the ego pose at each keyframe the camera extrinsics relative to the ego frame. Formally, let $\mathbf{T}^{\mathrm{ego}}_{t}\in SE$ denote the ego pose at keyframe $t$, and let $\mathbf{T}^{\mathrm{rig}}_{c}\in SE$ denote the extrinsic pose of camera $c$ in the ego frame.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Urban-tailored Large-scale Reconstruction", "weight": 1.0} -->
+
+The resulting camera pose is We then jointly optimize the scene parameters $\theta$, ego poses, and rig extrinsics via where $\mathcal{R}$ denotes the renderer, $\mathbf{I}_{t,c}$ is the image from camera $c$ at keyframe $t$, $\mathbf{\lambda_{pose}}$ represents the pose loss weight, $\bar{\mathbf{T}}^{\mathrm{ego}}_{t}$ and $\bar{\mathbf{T}}^{\mathrm{rig}}_{c}$ are the initial poses from localization and calibration, and $d(\cdot,\cdot)$ is a pose-distance metric on $SE$.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Urban-tailored Large-scale Reconstruction", "weight": 1.0} -->
+
+Sky model. Following a widely used design in neural rendering, we model the sky separately instead of representing it with 3D Gaussians \[chen2024omnire, yan2024street\]. Specifically, we use a lightweight view-dependent MLP to predict the sky color image $\mathbf{C}_{\mathrm{sky}}$ and composite it with the rendered Gaussian image $\mathbf{C}_{g}$ as an infinite background: where $\mathbf{O}_{g}$ denotes the rendered Gaussian opacity. This decouples sky appearance from scene geometry and helps reduce spurious far-depth floaters.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Urban-tailored Large-scale Reconstruction", "weight": 1.0} -->
+
+Ground regularization. To stabilize underconstrained road geometry, we impose priors on Gaussians identified as ground. We regularize ground height standard deviation by sampling slices along the camera-depth axis and penalizing the variation of the camera-frame vertical coordinate within each slice: where $\mathcal{K}$ is the set of local ground Gaussians, $\mu_{i,y}^{\mathrm{cam}}$ is the position of splats in camera y axis. We further encourage ground Gaussians to be vertically aligned and sufficiently opaque: The final loss is where $\mathcal{G}$ is the set of ground Gaussians, $\mathcal{S}_{k}$ is the $k$-th sampled depth slice, $a_{i,y}^{\mathrm{cam}}$ the shortest axis component of camera vertical axis and $o_{i}$ the opacity.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Urban-tailored Large-scale Reconstruction", "weight": 1.0} -->
+
+Extrapolated view post-repair. Extrapolated rendering often suffers from broken geometry and floating artifacts \[Han_2025_ICCV\]. We therefore adopt a progressive render-repair-augment scheme with Difix3D+ \[wu2025difix3d+\]. Given Gaussian parameters $\theta^{(m)}$ and a sampled extrapolated pose $\tilde{\mathbf{T}}$, we first render then repair it with Difix3D+, and add the repaired supervision back to the training set: The Gaussians are then re-optimized on the augmented set. Repeating this process progressively repairs geometric artifacts under extrapolated viewpoints.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Urban-tailored Large-scale Reconstruction", "weight": 1.0} -->
+
+Multi-GPU training. As scene scale increases, the number of Gaussians grows rapidly and training becomes GPU-memory constrained. Following GrendelGS \[zhao2024scaling\] and GSplat \[ye2025gsplat\], we enable multi-GPU training by sharding Gaussian parameters across devices and synchronizing the necessary statistics and gradients, allowing us to scale to billion-level primitives with bounded per-GPU memory.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Closed-loop Simulation in City Digital Twin", "weight": 1.0} -->
+
+Beyond reconstruction, WildCity enables embodied interaction in a city digital twin, as shown in Figure 6. A Vision-Language-Action model iteratively predicts the next target pose from the current observation and task, and receives the rendered view at that pose. Using Alpamayo 1 \[nvidia2025alpamayo\] as a proof of concept, we observe smooth navigation and plausible multi-step reasoning in the reconstructed urban environment. This highlights the broader value of WildCity as a foundation for studying large-scale spatial intelligence in realistic cities.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
+
+We evaluate 3D reconstruction on WildCity across different spatial scales to assess state-of-the-art methods under both local and long-horizon settings. We use two representative sequences captured with the same sensor setup: Ann Arbor-0.5k and Atlanta-5k. We report PSNR, SSIM \[wang2004ssim\], and LPIPS \[zhang2018unreasonable\] on the static region defined by semantic segmentation masks, and Depth L1 (meters) on pixels with valid LiDAR depth in the same region. For VGGT-based variants, we align the VGGT reconstruction to our metric pointcloud by optimizing a global similarity transform. Each method is trained under identical and sufficiently provisioned H200 hardware, until validation performance stabilizes when feasible.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Comparison with Baselines", "weight": 1.0} -->
+
+Baselines. We compare our method against the following baselines: classic 3D Gaussian Splatting (3DGS) \[kerbl3Dgaussians\], the scalable hierarchical variant H-3DGS \[kerbl2024hierarchical\], and the city-scale blockwise training approach CityGaussianV2 (CityGS) \[liu2024citygaussianv2\]. We additionally include the feed-forward long-sequence geometry prior VGGT-Long \[deng2025vggtlong\] as a baseline for point-cloud and pose reconstruction. We further include VGGT-Long+CityGS, where we replace the default SLAM-initialized poses and sparse point clouds in the CityGS training pipeline with the aligned VGGT-Long reconstruction outputs. This baseline tests whether feed-forward priors can serve as a substitute for sensor-based slam initializations on long sequences.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Comparison with Baselines", "weight": 1.0} -->
+
+Quantitative comparison. As shown in Table 4, while baselines achieve strong 2D image metrics on short sequences, they compromise the underlying 3D geometry. For instance, on the short trajectory, methods like H-3DGS and CityGS report high PSNR or SSIM but exhibit massive geometric distortions, with Depth L1 exceeding 17 m. Our method corrects this misalignment, significantly reducing the depth error to 11.75 m while maintaining highly competitive perceptual quality. This confirms that relying solely on spatial partitioning strategies without strong structural constraints fails to guarantee physically accurate geometry. When scaling up to the 2.5 km trajectory, our method's advantage becomes decisive, achieving the best overall performance (23.14 dB PSNR and 6.62 m D-L1). It effectively prevents the structural degradation that plagues baselines under sparse-overlap conditions, proving that optimizing image similarity alone does not yield simulation-ready 3D structures. For completeness, we provide a more comprehensive evaluation across all six cities in the supplementary material (Table 7). Furthermore, we observe that feed-forward priors suffer from compounding long-horizon drift.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Comparison with Baselines", "weight": 1.0} -->
+
+Attempting to substitute initialization with these drifting priors causes the optimization to collapse, dropping the PSNR to 13.40 dB. This emphasizes that current feed-forward models cannot yet replace globally consistent pose optimization for unconstrained, city-scale reconstruction.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Comparison with Baselines", "weight": 1.0} -->
+
+3DGS [kerbl3Dgaussians] H-3DGS [kerbl2024hierarchical] CityGS [liu2024citygaussianv2] VGGT-Long [deng2025vggtlong] Table 4: Quantitative comparison with baselines on two scene scales. Ann Arbor-Small (0.5k timestamps) and Atlanta-Long (5k timestamps). Best and second-best results in each column are highlighted in green and light green, respectively.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Comparison with Baselines", "weight": 1.0} -->
+
+(a) Evaluation views sampled within the training trajectory. (b) Extrapolation views sampled outside the trajectory (generalization). Figure 7: Qualitative comparison with baselines. We compare renderings on in-trajectory test views and extrapolated views sampled at 0.5 m intervals outside the trajectory. For extrapolated views, we additionally present the results refined by diffusion-based repair module [wu2025difix3d+], demonstrating its effectiveness in further mitigating artifacts and hallucinating coherent structures in unobserved regions.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Performance Scalability", "weight": 1.0} -->
+
+Performance scalability asks whether reconstruction quality can be maintained as scene scale increases. As shown in Figure 8, rendering quality degrades steadily as trajectory length grows, while peak VRAM usage and the number of optimized Gaussians increase accordingly. This indicates that current methods do not scale gracefully to continuous city-scale scenes: longer routes not only require more memory and model capacity, but also accumulate more appearance variation and pose inconsistency over space. The comparison with synthetic data further suggests that this degradation is substantially stronger in real-world settings.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "View Extrapolation", "weight": 1.0} -->
+
+View extrapolation measures whether a model can generalize to unobserved regions under sparse or out-of-distribution viewpoints. This is especially important for interactive city digital twins, where agents must move beyond the exact recorded trajectory. As shown in Figure 7, current baselines often fail under extrapolated views, producing broken geometry, floaters, and unstable depth. Our Difix3D+ \[wu2025difix3d+\] based post-repair improves visual quality and partially fixes these artifacts, but it remains a costly post-hoc solution and can hallucinate content when the base reconstruction is weak. This suggests that extrapolation needs to be addressed by stronger geometric priors within the reconstruction model itself.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Data Uncertainty", "weight": 1.0} -->
+
+Data uncertainty arises from uncontrolled factors in real-world urban driving, including dynamic objects, illumination changes, and pose noise. The ablations in Table 5 and qualitative comparisons in Figure 9 confirm that these uncertainties substantially impact reconstruction fidelity and geometric consistency. While our baseline mitigates several dominant sources, *e.g*., a sky model for unbounded background ambiguity, rig-aware pose optimization for noisy localization, and ground regularization for weakly constrained road surfaces. The remaining errors highlight that handling real-world uncertainty remains a fundamental challenge for city-scale street-view reconstruction.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We presented WildCity, a real-world city-scale dataset for street-view reconstruction and beyond, built from long-horizon surround-view RGB-LiDAR observations collected in unconstrained urban environments. On top of this dataset, we established an urban-tailored reconstruction baseline and enabled closed-loop interaction in the reconstructed city digital twin. Together, these components provide a practical testbed for studying real-world city-scale reconstruction under realistic noise, uncertainty, and long-range spatial extent.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Limitations. WildCity still has limitations. First, our semantic masks are automatically generated; although they achieve 91.58% mIoU on 100 manually annotated images across four cities, boundary errors and rare category mistakes may remain. Second, our GPS-anchored poses avoid unbounded horizontal drift, but residual pose error persists, especially vertically: loop-closure analysis shows sub-centimeter horizontal drift and centimeter-level vertical drift per kilometer. Improving long-horizon urban pose alignment remains important future work.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Beyond rendering. While this paper focuses on explicit reconstruction and simulation, the broader significance of WildCity lies in its potential to support implicit spatial understanding over long spatial and temporal horizons. Tasks such as long-form video understanding, memory, localization, and planning continue to be limited by the lack of realistic large-scale urban data. We hope WildCity will serve not only as a benchmark for reconstruction, but also as a foundation for future research on city-scale spatial intelligence.

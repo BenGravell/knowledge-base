@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2103.10698", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 Flying high-speed trajectories with a quadrotor requires the platform's controller to be meticulously tuned,. The Manuscript received: September, 9th, 2021; Revised December, 9th, 2021; Accepted January, 11th, 2022. This paper was recommended for publication by Editor Tamim Asfour upon evaluation of the Associate Editor and Reviewers' comments. The first two authors contributed equally. The work was done at the Robotics and Perception Group, University of Zurich, Switzerland and was supported by the National Centre of Competence in Research (NCCR) Robotics, through the Swiss National Science Foundation (SNSF), and the European Research Council (ERC) under the European Union's Horizon 2020 research and innovation programme (Grant agreement No. 864042).

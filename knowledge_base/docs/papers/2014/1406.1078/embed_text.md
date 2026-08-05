@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1406.1078", "source": "ar5iv"} -->
+
 ## Introduction
 
 Deep neural networks have shown great success in various applications such as objection recognition and speech recognition. Furthermore, many recent works showed that neural networks can be successfully used in a number of tasks in natural language processing (NLP). These include, but are not limited to, language modeling \[Bengio et al., 2003\], paraphrase detection \[Socher et al., 2011\] and word embedding extraction \[Mikolov et al., 2013\]. In the field of statistical machine translation (SMT), deep neural networks have begun to show promising results. \[Schwenk, 2012\] summarizes a successful usage of feedforward neural networks in the framework of phrase-based SMT system.

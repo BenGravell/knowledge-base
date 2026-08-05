@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1901.00491", "source": "ar5iv"} -->
+
 ## Introduction
 
 The double integrator is a mathematical model for a point mass, typically idealizing a car in rectilinear motion on a flat and frictionless plane as schematically illustrated in Figure 1. It also constitutes a model for analogous rotational-mechanical and electrical systems. One should recall that a cubic curve between two oriented points, which minimizes its averaged acceleration, or more precisely, the $L^{2}$-norm of its acceleration, serves as a building block for cubic splines. This latter case can be represented as the energy-minimizing double integrator.

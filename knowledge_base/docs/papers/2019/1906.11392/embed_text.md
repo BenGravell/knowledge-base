@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1906.11392", "source": "ar5iv"} -->
+
 ## Introduction & Motivation
 
 With their recent successes in image classification, video game playing, sophisticated robotic simulations, and complex strategy games such as Go, machine and reinforcement learning (RL) are now being applied to plan and control the behavior of autonomous systems that interact with physical environments. Such systems, which include self-driving vehicles and agile robots, must interact with complex environments that are ever changing and difficult to model, strongly motivating the use of data-driven techniques. However, if machine learning is to be applied in these new settings, the resulting algorithms must come with the reliability, robustness, and safety guarantees that typically accompany results in the control theory literature, as failures could be catastrophic. Thus, as RL algorithms are increasingly and more aggressively deployed in safety critical settings, control theorists must be part of the conversation.

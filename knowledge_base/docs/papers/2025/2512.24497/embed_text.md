@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2512.24497", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In order to build capable physical agents, Ha & Schmidhuber proposed the idea of a world model, that is, a model predicting the future state of the world, given a context of past observations and actions. Such a world model should perform predictions at a level of abstraction that allows training policies on top of it or perform planning in a sample efficient manner. While model-free RL requires a considerable number of samples, model-based RL (MBRL), combined with self-supervised pretraining, has led to powerful world modeling algorithms. More recently, large-scale world models have flourished, achieving impressive simulation accuracy in specific domains such as driving or egocentric video games.

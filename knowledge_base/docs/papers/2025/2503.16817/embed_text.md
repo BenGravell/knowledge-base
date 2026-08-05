@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.16817", "source": "arxiv-html"} -->
+
 ## Introduction
 
 System identification plays a crucial role in modern control design, especially in applications where accurate models of unknown dynamical systems must be learned from data. In high-stakes and safety-critical systems, where data collection can be costly or risky, sample efficiency is of particular importance. While classical results in system identification provide asymptotic convergence guarantees, they often fail to capture the finite-sample behavior. As a result, recent efforts have focused on analyzing the sample complexity of common system identification methods.

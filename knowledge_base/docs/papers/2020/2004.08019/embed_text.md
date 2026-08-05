@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2004.08019", "source": "ar5iv"} -->
+
 ## Introduction
 
 Model-based learning control, which encompasses classical system identification (e.g. ) and adaptive control (e.g. ) as well as branches of modern reinforcement learning (e.g. ), universally uses a stochastic data model, where a model is estimated from data corrupted by random noise. A salient perennial issue in these methods is ensuring stability despite the presence of concomitant model errors; this is the problem of *robustness*.

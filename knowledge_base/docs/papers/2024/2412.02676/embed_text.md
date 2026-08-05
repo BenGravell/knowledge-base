@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2412.02676", "source": "arxiv-html"} -->
+
 ## Introduction
 
 From warehouse logistics to home services, a broad range of essential robotic applications relies on manipulation involving multi-contact interactions between objects and the manipulators. For example, as shown in Fig. LABEL:fig:teaser, the task is to control two robotic arms to manipulate different objects to a specified target pose. These objects are often bulky and heavy, making them not directly graspable by the end-effectors. To rearrange and reorient the object, the two arms must hold the object robustly through contacts at multiple links, and then reorient the object over possibly long horizons that take multiple contact phases to reach the goal. Due to such inherent complexity, solving contact-rich bimanual manipulation for diverse and complex objects remains an open challenge.

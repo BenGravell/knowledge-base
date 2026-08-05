@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2102.12092", "source": "ar5iv"} -->
+
 ## Introduction
 
 Modern machine learning approaches to text to image synthesis started with the work of Mansimov et al., who showed that the DRAW Gregor et al. generative model, when extended to condition on image captions, could also generate novel visual scenes. Reed et al. later demonstrated that using a generative adversarial network, rather than a recurrent variational auto-encoder, improved image fidelity. Reed et al. showed that this system could not only generate objects with recognizable properties, but also could zero-shot generalize to held-out categories.

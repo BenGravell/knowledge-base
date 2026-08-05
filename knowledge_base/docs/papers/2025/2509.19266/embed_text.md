@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2509.19266", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Designing a control policy that performs effectively on tasks with heterogeneous dynamics and objectives is a central problem in multitask reinforcement learning. For a collection of $N$ tasks, a typical approach is to find a controller or policy parameter $K_{\star}$ that minimizes the average cost: over a parameter class containing $K_{\star}$. A popular method for approximating $J_{\textup{avg}}(K_{\star})$ is provided by policy gradient, with applications ranging from autonomous driving to robotic control. Despite the empirical success of policy gradient, its theoretical guarantees remain relatively unexplored.

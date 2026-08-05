@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.20184", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Many problems in combinatorial optimization and graph theory can be stated as follows: For example, in the Shortest-Path Problem (SPP), the set $\mathcal{H}$ of admissible subgraphs consists of all paths between two fixed vertices in $G$. In the Traveling-Salesman Problem (TSP), $\mathcal{H}$ consists of all cycles that visit each vertex exactly once. In the Minimum-Spanning-Tree Problem (MSTP), $\mathcal{H}$ is the set of all trees that reach every vertex. This paper addresses a generalization of problem where the weighted graph is replaced by a Graph of Convex Sets (GCS).

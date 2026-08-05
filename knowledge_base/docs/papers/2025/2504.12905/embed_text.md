@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.12905", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: We introduce a matrix-free second-order optimizer for Gaussian Splatting. Notably, our dedicated optimizer converges significantly faster than Adam and already achieves reasonable renderings after very few seconds of training.

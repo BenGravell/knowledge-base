@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2012.03390", "source": "ar5iv"} -->
+
 ## Introduction
 
 Decision-making and control for mobile robots is typically stratified into levels. A high-level planner, informed by representative yet simplified dynamics of a robot and its environment, might be responsible for selecting an optimal, yet coarse trajectory plan, which is then implemented through a low-level controller that respects more accurate models of the robot's dynamics and control constraints. While additional components may be required to flesh out a robot's full control stack from model to motor commands, selecting the right "division of responsibilities" is fundamental to system design.

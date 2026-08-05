@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1908.08659", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent work in model-free reinforcement learning (RL) has demonstrated the ability to solve difficult high-dimensional problems in robotics. However, formulating a successful learning problem requires both expert knowledge and extensive experimentation to design the reward function, state space, and action space of the underlying Markov decision process (MDP). In many cases, we can take advantage of existing partial models of the problem (e.g., the equations of motion for a robot arm) to avoid learning dynamics that are well understood, and thus simplify learning. This paper is aimed at evaluating how learning performance can be improved across a set of example dynamic manipulation tasks by choosing action spaces that take advantage of model-based controllers.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1603.09157", "source": "ar5iv"} -->
+
 ## Introduction
 
 Linear time invariant (LTI) state-space models provide a useful approximation of dynamical system behavior in a multitude of applications. In situations where models cannot be derived from first principles, some form of data-driven modeling, i.e. system identification, is appropriate. This paper is concerned with identification of discrete-time LTI models of the form where $x_{t} \in {\mathbb{R}}^{n_{x}}$ denotes the system state, and $u_{t} \in {\mathbb{R}}^{n_{u}}$, $y_{t} \in {\mathbb{R}}^{n_{y}}$ denote the observed input and output, respectively. The disturbances (a.k.a. process noise), $w_{t} \in^{n_{w}}$ and measurement noise, $v_{t}$, are modeled as zero mean Gaussian white noise processes, while the uncertainty in the initial condition $x_{1}$ is modeled by a normal distribution, i.e.

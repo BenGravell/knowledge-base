@@ -11,3 +11,163 @@ Robots operating in homes, warehouses, and other object-rich environments need m
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In experiments on 44k language queries spanning 67 indoor and outdoor scenes, ranging from 15 to 15,000 m^2, FARM improves Recall@5 and Recall@10 over prior methods by 164% and 224%, and a final VLM reranking stage improves Accuracy@1 by 35%, while running in real time. We further demonstrate closed-loop deployment on a quadrupedal robot using onboard sensors and compute.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Consider a household robot operating in a large, object-rich house. To be useful, it must maintain a persistent memory of the objects, landmarks, and spatial relations in its environment, and be able to answer queries about them on demand. This requirement becomes increasingly important as robots are deployed in larger environments with many objects sharing similar categories, appearances, or functions. Users naturally specify objects *compositionally*, through their relations to landmarks, regions, and other objects (Fig. 1). Recognizing each object independently is therefore insufficient. Successful retrieval demands a *relational spatial memory*: a 3D memory that treats each query not as object label lookups, but as a relational specification whose target is identified through the semantic, appearance, and spatial relations among multiple objects. Existing systems fall short of this in different ways.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+For instance, when it comes to memory creation, closed-vocabulary semantic SLAM and 3D scene graphs provide spatial and semantic structures but do not generalize to the open vocabularies that users naturally need. Recent open-vocabulary scene graphs and structured memories close that gap by leveraging foundation models such as CLIP and Qwen3.5; in practice, however, most still require hyperparameter tuning to operate across different scene scales, or rely on offline post-processing for memory cleaning and language grounding. Retrieval poses a second difficulty. Earlier work relies on semantic embedding similarity (e.g., CLIP ), but such embeddings typically fail to capture the relations among the multiple semantic and spatial concepts that queries invoke. Recent work therefore combines embeddings with foundation-model reasoning over graphs; however, end-to-end VLM reasoning over graphs is brittle on nontrivial spatial relations, especially for smaller models that can be run onboard a robot. In our ablations (Table 2(b)), we find that end-to-end VLM reasoning can in fact *hurt* performance relative to strong embedding-only retrieval.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A complementary line of work *replaces* explicit memory with end-to-end VLM reasoning over raw frame histories or long video context, inheriting both the perceptual strength of modern VLMs and the limited context windows that preclude reasoning over the thousands of viewpoints accumulated in large-scale environments. We defer a more detailed discussion of related work to Appendix A.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In contrast, studies by Tolman and subsequent neuroscience work suggest that animals build persistent *cognitive maps*: structured spatial memories that support robust and flexible reasoning about places, objects, and relations across complex, unstructured environments. Motivated by this view, we introduce a *relational spatial memory* for robots: an object-centric cognitive map that encodes semantic, geometric, and relational structure, and exposes this structure for query-time relational retrieval. This paper addresses two coupled challenges: constructing an open-vocabulary spatial memory online at robot scale, and using that memory to retrieve object instances from free-form relational language queries.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+FARM addresses these challenges with a compact, object-centric scene graph and executable relational retrieval. During mapping, each object is represented by a single Gaussian whose updates are fully GPU-vectorized, while visual-language captioning and embedding run asynchronously off the critical path; this design uses one fixed hyperparameter set across ScanNet, HM3D \[32: 1000 large-scale 3d environments for embodied ai")\], and large-scale indoor--outdoor FARM-Scenes, maintaining 5-10 Hz online construction while improving object-grounding accuracy over prior online mapping-and-retrieval systems. During retrieval, an LLM parses each query into a symbolic specification, explicit relational predicates score candidate bindings over memory, and a VLM resolves residual ambiguity by inspecting only a small set of viewpoints attached to the top candidates.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Across 67 indoor and outdoor scenes (ScanNet, HM3D, and our FARM-Scenes) and 44k language queries spanning 15 to 15,000 m^2^, FARM improves Accuracy@1, Recall@5, and Recall@10 by 142%, 164%, and 224% over BBQ, and Accuracy@1 by 35% over the stronger VLM-reasoning baseline (RynnBrain or our DAAAM+RynnBrain variant). Against the costlier DAAAM, evaluated on a 17-scene subset, it improves the same three metrics by 66%, 65%, and 63% (Table 1). Fig. 2 summarizes the quality--throughput tradeoff, showing that FARM achieves the highest retrieval accuracy while maintaining online mapping throughput.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In summary, our contributions are: A real-time scene-graph algorithm that scales from indoor rooms to outdoor environments under one *fixed* hyperparameter configuration, with no offline post-processing.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A retrieval framework that yields higher accuracy and better top-$K$ recall.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+FARM-Scenes benchmark for large-scale relational grounding, with seven curated scenes from 1,800 to 15,000 m^2^.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Method", "weight": 1.0} -->
+
+We define the problem statement in Section 2.1, and describe the two key parts of FARM: an online and scalable memory construction module in Section 2.2 illustrated in Fig. 3, and a robust relational object retrieval module leveraging constructed memory in Section 2.3 illustrated in Fig. 4. More details of the system design can be found in Appendix D.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
+
+Online memory construction: We consider a mobile robot operating in a large-scale environment. Up to time $t$, the robot receives a sequence of posed RGB-D observations $o_{1:t}=\{o_{1},\ldots,o_{t}\}$. The robot constructs a persistent spatial memory online, $\mathcal{M}_{t}=f(\mathcal{M}_{t-1},o_{t}),$ which summarizes the observation history for downstream retrieval. We denote by $\hat{\mathcal{X}}_{t}$ the set of retrievable object elements represented in $\mathcal{M}_{t}$. This set is a noisy and partial approximation of the latent physical object set $\mathcal{X}_{t}$ in the environment observed up to time $t$.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
+
+Relational object retrieval: Given this memory, the robot must retrieve a desired object from a natural language query $q\in\mathcal{Q}$, such as *$q=$"Find the tall lamp below the dartboard and to the left of the poster."* In this example, the category "lamp" defines an initial candidate set, while attributes and relations such as "tall," "below the dartboard," and "to the left of the poster" disambiguate the intended object. More generally, a query may refer to object categories, visual attributes, affordances, spatial relations, proximity relations, or viewpoint-dependent properties.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
+
+The semantics of $q$ induce a relational specification $\Phi_{q}$. Conceptually, $\Phi_{q}$ refines an initially broad candidate set by adding descriptive and relational constraints over the target object and any anchor objects mentioned in the query. Let $y\subseteq\mathcal{X}_{t}$ denote the query-induced set containing the desired *referent* object together with any anchor objects needed to satisfy the relational structure of the query. We write $y\models\Phi_{q}$ when the objects in $y$ can be assigned to the query variables so that their categories, attributes, and mutual relations collectively satisfy the constraints entailed by $q$.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
+
+Given a query $q$ and memory $\mathcal{M}_{t}$, the robot returns an estimated query-induced set $\hat{y}=g(q,\mathcal{M}_{t})\text{ and }\hat{y}\subseteq\hat{\mathcal{X}}_{t}$. Retrieval succeeds when $\hat{y}$ corresponds to the query-induced set $y$. One example of relational disambiguation is provided in Appendix C. This formulation leaves the implementation of $g$ open: it may be realized by a structured parser, embedding retriever, LLM agent, or any combination thereof.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Memory Construction", "weight": 1.0} -->
+
+The attribute set $\mathcal{A}_{t}^{i}$ contains (i) a 3D Gaussian $\mathcal{N}(\mu^{i},\Sigma^{i})$ summarizing the entity's location and spatial extent; (ii) a detection-time appearance feature used for cross-view association; (iii) up to $k$ representative views, each a posed RGB crop selected for viewpoint diversity; (iv) an open-vocabulary caption generated from those crops; and (v) three retrieval embeddings of that evidence, consisting of a text embedding of the caption, a SigLIP2 image embedding, and a Qwen3-VL image embedding. The relation set $\mathcal{R}_{t}^{i}$ holds pairwise links that can be derived quickly from observations: *covisibility* edges to entities that have been jointly visible in some frame, and *adjacency* edges to entities that are spatially proximal under Hellinger distance.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Memory Construction", "weight": 1.0} -->
+
+We deliberately do *not* include higher-order relations (containment, left-of, between, etc.), since the number of those relations can grow exponentially. Instead, we store a rich set of per-object attributes that is a compact yet sufficient summary of the scene's geometry and semantics, from which the specific relations entailed by a query can be recovered at retrieval time.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Memory Construction", "weight": 1.0} -->
+
+Online construction: As Fig. 3 illustrates, the robot updates the memory online as $\mathcal{M}_{t}=f(\mathcal{M}_{t-1},o_{t})$ in a loop executed once per time step given the corresponding posed RGB-D batch. The loop maintains its frame rate by exploiting GPU parallelism on two levels. (i) *Batched tensor operations*: frames from all cameras are stacked into a single detector forward pass, while depth back-projection, association, and fusion are implemented as vectorized CUDA operations. (ii) *Asynchronous object captioning*: whenever the synchronous loop creates a new object or updates an object's representative views, it enqueues that object for captioning; vLLM captioning and embedding workers then process the selected crops and write the resulting captions and embeddings back to $\mathcal{A}_{t}^{i}$. Fig. 7 reports how mapping latency scales with scene size.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Robust Relational Object Retrieval", "weight": 1.0} -->
+
+Recall from Section 2.1 that grounding a query $q$ means recovering the referent set $\hat{y}=g(q,\mathcal{M}_{t})$ whose elements satisfy the relational specification $\Phi_{q}$ induced by $q$. Rather than providing $q$ and the full memory to a VLM and asking for an answer end-to-end, we realize $g$ in three stages: *compile* $q$ into a small executable specification, *score* candidate bindings of query variables to memory entities by soft unary and relational evaluators, and *verify* the top candidates with a VLM over projected views. Decoupling parsing, scoring, and visual verification keeps each stage efficient and lets us reason about failure modes independently.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Robust Relational Object Retrieval", "weight": 1.0} -->
+
+Executable query specification and compositional retrieval: A parser compiles each query $q$ into a typed query graph $\Pi(q)=(x_{\star},{a_{1},\ldots,a_{m}},\mathcal{S}_{q},\Phi_{q})$, where $x_{\star}$ is the target variable, $a_{i}$ are anchor variables, $\mathcal{S}_{q}$ assigns open-vocabulary descriptions to variables, and $\Phi_{q}$ contains spatial or semantic predicates between them. This is equivalent to a logical formula $\varphi_{q}(x_{\star})$ with the target as the only free variable and anchors existentially quantified.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Robust Relational Object Retrieval", "weight": 1.0} -->
+
+Given the memory $\mathcal{M}_{t}$, each description and predicate is evaluated softly over memory entities, producing unary scores $s_{\sigma}(e)\in$ and relational scores $r_{\rho,\alpha}(e_{1},\ldots,e_{k})\in$. A binding $\eta$ assigns query variables to memory entities and is scored by aggregating all induced unary and relational scores; each candidate target $e$ receives the score of its best witnessing binding, Typical referring expressions form a star-shaped query graph, so conditioning on the target decomposes anchor selection and avoids exhaustive joint enumeration; details of the notation, predicate set, soft evaluators, and complexity analysis are provided in Appendix B.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Robust Relational Object Retrieval", "weight": 1.0} -->
+
+Implementation: The parser is a Qwen3.5-9B model that emits a typed QueryGraph record (target description, target class, ordered predicate list). Each unary score $s_{\sigma}$ is a reciprocal-rank fusion over the three retrieval embeddings stored per entity (Qwen3-text caption text, SigLIP2 image, Qwen3-VL image). Each relation score $r_{\rho,\alpha}$ is a closed-form evaluator over the entity Gaussians -- Hellinger distance for Near, a virtual-viewer frame for LeftOf/RightOf, a vertical-offset sigmoid for Above/Below, and so on -- or a category/attribute match for the semantic predicates. We fix each target candidate $e$ and greedily bind its anchors to their best-scoring entities, exploiting the star decomposition above.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Robust Relational Object Retrieval", "weight": 1.0} -->
+
+The top-$5$ candidates are then reranked by a Qwen3.5-9B verifier that renders each candidate and its matched anchors as colored mask overlays in a previously observed view; the gap between FARM^∘^ (no reranking) and FARM in Table 1(a) measures the value of this final stage. Per-predicate evaluators and the viewer placement geometry are deferred to Section D.2.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+Datasets: We evaluate on ReferIt3D built on ScanNet, and IRef-VLA built on HM3D \[32: 1000 large-scale 3d environments for embodied ai")\]. For each benchmark, we select the 30 most complex scenes by object and room count, denoted ScanNet--30 and HM3D--30. We also introduce FARM-Scenes, a curated set of seven large-scale indoor and outdoor scenes for stress-testing scalability, covering outdoor construction, warehouse, and museum environments, as well as a multi-floor office, campus, camping site, and factory. For ablations and DAAAM evaluation, where GPT-5-mini cost limits full-scale runs, we use a predefined subset of 17 scenes: ScanNet--5, selected by the number of ground-truth objects; HM3D--5, selected by the number of annotated regions; and all seven FARM-Scenes. All methods operate online from posed RGB-D streams. Full dataset details are provided in Appendix F.1.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+Metrics and protocol: We report Accuracy@1 (A@1), Recall@5 (R@5), Recall@10 (R@10), and mean reciprocal rank (MRR) over the top-10 candidates, as well as memory size (MiB), mapping latency (ms/frame), and query latency (ms/query). Following RynnBrain-style evaluation, we measure success in observation space using visible-mask IoU rather than full 3D box IoU, which avoids penalizing partial online reconstructions. For completeness, we also report 2D and 3D bounding-box IoU metrics in Table 7 and Table 8, where FARM maintains the same consistent gains across evaluation protocols. These additional metrics match prior protocols used by RynnBrain and BBQ, respectively. All mapping runs on a single NVIDIA RTX 5090, with VLM inference served by vLLM on an NVIDIA RTX PRO 6000. We run RynnBrain on the RTX PRO 6000 due to the VRAM requirements of its 30B model. Real-world deployments run onboard a Jetson Thor.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+Baselines: We compare against three groups of methods: (i) object-centric scene-graph systems, including BBQ and DAAAM; (ii) frame-based VLM grounding, including RynnBrain and our DAAAM+RynnBrain variant, which selects frames using DAAAM to maximize object coverage; and (iii) ablations of our system, where FARM denotes the full model with VLM reranking and FARM^∘^ denotes the variant without VLM reranking. The scene-graph baselines construct explicit maps from RGB-D streams, whereas RynnBrain grounds queries directly over subsampled frame sequences without persistent memory. All methods use the same trajectories, queries, and evaluation pipeline. Implementation and prompt details are provided in Appendix F.2.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Results", "weight": 1.0} -->
+
+FARM sets a new state-of-the-art on both ScanNet and the substantially harder HM3D \[32: 1000 large-scale 3d environments for embodied ai")\] (Table 1(a)), while its rerank-free variant FARM^∘^ runs about twice as fast at query time (Table 1(b)). On ScanNet--30, FARM reaches 35.9% A@1, a 23% relative improvement over the strongest baseline DAAAM (29.3%). The gap widens on HM3D--30, where we improve A@1 by 30% relative over DAAAM (7.9% vs. 6.1%). Beyond top-1 accuracy, FARM produces a calibrated ranking that none of the LLM-based baselines support: R@10 reaches 74.6% on ScanNet and 26.9% on HM3D, a $3.2\times$ and $2.1\times$ improvement over BBQ. We additionally report performance with IoU threshold 0.25 and 0.5 in Table 6.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Table 1(b) further shows that spatial memory construction runs at $\sim$`<!-- -->`{=html}8 Hz, comparable to DAAAM and roughly $2\times$ faster than BBQ. RynnBrain reports lower per-frame latency, but on a more powerful GPU, and does not persist a scene graph as its frames are consumed transiently at query time. The resulting representation is compact: $\sim$`<!-- -->`{=html}23 MiB on ScanNet, smaller than every baseline except BBQ, and $\sim$`<!-- -->`{=html}125 MiB on HM3D, proportionate to the scene-complexity growth and still within typical on-device budgets. Query latency without reranking (1.7-2.1 s) is competitive with DAAAM and RynnBrain and substantially faster than BBQ.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Fig. 7 confirms these properties hold at scale. Per-frame mapping latency remains stable as the traversed trajectory lengthens (Fig. 7(a)), and grounding accuracy degrades gracefully as scene area grows (Fig. 7(b)), supporting use on extended on-device deployments.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Results", "weight": 1.0} -->
+
+FARM-Scenes quality numbers use the same visible-mask IoU threshold 0.1 protocol as ScanNet /HM3D. RynnBrain and our variance of DAAAM+RynnBrain are single-answer methods, so R@5/R@10/MRR are omitted. DAAAM (DAAAM+G) query time is 66.43 ± 23.74 s per query. † Results are on the same 17-scene subset as ablations Section 3.3, given the token cost of GPT-5-mini. Table 1: FARM outperforms the baselines on all quality measures while remaining efficient for on-device use.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Retrieval mechanism ablation without reranking.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Reranking ablation with fixed locked retrieval.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Ablations", "weight": 1.0} -->
+
+We ablate the most important components on a subset of the scenes for both spatial memory creation and retrieval.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Ablations", "weight": 1.0} -->
+
+Spatial memory: Table 2(a) disentangles the contributions of the underlying method, the merge embedding used for cross-view association, and the retrieval embedding. With the merge and retrieval embeddings held fixed (DINO + Qwen3-text ), switching from BBQ to FARM improves A@1 by 4.3x on ScanNet--5 (5.4 $\rightarrow$ 23.0) and 1.6x on HM3D--5 \[32: 1000 large-scale 3d environments for embodied ai")\], indicating that the FARM-mapper accounts for most of the gap to baselines in Table 1. With the method fixed, we investigate the choice of retrieval embedding.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Ablations", "weight": 1.0} -->
+
+Among individual retrieval embeddings (HM3D--5 A@1, %), the pure-visual SigLIP2 image embedding collapses (0.3), while the caption-text encoders T5 and Qwen3-text reach 3.3 and 3.6. Fusing the three embeddings stored per entity (Qwen3-text caption embed, SigLIP2 image embed, Qwen3-VL image embed) gives the best HM3D--5 A@1 (4.1), at a small R@10 cost (16.0 → 14.8 vs. Qwen3-text alone). Replacing DINO with YOLOE-classifier features for the merge costs $\sim$`<!-- -->`{=html}6 A@1 points on ScanNet while matching on HM3D, consistent with DINO being a stronger discriminator among visually similar instances.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Ablations", "weight": 1.0} -->
+
+Retrieval and reranking: Table 2(b) fixes the spatial memory and ablates query mechanisms. The proposed *locked* retrieval, multi-embedding fusion followed by the soft-predicate evaluator of §2.3, beats both pure-embedding cosine similarity (38.7 → 41.6 A@1 on ScanNet--5 ) and BBQ's two-stage LLM retrieval (14.5 $\rightarrow$ 41.6). The BBQ retrieval partially recovers with multi-embedding fusion (31.5) but does not close the gap, indicating that both the fusion and the predicate scoring contribute.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Ablations", "weight": 1.0} -->
+
+Reranking is asymmetric across benchmarks: it leaves ScanNet--5 A@1 unchanged or worse (Qwen@5: 41.6 → 40.6; RynnBrain@10: 41.6 → 31.6) but adds 1.2-1.7 points on HM3D--5 \[32: 1000 large-scale 3d environments for embodied ai")\], and never changes R@10 since it only permutes the already-retrieved top-K. We therefore treat reranking as a deployment knob that is useful on hard, large-scale scenes where retrieval needs a final-stage tiebreaker, but skippable on simpler benchmarks where retrieval already ranks the answer at top-1.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Real-world experiments", "weight": 1.0} -->
+
+We deploy FARM on a Boston Dynamics Spot robot equipped with onboard RGB-D sensing and an NVIDIA Jetson Thor compute unit. The full online pipeline (memory construction and relational retrieval) runs onboard without offline preprocessing or map reconstruction. We evaluate qualitative performance on a set of natural language navigation queries in previously unseen indoor and semi-structured environments. The system maintains persistent object-level memory under viewpoint changes, motion blur, and partial observability, and successfully resolves relational queries involving multiple anchors and distractors. Examples are illustrated in Fig. 5. More details of closed-loop real-world navigation experiments are in Appendix F.7.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We introduce FARM, a relational spatial memory for embodied agents that jointly addresses *memory construction* and *memory retrieval* in large-scale open-world environments. By constructing this memory online, with asynchronous visual-language enrichment, and resolving each query as executable spatial predicates over the memory rather than as end-to-end reasoning over frames, FARM overcomes the offline construction and limited scalability of prior open-vocabulary scene graphs. This enables real-time relational object retrieval across indoor and outdoor scenes using the same configuration across scene types. FARM sets a new state-of-the-art for relational object grounding on the ScanNet and HM3D \[32: 1000 large-scale 3d environments for embodied ai")\] referring-expression benchmarks, in both top-1 accuracy and top-$K$ recall, while mapping at roughly 8 Hz. We further deploy it fully onboard a quadrupedal robot, showing that the memory can be both built and queried during operation, and release FARM-Scenes, seven large and predominantly outdoor scenes of up to 15,000 m^2^, to evaluate relational retrieval beyond the scale of existing benchmarks.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+Our system has two main limitations. First, the spatial predicates are manually specified and not calibrated. Several failure cases arise from predicate scores that are too sensitive to fixed parameters; for example, Near can decay too quickly with distance and assign low scores to correct targets. Similarly, we use uniform weights across semantic and spatial scores, which can cause a semantically similar distractor to dominate even when spatial constraints favor the true target. Learning calibrated predicate functions and query-dependent score weights is an important direction for future work.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+Second, current benchmarks primarily evaluate relations between the target and anchor objects, and our implementation follows this setting. More complex queries may require reasoning over relations among anchors, such as using "a sofa that a humanoid robot sits on" in Fig. 5 to disambiguate an anchor before grounding the target. Extending both the system and benchmarks to support such compositional anchor reasoning is another promising direction.

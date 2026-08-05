@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.10403", "source": "ar5iv"} -->
+
 ## Introduction
 
 Language modeling has long been an important research area since Shannon estimated the information in language with next word prediction. Modeling began with $n$-gram based approaches but rapidly advanced with LSTMs. Later work showed that language modelling also led to language understanding. With increased scale and the Transformer architecture, large language models (LLMs) have shown strong performance in language understanding and generation capabilities over the last few years, leading to breakthrough performance in reasoning, math, science, and language tasks. Key factors in these advances have been scaling up model size and the amount of data. To date, most LLMs follow a standard recipe of mostly monolingual corpora with a language modeling objective.

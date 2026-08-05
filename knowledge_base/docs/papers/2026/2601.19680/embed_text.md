@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2601.19680", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In image processing and analysis, the use of a similarity metric is essential when the goal is to quantify the similarity or dissimilarity between two images. This is useful in many tasks, such as evaluating a lossy compression algorithm or evaluating image generative models, where the goal is to evaluate the quality of an artificially generated image against the target image by providing a score.

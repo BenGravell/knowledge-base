@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1707.02747", "source": "ar5iv"} -->
+
 ## Introduction
 
 Building versatile embodied agents, both in the form of real robots and animated avatars, capable of a wide and diverse set of behaviors is one of the long-standing challenges of AI. State-of-the-art robots cannot compete with the effortless variety and adaptive flexibility of motor behaviors produced by toddlers. Towards addressing this challenge, in this work we combine several deep generative approaches to imitation learning in a way that accentuates their individual strengths and addresses their limitations. The end product of this is a robust neural network policy that can imitate a large and diverse set of behaviors using few training demonstrations.

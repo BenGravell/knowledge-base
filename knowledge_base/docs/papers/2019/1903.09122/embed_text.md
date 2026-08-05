@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1903.09122", "source": "ar5iv"} -->
+
 ## Introduction
 
 Identifying predictive models from data has been a fundamental problem across several fields, from classical control theory to economics and modern machine learning. System identification, in particular, has a long history of studying this problem from a control theoretic perspective. Identifying linear state-space models: from input-output data has been the focus of time-domain identification. In fact, some identification algorithms can not only learn the system matrices in but also the Kalman filter required for state estimation.

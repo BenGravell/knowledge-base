@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1707.06203", "source": "ar5iv"} -->
+
 ## Introduction
 
 A hallmark of an intelligent agent is its ability to rapidly adapt to new circumstances and \"achieve goals in a wide range of environments\". Progress has been made in developing capable agents for numerous domains using deep neural networks in conjunction with model-free reinforcement learning (RL), where raw observations directly map to values or actions. However, this approach usually requires large amounts of training data and the resulting policies do not readily generalize to novel tasks in the same environment, as it lacks the behavioral flexibility constitutive of general intelligence.

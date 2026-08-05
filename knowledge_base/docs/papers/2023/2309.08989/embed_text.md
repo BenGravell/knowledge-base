@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.08989", "source": "ar5iv"} -->
+
 ## Introduction
 
 Accurately predicting the motion of road users is essential in autonomous driving systems. This predictive capability provides the planner with a forward-looking perspective on potential movements, thereby enhancing safety measures. While learning-based motion prediction has become increasingly popular in recent research, the exploration of pretraining and self-supervised learning within this field remains relatively limited.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2508.07400", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Reward identification, or Inverse Reinforcement Learning (IRL), is the problem of learning rewards from data. The premise behind IRL is that the reward function serves as the most succinct representation of an agent's behavior. Learning a reward function from demonstrations allows agents to generalize beyond observed behaviors, infer underlying human intentions, and capture pairwise preferences. However, like many inverse problems, IRL is inherently ill-posed as there may be infinitely many reward functions consistent with the same observed behavior. For instance, suppose an agent moves from location $A$ to location $B$. One possible hypothesis is that the agent likes $B$, but another equally valid hypothesis is that the agent dislikes $A$. Both reward hypotheses are consistent with the observed behavior, highlighting the fundamental ambiguity in IRL.

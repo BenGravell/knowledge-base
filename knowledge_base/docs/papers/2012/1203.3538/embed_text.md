@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1203.3538", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 One of the key questions in artificial intelligence research is how to make good decisions in large, stochastic, partially observable environments. Though generic optimal planning for finite-horizon partially observable Markov decision processes (POMDPs) is known to be PSPACEcomplete, fortunately, some important POMDP domains have highly structured models. This insight has been used by previous researchers to design more efficient POMDP algorithms that leverage different types of structure. Focussing on domains that exhibit factored structure has led to POMDP planners that solve some of the largest POMDP problems in the litera-

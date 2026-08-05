@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1507.06970", "source": "ar5iv"} -->
+
 ## Introduction
 
 Asynchronous parallel stochastic optimization algorithms have recently gained significant traction in algorithmic machine learning. A large body of recent work has demonstrated that near-linear speedups are achievable, in theory and practice, on many common machine learning tasks. Moreover, when these lock-free algorithms are applied to non-convex optimization, significant speedups are still achieved with no loss of statistical accuracy. This behavior has been demonstrated in practice in state-of-the-art deep learning systems such as Google's Downpour SGD and Microsoft's Project Adam.

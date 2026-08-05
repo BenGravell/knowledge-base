@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.10480", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A system identification pipeline requires a set of interconnected design choices. Given a collection of input-output trajectories, the practitioner must first select a model structure, which may range from linear to nonlinear, time-invariant or time-varying, physical grey-box representations, black-box neural networks, or hybrids thereof. Architectural hyperparameters must then be specified: dynamical order, kernel functions in kernel-based approaches, and in neural networks the number of layers and neurons, the type of recurrent cell (vanilla RNN, LSTM, GRU), the use of residual connections or regularisation, just to cite a few. Finally, optimisation hyperparameters must be tuned: cost function, learning rate, regularisation strength, batch size, number of training epochs.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.11130", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: One label-efficient architecture, domain- and event-agnostic. (a) h-AUROC (↑; horizon-averaged AUROC) across 14 benchmarks in 11 domains. HEPA wins on 10 out of 14 at full labels; at 10% labels (open circles) it retains ≥92% of full-label performance on lifecycle datasets. (b) Predicted probability surfaces p(t, Δt) for turbofan degradation (top) and cardiac arrhythmia (bottom).

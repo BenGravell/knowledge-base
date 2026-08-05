@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2210.02761", "source": "ar5iv"} -->
+
 ## Introduction
 
 As autonomous vehicle (AV) operations grow, developing appropriate methods for evaluating AV safety becomes ever more imperative. The question of "is a vehicle in an unsafe state?" is relevant for AV system developers, policymakers, and the general public alike (see Figure 1). While *guaranteeing* safety may not be practical in the face of the myriad uncertainties and complexities that come with real-world driving, there is still a broad desire to codify, to some extent, collectively agreed-upon notions of safety. Should safety be defined using data-driven methods that can account for the complexities of the AV's environment but lack interpretability and formal guarantees, or leverage control theoretic techniques derived from first principles which are interpretable and rigorous but not as scalable or expressive as their learned counterparts? In this work, we strike a middle-ground by a learning safety-critical driving behavior model and integrating it within a robust control framework to develop an interpretable and rigorous AV safety model that is informed by data.

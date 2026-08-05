@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.06014", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Recent advances in end-to-end (E2E) autonomous driving have demonstrated the potential of learning unified representations that directly connect sensor observations with driving decisions. Along this line, latent world models (LWMs) further extend this paradigm from direct decision learning to latent dynamics modeling, where compact latent representations are forecast to capture future scene evolution. By learning planning policies directly on these latent representations, LWM-based planners have demonstrated strong planning capabilities in autonomous driving.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2204.09352", "source": "ar5iv"} -->
+
 ## Introduction
 
 Collision avoidance is an integral part of robotic motion planning. Cluttered environments like construction sites, where many potential collisions may occur, are burdened with great computational load. Planning paths for multiple robots requires *dynamic* and flexible collision avoidance, making the problem more difficult. Furthermore, where human collaborators are involved, robots need to plan ahead while treating the humans as unpredictable, moving obstacles. Indeed, the increasing complexity of tasks that robots are expected to perform certainly requires an equal increase in the efficiency of motion planning algorithms.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2002.01023", "source": "ar5iv"} -->
+
 ## Introduction
 
 In the seminal work by Willems and coauthors, it was shown that a single, sufficiently exciting trajectory of a linear system can be used to parameterize *all* trajectories that the system can produce. This result has later been named the *fundamental lemma*, and plays an important role in the learning and control of dynamical systems on the basis of measured data.

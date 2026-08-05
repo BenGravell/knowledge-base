@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2201.13360", "source": "ar5iv"} -->
+
 ## Introduction
 
 The next generation of robots and autonomous systems will be required to build persistent high-level representations of unknown environments in real-time. *High-level* representations are required for a robot to understand and execute instructions from humans (*e.g.,* "bring me the cup of tea I left on the dining room table"); high-level representations also enable fast planning (*e.g.,* by allowing planning over compact abstractions rather than dense low-level geometry). Such representations must be built in *real-time* to support just-in-time decision-making. Moreover, these representations must be *persistent* to support long-term autonomy: (i) they need to scale to large environments, (ii) they should allow for corrections as new evidence is collected by the robot, and (iii) their size should only grow with the size of the environment they model.

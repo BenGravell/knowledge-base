@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1610.02391", "source": "ar5iv"} -->
+
 ## Introduction
 
 Deep neural models based on Convolutional Neural Networks (CNNs) have enabled unprecedented breakthroughs in a variety of computer vision tasks, from image classification krizhevsky_nips12; he_cvpr15, object detection girshick2014rcnn, semantic segmentation long2015fcn to image captioning vinyals_cvpr15; chen2015microsoft; fang2015captions; johnson_cvpr16, visual question answering antol2015vqa; gao2015you; malinowski_iccv15; ren_nips15 and more recently, visual dialog visdial; guesswhat; visdial_rl and embodied question answering embodiedqa; gordon2017iqa. While these models enable superior performance, their lack of decomposability into *individually intuitive* components makes them hard to interpret lipton_arxiv16. Consequently, when today's intelligent systems fail, they often fail spectacularly disgracefully without warning or explanation, leaving a user staring at an incoherent output, wondering why the system did what it did.

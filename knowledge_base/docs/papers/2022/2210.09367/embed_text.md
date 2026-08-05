@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2210.09367", "source": "ar5iv"} -->
+
 ## Introduction
 
 Planning solutions to problems described by high-level specifications requires autonomously deciding both *what* to do (i.e., the sequence of high-level actions) and *how* to do it (i.e., the associated motions). This is difficult since both of these decisions can affect later stages of the planning problem by altering the valid and reachable subsets of the search space. Integrated Task and Motion Planning (TMP) is a holistic approach to solve these high-level planning problems by jointly considering the symbolic (i.e., actions) and geometric (i.e., motion) constraints on the solution.

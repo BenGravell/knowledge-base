@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1805.07036", "source": "ar5iv"} -->
+
 ## Introduction
 
 Optical flow estimation is a long-standing problem in computer vision. Due to the well-known aperture problem, optical flow is not directly measurable. Hence, the estimation is typically solved by energy minimization in a coarse-to-fine framework. This class of techniques, however, involves complex energy optimization and thus it is not scalable for applications that demand real-time estimation.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.19312", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 2: Characteristics of latent world model approaches. Methods are grouped by training paradigm. End-to-end methods (PLDM) learn the encoder and predictor jointly from pixels without pre-trained representations or heuristics like stop-gradient or EMAs, but require many hyperparameters and lack collapse guarantees. Foundation-based methods (DINO-WM) avoid collapse by freezing a pre-trained vision encoder, forgoing end-to-end learning. Task-specific methods (Dreamer, TD-MPC) require reward signals or privileged state access. LeWM combines the strengths of all three: end-to-end, task-agnostic, pixel-based, reconstruction- and reward-free, with a single hyperparameter with provable anti-collapse guarantees.

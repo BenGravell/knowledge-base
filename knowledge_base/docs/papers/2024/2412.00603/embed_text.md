@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2412.00603", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 T EAMS of autonomous mobile robots have found practical applications in various real-world scenarios, including search and rescue operations -, environmental monitoring precision agriculture, and automated warehouse systems. In most cases, these teams consist of robots working together to achieve a common objective while independently navigating through the environment and Authors are with the Department of Cybernetics, Faculty of Electrical Engineering, Czech Technical University in Prague, Technicka 2, Prague 6, Czech Republic.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2410.19414", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In recent years, robotics technology has rapidly advanced across various industries, including manufacturing, logistics, robotic surgery, and planetary exploration, bringing profound changes. Among the challenges in robotics, developing efficient and effective motion planning algorithms that help robots navigate complex environments, avoid obstacles, and complete tasks with minimal energy consumption and time is a critical task. The core objective of motion planning is to find the optimal path from the starting point to the target location while considering various constraints, such as dynamic environments and non-holonomic motion restrictions. This issue has become a central research topic in the field of robotics.

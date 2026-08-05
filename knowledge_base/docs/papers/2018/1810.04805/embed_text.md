@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1810.04805", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Language model pre-training has been shown to be effective for improving many natural language processing tasks Dai and Le; Peters et al.; Radford et al.; Howard and Ruder. These include sentence-level tasks such as natural language inference Bowman et al.; Williams et al. and paraphrasing Dolan and Brockett, which aim to predict the relationships between sentences by analyzing them holistically, as well as token-level tasks such as named entity recognition and question answering, where models are required to produce fine-grained output at the token level Tjong Kim Sang and De Meulder; Rajpurkar et al..

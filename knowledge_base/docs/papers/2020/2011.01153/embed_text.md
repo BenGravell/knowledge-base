@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2011.01153", "source": "ar5iv"} -->
+
 ## Introduction
 
 Self-driving is one of today's most impactful technological challenges, one that promises to bring safe and affordable transportation everywhere. Tremendous improvements have been made in self-driving perception systems, thanks to the success of deep learning. This has enabled accurate detection and localization of obstacles, providing a holistic understanding of the surrounding world, which is then sent to the motion planner to decide subsequent driving actions.

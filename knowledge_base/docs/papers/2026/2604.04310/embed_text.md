@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.04310", "source": "arxiv-html"} -->
+
 ## Introduction
 
 As robots move faster and out of purely kinematic, quasi-static settings, an understanding of dynamics is critical for computing or learning real-world-feasible planners, controllers, and safety filters. Many strong libraries exist for computing robot dynamics, with Pinocchio typically noted as the fastest, though closely followed by alternatives. Similarly, physics engines and simulators are often used in control and planning to extract dynamics properties, on CPU and GPU.

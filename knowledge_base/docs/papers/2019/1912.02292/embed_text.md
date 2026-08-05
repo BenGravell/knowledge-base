@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1912.02292", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: Left: Train and test error as a function of model size, for of varying width on CIFAR-10 with 15% label noise. Right: Test error, shown for varying train epochs. All models trained using Adam for 4K epochs. The largest model (width 64) corresponds to standard.

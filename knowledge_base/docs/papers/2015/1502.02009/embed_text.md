@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1502.02009", "source": "ar5iv"} -->
+
 ## Introduction
 
 The alternating direction method of multipliers (ADMM) seeks to solve the problem with variables $x \in {\mathbb{R}}^{p}$ and $z \in {\mathbb{R}}^{q}$ and constants $A \in {\mathbb{R}}^{r \times p}$, $B \in {\mathbb{R}}^{r \times q}$, and $c \in {\mathbb{R}}^{r}$. ADMM was introduced in Glowinski & Marroco and Gabay & Mercier. More recently, it has found applications in a variety of distributed settings such as model fitting, resource allocation, and classification. A partial list of examples includes Bioucas-Dias & Figueiredo; Wahlberg et al.; Bird; Forero et al.; Sedghi et al.; Li et al.; Wang & Banerjee; Zhang et al.; Meshi & Globerson; Wang et al.; Aslan et al.; Forouzan & Ihler; Romera-Paredes & Pontil; Behmardi et al.; Zhang & Kwok. See Boyd et al. for an overview.

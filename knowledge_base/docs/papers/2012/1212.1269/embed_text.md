@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1212.1269", "source": "ar5iv"} -->
+
 ## Introduction
 
 Many problems in engineering and finance can be modeled as stochastic control problems on infinite state and input spaces, in which a control policy is sought to optimize the behavior of a stochastic dynamical system over a finite or infinite time horizon. While such models are quite general and expressive, the resulting optimization problems are extremely difficult because the decision variable (the control policy) is a *function*, which is generally infinite-dimensional and thus not amenable to computation or even storage on a computer. One general solution method is dynamic programming, which was developed in the seminal work of Bellman in the 1950s. The solution utilizes the Bellman equation, which relates the problem data to the optimal value function and policy. However, solutions of the Bellman equation can be tractably obtained only in a few special cases, when the state and input spaces have very small dimension (hence, can be gridded) or when very strong assumptions are made on the problem data.

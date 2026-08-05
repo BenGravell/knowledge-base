@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.15637", "source": "ar5iv"} -->
+
 ## Introduction
 
 Reinforcement Learning (RL) has demonstrated success in a variety of domains, including robotics and games. However, it is known to be very data intensive, making it challenging to apply to complex control tasks. This has motivated efforts by both the machine learning and control communities to understand the statistical hardness of RL in analytically tractable settings, such as the tabular setting and the linear-quadratic control setting. Such studies provide insights into the fundamental limitations of RL, and the efficiency of particular algorithms.

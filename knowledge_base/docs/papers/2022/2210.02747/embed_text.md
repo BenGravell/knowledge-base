@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2210.02747", "source": "ar5iv"} -->
+
 ## Introduction
 
 Deep generative models are a class of deep learning algorithms aimed at estimating and sampling from an unknown data distribution. The recent influx of amazing advances in generative modeling, e.g., for image generation Ramesh et al.; Rombach et al., is mostly facilitated by the scalable and relatively stable training of diffusion-based models Ho et al.; Song et al.. However, the restriction to simple diffusion processes leads to a rather confined space of sampling probability paths, resulting in very long training times and the need to adopt specialized methods (e.g., Song et al.; Zhang & Chen ) for efficient sampling.

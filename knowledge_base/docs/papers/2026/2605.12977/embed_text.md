@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.12977", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The covariance of asset returns is a central quantity in several areas of finance, including Markowitz portfolio construction, risk management, asset pricing, and performance attribution analysis. The variance of a portfolio (or investment strategy) is a linear function of the asset return covariance. An accurate (as judged by its statistical fit) asset return covariance allows investors to build portfolios with a desired level of risk and also evaluate the risk of existing portfolios. An inaccurate risk model can over-estimate or under-estimate portfolio risk. As a result, during portfolio construction, it may be overly restrictive, causing the investor to miss out on potentially good investments, or fail to account for certain risk sources, potentially exposing the investment strategy to unexpected risks. Risk modeling is therefore a challenging problem in any investment process.

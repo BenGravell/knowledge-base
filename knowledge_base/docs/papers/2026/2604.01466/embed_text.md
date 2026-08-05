@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.01466", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Understanding how traffic agents behave has many important applications in self-driving, from online motion forecasting for autonomy to offline traffic modeling for simulation. In these applications, a traffic scene typically consists of a set of geometric objects representing traffic agents, like vehicles and pedestrians, and contextual elements, like the map lane graph and traffic signals. Our goal is to learn an agent model that accurately predicts the actions of each agent in the scene from this context. This task has many symmetries, chief among which is equivariance to arbitrary 2D roto-translations of the scene; *i.e*., ${\text{SE}}$-equivariance. That is, if we apply a rigid transformation $\mathcal{T}\in{\text{SE}}$ to the input scene, the outputs of the model should also transform by that same rigid transformation, preserving their relative geometric relationships.

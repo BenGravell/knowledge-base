@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1506.01497", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent advances in object detection are driven by the success of region proposal methods (*e.g*., ) and region-based convolutional neural networks (R-CNNs). Although region-based CNNs were computationally expensive as originally developed , their cost has been drastically reduced thanks to sharing convolutions across proposals. The latest incarnation, Fast R-CNN, achieves near real-time rates using very deep networks, *when ignoring the time spent on region proposals*. Now, proposals are the test-time computational bottleneck in state-of-the-art detection systems.

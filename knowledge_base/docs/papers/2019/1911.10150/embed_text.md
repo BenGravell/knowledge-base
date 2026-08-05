@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1911.10150", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 2: PointPainting overview. The PointPainting architecture consists of three main stages: image based semantics network, fusion (painting), and lidar based detector. In the first step, the images are passed through a semantic segmentation network obtaining pixelwise segmentation scores. In the second stage, the lidar points are projected into the segmentation mask and decorated with the scores obtained in the earlier step. Finally, a lidar based object detector can be used on this decorated (painted) point cloud to obtain 3D detections.

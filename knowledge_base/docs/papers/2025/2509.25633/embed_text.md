@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2509.25633", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Ensuring robustness against unknown disturbances is crucial in control systems. In this context, $\mathcal{H}_{\infty}$ control has served as a cornerstone in robust control, which aims to design a stabilizing policy that minimizes the $\mathcal{H}_{\infty}$ norm of the closed-loop system. It has long been recognized that policy optimization for robust control naturally leads to nonconvex and nonsmooth optimization problems. While Riccati equation-based and LMI-based methods have been developed to circumvent these difficulties, they are typically limited to unstructured and model-based controller design. To address this, some recent works have proposed local search algorithms that directly optimize the original nonconvex nonsmooth problem. In particular, the authors in have implemented two official MATLAB solvers, hinfstruct and systune, for structured $\mathcal{H}_{\infty}$ control, with successful real-world applications (e.g., a space probe by the ESA ).

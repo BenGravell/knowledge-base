@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2304.12210", "source": "arxiv-html"} -->
+
 ## What is Self-Supervised Learning and Why Bother?
 
 Self-supervised learning, dubbed "the dark matter of intelligence" ^11^1 is a promising path to advance machine learning. As opposed to supervised learning, which is limited by the availability of labeled data, self-supervised approaches can learn from vast unlabeled data. Self-supervised learning (SSL) underpins deep learning's success in natural language processing leading to advances from automated machine translation to large language models trained on web-scale corpora of unlabeled text. In computer vision, SSL pushed new bounds on data size with models such as SEER trained on 1 billion images. SSL methods for computer vision have been able to match or in some cases surpass models trained on labeled data, even on highly competitive benchmarks like ImageNet. SSL has also been successfully applied across other modalities such as video, audio, and time series.

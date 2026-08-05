@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2012.06188", "source": "ar5iv"} -->
+
 ## Introduction
 
 In this survey, we consider non-convex optimization problems in different settings, including stochastic optimization. We are mainly motivated by an increased interest in such problems in connection to applications in machine learning and data analysis, and our main focus is on the methods which possess theoretical guarantees for their global convergence rate or complexity. As we explain first by providing classical examples murty1987some; nesterov2018lectures, there is no hope to have any theoretical guarantees for finding a global minimizer in a general non-convex optimization problem in a reasonable time. Despite the quite good practical performance of classical general-purpose methods such as L-BFGS nocedal2006numerical; floudas2008encyclopedia, and proven local superlinear convergence, their global complexity is not well understood.

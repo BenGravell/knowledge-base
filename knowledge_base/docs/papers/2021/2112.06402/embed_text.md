@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2112.06402", "source": "ar5iv"} -->
+
 ## Introduction
 
 Motion planning is a core component of robotic manipulation. For example, motion planning is essential in pick-and-place tasks, finding geometrically-constrained motions such as opening drawers and doors, and as a tool in task and motion planners to evaluate the feasibility of long-horizon plans. The multitude of applications of motion planning has given rise to a multitude of motion planners to tackle these specific problems, each employing their own heuristics to address the challenging general problem.

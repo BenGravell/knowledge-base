@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.16530", "source": "ar5iv"} -->
+
 ## Introduction
 
 We revisit the classical problem of smooth convex optimization: solve ${\min_{x \in {\mathbb{R}}^{d}}f}{(x)}$ where $f$ is convex and $M$-smooth (i.e., its gradient is $M$-Lipschitz). A celebrated result is that with a prudent choice of stepsizes $\{\alpha_{t}\}$, the gradient descent algorithm (GD) solves such a convex optimization problem to arbitrary accuracy from any initialization $x_{0}$. How quickly does GD converge? The mainstream approach (see e.g., the textbooks among many others) is to use a constant stepsize schedule $\alpha_{t} \equiv \overline{\alpha} \in {}$ since this ensures where $x^{\ast}$ denotes any minimizer of $f$, $f^{\ast}:={f{(x^{\ast})}}$ denotes the corresponding minimal value, and $c$ is a small constant, e.g., $c = \frac{1}{4}$ for $\overline{\alpha} = 1$.

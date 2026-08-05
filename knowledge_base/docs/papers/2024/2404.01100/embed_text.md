@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2404.01100", "source": "arxiv-html"} -->
+
 ## Introduction
 
 We consider the identification of *unknown* linear, discrete-time, time-invariant systems of the form | | ${\overline{y}}_{t}$ | ${{= {G{(q)}u_{t}}},{{G{(q)}} \triangleq {\sum\limits_{s = 0}^{\infty}{g_{s}q^{- s}}}}},$ | | | where $t \in {\mathbb{Z}}$ is the time, $u_{t} \in {\mathbb{R}}^{d_{u}}$ is the input, $y_{t} \in {\mathbb{R}}^{d_{y}}$ is the output, ${q^{- s}u_{t}} = u_{t - s}$ is the backward shift operator, and $g_{t} \in {\mathbb{R}}^{d_{y} \times d_{u}}$ is the impulse response. The noiseless output ${\overline{y}}_{t}$ is perturbed by some random noise process $v_{t} \in {\mathbb{R}}^{d_{y}}$. We are interested in estimating the frequency response $G{(e^{j\omega})}$ from finite input-output data.

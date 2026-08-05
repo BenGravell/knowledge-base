@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2210.00050", "source": "ar5iv"} -->
+
 ## Introduction
 
 Intelligent and adaptive systems of the "smart world" that work under operational constraints seek to solve some instance of a constrained optimal control problem for optimizing their performance. Such constrained optimal control problems can now be increasingly solved efficiently using several numerical optimization techniques. For instance, robot path planning in uncertain environments has gained the attention of researchers worldwide as robots are being increasingly deployed to solve many real-world problems. Apart from realistic constraints, reliability of operation of these systems is often thwarted by the ineffective handling of system uncertainties, which can be either deterministic or stochastic.

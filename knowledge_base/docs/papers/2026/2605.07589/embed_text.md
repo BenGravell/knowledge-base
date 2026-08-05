@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.07589", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The increasing availability of data from dynamical systems has driven growing interest in Data-Driven Predictive Control (DDPC) methods. Historically, data has been used to identify a system model, which is then used to design a predictive control law. These approaches are called indirect DDPC methods, and despite their success across a wide range of industrial applications, they require an accurate mathematical model of the system, which can be difficult and costly to obtain in practice. Recently, direct DDPC methods have attracted significant interest, where model identification is bypassed entirely and data is used directly to predict future trajectories and compute control actions.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.23607", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Self-driving has seen substantial progress over the past decade. Perception, once the primary bottleneck, has advanced significantly through public datasets and benchmarks \[geiger2012kitti, caesar2020nuscenes, sun2020scalability\]. Today, self-driving cars are deployed across diverse geographical regions (e.g., Waymo), and perception-level generalization has seen significant improvements \[madan2024revisiting, xia2025openad\]. However, generalization in perception alone is not sufficient; decision-making in long-tail scenarios remains a major challenge. In parallel, advances in large language models (LLMs) enable contextual generalization and human-interpretable reasoning (cf. \[ke2025a\]), with language serving as a natural medium for expressing goals, constraints, and rationales.

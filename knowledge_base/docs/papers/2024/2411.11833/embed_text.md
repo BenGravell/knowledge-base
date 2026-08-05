@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2411.11833", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Task and Motion Planning (TAMP) enables robots to plan long-horizon manipulation through integrated reasoning about sequences of discrete action types, such as pick, place, or press, and continuous action parameter values, such as grasps, placements, and trajectories. TAMP planners have demonstrated remarkable generality in complex tasks including object rearrangement, multi-arm assembly, and cooking a meal. However, TAMP problems become increasingly challenging to solve efficiently as the horizon and action space increase, and the size of the set of solutions decreases due to tightly interacting constraints, e.g., kinematics and collisions.

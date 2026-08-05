@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.05944", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 Over the past decade, Crazyflie (CF) quadcopters have become state-of-the-art in indoor nano-quadcopter research and teaching, both for single quadcopters and quadcopter swarms -. At the beginning of 2025, a new version, the Crazyflie 2.1 Brushless (CFB), was released. In contrast to the original CF 2.1 quadcopter that features brushed motors, the CFB is equipped with brushless motors and electric speed controllers (ESCs). Consequently, the CFB boasts a significantly higher thrust-to-weight ratio of around 3:1 compared to the 2:1 ratio of the CF 2.1. This increase in power positions the CFB as a valuable platform for research and teaching focused on agile control of nano-quadcopters.

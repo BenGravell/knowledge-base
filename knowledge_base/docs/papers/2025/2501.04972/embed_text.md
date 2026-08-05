@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2501.04972", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Large-scale optimization problems in machine learning, signal processing, and imaging have fueled ongoing interest in iterative optimization algorithms. New optimization algorithms are regularly proposed to capture more complicated models, reduce computational burdens, or obtain stronger performance and convergence guarantees.
@@ -284,7 +286,7 @@ Corollary 16. Consider the setting of Theorem 15 with ˆ M = [ˆ P ˆ Q ˆ R ˆ 
 
 The results above can also be derived by direct manipulation of the block diagram as we demonstrated with shift equivalence in Fig. 5. In this case, the manipulation is a bit more involved; see Fig. 6.
 
-The dashed box in Fig. 6 represents the equivalent H 2. Based on the block diagram, we obtain the following algebraic relationships: Fig. 6: Equivalent block diagrams representing LFT equivalence. Starting from the top left, we augment the algorithm and oracle, we transform the oracle using the linear equivalence Φ 1 ˆ M ∼ Φ 2, and finally we isolate the equivalent ˆ H 2 in feedback with Φ 2.
+The dashed box in Fig. 6 represents the equivalent ˆ H 2. Based on the block diagram, we obtain the following algebraic relationships: Fig. 6: Equivalent block diagrams representing LFT equivalence. Starting from the top left, we augment the algorithm and oracle, we transform the oracle using the linear equivalence Φ 1 ˆ M ∼ Φ 2, and finally we isolate the equivalent ˆ H 2 in feedback with Φ 2.
 
 These equations can be resolved in various ways. Most relevant for our purpose, we eliminate ˆ y 2 and seek an identity that holds for all ˆ u 2, which leads to: This expression can be further simplified to obtain the relationships in Theorem 15 and Corollary 16.
 

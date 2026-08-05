@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2006.13846", "source": "ar5iv"} -->
+
 ## Introduction
 
 The original SSIM paper has over $20,000$ citations on Google Scholar. Thousands of research papers have used it as a quality index when comparing images, and we are indeed authors of a few of those. In this paper, we provide a review and a deep inspection of SSIM, and we show that SSIM can deliver unexpected or invalid results in both simple use cases and for real image pairs. See Figure LABEL:fig_teaser. We start with an overview of SSIM.

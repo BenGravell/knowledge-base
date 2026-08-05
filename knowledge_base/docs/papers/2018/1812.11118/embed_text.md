@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1812.11118", "source": "ar5iv"} -->
+
 ## Introduction
 
 Machine learning has become key to important applications in science, technology and commerce. The focus of machine learning is on the problem of prediction: given a sample of training examples ${(x_{1},y_{1})},\ldots,{(x_{n},y_{n})}$ from ${\mathbb{R}}^{d} \times {\mathbb{R}}$, we learn a predictor $h_{n}:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ that is used to predict the label $y$ of a new point $x$, unseen in training.

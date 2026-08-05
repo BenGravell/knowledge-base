@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.07437", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Control with a *learned* latent model has achieved state-of-the-art performance in several reinforcement learning (RL) benchmarks, including board games, Atari games, and visuomotor control. To better understand this machinery in RL, we introduce it to a classical optimal control problem, namely the linear quadratic Gaussian (LQG) control, and study its theoretical, in particular, finite-sample performance. Essential to this approach is the learning of two components: a *state representation* function that maps an observed history to some latent state, and a *latent model* that predicts the transition and cost in the latent state space. The latent model is usually a Markov decision process, using which we obtain a policy in the latent space or execute online planning.

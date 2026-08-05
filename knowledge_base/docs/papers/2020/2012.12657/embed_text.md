@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2012.12657", "source": "ar5iv"} -->
+
 ## Introduction
 
 Engineering systems are often comprised of many components having different types and functions, including sensing, control, and actuation. Moreover, systems are subject to many specifications, such as safety and performance. Safety specifications can be captured using the notions of set-invariance (Blanchini and Miani ), while performance specifications are usually defined using a bound on the gain of the system, or using passivity, both can be captured using the framework of dissipativity (Van der Schaft ).

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2106.08414", "source": "ar5iv"} -->
+
 ### Introduction
 
 In reinforcement learning (RL), an autonomous agent sequentially interacts with its environment and observes rewards incrementally across time. This framework has gained attention in recent years for its successes in continuous control, web services, personalized medicine, among other contexts. Mathematically, it may be described by a Markov Decision Process (MDP), in which an agent seeks to select actions so as to maximize the long-term accumulation of rewards, known as the value. The key distinguishing point of RL from classical optimal control is its ability to discern control policies without a system dynamics model.

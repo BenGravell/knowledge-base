@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2602.02846", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous robotic systems deployed in dynamic environments require fast, reactive motion planning that accounts for complex kinematics and dynamics. However, feasibility alone is insufficient for high-performance operation; such systems demand *high-quality* trajectories that minimize costs such as path length, energy consumption, execution time, or control effort. Despite recent progress in accelerating fast kinodynamic motion planning via, e.g., parallelization, achieving *fast optimal* planning remains a significant challenge. In this work, we aim to enable real-time, near-optimal motion planning for complex and high-dimensional kinodynamical systems by exploiting the parallel architecture of GPU-like devices.

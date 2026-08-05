@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2205.14035", "source": "ar5iv"} -->
+
 ## Introduction
 
 In stochastic linear control, the goal is to design a controller for a system of the form where $x_{k} \in {\mathbb{R}}^{n}$ is the system internal state, $u_{k} \in {\mathbb{R}}^{p}$ is some exogenous input, and $w_{k} \in {\mathbb{R}}^{r}$ is some random disturbance sequence. Matrices $A,B,H$ determine the evolution of the state, based on the previous state, control input, and disturbance respectively. Control theory has a long history of studying how to design controllers for system when its model is *known*. However, in reality system might be *unknown* and we might not have access to its model. In this case, we have to learn how to control based on data.

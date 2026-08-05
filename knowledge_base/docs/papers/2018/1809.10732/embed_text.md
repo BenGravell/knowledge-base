@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1809.10732", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent years have witnessed unprecedented progress in Artificial Intelligence (AI) applications, with smart algorithms rapidly becoming an integral part of our daily lives. The AI methods are used by hospitals to help diagnose diseases, matchmaking services are using learned models to connect potential couples, and social media feeds are built by algorithmic approaches, to name just a few affecting millions of people. Nevertheless, despite huge strides the AI revolution is far from over, and is likely to further accelerate in the coming years. Interestingly, one of the major industries mostly undisturbed by the ongoing progress is the automobile domain, where thus far AI has seen limited use. Large car-makers made some advances by using AI within Advanced Driver-Assistance Systems (ADAS), however, its full power remains to be harnessed through the advent of new smart technologies, such as self-driving vehicles (SDVs).

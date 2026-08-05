@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1610.05182", "source": "ar5iv"} -->
+
 ## Introduction
 
 A newborn antelope attempts its first steps only minutes after birth and is capable of walking within half an hour. A human baby, when lifted so that its feet just graze the ground, will step in a cyclical walking motion. Nature provides clear examples of evolutionarily determined, innate behaviors of surprising complexity, and basic locomotor circuits are well-developed prior to any significant goal-directed experience. The innate structure simplifies the production of goal-directed behavior by confining exploration to stable and coherent, yet flexible dynamics.

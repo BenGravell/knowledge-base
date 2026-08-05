@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1609.05191", "source": "ar5iv"} -->
+
 ## Introduction
 
 Many learning problems are by their nature sequence problems where the goal is to fit a model that maps a sequence of input words $x_{1},\ldots,x_{T}$ to a corresponding sequence of observations ${y_{1},\ldots,y_{T}}.$ Text translation, speech recognition, time series prediction, video captioning and question answering systems, to name a few, are all sequence to sequence learning problems. For a sequence model to be both expressive and parsimonious in its parameterization, it is crucial to equip the model with memory thus allowing its prediction at time $t$ to depend on previously seen inputs.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2110.15191", "source": "ar5iv"} -->
+
 ## Introduction
 
 Deep Reinforcement Learning (RL) has been at the source of a number of breakthroughs in autonomous control over the last five years. RL algorithms have been used to train agents to play Atari video games directly from pixels, learn robotic locomotion and manipulation policies from raw sensory input, master the game of Go, and play large-scale multiplayer video games. While these results were significant advances in autonomous decision making, a deeper look reveals a fundamental limitation. The above algorithms produced agents capable of only solving the single task they were trained to solve. As a result, current RL approaches produce brittle policies with poor generalization capabilities, which limits their applicability to many problems of interest. It is therefore important to move beyond today's powerful but narrow RL systems toward generalist systems capable of quickly adapting to new downstream tasks.

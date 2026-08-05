@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.08266", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Overview of the proposed distillation framework. A joint distillation and trajectory supervision strategy (top) yields a student model, Orion-Lite, that is 3× faster than its teacher, establishing a new state-of-the-art on the closed-loop Bench2Drive benchmark (bottom).

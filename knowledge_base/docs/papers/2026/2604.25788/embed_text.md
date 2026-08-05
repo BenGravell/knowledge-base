@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.25788", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Core Challenges for Physical Reasoning in KinDER. From top left: arranging objects to be in goal-specified locations relative to a bowl requires understanding basic spatial relations. Sweeping many small objects into a drawer benefits from nonprehensile multi-object manipulation. Packing varying numbers of objects into a confined region requires satisfying combinatorial geometric constraints. Transporting objects with a box benefits from tool use. Tossing objects over a barrier requires satisfying dynamic constraints.

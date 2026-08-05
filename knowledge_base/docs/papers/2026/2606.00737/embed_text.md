@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.00737", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Trajectory Optimization (TO) is a fundamental technique for enabling robotic and autonomous systems to navigate safely and efficiently. From an optimization perspective, TO in robotics is characterized by nonlinear dynamics, state and actuation constraints, and complex environmental geometries, such as cluttered environments with multiple obstacles. The interplay of these factors induces a non-convex cost landscape. A canonical example is found in navigation tasks in cluttered environments, where the presence of multiple local minima, i.e., different topological paths around obstacles, creates multiple solutions.

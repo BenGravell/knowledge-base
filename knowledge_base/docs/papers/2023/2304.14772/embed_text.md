@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2304.14772", "source": "ar5iv"} -->
+
 ## Introduction
 
 Multisample Flow Matching Figure 1: Multisample Flow Matching trained with batch optimal couplings produces more consistent samples across varying NFEs. Note that both flows on each row start from the same noise sample.

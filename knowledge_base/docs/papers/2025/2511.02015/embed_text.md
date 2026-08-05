@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2511.02015", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Model Predictive Control (MPC) methods, along with other optimal control methods, have become commonplace in several domains for robotics, ranging from simple automotives to even high-degree-of-freedom humanoid robots. The space of MPC-based methods includes an information theoretic nonparametric sampling method, Model Predictive Path Integral Control (MPPI). While the performance of MPPI, both in resultant trajectories and computation time, is stellar, it is often only applied to relatively low-dimensional spaces or is abstracted to a lower dimension to make the problem more feasible. We aspire to realize MPPI methods suitable for real-time robust inference for more complex robotic platforms, such as humanoid robots.

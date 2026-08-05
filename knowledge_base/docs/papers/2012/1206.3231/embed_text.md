@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1206.3231", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 Reinforcement learning (RL) has had some impressive successes, such as model helicopter flying and expert software backgammon players. Two key challenges in reinforcement learning are scaling to large worlds, which often involves a form of generalization, and efficiently handling the exploration/exploitation tradeoff. Many real-life problems involve real-valued state variables: discretizing such environments causes an exponential growth in the number of states as the state dimensionality increases, and so solutions that directly reason with continuous-states are of important consideration.

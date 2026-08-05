@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2103.00065", "source": "ar5iv"} -->
+
 ## Introduction
 
 Neural networks are almost never trained using (full-batch) gradient descent, even though gradient descent is the conceptual basis for popular optimization algorithms such as SGD. In this paper, we train neural networks using gradient descent, and find two surprises. First, while little is known about the dynamics of neural network training in general, we find that in the special case of gradient descent, there is a simple characterization that holds across a broad range of network architectures and tasks. Second, this characterization is strongly at odds with prevailing beliefs in optimization.

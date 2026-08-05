@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.11165", "source": "ar5iv"} -->
+
 ## Introduction
 
 Ordinary least squares (OLS) regression from a finite sample is one of the most ubiquitous and widely used technique in machine learning. When faced with independent data, there are now sharp tools available to analyze its success optimally under relatively general assumptions. Indeed, a non-asymptotic theory matching the classical asymptotically optimal understanding from statistics has been developed over the last decade. However, once we relax the independence assumption and move toward data that exhibits correlations, the situation is much less well-understood---even for a problem as seemingly simple as linear regression. While sharp asymptotics are available through various limit theorems, there are no general results matching these in the finite sample regime.

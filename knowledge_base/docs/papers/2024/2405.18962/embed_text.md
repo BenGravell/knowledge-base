@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2405.18962", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Background. J.C. Willems' trilogy is one of broader, deeper, and more influential studies about mathematical modelling of dynamical systems from time series. The second part concerns the problem of obtaining a mathematical model for a linear system from a given (infinite) trajectory. It significantly influenced subspace identification methods, that compute a state sequence from finite-length data by adapting Willems' state construction from infinite- to finite-length data. Two assumptions are crucial : the state space dimension of the system is known; and a rank condition holds for a Hankel matrix constructed from the data. Although not formally proven at the time, it was believed that such rank condition is satisfied if the input data are sufficiently persistently exciting. This conjecture was formally proven in Willems et. al.'s *fundamental lemma* (\[5, Thm. 1\]) which allows the application of subspace identification even when only an upper bound on the state dimension is known.

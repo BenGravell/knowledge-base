@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2411.06542", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Dexterous manipulation is full of contact-rich interactions, enabling various tasks through complex frictional interactions. Historically, the non-smooth nature of contact has precluded a range of planning and control methods that rely on gradients of the dynamics. Recent advances have utilized *contact smoothing* --- where non-smooth dynamics are replaced by a continuously differentiable proxy --- to great effect as surrogate dynamics models for *planning* through contact. One may hope, then, that smoothing enables the use gradient-based *control*.

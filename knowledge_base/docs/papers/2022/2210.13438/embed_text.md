@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2210.13438", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent studies suggest that streaming audio and video have accounted for the majority of the internet traffic in 2021 (82% according to ). With the internet traffic expected to grow, audio compression is an increasingly important problem. In lossy signal compression we aim at minimizing the bitrate of a sample while also minimizing the amount of distortion according to a given metric, ideally correlated with human perception. Audio codecs typically employ a carefully engineered pipeline combining an encoder and a decoder to remove redundancies in the audio content and yield a compact bitstream. Traditionally, this is achieved by decomposing the input with a signal processing transform and trading off the quality of the components that are less likely to influence perception. Leveraging neural networks as trained transforms via an encoder-decoder mechanism has been explored by Morishima et al.; Rippel et al.; Zeghidour et al.. Our research work is in the continuity of this line of work, with a focus on audio signals.

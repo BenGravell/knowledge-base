@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2112.02475", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: Top: Perception-Distortion (P-D) trade-off of current state-of-the-art deblurring methods (top). Our method sets a new Pareto frontier in the P-D plot and allows us to traverse through the P-D curve using a single model without retraining or finetuning. Bottom: Samples from our method compared to other competitive methods. We include two extremes from our model – one optimized for perceptual quality (“Ours”) and one for distortion using Sample Averaging (“Ours-SA”). These correspond to the two end points of the P-D curve. For the ease of interpretation, we used negative Kernel Inception Distance (C − KID for a constant C) as the measure of perceptual quality.

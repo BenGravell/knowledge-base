@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2209.01268", "source": "ar5iv"} -->
+
 ## Introduction and Related Work
 
 Trajectory planning for UAVs in unknown dynamic environments is extremely challenging due to the need for gaining information about the obstacles while avoiding them at the same time. Perception-aware planning has emerged as one promising approach for this, where the translation and/or rotation of the UAV are optimized to maximize the presence of the obstacles in the FOV of the onboard camera while flying towards the goal. The dynamic nature of these environments requires very fast replanning times, which are usually achieved by simplifying the optimization problem by fixing some variables (such as the time allocation or the planes that separate the UAV from the obstacles) beforehand or by ignoring the multimodality of the problem. While these simplifications help reduce the computation time, that is often achieved at the expense of more conservative planned trajectories. This leaves open the question of whether or not it is possible to obtain faster computation times while achieving less conservative trajectories.

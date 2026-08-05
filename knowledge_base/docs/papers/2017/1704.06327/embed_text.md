@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1704.06327", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: Visualization to show the discriminative capability of embedding subspaces using MNIST-test data. (a) The space of raw data. (b) The embedding subspace of non-joint DEPICT using standard stacked denoising autoencoder (SdA). (c) The embedding subspace of joint DEPICT using our joint learning approach (MdA).

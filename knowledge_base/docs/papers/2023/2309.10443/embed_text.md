@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.10443", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Learning-based planners are considered a potentially scalable solution for autonomous driving, supplanting traditional rule-based planners. This has sparked significant research interest in recent years. In particular, imitation-based planners are reported to achieve notable success in simulations and real-world scenarios. Nevertheless, these planners are predominantly trained and evaluated in diverse custom conditions (*e.g*. varying datasets, metrics, and simulation setups) owing to the absence of a standardized benchmark. Consequently, it becomes challenging to compare and summarize effective design choices for constructing practical learning-based systems.

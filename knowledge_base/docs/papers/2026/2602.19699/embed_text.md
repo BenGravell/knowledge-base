@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2602.19699", "source": "arxiv-latex"} -->
+
 ## INTRODUCTION
 
 Trajectory Optimization (TO) is a widely used and flexible technique for solving robotic control problems. In TO, the high-level task is formulated as a constrained Optimal Control Problem (OCP), where the optimization variables are the system's state and control trajectories. Constraints enforce compliance with system dynamics and kinematics, actuator limits, and task-specific requirements. However, OCPs are typically highly non-convex, making gradient-based solvers prone to converge to poor local minima. While global methods based on the Hamilton–Jacobi–Bellman equation or Dynamic Programming[bellman1954theory]exist, their applicability is limited by the curse of dimensionality.

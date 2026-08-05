@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2012.04456", "source": "ar5iv"} -->
+
 ## Introduction
 
 Dimension reduction (DR) tools for data visualization can act as either a blessing or a curse in understanding the geometric and neighborhood structures of datasets. Being able to visualize the data can provide an understanding of cluster structure or provide an intuition of distributional characteristics. On the other hand, it is well-known that DR results can be misleading, displaying cluster structures that are simply not present in the original data, or showing observations to be far from each other in the projected space when they are actually close in the original space. Thus, if we were to run several DR algorithms and receive different results, it is not clear how we would determine which of these results, if any, yield trustworthy representations of the original data distribution.

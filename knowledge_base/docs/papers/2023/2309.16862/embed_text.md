@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.16862", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Robots in unstructured environments must reliably plan safe (*i.e.*, collision-free) motions using only uncertain, noisy sensor percepts. For robots in human-oriented environments (*e.g.*, home or assistive robotics), this capability is crucial---as unsafe motions may hurt humans---and challenging, as these robots are often high degree-of-freedom (d o f) manipulators. Reliable safety under uncertainty requires not only producing plans that are unlikely to collide, but also providing evidence that plans are trustworthy. Moreover, for practical use, planners need to efficiently support complex environments without knowledge of the true environment geometry.

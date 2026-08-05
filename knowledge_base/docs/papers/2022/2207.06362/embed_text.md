@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2207.06362", "source": "arxiv-html"} -->
+
 ## Introduction
 
 We consider nonlinear control problems in discrete time with finite horizon, i.e., problems of the form where at time $t$, $x_{t} \in {\mathbb{R}}^{n_{x}}$ is the state of the system, $u_{t} \in {\mathbb{R}}^{n_{u}}$ is the control applied to the system, $f_{t}:{{{\mathbb{R}}^{n_{x}} \times {\mathbb{R}}^{n_{u}}}\rightarrow{\mathbb{R}}^{n_{x}}}$ is the discrete dynamic, $h_{t}:{{\mathbb{R}}^{n_{x}}\rightarrow{\mathbb{R}}}$ is the cost on the state and control variables and ${\overline{x}}_{0} \in {\mathbb{R}}^{n_{x}}$ is a given fixed initial state. Problem is entirely determined by the initial state and the controls.

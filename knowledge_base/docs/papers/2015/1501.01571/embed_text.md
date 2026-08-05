@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1501.01571", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Random matrix theory has grown into a vital area of probability, and it has found applications in many other fields. To motivate the results in this monograph, we begin with an overview of the connections between random matrix theory and computational mathematics. We introduce the basic ideas underlying our approach, and we state one of our main results on the behavior of random matrices. As an application, we examine the properties of the sample covariance estimator, a random matrix that arises in statistics. Afterward, we summarize the other types of results that appear in these notes, and we assess the novelties in this presentation.
@@ -1702,7 +1704,9 @@ Proposition 8.4.3 (Negative Inverse is Operator Monotone). For each number u ÷ 
 
 Now, we are prepared to demonstrate that the logarithm is an operator monotone function. The argument combines the integral representation from Proposition 8.4.1 with the monotonicity of the inverse map from Proposition 8.4.3.
 
-Proposition 8.4.4 (Logarithm is Operator Monotone). The logarithm is an operator monotone function on the positive real line. That is, for positive-definite matrices A and H, Proof. For each u ÷ 0, Proposition 8.4.3 demonstrates that The integral representation of the logarithm, Proposition 8.4.1, allows us to calculate that We have used the fact that the semidefinite order is preserved by integration against a positive measure.
+Proposition 8.4.4 (Logarithm is Operator Monotone). The logarithm is an operator monotone function on the positive real line. That is, for positive-definite matrices A and H, A ≼ H implies log A ≼ log H.
+
+Proof. For each u ÷ 0, Proposition 8.4.3 demonstrates that The integral representation of the logarithm, Proposition 8.4.1, allows us to calculate that We have used the fact that the semidefinite order is preserved by integration against a positive measure.
 
 ## Operator Convex Functions
 

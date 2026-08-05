@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2307.08336", "source": "arxiv-html"} -->
+
 ## Introduction and Related Work
 
 Figure 1: RAYEN applied to a batch of 500 samples with a feasible set (\raisebox{-.9pt} {1}⃝) defined by linear, convex quadratic, SOC, and LMI constraints. For each sample in the batch, RAYEN lets the corresponding latent variable of the network be the vector that defines the step to take from an interior point of the feasible set (\raisebox{-.9pt} {2}⃝). The length of this vector is then adjusted to ensure that the endpoint lies within the set (\raisebox{-.9pt} {3}⃝). For visualization purposes, a section of the set has been removed in the right plots.

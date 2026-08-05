@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2512.14450", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Standardized benchmarks play a central role in accelerating scientific progress by enabling fair comparison, reproducibility, and rapid testing of new algorithms. Their impact has been particularly evident in machine learning and deep learning, where well-defined datasets and evaluation protocols have catalyzed major breakthroughs. In the field of system identification, the Nonlinear Benchmark Initiative ^11^1available at serves a similar purpose by promoting reproducible and comparable research efforts, highlighting the importance of high-quality datasets and reference methods for rigorous and comparable evaluation.

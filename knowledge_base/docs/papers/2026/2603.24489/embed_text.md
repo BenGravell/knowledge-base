@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.24489", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Model Predictive Path Integral (MPPI) control, e.g. is a widely used sampling-based method for trajectory optimization in nonlinear and nonconvex settings, owing to its simplicity, parallelizability, and ability to handle nondifferentiable dynamics and costs. In its standard form, MPPI updates the sampling distribution by drawing perturbed control sequences, reweighting them according to their trajectory costs, and shifting the nominal control toward a weighted average of the sampled rollouts. Despite its empirical success in robotics and real-time control, this update is typically introduced through stochastic optimal control or control-as-inference arguments, which do not directly expose its underlying optimization structure. As a result, basic questions such as how MPPI relates to gradient-based methods, when its update is guaranteed to decrease a well-defined objective, and how its hyperparameters influence stability and convergence remain only partially understood. These gaps motivate the need for a direct optimization-theoretic interpretation of MPPI.

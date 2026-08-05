@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1706.01337", "source": "ar5iv"} -->
+
 ## Introduction
 
 Analysis in the context of robust control is generally concerned with obtaining absolute performance guarantees about a system in the presence of bounded uncertainty. Examples of such results include the small gain theorem & passivity theory, dissipativity theory, the structured singular value $\mu$, and integral quadratic constraints (IQCs).

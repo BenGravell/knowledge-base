@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2502.20382", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The emergence of foundation models has transformed fields such as natural language processing and computer vision, where models trained on massive, internet-scale datasets demonstrate remarkable generalization across diverse reasoning tasks. Motivated by this success, the robotics community is currently pursuing foundation models for generalist robot policies capable of flexible and robust decision-making across a wide range of tasks, leading to significant industrial investments in large-scale robot learning. However, the pursuit for generalist robot policies remains constrained by the limited availability of high-quality datasets, especially for contact-rich robotic manipulation. Existing datasets are orders of magnitude smaller than those used to train foundation models in other domains, such as Large Language Models (LLMs). The scarcity of diverse, high-fidelity manipulation data limits policy generalization across different embodiments, task contexts, and physical conditions.

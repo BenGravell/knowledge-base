@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2306.09537", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Deep reinforcement learning (RL) has shown promise in developing agile control policies for quadrotors. However, RL algorithms require a large number of environment transitions to train successful policies in simulation. This motivates building fast and highly-parallelizable simulators. Additionally, it is important for the simulator to be good enough that policies trained on it transfer to the real world in spite of unmodeled environment dynamics and the simplified physics assumptions it will inevitably entail.

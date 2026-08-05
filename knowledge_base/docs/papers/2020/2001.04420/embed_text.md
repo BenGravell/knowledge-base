@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2001.04420", "source": "ar5iv"} -->
+
 ## Introduction
 
 Despite its numerous applications, high-speed UAV navigation through unknown environments is still an open problem. The desired high speeds together with partial observability of the environment and limits on payload weight make this task especially challenging for aerial robots. Safe operation, in addition to flying fast, is also critical but difficult to guarantee since the vehicle must repeatedly generate collision-free, dynamically feasible trajectories in real-time with limited sensing. Similar to the model predictive control literature, safety is guaranteed by ensuring a feasible solution exists indefinitely.

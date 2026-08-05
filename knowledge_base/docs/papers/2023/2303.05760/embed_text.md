@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.05760", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: Hierarchical game theoretic modeling of agent interactions. The historical states of agents and maps are encoded as background information; a level-0 agent’s future is predicted independently based on the initial modality query; a level-k agent responds to all other level-(k − 1) agents.

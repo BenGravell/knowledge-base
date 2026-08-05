@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2404.07771", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The field of artificial intelligence (AI) has been revolutionized by generative models, particularly large language models and diffusion models. Recognized as foundation models, they are trained on massive corpora of data and have opened up vibrant possibilities in machine learning research and applications. While large language models focus on generating coherent text based on context, diffusion models excel at modeling complex data distributions and generating diverse samples, both of which find widespread use across various domains.

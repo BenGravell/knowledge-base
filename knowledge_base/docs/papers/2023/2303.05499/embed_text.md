@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.05499", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A key indicator of an Artificial General Intelligence (AGI) system's capability is its proficiency in handling open-world scenarios. In this paper, we aim to develop a strong system to detect arbitrary objects specified by human language inputs, a task commonly referred to as open-set object detection^22^2We view the terms open-set object detection, open-world object detection, and open-vocabulary object detection the same task in this paper. To avoid confusion, we always use open-set object detection in our paper.. The task has wide applications for its great potential as a generic object detector. For example, we can cooperate with generative models for image editing (as shown in Fig. 1 (b)).

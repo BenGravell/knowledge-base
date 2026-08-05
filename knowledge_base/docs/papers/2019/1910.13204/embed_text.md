@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1910.13204", "source": "ar5iv"} -->
+
 ## Introduction
 
 Gradient boosted decision trees (GBDT) is one of the most popular machine learning algorithms as it provides high-quality models in a large number of machine learning problems containing heterogeneous features, noisy data, and complex dependencies. There are many fields where gradient boosting achieves state-of-the-art results, e.g., search engines, recommendation systems, and other applications.

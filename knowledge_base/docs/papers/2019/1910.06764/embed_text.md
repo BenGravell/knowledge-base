@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1910.06764", "source": "ar5iv"} -->
+
 ## Introduction
 
 It has been argued that self-attention architectures deal better with longer temporal horizons than recurrent neural networks (RNNs): by construction, they avoid compressing the whole past into a fixed-size hidden state and they do not suffer from vanishing or exploding gradients in the same way as RNNs. Recent work has empirically validated these claims, demonstrating that self-attention architectures can provide significant gains in performance over the more traditional recurrent architectures such as the LSTM. In particular, the Transformer architecture has had breakthrough success in a wide variety of domains: language modeling, machine translation, summarization (Liu & Lapata, ), question answering, multi-task representation learning for NLP, and algorithmic tasks.

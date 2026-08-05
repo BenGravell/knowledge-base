@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.13192", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Safety-critical systems are increasingly deployed in real-world environments, where uncertainty is unavoidable and even a single safety violation may have catastrophic consequences. This calls for a *robust safety filter*, a runtime process that monitors the system's operation and intervenes, when necessary, by modifying the control input to preserve safety against all admissible uncertainty realizations.

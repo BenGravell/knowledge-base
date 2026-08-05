@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1606.08415", "source": "ar5iv"} -->
+
 ## Introduction
 
 Early artificial neurons utilized binary threshold units. These hard binary decisions are smoothed with sigmoid activations, enabling a neuron to have a "firing rate" interpretation and to train with backpropagation. But as networks became deeper, training with sigmoid activations proved less effective than the non-smooth, less-probabilistic ReLU which makes hard gating decisions based upon an input's sign. Despite having less of a statistical motivation, the ReLU remains a competitive engineering solution which often enables faster and better convergence than sigmoids. Building on the successes of ReLUs, a recent modification called ELUs allows a ReLU-like nonlinearity to output negative values which sometimes increases training speed. In all, the activation choice has remained a necessary architecture decision for neural networks lest the network be a deep linear classifier.

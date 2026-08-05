@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1812.02256", "source": "ar5iv"} -->
+
 ## Introduction
 
 Reinforcement learning with flexible function approximators such as neural networks, also referred to as "deep RL", holds great promises for continuous control and robotics. Neural networks can express complex dependencies between high-dimensional and multimodal input and output spaces, and learning-based approaches can find solutions that would be difficult to craft by hand. Unfortunately, the generality and flexibility of learning based approaches with neural networks can come at a price: Deep reinforcement learning algorithms can require large amounts of training data; they can suffer from stability problems, especially in high-dimensional continuous action spaces; and they can be sensitive to hyperparameter settings. Even though attempts to control robots or simulated robots with neural networks go back a long time, it has only been recently that algorithms have emerged which are able to scale to challenging problems -- including first successes in the data-restricted domain of physical robots.

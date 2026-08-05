@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1908.03568", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 The reinforcement learning (RL) problem describes an agent interacting with an environment with the goal of maximizing cumulative reward through time. Unlike other branches of control, the dynamics of the environment are not fully known to the agent, but can be learned through experience. Unlike other branches of statistics and machine learning, an RL agent must consider the effects of its actions upon future experience. An efficient RL agent must address three challenges simultaneously: 1. Generalization: be able to learn efficiently from data it collects. 2. Exploration: prioritize the right experience to learn. 3. Long-term consequences: consider effects beyond a single timestep.

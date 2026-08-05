@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.06418", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Recent years have seen a resurgence in the design of novel optimizers for deep learning, particularly via the use of "matrix-shaped" normalization or preconditioning. These optimizers adjust gradient updates by a "preconditioning" matrix to reweight the descent direction. The successes highlight improved *convergence time* on training or validation loss, such as Shampoo (gupta2018shampoo; anil2020scalable; shi2023distributed) winning the AlgoPerf optimizer competition (mlcommons2024algoperf) as measured by an overall "holdout error per unit compute" metric, and Muon (jordan2024muon) coming to prominence in greatly accelerating low "time to target validation loss" on NanoGPT pretraining and seeing adoption in training production-scale language models (team2025kimi).

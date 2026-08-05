@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2109.08603", "source": "ar5iv"} -->
+
 ## Introduction
 
 Intrinsic motivation can be a powerful concept to endow an agent with an automated mechanism to continuously explore its environment in the absence of task information. One common way to implement intrinsic motivation is to train a predictive model alongside the agent's policy and use the model's prediction error as a reward signal for the agent encouraging the exploration of previously unfamiliar transitions in the environment - a method also known as *curiosity learning*. Curiosity-esque reward schemes have been used in different ways to facilitate exploration in sparse tasks or pre-train policy networks before fine-tuning them on difficult downstream tasks. In environments where the main task objective is highly correlated with thorough exploration, curiosity-based approaches have also been shown to solve the main task without any additional reward signal.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.26292", "source": "arxiv-html"} -->
+
 ## Introduction
 
 End-to-end multimodal planning has established itself as a critical methodology in autonomous driving systems, significantly enhancing robustness and adaptability during inference when compared to single-trajectory prediction approaches. This capability is especially vital in ambiguous or highly interactive driving scenarios---such as unprotected left turns, merging in dense traffic, or navigating intersections---where multiple distinct trajectories may be equally appropriate. Despite these advantages, the majority of contemporary multimodal methods remain dependent on imitation learning frameworks. Such approaches learn from a limited set of demonstrated expert trajectories, and due to the lack of strategy diversity of ground-truth trajectories, often yield predictions that are homogenized, and deficient in behavioral diversity.

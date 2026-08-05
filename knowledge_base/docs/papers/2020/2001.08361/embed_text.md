@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2001.08361", "source": "ar5iv"} -->
+
 ## Introduction
 
 Language provides a natural domain for the study of artificial intelligence, as the vast majority of reasoning tasks can be efficiently expressed and evaluated in language, and the world's text provides a wealth of data for unsupervised learning via generative modeling. Deep learning has recently seen rapid progress in language modeling, with state of the art models \[ YDY^+^19, LOG^+^19, RSR^+^19\] approaching human-level performance on many specific tasks \[WPN^+^19\], including the composition of coherent multi-paragraph prompted text samples \[RWC^+^19\].

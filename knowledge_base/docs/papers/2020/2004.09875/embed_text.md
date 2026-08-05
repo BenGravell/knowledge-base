@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2004.09875", "source": "ar5iv"} -->
+
 ## Introduction
 
 The linear quadratic regulator (LQR) problem is formulated as an optimization problem of minimizing a quadratic integral cost with respect to control function. It has been extensively analyzed in the last century since the seminal works of Kalman in 1960. The main result claims that for an infinite-horizon LTI system the optimal control can be expressed as linear static state feedback. The optimal gain can be found by solving the algebraic matrix Riccati equation (ARE). The results became classical and were immediately included in textbooks on control. New approaches to the problem were based on the techniques of semidefinite programming --- reduction to convex optimization with Linear Matrix Inequalities (LMIs) as constraints. Linear static feedback is a very natural and simple form of control for engineers, thus there were many attempts to extend the technique for other control problems.

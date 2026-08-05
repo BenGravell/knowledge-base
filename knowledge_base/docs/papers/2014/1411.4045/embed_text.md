@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1411.4045", "source": "ar5iv"} -->
+
 ## Introduction
 
 Planning motions for robots with many degrees of freedom and subject to kinodynamic constraints (i.e. constraints that involve higher-order time-derivatives of the robot configuration ) is one of the most important and challenging problems in robotics. Path-velocity decomposition is an intuitive yet powerful approach to address the complexity of kinodynamic motion planning: first, find a *path* in the configuration space that satisfies the geometric constraints, such as obstacle avoidance, joint limits, kinematic closure, etc. (path planning), and second, find a *time-parameterization* of that path satisfying the kinodynamic constraints, such as torque limits for manipulators, dynamic balance for legged robots, etc.

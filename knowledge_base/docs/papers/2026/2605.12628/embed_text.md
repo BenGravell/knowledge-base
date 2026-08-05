@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.12628", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 Autonomous navigation has been studied extensively in recent years, but most of the work has been devoted to structured environments like on-road autonomous driving. These structured environments are easy to setup experimentally and can have complicated interaction, but most of the testing in research settings lack the diversity of the real world environment. These issues only increase in complexity when comparing closed-loop performance for these tasks. Similar issues impact research for off-road driving. Typically, planning and controls systems are tested repeatedly on the same small courses. This can cause algorithms that perform well in these semi-structured environments but may not necessarily translate to the greater variance presented in the real world. Our autonomous agents must be robust to disturbances and perturbations of the environment and should not fail under slight variations.

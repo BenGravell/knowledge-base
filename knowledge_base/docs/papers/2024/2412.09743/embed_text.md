@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2412.09743", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Many everyday manipulation tasks require coordinating multiple contacts with objects using different parts of the body, such as opening a bottle or carrying a large box. To endow robots with true autonomy, acquiring proficiency in these contact-rich dexterous manipulation skills is crucial. However, executing such skills demands intricate coordination between the hands, the arms, and even the whole body, which leads to a high-dimensional action space. Compared to single-arm, gripper-based tasks such as pick-and-place, contact-rich dexterous manipulation is also more likely to introduce multi-modality to the solution, i.e., there can be more than one way to accomplish the task.

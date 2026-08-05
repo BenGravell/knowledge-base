@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1502.05767", "source": "ar5iv"} -->
+
 ## Introduction
 
 Methods for the computation of derivatives in computer programs can be classified into four categories: manually working out derivatives and coding them; *numerical differentiation*using finite difference approximations; *symbolic differentiation*using expression manipulation in computer algebra systems such as Mathematica, Maxima, and Maple; and *automatic differentiation*, also called *algorithmic differentiation*, which is the subject matter of this paper.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2512.15110", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The recent proliferation of Generative AI has fundamentally transformed the landscape of computer vision, with Text-to-Image (T2I) models demonstrating unprecedented capabilities in high-fidelity content creation. Among these, commercial products like Nano Banana Pro \[team2023gemini\] have emerged as standouts, garnering significant attention for their versatility. While its prowess in creative synthesis is well-documented, the extent to which such a large-scale foundation model can generalize to traditional low-level vision problems remains largely unexplored. This gap presents not only a challenge of capability but also one of evaluation, raising the pivotal research question: Is Nano Banana Pro a Low-Level Vision All-Rounder?

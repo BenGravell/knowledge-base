@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2104.00827", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Data-driven techniques for robotic control such as deep reinforcement learning have recently become increasingly popular, especially for settings where input observations are high-dimensional, such as images, and state transition dynamics are not known in advance. These techniques have shown great promise for controlling a variety of robots ranging from manipulators to legged robots, drones, and autonomous cars. However, these techniques have largely been studied and developed within the confines of stylized, often simulated settings, where performance metrics are naturally divorced from important real-world concerns such as safety and robustness. In the light of recent catastrophic failures of learning-based control systems such as fatal autonomous car collisions, we argue that it is imperative to study and characterize the limitations of these approaches in challenging settings that present realistic difficulties for observation and control. In particular, how do such difficulties affect the performance and sample complexity of learned controllers?

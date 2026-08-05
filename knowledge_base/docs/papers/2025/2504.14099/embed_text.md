@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.14099", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A convex optimization problem, parametrized by $\theta \in \Theta \subseteq \text{R}^{d}$, can be written as where $x \in \text{R}^{n}$ is the optimization variable, $f_{0}$ is the objective function to be minimized, which is convex in $x$, and $f_{1},\ldots,f_{m}$ are inequality constraint functions that are convex in $x$. The parameter $\theta$ specifies data that can change, but is constant and given (or chosen) when we solve an instance of the problem. We refer to the parametrized problem as a *problem family*; when we specify a fixed value of $\theta \in \Theta$, we refer to it as a *problem instance*. We let $x^{\star}$ denote an optimal point for problem, assuming it exists. To emphasize its dependence on $\theta$, we write it as $x^{\star}{(\theta)}$.

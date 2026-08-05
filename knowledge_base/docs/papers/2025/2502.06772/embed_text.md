@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2502.06772", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Large Language Models (LLMs) have recently achieved remarkable progress, demonstrating exceptional capabilities in tackling complex reasoning tasks and even surpassing human experts in specific domains. For example, models such as OpenAI's O1, Google's Gemini-2.0, DeepSeek-V3, and Qwen-QwQ are at the forefront of this progress, characterized by their ability to emulate human reasoning through a slower, more deliberate thought process. These models leverage increased inference time to enhance reasoning accuracy. While they have unlocked substantial performance gains, more complex tasks such as mathematical problem solving in AIME, OlympiadBench and code in LiveCodeBench, which demand a more fine-grained search through a vast solution space and more delicate thought for each intricate reasoning step, thus still pose significant challenges.

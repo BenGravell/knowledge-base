@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.26125", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Long-tail scenario examples from the Waymo Open Dataset for End-to-End Driving (WOD-E2E). Unlike existing datasets that are commonly used for E2E Driving benchmarking, WOD-E2E dataset has more explicit focus on long-tail scenarios. Our analysis in Section 3.3 shows that WOD-E2E captures the long-tail scenarios with a frequency of less than 0.03% in daily driving.

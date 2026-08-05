@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1506.01085", "source": "ar5iv"} -->
+
 ## Introduction
 
 The problem of planning a collision-free and dynamically-feasible trajectory is fundamental in robotics, with application to systems as diverse as ground, aerial, and space vehicles, surgical robots, and robotic manipulators. A common strategy is to decompose the problem in steps of computing a collision-free, but possibly highly-suboptimal or not even dynamically-feasible trajectory, smoothing it, and finally reparameterizing the trajectory so that the robot can execute it. In other words, the first step provides a strategy that explores the configuration space efficiently and decides "where to go," while the subsequent steps provide a refined solution that specifies "how to go."

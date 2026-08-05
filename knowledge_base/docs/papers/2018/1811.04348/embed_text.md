@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1811.04348", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Autonomous vehicles often decompose the selection of steering, throttle, and braking control signals into a planning process which generates a feasible motion through the perceived scene. This is followed by a control process which executes a local trajectory tracking control policy robust to process noise and load disturbances. Motion planning algorithms for autonomous driving usually simplify the planning task by first planning a geometric path followed by planning a longitudinal velocity profile along the geometric path. Since all motion planning algorithms with approximate completeness guarantees have exponential complexity with respect to state dimension, this decomposition affords significant reduction in computational requirements and planning latency. The decomposition is inherited by the control system which generally has separate lateral and longitudinal control policies. The subtleties of designing controllers in this case have been well studied.

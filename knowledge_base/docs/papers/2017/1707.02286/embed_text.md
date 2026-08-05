@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1707.02286", "source": "ar5iv"} -->
+
 ## Introduction
 
 Reinforcement learning has demonstrated remarkable progress, achieving high levels of performance in Atari games, 3D navigation tasks, and board games. What is common among these tasks is that there is a well-defined reward function, such as the game score, which can be optimised to produce the desired behaviour. However, there are many other tasks where the "right" reward function is less clear, and optimisation of a naïvely selected one can lead to surprising results that do not match the expectations of the designer. This is particularly prevalent in continuous control tasks, such as locomotion, and it has become standard practice to carefully handcraft the reward function, or else elicit a reward function from demonstrations.

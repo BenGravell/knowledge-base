@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1911.02620", "source": "ar5iv"} -->
+
 ## Introduction
 
 Datasets and benchmarks for a variety of perception tasks in autonomous driving have been hugely influential to the computer vision community over the last few years. We are particularly inspired by the impact of KITTI, which opened and connected a plethora of new research directions. However, publicly available datasets for autonomous driving rarely include *map* data, even though detailed maps are critical to the development of real world autonomous systems. Publicly available maps, *e.g*. OpenStreetMap, can be useful, but have limited detail and accuracy.

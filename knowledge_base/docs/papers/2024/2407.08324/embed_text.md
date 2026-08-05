@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2407.08324", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Research on quantitative notion of behavioural distance between Markov processes by the reinforcement learning community (see and the references therein) mimics the study of distance between dynamical systems conducted by the control community (see, and the references therein). Both communities are interested in computing *how much processes/dynamical systems differ in terms of their behaviour*. Several metrics have been proposed for Markov Chains (MC) (see ), including the recent Cantor-Kantorovich metric by Banse et al. where they applied it for abstraction-based methods. Few metrics like the one in are equipped with the availability of algorithms for fast computation making them deployment-ready.

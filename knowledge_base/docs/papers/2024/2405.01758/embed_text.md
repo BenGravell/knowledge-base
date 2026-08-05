@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2405.01758", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 Traditional constrained optimization-based approaches for obstacle avoidance and trajectory planning, while achieving impressive performance [tordesillas2020mader, tordesillas2021panther, zhou2021raptor, bry2011rapidly, allen2016real], have been limited in their onboard deployment by their large computational cost. A promising approach to reduce computation time is to leverage Imitation Learning (IL)-based strategies[tordesillas2023deep, Tagliabue2021DemonstrationEfficientGP, loquercio2021learning, kaufmann2020deep, kahn2017plato, zhang2016learning], where a fast neural network (NN) policy is trained offline to imitate the diverse demonstrations collected by computationally expensive optimization-based planners, significantly reducing the online computational costs. However, preserving the rich distribution of trajectories produced by the expert, while guaranteeing dynamic feasibility and collision avoidancein the NNs' output remain two open challenges.

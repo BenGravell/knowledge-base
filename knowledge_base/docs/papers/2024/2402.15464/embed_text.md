@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2402.15464", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Data association is broadly defined as the correspondence of identical/similar elements across sets of data, and is a key component of many robotics and computer vision applications, such as localization and mapping, point cloud registration, shape alignment, object detection, data fusion, and multi-object tracking. In these applications, it is crucial that data association is solved correctly and fast.

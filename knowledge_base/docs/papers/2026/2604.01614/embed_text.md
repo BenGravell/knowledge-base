@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.01614", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Feedback motion planning synthesizes a vector field over ${\cal C}_{free}$, the collision-free subspace of the configuration space. This creates a closed-loop policy that robustly guides a robot to its goal from almost any admissible state, an essential feature for real-world applications. The framework introduced by Lindemann et al. provides a powerful method for generating such feedback plans by decomposing the space into cells and blending local vector fields. This approach constructs almost globally defined, ${C^{\infty}}$-smooth feedback laws that guarantee convergence and collision avoidance, nicely sidestepping the local minima that plague artificial potential fields and the high computational cost of global methods such as harmonic functions.

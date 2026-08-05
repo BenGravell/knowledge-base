@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2203.16194", "source": "ar5iv"} -->
+
 ## Introduction
 
 Optical flow targets at estimating per-pixel correspondences between a source image and a target image, in the form of a 2D displacement field. In many downstream video tasks, such as action recognition, video inpainting, video super-resolution, and frame interpolation, optical flow serves as a fundamental component providing dense correspondences as valuable clues for prediction.

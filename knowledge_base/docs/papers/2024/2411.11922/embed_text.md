@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2411.11922", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Segment Anything Model (SAM) has demonstrated impressive performance in segmentation tasks. Recently, SAM 2 incorporates a streaming memory architecture, which enables it to process video frames sequentially while maintaining context over long sequences. While SAM 2 has shown remarkable capabilities in Video Object Segmentation (VOS ) tasks, generating precise pixel-level masks for objects throughout a video sequence, it still faces challenges in Visual Object Tracking (VOT ) scenarios.

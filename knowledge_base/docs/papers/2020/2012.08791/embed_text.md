@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2012.08791", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 Mean rank of \textsc{MiniRocket} in terms of accuracy versus other SOTA methods over 30 resamples of 109 datasets from the UCR archive. [In terms of accuracy, Apricot ranks just ahead of Rocket, but behind both TS-CHIEF and HIVE-COTE/TDE]In terms of accuracy, Apricot ranks just ahead of Rocket, but behind both TS-CHIEF and HIVE-COTE/TDE. Apricot is in the same clique as InceptionTime, Rocket, TS-CHIEF, and HIVE-COTE, that is, the pairwise differences between these classifiers are not statistically significant.

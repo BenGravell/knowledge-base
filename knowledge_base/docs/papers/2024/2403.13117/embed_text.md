@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2403.13117", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Recent success in generative modeling Liu et al.; Esser et al.; Cao et al. is mostly driven by Flow Matching (FM) Lipman et al. models. These models move a known distribution to a target one via ordinary differential equations (ODE) describing the mass movement. However, such processes usually have curved trajectories, resulting in time-consuming ODE integration for sampling. To overcome this issue, researches developed several improvements of the FM Liu; Liu et al.; Pooladian et al., which aim to recover more straight paths.

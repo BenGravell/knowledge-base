@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2505.08370", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The Linear Quadratic Regulator (LQG) is a cornerstone of control theory, and has been applied across several domains ranging from engineering, to economics, to computer science. It involves controlling a linear system subject to additive disturbances via the design of a control policy that minimizes a quadratic cost function. For linear systems, quadratic costs and additive Gaussian noise, it is well-known that the resulting optimal policy is linear in the observations. However, in practice, the system dynamics are often only approximately known, and the noise is not necessarily Gaussian. This leads to a mismatch between the nominal model and the true system, which can adversely affect performances.

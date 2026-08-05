@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.14392", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Trajectory world models are essential for robotic dynamics learning, planning, and control based on low-level sensory data. However, building a trajectory world model for diverse robotic systems poses two key challenges: i) sensor and actuator heterogeneity, where the variance in types and sampling rates hinders shared representations, and ii) system dynamics gaps caused by diverse kinematic structures across different robotic systems.

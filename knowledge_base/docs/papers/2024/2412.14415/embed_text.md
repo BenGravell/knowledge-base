@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2412.14415", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Transformer-based foundation models have become increasingly prevalent in sequential modeling tasks across various machine learning domains. These models are highly effective in handling sequential data by capturing long-range dependencies and temporal relationships. Their success has been evident in natural language processing, time-series forecasting, and speech recognition, where sequential patterns play a crucial role. One of the key strengths of transformer-based models is their capacity to learn from large datasets including millions of training examples, enabling them to address complex tasks with increased model sizes, up to billions of model parameters.

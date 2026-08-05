@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2104.04901", "source": "ar5iv"} -->
+
 ## Introduction
 
 The techniques in conventional optimal control theory often require an explicit dynamical model. Such a model-based idea is relatively easy to provide theoretical guarantees but is usually sensitive to modeling inaccuracy. Policy optimization (PO) methods, as an end-to-end approach, directly search for an optimal control policy to minimize a performance metric of interest and has advantages in scenarios where the dynamical model is complex and difficult to identify. In fact, it has been proved to be an essential approach for applications of reinforcement learning (RL), e.g., robotic in-hand manipulation.

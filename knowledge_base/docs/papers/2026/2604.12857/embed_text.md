@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.12857", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Autonomous vehicles (AVs) are now operating on public roads, a development that is reshaping transportation systems worldwide. As their deployment accelerates, the demand for rigorous, scalable, and safe testing environments increases. Simulation has emerged as a viable tool for this purpose by offering a cost-effective and controlled environment for evaluating AV performance across a wide range of conditions and driving scenarios.

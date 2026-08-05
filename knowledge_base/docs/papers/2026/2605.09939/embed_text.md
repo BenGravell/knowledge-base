@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.09939", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Articulated tractor--trailer vehicles are widely used in agricultural operations for transporting crops, towing implements, and maneuvering within orchards, vineyards, and open farmlands. Compared with single-body agricultural vehicles, articulated systems introduce additional complexity due to multi-body coupling, off-axle hitching, articulation constraints, and the potential for unstable reversing behavior. These challenges are further amplified in cluttered agricultural settings that feature narrow spaces, static obstacles such as tree rows and storage bins, and dynamic objects including farm workers and other machinery. Ensuring safe and reliable navigation in such environments is therefore essential for enabling fully autonomous operation.

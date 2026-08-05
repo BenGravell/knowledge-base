@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.04120", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Creating physically accurate and visually realistic simulations directly from real-world robot interactions is crucial for scalable robotics, yet bridging the visual and physical sim-to-real gap remains a major hurdle, especially with imperfect data. While recent advances like Neural Radiance Fields (NeRF) and 3D Gaussian Splatting (3DGS) generate high-quality photorealistic novel views, they face significant challenges in dynamic robotic settings: they are sensitive to noisy camera poses common in real trajectories, and produce representations ill-suited for direct use in physics simulators like MuJoCo. Extracting usable simulation assets often requires laborious post-processing or separate geometry estimation pipelines, breaking the link between visual input and physical behaviour. This disconnect critically limits the automated creation of high-fidelity digital twins for robot learning and planning.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.02881", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Physical intelligence is fundamentally organized around perception and action. Rather than reasoning over abstract internal computation, human think by constructing spatial representations, simulating actions, and interacting with the world through their bodies. Although we conflate today's robot foundation models as displaying such intelligence; from a cognitive science perspective, they remain incomplete models of intelligence. They often lack structured spatial representations Qu et al., rely on heavyweight internal reasoning processes that impede real-time interaction, and are difficult to adapt or extend due to limited openness.

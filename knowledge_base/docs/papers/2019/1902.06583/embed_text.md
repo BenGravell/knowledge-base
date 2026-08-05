@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1902.06583", "source": "ar5iv"} -->
+
 ## Introduction
 
 Policy gradient methods optimise reinforcement learning policies by performing gradient ascent on the policy parameters and have shown considerable success in environments characterised by large or continuous action spaces. However, like other gradient-based optimisation methods, their performance can be sensitive to a number of key hyperparameters.

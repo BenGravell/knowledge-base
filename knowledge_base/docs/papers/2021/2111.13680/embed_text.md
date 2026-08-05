@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2111.13680", "source": "ar5iv"} -->
+
 ## Introduction
 
 Since the pioneering learning-based work, FlowNet, optical flow has been regressed with convolutions for a long time. To encode the matching information into the network, the cost volume (*i.e*., correlation) was shown to be an effective component and thus has been extensively used in popular frameworks. However, such regression-based approaches have one major intrinsic limitation. That is, the cost volume requires a predefined size, as the search space is viewed as the channel dimension for subsequent regression with convolutions. This requirement restricts the search space to a *local* range, making it hard to handle large displacements.

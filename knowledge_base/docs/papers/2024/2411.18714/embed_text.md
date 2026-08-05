@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2411.18714", "source": "arxiv-html"} -->
+
 ## Introduction
 
 There are hundreds of companies developing autonomous vehicle (AV) technology globally \[badue2021self\], promising to revolutionize transportation for everyone. The industry currently spans two segments: fully autonomous ride-hail systems and consumer vehicles with driver-assistance \[SAEJ3016_2021\]. In consumer vehicles, machine learning (ML) solutions have markedly improved the technology, yet they still require human intervention in unusual or challenging situations where learned planners may not determine the correct action \[xing2021toward\]. As driving is safety-critical, such infrequent failures matter, making it essential that the human driver is able to anticipate and be prepared for such situations \[pereira2020challenges\]. However, the opaque nature of ML planners makes it challenging to interpret and communicate the causes of their decisions, hampering the ability of human drivers to understand and predict AV behavior while achieving real-time situational awareness \[kuznietsov2024explainable, arfini2023design, atakishiyev2024incorporating\].

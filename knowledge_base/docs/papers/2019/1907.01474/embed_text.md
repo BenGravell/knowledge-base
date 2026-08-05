@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1907.01474", "source": "ar5iv"} -->
+
 ## Introduction
 
 Motion planning for robots with high Degree-of-Freedoms (DoFs) presents many challenges, especially in the presence of constraints such as obstacle avoidance, joint limits, etc. To handle the high-dimensionality and the various constraints, many works focus on *trajectory optimization* methods that attempt to find a locally optimal solution. In this approach, the motion planning problem is formulated as an optimization problem where ${\mathbf{q}}_{0:T}$ denotes the robot's configurations from time step $t = 0$ to $t = T$; $\ell{(\cdot)}$, ${\mathbf{g}}{(\cdot)}$ and ${\mathbf{h}}{(\cdot)}$ are the cost, the inequality and the equality constraints. The solution of is the *path* ${\mathbf{y}} = {\mathbf{q}}_{0:T}^{\ast} = {({\mathbf{q}}_{0}^{\ast \top},\ldots,{\mathbf{q}}_{T}^{\ast \top})}^{\top} \in {\mathbb{R}}^{DT}$, with $D$ the dimension of ${\mathbf{q}}_{t}$. When the path is parameterized by time, it is called *trajectory*.

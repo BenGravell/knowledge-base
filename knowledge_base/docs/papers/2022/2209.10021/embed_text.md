@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2209.10021", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Robotic systems are at the forefront of executing intricate tasks, relying on the prowess of their low-level controllers to deliver precise and agile motions. An optimal controller design starts with a meticulous analysis to ensure stability, followed by parameter tuning to achieve the intended performance on real-world robotic platforms. Traditionally, controller tuning is done either by hand using trial-and-error or proven methods for specific controllers (e.g., Ziegler--Nichols method for proportional-integral-derivative (PID) controller tuning ). Nevertheless, manual tuning often demands seasoned experts and is inefficient, particularly for systems with lengthy loop times or extensive parameter space.

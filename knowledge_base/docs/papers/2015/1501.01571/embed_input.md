@@ -2400,356 +2400,360 @@ Now, we are prepared to demonstrate that the logarithm is an operator monotone f
 
 <!-- chunk {"id": "body-0600", "role": "body", "section": "The Logarithm is Operator Monotone", "weight": 1.0} -->
 
-Proposition 8.4.4 (Logarithm is Operator Monotone). The logarithm is an operator monotone function on the positive real line. That is, for positive-definite matrices A and H, Proof. For each u ÷ 0, Proposition 8.4.3 demonstrates that The integral representation of the logarithm, Proposition 8.4.1, allows us to calculate that We have used the fact that the semidefinite order is preserved by integration against a positive measure.
+Proposition 8.4.4 (Logarithm is Operator Monotone). The logarithm is an operator monotone function on the positive real line. That is, for positive-definite matrices A and H, A ≼ H implies log A ≼ log H.
 
-<!-- chunk {"id": "body-0601", "role": "body", "section": "Operator Convex Functions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0601", "role": "body", "section": "The Logarithm is Operator Monotone", "weight": 1.0} -->
 
-Next, let us investigate the convexity properties of the matrix logarithm. As before, we start with an abstract definition.
+Proof. For each u ÷ 0, Proposition 8.4.3 demonstrates that The integral representation of the logarithm, Proposition 8.4.1, allows us to calculate that We have used the fact that the semidefinite order is preserved by integration against a positive measure.
 
 <!-- chunk {"id": "body-0602", "role": "body", "section": "Operator Convex Functions", "weight": 1.0} -->
 
-Definition 8.4.5 (Operator Convex Function). Let f: I ! R be a function on an interval I of the real line. The function f is operator convex on I when andfor all Hermitian matrices A and H whose eigenvalues are contained in I. A function g: I ! R is operator concave when ϒ g is operator convex on I.
+Next, let us investigate the convexity properties of the matrix logarithm. As before, we start with an abstract definition.
 
 <!-- chunk {"id": "body-0603", "role": "body", "section": "Operator Convex Functions", "weight": 1.0} -->
 
-We continue with some important facts about operator convex functions. Most of these claims can be derived easily.
+Definition 8.4.5 (Operator Convex Function). Let f: I ! R be a function on an interval I of the real line. The function f is operator convex on I when andfor all Hermitian matrices A and H whose eigenvalues are contained in I. A function g: I ! R is operator concave when ϒ g is operator convex on I.
 
 <!-- chunk {"id": "body-0604", "role": "body", "section": "Operator Convex Functions", "weight": 1.0} -->
 
-- When ÷ 0, the quadratic function t 7!fi ⊕ fl t ⊕ t 2 is operator convex on the real line. - The exponential map t 7! e t is not operator convex on the real line. - When fi ÷ 0 and f is operator convex on I, the function fi f is operator convex in I. - If f and g are operator convex on I, then f ⊕ g is operator convex on I.
+We continue with some important facts about operator convex functions. Most of these claims can be derived easily.
 
 <!-- chunk {"id": "body-0605", "role": "body", "section": "Operator Convex Functions", "weight": 1.0} -->
 
+- When ÷ 0, the quadratic function t 7!fi ⊕ fl t ⊕ t 2 is operator convex on the real line. - The exponential map t 7! e t is not operator convex on the real line. - When fi ÷ 0 and f is operator convex on I, the function fi f is operator convex in I. - If f and g are operator convex on I, then f ⊕ g is operator convex on I.
+
+<!-- chunk {"id": "body-0606", "role": "body", "section": "Operator Convex Functions", "weight": 1.0} -->
+
 The operator monotone functions form a convex cone. We also learn that the family of operator convex functions is somewhat smaller than the family of convex functions.
-
-<!-- chunk {"id": "body-0606", "role": "body", "section": "The Inverse is Operator Convex", "weight": 1.0} -->
-
-The inverse provides a very important example of an operator convex function.
 
 <!-- chunk {"id": "body-0607", "role": "body", "section": "The Inverse is Operator Convex", "weight": 1.0} -->
 
-Proposition 8.4.6 (Inverse is Operator Convex). For each u ÷ 0, the function a 7! (a ⊕ u) ϒ 1 is operator convex on the positive real line. That is, for positive-definite matrices A and H, To establish Proposition 8.4.6, we use an argument based on the Schur complement lemma. For completeness, let us state and prove this important fact.
+The inverse provides a very important example of an operator convex function.
 
 <!-- chunk {"id": "body-0608", "role": "body", "section": "The Inverse is Operator Convex", "weight": 1.0} -->
 
-Fact 8.4.7 (Schur Complements). Suppose that T is a positive-definite matrix. Then Proof of Fact 8.4.7. To see why this is true, just calculate that In essence, we are performing block Gaussian elimination to bring the original matrix into blockdiagonal form. Now, the Conjugation Rule (2.1.12) ensures that the central matrix on the left is positive semidefinite together with the matrix on the right. From this equivalence, we extract the result (8.4.1).
+Proposition 8.4.6 (Inverse is Operator Convex). For each u ÷ 0, the function a 7! (a ⊕ u) ϒ 1 is operator convex on the positive real line. That is, for positive-definite matrices A and H, To establish Proposition 8.4.6, we use an argument based on the Schur complement lemma. For completeness, let us state and prove this important fact.
 
 <!-- chunk {"id": "body-0609", "role": "body", "section": "The Inverse is Operator Convex", "weight": 1.0} -->
 
-Wecontinue with the proof that the inverse is operator convex.
+Fact 8.4.7 (Schur Complements). Suppose that T is a positive-definite matrix. Then Proof of Fact 8.4.7. To see why this is true, just calculate that In essence, we are performing block Gaussian elimination to bring the original matrix into blockdiagonal form. Now, the Conjugation Rule (2.1.12) ensures that the central matrix on the left is positive semidefinite together with the matrix on the right. From this equivalence, we extract the result (8.4.1).
 
 <!-- chunk {"id": "body-0610", "role": "body", "section": "The Inverse is Operator Convex", "weight": 1.0} -->
 
+Wecontinue with the proof that the inverse is operator convex.
+
+<!-- chunk {"id": "body-0611", "role": "body", "section": "The Inverse is Operator Convex", "weight": 1.0} -->
+
 Proof of Proposition 8.4.6. The Schur complement lemma, Fact 8.4.7, provides that Applying this observation to the positive-definite matrices A ⊕ u I and H ⊕ u I, we see that Since the top-left block of the latter matrix is positive definite, another application of Fact 8.4.7 delivers the relation This is the advertised conclusion.
-
-<!-- chunk {"id": "body-0611", "role": "body", "section": "The Logarithm is Operator Concave", "weight": 1.0} -->
-
-We are finally prepared to verify that the logarithm is operator concave. The argument is based on the integral representation from Proposition 8.4.4 and the convexity of the inverse map from Proposition 8.4.6.
 
 <!-- chunk {"id": "body-0612", "role": "body", "section": "The Logarithm is Operator Concave", "weight": 1.0} -->
 
+We are finally prepared to verify that the logarithm is operator concave. The argument is based on the integral representation from Proposition 8.4.4 and the convexity of the inverse map from Proposition 8.4.6.
+
+<!-- chunk {"id": "body-0613", "role": "body", "section": "The Logarithm is Operator Concave", "weight": 1.0} -->
+
 Proposition 8.4.8 (Logarithm is Operator Concave). The logarithm is operator concave on the positive real line. That is, for positive-definite matrices A and H, Proof. For each u ÷ 0, Proposition 8.4.6 demonstrates that Invoke the integral representation of the logarithm from Proposition 8.4.1 to see that Once again, we have used the fact that integration preserves the semidefinite order.
-
-<!-- chunk {"id": "body-0613", "role": "body", "section": "The Operator Jensen Inequality", "weight": 1.0} -->
-
-Convexity is a statement about how a function interacts with averages. By definition, a function f: I ! R is convex when The convexity inequality (8.5.1) automatically extends from an average involving two terms to an arbitrary average. This is the content of Jensen's inequality.
 
 <!-- chunk {"id": "body-0614", "role": "body", "section": "The Operator Jensen Inequality", "weight": 1.0} -->
 
+Convexity is a statement about how a function interacts with averages. By definition, a function f: I ! R is convex when The convexity inequality (8.5.1) automatically extends from an average involving two terms to an arbitrary average. This is the content of Jensen's inequality.
+
+<!-- chunk {"id": "body-0615", "role": "body", "section": "The Operator Jensen Inequality", "weight": 1.0} -->
+
 Definition 8.4.5, of an operator convex function f: I ! R, is similar in spirit: and all Hermitian matrices A and H whose eigenvalues are contained in I. Surprisingly, the semidefinite relation (8.5.2) automatically extends to a large family of matrix averaging operations. This remarkable property is called the operator Jensen inequality.
-
-<!-- chunk {"id": "body-0615", "role": "body", "section": "Matrix Convex Combinations", "weight": 1.0} -->
-
-In a vector space, convex combinations provide a natural method of averaging. But matrices have a richer structure, so we can consider a more general class of averages.
 
 <!-- chunk {"id": "body-0616", "role": "body", "section": "Matrix Convex Combinations", "weight": 1.0} -->
 
-Definition 8.5.1 (Matrix Convex Combination). Let A 1 and A 2 be Hermitian matrices. Consider a decomposition of the identity of the form is called a matrix convex combination of A 1 and A 2.
+In a vector space, convex combinations provide a natural method of averaging. But matrices have a richer structure, so we can consider a more general class of averages.
 
 <!-- chunk {"id": "body-0617", "role": "body", "section": "Matrix Convex Combinations", "weight": 1.0} -->
 
-To see why it is reasonable to call (8.5.3) an averaging operation on Hermitian matrices, let us note a few of its properties.
+Definition 8.5.1 (Matrix Convex Combination). Let A 1 and A 2 be Hermitian matrices. Consider a decomposition of the identity of the form is called a matrix convex combination of A 1 and A 2.
 
 <!-- chunk {"id": "body-0618", "role": "body", "section": "Matrix Convex Combinations", "weight": 1.0} -->
 
-- Definition 8.5.1 encompasses scalar convex combinations because we can take K 1 ∅ ¿ 1/2 I and K 2 ∅ ¯ ¿ 1/2 I. - The matrix convex combination preserves the identity matrix: K / 1 I K 1 ⊕ K / 2 I K 2 ∅ I.
+To see why it is reasonable to call (8.5.3) an averaging operation on Hermitian matrices, let us note a few of its properties.
 
 <!-- chunk {"id": "body-0619", "role": "body", "section": "Matrix Convex Combinations", "weight": 1.0} -->
 
-- If the eigenvalues of A 1 and A 2 are contained in an interval I, then the eigenvalues of the matrix convex combination (8.5.3) are also contained in I.
+- Definition 8.5.1 encompasses scalar convex combinations because we can take K 1 ∅ ¿ 1/2 I and K 2 ∅ ¯ ¿ 1/2 I. - The matrix convex combination preserves the identity matrix: K / 1 I K 1 ⊕ K / 2 I K 2 ∅ I.
 
 <!-- chunk {"id": "body-0620", "role": "body", "section": "Matrix Convex Combinations", "weight": 1.0} -->
 
+- If the eigenvalues of A 1 and A 2 are contained in an interval I, then the eigenvalues of the matrix convex combination (8.5.3) are also contained in I.
+
+<!-- chunk {"id": "body-0621", "role": "body", "section": "Matrix Convex Combinations", "weight": 1.0} -->
+
 Wewill encounter a concrete example of a matrix convex combination later when we prove Theorem 8.6.2.
-
-<!-- chunk {"id": "body-0621", "role": "body", "section": "Jensen's Inequality for Matrix Convex Combinations", "weight": 1.0} -->
-
-Operator convexity is a self-improving property. Even though the definition of an operator convex function only involves a scalar convex combination, it actually contains an inequality for matrix convex combinations. This is the content of the operator Jensen inequality.
 
 <!-- chunk {"id": "body-0622", "role": "body", "section": "Jensen's Inequality for Matrix Convex Combinations", "weight": 1.0} -->
 
-Theorem8.5.2 (Operator Jensen Inequality). Let f be an operator convex function on an interval I of the real line, and let A 1 and A 2 be Hermitian matrices with eigenvalues in I. Consider a decomposition of the identity Proof. Let us introduce a block-diagonal matrix: Indeed, the matrix A lies in the domain of f because its eigenvalues fall in the interval I. Wecan apply a standard matrix function to a block-diagonal matrix by applying the function to each block.
+Operator convexity is a self-improving property. Even though the definition of an operator convex function only involves a scalar convex combination, it actually contains an inequality for matrix convex combinations. This is the content of the operator Jensen inequality.
 
 <!-- chunk {"id": "body-0623", "role": "body", "section": "Jensen's Inequality for Matrix Convex Combinations", "weight": 1.0} -->
 
-There are two main ingredients in the argument. The first idea is to realize the matrix convex combination of A 1 and A 2 by conjugating the block-diagonal matrix A with an appropriate unitary matrix. To that end, let us construct a unitary matrix To see why this is possible, note that the first block of columns is orthonormal: As a consequence, we can choose L 1 and L 2 to complete the unitary matrix Q. By direct computation, we find that Wehave omitted the precise values of the entries labeled / because they do not play a role in our argument.
+Theorem8.5.2 (Operator Jensen Inequality). Let f be an operator convex function on an interval I of the real line, and let A 1 and A 2 be Hermitian matrices with eigenvalues in I. Consider a decomposition of the identity Proof. Let us introduce a block-diagonal matrix: Indeed, the matrix A lies in the domain of f because its eigenvalues fall in the interval I. Wecan apply a standard matrix function to a block-diagonal matrix by applying the function to each block.
 
 <!-- chunk {"id": "body-0624", "role": "body", "section": "Jensen's Inequality for Matrix Convex Combinations", "weight": 1.0} -->
 
-Then The second idea is to restrict the block matrix in (8.5.5) to its diagonal. To perform this maneuver, we express the diagonalizing operation as a scalar convex combination of two unitary conjugations, which gives us access to the operator convexity of f. Let us see how this works. Define the unitary matrix The key observation is that, for any block matrix, Another advantage of this construction is that we can easily apply a standard matrix function to the block-diagonal matrix.
+There are two main ingredients in the argument. The first idea is to realize the matrix convex combination of A 1 and A 2 by conjugating the block-diagonal matrix A with an appropriate unitary matrix. To that end, let us construct a unitary matrix To see why this is possible, note that the first block of columns is orthonormal: As a consequence, we can choose L 1 and L 2 to complete the unitary matrix Q. By direct computation, we find that Wehave omitted the precise values of the entries labeled / because they do not play a role in our argument.
 
 <!-- chunk {"id": "body-0625", "role": "body", "section": "Jensen's Inequality for Matrix Convex Combinations", "weight": 1.0} -->
 
-Together, these two ideas lead to a succinct proof of the operator Jensen inequality. Write [′]11 for the operation that returns the block of a block matrix. We may calculate that The first identity depends on the representation (8.5.5) of the matrix convex combination as the block of Q / AQ. The second line follows because the averaging operation presented in (8.5.6) does not alter the block of the matrix. In view of (8.5.6), we are looking at the block of the matrix obtained by applying f to a block-diagonal matrix. This is equivalent to applying the function f inside the block, which gives the third line. Last, the semidefinite relation follows from the operator convexity of f on the interval I.
+Then The second idea is to restrict the block matrix in (8.5.5) to its diagonal. To perform this maneuver, we express the diagonalizing operation as a scalar convex combination of two unitary conjugations, which gives us access to the operator convexity of f. Let us see how this works. Define the unitary matrix The key observation is that, for any block matrix, Another advantage of this construction is that we can easily apply a standard matrix function to the block-diagonal matrix.
 
 <!-- chunk {"id": "body-0626", "role": "body", "section": "Jensen's Inequality for Matrix Convex Combinations", "weight": 1.0} -->
 
-Wecomplete the argument by reversing the steps we have taken so far.
+Together, these two ideas lead to a succinct proof of the operator Jensen inequality. Write [′]11 for the operation that returns the block of a block matrix. We may calculate that The first identity depends on the representation (8.5.5) of the matrix convex combination as the block of Q / AQ. The second line follows because the averaging operation presented in (8.5.6) does not alter the block of the matrix. In view of (8.5.6), we are looking at the block of the matrix obtained by applying f to a block-diagonal matrix. This is equivalent to applying the function f inside the block, which gives the third line. Last, the semidefinite relation follows from the operator convexity of f on the interval I.
 
 <!-- chunk {"id": "body-0627", "role": "body", "section": "Jensen's Inequality for Matrix Convex Combinations", "weight": 1.0} -->
 
+Wecomplete the argument by reversing the steps we have taken so far.
+
+<!-- chunk {"id": "body-0628", "role": "body", "section": "Jensen's Inequality for Matrix Convex Combinations", "weight": 1.0} -->
+
 To obtain the first relation, recall that a standard matrix function commutes with unitary conjugation. The second identity follows from the formula (8.5.6) because diagonalization preserves the block. Finally, we identify the block of Q / f ( A ) Q just as we did in (8.5.5). This step depends on the fact that the diagonal blocks of f ( A ) are simply f ( A 1) and f ( A 2).
 
-<!-- chunk {"id": "body-0628", "role": "body", "section": "The Matrix Perspective Transformation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0629", "role": "body", "section": "The Matrix Perspective Transformation", "weight": 1.0} -->
 
 To show that the vector relative entropy is convex, we represented it as the perspective of a convex function. To demonstrate that the matrix relative entropy is convex, we are going to perform a similar maneuver. This section develops an extension of the perspective transformation that applies to operator convex functions. Then we demonstrate that this matrix perspective has a strong convexity property with respect to the semidefinite order.
 
-<!-- chunk {"id": "body-0629", "role": "body", "section": "The Matrix Perspective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0630", "role": "body", "section": "The Matrix Perspective", "weight": 1.0} -->
 
 In the scalar setting, the perspective transformation converts a convex function into a bivariate convex function. There is a related construction that applies to an operator convex function.
 
-<!-- chunk {"id": "body-0630", "role": "body", "section": "The Matrix Perspective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0631", "role": "body", "section": "The Matrix Perspective", "weight": 1.0} -->
 
 Definition 8.6.1 (Matrix Perspective). Let f: R ⊕⊕ ! R be an operator convex function, and let A and H be positive-definite matrices of the same size. Define the perspective map The notation A 1/2 refers to the unique positive-definite square root of A, and A ϒ 1/2 denotes the inverse of this square root.
 
-<!-- chunk {"id": "body-0631", "role": "body", "section": "The Matrix Perspective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0632", "role": "body", "section": "The Matrix Perspective", "weight": 1.0} -->
 
 The Conjugation Rule (2.1.12) ensures that all the matrices involved remain positive definite, so this definition makes sense. To see why the matrix perspective extends the scalar perspective, notice that This formula is valid because commuting matrices are simultaneously diagonalizable. We will use the matrix perspective in a case where the matrices commute, but it is no harder to analyze the perspective without this assumption.
 
-<!-- chunk {"id": "body-0632", "role": "body", "section": "The Matrix Perspective is Operator Convex", "weight": 1.0} -->
+<!-- chunk {"id": "body-0633", "role": "body", "section": "The Matrix Perspective is Operator Convex", "weight": 1.0} -->
 
 The key result is that the matrix perspective is an operator convex map on a pair of positivedefinite matrices. This theorem follows from the operator Jensen inequality in much the same way that Fact 8.2.4 follows from scalar convexity.
 
-<!-- chunk {"id": "body-0633", "role": "body", "section": "The Matrix Perspective is Operator Convex", "weight": 1.0} -->
+<!-- chunk {"id": "body-0634", "role": "body", "section": "The Matrix Perspective is Operator Convex", "weight": 1.0} -->
 
 Theorem 8.6.2 (Matrix Perspective is Operator Convex). Let f: R ⊕⊕ ! R be an operator convex function. Let A i and H i be positive-definite matrices of the same size. Then Proof. Let f be an operator convex function, and let ' f be its perspective transform. Fix pairs (A 1, H 1) and (A 2, H 2) of positive-definite matrices, and choose an interpolation parameter ¿ 2. Form the scalar convex combinations Our goal is to bound the perspective ' f (A; H) as a scalar convex combination of its values ' f (A 1; H 1) and ' f (A 2; H 2). The idea is to introduce matrix interpolation parameters: Observe that these two matrices decompose the identity: This construction allows us to express the perspective using a matrix convex combination, which gives us access to the operator Jensen inequality.
 
-<!-- chunk {"id": "body-0634", "role": "body", "section": "The Matrix Perspective is Operator Convex", "weight": 1.0} -->
+<!-- chunk {"id": "body-0635", "role": "body", "section": "The Matrix Perspective is Operator Convex", "weight": 1.0} -->
 
 The first line is simply the definition of the matrix perspective. In the second line, we use the definition of H as a scalar convex combination. Third, we introduce the matrix interpolation parameters through the expressions ¿ 1/2 A ϒ 1/2 ∅ A 1/2 1 K 1 and ¯ ¿ 1/2 A ϒ 1/2 ∅ A 1/2 2 K 2 and their conjugate transposes. To continue the calculation, we apply the operator Jensen inequality, Theorem 8.5.2, to reach We have also used the Conjugation Rule (2.1.12) to support the first relation. Finally, we recall the definitions of K 1 and K 2, and we identify the two matrix perspectives.
 
-<!-- chunk {"id": "body-0635", "role": "body", "section": "The Kronecker Product", "weight": 1.0} -->
+<!-- chunk {"id": "body-0636", "role": "body", "section": "The Kronecker Product", "weight": 1.0} -->
 
 The matrix relative entropy is a function of two matrices. One of the difficulties of analyzing this type of function is that the two matrix arguments do not generally commute with each other. As a consequence, the behavior of the matrix relative entropy depends on the interactions between the eigenvectors of the two matrices. To avoid this problem, we will build matrices that do commute with each other, which simplifies our task considerably.
 
-<!-- chunk {"id": "body-0636", "role": "body", "section": "The Kronecker Product", "weight": 1.0} -->
+<!-- chunk {"id": "body-0637", "role": "body", "section": "The Kronecker Product", "weight": 1.0} -->
 
 Our approach is based on an fundamental object from linear algebra. We restrict our attention to the simplest version here.
 
-<!-- chunk {"id": "body-0637", "role": "body", "section": "The Kronecker Product", "weight": 1.0} -->
+<!-- chunk {"id": "body-0638", "role": "body", "section": "The Kronecker Product", "weight": 1.0} -->
 
 Definition 8.7.1 (Kronecker Product). Let A and H be Hermitian matrices with dimension d ≤ d. The Kronecker product A ↑ H is the d 2 ≤ d 2 Hermitian matrix At first sight, the definition of the Kronecker product may seem strange, but it has many delightful properties. The rest of the section develops the basic facts about this construction.
 
-<!-- chunk {"id": "body-0638", "role": "body", "section": "Linearity Properties", "weight": 1.0} -->
+<!-- chunk {"id": "body-0639", "role": "body", "section": "Linearity Properties", "weight": 1.0} -->
 
 First of all, a Kronecker product with the zero matrix is always zero: Next, the Kronecker product is homogeneous in each factor: Furthermore, the Kronecker product is additive in each coordinate: In other words, the Kronecker product is a bilinear operation.
 
-<!-- chunk {"id": "body-0639", "role": "body", "section": "Mixed Products", "weight": 1.0} -->
+<!-- chunk {"id": "body-0640", "role": "body", "section": "Mixed Products", "weight": 1.0} -->
 
 The Kronecker product interacts beautifully with the usual product of matrices. By direct calculation, we obtain a simple rule for mixed products: Since I ↑ I is the identity matrix, the identity (8.7.1) leads to a formula for the inverse of a Kronecker product: Another important consequence of the rule (8.7.1) is the following commutativity relation: This simple fact has great importance for us.
 
-<!-- chunk {"id": "body-0640", "role": "body", "section": "The Kronecker Product of Positive Matrices", "weight": 1.0} -->
+<!-- chunk {"id": "body-0641", "role": "body", "section": "The Kronecker Product of Positive Matrices", "weight": 1.0} -->
 
 As we have noted, the Kronecker product of two Hermitian matrices is itself an Hermitian matrix. In fact, the Kronecker product preserves positivity as well.
 
-<!-- chunk {"id": "body-0641", "role": "body", "section": "The Kronecker Product of Positive Matrices", "weight": 1.0} -->
+<!-- chunk {"id": "body-0642", "role": "body", "section": "The Kronecker Product of Positive Matrices", "weight": 1.0} -->
 
 Fact 8.7.2 (Kronecker Product Preserves Positivity). Let A and H be positive-definite matrices. Then A ↑ H is positive definite.
 
-<!-- chunk {"id": "body-0642", "role": "body", "section": "The Kronecker Product of Positive Matrices", "weight": 1.0} -->
+<!-- chunk {"id": "body-0643", "role": "body", "section": "The Kronecker Product of Positive Matrices", "weight": 1.0} -->
 
 Proof. To see why, observe that As usual, A 1/2 refers to the unique positive-definite square root of the positive-definite matrix A. We have expressed A ↑ H as the square of an Hermitian matrix, so it must be a positivesemidefinite matrix. To see that it is actually positive definite, we simply apply the inversion formula (8.7.2) to discover that A ↑ H is invertible.
 
-<!-- chunk {"id": "body-0643", "role": "body", "section": "The Logarithm of a Kronecker Product", "weight": 1.0} -->
+<!-- chunk {"id": "body-0644", "role": "body", "section": "The Logarithm of a Kronecker Product", "weight": 1.0} -->
 
 Aswehavediscussed, the matrix logarithm plays a central role in our analysis. There is an elegant formula for the logarithm of a Kronecker product that will be valuable to us.
 
-<!-- chunk {"id": "body-0644", "role": "body", "section": "The Logarithm of a Kronecker Product", "weight": 1.0} -->
+<!-- chunk {"id": "body-0645", "role": "body", "section": "The Logarithm of a Kronecker Product", "weight": 1.0} -->
 
 Fact 8.7.3 (Logarithm of a Kronecker Product). Let A and H be positive-definite matrices. Then Proof. Theargumentisbasedonthefactthatthematrixlogarithmisthefunctionalinverseofthe matrix exponential. Since the exponential of a sum of commuting matrices equals the product of the exponentials, we have This formula relies on the commutativity relation (8.7.3). Applying the power series representation of the exponential, we determine that The second identity depends on the rule (8.7.1) for mixed products, and the last identity follows from the linearity of the Kronecker product. A similar calculation shows that exp(I ↑ T) ∅ I ↑ e T. In summary, Wehaveusedtheproduct rule (8.7.1) again. To complete the argument, simply choose M ∅ log A and T ∅ log H and take the logarithm of the last identity.
 
-<!-- chunk {"id": "body-0645", "role": "body", "section": "ALinear Map", "weight": 1.0} -->
+<!-- chunk {"id": "body-0646", "role": "body", "section": "ALinear Map", "weight": 1.0} -->
 
 Finally, we claim that there is a linear map ' that extracts the trace of the matrix product from the Kronecker product. Let A and H be d ≤ d Hermitian matrices. Then we define The map ' is linear because the Kronecker product A ↑ H tabulates all the pairwise products of the entries of A and H, and tr(AH) is a sum of certain of these pairwise products. For our purposes, the key fact is that the map ' preserves the semidefinite order: This formula is valid for all Hermitian matrices A i and H i. To see why (8.7.5) holds, simply note that the map can be represented as an inner product: The vec operation stacks the columns of a d ≤ d matrix on top of each other, moving from left to right, to form a column vector of length d 2.
 
-<!-- chunk {"id": "body-0646", "role": "body", "section": "The Matrix Relative Entropy is Convex", "weight": 1.0} -->
+<!-- chunk {"id": "body-0647", "role": "body", "section": "The Matrix Relative Entropy is Convex", "weight": 1.0} -->
 
 We are finally prepared to establish Theorem 8.1.4, which states that the matrix relative entropy is a convex function. This argument draws on almost all of the ideas we have developed over the course of this chapter.
 
-<!-- chunk {"id": "body-0647", "role": "body", "section": "The Matrix Relative Entropy is Convex", "weight": 1.0} -->
+<!-- chunk {"id": "body-0648", "role": "body", "section": "The Matrix Relative Entropy is Convex", "weight": 1.0} -->
 
 Consider the function f ( a ) ∅ a ϒ 1 ϒ log a, defined on the positive real line. This function is operator convex because it is the sum of the affine function a 7! a ϒ 1 and the operator convex function a 7!ϒ log a. The negative logarithm is operator convex because of Proposition 8.4.8.
 
-<!-- chunk {"id": "body-0648", "role": "body", "section": "The Matrix Relative Entropy is Convex", "weight": 1.0} -->
+<!-- chunk {"id": "body-0649", "role": "body", "section": "The Matrix Relative Entropy is Convex", "weight": 1.0} -->
 
 Let A and H be positive-definite matrices. Consider the matrix perspective ' f evaluated at the commuting positive-definite matrices A ↑ I and I ↑ H: Wehaveusedthesimplified definition (8.6.1) of the perspective for commuting matrices, and we haveinvokedtherules (8.7.1) and (8.7.2) for arithmetic with Kronecker products. Introducing the definition of the function f, we find that To reach the second line, we use more Kronecker product arithmetic, along with Fact 8.7.3, the law for calculating the logarithm of the Kronecker product. The last line depends on the property that log ¡ A ϒ 1 ¢ ∅ϒ log A. Applying the linear map ' from (8.7.4) to both sides, we reach Wehave represented the matrix relative entropy in terms of a matrix perspective.
 
-<!-- chunk {"id": "body-0649", "role": "body", "section": "The Matrix Relative Entropy is Convex", "weight": 1.0} -->
+<!-- chunk {"id": "body-0650", "role": "body", "section": "The Matrix Relative Entropy is Convex", "weight": 1.0} -->
 
 Let A i and H i be positive-definite matrices, and fix a parameter ¿ 2. Theorem 8.6.2 tells us that the matrix perspective is operator convex: The inequality (8.7.5) states that the linear map ' preserves the semidefinite order.
 
-<!-- chunk {"id": "body-0650", "role": "body", "section": "The Matrix Relative Entropy is Convex", "weight": 1.0} -->
+<!-- chunk {"id": "body-0651", "role": "body", "section": "The Matrix Relative Entropy is Convex", "weight": 1.0} -->
 
 Introducing the formula (8.8.1), we conclude that The matrix relative entropy is convex.
 
-<!-- chunk {"id": "body-0651", "role": "body", "section": "Notes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0652", "role": "body", "section": "Notes", "weight": 1.0} -->
 
 The material in this chapter is drawn from a variety of sources, ranging from textbooks to lecture notes to contemporary research articles. The best general sources include the books on matrix analysis by Bhatia and by Hiai & Petz. We also recommend a set of notes by Eric Carlen. More specific references appear below.
 
-<!-- chunk {"id": "body-0652", "role": "body", "section": "Lieb's Theorem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0653", "role": "body", "section": "Lieb's Theorem", "weight": 1.0} -->
 
 Theorem 8.1.1 is one of the major results in the important paper of Elliott Lieb on convex trace functions. Lieb wrote this paper to resolve a conjecture of Wigner, Yanase, & Dyson about the concavity properties of a certain measure of information in a quantum system. He was also motivated by a conjecture that quantum mechanical entropy satisfies a strong subadditivity property. The latter result states that our uncertainty about a partitioned quantum system is controlled by the uncertainty about smaller parts of the system. See Carlen's notes for a modern presentation of these ideas.
 
-<!-- chunk {"id": "body-0653", "role": "body", "section": "Lieb's Theorem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0654", "role": "body", "section": "Lieb's Theorem", "weight": 1.0} -->
 
 Lieb derived Theorem 8.1.1 as a corollary of another difficult concavity theorem that he developed [, Thm. 1]. The most direct proof of Lieb's Theorem is probably Epstein's argument, which is based on methods from complex analysis; see Ruskai's papers for a condensed version of Epstein's approach. The proof that appears in Section 8.1 is due to the author of these notes; this technique depends on ideas developed by Carlen & Lieb to prove some other convexity theorems [, §5].
 
-<!-- chunk {"id": "body-0654", "role": "body", "section": "Lieb's Theorem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0655", "role": "body", "section": "Lieb's Theorem", "weight": 1.0} -->
 
 In fact, many deep convexity and concavity theorems for trace functions are equivalent with each other, in the sense that the mutual implications follow from relatively easy arguments. See [, §5] and [, §5] for discussion of this point.
 
-<!-- chunk {"id": "body-0655", "role": "body", "section": "The Matrix Relative Entropy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0656", "role": "body", "section": "The Matrix Relative Entropy", "weight": 1.0} -->
 
 Our definition of matrix relative entropy differs slightly from the usual definition in the literature on quantum statistical mechanics and quantum information theory because we have included an additional linear term. This alteration does not lead to substantive changes in the analysis.
 
-<!-- chunk {"id": "body-0656", "role": "body", "section": "The Matrix Relative Entropy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0657", "role": "body", "section": "The Matrix Relative Entropy", "weight": 1.0} -->
 
 The fact that matrix relative entropy is nonnegative is a classical result attributed to Klein. See [, §2] or [, §2.3].
 
-<!-- chunk {"id": "body-0657", "role": "body", "section": "The Matrix Relative Entropy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0658", "role": "body", "section": "The Matrix Relative Entropy", "weight": 1.0} -->
 
 Lindblad is credited with the result that matrix relative entropy is convex, as stated in Theorem 8.1.4. Lindblad derived this theorem as a corollary of Lieb's results. Bhatia [, Chap. IX] gives two alternative proofs, one due to Connes & Størmer and another due to Petz. There is also a remarkable proof due to Ando [, Thm. 7].
 
-<!-- chunk {"id": "body-0658", "role": "body", "section": "The Matrix Relative Entropy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0659", "role": "body", "section": "The Matrix Relative Entropy", "weight": 1.0} -->
 
 Our approach to Theorem 8.1.4 is adapted directly from a recent paper of Effros. Nevertheless, many of the ideas date back to the works cited in the last paragraph.
 
-<!-- chunk {"id": "body-0659", "role": "body", "section": "The Relative Entropy for Vectors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0660", "role": "body", "section": "The Relative Entropy for Vectors", "weight": 1.0} -->
 
 The treatment of the relative entropy for vectors in Section 8.2 is based on two classical methods for constructing divergences. To show that the relative entropy is nonnegative, we represent it as a Bregman divergence [Brè67]. To show that the relative entropy is convex, we represent it as an f -divergence. Let us say a few more words about these constructions.
 
-<!-- chunk {"id": "body-0660", "role": "body", "section": "The Relative Entropy for Vectors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0661", "role": "body", "section": "The Relative Entropy for Vectors", "weight": 1.0} -->
 
 Suppose that f is a differentiable convex function on R d. Bregman considered divergences of the form Since f is convex, the Bregman divergence B f is always nonnegative. In the vector setting, there are two main examples of Bregman divergences. The function f (a) ∅ 1 2 κ a κ 2 2 leads to the squared Euclidean distance, and the function f (a) ∅ P i (ai log ai ϒ ai) leads to the vector relative entropy. Bregmandivergences have many geometric properties in common with these two functions. For an introduction to Bregman divergences for matrices, see.
 
-<!-- chunk {"id": "body-0661", "role": "body", "section": "The Relative Entropy for Vectors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0662", "role": "body", "section": "The Relative Entropy for Vectors", "weight": 1.0} -->
 
 Suppose that f: R ⊕⊕ ! R is a convex function. Ali & Silvey and Csiszár considered divergences of the form We recognize this expression as a perspective transformation, so the f -divergence C f is always convex. The main example is based on the Shannon entropy f (a) ∅ a log a, which leads to a cousin of the vector relative entropy. The paper contains a recent discussion of f -divergences and their applications in machine learning. Petz has studied functions related to f -divergences in the matrix setting.
 
-<!-- chunk {"id": "body-0662", "role": "body", "section": "Elementary Trace Inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0663", "role": "body", "section": "Elementary Trace Inequalities", "weight": 1.0} -->
 
 The material in Section 8.3 on trace functions is based on classical results in quantum statistical mechanics. We have drawn the arguments in this section from Petz's survey [, Sec. 2] and Carlen's lecture notes [, Sec. 2.2].
 
-<!-- chunk {"id": "body-0663", "role": "body", "section": "Operator Monotone & Operator Convex Functions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0664", "role": "body", "section": "Operator Monotone & Operator Convex Functions", "weight": 1.0} -->
 
 The theory of operator monotone functions was initiated by Löwner [Löw34]. He developed a characterization of an operator monotone function in terms of divided differences. For a function f, the fi rst divided difference is the quantity Löwner proved that f is operator monotone on an interval I if and only we have the semidefinite relation This result is analogous with the fact that a smooth, monotone scalar function has a nonnegative derivative. Löwner also established a connection between operator monotone functions and Pick functions from the theory of complex variables. A few years later, Kraus introduced the concept of an operator convex function, and he developed some results that parallel Löwner's theory for operator monotone functions.
 
-<!-- chunk {"id": "body-0664", "role": "body", "section": "Operator Monotone & Operator Convex Functions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0665", "role": "body", "section": "Operator Monotone & Operator Convex Functions", "weight": 1.0} -->
 
 Somewhat later, Bendat & Sherman developed characterizations of operator monotone and operator convex functions based on integral formulas. For example, f is an operator monotone function on if and only if it can be written in the form Similarly, f is an operator convex function on [0, 1) if and only if it can be written in the form In both cases, d ‰ is a nonnegative measure. The integral representation of the logarithm in Proposition 8.4.1 is closely related to these formulas.
 
-<!-- chunk {"id": "body-0665", "role": "body", "section": "Operator Monotone & Operator Convex Functions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0666", "role": "body", "section": "Operator Monotone & Operator Convex Functions", "weight": 1.0} -->
 
 We have taken the proof that the matrix inverse is monotone from Bhatia's book [, Prop. V.1.6]. The proof that the matrix inverse is convex appears in Ando's paper. Our treatment of the matrix logarithm was motivated by a conversation with Eric Carlen at an IPAM workshop at Lake Arrowhead in December 2010.
 
-<!-- chunk {"id": "body-0666", "role": "body", "section": "Operator Monotone & Operator Convex Functions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0667", "role": "body", "section": "Operator Monotone & Operator Convex Functions", "weight": 1.0} -->
 
 For more information about operator monotonicity and operator convexity, we recommend Bhatia's books, Carlen's lecture notes, and the book of Hiai & Petz.
 
-<!-- chunk {"id": "body-0667", "role": "body", "section": "The Operator Jensen Inequality", "weight": 1.0} -->
+<!-- chunk {"id": "body-0668", "role": "body", "section": "The Operator Jensen Inequality", "weight": 1.0} -->
 
 The paper of Hansen & Pedersen contains another treatment of operator monotone and operator convex functions. The highlight of this work is a version of the operator Jensen inequality. Theorem 8.5.2 is a refinement of this result that was established by the same authors two decades later. Our proof of the operator Jensen inequality is drawn from Petz's book [, Thm. 8.4]; see also Carlen's lecture notes [, Thm. 4.20].
 
-<!-- chunk {"id": "body-0668", "role": "body", "section": "The Matrix Perspective & the Kronecker Product", "weight": 1.0} -->
+<!-- chunk {"id": "body-0669", "role": "body", "section": "The Matrix Perspective & the Kronecker Product", "weight": 1.0} -->
 
 Wehavebeenunabletoidentifytheprecisesourceoftheideathatabivariate matrix function can be represented in terms of a matrix perspective. Two important results in this direction appear in Ando's paper [, Thms. 6 and 7]. f positive and operator concave on implies f operator monotone on implies (A, H) 7! (A ↑ I) ′ f ¡ A ↑ H ¢ is operator convex ϒ 1 on pairs of positive-definite matrices. Similarly, ϒ 1 on pairs of positive-definite matrices. Ando proves that the matrix relative entropy is convex by applying the latter result to the matrix logarithm. We believe that Ando was the first author to appreciate the value of framing results of this type in terms of the Kronecker product, and we have followed his strategy here. On the other hand, Ando's analysis is different in spirit because he relies on integral representations of operator monotone and convex functions.
 
-<!-- chunk {"id": "body-0669", "role": "body", "section": "The Matrix Perspective & the Kronecker Product", "weight": 1.0} -->
+<!-- chunk {"id": "body-0670", "role": "body", "section": "The Matrix Perspective & the Kronecker Product", "weight": 1.0} -->
 
 In a subsequent paper, Kubo & Ando constructed operator means using a related approach. They show that f positive and operator monotone on implies on pairs of positive-definite matrices. Kubo & Ando point out that particular cases of this construction appear in the work of Pusz & Woronowicz. This is the earliest citation where we have seen the matrix perspective black-on-white.
 
-<!-- chunk {"id": "body-0670", "role": "body", "section": "The Matrix Perspective & the Kronecker Product", "weight": 1.0} -->
+<!-- chunk {"id": "body-0671", "role": "body", "section": "The Matrix Perspective & the Kronecker Product", "weight": 1.0} -->
 
 A few years later, Petz introduced a class of quasi-entropies for matrices. These functions also involve a perspective-like construction, and Petz was clearly influenced by Csiszár's work on f -divergences. See for a contemporary treatment.
 
-<!-- chunk {"id": "body-0671", "role": "body", "section": "The Matrix Perspective & the Kronecker Product", "weight": 1.0} -->
+<!-- chunk {"id": "body-0672", "role": "body", "section": "The Matrix Perspective & the Kronecker Product", "weight": 1.0} -->
 
 The presentation in these notes is based on a recent paper of Effros. He showed that convexity properties of the matrix perspective follow from the operator Jensen inequality, and he derived the convexity of the matrix relative entropy as a consequence. Our analysis of the matrix perspective in Theorem 8.6.2 is drawn from a subsequent paper, which removes some commutativity assumptions from Effros's argument.
 
-<!-- chunk {"id": "body-0672", "role": "body", "section": "The Matrix Perspective & the Kronecker Product", "weight": 1.0} -->
+<!-- chunk {"id": "body-0673", "role": "body", "section": "The Matrix Perspective & the Kronecker Product", "weight": 1.0} -->
 
 The proof in §8.8 that the matrix relative entropy is convex, Theorem 8.1.4, recasts Effros's argument [, Cor. 2.2] in the language of Kronecker products. In his paper, Effros works with left- and right-multiplication operators. To appreciate the connection, simply note the identities In other words, the matrix A ↑ I can be interpreted as right-multiplication by A, while the matrix I ↑ H can be interpreted as left-multiplication by H. (The change in sense is an unfortunate consequence of the definition of the Kronecker product.)
 
-<!-- chunk {"id": "body-0673", "role": "body", "section": "Matrix Concentration: Resources", "weight": 1.0} -->
+<!-- chunk {"id": "body-0674", "role": "body", "section": "Matrix Concentration: Resources", "weight": 1.0} -->
 
 This annotated bibliography describes some papers that involve matrix concentration inequalities. Right now, this presentation is heavily skewed toward theoretical results, rather than applications of matrix concentration.
 
-<!-- chunk {"id": "body-0674", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0675", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
 
 Webegin with papers that contain the most current results on matrix concentration.
 
-<!-- chunk {"id": "body-0675", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0676", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
 
 -. These lecture notes are based heavily on the research described in this paper. This work identifies Lieb's Theorem [, Thm. 6] as the key result that animates exponential moment bounds for random matrices. Using this technique, the paper develops the bounds for matrix Gaussian and Rademacher series, the matrix Chernoff inequalities, and several versions of the matrix Bernstein inequality. In addition, it contains a matrix Hoeffding inequality (for sums of bounded random matrices), a matrix Azuma inequality (for matrix martingales with bounded differences), and a matrix bounded difference inequality (for matrix-valued functions of independent random variables). -. This note describes a simple proof of Lieb's Theorem that is based on the joint convexity of quantum relative entropy. This reduction, however, still involves a deep convexity theorem. Chapter 8 contains an explication of this paper. -. Oliveira's paper uses an ingenious argument, based on the Golden-Thompson inequality (3.3.3), to establish a matrix version of Freedman's inequality. This result is, roughly, a martingale version of Bernstein's inequality.
 
-<!-- chunk {"id": "body-0676", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0677", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
 
 This approach has the advantage that it extends to the fully noncommutative setting. Oliveira applies his results to study some problems in random graph theory. -. This paper shows that Lieb's Theorem leads to a Freedman-type inequality for matrix-valued martingales. The associated technical report describes additional results for matrix-valued martingales. -. This article explains how to use the Lieb-Seiringer Theorem to develop tail bounds for the interior eigenvalues of a sum of independent random matrices. It contains a Chernoff-type bound for a sum of positive-semidefinite matrices, as well as several Bernstein-type bounds for sums of bounded random matrices. - [MJC ⊕ 14]. This paper contains a strikingly different method for establishing matrix concentration inequalities. The argument is based on work of Sourav Chatterjee that shows how Stein's method of exchangeable pairs leads to probability inequalities. This technique has two main advantages. First, it gives results for random matrices that are based on dependent random variables. As a special case, the results apply to sums of independentrandommatrices.
 
-<!-- chunk {"id": "body-0677", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0678", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
 
 Second, it delivers both exponential moment bounds and polynomial moment bounds for random matrices. Indeed, the paper describes a Bernsteintype exponential inequality and also a Rosenthal-type polynomial moment bound. Furthermore, this work contains what is arguably the simplest known proof of the noncommutative Khintchine inequality.
 
-<!-- chunk {"id": "body-0678", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0679", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
 
 -. This paper improves on the work in [MJC ⊕ 14] by extending an argument, based on Markov chains, that was developed in Chatterjee's thesis. This analysis leads to satisfactory matrix analogs of scalar concentration inequalities based on logarithmic Sobolev inequalities. In particular, it is possible to develop a matrix version of the exponential Efron-Stein inequality in this fashion. -. The primary focus of this paper is to analyze a specific type of procedure for covariance estimation. The appendix contains a new matrix moment inequality that is, roughly, the polynomial moment bound associated with the matrix Bernstein inequality. -. These lecture notes use matrix concentration inequalities as a tool to study some estimation problems in statistics. They also contain some matrix Bernstein inequalities for unbounded random matrices. - [GN]. Gross and Nesme show how to extend Hoeffding's method for analyzing sampling without replacement to the matrix setting. This result can be combined with a variety of matrix concentration inequalities. -.
 
-<!-- chunk {"id": "body-0679", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0680", "role": "body", "section": "Exponential Matrix Concentration Inequalities", "weight": 1.0} -->
 
 This paper combines the matrix Chernoff inequality, Theorem 5.1.1, with the argument from [GN] to obtain a matrix Chernoff bound for a sum of random positivesemidefinite matrices sampled without replacement from a fixed collection. The result is applied to a random matrix that plays a role in numerical linear algebra. -. This paper establishes logarithmic Sobolev inequalities for random matrices, and it derives some matrix concentration inequalities as a consequence. The methods in the paper have applications in quantum information theory, although the matrix concentration bounds are inferior to related results derived using Stein's method.
 
-<!-- chunk {"id": "body-0680", "role": "body", "section": "Bounds with Intrinsic Dimension Parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0681", "role": "body", "section": "Bounds with Intrinsic Dimension Parameters", "weight": 1.0} -->
 
 The following works contain matrix concentration bounds that depend on a dimension parameter that may be smaller than the ambient dimension of the matrix.
 
-<!-- chunk {"id": "body-0681", "role": "body", "section": "Bounds with Intrinsic Dimension Parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0682", "role": "body", "section": "Bounds with Intrinsic Dimension Parameters", "weight": 1.0} -->
 
 -. Oliveira shows how to develop a version of Rudelson's inequality using a variant of the argument of Ahlswede & Winter. Oliveira's paper is notable because the dimensional factor is controlled by the maximum rank of the random matrix, rather than the ambient dimension.
 
-<!-- chunk {"id": "body-0682", "role": "body", "section": "Bounds with Intrinsic Dimension Parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0683", "role": "body", "section": "Bounds with Intrinsic Dimension Parameters", "weight": 1.0} -->
 
 -. This work contains a matrix Chernoff bound for a sum of independent positivesemidefinite random matrices where the dimensional dependence is controlled by the maximum rank of the random matrix. The approach is, essentially, the same as the argument in Rudelson's paper. The paper applies these results to study randomized matrix multiplication algorithms. -. This paper describes a method for proving matrix concentration inequalities where the ambient dimension is replaced by the intrinsic dimension of the matrix variance. The argument is based on an adaptation of the proof. The authors give several examples in statistics and machine learning. -. This work presents a more refined technique for obtaining matrix concentration inequalities that depend on the intrinsic dimension, rather than the ambient dimension. This paper motivated the results in Chapter 7.
 
-<!-- chunk {"id": "body-0683", "role": "body", "section": "The Method of Ahlswede & Winter", "weight": 1.0} -->
+<!-- chunk {"id": "body-0684", "role": "body", "section": "The Method of Ahlswede & Winter", "weight": 1.0} -->
 
 Next, we list some papers that use the ideas from the work of Ahslwede & Winter to obtain matrix concentration inequalities. In general, these results have suboptimal parameters, but they played an important role in the development of this field.
 
-<!-- chunk {"id": "body-0684", "role": "body", "section": "The Method of Ahlswede & Winter", "weight": 1.0} -->
+<!-- chunk {"id": "body-0685", "role": "body", "section": "The Method of Ahlswede & Winter", "weight": 1.0} -->
 
 -. The original paper of Ahlswede & Winter describes the matrix Laplace transform method, along with a number of other foundational results. They show how to use the Golden-Thompsoninequality to bound the trace of the matrix mgf, and they use this technique to prove a matrix Chernoff inequality for sums of independent and identically distributed random variables. Their main application concerns quantum information theory. -. Christofides and Markström develop a Hoeffding-type inequality for sums of bounded random matrices using the approach of Ahlswede & Winter. They apply this result to study random graphs. -. Gross presents a matrix Bernstein inequality based on the method of Ahlswede & Winter, and he uses it to study algorithms for matrix completion. -. Recht describes a different version of the matrix Bernstein inequality, which also follows from the technique of Ahlswede & Winter. His paper also concerns algorithms for matrix completion.
 
-<!-- chunk {"id": "body-0685", "role": "body", "section": "Noncommutative Moment Inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0686", "role": "body", "section": "Noncommutative Moment Inequalities", "weight": 1.0} -->
 
 We conclude with an overview of some major works on bounds for the polynomial moments of a noncommutative martingale. Sums of independent random matrices provide one concrete example where these results apply. The results in this literature are as strong, or stronger, than the exponential moment inequalities that we have described in these notes. Unfortunately, the proofs are typically quite abstract and difficult, and they do not usually lead to explicit constants. Recently there has been some cross-fertilization between noncommutative probability and the field of matrix concentration inequalities.
 
-<!-- chunk {"id": "body-0686", "role": "body", "section": "Noncommutative Moment Inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0687", "role": "body", "section": "Noncommutative Moment Inequalities", "weight": 1.0} -->
 
 Note that 'noncommutative' is not synonymous with 'matrix' in that there are noncommutative von Neumann algebras much stranger than the familiar algebra of finite-dimensional matrices equipped with the operator norm.
 
-<!-- chunk {"id": "body-0687", "role": "body", "section": "Noncommutative Moment Inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0688", "role": "body", "section": "Noncommutative Moment Inequalities", "weight": 1.0} -->
 
 -. This classic paper gives a bound for the expected trace of an even power of a matrix Rademacher series. These results are important, but they do not give the optimal bounds. -. This paper gives the first noncommutative Khintchine inequality, a bound for the expected trace of an even power of a matrix Rademacher series that depends on the matrix variance. -. This work establishes dual versions of the noncommutative Khintchine inequality. -. These papers prove optimal noncommutative Khintchine inequalities in more general settings, and they obtain sharp constants. -. These papers establish noncommutative versions of the Burkholder-DavisGundy inequality for martingales. They also give an application of these results to random matrix theory. -. This paper contains an overview of noncommutative moment results, along with information about the optimal rate of growth in the constants. -. This paper describes a fully noncommutative version of the Bennett inequality. The proof is based on the method of Ahlswede & Winter. -. This work shows how to use Oliveira's argument to obtain some results for fully noncommutative martingales.
 
-<!-- chunk {"id": "body-0688", "role": "body", "section": "Noncommutative Moment Inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0689", "role": "body", "section": "Noncommutative Moment Inequalities", "weight": 1.0} -->
 
 - [MJC ⊕ 14]. This work, described above, includes a section on matrix moment inequalities. This paper contains what are probably the simplest available proofs of these results. -. The appendix of this paper contains a polynomial inequality for sums of independent random matrices.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1511.05259", "source": "ar5iv"} -->
+
 ## Introduction
 
 A deterministic motion planner is said to be *complete* if it returns a solution whenever one exists. A *randomized* planner is said to be *probabilistically complete* if the probability of returning a solution, when there is one, tends to one as execution time goes to infinity. Theoretical as they may seem, these two notions are of notable practical interest, as proving completeness requires one to formalize the problem by hypotheses on the robot, the environment, etc. While experiments can show that a planner works for a given robot, in a given environment, for a given query, etc., a proof of completeness is a certificate that the planner works for a precise *set* of problems. The size of this set depends on how strong the assumptions required to make the proof are: the weaker the assumptions, the larger the set of solvable problems.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2307.12348", "source": "ar5iv"} -->
+
 ## Introduction
 
 Image super-resolution (SR) is a fundamental problem in low-level vision, aiming at recovering the high-resolution (HR) image given the low-resolution (LR) one. This problem is severely ill-posed due to the complexity and unknown nature of degradation models in real-world scenarios. Recently, diffusion model, a newly emerged generative model, has achieved unprecedented success in image generation. Furthermore, it has also demonstrated great potential in solving several downstream low-level vision tasks, including image editing, image inpainting, image colorization. There is also ongoing research exploring the potential of diffusion models to tackle the long-standing and challenging SR task.

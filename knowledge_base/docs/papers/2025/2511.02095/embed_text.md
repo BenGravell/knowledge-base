@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2511.02095", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Optimal control problems play a fundamental role in diverse domains of engineering and science, with applications ranging from robotics and autonomous systems to economic systems. The objective is typically to design a feedback policy that minimizes a long-term cost while satisfying the dynamics of the underlying system.

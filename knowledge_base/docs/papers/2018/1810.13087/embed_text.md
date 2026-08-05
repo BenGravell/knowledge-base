@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1810.13087", "source": "ar5iv"} -->
+
 ## Introduction
 
 inline\]It would be a good idea to write about how solution times are sensitive to encoding methods in the introduction, to motivate why so many variants are introduced. Would also be good to add some intuitive explanations around the encodings, for a part there are just new encoding equations without too much explanation.

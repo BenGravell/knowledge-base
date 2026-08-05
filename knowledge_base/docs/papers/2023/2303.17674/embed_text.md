@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.17674", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Forward reachability analysis plays a critical role in control theory and robust controller design. Generally, it entails characterizing all states that a system can reach at any time in the future. As such, reachability analysis allows certifying the performance of feedback loops under disturbances and designing controllers with robustness properties. In robust model predictive control (MPC) for instance, it is used to construct tubes around nominal state trajectories to ensure that constraints are satisfied in the presence of external disturbances.

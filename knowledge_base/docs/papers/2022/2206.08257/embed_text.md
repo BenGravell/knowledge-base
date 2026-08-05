@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2206.08257", "source": "ar5iv"} -->
+
 ## Introduction
 
 First order optimization methods such as Gradient Descent (GD) and its variants have become the cornerstone of training modern machine learning models. Hence, reducing the running times of first order methods has been an important problem in the optimization literature, cf.. The running times of GD methods is known to grow linearly with the dimension of the model parameters, which can be very large, e.g., in deep neural networks. However, it has recently been observed that many empirical risk minimization problems have objective functions (i.e., real-valued losses) with *low-rank structure* in their gradients. In what follows, we will refer to such objects as low-rank functions.

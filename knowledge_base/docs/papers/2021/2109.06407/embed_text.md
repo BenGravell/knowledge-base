@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2109.06407", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Owing to their tremendous capability to learn complex relationships from data, neural networks offer promise in their ability to model unknown dynamical systems from trajectory observations. Such models of system dynamics can then be used to synthesize control strategies, to perform model-based reinforcement learning, or to predict the future values of quantities of interest.

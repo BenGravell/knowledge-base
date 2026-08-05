@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.10711", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Real-time trajectory optimization plays a crucial role in modern autonomous systems, enabling agile quadrotors to execute aggressive maneuvers, reusable launch vehicles to perform pinpoint rocket-powered landings, and high-DOF manipulators to operate near their physical limits. As robotic missions become increasingly complex, the demand for solving large-scale, non-convex Optimal Control Problem in real-time has intensified. Despite significant progress has been made, existing solvers largely rely on CPU-based sequential algorithms. This results in a bottleneck that hinders the exploitation of modern massive parallel computing hardware, such as GPUs.

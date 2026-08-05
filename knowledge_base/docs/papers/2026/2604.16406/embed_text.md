@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.16406", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Highway driving is one of the most safety-critical settings for autonomous vehicles: interactions unfold at high speed, small prediction errors can escalate quickly, and rare events such as aggressive cut-ins or dense merging are difficult to capture in sufficient quantity from real-world logs alone. This makes simulation a core tool for development and validation. A highway simulator, however, must do more than replay recorded traffic. It must expose safety-critical interactions at scale, remain stable in closed-loop rollouts, and support stress testing across diverse traffic regimes.

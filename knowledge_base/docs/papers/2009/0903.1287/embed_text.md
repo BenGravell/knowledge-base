@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "0903.1287", "source": "ar5iv"} -->
+
 ## Introduction
 
 In many problems in applied and computational mathematics, we would like to *decide* whether a multivariate polynomial is convex or to *parameterize* a family of convex polynomials. Perhaps the most obvious instance appears in optimization. It is well known that in the absence of convexity, global minimization of polynomials is generally NP-hard. However, if we somehow know a priori that the polynomial is convex, nonexistence of local minima is guaranteed, and simple gradient descent methods can find a global minimum. In many other practical settings, we might want to parameterize a family of convex polynomials that have certain properties, e.g., that serve as a convex envelope for a non-convex function, approximate a more complicated function, or fit some data points with minimum error. To address many questions of this type, we need to have an understanding of the algebraic structure of the set of convex polynomials.

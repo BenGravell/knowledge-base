@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2511.10822", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Trajectory planning for autonomous navigation has been extensively studied with various parameterizations. Hard-constraint approaches explicitly enforce safety but require computationally intensive solvers unsuitable for high-frequency replanning. Soft-constraint planners (EGO-Planner, RAPTOR, SUPER) achieve faster convergence. Some jointly optimize geometry and timing, while others decouple path and time allocation. Increasing decision variables improves performance but enlarges the problem. Building on these ideas, we introduce MIGHTY, a Hermite spline-based planner. endpoint derivs, time limited polynomial+time space direct but global B-spline cntrl pts, time limited polynomial+time space B-spline cntrl pts limited polynomial+time space B-spline cntrl pts limited polynomial+time space limited polynomial+time space (MINCO class) Hermite cntrl pts, time full polynomial+time space TABLE I: State-of-the-art Unconstrained UAV Trajectory Planners

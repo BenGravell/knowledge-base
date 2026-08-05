@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1510.08560", "source": "ar5iv"} -->
+
 ## Introduction: First-order incremental methods
 
 We consider the following unconstrained optimization problem where the objective function is the sum of a large number of component functions: with $f_{i}:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$. This problem arises in many contexts and applications including regression or more generally parameter estimation problems (where $f_{i}{(x)}$ is the loss function representing the error between the output and the prediction of a parametric model), minimization of an expected value of a function (where the expectation is taken over a finite probability distribution or approximated by an $m$-sample average), machine learning, or distributed optimization over networks.

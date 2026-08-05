@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2511.23369", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Data scaling is recognized as a foundational principle in modern deep learning across various domains, including language, vision, and multimodal modeling, underpinning steady performance improvements as data sizes increase. In autonomous driving, end-to-end (E2E) planning learns to map raw observations to actions, offering a promising way to leverage large-scale driving data to enable the emergence of fully autonomous systems.

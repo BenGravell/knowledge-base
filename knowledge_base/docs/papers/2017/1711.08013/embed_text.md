@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1711.08013", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 ### The problem

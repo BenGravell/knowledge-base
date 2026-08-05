@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.01766", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A typical approach to time series forecasting is to fit a one-step ahead prediction model and apply it recursively to obtain predictions over multiple time steps. In doing so, small errors may compound over time, leading to poor long-horizon prediction. This issue hinders the application of such single-step models in e.g., controller design.

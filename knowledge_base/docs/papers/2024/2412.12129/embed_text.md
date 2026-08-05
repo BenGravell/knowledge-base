@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2412.12129", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Simulation environments allow efficient and safe evaluation of autonomous driving systems. Simulation involves initialization (determining starting conditions for agents) and rollout (simulating agent behavior over time), typically treated as separate problems. Inspired by diffusion models' success in generative media, such as video generation and video editing (inpainting, extension, uncropping etc.), we propose SceneDiffuser, a unified spatiotemporal diffusion model that addresses both initialization and rollout for autonomous driving, trained end-to-end on logged driving scenes. To our knowledge, SceneDiffuser is the first model to jointly enable scene generation, controllable editing, and efficient learned closed-loop rollout (Fig. 1).

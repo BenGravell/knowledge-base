@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2006.13888", "source": "ar5iv"} -->
+
 ## Introduction
 
 Reinforcement Learning (RL) has seen important breakthroughs, including learning directly from raw sensory streams, solving long-horizon reasoning problems such as Go, StarCraft II, DOTA, and learning motor control for high-dimensional simulated robots. However, many of these successes rely heavily on repeated online interactions of an agent with an environment. Despite its success in simulation, the uptake of RL for real-world applications has been limited. Power plants, robots, healthcare systems, or self-driving cars are expensive to run and inappropriate controls can have dangerous consequences. They are not easily compatible with the crucial idea of exploration in RL and the data requirements of online RL algorithms. Nevertheless, most real-world systems produce large amounts of data as part of their normal operation.

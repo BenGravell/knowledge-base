@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2301.05393", "source": "ar5iv"} -->
+
 ## Introduction
 
 Motion planning for autonomous vehicles (AVs) is a daunting task, where AVs must share the driving space with other drivers. Driving in shared spaces is inherently an interactive task, i.e., AV's actions affect other nearby vehicles and vice versa. This interaction is evident in dense traffic scenarios where all goal-directed behavior relies on the cooperation of other drivers to achieve the desired goal. To predict the nearby vehicles' trajectories, AVs often rely on simple predictive models such as assuming constant speed for other vehicles, treating them as bounded disturbances, or approximating their trajectories using a set of known trajectories. These models do not capture the inter-vehicle interactions in their predictions. As a result, AVs equipped with such models struggle under challenging scenarios that require interaction with other vehicles.

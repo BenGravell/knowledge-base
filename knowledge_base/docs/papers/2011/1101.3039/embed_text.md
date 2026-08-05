@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1101.3039", "source": "ar5iv"} -->
+
 ## Abstract
 
 Freedman's inequality is a martingale counterpart to Bernstein's inequality. This result shows that the large-deviation behavior of a martingale is controlled by the predictable quadratic variation and a uniform upper bound for the martingale difference sequence. Oliveira has recently established a natural extension of Freedman's inequality that provides tail bounds for the maximum singular value of a matrix-valued martingale. This note describes a different proof of the matrix Freedman inequality that depends on a deep theorem of Lieb from matrix analysis. This argument delivers sharp constants in the matrix Freedman inequality, and it also yields tail bounds for other types of matrix martingales. The new techniques are adapted from recent work by the present author.

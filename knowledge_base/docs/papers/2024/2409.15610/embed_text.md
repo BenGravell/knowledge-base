@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2409.15610", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Legged robots have demonstrated great potential in navigating through complex environments thanks to their agility and mobility \[parkHighspeedBoundingMIT2017, kimHighlyDynamicQuadruped2019, herdtOnlineWalkingMotion2010, khazoomTailoringSolutionAccuracy2024, koenemannWholebodyModelpredictiveControl2015, neunertWholeBodyNonlinearModel2018\]. However, the online control of articulated legged systems remains challenging because of their high-dimensional, underactuated and contact-rich nature, leads to non-convex and non-smooth optimization landscapes.

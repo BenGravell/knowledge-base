@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2204.03036", "source": "ar5iv"} -->
+
 ## Introduction
 
 In the last decades, risk-averse stochastic optimal control has seen a surge of interest as a tool for designing control laws that enjoy robustness properties against uncertainties. Relevant applications of this theory encompass broad research fields, ranging from risk-averse financial investments to the safe control of autonomous systems, as evidenced e.g. by the recent monographs and their bibliography. In this context, first-order necessary conditions for optimality in the form of Pontryagin's Maximum Principle (we will refer to these latter as "risk-averse PMP" in the sequel) are bound to play a key role in characterizing and numerically computing optimal control strategies, as it is known to be the case for classical stochastic optimal control problems in which only expectation-based costs and constraints are considered. However, extending the PMP in its general form to more involved risk-averse settings still requires substantial investigations.

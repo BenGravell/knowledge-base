@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.07015", "source": "arxiv-html"} -->
+
 ## Introduction
 
 We have seen significant advancements in diffusion models for the task of image synthesis. Existing studies demonstrate that the diffusion prior, embedded in synthesis models like Stable Diffusion, can be applied to various downstream content creation tasks, including image and video editing. In this study, we extend the exploration beyond the realm of content creation and examine the potential benefits of using diffusion prior for super-resolution (SR). This low-level vision task presents an additional non-trivial challenge, as it requires high image fidelity in its generated content, which stands in contrast to the stochastic nature of diffusion models.

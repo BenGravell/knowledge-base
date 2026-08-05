@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1605.07272", "source": "ar5iv"} -->
+
 ## Introduction
 
 Matrix completion is the problem of recovering a low rank matrix from partially observed entries. It has been widely used in collaborative filtering and recommender systems, dimension reduction and multi-class learning. There has been extensive work on designing efficient algorithms for matrix completion with guarantees. One earlier line of results (see and the references therein) rely on convex relaxations. These algorithms achieve strong statistical guarantees, but are quite computationally expensive in practice.

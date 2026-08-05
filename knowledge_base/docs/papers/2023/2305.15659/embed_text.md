@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.15659", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In modern machine learning applications, the training loss function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ to be optimized often has a continuum of local/global minima, and the central question is which minima lead to good prediction performance. Among many different properties for minima, "flatness" of minima has been a promising candidate extensively studied in the literature.

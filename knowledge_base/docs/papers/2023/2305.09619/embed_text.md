@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.09619", "source": "ar5iv"} -->
+
 ### Introduction
 
 Machine learning methods such as model-based reinforcement learning have lead to a number of breakthroughs in key applications across robotics and control. A popular technique in these domains is learning-based model-predictive control (MPC), wherein a model learned from data is used to repeatedly solve online planning problems to control the real system. It has long been understood that solving MPC *exactly*--both with perfectly accurate dynamics and minimization to globally optimality for each planning problem--enjoys numerous beneficial control-theoretic properties.

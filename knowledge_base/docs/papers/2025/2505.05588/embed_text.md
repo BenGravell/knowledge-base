@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2505.05588", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Trajectory generation is a hallmark problem of aerospace guidance, navigation, & control (GNC) and involves the computation of a state and control trajectory that satisfies system dynamics and mission operational constraints. Traditionally, trajectory generation for space systems is carried out with significant ground-in-the-loop involvement, where mission designers construct the trajectory using large-scale nonlinear programming \[Betts1998, Betts2010\] or primer-vector techniques \[HandelsmanLion1967, Russell2007\]. However, with the advent of a new era of spaceflight involving an increasing number of missions in cislunar space \[HolzingerChowEtAl2021\] and a burgeoning interest for in-space servicing capabilities, the current state-of-practice in trajectory generation for space systems falls short in fulfilling the needs of upcoming missions. In particular, there is a pressing need to be able to compute trajectories autonomously onboard spacecraft and allow for scaling to an increasing number of missions without incurring significant operational costs.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2505.05410", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: CoT faithfulness scores of reasoning models (Claude 3.7 Sonnet and DeepSeek R1) compared to non-reasoning models (Claude 3.5 Sonnet (New) and DeepSeek V3). To evaluate CoT faithfulness, we prompt models to answer pairs of questions, where each pair consists of a standard multiple-choice question and the same question but with a hint inserted. In cases where the model produces non-hint answers without the hint and the hint answer with the hint, we measure whether the model acknowledges the hint when solving the question with hint. Different bars show faithfulness results on different types of hints.

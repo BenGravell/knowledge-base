@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.00496", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Quadrotors are widely used in aerial robotics for their simplicity and agility, yet rigid-frame designs limit adaptability in cluttered or dynamic environments. To address this, we propose QuadSoft, a novel platform with tendon-driven flexible arms that can reconfigure in flight through continuous-curvature deformation. Unlike conventional morphing designs that rely on rigid hinges or discrete joints, QuadSoft leverages soft morphology to achieve thrust vectoring while maintaining structural integrity. This capability enables navigation in tight spaces, improved aerodynamic efficiency, and enhanced stability. By combining a continuum mechanics approach with standard flight control, QuadSoft bridges the gap between compliant robotics and the need for versatile, resilient aerial platforms capable of operating in real-world conditions.

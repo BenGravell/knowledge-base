@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1806.05865", "source": "ar5iv"} -->
+
 ## Introduction
 
 Creators of design optimization techniques often think of their algorithms as a finalizing step in the design process. Imagining that their techniques will be used to push the limits of performance, they judge success by the ability of an algorithm to refine a design to its most optimal form, with the ultimate goal of outperforming the best engineers.

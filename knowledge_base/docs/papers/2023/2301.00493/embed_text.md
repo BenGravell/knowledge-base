@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2301.00493", "source": "ar5iv"} -->
+
 ## Introduction
 
 In order to achieve the goal of safe, reliable autonomous driving, a litany of machine learning tasks must be addressed, from stereo depth estimation to motion forecasting to 3D object detection. In recent years, numerous high quality self-driving datasets have been released to support research into these and other important machine learning tasks. Many datasets are annotated "sensor" datasets in the spirit of the influential KITTI dataset. The Argoverse 3D Tracking dataset was the first such dataset with "HD maps" --- maps containing lane-level geometry. Also influential are self-driving "motion prediction" datasets --- containing abstracted object tracks instead of raw sensor data --- of which the Argoverse Motion Forecasting dataset was the first.

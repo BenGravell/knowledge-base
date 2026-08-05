@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.18978", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Selecting the most effective motion-planning algorithm for a robotic system often requires balancing three competing objectives: reliability, computational efficiency, and trajectory quality. Consider Sparrow, the robot arm in Fig. 1 that sorts individual products into bins before they get packaged in the Amazon warehouses. The algorithms that move Sparrow must be extremely reliable, as these robots handle millions of diverse products every day, and each failure requires expensive interventions. They must be efficient, since every millisecond spent planning is taken away from other crucial computations, and limits the robot reactivity to sensor observations. Finally, they should generate trajectories that push the robot to its physical limits, so that the work-cell throughput is maximized and the hardware is fully utilized. Unfortunately, general-purpose methods for motion planning do not excel in all of these areas at once.

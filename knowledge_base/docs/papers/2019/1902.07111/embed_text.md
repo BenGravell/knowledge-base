@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1902.07111", "source": "ar5iv"} -->
+
 ## Introduction
 
 Gradient-based methods are widely used in optimizing neural networks. One crucial component in gradient methods is the learning rate (a.k.a. step size) hyper-parameter, which determines the convergence speed of the optimization procedure. A large learning rate can speed up the convergence but if it is larger than a threshold, the optimization algorithm cannot converge. This is by now well-understood for convex problems; excellent works on this topic include Nash and Nocedal, Bertsekas, Nesterov, Haykin et al., Bubeck et al., and the recent review for large-scale stochastic optimization to Bottou et al.. However, there is still limited work on the convergence analysis for nonsmooth and nonconvex problems, which includes over-parameterized neural networks.

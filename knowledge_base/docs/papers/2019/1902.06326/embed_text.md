@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1902.06326", "source": "ar5iv"} -->
+
 ## Introduction
 
 Over the last few years we have seen a plethora of methods that exploit Convolutional Neural Networks to produce accurate 2D object detections, typically from a single image. However, in robotics applications such as autonomous driving we are interested in detecting objects in 3D space. This is fundamental for motion planning in order to plan a safe route.

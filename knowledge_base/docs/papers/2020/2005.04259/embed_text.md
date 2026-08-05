@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2005.04259", "source": "ar5iv"} -->
+
 ## Introduction
 
 This paper focuses on behavior prediction in complex multi-agent systems, such as self-driving vehicles. The core interest is to find a unified representation which integrates the agent dynamics, acquired by perception systems such as object detection and tracking, with the scene context, provided as prior knowledge often in the form of High Definition (HD) maps. Our goal is to build a system which learns to predict the intent of vehicles, which are parameterized as trajectories.

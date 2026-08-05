@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2409.09523", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Self-driving cars have achieved remarkable progress towards human-level autonomous driving. Much of this success is owed to progress in ML-based perception and prediction, which can attain a human-like understanding of the scene around the autonomous vehicle (AV). Classical motion planners relying on handcrafted rules have similarly given way to ML-based motion planners that learn the rules of driving from data. ML planning is thought to be more scalable and better positioned to capture the ineffable nuances of human driving behavior than classical planning.

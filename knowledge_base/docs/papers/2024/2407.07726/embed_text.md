@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2407.07726", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: PaliGemma’s architecture: a SigLIP image encoder feeds into a Gemma decoder LM.

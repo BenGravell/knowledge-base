@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1806.09460", "source": "ar5iv"} -->
+
 ## Introduction
 
 Reinforcement learning (RL) is the subfield of machine learning that studies how to use past data to enhance the future manipulation of a dynamical system. A control engineer might be puzzled by such a definition and interject that this is precisely the scope of control theory. That the RL and control communities remain practically disjoint has led to the co-development of vastly different approaches to the same problems. However, it should be impossible for a control engineer not to be impressed by the recent successes of the RL community such as solving Go.

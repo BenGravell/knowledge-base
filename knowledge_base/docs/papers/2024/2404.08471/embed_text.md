@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2404.08471", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Humans possess the remarkable ability to map low-level signals originating from the retina into a semantic spatio-temporal understanding of the world; synthesizing notions such as objects and global motion. A long-standing goal of the machine learning community is to identify the principles or objectives that may guide such unsupervised learning in humans. One related hypothesis is based on the *predictive feature principle*, which posits that representations of temporally adjacent sensory stimuli should be predictive of each other.

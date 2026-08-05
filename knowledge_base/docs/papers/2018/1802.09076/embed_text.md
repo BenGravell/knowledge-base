@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1802.09076", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Robust, fast motion near obstacles is an open problem that is central in robotics, with applications spanning across manipulation, autonomous cars, and UAV navigation in unknown environments. Although many approaches exist for planning obstacle-free motions, mapping errors due to significant state estimation uncertainty can degrade their performance. Accordingly, a notable trend in the state of the art has been to develop memoryless approaches to obstacle avoidance that use only the current depth sensor measurement. These approaches are less prone to state estimation errors, but fail to capture all available information.

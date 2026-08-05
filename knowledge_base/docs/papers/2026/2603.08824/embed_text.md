@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.08824", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Automatic differentiation (AD) frameworks have enabled rapid progress in machine learning. They make gradient computation efficient, user-friendly, and composable. Thereby, they become a ubiquitous tool widely adopted beyond machine learning. This includes (i) *differentiable rendering* using Nerfs and Gaussian splatting; (ii) *differentiable simulation*, such as MuJoCo XLA (MJX) and WARP; (iii) *structured prediction* like ranking and matching; (iv) *combinatorial layers* for CEM, MPC, and discrete decisions; (v) *differentiable optimization*; and (vi) *physical simulations*, e. g., for a gravitational wave detector. However, the programs for these and many more applications contain classical operations using comparisons for branching code, ranking elements, and so forth.

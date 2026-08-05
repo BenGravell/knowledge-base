@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.01288", "source": "ar5iv"} -->
+
 ## Introduction
 
 Motion planning is a powerful tool for motion design, with important applications in engineering and biology. Its main objective consists of computing an open-loop control which steers a given system to some desired target, while possibly optimizing performance criteria, e.g., minimizing effort. Specifically, motion planning becomes essential when no feedback-based control strategies are available, for instance because either no measurements are available or some states are not observable, as it happens in particular in the context of fast biological movements. In addition, motion planning is particularly beneficial to compute reference strategies low-level controllers track at online later stages, an approach which is of common use in robotics and aerospace. In all the aforementioned tasks, uncertainties ranging from measurement errors to unknown parameters or external perturbations may hinder the reliability of the computed control strategies. Methods taking these uncertainties into account are referred to as robust motion planning.

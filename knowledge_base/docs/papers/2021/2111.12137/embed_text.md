@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2111.12137", "source": "ar5iv"} -->
+
 ## Introduction
 
 Intelligent agents can achieve complex continuous control and decision making in the presence of rich multi-agent interactions as well as diverse lighting and environmental conditions. This ability requires learning representations from raw perception to high-level control actions. The interactive multi-agent case is challenging for autonomous navigation. End-to-end policy learning has demonstrated great promise for lane-stable single-agent navigation. However, to date, these networks are limited to simplistic road environments, navigation with no interactions, testing in solely passive settings, or are deployed only in simulated environments disregarding real-world transferability.

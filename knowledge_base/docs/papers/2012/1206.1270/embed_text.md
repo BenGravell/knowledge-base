@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1206.1270", "source": "ar5iv"} -->
+
 ## Introduction
 
 Nonnegative matrix factorization (NMF) is a popular approach for selecting features in data. Many machine-learning and data-mining software packages (including Matlab, R, and Oracle Data Mining ) now include heuristic computational methods for NMF. Nevertheless, we still have limited theoretical understanding of when these heuristics are correct.

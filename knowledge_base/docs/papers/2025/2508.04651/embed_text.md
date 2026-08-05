@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2508.04651", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Music exists in two complementary forms: as static recorded pieces ("music as a noun"), and as live performances collectively experienced in real time ("music as a verb"). This second form of *live* music is particularly tied to the fundamental human experiences of creative flow, embodied expression, and social connection. Despite this, modern generative AI systems for musical audio have had an overwhelming emphasis on offline, turn-based generation.

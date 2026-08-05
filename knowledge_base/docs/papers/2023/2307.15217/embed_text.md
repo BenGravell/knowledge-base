@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2307.15217", "source": "ar5iv"} -->
+
 ## Introduction
 
 *Reinforcement learning from human feedback* (RLHF) has emerged as a prominent technique to adapt machine learning models to difficult-to-specify goals. In particular, RLHF is a key component of training state-of-the-art large language models (LLMs), such as OpenAI's GPT-4, Anthropic's Claude, Google's Bard, and Meta's Llama 2-Chat. RLHF and similar methods allow LLMs to go beyond modeling the distribution of their training data, and adapt the distribution of text so that model outputs are rated more highly by human evaluators.

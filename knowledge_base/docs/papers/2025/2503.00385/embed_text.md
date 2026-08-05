@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.00385", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Recent advancements in meta-learning, a machine learning paradigm addressing the learning-to-learn challenge, have shown remarkable success across diverse domains, including robotics, image processing, and cybersecurity. One epitome of the various meta-learning approaches is Model-Agnostic Meta-Learning (MAML). Compared with other deep-learning-based meta-learning approaches, MAML formulates meta-learning as a stochastic compositional optimization problem, aiming to learn an initialization that enables rapid adaptation to new tasks with just a few gradient updates computed using online samples.

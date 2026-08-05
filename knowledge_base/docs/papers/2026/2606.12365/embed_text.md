@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.12365", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The training corpus of nearly every large-scale robot policy spans different tasks, real and simulated environments, embodiments, and even modalities. One reason for this data heterogeneity is that high-quality, task-specific robot data is expensive and time-consuming to collect; it requires skilled teleoperators and well-tuned low-level controllers. In contrast, suboptimal data is abundant. Any real-world data collection effort naturally produces failures and trajectories of differing quality. Out-of-distribution (OOD) data sources are also plentiful and widely available. These include simulation, cross-embodied data, and ego-centric video. Practitioners often draw from data sources of varying quality to create massive pretraining sets, yet methods for learning from arbitrary suboptimal or shifted distributions are underexplored in robotics. We propose a simple and principled method for training robot policies that can leverage suboptimal and OOD datasets.

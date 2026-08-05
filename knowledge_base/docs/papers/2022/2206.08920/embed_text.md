@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2206.08920", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous driving systems require an understanding of map elements on the road, including lanes, pedestrian crossing, and traffic signs, to navigate around the world. Such map elements are typically provided by pre-annotated High-Definition (HD) semantic maps in existing pipelines. However, these methods face scalability issues due to their heavy reliance on human labor for annotating HD maps. Additionally, they necessitate precise localization of the ego-vehicle to derive local maps from the global one, a process that could introduce meter-level errors.

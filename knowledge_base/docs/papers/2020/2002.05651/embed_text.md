@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2002.05651", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Global climate change is a scientifically well-recognized phenomenon and appears to be accelerated due to greenhouse gas (GHG) emissions such as carbon dioxide or equivalents (CO 2 eq ). The harmful health and safety impacts of global climate change are projected to 'fall disproportionately on the poor and vulnerable'. Energy production remains a large factor in GHG emissions, contributing about ∼ 25 % of GHG emissions in 2010. With the compute and energy demands of many modern machine learning (ML) methods growing exponentially, ML systems have the potential to significantly contribute to carbon emissions. Recent work has demonstrated these potential impacts through case studies and suggested various mitigating strategies.

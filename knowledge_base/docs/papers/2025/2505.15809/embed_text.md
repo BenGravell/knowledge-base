@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2505.15809", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Large language models (LLMs) have revolutionized natural language processing (NLP) by achieving state-of-the-art performance in diverse tasks, from text generation (e.g., ChatGPT ) to complex reasoning (e.g., DeepSeek-R1 ). Inspired by their success, the research community has extended LLMs to the multimodal domain, giving rise to multimodal large language models (MLLMs) or vision-language models (VLMs), such as GPT-4 and Gemini. These models aim to provide a unified framework for both understanding and generating across heterogeneous modalities---text, images, and beyond.

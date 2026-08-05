@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2005.13239", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent advances in machine learning using deep neural networks have shown significant successes in scaling to large realistic datasets, such as ImageNet in computer vision, SQuAD in NLP, and RoboNet in robot learning. Reinforcement learning (RL) methods, in contrast, struggle to scale to many real-world applications, e.g., autonomous driving and healthcare, because they rely on costly online trial-and-error. However, pre-recorded datasets in domains like these can be large and diverse. Hence, designing RL algorithms that can learn from those diverse, static datasets would both enable more practical RL training in the real world and lead to more effective generalization.

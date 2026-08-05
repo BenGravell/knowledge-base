@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2212.07013", "source": "ar5iv"} -->
+
 ## Introduction
 
 A central challenge in robotics and artificial intelligence is to develop discrete representations that can translate the high-dimensional continuous spaces of real-world sensor data and robot configuration into forms that are compatible with algorithms for abstract reasoning, such as search and logical or probabilistic inference. Although representation learning has been studied extensively in the machine learning literature, and learned action representations are often used in robotics, it remains an open challenge to distill unlabeled natural data into a representative set of discrete actions. In particular, learned discrete action representations have not been widely adopted in the recent autonomous vehicle literature, possibly because many essential components of an autonomous vehicle system can be engineered or learned to a considerable degree without them. For example, predicted trajectories for other vehicles on the road can be fed directly into a planning system to avoid collision, without those predicted trajectories representing distinct maneuvers.

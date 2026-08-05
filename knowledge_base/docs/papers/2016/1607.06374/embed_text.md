@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1607.06374", "source": "ar5iv"} -->
+
 ## Introduction
 
 Robots are increasingly entering domains such as transportation, surgery, and home assistance where safe interaction with people is critical. This interaction motivates robots which are capable of planning high quality motions under short time horizons. Unfortunately, the landscape of feasible motion plans in a robot's configuration space can be extremely complex, consisting of many local minima, with paths spanning multiple homotopic classes. The complexity of this landscape means that an ideal motion planning algorithm must employ a macroscopic global view, considering paths in multiple homotopic classes, while also taking a microscopic local view, ensuring plans are as close to locally optimal as possible. Our work focusses on unifying these two perspectives by interleaving path refinement through local optimization, with global exploration through sampling-based motion planning. In this way, we compute high quality, locally optimized plans while continuing to explore the global landscape for as long as time allows.

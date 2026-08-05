@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2203.16673", "source": "ar5iv"} -->
+
 ## Introduction
 
 System identification is an important topic in control theory. Accurate estimation of system dynamics is the basis of control or policy decision problems in tasks varying from linear-quadratic control to deep reinforcement learning. Consider a linear time-invariant system of order $R$ with the *minimal* state-space representation where $x_{t} \in {\mathbb{R}}^{R}$ is the state, $u_{t} \in {\mathbb{R}}^{p}$ is the input, $y_{t} \in {\mathbb{R}}^{m}$ is the output, $z_{t} \in {\mathbb{R}}^{m}$ is the output noise, $A \in {\mathbb{R}}^{R \times R}$, $B \in {\mathbb{R}}^{R \times p}$, $C \in {\mathbb{R}}^{m \times R}$, $D \in {\mathbb{R}}^{m \times p}$ are the system parameters, and $x_{0}$ is the initial state (in this paper, we assume $x_{0} = 0$). Generally with the same input and output, the dimension of the hidden state $x$ can be any number no less than $R$, and we are interested in the minimum dimensional representation (i.e., minimal realization) in this paper.

@@ -468,7 +468,7 @@ The results above can also be derived by direct manipulation of the block diagra
 
 <!-- chunk {"id": "body-0117", "role": "body", "section": "LFT equivalence", "weight": 1.0} -->
 
-The dashed box in Fig. 6 represents the equivalent H 2. Based on the block diagram, we obtain the following algebraic relationships: Fig. 6: Equivalent block diagrams representing LFT equivalence. Starting from the top left, we augment the algorithm and oracle, we transform the oracle using the linear equivalence Φ 1 ˆ M ∼ Φ 2, and finally we isolate the equivalent ˆ H 2 in feedback with Φ 2.
+The dashed box in Fig. 6 represents the equivalent ˆ H 2. Based on the block diagram, we obtain the following algebraic relationships: Fig. 6: Equivalent block diagrams representing LFT equivalence. Starting from the top left, we augment the algorithm and oracle, we transform the oracle using the linear equivalence Φ 1 ˆ M ∼ Φ 2, and finally we isolate the equivalent ˆ H 2 in feedback with Φ 2.
 
 <!-- chunk {"id": "body-0118", "role": "body", "section": "LFT equivalence", "weight": 1.0} -->
 

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1405.5848", "source": "ar5iv"} -->
+
 ## Introduction
 
 Graph-search and sampling-based methods are two popular techniques for path planning in robotics. Graph-based searches, such as Dijkstra's algorithm and A\*, use dynamic programming to exactly solve a discrete approximation of a problem. These algorithms are not only *resolution complete* but also *resolution optimal*, always finding the optimal solution to the given problem at the chosen discretization, if one exists. A\* does this efficiently by using a heuristic to estimate the total cost of a solution constrained to pass through a state. The result is an algorithm that searches in order of decreasing solution quality and is *optimally efficient*. Any other optimal algorithm using the same heuristic will expand at least as many vertices as A\*.

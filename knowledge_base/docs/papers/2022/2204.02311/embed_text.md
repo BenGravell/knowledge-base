@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2204.02311", "source": "ar5iv"} -->
+
 ## Introduction
 
 Over the last few years, very large neural networks trained for language understanding and generation have achieved astonishing results across a wide array of tasks. Many of these models, such as BERT and T5, are trained with encoder-only or encoder-decoder architectures using an infilling ("masked LM" or "span corruption") pre-training objective on a large corpus of text, and are typically then adapted to one or more specific tasks through finetuning. Although these models have achieved near universal state of the art across thousands of natural language tasks, the downside is that they require a significant number of task-specific training examples to finetune the model. Additionally, at least a portion of the model parameters must be updated to fit the task, adding complexity from model finetuning and deployment.

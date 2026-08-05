@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2304.13972", "source": "ar5iv"} -->
+
 ## Introduction
 
 In this paper, we study the non-convex unconstrained stochastic optimization problem The Adaptive Moment Estimation (Adam) algorithm has become one of the most popular optimizers for solving when $f$ is the loss for training deep neural networks. Owing to its efficiency and robustness to hyper-parameters, it is widely applied or even sometimes the default choice in many machine learning application domains such as natural language processing, generative adversarial networks, computer vision, and reinforcement learning. It is also well known that Adam significantly outperforms stochastic gradient descent (SGD) for certain models like transformer.

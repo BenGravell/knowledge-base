@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2509.26575", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Linear dynamical systems of the form $x_{+}=Ax+Bu$ underpin many of the foundational methods in modern optimal control. Ideas such as the Linear-Quadratic Regulator (LQR) and convex trajectory optimization can reason about dynamical systems of this form in a way that is globally optimal. As a result, these techniques are often applied to nonlinear systems where the dynamics are locally approximated as linear around a linearization point. In many cases, this approximation is appropriate given the function is not being evaluated too far from where the approximation was formed. When used appropriately, this method of linearizing nonlinear systems can be extremely effective in practice, even for highly nonlinear systems. The two caveats here are that the nonlinear system must be both smooth and differentiable.

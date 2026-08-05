@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1401.3436", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 The Partially Observable Markov Decision Process (POMDP) is a general model for sequential decision problems in partially observable environments. Many planning and control problems can be modeled as POMDPs, but very few can be solved exactly because of their computational complexity: finite-horizon POMDPs are PSPACE-complete and infinite-horizon POMDPs are undecidable.

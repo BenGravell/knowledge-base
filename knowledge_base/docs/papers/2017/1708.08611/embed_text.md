@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1708.08611", "source": "ar5iv"} -->
+
 ## Introduction
 
 Advances in learning have enabled a new paradigm for developing controllers for autonomous systems that are able to accomplish complicated tasks in possibly uncertain and dynamic environments. For example, in reinforcement learning (RL), an agent acts to optimize a long-term return that models the desired behavior for the agent and is revealed to it incrementally in a reward signal as it interacts with its environment. Increasing use of learning-based controllers in physical systems in the proximity of humans also strengthens the concern of whether these systems will operate safely.

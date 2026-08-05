@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2502.12310", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Illustration of the sample efficinecy of various synthesis methods.

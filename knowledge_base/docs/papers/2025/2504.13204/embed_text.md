@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.13204", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Reconstructing 3D scenes from collections of 2D images is a fundamental challenge in computer vision, with applications in virtual and augmented reality, robotics, and content creation. The goal is to obtain high-quality 3D representations efficiently, enabling real-time rendering while maintaining reconstruction fidelity. However, achieving balance between efficiency, speed, and quality requires a representation that is both expressive and computationally efficient. NeRF-based models control the trade-off between quality, computational cost, and representation capacity by designing network architectures and increasing the number of parameters. In contrast, point-based graphics represent surfaces using discrete primitives, such as meshes or point clouds, offering more direct control over complexity but often struggling with quality and scalability.

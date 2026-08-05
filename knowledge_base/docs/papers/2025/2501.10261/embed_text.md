@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2501.10261", "source": "ar5iv"} -->
+
 ## Introduction
 
 Controlling an unknown nonlinear system through repeated sequential interaction is a fundamental problem in controls and reinforcement learning. Recent years have seen considerable impact of this paradigm in application areas ranging from walking robots, mastering games such as go and StarCraft and even fine-tuning large language models. Problems of this form are often analyzed through the lens of Markov Decision Processes (MDP). Indeed, there is a wealth of literature on analyzing interactive sequential decision making in tabular MDPs. Extensions to this framework, typically motivated by studying large state and action spaces together with function approximation, are also abundant in the literature.

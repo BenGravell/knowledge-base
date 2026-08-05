@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2112.05745", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: ϵ-RandUP consists of three simple steps: 1) sampling M inputs xi in 𝒳, 2) propagating these inputs through the reachability map f, and 3) taking the ϵ-padded convex hull ${\hat{\mathcal{Y}}}_{\epsilon}^{M}$ to approximate the reachable set 𝒴.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1404.1347", "source": "ar5iv"} -->
+
 ## Abstract
 
 Sun and Farooq showed that random samples can be efficiently drawn from an arbitrary $n$-dimensional hyperellipsoid by transforming samples drawn randomly from the unit $n$-ball. They stated that it was a straightforward to show that, given a uniform distribution over the $n$-ball, the transformation results in a uniform distribution over the hyperellipsoid, but did not present a full proof. This technical note presents such a proof.

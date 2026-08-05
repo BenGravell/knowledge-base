@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.04183", "source": "arxiv-html"} -->
+
 ## Introduction
 
 ### Parametrized convex functions

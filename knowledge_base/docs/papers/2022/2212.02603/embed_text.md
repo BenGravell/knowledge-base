@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2212.02603", "source": "ar5iv"} -->
+
 ## Introduction
 
 Model Predictive Control (MPC) is a powerful, practical tool for solving sequential decision problems on real-world systems. MPC has been successfully used in a variety of tasks including autonomous helicopter aerobatics, aggressive off-road driving, manipulation, and humanoid robot locomotion. Recent work has shown that many popular MPC algorithms can be unified through the generic framework of dynamic mirror descent (DMD), a first-order online learning algorithm. This perspective provides an opportunity to improve performance of existing algorithms by drawing on powerful optimization techniques. Most modern approaches to optimization use fixed update rules tailored to specific classes of problems. Recently, research has explored *learning* to optimize, where the update rule is specified by a function approximator, such as a neural network, that can improve optimization performance with experience.

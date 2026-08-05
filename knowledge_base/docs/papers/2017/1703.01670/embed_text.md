@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1703.01670", "source": "ar5iv"} -->
+
 ## Introduction
 
 First-order iterative optimization methods have been widely applied in data science and machine learning. These methods only require access to first-order derivative information, and iterate on the data until satisfactory convergence is achieved. For example, the gradient method is Such simple methods are often favored over higher order methods such as Newton's method when the dimension of the underlying space is large and computing Hessians is prohibitively expensive.

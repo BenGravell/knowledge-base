@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.10634", "source": "ar5iv"} -->
+
 ## Introduction
 
 Arising from the literature on non-linear least squares, the Gauss-Newton method was proposed to tackle generic compositional problems of the form ${\min_{w \in {\mathbb{R}}^{d}}f}{({\phi{(w)}})}$ by linearizing the inner function $\phi$ around the current iterate and solving the resulting subproblem.

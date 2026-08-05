@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2406.09246", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A key weakness of learned policies for robotic manipulation is their inability to generalize beyond their training data: while existing policies trained for individual skills or language instructions have the capacity to extrapolate behaviors to new initial conditions such as object positions or lighting, they lack robustness to scene distractors or novel objects and struggle to execute unseen task instructions. Yet beyond robotics, existing foundation models for vision and language such as CLIP, SigLIP, and Llama 2 are capable of these types of generalization and more, stemming from the priors captured by their Internet-scale pretraining datasets. While reproducing this scale of pretraining for robotics is still an open challenge --- even the largest robot manipulation datasets only have 100K to 1M examples -- this imbalance suggests an opportunity: using existing foundation models for vision and language as a core building block for training robotic policies that can generalize to objects, scenes, and tasks beyond their training data.

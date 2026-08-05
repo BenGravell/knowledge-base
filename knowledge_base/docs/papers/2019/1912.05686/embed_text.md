@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1912.05686", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Deep learning models are full of hyperparameters (e.g., learning rate, number of layers, number of units per layer), which are set manually before the learning process can start. To find the best configuration for these hyperparameters in such a high dimensional space, with time-consuming and expensive model training / validation, is not a trivial challenge. There are four common methods for hyperparameter optimization, in order of increasing efficiency: manual, grid search, random search, and Bayesian optimization.

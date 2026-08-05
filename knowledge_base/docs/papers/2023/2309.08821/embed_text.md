@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.08821", "source": "ar5iv"} -->
+
 ## Introduction
 
 Autonomous robots have many application areas including autonomous driving, warehouse management and logistics, drone delivery, and agriculture. A core challenge facing autonomous robots is navigation in dynamic and uncertain environments, i.e. in the presence of moving obstacles whose future motion cannot be predicted exactly. This scenario complicates the robot safety requirements: the ego robot must presume the dynamic obstacles' intentions and predict their future trajectories for use in computing its own motion plan. Thus, safety hinges on how accurately the dynamic obstacles' behavior can be predicted. Failing to account for prediction uncertainties may incur undue risk of severe collisions.

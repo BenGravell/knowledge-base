@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1606.05225", "source": "ar5iv"} -->
+
 ## Introduction
 
 One of the oldest easily-stated nontrivial problems in computational geometry is the Fermat-Weber problem: given a set of $n$ points in $d$ dimensions ${a^{},\ldots,a^{(n)}} \in {\mathbb{R}}^{d}$, find a point $x_{\ast} \in {\mathbb{R}}^{d}$ that minimizes the sum of Euclidean distances to them: This problem, also known as the *geometric median problem,* is well studied and has numerous applications. It is often considered over low dimensional spaces in the context of the facility location problem and over higher dimensional spaces it has applications to clustering in machine learning and data analysis. For example, computing the geometric median is a subroutine in popular expectation maximization heuristics for $k$-medians clustering.

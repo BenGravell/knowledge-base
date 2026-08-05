@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1202.6258", "source": "ar5iv"} -->
+
 ## Introduction
 
 A plethora of the problems arising in machine learning involve computing an approximate minimizer of the sum of a loss function over a large number of training examples, where there is a large amount of redundancy between examples. The most wildly successful class of algorithms for taking advantage of this type of problem structure are *stochastic gradient* (SG) methods Robbins and Monro; Bottou and LeCun. Although the theory behind SG methods allows them to be applied more generally, in the context of machine learning SG methods are typically used to solve the problem of optimizing a sample average over a finite training set, i.e., In this work, we focus on such *finite training data* problems where each $f_{i}$ is *smooth* and the average function $g$ is *strongly-convex*.

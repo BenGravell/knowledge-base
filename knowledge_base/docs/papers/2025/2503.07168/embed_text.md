@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.07168", "source": "arxiv-html"} -->
+
 ## Introduction
 
 High-definition (HD) maps, which include vectorized map elements such as lane dividers, pedestrian crossings, and road boundaries, play a critical role in the navigation and planning of autonomous driving. Traditional map construction methods use the SLAM-based method to collect offline map data, followed by extensive post-processing to generate HD maps. However, these methods are constrained by significant limitations, including substantial costs, the absence of real-time processing capabilities, and difficulties in accommodating dynamic environments and road updates.

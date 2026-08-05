@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.14669", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: EoS behaviors of FO and ZO methods are captured by different spectral quantities of the Hessian. We train full-batch GD (left) and ZO-GD (right) with varying step sizes η on a CNN for CIFAR-10. For GD, the largest eigenvalue of the Hessian λmax(Ht) stabilizes near 2/η. For ZO-GD, the trace of the Hessian Tr (Ht) instead stabilizes slightly below 2/η.
@@ -144,9 +146,9 @@ To test whether this behavior is specific to vision, we also train LSTM and Mamb
 
 Specifically, ($i$) for ZO-GD, the threshold $2/\eta$ remains close to the interval $[\operatorname{Tr}({\bm{H}}_{t}),\,\operatorname{Tr}({\bm{H}}_{t})+2\lambda_{\max}({\bm{H}}_{t})]$ across step sizes; ($ii$) for ZO-GDM, the threshold $2(1-\beta)/\eta$ remains close to $[\operatorname{Tr}({\bm{H}}_{t}),\,\operatorname{Tr}({\bm{H}}_{t})+\frac{2}{1+\beta}\lambda_{\max}({\bm{H}}_{t})]$ across momentum values; and ($iii$) for ZO-Adam, the threshold $2/\eta$ remains close to the corresponding preconditioned interval in equation 25. In all cases, the *trace* of the (preconditioned) Hessian provides the dominant stability signal throughout training.
 
-### Additional experiments
-
 Figure 3: Catapult dynamics in ZO-GD. We train ZO-GD on CNN and increase the step size midway through training (from η1 to η2 and then to η3). Top: the training loss exhibits a pronounced spike after each step size increase, consistent with catapult dynamics. Bottom: the Hessian trace Tr (Ht) drops sharply during the catapult phase and then rises again, re-equilibrating near the new stability threshold 2/η.
+
+### Additional experiments
 
 Catapult dynamics. In Figure 3, we train ZO-GD and increase the step size midway through training (from $\eta_{1}$ to $\eta_{2}$ and then to $\eta_{3}$). We observe a pronounced spike in the training loss after each increase, consistent with the *catapult* dynamics. Immediately after the step size increase, the new step size temporarily exceeds the mean-square stability critical step size at the current iterate, so the dynamics become locally unstable and the loss increases sharply. At the same time, the Hessian trace drops rapidly below the new threshold and then rises again, re-equilibrating near the new threshold.
 

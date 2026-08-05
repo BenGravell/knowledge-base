@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2301.03565", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 The practical deployment of autonomous systems demands algorithms that can account for stochasticity and unexpected events due to humans in the loop or dramatic changes in the environment. Model-based approaches to stochastic optimal control offer an analytic representation that is highly generalizable, but often rely upon strict model assumptions, and can become inaccurate when deployed in new environments. They are particularly susceptible to model misspecifications, which can lead to inaccurate predictions that may lead to unpredictable or unsafe behaviors. Data-driven control can account for poorly-characterized disturbances, but typically neglect prior system knowledge. Additionally, these methods often exhibit poor data efficiency, meaning they require excessive sample sizes in order to adequately characterize the dynamical system behavior.

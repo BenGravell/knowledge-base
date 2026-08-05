@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2201.01680", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Learning algorithms are set to play an increasing role in modern engineering solutions. Early successes include walking robots and playing repeated games such as Go and are likely to become increasingly important in modern safety-critical infrastructure such as smart grids and intelligent transportation. However, their emergence in safety-critical systems is not without problems. Indeed, one of the hallmarks of these early successes is abundant data from a relatively unchanging source, potentially even through simulation access. By contrast, their failure modes as a component of modern engineering systems in dynamic, changing, environments when data is scarce remain poorly understood.

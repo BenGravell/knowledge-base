@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1705.07321", "source": "ar5iv"} -->
+
 ## Introduction
 
 Clustering is the attempt to group data in a way that meets with human intuition. Unfortunately, our intuitive ideas of what makes a 'cluster' are poorly defined and highly context sensitive. This results in a plethora of clustering algorithms each of which matches a slightly different intuitive notion of what a natural grouping is.

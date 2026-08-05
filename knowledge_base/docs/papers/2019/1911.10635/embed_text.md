@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1911.10635", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent years have witnessed sensational advances of reinforcement learning (RL) in many prominent sequential decision-making problems, such as playing the game of Go, playing real-time strategy games, robotic control, playing card games, and autonomous driving, especially accompanied with the development of deep neural networks (DNNs) for function approximation. Intriguingly, most of the successful applications involve the participation of more than one single agent/player^11^1Hereafter, we will use *agent* and *player* interchangeably., which should be modeled systematically as multi-agent RL (MARL) problems. Specifically, MARL addresses the sequential decision-making problem of multiple autonomous agents that operate in a common environment, each of which aims to optimize its own long-term return by interacting with the environment and other agents. Besides the aforementioned popular ones, learning in multi-agent systems finds potential applications in other subareas, including cyber-physical systems, finance, sensor/communication networks, and social science.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2107.12685", "source": "ar5iv"} -->
+
 ## Introduction
 
 Deep Neural Networks have shown amazing versatility across a large range of domains. Among one of their main features is their ability to perform better with scale. Indeed, some of the most impressive results \see e.g. Brock et al., [2021; Brown et al., 2020; Senior et al., 2020; Schrittwieser et al., 2020; Silver et al., 2017; He et al., 2016 and references therein\] have been obtained often by exploiting this fact, leading to models that have at least as many parameters as the number of examples in the dataset they are trained . Empirically, the limitation on the model size seems to be mostly imposed by hardware or compute. From a theoretical point of view, however, this property is quite surprising and counter-intuitive, as one would expect that in such extremely overparametrized regimes the learning would be prone to overfitting.

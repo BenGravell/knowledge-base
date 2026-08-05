@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2602.09153", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Recent progress in general-purpose robotics has been driven by large-scale foundation models that promise broad generalization across tasks, embodiments, and environments. Companies such as 1X and Sunday are now explicitly targeting the deployment of robots into arbitrary human homes. Achieving this vision requires robots that can robustly perceive, reason, and act across the long tail of real-world indoor environments---spaces that vary widely in layout, object composition, clutter, articulation, and physical interaction affordances.

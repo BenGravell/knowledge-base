@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.24939", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Overview: The policy gradient is a fundamental concept in reinforcement learning (RL), underpinning policy search and actor-critic methods Sutton et al.. However, for parametrized softmax policies, the normalization factor induces non-convexity in the parameters. As a result, despite the prevalence of softmax policies in RL, their theoretical understanding has remained limited until recently, with existing results confined to the tabular setting Agarwal et al.; Bhandari and Russo; Mei et al..

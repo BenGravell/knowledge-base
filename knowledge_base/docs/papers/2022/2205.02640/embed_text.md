@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2205.02640", "source": "ar5iv"} -->
+
 ## Introduction
 
 Optimization provides a framework for solving problems described in a tractable mathematical manner. Optimization-based methods have been successfully applied across a broad range of applications involving decision making, ranging from electrical engineering to control and finance. The conventional approach to carry out decision making involves the introduction of mathematical models for the problem and the solver based on domain knowledge. Such model-based methods form the basis for many classical and fundamental optimization techniques. Many of these classical approaches rely on simplified descriptions of the problem that make decision making tractable, computationally feasible, and interpretable. While model-methods often work well, their simplified approximations can limit performance in some applications.

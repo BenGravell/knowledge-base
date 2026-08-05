@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1810.08473", "source": "ar5iv"} -->
+
 ## Introduction
 
 In many complex networks, nodes cluster and form relatively dense groups---often called communities Fortunato; Porter *et al.*. Such a modular structure is usually not known beforehand. Detecting communities in a network is therefore an important problem. One of the best-known methods for community detection is called modularity Newman and Girvan. This method tries to maximise the difference between the actual number of edges in a community and the expected number of such edges. We denote by $e_{c}$ the actual number of edges in community $c$. The expected number of edges can be expressed as $\frac{K_{c}^{2}}{2m}$, where $K_{c}$ is the sum of the degrees of the nodes in community $c$ and $m$ is the total number of edges in the network. This way of defining the expected number of edges is based on the so-called configuration model. Modularity is given by where $\gamma > 0$ is a resolution parameter Reichardt and Bornholdt. Higher resolutions lead to more communities, while lower resolutions lead to fewer communities.

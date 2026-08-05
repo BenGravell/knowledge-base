@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1605.02688", "source": "ar5iv"} -->
+
 ## Abstract
 
 Theano is a Python library that allows to define, optimize, and evaluate mathematical expressions involving multi-dimensional arrays efficiently. Since its introduction in Bergstra *et al.* it has been one of the most used CPU and GPU mathematical compilers -- especially in the machine learning community Bergstra *et al.* -- and has shown steady performance improvements Bastien *et al.*. Theano is being actively and continuously developed since 2008, multiple frameworks have been built on top of it and it has been used to produce many state-of-the-art machine learning models.

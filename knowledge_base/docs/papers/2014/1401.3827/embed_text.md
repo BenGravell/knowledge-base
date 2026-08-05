@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1401.3827", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Consider an autonomous helicopter tasked with protecting ships anchored in a busy harbor. At each time step, the helicopter must know if anything is moving too close to the ships it is guarding, but due to its sensor limits, the helicopter cannot observe the whole harbor at once. The only way to keep its ships safe is to keep moving continuously throughout the harbor, keeping track of all the other moving agents. The helicopter does well when it senses that another boat has moved too close to one of its charges, but false alarms are costly. The helicopter's controller must decide how to move around, what to report and when, in order to maximize its own performance.

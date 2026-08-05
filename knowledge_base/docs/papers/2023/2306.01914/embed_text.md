@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2306.01914", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Imitation learning has emerged as a powerful tool in machine learning, enabling agents to learn complex behaviors by imitating expert demonstrations acquired either from a human demonstrator or a policy computed offline \[pomerleau1988alvinn, ratliff2009learning, abbeel2010autonomous, ross2011reduction\]. Despite its significant success, imitation learning often suffers from a compounding error problem: Successive evaluations of the approximate policy can accumulate error, resulting in out-of-distribution failures \[pomerleau1988alvinn\]. Recent results \[pfrommer2022tasil, tu2022sample, block2023provable\] have identified *smoothness* (i.e. the derivative, with respect to the state, of the control policy being Lipschitz) and *stability* of the expert as two key properties that enable circumventing this issue, thereby allowing for end-to-end performance guarantees for the final learned controller.

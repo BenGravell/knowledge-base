@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.14654", "source": "ar5iv"} -->
+
 ## Introduction
 
 (a) Physical setup (5 m x 5 m course).

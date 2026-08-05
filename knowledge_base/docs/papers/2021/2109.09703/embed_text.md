@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2109.09703", "source": "ar5iv"} -->
+
 ## Introduction
 
 Forecasting problems are ubiquitous in physical science and engineering applications, including climate prediction, navigation, and medicine. In these settings, we do not possess complete information about the state of the system, and we may not have full knowledge of the equations of motion. Owing to our lack of omniscience, it is not possible to make predictions by integrating the current state forward in time. Instead, we may acquire training data by observing some aspect of the system's evolution. The goal is to build a compact model of the dynamics of this observable. Given a new observation, the model should allow us to forecast the future trajectory from the initial condition.

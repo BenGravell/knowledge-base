@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1604.06543", "source": "ar5iv"} -->
+
 ## Introduction
 
 Consider a function $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ that is $\beta$-smooth and $\alpha$-strongly convex. Thus each point $x$ yields a quadratic upper estimator and a quadratic lower estimator of the function. Namely, inequalities ${q{(y;x)}} \leq {f{(y)}} \leq {Q{(y;x)}}$ hold for all ${x,y} \in {\mathbb{R}}^{n}$, where we set Classically, one step of the steepest descent algorithm decreases the squared distance of the iterate to the minimizer of $f$ by the fraction $1 - {\alpha/\beta}$. This linear convergence rate is suboptimal from a computational complexity viewpoint. Optimal first-order methods, originating in Nesterov's work achieve the superior (and the best possible) linear rate $1 - \sqrt{\alpha/\beta}$; see also the discussion in \[10, Section 2.2\]. Such accelerated schemes, on the other hand, are notoriously difficult to analyze. Numerous recent papers (e.g.) have aimed to shed new light on optimal algorithms.

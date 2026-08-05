@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2501.15564", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous driving as a cornerstone technology, is poised to usher transportation into a safer and more efficient era of mobility. The key challenge is achieving human-like driving behaviors in complex open-world environment, while ensuring safety, efficiency, and comfort. Rule-based planning methods have demonstrated initial success in industrial applications, by defining driving behaviors and establishing boundaries derived from human knowledge. However, their reliance on predefined rules limits adaptability to new traffic situations, and modifying rules demands extensive engineering effort. In contrast, learning-based planning methods acquire driving skills by cloning human driving behaviors from collected datasets, a process made simpler through straightforward imitation learning losses. Additionally, the capabilities of these models can potentially be enhanced by scaling up training resources.

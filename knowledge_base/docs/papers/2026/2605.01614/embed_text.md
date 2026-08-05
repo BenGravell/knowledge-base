@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.01614", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Modern datacenters rely on cluster schedulers to place tasks onto shared machines. Placement decisions affect server utilization, system throughput, fairness across tenants, task completion times, and system efficiency. Schedulers must simultaneously reason about multi-dimensional resource constraints (CPU, memory, accelerators, bandwidth), workload heterogeneity (short interactive services vs. long-running training tasks), and hard/soft policies such as anti-affinity, locality, and admission control. As clusters and servers grow, a scheduler must handle an increasing rate of task arrival, and so scheduling latency becomes a first-order systems bottleneck. A slow scheduler forces smaller batch sizes, limits the size of a cluster and increases queueing delay, while poor scheduling decisions increase queueing delay and leave available resources stranded and unused.

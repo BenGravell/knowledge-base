@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2104.10836", "source": "ar5iv"} -->
+
 ## Introduction
 
 One of the most challenging problems in the control field arises when a system operates under uncertainty. To address this issue, existing approaches can be classified into model-free and model-based ones. The former class has found several successful applications in the context of reinforcement learning (e.g., ), however main drawbacks of such methods include their requirement for numerous interactions with the physical system and slow convergence rates. On the other hand, methods that belong in the latter category (e.g., ) can be significantly faster, but their performance relies substantially on the accuracy of the model. Moreover, most of them, such as and, utilize stochastic differential equations for representing uncertainty with Brownian motion which assumes Gaussianity. In addition, these methods are not taking into account any stochasticity arising from internal model parameters.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.05750", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The launch of ChatGPT in late 2022 was a watershed moment for consumer AI products: ChatGPT reflected a step-change not only in the capabilities of AI products available to the general public, but in the degree to which any LLM-based product reached widespread consumer adoption. Now, a little more than three years after ChatGPT's launch, this recent history can be studied with the benefit of hindsight. To this end, recent works have sought to understand the realized impact of deploying LLM-based products on domains such as education, labor, and healthcare (e.g., Bastani et al.; Brynjolfsson et al.; Goh et al. ).

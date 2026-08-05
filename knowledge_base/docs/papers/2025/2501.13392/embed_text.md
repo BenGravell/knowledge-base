@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2501.13392", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Time series embedding is a technique used to represent time series data in the form of vector embeddings. Today, time series analysis methods have emerged as a fundamental element across a vast amount of applications ranging from finance, as in the work of Zhu and Huang, to healthcare, as demonstrated in Nejedly et al.; Morid et al.; Chen et al.; Lee and Hauskrecht; Soenksen et al., engineering applications such as machine health monitoring, predictive maintenance, and fault detection Zhao et al.; Li et al., and social sciences, explored by Santosh et al.. As machine learning and deep learning techniques continue to advance, there is a growing need for effective methods to represent and analyze time series data in these models. Tasks such as anomaly detection, classification, pattern recognition, prediction, and decision-making now heavily rely on robust methods that could accurately embed these often high-dimensional data into scalable yet informative representations.

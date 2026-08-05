@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.21270", "source": "arxiv-html"} -->
+
 ## Introduction
 
 System identification---the task of recovering unknown parameters of a dynamical system from observed system behavior---is a central problem in control. While system identification has a long and rich history in the control theory literature, the rise of machine learning approaches to control has led to a recent surge of results, particularly in establishing non-asymptotic, finite-sample guarantees for parameter recovery \[simchowitz2018learning, sarkar2019near, Faradonbeh2018identification, Ziemann2023\]. Such bounds are valuable both for characterizing the statistical limits of system identification, and for providing principled guidance on the data requirements needed to learn accurate models in practice.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2411.17293", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Motion planning is a crucial field of study in robotics and computer science that focuses on finding a feasible and safe trajectory for a robot to achieve a desired goal. It involves determining a sequence of actions that will guide the robot from its initial state to the target, while avoiding collisions and satisfying various constraints, such as kinematic limitations, time constraints, and performance criteria. The significance of motion planning lies in its ability to enable robots to interact safely with their environment and carry out various tasks autonomously.

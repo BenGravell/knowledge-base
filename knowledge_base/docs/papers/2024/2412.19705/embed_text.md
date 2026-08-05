@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2412.19705", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Certainty equivalence approach and robust control approach are two alternative paradigms in learning-based control. Roughly speaking, in certainty equivalence, we *pretend* that our data is not corrupted by noise, the estimated model is the true system model, or the estimated control policy is designed based on the true system and clean data. Whereas, in robust control approach, we try to bound the effect of the noise in the data and aim to find a controller that achieves the desired properties for all possible noise values within this bound.

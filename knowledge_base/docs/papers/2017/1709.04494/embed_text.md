@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1709.04494", "source": "ar5iv"} -->
+
 ## Introduction
 
 Mathematical optimization centers on the optimization problem. Every optimization problem has three attributes: a variable whose value is to be assigned, constraints that the variable must satisfy, and a real-valued objective function that measures the displeasure or cost incurred by any particular assignment to the variable. To solve an optimization problem is to find a numerical assignment to the variable that minimizes the objective function among all choices that satisfy the constraints.

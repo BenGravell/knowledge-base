@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2112.09629", "source": "ar5iv"} -->
+
 ## Introduction
 
 Blue Noise Samples Blue Noise Mask Figure 2. The left two images show blue noise sample points in 2D and the magnitude of the discrete Fourier transform (DFT). These are in contrast to the two images to the right, which show a blue noise mask and the magnitude of the DFT. In this case, the mask is a 2D image where each pixel stores a single “random value” with blue noise properties. Both samples and masks show attenuated low frequencies but have different uses. Our work focuses on masks.

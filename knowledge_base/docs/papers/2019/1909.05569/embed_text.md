@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1909.05569", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 Motion planning is a fundamental problem in robotics, concerned with allowing autonomous robots to navigate in complex environments while avoiding collisions with obstacles. The problem is already challenging in the simplified geometric setting, and even more so when considering the kinodynamic constraints that the robot has to satisfy. This work is concerned with the latter setting, and consider the case where the robot's system is specified by differential constraints of the form where X ⊆ R d is the robot's state space, and U ⊆ R D is the control space, for some d, D ⩾ 2. The objective of motion planning is thus to find a control function Υ: [0, T] → U, which induces a valid trajectory π: [0, T] → X, such that (i) Equation is satisfied, (ii) π is contained in the free space F ⊆ X, and (iii) the motion takes the robot from its initial state x init to the goal region X goal ⊆ X.

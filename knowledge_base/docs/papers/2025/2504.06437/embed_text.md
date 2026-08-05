@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.06437", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 With the increasing focus on robotic control, designing safe and reliable control methods for autonomous robots operating in unknown environments---while maintaining real-time performance---remains a significant challenge. Successful navigation requires robots to accurately detect both static and dynamic obstacles, including convex and non-convex shapes, using appropriate sensors. Moreover, robots must dynamically re-plan their trajectories to avoid local optima, prevent collisions, and reach their target locations efficiently. These requirements give rise to a complex control optimization problem that is inherently difficult to solve in real-time.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1710.10122", "source": "ar5iv"} -->
+
 ## Introduction
 
 For motion planning of robotic manipulators, kinodynamic planning and sampling-based planning are getting increasingly popular. Kinodynamic planning, i.e., planning in state-space rather than configuration space, improves robustness, speed and energy efficiency of robots. Sampling based planning has been shown to be the most viable way to handle high dimensional spaces and obstacles. In this paper, we will consider how to apply Rapidly-exploring Random Trees, the most popular sampling-based planning algorithm, to kinodynamic planning.

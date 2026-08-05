@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2002.04130", "source": "ar5iv"} -->
+
 ## Introduction
 
 Gradient based optimization underlies most of machine learning and it has attracted tremendous research attention over the years. While non-asymptotic complexity analysis of gradient based methods is well-established for convex and *smooth* nonconvex problems, little is known for nonsmooth nonconvex problems. We summarize the known rates (black) in Table 1 based on the references. $\overset{\sim}{\mathcal{O}}\left({\epsilon^{- 3}\delta^{- 1}} \right)$ $\overset{\sim}{\mathcal{O}}\left({\epsilon^{- 4}\delta^{- 1}} \right)$ Table 1: When the problem is nonconvex and nonsmooth, finding a ϵ-stationary point is intractable, see Theorem 11. Thus we introduce a refined notion, (δ, ϵ)-stationarity, and provide non-asymptotic convergence rates for finding (δ, ϵ)-stationary point.

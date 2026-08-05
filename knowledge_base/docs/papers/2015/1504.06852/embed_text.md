@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1504.06852", "source": "ar5iv"} -->
+
 ## Introduction
 
 Convolutional neural networks have become the method of choice in many fields of computer vision. They are classically applied to classification, but recently presented architectures also allow for per-pixel predictions like semantic segmentation or depth estimation from single images. In this paper, we propose training CNNs end-to-end to learn predicting the optical flow field from a pair of images.

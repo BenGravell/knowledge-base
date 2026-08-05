@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1705.02403", "source": "ar5iv"} -->
+
 ## Introduction
 
 Robotic systems are increasingly operating in real-world settings---away from the structure, repetition, and certainty of the factory floor---that require a robot to not only sense its environment and state in real time, but to react accordingly. Acting in these paradigms often necessitates motion plans be computed on the basis of limited state and environmental knowledge, both of which may vary rapidly as information is gathered and the robot's surroundings change. A major challenge in this approach is thus replanning quickly, ideally up to the bound of the control feedback loop frequency (\~100 Hz), particularly for systems governed by dynamic constraints operating in complex environments.

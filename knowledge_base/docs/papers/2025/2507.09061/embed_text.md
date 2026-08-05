@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2507.09061", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Imitation learning (IL) is the problem of learning complex behaviors from data labeled with actions from an expert demonstrator policy. This methodology encompasses both some of the earliest examples and most recent state-of-the-art in control for autonomous robotic systems. Following the rise of large language models (LLMs), IL has also become increasingly prevalent in settings where an agent predicts *discrete tokens*, such as words in a sentence, lines in a proof, or positions on a chessboard. Such methods have also seen adoption in the context of both continuous and discretized-action control of continuous state-space dynamical systems in an autoregressive fashion.

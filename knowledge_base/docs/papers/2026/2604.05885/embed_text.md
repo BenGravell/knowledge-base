@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.05885", "source": "arxiv-html"} -->
+
 ## Introduction
 
 High-performance computing (HPC) applications are increasingly shifting from CPU-based implementations to graphics processing units (GPUs). This shift is motivated both by the high arithmetic throughput and by the favorable energy efficiency of GPUs, which typically provide substantially more floating-point operations per unit power than conventional CPUs. Further, the reduction in execution time enables classes of applications that require not just a single large simulation, but a large number of repeated evaluations -- for example simulation-based inference. In addition, recent software frameworks such as jax make it possible to combine accelerator-based performance with just-in-time compilation, automatic differentiation, and a high-level programming model, which is particularly attractive for modern scientific applications.

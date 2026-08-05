@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2010.10726", "source": "ar5iv"} -->
+
 ## Introduction
 
 Polyhedral enclosures of a given polynomial curve have a crucial role in a large number of CAD algorithms to compute curve intersections, perform ray tracing, or obtain minimum distances between convex shapes. These polyhedral enclosures are also used in rasterization, mesh generation, path planning for numerical control machines, and trajectory optimization for robots. Many of these works leverage the convex hull property of the Bernstein basis (polynomial basis used by Bézier curves) to obtain these polyhedral enclosures, although some works use the B-Spline basis instead.

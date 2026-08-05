@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2206.08269", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Consider regression in the context of the time-series model: Such models are ubiquitous in applications of machine learning, signal processing, econometrics, and control theory. In our setup, the learner is given access to $T \in {\mathbb{N}}_{+}$ pairs ${\{{(X_{t},Y_{t})}\}}_{t = 0}^{T - 1}$ drawn from the model (1.1), and is asked to output a hypothesis $\hat{f}$ from a hypothesis class $\mathcal{F}$ which best approximates the (realizable) regression function $f_{\star} \in \mathcal{F}$ in terms of square loss.

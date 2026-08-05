@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1711.07300", "source": "ar5iv"} -->
+
 ## Introduction
 
 Autonomous car racing is a challenging task for automatic control systems due to the need for handling the vehicle close to its stability limits and in highly nonlinear operating regimes. In addition, dynamically changing racing situations require advanced path planning mechanisms with obstacle avoidance executed in real-time. Fast dynamics constrain the sampling time to be in the range of a few tens of milliseconds at most, which severely limits the admissible computational complexity of the algorithms. This situation is even more challenging if the autonomous algorithms shall be executed on simple, low-power embedded computing platforms.

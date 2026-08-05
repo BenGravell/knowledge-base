@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.12283", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Recent advances in reinforcement learning have led to remarkable performance improvements in sequential decision-making across various domains, including strategic gameplay, robotic control, autonomous teaching, or online recommendation among others. Reinforcement learning is particularly successful whenever online data can be acquired through repeated, low-cost interactions with the environment. In many applications, however, continuous and/or inexpensive interaction with the system is not feasible, limiting the applicability of traditional reinforcement learning methods. In such cases, one must rely on offline reinforcement learning, which learns an optimal policy from pre-collected data without the opportunity for further exploration. Offline reinforcement learning is attractive when active experimentation is prohibitively costly or unethical. It is widely used, for instance, in education, healthcare or marketing.

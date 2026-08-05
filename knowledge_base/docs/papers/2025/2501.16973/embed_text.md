@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2501.16973", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The space sector has experienced significant growth in the last decade. Such growth is not only due to the decreased cost of access to space through multiple commercial operators, but also due to the maturation of existing technologies and, consequently, reduced pricing for equipment. In the last twenty to thirty years, a few academic and industrial research facilities have been created to test space systems by replicating motion in microgravity on Earth. These facilities primarily rely on granite tables, resin floors, or other flat-calibrated surfaces such as optic tables.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2206.09916", "source": "ar5iv"} -->
+
 ## Introduction
 
 In the average consensus problem the objective is to enable a group of communicating agents $\mathcal{V} = {\{ 1,\cdots,N\}}$ to arrive at the average of their local input $\mathsf{r}^{i} \in$, i.e., to obtain $\mathsf{r}^{\text{avg}} = {\frac{1}{N}{\sum_{j = 1}^{N}\mathsf{r}^{j}}}$ using local interactions. The solution to this problem is of great importance in various multi-agent applications such as robot coordination, sensor fusion, distributed estimation and formation control. In these applications, reaching fast to the average consensus is of great interest to reduce the end-to-end delays and also the convergence error caused by premature termination of the algorithm because of time constraints.

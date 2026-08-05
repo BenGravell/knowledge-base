@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.07514", "source": "ar5iv"} -->
+
 ## Introduction
 
 Inverse Kinematics (IK) is fundamental robotics algorithm that finds joint configurations that achieve a desired end-effector position and orientation, arising in numerous long-standing applications. A robust IK solver must balance computational efficiency with precision and robustness, particularly in real-time and interactive environments. A key challenge for IK solvers is the inherent redundancy in many robotic systems, where multiple joint configurations can satisfy the same end-effector target. As such, unlike forward kinematics, which yields a unique end-effector pose given joint parameters, inverse kinematics often lacks a closed-form analytical solution. This renders popular and computationally efficient analytical solvers (e.g., IKFast, IKBT ) only applicable for low degree-of-freedom (DoF) systems with specific topological structures.

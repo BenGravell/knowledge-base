@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2203.15471", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Model predictive control (MPC) is an optimization-based control strategy, which is applicable to general MIMO systems and directly accounts for state and input constraints \[. Typically, first a parametric prediction model is identified. In addition to noise and disturbances, the resulting parametric error then needs to be considered to ensure satisfaction of safety critical constraints. In this paper, we study data-driven predictive control problems using two different model parametrizations: state space models and multi-step predictors, i.e., models that skip the sequential state propagation and directly predict $k$-steps into the future.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2204.08967", "source": "ar5iv"} -->
+
 ## Introduction
 
 A wide range of modern artificial intelligence challenges can be cast as Reinforcement Learning (RL) problems under *partial observability*, in which agents learn to make a sequence of decisions despite lacking complete information about the underlying state of system. For example, in robotics the agent has to cope with noisy sensors, occlusions, and unknown dynamics, while in imperfect information games the player makes only local observations. Further applications of partially observable RL include autonomous driving, resource allocation, medical diagnostic systems, recommendation, business management, etc. As such, learning and acting under partial observability has been an important topic in operation research, control, and machine learning.

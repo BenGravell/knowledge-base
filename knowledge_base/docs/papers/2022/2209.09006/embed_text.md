@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2209.09006", "source": "ar5iv"} -->
+
 ## Introduction
 
 By leveraging derivative information from the dynamics and costs, optimal control (OC) algorithms efficiently compute local controllers. Model Predictive Control (MPC) aims at retrieving a local controller with state feedback through online re-planning. However, current algorithms remain computationally too expensive to be run at high frequencies, are sensible to local minima and integration of information from sensors (e.g. force, vision) is technically difficult. This limits both their real-world capabilities and the practicality of deployment on complex settings requiring various sensor modalities. For these reasons, control policies learned directly from data are appealing as they offer the possibility to perform sensor-fusion and executed at very high frequencies.

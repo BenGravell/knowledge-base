@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1511.04587", "source": "ar5iv"} -->
+
 ## Introduction
 
 We address the problem of generating a high-resolution (HR) image given a low-resolution (LR) image, commonly referred as single image super-resolution (SISR). SISR is widely used in computer vision applications ranging from security and surveillance imaging to medical imaging where more image details are required on demand.

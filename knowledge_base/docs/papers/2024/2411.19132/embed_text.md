@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2411.19132", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 P ROBABILISTIC guarantees play a crucial role in many applications that involve stochastic disturbances and safety. As chance-constrained problems are generally nonconvex and computationally intractable, most approaches solve deterministic relaxations by applying constraint-tightening techniques based on available information about uncertainty. Constraint tightening for probabilistic satisfaction has been studied when the underlying probability distribution is known, in cases of bounded disturbances, or using probabilistic reachable sets -. These approaches may be restricted to Gaussian settings, involve computationally costly operations, or often rely on the multivariate Chebyshev inequality, which can lead to conservative bounds. In contrast, sampling-based methods such as - can be significantly more flexible in relaxing chance-constrained problems by utilizing available disturbance samples, termed scenarios, and can provide formal guarantees based on scenario optimization (SO),.

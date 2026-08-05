@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.06179", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Differentiable optimization tools enable leveraging the structured and precise outputs of optimization algorithms as inductive biases in machine learning, reducing data requirements and enforcing constraints. These methods also enable data-driven tuning of optimization algorithms, reducing time-consuming manual expert-driven development using data. In particular, differentiable model predictive control has many applications, such as in motion planning, parameter estimation and tuning, reinforcement learning, imitation learning, and end-to-end planning and control.

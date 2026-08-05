@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.27175", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Contact-rich manipulation, such as pushing, grasping, and in-hand manipulation, is a fundamental task in modern robotics. These tasks typically involve high-dimensional, underactuated systems and hybrid contact dynamics, resulting in highly non-convex, non-smooth optimization landscapes. As a result, computing long-horizon optimal plans and control policies for contact-rich tasks remains a core challenge.

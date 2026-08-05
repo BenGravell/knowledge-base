@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2409.16915", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 For a robot to safely navigate its environment, it must understand the scene geometry it operates within. This understanding must include a detailed model of the scene and a method to reason about collisions with the environment. Radiance field representations, such as Neural Radiance Fields (NeRFs ) and Gaussian Splatting, have recently emerged as powerful methods for building detailed models of the scene. A radiance field is a five-dimensional function that maps a 3D point and viewing direction to an RGB color and volume rendering opacity. This function is then integrated along camera rays to approximate the image formation process. NeRFs use neural networks to learn the parameters of a radiance field, while Gaussian Splatting models use a set of 3D Gaussian functions. Over the past several years, radiance field representations have marked a paradigm shift in computer vision, with wide-ranging impacts on scene reconstruction, novel view synthesis, 3D tracking, and more.

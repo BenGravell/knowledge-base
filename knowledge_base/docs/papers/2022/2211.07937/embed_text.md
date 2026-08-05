@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2211.07937", "source": "ar5iv"} -->
+
 ## Introduction
 
 Policy gradient (PG) methods, or more generally direct policy search methods, have long been recognized as one of the foundations of reinforcement learning (RL). Specifically, PG methods directly search for the optimal policy parameter that maximizes the long-term return in Markov decision processes (MDPs), following the policy gradient ascent direction. This search direction can be more efficient using a preconditioning matrix, e.g., using the natural PG direction. These methods have achieved tremendous empirical successes recently, especially boosted by the power of (deep) neural networks for policy parametrization. These successes are primarily attributed to the fact that PG methods naturally incorporate *function approximation* for policy parametrization, in order to handle massive and even continuous state-action spaces.

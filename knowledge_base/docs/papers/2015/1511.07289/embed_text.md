@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1511.07289", "source": "ar5iv"} -->
+
 ## Introduction
 
 Currently the most popular activation function for neural networks is the rectified linear unit (ReLU), which was first proposed for restricted Boltzmann machines and then successfully used for neural networks. The ReLU activation function is the identity for positive arguments and zero otherwise. Besides producing sparse codes, the main advantage of ReLUs is that they alleviate the vanishing gradient problem since the derivative of 1 for positive values is not contractive. However ReLUs are non-negative and, therefore, have a mean activation larger than zero.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1809.07051", "source": "ar5iv"} -->
+
 ## Introduction
 
 Two decades ago LaValle and Kuffner presented the *Rapidly-exploring Random Tree* (RRT) method for sampling-based motion planning. Even though numerous alternatives for motion planning have been proposed since then, RRT remains one of the most widely used techniques today. This is due to its simplicity and practical efficiency, especially when combined with simple heuristics.

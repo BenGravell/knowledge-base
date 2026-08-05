@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1409.6358", "source": "ar5iv"} -->
+
 ## Introduction
 
 We introduce the method of Dynamic Mode Decomposition with control (DMDc) to analyze observational data arising from complex, high-dimensional systems that exhibit dynamics and require control. By utilizing both measurements of the system and the applied external control, the underlying, unforced dynamics can be extracted and specified in an equation-free manner, i.e. the underlying equations of motion do not have to be known. In addition, a description of how the control inputs affect the system are also discovered and characterized. With a quantitative understanding of the input-output characteristics, a reduced-order-model can be generated for both prediction and design of controllers for high-dimensional, complex systems.

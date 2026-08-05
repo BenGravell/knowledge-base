@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.21026", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Building autonomous robots that can help people perform various tasks is the dream of every roboticist. To achieve this goal, we need to enable robots to manipulate objects. Traditionally, roboticists built manipulation systems by integrating perception, planning, and control. Recently, the data-driven learning-based paradigm has received more attention, where robot demonstrations are collected by teleoperation to learn manipulation control policies. Although some recent efforts are devoted to collect large-scale demonstration datasets such as the Open X-Embodiment dataset and the DROID dataset, the scales of these robot datasets are still not large enough to learn generalizable manipulation skills. The high cost of teleoperation makes it impractical to create robot datasets on the scale of images or language.

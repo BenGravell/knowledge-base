@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1708.05144", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Agents using deep reinforcement learning (deep RL) methods have shown tremendous success in learning complex behaviour skills and solving challenging control tasks in high-dimensional raw sensory state-space. Deep RL methods make use of deep neural networks to represent control policies. Despite the impressive results, these neural networks are still trained using simple variants of stochastic gradient descent (SGD). SGD and related first-order methods explore weight space inefficiently. It often takes days for the current deep RL methods to master various continuous and discrete control tasks. Previously, a distributed approach was proposed to reduce training time by executing multiple agents to interact with the environment simultaneously, but this leads to rapidly diminishing returns of sample efficiency as the degree of parallelism increases.

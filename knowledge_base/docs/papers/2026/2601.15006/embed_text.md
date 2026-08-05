@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2601.15006", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Recently, the demand for automated guided vehicles (AGVs) in environments such as factories and hospitals has been increasing. Navigation for these robots typically starts with a global planner, which computes a path on a map to reach the goal. Subsequently, a local planner generates local paths and computes command velocities to track the global path while accounting for the robot's current state and real-time sensor data.

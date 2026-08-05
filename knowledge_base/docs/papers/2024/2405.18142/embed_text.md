@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2405.18142", "source": "ar5iv"} -->
+
 ## Introduction
 
 Dealing with uncertainty is a fundamental challenge in many control applications. Oftentimes, the dynamics of the system and the distribution of the disturbance acting on it are unknown and should be accounted . Robust and stochastic approaches have been developed in the last two decades to specifically address both types of uncertainty. Robust methods assume bounded uncertainties and solve a worst-case optimization problem to provide guarantees against any possible realization of the uncertainty. Formulations have been developed to account for uncertainties in both the model and the realization of the disturbance. However, since robust approaches account for all possible realizations of the uncertainties, they neglect any available distributional information, leading to conservative control policies.

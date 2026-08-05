@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "0912.3599", "source": "ar5iv"} -->
+
 ## Introduction
 
 ### Motivation

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2403.12945", "source": "arxiv-html"} -->
+
 ## Introduction
 
 ^††^footnotetext: Affiliations: ^1^Stanford University; ^2^University of California, Berkeley; ^3^Toyota Research Institute; ^4^Carnegie Mellon University; ^5^University of Texas, Austin; ^6^University of Montreal; ^7^University of Edinburgh; ^8^Princeton University; ^9^University of Washington; ^10^Korea Advanced Institute of Science & Technology (KAIST); ^11^University of California, San Diego; ^12^Google DeepMind; ^13^University of California, Davis; ^14^University of Pennsylvania; ^15^Columbia University; ^16^Yonsei University

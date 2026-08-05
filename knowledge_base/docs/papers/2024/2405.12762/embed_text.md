@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2405.12762", "source": "arxiv-html"} -->
+
 ## Introduction
 
 We consider throughout the following convex conic optimization problem: with decision variables $x \in {\mathbb{R}}^{n}$ and $s \in {\mathbb{R}}^{m}$, and problem data $A \in {\mathbb{R}}^{m \times n}$, $b \in {\mathbb{R}}^{m}$, $q \in {\mathbb{R}}^{n}$ and $P \in {\mathbb{R}}^{n \times n}$. We assume that $P$ is symmetric and positive semidefinite (possibly zero) and that the set $\mathcal{K}$ is a closed and convex cone. We will denote the optimal value of this problem as $p^{\ast}$ and an optimizer (when it exists) as $(x^{\ast},s^{\ast})$.

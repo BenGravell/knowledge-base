@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2410.04083", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In this paper, we consider the following unconstrained optimization problem: where $\mathbb{E}$ is a $d$-dimensional real value space and $f{(x)}$ is a highly-smooth function:

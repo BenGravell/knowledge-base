@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.08228", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Motion forecasting and planning are core autonomous vehicle capabilities. The forecasting task typically involves predicting the likely future trajectories of dynamic agents (e.g., pedestrians, cyclists, and vehicles). The planning task predicts trajectories for the autonomous vehicle (the ego-agent) conditioned on the route objective, optimizing for comfortable and safe motion with respect to the likely behaviors of other dynamic agents. The complexity of this task arises from the inherent uncertainty in predicting the dynamic agents' behavior, the complex interactions between them, and the need to reason about the long-term consequences of actions in a continuous state space. Systematically improving the performance on this task requires advances in modeling to account for the interactions between dynamic agents, thoughtful model input design to reduce information bottlenecks due to limitations in the interface with the perception system, and training data scaling to improve the model performance on long-tail scenarios.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1701.07875", "source": "ar5iv"} -->
+
 ## Introduction
 
 The problem this paper is concerned with is that of unsupervised learning. Mainly, what does it mean to learn a probability distribution? The classical answer to this is to learn a probability density. This is often done by defining a parametric family of densities ${(P_{\theta})}_{\theta \in {\mathbb{R}}^{d}}$ and finding the one that maximized the likelihood on our data: if we have real data examples ${\{ x^{(i)}\}}_{i = 1}^{m}$, we would solve the problem If the real data distribution ${\mathbb{P}}_{r}$ admits a density and ${\mathbb{P}}_{\theta}$ is the distribution of the parametrized density $P_{\theta}$, then, asymptotically, this amounts to minimizing the Kullback-Leibler divergence $KL{({{\mathbb{P}}_{r} \parallel {\mathbb{P}}_{\theta}})}$.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1802.08334", "source": "ar5iv"} -->
+
 ## Introduction
 
 System identification---the problem of estimating the parameters of a dynamical system given a time series of its trajectories--- is a fundamental problem in time-series analysis, control theory, robotics, and reinforcement learning. Despite its importance, sharp, non-asymptotic analyses for the sample complexity of system identification are rare. In particular, it is not known how many trajectories required to identify the parameters of an unknown *linear* system. Properly characterizing this sample complexity would have profound implications, since accurate error bounds are indispensable for designing robust and high-performing control systems. It is important that the bounds be sharp, in the sense that they do not drastically *overestimate* the number of required measurements from system trajectories, which are often time-consuming and prohibitively expensive to collect. More broadly, a deeper understand of system identification would inform other statistical problems where one wishes to learn from non-i.i.d. or time-correlated data.

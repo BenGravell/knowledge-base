@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2005.12167", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 The field of learning control has recently seen explosive growth, which can be attributed to the availability of large amounts of data, creating an incentive for controllers that use the available information optimally. A significant amount of this research effort is being directed towards the familiar Linear Quadratic Regulation (LQR) problem where the transition matrices are unknown. Most of these developments however are related to deterministic systems.

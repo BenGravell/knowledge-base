@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.15185", "source": "arxiv-html"} -->
+
 ## Introduction
 
 (a) High-capacity perceptual representation, e.g., high-resolution BEV (c) (Non-)generative Modeling Figure 1: Architectural Patterns. (a) High-resolution BEV features facilitate perception tasks, but promote overfitting the planner. (b) Closed-loop methods prefer path over trajectory representations due to robust steering. (c) Point-estimates interpolate between trajectory modes that diffusion-based sampling can breed.

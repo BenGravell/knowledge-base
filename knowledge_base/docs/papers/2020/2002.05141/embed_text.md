@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2002.05141", "source": "ar5iv"} -->
+
 ## Introduction
 
 The celebrated Kalman filter has been a fundamental approach for estimation and prediction of time-series data, with diverse applications ranging from control systems and robotics to computer vision and economics. Given a known system model with known noise statistics, the Kalman filter predicts future observations of a *partially observable* dynamical process by filtering past observations. When the underlying process is linear and the noise is Gaussian, the Kalman filter is optimal in the sense that it minimizes the mean square prediction error. Since Kalman's seminal paper, the stability and statistical properties of the Kalman filter have been well studied when the system model is known.

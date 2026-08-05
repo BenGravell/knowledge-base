@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1805.00521", "source": "ar5iv"} -->
+
 ## Introduction
 
 In this paper, we study accelerated first-order optimization algorithms for the problem where $f$ is convex and sufficiently smooth. A classical method for solving is gradient descent (Gd), which displays a sub-optimal convergence rate of $\mathcal{O}{(N^{- 1})}$---i.e., the gap ${f{(x_{N})}} - {f{(x^{\ast})}}$ between Gd and the optimal value $f{(x^{\ast})}$ decreases to zero at the rate of $\mathcal{O}{(N^{- 1})}$. Nesterov's seminal accelerated gradient method matches the oracle lower bound of $O{(N^{- 2})}$, and is thus a central result in the theory of convex optimization.

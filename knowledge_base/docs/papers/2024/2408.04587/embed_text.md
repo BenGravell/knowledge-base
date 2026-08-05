@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2408.04587", "source": "arxiv-html"} -->
+
 ## Introduction
 
 We are interested in developing *sim-to-real* techniques for learning assembly primitives (e.g., low-clearance insertion or nut-threading). Over the past decade, sim-to-real techniques have led to advances in dexterous manipulation and legged locomotion. However, similar results have only recently been achieved for robotic assembly, which requires efficient and accurate simulation of the detailed, low-clearance parts. Even with these advances, successful sim-to-real deployment remains challenging for contact-rich tasks.

@@ -14,378 +14,474 @@ Optimizes MPC costs and constraints by backpropagating closed-loop performance t
 
 Model predictive control (MPC) is pervasive in research and industry. However, designing the cost function and the constraints of the MPC to maximize closed-loop performance remains an open problem. To achieve optimal tuning, we propose a backpropagation scheme that solves a policy optimization problem with nonlinear system dynamics and MPC policies. We enforce the system dynamics using linearization and allow the MPC problem to contain elements that depend on the current system state and on past MPC solutions. Moreover, we propose a simple extension that can deal with losses of feasibility. Our approach, unlike other methods in the literature, enjoys convergence guarantees.
 
-<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0004", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-In recent years, optimization-based control algorithms have become increasingly popular in industry and academia, in part thanks to the ever-growing computational power of CPUs, and the availability of fast numerical implementations. Arguably, the biggest appeal of optimization-based control techniques is their ability to explicitly account for process constraints in their formulation, allowing for an optimal and safe selection of the control inputs.
+Among optimization-based control schemes, model predictive control (MPC) has recently attracted increasing attention in both industry and academia. This technique enables feedback by repeatedly solving a numerical optimization problem at every time-step, each time taking into account the current (measured or estimated) state of the system as well as process and input constraints. Because of its effectiveness in practical applications, researchers have dedicated significant effort to the task of designing MPC controllers. For example, showed that the introduction of an appropriately selected terminal cost can ensure stability and feasibility of the closedloop. More recently, proposed a design to ensure that the MPC behaves like a linear controller around a specified operating point, with the goal of inheriting the well-known stability and robustness properties of linear controllers. The objective function of an MPC can also be chosen to incentivize learning of an unknown model, as proposed.
 
-<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0005", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-A well-known strategy, also commonly used in industry, is model predictive control (MPC). This technique enables feedback by repeatedly solving a numerical optimization problem at every time-step, each time taking into account the current (measured or estimated) state of the system.
+MPC design can be viewed as a policy optimization problem. Policy optimization is a well-known problem in reinforcement learning, where the goal is to obtain a control policy that minimizes some performance objective. In common applications, the policy is parameterized by problem parameters, states, or inputs, and gradient-based techniques are used to learn the optimal parameters. In the context of MPC, the design parameters are generally the cost and the constraints of Research supported by the Swiss National Science Foundation under NCCR Automation (grant agreement 51NF40 180545). R. Zuliani and J. Lygeros are with the Automatic Control Laboratory (IfA), ETH Z¨ urich, 8092 Z¨ urich, Switzerland { rzuliani,lygeros } @ethz.ch. E. C. Balta is with Inspire AG, 8005 Z¨ urich, Switzerland & with IfA efe.balta@inspire.ch. the problem. The challenge when considering model predictive control policies is that the MPC policy and resulting closedloop performance are generally not differentiable with respect to the parameters.
 
-<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0006", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-Because of its effectiveness in practical applications, researchers have dedicated significant effort to the task of designing MPC controllers. For example, showed that the introduction of an appropriately selected terminal cost can ensure stability and feasibility of the closed-loop. More recently, proposed a design to ensures that the MPC behaves like a linear controller around a specified operating point, with the goal of inheriting the well-known stability and robustness properties of linear controllers. The objective function of an MPC can also be chosen to incentivise learning of an unknown model, as proposed.
+Recently, differentiable optimization provided a principled way to overcome the nondifferentiability issue. Specifically, proved that, under certain conditions, the optimizer of a quadratic program (QP) is indeed continuously differentiable with respect to design parameters appearing in the cost and the constraints, and that the gradient can be retrieved by applying the implicit function theorem to the KKT conditions of the QP. Since MPC problems are often formulated as QPs, this approach effectively allows for the differentiation of MPC policies. This discovery led to a plethora of applications of differentiable optimization in the realm of model predictive control. For example, considers the problem of imitation learning, where the tuning parameters are the cost and the model of the linear dynamics of an MPC problem. The idea of utilizing the KKT conditions to obtain derivatives of an optimization problem does not stop with quadratic programs. uses the same technique to compute gradients of a nonlinear optimal control problem, and uses this information to conduct online design of a robust model predictive controller. The goal in this case is to match the performance of a nominal controller. Similarly, introduces a predictive safety filter to ensure the safety of the closed-loop operation.
 
-<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0007", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-MPC design can be viewed as a policy optimization problem. Policy optimization is a well-known problem in reinforcement learning, where the goal is to obtain a control policy that minimizes some performance objective. In common applications, the policy is parameterized with respect to problem parameters, states, or inputs, and gradient-based techniques are used to learn the optimal parameters. In the context of MPC, the design parameters are generally the cost and the constraints of the problem. The challenge when considering model predictive control policies is that MPCs are generally not differentiable.
+In a similar fashion, over the course of several papers -, Gros and Zanon used policy gradient methods to optimize the performance of nonlinear economic MPC. The main idea behind these works is to utilize a nonlinear MPC as a function approximator that can encode both the value and the action-value functions of a given problem. Their algorithm can produce MPC schemes that are stabilizing by construction and safe against additive disturbances (only in the case of affine systems). In particular, is the work that we believe is closest to ours, as it uses a linearizationbased procedure to avoid solving a nonconvex problem online. However, the authors focus on infinite horizon problems and do not provide a detailed treatment of the convergence of the optimization algorithm. Additionally, the parameter update is performed online (i.e. as the controller is deployed on the system).
 
-<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0008", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-Recently, differentiable optimization provided a principled way to overcome the nondifferentiability issue. Specifically, proved that, under certain conditions, the optimizer of a quadratic program (QP) is indeed differentiable with respect to design parameters appearing in the cost and the constraints, and that the gradient can be retrieved by applying the implicit function theorem to the KKT conditions of the QP. Since most MPC problems can be written as QPs, this approach effectively allows for the differentiation of MPC policies.
+These sophisticated differentiable optimization-based methods rely on the assumption that the optimizer of the MPC problem is continuously differentiable, since the gradient of the optimizer is obtained using the implicit function theorem.
 
-<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0009", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-This discovery led to a plethora of applications in the realm of model predictive control. For example, considers the problem of imitation learning, where the tuning parameters are the cost and the model of the linear dynamics of an MPC problem. The idea of utilizing the KKT conditions to obtain derivatives of an optimization problem does not stop with quadratic programs. uses the same technique to compute gradients of a nonlinear optimal control problem, and uses this information to conduct online design of a robust model predictive controller. The goal in this case is to match the performance of a nominal controller. Similarly, introduces a predictive safety filter to ensure safety of the closed-loop operation.
+It is well known, however, that this may not be the case, and that the optimizer may not be everywhere differentiable even for simple projection problems. The continuous differentiability assumption can be relaxed thanks to the recently developed concept of conservative Jacobians. Conservative Jacobians are set-valued operators that extend the concept of gradients to almost-everywhere differentiable functions. Similarly to other generalized Jacobians, they obey the chain rule of differentiation and can be used to create firstorder optimization schemes with convergence guarantees. However, unlike e.g. Clarke Jacobians, conservative Jacobians satisfy a nonsmooth implicit function theorem, which is essential in our setting to obtain the sensitivity of the solution maps of the MPC problems.
 
-<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0010", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-One shortcoming of all approaches mentioned so far is that they rely on the assumption that the optimizer of the MPC problem is continuously differentiable, since the gradient of the optimizer is obtained using the implicit function theorem. It is well-known, however, that this may not be the case, and that the optimizer may not be everywhere differentiable even for simple projection problems.
+In this paper, we consider the problem of optimizing the closed-loop trajectory directly by backpropagation. Specifically, we compute the conservative Jacobian of the entire closed-loop trajectory with respect to variations of the design parameters by applying the chain rule to the conservative Jacobians of each MPC problem. We then apply a gradientbased scheme to update the value of the parameter and obtain improved closed-loop performance. This is fundamentally different than optimizing a single MPC step as it accounts for the effect of the receding horizon, where past decisions influece future ones.
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-The continuous differentiability assumption can be relaxed thanks to the recently developed concept of conservative Jacobians. Conservative Jacobians are set-valued objects that extend gradients to almost-everywhere differentiable functions. These objects satisfy important and useful properties generally associated with differentiable functions, like the chain rule of differentiation and the implicit function theorem. Moreover, conservative Jacobians can be used to create first-order optimization schemes with convergence guarantees.
+The idea of using backpropagation to improve closed-loop performance of MPC first appeared in and. These studies focused on linear dynamics without state constraints and did not provide formal convergence guarantees. Our work makes the following contributions.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-A second limitation of all the approaches mentioned before, is that they all utilize objective functions that concern a single time-step. In most cases, the objective is exclusively open-loop and does not take into account the interaction between the controller and the system dynamics. In this paper, on the other hand, we consider the problem of optimizing the closed-loop trajectory directly by employing a backpropagation-based scheme. Specifically, we compute the conservative Jacobian of the entire closed-loop trajectory with respect to variations of the design parameters by applying the chain rule to the conservative Jacobians of each MPC problem. We then apply a gradient-based scheme to update the value of the parameter to obtain better closed-loop performance.
+- 1) We utilize the backpropagation paradigm to solve a nonconvex closed-loop policy optimization problem where the policy is a parameterized MPC. The MPC utilizes a linearized version of the system dynamics to retain convexity. - 2) We provide conditions under which the closed-loop optimization problem is well posed by extending to the nonsmooth regime, and propose a gradient-based method with convergence guarantees (to a critical point). - 3) We allow the MPC to have cost and constraints that depend on the current state of the system and on the solution of the MPC problem in the previous time-steps, allowing, for example, the application of the real-time iteration. - 4) We propose a simple extension to deal with cases where the MPC scheme loses feasibility and provide conditions under which the closed-loop is guaranteed to converge to a safe operation.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-The idea of using backpropagation to improve closed-loop performance of MPC first appeared in and. However, in these works, the authors focused on linear dynamics and simple MPC schemes with no state constraints, without providing formal convergence guarantees. In this paper, we greatly extend the backpropagation framework, primarily by considering nonlinear system dynamics, nonconvex closed-loop objectives, and by allowing the MPC scheme to contain elements that depend on the current state of the system and / or on the MPC solution computed in the previous time-step. Moreover, we provide a simple extension that can safely recover from infeasibility.
+To compute the conservative Jacobian of each optimization problem, we adapt and extend the techniques described in to a control theoretic context. Additionally, we derive problem-specific sufficient conditions under which the nonsmooth implicit function theorem in can be applied. We finally showcase our findings through simulation on a nonlinear problem.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-The contributions of this paper can be summarized as follows.
+Our algorithm can be applied under the assumption that the initial condition of the system is known (this is the case e.g. for iterative control tasks). The work presented in this paper has been recently extended in to uncertain systems subject to additive noise and with uncertain initial conditions.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-We utilize the backpropagation paradigm to solve a nonconvex closed-loop policy optimization problem where the policy is a parameterized MPC. The MPC utilizes a linearized version of the system dynamics to retain convexity.
+The remainder of this paper is structured as follows. Section II describes the system dynamics, the control policy, and the policy optimization problem. Section III presents a short recap of conservative Jacobians, their main calculus rules, and a way to minimize such functions with a firstorder scheme. Section IV demonstrates how the conservative Jacobian of an MPC problem can be computed. Section V showcases our main algorithmic contribution by describing the backpropagation scheme and the main optimization algorithm. In Section VI we provide some useful extensions to our scheme, such as nonlinear dynamics and recovery from infeasibility. In Section VII we showcase our methods in simulation.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-We provide convergence guarantees of the policy optimization problem.
+Notation: We use N, Z, R to denote the set of natural, integer, and real numbers, respectively. Z [ a,b ] is the set of integers z with a ≤ z ≤ b, for some a ≤ b. If C ⊂ R n is a convex set, we denote with P C the orthogonal projector to the set. Given a matrix A ∈ R n × m, we use r ( A,j ) to denote the j -th row of A (with j ∈ Z [1,n ] ). We use A ≻ 0 ( A ⪰ 0 ) to indicate that the symmetric matrix A is positive definite (positive semi-definite). We use A ∼ B to indicate that A is a function of B. ‖ · ‖ denotes the 2 -norm, and 〈 a, b 〉 = a ⊤ b is the Euclidean inner product.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "System dynamics and constraints", "weight": 1.0} -->
 
-We allow the MPC to have cost and constraints that depend on the current state of the system and / or on the solution of the MPC problem in the previous time-steps, allowing for example the possibility of a successive linearization MPC scheme.
+We consider a nonlinear time-invariant system where the state dynamics are given for each time-step t ∈ N by with f locally Lipschitz and ¯ x 0 ∈ R n x known. We assume that (¯ x t, ¯ u t) = 0 is an equilibrium. The state ¯ x t ∈ R n x and the input ¯ u t ∈ R n u are subject to polytopic constraints The control input ¯ u t is determined, at each time-step, by a parameterized control policy π: R n x × R n p → R n u The parameter vector p ∈ R n p parameterizes the control policy π at any state ¯ x t (we refer the reader to Subsection II-B for a concrete example of p in the context of MPC). We require p to satisfy the constraint p ∈ P, for some polytopic set P. Below, we restrict attention to MPC control policies.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "System dynamics and constraints", "weight": 1.0} -->
 
-We propose a simple extension to deal with cases where the MPC scheme loses feasibility, and provide conditions under which the closed-loop is guaranteed to converge to a safe operation.
+The goal of this paper is to minimize an objective function involving p and the closed-loop state and input trajectory (¯ x, ¯ u):= (¯ x 0,..., ¯ x T +1, ¯ u 0,..., ¯ u T) for some finite time interval T ∈ N > 0, under the constraints. where C: R (T +2) n x × R (T +1) n u × R n p → R ≥ 0 specifies the performance objective. In, T should be chosen large enough to reach the desired equilibrium condition. Note that problem may be non-convex. In the following, for simplicity, we consider the case for some Q x ∈ R n x × n x with Q x ≻ 0. Our method can easily be extended to more general cost functions as described in Subsection VI-C.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Model predictive control", "weight": 1.0} -->
 
-To compute the conservative Jacobian of each optimization problem, we adapt and extend the techniques described in to a control theoretic framework. Additionally, we derive problem-specific sufficient conditions under which the nonsmooth implicit function theorem in can be applied. We finally showcase our findings in simulation.
+In this paper, we restrict attention to MPC policies, where the control input is chosen as the solution of an optimal control problem. Specifically, after measuring the current state ¯ x t, we use the knowledge we possess about the system to optimize the future prediction of the state-input trajectories of the system. The predicted trajectories are denoted by x t:= (x 0 | t,..., x N | t) ∈ R (N +1) n x and u t:= (u 0 | t,..., u N -1 | t) ∈ R Nn u, where N ∈ N > 0, with N ≪ T, is the prediction horizon of the MPC. The initial state is chosen to be equal to the true state of the system, x 0 | t = ¯ x t and, to ensure convexity, we approximate the state dynamics as where A t, B t, and c t are known at runtime and should be chosen to accurately approximate the real dynamics in the vicinity of ¯ x t. We use S t:= (A t, B t, c t) to compactly represent the approximate dynamics at time t.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Model predictive control", "weight": 1.0} -->
 
-The remainder of this paper is structured as follows. Section III describes the system dynamics (Subsection III-A), the control policy (Subsection III-B), and the policy optimization problem (Subsection III-C). Section IV presents a short recap of conservative Jacobians, their main calculus rule, and a way to minimize such functions with a first-order scheme. Section V demonstrates how the conservative Jacobian of an MPC problem can be computed. Section VI showcases our main algorithmic contribution by describing the backpropagation scheme (Subsection VI-A) and the main optimization algorithm (Subsection VI-B). In Section VII we provide some useful extensions to our scheme; specifically, we present various ways to enforce system dynamics in the MPC problem (Subsection VII-A), we include the possibility of having state-dependent cost and constraints (Subsection VII-B), nonconvex objective functions (Subsection VII-C), and deal with scenarios where the MPC scheme is not feasible (Subsection VII-D). In Section VIII we showcase our methods in simulation.
+Each predicted state and input must satisfy the constraints. In addition, we generally impose different constraints on the predicted terminal state x N | t The objective function in the MPC is an approximation of the objective, given by where we added a terminal penalty ‖ x N | t ‖ 2 P and a penalty on the input, with P, R u ≻ 0, to ensure that the problem is strongly convex. The MPC problem that is solved online at each time-step is therefore given as follows.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "III-A System dynamics and constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Model predictive control", "weight": 1.0} -->
 
-We consider a nonlinear time-invariant system where the state dynamics are given for each time-step $t \in {\mathbb{N}}$ by with $f$ locally Lipschitz and ${\overline{x}}_{0} \in {\mathbb{R}}^{n_{x}}$ known.
+At each time-step, after measuring ¯ x t and obtaining S t, we solve and choose π (¯ x t, p) = u 0 | t, where u 0 | t is the first entry of the input trajectory. We use MPC(¯ x t, S t, p) to denote the function that maps a parameter p, a nominal system S t, and an initial condition ¯ x t to a control input ¯ u t = u 0 | t, so that Here we treat the terminal cost and the input cost as tunable parameters, by letting p:= (P, R u). However, with the same framework, one can also choose p as any other element appearing in the cost or in the constraints of.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "III-A System dynamics and constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "A projected gradient-based framework", "weight": 1.0} -->
 
-We focus on optimization-based policies (specifically, model predictive control). We additionally require $p$ to satisfy the constraint $p \in \mathcal{P}$, for some polytopic set $\mathcal{P}$.
+For the time being, we assume that S t ≡ S and drop it from the notation; we deal with the more complex case where S t is determined online in Subsection VI-A. Combining problem with the cost function and the controller, leads to the closed-loop control problem Note that we can remove the input constraints, as they are automatically satisfied if the inputs are obtained from the MPC. As shown in Appendix A, can be compactly rewritten as follows. where ¯ x (p) is the closed-loop state trajectory generated by the dynamics under controller for a given value of p. In the following section, we derive an efficient procedure to obtain generalized gradients of the function C with respect to p.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "III-A System dynamics and constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-The goal of this paper is to minimize an objective function involving $p$ and the closed-loop state and input trajectory ${(\overline{x},\overline{u})}:={({\overline{x}}_{0},\ldots,{\overline{x}}_{T},{\overline{u}}_{0},\ldots,{\overline{u}}_{T})}$ for some finite time interval ${\mathbb{Z}}_{\lbrack 0,T\rbrack}$, under the constraints in 2. The problem is given in 4.
+In the upcoming sections, we repeatedly deal with the problem of minimizing a nonsmooth, nonconvex function. These problems admit a simple solution strategy based on a descent algorithm. However, because of the nonsmoothness, we cannot always guarantee the existence of a gradient. Luckily, we can still devise descent algorithms if the function is almost everywhere differentiable thanks to the concept of conservative Jacobian. This section describes how conservative Jacobians generalize the notion of gradient to functions that are almost everywhere differentiable.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "III-A System dynamics and constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-where $\mathcal{C}:{{{\mathbb{R}}^{{({T + 1})}n_{x}} \times {\mathbb{R}}^{{({T + 1})}n_{u}} \times {\mathbb{R}}^{n_{p}}}\rightarrow{\mathbb{R}}_{\geq 0}}$ specifies the performance objective. In 4, $T \in {\mathbb{N}}_{> 0}$ should be chosen large enough to reach the desired equilibrium condition. Ideally, the state ${\overline{x}}_{t}$ should converge to the origin for the current choice of $p$. Problem 4 is potentially non-convex since $\mathcal{C}$ may not be a convex function, and $\pi$ and $f$ may not be affine functions.
+A path is an absolutely continuous function x: → R n which admits a derivative ˙ x for almost every t ∈, and for which x ( t ) -x is the Lebesgue integral of ˙ x between 0 and t for all t ∈.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "III-A System dynamics and constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-In the following, for simplicity, we consider the case for some $Q_{x} \in {\mathbb{R}}^{n_{x} \times n_{x}}$ with $Q_{x} \succ 0$. Our method can easily be extended to more general cost functions as described in Subsection VII-C.
+Definition 1 ([16, Section 2]). A locally Lipschitz function ϕ: R n → R m admits J ϕ: R n ⇒ R m × n as a conservative Jacobian, if J ϕ is nonempty-valued, outer semicontinuous, locally bounded, and for all paths x: → R n and almost all t ∈ A locally Lipschitz function ϕ that admits a conservative Jacobian J ϕ is called path-differentiable.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "III-A System dynamics and constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-Before proposing an algorithmic solution to 4, we specify what class of policies $\pi$ we are interested, namely, model predictive control policies.
+If ϕ: R n × R p → R n is a function of two arguments p and x, we define J ϕ,x (˜ p, ˜ x ) = { V: [ U V ] ∈ J ϕ (˜ p, ˜ x ) } as the conservative Jacobian of ϕ with respect to x (and similarly for J ϕ,p (˜ p, ˜ x ) ). Note that J ϕ,x (˜ p, ˜ x ) and J ϕ,p (˜ p, ˜ x ) are obtained through the projections of the conservative Jacobian J ϕ onto the ˜ p and ˜ x coordinates.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "III-B Model predictive control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-In this paper, we restrict our attention to MPC policies, where the control input is chosen as the solution of an optimal control problem. Specifically, after measuring the current state ${\overline{x}}_{t}$, we use the knowledge we possess about the system 1 to optimize the future prediction of the state-input trajectories of the system.
+Conservative Jacobians extend the concept of gradient to nonsmooth almost everywhere differentiable functions. Moreover, the conservative Jacobian J ϕ coincides with the gradient ∇ x ϕ ( x ) almost everywhere [14, Theorem 1]. If ϕ is convex, then the standard subdifferential ∂f is a conservative Jacobian for ϕ.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "III-B Model predictive control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-The initial state is chosen to be equal to the true state of the system, i.e., $x_{0|t} = {\overline{x}}_{t}$ and, to ensure convexity, we approximate the state dynamics as where $A_{t}$, $B_{t}$, and $c_{t}$ are known at runtime and should be chosen to accurately approximate the real dynamics 1 in the vicinity of ${\overline{x}}_{t}$. We use $S_{t}:={(A_{t},B_{t},c_{t})}$ to compactly represent the approximate dynamics at time $t$.
+The most useful property that conservative Jacobians possess is that they admit the chain rule. This immediately implies the following composition rule.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "III-B Model predictive control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-Each predicted state and input must satisfy the constraints 2. In addition, we generally impose different constraints on the predicted terminal state $x_{N|t}$, namely The objective function in the MPC is an approximation of the objective in 4, given by where we added a terminal penalty ${\| x_{N|t}\|}_{P}^{2}$ and a penalty on the input, with ${P,R_{u}} \succ 0$. The positive definiteness of $Q_{x}$, $R_{u}$, and $P$ ensures that the problem is strongly convex.
+Lemma 1 ([14, Lemma 6]). Given two path-differentiable functions ϕ: R n x → R n p, ψ: R n p → R n u, with conservative Jacobians J ϕ and J ψ, the function ϕ ◦ ψ is path-differentiable with conservative Jacobian J ϕ ◦ ψ ( x ) = J ϕ ( ψ ( x )) J ψ ( x ).
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "III-B Model predictive control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-The MPC problem that is solved online at each time-step is therefore given as follows.
+Unfortunately, not every locally Lipschitz function is pathdifferentiable. For this reason, we restrict our attention to definable functions.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "III-B Model predictive control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-We use $\text{MPC}{({\overline{x}}_{t},S_{t},p)}$ to denote the function that maps a parameter $p$, a nominal system $S_{t}$, and an initial condition ${\overline{x}}_{t}$ to a control input ${\overline{u}}_{t} = u_{0|t}$, so that In this paper, we choose the terminal ingredients (i.e., the terminal cost and the terminal constraints) as tunable parameters, namely by letting $p:={(P,H_{x,N},h_{x,N})}$; however, we can, using the same math and algorithms, choose $p$ as any other element appearing in the cost or in the constraints of 7.
+Definition 2 ([22, Definitions 1.4 and 1.5]). A collection O = ( O n ) n ∈ N, where each O n contains subsets of R n, is an ominimal structure on ( R, +, · ) if
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "III-C A projected gradient-based framework", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-In this section, we rewrite 4 considering the control policy given in 8 and then provide a simple gradient-based algorithm that can be used to solve such a problem. For simplicity, we assume that $S_{t} \equiv S$ and write simply $\text{MPC}{({\overline{x}}_{t},p)}$. We deal with the more complex case where $S_{t}$ is dynamically determined online in Subsection VII-A.
+- 2) the elements of O 1 are precisely the finite unions of points and intervals; - 1) all semialgebraic subsets of R n belong to O n; - 3) O n is a boolean subalgebra of the powerset of R n; - 5) if A ∈ O n +1, then the set containing the elements of A projected onto their first n coordinates belongs to O n.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "III-C A projected gradient-based framework", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-First, combining problem 4 with the cost function 5 and the policy in 7, we obtain the closed-loop control problem in 9. Note that we can remove the input constraints 2b in 4, as these are automatically satisfied if the inputs ${\overline{u}}_{t}$ are obtained from the MPC policy 7.
+A subset of R n which belongs to O is said to be definable (in an o-minimal structure). A function ϕ: R n → R p is definable if its graph { ( x, v ): v = ϕ ( x ) } is definable.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "III-C A projected gradient-based framework", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-| | \underset{p}{\text{minimize}} & {\mathcal{C}{({\overline{x}{(p)}})}} \\ | | | | | \text{subject to} & {{{\mathcal{H}{({\overline{x}{(p)}})}} \leq 0},} | | | where $\overline{x}{(p)}$ is the closed loop state trajectory generated by the dynamics 1 under the policy 8 for a given value of $p$. In the following section, we derive an efficient procedure to obtain gradients of the function $\mathcal{C}$ with respect to $p$. Since $\overline{x}$ is generally a nonsmooth function of $p$, we need to utilize a more general version of gradient that applies to nonsmooth functions.
+Definable functions possess the following useful property.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Conservative Jacobians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-In the upcoming sections we repeatedly deal with the problem of minimizing a nonsmooth, nonconvex function. These problems admit a simple solution strategy based on a descent algorithm; however, because of the nonsmoothness, we cannot always guarantee the existence of a gradient. Luckily, we can still devise descent algorithms if the function is almost everywhere differentiable thanks to the concept of conservative Jacobian. This section describes how conservative Jacobians generalize the notion of gradient to functions that are almost everywhere differentiable.
+Lemma 2 ([14, Proposition 2]). All locally Lipschitz definable functions are path-differentiable.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Conservative Jacobians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-An absolutely continuous curve, or path, is an absolutely continuous function $x:{{\lbrack 0,1\rbrack}\rightarrow{\mathbb{R}}^{n}}$ which admits a derivative $\overset{˙}{x}$ for almost every $t \in {\lbrack 0,1\rbrack}$, and for which ${x{(t)}} - {x{}}$ is the Lebesgue integral of $\overset{˙}{x}$ between $0$ and $t$ for all $t \in {\lbrack 0,1\rbrack}$. Equipped with the definition of path, we can define the concept of conservative Jacobian.
+Another crucial property of locally Lipschitz definable functions is that obey a nonsmooth version of the implicit function theorem.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Differentiating the MPC policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "CONSERVATIVE JACOBIANS", "weight": 1.0} -->
 
-In this section we rewrite 7 in a more convenient form and then show that, under certain conditions, the map MPC$({\overline{x}}_{t},p)$ admits a conservative Jacobian. This Jacobian will later be used to devise a descent algorithm for 9. We begin by rewriting MPC$({\overline{x}}_{t},p)$ as a quadratic program in standard form.
+Lemma 3 ([23, Theorem 5]). Let ϕ: R n x × R n p → R n x be a locally Lipschitz definable function and let J ϕ be its conservative Jacobian. Suppose ϕ (˜ x, ˜ p) = 0 for some ˜ x ∈ R n x and ˜ p ∈ R n p. Assume that J ϕ is convex and that for every [U V] ∈ J ϕ (˜ x, ˜ p) the matrix U is invertible. Then there exists a neighborhood N (˜ x) × N (˜ p) of (˜ x, ˜ p) and a path differentiable definable function x: N (˜ p) → N (˜ x) such that for all p ∈ N (˜ p) it holds that ϕ (x (p), p) = 0, and the conservative Jacobian J x of x is given for all p ∈ N (˜ p) by Path-differentiable definable functions can be minimized using simple projected-gradient based scheme as outlined in Algorithm 1.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "V-A Writing the MPC problem as a QP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Algorithm 1 Minimization of path-differentiable functions", "weight": 1.0} -->
 
-The optimal control problem MPC$({\overline{x}}_{t},p)$ is a quadratic program. Following the procedure outlined in Appendix B, we can reformulate the problem in standard form as follows.
+1: while not converged do Where we used P P to denote the projector to the set P. Typically, we stop the algorithm e.g. when ‖ p k -p k -1 ‖ < tol for some positive tolerance tol, or after exceeding a certain number of iterations. The following results demonstrates that, under certain conditions on the step-size { α k } k ∈ N, Algorithm 1 is guaranteed to converge to a critical point of ϕ.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "V-A Writing the MPC problem as a QP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Algorithm 1 Minimization of path-differentiable functions", "weight": 1.0} -->
 
-Note that the parameter $p$ can potentially affect every element in the cost and in the constraints of QP$(\overline{p})$, whereas the initial condition ${\overline{x}}_{t}$ can only affect the linear parts of the cost and the constraints.
+Lemma 4 ([15, Theorem 6.2]). Assume that ϕ is pathdifferentiable and definable, that P is a polytopic set, that the stepsizes { α k } k ∈ N ⊂ R > 0 satisfy and that sup k ‖ x k ‖ < ∞. Then x k as obtained via Algorithm 1 converges to a critical point of ϕ, i.e., a point ˜ x for which 0 ∈ J ϕ (˜ x).
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "V-A Writing the MPC problem as a QP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Algorithm 1 Minimization of path-differentiable functions", "weight": 1.0} -->
 
-It theory, it would be possible to obtain the conservative Jacobian of the solution $y{(\overline{p})}$ of QP$(\overline{p})$ with respect to variations of $\overline{p}$, but this turns out to be unnecessarily complex because of the presence of $\overline{p}$ in the equality and inequality constraints. To greatly simplify the computation of the conservative Jacobian, we prefer to operate on the Lagrange dual problem associated to QP$(\overline{p})$. In this case, the constraints are parameter-independent, as $\overline{p}$ only affects the cost function of the problem.
+The assumption on the boundedness of the conservative Jacobians is not restrictive in practice and it is generally satisfied under a suitable stepsize choice, or if P is a bounded set. Readers should refer to for more details.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "V-A Writing the MPC problem as a QP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "DIFFERENTIATING THE MPC POLICY", "weight": 1.0} -->
 
-Since our procedure involves computing the conservative Jacobian of the dual optimizer, we must ensure that the dual problem has a unique solution for every value of $\overline{p}$. To this end, we impose the following assumption.
+In this section, we rewrite in a more convenient form and then show that, under certain conditions, the map MPC(¯ x t, p ) admits a conservative Jacobian, leading to a descent algorithm.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Assumption 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Writing the MPC problem as a QP", "weight": 1.0} -->
 
-For all parameter vectors $\overline{p}$ in some polytopic set $\mathcal{Y}$, the matrix $Q{(p)}$ in 12 is positive definite, problem 12 is feasible, and it satisfies the linear independence constraint qualification (LICQ).
+Problem can be reformulated as a quadratic program in standard form (see e.g. [24, Section III]) where ¯ p:= (¯ x t, p). We denote with n in and n eq the number of inequality and equality constraints, respectively. Note that the parameter p can potentially affect all terms in the cost and in the constraints, whereas the initial condition ¯ x t can only affect the linear part of the cost and the affine term in the constraints.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Assumption 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Writing the MPC problem as a QP", "weight": 1.0} -->
 
-The feasibility condition in Assumption 1 is quite restrictive in practical scenarios. We propose a simple extension of our method that can deal with losses of feasibility in Subsection VII-D.
+To simplify the computation of the conservative Jacobian, we operate on the Lagrange dual problem associated to.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Assumption 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Writing the MPC problem as a QP", "weight": 1.0} -->
 
-Under Assumption 1, we can obtain the Lagrange dual of QP$(\overline{p})$ following the procedure outlined in Appendix C.
+In this case, the constraints are parameter-independent, as ¯ p only affects the cost function of the problem. To ensure that the dual problem has a unique solution for every value of ¯ p, we impose the following assumption.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "V-B Writing the dual as fixed point condition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Writing the MPC problem as a QP", "weight": 1.0} -->
 
-Our next objective is to synthesize a simple procedure to obtain the conservative Jacobian $\mathcal{J}_{z}$ of the dual optimizer $z$. Later, we will use $\mathcal{J}_{z}$ to obtain the conservative jacobian of the primal optimizer $y$ through 14.
+Assumption 1. For all parameter vectors ¯ p in some polytopic set Y, the matrix Q ( p ) in is positive definite, problem is feasible and satisfies the linear independence constraint qualification (LICQ).
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "V-B Writing the dual as fixed point condition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Writing the MPC problem as a QP", "weight": 1.0} -->
 
-To obtain $\mathcal{J}_{z}$, we follow the procedure proposed, namely, we write the optimality conditions of D$(\overline{p})$ as a fixed point equation ${\mathcal{F}{(z,\overline{p})}} = 0$, obtain the conservative Jacobian of $\mathcal{F}$ with respect to $z$ and $\overline{p}$, and apply the implicit function theorem described in Lemma 3. ‣ Definition 1 ([15, Section 2]). ‣ IV Conservative Jacobians ‣ BP-MPC: Optimizing Closed-Loop Performance of MPC using BackPropagation"). Under Assumption 1, we show that the invertibility condition in the statement of Lemma 3. ‣ Definition 1 ([15, Section 2]). ‣ IV Conservative Jacobians ‣ BP-MPC: Optimizing Closed-Loop Performance of MPC using BackPropagation") is always verified even if the dual problem is not necessarily strongly convex.
+Recall that satisfies the LICQ if given an optimizer y (¯ p), the rows of G associated with the active inequality constraints and the rows of F are linearly independent. Note that the LICQ assumption holds if, for example, the constraints on x k | t and u k | t in are simple box constraints for some x min, x max ∈ R n x, x min < x max, and u min, u max ∈ R n u, u min < u max.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "V-B Writing the dual as fixed point condition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Writing the MPC problem as a QP", "weight": 1.0} -->
 
-Since D$(\overline{p})$ is a quadratic program, the following is a well known necessary and sufficient condition for optimality \[17, Theorem 3.67\]: where $N_{C}$ is the normal cone mapping of $C$ \[17, Example 3.5\]. Leveraging \[18, Corollary 27.3\], we have that 15 is equivalent to where $\gamma \in {\mathbb{R}}_{> 0}$ is a positive scalar, $C:={\{{z \in {\mathbb{R}}^{n_{z}}}:{{Ez} \geq 0}\}}$, and $P_{C}:{{\mathbb{R}}^{n_{z}}\rightarrow C}$ is the projector to the set $C$, with $n_{z} = {n_{\text{in}} + n_{\text{eq}}}$.
+The feasibility condition in Assumption 1 can be restrictive in practical scenarios. We propose a simple extension of our method that can deal with losses of feasibility in Subsection VI-D.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "V-B Writing the dual as fixed point condition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Writing the MPC problem as a QP", "weight": 1.0} -->
 
-To obtain the conservative Jacobian of $\mathcal{F}$, we need $\mathcal{F}$ to be path-differentiable. This can be easily guaranteed with the following, mild, assumption.
+Under Assumption 1, we can obtain the Lagrange dual of following the procedure outlined in Appendix B.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Writing the MPC problem as a QP", "weight": 1.0} -->
 
-Leveraging Assumption 2, we have the following.
+Note that in the parameters p and ¯ x t only affect the quadratic part H and the linear part h of the cost, whereas the matrix E in the constraints is parameter-independent.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Remark 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Writing the MPC problem as a QP", "weight": 1.0} -->
 
-In practice, $J_{P_{C}}$ can be easily computed as See Remark 3 in Appendix D for more details. The simplicity of this computation is one of the primary reasons why the authors decided to work with the dual 13 instead of the primal 12.
+The primal solution y (¯ p ) can be obtained from the dual solution z (¯ p ) = ( λ (¯ p ), µ (¯ p )) as
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Remark 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-The conservative Jacobian $\mathcal{J}_{y}{(\overline{p})}$ of the primal optimizer $y{(\overline{p})}$ can then easily be retrieved from $\mathcal{J}_{z}{(\overline{p})}$ using 14. For simplicity, define
+To obtain the conservative Jacobian J z of the dual optimizer, we follow the procedure proposed: we write the optimality conditions of as a fixed point equation F (z, ¯ p) = 0, obtain the conservative Jacobian of F with respect to z and ¯ p, and apply the implicit function theorem in Lemma 3. Since is a quadratic program, a necessary and sufficient condition for optimality [25, Theorem 3.67] is where N C is the normal cone mapping of C:= { z ∈ R n z: Ez ≥ 0 }, with n z = n in + n eq [25, Example 3.5]. Leveraging [26, Corollary 27.3], we have that is equivalent to where γ ∈ R > 0 is a positive scalar and P C: R n z → C is the projection operator to the set C. To ensure the existence of the conservative Jacobian of F, we impose the following assumption.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "VI-A Backpropagation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-In the previous section, we showed how to compute the conservative Jacobian of the MPC map with respect to both the initial condition $x_{0}$, and the design parameter $p$. In this section, we build on this knowledge and describe a simple modular mechanism that can be used to obtain the conservative Jacobian of the entire closed loop trajectory $\overline{x}$ using the individual conservative Jacobians of each optimization problem.
+Assumption 2. The maps Q ( p ), q (¯ p ), F ( p ), φ (¯ p ), G ( p ), g (¯ p ) are locally Lipschitz and definable.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "VI-A Backpropagation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-The paradigm we employ, backpropagation, is far from unknown. In fact, this algorithmic invention had a huge impact in the field of machine learning and optimization. Backpropagation can be used to efficiently construct gradients with respect to design parameters of algorithms involving several successive steps. The idea is to compute the gradients of each step and combine them using the chain rule. This method eliminates redundant calculations, thus improving efficiency.
+Assumption 2 is not restrictive in practice as definable functions include most common functions of interest in the field of optimization and control. For example, all semialgebraic functions, real analytic functions (restricted to a definable domain), and any product, sum, inversion, and composition of definable functions are definable. Moreover, derivatives of definable functions are definable [22, Lemma 6.1], meaning that if F and φ are obtained by linearizing f (which is definable by Assumption 3) using the dynamic linearization technique outlined in Subsection VI-A, the definability assumption is immediately satisfied.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "VI-A Backpropagation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-In our case, the closed loop dynamics can be expressed as a recursive equation where every state ${\overline{x}}_{t + 1}$ depends solely on its predecessor ${\overline{x}}_{t}$, and the design parameters $p$. To be able to propagate the conservative Jacobians through the dynamics of the system, we require $f$ to admit conservative Jacobians.
+Lemma 5. Under Assumptions 1 and 2, F is locally Lipschitz definable.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Assumption 3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-The function $f$ is locally Lipschitz and semi-algebraic.
+Proof. The projector P C is given by where P R ≥ 0: R → R ≥ 0 is the one-dimensional projector to the set of non-negative real numbers The function P R ≥ 0 is locally Lipschitz and piecewise linear, therefore definable. We conclude that P C is locally Lipschitz definable.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Assumption 3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-Under Assumption 3, we can compute the conservative Jacobian $\mathcal{J}_{{\overline{x}}_{t + 1}}{(p)}$ of the state ${\overline{x}}_{t + 1}$ with respect to the design parameters $p$ recursively as follows: Note that $\mathcal{J}_{{\overline{x}}_{t + 1}}{(p)}$ depends on $\mathcal{J}_{{\overline{x}}_{t}}{(p)}$, and since ${\overline{x}}_{0}$ is given, we have ${\mathcal{J}_{{\overline{x}}_{0}}{(p)}} = 0$. As a result, we can easily construct an algorithm that computes the conservative Jacobian of the closed loop trajectory $\overline{x}$ for a given value of $p$ iteratively.
+Next, the function z ↦→ z -γ ( H (¯ p ) z + h (¯ p )) is linear in z, and therefore both definable and Lipschitz. Moreover, thanks to Assumption 2, we have that both H and h are locally Lipschitz definable in ¯ p since they are constructed as products or sums of locally Lipschitz definable functions (as shown in Appendix B), and these operations preserve both local Lipschitz continuity and definability [27, Corollary 2.9]. Note that Q -1 ( p ) is also locally Lipschitz definable since each of its entries is the ratio of two polynomial functions (i.e. semialgebraic) of the entries of Q. We conclude that ¯ p ↦→ z -γ ( H (¯ p ) z + h (¯ p )) is both locally Lipschitz definable in ¯ p.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Assumption 3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-The algorithm, summarized in Algorithm 3, can be implemented online, as the closed-loop is being simulated and the values of ${\overline{x}}_{t}$ are being measured.
+We conclude that F is locally Lipschitz definable since it is the composition of locally Lipschitz definable functions.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Assumption 3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-The next result formalizes the ideas expressed in this section.
+The conservative Jacobian of the dual variable z can now be readily obtained by applying the implicit function theorem in Lemma 3 to the map F.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "VI-B Optimization algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-Once the conservative Jacobian is available, we can utilize it to update the parameter $p$ with a gradient-based scheme. To guarantee convergence to a local minimum, it suffices to meet the conditions of Algorithm 1. ‣ IV Conservative Jacobians ‣ BP-MPC: Optimizing Closed-Loop Performance of MPC using BackPropagation"). We therefore choose the following update scheme for any $J = {J_{1}J_{2}}$ with where ${\overline{x}}^{k} = {\overline{x}{(p^{k})}}$, and where $\alpha_{k}$ satisfies the conditions in 11. ‣ Definition 1 ([15, Section 2]). ‣ IV Conservative Jacobians ‣ BP-MPC: Optimizing Closed-Loop Performance of MPC using BackPropagation"). The overall algorithm, that combines all the steps we describes so far, is given below.
+Theorem 1. Under Assumptions 1 and 2, the optimizer z (¯ p) of is unique and locally Lipschitz definable for any ¯ p ∈ Y. Its conservative Jacobian J z (¯ p) contains elements of the form -U -1 V, where Proof. See Appendix C.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "VII-A Choosing $S_{t}$", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-The approximate model, denoted $S_{t}$, heavily impacts the control performance, where an accurate model results in better performance. Generally, since the control scheme is deployed in receding horizon (that is, the optimization is repeated at every time-step and only the first entry $u_{0|t}$ of the optimal input trajectory is applied), we only require accurate knowledge of the system locally, in the vicinity of the current state ${\overline{x}}_{t}$. We present here three progressively more accurate choices of $S_{t}$.
+Remark 1. The proof in Appendix C also establishes that we can always choose J P C of the form justifying our choice of working with the dual problem instead of the primal.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "VII-A1 Linearization at a single equilibrium point", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-The easiest choice is to consider a time-invariant model $S_{t} \equiv S$, where $S$ is obtained by linearizing $f$ at some equilibrium point $(\hat{x},\hat{u})$ (i.e., a point satisfying ${f{(\hat{x},\hat{u})}} = 0$).
+The conservative Jacobian J y (¯ p) of the primal optimizer y (¯ p) can then easily be retrieved from J z (¯ p) using. For simplicity, define Corollary 1. Under Assumptions 1 and 2, the optimizer y (¯ p) of is unique and locally Lipschitz definable for any ¯ p ∈ Y. Its conservative Jacobian J y (¯ p) contains elements of the form Proof. Follows immediately from the fact that composition preserves the local Lipschitz continuity and definability, and by applying the chain rule of differentiation to.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "VII-A1 Linearization at a single equilibrium point", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Writing the dual as fixed point condition", "weight": 1.0} -->
 
-Specifically, we choose $S = {(A,B,0)}$ with This choice of model provides satisfactory performance as long as the system does not deviate significantly from the equilibrium position, a fact that can be observed by expanding the first-order Taylor series of $f$ around $(\hat{x},\hat{u})$: which yields an approximation error that scales linearly with the distance of $(x,u)$ from $(\hat{x},\hat{u})$: Note that in the computation of $S$ and in the Taylor expansion we implicitly assumed that $f$ is continuously differentiable, a stronger assumption than the one in Assumption 3. If $f$ is not continuously differentiable, we can still utilize this approach by choosing $A$ and $B$ in some other way (in this case however the error bound 24 may fail to hold).
+The algorithm below summarizes a procedure for computing the conservative Jacobians J MPC, ¯ x t and J MPC,p.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "VII-A1 Linearization at a single equilibrium point", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Input: ¯ p", "weight": 1.0} -->
 
-Despite its simplicity, linearizing at a single equilibrium point is quite common in the MPC literature and has proved to be successful in many application scenarios, in particular when the control objective is to maintain the state of the system at some desired steady state.
+- 1: Solve and get dual optimizers z = (λ, µ). - 5: return J MPC (¯ p) (extracted from J y (¯ p)).
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "VII-A2 Linearization at the current state", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Input: ¯ p", "weight": 1.0} -->
 
-A more accurate approach, that is generally more effective in reference tracking problems, is to update the model based on the current state of the system. Ideally, we would like to construct $S_{t}$ by linearizing $f$ at the current state and input $({\overline{x}}_{t},{\overline{u}}_{t})$. However, ${\overline{u}}_{t}$ is not known until after we find a solution to MPC$(\overline{p})$, and in fact $S_{t}$ plays a role in determining ${\overline{u}}_{t}$. An implementable solution is to replace ${\overline{u}}_{t}$ with $u_{1|{t - 1}}$, that is, with the second entry of the optimal input trajectory computed at time-step $t - 1$.
+Notice that J MPC, ¯ x t and J MPC,p are contained in J y, and we can therefore retrieve them by selecting the appropriate entries in J y (¯ x t, p ).
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "VII-A2 Linearization at the current state", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Input: ¯ p", "weight": 1.0} -->
 
-In this way we obtain: The approximation error between the real dynamics and the linearized dynamics can be computed by considering the Taylor expansion of $f$ around $({\overline{x}}_{t},u_{1|{t - 1}})$ If the input state trajectory $(x_{t},u_{t})$ predicted by the MPC at time $t$ does not deviate significantly from $({\overline{x}}_{t},u_{1|{t - 1}})$, then from 25 we can conclude that the linearized dynamics represent a good approximation of the system.
+The procedure outlined so far allows for the computation of conservative Jacobians of quadratic programs. Extending this method to more general classes of problems is a promising direction for future research. One way to proceed could be to apply the implicit function theorem to the optimality conditions of the nonlinear problem, as done. In this case, however, it's unclear whether the resulting Jacobian will be conservative.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "VII-A2 Linearization at the current state", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Backpropagation", "weight": 1.0} -->
 
-The variable $u_{1|{t - 1}}$ is itself dependent on both ${\overline{x}}_{t - 1}$ and $p$ (it is part of the optimizer of $\text{MPC}{({\overline{x}}_{t - 1},p)}$), we therefore need to adapt the backpropagation scheme in 21 to account for this fact. We present the updated algorithm in the next section, where we deal with a more general choice of $S_{t}$.
+Next, we develop a modular mechanism, based on backpropagation, to obtain the conservative Jacobian of the entire closed-loop trajectory ¯ x using the individual conservative Jacobians of each optimization problem.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "VII-A3 Linearization along a trajectory", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Backpropagation", "weight": 1.0} -->
 
-We can achieve even better accuracy by allowing the nominal dynamics to vary across different time-steps within the same MPC problem, that is, by setting Following the strategy above, we can choose each $A_{k|t}$, $B_{k|t}$, and $c_{k|t}$ to be the linearization of $f$ and the approximation error evaluated along the state input-trajectory $(x_{t - 1},u_{t - 1})$: Alternatively, we can use ${\overline{x}}_{t}$ instead of $x_{1|{t - 1}}$. If the decision variables in the MPC problem at time $t - 1$ do not include $u_{N|{t - 1}}$, we can obtain $A_{N - {1|t}}$ by linearizing at $(x_{N|{t - 1}},u_{N - {1|{t - 1}}})$. This strategy is commonly refered as successive linearization in the MPC literature.
+In machine learning, backpropagation is often used to efficiently construct gradients with respect to design parameters of algorithms involving several successive steps. The idea is to compute the gradients of each step and combine them using the chain rule, eliminating redundant calculations and improving efficiency.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "VII-A3 Linearization along a trajectory", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Backpropagation", "weight": 1.0} -->
 
-Choosing the model with successive linearization, we have that $S_{t}$ depends on the entire solution $y_{t - 1}:={(x_{t - 1},u_{t - 1})}$ of the MPC problem at time $t - 1$, and possibly also on ${\overline{x}}_{t}$. This needs to be taken into account when computing the conservative Jacobian in Algorithm 3. Specifically, the map MPC$({\overline{x}}_{t},p)$ should more correctly be defined as $\text{MPC}{({\overline{x}}_{t},y_{t - 1},p)}$, highlighting the dependency on $y_{t - 1}$.
+In our case, the closed-loop dynamics can be expressed as a recursive equation where every state ¯ x t +1 depends solely on its predecessor ¯ x t, and the design parameters p. To be able to propagate the conservative Jacobians through the dynamics of the system, we require f to be path-differentiable.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "VII-A3 Linearization along a trajectory", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Backpropagation", "weight": 1.0} -->
 
-We therefore have where the difference from 21 is the additional term $\mathcal{J}_{\text{MPC},y_{t - 1}}{({\overline{x}}_{t},y_{t - 1},p)}\mathcal{J}_{y_{t - 1}}{(p)}$ which accounts for the dependency of $y_{t - 1}$ on $p$. The term $\mathcal{J}_{y_{t - 1}}{(p)}$ needs to be constructed using a backpropagation algorithm. Defining $y_{t - 1} = {{QP}{({\overline{x}}_{t - 1},y_{t - 2},p)}}$, where the map $QP$ is the same one defined in 12 with the addition of the parameter $y_{t - 2}$, we have Before beginning the simulation of the system, we need to fix a linearization trajectory $y_{- 1}$ for time-step $t = 0$.
+Assumption 3. The function f is locally Lipschitz definable.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "VII-A3 Linearization along a trajectory", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Backpropagation", "weight": 1.0} -->
 
-Naturally, we cannot utilize any previous MPC solution, since $t = 0$ is the first time-step at which we solve the MPC problem. We can choose $y_{- 1}$ either as a fixed and pre-defined trajectory, or let $y_{- 1}$ be part of $p$, thus allowing the optimization process select the value of $y_{- 1}$ that yields the best closed-loop performance.
+Under Assumption 3, we can compute the conservative Jacobian J ¯ x t +1 (p) of the state ¯ x t +1 with respect to the design parameters p recursively as follows: Note that J ¯ x t +1 (p) depends on J ¯ x t (p), and since ¯ x 0 is given, we have J ¯ x 0 (p) = 0. As a result, we can easily construct an algorithm that computes the conservative Jacobian of the closed-loop trajectory ¯ x for a given value of p iteratively. The algorithm, summarized in Algorithm 3, can be implemented online, as the closed-loop is being simulated and the values of ¯ x t are being measured. Note that the simulation needs to span the entire horizon T.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "VII-A3 Linearization along a trajectory", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Algorithm 3 Backpropagation", "weight": 1.0} -->
 
-Below, we provide an algorithmic implementation of the linearization strategy described in paragraphs 2) and 3) of this section.
+- 2: Solve and set ¯ u t = MPC(¯ x t, p). - 3: Get next state ¯ x t +1 = f (¯ x t, ¯ u t). - 4: Compute J MPC (¯ x 0, p) using Algorithm 2.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "VII-B State-dependent cost and constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Algorithm 3 Backpropagation", "weight": 1.0} -->
 
-The closed-loop performance of receding-horizon MPC schemes can be greatly improved by allowing certain elements in the MPC problem to be dependent on the current state of the system. For example the authors construct terminal ingredients (cost and constraints) online, utilizing knowledge of the measured state of the system ${\overline{x}}_{t}$. They then demonstrate that this approach enlarges the region of attraction of the scheme.
+Proposition 1. Under Assumptions 1, 2 and 3, the closedloop trajectory ¯ x is locally Lipschitz definable in p, with conservative Jacobian J ¯ x ( p ) as given by Algorithm 3.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "VII-B State-dependent cost and constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Algorithm 3 Backpropagation", "weight": 1.0} -->
 
-Our backpropagation framework easily allows to incorporate initial state-dependent elements in the MPC problem. For example, we can choose $H_{x,N}$, $h_{x,N}$, and $P$ to be functions of both $p$ and ${\overline{x}}_{t}$. In this case, problem 7 becomes | | & {{k \in {\mathbb{Z}}_{\lbrack 0,{N - 1}\rbrack}},} \\ | | | | | \text{parameters:} & {{{(H_{x,N},h_{x,N},P)} \sim {({\overline{x}}_{t},p)}},} \\ | | | where $A \sim B$ means that $A$ is a function of $B$.
+Proof. The closed-loop ¯ x is locally Lipschitz definable since it is given by the composition of locally Lipschitz definable functions. We now prove by induction that Algorithm 3 produces J ¯ x ( p ). First, J ¯ x 0 ( p ) = 0 since ¯ x 0 is fixed a priori. Next, suppose J ¯ x t ( p ) has been computed correctly by the algorithm. The correctness of J ¯ x t +1 ( p ) follows immediately and Lemma 1.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "VII-B State-dependent cost and constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Optimization algorithm", "weight": 1.0} -->
 
-Note that once ${\overline{x}}_{t}$ is available, the state-dependent elements $H_{x,N}$, $h_{x,N}$, and $P$ can be computed explicitly, meaning that the MPC problem we solve at runtime continues to be a quadratic program. The same procedure can be applied to the case where $H_{x}$, $H_{u}$, $h_{x}$, $h_{u}$, or even the cost matrices $Q$ and $R$ are dependent on ${\overline{x}}_{t}$. We leave such cases for future work and emphasize that our framework is flexible to tune almost any component of the underlying MPC problem.
+Once the conservative Jacobian is available, we can utilize it to update the parameter p with a gradient-based scheme. To guarantee convergence, it suffices to meet the conditions of Algorithm 1. We, therefore, choose the following update scheme for any J = J 1 J 2 with where ¯ x k = ¯ x (p k), and α k satisfies the conditions. Algorithm 4 combines all the steps described so far.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "VII-B State-dependent cost and constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Algorithm 4 Closed-loop optimization scheme", "weight": 1.0} -->
 
-The MPC problem considered so far, i.e., 7, was already dependent on ${\overline{x}}_{t}$, which affected the initial state $x_{0|t}$ of the problem. The difference with 28 is that, in the latter, ${\overline{x}}_{t}$ not only affects $x_{0|t}$, but also other optimization variables through the effect on $H_{x,N}$, $h_{x,N}$, and $P$.
+1: while not converged do As long as the map MPC(¯ p) is well-defined, i.e., problem admits a feasible solution throughout the entirety of the execution of Algorithm 4, we have the following.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "VII-B State-dependent cost and constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Algorithm 4 Closed-loop optimization scheme", "weight": 1.0} -->
 
-As a result, we can perform closed-loop optimization using the same algorithmic procedure as in Algorithm 4 without any modification, exception made for the symbolic expression of $Q$, $F$, and $G$ which now depend on $\overline{p} = {({\overline{x}}_{t},p)}$ instead of only $p$.
+Theorem 2. Suppose Assumptions 1, 2 and 3 hold, and that is feasible for all ¯ x t and p k as setup in Algorithm 4. Suppose α k satisfies and sup k ‖ p k ‖ < ∞. Then p k converges to a critical point of problem.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Remark 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Algorithm 4 Closed-loop optimization scheme", "weight": 1.0} -->
 
-Using the technique outline above, one can easily incorporate cost matrices $Q_{x}$ and $R_{u}$ that also depend on $y_{t - 1}$, for example by linearizing the possibly nonlinear cost function $\mathcal{C}$ along the trajectory $y_{t - 1}$ and adding sufficient regularization to ensure the positive definiteness of both $Q_{x}$ and $R_{u}$.
+Proof. Since J ¯ x (p k) is the conservative Jacobian of ¯ x with respect to the design parameter p thanks to Proposition 1, we have from Lemma 4 that the iterates p k are guaranteed to converge to a critical point ¯ p of the problem Moreover, since the constraints H (p) ≤ 0 are automatically satisfied if MPC(¯ p) is feasible throughout the entire runtime of Algorithm 4, we conclude that the critical point ¯ p of is also a critical point of, which is equivalent to. This concludes the proof.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "VII-C Non-convex cost", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Algorithm 4 Closed-loop optimization scheme", "weight": 1.0} -->
 
-Our framework easily extends to scenarios where the quadratic cost in 4 is replaced with more sophisticated costs that can possibly involve other terms in addition to $\overline{x}$.
+The condition sup k ‖ p k ‖ < ∞ holds trivially if P is compact. Otherwise, one can augment the cost function with a regularizer that ensures boundedness of the iterates, as discussed in [15, Section 6.1].
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "VII-C Non-convex cost", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Algorithm 4 Closed-loop optimization scheme", "weight": 1.0} -->
 
-{(z_{0},\ldots,z_{T})}$ represent the collection of all the primal-dual optimizers of MPC.
+Remark 2. Since the horizon of the optimization problem is finite, we do consider the stability of the closed-loop dynamics. Indeed, our method produces MPC schemes that are optimized for a specific finite-horizon task. To obtain a controller that stabilizes, a simple solution would be to use the MPC controller with parameter p ∗ for t ∈ Z [0,T ], and switch to a stabilizing state-feedback controller for t ≥ T (e.g., an LQR). Note that if T is chosen appropriately large, the closed-loop state ¯ x T should be in a neighborhood of the origin, and a simple LQR controller (obtained by linearizing the dynamics at the origin if the system is nonlinear) should suffice.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "VII-C Non-convex cost", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Choosing S t by linearization", "weight": 1.0} -->
 
-The matrix $I_{u}$ selects from $y_{t}$ the entry corresponding to $u_{0|t}$. Note that we can include any of the optimization variables in the cost and still manage to efficiently compute the gradient of the objective by storing the conservative Jacobians $\mathcal{J}_{y_{t}}{(p)}$ and $\mathcal{J}_{z_{t}}{(p)}$ and then applying the Leibniz rule The conservative Jacobians $\mathcal{J}_{y}$ and $\mathcal{J}_{z}$ are already available as a by-product of Algorithm 2.
+The accuracy of the approximate model S t significantly impacts the control performance. To improve precision, we can allow the nominal dynamics to vary at different time-steps within the same MPC problem and construct S t = { A k | t, B k | t, c k | t } N -1 k =0 by linearizing f along the state-input trajectory (x t -1, u t -1) with u N | t -1 = u N -1 | t -1. Alternatively, we can use ¯ x t in place of x 1 | t -1. If the state-input trajectory (x t, u t) predicted by the MPC at time t does not deviate significantly from (¯ x t, u 1 | t -1), then the linearized dynamics are expected to be a good approximation of the true system dynamics.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "VII-C Non-convex cost", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Choosing S t by linearization", "weight": 1.0} -->
 
-To ensure that Lemma 5 is still applicable, we only require $\mathcal{C}$ to be path-differentiable jointly in its arguments. Under this condition, the results of Theorem 1 still hold. Note that the class of path-differentiable functions is quite large, and comprises a large selection of non convex functions.
+Since S t now depends on the entire solution y t -1:= (x t -1, u t -1) of the MPC problem at time t -1, and possibly also on ¯ x t, the computation of J ¯ x t +1 (p) in Algorithm 3 needs to be modified: where we used MPC(¯ x t, y t -1, p) instead of MPC(¯ x t, p) to emphasize the dependency on y t -1. The term J y t -1 (p) can be constructed using a simple backpropagation rule where y t -1 = QP(¯ x t -1, y t -2, p). The modified backpropagation algorithm is given in Algorithm 5. Note that we can compute J MPC using Algorithm 2 by setting ¯ p:= (¯ x t, y t -1, p).
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "VII-D Dealing with infeasibility", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Choosing S t by linearization", "weight": 1.0} -->
 
-So far, we did not concern ourselves with the situation where 7 does not admit a feasible solution. This can happen frequently in practice, since the gradient-based optimization scheme is modifying the behavior of MPC$({\overline{x}}_{t},p)$, without any guarantees that the resulting closed-loop will produce states ${\overline{x}}_{t}$ for which MPC$({\overline{x}}_{t},p)$ admits a solution. There is, however, a simple procedure that can be used to recover from infeasible scenarios by leveraging the formulation in 29. The modification comprises two steps: first we need to modify MPC$({\overline{x}}_{t},p)$ to ensure its feasibility, then we change the cost function $\mathcal{C}$ to ensure that $p$ is chosen to minimize constraint violations.
+Before beginning the simulation of the system, we need to choose the linearization trajectory y -1 for time-step t = 0, either heuristically, or by letting y -1 be part of p, thus allowing the optimization process to select the value of y -1 that yields the best closed-loop performance.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "VII-D Dealing with infeasibility", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Choosing S t by linearization", "weight": 1.0} -->
 
-First of all, we need to modify MPC$({\overline{x}}_{t},p)$ to ensure that the optimization problem admits a solution for every value of ${\overline{x}}_{t}$ and $p$. In MPC$({\overline{x}}_{t},p)$, the input constraints can always be satisfied, since $u_{t}$ is a decision variable. The problematic constraints are only those involving the state variable $x_{t}$. We reformulate 7 by introducing new optimization variables (namely, $\epsilon_{t}$) that relax the state constraints.
+Remark 3. The linearization strategy of this section can be replaced with simpler strategies like choosing a fixed A and B throughout the entire MPC horizon or choosing A k | t ≡ A t = ∂f ( x,u ) ∂x | x = x t, u = u 1 | t -1 and similarly for B and c. This however may negatively impact the performance of the MPC controller, especially when the system dynamics are highly nonlinear. The choice of S t is therefore a trade-off between computational complexity and control performance. In practice, we observed that the linearization technique of this section has an overall satisfactory performance (compare Section VII).
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "Simulation example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "State-dependent cost and constraints", "weight": 1.0} -->
 
-All simulation are done in CasADi with the active set solver qpOASES on a laptop with $32$ GB of RAM and an Intel(R) Core (TM) processor i7-1165G7 @ 2.80GHz. The code is available and open source^11^1At the link Table I shows the average computation time for each closed-loop iteration for all simulation examples.
+The closed-loop performance of receding-horizon MPC schemes can be greatly improved by allowing certain elements in the MPC problem to be adapted online based on the state of the system. For example, in the terminal cost and constraints are constructed online as functions of the state ¯ x t. This choice is shown to enlarge the region of attraction of the scheme.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "Simulation example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Algorithm 5 Backpropagation with linearization", "weight": 1.0} -->
 
-Loss of feasibility with penalty (ρ = 0.1, η = 1) Table I: Average computation times per iteration
+- 2: Solve and set ¯ u t = MPC(¯ x t, y t -1, p). - 3: Get next state ¯ x t +1 = f (¯ x t, ¯ u t). - 4: Compute J MPC (¯ x t, y t -1, p) using Algorithm 2.
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "VIII-A Linear example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Algorithm 5 Backpropagation with linearization", "weight": 1.0} -->
 
-We begin by deploying our optimization scheme to solve problem 9 for a double integrator with ${\overline{x}}_{0} = {}$ and with the constraints The closed loop objective is to minimize with $Q_{x} = I$ and $R_{u} = 10^{- 4}$. The MPC utilizes the same cost matrices $Q_{x}$ and $R_{u}$, moreover, we parameterize the terminal cost $P$ in 7 as and choose $p = {(p_{1},p_{2},p_{3})}$. Note that this choice of $P$ ensures $P \succ 0$ for all $p$. The initial design is $p^{0} = {(0.1,0,0.1)}$. We choose a very short horizon of $N = 5$.
+Our backpropagation framework allows the incorporation of state-dependent elements in the MPC problem by letting H x,N, h x,N, and P be functions of both p and ¯ x t. Since both ¯ x t and p are known at runtime, the MPC problem solved online is a QP in the form which differs from only because Q, F, and G now depend on both ¯ x t and p. As a result, we can perform closedloop optimization using the same algorithmic procedure as in Algorithm 4 without any modification, exception made for the symbolic expression of Q, F, and G which depend on ¯ p = (¯ x t, p) instead of only p.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "VIII-A Linear example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Algorithm 5 Backpropagation with linearization", "weight": 1.0} -->
 
-We choose the stepsize as where $\eta \in {(0.5,1\rbrack}$ and $\rho > 0$ are design parameters. Since the term $k$ in the denominator eventually dominates, this choice of stepsizes fullfills the assumptions in Theorem 1 for any $\eta \in {(0.5,1\rbrack}$ and $\rho > 0$, and the iterates ${\{ p^{k}\}}_{k \in {\mathbb{N}}}$ are therefore guaranteed to converge to a critical point of 9.
+Remark 4. The same procedure can be applied to the case where H x, H u, h x, h u, Q x and R u depend on ¯ x t. Moreover, one can easily incorporate cost matrices Q x and R u that also depend on y t -1, for example by linearizing the possibly nonlinear cost function C along the trajectory y t -1 and adding sufficient regularization to ensure the positive definiteness of both Q x and R u. We leave such cases for future work and emphasize that our framework is flexible to tune any component of the underlying MPC problem.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "VIII-A Linear example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Non-convex cost", "weight": 1.0} -->
 
-The best achievable performance $\mathcal{C}^{\ast} = \mathcal{C}^{200} = 5249.13$ is attained with parameter This parameter choice produces better performance than the one obtained with $P$ chosen as the solution of the discrete time Riccati equation, i.e., which yields a closed-loop cost of $5252.37$.
+Our framework easily extends to scenarios where the quadratic cost in is replaced with more sophisticated costs that can possibly involve other terms in addition to ¯ x. Consider, for example, problem with the cost C (¯ x, y, z, p), where y:= (y 0,..., y T) and z = (z 0,..., z T) are the primaldual optimizers of at all time-steps. Through Algorithm 5 we can include any of the optimization variables in the cost and still manage to efficiently compute the gradient of the objective by storing the conservative Jacobians J y t (p) and J z t (p) and then applying the Leibniz rule The conservative Jacobians J y and J z are already available as a by-product of Algorithm 2.
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "VIII-B Nonlinear example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Non-convex cost", "weight": 1.0} -->
 
-We now deploy our scheme to the following nonlinear system with ${\overline{x}}_{0} = {}$, with constraints and with the same objective 36. We use the linearization strategy described in Subsection VII-A3 and choose an even shorter horizon $N = 3$. We use the same parameterization and update rule as in Subsection VIII-A.
+To ensure that Lemma 5 is still applicable, we only require C to be path-differentiable jointly in its arguments. Under this condition, the results of Theorem 2 still hold. Note that the class of path-differentiable functions is quite large, and comprises a large selection of non-convex functions.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "VIII-C Loss of feasibility example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Dealing with infeasibility", "weight": 1.0} -->
 
-In this section we consider the same system and cost as in Subsection VIII-B with tighter constraints In this case, the MPC problem quickly becomes infeasible; therefore, we utilize the soft-constrained version in 30 with penalty parameters $c_{1} = 1$ and $c_{2} = 10$. By applying the same optimization scheme as in Subsection VIII-B, with cost as in 36, we obtain the trajectories in Figure 5.
+So far, we have not considered the situation where becomes infeasible. This can happen frequently in practice since the gradient-based optimization scheme modifies the behavior of the MPC map without guaranteeing recursive feasibility. There is, however, a simple procedure that can be used to recover from infeasible scenarios. The modification comprises two steps: first we modify to ensure its feasibility, then we change the cost function C to ensure that p minimizes constraint violations.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "VIII-C Loss of feasibility example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Dealing with infeasibility", "weight": 1.0} -->
 
-Note that after $300$ iterations the closed-loop trajectory has converged to a steady-state where constraints are violated (in particular, the constraint on the second entry of the state is not satisfied between time-step $4$ and $8$). This is not surprising since the upper-level objective function $\mathcal{C}$ does not include any information about constraint violation. The closed loop cost after $300$ iteration is $\mathcal{C}_{300} = 347.076$, which is significantly smaller than the best achievable cost (with constraint satisfaction), equal to $\mathcal{C}^{\ast} = 353.266$.
+To ensure that is always feasible, we introduce the slack variables ϵ t and soften the state constraints (the input constraints can always be satisfied) To avoid unnecessary constraint violation, we penalize nonzero values of ϵ t with the penalty function P MPC ϵ (ϵ) = c 1 ‖ ϵ ‖ 2 2 + c 2 ‖ ϵ ‖ 1, with c 1, c 2 > 0. If c 2 is large enough, one can prove that P MPC ϵ is an exact penalty function.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "VIII-C Loss of feasibility example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Dealing with infeasibility", "weight": 1.0} -->
 
-The value of $p$ after $300$ iterations is If we use the objective function in 34 with ${P_{\epsilon}{(\epsilon)}} = {200\mathbf{1}^{\top}\epsilon}$ (where $\epsilon:={(\epsilon_{1},\epsilon_{2},\ldots,\epsilon_{T})}$ contains the slack variables of all the optimization problems, each of which spans $N$ time-steps, and $\mathbf{1}$ is the vector of all ones), we obtain the trajectory in Figure 6, where the constraints are satisfied and $\epsilon = 0$. In this case, the effect of a penalty on the constraint violation induces the optimization algorithm to favor values of $p$ that maintain small constraint violations. This happens at the cost of a worse closed-loop performance, which becomes now equal to the best safe performance $\mathcal{C}^{\ast}$.
+Lemma 6 ([29, Theorem 1]). Problem has the same solution as as long as admits a solution and c 2 > ‖ λ ‖ ∞, where λ are the multipliers associated to the inequality constraints affecting the state.
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "VIII-C Loss of feasibility example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Dealing with infeasibility", "weight": 1.0} -->
 
-The final value of $p$ is also different: Figure 6: Comparison of closed-loop state and input trajectories for double nonlinear dynamics with more strict state constraints and with penalization of the constraint violation. The penalty on the constraint violation ensures that the MPC at iteration 300 satisfies the state constraints.
+To ensure that, if possible, p is chosen to have no constraint violations in closed-loop, we introduce a penalty function in the objective of where ϵ:= (ϵ 0,..., ϵ T -1) and P ϵ (ϵ) = c 3 ‖ ϵ ‖ 1 for some c 3 > 0. The introduction of P ϵ should ensure that the solution of satisfies ϵ t = 0 for all t ∈ Z [0,T -1]. If this is the case, the optimizers x t and u t of each MPC problem satisfy the nominal constraints, thus ensuring that ¯ x and ¯ u do too.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Dealing with infeasibility", "weight": 1.0} -->
 
-In this paper, we proposed a backpropagation algorithm to optimally design an MPC scheme to maximize closed-loop performance. The cost and the constraints in the MPC can depend on the current state of the system, as well as on past solutions of previous MPC problems. This allows, for example, the utilization of the successive linearization strategy.
+With some reformulation, we can equivalently write as where C and ϵ are locally Lipschitz definable functions of p, and ϵ is the function that maps p to the value of ϵ that solves. Since closed-loop constraint satisfaction is equivalent to ϵ (p) = 0, the goal is to obtain a solution of Under certain conditions on P ϵ and on the nature of the minimizers of, we can prove that and are equivalent, in which case P ϵ is an exact penalty function. For this, we need the following definition.
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Dealing with infeasibility", "weight": 1.0} -->
 
-We employed conservative Jacobians to compute the sensitivity of the closed-loop trajectory with respect to variations of the design parameter. Leveraging a non-smooth version of the implicit function theorem, we derived sufficient conditions under which the gradient-based optimization procedure converges to a critical point of the problem.
+Definition 3. Let p ∗ be such that ϵ (p ∗) = 0. Problem is calm at p ∗ if there exists some ¯ α ≥ 0 and some ϵ > 0 such that for all (p, u) with ‖ p -p ∗ ‖ ≤ ϵ and ϵ (p) = u, we have Calmness is a rather weak regularity condition that is verified in many situations. In finite dimensions, it holds for a dense subset of the perturbations [30, Proposition 2.1]. For calm minimizers of, we have the following.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Dealing with infeasibility", "weight": 1.0} -->
 
-We extended our framework to cases where the MPC problem becomes infeasible using nonsmooth penalty functions. We derived conditions under which the closed-loop is guaranteed to converge to a safe solution.
+Proposition 2 ([30, Theorem 2.1]). The set of local minima p ∗ of for which is calm at p ∗ coincide with the local minima of provided that the penalty parameter c 3 is chosen at least as large as the calmness modulus.
 
-<!-- chunk {"id": "body-0097", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Dealing with infeasibility", "weight": 1.0} -->
 
-Current work focuses on deploying our optimization scheme on more realistic real-life examples. Future work will focus on extending our scheme to scenarios where the system dynamics are only partially known and / or affected by stochastic noise.
+Generally, it may be challenging to obtain an accurate estimate of the calmness module. Nevertheless, for practical purposes, a large enough value of c 3 typically produces the desired effect ϵ = 0.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Dealing with infeasibility", "weight": 1.0} -->
+
+With this in mind, we can use Algorithm 4 replacing C with C + P ϵ and the MPC problem. If c 2 and c 3 are sufficiently large, and under the calmness assumption of Proposition 2, we can guarantee convergence to a local minimizer of the problem with constraints. Combining Lemma 6 and Proposition 2 yields the following.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Dealing with infeasibility", "weight": 1.0} -->
+
+Theorem 3. Let Assumptions 1, 2 and 3 hold, and let p ∗ be the optimal parameter obtained with Algorithm 3 applied to. If is calm at p ∗ and c 2 and c 3 are sufficiently large, then the MPC controller given in (without constraint relaxation) is recursively feasible for the dynamics, and the closedloop constraints are satisfied for all t ∈ Z [0,T ].
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "SIMULATION EXAMPLE", "weight": 1.0} -->
+
+All simulations are done in CasADi with the active set solver DAQP on a laptop with 32 GB of RAM and an Intel(R) Core (TM) processor i7-1165G7 @ 2.80GHz. The code is available and open source 1. Average computation times for each BP-MPC iterations (including the simulation of T time-steps and the computation of the conservative Jacobians) are 499.130 ms and 205.486 ms for the examples in Subsections VII-A and VII-B, respectively.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Input-constrained example", "weight": 1.0} -->
+
+We begin by deploying our optimization scheme to solve problem for the continuous time pendulum on cart system of where x and ˙ x are the position and velocity of the cart, respectively, and φ and ˙ φ are the angular position and velocity of the pendulum, respectively. The goal is to steer the system to the upright equilibrium position ¯ x = starting from ¯ x 0 = (0, 0, -π, 0) (i.e., pendulum down). For the time being, we only consider the input constraints ¯ u (t) ∈ and postpone state constraints to Subsection VII-B. We discretize the nonlinear ODE using Runge-Kutta 4 with a sampling time of 0. 015 seconds. The closed-loop objective is to minimize with Q x = diag. The MPC utilizes the same input constraints and state cost matrix Q x, and an input and terminal cost parameterized as We set p = (p 0,..., p 10), initialized with p 0 = 0 and P equal to the solution of the discrete-time Algebraic Riccati equation (computed on the linearized dynamics at the origin).
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Input-constrained example", "weight": 1.0} -->
+
+Note that this choice of P and R ensures that P ≻ 0, and R ≻ 0 for all p. We use the linearization strategy of Subsection VI-A to obtain linear dynamics. We choose a short horizon of N = 11. In Algorithm 4 we set which fullfills the assumptions in Theorem 2 for any η ∈ (0. 5, 1] and ρ > 0. Through manual tuning, we chose ρ = 5 · 10 -4 and η = 0. 51.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Input-constrained example", "weight": 1.0} -->
+
+In Figure 3, we compare the performance of our scheme against a nonlinear MPC controller with different control horizons. The NMPC is implemented using the SQP method offered by Acados with the solver HPIPM. At every time-step, we warm-start the next NMPC using the solution obtained in the previous time-step. At the initial time-step, the warm start trajectory is obtained by solving the NMPC problem with horizon T (similar results can be obtained with shorter horizons). The initial warm starting, which we decided to add to make the comparison with our method more fair, is crucial to ensure fast convergence of the solver and to avoid numerical failures. As the horizon N grows, the suboptimality of the nonlinear controller decreases; however, it never reaches the performance of our controller, which utilizes a fixed horizon N = 11. Coincidentally, the worstcase computation time needed to solve the nonlinear MPC problem grows significantly.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Input-constrained example", "weight": 1.0} -->
+
+Tuning the nonlinear MPC can significantly improve its performance. This is showcased in Figure 4, where we added the terminal cost x ⊤ N | t Px N | t (with P chosen as the solution of the Algebraic Riccati Equation for the linearized dynamics at the origin) to the nonlinear MPC. In this case, the NMPC is able to outperform our scheme for horizons N ≥ 25. For N = 25, however, the NMPC requires about 10 times more computation time in the worst-case scenario compared to the worst-case scenario of our scheme. If the horizon of the NMPC is chosen equal to ours (i.e., N = 11 ), then our scheme attains a cost that is 10 5 smaller compared to the NMPC.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Input-constrained example", "weight": 1.0} -->
+
+One might argue that BP-MPC is unnecessary when the system dynamics are known and noise-free. The optimal performance can more efficiently be obtained by solving a nonlinear trajectory optimization problem with a horizon larger than 170 and applying the optimal input u t\_opt t open loop. This choice, however, is very fragile against process noise. Figure 5 shows the closed-loop cost of our scheme (applied in receding horizon) and that of u t\_opt t (applied in open loop), assuming that the dynamics are affected by a stochastic additive noise sampled uniformly from the set { 0 }× [0, w max ] × [0, w max ] ×{ 0 }, for different values of w max. Our scheme compensates for the noise, maintaining good performance.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Input-constrained example", "weight": 1.0} -->
+
+Fig. 1. Suboptimality between closed-loop cost and optimal cost.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Input-constrained example", "weight": 1.0} -->
+
+Fig. 2. Comparison of closed-loop state and input trajectories.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Input and state-constrained example", "weight": 1.0} -->
+
+In this section we consider the same dynamics, discretized using RK4 with a sampling time of 0. 05, but this time with initial condition x = ( -3, 0, 0, 0) (i.e., pendulum up, cart at -3 meters from the origin). In this case, the goal is to steer the system to the origin while mainting the pendulum close to the upright position as not to exceed the constraints ˙ x ( t ) ∈ [ -0. 6, 0. 6], φ ( t ) ∈ [ -0. 1, 0. 1] and ˙ φ ( t ) ∈ [ -0. 6, 0. 6]. The input constraints are u ( t ) ∈ [ -0. 9, 0. 9]. We choose the MPC horizon as N = 6, with T = 120, and closed-loop cost Q x = diag(1, 0. 01, 1, 0. 1), R u = 0. 01. Moreover, we use the same choice of p as in Subsection VII-A with the same initialization.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Input and state-constrained example", "weight": 1.0} -->
+
+Fig. 3. Comparison of the relative suboptimality and the worst-case computation times (dashed lines) of a nonlinear MPC with different horizon lengths, and our scheme with fixed horizon N = 11 (solid lines).
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Input and state-constrained example", "weight": 1.0} -->
+
+Fig. 4. Comparison of the relative suboptimality and the worst-case computation times of a nonlinear MPC with terminal cost and different horizon lengths (dashed lines), and our scheme with fixed horizon N = 11 (solid lines).
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Input and state-constrained example", "weight": 1.0} -->
+
+Fig. 5. Closed-loop median performance (over 1000 random noise samples) of nonlinear trajectory optimization (feedforward) and BP-MPC (receding horizon) with different noise magnitudes.
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Input and state-constrained example", "weight": 1.0} -->
+
+This new control task is very challenging from a safety perspective, as the controller needs to reduce the aggressiveness of the control action to avoid violating the tight constraints. This is similar to the problem of controlling the position of a segway without falling. We therefore utilize the softconstrained MPC described in with penalty parameters c 1 = 15 and c 2 = 15, and apply the optimization scheme with the objective function, with P ϵ ( ϵ ) = 60 1 ⊤ ϵ + 40 ϵ ⊤ ϵ (where ϵ:= ( ϵ 1, ϵ 2,..., ϵ T ) contains the slack variables of all the optimization problems, each of which spans N timesteps, and 1 is the vector of all ones). The results can be seen in Figure 7, where the constraints are satisfied and ϵ = 0. The effect of a penalty on the constraint violation induces the optimization algorithm to favor values of p that maintain small constraint violations. This does not happen if c 3 = c 4 = 0, as evidenced by Figure 7 (note that in this case we still penalize the slacks within each MPC problem, i.e., c 1 = c 2 = 15 ).
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Input and state-constrained example", "weight": 1.0} -->
+
+The closed-loop cost and constraint violations of the BP-MPC and the MPC with fixed terminal cost (equal to the solution of the DARE) are summarized in Table I.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Input and state-constrained example", "weight": 1.0} -->
+
+Fig. 6. Relative suboptimality of the tuned MPC scheme (with horizon 11 ) and nonlinear MPC schemes with variable horizon for a set of 1000 initial conditions.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Input and state-constrained example", "weight": 1.0} -->
+
+Fig. 7. Comparison of closed-loop state trajectories x ( t ), ˙ x ( t ), and ˙ φ ( t ) under different control policies.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Comparison with", "weight": 1.0} -->
+
+For completeness, we compare our method with on the example presented in Subsection VII-A. When using the method, we use the same cost parameterization we used with our method, but employ a fully nonlinear MPC. Using open source code 2, we test both a quasi-Newton and a gradient-based update. However, despite some manual tuning of the stepsizes, both methods fail to achieve a performance comparable to the one of our method (the best observed cost is 37404.04, compared to 17147.9 of our method).
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Comparison with", "weight": 1.0} -->
+
+The situation changes if we consider the example in Subsection VII-B. To make the comparison fair, we use a fixed linear prediction model for both methods (obtained by linearizing the dynamics at the origin). In this case, the method of converges rapidly to the optimal performance (same as our method) in a smaller number of iterations than our method. This is due to the fundamental difference in the two update schemes: is using a quasi-Newton scheme and it is performing one update every time-step within each iteration, requiring 1 iteration to converge (hence 120 parameter updates are necessary to reach optimal performance); our scheme, on the other hand, uses a gradient-based scheme and only updates once per iteration, requiring 3 iterations in total.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Comparison with", "weight": 1.0} -->
+
+This comparison empirically suggests that, in scenarios where the dynamics are highly nonlinear (e.g., the example of Subsection VII-A), our method can outperform the method of, achieving optimal performance despite using a simpler MPC architecture. However, in scenarios where the dynamics are linear or mildly nonlinear (e.g., the example of Subsection VII-B), the method of can achieve similar performance with fewer iterations, thanks to the quasi-Newton update scheme and the possibility of updating the parameters at each time-step of every iteration. It is important to note that, additionally, our method has convergence guarantees.
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+
+We proposed a backpropagation algorithm to optimally design an MPC scheme to maximize closed-loop performance. The cost and the constraints in the MPC can depend on the current state of the system, as well as on past solutions of previous MPC problems. We employed conservative Jacobians to compute the sensitivity of the closed-loop trajectory with respect to variations of the design parameter. Leveraging a non-smooth version of the implicit function theorem, we derived sufficient conditions under which the gradientbased optimization procedure converges to a critical point of the problem. Further, we extended our framework to cases where the MPC problem becomes infeasible, using nonsmooth penalty functions and derived conditions under which the closed-loop is guaranteed to converge to a safe solution.
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+
+Current work focuses on deploying our optimization scheme on more realistic real-life examples and extending it to scenarios where the system dynamics are only partially known and / or affected by stochastic noise.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+
+Future work will also investigate the use of more advanced optimization techniques, such as second-order or accelerated methods, to improve the convergence rate of the optimization procedure and to obtain better convergence guarantees (e.g. to a local or global minimizer).

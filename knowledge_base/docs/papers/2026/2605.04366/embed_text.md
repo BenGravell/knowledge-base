@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.04366", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Safety-critical scenarios play a central role in the development of autonomous vehicles (AVs). Rare events such as sudden cut-ins, near-miss interactions, or unexpected braking are precisely the situations where an AV's decision-making and planning policies are most challenged. Robust performance is essential, yet exposing AV systems to these conditions in the real world is costly and dangerous. Simulation is therefore critical: it enables evaluation under safety-critical conditions before deployment, reducing risk and accelerating development.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1609.07228", "source": "ar5iv"} -->
+
 ## Introduction
 
 Nearest neighbor search plays an important role in many applications of data mining, machine learning and computer vision. When dealing with sparse data (*e.g*., document retrieval), one can use advanced index structures (*e.g*., inverted index) to solve this problem. However, for data with dense features, the cost for finding the exact nearest neighbor is $O{(N)}$, where $N$ is the number of points in the database. It's very time consuming when the data set is large. So people turn to Approximate Nearest neighbor (ANN) search in practice. Many work has been done to carry out the ANN search with high accuracy but low computational complexity.

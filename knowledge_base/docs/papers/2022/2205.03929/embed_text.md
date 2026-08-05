@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2205.03929", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Recent work has seen an explosion of specialized robotics acceleration on nontraditional computing platforms such as GPUs, FPGAs, and ASICs. This has been sparked by the decline of Moore's Law and Dennard Scaling, which limits the performance of traditional CPU computing, positioning hardware acceleration as an emerging solution to achieve high performance and power efficiency in robotics applications.

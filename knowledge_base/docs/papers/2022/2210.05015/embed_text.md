@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2210.05015", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Maintaining safety and acting efficiently in the midst of uncertainty is an important aspect in a diverse set of challenges from transportation to autonomous scientific exploration, to healthcare and ecology. The partially observable Markov decision process (POMDP) is a flexible framework for sequential decision making in uncertain environments.

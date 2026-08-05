@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.12149", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Trajectory optimization is a powerful concept in robotics for generating efficient robot motions under task-specific objectives. it has been successfully applied to applications including navigation, manipulation, and aerial robotics. Classical gradient-based methods focus on smooth settings, where differentiability can be exploited for efficient optimization, and have demonstrated strong performance in such settings -. However, their reliance on differentiability limits their direct use in complex multimodal environments. In contrast, sampling-based approaches relax these assumptions by allowing non-differentiable cost functions, making them applicable to a broader range of robotic systems and tasks. They are most commonly applied in Model Predictive Control (MPC) settings since they can handle nonlinear dynamics with arbitrary cost functions.

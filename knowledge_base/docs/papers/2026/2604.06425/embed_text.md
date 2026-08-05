@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.06425", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Can a neural network act as a traditional computer? The Neural Computer (NC) is a neural system that unifies computation, memory, and I/O in a learned runtime state.

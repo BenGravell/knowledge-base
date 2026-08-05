@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.10346", "source": "arxiv-html"} -->
+
 ## Introduction
 
 We focus on quantifying the difficulty of fixed-budget best-arm identification (BAI) problem in non-stationary linear bandits. The linear bandit framework generalizes the classical multi-armed bandit problem by associating each arm with a feature vector and modeling rewards as linear in an unknown parameter. Algorithms such as UCB and Thompson Sampling are known to perform optimally in the well-studied regret-minimization setting. However, in the best-arm identification setting, where exploration is more important than cumulative reward, these algorithms are suboptimal, thus requiring specialized attention. In the standard BAI setting, a stationary environment is assumed where the rewards of arms are sampled i.i.d. However, algorithms designed for these environments can completely fail as soon as this assumption is lifted, for example, in settings where the value of an arm can change at any time step. An interesting question is *exactly how the difficulty of this setting changes once this stationary assumption is lifted*.

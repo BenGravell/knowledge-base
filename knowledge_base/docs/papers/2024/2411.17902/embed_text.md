@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2411.17902", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Planning low-cost motions for high- degree-of-freedom robots quickly is a fundamental area of research in robotics. These high-[[DoF]] robots are described by a continuous *configuration space*, but motion planning requires both a discrete approximation of this space and the ability to efficiently search this approximation. Graph-based planners, such as Dijkstra's algorithm and A\*, require the configuration space (i.e., search space) to be discretized a priori, and both their planning time and the quality of their solution depends on the resolution of this discretization.

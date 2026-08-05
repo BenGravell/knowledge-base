@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1610.08865", "source": "ar5iv"} -->
+
 ## Introduction
 
 Rapidly-Exploring Random Trees (RRT) is one of the most popular planning algorithms, especially when the search space is high-dimensional and finding the optimal path is computationally expensive. RRT performs well on many problems where classical dynamic programming based algorithms, such as A\*, perform poorly. RRT is essentially an exploration algorithm, and in the most basic implementation, the algorithm even ignores the goal information, which seems to be a major reason for its success. Planning problems, especially those in robotics, often feature narrow pathways connecting large explorable regions; combined with high dimensionality, this means that finding the optimal path is usually intractable. However, RRT often provides a feasible path quickly.

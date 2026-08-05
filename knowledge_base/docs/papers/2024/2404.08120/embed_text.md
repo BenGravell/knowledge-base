@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2404.08120", "source": "arxiv-html"} -->
+
 ## Introduction
 
 System identification --- the problem of estimating the parameters of an unknown dynamical system from a single trajectory of input/output data --- plays an important role in many problem domains such as control theory, robotics, and reinforcement learning. There has been tremendous progress in analyzing the performance of various system identification schemes --- classical results showed asymptotic convergence, whereas recent advances in non-asymptotic theory quantified the sample complexity of learning accurate estimates from data. However, these works all narrowly focus on system identification itself without accounting for the requirements for control applications. In this work, we consider a problem setting where linear system identification meets switching control so that we develop a data-driven approach to simultaneously achieve desirable control and system identification objectives.

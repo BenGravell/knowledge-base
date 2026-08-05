@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2311.11489", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Second-order methods are renowned for their faster convergence compared to first-order methods, and the capability to find second-order stationary points, see Cartis et al., Nocedal and Wright, Nesterov, Carmon et al.. Among these methods, the trust-region (TR) method stands out as a representative approach due to its robustness in nonconvex problems and extraordinary numerical performance. Many linear or nonlinear programming solvers are using the trust-region method as an important building block, to name a few, Knitro, IPOPT, and PDFO, etc. Also, in the machine learning field, it inspires the well-known trust-region policy optimization.

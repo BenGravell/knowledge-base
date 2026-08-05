@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2509.14978", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: The PA-MPPI controller navigating to the goal pose while avoiding obstacles in a previously unknown environment. The controller simultaneously controls the quadrotor at 50 Hz and optimizes the perception objective based on an online-updated 3D map constructed from onboard observations.

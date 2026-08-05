@@ -7,3 +7,251 @@ Short-Horizon Position Accuracy of Single-Track Models: Implications for Motion 
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Accurate and computationally efficient vehicle models are essential for motion planning of autonomous vehicles, where positional accuracy directly affects trajectory feasibility and safety. However, the positional accuracy has not been systematically evaluated against real measurements. Therefore, this paper compares the short-horizon positional accuracy of three single-track vehicle models against vehicle measurements across various driving maneuvers. Model parameters are identified through dedicated experiments with the instrumented test vehicle. Rather than identifying a single best model, this work aims to provide insight into the trade-offs between model complexity, parameterization quality, and positional accuracy for informed model selection in Model Predictive Control applications.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Autonomous vehicles are increasingly being deployed across a wide range of applications, from driverless taxis to autonomous buses and trucks. As part of their driving task, these vehicles must plan and execute safe, comfortable, and efficient trajectories in complex, dynamic environments, avoiding collisions with other road users and infrastructure while respecting road and lane boundaries.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Planning and control algorithms typically rely on vehicle models to generate trajectories and compute the control actions (e.g., steering, acceleration and braking) required to execute them. A widely used framework that combines trajectory planning and execution is Model Predictive Control (MPC) [10.1016/j.robot.2024.104630, 10.1109/TIV.2016.2578706, 10.1016/j.arcontrol.2022.11.001]. In MPC, the control action is obtained by solving, at each sampling instant, an open-loop finite-horizon optimal control problem initialized at the current plant state. The optimisation yields a finite sequence of control inputs, of which only the first is applied to the plant[2020\_Rawlings\_Modelpredictivecontroltheorycomputationdesign]. The plant model, i.e., the vehicle model, is embedded in this framework and defines the predicted trajectory over the horizon and shapes the requested control actions. Consequently, the fidelity of the vehicle model is key for closed-loop performance, as model mismatch degrades both trajectory tracking accuracy and control quality.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+(a) Nissan Leaf ZE0, instrumented with an Oxford Technical Solutions (OxTS) GNSS-INS and CSS Electronics CANedge2 data logger, used to record vehicle measurements, (b) mounting location of the OxTS, and (c) frame mounted onto the roof for the OxTS GNSS antennas.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+At the same time, these algorithms are subject to computational constraints, since they must be able to respond quickly to disturbances, for example when another vehicle enters the ego lane. Consequently, high-fidelity vehicle models are often too computationally expensive for online use. Therefore, many methods in the literature rely on the single-track (bicycle) vehicle model, such as [10.1016/j.ifacol.2019.08.085, 10.1109/IVS.2015.7225830, 10.1109/TIV.2019.2938102]. In this model, the left and right tires of each axle are lumped into a single equivalent tire located on the vehicle centerline. There exist variations of the single-track model, for example whether tire slip is neglected (kinematic), modeled using a linear tire model, or represented by a nonlinear tire model such as Pacejka's Magic Formula[2012\_Pacejka\_Tirevehicledynamics]. As a result, these variations of the single-track model offer a trade-off between accuracy and computational cost.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Historically, position accuracy has received less attention in vehicle dynamics research since vehicle models are often evaluated based on acceleration and yaw-rate responses [10.1080/00423114.2013.868500]. However, with the increasing deployment of autonomous vehicles in everyday traffic, the position accuracy of vehicle models used for planning and control becomes essential for safe, comfortable, and efficient driving. Position accuracy is especially important at low speeds, where tight tolerances are required for tasks such as parking maneuvers of cars or reverse docking of trucks.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To this end, Kong et al. [10.1109/IVS.2015.7225830] have compared kinematic and linear-tire dynamic single-track models using experimental vehicle measurements and report similar open-loop errors over short horizons. Polack et al.[10.1109/IVS.2017.7995816] compare a kinematic bicycle model with a 9-degree-of-freedom vehicle model in simulation and show that the kinematic model becomes increasingly inaccurate at higher speeds and steering angles because it does not capture slip-induced understeer. Ren et al.[10.4271/2014-01-0841]compare linear and nonlinear bicycle models against a high fidelity simulation. They show that the linear bicycle model matches the reference trajectory well at low speed, while the nonlinear bicycle model remains accurate over a wider operating range and during more severe maneuvers. Overall, their results indicate that nonlinear tire behavior and load-transfer effects become important once the vehicle operates beyond the linear regime.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The goal of this paper is to provide insight into single-track vehicle model choices suitable for MPC applications. To this end, we evaluate the positional accuracy of three single-track model variants against real passenger car measurements over a fixed, short prediction horizon across a range of driving maneuvers, representative of the receding-horizon predictions made in MPC. The variants considered are a kinematic model, a dynamic model with linear tires, and a dynamic model with nonlinear Magic Formula tires and quasi-static longitudinal load transfer. In doing so, we aim to bridge the gap between the autonomous driving and vehicle dynamics communities by providing insight into model trade-offs in MPC applications. Beyond the evaluated variants, we discuss additional modeling considerations so an appropriate model for their intended operating conditions can be selected.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The remainder of this paper is structured as follows. First, the vehicle measurement platform is discussed in Section~[sec:vehicle\_measurement\_platform]. The considered vehicle models are described in Section~[sec:veh\_mod], followed by the comparison of the models to the measurements in Section~[sec:results]. In Section~[sec:discussion], practical considerations for selecting an appropriate vehicle model for motion planning are discussed. Finally, conclusions and future work are discussed in Section~[sec:conc].
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Vehicle parameters for the Nissan Leaf ZE0 in Fig.~fig:Leaf together with simulation parameters.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Instrumentation", "weight": 1.0} -->
+
+Measurements are conducted using a 2011 Nissan Leaf ZE0 (Fig.~[fig:Leaf]). An Oxford Technical Solutions (OxTS) RT3000 v3 is mounted behind the front seats on the vehicle centerline (Fig.~[fig:OxTS\_position]), with two GNSS antennas installed on the roof (Fig.~[fig:antenna\_frame]). The OxTS RT3000 v3 is a combined GNSS-INS system that fuses real-time kinematic (RTK) GPS with inertial measurements to provide high-accuracy position, velocity, and acceleration data. Using RTK corrections via NTRIP, it achieves 0.01m position accuracy[2025\_\_RT3000v3OXTS]. Vehicle signals, including steering wheel angle, are acquired via the OBD-II port of the instrumented vehicle using a CSS Electronics CANedge2 data logger[\_\_CANedge22xCANBusDataLoggerSDWiFi].
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Instrumentation", "weight": 1.0} -->
+
+To enable synchronization between the separate OxTS and CANedge2 datasets, selected OxTS signals, such as the longitudinal velocity and yaw angle, are transmitted via CAN to the CANedge2. During post-processing, these shared signals are overlaid to determine the time offset and subsequently align the datasets.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Parameter Identification", "weight": 1.0} -->
+
+The vehicle parameters required for the models are listed in Table~[tab:veh\_par]. The vehicle mass is determined using a four-scale setup, measuring the mass per wheel and summing to obtain the total mass $m$. The longitudinal CGposition ($l_0$, $l_1$) follows from the front-to-rear axle mass distribution. By lifting the front axle to several pitch angles, measuring the resulting rear axle load change, and applying the ISO10392 method described in [10.4271/2026-26-0513], the CGheight $h_{CG}$ is obtained by averaging the value over all pitch angles. The steer ratio $i_s$ is identified by placing the front wheels on steering turntables, steering the steering wheel in approximately 45 increments (actual value is logged on the CANedge2), and fitting a linear relation between steering wheel angle $\delta_h$ and the averaged left/right wheel steer angle.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Parameter Identification", "weight": 1.0} -->
+
+A constant steering wheel angle offset of $-2.7\degree$ was identified to align the simulated yaw rate response with a set of measurements for straight-line driving scenarios as well as possible. The yaw inertia $I_{zz}$ is taken from[10.1016/j.ifacol.2021.08.575], which uses a comparable Nissan Leaf ZE0 for steering dynamics identification.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Parameter Identification", "weight": 1.0} -->
+
+The cornering stiffnesses $C_{\alpha i}$, where $i=0$ corresponds to the front axle and $i=1$ to the rear axle, are identified from experimental driving data using a least-squares fit of the linear tire model. Low-speed and near-straight samples are discarded to ensure sufficient excitation, and high lateral-acceleration data are excluded ($|a_y| > 4~\mathrm{m/s^2}$) to restrict the fit to the linear tire regime. The front and rear slip angles $\alpha_i$ are computed from the velocity components at each axle (see [eq:sideslipangles], [eq:wheelvelocities], and Fig.~[fig:veh\_model\_wheel\_velocities]), and the corresponding axle lateral forces $F_{yi}$ are obtained from the force and yaw moment balance of the dynamic single-track model.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Parameter Identification", "weight": 1.0} -->
+
+The cornering stiffnesses $C_{\alpha i}$ are then obtained as the slopes of a linear regression of $F_{yi}$ on $\alpha_{i}$ for $|\alpha_{i}| \leq 2^\circ$. With this approach, secondary compliance effects such as steering compliance and roll steer are implicitly absorbed into the identified cornering stiffnesses.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Parameter Identification", "weight": 1.0} -->
+
+The Magic Formula (MF) parameters of the front and rear tires are identified using the flat plank tire test facility of Eindhoven University of Technology. On this machine, a constant slip angle is applied at a constant axle height, and the steady-state lateral force is recorded. The lateral force characteristics for the two tires at various vertical loads are shown in Fig.~fig:measured\_and\_fitted\_tire\_forces, together with the fitted MF forces. The MF parameters are first fitted for the nominal vertical load, after which the vertical load dependency parameters are determined from the non-nominal results. The identified parameters are listed in Table~tab:MF\_pars in Appendix~sec:appendix\_MF.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Parameter Identification", "weight": 1.0} -->
+
+Since the MF equations purely describe the tire behavior, they do not include the aforementioned compliance effects. To reconcile both tire models, the cornering stiffness scaling factor $\lambda_{Ky\alpha i}$ of the MF is computed as $$\lambda_{Ky\alpha i} = \frac{C_{\alpha i}}{2K_{y\alpha i}},$$ where the MF tire cornering stiffness $K_{y\alpha i}$ is evaluated at the nominal tire vertical force with $\lambda_{Ky\alpha i}=1$ using [eq:MF\_cornering\_stiffness] in Appendix~[sec:appendix\_MF]. The factor two is a result of $C_{\alpha i}$ referring to an axle and $K_{y \alpha i}$to a single tire.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Parameter Identification", "weight": 1.0} -->
+
+Measured steady-state lateral forces and Magic Formula forces ([0.5ex]11pt1.5pt) for the front (a) and rear (b) tire for $F_z = 3300$N ([0.5ex]11pt1.5pt), $F_z = 4250$N ([0.5ex]11pt1.5pt), and $F_z = 5200$N ([0.5ex]11pt1.5pt).
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "GNSS-INS Sensor Offset Correction", "weight": 1.0} -->
+
+Since the OxTS is mounted behind the vehicle's CGat the vehicle plane of symmetry, the measured velocities and accelerations need to be determined for the CG: v_{x,CG} &= v_{x,\text{OxTS}} - \omega_z d_y, \\v_{y,CG} &= v_{y,\text{OxTS}} + \omega_z d_x,\\a_{x,CG} &= a_{x,\text{OxTS}} - \omega_z^2 d_x - \dot{\omega}_z d_y, \\a_{y,CG} &= a_{y,\text{OxTS}} + \dot{\omega}_z d_x - \omega_z^2 d_y, where $d_y = 0$, and $d_x = l_{OxTS} > 0$ is the forward offset from the OxTS to the CGin the body frame (i.e., the sensor is mounted rearward of the CG), the longitudinal
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "GNSS-INS Sensor Offset Correction", "weight": 1.0} -->
+
+and lateral velocity at the CGin the body frame are denoted by $v_x$ and $v_y$, respectively, $\omega_z$ is the yaw rate and $\dot{\omega}_z$ its time derivative.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "GNSS-INS Sensor Offset Correction", "weight": 1.0} -->
+
+The position of the OxTS is given by x_{OxTS} &= x - l_{OxTS} \cos{\left(\psi\right)},\\y_{OxTS} &= y - l_{OxTS} \sin{\left(\psi\right)}, where $x$ and $y$ are the coordinates of the center of gravity (CG) of the vehicle in the global Cartesian coordinate frame $\vec{e}^{\,0}$, as illustrated in Fig.~[fig:veh\_models], and $\psi$ is the yaw angle of the vehicle. The distance from the CGto the OxTS sensor is $l_{OxTS} > 0$, where the negative sign in[eq:pos\_OxTS] reflects that the sensor is mounted rearward of the CG.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Vehicle Models", "weight": 1.0} -->
+
+This work evaluates three single-track vehicle models: a kinematic single-track model (kinematic), a dynamic single-track model with linear tires (linear dynamic), and a dynamic single-track model with nonlinear Magic Formula tires and quasi-static longitudinal load transfer (nonlinear dynamic). The inputs for these three models are the steering angle $\delta_0$ at the front wheel and the time derivative of the OxTS forward velocity $\dot{v}_{x}$, leading to input vector $\bm{u}$ being equal to \end{bmatrix}^\top.$$ The steering angle is determined from the measured steering wheel angle $\delta_h$ via a constant steering ratio $i_s$: $$\delta_0= \frac{\delta_h}{i_s}.$$ We assume that the rear axle is non-steered. $\dot{v}_{x}$ is used rather than the OxTS longitudinal acceleration $a_{x,\text{OxTS}}$.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Vehicle Models", "weight": 1.0} -->
+
+The longitudinal acceleration measured by the OxTS includes a yaw-rate coupling term $\dot{\psi} v_y$, meaning it does not purely represent $\dot{v}_x$ as defined in the vehicle model. Additionally, measured acceleration values are commonly noisy and are influenced by pitch and roll effects. Therefore, $\dot{v}_{x}$ is obtained by applying a first-order Butterworth filter (5Hz cutoff frequency) to the OxTS longitudinal velocity signal and subsequently numerically differentiating it.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Vehicle Models", "weight": 1.0} -->
+
+The state vector $\bm{x}$ for each model is given by \end{bmatrix}^\top,$$ where $x$ and $y$ are the CGposition coordinates, $\psi$ is the yaw angle, and $v_x$, $v_y$, and $\omega_z$ are the longitudinal velocity, lateral velocity, and yaw rate, all defined at the CG.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Vehicle Models", "weight": 1.0} -->
+
+Schematic representation of the (a) kinematic and (b) dynamic single-track model.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Vehicle Models", "weight": 1.0} -->
+
+Velocities and side slip angles in the wheel frames.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Kinematic Model", "weight": 1.0} -->
+
+The kinematic model neglects tire slip and assumes rotation about an instantaneous center $O$ perpendicular to the rear-axle line, see Fig.~[fig:veh\_model\_kinematic]. The resulting curvature depends only on steering angle and wheelbase, so speed-dependent steering effects (e.g., understeer or oversteer) are not captured.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Kinematic Model", "weight": 1.0} -->
+
+The continuous-time equations of the kinematic vehicle model are given by v_x \cos(\psi + \beta) \\v_x \sin(\psi + \beta) \\\dfrac{v_x}{l} \cos\left(\beta\right) \, \tan\left(\delta_0\right)\\where $l = l_0 + l_1$ is the wheelbase and $\beta$ is the vehicle side slip angle, which in the kinematic model is fully determined by geometry: $$\beta = \arctan\!\left(\frac{l_1}{l}\tan\left(\delta_0\right)\right).$$ Note that the kinematic model imposes no-slip constraints at both axles, so $v_y$ and $\omega_z$ are not independent states but can be algebraically determined using the forward velocity $v_x$, steering angle $\delta_0$ and their derivatives.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Kinematic Model", "weight": 1.0} -->
+
+The zero entries in [eq:kin\_model] reflect that these rows carry no additional dynamic information and they are retained only to preserve a uniform state definition $\bm{x}$across all three models.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Dynamic Model", "weight": 1.0} -->
+
+The linear and nonlinear dynamic models include lateral and yaw dynamics about the center of gravity, and include tire slip angles, see Fig.~[fig:veh\_model\_dynamic].
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Dynamic Model", "weight": 1.0} -->
+
+The continuous-time equations of the dynamic model are given by v_x \cos\left(\psi\right) - v_y \sin\left(\psi\right) \\v_x \sin\left(\psi\right) + v_y \cos\left(\psi\right) \\\frac{1}{m}\left(F_{y0} \cos\left(\delta_0 \right) + F_{y1} \right) - v_x \omega_z \\\frac{1}{I_{zz}}\left(l_{0}\, F_{y0} \cos\left(\delta_0 \right) - l_{1}\, F_{y1} \right) \\where $F_{y0}$ and $F_{y1}$are the lateral tire forces of the front and rear axle, respectively.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Dynamic Model", "weight": 1.0} -->
+
+For the linear dynamic model, linear tire behavior with constant cornering stiffness $C_{\alpha i}$ is assumed, leading to where $\alpha_i$ is the tire side slip angle, with $i \in \{0,1\}$ denoting the front and rear axle, respectively. The side slip angle is given by $$\alpha_i = \arctan\left(\frac{v_{syi}}{\max(|v_{xi}|, v_{\epsilon})}\right),$$ where $v_{\epsilon} = 3$m/s is a threshold value to maintain numerical robustness at low speeds. To verify that $v_{\epsilon}$ does not significantly affect the results, a simulation was run with a timestep of 1ms and compared against the 50ms baseline, where the vehicle velocity is in the vicinity of $v_\epsilon$. The resulting trajectory errors are within approximately 5%of the baseline values.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Dynamic Model", "weight": 1.0} -->
+
+To calculate the tire side slip angles, the velocities $v_{xi}$ and $v_{syi}$ defined in the wheel-fixed coordinate system (see Fig.~[fig:veh\_model\_wheel\_velocities]) are determined by v_{x0} &= v_x \cos\left(\delta_0\right) + \left(v_y + l_0\omega_z\right) \sin\left(\delta_0\right) \\v_{sy0} &= -v_x \sin\left(\delta_0\right) + \left(v_y + l_0\omega_z\right) \cos\left(\delta_0\right) \\Lateral tire force as a function of the tire side slip angle for the linear ([0.5ex]11pt1.5pt2pt 1pt) and nonlinear ([0.5ex]11pt1.5pt) tire model for the front tire at $F_z = 4250$N
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Dynamic Model", "weight": 1.0} -->
+
+Note that, compared to the forces in Fig.~[fig:measured\_and\_fitted\_tire\_forces], the nonlinear MF force response is scaled using $\lambda_{K y \alpha i}$ as explained in Section~[sec:vehicle\_measurement\_platform\_params].
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Dynamic Model", "weight": 1.0} -->
+
+For the nonlinear dynamic model, lateral tire forces are computed using the nonlinear Magic Formula under the pure side-slip assumption.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Dynamic Model", "weight": 1.0} -->
+
+Fig.~[fig:comparison\_linear\_nonlinear\_model] visualizes the linear and nonlinear force response, where the nonlinear forces decrease for increasing tire side slip angles. The lateral force at each axle depends on the vertical tire force, which varies with longitudinal acceleration due to the elevated center of gravity. Therefore, quasi-static longitudinal load transfer is included, making axle loads acceleration-dependent. The vertical force $F_{zi}$ for $i \in \{0,1\}$ is given by F_{z0} &= \frac{m}{l}\left(g l_{1} - a_x h_{CG} \right),\\F_{z1} &= \frac{m}{l}\left(g l_{0} + a_x h_{CG} \right), where $h_{CG}$ is the center-of-gravity height and $g$ is the gravitational acceleration. We assume that $a_x = \dot{v}_{x}$, thus neglecting the yaw motion components.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Dynamic Model", "weight": 1.0} -->
+
+As a consequence of the load transfer, acceleration and braking influence the side-slip response and can shift the vehicle balance from understeer toward neutral steer or oversteer. The lateral forces $F_{yi}$ are computed using the MF equations[2012\_Pacejka\_Tirevehicledynamics] given in [eq:MF] in Appendix~[sec:appendix\_MF], which incorporate the dependency on $F_{zi}$. Since the MF parameters in Table~[tab:MF\_pars] and the equations in Appendix~[sec:appendix\_MF]correspond to a single tire, whereas the single-track model represents each axle as one equivalent tire, the vertical load is halved prior to evaluating the MF, and the resulting lateral force is doubled to yield the axle-equivalent force. Note that lateral load transfer, which in reality causes the inner and outer tires to carry unequal vertical forces and thus generate different lateral forces, is not captured by this approach.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Dynamic Model", "weight": 1.0} -->
+
+Top row: measured trajectory ([0.5ex]11pt1.5pt) and kinematic model predictions ([0.5ex]11pt1.5pt2pt 1pt) of S$_6$ for four initial times $t_0 \in \{1, 10, 19, 28\}\,\mathrm{s}$, together with the corresponding measured segment $[t_0,\, t_0 + T_{\text{pred}}]$ ([0.5ex]11pt1.5pt). Bottom row: longitudinal ([0.5ex]11pt1.5pt) and lateral ([0.5ex]11pt1.5pt2pt 1pt) errors over the prediction horizon for the four initial times of the top row.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+To quantify the short-horizon position accuracy of the vehicle models presented in Section~[sec:veh\_mod], the trajectory measured by the OxTS mounted in the Nissan Leaf serves as ground truth across all scenarios.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+- Figure-eight at an approximately constant speed of $4$m/s. - Steady-state cornering at approximately $1.5$, $4$, and $6$m/s$^2$ lateral acceleration ($R \approx 23$m). - Steady-state cornering at $a_y \approx-1.5$m/s$^2$ ($R \approx 20$m), followed by deceleration to standstill. - Right U-turn, straight segment, left U-turn, straight segment, and left U-turn, decelerating to approximately $4$m/s before each turn and accelerating to $6$m/s afterward. - Driving at $16$m/s with a slight right turn, decelerating to $5$m/s, driving a $450\degree$ roundabout, and accelerating back to $16$m/s on exit. $100$ms intervals, the three models are initialized with the measured state and simulated over a prediction horizon $T_{\text{pred}}=5$s using fourth-order Runge-Kutta with a $50$ms step.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+The result is illustrated for the kinematic model in the top row of Fig.~[fig:paperclip\_kinematic], showing the full measured trajectory of S$_6$ alongside the predicted and measured segments $[t_0,\,t_0+T_{\text{pred}}]$ for $t_0 \in \{1, 10, 19, 28\}\,\mathrm{s}$.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+From the simulated trajectory, the predicted OxTS position is obtained from the CGposition using [eq:pos\_OxTS].The predicted and measured OxTS positions are then compared by decomposing the global error $\bm{e}_{\text{glob}}(t) = \bm{p}_{\text{pred}}(t) - \bm{p}_{\text{meas}}(t)$, where $\bm{p}(t) = \left[x_{\text{OxTS}}(t),\,y_{\text{OxTS}}(t)\right]^\top$, into longitudinal and lateral components by rotating by the measured heading $\psi_{\text{meas}}(t)$: $$\begin{bmatrix} e_{\text{lon}}(t) \\ e_{\text{lat}}(t) \end{bmatrix} = \begin{bmatrix}
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+The bottom row of Fig.~[fig:paperclip\_kinematic] shows the resulting longitudinal and lateral errors of the kinematic model for $t_0 \in \{1, 10, 19, 28\}\,\mathrm{s}$ of S$_6$over the prediction horizon. Considering the vehicle coordinate frame, where the longitudinal axis points forward and the lateral axis points left, positive longitudinal and lateral errors indicate that the predicted position is ahead and to the left of the measured position, respectively.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+Subsequently, for each initialization time $t_0$ and each of the three models, the longitudinal and lateral errors are averaged over the corresponding prediction horizon $[t_0,\, t_0+T_{\text{pred}}]$. The result is shown in Fig.~fig:MPC\_error\_small, where the linear and nonlinear dynamic models show comparable accuracy, whereas the kinematic model shows errors approximately three times as large from the measured position during cornering.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+Longitudinal and lateral errors averaged over each prediction horizon $[t_0,\,t_0+T_{\text{pred}}]$ as functions of $t_0$ for the kinematic ([0.5ex]11pt1.5pt), linear dynamic ([0.5ex]11pt1.5pt), and nonlinear dynamic ([0.5ex]11pt1.5pt) models for S$_6$.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+This approach is applied to each driving scenario. The results are summarized in Table~[tab:err\_mean\_rmse], which reports the mean error, maximum absolute error, and RMSE of the longitudinal and lateral trajectory errors over each prediction horizon $[t_0,\,t_0+T_{\text{pred}}]$, for each scenario and model. The mean error indicates systematic bias, the maximum absolute error reflects the worst-case deviation, and the RMSE captures overall magnitude while penalizing larger deviations more heavily. Note that longitudinal and lateral errors are inherently coupled when trajectories are compared in the time domain rather than the spatial domain: if the modeled trajectory follows a higher curvature through a steady-state corner while the velocity profile is accurately tracked, the resulting lateral deviation simultaneously induces a longitudinal error.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+Mean error, maximum absolute error and root mean square error (RMSE) of the longitudinal and lateral errors over each prediction horizon $[t_0,\,t_0+T_{\text{pred}}]$ per scenario and model, with m$_1$, m$_2$ and m$_3$ denoting the kinematic, linear dynamic and nonlinear dynamic model, respectively. Bold values indicate the lowest error magnitude per scenario, error type, and direction (longitudinal/lateral).
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+| 2* | 2* | 2cError (mean $\mid$ max $\mid$ RMSE) [m] | | The two dynamic models generally outperform the kinematic model by a factor of two to six for both longitudinal and lateral errors in most scenarios, as expected given their ability to capture tire side slip and vehicle body dynamics. At higher lateral accelerations, the dynamic behavior of the vehicle has a more significant influence on the trajectory, as the kinematic model neglects tire slip and therefore cannot reproduce speed-dependent effects such as understeer. This is most pronounced in the steady-state cornering scenarios S $_3$ ($a_y \approx 4~\text{m/s}^2$) and S$_4$ ($a_y \approx 6~\text{m/s}^2$). In both scenarios, the vehicle drives a counterclockwise circular path, i.e., a left circle. The positive mean lateral error of the kinematic model indicates that the predicted trajectory has a smaller radius than the reference, confirming that understeer is not captured by the kinematic model.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+The linear and nonlinear dynamic models show comparable accuracy for all scenarios, with relative differences in the centimeter range (except S $_4$) and absolute errors with respect to the measured trajectories in the decimeter range. The similarity stems from two factors. Firstly, the tire slip angles remain largely within or close to the linear region. For all scenarios except S$_4$, the front slip angle $\alpha_0$ is within $\pm 3^\circ$, the rear slip angle $\alpha_1$ stays between $\pm 2^\circ$. Since the linear and nonlinear force responses are aligned via $\lambda_{K y \alpha i}$ as visualized in Fig.~[fig:comparison\_linear\_nonlinear\_model], both tire-force formulations yield near-identical lateral force responses under these conditions. Secondly, the longitudinal acceleration in the tested scenarios is limited, resulting in little load transfer effects. This also justifies the use of pure side slip rather than combined slip in the current Magic Formula implementation.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+$\text{S}_4$, the predicted side slip angles of the linear and nonlinear dynamic models differ over the prediction horizon, as shown in Fig.~[fig:roundabout\_3\_slipangles], where both models are initialized from identical states. However, at the higher slip angles that occur in this scenario, the Magic Formula yields lower lateral forces than the linear approximation due to saturation at higher slip levels. This causes the slip angles of the linear and nonlinear model to settle at different steady-state values, with a lateral force difference of approximately 100N at both axles. The linear model achieves lower trajectory error than the nonlinear model, contrary to the expectation that increased model fidelity would improve the position accuracy. Both models give a negative average error for the counterclockwise circle of S$_4$, which means that the predicted trajectories are to the outside of the circle. The reason for this is twofold: the identified tire parameters and neglecting steering compliance and steering dynamics.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+Predicted side slip angles and corresponding lateral forces for the front and rear tires for the linear dynamic ([0.5ex]11pt1.5pt) and nonlinear dynamic ([0.5ex]11pt1.5pt) models for S$_4$ at $t_0 = 25$s.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+Section~[sec:vehicle\_measurement\_platform], the cornering stiffness $C_{\alpha i}$ is identified from experimental data via a least-squares fit of the linear tire model for $|a_y| \leq 4$m/s$^2$. The cornering stiffness of the nonlinear tire model is then scaled to match the identified $C_{\alpha i}$, which also affects the lateral force response at higher slip angles. However, at these higher slip levels, the available lateral force is primarily determined by the available friction. Since the friction level during MF-parameter identification is assumed equal to and constant across all driving scenarios, the modeled nonlinear force response may deviate from the true tire behavior. This highlights the importance of accurately characterizing operating conditions, and underscores a fundamental challenge of higher-fidelity models. Their typically larger number of parameters multiplies the potential sources of identification uncertainty, each of which can degrade their accuracy.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Comparison of Simulation Models Against Measurements", "weight": 1.0} -->
+
+$_5$, the vehicle brakes to a standstill at $\dot{v}_{x} \approx -1.5$m/s$^2$, producing approximately 400N of longitudinal load transfer according to [eq:load\_transfer]. The resulting front and rear slip angles are $\alpha_0 \approx 1^\circ$ and $\alpha_1 \approx 0.5^\circ$, at which the change in lateral tire force due to load transfer is approximately 50N. Consequently, the center-of-gravity height has negligible influence in this scenario given the low longitudinal accelerations, and the linear and nonlinear dynamic models predict comparable trajectories.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+The three single-track model variants evaluated in Section~[sec:results]represent a common starting point for MPC design in autonomous driving. Depending on the operating conditions and vehicle type, several additional modeling effects may be considered. The following list highlights the most relevant ones and discusses when and why they become important.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+- Steering dynamics: The wheel steering angle is derived from the steering wheel angle via a constant ratio using[eq:steering], neglecting steering system compliance and tire force feedback. Thus, at higher lateral accelerations and when the MPC actuates the steering wheel directly, modeling the steering dynamics may be necessary. - Longitudinal load transfer: The effect is limited at moderate longitudinal accelerations but becomes more significant at higher ones. It also varies with loading conditions: for vehicles with variable payload such as taxis or trucks, the CGposition shifts accordingly. - Combined slip: Simultaneous longitudinal and lateral force generation reduces the available force, as bounded by the friction ellipse. This is relevant during braking in a turn and can be addressed through a combined slip formulation or explicit friction ellipse constraints. - Aerodynamic forces: At high speeds, drag and downforce affect longitudinal dynamics and vertical tire loads. Crosswind introduces lateral forces, which is particularly relevant for large, high-sided vehicles such as trucks and buses. - Low-velocity singularity: The slip angle formulation in[eq:sideslipangles] requires a regularization term $v_\epsilon$ to avoid singularities near standstill.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+A relaxation-length tire model avoids this at the cost of one additional state per axle[2012\_Pacejka\_Tirevehicledynamics]. - Lateral load transfer: In cornering, lateral acceleration shifts vertical load to the outer wheels. The single-track model does not capture this but a double-track model can represent it at the cost of additional states and parameters.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+In addition to the possible modeling variants, a practical constraint in MPC is that the optimal control problem must be solved within a given sampling interval. Increasing model fidelity raises the computational cost of both evaluating the prediction model and solving the resulting optimization problem, which can limit the achievable prediction horizon or require a longer sampling interval. In closed-loop operation, this trade-off is consequential: a shorter horizon reduces the lookahead distance available to the controller, while a longer sampling interval reduces responsiveness of the autonomous vehicle to disturbances. Therefore, the effect of model fidelity on the closed-loop performance is worth considering, such as investigated by Subosits and Gerdes [10.1109/TIV.2021.3051325]for maneuvers at friction limits.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+The results together with the discussion indicate that the predictive accuracy of any model is bounded by the model complexity in combination with the quality of its parameter identification. Poorly identified parameters can offset the theoretical advantage of increasing model fidelity, as substantiated by the results of the linear and nonlinear models in this work. This aligns with Box's aphorism that all models are wrong, but some are useful [10.1080/01621459.1976.10480949]: selecting the appropriate level of fidelity based on the expected operating conditions and ensuring that the corresponding parameters are accurately identified are therefore at least as important as the choice of model structure itself.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+This paper evaluates the short-horizon position accuracy of three single-track vehicle models (kinematic, linear dynamic, and nonlinear dynamic) against measurements from a Nissan Leaf ZE0 across a range of driving maneuvers, together with the aim of bridging the gap between the vehicle dynamics and motion planning communities by guiding the choice of model and its parameterization for MPC applications in autonomous driving.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+The kinematic model performs substantially worse than both dynamic models, by approximately a factor of two to six in most scenarios, as it neglects tire slip and therefore cannot reproduce speed-dependent effects such as understeer. This is most pronounced in the steady-state cornering scenarios at $a_y \approx 4$m/s$^2$and $a_y \approx 6$m/s$^2$. The linear and nonlinear dynamic models achieve comparable accuracy across all scenarios, since tire slip angles remain largely within the linear regime and longitudinal load transfer effects are small for the test cases considered. In the steady-state cornering scenario at $a_y \approx 6$m/s$^2$, the nonlinear model unexpectedly yields larger errors than the linear model, indicating that model accuracy is bounded by the quality of parameter identification. This highlights that increasing model complexity does not inherently improve position accuracy if the additional parameters cannot be accurately identified.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Therefore, the linear dynamic model offers the best trade-off between accuracy and parameterization effort for the scenarios considered. The kinematic model is straightforward to parameterize but lacks accuracy at higher lateral accelerations. The nonlinear dynamic model requires greater parameterization effort yet does not yield higher accuracy, as the test scenarios remain largely within the linear tire regime and longitudinal load transfer effects are limited.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Future work entails implementing these models in an MPC framework on an autonomous vehicle to assess which model provides sufficient accuracy in closed-loop applications and to evaluate the associated computational cost. The dataset should be extended with more diverse driving maneuvers at higher speeds and lateral accelerations to better characterize the transition to nonlinear tire behavior, including combined slip conditions and longitudinal load transfer. Under such conditions, the effects of steering dynamics, tire relaxation, lateral load transfer, and aerodynamic forces are expected to become more significant and should be investigated. Finally, this work should be extended to autonomous trucks, where payload variability, a higher center of gravity, and structural flexibility such as trailer chassis bending introduce additional modeling challenges. Furthermore, the required prediction horizon for trucks is considerably longer than for passenger cars, as larger vehicle dimensions and limited braking performance necessitate greater lookahead distances. Since model errors accumulate over the prediction horizon, positional accuracy is expected to degrade more significantly at the longer horizons required for autonomous trucks.

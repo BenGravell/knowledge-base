@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2004.06632", "source": "ar5iv"} -->
+
 ## Introduction
 
 Artificial intelligence has been trying to make intelligent machines for long. Artificial neural networks have played important roles in artificial intelligence to achieve its goal. When an artificial neural network is built to execute a task, it is programmed to perceive a pattern. The main task of an artificial neural network is to learn this pattern from data.

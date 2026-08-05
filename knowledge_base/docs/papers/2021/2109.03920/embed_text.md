@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2109.03920", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 In traditional mathematical optimization, one takes as input an objective and a set of constraints to generate an optimal decision. In inverse optimization, decisions are given as input and an objective and/or constraints is the output. Specifically, the goal of inverse optimization is to determine parameters of an optimization model the forward modelthat render a set of decisions approximately or exactly optimal with respect to this forward model. Solving for this set of parameters is itself an optimization model, known as the inversemodel.

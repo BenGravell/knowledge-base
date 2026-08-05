@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2002.02277", "source": "ar5iv"} -->
+
 ## Introduction
 
 The ability to predict the intentions and driving trajectories of other vehicles is a key problem for autonomous driving. This problem is significantly complicated by the need to make fast and accurate predictions based on limited observation data which originate from coupled multi-agent interactions.

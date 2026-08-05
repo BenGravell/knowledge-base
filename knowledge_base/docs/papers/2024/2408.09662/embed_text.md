@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2408.09662", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Using GPUs for robotics is attractive due to their powerful computing and parallelization capabilities compared to CPUs. These advantages are particularly beneficial in training controllers through parallelized simulations and reinforcement learning (RL), evidenced by the success of learned policies in handling complex, high-dimensional tasks \[Miki2022_LearningLocomotion, Cheng2024_ExtremeParkourLegged, Zhuang2023_RobotParkour, Hoeller2020_DeepValueMPC\]. With cheaper compute, it is appealing to begin incorporating model-based techniques and optimization into training, where the sample efficiency, exploration, and interpretability of the policy could all be improved by embedding model-based domain knowledge as part of the learning pipeline \[Jenelten2024_DTC, Grandesso2023_CACTO, Lee2024_RLHumanoidLIPPlanning\].

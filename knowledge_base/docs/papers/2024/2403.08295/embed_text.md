@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2403.08295", "source": "arxiv-html"} -->
+
 ## Introduction
 
 We present Gemma, a family of open models based on Google's Gemini models.

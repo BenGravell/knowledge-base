@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.11183", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 The structured consideration of system uncertainty (either induced by plant-model mismatch or stemming from exogenous disturbances) is crucial in many control contexts. When stochastic optimal control or predictive control is considered, the consideration of chance constraints has become a standard tool, see, e.g.,. However, chance constraints do, in general, not allow to avoid rare outcomes with bad performance. Risk measures, on the other hand, are well suited to avoiding rare outcomes with bad performance. Examples include conditional value-at-risk, entropic value-at-risk and others. In previous work we analyzed stochastic MPC with risk-averse objectives. Moreover, suggest the consideration of risk-averse constraint formulations in stochastic MPC. Yet, to the best of our knowledge, the formal closed-loop analysis of stochastic MPC appears to be mostly limited to chance-constrained formulations, cf..

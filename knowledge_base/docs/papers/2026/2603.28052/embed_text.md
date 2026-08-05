@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.28052", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Changing the harness around a fixed large language model (LLM) can produce a 6$\times$ performance gap on the same benchmark. The harness---the code that determines what to store, retrieve, and show to the model---often matters as much as the model itself. This sensitivity has led to growing interest in harness engineering, the practice of refining the code around an LLM to improve the overall system's performance. But despite its importance, harness engineering remains largely manual: practitioners inspect failures, adjust heuristics, and iterate on a small number of designs. In this paper, we ask whether this process itself can be automated.

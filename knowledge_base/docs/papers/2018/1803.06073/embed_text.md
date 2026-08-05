@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1803.06073", "source": "ar5iv"} -->
+
 ## Introduction
 
 In this work, we study first-order methods for solving the (unconstrained) minimization problem where $f:^{d}\rightarrow$. In the sequel, we focus on the case where $f$ is $L$-smooth and $\mu$-strongly convex, though our methodology can be adapted to a broader class of problems.

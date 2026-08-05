@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.03798", "source": "arxiv-latex"} -->
+
 ## INTRODUCTION
 
 The strong push recently in the automotive industry for introducing new technologies related to automated driving (AD) and advanced driving-assistance systems (ADAS), has led to predictive information being readily available to the vehicle controllers. For instance, onboard sensors detect the environment in the vicinity of the vehicle, motion planners generate future desired driving profiles [Paden2016,Berntorp2017c], and motion-prediction modules provides risk assessments for different control actions [Lefevre2014,Okamoto2017a]. Consequently, model predictive control (MPC) is suitable for vehicle control as it naturally integrates predictive information in its problem formulation [Dicairano2018,Hrovat2012], and MPC has successfully been applied to vehicle trajectory tracking and stability control [Falcone2007,Berntorp2019f,Carvalho2015,DiCairano2016,Borrelli2005].

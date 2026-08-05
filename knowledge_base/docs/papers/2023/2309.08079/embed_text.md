@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.08079", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Nonlinear Model Predictive Control (NMPC) is a feedback control strategy which repeatedly solves finite horizon optimal control problems (OCP) in real time, enabling robots to adapt to changes in their environment. This approach has seen great recent success in applications to both locomotion and manipulation.

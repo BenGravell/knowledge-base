@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1910.05449", "source": "ar5iv"} -->
+
 ## Introduction
 
 We focus on the problem of predicting future agent states, which is a crucial task for robot planning in real-world environments. We are particularly interested in addressing this problem for self-driving vehicles, an application with a potentially enormous societal impact. Importantly, predicting the future of other agents in this domain is vital for safe, comfortable and efficient operation. For example, it is important to know whether to yield to a vehicle if they are going to cut in front of our robot or when would be the best time to merge into traffic. Such future prediction requires an understanding of the static and dynamic world context: road semantics (*e.g*., lane connectivity, stop lines), traffic light information, and past observations of other agents, as depicted in Fig. 1.

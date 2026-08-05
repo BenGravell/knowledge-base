@@ -276,7 +276,7 @@ Input: The planning graph/tree 𝔾z = (𝕍z, 𝔼z) 2if Sample $\mathbf{z}_{f}
 
 <!-- chunk {"id": "body-0069", "role": "body", "section": "V-C FlaskExtend Subroutine on Flat Output Space", "weight": 1.0} -->
 
-/* Analytically propagate dynamics */9if FlaskCC(zloc(t), wloc(t)) then
+/* Analytically propagate dynamics */9if not FlaskCC(zloc(t), wloc(t)) then
 
 <!-- chunk {"id": "body-0070", "role": "body", "section": "V-C1 Solving the BVP Problem in Closed Forms", "weight": 1.0} -->
 
@@ -372,7 +372,7 @@ Input: A collision-free piecewise-polynomial trajectory σz(t) = {(zi(t), ti)}i 
 
 <!-- chunk {"id": "body-0093", "role": "body", "section": "V-D Vectorized Collision Checking", "weight": 1.0} -->
 
-/* Bypass unnecessary motions if the trajectory zij(t) does not violates any constraints */6 if FlaskCC(zij(t), wij(t)) then 7 Replace {(zi(t), ti)}k = ij by (zij(t), ti − 1 + Tij). 8 Replace {(wi(t), ti)}k = ij by (wij(t), ti − 1 + Tij). Algorithm 4 Trajectory Postprocessing
+/* Bypass unnecessary motions if the trajectory zij(t) does not violates any constraints */6 if not FlaskCC(zij(t), wij(t)) then 7 Replace {(zi(t), ti)}k = ij by (zij(t), ti − 1 + Tij). 8 Replace {(wi(t), ti)}k = ij by (wij(t), ti − 1 + Tij). Algorithm 4 Trajectory Postprocessing
 
 <!-- chunk {"id": "body-0094", "role": "body", "section": "V-E Trajectory Postprocessing", "weight": 1.0} -->
 

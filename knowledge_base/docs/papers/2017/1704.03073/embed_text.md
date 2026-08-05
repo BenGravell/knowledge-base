@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1704.03073", "source": "ar5iv"} -->
+
 ## Introduction
 
 Dexterous manipulation is a fundamental challenge in robotics. Researchers have long been seeking a way to enable robots to robustly and flexibly interact with fixed and free objects of different shapes, materials, and surface properties in the context of a broad range of tasks and environmental conditions. Such flexibility is very difficult to achieve with manually designed controllers. The recent resurgence of neural networks and "deep learning" has inspired hope that these methods will be as effective in the control domain as they are for perception. And indeed, in simulation, recent work has used neural networks to learn solutions to a variety of control problems from scratch (e.g. ).

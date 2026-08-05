@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.21811", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Robotic dexterous manipulation requires reasoning over quantities defined on different geometric spaces, including positions in Cartesian space, orientations on $\mathrm{SO}$, and joint limits in generalized coordinates. Some of these quantities correspond to soft objectives, such as null-space redundancy resolution and task prioritization, while others impose hard constraints that must never be violated, such as collision avoidance, closed-loop kinematic constraints, and force closure. Moreover, real-world perturbations and modeling errors require the system to respond quickly via feedback during execution. Successful manipulation therefore demands continuously resolving objectives and constraints defined on heterogeneous geometric spaces in real time.

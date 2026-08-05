@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2408.01258", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Dexterous and whole-body robotic manipulation in high-dimensional state-action space with nonsmooth dynamics is challenging, but learning-based approaches have shown encouraging results for such tasks. However, they require loads of high-quality data or extensive exploration to find solutions. Yet, robot data is scarce and expensive; human demonstrations are costly and confined to human capabilities. Moreover, using dense rewards or curriculum learning to guide the policy search potentially imposes a sub-optimal solution structure and necessitates lengthy reward shaping.

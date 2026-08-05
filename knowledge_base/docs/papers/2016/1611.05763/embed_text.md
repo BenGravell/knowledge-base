@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1611.05763", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent advances have allowed long-standing methods for reinforcement learning (RL) to be newly extended to such complex and large-scale task environments as Atari and Go. The key enabling breakthrough has been the development of techniques allowing the stable integration of RL with non-linear function approximation through deep learning. The resulting deep RL methods are attaining human- and often superhuman-level performance in an expanding list of domains. However, there are at least two aspects of human performance that they starkly lack. First, deep RL typically requires a massive volume of training data, whereas human learners can attain reasonable performance on any of a wide range of tasks with comparatively little experience. Second, deep RL systems typically specialize on one restricted task domain, whereas human learners can flexibly adapt to changing task conditions. Recent critiques have invoked these differences as posing a direct challenge to current deep RL research.

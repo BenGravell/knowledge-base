@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2301.11902", "source": "ar5iv"} -->
+
 ## Introduction
 
 A key challenge of motion planning for autonomous vehicles (AV)s is reasoning about the interaction between the ego vehicle and neighboring agents. The task is commonly divided into two subproblems: trajectory prediction for other agents, and ego motion planning with prediction. Trajectory prediction has seen substantial progress in recent years, coming from simple kineamtic models to powerful deep learning models capable of generating high-quality, multi-modal predictions. However, motion planning with such high-capacity prediction models remains a challenge.

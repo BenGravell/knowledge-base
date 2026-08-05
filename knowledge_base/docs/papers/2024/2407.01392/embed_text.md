@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2407.01392", "source": "ar5iv"} -->
+
 ## Introduction
 
 Probabilistic sequence modeling plays a crucial role in diverse machine learning applications including natural language processing, video prediction and decision making. Next-token prediction models in particular have a number of desirable properties. They enable the generation of sequences with varying length (generating only a single token or an "infinite" number of tokens via auto-regressive sampling), can be conditioned on varying amounts of history, support efficient tree search, and can be used for online feedback control.

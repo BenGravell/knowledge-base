@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2002.06589", "source": "ar5iv"} -->
+
 ## Introduction
 
 Popular path planning algorithms in robotics include graph-based searches, such as A^∗^ and Dijkstra's, and sampling-based planners, such as Rapidly-exploring Random Trees (RRT) and Probabilistic Roadmaps (PRM). Both graph- and sampling-based approaches have characteristic strengths and limitations. Previous work has separated search and approximation in single-query, almost-surely asymptotically optimal sampling-based planning to combine their strengths and mitigate their limitations. This separation can be leveraged to use advanced graph-based search techniques on an anytime sampling-based approximation to further improve performance.

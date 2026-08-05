@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1611.03852", "source": "ar5iv"} -->
+
 ## Introduction
 
 Generative adversarial networks (GANs) are a recently proposed class of generative models in which a generator is trained to optimize a cost function that is being simultaneously learned by a discriminator. While the idea of learning objectives is relatively new to the field of generative modeling, learning cost or reward functions has long been studied in control and was popularized in 2000 for reinforcement learning problems. In these fields, learning the cost function underlying demonstrated behavior is referred to as inverse reinforcement learning (IRL) or inverse optimal control (IOC). At first glance, the connection between cost learning in RL and cost learning for generative models may appear to be superficial; however, if we apply GANs to a setting where the generator density can be efficiently evaluated, the result is exactly equivalent to a sample-based algorithm for maximum entropy (MaxEnt) IRL. Interestingly, as MaxEnt IRL is an energy-based model, this connection suggests a method for using GANs to train a broader class of energy-based models.

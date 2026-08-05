@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1711.10085", "source": "ar5iv"} -->
+
 ## Introduction
 
 UNMANNED aerial vehicle (UAV) research and development has been growing rapidly over the past decade. In academia, there are more than 60 UAV papers in IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) and IEEE International Conference on Robotics and Automation (ICRA) in 2016 alone. In the commercial sector, the annual Aerospace Forecast Report released by the United States Federal Aviation Administration (FAA) estimates that more than seven million UAVs will be purchased by 2020. Another recent report released by PricewaterhouseCoopers (PwC)---the second largest professional services firm in the world---estimates the global market for applications of UAVs at over \$127 billion in 2020.

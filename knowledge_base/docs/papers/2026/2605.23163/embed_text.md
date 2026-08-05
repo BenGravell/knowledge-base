@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.23163", "source": "arxiv-html"} -->
+
 ## Introduction
 
 End-to-end (E2E) autonomous driving has progressed rapidly by unifying perception, reasoning, and planning within a single trainable system. A growing line of work extends this paradigm with Vision-Language Models (VLMs) and Vision-Language-Action (VLA) models, which leverage broad world knowledge and natural-language reasoning to handle the long-tail scenarios that dominate real-world driving and to expose interpretable explanations of the agent's decisions. For any such system to be practically useful, two requirements must be met *simultaneously*: the predicted trajectory must be accurate and globally consistent with the model's reasoning, and inference must be efficient enough on edge hardware at batch size one to remain competitive with classical planners. Existing VLAs typically satisfy at most one of these criteria.

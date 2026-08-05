@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1206.4621", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Scaling reinforcement learning (RL) methods to continuous state-action problems, such as humanoid robotics tasks, has been the focus of numerous recent studies. Most of the progress in the domain comes from direct policy search methods based on trajectory rollouts. The recently proposed direct 'Policy Improvement with Path Integrals' algorithm (PI 2) is derived Appearing in Proceedings of the 29 th International Conference on Machine Learning, Edinburgh, Scotland, UK, 2012. Copyright 2012 by the author(s)/owner(s). from first principles of stochastic optimal control, and is able to outperform gradient-based RL algorithms such as REINFORCE and Natural Actor-Critic by an order of magnitude in terms of convergence speed and quality of the final solution.

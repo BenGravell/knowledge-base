@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1905.00562", "source": "ar5iv"} -->
+
 ## Introduction
 
 A real-valued function $f$ is *quasiconvex* if its domain $C$ is convex, and for any $\alpha \in \text{R}$, its $\alpha$-sublevel sets $\{{x \in C}\mid{{f{(x)}} \leq \alpha}\}$ are convex \[, §3.4\]. A function $f$ is quasiconcave if $- f$ is quasiconvex, and it is quasilinear if it is both quasiconvex and quasiconcave. A *quasiconvex program* (QCP) is a mathematical optimization problem in which the objective is to minimize a quasiconvex function over a convex set. Because every convex function is also quasiconvex, QCPs generalize convex programs. Though QCPs are in general nonconvex, many can nonetheless be solved efficiently by a bisection method that involves solving a sequence of convex programs \[, §4.2.5\], or by subgradient methods \[, \].

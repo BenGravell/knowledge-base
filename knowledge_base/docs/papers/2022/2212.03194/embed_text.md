@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2212.03194", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Controller design and tuning are two vital steps in applying control techniques to a system: controller design roots in qualitative analysis to ensure stability, whereas parameter tuning delivers the desired performance on real systems. Controller tuning is normally done by hand, by either trialand-error or proven methods for specific controllers (e.g., Ziegler-Nichols method for proportionalintegral-derivative (PID) controller tuning ). However, hand-tuning often requires experienced personnel and can be inefficient, especially for systems with long loop times or huge parameter space.

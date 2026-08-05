@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2212.01192", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 The success story of AlphaZero in [Silver2017a] and similar reinforcement learning strategies in a variety of applications has reinvigorated the interest of the control community in learning schemes. Many of these fall under the general framework of dynamic programming, policy iteration, etc. (see [Bertsekas2022, Bertsekas2022a] for a good overview). Hence understanding the performance of such schemes in simple settings can generalize to more complex problems. One setting under investigation has been Linear Quadratic Regulation (LQR). For example [Recht2018,Mania2019,Dean2019] consider model-based approaches where system identification is performed separately from control synthesis. In [Bradtke1994,Lewis2009,Bu2019b] meanwhile model-free approaches more akin to usual reinforcement learning like policy iteration and policy gradient were investigated.

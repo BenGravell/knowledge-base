@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2104.12820", "source": "ar5iv"} -->
+
 ## Introduction
 
 Problems requiring sequential decision-making are ubiquitous. When online experimentation is costly or dangerous, it is essential to conduct off-policy evaluation before deploying a new policy; that is, one must leverage existing data collected using some policy $\beta$ (called a behavior policy) to evaluate a performance metric of another policy $\pi$ (called the evaluation policy). For problems with high stakes, such as in terms of health or financial assets, it is also crucial to provide high-confidence bounds on the desired performance metric to ensure reliability and safety.

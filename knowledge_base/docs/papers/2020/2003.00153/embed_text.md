@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2003.00153", "source": "ar5iv"} -->
+
 ## Introduction
 
 Improving the sample efficiency of reinforcement learning (RL) algorithms through effective exploration-exploitation strategies is a major focus of the recent theoretical literature. Strong results are available with a generative model as well as in the *online* setting when the learning performance is measured by the cumulative regret, i.e., the difference between the performance of the optimal policy and the reward accumulated by the learner. For finite horizon problems, UCBVI achieves worst-case optimal regret, while algorithms with domain adaptive bounds have been introduced by and. Randomized and model-free variants have also been proposed, together with methods with other beneficial properties. Similar results are also available in the infinite horizon setting.

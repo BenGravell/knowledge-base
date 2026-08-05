@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.22809", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The validation of Autonomous Driving Systems (ADS) against the full spectrum of real-world driving scenarios remains a paramount challenge in the field. While generalist policies trained on aggregated data from diverse embodiments have shown promise, they do not obviate the need for rigorous, per-embodiment evaluation. This evaluation is non-negotiable for safety-critical systems, and its efficacy is fundamentally constrained by the profound scarcity of *long-tail data*. These long-tail scenarios encompass statistically rare yet safety-critical events, including erratic driving, sudden pedestrian maneuvers, and extreme weather or environmental conditions. Collecting such data organically is prohibitively expensive, requiring fleet-scale operations of immense cost and duration.

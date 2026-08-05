@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1701.04128", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Deep convolutional neural networks (CNNs) have achieved great success in a wide range of problems in the last few years. In this paper we focus on their application to computer vision: where they are the driving force behind the significant improvement of the state-of-the-art for many tasks recently, including image recognition, object detection, semantic segmentation, image captioning, and many more.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.16734", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Path and trajectory planning for autonomous navigation has been extensively studied. In practical implementations of trajectory planning methods, it is crucial to avoid making overly strict prior assumptions about the environment, as these can limit the generalizability of an approach. This work aims to develop a trajectory planner that utilizes a highly relaxed set of assumptions, which enables it to operate on a wide range of vehicles in a diverse set of environments. The assumptions made by DYNUS are listed in Section II-E. In Section I-A, we demonstrate that DYNUS is capable of operating in a wide range of environments. Sections I-B to I-E review related work on global planning, local trajectory optimization, dynamic obstacle tracking, and exploration. We then summarize our key contributions.

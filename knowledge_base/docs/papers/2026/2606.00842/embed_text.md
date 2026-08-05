@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.00842", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Motion planning is a fundamental problem in robotics and autonomous systems involving the computation of feasible, optimized trajectories for agents navigating through complex environments. Beyond obstacle avoidance, many real-world tasks impose rich logical and sequential constraints on how an agent must interact with its environment. A warehouse robot must pick and verify an item at one station before proceeding to delivery locations. An autonomous underwater robot must make a surface communications handshake before descending into a deep zone. A surgical robot must exchange the correct tool at a swap station before entering the next anatomical tissue layer. An inspection robot must confirm sensor access before traversing a restricted zone. In general, these are *precedence constraints*: conditions under which parts of an environment become accessible only after prior actions have been completed, such as task execution, confirmation, clearance, or manipulation.

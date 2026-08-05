@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.23951", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Linear programming (LP) is arguably the most widely used problem class in mathematical optimization, with applications spanning a broad range of fields. Decades of research and substantial engineering effort have produced highly optimized implementations of the simplex method and its many variants \[, \], as well as interior-point methods. As a result, LP solving has become a mature and remarkably efficient technology --- capable of handling instances of a scale and complexity that George Dantzig himself could hardly have imagined, often in a matter of seconds.

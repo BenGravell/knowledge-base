@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1509.03580", "source": "ar5iv"} -->
+
 ## Introduction
 
 Extracting physical laws from data is a central challenge in many diverse areas of science and engineering. There are many critical data-driven problems, such as understanding cognition from neural recordings, inferring patterns in climate, determining stability of financial markets, predicting and suppressing the spread of disease, and controlling turbulence for greener transportation and energy. With abundant data and elusive laws, it is likely that data-driven discovery of dynamics will continue to play an increasingly important role in these efforts.

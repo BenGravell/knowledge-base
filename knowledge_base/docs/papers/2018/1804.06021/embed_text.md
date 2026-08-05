@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1804.06021", "source": "ar5iv"} -->
+
 ## Introduction
 
 Reinforcement learning (RL) algorithms have recently shown impressive performance in many challenging decision making problems, including game playing and various robotic tasks. *Model-based* RL approaches estimate a model of the transition dynamics and rely on the model to plan future actions using approximate dynamic programming. *Model-free* approaches aim to find an optimal policy without explicitly modeling the system transitions; they either estimate state-action value functions or directly optimize a parameterized policy based only on interactions with the environment. Model-free RL is appealing for a number of reasons: 1) it is an "end-to-end" approach, directly optimizing the cost function of interest, 2) it avoids the difficulty of modeling and robust planning, and 3) it is easy to implement. However, model-free algorithms also come with fewer theoretical guarantees than their model-based counterparts, which presents a considerable obstacle in deploying them in real-world physical systems with safety concerns and the potential for expensive failures.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2210.02345", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Time-optimal motion planning within cluttered environments poses multiple challenges. The underlying motion planning scheme needs to compute a set of input commands that drive the system from its current state to a goal location in minimum-time, without compromising system constraints and spatial bounds. Thus, its solution implies a trading-off between time-optimality and spatial-awareness.

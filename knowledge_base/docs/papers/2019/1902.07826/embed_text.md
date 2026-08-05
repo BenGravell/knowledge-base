@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1902.07826", "source": "ar5iv"} -->
+
 ## Introduction
 
 One of the most straightforward methods for controlling a dynamical system with unknown transitions is based on the *certainty equivalence principle*: a model of the system is fit by observing its time evolution, and a control policy is then designed by treating the fitted model as the truth. Despite the simplicity of this method, it is challenging to guarantee its efficiency because small modeling errors may propagate to large, undesirable behaviors on long time horizons. As a result, most work on controlling systems with unknown dynamics has explicitly incorporated robustness against model uncertainty.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2409.11649", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Second-order dynamic optimization methods are powerful optimization techniques used for optimal control of systems with nonlinear dynamics and non-quadratic cost functions. Dynamic systems with these characteristics can be found in robotics, aerospace and transportation systems, economics, biology and computational neuroscience, etc. There exist two main families of methods for dynamic optimization, namely Differential Dynamic Programming (DDP) and Sequential Quadratic Programming (SQP). Both approaches are iterative and rely on first/second-order approximations of the dynamics and the cost computed along the trajectories corresponding to each iteration. This paper provides an in-depth overview of how state and control constraints are incorporated into second-order dynamic optimization algorithms. Such constraints appear in almost all applications of trajectory optimization and iterative optimal control methods.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.12425", "source": "ar5iv"} -->
+
 ## Introduction
 
 (a) Previous reconstruction-based methods.

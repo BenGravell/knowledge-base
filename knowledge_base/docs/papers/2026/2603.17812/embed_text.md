@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.17812", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Recent methods in latent video diffusion are capable of generating high-resolution videos over long time horizons. Similar to latent image diffusion models, latent video diffusion models rely on pre-trained autoencoders to compress videos into latent embeddings and then learn over these embeddings. An enabling factor for recent video diffusion results is the use of temporal compression, where the autoencoder not only compresses video frames along spatial dimensions, but also along the temporal dimension.

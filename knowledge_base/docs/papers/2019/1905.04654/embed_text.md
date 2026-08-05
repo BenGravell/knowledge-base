@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1905.04654", "source": "ar5iv"} -->
+
 ## Introduction
 
 In the logistic bandit an agent observes a binary reward after each action, with outcome probabilities governed by a logistic function: Each action $a$ and parameter vector $\theta$ is a vector within the $d$-dimensional unit ball. The agent initially knows the scale parameter $\beta$ but is uncertain about the coefficient vector $\theta$. The problem of learning to improve action selection over repeated interactions is sometimes referred to as the logistic bandit problem or online logistic regression.

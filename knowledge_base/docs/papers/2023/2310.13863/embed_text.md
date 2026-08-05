@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2310.13863", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 The ingredients of empirical risk minimization (ERM) are generally considered to be: a model with parameters $w \in \mathbb{R}^d$ (e.g. a neural network), a loss $\ell: \mathbb{R}^d \rightarrow \mathbb{R}^n$ where $\ell_i(w)$ is the error of $w$ on training example $i$, and an optimizer that returns a sequence $(w\pow{t})_{t \geq 1}$ converging to the solution of \min_{w \in \mathbb{R}^d} \frac{1}{n} \sum_{i=1}^n \ell_i(w).

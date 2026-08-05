@@ -4,9 +4,10 @@ import argparse
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from knowledge_base.catalog import Catalog
+from knowledge_base.scripts.arxiv_full_text.html import arxiv_html_markdown
 from knowledge_base.scripts.arxiv_full_text.ingest import process_entry
 from knowledge_base.scripts.arxiv_full_text.text import (
     embed_text_path,
@@ -41,6 +42,36 @@ CONVERTED_MARKDOWN = "## Introduction\n\n" + " ".join(
 
 
 class ArxivFullTextIngestTests(unittest.TestCase):
+    def test_html_ingest_falls_back_when_source_title_does_not_match_entry(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            metadata_path = Path(tmp) / "docs" / "papers" / "2024" / "2401.00001" / "metadata.yml"
+            metadata_path.parent.mkdir(parents=True)
+            metadata_path.write_text(VALID_METADATA, encoding="utf-8")
+            entry = load_entry(metadata_path)
+            args = argparse.Namespace(has_pandoc=True, timeout=10, pandoc_data_dir="", pandoc="pandoc")
+            responses = [
+                Mock(
+                    status_code=200,
+                    url="https://arxiv.org/html/2401.00001",
+                    text="<html><head><title>Unrelated Template Paper</title></head><body>wrong</body></html>",
+                ),
+                Mock(
+                    status_code=200,
+                    url="https://ar5iv.labs.arxiv.org/html/2401.00001",
+                    text="<html><head><title>[2401.00001] A Tiny Arxiv Paper</title></head><body>right</body></html>",
+                ),
+            ]
+
+            with (
+                patch("knowledge_base.scripts.arxiv_full_text.html.requests.get", side_effect=responses),
+                patch("knowledge_base.scripts.arxiv_full_text.html.pandoc_convert", side_effect=lambda html, _: html),
+            ):
+                source, markdown, message = arxiv_html_markdown(entry, args)
+
+            self.assertEqual(source, "ar5iv")
+            self.assertIn("right", markdown or "")
+            self.assertEqual(message, "")
+
     def test_process_entry_skips_current_sidecar_but_not_stale_marked_sidecar(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             metadata_path = Path(tmp) / "docs" / "papers" / "2024" / "2401.00001" / "metadata.yml"

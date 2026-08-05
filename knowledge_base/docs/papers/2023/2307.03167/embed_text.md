@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2307.03167", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Accounting for uncertainty in the design of decision-making systems is key to achieving reliable robotics autonomy. Indeed, modern autonomy stacks account for uncertainty, whether it comes from noisy sensor measurements (e.g., due to perceptually-degraded conditions or a lack of features ), dynamics (e.g., due to disturbances and difficult-to-characterize nonlinearities ), properties of the environment (e.g., due to unknown terrain properties for legged robots and Mars rovers ), or interactions with other agents (e.g., in autonomous driving ).

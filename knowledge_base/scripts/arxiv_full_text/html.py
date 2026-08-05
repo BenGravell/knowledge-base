@@ -7,6 +7,7 @@ import re
 import subprocess
 import tempfile
 from dataclasses import dataclass
+from html import unescape
 from pathlib import Path
 from urllib.parse import quote
 
@@ -27,6 +28,7 @@ UNUSABLE_HTML_MARKERS = (
 )
 ARXIV_ABS_URL_RE = re.compile(r"^https?://(?:www\.)?arxiv\.org/abs/", re.IGNORECASE)
 ARXIV_ABS_PAGE_MARKERS = ("abs-outer", "submission-history", "View PDF")
+HTML_TITLE_RE = re.compile(r"<title\b[^>]*>(.*?)</title>", re.IGNORECASE | re.DOTALL)
 
 
 @dataclass(frozen=True, slots=True)
@@ -43,15 +45,32 @@ def arxiv_html_sources(arxiv_id: str) -> list[HtmlSource]:
     ]
 
 
-def usable_html(html: str, final_url: str = "") -> bool:
+def normalized_title(title: str) -> str:
+    return "".join(character for character in unescape(title).casefold() if character.isalnum())
+
+
+def html_matches_title(html: str, expected_title: str) -> bool:
+    match = HTML_TITLE_RE.search(html)
+    if not match:
+        return False
+    actual = normalized_title(re.sub(r"<[^>]+>", "", match.group(1)))
+    expected = normalized_title(expected_title)
+    return bool(expected and expected in actual)
+
+
+def usable_html(html: str, final_url: str = "", expected_title: str = "") -> bool:
     if final_url and ARXIV_ABS_URL_RE.match(final_url):
         return False
     if all(marker in html for marker in ARXIV_ABS_PAGE_MARKERS):
         return False
+    if expected_title and not html_matches_title(html, expected_title):
+        return False
     return not any(marker in html for marker in UNUSABLE_HTML_MARKERS)
 
 
-def fetch_html(sources: list[HtmlSource], timeout: int) -> tuple[HtmlSource, str] | tuple[None, str]:
+def fetch_html(
+    sources: list[HtmlSource], timeout: int, expected_title: str = ""
+) -> tuple[HtmlSource, str] | tuple[None, str]:
     errors = []
     for source in sources:
         try:
@@ -60,7 +79,7 @@ def fetch_html(sources: list[HtmlSource], timeout: int) -> tuple[HtmlSource, str
             errors.append(f"{source.label}: {exc}")
             continue
         if response.status_code == 200 and "<html" in response.text[:2048].casefold():
-            if not usable_html(response.text, response.url):
+            if not usable_html(response.text, response.url, expected_title):
                 errors.append(f"{source.label}: unusable HTML")
                 continue
             return source, response.text
@@ -97,7 +116,7 @@ def arxiv_html_markdown(entry: Entry, args: argparse.Namespace) -> tuple[str | N
     if not args.has_pandoc:
         return None, None, "pandoc not found"
 
-    source, payload = fetch_html(arxiv_html_sources(entry.arxiv_id), args.timeout)
+    source, payload = fetch_html(arxiv_html_sources(entry.arxiv_id), args.timeout, entry.title)
     if source is None:
         return None, None, f"no-html: {payload}"
     try:

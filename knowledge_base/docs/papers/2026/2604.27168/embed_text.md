@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.27168", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 More than 80 years ago, Gibson and Crooks introduced the Field of Safe Travel (FST), which is still one of the most influential models in traffic psychology and a key starting point for most modern attempts to explain and model adaptive driving behavior. The FST broadly represents "the field of possible paths which the car can take unimpeded", hinting at Gibson's influential later development of ecological psychology and, more specifically, affordances as opportunities for action. The FST thus offers a conceptual framework for how drivers regulate their behaviors based on the future trajectories perceived as available to them at any moment in time.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1907.10597", "source": "ar5iv"} -->
+
 ## Introduction and Motivation
 
 Since 2012, the field of artificial intelligence has reported remarkable progress on a broad range of capabilities including object recognition, game playing, machine translation, and more. This progress has been achieved by increasingly large and computationally-intensive deep learning models.^11^1For brevity, we refer to AI throughout this paper, but our focus is on AI research that relies on deep learning methods. Figure 1 reproduced from plots training cost increase over time for state-of-the-art deep learning models starting with AlexNet in 2012 to AlphaZero in 2017. The chart shows an overall increase of 300,000x, with training cost doubling every few months. An even sharper trend can be observed in NLP word embedding approaches by looking at ELMo followed by BERT, openGPT-2, and XLNet. An important paper has estimated the carbon footprint of several NLP models and argued that this trend is both environmentally unfriendly (which we refer to as Red AI) and expensive, raising barriers to participation in NLP research.

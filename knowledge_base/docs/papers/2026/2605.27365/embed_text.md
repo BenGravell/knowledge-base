@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.27365", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Vision-language models (VLMs) (bai2025qwen2.5vl; chen2025eagle; wang2025internvl3; huang2026step3; yang2025kwai; deshmukh2025nvidia) are increasingly adopted as a general-purpose backbone for interactive and embodied systems due to their broader knowledge and stronger instruction-following capabilities than conventional specialized models (zhang2022dino; liu2023grounding; carion2020end; ren2016faster). To act in the world, VLMs (bai2025qwen2.5vl; fu2025llmdet; zhan2024griffon; wang2025internvl3; azzolini2025cosmos) must be tightly grounded in *perception* --- in particular, they *localize* task-relevant entities (\\eg, objects (zhang2024llava; jiang2025rexomni; yu2025perception; wang2023exploring), UI elements (liu2025scalecua; lin2024showui; feizi2025grounding; nayak2025ui), regions (ren2024pixellm; yuan2025pixelrefer; lai2024lisa; cheng2024spatialrgpt; ranzinger2024radio; heinrich2025radiov2)) from natural-language intents with high quality and low latency, which requires high vision-language grounding capabilities.

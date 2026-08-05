@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.00717", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Data-driven stabilization aims at designing a feedback law directly based on data collected from an *unknown system*, bypassing a system identification process (see \[4, Ch. 1.2\] for a historical background). Under suitable conditions on the data, such feedback laws can be obtained, and if implemented *exactly* as designed, they stabilize the unknown system. Nevertheless, data collected in an open-loop scenario do not contain information about perturbations arising from the feedback loop. As a result, a data-driven feedback that is unaware of such perturbations might be *fragile*. In this work, we study data-driven stabilization in the presence of perturbations on the controller parameters and the extent to which the stability of the unknown system is immune to such perturbations.

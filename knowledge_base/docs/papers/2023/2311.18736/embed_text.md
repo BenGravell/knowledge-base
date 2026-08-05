@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2311.18736", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The intersection of machine learning (ML), reinforcement learning (RL), and control theory has garnered significant attention in recent years, giving rise to the learning for dynamics & control (L4DC) research community. L4DC has the naturally driven mission to unlock the power of learning-based methods for control and establish a rigorous theoretical foundation. This mission could only be fulfilled with joint forces and close collaboration between theorists and practitioners from ML, control theory, and optimization.

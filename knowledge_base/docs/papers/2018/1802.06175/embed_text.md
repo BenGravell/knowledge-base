@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1802.06175", "source": "ar5iv"} -->
+
 ## Introduction
 
 Nowadays, stochastic gradient descent (SGD), as well as its variants (Adam, Momentum, Adagrad, etc.) have become the de facto algorithms for training neural networks. SGD runs iterative updates for the weights $x_{t}$: $x_{t + 1} = {x_{t} - {\etav_{t}}}$, where $\eta$ is the step size^11^1In this paper, we use step size and learning rate interchangeably.. $v_{t}$ is the stochastic gradient that satisfies ${E{\lbrack v_{t}\rbrack}} = {{\nabla f}{(x_{t})}}$, and is usually computed using a mini-batch of the dataset.

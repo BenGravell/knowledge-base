@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2401.16025", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Deep Reinforcement Learning (DRL) has achieved great success in recent years, notably in games, foundation model fine-tuning, and robotic control. Policy gradient (PG) methods, as a major paradigm in RL, have been widely adopted by the academic community. One main practical challenge of PG methods is to reduce the variance of the gradients while keeping the bias low. In this context, a widely used technique is to add a baseline when sampling an estimate of the action-value function. Another challenge of PG methods is to estimate the proper step size for the policy update. Given that the training data strongly depends on the current policy, a large step size may result in a collapse of policy performance, whereas a small one may impair the sample efficiency of the algorithm.

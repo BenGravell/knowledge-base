@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2411.04983", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Robotics and embodied AI have seen tremendous progress in recent years. Advances in imitation learning and reinforcement learning have enabled agents to learn complex behaviors across diverse tasks. Despite this progress, generalization remains a major challenge. Existing approaches predominantly rely on policies that, once trained, operate in a feed-forward manner during deployment---mapping observations to actions without any further optimization or reasoning. Under this framework, successful generalization inherently requires agents to possess solutions to all possible tasks and scenarios once training is complete, which is only possible if the agent has seen similar scenarios during training. However, it is neither feasible nor efficient to learn solutions for all potential tasks and environments in advance.

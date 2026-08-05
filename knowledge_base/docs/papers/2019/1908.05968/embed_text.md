@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1908.05968", "source": "ar5iv"} -->
+
 ## Introduction
 
 Clustering is a fundamental pillar of unsupervised machine learning. It is widely used in a range of tasks across disciplines and well-known algorithms such as $k$-means have found success in many applications. For example, in science, data exploration and understanding is a fundamental task which clustering facilitates by uncovering the hidden structure of the data. However, $k$-means, along with many conventional clustering algorithms such as Gaussian Mixture Models (GMMs), DBSCAN, and hierarchical algorithms typically require hand engineered features to be created for each dataset and task. Further, these features may then be analysed using another process, feature selection, in order to eliminate redundant or poor quality features. This task is even more challenging in the unsupervised setting. Additionally, it is a time-consuming and brittle process, with the choice of features having a large influence over the subsequent performance of the clustering algorithm.

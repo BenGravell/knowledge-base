@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2210.01744", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Rapidly exploring random trees were originally introduced as an approach to motion planning with differential constraints and dynamics. The idea was to incrementally grow a space-filling tree by applying controls so that two-point boundary-value problems could be avoided if popular methods such as probabilistic roadmaps were applied to these problems. Curiously, RRTs have found more success over the past decades for basic path planning (no differential constraints and dynamics), rather than their intended target, the kinodynamic planning problem.

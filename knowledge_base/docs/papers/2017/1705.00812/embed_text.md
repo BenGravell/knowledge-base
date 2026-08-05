@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1705.00812", "source": "ar5iv"} -->
+
 ## Introduction
 
 Semidefinite optimization problems are convex optimization problems that take the form where $\mathbf{H}_{+}^{d}$ is the cone of $d \times d$ Hermitian positive semidefinite matrices, and $L \subseteq \mathbf{H}^{d}$ is an affine subspace of $d \times d$ Hermitian matrices (thought of as a real vector space). A convex function $f$ is said to have a *semidefinite representation* of size $d$ if its epigraph $\{{(x,t)}:{{f{(x)}} \leq t}\}$ can be expressed in the form $\pi{({L \cap \mathbf{H}_{+}^{d}})}$ where $\pi$ is a linear map. The existence of such representations for many convex functions explains the importance of semidefinite programming as a class of convex optimization problems. Understanding which convex sets and functions do and do not have small semidefinite descriptions has been a focus of considerable recent research effort in real algebraic geometry, optimization, and theoretical computer science (see, e.g.,).

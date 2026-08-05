@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2110.03363", "source": "ar5iv"} -->
+
 ## Introduction
 
 In recent years, model-free RL algorithms have improved and scaled to the point where it is feasible to learn adaptive behavior for high-dimensional systems in diverse circumstances. Despite these improvements, there is a widespread intuition that model-based methods can further improve data efficiency. This has led to recent advances for continuous control problems that demonstrate improved learning efficiency by leveraging model learning during policy training. However, there is also work which urges moderation in interpreting these results, by showing that well-tuned model-free baselines can compare favorably against some model-based approaches.

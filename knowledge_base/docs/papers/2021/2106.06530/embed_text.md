@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2106.06530", "source": "ar5iv"} -->
+
 ## Introduction
 
 One of the central questions in modern machine learning theory is the generalization capability of overparametrized models trained by stochastic gradient descent (SGD). Recent work identifies the implicit regularization effect due to the optimization algorithm as one key factor in explaining the generalization of overparameterized models. This implicit regularization is controlled by many properties of the optimization algorithm including search direction, learning rate, batch size, momentum and dropout.

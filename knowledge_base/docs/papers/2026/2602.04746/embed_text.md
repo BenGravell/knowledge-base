@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2602.04746", "source": "arxiv-html"} -->
+
 ## Introduction
 
 There is frequent public concern that robots will replace humans in the workplace, leading to worries about rising unemployment and decreased access to meaningful work. Within the robotics community, the phrase "dull, dirty, and dangerous" (DDD) has become conventional justification to motivate the types of tasks or jobs for which robots might be useful---by doing work that's undesirable for people to do. A classic example of a DDD job is one of "repetitive physical labor on a steaming hot factory floor involving heavy machinery that threatens life and limb". However, while identifying DDD work may seem intuitive, there are complex (and sometimes hidden) social, economic, and cultural factors that can determine the value of different kinds of labor. What exactly constitutes "dull" work, and who makes that inference? How do we define "dirty" work in ways that acknowledge both physical and social dimensions of work? On what basis do we classify work as "dangerous"?

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1801.05039", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent years have seen major advances in the control of uncertain dynamical systems using reinforcement learning and data-driven approaches; examples range from allowing robots to perform more sophisticated controls tasks such as robotic hand manipulation, to sequential decision making in game domains, e.g., AlphaGo and Atari game playing. Deep reinforcement learning (DeepRL) is becoming increasingly popular for tackling such challenging sequential decision making problems.

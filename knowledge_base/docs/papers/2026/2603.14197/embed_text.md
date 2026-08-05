@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.14197", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Domain randomization (DR) has gained wide adoption in reinforcement learning and robot learning for enabling sim-to-real transfer. By harnessing massive GPU parallelism, DR trains controllers across randomized environments to robustify controllers against model uncertainty by minimizing expected cost over a sampled uncertainty distribution. In contrast, control theoretic approaches typically handle uncertainty via robust control, designing for the worst case over the uncertainty set. While the robust control methods come with theoretical guarantees that are largely absent in DR, robust control methods frequently suffer from over-conservatism due to their pessimistic formulation. DR trades these theoretical guarantees for straightforward implementation and effective use of GPU computing resources, which are major contributor to DR's practical success.

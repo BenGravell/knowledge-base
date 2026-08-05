@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.24064", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 In logistics, goods are commonly transported using articulated commercial vehicles, such as a tractor-semitrailer. During typical logistics driving scenarios, the vehicle not only drives forward through cities, industrial zones, and highways, but also reverses to load and unload the semitrailer at a dock. The introduction of autonomous vehicles into the logistics chain has the potential to improve efficiency and safety and address driver shortages. A crucial element is a trajectory planner that needs to plan vehicle maneuvers in the aforementioned driving scenarios while avoiding collisions, offering predictable driving to other road users, and maintaining passenger and payload comfort.

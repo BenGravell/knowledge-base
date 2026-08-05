@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2212.14511", "source": "arxiv-html"} -->
+
 ## Introduction
 
 We consider state representation learning for control in partially observable systems, inspired by the recent successes of *control from pixels*. Control from pixels is an everyday task for human beings, but it remains challenging for learning agents. Methods to achieve it generally fall into two main categories: *model-free* and *model-based* ones. Model-free methods directly learn a visuomotor policy, also known as direct reinforcement learning (RL). On the other hand, model-based methods, also known as indirect RL, attempt to learn a *latent model* that is a compact representation of the system, and to synthesize a policy in the latent model. Compared with model-free methods, model-based ones facilitate generalization across tasks and enable efficient planning, and are sometimes more sample efficient than the model-free ones.

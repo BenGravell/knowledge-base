@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2201.11931", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Modern machine learning methods such as random forests, gradient boosting, and deep learning display impressive predictive performance, but are complex and opaque, leading many to call them "black-box" models. Model interpretability is critical in many applications, particularly in high-stakes settings such as clinical decision instrument (CDI) modeling. Interpretability allows models to be audited for general validation, errors, or biases, and therefore also more amenable to improvement by domain experts. Interpretability also facilitates counterfactual reasoning, which is the foundation of scientific insight, and it instills trust/distrust in a model when warranted. As an added benefit, interpretable models tend to be faster and more computationally efficient than black-box models.^11^1FIGS is integrated into the imodels package \\faGithub github.com/csinva/imodels with an sklearn-compatible API. Experiments for reproducing the results here can be found at \\faGithub github.com/Yu-Group/imodels-experiments.

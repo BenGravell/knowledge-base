@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1910.02193", "source": "ar5iv"} -->
+
 ## Introduction
 
 Modeling dynamic systems has been a problem of great interest in the signal processing and control communities for decades. Many real-world phenomena cannot be described with one dynamical model, and so switched models wherein the dynamics transition between different system models have been studied and applied widely. In human-made systems, for example, a robot may have different dynamics under different battery levels or when different modules within the robot fail. In nature, the temperature and humidity level will have different fluctuations under different weather conditions; brain electricity signals will behave differently under different emotions of the test subject. Note that in all these examples, the modes can switch over time. To model this switching, one systematic and probabilistic way is to assume the mode switching follows a Markov chain where future modes do not depend on past modes given the most recent mode. This Markov jump model has been used in power systems, air traffic management, economics, and communication systems.

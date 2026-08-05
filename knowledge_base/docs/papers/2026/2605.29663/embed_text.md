@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.29663", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Overview of EXACT-MPPI, illustrating the four main contributions: perception-to-control navigation from direct point clouds and weak waypoint guidance to motion commands; analytic, exact signed-distance evaluation for 2D footprints, including non-convex polygons; a GPU-parallel MPPI controller with JAX-compiled batched rollouts; and cross-platform validation on differential-drive, omnidirectional, and hybrid robots in indoor and outdoor cluttered environments.

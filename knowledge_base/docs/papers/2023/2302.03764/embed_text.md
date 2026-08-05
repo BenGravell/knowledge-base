@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2302.03764", "source": "arxiv-html"} -->
+
 ## Introduction
 
 DL optimization commonly relies on adaptive gradient methods, namely the Adam optimizer. It differs from stochastic gradient descent in that the learning rate is a structured diagonal matrix built from previous gradients rather than a scalar. In full matrix AdaGrad, the inverse matrix square root of the sum of outer products of previous gradients is the learning rate.

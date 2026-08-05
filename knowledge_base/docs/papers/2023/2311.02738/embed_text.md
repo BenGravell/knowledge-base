@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2311.02738", "source": "ar5iv"} -->
+
 ## Introduction
 
 Automated creation of synthetic traffic scenarios is a key part of validating the safety of autonomous vehicles (AVs). To efficiently target rare and safety critical scenarios we would like to direct scenario generation to produce specific types of events. Prior methods for heuristically created scenarios tend to be of limited complexity and miss a large number of possible real-world situations. Recent works using deep learning models are able to produce complex scenarios conditioned on a map region, but do not offer additional controls over the generation process. In this paper we propose Scenario Diffusion: a novel architecture for generating realistic traffic scenarios that enables *controllable* scenario generation.

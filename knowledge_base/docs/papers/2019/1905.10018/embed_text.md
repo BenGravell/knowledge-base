@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1905.10018", "source": "ar5iv"} -->
+
 ## Introduction
 
 This paper addresses the classic stochastic optimization problem, in which we are given a function $F:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$, and wish to find ${\mathbf{x}} \in {\mathbb{R}}^{d}$ such that $F{({\mathbf{x}})}$ is as small as possible. Unfortunately, our access to $F$ is limited to a stochastic function oracle: we can obtain sample functions $f{( \cdot,\xi)}$ where $\xi$ represents some sample variable (e.g. a minibatch index) such that ${{\mathbb{E}}{\lbrack{f{( \cdot,\xi)}}\rbrack}} = {F{( \cdot )}}$. Stochastic optimization problems are found throughout machine learning. For example, in supervised learning, $\mathbf{x}$ represents the parameters of a model (say the weights of a neural network), $\xi$ represents an example, $f{({\mathbf{x}},\xi)}$ represents the loss on an example, and $F$ represents the training loss of the model.

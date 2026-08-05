@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2409.12266", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Trajectory sampling is the task of generating "random" robot trajectories from the set of all possible robot trajectories. Trajectory sampling plays a critical role in randomized motion planning, model predictive control and reinforcement learning. In this paper, we consider basic, but surprisingly understudied questions related to trajectory sampling: what is a desired goal distribution for sampling trajectories? How can we generate samples according to this distribution?

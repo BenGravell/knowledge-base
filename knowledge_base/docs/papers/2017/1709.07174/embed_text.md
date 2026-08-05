@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1709.07174", "source": "ar5iv"} -->
+
 ## Introduction
 
 High-speed autonomous off-road driving is a challenging robotics problem (Fig. 1). To succeed in this task, a robot is required to perform both precise steering and throttle maneuvers in a physically-complex, uncertain environment by executing a series of high-frequency decisions. Compared with most previously studied autonomous driving tasks, the robot here must reason about minimally-structured, stochastic natural environments and operate at high speed. Consequently, designing a control policy by following the traditional model-plan-then-act approach becomes challenging, as it is difficult to adequately characterize the robot's interaction with the environment *a priori*.

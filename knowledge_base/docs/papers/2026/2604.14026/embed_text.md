@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.14026", "source": "ar5iv"} -->
+
 ## Introduction
 
 Removing an object out of a tight, narrow passage is a fundamental skill for robot disassembly tasks in recycling \[asif2024robotic\], repair \[parker1998robotics\], and remanufacturing \[laili2022optimisation, das2025towards\]. Sampling-based methods \[Orthey2023AnnualReview\] can tackle such problems and provide completeness guarantees \[zickler2009efficient, aguinaga2008targetless, Ebinger2018MateVecTRRT, tian2022assemble\]. However, due to narrow passages, such problems often become intractable to solve \[Ebinger2018MateVecTRRT\]. This is often due to the large scale on which methods like rapidly exploring random tree (RRT) \[Kuffner2000\] operate, where motions out of narrow passages are almost always invalid.

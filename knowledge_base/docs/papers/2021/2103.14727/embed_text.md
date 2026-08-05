@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2103.14727", "source": "ar5iv"} -->
+
 ## Introduction
 
 Shortest path problems, i.e., the problem of reaching a goal state form an initial state with minimum total cost, arise in several real-world applications, such as driving directions on web mapping websites like MapQuest or Google Maps and robotic path planning. In a shortest path problem, if transitions from one system state to another is subject to stochastic uncertainty, the problem is referred to as a stochastic shortest path (SSP) problem. In this case, we are interested in designing policies such that the total expected cost is minimized. Such planning under uncertainty problems are indeed equivalent to an undiscounted total cost Markov decision processes (MDPs) and can be solved efficiently via the dynamic programming method.

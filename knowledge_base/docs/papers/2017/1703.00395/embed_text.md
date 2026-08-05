@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1703.00395", "source": "ar5iv"} -->
+
 ## Introduction
 
 Advances in training of neural networks have helped to improve performance in a number of domains, but neural networks have yet to surpass existing codecs in lossy image compression. Promising first results have recently been achieved using autoencoders -- in particular on small images -- and neural networks are already achieving state-of-the-art results in lossless image compression.

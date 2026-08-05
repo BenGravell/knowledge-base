@@ -7,3 +7,223 @@ Parameter-Robust MPPI for Safe Online Learning of Unknown Parameters
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Robots deployed in dynamic environments must remain safe even when key physical parameters are uncertain or change over time. We propose Parameter-Robust Model Predictive Path Integral (PRMPPI) control, a framework that integrates online parameter learning with probabilistic safety constraints. PRMPPI maintains a particle-based belief over parameters via Stein Variational Gradient Descent, evaluates safety constraints using Conformal Prediction, and optimizes both a nominal performance-driven and a safety-focused backup trajectory in parallel. This yields a controller that is cautious at first, improves performance as parameters are learned, and ensures safety throughout. Simulation and hardware experiments demonstrate higher success rates, lower tracking error, and more accurate parameter estimates than baselines.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Robotic systems are often deployed in dynamic environments where reliable control must be maintained despite imperfect knowledge of the system's dynamics. Sometimes the key parameters of a robot model -- such as friction, inertial properties or payload -- are not known precisely in advance and may even change over time. *Domain randomization* is a popular technique, where a controller is robustified against a predefined distribution of models. While effective, this strategy is typically static: the uncertainty set is chosen a-priori and does not leverage the stream of measurements available during operation. In safety-critical tasks, this mismatch leads to either conservative performance (if the randomization is broad) or brittle behavior (if it is narrow). Ideally, to reduce significant engineering work in identifying a system's parameters, one would obtain a controller that is cautious initially but leverages measurements to refine parameters, improves performance over time, and maintains safety throughout.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A natural alternative to static domain randomization is to *learn parameters online* via Bayesian estimation and adapt control to the evolving belief. Classical approaches trace back to system identification, with modern variants leveraging differentiable simulators or black-box simulation for likelihood-free updates. In many such pipelines, however, estimation is treated as a module decoupled from control, or the controller is designed for a single point estimate (e.g., maximum likelihood) of the parameters--an instance of certainty equivalence. Model Predictive Control (MPC) offers a way to couple learning with decision-making by updating models within a receding horizon. Gaussian Process (GP) residual modeling is a popular approach to adapt dynamics online and to expose epistemic uncertainty to the controller. Particle-based estimators have also been used to track parameter beliefs and to inform control, but only optimize *expected* cost and lack *probabilistic* safety guarantees over the full prediction horizon. For safety-critical robotics, a challenge is not just adapting to parameter uncertainty, but ensuring that entire trajectories remain safe with high probability.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In our work, we aim to bridge this gap by combining particle-based online parameter learning with explicit probabilistic safety enforcement over full trajectories, rather than optimizing expected cost alone. Three challenges arise in making this practical. *First*, posterior distributions over physical parameters in nonlinear systems are generally non-Gaussian, which limits filters that assume a simple form. *Second*, safety constraints are expressed as chance constraint over a receding horizon: guaranteeing that a robot will remain safe in the future requires reasoning about predicted trajectories and obtaining closed-form, differentiable expressions for such constraints is difficult. *Third*, embedding these safety requirements into a tractable control strategy remains challenging, as constraints must be enforced repeatedly in real time under an evolving belief. Fig. 1 shows our proposed method on a quadrotor. By refining its belief about its payload length, it is eventually able to take shortcuts to safely improve performance.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Specifically, we propose parameter-robust model predictive path integral (PRMPPI) control that enables online learning of uncertain parameters *safely* by using a non-Gaussian particle belief, improves performance during the execution of a task by directly using the learned distribution in the controller, improves classic MPPI approaches through parallel optimization of *robust* backup trajectories.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+An overview of our approach is shown in Fig. 1. We maintain a particle-based belief over unknown parameters using Stein Variational Gradient Descent (SVGD). We then assess safety of candidate trajectories by sampling parameter hypotheses and computing conformal-prediction--based robustness scores. Finally, we embed these components into an MPPI controller that optimizes a nominal trajectory while maintaining a parallel robust backup trajectory. This enables safe online parameter refinement since the parameter uncertainty is explicitly propagated into trajectory evaluation and safety is enforced throughout the prediction horizon.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "I-A Related Work", "weight": 1.0} -->
+
+If parameter uncertainty is known in advance and can be described by a bounded set, robust controllers can be synthesized through approaches such as robust MPC, Hamilton--Jacobi reachability analysis, learning robust Control Barrier Functions, or online rollouts. These methods typically consider uncertain parameters as adversarial noise. While this perspective yields rigorous guarantees, it can be unnecessarily conservative in settings where parameters can be progressively identified during operation.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "I-A Related Work", "weight": 1.0} -->
+
+In online settings, a prominent approach is to use Gaussian Process (GP) regression to model residual dynamics or unmodeled disturbances and embed this model within MPC, or within reinforcement learning to learn policies directly. The variance of the GP prediction provides a natural quantification of epistemic uncertainty, enabling chance-constrained optimal control formulations. To make such formulations tractable, different approximations for uncertainty propagation have been proposed: linearization via Taylor expansion or the unscented transform. These methods work when uncertainty is small and unimodal, but become less reliable for larger uncertainties and highly nonlinear dynamics.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "I-A Related Work", "weight": 1.0} -->
+
+Reinforcement learning often employs domain randomization to bridge the sim-to-real gap, training policies that are robust to a wide range of simulator parameters. While effective for transfer, static randomization again ignores the fact that system parameters can be progressively inferred during deployment. Recent extensions propose *adaptive domain randomization*, where both the parameter distribution and the policy are updated online using real-world observations. These methods improve performance over time but lack explicit safety enforcement during adaptation.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "I-A Related Work", "weight": 1.0} -->
+
+To handle non-Gaussian and potentially multimodal parameter distributions, several works adopt nonparametric particle-based methods. In particular, sample parameter hypotheses from a belief distribution and evaluate them within a Model Predictive Path Integral (MPPI) control framework, while applies Stein Variational Gradient Descent to jointly update the parameter belief and the trajectory distribution. These approaches demonstrate the feasibility of combining online parameter inference with sampling-based control. However, they focus exclusively on minimizing expected cost and do not incorporate safety constraints, making them unsuitable for safety-critical robotic applications.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "II-A Stein Variational Gradient Descent", "weight": 1.0} -->
+
+Stein Variational Gradient Descent (SVGD) is a particle-based variational inference method that transforms an initial distribution $q\left(\bm{x}\right)$ into a target distribution $p_{t}\left(\bm{x}\right)$ by iteratively transporting a set of particles to reduce the KL divergence $\mathrm{KL}(q\|p_{t})$.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "II-A Stein Variational Gradient Descent", "weight": 1.0} -->
+
+Specifically, the candidate distribution $q\left(\bm{x}\right)$ is represented nonparametrically by a set of particles $\{\bm{x}^{(i)}\}_{i=1}^{N}$ and is updated according to where the transport direction $\phi^{*}$ is chosen to maximally decrease the KL divergence, Here, $\Phi$ is a Reproducing Kernel Hilbert Space (RKHS) induced by a kernel function $k(\bm{x},\bm{x}^{\prime})$. It is shown in that this parameterization yields a closed-form solution which can be approximated empirically as by using particles. In effect, SVGD transports particles toward high-probability regions of $p_{t}$ while maintaining diversity through the repulsive kernel term. Further, although distributions are approximated using a finite number of particles, it is shown in that the transported distribution converges to the true target in the mean field limit, i.e. as $N\rightarrow\infty$.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "II-B Conformal Prediction", "weight": 1.0} -->
+
+Conformal Prediction (CP) is a lightweight statistical tool for uncertainty quantification that can enable practical safety guarantees for autonomous systems. In our setting, CP provides a way to quantify the uncertainty in violating safety constraints based on samples of the parameter distribution which are propagated through the robot dynamics to calculate the safety probability.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-C Model Predictive Path Integral Control", "weight": 1.0} -->
+
+MPPI is a control method to solve stochastic Optimal Control Problems (OCPs) for discrete-time dynamical systems MPPI samples $M$ random control input sequences $\bm{v}_{0:K-1}^{(1:M)}$ of length $K-1$ and forward simulates the system dynamics given the current state $\bm{x}_{0}$ to obtain $X^{(m)}=[\bm{x}_{0},\bm{F}(\bm{x}_{0},\bm{v}_{0}^{(m)}),\dots,\bm{F}(\bm{x}_{K-1},\bm{v}_{K-1}^{(m)})]$.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-C Model Predictive Path Integral Control", "weight": 1.0} -->
+
+Then, given the state rollouts and a cost function $J(X)$ to be minimized, each rollout is weighted by an importance sampling weight where $\eta$ is a normalization constant ensuring $\sum_{m=1}^{M}w^{(m)}=1$, $\rho=\min_{m}J(X^{(m)})$ is subtracted for numerical stability and $\beta$ is the *inverse temperature* which serves as a tuning parameter for the sharpness of the control distribution. Finally, an approximate optimal control sequence can be obtained as which is a weighted average of sampled control trajectories and is applied in a receding horizon fashion. For a detailed discussion and theoretical properties, we refer to
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-D Problem Setting", "weight": 1.0} -->
+
+Consider a robot that is modeled by a discrete-time system where $\bm{x}\in\mathcal{X}\subset\mathbb{R}^{n_{x}}$ is the state, $\bm{u}\in\mathcal{U}\subset\mathbb{R}^{n_{u}}$ is the control input and $\theta\in\Theta\subset\mathbb{R}^{n_{\theta}}$ are unknown parameters of the system such as a robot's mass or its inertial properties. The parameters are only known up to a prior distribution on the parameters $p(\theta_{0})$, e.g. a uniform distribution over masses.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-D Problem Setting", "weight": 1.0} -->
+
+We approximate the solution to Eq. by 1) representing the posterior parameter distribution using an SVGD-based particle filter, 2) quantifying the particle distribution based safety probability using CP and 3) incorporating this uncertainty into a MPPI framework that solves the OCP.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "III-A Online Parameter Estimation", "weight": 1.0} -->
+
+Accurate estimation of uncertain system parameters is essential for our proposed control framework. A principled way to infer these parameters is to use Bayes' rule, which updates a prior belief $p(\theta\mid\bm{x}_{1:t},\bm{u}_{1:t-1})$ about the parameters $\theta$ using new state observations $\bm{x}_{t+1}$ and applied control inputs $\bm{u}_{t}$ One can think of this update as shifting the probability mass to parameter values that best explain the observed state transition. While conceptually straightforward, this posterior is generally intractable for nonlinear systems since the denominator requires to solve an integral over the entire parameter space $\Theta$.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "III-A Online Parameter Estimation", "weight": 1.0} -->
+
+A common approach is to approximate the posterior using a set of particles $\{\theta^{(i)}\}_{i=1}^{N}$ and to update them using importance sampling. While simple, such Sequential Importance Resampling (SIR) filters tend to suffer from weight degeneracy, where after several updates only a few particles carry most probability mass, causing mode collapse and poor exploration in multi-modal or high-dimensional posteriors. We therefore adopt SVGD, which transports an unweighted set of particles toward high-probability regions while preserving diversity, avoiding the aforementioned mode collapse problem.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-A Online Parameter Estimation", "weight": 1.0} -->
+
+In order to apply SVGD as described in Sec. II-A, we note that the update in Eq. only depends on the gradient of the log-likelihood of the target density. Since the intractable denominator in Eq. only serves as a normalization constant, we can define the target density which is proportional to $p(\theta\!\mid\!\bm{x}_{1:t+1},\bm{u}_{1:t})$. As a consequence, $\nabla_{\theta}\mathrm{log}~p_{t}=\nabla_{\theta}\mathrm{log~}p(\theta\mid\bm{x}_{1:t+1},\bm{u}_{1:t})$. The first term of the target in Eq. is given by the system dynamics where we assume zero-mean Gaussian observation noise with known covariance $\bm{\Sigma}_{\xi}$.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-A Online Parameter Estimation", "weight": 1.0} -->
+
+Since we do not directly assume noisy state measurements in our problem setting, we can either estimate the covariance from real-world data or use it as a tuning parameter to account for a model mismatch.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-A Online Parameter Estimation", "weight": 1.0} -->
+
+To apply SVGD to the target, we further require the prior $p(\theta\mid\bm{x}_{1:t},\bm{u}_{1:t})$ to be differentiable with respect to $\theta$. Since our belief is represented by particles which is not directly differentiable, we perform a kernel density estimation (KDE) where $K_{{\color[rgb]{0,0,0}\definecolor[named]{pgfstrokecolor}{rgb}{0,0,0}\pgfsys@color@gray@stroke{0}\pgfsys@color@gray@fill{0}\sigma}}:\Theta\times\Theta\mapsto\mathbb{R}$ is a positive definite kernel with bandwidth ${\color[rgb]{0,0,0}\definecolor[named]{pgfstrokecolor}{rgb}{0,0,0}\pgfsys@color@gray@stroke{0}\pgfsys@color@gray@fill{0}\sigma}>0$.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-A Online Parameter Estimation", "weight": 1.0} -->
+
+This ensures a continuous, differentiable belief that enables gradient-based updates. Further it allows sampling new parameter candidates which is important for the uncertainty quantification discussed in Sec. III-B1. Crucially, the quality of the estimated density depends on the correctness of the bandwidth ${\color[rgb]{0,0,0}\definecolor[named]{pgfstrokecolor}{rgb}{0,0,0}\pgfsys@color@gray@stroke{0}\pgfsys@color@gray@fill{0}\sigma}$. In practice, we use a radial basis function (RBF) kernel for $K_{\sigma}$ and select its bandwidth using Silverman's rule of thumb, which we found to provide stable density estimates for the parameter particles.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-A Online Parameter Estimation", "weight": 1.0} -->
+
+Combining the transition likelihood and the prior, we can compute the gradient of the log unnormalized posterior as which can be evaluated efficiently in closed form and used within the SVGD update rule to transport the parameter particles toward high-likelihood regions.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-B Receding Horizon Controller", "weight": 1.0} -->
+
+In this section, we discuss how to use the parameter belief $p(\theta\mid\bm{x}_{1:t},\bm{u}_{1:t})$ in motion planning to guarantee probabilistic constraint satisfaction over a receding horizon. We calculate the probability of satisfaction along a nominal path, which we then incorporate into a sampling-based MPPI controller.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-B1 Uncertainty Quantification in Safety Violations", "weight": 1.0} -->
+
+Given the current state $\bm{x}_{t}$ and a control input trajectory over a receding horizon $N$, i.e. $\bm{u}_{0},\dots,\bm{u}_{N-1}$, we can propagate the state through the dynamics model to obtain a state trajectory $\bm{x}_{t:t+N}$. However, since we have uncertainty in the model's parameter $\theta$, the evolution of the state becomes a random process.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-B1 Uncertainty Quantification in Safety Violations", "weight": 1.0} -->
+
+Following Sec. II-B, we define the non-conformity score which can be interpreted as the negative distance to the unsafe set along a rolled out trajectory. The non-conformity score is a mapping $\rho:\Theta\mapsto\mathbb{R}$ from the space of parameters to a scalar value, given a control sequence $\bm{u}_{0:N-1}$. Since the parameters are uncertain, the non-conformity score is a random variable as well. However, we can draw samples from the distribution over non-conformity scores by first generating samples from $p(\theta\mid\bm{x}_{1:t},\bm{u}_{1:t})$ and then propagating the dynamics under each parameter hypothesis $\theta^{(i)}$, the current state $\bm{x}_{t}$ and the control input sequence.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Remark 1", "weight": 1.0} -->
+
+The proposed probabilistic safety guarantee only holds if $\theta$ is sampled from the true distribution over parameters. However, there is a mismatch between our belief of $p(\theta\mid\bm{x}_{1:t},\bm{u}_{1:t})$ and the true posterior since we only use a finite number of particles in practice. This mismatch means that the safety guarantee may become slightly conservative or occasionally violated when the particle approximation poorly captures the true posterior. Nonetheless, because SVGD maintains diverse particles and updates them online, we generally observe that the estimated belief remains sufficiently accurate for the CP-based test to provide reliable behavior in real-world settings. Such mismatch could be addressed by considering recently proposed error bounds for finite particle systems in SVGD and combine them with extended versions of CP such as robust CP which we leave for future work.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-B2 Control Design", "weight": 1.0} -->
+
+We propose two extensions of MPPI to approximate the OCP's solution. Specifically, we propose extensions to handle constraint satisfaction which is not straight forward in standard MPPI.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-B2 Control Design", "weight": 1.0} -->
+
+First, when rolling out the dynamics for a control sequence $V^{(j)}:=\bm{u}_{1:K-1}+\bm{\eta}_{1:K-1}^{(j)}$ perturbed by Gaussian noise $\bm{\eta}$, we sample $P=\lceil\nicefrac{{(1-\delta)}}{{\delta}}\rceil$ i.i.d. parameters from the current belief $p(\theta\mid\bm{x}_{1:t},\bm{u}_{1:t})$ and rollout the dynamics model in Eq. for each parameter hypothesis. This will result in $P$ state trajectory samples for which we can calculate the non-conformity scores in Eq. to obtain the *robustness* $R:=-\rho^{(r)}$ from Theorem 1. Note that if $R>0$, the resulting trajectory is safe with desired probability $1-\delta$.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-B2 Control Design", "weight": 1.0} -->
+
+Thus, the joint chance constraint defined in Eq. can be evaluated in a simple sampling-based manner.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-B2 Control Design", "weight": 1.0} -->
+
+MPPI, as introduced in Sec. II-C, does not natively handle constraint satisfaction. Thus, one common way of enforcing constraints is by penalizing them in the cost function where ${\color[rgb]{0,0,0}\definecolor[named]{pgfstrokecolor}{rgb}{0,0,0}\pgfsys@color@gray@stroke{0}\pgfsys@color@gray@fill{0}W}\gg 0$ is a large penalization constant and P denotes the number of parameter samples. However, this simply transforms the safety constraint to a soft constraint which can still result in safety violations as MPPI can diverge when all sampled control sequences become unsafe. This can happen, e.g., if the environment changes too fast or if the simulated dynamics during the MPPI rollouts do not capture the noise in the actual dynamics.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "III-B2 Control Design", "weight": 1.0} -->
+
+To remedy this, we propose a parallel optimization structure where, in addition to a nominal optimization of the objective function in Eq., we also optimize a robust backup trajectory which is purely dedicated to maximizing the safety probability. This can be expressed as a robust cost function that we seek to minimize in parallel. Thus, at each control step we are optimizing two trajectories simultaneously, a *nominal* (N) and a *robust* (R) trajectory which we refer to as $\vphantom{}{}^{N}U$ and $\vphantom{}{}^{R}U$, respectively. The main benefit of the robust trajectory is that we can bootstrap the nominal optimization from both trajectories which prevents the aforementioned problem of all rollouts suddenly becoming infeasible. An example of such scenario is showcased in Fig. 2.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "III-B2 Control Design", "weight": 1.0} -->
+
+1. First, we initialize two trajectories to be optimized. At every control step, the previous loop solution is shifted using the $\textsc{TimeShift}(\cdot)$ operator and $P$ i.i.d. parameters are sampled from the current KDE of the particle belief in Eq.. Then, we generate $2\cdot M$ disturbed control sequences, bootstrapped both from the nominal and the robust trajectory (line 6). For each input sequence, we rollout the dynamics under all parameter hypotheses and calculate the resulting expected costs and robustnesses which is summarized in the $\textsc{Dyn}(\cdot)$ function. We want to highlight that although the two rollouts of nominal and robust trajectories are shown sequentially in lines 7-8, they can be performed in parallel as they are completely independent. In lines $9-11$, we optimize both trajectory distributions with respect to the nominal cost in Eq. and pick the minimal one. Similarly, the robust trajectory is optimized in lines $12-13$ with respect to Eq..
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "III-B2 Control Design", "weight": 1.0} -->
+
+Finally, to ensure constraint satisfaction, we rollout the nominal control sequence (line 14) and apply the robust control input if safety is violated.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+We evaluate our method in simulation as well as hardware experiments in which model inaccuracies in terms of uncertain parameters occur. Specifically, we show improved performance over existing baselines, both in terms of performance and safety in Sec. IV-A3, validate that parallel optimization yields safer behavior in fully and partially observable settings in Sec. IV-A4, showcase real-world performance improvement through online learning on a quadcopter with cable-suspended payload with complex safety requirements in Sec. IV-B.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-A Simulation Setup", "weight": 1.0} -->
+
+We evaluate our method in the safe-control-gym benchmark environment, which provides nonlinear control tasks with safety constraints. Specifically, we use a constrained quadrotor tracking task and the classic cartpole benchmark. In the cartpole setting, the objective is to drive the cart to the origin $p_{c}=0$ while keeping the pole upright, with the safety requirement that neither the cart nor the pole enters the region $p_{c}<0$. The cart and pole masses are randomized uniformly within $\pm 10\%$ of their nominal values $m_{c}=1$\mathrm{k}\mathrm{g}$$ and $m_{p}=0.1$\mathrm{k}\mathrm{g}$$.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-A Simulation Setup", "weight": 1.0} -->
+
+In the more challenging quadrotor setting, we consider a circular tracking task with a constrained height as illustrated in Fig. 2. We uniformly randomize the quadrotor's mass and its mass moment of inertia in a range of $\pm 50\%$ around the nominal values of $m=27$\mathrm{g}$$ and $I_{z}=1.4\cdot 10^{-5}$\mathrm{k}\mathrm{g}\cdot\mathrm{m}^{2}$$.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-A Simulation Setup", "weight": 1.0} -->
+
+We run 100 random simulations in which each simulation consists of 3 repetitive runs. This provides enough time to learn the parameters online. The cost function is defined as a quadratic penalization to the reference.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-A Simulation Setup", "weight": 1.0} -->
+
+Further, we set the safety probability to $1-\delta=0.9$ and use $500$ samples for each, the robust and nominal optimization. All computations are implemented in JAX and performed on a computer with an AMD Ryzen 7 9800X3D CPU, 64 GB of RAM, and an NVIDIA RTX 5090 GPU.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-A1 Evaluation Metrics", "weight": 1.0} -->
+
+We evaluate our approach with three metrics: root mean squared error (RMSE) measures tracking error against the reference, success rate (SR) reflects the fraction of runs satisfying safety constraints, and parameter accuracy (PA) compares the final parameter estimate to the ground truth, with 100 % indicating perfect accuracy.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "IV-A2 Baselines", "weight": 1.0} -->
+
+To approximate an upper bound on performance under perfect model knowledge, we include an oracle controller, implemented as a standard MPPI controller. We also evaluate a nominal MPPI controller that assumes the nominal parameters throughout and does not adapt them online. To isolate the effect of our online parameter estimation module, we further include a robust MPPI baseline that does not update the parameters online, instead randomizing over the prior distribution. Additionally, we add a baseline in which the parameter belief is obtained by an unscented Kalman Filter (UKF). Lastly, we compare against GPMPC, a nonlinear MPC approach that incrementally learns a residual dynamics model through Gaussian Process regression (GPR). Because GPR does not run at control frequency, we update the residual model after each of the three simulation runs. Further, we set the safety probability to $90\%$ which is a pointwise-in-time guarantee. To calculate parameter accuracy, we solve a least-squares problem on the learned residual model using all collected data points to recover maximum likelihood estimates of the parameters. For fair comparison, all baselines use $10^{4}$ total rollouts as in our method.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-A2 Baselines", "weight": 1.0} -->
+
+Only the oracle is allowed to use $10^{5}$ rollouts to find close-to-optimal solutions.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-A3 Comparison to Baselines", "weight": 1.0} -->
+
+The quantitative results of the simulation study are summarized in Table I. Our method outperforms all baselines in terms of RMSE, SR and PA in both environments. Only the nominal MPPI controller is not able to satisfy safety constraints in the cartpole setting which can be attributed to wrong parameters which results in incorrect rollouts. Robust MPPI is able to satisfy safety constraints in the cartpole environment at the cost of a high RMSE which indicates that this baseline performs overly conservative. In the quadrotor environment, the robust approach even leads to significant safety violations in terms of SR. This can be attributed to the robust approach not being able to stabilize the quadrotor under significant parameter randomizations of up to 50% which makes the robust control problem challenging and eventually leads to the quadrotor crashing. PRMPPI with a UKF instead of the SVGD belief performs competitively in terms of tracking but shows reduced parameter accuracy and slightly more safety violations, suggesting that a purely unimodal Gaussian belief may not fully capture the parameter uncertainty encountered in these tasks. Lastly, GPMPC performs similarly in the cartpole environment but does not achieve good results in terms of SR in the quadrotor environment.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "IV-A3 Comparison to Baselines", "weight": 1.0} -->
+
+We suspect that this behavior arises because GPMPC learns the system parameters only implicitly through GPR and therefore struggles to generalize beyond the data manifold on which it was trained. During the first lap, data is collected based on a uniform GP prior and subsequently used for training. However, in the second lap, the quadrotor follows a slightly different trajectory for which no data has been collected, causing the state to leave the previously explored data manifold and forcing the controller to rely largely on the uninformed prior again. This effect is reflected in Fig. 3, where the parameter accuracy improves only gradually and converges to a reasonable estimate by the third round. In contrast, our method rapidly identifies the unknown parameters from the outset, which also leads to a lower RMSE.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "IV-A3 Comparison to Baselines", "weight": 1.0} -->
+
+Both PRMPPI and GPMPC perform worse in terms of PA in the cartpole environment. This could be because the pendulum mass becomes unobservable in the upright pole position. Thus, most of the state observations are uninformative which leads to an overall worse parameter belief.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "IV-A4 Ablation Robust Trajectory", "weight": 1.0} -->
+
+We further investigate the impact of the proposed parallel optimization structure for generating robust trajectories. To this end, we conduct an ablation study (Table II) in both the standard quadrotor environment and a partially observable variant. In this setting, "partial observability" means that height constraints are revealed only when the quadrotor is within 40 cm of an obstacle. The robust cost defined in Eq. is applied under the conservative assumption that the current state is always subject to constraints within $\pm 40$\mathrm{c}\mathrm{m}$$. Our results show that, while this structure yields only minor safety gains in the fully observable case, it improves the success rate by more than $10\%$ in the partially observable environment. This demonstrates that robustly bootstrapping a cost-minimizing MPPI controller can substantially improve satisfaction of safety requirements.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "IV-A5 Ablation Probabilistic Guarantee", "weight": 1.0} -->
+
+Lastly, we evaluate the effect of the number of parameter samples $P$ on both performance and computation time in the quadrotor environment, see Table III. Interestingly, a safety probability of 90% yields the best performance, while lower probability thresholds achieve lower RMSE at the expense of increased safety violations. As the safety probability increases, the RMSE rises, which can be attributed to the controller adopting more conservative behavior. Notably, the 95% setting still exhibits a single collision, which could be due to the inherent stochasticity in parameter sampling. Importantly, we observe that all configurations can still operate at the control frequency of $50$\mathrm{H}\mathrm{z}$$, even when using up to $10^{5}$ rollouts. The computation time includes the SVGD updates performed at each step.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "IV-B Hardware Experiment", "weight": 1.0} -->
+
+We validate PRMPPI on a Crazyflie 2.1 brushless quadrotor with a cable-suspended payload operating in a cluttered indoor environment^11^1Video available at as shown in Fig. 1. We use the Lighthouse positioning system to measure the 3D position of the drone and payload. Notably, the payload has a mass of $m_{p}=23$\mathrm{g}$$ which makes more than $50\%$ of the quadrotors mass of $m_{c}=41.1$\mathrm{g}$$ and, thus, has a considerable effect on its dynamics. In experiments, we found that simply using the firmware position controllers was not sufficient and resulted in instability.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "IV-B Hardware Experiment", "weight": 1.0} -->
+
+To obtain the dynamics model of the quadrotor-payload system, we model both rigid bodies as point masses connected by a massless inextensible cable, with an acceleration input to the drone $\bm{u}\in\mathbb{R}^{3}$. We describe the generalized coordinates as $\bm{q}=[p_{x}\ \ p_{y}\ \ p_{z}\ \ \phi\ \ \theta]^{T}$ where $p$ denotes the position of the quadrotor and $\phi$ and $\theta$ denote the azimuth and polar angle of the pendulum. We obtain the simplified equations of motion via Lagrange's method, which captures the dominant coupling between the vehicle and payload. We note that this is a rather simplified model, as it neither considers the nonlinearities in the quadrotor control nor any aerodynamic effects on the system but we found it to be sufficient for the proposed navigation task. Further, we found that there is a considerable effect of the generated airflow of the quadrotor (also known as *downwash force*) on the pendulum dynamics.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "IV-B Hardware Experiment", "weight": 1.0} -->
+
+Since this force is difficult to model, we assume the pendulum dynamics include linear damping terms $\beta_{\phi}\dot{\phi}$ and $\beta_{\theta}\dot{\theta}$ with coefficients to be estimated online. We treat the pendulum length $L=0.52$\mathrm{m}$$ as unknown and estimate it from a uniform prior $\mathcal{U}(0.3,0.9)$.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "IV-B Hardware Experiment", "weight": 1.0} -->
+
+The task is to track a square trajectory of length $1.5\,$\mathrm{m}$$ while satisfying obstacle-avoidance constraints around three obstacles $\{\mathcal{O}_{1},\mathcal{O}_{2},\mathcal{O}_{3}\}$ as shown in Fig. 1 and Fig. 4(a). Physically, the quadrotor-payload system is able to fly below obstacle $\mathcal{O}_{1}$ and above $\mathcal{O}_{2}$ but only does so when the estimated length is correct. We report two different settings, one in which damping is assumed to be zero ($L$ only) and one in which we estimate $L,\beta_{\phi}$ and $\beta_{\theta}$ simultaneously. The controller runs at $30\,$\mathrm{H}\mathrm{z}$$, and uses the same hyperparameters as in Sec. IV-A3.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+First, we note that PRMPPI ensures constraint satisfaction throughout all runs: no collisions are observed, and $h(\bm{x}_{t})$ remains nonnegative with small margins near tight passages, see Fig. 4(d). Fallbacks to the robust trajectory are concentrated around $\mathcal{O}_{3}$, where the simplified dynamics and payload coupling make many cost-optimizing nominal rollouts infeasible. As online learning progresses in the three-parameter setting, the controller exploits tighter paths: After the first lap, the drone flies below $\mathcal{O}_{1}$ and after the second lap starts flying above $\mathcal{O}_{2}$ since the estimated length is below $60$\mathrm{c}\mathrm{m}$$. This results in improved tracking performance per lap as indicated by the RMSE in Fig. 4(c). In contrast, when only estimating the length $L$ without damping, the swinging amplitude is lower than expected which results in overestimation of the length as seen in Fig. 4(b).
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Consequently, the quadrotor is not able to take shortcuts which results in a worse RMSE. Therefore, we highlight that the performance of the proposed combined online parameter estimation and control method is naturally limited by the expressivity of the model and, thus, needs to be carefully designed. Since our models omit several nonlinearities, we do not expect the learned parameters to match their true values exactly. In practice, however, the simplified dynamics are sufficient to keep the true parameters within the support of the belief, enabling robot safety despite model mismatch.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Since the true damping is unknown, we used a broad prior of $\mathcal{U}(0,0.1)$ for the damping coefficients. Despite this misspecification, SVGD is able to recover and converge to a distribution centered around $0.15\,\mathrm{kg\cdot m^{2}/s}$. Although the estimated length in the three-parameter setting underestimates the true length, it can be seen that the true length is in the support of the learned distribution.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Conclusions and Future Work", "weight": 1.0} -->
+
+In this paper, we present parameter-robust MPPI, which combines an SVGD-based particle filter for online parameter learning with a controller that simultaneously optimizes nominal and robust trajectories. By enforcing a joint chance constraint over a receding horizon, our method enables safe online parameter learning and improves both performance and safety compared to existing baselines. The proposed parallel optimization structure proved effective in simulations and in hardware experiments on a quadrotor--payload system, demonstrating its practicality for real-world robotics. Future work will address the belief mismatch noted in Remark 1 and the coupling between parameter and state estimation.

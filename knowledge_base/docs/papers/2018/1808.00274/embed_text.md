@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1808.00274", "source": "ar5iv"} -->
+
 ## Introduction
 
 Visual navigation is an important area of research in robotics. Visual odometry (VO) estimates the motion of a camera (i.e., its egomotion) relative to observed static objects within a scene. These static objects must be accurately segmented from any dynamic noise, and this segmentation itself is an area of research focus. Less research in visual navigation has focused on also analyzing the dynamic regions of the scene that these approaches reject.

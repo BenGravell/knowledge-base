@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.18578", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Deep reinforcement learning (DRL) has achieved breakthroughs across diverse domains silver2017mastering; lee2020learning; ouyang2022training; radosavovic2024real. Among DRL methods, Proximal Policy Optimization (PPO) schulman2017proximal remains one of the most widely adopted algorithms. The core design of PPO is motivated by Trust Region Policy Optimization (TRPO, schulman2015trust ), which constrains policy updates within a "trust region" to ensure stable iterations. By utilizing a first-order approximation of the TRPO objective, PPO achieves the scalability necessary for training modern large-scale models. As a result, PPO and its variant GRPO are now widely applied to tasks ranging from robotics to large language model (LLM) fine-tuning miki2022learning; andrychowicz2020learning; shao2024deepseekmath.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2405.01563", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Large language models are excellent at next word prediction. At the same time, however, they are also prone to *hallucination*---that is, confidently generate responses that may look plausible on the surface, but that are actually incorrect or even nonsensical Ji et al., Maynez et al.. Unfortunately, hallucinations are difficult to detect, especially when users are not able to easily verify the factuality of an LLM's responses by themselves. In generation tasks in particular, it can be challenging to discriminate between hallucinations that present false facts, and any of the many other viable ways of expressing correct information. Therefore, hallucinations can be extremely detrimental towards achieving trustworthy and reliable LLM performance, and hence avoiding or even detecting hallucinations has become one of the most important research topics in LLM research.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.19011", "source": "arxiv-html"} -->
+
 ## Introduction
 
 ^11^footnotetext: Equal contributions Given an instance of a control problem and an initially proposed sequence of states and controls, trajectory optimization (TO) methods iteratively refine the trajectory to meet problem constraints and minimize an associated cost function. Being local methods, their solving time and the quality of the solution found directly depend on the initial trajectory. To complement TO with learning approaches, a natural application is to train a global policy from a batch of solved instances. The resulting policy can then either be deployed or used to warm-start the solver on other instances. In this paper, we study interplay loops alternating between collecting trajectories and training, close to DAgger. The policy provides initial guesses, the TO solver refines them towards locally optimal solutions, which are then used to train the policy.

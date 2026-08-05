@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1201.6002", "source": "arxiv-pdf"} -->
+
 ## Paper Body
 
 1. Introduction. Matrix concentration inequalities control the fluctuations of a random matrix about its mean. At present, these results provide an effective method for studying sums of independent random matrices and matrix martingales. They have been used to streamline the analysis of structured random matrices in a range of applications, including statistical estimation, randomized linear algebra, stability of least-squares approximation, combinatorial and robust optimization, matrix completion and random graph theory. These works compose only a small sample of the papers that rely on matrix concentration inequalities. Nevertheless, it remains common to encounter new classes of random matrices that we cannot treat with the available techniques.

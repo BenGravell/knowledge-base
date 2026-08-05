@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2003.01314", "source": "ar5iv"} -->
+
 ## Introduction
 
 The ability to grasp previously unseen objects is a fundamental trait for robots that need to interact with their environments, and underpins many higher-level manipulation capabilities. The last few years have seen a large amount of work focused on visual grasp detection, greatly driven by advanced deep learning techniques. As such, the need for diverse object dataset specific to robotic grasping is crucial for both training and evaluating these systems.

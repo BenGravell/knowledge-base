@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.05088", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Policy optimization (PO) is a promising paradigm for data-driven control. Despite nonconvexity, policy gradient (PG) methods enjoy global convergence in structured settings such as LQR. However, large-scale deployment on physical systems is constrained by two fundamental bottlenecks: (i) communication overload, as transmitting high-dimensional gradients under limited bandwidth becomes prohibitive and scales with fleet size; and (ii) sample inefficiency, since model-free PG requires $\mathcal{O}(1/\epsilon^{2})$ trajectory rollouts per step---untenable in real-world operation. Recent work partially mitigates these challenges: D2SPI addresses homogeneous networks, while FedLQR extends to heterogeneous but similar agents.

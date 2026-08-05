@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2106.16078", "source": "ar5iv"} -->
+
 ## Introduction
 
 The study of stochastic systems with multiplicative noise (i.e., system states and inputs multiplied by noise) has a long history in control theory, and is re-emerging in the context of complex networked systems and learning-based control. In contrast to the additive-noise setting, the multiplicative-noise modeling framework has the ability to capture the coupling between noise and system states. This situation occurs in modern control systems as diverse as robotics with distance-dependent sensor errors, networked systems with noisy communication channels, modern power networks with high penetration of intermittent renewables, turbulent fluid flow, and neuronal brain networks. Linear systems with multiplicative noise are particularly attractive as a stochastic modeling framework because they remain simple enough to admit closed-form expressions for stabilization and optimal control.

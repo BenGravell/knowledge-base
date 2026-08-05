@@ -7,3 +7,415 @@ RACP: Risk-Aware Contingency Planning with Multi-Modal Predictions
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 For an autonomous vehicle to operate reliably within real-world traffic scenarios, it is imperative to assess the repercussions of its prospective actions by anticipating the uncertain intentions exhibited by other participants in the traffic environment. Driven by the pronounced multi-modal nature of human driving behavior, this paper presents an approach that leverages Bayesian beliefs over the distribution of potential policies of other road users to construct a novel risk-aware probabilistic motion planning framework. In particular, we propose a novel contingency planner that outputs long-term contingent plans conditioned on multiple possible intents for other actors in the traffic scene. The Bayesian belief is incorporated into the optimization cost function to influence the behavior of the short-term plan based on the likelihood of other agents' policies. Furthermore, a probabilistic risk metric is employed to fine-tune the balance between efficiency and robustness. Through a series of closed-loop safety-critical simulated traffic scenarios shared with human-driven vehicles, we demonstrate the practical efficacy of our proposed approach that can handle multi-vehicle scenarios.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Safe motion planning is a prominent feature in the self-driving stack. In urban scenarios, the ego-agent needs to understand and infer the intended motion of other road users in the scene in order to move safely and efficiently. However, predicting the behavior of road users poses great challenges since they exhibit non-deterministic and multi-modal behaviors. Moreover, their intentions cannot be explicitly communicated to the ego-agent. For instance, in a non-signalized intersection, it is hard to anticipate whether a human driver will drive straight or turn right, and it is crucial to encode this uncertainty into the planning formulation. This gives rise to stochastic prediction models that provide probabilistic information over all possible intentions the human driver can exhibit. By leveraging this probabilistic information, the ego-agent's motion planner needs to generate safe trajectories yet not overly conservative in the presence of other road users.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+An important aspect of planning under uncertainty is to guarantee the existence of collision-free trajectories despite the stochastic motion of the surrounding obstacles. One class of methods that deals with the uncertain behavior of dynamic agents is robust optimization which provides safety guarantees by rigorously accounting for bounded sets of uncertainties. That is, the probability density function of the uncertainty is non-zero over a bounded domain of the ego agent's workspace and is zero elsewhere. However, since robust optimization accounts for all possible realizations of the uncertainty, its behavior is excessively conservative and may result in infeasible solutions in crowded environments, a well-studied issue in robot navigation literature known as the "frozen robot" problem. In contrast, stochastic optimization uses chance constraints to loosen hard constraints and bound the probability of violating safety constraints to be within a desired confidence level $\delta$. This, in turn, results in less-conservative behavior compared to robust optimization approaches. However, in multi-modal traffic scenarios, this can still result in conservative behavior since a single trajectory is sought to minimize the optimization's cost function along the entire planning horizon.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This gives rise to contingency planning frameworks, that explicitly plan a set of conditional actions that depend on the stochastic outcome of a prediction model.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+As an illustrative example, to highlight the difference between single policy planning and contingency planning, consider the three-way intersection scenario depicted in Fig. 1. In this scenario, we consider only two possible intents a human driver can express. The one depicted in blue shows that the human driver yields to the autonomous vehicle, whereas the red one indicates that the autonomous vehicle brakes since the human driver takes an aggressive left turn. A traditional planner, in that situation, seeks a single plan that is safe with respect to both intents resulting in a braking trajectory. In contrast, since only one of the predicted intentions will happen in the future, the contingency planner plans a short-term trajectory that ensures safety for both potential outcomes. Subsequently, it diverges into two specific plans, each tailored to address a distinct future intention resulting in less-conservative plans.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "II-A Related Work", "weight": 1.0} -->
+
+A primary objective of the motion planner is to generate non-conservative, yet safe trajectories, for the ego vehicle to execute. In some of the proposed methods in the literature, the planner optimizes for the worst-case scenario, of how the motion of other road users will propagate into the future, regardless of its likelihood. Despite being safe, this causes the ego vehicle to behave defensively and overreact to low-probability dangers far into the future, e.g., the ego vehicle brakes prematurely to react to an unlikely future which would be uncomfortable and socially confusing for other road users. Human behavior, in these situations, would not be either overly conservative or completely ignorant of such rare scenarios. An alternative way is to generate a single plan, that safeguards against all possible intents along the entire planning horizon which results in inefficient and conservative plans with compromised performance. As a consequence, uncertain scenarios require autonomous vehicles to find a reasonable trade-off between safety and efficiency. This gives rise to the problem of planning with multi-modal predictions.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "II-A1 Planning with multi-modal predictions", "weight": 1.0} -->
+
+Fail-safe motion planning was introduced in where a single trajectory is generated by considering the most probable trajectories of the other agents. Then, the safety of the proposed method is guaranteed by ensuring the existence of an emergency maneuver at each time step that accounts for every possible trajectory of the other agents. Although the fail-safe trajectory may ensure safety on a finite horizon plan, recursive feasibility is not guaranteed. Moreover, it is difficult to estimate whether the ego-vehicle is close to a collision.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "II-A1 Planning with multi-modal predictions", "weight": 1.0} -->
+
+Legibility-based models are widely used in the literature to alleviate the conservatism of planning under uncertainty. A motion is considered legible if it allows an observer to confidently infer the correct agent's intent after observing a snippet of its trajectory, and the legibility of the motion depends on the required time until an observer can infer an agent's intent. In these approaches, a probabilistic model is used to infer the probability of a certain goal $G \in \mathcal{G}$ from an incomplete initial trajectory $\zeta_{S\rightarrow Q}$, $P{(\left. G \middle| \zeta_{S\rightarrow Q} \right.)}$, and the agent's inferred goal is modeled as the most likely one ${\arg{\max_{G \in \mathcal{G}}P}}{(\left. G \middle| \zeta_{S\rightarrow Q} \right.)}$.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "II-A1 Planning with multi-modal predictions", "weight": 1.0} -->
+
+This may, however, result in an over-confident plan leading to a collision since the probability that the agent moves towards a different goal is entirely ignored.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "II-A1 Planning with multi-modal predictions", "weight": 1.0} -->
+
+Branch Model Predictive Control (B-MPC), on the other hand, is utilized in to tackle the multi-modality arising from human-driving decision-making, where the behavior of the surrounding agents is simplified with a finite set of policies derived from a prediction model. A probabilistic scenario tree is then constructed from this finite set where each branch in the tree has an associated policy. On top of the scenario tree, a trajectory tree is built that shares the same topology as the scenario tree where the objective is to minimize the expected cost over all the branches. Yet, these approaches suffer from the curse of dimensionality since the tree structure grows exponentially with the prediction horizon and the number of agents, making it only feasible for short planning horizons.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "II-A1 Planning with multi-modal predictions", "weight": 1.0} -->
+
+Another line of work for planning under uncertainty is by formulating the planning problem as a partially observable Markov decision process (POMDP) by constructing a belief tree based on a discrete set of obstacle vehicle's intentions. Solving such problems, however, becomes computationally intractable when the problem size scales. To address this problem, multi-policy decision-making decomposes the belief tree into a limited number of closed-loop policies by leveraging semantic information. However, these approaches solve for the best ego-policy over all possible future realizations resulting in overly-conservative plans that do not exploit the multi-modality in the obstacle-vehicle behavior. To tackle this problem, inspired by branch-MPC, TPP proposes an approach that converts the continuous space motion planning problem into a tractable problem by converting both the trajectory tree and scenario tree into a finite-horizon MDP. The optimal policy is then determined via dynamic programming over the constructed MDP. Despite its scalability to multiple vehicles, TPP outputs a single optimal policy over all scenarios causing unavoidable loss of multi-modality information.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "II-A1 Planning with multi-modal predictions", "weight": 1.0} -->
+
+This issue can be tackled by separating the planning problem into short-term and long-term responses. This is realized by generating a short-term trajectory, for $t < t_{b}$, where $t_{b}$ indicates a branching time, which guarantees safety with respect to all possible future intents that the other agents can exhibit. After $t_{b}$ duration, it is assumed that the ego vehicle will be able to determine the intent of the human driver, and thus it is sufficient to safeguard against the most likely intent. Thus, the contingent plan can ensure safety only when the ego vehicle acquires a clear understanding of the intentions of other agents by the time of branching. However, in these works, the probability associated with the uncertain intents of the dynamic agents is assumed to be fixed, and the planning is executed in an open-loop fashion. Thus, an exact estimation of the branching time $t_{b}$ is required, otherwise a collision may occur. Learning-based approaches have been recently introduced in the contingency planning context, however, they are not interpretable and hard to tune.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "II-A1 Planning with multi-modal predictions", "weight": 1.0} -->
+
+proposes a contingency planning approach that uses a dynamic branching point determined by a predefined heuristic. This heuristic chooses the branching time as the maximum time such that any two future scenarios starting at the current time only diverge by a maximum distance. Despite being effective, this heuristic entails at least double the computational time since the divergence measure is invoked on the ego-vehicle trajectories.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-A1 Planning with multi-modal predictions", "weight": 1.0} -->
+
+In this paper, we adopt the idea of splitting the planning problem into short-term and long-term planning.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-A2 Risk-aware motion planning", "weight": 1.0} -->
+
+Another aspect to consider when planning under uncertainty is to assess the risk associated with the executed plan. In, Gaussian process regression is utilized to establish a probabilistic model of the environment. This model is subsequently employed to formulate a risk-aware cost function using the Conditional Value at Risk (CVaR) measure, which is then incorporated into an optimal motion planning algorithm to generate trajectories that avoid high-risk areas. constructs a probabilistic risk map by assessing the anticipated harm considering predicted spatio-temporal trajectories for both the ego-vehicle and other participants in the traffic scene. These maps serve as indicators of the risk associated with a planned trajectory, calculated through a rapidly-exploring random tree algorithm. Despite being effective, a drawback of this approach is that the driven trajectories of the other traffic participants need to be pre-defined and known by the ego-vehicle a priori. Along the same line as our proposed approach, define risk as a product of two components, the probability of collision with other traffic subjects and the severity of that potential collision. In that sense, an analytic approach is proposed to calculate the probability of spatial overlap of the ego-vehicle with dynamic obstacles at discrete times.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-B Statement of Contributions", "weight": 1.0} -->
+
+In this work, we aim to address the state-of-the-art aforementioned limitations. In particular, the contributions of this paper can be summarized in the following points: In contrast to recent contingency planning schemes that assume an open-loop information structure, we propose a Bayesian update scheme that incorporates the observations of the human states into the motion planner cost function, influencing the short-term plan based on the belief the ego-vehicle maintains over human intentions.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-B Statement of Contributions", "weight": 1.0} -->
+
+We incorporate a probabilistic risk metric into the contingency planner to balance safety and efficiency.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "II-B Statement of Contributions", "weight": 1.0} -->
+
+We analyze the effect of branching time and the belief over the obstacles' intents on the short-term plan, and how they relate to the maximum risk the ego-agent endures.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "II-B Statement of Contributions", "weight": 1.0} -->
+
+We show how the proposed approach can be extended to multi-agent scenarios by leveraging the permutations over all possible intentions the traffic agents can have.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-A Notation", "weight": 1.0} -->
+
+Throughout this paper, vectors, and matrices are expressed in bold, $\mathbf{x}$, and capital bold, $\mathbf{A}$, letters respectively. $\|{\mathbf{x}}\|$ is the Euclidean norm of $\mathbf{x}$, and the subscript ${( \cdot )}_{k}$ indicates the value at stage $k$, $f{( \cdot )}$ is the probability density function. The planning problem is formulated in a receding horizon fashion where only the first control input is executed, and then the whole process is reiterated with the new initial conditions and observations.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-B Ego-Motion Sampler", "weight": 1.0} -->
+
+The general form of the planning problem can be formulated as follows: where the optimal trajectory $\tau^{\ast}$ is defined as the one giving the minimum total cost $J{(\tau)}$ from a set of sampled trajectories $\mathcal{T}_{n}$ given the ego-state. $\tau \in \mathcal{T}_{n}$ is a continuous path through the state space and is characterized by a sequence of points $\tau = {\{{\mathbf{x}}_{0},{\mathbf{x}}_{1},\ldots,{\mathbf{x}}_{N}\}}$ defined over a horizon of length $N$ with regular intervals $\Delta t$, where ${\mathbf{x}}_{k} = {(x_{k},y_{k})}$.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-B Ego-Motion Sampler", "weight": 1.0} -->
+
+The optimal trajectory must adhere to a set of time-dependent constraints $g_{j}{(\tau)}$ imposed by the surrounding dynamic obstacles, vehicle kinematics, and other user-defined constraints.\Instead of formulating the problem directly in the Cartesian coordinate system, we switch to the Frenet Frame to exploit the lane-geometric information. In that sense, the trajectory is parameterized by the total arc-length $s{(t)}$ traveled along the reference path $\Gamma$ parameterized by time $t$, and the orthogonal lateral deviation $d{(s)}$ parameterized by arc-length $s$ as shown in Fig. 2. In this paper, we adopt a sampling-based motion planning approach that is widely used in the intelligent vehicles community.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-B Ego-Motion Sampler", "weight": 1.0} -->
+
+To generate a set of possible candidate trajectories, we first need to sample a set of terminal states for both longitudinal and lateral trajectories. To ensure the diversability of the candidate trajectories, it is crucial to emphasize that the sampled terminal states should cover various maneuvers which include maintaining the current velocity, accelerating to a certain speed, yielding velocity profiles for the longitudinal trajectories, and lane-keeping, lane-change, and nudging for lateral trajectories. Given the current ego-state, with respect to the reference path, and the sampled terminal states, piecewise quartic and quintic polynomials can be used to generate the longitudinal and lateral trajectories respectively.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-B Ego-Motion Sampler", "weight": 1.0} -->
+
+The Frenet state defined as $\left\lbrack s,\overset{˙}{s},\overset{¨}{s},d,d',d^{\operatorname{\prime\prime}} \right\rbrack$ can then be converted to the global coordinates $\lbrack x,y,\theta,\kappa,v,a\rbrack$, where $\overset{˙}{(\cdot)}:=\frac{\text{d}{( \cdot )}}{\text{d}t}$, and ${( \cdot )}':=\frac{\text{d}{( \cdot )}}{\text{d}s}$ indicate the parameters derivatives with respect to time and arc-length respectively.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-B Ego-Motion Sampler", "weight": 1.0} -->
+
+After generating a set of trajectories, some of them are then pruned based on some imposed constraints $g{(\tau)}$. These constraints are affected by the kinodynamic feasibility of the ego-vehicle, in addition to collision avoidance constraints concerning the surrounding obstacles. Since the motion of the dynamic obstacles is not known a priori, this necessitates the need for a probabilistic prediction model that models their behavior forward in time which is described in Subsection III-C. After pruning the invalid trajectories, a user-defined cost function $J{(\tau)}$ is assigned to each valid trajectory, and the trajectory $\tau$ with the minimum cost is selected. The details of $g{(\tau)}$ and $J{(\tau)}$ formulations are given in Section V.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-C Probabilistic Prediction Model", "weight": 1.0} -->
+
+The planner is required to stochastically forecast other agents' behavior to make informed decisions. This necessitates the need for a prediction model that can effectively capture the diverse and nuanced intentions exhibited by different drivers. For instance, a neighboring vehicle may opt to either remain in its lane or merge in front of us. To address the inherent uncertainty and complexity associated with the multi-modal behavior of road users, the application of Mixture-of-Gaussians (MoG) distributions is widely used in literature, see e.g.,. It is important to highlight that other multi-modal prediction methods could also be used in conjunction with our proposed approach. In our settings, there exists a set of dynamic obstacles $o \in \mathcal{I}_{o}:={\{ 1,\ldots,n_{o}\}}$, at position ${\mathbf{δ}}^{o} \in {\mathbb{R}}^{2}$. The probability measure associated with the uncertainty of the perception of the dynamic obstacles is denoted by $\mathbb{P}$ and defined over the probability space $\Delta$.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-C Probabilistic Prediction Model", "weight": 1.0} -->
+
+An MoG model serves as a comprehensive method for articulating uncertainty characterized by multiple modes, achieved through the integration of multiple continuous probability distributions, where $n$ is the number of modes of the MoG, $\phi_{i}$ represents the weight of each mode such that ${\sum_{i = 1}^{n}\phi_{i}} = 1$, and $f_{k,i}^{o}{(\cdot)}$ is the probability density function of each mode with mean ${\mathbf{μ}}_{i} \in {\mathbb{R}}^{n}$ and covariance $\mathbf{\Sigma}_{i} \in {\mathbb{R}}^{n \times n}$, The output of the prediction model is subsequently a sequence of predicted state distributions along the prediction horizon for a given mode. This will be later leveraged to calculate the risk associated with the planned trajectories as detailed in the following subsection.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-D Collision Chance Constraints", "weight": 1.0} -->
+
+The ego-vehicle $v$ and the obstacle $o$ are mutually collision-free if ${\|{{\mathbf{x}}_{k}^{v} - {\mathbf{δ}}_{k}^{o}}\|} \leq r$, where ${{\mathbf{x}}^{v},{\mathbf{δ}}^{o}} \in {\mathbb{R}}^{2}$ denote the positions of the ego-vehicle and obstacle respectively, and $r$ is the safety distance. However, since the positions of the obstacles are defined as random variables, the collision avoidance constraints can only be satisfied in a probabilistic manner, and thus defined as chance constraints at each timestep $k$, where $\mathbb{P}$ indicates the probability measure, and $\delta \in {(0,1\rbrack}$ is the collision probability threshold.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+In traditional motion planning frameworks, a single trajectory is sought to minimize the expected cost over all plausible predicted futures along the entire planning horizon, which may result in sub-optimal and overly-conservative trajectories. The contingency planning paradigm, on the other hand, generates a distinct set of trajectories conditioned on the different outcomes from the prediction model.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-A Contingency Planning", "weight": 1.0} -->
+
+Due to the stochastic nature of the surrounding agents' intentions, contingency planning outputs multiple policies $\Pi$ where each policy $\pi \in \Pi$ is specified for a single agent's intent $\overset{\sim}{\lambda}$. Given the ego-vehicle's incapacity to concurrently traverse multiple contingency plans, the initial segment of each plan $\tau_{0:t_{b}}$ is restricted to remain consistent.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-A Contingency Planning", "weight": 1.0} -->
+
+The contingency planning problem can be formulated as, where $J_{\text{shared}}$ is the cost of the shared part of the plan that takes into consideration all possible modes of the prediction model, $t_{b}$ is the branching time representing the time at which the shared plan bridges into different contingent plans, $J_{\text{conting}}$ is the cost associated with each contingent plan, and $p{(\lambda)}$ indicates the probability of each possible intention given by the prediction model introduced in Section III-C.\However, with this problem formulation, the following challenges arise: It is assumed that by $t_{b}$, the uncertainty about the other agents' intentions is resolved, and the ego-vehicle branches to the predicted true hypothesis. Thus, $t_{b}$ has to be calculated accurately, otherwise, the ego-vehicle may choose the wrong branch which can result in a collision.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-A Contingency Planning", "weight": 1.0} -->
+
+The hypothesis probabilities estimated by the prediction model, $p{(\lambda)}$, are usually of a bad quality and entirely relying on them could result in collisions.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-A Contingency Planning", "weight": 1.0} -->
+
+In, an offline reachability analysis approach is proposed to alleviate the first issue by estimating the branching time $t_{b}$. However, this approach requires a discretization of the state space and takes into consideration the worst behavior of the other agents which leads to the worst-case estimate of $t_{b}$, that is the latest time at which the ego-vehicle becomes certain about the other obstacle's intention. Moreover, due to the curse of dimensionality, this approach can barely extend to multi-agents.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-A Contingency Planning", "weight": 1.0} -->
+
+Therefore, in our proposed approach, introduced in the upcoming section, we tackle the first issue by introducing a belief updater that updates the ego-vehicle's prior belief about obstacles' intentions based on the online measurement it perceives. Moreover, to address the inherent trade-off between safety and efficiency, we introduce risk-aware contingency planning by augmenting contingency planning with a probabilistic risk measurement.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "V-A Planning under Uncertain Intentions", "weight": 1.0} -->
+
+To alleviate the conservatism of the planned trajectory, we propose to have a probabilistic inference over the possible intents that an obstacle can have by introducing a Bayesian belief updater instead of solely relying on the prediction model to make an informed estimate of the unknown intent.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "V-A1 Belief Updater", "weight": 1.0} -->
+
+At each time step, we assume that the ego-vehicle can observe the true state ${\hat{\mathbf{δ}}}_{t}^{o}$ of the dynamic obstacle, but not its internal state. This enables the ego-vehicle to retrospectively assess the likelihood of the dynamic obstacle's observed states under the prediction model. Thus, the ego-vehicle always maintains a belief, $b{(\lambda)}$, over the set of possible intents $\Lambda$ of other agents, i.e., $\lambda \in \Lambda$. A Bayesian filter is used to update the ego vehicle's belief over the obstacle's intents based on the new observations the ego-vehicle perceives. The update rule for the obstacle's intent is given, where $b{(\overset{\sim}{\lambda})}_{-}^{t}$ represents the prior belief of the ego-vehicle on the intent $\overset{\sim}{\lambda}$ at time $t$.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Remark 1", "weight": 1.0} -->
+
+Based on the provided prediction model and what the ego-agent can observe, the probability density function $f{( \cdot )}$ can either be defined on the obstacle's state or the control input.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "V-A2 Multi-Agent Scenario", "weight": 1.0} -->
+
+In a multi-agent setting, it is not sufficient to only consider the belief that the ego-agent maintains over a single agent's intentions, but rather to consider how the traffic scene would evolve as a whole into the future. To address this issue, it is required to consider all the permutations $\Theta = {\{\theta_{1},\ldots,\theta_{n_{s}}\}}$ where $n_{s}$ is the total number of realizations the traffic scene can evolve to, and $\Theta$ is determined by the Cartesian product of all obstacles policies, $\Theta = {\Lambda_{1} \times \ldots \times \Lambda_{n_{s}}}$. The total number of realizations, $n_{s}$, is defined by the cardinality of $\Theta$, $n_{s} = {|\Theta|}$.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-A2 Multi-Agent Scenario", "weight": 1.0} -->
+
+The probability of each realization can, subsequently, be calculated, where $b_{i}{(\lambda)}_{+}^{t}$ is determined, and $\lambda$ is the corresponding intention for obstacle $i$ that belongs to $\theta_{j}$. $p{(\theta_{j})}_{+}$ is used as a weight for the contingent plans in the cost function defined in (13a). This mimics a scene-centric prediction model by outputting modes of joint trajectories with respect to all agents in the scene.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-A3 Probabilistic Risk Assessment", "weight": 1.0} -->
+
+In our proposed approach, to achieve probabilistic collision avoidance, we rely on an existing risk metric, motivated by our previous work, that maps the distribution of a random variable, defined, to a real number.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Remark 2", "weight": 1.0} -->
+
+According to, the quantified risk metric given in is non-coherent since it does not fulfill all coherence axioms. Nevertheless, it is efficient in capturing the underlying uncertainty associated with the motion of the dynamic obstacles and scales monotonically as the level of risk increases. Here it should be emphasized that, since our planner is sampling-based, it is agnostic to the risk metric employed and a comparative study on different risk metrics will be part of future research.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Remark 2", "weight": 1.0} -->
+
+Thus, the optimization problem can be formulated as follows, It is worth mentioning that the number of planned contingency trajectories is determined by the number of modes of the prediction model, $|\Lambda|$.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Remark 2", "weight": 1.0} -->
+
+(c) Select the optimal total plan.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "V-A4 Cost Function", "weight": 1.0} -->
+
+The cost function $J{(\tau)}$ consists of sub-costs that focus on different aspects of the plan's performance such as safety, passenger comfort, progress, and tracking. It is, thus, defined as, where the weight vector ${\mathbf{w}} \in {\mathbb{R}}_{+}$ captures the weights associated with each cost term.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "V-A4 Cost Function", "weight": 1.0} -->
+
+d_{k}^{\operatorname{\prime\prime\prime}2}}{N}}$ penalizes the mean square sum of longitudinal and lateral jerks used as a comfort indicator.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "V-A5 Kinematic Constraints", "weight": 1.0} -->
+
+To guarantee a smooth and comfortable transition between the short-term shared plan and the contingency plans, when concatenated, we need to impose some constraints on the curvature at the branching point. From, where $\kappa_{r}$ and $\kappa_{r}'$ denote the curvature of the reference path $\Gamma$ and its derivative respectively. By rearranging terms, an explicit formulation of the trajectory's curvature can be obtained, After calculating the curvature and every point along the trajectory, a box constraint is defined as where $\kappa_{\text{max}}$ at every timestep is parameterized by the planned velocity of the ego-vehicle and the maximum allowable lateral acceleration.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "V-A5 Kinematic Constraints", "weight": 1.0} -->
+
+Finally, to ensure that the planned trajectory is kinematically feasible, the following box constraints must be satisfied at every timestep, where $v_{\text{min}}/v_{\text{max}}$ represent the minimum and maximum velocity, $a_{\text{min}}/a_{\text{max}}$ represent the minimum and maximum acceleration, and $j_{\text{min}}/j_{\text{max}}$ represent the minimum and maximum jerk.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "V-B Planner Design", "weight": 1.0} -->
+
+To better explain the proposed approach, we recall the illustrative example in which the ego-vehicle is not fully aware of the future trajectories of another agent or even its intended goal, as illustrated in Fig. 4. In this example, we take into consideration only two likely futures. The one depicted in blue is where the other agent yields to the ego-agent, and the one in red is where the ego-agent must brake before entering the intersection since the oncoming vehicle is taking an aggressive left turn.\1:Prediction model per obstacle fk, io(⋅), horizon T, branching time tb, risk tolerance level δ, reference path Γ, prior belief per intention λ, ${b{(\lambda)}_{-}} = \frac{1}{|\Lambda|}$, two priority queues for sorting candidate trajectories Q, Qfinal. 2: An optimal shared plan τ0: tb, concatenated with |Λ| contingent plans 𝒯tb: T. 20: if τtb: T passed constraint check then 24: τtb: T(λ)best← pop the first candidate from Q. 29: Evaluate total cost using (13a).
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "V-B Planner Design", "weight": 1.0} -->
+
+32: τbest← pop the first candidate from Qfinal. Algorithm 1 Risk-aware contingency planning The proposed approach is summarized in Algorithm 1: In lines (2-8), we sample a large set of shared plans $\mathcal{T}_{0:t_{b}}$ using the ego-motion sampler explained in section III-B. This is followed by pruning trajectories that violate the risk upper limit or kinematic constraints. Here, the risk analysis is done with respect to all prediction modes.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "V-B Planner Design", "weight": 1.0} -->
+
+Line 9 iterates over the number of modes coming from the prediction model.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "V-B Planner Design", "weight": 1.0} -->
+
+In lines (10-21), for each shared plan, conditioned on its end state, we sample a set of long-horizon trajectories $\mathcal{T}_{t_{b}:T}$. A risk analysis is performed for each long-term trajectory with respect to a single mode from the prediction model, and trajectories that violate constraints are pruned. A cost is assigned to each trajectory according to.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "V-B Planner Design", "weight": 1.0} -->
+
+Lines (22-23) sort the long-term trajectories based on their associated costs and pick the trajectory with the minimum cost. The belief over the prediction mode, we iterate over, is updated using.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "V-B Planner Design", "weight": 1.0} -->
+
+In lines (25-27), the shared-trajectory is concatenated with all contingent plans. The total cost of the entire plan is computed by the expected cost of the contingent plans in addition to the cost of the shared plan itself as indicated in (13a).
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "V-B Planner Design", "weight": 1.0} -->
+
+We find the optimal response, for each shared plan, associated with each scenario from the corresponding long-horizon trajectories in line 30.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "V-B Planner Design", "weight": 1.0} -->
+
+This process is then repeated at every time step in a receding horizon manner.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Remark 3", "weight": 1.0} -->
+
+In case no valid trajectory is obtained from the set of candidate trajectories $\mathcal{T}$, we apply the trajectory with the least risk as long as it is dynamically feasible.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Remark 3", "weight": 1.0} -->
+
+Here it is crucial to emphasize that an advantage of using a sampling-based planner in the Frenet frame as a basis for our contingency planning framework is that the sampled trajectories cover various maneuvers that the ego-vehicle can have. Thus, in contrast to the approaches proposed, our approach eliminates the necessity for a pre-established trajectory tree or branching topology to formulate contingent plans. Subsequently, the ego-vehicle is not confined to a specific set of predefined policies. This concept is further explained in Fig. 3 where we show how the optimal plan is selected from the sampled short-term and long-term trajectories. Additionally, it illustrates how the short-term plan is shaped based on the belief the ego-vehicle maintains over the obstacle-vehicle policies. Fig. 5 shows how the belief the ego-vehicle maintains over the long-term plans affects the behavior of the short-term plan. It is observed that when the ego-vehicle has a higher belief in one of the human's intents, the shared plan tends to be biased towards the corresponding contingent plan.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Remark 3", "weight": 1.0} -->
+
+In particular, as illustrated in Fig. 5-left, when the ego-agent has a higher belief that the human-driven vehicle aims at executing the lane-keeping policy, the shared-plan biases its motion to accelerate along its lane. On the other hand, when the higher belief is assigned to the lane-change maneuver, the shared-plan tends towards steering a bit to the right while decelerating. This is achieved by balancing the cost of the shared-plan according to the likelihood of the beliefs.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Remark 4", "weight": 1.0} -->
+
+It should be pointed out that, in the human-driven vehicle's lane-keeping policy, we still generate a contingent plan for the other possible intent after the branching point, allowing the ego-vehicle to smoothly steer to the right while decelerating in case the human-driven decides to execute the lane-change policy.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "VI-A Experimental Setup", "weight": 1.0} -->
+
+We evaluate our approach in two safety-critical simulated scenarios inspired by autonomous driving interactions. The illustrated scenarios are included in the CommonRoad benchmark suite for reproducibility. The first scenario highlights the reactive behavior that the ego-vehicle's plan induces on an obstacle-vehicle in an overtaking scenario. Four different baselines are introduced to compare our proposed contingency planning.\Baseline 1: Multi-policy planning, this baseline uses a branch-MPC whose objective is to minimize the expected cost across all branches within a trajectory tree.\Baseline 2: Robust baseline that optimizes a single trajectory along the planning horizon that is robust with respect to all predicted modes regardless of their probabilities.\Baseline 3: Maximum-likelihood estimate, that only considers the most probable mode given by the prediction model while ignoring the rest.\Baseline 4: Similar to, we use the mode probabilities, provided by the prediction model, directly in the contingency planning cost function instead of the beliefs obtained from the belief updater. This baseline is used to analyze the effect of the Bayesian belief updater on the contingency planner's performance.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "VI-A Experimental Setup", "weight": 1.0} -->
+
+In contrast to the branch-MPC approach which encounters scalability challenges when addressing multiple obstacle vehicles, primarily due to its exponential complexity requiring a pruning protocol, our proposed approach exhibits seamless adaptability to multi-vehicle scenarios. This is illustrated in the T-junction, and intersection scenarios, where the ego-vehicle interacts with multiple vehicles whose intents are not known to the ego-vehicle a priori^11^1A video of the simulated experiments accompanies this paper.. The computer running the simulations is equipped with an Intel^®^ Core^TM^ i7 CPU@2.6GHz.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "VI-B Scenario 1. Overtaking in Highway Driving", "weight": 1.0} -->
+
+In the first scenario, an autonomous vehicle seeks to initiate a lane change maneuver, by overtaking the obstacle vehicle in the designated lane, while grappling with its level of uncertainty.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "VI-B1 Obstacle-vehicle Model", "weight": 1.0} -->
+
+As a benchmark, we compare our approach to the branch-MPC introduced. For this purpose, the same prediction model is leveraged in which it is assumed that the obstacle vehicle has three different policies that it can execute $\Lambda = {\{\text{maintain speed},\text{slow down},\text{lane change}\}}$ where the direction of the lane change is towards the left lane. The output of the prediction model is represented as a scenario tree, as depicted in Fig. 6, in which it is assumed that the obstacle-vehicle can change its policy the next time step or after 8 steps along the horizon. In the meantime, the obstacle vehicle maintains its policy. The obstacle vehicle trajectories are constructed by forward propagating its dynamics with respect to the selected policy where the vehicle dynamics are modeled using the kinematic bicycle model. The probability of executing each policy is calculated by introducing a collision avoidance measure, $\xi{({{\tau,\lambda_{i}} \in \Lambda})}$, that determines the collision probability that the obstacle vehicle has, under each policy, with respect to the ego-vehicle's planned trajectory.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "VI-B1 Obstacle-vehicle Model", "weight": 1.0} -->
+
+The policy $\lambda_{i}$ with the least collision probability will have a higher probability of being executed by the obstacle vehicle where each probability is defined by a softmax function as described. It is important to emphasize that although the policy of the obstacle vehicle is influenced by the planned trajectory of the ego-vehicle, the responsibility of preventing collisions rests solely upon the ego-vehicle.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "VI-B1 Obstacle-vehicle Model", "weight": 1.0} -->
+
+Contingent w/o belief updater TABLE I: Statistical results over 30 experiments. The results are reported as “average (standard deviation).”
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "VI-B2 Environment Setup", "weight": 1.0} -->
+
+To guarantee a fair comparison, for all approaches, we set the maximum speed, and maximum allowed acceleration to the same value which are 20 m$/$s, 4 $\text{m}/\text{s}^{2}$ respectively. The upper bound of the induced risk is assigned to $\delta = {5\%}$, for the baselines and the proposed approach, which was found to provide a good balance between safety and efficiency. A horizon of $N = 16$ steps is defined, with a discretization step of 0.2 s, resulting in a time horizon of 3.2 s, and a branching time $t_{b} = 1.2$ s is defined.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "VI-B3 Qualitative Results", "weight": 1.0} -->
+
+Fig. 8 shows the evolution of the ego-vehicle's belief over the obstacle-vehicle policies over time. At the beginning, the ego-vehicle reveals its lane-change intention by swerving into the obstacle's vehicle lane. Due to the reactive behavior of the obstacle-vehicle, the probability of it executing a lane-change in the ego-vehicle's lane drops. However, the ego-vehicle could not complete the lane change since no valid trajectory is obtained that does not violate the safety constraints, and thus returns to its original lane. Since the lane-change policy of the obstacle-vehicle, $b_{3}$, becomes relatively low, the ego-vehicle then initiates another attempt to overtake the obstacle vehicle which probes it to decelerate allowing the ego-vehicle to complete the lane change. To visualize how the obstacle-vehicle's policy changes with the timesteps, Fig. 7 shows the evolution of the obstacle-vehicle's velocity with the timesteps. As depicted, the ego-vehicle exhibits maintain speed policy till 2.7s. It then switches to slow down policy from 2.7s to 3.2s.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "VI-B3 Qualitative Results", "weight": 1.0} -->
+
+This corresponds to the moment at which the ego-vehicle initiates its lane-change maneuver. It then switches back to the maintain speed policy.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "VI-B4 Quantitative Results", "weight": 1.0} -->
+
+In each scenario, the initial state of the ego-vehicle remains fixed, while the obstacle vehicle's initial state is systematically altered across 30 distinct positions. These positions are selected from a uniform grid surrounding the nominal starting conditions. As efficiency metrics, average speed, and duration to complete the overtaking maneuver are calculated. Moreover, the average minimum distance between the ego-vehicle and the obstacle vehicle is recorded as a measure of conservatism. The quantitative results are summarized in Tab. I where the non-contingent robust baseline refers to the case in which a single plan is optimized along the entire horizon that accounts for all obstacle-vehicle policies. As shown in Tab. I, our approach can complete the overtake maneuver in less duration and with a higher average speed, while providing the same safety guarantees as the branch-MPC. This could be attributed to the fact that although the branch-MPC plans a distinct trajectory for each branch in the scenario, the optimization problem minimizes the expectation over all branches. This causes the ego-vehicle to overreact to branches with low probabilities resulting in a more conservative plan. The non-contingent robust baseline, on the other hand, fails to complete the maneuver.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "VI-B4 Quantitative Results", "weight": 1.0} -->
+
+Since a single trajectory is optimized that avoids all obstacle predictions, it could not find a safe trajectory to execute the lane change. As expected, the MLE baseline is the least-conservative approach, among the ones in comparison, since it only considers the most probable mode. This, however, results in collisions in some of the scenarios due to its over-confidence in relying solely on the highest probable mode of the prediction model. Our approach mitigates the limitation of the MLE method by inferring a posterior distribution over the obstacle-vehicle's intent allowing the ego-vehicle to account for uncertainty and generate safer yet efficient plans. Finally, the baseline that uses the same contingency planner as ours but lacks a belief updater, can complete the lane change maneuver safely in all experiments. Nonetheless, the absence of a belief updater prolongs the time it takes for the predictive model to assign a diminished probability to the obstacle vehicle's lane change maneuver. Consequently, this leads to a more conservative planning approach compared to the contingency planner equipped with a belief updater. It can also be seen that all approaches respect the maximum risk threshold, $\delta = 0.05$, except the non-contingent MLE approach.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Remark 5", "weight": 1.0} -->
+
+It is worth mentioning that, for the robust baseline, the belief updater is also utilized to weigh the evaluated collision probability of the planned trajectory with each possible mode, which, in turn, affects the calculated risk. Thus, the baseline re-plans every cycle with the newly observed obstacles' states as well.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "VI-C Scenario 2. Urban T-junction", "weight": 1.0} -->
+
+In this scenario, the ego vehicle is approaching a T-junction, with no traffic rules, in which its mission is to follow its designated lane while being uncertain about the intentions of the other vehicles as shown in Fig. 9. Here, we consider the case of a multi-vehicle traffic scenario in which two obstacle vehicles approach the T-junction where $\Lambda_{1} = {\{\text{lane keep},\text{left turn}\}}$, and $\Lambda_{2} = {\{\text{left turn},\text{yield}\}}$. In this case, it is not sufficient to consider the belief of a single agent's intention as we did in the previous scenario, however, instead, we need to get a belief about how the traffic scene will evolve by considering all permutations the traffic participants can have as stated.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "VI-C1 Environment Setup", "weight": 1.0} -->
+
+The states of both obstacles are randomly initialized and their corresponding policies are randomly assigned from the set of potential policies. The initial velocities of the obstacles are selected in such a way that they arrive at the intersection before the ego-vehicle, forcing the ego-vehicle to react and avoid collisions actively.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "VI-C1 Environment Setup", "weight": 1.0} -->
+
+In this scenario, a horizon of $N = 25$ steps is defined, with a discretization step of 0.2 s, resulting in a time horizon of 5.0 s, and a branching time $t_{b} = 2.4$ s is defined. As a benchmark comparison, we evaluated the same task using a robust planner that optimizes a single plan that considers all the modes that the other agents could have, and a greedy baseline that only considers the most probable predicted mode of each obstacle. All optimization parameters for both methods are set to be identical to guarantee a fair comparison. At the start of the simulation, all permutations, $\theta_{i} \in \Theta$, are initialized with equal likelihoods, $\theta_{i} = 0.25$. The evolution of the belief over both obstacle modes is illustrated in Fig. 10. In Fig. 10, we present the dynamic evolution of the ego-vehicle's belief regarding various intentions of surrounding obstacles over time.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "VI-C1 Environment Setup", "weight": 1.0} -->
+
+Specifically, Fig. 10(a) illustrates this evolution for a leftward-bound vehicle encountering a T-junction, where the obstacle vehicle faces the choice between continuing straight or executing a left turn. Similarly, Fig. 10(b) portrays the belief dynamics for an upward-bound vehicle confronted with the options of turning left or yielding to the ego-vehicle. In Fig. 10(a), we observe the ego-vehicle's initial struggle with uncertainty regarding the leftward vehicle's intentions, reflected in an equal belief distribution (${b{(\lambda_{1})}} = {b{(\lambda_{2})}} = 0.5$) as its state aligns with the mean of both distributions. However, as the obstacle vehicle's state gradually deviates from this equilibrium, the belief over the left-turn maneuver diminishes, leading to a corresponding increase in belief regarding the alternative mode ($b{(\lambda_{1})}$). This nuanced adjustment allows the ego-vehicle to attenuate its emphasis on the left-turn possibility, thereby facilitating an accelerated trajectory within the T-junction.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "VI-C1 Environment Setup", "weight": 1.0} -->
+
+Analogous dynamics are observed for the second obstacle vehicle, as depicted in Fig. 10(b). Subsequently, the updated beliefs per mode, $\lambda \in \Lambda$, are utilized to update the probabilities over the different permutations, $\theta \in \Theta$, the traffic scene can evolve to as shown in Fig. 11. As illustrated in Fig. 11, the evolution of permutations depicts a gradual decrease in the belief regarding $\theta_{2}$ and $\theta_{3}$ over successive iterations, ultimately diminishing after approximately 58 time steps where their influence on the ego-vehicle's plan is disregarded. Furthermore, by the 76th time-step, the ego-vehicle attains a high level of certainty that $\theta_{1}$ is the accurate hypothesis adopted by the obstacles. As a result, only this prediction mode significantly impacts the planner's decision-making process.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "VI-C1 Environment Setup", "weight": 1.0} -->
+
+Contingent w/o belief updater TABLE II: Statistical results over 100 experiments for a T-junction scenario. The comparison is done with respect to the traveled distance by the ego-vehicle, ego-vehicle velocity, minimum distance to the obstacles, and the maximum deployed acceleration. The results are reported as “average (standard deviation)”. The branching time is set to tb = 2.4 s.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "VI-C2 Prediction model", "weight": 1.0} -->
+
+In this scenario, we use a synthesized prediction model that incorporates the multi-modality in the obstacle-vehicle's intentions. Specifically, our multi-modal prediction model works as follows: By identifying target lanes in the T-junction, we extrapolate the intended trajectories of surrounding vehicles.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "VI-C2 Prediction model", "weight": 1.0} -->
+
+By employing a motion planner for each vehicle, we generate ground truth trajectories towards these lanes, resulting in multi-modal trajectories per vehicle.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "VI-C2 Prediction model", "weight": 1.0} -->
+
+Our multi-modal prediction strategy involves: Utilizing a uni-modal prediction model trained on extensive CommonRoad datasets to generate Gaussian trajectory distributions for each potential mode, corresponding to the trajectories from Step (ii).
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "VI-C2 Prediction model", "weight": 1.0} -->
+
+Amalgamating these distributions into a Gaussian Mixture Model (GMM), weighted by their likelihoods, inspired by prior works such as.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "VI-C2 Prediction model", "weight": 1.0} -->
+
+Mode weights, determining the likelihood of each trajectory mode, are computed based on collision avoidance metrics. These metrics, quantifying collision probabilities between obstacle vehicle trajectories and the ego-vehicle's planned trajectory, dynamically adjust mode weights using a softmax function inspired by works such as.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Remark 6", "weight": 1.0} -->
+
+We emphasize that our approach is agnostic to the prediction model employed. Any prediction model capable of providing Gaussian distributions over the predicted modes can be utilized.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "VI-C3 Quantitative Results", "weight": 1.0} -->
+
+The quantitative results are reported in Tab. II. The significant enhancement in the ego-vehicle's performance is attributed to its ability to delay the braking decision, thanks to multiple contingent plans, as long as it is capable of safely braking later when it gets more certainty about other obstacles' intents to react to any possible outcome. This, as expected, comes at the expense of stopping closer to the obstacle, and braking more aggressively in situations in which the ego-vehicle has to yield to the obstacles. Despite this delayed decision-making, the maximum risk encountered by the ego-vehicle, in the contingency planning case, is still significantly below the defined upper-bound in the chance constraints, as depicted in Fig. 12, showing that performance improvement is attained without compromising safety. As in the previous scenario, the MLE approach has the best performance in terms of average velocity and progress along the driving route. This is, however, achieved at the expense of resulting in collisions making it not safe to be deployed. Similar to the overtaking scenario, the contingency planning without a belief updater has a less efficient performance compared to our proposed approach showing that the belief updater improves the planner's performance without compromising safety.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "VI-C3 Quantitative Results", "weight": 1.0} -->
+
+Here it is worth pointing out that the proposed algorithm is implemented in Python to interface with CommonRoad. The average computational time over the experiments is 174.98 ms. Tab. III shows how the computational time $t_{c}$ scales with the number of agents. We emphasize that since the sampling-based approach is parallelizable, the computational time can be further improved by evaluating the constraints of the sampled trajectories through parallelizable computations.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "VI-C3 Quantitative Results", "weight": 1.0} -->
+
+So far, we considered a certain value that we assign to the branching time $t_{b}$. In the case of open-loop planning, as, the branching time is not an independent design parameter, and it has to be estimated correctly, otherwise, the ego-vehicle will branch to an over-confident contingent plan by $t_{b}$ which can result in a collision. In our proposed approach, however, thanks to planning in a closed-loop with a belief updater, the branching time does not need to be estimated exactly. However, low branching times may lead the ego-vehicle to inevitable states from which it could not recover in case of certain obstacles' permutations, due to the limited dynamics capabilities. Thus, restrictions still apply when it comes to assigning a branching time which we discuss in the following section.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "VI-C4 Effect of branching time on the plan", "weight": 1.0} -->
+
+In this section, an analysis of how the branching time affects contingency planning is conducted. For this purpose, we run experiments for all values of branching time $t_{b} \in {\lbrack{\Delta t},T\rbrack}$, where $\Delta t$ is the discretization step that we set to 0.2 s. For each branching time, we run 100 simulated experiments in which the obstacles' intents and their initial states are randomly initialized. We analyze the effect of the branching time on the relative average velocity the ego-vehicle exhibits with respect to the baseline, $t_{b} = T$. Moreover, the maximum risk among all experiments for each branching time is recorded. The results are reported in Fig. 12. As shown, for larger values of the branching time, the performance gap between both methods is small since most of the plan is constituted by the shared plan and thus the effect of the belief updater in the cost function is not pronounced. Indeed, when $t_{b} = T$, the disparity in performance disappears, as our proposed approach aligns with the baseline method under such conditions.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "VI-C4 Effect of branching time on the plan", "weight": 1.0} -->
+
+For earlier branching times, however, the performance gap becomes more pronounced since the future information gain beyond the branching time is well exploited in the cost function because of the additional degrees of freedom introduced by the contingent plans. By inspecting the maximum risk plot depicted in Fig. 12, it can be observed that the maximum risk, $\eta$, increases as the branching time becomes shorter. This can be attributed to the over-confidence in the planned trajectory after the branching time causing the ego-vehicle to take more risky maneuvers. For sufficiently short branching times, $t_{b} \leq 2.0$ s in this example, the ego-vehicle could not find a feasible trajectory that does not violate the maximum risk, $\delta = 0.05$, in the chance constraint, and subsequently, we execute the planned with the least risk that is dynamically feasible as we indicated earlier in Remark 3.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "VI-C4 Effect of branching time on the plan", "weight": 1.0} -->
+
+This concludes that the branching time in contingency planning is related to the maximum risk the ego-vehicle perceives. More analysis regarding the estimation of the branching time $t_{b}$ based on the ego-vehicle's dynamics capabilities is left for future work.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "VI-C5 Branching time estimation", "weight": 1.0} -->
+
+In this section, we examine the effect of updating the branching time online, based on the updated belief the ego-vehicle maintains over different prediction modes, compared to fixing the branching time $t_{b}$ to a certain value. To do so, three different baselines are considered.\Baseline 5: "Oracle" branching time. This estimator reconstructs the actual branching time by initially simulation the planning problem using a nominal branching time. Subsequently, it extracts the moment of certainty from the retrospective evolution of beliefs. It is important to note that the oracle relies on access to the true human intent and, as such, is not implementable in real-world scenarios. Nevertheless, we incorporate this variant to illustrate the potential performance attainable with the true branching time.\Baseline 6: Branching time heuristics adopted.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "VI-C5 Branching time estimation", "weight": 1.0} -->
+
+This heuristic considers the entropy of the belief that the ego-vehicle maintains over each hypothesis, $\theta \in \Theta$, as an indication of how the observed obstacles' states are distinct, To estimate the branching time, the predicted trajectories of each obstacle along each hypothesis from the previous time-step, ${\mathbf{δ}}_{\theta,{t - 1}}^{o}$ are considered as hypothetical observations that can be inferred from their prediction model to estimate the associate belief according to. Another operator, $B{({\mathbf{δ}}_{\theta,{t - 1}}^{o},\theta,k)}$, is introduced that takes as input the first $k$ steps from the hypothetical observation, ${\mathbf{δ}}_{\theta,{t - 1}}^{o}$, and returns the updated belief.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "VI-C5 Branching time estimation", "weight": 1.0} -->
+
+Accordingly, the branching time is estimated as | | $t_{b} = \max\limits_{\theta \in \Theta}$ | ${\min\limits_{k \in {\{ 2,\ldots,T\}}}\mspace{21mu}\omega}.k$ | | \(20\) | | | | ${\text{s.t.}\mspace{54mu}{\mathcal{H}{\lbrack{B{({\mathbf{δ}}_{\theta,{t - 1}}^{o},\theta,k)}}\rbrack}}} \leq \epsilon$ | | | where $\omega$ indicates the discretization step. This heuristic estimates the branching time as the first time at which all predicted beliefs reach a certain threshold $\epsilon$, assuming that the obstacles behave rationally with respect to their prediction models.\Baseline 7: Branching time heuristic adopted.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "VI-C5 Branching time estimation", "weight": 1.0} -->
+
+This heuristic chooses the branching time as the maximum time such that any two future scenarios starting at the current time only diverge by a maximum distance, | | $t_{b} = \max\limits_{k \in {2,\ldots,T}}$ | $\omega.k$ | | \(21\) | | | | ${{\text{s.t.}\quad{\mathcal{M}{(\theta,k)}}} \leq \epsilon},{{\forall\theta} \in \Theta}$ | | | where $\mathcal{M}$ represents the divergence measure.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "VI-C5 Branching time estimation", "weight": 1.0} -->
+
+This heuristic, however, entails at least double the computational time since the divergence measure is invoked on the ego-vehicle trajectories.\For all baselines, the branching time is updated at every time step and a Monte Carlo study is conducted to analyze the performance of updating the branching time at every time step compared to fixing the branching time to a certain value, $t_{b} = 2.4$, that we used in the evaluations in Sections VI-B and VI-C.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "VI-C5 Branching time estimation", "weight": 1.0} -->
+
+As shown in Tab. IV, the performance gap between fixing the branching time to a certain value, and using an oracle estimate is very small. This can be attributed to the fact that since the short-term plan cost is weighted by the belief the ego vehicle maintains over the long plans, the short-term plan tends to be biased toward the long-term plan with the highest belief.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "VI-D Scenario 3. Intersection", "weight": 1.0} -->
+
+In this scenario, the ego-vehicle is tasked with executing a left turn within an urban intersection, all while navigating interactions with multiple obstacle vehicles simultaneously. Each of these obstacle vehicles within the intersection has the option to either yield to the ego-vehicle, thereby allowing it to complete its left turn unimpeded, or to challenge the ego-vehicle and take priority, thereby compelling the ego-vehicle to yield. Similar to the T-junction scenario, we evaluate the efficacy of our proposed approach against established baselines. Quantitative results are presented in Tab V. For consistency, we utilize a horizon of $N = 25$ steps, with a discretization step of 0.2 s, resulting in a time horizon of 5.0 s. Additionally, a branching-time of ${tb} = 2.4$ s is defined. Here it should be noted that the prediction model in this scenario is similar to the one employed in the T-junction scenario.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "VI-D Scenario 3. Intersection", "weight": 1.0} -->
+
+Cont. w/o belief updater TABLE V: Statistical results over 100 experiments for the intersection scenario where CR refers to the collision rate.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "VI-D Scenario 3. Intersection", "weight": 1.0} -->
+
+The outcomes of this scenario mirror those of previous ones, demonstrating that our proposed approach enables the ego-vehicle to successfully execute the left-turn maneuver with enhanced efficiency compared to the robust baseline, where the ego-vehicle is required to yield while waiting for other vehicles to execute their maneuvers inside the intersection^33^3The reader can refer to the video supplement to observe the yielding behavior of the ego-vehicle using the robust baseline.. However, it's noteworthy that the MLE approach outperforms our method in terms of performance, albeit at the cost of a higher collision rate, as it only considers the most probable mode without accounting for potential deviations.
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+This paper introduced a novel contingency planning framework that integrates the ego-agent's beliefs regarding the potential multi-modal behaviors exhibited by surrounding agents. This belief is continuously updated based on inferred states of observed obstacles from a predictive model. The methodology involves decomposing the planning task into short-term and long-term plans, with each long-term plan being tailored to a specific obstacle policy. The resultant contingency plans contribute to the overall plan's cost by factoring in their costs along with the associated belief values derived from the belief updating process. The effectiveness of the proposed approach was evaluated in the context of two safety-critical driving scenarios. Through comprehensive closed-loop simulations, we compared our proposed planner against different baselines. We demonstrated that our approach achieves less conservative driving behavior compared to a state-of-the-art multi-policy algorithm while maintaining equivalent safety assurance. Our approach has also outperformed the traditional planner that optimizes over all possible modes provided by a prediction model. To analyze the effect of the Bayesian belief updater on contingency planning, we showed that the belief updater improves the planner's performance without compromising safety.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+The influence of branching time on the planner's performance was investigated, and the adaptability of the proposed approach to scenarios involving multiple vehicles was explored.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+\[Baselines Comparison\] To ensure a fair comparison between our proposed contingency planning approach and the branching-MPC approach proposed, the following measures are considered. Except for the branch-MPC, all planners employ the ego-motion sampler detailed in Section III-B in the Frenet frame with the same cost function and constraints to rank the generated samples. Nevertheless, although the branch-MPC utilizes a different planner, we modified the cost function such that it is aligned closely to the one used with the Frenet planner. The utilized cost function for the Frenet planner is given as, where $c_{v},c_{d}$ are the costs for velocity and reference tracking, whereas $c_{a},c_{\overset{˙}{\delta}}$ penalize the acceleration and steering angle rate respectively.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+On the other hand, for the branch-MPC, similar to the original paper, a unicycle model is adopted where the states are given by $x = {\lbrack X,Y,v,\psi\rbrack}^{T}$, and the inputs $u = {\lbrack a,\overset{˙}{\delta}\rbrack}$. The cost function for the branch-MPC is, accordingly, defined as where $Q = {\text{diag}{(0,w_{d},w_{v},0)}}$, and $R = {\text{diag}{(w_{a},w_{\overset{˙}{\delta}})}}$. In this way, we ensure that the cost functions used by the Frenet and branch-MPC planners are similar. Additionally, the same kinematic constraints are applied to all planners including the curvature constraints and the box constraints imposed on the velocity, acceleration, and jerk. Tab. VI summarizes the parameters utilized by the planners in the evaluations.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Speed cost weight Lat. deviation cost weight Acceleration cost weight Steering rate cost weight TABLE VI: List of parameters utilized by the planners for the overtaking scenario evaluations.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Branching Time Selection", "weight": 1.0} -->
+
+As mentioned in Section VI-C4, the branching time is a critical parameter that affects the contingency planning efficiency. To justify our branching time selection for the simulated scenarios in Section VI, we conducted an ablation study that measures the performance gap between different branching times and an oracle that has access to the true human intent. Fig. 14 illustrates the performance gap regarding the relative velocity for different branching times for both the overtake and T-junction scenarios. As shown, for both scenarios, for the branching times in the middle of the planning horizon, the performance gap compared to the oracle gets smaller. As the branching time gets smaller, a less conservative approach compared to the oracle can be achieved. This comes, however, at the expense of having higher risk as we discussed earlier in Section VI-C4. In contrast, with large branching times, the contingency planning becomes more conservative compared to the oracle. Based on the obtained empirical results, we can conclude that fixing the branching time to a certain value in the middle of the planning horizon can achieve close performance to the updating it based on an oracle in hindsight.

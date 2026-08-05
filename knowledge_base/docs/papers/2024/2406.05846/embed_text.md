@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2406.05846", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Trajectory optimization designs dynamical system trajectories by optimizing a performance measure subject to constraints, finding extensive applications in motion planning of robotic, aerospace, and manufacturing systems.

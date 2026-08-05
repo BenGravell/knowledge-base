@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1811.04551", "source": "ar5iv"} -->
+
 ## Introduction
 
 Planning is a natural and powerful approach to decision making problems with known dynamics, such as game playing and simulated robot control. To plan in unknown environments, the agent needs to learn the dynamics from experience. Learning dynamics models that are accurate enough for planning has been a long-standing challenge. Key difficulties include model inaccuracies, accumulating errors of multi-step predictions, failure to capture multiple possible futures, and overconfident predictions outside of the training distribution.

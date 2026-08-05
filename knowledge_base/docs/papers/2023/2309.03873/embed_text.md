@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.03873", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Machine learning methods are at an ever increasing pace being integrated into domains that have classically been within the purview of controls. There is a wide range of examples, including perception-based control, agile robotics, and autonomous driving and racing. As exciting as these developments may be, they have been most pronounced on the experimental and empirical sides. To deploy these systems safely, stably, and robustly into the real world, we argue that a principled and integrated theoretical understanding of a) fundamental limitations and b) statistical optimality is needed. Under the past few years, a host of new techniques have been introduced to our field. Unfortunately, existing results in this area are relatively inaccessible to a typical first or second year graduate student in control theory, as they require both sophisticated mathematical tools not typically included in a control theorist's training (e.g., high-dimensional statistics and learning theory).

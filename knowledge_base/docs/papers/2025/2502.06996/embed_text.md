@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2502.06996", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Reinforcement learning (RL) and model predictive control (MPC) are optimization-based frameworks for decision-making. Model-free RL represents a sample-based approach in which a control policy is improved through trial and error in an uncertain environment. On the other hand, MPC is a systems-based approach in which forecasts are used to select appropriate control actions. Both can be understood in the context of Markov decision processes (MDPs), but have enjoyed practical success in vastly different domains.

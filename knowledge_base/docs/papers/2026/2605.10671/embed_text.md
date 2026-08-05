@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.10671", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In the last decade, reinforcement learning (RL) has emerged as a principled framework for large-scale sequential decision making, with applications ranging from autonomous vehicles and robotics to large language models. Mathematically, RL problems are typically modeled as Markov decision processes (MDPs). The seminal work of showed that solving an MDP reduces to finding a fixed point of the Bellman equation. By leveraging key properties of the Bellman operator, most notably contraction and monotonicity, a range of principled algorithms have been developed, including value iteration (VI), policy iteration (PI), and their variants.

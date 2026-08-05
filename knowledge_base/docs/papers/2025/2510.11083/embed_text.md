@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.11083", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Ensuring safe and reliable planning remains the highest priority for autonomous driving systems in real-world deployment. However, exceptional challenges stem from complex interactions among traffic participants exhibiting multi-modal driving behaviors, with the difficulty compounding as the number of participants increases. While conventional rule-based approaches can effectively handle most driving scenarios through explicit human-defined constraints and numerical optimization, they are constrained by fundamental limitations, often demanding substantial human engineering efforts and exhibiting poor generalization capability in highly dynamic environments. In contrast, learning-based methods aim to directly learn expert strategies for handling highly interactive scenarios from real-world driving data. These methods have emerged as the dominant choice in both academia and industry, with the expectation that they can achieve reasonable planning through increased data volume and model parameters.

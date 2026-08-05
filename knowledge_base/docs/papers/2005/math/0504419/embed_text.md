@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "math/0504419", "source": "ar5iv"} -->
+
 ## Abstract
 
 We provide an analysis of the classic Kuramoto model of coupled nonlinear oscillators that goes beyond the existing results for all-to-all networks of identical oscillators. Our work is applicable to oscillator networks of arbitrary interconnection topology with uncertain natural frequencies. Using tools from spectral graph theory and control theory, we prove that for couplings above a critical value, the synchronized state is locally asymptotically stable, resulting in convergence of all phase differences to a constant value, both in the case of identical natural frequencies as well as uncertain ones. We further explain the behavior of the system as the number of oscillators grows to infinity.

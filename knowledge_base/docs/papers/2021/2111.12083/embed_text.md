@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2111.12083", "source": "ar5iv"} -->
+
 ## Introduction
 
 Simulation has emerged as an essential tool for advancing new algorithms in robot perception, learning, and evaluation. For safety-critical domains in particular, such as for autonomous vehicles, experience in simulation is often significantly faster and safer than direct operation in the physical world. Simulation affords the potential to rapidly synthesize novel data for training, including challenging edge cases difficult to capture in the real world. An agent's exposure to edge cases during training is critical to achieving robustness to out-of-distribution events. Furthermore, high-fidelity, in-simulation testing could improve an agent's performance when deployed into safety-critical, human-centric environments. Thus, simulation could enable the development of algorithms and models better equipped to handle the diverse challenges of the physical world, facilitating their deployment on embodied mobile agents.

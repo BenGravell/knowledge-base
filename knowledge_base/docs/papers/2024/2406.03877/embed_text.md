@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2406.03877", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Overview of Bench2Drive.

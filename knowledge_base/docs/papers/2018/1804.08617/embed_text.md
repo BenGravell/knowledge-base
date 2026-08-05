@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1804.08617", "source": "ar5iv"} -->
+
 ## Introduction
 
 The ability to solve complex control tasks with high-dimensional input and action spaces is a key milestone in developing real-world artificial intelligence. The use of reinforcement learning to solve these types of tasks has exploded following the work of the Deep Q Network (DQN) algorithm, capable of human-level performance on many Atari games. Similarly, ground breaking achievements have been made in classical games such as Go. However, these algorithms are restricted to problems with a finite number of discrete actions.

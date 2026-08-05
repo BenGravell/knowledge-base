@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.01072", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Path planning is a problem at the core of almost any autonomous system. Driverless cars, drones, autonomous aircraft, robot manipulators, and legged robots are just a few examples of systems that rely on a path-planning algorithm to navigate in their environment. Path-planning problems can be challenging on many fronts. The environment can be dynamic, i.e., change over time, or uncertain because of noisy sensor measurements. Computation might be subject to strict real-time requirements. Interactions between multiple robots without central coordination can lead to game-theoretic problems. In this paper we consider problems where a single smooth path needs to be found through an environment that is fully known and static, but potentially very large and complicated to navigate through. For example, this is the case for a drone inspecting an industrial plant or a mobile robot transporting packages in a large warehouse.

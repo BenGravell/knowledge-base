@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2312.00054", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Inverse Reinforcement Learning (IRL) aims to recover reward functions from demonstrations of an expert policy, in contrast to standard reinforcement learning which aims to learn optimal policies for a given reward function. IRL has applications in numerous domains such as robotics, target-driven navigation tasks, game AI, and medical decision-making. The learned reward functions in these applications are typically used for replicating the expert behaviors in similar or varying downstream environments. Broadly, the problem of learning reward functions from data is of rising importance beyond the scope of IRL, and is used in procedures such as Reinforcement Learning from Human Feedback (RLHF) for aligning large language models.

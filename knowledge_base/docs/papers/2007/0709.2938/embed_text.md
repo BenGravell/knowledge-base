@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "0709.2938", "source": "ar5iv"} -->
+
 ## Introduction
 
 A wide variety of complex systems can be represented as networks. For example, the World Wide Web is a network of webpages interconnected by hyperlinks; social networks are represented by people as nodes and their relationships by edges; and biological networks are usually represented by bio-chemical molecules as nodes and the reactions between them by edges. Most of the research in the recent past focused on understanding the evolution and organization of such networks and the effect of network topology on the dynamics and behaviors of the system Albert and Barabási; Albert et al.; Barabási and Albert; Newman. Finding community structures in networks is another step towards understanding the complex systems they represent.

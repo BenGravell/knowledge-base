@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2006.00317", "source": "ar5iv"} -->
+
 ## Introduction
 
 TEMPORAL logics allow to reason about temporal properties of systems and have traditionally been used in formal verification and model checking. More recently, temporal logics have also been used to impose highly expressive mission specifications on complex autonomous systems. For systems under linear temporal logic (LTL) and metric interval temporal logic (MITL) specifications, motion planning and control synthesis algorithms have been proposed .

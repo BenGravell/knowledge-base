@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1909.04947", "source": "ar5iv"} -->
+
 ## Introduction
 
 Multi-contact optimal control promises to generate whole-body motions and control policies that allow legged robots to robustly react to unexpected events in real-time. It has several advantages compared with state-of-the-art frameworks (e.g. ) in which a whole-body controller (e.g. ) compliantly tracks an optimized Centroidal dynamics trajectory (e.g. ) with optionally an optimized contact plan (e.g. ). For instance, they cannot properly handle the robot orientation, particularly during flight phases due to the nonholonomic effect on the dynamics, and to regulate the angular momentum to zero leads to tracking errors even in walking motions. Furthermore, it is well-known that instantaneous time-invariant control (i.e. instantaneous whole-body control) cannot properly track nonholonomic systems. Indeed, in our previous work, we have shown that whole-body planning produces more efficient motions, with lower forces and impacts.

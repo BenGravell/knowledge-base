@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1706.06643", "source": "arxiv-pdf"} -->
+
 ## Notation and Background
 
 We assume that the reader is familiar with the seminal paper by Sutton et al., which shows how the policy gradient theorem can be extended to include function approximation and action-independent baselines. Our paper is intended to be read immediately after reviewing Section 3 of the paper by Sutton et al.. Although here we adopt the episodic setting, the extension of this work to the average reward setting is straightforward. We use the notational standard MDPNv1 and the following additional definitions, where expectations conditioned on θ denote that actions, A t, are sampled from π (S t, ·, θ) unless otherwise specified: State value function: State-action value function: Discounted state distribution: Compatible function approximator:

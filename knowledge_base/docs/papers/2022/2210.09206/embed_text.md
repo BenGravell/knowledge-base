@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2210.09206", "source": "ar5iv"} -->
+
 ## Introduction
 
 Optimization-based control methods such as model predictive control (MPC) have been among the most versatile techniques in feedback control design for more than 40 years. Such techniques have been successfully applied to control of dynamic systems in a variety of domains such as autonomous vehicles, chemical plants, humanoid robots, and many others. Nonetheless, MPC's versatility comes at a cost. Having to solve optimization problems online makes it difficult to deploy MPC on high-dimensional systems that have strict latency requirements and limited computational or energy resources. To mitigate this issue, considerable effort went into developing faster, tailored optimization methods for MPC.

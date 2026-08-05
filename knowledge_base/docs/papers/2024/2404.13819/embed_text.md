@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2404.13819", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Humans primarily use their hands to interact with their surroundings, making the ability to segment and track hand-held objects crucial for understanding and interpreting human interactions with the environment. From monitoring a factory worker navigating through assembly tasks to evaluating the skill set of a resident doctor performing intricate medical operations, the dynamic interplay between hands and objects forms the core of many activities. Segmenting hand-held objects allows computer vision systems to identify the focal points of action, while tracking these objects over time provides a coherent understanding of sequential and complex actions. This combined capability is particularly crucial in scenarios involving multiple similar objects, as it requires the system to differentiate and monitor the path of each item to deliver contextually rich, actionable insights.

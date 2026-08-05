@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1708.09251", "source": "ar5iv"} -->
+
 ## Introduction
 
 Searching for high-quality solutions within a typically high-dimensional search space is an important part of engineering and research. Intensive work has been done in recent decades to produce automated procedures to generate these solutions, which are commonly called "Optimization Algorithms". The applications of such algorithms are numerous and range from modeling purposes to product design. More recently, optimization algorithms have become the core of most machine learning techniques. For example, they are used to adjust the weights of neural networks in order to minimize the classification error, or to allow robots to learn new behaviors that maximize their velocity or accuracy.

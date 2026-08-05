@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2103.10625", "source": "ar5iv"} -->
+
 ## Introduction
 
 In a typical feedback control framework, the control input $u{(t)}$ is determined based on the current state $x{(t)}$, or more generally the initial state $x{}$ and the sequence of the past disturbances^11^1The concept of disturbance in this work can be quite general and it essentially captures any external input for which we might have predictions of future values. For instance, the reference signal in a tracking problem can be treated as "disturbance" if error dynamics are used to include the reference signal in system equations (see examples in ). $d{}$, $d{}$,..., $d{({t - 1})}$. However, in this work, we allow $u{(t)}$ to be determined not only by $x{}$, $d{}$,..., $d{({t - 1})}$, but also by future disturbances $d{(t)}$,..., $d{({t + p})}$, called the preview information, for some preview time $p$. This is a fair assumption in many modern control systems, enabled by the advances in sensing technologies. Examples of applying preview information in real-world systems include autonomous vehicles, power systems and robotics.

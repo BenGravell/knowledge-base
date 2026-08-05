@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2602.00992", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Robotic motion planning is often posed as a search for collision-free paths through a configuration space. For many robotic systems, the configuration space is a non-Euclidean manifold. For example, rigid-body poses live on Lie groups such as $\mathrm{SE}$ and $\mathrm{SE}$, while articulated manipulators live on products of circles (tori). More generally, closed-chain or task constraints induce implicit manifolds embedded in a higher-dimensional ambient space. In these settings, planning feasibility and optimality have clear geometric interpretations: feasibility is governed by the intrinsic manifold structure and constraints, while optimality depends on how we measure the cost of motion along the manifold.

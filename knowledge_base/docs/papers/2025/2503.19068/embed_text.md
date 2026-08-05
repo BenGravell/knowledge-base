@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.19068", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In predictive modeling, quantifying uncertainty is often as crucial as making accurate predictions. Traditional point estimates provide limited insight into predictive accuracy, whereas prediction sets offer a more robust alternative by identifying regions that contain the true outcome with high probability. Conformal prediction Vovk et al.; Shafer and Vovk; Angelopoulos et al. provides a model-agnostic framework for constructing such sets with finite-sample validity, ensuring that the true response is captured at least $1-\alpha$ fraction of the time without requiring strong distributional assumptions.

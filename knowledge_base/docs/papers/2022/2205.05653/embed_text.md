@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2205.05653", "source": "ar5iv"} -->
+
 ### Introduction
 
 In this paper, we revisit the smooth and strongly-convex-strongly-concave minimax optimization problem of the form where ${F{(x,y)}}:{{{\mathbb{R}}^{d_{x}} \times {\mathbb{R}}^{d_{y}}}\rightarrow{\mathbb{R}}}$ is a continuously differentiable function, ${r{(x)}}:{{\mathbb{R}}^{d_{x}}\rightarrow{{\mathbb{R}} \cup {\{{+ \infty}\}}}}$ and ${g{(y)}}:{{\mathbb{R}}^{d_{y}}\rightarrow{{\mathbb{R}} \cup {\{{+ \infty}\}}}}$ are proper lower semi-continuous convex functions. Problem has been actively studied in economics, game theory, statistics and computer science. Recently, many applications of this problem appeared in machine learning, including adversarial training, prediction and regression problems, reinforcement learning and generative adversarial networks Arjovsky et al. Goodfellow et al.,.

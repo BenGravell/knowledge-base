@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.14643", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Reactive contact-rich (loco-)manipulation in high-dimensional state and action spaces poses significant challenges for real-time control. Sampling-based Model Predictive Control (SPC) offers a principled framework to address these challenges by solving trajectory optimization problems online with a model in the loop, enabling adaptive behavior and constraint satisfaction. However, the computational cost of forward simulation, combined with the challenge of effectively exploring the search space in high-dimensional, contact-rich environments, limits the applicability of real-time optimization to more complex behaviors and higher-frequency control.

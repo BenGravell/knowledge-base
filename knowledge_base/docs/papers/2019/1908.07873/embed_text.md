@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1908.07873", "source": "ar5iv"} -->
+
 ## Introduction
 
 Mobile phones, wearable devices, and autonomous vehicles are just a few of the modern distributed networks generating a wealth of data each day. Due to the growing computational power of these devices---coupled with concerns over transmitting private information---it is increasingly attractive to store data *locally* and push network computation to the edge.

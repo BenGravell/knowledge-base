@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2505.14566", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 RL provides a powerful framework for sequential decision-making tasks, enabling agents to learn optimal behaviors through interaction with their environment. Policy optimization, a core component of this framework, determines the optimal mapping from states to actions that maximizes an agent's cumulative returns. Policy gradient methods excel in continuous control tasks by directly optimizing policies through gradient-based updates. However, developing effective control policies for environments with complex and non-linear dynamics remains a challenge. This challenge, combined with non-convex optimization landscapes, leads to high-variance gradient estimates and unstable updates. The optimization process often diverges or oscillates, impeding convergence to optimal policies.

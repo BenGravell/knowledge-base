@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2011.06719", "source": "ar5iv"} -->
+
 ## Introduction
 
 Although complex end effectors are inherently suited to fine manipulation due to fewer design constraints, simple tools are easier to study and deploy, and they are ubiquitous in industrial manipulators. With a *human-in-the-loop*, simple end effectors can also perform general fine manipulation. We choose chopsticks, a simple tool that is very familiar to humans, as an example to learn and automate fine manipulation strategies from human demonstrations. To that end, we have built an automated chopstick-equipped robot comprised of a 6DOF robot arm outfitted with a 1DOF actuated chopstick (Fig. 1). Our goal is to demonstrate autonomous superhuman chopstick dexterity with our robot.

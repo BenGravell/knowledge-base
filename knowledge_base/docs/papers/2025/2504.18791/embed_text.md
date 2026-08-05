@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.18791", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 We consider the linear time-invariant system (LS) with time t ∈ N, x t ∈ R n x as hidden states, u t ∈ R n u as control inputs, y t ∈ R n y as outputs, ζ t ∈ R n y as output noise, and system parameters (A ∈ R n x × n x, B ∈ R n x × n u, C ∈ R n y × n x, D ∈ R n y × n u) described as Linear System IDentification (SysID) aims to estimate these parameters (A, B, C, D) using finite rollouts with finite length trajectories, { (u i t, y i t) 2 L +2 t =1 } N i =1. However, the true system order or state dimension n x is typically unknown. It is of practical interest to find systems that are minimal order as such models provide faster response times, simplified control designs, and improved robustness, while mitigating overfitting during the learning phase. This task can be formulated as a dimension minimization problem under an L 2 norm constraint (see Program (P0)). However, solving this problem is known to be NP-HARD.

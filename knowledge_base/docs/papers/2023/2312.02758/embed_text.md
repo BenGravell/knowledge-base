@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2312.02758", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Classical model-based control enables simple but powerful control design by considering typically parametric mathematical abstractions of system behaviors, known as models. However, this comes at the cost of additional modeling and identification effort, which constitutes the majority of the budget in model-based control design, in terms of both time and cost. In this regard, the concept of data-driven control provides an appealing alternative that designs the controller directly from data without parametric identification.

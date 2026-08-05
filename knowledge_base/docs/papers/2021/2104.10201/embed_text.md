@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2104.10201", "source": "ar5iv"} -->
+
 ## Introduction
 
 In black-box optimization we aim to solve the problem ${\min_{x \in \Omega}f}{(x)}$, where $f$ is a computationally expensive black-box function and the domain $\Omega$ is commonly a hyper-rectangle. The fact that evaluations are computationally expensive typically limits the number of evaluations of $f$ to a few hundred. In the black-box setting, no additional information is known about $f$ and we observe no first- or second-order information when evaluating $f$. This is commonly referred to as derivative-free optimization.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1807.11058", "source": "ar5iv"} -->
+
 ## Introduction
 
 Technological advances in recent years has made it increasingly possible to deploy a large fleet of agents to cooperatively map and monitor an environment, deliver goods, or manipulate objects. In these applications, the ability to bring the agents to a desired geometric shape is a fundamental building block upon which more sophisticated maneuvering and navigation policies are constructed. By assigning local control laws to individual agents, distributed formation control strategies ensure that a desired geometric shape emerge from the collective behavior of agents. Compared to the centralized methods, distributed strategies have better scalability, naturally parallelized computation, resilience to communication loss and hardware failure, and robustness to uncertainty and lack of global measurements.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2602.00475", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Difficulty of the planning problem. Subfigure (a) shows the distance to the goal in L2 norm throughout a successful trajectory. This illustrates the difficulty of planning optimization away from a minimizer: successful trajectories often have to first move away from the goal to successfully plan towards it later, resulting in greedy strategies failing. Subfigures (b)-(c) depict the loss landscape at convergence of standard rollout-based planners vs. our planner. The example given is in the Push-T environment at horizon length 50. The axes plotted over are with respect to two random, orthogonal, unit-norm directions in the full action space ℝ50 × 2. Our planner loss is taken as in Eq., and for GD the loss is taken as in Eq..

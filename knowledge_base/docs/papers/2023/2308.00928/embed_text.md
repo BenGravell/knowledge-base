@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2308.00928", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: Multiple Comparison Matrix for Quant vs TSF, STSF, rSTSF, CIF, and DrCIF, for a subset of 112 datasets from the UCR archive.

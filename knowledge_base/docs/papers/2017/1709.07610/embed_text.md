@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1709.07610", "source": "ar5iv"} -->
+
 ## Introduction
 
 Sampling-Based algorithms such as Probabilistic Roadmaps (PRM), Rapidly exploring Random Trees (RRT) and their asymptotically optimal variants (PRM^∗^, RRT^∗^) are widely used in motion planning. These algorithms build a random graph of motions between points on the robot's configuration manifold.

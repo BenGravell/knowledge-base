@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2205.05119", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 The intersection of data-driven learning and model-based control continues to provide significant research challenges despite its long history and vast research literature. Recent work has focused on non-asymptotic analysis of sample complexity, regret, and robustness, in contrast to a classical focus on asymptotics and stability. Approaches for data-driven control can be broadly divided into two categories: 'model-based' (or 'indirect'), in which a model for the system dynamics is first learned from data and then used to design a control policy, and 'model-free' (or 'direct'), in which a control policy is learned directly from data without explicitly learning a model for the system dynamics. Model-based approaches can be further divided into two categories: certainty equivalent, in which uncertainty in the learned model is ignored during control design, and robust, in which uncertainty in the learned model is explicitly accounted for in control design.

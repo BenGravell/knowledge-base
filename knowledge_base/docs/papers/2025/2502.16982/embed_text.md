@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2502.16982", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The rapid advancement of large language models (LLMs) \[undefab, undefh, undefj, undefaj\] has significantly pushed forward the progress in artificial general intelligence. However, training capable LLMs remains a computationally intensive and resource-demanding process due to scaling laws \[undefq, undefm\]. Optimizers play a crucial role in efficiently and effectively training of LLMs, with Adam \[undefr\] and its variant AdamW \[undefz\] being the standard choice for most large-scale training.

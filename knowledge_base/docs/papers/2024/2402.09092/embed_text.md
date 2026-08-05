@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2402.09092", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Neural networks - and deep learning in particular - have exhibited remarkable success in addressing diverse challenges across various fields. They stand as state-of-the-art approaches, showcasing their prowess in solving complex and intricate problems. At the heart of these networks, activation functions (AFs) play an important role by introducing nonlinearity to neural network layers. In the absence of nonlinear AFs, typical neural networks would only model a weighted sum of inputs, limiting their capacity to capture intricate relationships within the data.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1603.05953", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 In\xspacelarge\xspace-scale\xspacemachine\xspacelearning\xspace, the\xspacenumber\xspaceof\xspacedata\xspaceexamples\xspaceis\xspaceusually\xspacevery\xspacelarge\xspace. To\xspacesearch\xspacefor\xspacethe\xspaceoptimal\xspacesolution\xspace, one\xspaceoften\xspaceuses\xspacestochastic\xspacegradient\xspacemethods\xspace which\xspaceonly\xspacerequire\xspaceone\xspace(or\xspacea\xspacesmall\xspacebatch\xspaceof)\xspacerandom\xspaceexample(s)\xspaceper\xspaceiteration\xspacein\xspaceorder\xspaceto\xspaceform\xspacean\xspaceestimator\xspace of\xspacethe\xspacefull\xspacegradient\xspace.

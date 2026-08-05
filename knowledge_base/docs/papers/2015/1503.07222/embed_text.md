@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1503.07222", "source": "ar5iv"} -->
+
 ## Introduction
 
 In robust control problems, we seek absolute performance guarantees about a system in the presence of bounded uncertainty. Examples of such results include the small gain theorem & passivity theory, dissipativity theory, and integral quadratic constraints (IQCs).

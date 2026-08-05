@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1305.6644", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 There are several curves proposed for Computer Aided Design either [Farin 2002; Baran et al. 2010; De Boor 1978], for trajectories planning of robots and vehicles and for geometric roads layout [De Cecco et al. 2007; Scheuer and Fraichard 1997].

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.01860", "source": "ar5iv"} -->
+
 ## Introduction
 
 Robots often operate in environments that are partially observable. This paper focuses on cases where partial observability is multimodal, and concerns essential and critical aspects of the environment, such that it has a profound impact on the actions that the robot should take. For example, when a robot must stack colored blocks in a given color order (see Fig. 1), and does not know initially each block's color, the optimal robot actions are strongly impacted each time the robot discovers the color of a block. Similarly, when a car drives along a street near pedestrians (see Fig. 2) whose intentions to cross or not are only partially observable, the car's safe and appropriate behavior must adapt as each pedestrian's intent becomes clear.

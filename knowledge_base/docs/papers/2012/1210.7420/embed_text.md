@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1210.7420", "source": "ar5iv"} -->
+
 ## Introduction
 
 Polynomial and trigonometric differential equations appear ubiquitously in a variety of application domains including robotics, economics, mathematical biology, and chemical engineering, among others. The equations of motion for most robotic systems for example can be described by the familiar *manipulator equations* which give rise to systems of differential equations that are a mixture of polynomial and trigonometric terms in the state variables. In mathematical biology and economics, polynomial differential equations such as the Lotka-Volterra model and its variants are used to model population dynamics and competition among entities in an economy. The dynamics of many chemical processes are also naturally modeled by polynomial differential equations. Aside from these specific examples, differential equations in numerous application domains are commonly *approximated* as polynomials.

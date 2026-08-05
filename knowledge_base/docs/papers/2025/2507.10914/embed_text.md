@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2507.10914", "source": "arxiv-html"} -->
+
 ## Introduction
 
 We study the problem of optimizing a parameterized non-linear robot control policy in an online setting. A deployed robot may face unpredictable changes in both environment and task, and must adapt to them immediately. Therefore, we consider a protocol where the dynamics, policy class, and cost functions are all time-varying and revealed online: the optimization algorithm has no knowledge of how they will vary in the future. The algorithm is evaluated on a single trajectory without episodes or state resets. As a case study, we focus on nonlinear trajectory tracking control for quadrotors.

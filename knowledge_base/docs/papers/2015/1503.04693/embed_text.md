@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1503.04693", "source": "ar5iv"} -->
+
 ## Introduction
 
 During the past decade, control scientists have developed various tools for the regulation of large-scale systems, with the notable examples of for the control of biological systems, for the regulation of brain and neural networks, for network protection against spreading processes, and for load management in smart grid. On the other hand, the enormous size of these systems and the need for cost-effective control make the identification of a small fraction of their nodes to steer them around the state space a central problem within the control community.

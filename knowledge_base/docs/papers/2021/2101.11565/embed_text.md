@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2101.11565", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Example of an SPP in GCS. The source set is on the left and the target set is on the right. The graph edges are arrows, and the shortest path is shown in dashed green. The dotted red lines connect the optimal positions of the vertices along the shortest path.

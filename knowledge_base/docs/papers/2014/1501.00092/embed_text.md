@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1501.00092", "source": "ar5iv"} -->
+
 ## Introduction
 
 Single image super-resolution (SR), which aims at recovering a high-resolution image from a single low-resolution image, is a classical problem in computer vision. This problem is inherently ill-posed since a multiplicity of solutions exist for any given low-resolution pixel. In other words, it is an underdetermined inverse problem, of which solution is not unique. Such a problem is typically mitigated by constraining the solution space by strong prior information. To learn the prior, recent state-of-the-art methods mostly adopt the example-based strategy. These methods either exploit internal similarities of the same image, or learn mapping functions from external low- and high-resolution exemplar pairs. The external example-based methods can be formulated for generic image super-resolution, or can be designed to suit domain specific tasks, *i.e.,* face hallucination, according to the training samples provided.

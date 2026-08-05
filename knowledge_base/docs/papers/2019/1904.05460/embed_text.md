@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1904.05460", "source": "ar5iv"} -->
+
 ## Introduction
 
 Since its introduction over 200 years ago by Legendre and Gauss, the method of least squares \[, \] has been one of the most widely employed computational techniques in many fields, including machine learning and statistics, signal processing, control, robotics, and finance. Its wide application primarily comes from the fact that it has a simple analytical solution, it is easy to understand, and very efficient and stable algorithms for computing its solution have been developed \[, \].

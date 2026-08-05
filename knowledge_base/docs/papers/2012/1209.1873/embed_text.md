@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1209.1873", "source": "ar5iv"} -->
+
 ## Introduction
 
 We consider the following generic optimization problem associated with regularized loss minimization of linear predictors: Let $x_{1},\ldots,x_{n}$ be vectors in ${\mathbb{R}}^{d}$, let $\phi_{1},\ldots,\phi_{n}$ be a sequence of scalar convex functions, and let $\lambda > 0$ be a regularization parameter. Our goal is to solve ${\min_{w \in {\mathbb{R}}^{d}}P}{(w)}$ where^11^1Throughout this paper, we only consider the $\ell_{2}$-norm.

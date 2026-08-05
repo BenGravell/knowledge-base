@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1905.09997", "source": "ar5iv"} -->
+
 ## Introduction
 
 Stochastic gradient descent (SGD) and its variants are the preferred optimization methods in modern machine learning. They only require the gradient for one training example (or a small "mini-batch" of examples) in each iteration and thus can be used with large datasets. These first-order methods have been particularly successful for training highly-expressive, over-parameterized models such as non-parametric regression and deep neural networks. However, the practical efficiency of stochastic gradient methods is adversely affected by two challenges: (i) their performance heavily relies on the choice of the step-size ("learning rate") and (ii) their slow convergence compared to methods that compute the full gradient (over all training examples) in each iteration.

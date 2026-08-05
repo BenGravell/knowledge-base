@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2306.09852", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Top: A block diagram of an actor-critic reinforcement learning architecture with a Multilayer Perceptron (MLP) Bottom: A block diagram of the proposed approach. We combine the strength of actor-critic RL and the robustness of MPC by placing a differentiable MPC as the last module of the actor policy. At deployment time, the commands for the environment are drawn from solving an MPC, which leverages the system’s dynamics and finds the optimal solution given the current state. We show that the proposed approach achieves better out-of-distribution behavior and better robustness to changes in the dynamics. We also show that the predictions of the differentiable MPC can be used to improve the learning of the value function and the sample efficiency.

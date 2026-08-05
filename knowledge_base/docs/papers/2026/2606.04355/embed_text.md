@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.04355", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Motion planning in partially observed and non-deterministic environments is a critical component of reliable and robust robot operation. Partially Observable Markov Decision Processes (pomdps) (SS1973; klc1998) are a natural way to formulate such problems. The key insight of the pomdp framework is to represent uncertainty on the effects of actions, perceptions and initial states as probability distributions, and then reason about the best strategy to perform with respect to distributions over the problem's state space, called *beliefs*, rather than the state space itself.

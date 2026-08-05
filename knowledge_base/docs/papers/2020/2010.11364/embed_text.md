@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2010.11364", "source": "ar5iv"} -->
+
 ## Introduction
 
 In this paper, we study the global convergence rates of the REINFORCE algorithm for episodic reinforcement learning. REINFORCE is a vanilla policy gradient method that computes a stochastic approximate gradient with a single trajectory or a fixed size mini-batch of trajectories with particular choice of gradient estimator, where we use 'vanilla' here to disambiguate the method from more exotic variants such as natural policy gradient methods. REINFORCE and its variants are among the most widely used policy gradient methods in practice due to their good empirical performance and implementation simplicity. Related methods include the actor-critic family and deterministic and trust-region based variants.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.15343", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Contrastive pre-training using weak supervision from image-text pairs found on the web is becoming the go-to method for obtaining generic computer vision backbones, slowly replacing pre-training on large labelled multi-class datasets. The high-level idea is to simultaneously learn an aligned representation space for images and texts using paired data. Seminal works CLIP and ALIGN established the viability of this approach at a large scale, and following their success, many large image-text datasets became available privately and publicly.

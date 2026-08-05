@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.03745", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Approximating integrals using a finite set of sample points is a central task in scientific computation, with applications ranging from numerical integration to uncertainty quantification and Bayesian inference to computer vision and machine learning tasks; (pmlr-v80-chen18f; paulin2022; Keller2013a mishra21; longo21). Problems that arise in these areas often involve computing expectations of the form $\mathbb{E}_{\rho}(f)$ of a function $f(\boldsymbol{x})$ in $\mathbb{R}^{d}$ with respect to some probability distribution $F$ with density function $\rho(\boldsymbol{x})$.

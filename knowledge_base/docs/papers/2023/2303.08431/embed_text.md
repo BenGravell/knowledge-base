@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.08431", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Reinforcement learning (RL) is one of the three classical machine learning paradigms, alongside supervised and unsupervised learning. RL is learning via trial and error, through interactions with an environment and possibly with other agents. In RL, an agent takes actions and receives reinforcement signals in terms of numerical rewards encoding the outcome of the chosen action. In order to maximize the accumulated reward over time, the agent learns to select actions based on past experiences (exploitation) and by making new choices (exploration). In recent years, we have witnessed successful development of RL systems in various applications, including robotics control, AlphaGo and Atari games, autonomous driving, and stock trading. Despite its practical success, theoretical understanding of RL is still limited and at its primitive stage.

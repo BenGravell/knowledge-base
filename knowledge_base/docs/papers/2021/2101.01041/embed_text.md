@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2101.01041", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent years have witnessed the rapid development of reinforcement learning (RL) methods in handling continuous control tasks. Central to the success of RL are policy optimization (PO) methods, including policy gradient (PG), actor-critic, and other variants. Progress reported in the literature has clearly shown an increasing interest in understanding theoretical properties of PO methods for relatively simple baseline problems such as various linear control problems. However, the theory of model-free PO methods on *risk-sensitive/robust* control remains underdeveloped in the literature. Since risk-sensitivity and robustness are important issues for designing safety-critical systems, it is natural to bring up the questions of whether and how model-free PO methods would converge for these continuous control tasks.

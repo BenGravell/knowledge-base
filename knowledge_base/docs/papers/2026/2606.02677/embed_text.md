@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.02677", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Motion planning in dynamic environments is a challenging problem in robotics. Recent developments in robotic platforms (e.g., autonomous vehicles) equipped with advanced sensing modalities have further accelerated the need for the development of motion planning methods for dynamic environments. Representative applications of motion planning include autonomous driving in urban traffic, multi-robot coordination in warehouses, socially aware navigation in public spaces, search and rescue operations in disaster zones, service robots in malls and hospitals, door-to-door product delivery, and human-robot collaboration in industrial environments. Fig. 1 shows scenarios with moving agents such as humans, vehicles, and robots with uncertain future behaviors. Therefore, a planner must continuously adapt and generate collision-free paths for the robot in real time to accommodate environmental changes, ensure safety, and maintain uninterrupted task progression.

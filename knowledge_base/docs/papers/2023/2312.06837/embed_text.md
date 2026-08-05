@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2312.06837", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Handling long-range dependencies efficiently remains a core problem in sequence prediction/modelling. Recurrent Neural Networks (RNN) \[, RHW^+^85, \] are a natural choice, but are notoriously hard to train; they often suffer from vanishing and exploding gradients \[, \] and despite techniques to mitigate the issue \[, CVMG^+^14, \], they are also hard to scale given the inherently sequential nature of their computation.

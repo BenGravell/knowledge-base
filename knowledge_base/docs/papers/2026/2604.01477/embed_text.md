@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.01477", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 RL and MPC are contrasting strategies for designing decision-making agents. MPC accounts for system dynamics and constraints to construct a notion of value to be optimized online in a receding-horizon fashion [rawlingsModelPredictiveControl2017]. Meanwhile, a core design philosophy driving (actor-critic) RL methods is value-based backup followed by policy extraction [lillicrap2016Continuouscontrol, haarnoja2018Softactorcritic]. There are pros and cons to both approaches, as discussed below. Nevertheless, RL and MPC offer complementary benefits, motivating hybrid frameworks that incorporate planning into a flexible learning pipeline [lawrence2025view, reiter2026synthesis].

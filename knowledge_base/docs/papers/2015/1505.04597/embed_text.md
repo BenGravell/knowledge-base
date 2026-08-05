@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1505.04597", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In the last two years, deep convolutional networks have outperformed the state of the art in many visual recognition tasks, e.g.. While convolutional networks have already existed for a long time, their success was limited due to the size of the available training sets and the size of the considered networks. The breakthrough by Krizhevsky et al. was due to supervised training of a large network with 8 layers and millions of parameters on the ImageNet dataset with 1 million training images. Since then, even larger and deeper networks have been trained.

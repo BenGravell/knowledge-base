@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2006.12983", "source": "ar5iv"} -->
+
 ### Introduction
 
 Controlling the physical world is an integral part and arguably a prerequisite of general intelligence. Indeed, the only known example of general-purpose intelligence emerged in primates whose behavioural niche was already contingent on two-handed manipulation for millions of years.

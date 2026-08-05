@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2004.03315", "source": "ar5iv"} -->
+
 ## Introduction
 
 Consider the following safety-critical scenarios: a self-driving car navigating through traffic, two unmanned aerial vehicles (UAVs) avoiding collision, and a robotic manipulator in a laboratory setting that must avoid injuring researchers. Although vastly different in terms of their environments, safety-specifications, and underlying dynamics, they share several key properties: (i) their dynamics are well understood and modeled, and can be accurately identified, (ii) their dynamics are inherently *nonlinear*, and (iii) *expert demonstrations* of safe and desirable behavior are readily available or can be easily collected. Motivated by these unifying properties, this paper proposes the design of safe controllers for known nonlinear dynamical systems based on *control barrier functions* learned from expert demonstrations.

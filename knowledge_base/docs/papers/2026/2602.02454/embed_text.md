@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2602.02454", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Robots that learn by trial and error in the real world face an inherent constraint: physical interaction is expensive. Every policy update that depends on executing actions on hardware consumes operator time, risks wear-and-tear, and compounds safety concerns, especially for manipulation, where failures are frequent early in learning. This cost creates a fundamental bottleneck for scaling robot learning from interaction. As a result, many real-robot systems rely on alternatives that reduce or replace on-robot exploration.

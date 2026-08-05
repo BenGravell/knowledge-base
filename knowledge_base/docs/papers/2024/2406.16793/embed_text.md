@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2406.16793", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Adam has become the de-facto optimizer for training large language models (LLMs) (e.g., ). Despite its superior performance, Adam is expensive to use. Specifically, Adam requires the memory for its optimizer states: the first-order momentum $m$, and the second-order momentum $v$. These in total take at least $2 \times$ the memory of the model size ^22^2We restate the update rules of Adam and AdamW in Appendix E.1.. This memory consumption has become a major burden in LLM training. For instance, to train a 7B model, Adam alone requires about 56 GB for $m$ and $v$, and with the gradients included, a total of 86 GB is needed. This is expensive even for cutting-edge graphics cards (e.g., A100-80GB). To support training, CPU-offload and optimizer state sharding must be used in practice, which unfortunately increases the latency and slows down the training.

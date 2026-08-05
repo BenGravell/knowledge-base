@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2405.16250", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Seeking control over a family of dynamical systems is a problem often encountered in engineering. One prevalent application of this is in cases where engineering designs and their respective controllers are being concurrently developed, known as control co-design (CCD). Traditional engineering design loops operated sequentially, first proposing a design and then developing a controller. Such workflows, however, sacrificed the improved optimality possible in their coupling, hence the increasing interest in leveraging end-to-end co-control design pipelines.

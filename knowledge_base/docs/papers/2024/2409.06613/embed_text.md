@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2409.06613", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A longstanding goal of the robotics community has been to synthesize skills that are functional, performant, and safe to execute on real robots, especially for complex robot morphologies and tasks such as manipulation with multi-fingered hands. Learning from human-teleoperated robots has led to some impressive results for relatively simple embodiments, for which effective teleoperation devices exist. However, high-quality teleoperation of sophisticated embodiments such as dexterous hands remains an open research challenge. As a result, simulation-based learning with subsequent transfer to real robots (sim-to-real) is an attractive alternative that can significantly reduce the scalability and safety concerns associated with learning from real robot data.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2212.10156", "source": "ar5iv"} -->
+
 ## Introduction
 
 With the successful development of deep learning, autonomous driving algorithms are assembled with a series of tasks^11^1In the following context, we interchangeably use task, module, component, unit and node to indicate a certain task (*e.g*., detection)., including detection, tracking, mapping in perception; and motion and occupancy forecast in prediction. As depicted in Fig. 1(a), most industry solutions deploy standalone models for each task independently, as long as the resource bandwidth of the onboard chip allows. Although such a design simplifies the R&D difficulty across teams, it bares the risk of information loss across modules, error accumulation and feature misalignment due to the isolation of optimization targets.

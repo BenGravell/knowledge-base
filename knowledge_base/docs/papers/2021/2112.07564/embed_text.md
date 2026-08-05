@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2112.07564", "source": "ar5iv"} -->
+
 ## Introduction
 
 In the problem of Linear Quadratic (LQ) stochastic control, one is typically interested in optimizing average control performance for linear systems of the form where $x_{t} \in {\mathbb{R}}^{n}$ is the state, $y_{t} \in {\mathbb{R}}^{m}$ is the measured output, $u_{t}$ is input, and $w_{t}$, $v_{t}$ are process and measurement noise disturbances. A standard approach is to minimize the expectation of the following quadratic cost comprising of stage-wise input and state penalties up to a horizon $N$ where matrices $Q,R$ are design choices.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2311.11166", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The problem of control, or the decision-making problem as it is also known within the operations research community, has been the subject of much research since the introduction of the Bellman principle of optimality in the late 1950s \[bellman1957markovian\]. In particular, the connection between control algorithms for Markov decision processes (MDPs) and optimization algorithms has been noticed since the late 1970s \[puterman1979convergence\]: Value iteration (VI) \[bellman1957markovian\] can be seen as an instance of gradient descent (GD) algorithm, and policy iteration (PI) \[howard1960dynamic\] is an instance of the Newton method (NM).

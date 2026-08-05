@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.10912", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Schematic overview of the data regimes for which we show experimental results. These regimes are characterized by how much data from the target environment is available to the agent, and how much (potentially generalizable) experience has been collected in other environments. The experiments both demonstrate that TDMs are capable single-environment models (marked purple) and generalize across environments (marked yellow). If sufficient data from the target environment is available, we can learn a single-environment specialist model (section 5.1). If there are only small amounts of data from the target environment, but more data from other environments, a generalist model can be pre-trained and then fine-tuned on the target environment (section 5.2.1). Finally, if we are able to train a generalist model on large amounts of data from different environments, we can zero-shot apply this model to our target environment without fine-tuning (section 5.2.2). We also show an example for unsuccessful generalization (no color) in section E.

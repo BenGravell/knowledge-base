@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1908.00468", "source": "ar5iv"} -->
+
 ## Introduction
 
 One of the main paradigms in the field of systems and control is that of *model-based* control. Indeed, many control design techniques rely on a system model, represented by e.g. a state-space system or transfer function. In practice, system models are rarely known a priori and have to be identified from measured data using system identification methods such as prediction error or subspace identification. As a consequence, the use of model-based control techniques inherently leads to a two-step control procedure consisting of system identification followed by control design.

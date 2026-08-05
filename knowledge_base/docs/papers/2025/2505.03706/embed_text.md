@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2505.03706", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The history of adaptive control is almost as long as the entire control field, and it is currently revived in the context of reinforcement learning (RL). A fundamental principle of an adaptive control system is its ability to monitor its own performance and adjust its parameters in the direction of better performance. Adaptive control for linear time-invariant systems with unknown parameters is widely studied, and the manifold approaches can be divided with three orthogonal classifications. A commonly adopted one is indirect (when a dynamical model is identified followed by model-based control), versus direct (when bypassing identification). Based on control objectives, approaches are categorized as seeking stability (i.e., convergence of signals) or optimality (i.e., convergence of a performance index). Another perspective considers the policy update rule: one-shot-based methods solve an online optimization problem to obtain the policy, whereas gradient-based methods update the policy iteratively using online gradient information.

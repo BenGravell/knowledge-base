@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2001.02153", "source": "ar5iv"} -->
+
 ## Introduction
 
 Deep reinforcement learning has generated great interest due to its success on a range of difficult problems including Computer Go and high-dimensional control tasks such as humanoid locomotion. While these methods are extremely general and can learn policies and value functions for complex tasks directly from raw data, they are also sample inefficient, and partially-optimized solutions can be arbitrarily poor, resulting in safety concerns when run on real systems.

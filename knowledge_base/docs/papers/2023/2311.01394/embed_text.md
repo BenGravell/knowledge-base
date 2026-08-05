@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2311.01394", "source": "ar5iv"} -->
+
 ## Introduction
 
 Simulation is a critical component to safely developing autonomous vehicles. Designing realistic traffic agents is fundamental in building high-fidelity simulation systems that have a low domain gap to the real world. However, this can be challenging as we need to both capture the idiosyncratic nature of *human-like* driving and avoid unrealistic traffic *infractions* like collisions or driving off-road. Existing approaches used in the self-driving industry lack realism: they either replay logged trajectories in a non-reactive manner or use heuristic policies which yield rigid, unhuman-like behaviors. Using data-driven approaches to learn more realistic policies is a promising alternative.

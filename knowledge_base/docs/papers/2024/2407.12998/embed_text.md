@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2407.12998", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Recently, large-scale imitation learning has shown great promise in creating generalist systems for manipulation tasks. Prior research in this area has mostly focused on learning day-to-day household activities. However, an under-explored area with high potential is the surgical domain, particularly with the use of Intuitive Surgical's da Vinci robot. These robots are deployed globally and possess immense scaling potential: as of 2021, over 10 million surgeries have been performed using 6,500 da Vinci systems in 67 countries, with 55,000 surgeons trained on the system. Often, the video and kinematics data are recorded for post-operative analysis, resulting in a large repository of demonstration data. Utilizing such large scale data holds significant potential for building generalist systems for autonomous surgery.

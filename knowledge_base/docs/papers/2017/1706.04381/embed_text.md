@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1706.04381", "source": "ar5iv"} -->
+
 ## Introduction
 
 Nesterov's accelerated method has garnered interest in the machine learning community because of its fast global convergence rate guarantees. The original convergence rate proofs of Nesterov's accelerated method are derived using the method of estimate sequences, which has proven difficult to interpret. This observation motivated a sequence of recent works on new analysis and interpretations of Nesterov's accelerated method.

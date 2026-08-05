@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2006.04248", "source": "ar5iv"} -->
+
 ## Introduction
 
 ### Convex optimization models

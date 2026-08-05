@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.09344", "source": "ar5iv"} -->
+
 ## Introduction
 
 In the challenging realm of robotic motion planning, uncertainty presents a critical hurdle for effective operation in dynamic and complex real-world environments. Historically, motion planning under uncertainty evolved from deterministic motion planning foundations, adopting one of two primary trajectories: the optimization-based approach and the sampling-based strategy.

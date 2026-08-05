@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2101.06549", "source": "ar5iv"} -->
+
 ## Introduction
 
 Self-driving vehicles (SDV) are safety critical applications in which the comprehensive testing is necessary before real-world deployment. As the performance of self-driving systems becomes better on natural and well-behaved scenarios, it becomes of key importance to find scenarios where the system is likely to fail. However, exhaustively searching over all possible scenarios to identify safety critical ones is computationally unfeasible, as there are exponentially many scenario variations due to the combinatorial number of possible lane topologies, actor configurations, trajectories, velocity profiles, appearance of actors and background, etc.

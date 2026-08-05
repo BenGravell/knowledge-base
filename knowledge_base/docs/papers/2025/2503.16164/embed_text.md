@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.16164", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Examples of trees with 7, 000 nodes (red) with the current best solution (blue path). RRT* samples the whole space (a), and Informed-RRT* samples from one (blue) hyperellipsoid (b). Proposed PI-RRT* samples from multiple small hyperellipsoids (c) and proposed C-RRT* samples from a convex set around the current best solution (d).

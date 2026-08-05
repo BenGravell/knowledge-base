@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2502.09556", "source": "arxiv-latex"} -->
+
 ## INTRODUCTION
 
 Planning optimal paths for mobile robots in environments filled with obstacles is a complex task that may require considerable computation time. This can cause issues in time-sensitive applications, such as mining [tian2021trajectory] because the longer it takes to execute a task, the lower the efficiency and the higher the expenses. This is also true for search and rescue applications[hayat2020multi]since any saved time is used to look for survivors. These are applications where it is possible for a robot to encounter dynamic obstacles such as humans or other robots. To deal with such scenarios, this paper proposes a new path planning algorithm that works in real-time, thus reducing unnecessary waiting time while still avoiding dynamic obstacles.

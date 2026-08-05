@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2009.10484", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Planning is an important task in a number of fields, including computer science and robotics. It consists of finding a sequence of valid states (i.e., a path) between specified positions (i.e., a start and goal) in a search space. Many problems have multiple *feasible* solutions and applications often seek the feasible path that optimizes a cost function (i.e., the *optimal* solution). A feasible solution in robot motion planning is a path that avoids hazards in the environment (i.e., obstacles) and can be followed by the robot (e.g., is kinodynamically feasible). The optimal solution minimizes a user-specified path cost, such as actuator effort or path length.

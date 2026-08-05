@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1802.03426", "source": "ar5iv"} -->
+
 ## Introduction
 
 Dimension reduction plays an important role in data science, being a fundamental technique in both visualisation and as pre-processing for machine learning. Dimension reduction techniques are being applied in a broadening range of fields and on ever increasing sizes of datasets. It is thus desirable to have an algorithm that is both scalable to massive data and able to cope with the diversity of data available. Dimension reduction algorithms tend to fall into two categories; those that seek to preserve the pairwise distance structure amongst all the data samples and those that favor the preservation of local distances over global distance. Algorithms such as PCA, MDS, and Sammon mapping fall into the former category while t-SNE, Isomap, LargeVis, Laplacian eigenmaps and diffusion maps all fall into the latter category.

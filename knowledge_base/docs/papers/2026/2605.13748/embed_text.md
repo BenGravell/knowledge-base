@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.13748", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Front (top) and side (bottom) views of the Crazyflie running TinySDP online to avoid a moving arm. Left to right: before, during, and after avoiding the moving obstacle.

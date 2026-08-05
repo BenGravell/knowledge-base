@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1903.06842", "source": "ar5iv"} -->
+
 ## Introduction
 
 Learning from data is essential to every area of science. It is the core of statistics and artificial intelligence, and is becoming ever more prevalent also in the engineering domain. Control engineering is one of the domains where learning from data is now considered as a prime issue.

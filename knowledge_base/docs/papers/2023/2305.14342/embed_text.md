@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.14342", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Language models (LLMs) have gained phenomenal capabilities as their scale grows. However, pre-training LLMs is incredibly time-consuming due to the massive datasets and model sizes---hundreds of thousands of updates to the model parameters are required. For example, PaLM was trained for two months on 6144 TPUs, which costed 10 million dollars.

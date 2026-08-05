@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.14905", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Recent advances in data-driven control enable the synthesis of optimal controllers directly from measurement data, bypassing the need for exact system models \[undef\]. Many data-driven approaches consider the infinite--horizon linear quadratic regulator (LQR) that regulates the state to zero by minimizing an objective that achieves a compromise between transient performance and control effort. To achieve robust output tracking of a reference signal, an integral action can be incorporated to the LQR control law to complement the proportional action, referred to as linear quadratic integral (LQI) control. This paper focuses on data-driven LQI control by utilizing convex optimization and policy gradient methods, aiming to achieve optimal tracking performance while relying solely on input--state--output measurements.

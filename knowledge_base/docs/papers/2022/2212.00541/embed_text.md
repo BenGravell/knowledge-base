@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2212.00541", "source": "ar5iv"} -->
+
 ## Introduction
 
 Model-based approaches form the foundation of classical control and robotics. Since Kalman's seminal work \Kalman the *state* along with its dynamics and observation models has played a central role.

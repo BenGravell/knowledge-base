@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1908.08681", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 Activation functions are non-linear point-wise functions responsible for introducing non-linearity to the linear transformed input in a layer of a neural network. The choice of activation function is imperative for understanding the performance of a neural network. The process of applying an activation function in a layer of a neural network can be mathematically realized as $z=g(y)=g(\sum_{i}w_{i}x_{i} + b)$ where $z$ is the output of the activation function $g(y)$. In early literature, Sigmoid and TanH activation functions were extensively used, which subsequently became ineffective in deep neural networks. A less probability inspired, unsaturated piece-wise linear activation known as Rectified Linear Unit (ReLU) [nair2010rectified,krizhevsky2012imagenet]became more relevant and showed better generalization and improved speed of convergence compared to Sigmoid and TanH.

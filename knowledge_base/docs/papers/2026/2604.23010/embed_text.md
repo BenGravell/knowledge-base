@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.23010", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Simulation environments enable testing the performance of autonomy systems in long-tail and safety critical scenarios safely, efficiently, and scalably. To test the complete autonomy stack, the virtual environments should simulate the sensor data (e.g., LiDAR, camera) of the robot. Realistic and consistent sensor simulation across multiple modalities depends on the availability of high-quality 3D assets that accurately represent the geometry and appearance of traffic participants such as cars and motorcycles.

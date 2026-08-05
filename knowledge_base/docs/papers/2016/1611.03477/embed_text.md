@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1611.03477", "source": "ar5iv"} -->
+
 ## Introduction
 
 Neural networks have revolutionized many fields. They have not only proven to be powerful in performing perception tasks such as image classification and language understanding, but have also shown to be surprisingly good "artists". In Gatys et al., photos were turned into paintings by exploiting particular drawing styles such as Van Gogh's, Kiros et al. produced stories about images biased by writing style (e.g., romance books), Karpathy et al. wrote Shakespeare inspired novels, and Simo-Serra et al. gave fashion advice.

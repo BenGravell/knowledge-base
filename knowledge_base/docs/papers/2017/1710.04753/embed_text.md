@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1710.04753", "source": "ar5iv"} -->
+
 ## Introduction
 
 Consider the unconstrained optimization problem where $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is $L$-smooth and $m$-strongly convex. The strong convexity of $f$ guarantees that there exists a unique minimizer $x_{\star}$ satisfying ${{\nabla f}{(x_{\star})}} = 0$. First-order methods are widely used for solving when the Hessian is prohibitively expensive to compute, e.g., when the problem dimension is large. A simple first-order algorithm for solving is the Gradient Method (GM), For smooth and strongly convex $f$, the GM with a well-chosen stepsize converges linearly to the optimizer. That is, for some $c \geq 0$ and $\rho \in {\lbrack 0,1)}$, we have For example, the standard choice $\alpha = {1/L}$ leads to a linear rate $\rho = {1 - \frac{m}{L}}$, while the choice $\alpha = \frac{2}{L + m}$ results in the improved linear rate $\rho = \frac{L - m}{L + m}$.

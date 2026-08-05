@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2208.13915", "source": "ar5iv"} -->
+
 ## Introduction
 
 Bilinear systems constitute an important class of nonlinear systems used in modeling systems in a variety of domains from engineering to biology. They also provide global approximators for more general nonlinear systems, and have recently been invoked in the study of Koopman operators for systems with control inputs. Due to the ubiquity of bilinear models, identification of such models from input-output data has also received interest in the literature both in continuous-time and discrete-time. However, a theoretical understanding of learning a bilinear model from a finite noisy trajectory, and in particular, how the accuracy of the learned model depends on the trajectory length is lacking. In this paper, we aim to answer this question for discrete-time bilinear models, learned from a single state-input trajectory using least squares.

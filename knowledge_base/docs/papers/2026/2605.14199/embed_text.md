@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.14199", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous driving requires motion planning algorithms capable of generating collision-free and dynamically feasible trajectories in geometrically complex, uncertain, and time-varying environments. Although substantial advances have been achieved in perception, control, and learning-based components of autonomous systems, ensuring safe and reliable decision-making under strict real-time constraints remains challenging. Motion planning plays a central role in this architecture, as it must reconcile vehicle dynamics, obstacle avoidance, traffic rules, and computational tractability within a unified framework.

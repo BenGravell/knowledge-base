@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2006.10277", "source": "ar5iv"} -->
+
 ## Introduction
 
 The estimation of nonlinear dynamical systems with continuous states and inputs is generally based on data collection procedures inspired by the study of optimal input design for linear dynamical systems. Unfortunately, these data collection methods are not guaranteed to enable the estimation of nonlinear systems. To resolve this issue, studies of system identification either assume the available data is informative enough for estimation or consider systems for which i.i.d. random inputs produce informative data. However, as we will see, there are many nonlinear dynamical systems that cannot be estimated without a judicious choice of inputs.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2102.12668", "source": "ar5iv"} -->
+
 ## Introduction
 
 In the near future of robotic exploration, teams of robots are expected to perform complex decision-making tasks autonomously in extreme environments, where their motions are typically governed by nonlinear dynamics with external disturbances. For such operations to be successful, they need to compute optimal motion plans online while robustly guaranteeing convergence to the target trajectory, both with their limited onboard computational resources. Thus, this work aims to propose a learning-based robust motion planning and control algorithm that meets these challenging requirements.

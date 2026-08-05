@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2010.05545", "source": "ar5iv"} -->
+
 ## Introduction
 
 Stable policy optimization in high-dimensions, and continuous action spaces, can be a challenge even in simulation. In recent years, a variety of deep RL algorithms have been developed, both for the model-free and model-based setting, that aim to tackle this challenge. In continuous control, recent progress on scalable (distributed) algorithms now allows us to solve problems with high-dimensional observation and action spaces end-to-end, provided adequate computation for simulation and learning is available. At the other end of the spectrum, there exist off-policy algorithms that have achieved remarkable data-efficiency, and raise hopes that applications of RL in robotics are within reach. For problems in continuous control, recent results that additionally employ learned models of the environment have promised further data efficiency gains. Analogously, in domains with discrete actions, the combination of model based search, e.g. Monte Carlo Tree Search (MCTS), with RL has recently been shown to be a powerful approach.

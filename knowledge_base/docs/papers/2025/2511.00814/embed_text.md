@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2511.00814", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous robotic systems often operate in the presence of other dynamic and non-coordinated agents. For example, autonomous cars must navigate around vehicles, pedestrians, and cyclists. In autonomous drone racing, drones must avoid crashing into other drones on the racecourse and in maritime robotics, a shipboard robotic arm or autonomous crane must plan for the payload's motion while compensating for the ship's sea-induced oscillations. In such settings, the other agent's dynamics and intentions are typically unknown, while onboard sensing provides noisy, partial observations of the agent motions. Safe, efficient behavior therefore hinges on accurate short-horizon prediction of agent motion under uncertainty to enable collision-free planning and real-time control. Thus, this paper introduces a data-driven framework for real-time learning and short-horizon prediction from noisy, partial observations.

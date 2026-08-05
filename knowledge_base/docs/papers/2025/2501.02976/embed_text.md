@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2501.02976", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Real-world video super-resolution (VSR) aims to generate high-resolution (HR) videos with clear details and strong temporal consistency from low-resolution (LR) inputs with unknown degradations. Most VSR methods only focus on simple, known degradations like downsampling or camera-related issues. However, real-world scenarios often involve unexpected degradations such as noise, blur, and compression, making it difficult for models to capture both spatial and temporal information needed for high-quality, consistent restoration.

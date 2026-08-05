@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1707.02201", "source": "ar5iv"} -->
+
 ## Introduction
 
 The problem of building a programmable humanoid dates back centuries. In 1495, five years after drawing the Vitruvian Man, Leonardo da Vinci constructed a humanoid automaton in the form of an armored knight. The knight was able to wave, sit up, and open and close its jaw via power delivered by a crank. Unlike most clockwork automata, which could only produce movements along individual limit cycles, the mechanical knight could be re-programmed to vary its movements, enabling refinement of the arm movements or alternative sequences of movements in time.

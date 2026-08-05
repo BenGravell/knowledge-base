@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1307.0345", "source": "ar5iv"} -->
+
 ## Introduction
 
 Optimization problems under uncertainty have considerable applications in disciplines ranging from mathematical finance to control engineering. For example most control systems involve some level of uncertainty; the aim of a robust control design is to provide a guaranteed level of performance for all admissible values of the uncertain parameters. In the convex case, two well-known approaches for dealing with such uncertain programs are robust convex programs (RCPs) and chance-constrained programs (CCPs). RCPs consider constraint satisfaction for all, possibly infinitely many, realizations of the uncertainty. While it is known that certain classes of RCPs can be solved as effectively as their non-robust counterparts in other cases RCPs can be intractable \[ \]. For example, the class of parametric linear matrix inequalities, which occur in many control problems, is NP-hard \[, \]. CCPs, on the other hand, allow constraint violation with a low probability. The resulting optimization problem, however, is in general non-convex \[Pré95, \].

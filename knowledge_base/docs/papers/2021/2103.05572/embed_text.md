@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2103.05572", "source": "ar5iv"} -->
+
 ## Introduction
 
 Safe deployment of mobile robots in uncertain dynamic environments, such as urban streets and crowded airspaces, requires a systematic accounting of various risks, both within and across layers in an autonomy stack. These autonomy stacks are naturally partitioned into a hierarchy of i) a high-level planner which generates a reference trajectory (often) offline before system operation, and ii) a low-level controller whose purpose is to track the reference trajectory in an online fashion and incorporate feedback to mitigate the effect of disturbances. The survey examines several approaches for motion planning and control of autonomous ground vehicles and suggests two additional upper layers in the hierarchy, namely route planning and behavioral decision-making. In this paper, we assume such route plans and behavioral decisions are encapsulated by the motion planning and control problems.

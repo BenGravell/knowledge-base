@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1905.00820", "source": "ar5iv"} -->
+
 ## Introduction
 
 Prediction error methods are a widespread class of methods for parameter estimation of dynamic models, which estimate the parameters by minimizing the error between predicted and measured trajectories. Many well-known estimation methods fit into this framework, such as minimizing the one-step-ahead prediction error or the free-run-simulation error. While the classical literature focuses primarily on the estimation of linear systems, the framework is general and enjoys appealing asymptotic properties for the general nonlinear setup.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2507.22389", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Classical planning stacks come in various shapes and forms, but, importantly, they share the characteristic of optimizing an interpretable cost function which allows reasoning about the plan's safety during synthesis. With the ever-increasing adoption of learning-based planners and end-to-end robot stacks, safe-by-construction planning has become extremely challenging, if not outright impossible. Therefore, safety monitors for motion plans have grown in prominence for ensuring that these often uninterpretable learning-based plans are safe. Like any effective monitor, a safety monitor should satisfy two key properties: completeness (it must flag all unsafe plans) and soundness (it must not flag safe ones). Our objective in this paper is to develop a method that can improve on the soundness of reachability-based safety monitors without compromising on completeness.

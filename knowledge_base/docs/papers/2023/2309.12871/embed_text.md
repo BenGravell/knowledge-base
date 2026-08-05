@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.12871", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The development of text embeddings is an essential research challenge in the NLP community. Text embeddings effectively feature key semantic and syntactic information in language, which broadly affects the performance of downstream tasks, such as text classification, sentiment analysis, semantic matching, clustering, and question-answering (QA) system. In particular, text embedding models play a crucial role in LLMs such as ChatGPT, LLaMA, and ChatGLM -based applications. These LLM-based applications heavily rely on high-quality text embeddings for tasks such as vector search, where related documents are retrieved for LLM QA.

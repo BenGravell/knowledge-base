@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.06070", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Optimization techniques, particularly gradient descent (GD) and its numerous variants, have become fundamental in modern control and machine learning. These methods are broadly classified into two categories when applied to control systems: GD-based control, where gradient methods optimize controller parameters, and controlled GD, where control-theoretic tools improve the convergence properties of a gradient-based optimizer. GD-based methods have demonstrated significant success in learning controllers for uncertain environments, as well as in system identification and adaptive control.

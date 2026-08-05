@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1909.06933", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 To achieve general-purpose manipulation skills, robots will need to use vision-based policies and learn new tasks in a scalable fashion with limited human supervision. For visual training, prior work has often used methods such as end-to-end training, autoencoding, and pose-based losses. These methods, however, have not benefitted from the rich sources of self-supervision that may be provided by dense three-dimensional computer vision techniques, for example correspondence learning which robots can automate without human input.

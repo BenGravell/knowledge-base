@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2207.10422", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: Three different motion planning paradigms: (a) traditional sequential prediction and planning; (b) end-to-end method; (c) our proposed method.

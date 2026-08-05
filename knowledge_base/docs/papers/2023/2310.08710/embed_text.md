@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2310.08710", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Due to the cost and risk of deploying autonomous vehicles (AVs) in the real world, simulation is a crucial tool in the research and development of autonomous driving software. The two primary challenges of a simulator are speed and realism: we wish for a simulator to be fast in order to cost-effectively train/evaluate on many hours of synthetic driving experience, and we wish for a simulator to be diverse and realistic in terms vehicle behavior in order to minimize the sim-to-real gap, such that performance in the simulator correlates with real-world performance.

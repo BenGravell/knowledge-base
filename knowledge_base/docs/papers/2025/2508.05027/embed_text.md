@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2508.05027", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Multi-robot-arm motion planning (M-RAMP) has recently seen an increased research interest, especially with the rise of bimanual manipulation systems. This trend is partly driven by the crucial role M-RAMP plays in multi-arm manipulation. The simultaneous use of multiple robot arms facilitates the automation of complex tasks infeasible with a single arm, such as collaborative robotic assembly, while also improving the efficiency of tasks typically performed by a single arm, such as pick-and-place operations. Among recent approaches to M-RAMP, robot-arm trajectories are often computed with sampling-based algorithms derived from RRT (e.g., ), or variants of A\* search (e.g., and ).

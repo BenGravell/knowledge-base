@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2004.06801", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 One common practice for automated vehicle (AV) safety validation is to maintain a suite of challenging driving scenarios that the vehicle must successfully navigate after each update to the driving policy. Although useful, this approach will miss any failures that are not already included in the test suite. Automated testing procedures that treat the vehicle as a black box must be developed to catch unknown and unexpected failure modes of the AV which could dramatically decrease testing time and improve the safety of autonomous vehicles.

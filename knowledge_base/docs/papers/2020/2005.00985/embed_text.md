@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2005.00985", "source": "ar5iv"} -->
+
 ## Introduction
 
 Trajectory optimization problems arise very frequently in robotics and controls applications. Examples include finding suitable motions for robotic grasping and manipulation tasks, or minimizing fuel for orbital transfers. Mathematically speaking, such problems require computing a state/control sequence that minimizes a specified cost function, while satisfying the dynamics constraints of the agent. Common methodologies for trajectory optimization rely on optimal control and/or optimization theory. The former approach provides fundamental principles for obtaining solutions (based, for example, on Dynamic Programming or the Hamilton-Jacobi-Bellman equation), which, however, do not scale well with high-dimensional, nonlinear problems. In contrast, standard direct optimization methods can be used for discrete optimal control. The main drawback of these works is that feasibility with respect to dynamics has to be explicitly imposed, thus slowing down the optimization process.

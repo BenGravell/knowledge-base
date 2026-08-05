@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "0909.4061", "source": "ar5iv"} -->
+
 ## Abstract
 
 Low-rank matrix approximations, such as the truncated singular value decomposition and the rank-revealing QR decomposition, play a central role in data analysis and scientific computing. This work surveys and extends recent research which demonstrates that *randomization* offers a powerful tool for performing low-rank matrix approximation. These techniques exploit modern computational architectures more fully than classical methods and open the possibility of dealing with truly massive data sets.

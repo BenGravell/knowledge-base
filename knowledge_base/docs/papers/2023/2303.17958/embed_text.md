@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.17958", "source": "ar5iv"} -->
+
 ## Introduction
 
 As a cornerstone of modern control theory, the linear quadratic regulator (LQR) problem has been the benchmark for data-driven control methods that seek to design a controller from raw system data. The manifold approaches to data-driven control can be broadly categorized as indirect (when identifying a dynamical model followed by model-based control design) versus direct (when bypassing the identification step). The use of direct data-driven control is usually motivated when the dynamical model is difficult to establish, or is too complex for model-based control design. As an end-to-end approach, the direct methods are conceptually simple and easy to implement in practice.

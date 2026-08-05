@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1910.00935", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: Left: Our language allows us to seamlessly integrate a neural network (NN) controller and a physical simulation module, and update the weights of the controller or the initial state parameterization (blue). Our simulations typically have 512 ∼ 2048 time steps, and each time step has up to one thousand parallel operations. Right: 10 differentiable simulators built with DiffTaichi.

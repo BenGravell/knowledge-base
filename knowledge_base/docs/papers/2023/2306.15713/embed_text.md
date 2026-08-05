@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2306.15713", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Self-driving vehicles require complex decision-making processes that guarantee safety while maximizing comfort and progress towards the destination. Most approaches have relied on hand-engineered planners that are built on top of perception and motion forecasting modules. However, a robust decision process has proven elusive, failing to handle the complexity of the real world.

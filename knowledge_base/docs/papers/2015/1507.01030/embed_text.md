@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1507.01030", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 We consider optimization problems with a cost function consisting of a large number of component functions, such as $$\eqalign{\hbox{\rm minimize}\quad & &x\in X,\cr}\xdef\additive{\lab}\eqnum\show{twoo}$$ where $f_i:\rn\mapsto\re$, $i=1,\ldots,m$, are real-valued functions, and $X$ is a closed convex set.

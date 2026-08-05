@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2308.10069", "source": "ar5iv"} -->
+
 ## Introduction
 
 Automated transportation systems, even in the case of partial automation, may lead to reduced road accidents and more efficient usage of the road network. However, the complexity of automated driving (AD) and advanced driver-assistance systems (ADAS) and their real-time requirements in resource-limited automotive platforms requires the implementation of a multi-layer guidance and control architecture. Thus, the ADAS/AD system consists of multiple interconnected components, including communication and sensor interfaces connecting each block and potentially executing at different sampling rates, aiming for the integrated system to satisfy the driving specifications.

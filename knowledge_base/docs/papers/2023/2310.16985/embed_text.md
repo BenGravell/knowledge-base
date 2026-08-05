@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2310.16985", "source": "ar5iv"} -->
+
 ## Introduction
 
 Model-predictive control (MPC) enables reactive and dynamic online control for robots while respecting complex control and state constraints such as those encountered during dynamic obstacle avoidance and contact events. However, despite MPC's many successes, its practical application is often hindered by computational limitations, which can necessitate algorithmic simplifications. This challenge is amplified when dealing with systems that have fast or unstable open-loop dynamics, where high control rates are needed for safe and effective operation.

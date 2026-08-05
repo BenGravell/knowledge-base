@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1809.08830", "source": "ar5iv"} -->
+
 ## Introduction
 
 The Kalman filter is the workhorse for the online tracking and estimation of a dynamical system's internal state based on indirect observations. It has been applied with remarkable success in areas as diverse as automatic control, brain-computer interaction, macroeconomics, robotics, signal processing, weather forecasting and many more. The classical Kalman filter critically relies on the availability of an accurate state-space model and is therefore susceptible to model risk. This observation has led to several attempts to robustify the Kalman filter against modeling errors.

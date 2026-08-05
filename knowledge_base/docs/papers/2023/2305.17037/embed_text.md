@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.17037", "source": "ar5iv"} -->
+
 ## Introduction
 
 The Linear Quadratic Regulator (LQR) is a classic control problem that has served as a building block for numerous applications in engineering and computer science, economics, or neuroscience. It involves controlling a system with linear dynamics and imperfect observations affected by additive noise, with the goal of minimizing a quadratic state and control cost. Under the assumption that noise terms are independent and normally distributed (a case referred to as Linear-Quadratic-Gaussian, or LQG), it is well known that the optimal control policy depends linearly on the observations and can be obtained efficiently by using the Kalman filtering procedure and dynamic programming.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.12374", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The last few years have seen a rise in the popularity of Mixture-of-Experts (MoE) based Large Language Models (LLMs) (deepseekai2025deepseekv3technicalreport; yang2025qwen3technicalreport; 5team2025glm45agenticreasoningcoding). MoEs help LLMs achieve higher accuracy at a lower active parameter count than regular dense models (dai2024deepseekmoe; lepikhin2020gshard). Orthogonal to MoEs, Hybrid Mamba-Attention models have shown promise in significantly improving inference throughput (nemotronnanov2). We combine these two directions of improvement in Nemotron 3 (nvidia2025nvidianemotron3efficient). As part of our Nemotron 3 series of models, we present Nemotron 3 Super---a 12 billion active, 120 billion total parameter MoE hybrid Mamba-Attention model. Nemotron 3 Super achieves better or on-par benchmark accuracies than GPT-OSS-120B (openai2025gptoss120bgptoss20bmodel) and Qwen3.5-122B while achieving up to 2.2$\times$ and 7.5$\times$ higher inference throughput, respectively, on the 8k token input / 64k token output setting.

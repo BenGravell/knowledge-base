@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2401.13627", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The development of image restoration (IR) has greatly elevated expectations for both the perceptual effects and the intelligence of IR results. IR methods based on generative priors leverage powerful pre-trained generative models to introduce high-quality generation and prior knowledge into IR, bringing significant progress in these aspects. Continuously improving the capabilities of the generative prior is key to achieving better IR results, with model scaling being a crucial and effective approach. There are many tasks that have obtained astonishing improvements from scaling, such as SAM and large language models (LLMs). This further drives our pursuit of constructing large-scale, intelligent IR models that can produce ultra-high-quality images. However, due to engineering constraints such as computing resources, model architecture, training data, and the cooperation of generative models and IR, scaling up IR models is challenging.

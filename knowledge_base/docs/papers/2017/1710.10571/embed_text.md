@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1710.10571", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Consider the classical stochastic optimization problem, in which we minimize an expected loss E P 0 [ ℓ ( θ; Z )] over a parameter θ ∈ Θ, where Z ∼ P 0, P 0 is a distribution on a space Z, and ℓ is a loss function. In many systems, robustness to changes in the data-generating distribution P 0 is desirable, whether they be from covariate shifts, changes in the underlying domain, or adversarial attacks. As deep networks become prevalent in modern performance-critical systemsprominent examples include perception systems for self-driving cars, and automated detection of tumors-model failure is increasingly costly. In these situations, it is irresponsible to deploy models whose robustness and failure modes we do not understand or cannot certify.

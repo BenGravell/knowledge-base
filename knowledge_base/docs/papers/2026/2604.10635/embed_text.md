@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.10635", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The linear quadratic regulation (LQR) problem serves as a fundamental research topic within the realm of control theory, whose optimal controller has a static state-feedback form. During the past few years, theoretical analysis work targeting the LQR control has made substantial progress, laying the foundation for policy structures \[20 control")\], convergence guarantees, efficiency improvements, and sample complexity. However, due to the practical challenges of obtaining full state information, output-feedback control warrants further investigation as a more realistic and significant controller design approach.

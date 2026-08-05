@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2311.11151", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Learning-based control plays an increasingly important role in many application domains such as power systems, robotics, self-driving cars, where it might be hard to perfectly model the system and its environment. Many learning-based control algorithms assume the existence of an initial stabilizing controller in order to simplify their analysis. Such simplifying assumptions are prevalent both in model-based and model-free learning-based control algorithms. However, learning to stabilize is a fundamental problem in learning-based control, with several algorithms tackling this issue.

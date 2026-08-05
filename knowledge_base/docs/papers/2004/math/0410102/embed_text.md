@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "math/0410102", "source": "arxiv-pdf"} -->
+
 ## Paper Body
 
 1. Introduction. A prototypical example of self-normalized random variables is Student's t -statistic which replaces the population standard devi- Received November 2002; revised June 2003.

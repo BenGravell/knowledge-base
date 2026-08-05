@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.13323", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Constrained motion planning problems arise commonly in many robotic tasks. Consider the problem of transporting a cup of water; the robot must find a trajectory in which the mug remains upright throughout to prevent spillage. Or, consider a humanoid robot transporting a large object. The robot must maintain balance at all times and keep both arms attached to the box to preserve feasible motion. Many of these constraints can be represented as implicit functions, which give rise to a submanifold of valid configurations in the robot's configuration space. Manifold-constrained motion planning is thus the problem of finding feasible, collision-free trajectories that satisfy a constraint imposed by a desired task from a start configuration to a goal region.

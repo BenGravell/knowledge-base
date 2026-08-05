@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.09202", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In recent years, reinforcement learning (RL) has achieved significant progress across a wide range of domains, including robotic control Tang et al., autonomous driving Kiran et al., and recommendation systems Lin et al.. However, conventional online RL methods typically rely on continuous interactions with the environment to explore and optimize policies. In many real-world scenarios, such frequent interactions are not only expensive but also pose considerable safety risks---especially in sensitive applications like medical diagnosis and autonomous driving Dulac-Arnold et al..

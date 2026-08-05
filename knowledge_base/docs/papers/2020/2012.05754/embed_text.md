@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2012.05754", "source": "ar5iv"} -->
+
 ## Introduction
 
 Over the past few years, a number of works have focused on adapting multi-armed bandit strategies (see e.g. Lattimore and Szepesvari ) to optimize an other criterion than the expected cumulative reward. Sani et al., Vakili and Zhao, Vakili and Zhao, Zimin et al. consider a mean-variance criterion, studies a quantile (Value-at-Risk) criterion, focuses on Entropic-value-at-risk. The Conditional Value at Risk (CVaR) as well as more generic coherent spectral risk measures have received specific attention from the bandit community (Galichet et al.; Galichet; Cassel et al.; Zhu and Tan; Tamkin et al.; Prashanth et al. to cite a few). Indeed, in a large number of application domains (healthcare, agriculture, marketing,...), one needs to take into account personalized preferences of the practitioner that are not captured by the expected reward. We consider an illustrative use-case in agriculture in section 4, where an algorithm recommends planting dates to farmers.

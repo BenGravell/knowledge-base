@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1611.03530", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 Deep artificial neural networks often have far more trainable model parameters than the number of samples they are trained . Nonetheless, some of these models exhibit remarkably small generalization error, i.e., difference between 'training error' and 'test error'. At the same time, it is certainly easy to come up with natural model architectures that generalize poorly. What is it then that distinguishes neural networks that generalize well from those that don't? A satisfying answer to this question would not only help to make neural networks more interpretable, but it might also lead to more principled and reliable model architecture design.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.14545", "source": "arxiv-html"} -->
+
 ## Introduction
 
 High degree-of-freedom (d o f) robots rely on *motion planning* to move in complex workspaces, either using sampling-based approximations or numerical optimization. These planners are general and can solve realistic, challenging problems in hundreds of milliseconds to dozens of seconds on consumer cpus. However, this level of performance falls short---it is too slow for reactive operation in evolving environments and hampers algorithms for higher-level autonomy such as integrated task and motion planning.

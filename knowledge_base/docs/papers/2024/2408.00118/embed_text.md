@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2408.00118", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Large language models (LLMs) have demonstrated strong capabilities in language understanding, generation, and reasoning. Scaling has been key to this recent progress, with many new capabilities only emerging at scale. The newest large models not only reach unprecedented performance on reasoning benchmarks, but they also demonstrate multimodal and multilingual capabilities and even the ability to use context lengths of over 1M tokens.

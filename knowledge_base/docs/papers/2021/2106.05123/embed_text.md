@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2106.05123", "source": "ar5iv"} -->
+
 ## Introduction
 
 Arguably the most used hybrid sorting algorithm at the time of writing is introsort. A combination of insertion sort, heapsort and quicksort, it is very fast and can be seen as a truly hybrid algorithm. The algorithm performs introspection and decides when to change strategy using some very simple heuristics. If the recursion depth becomes too deep, it switches to heapsort, and if the partition size becomes too small it switches to insertion sort.

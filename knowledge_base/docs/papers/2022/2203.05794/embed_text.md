@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2203.05794", "source": "ar5iv"} -->
+
 ## Introduction
 
 To uncover common themes and the underlying narrative in text, topic models have proven to be a powerful unsupervised tool. Conventional models, such as Latent Dirichlet Allocation (LDA) and Non-Negative Matrix Factorization (NMF), describe a document as a bag-of-words and model each document as a mixture of latent topics.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2308.08536", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Many control problems such as model predictive control and safety analysis are built upon predictions of system's future trajectories. This prediction (or estimation) problem is well studied and dates back to the classical Kalman filter, which is optimal for linear systems with Gaussian noise. Methods are also developed for more complex setups, e.g. extended Kalman filter for nonlinear systems, particle filters when system dynamics can be sampled, and adaptive filters and adaptive filters for unknown systems. Existing methods typically require the knowledge of system dynamics, linearity, time-invariance, or Gaussian noise, which, for more challenging and realistic settings, may yield degraded performance.

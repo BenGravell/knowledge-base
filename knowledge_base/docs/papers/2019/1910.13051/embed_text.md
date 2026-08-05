@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1910.13051", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: Mean rank of Rocket versus state-of-the-art classifiers on the 85 ‘bake off’ datasets.

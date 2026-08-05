@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2201.01483", "source": "ar5iv"} -->
+
 ## Introduction
 
 Safety is a critical issue for robotic and autonomous systems that must traverse through uncertain environments. More sophisticated motion planning and control algorithms are needed as environments become increasingly dynamic and uncertain to ensure safe and effective autonomous behavior. Safely deploying robots in such dynamic environments requires a systematic accounting of various risks both within and across layers in an autonomy stack from perception to motion planning and control. Many widely used motion planning algorithms have been developed in deterministic settings. However, since motion planning algorithms must be coupled with the outputs of inherently uncertain perception systems, there is a crucial need for more tightly coupled perception and planning frameworks that explicitly incorporate perception and prediction uncertainties.

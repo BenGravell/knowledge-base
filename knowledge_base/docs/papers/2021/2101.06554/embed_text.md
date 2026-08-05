@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2101.06554", "source": "ar5iv"} -->
+
 ## Introduction
 
 Self-driving has recently benefited from deep learning breakthroughs, which have enhanced the performance of autonomy systems significantly. The performance achieved by these systems is tightly coupled to the quality, size and richness of training datasets. Furthermore, as self-driving is a safety critical application it is very important to have a diverse set of testing scenarios that are representative of driving.

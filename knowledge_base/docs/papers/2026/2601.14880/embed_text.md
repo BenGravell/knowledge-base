@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2601.14880", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous vehicles (AVs) operate in dynamic, unpredictable environments where events like sensor failures or unexpected behaviors of other agents can compromise safety. In such challenging scenarios, human drivers naturally employ contingency reasoning to manage uncertainty. For example, when approaching an occluded crosswalk, a driver may prepare to brake in case a pedestrian unexpectedly emerges. Similarly, to ensure reliable operation under such conditions, AVs must move beyond nominal planning and integrate contingency planning: the capability to anticipate, model, and respond to possible but uncertain deviations from expected operating conditions (alsterda2021contingency; li2023marc).

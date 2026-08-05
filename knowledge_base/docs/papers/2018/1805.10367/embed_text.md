@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1805.10367", "source": "ar5iv"} -->
+
 ## Introduction
 
 Zeroth-order (gradient-free) optimization is increasingly embraced for solving machine learning problems where explicit expressions of the gradients are difficult or infeasible to obtain. Recent examples have shown zeroth-order (ZO) based generation of prediction-evasive, black-box adversarial attacks on deep neural networks (DNNs) as effective as state-of-the-art white-box attacks, despite leveraging only the inputs and outputs of the targeted DNN. Additional classes of applications include network control and management with time-varying constraints and limited computation capacity, and parameter inference of black-box systems. ZO algorithms achieve gradient-free optimization by approximating the full gradient via gradient estimators based on only the function values.

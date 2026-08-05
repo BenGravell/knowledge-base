@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2203.17165", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 Multiplicative noise models can be used to represent myriad phenomena where noise or uncertainty depends on the system state, input, or output. These models have a long history in control theory [wonham1967optimal] and have been utilized in the context of networked control systems [sinopoli2004kalman] robots with distance-dependent sensors such as lidar and optical cameras [dutoit2011robot], turbulent fluid flow [lumley2007stochastic], climate dynamics [majda1999models], biological sensorimotor systems [todorov2005stochastic], neuronal brain networks [breakspear2017dynamic], portfolio optimization and financial markets [primbs2007portfolio] power grids with stochastic inertia [guo2019a], and aerospace systems [gustafson1975design]. Recently, these models have also been used to represent parametric uncertainty and promote robustness in data-driven control and machine learning via, e.g., bootstrapping [gravell2020pmlr], domain randomization [tobin2017domain], and dropout [srivastava2014dropout].

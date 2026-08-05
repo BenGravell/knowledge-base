@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2401.15185", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 Complex engineered and natural control systems, such as those used in robotics, the power grid, human sensorimotor control, and the internet, are characterized by needing to operate robustly and reliably across many spatiotemporal scales, despite being implemented using highly constrained hardware and software. Remarkably, a universal design pattern centered around layered control architectures (LCAs) has emerged to address these challenges across vastly different domains. These LCAs are the central object of study of this paper.

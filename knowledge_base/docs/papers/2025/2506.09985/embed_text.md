@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.09985", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Humans have the ability to adapt and generalize when taking on new tasks and operating in unfamiliar environments. Several cognitive learning theories suggest that humans learn an internal model of the world by integrating low-level sensory inputs to represent and predict future states, and they further posit that this world model shapes our perception at any given moment, playing a crucial role in informing our understanding of reality. Moreover, our ability to predict the effects of our actions on future states of the world is also essential for goal-oriented planning. Building artificial agents that learn a world model from sensory data, such as video, could enable them to *understand* the physical world, *predict* future states, and effectively --- like humans --- *plan* in new situations, resulting in systems capable of tackling tasks that have not been encountered before.

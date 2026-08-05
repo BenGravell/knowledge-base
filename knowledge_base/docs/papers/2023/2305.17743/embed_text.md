@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.17743", "source": "ar5iv"} -->
+
 ## Introduction
 
 The recently discovered "hat" aperiodic monotile admits tilings of the plane, but none that are periodic. This polygon settles the question of whether a single shape---a closed topological disk in the plane---can tile aperiodically without any additional matching conditions or other constraints on tile placement.

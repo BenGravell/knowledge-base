@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.02413", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous driving methods require scene understanding, robotic planning and control, either implicitly, in an end-to-end fashion, or in explicit modules, including perception, prediction of scene geometry and of the future evolution of relevant agents, tracking of the environment, planning and control.

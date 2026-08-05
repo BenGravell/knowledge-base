@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2404.03421", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Single-view 3D scene reconstruction refers to the problem of understanding and explaining all the visible components that assembled together create a 3D scene which closely reproduces the original 2D observation. The computer vision and graphics communities have long been interested in automating this task, yet its complexity still leaves room for many improvements. Successful single-view applications have been developed for specific purposes such as face reconstruction and hair modeling. However, 3D understanding from a single image is far from solved in the case of larger scale problems such as indoor/outdoor scene reconstruction with multiple objects.

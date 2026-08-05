@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.17147", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Large-scale datasets have been indispensable for the progress of autonomous driving, providing multi-modal labeled data across regions and conditions. However, real-world logs alone are insufficient to capture rare but safety-critical events, such as wrong-way drivers. Evaluating these edge cases is essential for safe and reliable systems, yet relying solely on collected data is highly sample-inefficient.

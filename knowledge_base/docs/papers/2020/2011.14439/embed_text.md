@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2011.14439", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The deep learning analogue of Drosophila melanogaster is the MNIST dataset. Drosophila, the fruit fly, has a life cycle that is just a few days long, its nutritional needs are negligible, and it is easier to work with than mammals, especially humans. Like Drosophila, MNIST is easy to use: training a classifier on it takes only a few a minutes whereas training full-size vision and language models can take months of time and millions of dollars.

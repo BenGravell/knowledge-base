@@ -22,15 +22,15 @@ The set of all possible predictors and their induced prescriptors is vast. Indee
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Alternatively, the ambiguity set may contain all distributions that achieve a prescribed level of likelihood, that pass a statistical hypothesis test or that are sufficiently close to a reference distribution with respect to a probability metric such as the Prokhorov metric, the Wasserstein distance, the total variation distance or the $L^{1}$-norm. Ben-Tal et al. have shown that confidence sets for distributions can also be constructed using $\phi$-divergences such as the Pearson divergence, the Burg entropy or the Kullback-Leibler divergence. More recently, Bayraksan and Love provide a systematic classification of $\phi$-divergences and investigate the richness of the corresponding ambiguity sets.
+Alternatively, the ambiguity set may contain all distributions that achieve a prescribed level of likelihood, that pass a statistical hypothesis test or that are sufficiently close to a reference distribution with respect to a probability metric such as the Prokhorov metric, the Wasserstein distance, the total variation distance or the L 1 -norm. Ben-Tal et al. have shown that confidence sets for distributions can also be constructed using φ -divergences such as the Pearson divergence, the Burg entropy or the Kullback-Leibler divergence. More recently, Bayraksan and Love provide a systematic classification of φ -divergences and investigate the richness of the corresponding ambiguity sets.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Given the numerous possibilities for constructing predictors from a given dataset, it is easy to lose oversight. In practice, predictors are often selected manually from within a small menu with the goal to meet certain statistical and/or computational requirements. However, there are typically many different predictors that exhibit the desired properties, and there always remains some doubt as to whether the chosen predictor is best suited for the particular decision problem at hand. In this paper we propose a principled approach to data-driven stochastic programming by solving a meta-optimization problem over a rich class of predictor-prescriptor-pairs including, among others, all examples reviewed above. This meta-optimization problem aims to find the least conservative (i.e., pointwise smallest) prescriptor whose out-of-sample disappointment decays at a prescribed exponential rate $r$ as the sample size tends to infinity---irrespective of the true data-generating distribution. The out-of-sample disappointment quantifies the probability that the actual expected cost of the prescriptor exceeds its predicted cost.
+Given the numerous possibilities for constructing predictors from a given dataset, it is easy to lose oversight. In practice, predictors are often selected manually from within a small menu with the goal to meet certain statistical and/or computational requirements. However, there are typically many different predictors that exhibit the desired properties, and there always remains some doubt as to whether the chosen predictor is best suited for the particular decision problem at hand. In this paper we propose a principled approach to data-driven stochastic programming by solving a meta-optimization problem over a rich class of predictor-prescriptor-pairs including, among others, all examples reviewed above. This meta-optimization problem aims to find the least conservative ( i.e., pointwise smallest) prescriptor whose out-of-sample disappointment decays at a prescribed exponential rate r as the sample size tends to infinity-irrespective of the true data-generating distribution. The out-of-sample disappointment quantifies the probability that the actual expected cost of the prescriptor exceeds its predicted cost. Put differently, it represents the probability that the predicted cost of a candidate decision is over-optimistic and leads to disappointment in out-of-sample tests.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Put differently, it represents the probability that the predicted cost of a candidate decision is over-optimistic and leads to disappointment in out-of-sample tests. Thus, the proposed meta-optimization problem tries to identify the predictor-prescriptor-pairs that overestimate the expected out-of-sample costs by the least amount possible without risking disappointment under any thinkable data-generating distribution.
+Thus, the proposed meta-optimization problem tries to identify the predictorprescriptor-pairs that overestimate the expected out-of-sample costs by the least amount possible without risking disappointment under any thinkable data-generating distribution.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -38,212 +38,472 @@ Our main results can be summarized as follows.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-By leveraging Sanov's theorem from large deviations theory, we prove that the meta-optimization problem admits a unique optimal solution for any given stochastic program.
+- By leveraging Sanov's theorem from large deviations theory, we prove that the metaoptimization problem admits a unique optimal solution for any given stochastic program. - We show that the optimal data-driven predictor estimates the expected costs under the unknown true distribution by a worst-case expectation over all distributions within a given relative entropy distance from the empirical distribution of the data. This suggests that, among all possible data-driven solutions, a distributionally robust approach based on a relative entropy ambiguity set is optimal. This is perhaps surprising because the meta-optimization problem does not impose any structure on the predictors, which are generic functions of the data. In particular, there is no requirement forcing predictors to admit a distributionally robust interpretation. - In contrast to most of the existing work on data-driven distributionally robust optimization, our relative entropy ambiguity set does not play the role of a confidence region that contains the unknown data-generating distribution with a prescribed level of probability (see the discussions of below for exceptions). Instead, the radius of the relative entropy ambiguity set coincides with the desired exponential decay rate r of the out-of-sample disappointment imposed by the meta-optimization problem.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We show that the optimal data-driven predictor estimates the expected costs under the unknown true distribution by a worst-case expectation over all distributions within a given relative entropy distance from the empirical distribution of the data. This suggests that, among all possible data-driven solutions, a distributionally robust approach based on a relative entropy ambiguity set is optimal. This is perhaps surprising because the meta-optimization problem does not impose any structure on the predictors, which are generic functions of the data. In particular, there is no requirement forcing predictors to admit a distributionally robust interpretation.
+- We prove that the optimal (distributionally robust) predictor admits a dual representation as the optimal value of a one-dimensional convex optimization problem that can be solved highly efficiently. For continuously distributed problem parameters this representation seems to be new.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In contrast to most of the existing work on data-driven distributionally robust optimization, our relative entropy ambiguity set does not play the role of a confidence region that contains the unknown data-generating distribution with a prescribed level of probability (see the discussions of below for exceptions). Instead, the radius of the relative entropy ambiguity set coincides with the desired exponential decay rate $r$ of the out-of-sample disappointment imposed by the meta-optimization problem.
+To our best knowledge, we are the first to recognize the optimality of distributionally robust optimization in its ability to transform data to predictors and prescriptors. The optimal distributionally robust predictor identified in this paper can be evaluated by solving a tractable convex optimization problem. Under standard convexity assumptions about the feasible set and the cost function of the stochastic program, the corresponding optimal prescriptor can also be evaluated in polynomial time. Although perhaps desirable, the tractability and distributionally robust nature of the optimal predictor-prescriptor-pair are not dictated ex ante but emerge naturally.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We prove that the optimal (distributionally robust) predictor admits a dual representation as the optimal value of a one-dimensional convex optimization problem that can be solved highly efficiently. For continuously distributed problem parameters this representation seems to be new.
+Relative entropy ambiguity sets have already attracted considerable interest in distributionally robust optimization. Note, however, that the relative entropy constitutes an asymmetric distance measure between two distributions. The asymmetry implies, among others, that the first distribution must be absolutely continuous to the second one but not vice versa. Thus, ambiguity sets can be constructed in two different ways by designating the reference distribution either as the first or as the second argument of the relative entropy. All papers listed above favor the second option, and thus the emerging ambiguity sets contain only distributions that are absolutely continuous to the reference distribution. Maybe surprisingly, the optimal predictor resulting from our meta-optimization problem uses the reference distribution as the fi rst argument of the relative entropy instead. Thus, the reference distribution is absolutely continuous to every distribution in the emerging ambiguity set. Relative entropy balls of this kind have previously been studied by Gupta, Lam and Bertsimas et al..
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-To our best knowledge, we are the first to recognize the optimality of distributionally robust optimization in its ability to transform data to predictors and prescriptors. The optimal distributionally robust predictor identified in this paper can be evaluated by solving a tractable convex optimization problem. Under standard convexity assumptions about the feasible set and the cost function of the stochastic program, the corresponding optimal prescriptor can also be evaluated in polynomial time. Although perhaps desirable, the tractability and distributionally robust nature of the optimal predictor-prescriptor-pair are not dictated ex ante but emerge naturally.
+Adopting a Bayesian perspective, Gupta determines the smallest ambiguity sets that contain the unknown data-generating distribution with a prescribed level of confidence as the sample size tends to infinity. Both Pearson divergence and relative entropy ambiguity sets with properly scaled radii are optimal in this setting. In the terminology of the present paper, Gupta thus restricts attention to the subclass of distributionally robust predictors and operates with an asymptotic notion of optimality. The meta-optimization problem proposed here entails a stronger notion of optimality, under which the distributionally robust predictor with relative entropy ambiguity set emerges as the unique optimizer. Lam also seeks distributionally robust predictors that trade conservatism for out-of-sample performance. He studies the probability that the estimated expected cost function dominates the actual expected cost function uniformly across all decisions, and he calls a predictor optimal if this probability is asymptotically equal to a prescribed confidence level. Using the empirical likelihood theorem of Owen, he shows that Pearson divergence and relative entropy ambiguity sets with properly scaled radii are optimal in this sense.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Relative entropy ambiguity sets have already attracted considerable interest in distributionally robust optimization. Note, however, that the relative entropy constitutes an asymmetric distance measure between two distributions. The asymmetry implies, among others, that the first distribution must be absolutely continuous to the second one but not vice versa. Thus, ambiguity sets can be constructed in two different ways by designating the reference distribution either as the first or as the second argument of the relative entropy. All papers listed above favor the second option, and thus the emerging ambiguity sets contain only distributions that are absolutely continuous to the reference distribution. Maybe surprisingly, the optimal predictor resulting from our meta-optimization problem uses the reference distribution as the first argument of the relative entropy instead. Thus, the reference distribution is absolutely continuous to every distribution in the emerging ambiguity set. Relative entropy balls of this kind have previously been studied by Gupta, Lam and Bertsimas et al..
+This notion of optimality has again an asymptotic flavor in the sense that it refers to sequences of ambiguity sets that converge to a singleton, and it admits multiple optimizers.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Adopting a Bayesian perspective, Gupta determines the smallest ambiguity sets that contain the unknown data-generating distribution with a prescribed level of confidence as the sample size tends to infinity. Both Pearson divergence and relative entropy ambiguity sets with properly scaled radii are optimal in this setting. In the terminology of the present paper, Gupta thus restricts attention to the subclass of distributionally robust predictors and operates with an asymptotic notion of optimality. The meta-optimization problem proposed here entails a stronger notion of optimality, under which the distributionally robust predictor with relative entropy ambiguity set emerges as the unique optimizer. Lam also seeks distributionally robust predictors that trade conservatism for out-of-sample performance. He studies the probability that the estimated expected cost function dominates the actual expected cost function uniformly across all decisions, and he calls a predictor optimal if this probability is asymptotically equal to a prescribed confidence level. Using the empirical likelihood theorem of Owen, he shows that Pearson divergence and relative entropy ambiguity sets with properly scaled radii are optimal in this sense.
+The rest of the paper unfolds as follows. Section 2 provides a formal introduction to data-driven stochastic programming on finite state spaces and develops the meta-optimization problem for identifying the best predictor-prescriptor-pair. Section 3 reviews weak and strong large deviation principles, which are then used in Section 4 to determine the unique optimal solution of the metaoptimization problem. An extension to continuous state spaces is discussed in Section 5.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-This notion of optimality has again an asymptotic flavor in the sense that it refers to sequences of ambiguity sets that converge to a singleton, and it admits multiple optimizers.
+Notation: The natural logarithm of p ∈ℜ + is denoted by log( p ), where we use the conventions 0log(0 /p ) = 0 for any p ≥ 0 and p ′ log( p ′ / 0) = ∞ for any p ′ > 0. A function f: P → X from P ⊆ ℜ d to X ⊆ℜ n is called quasi-continuous at P ∈ P if for every ϵ > 0 and neighborhood U ⊆P of P there is a non-empty open set V ⊆ U with | f ( P ) -f ( Q ) | ≤ ϵ for all Q ∈ V. Note that V does not necessarily contain P. For any logical statement E, the indicator function 1 E evaluates to 1 if E is true and to 0 otherwise.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Data-driven stochastic programming", "weight": 1.0} -->
 
-The rest of the paper unfolds as follows. Section 2 provides a formal introduction to data-driven stochastic programming on finite state spaces and develops the meta-optimization problem for identifying the best predictor-prescriptor-pair. Section 3 reviews weak and strong large deviation principles, which are then used in Section 4 to determine the unique optimal solution of the meta-optimization problem. An extension to continuous state spaces is discussed in Section 5.
+Stochastic programming is a powerful modeling paradigm for taking informed decisions in an uncertain environment. A generic single-stage stochastic program can be represented as Here, the goal is to minimize the expected value of a cost function γ (x,ξ) ∈ ℜ, which depends both on a decision variable x ∈ X and a random parameter ξ ∈ Ξ governed by a probability distribution P ⋆. We will assume that the cost γ (x,ξ) is continuous in x for every fixed ξ ∈ Ξ, the feasible set X ⊆ℜ n is compact, and Ξ = { 1,..., d } is finite. Thus, ξ has d distinct scenarios that are represented-without loss of generality-by the integers 1,..., d. We will relax this requirement in Section 5, where Ξ will be modeled as an arbitrary compact subset of ℜ d. A wide spectrum of decision problems can be cast as instances of. Shapiro et al. point out, for example, that can be viewed as the first stage of a two-stage stochastic program, where the cost function γ (x,ξ) embodies the optimal value of a subordinate second-stage problem.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Data-driven stochastic programming", "weight": 1.0} -->
 
-Stochastic programming is a powerful modeling paradigm for taking informed decisions in an uncertain environment. A generic single-stage stochastic program can be represented as Here, the goal is to minimize the expected value of a cost function ${\gamma{(x,\xi)}} \in \Re$, which depends both on a decision variable $x \in X$ and a random parameter $\xi \in \Xi$ governed by a probability distribution ${\mathbb{P}}^{\star}$. We will assume that the cost $\gamma{(x,\xi)}$ is continuous in $x$ for every fixed $\xi \in \Xi$, the feasible set $X \subseteq \Re^{n}$ is compact, and $\Xi = {\{ 1,\ldots,d\}}$ is finite. Thus, $\xi$ has $d$ distinct scenarios that are represented---without loss of generality---by the integers $1,\ldots,d$.
+Alternatively, problem may also be interpreted as a generic learning problem in the spirit of statistical learning theory.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Data-driven stochastic programming", "weight": 1.0} -->
 
-We will relax this requirement in Section 5, where $\Xi$ will be modeled as an arbitrary compact subset of $\Re^{d}$. A wide spectrum of decision problems can be cast as instances of. Shapiro et al. point out, for example, that can be viewed as the first stage of a two-stage stochastic program, where the cost function $\gamma{(x,\xi)}$ embodies the optimal value of a subordinate second-stage problem. Alternatively, problem may also be interpreted as a generic learning problem in the spirit of statistical learning theory.
+In the following, we distinguish the prediction problem, which merely aims to predict the expected cost associated with a fixed decision x, and the prescription problem, which seeks to identify a decision x ⋆ that minimizes the expected cost across all x ∈ X.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Data-driven stochastic programming", "weight": 1.0} -->
 
-In the following, we distinguish the prediction problem, which merely aims to predict the expected cost associated with a fixed decision $x$, and the prescription problem, which seeks to identify a decision $x^{\star}$ that minimizes the expected cost across all $x \in X$.
+Any attempt to solve the prescription problem seems futile unless there is a procedure for solving the corresponding prediction problem. The generic prediction problem is closely related to what Le Maˆ ıtre and Knio call an uncertainty quantification problem and is therefore of prime interest in its own right. Throughout the rest of the paper, we thus analyze prediction and prescription problems on equal footing.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Data-driven stochastic programming", "weight": 1.0} -->
 
-Any attempt to solve the prescription problem seems futile unless there is a procedure for solving the corresponding prediction problem. The generic prediction problem is closely related to what Le Maître and Knio call an uncertainty quantification problem and is therefore of prime interest in its own right. Throughout the rest of the paper, we thus analyze prediction and prescription problems on equal footing.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Data-driven stochastic programming", "weight": 1.0} -->
-
 In the what follows we formalize the notion of a data-driven solution to the prescription and prediction problems, respectively. Furthermore, we introduce the basic assumptions as well as the notation used throughout the remainder of the paper.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Data-driven predictors and prescriptors", "weight": 1.0} -->
+
+If the distribution P ⋆ of ξ is unobservable and must be estimated from a training dataset consisting of finitely many independent samples from P ⋆, we lack essential information to evaluate the expected cost of any fixed decision and to solve the stochastic program. The standard approach to overcome this deficiency is to approximate P ⋆ with a parametric or non-parametric estimate ˆ P inferred from the samples and to minimize the expected cost under ˆ P instead of the true expected cost under P ⋆. However, if we calibrate a stochastic program to a training data set and evaluate its optimal decision on a test data set, then the resulting test performance is often disappointingeven if the two datasets are sampled independently from P ⋆. This phenomenon has been observed in many different contexts. It is particularly pronounced in finance, where Michaud refers to it as the 'error maximization effect' of portfolio optimization, and in statistics or machine learning, where it is known as 'overfitting'. In decision analysis, Smith and Winkler refer to it as the 'optimizer's curse'.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Data-driven predictors and prescriptors", "weight": 1.0} -->
 
-If the distribution ${\mathbb{P}}^{\star}$ of $\xi$ is unobservable and must be estimated from a training dataset consisting of finitely many independent samples from ${\mathbb{P}}^{\star}$, we lack essential information to evaluate the expected cost of any fixed decision and to solve the stochastic program. The standard approach to overcome this deficiency is to approximate ${\mathbb{P}}^{\star}$ with a parametric or non-parametric estimate $\hat{\mathbb{P}}$ inferred from the samples and to minimize the expected cost under $\hat{\mathbb{P}}$ instead of the true expected cost under ${\mathbb{P}}^{\star}$. However, if we calibrate a stochastic program to a training data set and evaluate its optimal decision on a test data set, then the resulting test performance is often disappointing---even if the two datasets are sampled independently from ${\mathbb{P}}^{\star}$. This phenomenon has been observed in many different contexts.
+Thus, when working with data instead of exact probability distributions, one should safeguard against solutions that display promising in-sample performance but lead to out-of-sample disappointment.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Data-driven predictors and prescriptors", "weight": 1.0} -->
 
-It is particularly pronounced in finance, where Michaud refers to it as the 'error maximization effect' of portfolio optimization, and in statistics or machine learning, where it is known as 'overfitting'. In decision analysis, Smith and Winkler refer to it as the 'optimizer's curse'. Thus, when working with data instead of exact probability distributions, one should safeguard against solutions that display promising in-sample performance but lead to out-of-sample disappointment.
+Initially the distribution P ⋆ is only known to belong to the probability simplex P = { P ∈ ℜ d +: ∑ i ∈ Ξ P ( i ) = 1 }. Over time, however, independent samples ξ t, t ∈ N, from P ⋆ are revealed to the decision maker that provide increasingly reliable statistical information about P ⋆.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Data-driven predictors and prescriptors", "weight": 1.0} -->
 
-Any ${\mathbb{P}} \in \mathcal{P}$ encodes a possible probabilistic model for the data process. Thus, by slight abuse of terminology, we will henceforth refer to the distributions ${\mathbb{P}} \in \mathcal{P}$ as models and to $\mathcal{P}$ as the model class. Evidently, the true model ${\mathbb{P}}^{\star}$ is an (albeit unknown) element of $\mathcal{P}$. Next, we introduce model-based predictors and prescriptors corresponding to the stochastic program, where the true unknown distribution ${\mathbb{P}}^{\star}$ is replaced with a hypothetical model ${\mathbb{P}} \in \mathcal{P}$.
+Any P ∈ P encodes a possible probabilistic model for the data process. Thus, by slight abuse of terminology, we will henceforth refer to the distributions P ∈ P as models and to P as the model class. Evidently, the true model P ⋆ is an (albeit unknown) element of P. Next, we introduce model-based predictors and prescriptors corresponding to the stochastic program, where the true unknown distribution P ⋆ is replaced with a hypothetical model P ∈P.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Example 2.4 (Sample average predictor)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Data-driven predictors and prescriptors", "weight": 1.0} -->
 
-The model-based predictor $c$ introduced in Definition 2.1 ‣ 2.1 Data-driven predictors and prescriptors ‣ 2 Data-driven stochastic programming") constitutes a simple data-driven predictor $\hat{c} = c$, that is, $c{(x,{\hat{\mathbb{P}}}_{T})}$ can readily be used as a naïve approximation for $c{(x,{\mathbb{P}}^{\star})}$. Note that the model-based predictor $c$ is indeed continuous as desired. By the definition of the empirical estimator, this naïve predictor approximates $c{(x,{\mathbb{P}}^{\star})}$ with which is readily recognized as the popular sample average approximation.
+Note that the model-based predictor c ( x, P ) is jointly continuous in x and P because Ξ is finite and γ ( x,ξ ) is continuous in x for every fixed ξ ∈ Ξ. The continuity of c ( x, P ) then guarantees via the compactness of X that the model-based prescriptor x ⋆ ( P ) exists for every model P ∈ P. In view of Definition 1, the stochastic program can be identified with the prescription problem of computing x ⋆ ( P ⋆ ). Similarly, the evaluation of the expected cost of a given decision x ∈ X in can be identified with the prediction problem of computing c ( x, P ⋆ ). These prediction and prescription problems cannot be solved, however, as they depend on the unknown true model P ⋆.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Data-driven predictors and prescriptors", "weight": 1.0} -->
 
-The estimates $\hat{c}{(x,{\hat{\mathbb{P}}}_{T})}$ and $\hat{x}{({\hat{\mathbb{P}}}_{T})}$ inherit the randomness from the empirical estimator ${\hat{\mathbb{P}}}_{T}$, which is constructed from the (random) samples ${\{\xi_{t}\}}_{t = 1}^{T}$. Note that the prediction and prescription problems are naturally interpreted as instances of statistical estimation problems. Indeed, data-driven prediction aims to estimate the expected cost $c{(x,{\mathbb{P}}^{\star})}$ from data.
+Definition 1 (model-based predictors and prescriptors). For any fixed model P ∈ P, we define the model-based predictor c ( x, P ) = E P [ γ ( x,ξ )] = ∑ i ∈ Ξ P ( i ) γ ( x,i ) as the expected cost of a given decision x ∈ X and the model-based prescriptor x ⋆ ( P ) ∈ argmin x ∈ X c ( x, P ) as a decision that minimizes c ( x, P ) over x ∈ X.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Data-driven predictors and prescriptors", "weight": 1.0} -->
 
-Standard statistical estimation theory would typically endeavor to find a data-driven predictor $\hat{c}$ that (approximately) minimizes the mean squared error over some appropriately chosen class of predictors $\hat{c}$, where the expectation is taken with respect to the distribution ${({\mathbb{P}}^{\star})}^{\infty}$ governing the sample path and the empirical estimator. The mean squared error penalizes the mismatch between the actual cost $c{(x,{\mathbb{P}}^{\star})}$ and its estimator $\hat{c}{(x,{\hat{\mathbb{P}}}_{T})}$.
+If one has only access to a finite set { ξ t } T t =1 of independent samples from P ⋆ instead of P ⋆ itself, then it may be useful to construct an empirical estimator for P ⋆.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Data-driven predictors and prescriptors", "weight": 1.0} -->
 
-Events in which we are left disappointed (${c{(x,{\mathbb{P}}^{\star})}} > {\hat{c}{(x,{\hat{\mathbb{P}}}_{T})}}$) are not treated differently from positive surprises (${c{(x,{\mathbb{P}}^{\star})}} < {\hat{c}{(x,{\hat{\mathbb{P}}}_{T})}}$). In a decision-making context where the goal is to minimize costs, however, disappointments (underestimated costs) are more harmful than positive surprises (overestimated costs). While statisticians strive for accuracy by minimizing a symmetric estimation error, decision makers endeavor to limit the one-sided prediction disappointment.
+Definition 2 (Empirical distribution). The empirical distribution ˆ P T corresponding to the sample path { ξ t } T t =1 of length T is defined through Note that ˆ P T can be viewed as the vector of empirical state frequencies. Indeed, its i th entry records the proportion of time that the sample path spends in state i. As the samples are drawn independently, the state frequencies capture all useful statistical information about P ⋆ that can possibly be extracted from a given sample path. Note also that ˆ P T is in fact the maximum likelihood estimator of P ⋆. In the following, we will therefore approximate the unknown predictor c (x, P ⋆) as well as the unknown prescriptor x ⋆ (P ⋆) by suitable functions of the empirical distribution ˆ P T.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Example 2.6 (Large out-of-sample disappointment)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Data-driven predictors and prescriptors", "weight": 1.0} -->
 
-As the sample size $T$ tends to infinity, the central limit theorem implies that converges in law to a normal distribution with mean $0$ and variance ${\mathbb{E}}_{\mathbb{P}}{\lbrack{({\xi - {{\mathbb{E}}_{\mathbb{P}}{\lbrack\xi\rbrack}}})}^{2}\rbrack}$. Thus, which means that the out-of-sample prediction disappointment remains large for all sample sizes. The sample average predictor hence violates the asymptotic guarantee (3 ‣ 2.2 Optimizing over all data-driven predictors and prescriptors ‣ 2 Data-driven stochastic programming")) and the stronger finite sample guarantee (4 ‣ 2.2 Optimizing over all data-driven predictors and prescriptors ‣ 2 Data-driven stochastic programming")). Note that by adding any positive constant to the sample average predictor, we recover a predictor with exponentially decaying out-of-sample disappointment.
+Definition 3 (Data-driven predictors and prescriptors). A continuous function ˆ c: X ×P →ℜ is called a data-driven predictor if ˆ c (x, ˆ P T) is used as an approximation for c (x, P ⋆). A quasi-continuous function ˆ x: P → X is called a data-driven prescriptor if there exists a data-driven predictor ˆ c with for all possible estimator realizations P ′ ∈P, and ˆ x (ˆ P T) is used as an approximation for x ⋆ (P ⋆).
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Example 2.6 (Large out-of-sample disappointment)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Data-driven predictors and prescriptors", "weight": 1.0} -->
 
-In the following we call a predictor $\hat{c}$ conservative if ${\hat{c}{(x,{\mathbb{P}}')}} > {c{(x,{\mathbb{P}}')}}$ for all decisions $x \in X$ and estimator realizations ${\mathbb{P}}' \in \mathcal{P}$. The above discussion shows that if we require the out-of-sample disappointment to decay asymptotically, we must focus on conservative predictors. Basic results from large deviations theory further ensure that the out-of-sample disappointment of any conservative predictor necessarily decays at an exponential rate.
+Every data-driven predictor ˆ c induces a data-driven prescriptor ˆ x. To see this, note that the 'arg min' mapping is non-empty-valued and upper semicontinuous due to Berge's maximum theorem, which applies because ˆ c is continuous and X is both compact and independent of P ′. Corollary 4, which applies because P is a Baire space and X is a metric space, thus ensures that the 'arg min' mapping admits a quasi-continuous selector, which serves as a valid data-driven prescriptor. One can show that the set of points where this quasi-continuous prescriptor is discontinuous is a meagre subset of P. By the Baire category theorem, the points of continuity of the data-driven prescriptor at hand are thus dense in P (Baire 1899). Thus, data-driven prescriptors in the sense of Definition 3 are 'mostly' continuous.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Example 2.6 (Large out-of-sample disappointment)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Data-driven predictors and prescriptors", "weight": 1.0} -->
 
-Specifically, asymptotic guarantees of the type (3 ‣ 2.2 Optimizing over all data-driven predictors and prescriptors ‣ 2 Data-driven stochastic programming")) hold whenever the empirical distribution ${\hat{\mathbb{P}}}_{T}$ satisfies a weak large deviation principle, while finite sample guarantees of the type (4 ‣ 2.2 Optimizing over all data-driven predictors and prescriptors ‣ 2 Data-driven stochastic programming")) hold when ${\hat{\mathbb{P}}}_{T}$ satisfies a strong large deviation principle. As will be shown in Section 3, the empirical distribution does satisfy weak and strong large deviation principles. One predictor that fails to be conservative is the sample average predictor.
+Example 1 (Sample average predictor). The model-based predictor c introduced in Definition 1 constitutes a simple data-driven predictor ˆ c = c, that is, c (x, ˆ P T) can readily be used as a na¨ ıve approximation for c (x, P ⋆). Note that the model-based predictor c is indeed continuous as desired. By the definition of the empirical estimator, this na¨ ıve predictor approximates c (x, P ⋆) with which is readily recognized as the popular sample average approximation.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Example 2.6 (Large out-of-sample disappointment)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
 
-For ease of exposition, we henceforth denote by $\mathcal{C}$ the set of all data-driven predictors, that is, all continuous functions that map $X \times \mathcal{P}$ to the reals. Moreover, we introduce a partial order $\preceq_{\mathcal{C}}$ on $\mathcal{C}$ defined through for any ${{\hat{c}}_{1},{\hat{c}}_{2}} \in \mathcal{C}$. Thus, ${\hat{c}}_{1} \preceq_{\mathcal{C}}{\hat{c}}_{2}$ means that ${\hat{c}}_{1}$ is (weakly) less conservative than ${\hat{c}}_{2}$. The problem of finding the least conservative predictor among all data-driven predictors whose out-of-sample disappointment decays at rate at least $r > 0$ can thus be formalized as the following vector optimization problem.
+The estimates ˆ c (x, ˆ P T) and ˆ x (ˆ P T) inherit the randomness from the empirical estimator ˆ P T, which is constructed from the (random) samples { ξ t } T t =1. Note that the prediction and prescription problems are naturally interpreted as instances of statistical estimation problems. Indeed, data-driven prediction aims to estimate the expected cost c (x, P ⋆) from data. Standard statistical estimation theory would typically endeavor to find a data-driven predictor ˆ c that (approximately) minimizes the mean squared error over some appropriately chosen class of predictors ˆ c, where the expectation is taken with respect to the distribution (P ⋆) ∞ governing the sample path and the empirical estimator. The mean squared error penalizes the mismatch between the actual cost c (x, P ⋆) and its estimator ˆ c (x, ˆ P T). Events in which we are left disappointed (c (x, P ⋆) > ˆ c (x, ˆ P T)) are not treated differently from positive surprises (c (x, P ⋆) < ˆ c (x, ˆ P T)).
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Example 2.6 (Large out-of-sample disappointment)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
 
-We are now ready to construct a meta-optimization problem akin to, which enables us to identify the best prescriptor. To this end, we henceforth denote by $\mathcal{X}$ the set of all data-driven predictor-prescriptor-pairs $(\hat{c},\hat{x})$, where $\hat{c} \in \mathcal{C}$, and $\hat{x}$ is a prescriptor induced by $\hat{c}$ as per Definition 2.3 ‣ 2.1 Data-driven predictors and prescriptors ‣ 2 Data-driven stochastic programming").
+In a decision-making context where the goal is to minimize costs, however, disappointments (underestimated costs) are more harmful than positive surprises (overestimated costs). While statisticians strive for accuracy by minimizing a symmetric estimation error, decision makers endeavor to limit the one-sided prediction disappointment.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Example 2.6 (Large out-of-sample disappointment)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
 
-Moreover, we equip $\mathcal{X}$ with a partial order $\preceq_{\mathcal{X}}$, which is defined through Note that ${\hat{c}}_{1} \preceq_{\mathcal{C}}{\hat{c}}_{2}$ actually implies ${({\hat{c}}_{1},{\hat{x}}_{1})} \preceq_{\mathcal{X}}{({\hat{c}}_{2},{\hat{x}}_{2})}$ but not vice versa. The problem of finding the least conservative predictor-prescriptor-pair whose out-of-sample prescription disappointment decays at rate at least $r > 0$ can now be formalized as the following vector optimization problem.
+Definition 4 (Out-of-sample disappointment). For any data-driven predictor ˆ c the probability is referred to as the out-of-sample prediction disappointment of x ∈ X under model P ∈P. Similarly, for any data-driven prescriptor ˆ x induced by a data-driven predictor ˆ c the probability is termed the out-of-sample prescription disappointment under model P ∈P.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Example 2.6 (Large out-of-sample disappointment)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+
+The out-of-sample prediction disappointment quantifies the probability (with respect to the sample path distribution P ∞ under some model P ∈ P ) that the expected cost c ( x, P ) of a fixed decision x exceeds the predicted cost ˆ c ( x, ˆ P T ). Thus, the out-of-sample prediction disappointment is independent of the actual realization of the empirical estimator ˆ P T but depends on the hypothesized model P. A similar statement holds for the out-of-sample prescription disappointment.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+
+The main objective of this paper is to construct attractive data-driven predictors and prescriptors, which are optimal in a sense to be made precise below. We first develop a notion of optimality for data-driven predictors and extend it later to data-driven prescriptors. As indicated above, a crucial requirement for any data-driven predictor is that it must limit the out-of-sample disappointment. This informal requirement can be operationalized either in an asymptotic sense or in a finite sample sense.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+
+(i) Asymptotic guarantee: As T grows, the out-of-sample prediction disappointment (2a) decays exponentially at a rate at least equal to r > 0 up to first order in the exponent, that is, (ii) Finite sample guarantee: For every fixed T, the out-of-sample prediction disappointment (2a) is bounded above by a known function g (T) that decays exponentially at rate at least equal to r > 0 to first order in the exponent, that is, where limsup T →∞ 1 T log g (T) ≤-r.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+
+The inequalities and are imposed across all models P ∈P. This ensures that they are satisfied under the true model P ⋆, which is only known to reside within P. By requiring the inequalities to hold for all x ∈ X, we further ensure that the out-of-sample prediction disappointment is eventually small irrespective of the chosen decision. Note that the finite sample guarantee is sufficient but not necessary for the asymptotic guarantee. Knowing the finite sample bounds g (T) has the advantage, amongst others, that one can determine the sample complexity that is, the minimum number of samples needed to certify that the out-of-sample prediction disappointment does not exceed a prescribed significance level β ∈.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+
+At first sight the requirements and may seem restrictive, and the existence of datadriven predictors with exponentially decaying out-of-sample disappointment may be questioned. Below we will argue, however, that these requirements are in fact natural and satisfied by all reasonable predictors. To see this, note that if the training data is generated by P, then the empirical distribution ˆ P T converges P ∞ -almost surely to P by virtue of the strong law of large numbers. Thus, the out-of-sample disappointment of a predictor ˆ c with ˆ c ( x, P ) >c ( x, P ) must decay to 0 as T grows. Conversely, if ˆ c ( x, P ) <c ( x, P ), then the out-of-sample disappointment of ˆ c must approach 1 as T tends to infinity. The following example shows that the out-of-sample disappointment generically fails to vanish asymptotically in the limiting case when ˆ c ( x, P ) = c ( x, P ).
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+
+Example 2 (Large out-of-sample disappointment). Set the cost function to γ (x,ξ) = ξ. In this case, the sample average predictor approximates the expected cost c (x, P) = ∑ i ∈ Ξ i P (i) by its sample mean c (x, ˆ P T) = 1 T ∑ T t =1 ξ t. As the sample size T tends to infinity, the central limit theorem implies that converges in law to a normal distribution with mean 0 and variance E P [(ξ -E P [ξ]) 2]. Thus, which means that the out-of-sample prediction disappointment remains large for all sample sizes. The sample average predictor hence violates the asymptotic guarantee and the stronger finite sample guarantee. Note that by adding any positive constant to the sample average predictor, we recover a predictor with exponentially decaying out-of-sample disappointment.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+
+In the following we call a predictor ˆ c conservative if ˆ c ( x, P ′ ) > c ( x, P ′ ) for all decisions x ∈ X and estimator realizations P ′ ∈ P. The above discussion shows that if we require the out-ofsample disappointment to decay asymptotically, we must focus on conservative predictors. Basic results from large deviations theory further ensure that the out-of-sample disappointment of any conservative predictor necessarily decays at an exponential rate. Specifically, asymptotic guarantees of the type hold whenever the empirical distribution ˆ P T satisfies a weak large deviation principle, while finite sample guarantees of the type hold when ˆ P T satisfies a strong large deviation principle. As will be shown in Section 3, the empirical distribution does satisfy weak and strong large deviation principles. One predictor that fails to be conservative is the sample average predictor.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+
+For ease of exposition, we henceforth denote by C the set of all data-driven predictors, that is, all continuous functions that map X ×P to the reals. Moreover, we introduce a partial order ⪯ C on C defined through for any ˆ c 1, ˆ c 2 ∈C. Thus, ˆ c 1 ⪯ C ˆ c 2 means that ˆ c 1 is (weakly) less conservative than ˆ c 2. The problem of finding the least conservative predictor among all data-driven predictors whose out-of-sample disappointment decays at rate at least r > 0 can thus be formalized as the following vector optimization problem.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+
+We highlight that the minimization in is understood with respect to the partial order ⪯ C. Thus, the relation ˆ c 1 ⪯ C ˆ c 2 between two feasible decision means that ˆ c 1 is weakly preferred to ˆ c 2. However, not all pairs of feasible decisions are comparable, that is, it is possible that both ˆ c 1 ⪯̸ C ˆ c 2 and ˆ c 2 ⪯̸ C ˆ c 1. A predictor ˆ c ⋆ is a strongly optimal solution for if it is feasible and weakly preferred to every other feasible solution (i.e., every ˆ c =ˆ c ⋆ feasible in satisfies ˆ c ⋆ ⪯ C ˆ c). Similarly, ˆ c ⋆ is a weakly optimal solution for if it is feasible and if every other solution preferred to ˆ c ⋆ is infeasible (i.e., every ˆ c =ˆ c ⋆ with ˆ c ⪯ C ˆ c ⋆ is infeasible in). While vector optimization problems can have many weak solutions, we point out that strong solutions are necessarily unique. To see this, assume for the sake of contradiction that ˆ c ⋆ 1 and ˆ c ⋆ 2 are two strong solutions of.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+
+In this case the strong optimality of ˆ c ⋆ 1 implies that ˆ c ⋆ 2 ⪯ C ˆ c ⋆ 1, while the strong optimality of ˆ c ⋆ 2 implies that ˆ c ⋆ 1 ⪯ C ˆ c ⋆ 2. These two relations imply that ˆ c ⋆ 1 =ˆ c ⋆ 2, that is, there cannot be two different strongly optimal solutions.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
+
+We are now ready to construct a meta-optimization problem akin to, which enables us to identify the best prescriptor. To this end, we henceforth denote by X the set of all data-driven predictor-prescriptor-pairs (ˆ c, ˆ x), where ˆ c ∈C, and ˆ x is a prescriptor induced by ˆ c as per Definition 3. Moreover, we equip X with a partial order ⪯ X, which is defined through Note that ˆ c 1 ⪯ C ˆ c 2 actually implies (ˆ c 1, ˆ x 1) ⪯ X (ˆ c 2, ˆ x 2) but not vice versa. The problem of finding the least conservative predictor-prescriptor-pair whose out-of-sample prescription disappointment decays at rate at least r > 0 can now be formalized as the following vector optimization problem.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
 
 Generic vector optimization problems typically only admit weak solutions. In Section 4 we will show, however, that as well as admit (unique) strong solutions in closed form. In fact, we will show that these closed-form solutions have a natural interpretation as the solutions of convex distributionally robust optimization problems.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Remark 2.7 (Out-of-sample and in-sample performance)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
 
-The natural performance measure to quantify the goodness of a data-driven prescriptor $\hat{x}$ is its out-of-sample performance $c{({\hat{x}{({\hat{\mathbb{P}}}_{T})}},{\mathbb{P}}^{\star})}$ under the true model ${\mathbb{P}}^{\star}$. As ${\mathbb{P}}^{\star}$ is unknown, however, the out-of-sample performance cannot be optimized directly. A naïve remedy would be to formulate a meta-optimization problem that minimizes the worst-case (or some average) of the out-of-sample performance of $\hat{x}$ across all models ${\mathbb{P}} \in \mathcal{P}$. The approach proposed here optimizes the out-of-sample performance implicitly.
+Remark 1 (Out-of-sample and in-sample performance). The natural performance measure to quantify the goodness of a data-driven prescriptor ˆ x is its out-of-sample performance c (ˆ x ( ˆ P T ), P ⋆ ) under the true model P ⋆. As P ⋆ is unknown, however, the out-of-sample performance cannot be optimized directly. A na¨ ıve remedy would be to formulate a meta-optimization problem that minimizes the worst-case (or some average) of the out-of-sample performance of ˆ x across all models P ∈ P. The approach proposed here optimizes the out-of-sample performance implicitly. Indeed, the meta-optimization problem represents ˆ x as a minimizer of some predictor ˆ c, where ˆ c (ˆ x ( ˆ P T ), ˆ P T ) should be interpreted as the in-sample performance of ˆ x.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Remark 2.7 (Out-of-sample and in-sample performance)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Optimizing over all data-driven predictors and prescriptors", "weight": 1.0} -->
 
-Indeed, the meta-optimization problem represents $\hat{x}$ as a minimizer of some predictor $\hat{c}$, where $\hat{c}{({\hat{x}{({\hat{\mathbb{P}}}_{T})}},{\hat{\mathbb{P}}}_{T})}$ should be interpreted as the in-sample performance of $\hat{x}$. Instead of minimizing the out-of-sample performance of $\hat{x}$, problem minimizes the in-sample performance of $\hat{x}$ but ensures through the constraints on the disappointment that the out-of-sample performance is smaller than the in-sample performance with increasingly high confidence as the sample size grows. In this sense, problem minimizes a tight upper bound on the out-of-sample performance of $\hat{x}$.
+Instead of minimizing the out-of-sample performance of ˆ x, problem minimizes the in-sample performance of ˆ x but ensures through the constraints on the disappointment that the out-of-sample performance is smaller than the in-sample performance with increasingly high confidence as the sample size grows. In this sense, problem minimizes a tight upper bound on the out-of-sample performance of ˆ x.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-Large deviations theory provides bounds on the exact exponential rate at which the probabilities of atypical estimator realizations decay under a model $\mathbb{P}$ as the sample size $T$ tends to infinity. These bounds are expressed in terms of the relative entropy of ${\hat{\mathbb{P}}}_{T}$ with respect to $\mathbb{P}$.
+Large deviations theory provides bounds on the exact exponential rate at which the probabilities of atypical estimator realizations decay under a model P as the sample size T tends to infinity. These bounds are expressed in terms of the relative entropy of ˆ P T with respect to P.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Distributionally robust predictors and prescriptors are optimal", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-Armed with the fundamental results of large deviations theory, we now endeavor to identify the least conservative data-driven predictors and prescriptors whose out-of-sample disappointment decays at a rate no less than some prescribed threshold $r > 0$ under any model ${\mathbb{P}} \in \mathcal{P}$, that is, we aim to solve the vector optimization problems and.
+Definition 5 (Relative entropy). The relative entropy of an estimator realization P ′ ∈ P with respect to a model P ∈P is defined as where we use the conventions 0log(0 /p) = 0 for any p ≥ 0 and p ′ log(p ′ / 0) = ∞ for any p ′ > 0.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-The relative entropy lends itself to constructing a data-driven predictor in the sense of Definition 2.3 ‣ 2.1 Data-driven predictors and prescriptors ‣ 2 Data-driven stochastic programming"). We will show below that this predictor is strongly optimal.
+The relative entropy is also known as information for discrimination, cross-entropy, information gain or Kullback-Leibler divergence. The following proposition summarizes the key properties of the relative entropy relevant for this paper.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Remark 4.4 (Sample average predictor)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-For $r = 0$ the distributionally robust predictor ${\hat{c}}_{r}$ collapses to the sample average predictor of Example 2.4 ‣ 2.1 Data-driven predictors and prescriptors ‣ 2 Data-driven stochastic programming").
+- (i) Information inequality: I(P ′, P) ≥ 0 for all P, P ′ ∈P, while I(P ′, P) = 0 if and only if P ′ = P. - (ii) Convexity: For all pairs (P ′ 1, P 1), (P ′ 2, P 2) ∈P×P and λ ∈ we have
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Remark 4.4 (Sample average predictor)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-Indeed, because of the strict positivity of the relative entropy ${I{({\mathbb{P}}',{\mathbb{P}})}} > 0$ for ${\mathbb{P}}' \neq {\mathbb{P}}$, see Proposition 3.2 ‣ 3 Large deviation principles")(i), we have that As shown in Example 2.6 ‣ 2.2 Optimizing over all data-driven predictors and prescriptors ‣ 2 Data-driven stochastic programming"), the sample average predictor fails to offer asymptotic or finite sample guarantees of the form (3 ‣ 2.2 Optimizing over all data-driven predictors and prescriptors ‣ 2 Data-driven stochastic programming")) and (4 ‣ 2.2 Optimizing over all data-driven predictors and prescriptors ‣ 2 Data-driven stochastic programming")), respectively.
+- (iii) Lower semicontinuity I( P ′, P ) ≥ 0 is lower semicontinuous in ( P ′, P ) ∈P×P.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Remark 4.5 (Alternative distributionally robust predictors)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-The relative entropy can also be used to construct a reverse distributionally robust predictor ${\check{c}}_{r} \in \mathcal{C}$ defined through In contrast to ${\hat{c}}_{r}$, the reverse distributionally robust predictor ${\check{c}}_{r}$ fixes the second argument of the relative entropy and maximizes over the first argument. Note that ${\check{c}}_{r}$ can be viewed as the entropic value-at-risk of the uncertain cost $\gamma{(x,\xi)}$; see. Another predictor related to $\hat{c}$ is the restricted distributionally robust predictor ${\overline{c}}_{r} \in \mathcal{C}$ defined through where ${\mathbb{P}} \ll {\mathbb{P}}'$ expresses the requirement that $\mathbb{P}$ must be absolutely continuous with respect to ${\mathbb{P}}'$.
+Proof. Assertions (i) and (ii) follow from Theorems 2.6.3 and 2.7.2 in Cover and Thomas, respectively, while assertion (iii) follows directly from the definition of the relative entropy and our standard conventions regarding the natural logarithm. □ We now show that the empirical estimators satisfy a weak large deviation principle (LDP). This result follows immediately from a finite version of Sanov's classical theorem. A textbook proof using the so-called method of types can be found in Cover and Thomas. As the proof is illuminating and to keep this paper self-contained, we sketch the proof in Appendix A.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Remark 4.5 (Alternative distributionally robust predictors)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-The predictors ${\hat{c}}_{r}$ and ${\check{c}}_{r}$ differ because the relative entropy fails to be symmetric. We emphasize that the reverse predictor ${\check{c}}_{r}$ has appeared often in the literature on distributionally robust optimization, see, e.g.,. The predictors ${\hat{c}}_{r}$ and ${\overline{c}}_{r}$ differ, too, because of the additional constraint ${\mathbb{P}} \ll {\mathbb{P}}'$, which is significant when not all outcomes in $\Xi$ have been observed. The statistical properties of the predictor ${\overline{c}}_{r}$ have been analyzed by Lam and more recently by Duchi et al. from the perspective of the empirical likelihood theory introduced by Owen.
+Theorem 1 (Weak LDP). If the samples { ξ t } t ∈ N are drawn independently from some P ∈P, then for every Borel set D⊆P the sequence of empirical distributions { ˆ P T } T ∈P satisfies If additionally P > 0, then for every Borel set D⊆P we have 1 1 Here, the interior of D is taken with respect to the subspace topology on P. Recall that a set D⊆P is open in the subspace topology on P if D = P ∩O for some set O⊆ℜ d that is open in the Euclidean topology on ℜ d.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Remark 4.5 (Alternative distributionally robust predictors)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-The predictor ${\hat{c}}_{r}$ suggested here has not yet been studied extensively even though---as we will demonstrate below---it displays attractive theoretical properties that are not shared by either ${\check{c}}_{r}$ or ${\overline{c}}_{r}$. The difference between ${\hat{c}}_{r}$ and ${\check{c}}_{r}$ or ${\overline{c}}_{r}$ is significant. Indeed, both ${\check{c}}_{r}$ and ${\overline{c}}_{r}$ hedge only against models $\mathbb{P}$ that are absolutely continuous with respect to the (observed realization of the) empirical distribution ${\mathbb{P}}'$. While it is clear that the empirical distribution must be absolutely continuous with respect to the data-generating distribution, however, the converse implication is generally false. Indeed, an outcome can have positive probability even if it does not show up in a given finite time series.
+Note that the inequality (7a) provides an upper LDP bound on the exponential rate at which the probability of the event ˆ P T ∈D decays under model P. This upper bound is expressed in terms of a convex optimization problem that minimizes the relative entropy of P ′ with respect to P across all estimator realizations P ′ within D. Similarly, (7b) offers a lower LDP bound on the decay rate. Note that in (7b) the relative entropy is minimized over the interior of D instead of D.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Remark 4.5 (Alternative distributionally robust predictors)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-By taking the worst case only over models that are absolutely continuous with respect to ${\mathbb{P}}'$, both predictors ${\check{c}}_{r}$ and ${\overline{c}}_{r}$ potentially ignore many models that could have generated the observed data.
+If the data-generating model P itself belongs to D, then inf P ′ ∈D I(P ′, P) = I(P, P) = 0, which leads to the trivial upper bound P ∞ (ˆ P T ∈ D) ≤ 1. On the other hand, if D has empty interior (e.g., if D = { P } is a singleton containing only the true model), then inf P ′ ∈ int D I (P ′, P) = ∞, which leads to the trivial lower bound P ∞ (ˆ P T ∈ D) ≥ 0. Non-trivial bounds are obtained if P / ∈ D and int D̸ = ∅. In these cases the relative entropy bounds the exponential rate at which the probability of the atypical event ˆ P T ∈ D decays with T. For some sets D this rate of decay is precisely determined by the relative entropy.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Remark 4.5 (Alternative distributionally robust predictors)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-We first establish that ${\hat{c}}_{r}$ indeed belongs to the set $\mathcal{C}$ of all data-driven predictors, that is, the family of continuous functions mapping $X \times \mathcal{P}$ to the reals.
+Specifically, a Borel set D⊆P is called I-continuous under model P if Clearly, every open set D⊆P is I-continuous under any model P. Moreover, as the relative entropy is continuous in P ′ for any fixed P > 0, every Borel set D⊆P with D⊆ cl(int(D)) is I-continuous under P whenever P > 0. The LDP implies that for large T the probability of an I-continuous set D decays at rate inf P ′ ∈D I(P ′, P) under model P to first order in the exponent, that is, we have If we interpret the relative entropy I(P ′, P) as the distance of P from P ′, then the decay rate of P ∞ (ˆ P T ∈D) coincides with the distance of the model P from the atypical event set D; see Figure 1. Moreover, if D is I-continuous under P, then implies that P ∞ (ˆ P T ∈D) ≤ β whenever where r = inf P ′ ∈D I(P ′, P) is the I-distance from P to the set D, and β ∈ is a prescribed significance level.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-The distributionally robust predictor ${\hat{c}}_{r}$ of Definition 4.1 ‣ 4.1 Distributionally robust predictors ‣ 4 Distributionally robust predictors and prescriptors are optimal") induces a corresponding prescriptor.
+The weak LDP of Theorem 1 provides only asymptotic bounds on the decay rates of atypical events. However, one can also establish a strong LDP, which offers fi nite sample guarantees. Most results of this paper, however, are based on the weak LDP of Theorem 1.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Remark 4.23 (Optimal hypothesis testing)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Large deviation principles", "weight": 1.0} -->
 
-Bertsimas et al. propose to construct predictors and prescriptors from statistical hypothesis tests. A hypothesis test uses i.i.d. samples $\xi_{1},\ldots,\xi_{T}$ drawn from the unknown true distribution ${\mathbb{P}}^{\star}$ to decide whether the null hypothesis ${\mathbb{P}}^{\star} = {\mathbb{P}}$ is false for a fixed model ${\mathbb{P}} \in \mathcal{P}$.
+Theorem 2 (Strong LDP). If the samples { ξ t } t ∈ N are drawn independently from some P ∈P, then for every Borel set D⊆P the sequence of empirical distributions { ˆ P T } T ∈P satisfies Proof. The claim follows immediately from inequality in the proof of Theorem 1 in Appendix A. Note that does not rely on the assumption that P > 0. □ Figure 1 Visualization of the LDP. If D⊆P is I -continuous and P / ∈D, then the probability P ∞ (ˆ P T ∈D) decays at the exponential rate inf P ′ ∈D I(P ′, P), which can be viewed as the relative entropy distance of P from D.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Remark 4.23 (Optimal hypothesis testing)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Distributionally robust predictors and prescriptors are optimal", "weight": 1.0} -->
 
-Specifically, the null hypothesis is rejected (it is declared that ${\mathbb{P}}^{\star} \neq {\mathbb{P}}$) if the empirical distribution ${\hat{\mathbb{P}}}_{T}$ associated with the observed sample path falls outside of a (measurable) acceptance region ${A_{T}{({\mathbb{P}})}} \subseteq \mathcal{P}$, which depends on the conjectured model $\mathbb{P}$ and the sample size $T$. Otherwise, it is deemed that there is insufficient data to reject the null hypothesis.
+Armed with the fundamental results of large deviations theory, we now endeavor to identify the least conservative data-driven predictors and prescriptors whose out-of-sample disappointment decays at a rate no less than some prescribed threshold r > 0 under any model P ∈P, that is, we aim to solve the vector optimization problems and.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Remark 4.23 (Optimal hypothesis testing)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
 
-Bertsimas et al. associate with each hypothesis test a predictor which evaluates the worst-case expected cost across all models ${\mathbb{P}} \in \mathcal{P}$ that pass the hypothesis test in view of the realization ${\mathbb{P}}' \in \mathcal{P}_{T} = {\mathcal{P} \cap {\{ 0,{1/T},\ldots,{{({T - 1})}/T},1\}}^{d}}$ of the empirical distribution ${\hat{\mathbb{P}}}_{T}$.
+The relative entropy lends itself to constructing a data-driven predictor in the sense of Definition 3. We will show below that this predictor is strongly optimal.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Remark 4.23 (Optimal hypothesis testing)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
 
-The quality of a hypothesis test is usually measured by its type I error ${\mathbb{P}}^{\infty}{({{\hat{\mathbb{P}}}_{T} \notin {A_{T}{({\mathbb{P}})}}})}$, that is, the probability of falsely rejecting the null hypothesis, as well as its type II error ${\mathbb{Q}}^{\infty}{({{\hat{\mathbb{P}}}_{T} \in {A_{T}{({\mathbb{P}})}}})}$, that is, the probability of falsely accepting the null hypothesis if the data follows a distribution ${\mathbb{Q}} \neq {\mathbb{P}}$. A particularly popular test is the likelihood ratio test, which uses the acceptance region Zeitouni et al. prove that the likelihood ratio test is optimal in the following sense.
+Definition 6 (Distributionally robust predictors). For any fixed threshold r ≥ 0, we define the data-driven predictor ˆ c r: X ×P →ℜ through The data-driven predictor ˆ c r admits a distributionally robust interpretation. In fact, ˆ c r (x, P ′) represents the worst-case expected cost associated with the decision x, where the worst case is taken across all models P ∈P whose relative entropy distance to P ′ is at most r. Observe that the supremum in is always attained because c (x, P) is linear in P and the feasible set of is compact, which follows from the compactness of P and the lower semicontinuity of the relative entropy in P for any fixed P ′; see Proposition 1(iii). Note also that ˆ c r (x, P ′) can be evaluated efficiently because constitutes a convex conic optimization problem with d decision variables. A particularly simple and efficient method to evaluate ˆ c r (x, P ′) is to solve the one-dimensional convex minimization problem dual to by using bisection or another line search method.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Remark 4.23 (Optimal hypothesis testing)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
 
-The acceptance region of the likelihood ratio test thus simplifies to where the equality holds because ${\inf_{{\mathbb{Q}} \neq {\mathbb{P}}}{I{({\mathbb{P}}',{\mathbb{Q}})}}} = 0$. Hence, the distributionally robust predictor ${\hat{c}}_{r}$ that is strongly optimal in the meta-optimization problem coincides with the hypothesis test-based predictor (22 ‣ Proof 4.18 ‣ 4.2 Distributionally robust prescriptors ‣ 4 Distributionally robust predictors and prescriptors are optimal")) corresponding to the likelihood ratio test.
+Proposition 2 (Dual representation of ˆ c r). If r > 0 and ¯ γ (x) = max i ∈ Ξ γ (x,i) denotes the worst-case cost function, then the distributionally robust predictor admits the dual representation Problem has a minimizer α ⋆ that satisfies ¯ γ (x) ≤ α ⋆ ≤ ¯ γ (x) -e -r c (x, P ′) 1 -e -r.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
 
-Assume now that the realizations of the random parameter $\xi$ may range over an arbitrary compact set $\Xi \subseteq \Re^{d}$ that is not necessarily finite. In analogy to the discrete case, we denote by $\mathcal{P}$ the family of all Borel probability distributions supported on $\Xi$. Note that $\mathcal{P}$ is now a convex subset of an infinite-dimensional space, which significantly complicates the problem of finding optimal predictors and prescriptors. We equip $\mathcal{P}$ with the standard topology of weak convergence of distributions, recalling that the weak topology is metrized by the Prokhorov metric. Consequently, we equip $X \times \mathcal{P}$ with the product of the standard Euclidean topology on $X$ and the weak topology on $\mathcal{P}$. In the remainder of this section we analyze to what extent---and under what additional conditions---the results for finite state spaces carry over to the more general continuous case. As this analysis requires more subtle mathematical techniques, we relegate all proofs to Appendix 6.
+Remark 2 (Sample average predictor). For r =0 the distributionally robust predictor ˆ c r collapses to the sample average predictor of Example 1. Indeed, because of the strict positivity of the relative entropy I(P ′, P) > 0 for P ′ = P, see Proposition 1(i), we have that As shown in Example 2, the sample average predictor fails to offer asymptotic or finite sample guarantees of the form and, respectively.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
 
-We first note that the definitions of model-based predictors and prescriptors require no changes. In order to evaluate the expectation in the definition of the model-based predictor ${c{(x,{\mathbb{P}})}} = {\int_{\Xi}{\gamma{(x,\xi)}{d{\mathbb{P}}}{(\xi)}}}$, however, we now need to evaluate an integral with respect to $\mathbb{P}$ instead of a finite sum. Throughout this section we assume that the cost function $\gamma{(x,\xi)}$ is jointly continuous in $x$ and $\xi$.
+Remark 3 (Alternative distributionally robust predictors). The relative entropy can also be used to construct a reverse distributionally robust predictor ˇ c r ∈C defined through In contrast to ˆ c r, the reverse distributionally robust predictor ˇ c r fixes the second argument of the relative entropy and maximizes over the fi rst argument. Note that ˇ c r can be viewed as the entropic value-at-risk of the uncertain cost γ (x,ξ); see. Another predictor related to ˆ c is the restricted distributionally robust predictor ¯ c r ∈C defined through where P ≪ P ′ expresses the requirement that P must be absolutely continuous with respect to P ′. Formally, P ≪ P ′ means that P (i) = 0 for all outcomes i ∈ Ξ with P ′ (i) = 0. By, ¯ c r can be interpreted as the negative log-entropic risk of γ (x,ξ).
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Case 2b", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
 
-Assume now that ${{\mathbb{P}}_{0}{({\Xi^{\star}{(x)}})}} = 0$. In this case we can prove as in Case 2a. The only differences are that $\mathbb{U}$ may now be any distribution on $\Xi^{\star}{(x)}$ and that the continuity of $I{({\mathbb{P}}_{0}',{{\mathbb{P}}{(\lambda)}})}$ in $\lambda \in {\lbrack 0,1)}$ can now be shown more directly by noting that All other arguments remain unaffected.
+The predictors ˆ c r and ˇ c r differ because the relative entropy fails to be symmetric. We emphasize that the reverse predictor ˇ c r has appeared often in the literature on distributionally robust optimization, see, e.g.,. The predictors ˆ c r and ¯ c r differ, too, because of the additional constraint P ≪ P ′, which is significant when not all outcomes in Ξ have been observed. The statistical properties of the predictor ¯ c r have been analyzed by Lam and more recently by Duchi et al. from the perspective of the empirical likelihood theory introduced by Owen. The predictor ˆ c r suggested here has not yet been studied extensively even though-as we will demonstrate belowit displays attractive theoretical properties that are not shared by either ˇ c r or ¯ c r. The difference between ˆ c r and ˇ c r or ¯ c r is significant. Indeed, both ˇ c r and ¯ c r hedge only against models P that are absolutely continuous with respect to the (observed realization of the) empirical distribution P ′. While it is clear that the empirical distribution must be absolutely continuous with respect to the data-generating distribution, however, the converse implication is generally false.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Case 2b", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
 
-Now that the implication has been established, we demonstrate that the probability of the event ${\hat{\mathbb{P}}}_{T} \in {\mathcal{D}{(x,{\mathbb{P}}_{0})}}$ decays at a rate of at least $r$. To this end, we first note that the weak disappointment set $\overline{\mathcal{D}}{(x,{\mathbb{P}}_{0})}$ includes the strict disappointment set $\mathcal{D}{(x,{\mathbb{P}}_{0})}$ and is closed because of the continuity of ${\hat{c}}_{r}$ established in Proposition 5.4 ‣ 5 Extension to continuous state spaces").
+Indeed, an outcome can have positive probability even if it does not show up in a given finite time series. By taking the worst case only over models that are absolutely continuous with respect to P ′, both predictors ˇ c r and ¯ c r potentially ignore many models that could have generated the observed data.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Case 2b", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
 
-The weak LDP upper bound (24a ‣ 5 Extension to continuous state spaces")) then implies that where the second inequality holds because $\overline{\mathcal{D}}{(x,{\mathbb{P}}_{0})}$ is closed and contains $\mathcal{D}{(x,{\mathbb{P}}_{0})}$, while the third inequality follows. Thus, the probability of the event ${\hat{\mathbb{P}}}_{T} \in {\mathcal{D}{(x,{\mathbb{P}}_{0})}}$ decays indeed at a rate of at least $r$.
+We first establish that ˆ c r indeed belongs to the set C of all data-driven predictors, that is, the family of continuous functions mapping X ×P to the reals.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Case 2b", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
 
-As the choice of $x \in X$ and ${\mathbb{P}}_{0} \in \mathcal{P}$ was arbitrary, and as Cases 1 and 2 are exhaustive, ${\hat{c}}_{r}$ is feasible.
+Proposition 3 (Continuity of ˆ c r ). If r ≥ 0, then the distributionally robust predictor ˆ c r is continuous on X ×P.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Case 2b", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
 
-In order to show that ${\hat{c}}_{r}$ is strongly optimal in when $\epsilon > 0$, we can repeat the proof of Theorem 4.10 ‣ 4.1 Distributionally robust predictors ‣ 4 Distributionally robust predictors and prescriptors are optimal") almost verbatim with obvious minor modifications (most notably, there is no need to construct ${\mathbb{P}}_{2}$). $\square$
+Proof. By Proposition 2, the distributionally robust predictor ˆ c r admits the dual representation. Note that the objective function of is manifestly continuous in (α,x, P ′) and that is guaranteed to have a minimizer in the compact interval [¯ γ (x), ¯ γ (x) -e -r c (x, P ′) 1 -e -r], whose boundaries depend continuously on (x, P ′). Consequently, the predictor ˆ c r is continuous by Berge's celebrated maximum theorem. □ We now analyze the performance of the distributionally robust data-driven predictor ˆ c r using arguments from large deviations theory. The parameter r encoding the predictor ˆ c r captures the fundamental trade-off between out-of-sample disappointment and accuracy, which is inherent to any approach to data-driven prediction. Indeed, as r increases, the predictor ˆ c r becomes more reliable in the sense that its out-of-sample disappointment decreases. However, increasing r also results in more conservative (pessimistically biased) predictions. In the following we will demonstrate that ˆ c r strikes indeed an optimal balance between reliability and conservatism.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+Theorem 3 (Feasibility of ˆ c r ). If r ≥ 0, then the predictor ˆ c r is feasible.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+Proof. From Proposition 3 we already know that ˆ c r ∈C. It remains to be shown that the outof-sample disappointment of ˆ c r decays at a rate of at least r. We have c (x, P) > ˆ c r (x, ˆ P T) if and only if the estimator ˆ P T falls within the disappointment set Note that by the definition of ˆ c r, we have By contraposition, the above implication is equivalent to irrespective of x ∈ X. We thus have where the first inequality holds because D (x, P) ⊆I (P), while the second inequality exploits the weak LDP upper bound (7a). Thus, ˆ c r is feasible. □ Note that any predictor ˆ c with ˆ c r ⪯ C ˆ c has a smaller disappointment set than ˆ c r, and thus the out-of-sample disappointment of ˆ c decays at least as fast as that of ˆ c r. Hence, ˆ c is also feasible. In particular, this immediately implies that if we inflate the relative entropy ball of the distributionally robust predictor ˆ c r to any larger ambiguity set, we obtain another predictor that is feasible.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+As an example, consider the total variation predictor where ‖ P -P ′ ‖ tv denotes the total variation distance between P and P ′. Pinsker's classical inequality asserts that ‖ P -P ′ ‖ tv ≤ √ 2I(P ′, P) for all P and P ′ in P. Thus, we have ˆ c r ⪯ C ˆ c tv r, which implies that the total variation predictor is feasible. This suggests that has a rich feasible set.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+The following main theorem establishes that ˆ c r is not only a feasible but even a strongly optimal solution for the vector optimization problem. This means that if an arbitrary data-driven predictor ˆ c predicts a lower expected cost than ˆ c r even for a single estimator realization P ′ ∈P, then ˆ c must suffer from a higher out-of-sample disappointment than ˆ c r to first order in the exponent.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+Theorem 4 (Optimality of ˆ c r ). If r > 0, then ˆ c r is strongly optimal.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+Proof. Assume for the sake of argument that ˆ c r fails to be a strong solution. Thus, there exists a data-driven predictor ˆ c ∈C that is feasible in but not dominated by ˆ c r, that is, ˆ c r ⪯̸ C ˆ c. This means that there exists x ∈ X and P ′ 0 ∈P with ˆ c r ( x, P ′ 0 ) > ˆ c ( x, P ′ 0 ). For later reference we set ϵ = ˆ c r ( x, P ′ 0 ) -ˆ c ( x, P ′ 0 ) > 0. In the remainder of the proof we will demonstrate that ˆ c cannot be feasible, which contradicts our initial assumption.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+Let P 0 ∈P be an optimal solution of problem at P ′ = P ′ 0. Thus, we have I (P ′ 0, P 0) ≤ r and In the following we will first perturb P 0 to obtain a model P 1 that is ϵ 2 -suboptimal in but satisfies I (P ′ 0, P 1) <r. Subsequently, we will perturb P 1 to obtain a model P 2 that is ϵ -suboptimal in but satisfies I (P ′ 0, P 2) <r as well as P 2 > 0.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+To construct P 1, consider all models P (λ) = λ P ′ 0 + (1 -λ) P 0, λ ∈, on the line segment between P ′ 0 and P 0. As r is strictly positive, the convexity of the relative entropy implies that Moreover, as the expected cost c (x, P (λ)) changes continuously in λ, there exists a sufficiently small λ 1 ∈ (0, 1] such that P 1 = P (λ 1) and r 1 =I(P ′ 0, P 1) satisfy 0 <r 1 <r and To construct P 2, we consider all models P (λ) = λ U +(1 -λ) P 1, λ ∈, on the line segment between the uniform distribution U on Ξ and P 1. By the convexity of the relative entropy we have As r 1 <r and the expected cost c (x, P (λ)) changes continuously in λ, there exists a sufficiently small λ 2 ∈ (0, 1] such that P 2 = P (λ 2) and r 2 =I(P ′ 0, P 2) satisfy 0 <r 2 <r, P 2 > 0 and In summary, we thus have where the first
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+equality follows from the definition of ϵ, and the second equality exploits. Moreover, the strict inequality holds due to, and the weak inequality follows from the definition of ˆ c r and the fact that I(P ′ 0, P 2) = r 2 <r.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+In the remainder of the proof we will argue that the prediction disappointment P ∞ 2 (c (x, P 2) > ˆ c (x, ˆ P T)) under model P 2 decays at a rate of at most r 2 <r as the sample size T tends to infinity. In analogy to the proof of Theorem 3, we define the set of disappointing estimator realizations as This set contains P ′ 0 due to the strict inequality. Moreover, as ˆ c ∈C is continuous, D (x, P 2) is an open subset of P. Thus, we find where the inequality holds because P ′ 0 ∈D (x, P 0), and the last equality follows from the definition of r 2. As the empirical distributions { ˆ P T } T ∈ N obey the LDP lower bound (7b) under P 2 > 0, we finally conclude that The above chain of inequalities implies, however, that ˆ c is infeasible in problem. This contradicts our initial assumption, and thus, ˆ c r must indeed be a strong solution of.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+□ Theorem 4 asserts that the distributionally robust predictor ˆ c r is optimal among all data-driven predictors representable as continuous functions of the empirical distribution ˆ P T. That is, any attempt to make it less conservative invariably increases the out-of-sample prediction disappointment. We remark that the class of predictors which depend on the data only through ˆ P T is vast. These predictors constitute arbitrary continuous functions of the data that are independent of the order in which the samples were observed. As the samples are independent and identically distributed, there are in fact no meaningful data-driven predictors that display a more general dependence on the data.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+Note that in the above discussion all guarantees are fundamentally asymptotic in nature. Using Theorem 2 one can show, however, that ˆ c r also satisfies finite sample guarantees.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+Theorem 5 (Finite sample guarantee). The out-of-sample disappointment of the distributionally robust predictor ˆ c r enjoys the following finite sample guarantee under any model P ∈P and for any x ∈ X.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Distributionally robust predictors", "weight": 1.0} -->
+
+Proof. The proof of this result widely parallels that of Theorem 3 but uses the strong LDP upper bound in lieu of the weak upper bound (7a). Details are omitted for brevity. □
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+The distributionally robust predictor ˆ c r of Definition 6 induces a corresponding prescriptor.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Definition 7 (Distributionally robust prescriptors). Denote by ˆ c r, r ≥ 0, the distributionally robust data-driven predictor of Definition 6. We can then define the data-driven prescriptor ˆ x r: P → X as a quasi-continuous function satisfying Note that the minimum in is attained because X is compact and ˆ c r is continuous due to Proposition 3. Thus, there exists at least one function ˆ x r satisfying. In the next proposition we argue that this function can be chosen to be quasi-continuous as desired.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Proposition 4 (Quasi-continuity of ˆ x r ). If r ≥ 0, then there exists a quasi-continuous datadriven predictor ˆ x r satisfying.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Proof. Denote by Γ(P ′) = arg min x ∈ X ˆ c r (x, P ′) the argmin-mapping of problem, and observe that Γ(P ′) is compact and non-empty for every P ′ ∈P because ˆ c r is continuous and X is compact. As X is independent of P ′, Berge's maximum theorem further implies that Γ is upper semicontinuous. As P is a Baire space and X is a metric space, finally guarantees that there exists a quasi-continuous function ˆ x r: P → X with ˆ x r (P ′) ∈ Γ(P ′) for all P ′ ∈P. □ Propositions 3 and 4 imply that (ˆ c r, ˆ x r) belongs to the family X of all data-driven predictorprescriptor-pairs. Using a similar reasoning as in Theorem 3, we now demonstrate that the outof-sample disappointment of ˆ x r decays at rate at least r as T tends to infinity. Thus, ˆ x r provides trustworthy prescriptions.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Theorem 6 (Feasibility of (ˆ c r, ˆ x r ) ). If r ≥ 0, then the predictor-prescriptor-pair (ˆ c r, ˆ x r ) is feasible.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Proof. Propositions 3 and 4 imply that (ˆ c r, ˆ x r) ∈ X. It remains to be shown that the out-ofsample disappointment of ˆ x r decays at a rate of at least r. To this end, define D (x, P) and I (P) as in the proof of Theorem 3, and recall that D (x, P) ⊆I (P) for every decision x ∈ X and model P ∈P. Thus, for every fixed estimator realization P ′ ∈P the following implication holds which in turn implies for every model P ∈P. Note that the second inequality in the above expression has already been established in the proof of Theorem 3. Thus, the claim follows. □ Next, we argue that (ˆ c r, ˆ x r) is a strongly optimal solution for the vector optimization problem.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Theorem 7 (Optimality of (ˆ c r, ˆ x r ) ). If r > 0, then (ˆ c r, ˆ x r ) is strongly optimal.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Proof. Assume for the sake of argument that (ˆ c r, ˆ x r ) fails to be a strong solution. Thus, there exists a data-driven prescriptor (ˆ c, ˆ x ) ∈X that is feasible in but not dominated by (ˆ c r, ˆ x r ), that is, (ˆ c r, ˆ x r ) ⪯̸ X (ˆ c, ˆ x ). This means that there exists P ′ 0 ∈P with ˆ c r (ˆ x r ( P ′ 0 ), P ′ 0 ) > ˆ c (ˆ x ( P ′ 0 ), P ′ 0 ). As X is compact and ˆ c is continuous, the cost ˆ c (ˆ x ( P ′ ), P ′ ) of the prescriptor ˆ x under the corresponding predictor ˆ c is continuous in P ′. Similarly, ˆ c r (ˆ x r ( P ′ ), P ′ ) is continuous in P ′.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Recall also that ˆ x is quasi-continuous and therefore continuous on a dense subset of P. Thus, we may assume without loss of generality that ˆ x is continuous at P ′ 0. For later reference we set ϵ =ˆ c r (ˆ x ( P ′ 0 ), P ′ 0 ) -ˆ c (ˆ x ( P ′ 0 ), P ′ 0 ) > 0.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+In the remainder of the proof we will demonstrate that (ˆ c, ˆ x) cannot be feasible, which contradicts our initial assumption. To this end, let P 0 ∈P be an optimal solution of problem at x = ˆ x (P ′ 0) and P ′ = P ′ 0. Thus, we have I (P ′ 0, P 0) ≤ r and Next, we first perturb P 0 to obtain a model P 1 that is strictly ϵ 2 -suboptimal in but satisfies I (P ′ 0, P 1) = r 1 <r. Subsequently, we perturb P 1 to obtain a model P 2 that is strictly ϵ -suboptimal in but satisfies I (P ′ 0, P 2) = r 2 < r as well and P 2 > 0. The distributions P 1 and P 2 can be constructed exactly as in the proof of Theorem 4. Details are omitted for brevity. Thus, we find where the first equality follows from the definition of ϵ, and the second equality exploits.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Moreover, the strict inequality holds because P 2 is strictly ϵ -suboptimal, while the weak inequality follows from the definition of ˆ c r and the fact that I (P ′ 0, P 2) = r 2 <r.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+It remains to be shown that the prediction disappointment P ∞ 2 (c (ˆ x (ˆ P T), P 2) > ˆ c (ˆ x (ˆ P T), ˆ P T)) under model P 2 decays at a rate of at most r 2 <r as the sample size T tends to infinity. To this end, we define the set of disappointing estimator realizations as This set contains P ′ 0 due to the strict inequality. Recall now that ˆ x is continuous at P ′ = P ′ 0 due to our choice of P ′ 0. As the predictors ˆ c and ˆ c r are both continuous on their entire domain, the compositions ˆ c (ˆ x (P ′), P ′) and c (ˆ x (P ′), P 2) are both continuous at P ′ = P ′ 0. This implies that P ′ 0 belongs actually to the interior of D (P 2).
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Thus, we find where the last equality follows from the definition of r 2. As the empirical distributions { ˆ P T } T ∈ N obey the LDP lower bound (7b) under P 2 > 0, we finally conclude that The above chain of inequalities implies, however, that (ˆ c, ˆ x) is infeasible in problem. This contradicts our initial assumption, and thus, (ˆ c r, ˆ x r) must indeed be a strong solution of. □ All guarantees discussed so far are asymptotic in nature. As in the case of the predictor ˆ c r, however, the prescriptor ˆ x r can also be shown to satisfy finite sample guarantees.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Theorem 8 (Finite sample guarantee). The out-of-sample disappointment of the distributionally robust prescriptor ˆ x r enjoys the following finite sample guarantee under any model P ∈P.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Proof. The proof of this result parallels those of Theorems 3 and 6 but uses the strong LDP upper bound in lieu of the weak upper bound (7a). Details are omitted for brevity. □ We stress that the finite sample guarantees of Theorems 5 and 8 as well as the strong optimality properties portrayed in Theorems 4 and 7 are independent of a particular dataset. They guarantee that ˆ c r and ˆ x r provide trustworthy predictions and prescriptions, respectively, before the data is revealed.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Remark 4 (Optimal hypothesis testing). Bertsimas et al. propose to construct predictors and prescriptors from statistical hypothesis tests. A hypothesis test uses i.i.d. samples ξ 1,..., ξ T drawn from the unknown true distribution P ⋆ to decide whether the null hypothesis P ⋆ = P is false for a fixed model P ∈P. Specifically, the null hypothesis is rejected (it is declared that P ⋆ = P ) if the empirical distribution ˆ P T associated with the observed sample path falls outside of a (measurable) acceptance region A T ( P ) ⊆P, which depends on the conjectured model P and the sample size T. Otherwise, it is deemed that there is insufficient data to reject the null hypothesis.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Bertsimas et al. associate with each hypothesis test a predictor which evaluates the worst-case expected cost across all models P ∈P that pass the hypothesis test in view of the realization P ′ ∈P T = P∩{ 0, 1 /T,..., (T -1) /T, 1 } d of the empirical distribution ˆ P T.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+The quality of a hypothesis test is usually measured by its type I error P ∞ (ˆ P T ̸∈ A T (P)), that is, the probability of falsely rejecting the null hypothesis, as well as its type II error Q ∞ (ˆ P T ∈ A T (P)), that is, the probability of falsely accepting the null hypothesis if the data follows a distribution Q = P. A particularly popular test is the likelihood ratio test, which uses the acceptance region Zeitouni et al. prove that the likelihood ratio test is optimal in the following sense.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Distributionally robust prescriptors", "weight": 1.0} -->
+
+Among all hypothesis tests whose type I error decays at a rate of at least r, limsup T →∞ 1 T log P ∞ (ˆ P T / ∈ A T (P)) ≤ -r, the likelihood ratio test minimizes the nagative decay rate of the type II error limsup T →∞ 1 T log Q ∞ (ˆ P T ∈ A T (P)) simultaneously for all models Q ∈ P with Q = P. Cover and Thomas further establish that the likelihood ratio of an estimator realization P ′ ∈P T under two alternative distributions Q and P satisfies log(P ∞ (ˆ P T = P ′) / Q ∞ (ˆ P T = P ′)) = -T (I(P ′, P) -I(P ′, Q)). The acceptance region of the likelihood ratio test thus simplifies to where the equality holds because inf Q = P I(P ′, Q) = 0. Hence, the distributionally robust predictor ˆ c r that is strongly optimal in the meta-optimization problem coincides with the hypothesis testbased predictor corresponding to the likelihood ratio test.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Assume now that the realizations of the random parameter ξ may range over an arbitrary compact set Ξ ⊆ℜ d that is not necessarily finite. In analogy to the discrete case, we denote by P the family of all Borel probability distributions supported on Ξ. Note that P is now a convex subset of an infinitedimensional space, which significantly complicates the problem of finding optimal predictors and prescriptors. We equip P with the standard topology of weak convergence of distributions, recalling that the weak topology is metrized by the Prokhorov metric. Consequently, we equip X ×P with the product of the standard Euclidean topology on X and the weak topology on P. In the remainder of this section we analyze to what extent-and under what additional conditions-the results for finite state spaces carry over to the more general continuous case. As this analysis requires more subtle mathematical techniques, we relegate all proofs to Appendix A.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+We first note that the definitions of model-based predictors and prescriptors require no changes. In order to evaluate the expectation in the definition of the model-based predictor c ( x, P ) = ∫ Ξ γ ( x,ξ )d P ( ξ ), however, we now need to evaluate an integral with respect to P instead of a finite sum. Throughout this section we assume that the cost function γ ( x,ξ ) is jointly continuous in x and ξ. This implies via the compactness of X and Ξ that c ( x, P ) is continuous in x and P, which in turn guarantees that a model-based prescriptor x ⋆ ( P ) ∈ argmin x ∈ X c ( x, P ) exists for every P ∈P.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Lemma 1 (Continuity of model-based predictors). If γ ( x,ξ ) is continuous on the compact set X × Ξ, then c ( x, P ) is continuous on X ×P.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+As in the case of a discrete state space, we study data-driven predictors and prescriptors that depend on the training data { ξ t } T t =1 only through the empirical distribution. Because Ξ may now have infinite cardinality, we redefine the empirical distribution as ˆ P T = 1 T ∑ T t =1 δ ξ t, where δ ξ t denotes the Dirac point mass at ξ t. Using this new definition of ˆ P T, we then define data-driven predictors and prescriptors exactly as in Section 2.1. As Ξ is compact, one can show that P is compact in the weak topology. Moreover, as the weak topology is metrized by the Prokhorov metric, P constitutes a (locally) compact metric space. The Baire category theorem thus implies that P is a Baire space (Baire 1899). Corollary 4, which applies because P is a Baire space and X is a metric space, further ensures that for any valid (continuous) predictor ˆ c the set-valued mapping arg min x ∈ X ˆ c ( x, P ′ ) admits a quasi-continuous selector ˆ x, which serves as a valid data-driven prescriptor.
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Using the exact same reasoning as in Section 2.1, one can show that the points of continuity of any quasi-continuous prescriptor are dense in P.
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+The best predictors and predictor-prescriptor-pairs can again be found by solving the metaoptimization problems and, respectively. In order to construct near-optimal solutions for these meta-optimization problems, we recall the definition of the relative entropy between arbitrary distributions P ′ and P on a compact set Ξ ⊆ℜ d.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Definition 8 (Generalized relative entropy). The relative entropy of P ′ ∈ P with respect to P ∈P is defined as where P ′ ≪ P means that P ′ is absolutely continuous with respect to P, while d P ′ / d P (ξ) denotes the Radon-Nikodym derivative of P ′ with respect to P, which exists if P ′ ≪ P.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+The properties of the relative entropy portrayed in Proposition 1 hold verbatim in the more general setting considered here. Using the generalized definition of the relative entropy, the distributionally robust predictor ˆ c r and the corresponding prescriptor ˆ x r can be constructed as in Definitions 6 and 7, respectively. In the following we will show that the predictor ˆ c r is continuous, which ensures that the prescriptor ˆ x r can always be chosen to be quasi-continuous. To this end, we first derive a dual representation for ˆ c r.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Proposition 5 (Dual representation revisited). If r > 0 and ¯ γ (x) = max ξ ∈ Ξ γ (x,ξ) is the worst-case cost function, then the distributionally robust predictor admits the dual representation Problem has a minimizer α ⋆ ≤ ¯ γ (x) -e -r c (x, P ′) 1 -e -r.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Proposition 5 extends Proposition 2 to compact continuous state spaces and suggests that ˆ c r ( x, P ′ ) can be computed via bisection or other line search methods. Thus, the computational tractability of problem largely hinges on our ability to efficiently evaluate the geometric mean exp (∫ Ξ log ( α -γ ( x,ξ )) d P ′ ( ξ ) ) for any fixed α. For example, if P ′ coincides with (a realization of) the empirical distribution ˆ P T, we recover the geometric mean of α -γ ( x,ξ ) along a sample path, which can be reformulated as the optimal value of a tractable second-order cone program involving O ( T ) constraints and auxiliary variables.
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+To our best knowledge, the dual representation is new. The closest result we are aware of is the dual representation of the negative log-entropic risk measure derived. Indeed, the negative log-entropic risk of γ ( x,ξ ) coincides with the restricted distributionally robust predictor ¯ c r ( x, P ′ ). Recall from that ¯ c r ( x, P ′ ) differs from c r ( x, P ′ ) only in that it imposes the additional constraint P ≪ P ′ when evaluating the worst-case expected cost. Using Theorem 5.1 by Ahmadi-Javid one can thus show that the dual representation of ¯ c r ( x, P ′ ) differs from only in that it replaces ¯ γ ( x ) with inf { ¯ γ: P ′ [ γ ( x,ξ ) ≤ ¯ γ ] = 1 } ≤ ¯ γ ( x ). Maybe surprisingly, however, the derivation of provided here is substantially more challenging.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Proposition 6 (Continuity of ˆ c r revisited). If r ≥ 0, then the distributionally robust predictor ˆ c r is continuous on X ×P.
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Proposition 6 ensures that ˆ c r ∈C. As any continuous predictor induces a quasi-continuous prescriptor, we may thus conclude that there exists a valid distributionally robust prescriptor ˆ x r such that (ˆ c r, ˆ x r ) ∈X. It now only remains to establish that these predictors and predictor-prescriptorpairs are the unique strong solutions of the meta-optimization problems and, respectively. In Section 4 this was achieved by leveraging the weak LDP portrayed in Theorem 1. Luckily, this LDP carries over to the more general setting considered here-albeit with a subtle difference.
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Theorem 9 (Weak LDP revisited). If the samples { ξ t } t ∈ N are drawn independently from some P ∈P, then for every set D⊆P the sequence of empirical distributions { ˆ P T } T ∈ N satisfies Proof. See Csisz´ ar.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Formally, Theorem 9 is almost identical to Theorem 1. However, the weak LDP upper bound (24a) differs from (7a) in that the minimization over all estimator realizations P ′ on the right hand side runs over the closure of D. This subtle difference invalidates the proof of Theorem 3, and thus we need a new approach to show that ˆ c r is feasible. Moreover, the weak LDP lower bound (24b) does not rely on any structural assumptions about P. Note that the condition P > 0 in Theorem 1 was only imposed for convenience to simplify the proof of (7b) in Appendix A.
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+As in the case of finite state spaces, one can now show that the distributionally robust predictor ˆ c r is the unique strong solution of the meta-optimization problem.
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Theorem 10 (Feasibility and optimality of ˆ c r revisited). If r ≥ 0, then the predictor ˆ c r is feasible. Moreover, if r > 0, then ˆ c r is strongly optimal.
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+While we did not manage to prove that (ˆ c r, ˆ x r ) is feasible in the meta-optimization problem, we still could show that it is essentially feasible and strongly optimal in a precise sense.
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Theorem 11 (Feasibility and optimality of (ˆ c r, ˆ x r ) revisited). If r ≥ 0, then the shifted predictor-prescriptor-pair (ˆ c r + ϵ, ˆ x r ) is feasible in for every ϵ > 0. Moreover, if r > 0, then (ˆ c r, ˆ x r ) is preferred to every feasible solution of -even though it may be infeasible.
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+Theorem 11 asserts that (ˆ c r, ˆ x r ) is less conservative than any predictor-prescriptor pair feasible in the meta-optimization problem and that (ˆ c r, ˆ x r ) can be made feasible in by shifting the distributionally robust predictor ˆ c r up by just a tiny amount. For practical purposes this means that (ˆ c r, ˆ x r ) is indeed essentially optimal. Whether (ˆ c r, ˆ x r ) itself is feasible in remains open.
+
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Extension to continuous state spaces", "weight": 1.0} -->
+
+We also emphasize that the strong LDP portrayed in Theorem 2 has no continuous counterpart, which implies that the finite sample guarantees of Theorems 5 and 8 cannot be generalized.

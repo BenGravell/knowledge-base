@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2205.08048", "source": "ar5iv"} -->
+
 ## Abstract
 
 The Koopman representation is an infinite dimensional linear representation of linear or nonlinear dynamical systems. It represents the dynamics of output maps (aka observables), which are functions on the state space whose evaluation is interpreted as an output. Conceptually simple derivations and commentary on the Koopman representation are given. We emphasize an important duality between initial conditions and output maps of the original system, and those of the Koopman representation. This duality is an important consideration when this representation is used in data-driven applications such as the Dynamic Mode Decomposition (DMD) and its variants. The adjoint relation between the Koopman representation and the transfer operator of mass transport is also shown.

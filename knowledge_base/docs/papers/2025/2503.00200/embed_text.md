@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.00200", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A unified video and action model that jointly learns an agent's actions and their effects on visual observations holds great promise for robotics -- videos provide rich environmental context for predicting actions, while actions reveal how interactions drive visual changes, enabling more accurate modeling of real-world dynamics. However, despite its promise, previous approaches have often failed to fully realize this potential. A key challenge lies in the inherent mismatch between the requirements of action and video generation. Action modeling demands high temporal speed to capture dense, fine-grained motions, while video generation requires high spatial resolution to produce high-fidelity visual outputs, which often results in slower processing speeds.

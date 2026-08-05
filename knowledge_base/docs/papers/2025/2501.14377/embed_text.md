@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2501.14377", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 In recent years, quadrotors have become a central focus of robotics research, emerging as versatile platforms with untapped potential across multiple domains, including search and rescue, inspection, agriculture, cinematography, delivery, passenger air vehicles, space exploration \[22: practical aspects, applications, open challenges, security issues, and future trends")\] and drone racing. The drone racing domain not only benefits from cutting-edge robotics research but also pushes the limits of what is possible by challenging these flying machines to outperform the most skilled human pilots, as shown by recent successes against the world's best pilots.

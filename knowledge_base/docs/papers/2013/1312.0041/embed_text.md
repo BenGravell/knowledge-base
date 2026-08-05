@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1312.0041", "source": "ar5iv"} -->
+
 ## Introduction
 
 Fluid flows often exhibit low-dimensional behavior, despite the fact that they are governed by infinite-dimensional partial differential equations (the Navier--Stokes equations). For instance, the main features of the laminar flow past a two-dimensional cylinder can be described using as few as three ordinary differential equations. To identify these low-order dynamics, such flows are often analyzed using *modal decomposition* techniques, including proper orthogonal decomposition (POD), balanced proper orthogonal decomposition (BPOD), and dynamic mode decomposition (DMD). Such methods describe the fluid state (typically the velocity or vorticity field) as a superposition of empirically computed basis vectors, or "modes." In practice, the number of modes necessary to capture the gross behavior of a flow is often many orders of magnitude smaller than the state dimension of the system (e.g., $\mathcal{O}{}$ compared to $\mathcal{O}{(10^{6})}$).

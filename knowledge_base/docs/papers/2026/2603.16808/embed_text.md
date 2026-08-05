@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.16808", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Model predictive control (MPC) is nowadays a well-established advanced control technique, where the input is determined by solving a finite-horizon constrained optimal control problem. For the stability analysis, terminal conditions are often utilized, see and the references therein. Alternatively, stability can be established using a sufficiently long prediction horizon and some stabilizability condition related to the stage cost, see for an overview. These results rely on positive-definite stage cost penalizing the deviation from the desired set point. However, in practice, output weighting is often preferred since state measurements might not be available neccessitating the use of input/output models. Moreover, output weighting is closely related to closed-loop performance. Then, the resulting stage cost is only positive semi-definite in the system state, and the stability analysis requires more general tools, based on detectability conditions on the stage cost.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.00871", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Direct multiple shooting (DMS) plays an important role in modern robotic trajectory optimization due to its superior robustness and faster convergence. Several approaches enable faster resolution of the problem by exploiting the temporal sparsity structure in optimal control problems (OCP), using Riccati recursion or block elimination, which are fundamentally equivalent. Although many of them are successfully deployed for Model Predictive Control (MPC), they often fail to solve large-scale or difficult OCPs due to poor convergence and slow computation. These limitations hinder their reliable application to data generation for behavior cloning (BC) or task and motion planning (TAMP). In this paper, we propose a trajectory optimizer designed to address these issues.

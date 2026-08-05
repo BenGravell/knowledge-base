@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1704.02672", "source": "ar5iv"} -->
+
 ## Introduction
 
 Many applications in computer vision and robotics require measurements of the rotation and translation (i.e., pose) changes of an object as it moves through an environment. In photogrammetry, for example, by knowing the pose changes of the camera, 3D model of a scene can be constructed from a set of 2D images. In robotics, pose estimated from images can be used for navigation, or fused with other sensor measurements (e.g., IMU and GPS) to increase the reliability and accuracy. Camera pose estimation has further applications in simultaneous localization and mapping (SLAM), autonomous vehicles, and augmented reality.

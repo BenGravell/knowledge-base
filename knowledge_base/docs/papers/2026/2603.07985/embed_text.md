@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.07985", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Autoregressive Object Detection for 3D. Our work proposes a 3D object detector that leverages a sequential generation representation (a). This eliminates many of the complications associated with the rigid detection pipeline, including anchor assignment, confidence thresholding, and NMS (b).

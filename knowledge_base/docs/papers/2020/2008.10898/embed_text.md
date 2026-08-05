@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2008.10898", "source": "ar5iv"} -->
+
 ## Introduction
 
 Nonconvex optimization is ubiquitous across many domains of machine learning, including robust regression, low rank matrix recovery, sparse recovery and supervised learning. Driven by the applied success of deep neural networks, and the critical place nonconvex optimization plays in training them, research in nonconvex optimization has been undergoing a renaissance.

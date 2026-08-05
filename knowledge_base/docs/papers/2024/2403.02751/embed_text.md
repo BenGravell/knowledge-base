@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2403.02751", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous robotic operation requires robots to localize themselves within an envrionment, plan safe paths to reach a desired goal location, and have closed-loop trajectory-tracking. Traditionally, the fundamental problems of planning and localization have been performed in maps represented as occupancy grids, triangular meshes, point clouds, and Signed Distance Fields (SDFs), all of which provide well-defined geometry.

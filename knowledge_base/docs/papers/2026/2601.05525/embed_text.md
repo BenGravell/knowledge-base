@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2601.05525", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Scientific progress has long depended on building interpretable models of complex systems, from Newton's laws to the Navier--Stokes equations, which encode mechanistic understanding and enable prediction, control and design. In recent years, however, machine learning (ML) has begun to transform this paradigm. Deep neural networks can now infer relationships in high-dimensional data that are inaccessible to classical theory, often matching or surpassing human experts in tasks ranging from protein folding jumper2021highly to turbulence control Guastoni2023_drl. This new reality raises a profound question: if machines can learn representations of physical systems that outperform human models, can we, in turn, learn from the learners? Addressing this question requires explainable artificial intelligence (XAI) lundberg2017: a suite of methods that make the internal logic of ML systems interpretable to human reasoning.

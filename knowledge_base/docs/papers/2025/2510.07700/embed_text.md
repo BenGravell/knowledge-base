@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.07700", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Dynamic motion planning problems are often formulated as constrained trajectory optimization problems of the form These problems can be solved online using a numerical non-linear programming (NLP) solver, which performs optimization on an initial guess until convergence to locally optimal solutions, often using first or second order numerical algorithms such as Newton-Raphson, BFGS, etc.

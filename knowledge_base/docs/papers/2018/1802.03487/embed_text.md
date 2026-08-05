@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1802.03487", "source": "ar5iv"} -->
+
 ## Introduction
 
 Neural network training reduces to solving nonconvex empirical risk minimization problems, a task that is in general intractable. But success stories of deep learning suggest that local minima of the empirical risk could be close to global minima. Choromanska et al. use spherical spin-glass models from statistical physics to justify how the size of neural networks may result in local minima that are close to global. However, due to the complexities introduced by nonlinearity, a rigorous understanding of optimality in deep neural networks remains elusive.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.15047", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Language models such as ChatGPT are capable of producing a wide range of fluent text that closely approximates human language use. However, the proliferation of these models has raised concerns about the authenticity and trustworthiness of text across a variety of domains. For example, concerns that students are submitting assignments ghostwritten by language models have led many schools to adapt by restricting the use of ChatGPT in classrooms and homework assignments. Meanwhile, because language models are prone to factual errors and hallucination, readers may desire to know if such tools have been used to ghostwrite news articles or other informative text when deciding whether to trust a source.

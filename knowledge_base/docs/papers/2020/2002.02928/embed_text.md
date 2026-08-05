@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2002.02928", "source": "ar5iv"} -->
+
 ## Introduction
 
 More sophisticated motion planning and control algorithms are needed for the robots to operate in increasingly dynamic and uncertain environments to ensure safe and effective autonomous behavior. Many widely used motion planning algorithms have been developed in deterministic settings. However, since motion planning algorithms must be coupled with the outputs of inherently uncertain perception systems, there is a crucial need for more tightly coupled perception and planning frameworks that explicitly incorporate perception uncertainties.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.18452", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Figure 1: Architectures for training and inference. In (a) an autoencoder is trained to encode a birds’ eye view image of vehicles in a scene (x) and output oriented bounding box detections (y) for the entities. In (b) the pre-trained autoencoder is used to train a diffusion model on the latent embeddings (z) of the autoencoder conditioned on a map image (m). In (c) the diffusion model and decoder are used to generate novel traffic scenes by first running diffusion inference in the latent space and then decoding to recover oriented bounding boxes.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.07599", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: Comparison of trajectory planning approaches near a dynamic obstacle 𝒪d. Left (Other Approaches – Soft): Soft-constraint methods use penalty-based collision avoidance, producing fast but potentially unsafe trajectories. Center (Other Approaches – Hard): Other hard-constraint methods inflate the obstacle by its full worst-case reachable set and generate purely spatial corridors, producing safe but overly conservative trajectories that detour far from the obstacle. Right (SANDO): SANDO generates spatiotemporal safe flight corridors (STSFCs) that account for when the trajectory passes each region, inflating the obstacle only by its reachable set at the corresponding time layer, yielding a safe and fast trajectory. (The dynamic obstacle is depicted as a point mass for visual clarity; in practice, obstacles have finite axis-aligned bounding box (AABB) extents, and the reachable set is the Minkowski sum of the AABB with a cube whose half-side equals the per-layer reachable radius.)

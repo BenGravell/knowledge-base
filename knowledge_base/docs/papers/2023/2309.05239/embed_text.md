@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.05239", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Image restoration (IR) is a classic problem in computer vision. It aims to reconstruct a high-quality (HQ) image from a given low-quality (LQ) input. Classic IR tasks encompass image super-resolution, image denoising, compression artifacts reduction, and etc. Image restoration plays an important role in computer vision and has widespread application in areas such as AI photography, surveillance imaging, medical imaging, and image generation. Since deep learning has been successfully applied to IR tasks, numerous methods based on the convolutional neural network (CNN) have been proposed and almost dominate this field in the past few years. Recently, due to the success in natural language processing, Transformer has attracted increasing attention in the computer vision community. After making rapid progress on high-level vision tasks, Transformer-based methods are also developed for low-level vision tasks. A sucessful example is SwinIR, which obtains a breakthrough improvement on IR tasks.

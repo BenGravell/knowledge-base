@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2410.23916", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Trajectory generation is crucial to achieving reliable robot autonomy, endowing autonomous systems with the capability to compute a state and control trajectory that simultaneously satisfies constraints and optimizes mission objectives. As a result, trajectory generation problems have been formulated in many practical areas, including space and aerial vehicles, robot motion planning, chemical processes, and more. Crucially, the ability to solve the trajectory generation problem in real time is pivotal to safely operate within real-world scenarios, allowing the autonomous system to rapidly recompute an optimal plan based on the most recent information.

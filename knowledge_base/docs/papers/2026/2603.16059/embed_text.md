@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.16059", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Motion planning is critical for safe and accurate robot operation in many applications, *e.g.*, transportation \[claussmann2020review\], environment monitoring \[honig2018trajectory, zhou2022swarm\], warehouses \[eppner2016lessons\], healthcare \[riek2017healthcare\], and home assistance \[jenamani2025feast\]. In such applications, the robot has to react quickly to changes in its environment, promptly (re)plan a collision-free trajectory, and safely track the trajectory to reach a goal state, using a controller. This task requires fast motion planning, subject to both collision avoidance and robot dynamics constraints, to generate a dynamically feasible trajectory from a start to a goal that the robot is able to follow. While recent advances have significantly reduced motion planning times for geometric planning via parallelization techniques \[thomason2024vamp, ramsey2024-capt\], sampling-based motion planning under dynamics constraints, *i.e.*, kinodynamic planning, remains a challenge for real-time applications especially for high degree-of-freedom (d o f) robots such as manipulators. In this paper, we address this problem by leveraging the *differential flatness* property of many common robot systems, such as ground and aerial vehicles, manipulators, and more, to enable ultrafast sampling-based kinodynamic motion planning via parallelization techniques.
@@ -126,7 +128,7 @@ The goal of the FlaskExtend subroutine, described in Alg. 2, is to find a collis
 
 Input: The planning graph/tree 𝔾z = (𝕍z, 𝔼z) 2if Sample $\mathbf{z}_{f}\in{\cal Z}$ then 3 Pick an existing node Z0 ∈ 𝕍z /* Solve BVP in closed form */4 zloc(t)← Eq. with a sampled T or an optimal T = T*.
 
-/* Analytically propagate dynamics */9if FlaskCC(zloc(t), wloc(t)) then
+/* Analytically propagate dynamics */9if not FlaskCC(zloc(t), wloc(t)) then
 
 ### V-C1 Solving the BVP Problem in Closed Forms
 
@@ -166,7 +168,7 @@ Similarly, other constraints such as state and control limits can be checked in 
 
 Input: A collision-free piecewise-polynomial trajectory σz(t) = {(zi(t), ti)}i = 1M, with control inputs wz(t) = {wi(t), ti)}i = 1M, 4 Calculate zij(t) from Eq. with z0 = zi(ti − 1), zf = zj(tj), and a time Tij = tj − ti − 1 or an optimal Tij. 5 Calculate wij(t) from Eq..
 
-/* Bypass unnecessary motions if the trajectory zij(t) does not violates any constraints */6 if FlaskCC(zij(t), wij(t)) then 7 Replace {(zi(t), ti)}k = ij by (zij(t), ti − 1 + Tij). 8 Replace {(wi(t), ti)}k = ij by (wij(t), ti − 1 + Tij). Algorithm 4 Trajectory Postprocessing
+/* Bypass unnecessary motions if the trajectory zij(t) does not violates any constraints */6 if not FlaskCC(zij(t), wij(t)) then 7 Replace {(zi(t), ti)}k = ij by (zij(t), ti − 1 + Tij). 8 Replace {(wi(t), ti)}k = ij by (wij(t), ti − 1 + Tij). Algorithm 4 Trajectory Postprocessing
 
 ### V-E Trajectory Postprocessing
 

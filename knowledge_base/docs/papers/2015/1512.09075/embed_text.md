@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1512.09075", "source": "ar5iv"} -->
+
 ## Introduction
 
 Many reinforcement learning (RL) research papers contain paragraphs that define Markov decision processes (MDPs). These paragraphs take up space that could otherwise be used to present more useful content. In this paper we specify a notation for MDPs that can be used by other papers. Declaring the use this notation using a single sentence can replace several paragraphs of notational specifications in other papers. Importantly, the notation that we define is a common foundation that appears in many RL papers, and is not meant to be a complete notation for an entire paper.

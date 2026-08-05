@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1906.00729", "source": "ar5iv"} -->
+
 ## Introduction
 
 Reinforcement learning (RL) has achieved sensational progress recently in several prominent decision-making problems, e.g., playing the game of Go and playing real-time strategy games. Interestingly, all of these problems can be formulated as zero-sum Markov games involving two opposing players or teams. Moreover, their algorithmic frameworks are all based upon *policy optimization* (PO) methods such as actor-critic and proximal policy optimization (PPO), where the policies are parametrized and iteratively updated. Such popularity of PO methods are mainly attributed to the facts that: (i) they are easy to implement and can handle high-dimensional and continuous action spaces; (ii) they can readily incorporate advanced optimization results to facilitate the algorithm design. Moreover, empirically, some observations have shown that PO methods usually converge faster than value-based ones.

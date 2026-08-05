@@ -16,288 +16,216 @@ This paper presents a hybrid trajectory optimization method designed to generate
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Path planning is a critical problem for autonomous vehicles and robots. Several considerations need to be addressed simultaneously in robot path planning and navigation, such as specifying mission goals, ensuring dynamic feasibility, avoiding collisions, and considering internal constraints.
+Path or motion planning is a highly important problems for autonomous vehicles and robots. Many need to be simultaneously considered for robot path planning and navigation. For example, specification of mission objectives, examining the dynamical feasibility of a robot, ensuring collision avoidance, and considering the internal constraints of a robot.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Optimization-based methods for path planning can explicitly handle these tasks. Two popular optimal path planning methods for autonomous robots are gradient-based and sampling-based methods. Gradient-based methods assume that the objective and constraint functions in the planning problem are differentiable, allowing for a fast, locally optimal smooth trajectory. These methods typically rely on nonlinear programming solvers such as IPOPT and SNOPT. On the other hand, sampling-based methods do not require function differentiability, making them more suitable for modeling obstacles of various shapes. Additionally, they naturally perform exploration, helping escape local optima. However, derivative-free sampling-based methods often result in coarse (e.g., zigzag) trajectories. For example, RRT-based methods can generate coarse trajectories. To balance the pros and cons of both methods, a hybrid approach combining them, as proposed, can be considered.
+Optimization-based methods for path planning can explicitly perform the above-mentioned tasks. The two most well-known optimal path planning methods for autonomous robots: gradient- and sampling-based methods. The former frequently assume that objective and constraint functions in a given planning problem are differentiable; however, they can rapidly provide a locally optimal smooth trajectory. Obtaining a numerical solution typically relies on nonlinear programming solvers such as IPOPT and SNOPT. In contrast, sampling-based methods do not require differentiability of functions; therefore, they are more constructive than the former methods for modeling obstacles without concern about their shapes in constrained optimization for collision-free path planning. In addition, sampling-based methods naturally perform exploration, thereby avoiding a local optimum. However, derivative-free sampling-based methods generally produce coarse (e.g., zigzag) trajectories. For example, rapidly-exploring random trees-based methods generate coarse trajectories. To mitigate these drawbacks of gradient- and sampling-based methods while maintaining the advantages, a hybrid method combining them can be considered as proposed.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The optimization-based trajectory generation architecture known as model predictive control (MPC) has been extensively applied to robotic trajectory generation and planning problems. Deep reinforcement learning-based trajectory generation for mobile robots is another popular approach. A comparison of the continuous optimal control and reinforcement learning frameworks for trajectory generation of autonomous drone racing is provided. Combining MPC with learning schemes has drawn noticeable attention to the robotics and control community. Using the property of differential flatness, a robotic trajectory optimization problem can be converted to finite-dimensional parametric optimization.
+In this study, we propose a hybrid method of trajectory optimization by modularly incorporating sampling- and gradient-based methods. Fig. 1 depicts the structure of the proposed collision-free smooth path planning method. The hybrid method presented in this study generates a coarse trajectory and path corridors by using sampling-based optimization via variational inference (VI). Subsequently, a smooth trajectory is obtained by gradient-based optimization with a differential dynamic programming (DDP) scheme. It is assumed that a collision checker is available to indicate collision occurrence in a binary form, true or false.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-This paper proposes a hybrid trajectory optimization method that modularly incorporates sampling-based and gradient-based methods. Fig. 1 illustrates the structure of the proposed collision-free smooth path planning approach. Our method generates a coarse trajectory and path corridors using sampling-based optimization via variational inference (VI). Subsequently, a smooth trajectory is obtained through gradient-based optimization via the differential dynamic programming (DDP) scheme. We assume that a collision checker is available to determine whether a collision has occurred.
+VI refers to a class of optimization-based approaches of finding posterior distribution approximations of unknowns, and it makes Bayesian inference computationally efficient and scalable. Recently proposed model predictive path integral (MPPI) is a sampling-based planning method that uses a VI framework. Briefly, it samples random trajectories around a nominal trajectory and assigns weights to them in order of producing low costs. Subsequently, it updates the nominal trajectory with the weighted average. In this study, MPPI was used for generating a coarse trajectory for exploration while avoiding collision.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Variational inference (VI) refers to a class of optimization-based approaches for approximating posterior distributions, making Bayesian inference computationally efficient and scalable. The recently proposed model predictive path integral (MPPI) is a sampling-based planning method that uses the VI framework. In essence, MPPI samples random trajectories around a nominal trajectory, assigns weights based on cost, and updates the nominal trajectory using the weighted average. In this paper, MPPI is used to generate a coarse trajectory for exploration while avoiding collisions.
+For smoothing the coarse trajectory with a gradient-based optimization, we introduced the concept of the path corridors, which is a well-known scheme reported in the literature. Path corridors are collections of convex collision-free regions guiding a robot toward an aimed position. In this study, unlike the investigations mentioned above, a simple sampling-based optimization method was used to construct corridors.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-While methods such as RRT and dynamic programming (DP) can achieve collision-free rough trajectory planning, we select MPPI control due to its suitability for real-time trajectory generation as a local planner, whereas RRT-like methods are often used as global planners. MPPI offers significant computational efficiency, allowing it to operate in real-time, which is critical for continuous control tasks. Additionally, MPPI inherently incorporates system dynamics within its rollout-based framework, providing a more seamless integration between trajectory planning and control. In contrast, RRT-like methods, while effective for finding rough trajectories, suffer from unpredictable computation times, which pose challenges for real-time controller design. This makes MPPI a better fit for our goal of real-time, dynamically feasible trajectory generation.
+To produce a smooth trajectory, a differential dynamic programming (DDP) framework can be applied in gradient-based optimization. DDP-based approaches, including iterative linear quadratic regulator, for nonlinear optimal control problems, have recently become commonly used in many applications of planning and nonlinear model predictive control for autonomous systems. DDP is based on Bellman's principle of optimality and the necessary condition for optimal control problem. In addition, all functions defined in the optimal control problem are assumed to be smooth or at least twice continuously differentiable.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-To smooth the coarse trajectory with gradient-based optimization, we introduce the concept of path corridors, a popular scheme in the literature. Path corridors are collections of convex collision-free regions guiding a robot toward a goal position. Unlike previous works, we use simple sampling-based VI framework to construct these corridors.
+Because the original DDP approaches do not consider any constraints of the system state and inputs, many studies have been conducted to deal with constraints in DDP efficiently. The augmented Lagrangian (AL) method and the Karush-Kuhn-Tucker (KKT) condition were used in and, respectively. In, a method combining the AL method with the KKT condition was proposed. The interior point differential dynamic programming (IPDDP) algorithm, employed in the present study, is based on the KKT condition. IPDDP, which is described in Section II-B, takes all Lagrangian and barrier terms into the so-called Q-function and solves a min-max problem.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-To achieve a smooth trajectory, we apply the differential dynamic programming (DDP) framework for gradient-based optimization. DDP-based approaches, including the iterative linear quadratic regulator (iLQR), have become popular for nonlinear optimal control problems and have been applied in many contexts of planning and nonlinear model predictive control for autonomous systems. DDP relies on Bellman's principle of optimality and the necessary conditions for optimal control problems, assuming all functions defined in the problem are smooth or at least twice continuously differentiable.
+The main contributions of this study are summarized as follows: We propose a hybrid path planning method that generates collision-free smooth trajectories by combining sampling-based trajectory optimization (MPPI) and gradient-based smooth optimization (IPDDP).
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Since original DDP approaches do not consider system state and input constraints, various methods have been developed to handle constraints efficiently in DDP. The augmented Lagrangian (AL) method is used, while the Karush-Kuhn-Tucker (KKT) condition is employed. In, a method combining the AL method with the KKT condition is proposed. The interior point differential dynamic programming (IPDDP) algorithm, used in this work, is based on the KKT condition. IPDDP, summarized in Section II, incorporates all Lagrangian and barrier terms into the Q-function and solves a minimax problem.
+We propose a method to construct collision-free convex path corridors by sampling-based optimization using VI.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The main contributions of this paper can be summarized as follows: Hybrid Path Planning Method: A novel hybrid path planning method is proposed. This method generates collision-free smooth trajectories by integrating sampling-based trajectory optimization using Model Predictive Path Integral (MPPI) and gradient-based smooth optimization (IPDDP).
+We present two numerical case studies for real-time path planning by which the effectiveness of the proposed method, MPPI-IPDDP, was demonstrated in the present research.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Collision-Free Convex Path Corridors: WA new method for constructing collision-free convex path corridors is introduced. This method leverages sampling-based optimization with variational inference to ensure the path is safe from obstacles.
+The remainder of this paper is organized as follows. Section II reviews sampling-based optimization by VI and IPDDP. Section III describes the proposed path planning method, called MPPI-IPDDP, which produces collision-free smooth trajectories. In Section IV, two-dimensional (2D) and three-dimensional (3D) case studies are presented to show the effectiveness of the proposed method. Section V concludes the paper and suggests directions for future studies.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-A Sampling-based Optimization by Variational Inference", "weight": 1.0} -->
 
-Effectiveness Demonstration: MPPI-IPDDP is demonstrated to be effective through two numerical case studies. These studies showcase the practical applicability and performance of the method in generating feasible and smooth trajectories.
+An optimization problem can be reconstructed as an inference problem, which can be solved by the VI method. To this end, in this study, a binary random variable $o$ indicating optimality was introduced where specifically, $p{({o = 1})}$ is the probability of optimality. For brevity, we write it as $p{(o)}$.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-A Sampling-based Optimization by Variational Inference", "weight": 1.0} -->
 
-Open-Sourced Codes: The C++ and MATLAB codes for the proposed MPPI-IPDDP solver are made available as open-source. This allows readers to replicate the results presented in the paper and customize the solution for their own robotic applications.
+We considered two different cases of VI for stochastic optimal control: VI for finite-dimensional optimization, in which the decision variable is a parameter vector, and VI for trajectory optimization, in which generating the optimal trajectory of a control system is considered.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-A1 VI for Finite-dimensional Optimization", "weight": 1.0} -->
 
-The remainder of this paper is organized as follows: Section II reviews sampling-based optimization via variational inference and IPDDP. Section III presents our path planning method, MPPI-IPDDP, for generating collision-free smooth trajectories. In Section IV, the effectiveness of the proposed MPPI-IPDDP is demonstrated through simulations in various environments and compared with other MPPI variants and NLP-based solvers. Section V discusses the remaining challenges and practical limitations. Finally, Section VI concludes the paper with suggestions for future work.
+Let $\theta$ be a vector of decision variables. For VI corresponding to stochastic optimization or optimal control, the objective is to find the target distribution, $q^{\ast}$^11^1We exploited the terminologies of distributions (probability measures) and probability density functions. defined as Let ${L{(\theta)}} = {p{(\left. o \middle| \theta \right.)}}$ be the likelihood function and ${\overset{\sim}{q}}^{\ast}$ be the empirical approximation of $q^{\ast}$ that is computed from samples ${\{\theta_{1},\ldots,\theta_{N}\}} \sim {p{(\theta)}}$ drawn from prior $p{(\theta)}$. Thus, ${\overset{\sim}{q}}^{\ast}$ can be represented as where $\delta$ is the Dirac delta function and $N$ is the number of samples.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "II-A Sampling-based Optimization via Variational Inference", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-A1 VI for Finite-dimensional Optimization", "weight": 1.0} -->
 
-An optimization problem can be reformulated as an inference problem and solved using the variational inference method. To achieve this, we introduce a binary random variable $o$ that indicates optimality, where $p{({o = 1})}$ represents the probability of optimality. For simplicity, we denote this probability as $p{(o)}$.
+Replacing $q^{\ast}$, ${\overset{\sim}{q}}^{\ast}$ is approximated using the forward Kullback-Leibler (KL) divergence as follows: If a normal distribution is chosen for parameterizing the policy, $\pi$, then a closed-form solution for the optimal policy, $\pi^{\ast} = {\mathcal{N}{(\mu,\Sigma)}}$, is obtained, where In this study, this VI-based stochastic optimization method was used for constructing collision-free convex path corridors, as described in Section III-B.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "II-A Sampling-based Optimization via Variational Inference", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "II-A2 VI for Trajectory Optimization", "weight": 1.0} -->
 
-In this paper, we consider two different cases of variational inference (VI) for stochastic optimal control: VI for finite-dimensional optimization, where the decision variable is a parameter vector, and VI for trajectory optimization, where the goal is to generate an optimal trajectory for a control system. The baseline methodology for these VI approaches is based on Model Predictive Path Integral (MPPI) control, which serves as a sampling-based framework for stochastic control problems. MPPI leverages importance sampling techniques to iteratively update control policies, making it well-suited for handling the probabilistic nature of the control tasks in both finite-dimensional optimization and trajectory optimization contexts.
+Let $\tau = {(X,U)}$ be a trajectory consisting of a sequence of controlled states $X = {(x_{0},\ldots,x_{T})}$ and a sequence of control inputs $U = {(u_{0},\ldots,u_{T - 1})}$ over a finite time-horizon $T$. The objective is to find the target distribution, ${q^{\ast}{(\tau)}} = {p{(\left. X \middle| U \right.)}q^{\ast}{(U)}}$, where $p{(\left. X \middle| U \right.)}$ represents stochastic dynamics as follows: Let ${L{(U)}} = {{\mathbb{E}}_{X \sim {p{({X|U})}}}\left\lbrack {{\log p}{(\left. o \middle| \tau \right.)}} \right\rbrack}$.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "II-A1 VI for Finite-dimensional Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "II-A2 VI for Trajectory Optimization", "weight": 1.0} -->
 
-Let $\theta$ be a vector of decision variables. For variational inference corresponding to stochastic optimization or optimal control, the goal is to find the target distribution $q^{\ast}$^11^1We will abuse the terminology of distributions (probability measure) and probability density functions. defined as Let ${L{(\theta)}} = {p{(\left. o \middle| \theta \right.)}}$ be the likelihood function and ${\overset{\sim}{q}}^{\ast}$ be the empirical approximation of $q^{\ast}$ that is computed from samples ${\{\theta_{1},\ldots,\theta_{N}\}} \sim {p{(\theta)}}$ that are drawn from the prior $p{(\theta)}$. Then, ${\overset{\sim}{q}}^{\ast}$ can be represented as where $\delta$ is the Dirac delta function, and $N$ is the number of samples.
+Thus, $q^{\ast}{(\tau)}$ can be rewritten as The closed-form solution for the above optimization is expressed as Let ${\overset{\sim}{q}}^{\ast}$ be the empirical distribution of $q^{\ast}$ approximated with samples ${\{ U_{1},\ldots,U_{N}\}} \sim {p{(U)}}$ drawn from prior $p{(U)}$. Thus, ${\overset{\sim}{q}}^{\ast}$ can be represented as Replacing $q$, ${\overset{\sim}{q}}^{\ast}$ is approximated with the forward KL divergence.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "II-A1 VI for Finite-dimensional Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "II-A2 VI for Trajectory Optimization", "weight": 1.0} -->
 
-$\pi$, then we get the closed-form solution for the optimal policy $\pi^{\ast} = {\mathcal{N}{(\mu,\Sigma)}}$ where In this paper, this VI-based stochastic optimization method is used for constructing collision-free convex path-corridors in Section III-B.
+If a normal distribution is chosen for $\pi$, then a closed form solution of $\pi^{\ast} = {\mathcal{N}{(\mu,\Sigma)}}$ is obtained, where In this study, this VI-based trajectory optimization method was used in MPPI to generate a locally optimal trajectory, as presented in Section III-A.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "II-A2 VI for Trajectory Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "II-A3 Additional Notes", "weight": 1.0} -->
 
-If the normal distribution is chosen for $\pi$, then we get the closed form solution of $\pi^{\ast} = {\mathcal{N}{(\mu,\Sigma)}}$ where In this paper, this VI-based trajectory optimization is applied for MPPI to generate a locally optimal trajectory in Section III-A.
+One of the most common choices for the likelihood function is ${p{(\left. o \middle| \cdot \right.)}} = {\exp{({- {\gammaJ{( \cdot )}}})}}$, where $J{( \cdot )}$ is the cost function and $\gamma > 0$ is known as the inverse temperature. Using this likelihood function, weight $w_{i}$, as discussed in Sections II-A1 and II-A2 can be interpreted as the likelihood ratio corresponding to the sampled candidate, $\theta_{i}$ or $U_{i}$, respectively. Specifically, a low value of $J$ implies a high likelihood of optimality at an exponential rate.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "II-A3 Additional Notes", "weight": 1.0} -->
 
-One of the most common choices for the likelihood function is ${p{(\left. o \middle| \cdot \right.)}} = {\exp{({- {\gamma J{( \cdot )}}})}}$ where $J{( \cdot )}$ is a cost function and $\gamma > 0$ is known as the inverse temperature. With this likelihood function, the weight $w_{i}$ in Sections II-A1 and II-A2 can be interpreted as the likelihood ratio corresponding to the sampled candidate $\theta_{i}$ or $U_{i}$, respectively. This implies that the lower the value of $J$ the higher the likelihood of being optimal at an exponential rate.
+Because this sampling-based optimization scheme is an iterative method, the distribution, $\pi$, affects the prior, $p$, at the next iteration; therefore, $\pi$ eventually reaches a locally optimal point. In this study, we considered normal distributions for the prior and posterior, and only propagated the mean, $\mu$, and used a fixed covariance $\Sigma$ without empirical adaptation, as expressed and.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "II-A3 Additional Notes", "weight": 1.0} -->
 
-Since this sampling-based optimization scheme is iterative, the distribution $\pi$ should influence the prior $p$ in the next iteration, ensuring that $\pi$ eventually reaches a locally optimal point. In this paper, we assume normal distributions for both the prior and posterior, propagating only the mean $\mu$ while using a fixed covariance $\Sigma$. We do not perform empirical adaptation as outlined in and.
+In, the Stein variational gradient descent (SVGD) method was proposed to directly approximate a target distribution $q^{\ast}$ by the reverse KL divergence, without using an empirical distribution ${\overset{\sim}{q}}^{\ast}$. In addition, it can deal with complex multi-modal distributions and achieve more exploration; consequently, a global optimum is more probable to be found. Although SVGD can be used as, in this study, an empirical distribution and the forward KL divergence were employed for convenience.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "II-B Interior Point Differential Dynamic Programming", "weight": 1.0} -->
 
-IPDDP introduced in can be used to solve a standard discrete-time optimal control problem (OCP) given as where the variables $x_{t} \in {\mathbb{R}}^{n}$ and $u_{t} \in {\mathbb{R}}^{m}$ are the system state and the control input vector at time-step $t$, respectively, and $x_{init}$ is the initial condition for the control system. Let denote the decision vector as $U:=u_{0:{T - 1}} = {\lbrack u_{0}^{\top},u_{1}^{\top},\cdots,u_{T - 1}^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{nT}$ that is the concatenation of sequential control inputs over a time horizon $T$.
+IPDDP introduced in can be used to solve a standard discrete-time optimal control problem (OCP) expressed as where variables $x_{t} \in {\mathbb{R}}^{n}$ and $u_{t} \in {\mathbb{R}}^{m}$ are the system state and the control input vector at time step $t$, respectively, and $x_{init}$ is the initial condition of the control system. Let the decision vector be denoted as $U:=u_{0:{T - 1}} = {\lbrack u_{0}^{\top},u_{1}^{\top},\cdots,u_{T - 1}^{\top}\rbrack}^{\top} \in {\mathbb{R}}^{nT}$, which is a concatenation of sequential control inputs over a time horizon $T$.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "II-B Interior Point Differential Dynamic Programming", "weight": 1.0} -->
 
-In dynamic programming perspectives, the OCP can be converted into the Bellman equation form at time $t$ with a given state $x_{t}$ as follows: where $V_{t + 1}$ is a value function for the next state and $s_{t} = {\lbrack s^{1},\ldots,s^{k}\rbrack}_{t}^{\top} \in {\mathbb{R}}^{k}$ are slack variables. At the final stage, the value function is defined as ${V_{T}{(x_{T})}} = {l_{f}{(x_{T})}}$.
+In dynamic programming, the OCP can be converted into Bellman's equation form at time $t$ with a given state $x_{t}$ as follows: where $V_{t + 1}$ is a value function for the next state and $s_{t} = {\lbrack s^{1},\ldots,s^{k}\rbrack}_{t}^{\top} \in {\mathbb{R}}^{k}$ are slack variables. At the final stage, the value function is defined as ${V_{T}{(x_{T})}} = {l_{f}{(x_{T})}}$. For notational convenience, index $t$ is not shown in the remainder of this section. The relaxed Lagrangian with the log-barrier terms of $s$ is defined by the following $Q$-function: where $\mu > 0$ is the barrier parameter and $y$ is the Lagrangian multiplier.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "II-B Interior Point Differential Dynamic Programming", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "II-B1 Backward Pass", "weight": 1.0} -->
 
-For notational convenience, we drop the time index $t$ in the remainder of this section, with the understanding that all functions and variables remain time-dependent. The relaxed Lagrangian with the log-barrier terms of $s$ is defined by the following $Q$-function: where $\mu > 0$ is the barrier parameter and $y$ is the Lagrangian multiplier.
+As in the standard DDP scheme, $Q$ is perturbed up to the quadratic terms at the current nominal points: where $e \in {\mathbb{R}}^{k}$ is an all-ones vector and $S:={\text{diag}{(s)}} \in {\mathbb{R}}^{k \times k}$ is a diagonal matrix associated with vector $s \in {\mathbb{R}}^{k}$.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "II-B1 Backward Pass", "weight": 1.0} -->
 
-Finally, we obtain the perturbed value function as follows: where the coefficients are given as This perturbed value function $\delta V$ is recursively used for $\delta V'$ at the next backward step.
+By setting ${\deltas^{\top}{({\muS^{- 2}})}\deltas} = {\deltas^{\top}{({S^{- 1}Y})}\deltas}$, where $Y:={\text{diag}{(y)}}$, the step direction that satisfies the extremum condition corresponding to the first-order optimality is determined using the following primal-dual KKT system as follows: Solving the KKT system expressed in for $\deltau$, $\deltas$, and $\deltay$, yields where the coefficient matrices and the vectors are defined as and the intermediate parameters and vectors are Above, $r_{p}$ and $r_{d}$ are the primal and dual residuals, respectively.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "II-B2 Forward Pass", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "II-B1 Backward Pass", "weight": 1.0} -->
 
-After calculating the perturbations in the backward pass, the nominal points are updated as follows: ${u\leftarrow{u + {\alpha\delta u}}},{{s\leftarrow{s + {\alpha\delta s}}},{y\leftarrow{y + {\alpha\delta y}}}}$ where $\alpha \in {(0,1\rbrack}$ represents the step size. In IPDDP, the value of $\alpha$ is determined by the filter line-search method. This method starts with a step size of 1 and reduces $\alpha$ incrementally. pdates are accepted as soon as they decrease either the cost or the violations of constraints. If no suitable $\alpha$ is found, the forward pass is terminated and deemed unsuccessful.
+Finally, the perturbed value function is obtained as follows: where the coefficients are This perturbed value function, $\deltaV$, is recursively used for $\deltaV'$ in the next backward step.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "II-B3 Convergence", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "II-B2 Forward Pass", "weight": 1.0} -->
 
-The barrier parameter $\mu$ is monotonically decreased whenever the local convergence to the central path has been achieved. The criterion for the local convergence is ${\max{({\| Q_{u}\|}_{\infty},{\| r_{p}\|}_{\infty},{\| r_{d}\|}_{\infty})}} < {\kappa\mu}$ for some $\kappa > 1$. The global convergence agrees with the sufficiently small $\mu$.
+After calculating the perturbations in the backward pass, the nominal points are updated as follows: $u\leftarrow{u + {\alpha\deltau}}$, $s\leftarrow{s + {\alpha\deltas}}$, and $y\leftarrow{y + {\alpha\deltay}}$, where $\alpha \in {(0,1\rbrack}$ is the step size. In IPDDP, $\alpha$ is determined using the filter line-search method. While reducing the step size, $\alpha$, starting from $1$, the filter line-search method accepts those updates that reduce either the cost or constraint violations. If no $\alpha$ is found acceptable, the forward pass is terminated for failure.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "II-B4 Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "II-B3 Convergence", "weight": 1.0} -->
 
-To guarantee that ${\overset{\sim}{Q}}_{uu}^{- 1}$ is invertible in (II-B1), the regularization parameter $\rho \geq 0$ is added: $Q_{uu}\leftarrow{Q_{uu} + {\rho I_{m}}}$. The parameter $\rho$ increases when it is not invertible or the failure has occurred in the forward pass. If $\rho$ reaches some upper bound $\rho_{\max}$, IPDDP is terminated for failure.
+The barrier parameter, $\mu$, is monotonically decreased whenever the local convergence to the central path is achieved. The criterion for local convergence is ${\max{({\| Q_{u}\|}_{\infty},{\| r_{p}\|}_{\infty},{\| r_{d}\|}_{\infty})}} < {\kappa\mu}$, where $\kappa > 1$. The global convergence agrees with the sufficiently small $\mu$.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Collision-free Smooth Trajectory Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "II-B4 Regularization", "weight": 1.0} -->
 
-The proposed algorithm for solving has three steps: searching for a feasible coarse trajectory using MPPI, constructing path corridors, and smoothing the coarse trajectory by IPDDP.
+To guarantee that ${\overset{\sim}{Q}}_{uu}^{- 1}$ is invertible in (II-B1), regularization parameter $\rho \geq 0$ is added: $Q_{uu}\leftarrow{Q_{uu} + {\rhoI_{m}}}$. $\rho$ increases when it is not invertible or failure occurs in the forward pass. If $\rho$ reaches some upper bound $\rho_{\max}$, IPDDP is terminated for failure.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "III-A Model Predictive Path Integral", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Collision-free Smooth Trajectory Generation", "weight": 1.0} -->
 
-We first generate a coarse trajectory using MPPI. The cost function $J$ is defined as where the indicator function is defined as ensuring obstacle avoidance and the sequence of the states $x_{0:T}$ are determined by the initial state $x_{0} = x_{init}$, the dynamics $x_{t + 1} = {f_{t}{(x_{t},u_{t})}}$, and the controls $U$.
+This study considers the following OCP associated with trajectory optimization for path planning: where $p_{t} \in x_{t}$ is the position of a robot and $\mathcal{O}$ is the set of positions occupied by obstacles. Different, the joint constraints on states and controls are decoupled. The proposed algorithm for solving has three steps: searching for a feasible coarse trajectory using MPPI, constructing path corridors, and smoothing the coarse trajectory by IPDDP.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "III-A Model Predictive Path Integral", "weight": 1.0} -->
 
-To satisfy the control constraints, each $i$th sample of control sequence vector $U_{i}$ is projected onto the constraint set, i.e. $U_{i}\leftarrow{\Pi_{u}{(U_{i})}}$ where $\Pi_{u}$ is a projection operator onto the feasible set of controls $\mathcal{U} = \left. \{{u_{0:{T - 1}} \in {\mathbb{R}}^{mT}} \middle| {{g_{t}^{u}{(u_{t})}} \leq {0{\text{for all~}t}}}\} \right.$. We assume that the set $\mathcal{U}$ is compact and convex, ensuring that the projection is well-defined. This assumption allows us to leverage analytical solutions for projection, particularly in cases involving simple constraints like box constraints or second-order conic constraints.
+First, a coarse trajectory using MPPI is generated. The cost function, $J$, is defined as where the indicator function for collision avoidance is defined as and the sequence of states $x_{0:T}$ is determined by the initial state, $x_{0} = x_{init}$, dynamics $x_{t + 1} = {f{(x_{t},u_{t})}}$, and controls $U$.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "III-A Model Predictive Path Integral", "weight": 1.0} -->
 
-With the method described in Section II-A2, locally optimal controls and corresponding states are obtained. Let ${\overline{p}}_{0:T}$ be the resulting position of a robot from MPPI.
+To satisfy the control constraints, the samples of controls, $U_{i}$, are projected onto the constraint set, i.e. $U_{i}\leftarrow{\Pi{(U_{i})}}$, where $\Pi$ is a projection operator applied to the feasible set of controls $\left. \{{u_{0:{T - 1}} \in {\mathbb{R}}^{mT}} \middle| {{h{(u_{i})}} \leq {0{\text{for all~}i}}}\} \right.$.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "III-B Path Corridors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "III-A Model Predictive Path Integral", "weight": 1.0} -->
 
-(a) A maximally inflated path corridor Figure 2: Schematics of for collision-free path corridors.
+Using the method described in Section II-A2, locally optimal controls and corresponding states are obtained. Let ${\overline{p}}_{0:T}$ be the resulting position of a robot obtained by MPPI.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "III-B Path Corridors", "weight": 1.0} -->
 
-Although the shape of the corridors can be arbitrary, here we choose a Euclidean ball $\mathcal{B}_{r}{(c)}$ which is represented by two variables: center $c$ and radius $r$. The optimization problem is designed to enlarge the ball and have the center $c$ close to $\overline{p}$ while containing $\overline{p}$ inside the ball without intersection with obstacles (see Fig. 2). If there are no obstacles around $\overline{p}$, then the solution is $c = \overline{p}$ and $r = r_{\max}$.
+Although the shape of the corridors can be arbitrary, we selected a Euclidean ball $\mathcal{B}_{r}{(c)}$ represented by two variables: center $c$ and radius $r$. The problem as expressed in is designed to enlarge the ball and ensure the center, $c$, close to $\overline{p}$ while containing $\overline{p}$ inside the ball without intersection with obstacles (see Fig. 2). If there are no obstacles around $\overline{p}$, the optimal solutions are $c = \overline{p}$ and $r = r_{\max}$.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "III-B Path Corridors", "weight": 1.0} -->
 
-We use the method described in Section II-A1 with $\theta = {\lbrack c^{\top},r\rbrack}^{\top}$ to solve the optimization problem at each stage of path planning to compute a sequence of collision-free corridors that are represented by $C = {\lbrack c_{0}^{\top},\ldots,c_{T - 1}^{\top}\rbrack}^{\top}$ and $R = {\lbrack r_{0},\ldots,r_{T - 1}\rbrack}^{\top}$. As in MPPI, the constraints on $r$ in can be met by projection that is defined as $r\leftarrow{\Pi_{z}{(r)}} = {\min{\{ r_{\max},{\max{\{ 0,r\}}}\}}}$.
+The method described in Section II-A1 was used with $\theta = {\lbrack c^{\top},r\rbrack}^{\top}$ to solve the optimization problem in at each stage of the path planning to compute a sequence of collision-free corridors, which are represented by $C = {\lbrack c_{0}^{\top},\ldots,c_{T - 1}^{\top}\rbrack}^{\top}$ and $R = {\lbrack r_{0},\ldots,r_{T - 1}\rbrack}^{\top}$. As in MPPI, the constraints on $c,r$ in can be met by projection.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "III-C Trajectory Smoothing", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "III-B Path Corridors", "weight": 1.0} -->
 
-In our final step of trajectory optimization for path planning, we consider the following OCP for smoothing the coarse trajectory generated by MPPI: where $p_{t} \in x_{t}$ is, again, the position of a robot, $(c_{t},r_{t})$ are the center and radius of the path corridor computed, and $Q$ is a weight matrix penalizing deviations from the center of the corridor. We include the constraint in the last row of to to keep a robot staying inside the collision-free corridors.
+(a) Maximally inflated path corridor Figure 2: Schematics for collision-free path corridors.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "III-C Trajectory Smoothing", "weight": 1.0} -->
 
-We use IPDDP introduced in Section II-B to solve and obtain a smooth trajectory. At the time, the coarse trajectory from MPPI can be used for an initial guess, i.e., a warm start for local optimization, which can much accelerate the convergence of IPDDP.
+In the final step of the proposed trajectory optimization for path planning, the following OCP is considered for smoothing the coarse trajectory generated by MPPI: where $p_{t} \in x_{t}$ is, again, the position of a robot, $(c_{t},r_{t})$ are the center and radius of the path corridor computed using, and $Q$ is a weight matrix penalizing the deviations from the center of a corridor. The constraint in the last row of is included to ensure the robot remains inside the collision-free corridors.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "III-D Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "III-C Trajectory Smoothing", "weight": 1.0} -->
 
-Algorithm 1 outlines the proposed trajectory optimization method, named MPPI-IPDDP, which is designed to generate collision-free, smooth trajectories. The algorithm includes three subroutines. First, MPPI employs a derivative-free variational inference approach to search for a dynamically feasible but coarse trajectory. Second, Corridor also utilizes derivative-free variational inference to construct collision-free circular corridors around the coarse trajectory. Lastly, IPDDP uses a recursive method to smooth the coarse trajectory within these corridors. As demonstrated in the supplementary video, the proposed MPPI-IPDDP method has been verified to be capable of online replanning for low-speed robots.
+IPDDP introduced in Section II-B was adopted to solve and obtain a smooth trajectory. At the time, the coarse trajectory from the MPPI can be used for the initial guess, i.e., a warm start for local optimization; this can considerably accelerate the convergence rate of IPDDP.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "III-D Algorithms", "weight": 1.0} -->
 
-forwardpass; ⊳ Section II-B2 5: if any failures occured then ⊳ Section II-B4 6: increase the regularization parameter ρ; 8: break; ⊳ Solver failed 12: decrease the regularization parameter ρ; 13: update the nominal trajectory; 15: if locally converged then ⊳ Section II-B3 16: decrease the barrier parameter μ; 17: reinitialize the filter;
+Algorithm 1 summarizes the proposed trajectory optimization method, MPPI-IPDDP, for generating collision-free smooth trajectories. The algorithm consists of three subroutines. First, MPPI uses a derivate-free VI to search a dynamically feasible but coarse trajectory. Second, Corridor also uses a derivate-free VI to construct collision-free circular corridors around the coarse trajectory. Finally, IPDDP employs a recursive method to smooth the coarse trajectory within the corridors. As demonstrated in the supplementary video available at the proposed MPPI-DDP is verified to be capable of online replanning.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "IV-A Wheeled Mobile Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "III-D Algorithms", "weight": 1.0} -->
 
-(a) Coarse controls by MPPI (b) Smooth controls by IPDDP (a) The terminal state cost of the trajectory reduces over iterations.
+$\overline{J}\leftarrow{\min_{i}J_{i}}$ 15: $\overline{w}\leftarrow{\sum_{i = 1}^{N_{z}}w_{i}}$ 16: $Z\leftarrow{\sum_{i = 1}^{N_{z}}{\left(w_{i}/\overline{w} \right){\hat{Z}}_{i}}}$ 1:while not converged globally and not max iteration do 2: evaluate all derivatives needed; 3: try backwardpass; ⊳ Section II-B1 4: try forwardpass; ⊳ Section II-B2 5: if any failure occurs then ⊳ Section II-B4 6: increase regularization parameter ρ; 8: break; ⊳ Solve failed 12: decrease regularization parameter ρ; 13: update nominal trajectory; 15: if locally converged then ⊳ Section II-B3 16: decrease barrier parameter μ;
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-A Wheeled Mobile Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Case Studies", "weight": 1.0} -->
 
-(b) The maximum value of the primal residuals approaches 0, meaning that the constraints are satisfied.
+In this section, we present two simulation results of trajectory optimization conducted to demonstrate the effectiveness of the proposed MPPI-IPDDP. The first case is of a wheeled mobile robot, and the second case considers a point-mass quadrotor.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "IV-A Wheeled Mobile Robot", "weight": 1.0} -->
 
-For an example of path planning in 2D space, we consider a scenario that a differential wheeled robot arrives at a given target pose without collision. Consider the robot kinematics\where ${(x_{t},y_{t})} \in {\mathbb{R}}$ are the positions of the x-axis and y-axis respectively, $\theta_{t} \in {\mathbb{R}}$ is the angle of the orientation, ${v_{t},w_{t}} \in {\mathbb{R}}$ are velocity and angular velocity respectively, and $\Delta t$ is the time interval. The vectors ${\lbrack x_{t},y_{t},\theta_{t}\rbrack}^{\top}$ and ${\lbrack v_{t},w_{t}\rbrack}^{\top}$ are states and controls respectively.
+(a) Coarse controls by MPPI (b) Smooth controls by IPDDP (a) Cost of trajectory reduces over iterations.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "IV-A Wheeled Mobile Robot", "weight": 1.0} -->
 
-We set the initial states as ${\lbrack 0,0,{\pi/2}\rbrack}^{\top}$ and sampling-time interval ${\Delta t} = 0.1$.
+(b) Maximum value of primal residual approaches zero, indicating that constraints are satisfied.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "IV-A Wheeled Mobile Robot", "weight": 1.0} -->
 
-The constraints of the corresponding OCP for trajectory generation are defined as where $\mathcal{O}$ is the set of obstacles shown in Fig. 3 in gray. The cost functions of the corresponding OCP for trajectory generation are defined as where ${\lbrack 0,6,{\pi/2}\rbrack}^{\top}$ is the target pose. The parameters for the MPPI-IPDDP method are given in Tab. I.
+For an example of 2D path planning, a scenario in which a differential wheeled robot arrives at a given target pose without collision was considered. The kinematic model of the robot is defined as where ${(x_{t},y_{t})} \in {\mathbb{R}}$ are the positions on the x- and y-axis respectively; $\theta_{t} \in {\mathbb{R}}$ is the angle of orientation; ${v_{t},w_{t}} \in {\mathbb{R}}$ are the velocity and angular velocity, respectively; and $\Deltat$ is the time interval. Vectors ${\lbrack x_{t},y_{t},\theta_{t}\rbrack}^{\top}$ and ${\lbrack v_{t},w_{t}\rbrack}^{\top}$ are the states and the controls, respectively.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "IV-A Wheeled Mobile Robot", "weight": 1.0} -->
 
-Fig. 3 shows the processing results of generating a smooth trajectory. Fig. 5 gives a comparison between the zigzaging controls obtained from MPPI and the smoother ones by IPDDP. Fig. 5 shows that the cost and constraint violations reduce over MPPI-IPDDP iterations.
+We set the initial states as ${\lbrack 0,0,{\pi/2}\rbrack}^{\top}$ and the sampling time interval as ${\Deltat} = 0.1$.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "IV-B Quadrotor without Attitude", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "IV-A Wheeled Mobile Robot", "weight": 1.0} -->
 
-(a) Coarse controls by MPPI (b) Smooth controls by IPDDP (a) The terminal state cost of the trajectory reduces over iterations.
+The constraints of the corresponding OCP for trajectory generation are defined as where $\mathcal{O}$ is the set of obstacles shown in Fig. 3 in gray. The cost functions of the corresponding OCP for trajectory generation are defined as where ${\lbrack 0,6,{\pi/2}\rbrack}^{\top}$ is the target pose. The parameters for the MPPI-IPDDP method are listed in Table I.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "IV-B Quadrotor without Attitude", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "IV-A Wheeled Mobile Robot", "weight": 1.0} -->
 
-(b) The maximum value of the primal residuals approaches 0, meaning that the constraints are satisfied.
+Fig. 3 shows the processing results of generating a smooth trajectory. In Fig. 5, the zigzag controls obtained by MPPI and the smoother ones by IPDDP are compared. Fig. 5 shows that the cost and constraint violations reduce with increasing MPPI-IPDDP iterations.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "IV-B Quadrotor without Attitude", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "IV-B Quadrotor Without Attitude", "weight": 1.0} -->
 
-For an example of path planning in 3D space, we consider a scenario that a quadrotor arrives at a given target position without collision. We assume that the quadrotor can be modeled as a point mass. The kinematics is given by where ${x_{t},v_{t}} \in {\mathbb{R}}^{3}$ are position and velocity respectively, $a_{t} = {\lbrack a_{x,t},a_{y,t},a_{z,t}\rbrack}^{\top} \in {\mathbb{R}}^{3}$ is acceleration, $g = 9.81$ is the gravitational acceleration, and $e_{3} = {\lbrack 0,0,1\rbrack}^{\top}$ is the vector of $z$-axis. ${\lbrack x_{t}^{\top},v_{t}^{\top}\rbrack}^{\top}$ and $a_{t}$ are the state and control respectively.
+(a) Coarse controls by MPPI (b) Smooth controls by IPDDP (a) Cost of trajectory reduces over iterations.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "IV-B Quadrotor without Attitude", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "IV-B Quadrotor Without Attitude", "weight": 1.0} -->
 
-We set the initial state as ${\lbrack 0,0,0,0,0,0\rbrack}^{\top}$ and ${\Delta t} = 0.05$.
+(b) Maximum value of primal residual approaches zero, indicating that constraints are satisfied.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "IV-B Quadrotor without Attitude", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "IV-B Quadrotor Without Attitude", "weight": 1.0} -->
 
-The cost functions of the corresponding OCP for trajectory generation are defined as where ${\lbrack 0,4,2\rbrack}^{\top}$ is the target position. The parameters for the MPPI-IPDDP method are given in Tab. II.
+As an example of 3D path planning, a scenario in which a quadrotor arrives at a given target position without collision was considered. it was assumed that the quadrotor can be modeled as a point mass. The kinematics of the quadrotor is given by where $x_{t} \in {\mathbb{R}}^{3}$ and $v_{t} \in {\mathbb{R}}^{3}$ are the position and the velocity, respectively, $a_{t} \in {\mathbb{R}}^{3}$ is the acceleration, $g = 9.81$ is the gravitational acceleration, and $e_{3} = {\lbrack 0,0,1\rbrack}^{\top}$ is the vector of z-axis. ${\lbrack x_{t}^{\top},v_{t}^{\top}\rbrack}^{\top}$ and $a_{t}$ are the states and the controls, respectively.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "IV-B Quadrotor without Attitude", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "IV-B Quadrotor Without Attitude", "weight": 1.0} -->
 
-Fig. 6 illustrates the process of generating a smooth trajectory. Fig. 8 compares the noisy control inputs generated by MPPI with the smoothed controls produced by IPDDP. Fig. 8 demonstrates how the cost and constraint violations decrease over successive iterations of the MPPI-IPDDP method.
+The initial state is set as ${\lbrack 0,0,0,0,0,0\rbrack}^{\top}$, and ${\Deltat} = 0.05$.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "IV-C Comparative Study with Other MPPI Variants", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "IV-B Quadrotor Without Attitude", "weight": 1.0} -->
 
-Considering the same scenario of a wheeled mobile robot given in Section IV-A, we compare the proposed MPPI-IPDDP with other existing MPPI methods (vanilla MPPI, Log-MPPI and Smooth-MPPI ) in terms of the computing time and smoothness.
+The constraints of the corresponding OCP for trajectory generation are defined as where the first two constraints represent that the acceleration of the quadrotor must be inside a cone and $\mathcal{O}$ is the set of obstacles shown in Fig. 7 in gray. When projections are performed to satisfy the conic constraint, the following projection operator was applied for obtaining a second-order cone: for $u = {\lbrack{v^{\top}s}\rbrack}^{\top}$, where $v$ and $s$ are a vector of a compatible dimension and a scalar, respectively. The cost functions of the corresponding OCP for trajectory generation are defined as where ${\lbrack 0,4,2\rbrack}^{\top}$ is the target position. The parameters for the MPPI-IPDDP method are listed in Table II.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "IV-C Comparative Study with Other MPPI Variants", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "IV-B Quadrotor Without Attitude", "weight": 1.0} -->
 
-To evaluate smoothness of generated trajectory, the following Mean Squared Curvature (MSC) was used: At every step of open-loop trajectory generation, we defined the success condition in terms of the computing time $({\leq \tau_{\max}})$ and the distance from the target pose $x_{\text{tg}}$, $\left\| {x_{T} - x_{\text{tg}}} \right\|_{2} \leq d_{\epsilon}$ where $\tau_{\max} = {10\sec}$ and $d_{\epsilon} = 0.1$ are predefined thresholds.
+Fig. 6 shows the processing results of generating a smooth trajectory. Fig. 9 compares the noisy controls obtained by MPPI and the smooth ones obtained by IPDDP. Fig. 9 shows that the cost and constraint violations reduce with increasing MPPI-IPDDP iterations.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "IV-C Comparative Study with Other MPPI Variants", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
-(a) Average computing time (b) Mean squared curvature Figure 9: Performance comparisons for MPPI methods.
-
-<!-- chunk {"id": "body-0058", "role": "body", "section": "IV-C Comparative Study with Other MPPI Variants", "weight": 1.0} -->
-
-* Q1, Q2, and Q3 represent the first, second (median), and third quartiles, respectively, of the average computing time and mean squared cost (MSC), calculated from data consisting only of successful simulations. Table III: Comparison of computing time and smoothness for different MPPI methods.
-
-<!-- chunk {"id": "body-0059", "role": "body", "section": "IV-C Comparative Study with Other MPPI Variants", "weight": 1.0} -->
-
-For statistical comparisons of algorithmic performances, numerous simulations with varying parameters of MPPI algorithms were conducted. The number of MPPI samples ($N_{u}$) increased from 100 to 25600 by doubling at each step. The covariance matrix of control $\left( \Sigma_{u} \right)$ varied from $0.1I$ to $0.9I$, where $I$ is the identity matrix of a compatible dimension. Fig. 10 shows the overall performance comparisons of four MPPI methods in terms of the success rate, computing time and trajectory smoothness with different number of samples $N_{u}$ and control covariance $\Sigma_{u}$.
-
-<!-- chunk {"id": "body-0060", "role": "body", "section": "IV-C Comparative Study with Other MPPI Variants", "weight": 1.0} -->
-
-Based on the simulation-based statistical analysis presented in Tab. III and Fig. 9, although the first quartile (Q1) statistics of computing time were relatively slow, our MPPI-IPDDP method outperformed the other three MPPI methods in both computing time and the smoothness of trajectory generation. This implies that while the MPPI-IPDDP may have a slower start in some cases, it ultimately provides superior performance overall, achieving faster computations and smoother trajectories compared to the alternative MPPI methods. In addition, the performance of MPPI-IPDDP is less sensitive to changes in the MPPI parameters $N_{u}$ and $\Sigma_{u}$. This means that the method is more robust and reliable across different settings of these parameters, as illustrated in Fig. 10.
-
-<!-- chunk {"id": "body-0061", "role": "body", "section": "IV-C Comparative Study with Other MPPI Variants", "weight": 1.0} -->
-
-We also tested the proposed MPPI-IPDDP in 300 different scenarios of the BARN dataset and compared it with other MPPI methods in terms of success rate, computing time and trajectory MSC. The parameter values of $N_{u}$ and $\Sigma_{u}$ were customized for each method to optimize its performance. This extensive testing allowed us to assess the robustness and efficiency of the MPPI-IPDDP approach across a wide variety of challenging environments, ensuring that the method was evaluated under diverse conditions. The customized parameters helped each method perform at its best, providing a fair and comprehensive comparison.
-
-<!-- chunk {"id": "body-0062", "role": "body", "section": "IV-C Comparative Study with Other MPPI Variants", "weight": 1.0} -->
-
-The time horizon was set to $T = 100$, the maximum velocity of $v_{t}$ was reduced to 1.0, and each state was defined as $x_{\text{init~}} = {\lbrack 1.5,0,{\pi/2}\rbrack}^{\top}$ and $x_{\text{tg}} = {\lbrack 1.5,5,{\pi/2}\rbrack}^{\top}$. We expanded the map to be ${{5m} \times 3}m$ from ${{3m} \times 3}m$ with additional free space to prevent collision in initial and finish states. The map was also inflated to account for the size of the robot. To properly correspond with the cost calculation $\mathcal{I}^{PC}{(c,r)}$ in the Corridor, a distance field was also calculated on the map.
-
-<!-- chunk {"id": "body-0063", "role": "body", "section": "IV-C Comparative Study with Other MPPI Variants", "weight": 1.0} -->
-
-Based on the results of the parameter variation tests, we selected the optimal parameters that yielded the best performance in terms of success rate and smoothness. The results with the BARN dataset indicate that MPPI-IPDDP can generate smooth trajectories in various environments. Although it is more time-consuming than MPPI and Log-MPPI, MPPI-IPDDP produces the smoothest trajectories while using less time compared to Smooth-MPPI.
-
-<!-- chunk {"id": "body-0064", "role": "body", "section": "IV-D Comparative Study with NLP-based Solvers", "weight": 1.0} -->
-
-(a) Env. 1: IPOPT fails to generate a collision-free trajectory.
-
-<!-- chunk {"id": "body-0065", "role": "body", "section": "IV-D Comparative Study with NLP-based Solvers", "weight": 1.0} -->
-
-(c) Open loop control trajectories of Env. 2 in Fig 11b.
-
-<!-- chunk {"id": "body-0066", "role": "body", "section": "IV-D Comparative Study with NLP-based Solvers", "weight": 1.0} -->
-
-Comp time [sec] Table V: Comparison of computing time and smoothness with NLP-based Solvers.
-
-<!-- chunk {"id": "body-0067", "role": "body", "section": "IV-D Comparative Study with NLP-based Solvers", "weight": 1.0} -->
-
-In addition to comparisons with other MPPI variants, we also evaluated our hybrid trajectory optimization method against existing state-of-the-art (SOTA) NLP-based methods from a local planning perspective using a receding horizon scheme. Specifically, we compared our method with two baselines: IPOPT and IPDDP. For this comparison, we formulated a point-to-point 2D navigation problem for a simple unicycle model in a cluttered environment.^22^2To ensure a fair comparison, we used MATLAB for all three methods. Specifically, since IPOPT and IPDDP were implemented using a MATLAB interface, we also employed a MATLAB version of the MPPI-IPDDP algorithm instead of a C++ version. IPOPT is written in C++ and uses a MATLAB interface for problem formulation, while the MPPI-IPDDP used in the comparisons for Tab. V and Fig. 11 is entirely implemented in MATLAB. Similarly, IPDDP is also written in MATLAB, which leads to slower execution times compared to C++ implementations.
-
-<!-- chunk {"id": "body-0068", "role": "body", "section": "IV-D Comparative Study with NLP-based Solvers", "weight": 1.0} -->
-
-We treated the obstacle avoidance sub-problem as a constraint for the two gradient-based solvers, considering $\mathcal{C}^{2}$ smooth ball-type obstacles. We set the same iteration limit and horizon length with random initial guesses for both solvers and our method. Simulations were conducted until the robot reached the desired position in two environments, as shown in Figs. 11a and 11b. Both figures depict closed-loop position trajectories resulting from the implementation of a receding horizon scheme. Due to the dependency of NLP-based solvers on initial guesses, the robot sometimes failed to reach the goal point. Fig. 11a illustrates that gradient-based solvers can fail in cases of conflicting gradients, whereas our method can escape these trapped situations regardless of the initial guesses.
-
-<!-- chunk {"id": "body-0069", "role": "body", "section": "IV-D Comparative Study with NLP-based Solvers", "weight": 1.0} -->
-
-To ensure a fair evaluation of computational time and smoothness, we compared the methods in the same environment (Fig. 11b). Comparisons of the average, minimum, and maximum computing times, as well as the MSC as a smoothness index, are presented in Tab. V. We calculated the MSC for both closed-loop position trajectories and open-loop control input trajectories, particularly for angular velocity. The results show that our method is computationally stable and produces smoother control input trajectories compared to the other methods, as also illustrated in Fig. 11c.
-
-<!-- chunk {"id": "body-0070", "role": "body", "section": "V-A Remaining Challenges", "weight": 1.0} -->
-
-There are still several remaining issues that should be further challenged.
-
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Real-time implementation", "weight": 1.0} -->
-
-The proposed algorithm involves three iterative stages, making computation time demanding on a CPU. However, using a GPU for the MPPI stage to leverage massive parallel computation can significantly reduce processing time. The number of iterations needed for IPDDP is relatively low because the initial trajectory input is close to a local optimal solution.
-
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Potential algorithmic failure in dense crowd navigation", "weight": 1.0} -->
-
-The closer a robot is to obstacles, the higher the likelihood of failure in generating corridors. When a robot makes close contact with obstacles, it becomes challenging to sample a corridor that includes the robot but excludes the obstacle. Alternatively, a soft constraint to keep the robot inside the corridor can be adaptively relaxed by reducing the weight $\lambda_{r}$, whenever the robot gets close to an obstacle.
-
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Planning with uncertainty", "weight": 1.0} -->
-
-For more precise planning of safety-critical missions, uncertainties induced by modeling errors and external disturbances should be explicitly considered. In our MPPI-IPDDP framework, uncertainties could be addressed in the MPPI, Corridor, or IPDDP steps: (a) In MPPI with uncertainty, the cost evaluation of in Alg. 2 should include a risk-sensitive term that accounts for uncertainties in dynamics and obstacles; (b) In the Corridor step with uncertainty, the cost evaluation of in Alg. 3 should be modified to account for uncertainties in obstacle configurations; and (c) In IPDDP with uncertainty, approaches similar to those used in tube-based robust MPC and chance-constrained stochastic MPC could be employed to handle uncertainties in planning. However, this may result in conservative constraints due to increasing uncertainty propagation over the horizon.
-
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Planning in dynamic environment", "weight": 1.0} -->
-
-At the current stage, our focus is on single-robot trajectory optimization, not multi-robot motion planning. In the future, we plan to extend the proposed method to multi-robot trajectory optimization in both cooperative and competitive settings.
-
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Conclusions", "weight": 1.0} -->
-
-In this paper, we introduced MPPI-IPDDP, a new hybrid optimization-based local path planning method designed to generate collision-free, smooth, and optimal trajectories. Through two case studies, we demonstrated the effectiveness of the proposed MPPI-IPDDP in environments with complex obstacle layouts. However, there is still room for improvement. As discussed, incorporating Stein Variational Gradient Descent (SVGD) could enhance exploration capabilities. Additionally, addressing planning under uncertainty remains a key challenge. Future work will focus on applying the MPPI-IPDDP algorithm in real-world hardware implementations and integrating it with a global planner.
+In this study, we established a new optimization-based hybrid local path planning method, MPPI-IPDDP, to generate a collision-free smooth optimal trajectory for path planning. Based on two case studies of ground and aerial robot path planning, we demonstrated the effectiveness of the proposed MPPI-IPDDP, even in a 3D environment with a complex layout of obstacles, provided that an efficient collision checker is available. The proposed algorithm can be further improved. As previously mentioned, SVGD can be used for improving the exploration. Planning under uncertainty needs to be considered. Future studies will be conducted on real-world applications of the MPPI-IPDDP algorithm incorporating a global planner.

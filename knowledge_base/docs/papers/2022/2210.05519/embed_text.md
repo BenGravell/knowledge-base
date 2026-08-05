@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2210.05519", "source": "ar5iv"} -->
+
 ## Introduction
 
 The ability to recognize objects and infer their properties and relations in a scene is a fundamental capability of human cognition. The central question of how objects are discovered and represented in the brain has been a subject of intense research for decades, and has prompted the field of cognitive science to ask how we might develop intelligent machine agents to learn to represent objects in the same way humans do, without being explicitly taught what those objects are. Developing artificial agents capable of decomposing complex scenes into discrete objects can be a crucial step for many applications in robotics, vision, reasoning, and planning. Learning such object-centric representations can further help to identify the relational and compositional structure among objects and enables the agent to reason about a novel scene composed of new objects by leveraging knowledge from previously-learned representations of similar objects.

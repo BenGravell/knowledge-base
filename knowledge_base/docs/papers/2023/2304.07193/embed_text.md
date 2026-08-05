@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2304.07193", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Learning task-agnostic pretrained representations have become the standard in Natural Language Processing (NLP). One can use these features "as they are", i.e., without fine-tuning, and achieve performances on downstream tasks that are significantly better than those produced by task-specific models. This success has been fueled by pretraining on large quantities of raw text using pretext objectives, such as language modeling or word vectors, that require no supervision.

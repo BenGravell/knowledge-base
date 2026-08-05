@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.17838", "source": "arxiv-html"} -->
+
 ## Introduction
 
 We consider the task of privileged planning, in which an autonomous vehicle drives using ground truth perception inputs. Such planners are traditionally rule-based. While rule-based approaches work well for regular driving, they require special scenario-specific rules to solve more complex scenarios, which is unlikely to scale to the long tail of driving scenarios.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1701.06379", "source": "ar5iv"} -->
+
 ## Introduction
 
 Linear programming (LP) problems in infinite dimensional spaces appear , among other areas, engineering, economics, operations research and probability theory. Infinite LPs offer remarkable modeling power, subsuming general finite dimensional optimization problems and the generalized moment problem as special cases. They are, however, often computationally formidable, motivating the study of approximations schemes.

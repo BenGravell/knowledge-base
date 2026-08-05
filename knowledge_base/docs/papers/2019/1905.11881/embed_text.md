@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1905.11881", "source": "ar5iv"} -->
+
 ## Introduction
 
 We study optimization algorithms for neural network training and aim to resolve the mystery of why adaptive methods converge fast. Specifically, we study gradient-based methods for minimizing a differentiable nonconvex function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$, where $f{(x)}$ can potentially be stochastic, i.e., ${f{(x)}} = {{\mathbb{E}}_{\xi}{\lbrack{F{(x,\xi)}}\rbrack}}$. Such choices of $f$ cover a wide range of problems in machine learning, and their study motivates a vast body of current optimization literature.

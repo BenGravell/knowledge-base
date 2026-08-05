@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.11513", "source": "arxiv-html"} -->
+
 ## Introduction
 
 ### Parametric convex optimization

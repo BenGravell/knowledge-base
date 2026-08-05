@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.21074", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A key application of motion planning algorithms in robotics is to find paths in environments with unknown or dynamic obstacles. Most planners use some combination of predictive or reactive approaches to find feasible or optimal paths quickly and efficiently. Predictive approaches attempt to predict the movement of obstacles in the environment and generate plans around these predictions. Reactive approaches make exact plans using the known information and quickly modify them when changes are detected.

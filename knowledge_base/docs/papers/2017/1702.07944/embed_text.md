@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1702.07944", "source": "ar5iv"} -->
+
 ## Introduction
 
 Reinforcement learning (RL) is a powerful learning paradigm for sequential decision making. An RL agent interacts with the environment by repeatedly observing the current state, taking an action according to a certain policy, receiving a reward signal and transitioning to a next state. A policy specifies which action to take given the current state. *Policy evaluation* estimates a value function that predicts expected cumulative reward the agent would receive by following a fixed policy starting at a certain state. In addition to quantifying long-term values of states, which can be of interest on its own, value functions also provide important information for the agent to optimize its policy. For example, *policy-iteration* algorithms iterate between policy-evaluation steps and policy-*improvement* steps, until a (near-)optimal policy is found. Therefore, estimating the value function efficiently and accurately is essential in RL.

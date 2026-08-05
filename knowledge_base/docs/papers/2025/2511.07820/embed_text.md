@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2511.07820", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Over the past decade, artificial intelligence has scaled rapidly: the GPT family of models is trained on 25,000+ GPUs with trillions of tokens; video and image-generation models leverage thousands of GPUs processing billions of images. These foundation models have shown a consistent pattern: scale unlocks emergent capabilities, generalization, and robustness that smaller models cannot achieve. Yet for sim-to-real humanoid control, similar scaling gains have not been achieved. State-of-the-art humanoid control policies are often small neural networks, e.g., three-layer MLPs, trained on a few GPUs for a single task. Manually engineered reward terms are designed per task and do not generalize across behaviors, fundamentally limiting the scalability of these approaches.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2204.06125", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent progress in computer vision has been driven by scaling models on large datasets of captioned images collected from the internet Desai and Johnson; Sariyildiz et al.; Zhang et al.; Radford et al.; Mu et al.; Fürst et al.. Within this framework, CLIP Radford et al. has emerged as a successful representation learner for images. CLIP embeddings have a number of desirable properties: they are robust to image distribution shift, have impressive zero-shot capabilities, and have been fine-tuned to achieve state-of-the-art results on a wide variety of vision and language tasks Shen et al.. Concurrently, diffusion models Sohl-Dickstein et al.; Song and Ermon; Ho et al. have emerged as a promising generative modeling framework, pushing the state-of-the-art on image and video generation tasks Dhariwal and Nichol; Ho et al.; Ho and Salimans. To achieve best results, diffusion models leverage a guidance technique Dhariwal and Nichol; Ho and Salimans which improves sample fidelity (for images, photorealism) at the cost of sample diversity.

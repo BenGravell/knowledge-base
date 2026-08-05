@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1907.06553", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Model predictive control (MPC) has become a core control strategy because of its natural ability to handle constraints and balance competing objectives. Heavy reliance on a model though makes MPC susceptible to modeling error and external disturbances, often leading to poor performance or instability. Robust MPC (RMPC) addresses this limitation (at the expense of additional computational complexity) by optimizing over control policies instead of open-loop control actions. Tube MPC is a tractable alternative that decomposes RMPC into an offline robust controller design and online open-loop MPC problem. However, this decoupled design strategy restricts the tube geometry (i.e., feedback controller) to be fixed for all operating conditions, which can lead to suboptimal performance. This article presents a framework for nonlinear systems where the tube geometry and open-loop reference trajectory are designed simultaneously online, giving the optimization an additional degree of freedom to satisfy constraints or changing objectives.

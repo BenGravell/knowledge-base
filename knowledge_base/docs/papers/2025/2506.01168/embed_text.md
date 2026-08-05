@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.01168", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 We consider the well-studied optimization problem where $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ is continuously differentiable. A popular approach to solving, particularly when the dimension $d$ is large, is to use iterative gradient-based methods, such as Gradient Descent (GD) and its accelerated variants.

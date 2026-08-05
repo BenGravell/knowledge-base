@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2306.16927", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Conventional autonomous driving systems adopt a modular design strategy, wherein each functionality, such as perception, prediction, and planning, is individually developed and integrated into onboard vehicles. The planning or control module, responsible for generating steering and acceleration outputs, plays a crucial role in determining the driving experience. The most common approach for planning in modular pipelines involves using sophisticated rule-based designs, which are often ineffective in addressing the vast number of situations that occur on road. Therefore, there is a growing trend to leverage large-scale data and to use learning-based planning as a viable alternative.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2310.16828", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Training large models on internet-scale datasets has led to generalist models that perform a wide variety of language and vision tasks. The success of these models can largely be attributed to the availability of enormous datasets, and carefully designed architectures that reliably scale with model and data size. While researchers have recently extended this paradigm to robotics, a generalist embodied agent that learns to perform diverse control tasks via low-level actions, across multiple embodiments, from large uncurated (*i.e.*, mixed-quality) datasets remains an elusive goal. We argue that current approaches to generalist embodied agents suffer from *(a)* the assumption of near-expert trajectories for behavior cloning which severely limits the amount of available data, and *(b)* a lack of scalable continuous control algorithms that are able to consume large uncurated datasets.

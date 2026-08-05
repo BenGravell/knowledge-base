@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1910.12430", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent work has shown how to differentiate through specific subclasses of convex optimization problems, which can be viewed as functions mapping problem data to solutions. These layers have found several applications, but many applications remain relatively unexplored (see, e.g., \[4, §8\]).

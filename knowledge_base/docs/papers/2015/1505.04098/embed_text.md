@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1505.04098", "source": "ar5iv"} -->
+
 ## Introduction
 
 Optimal motion planning is a highly active research topic in robotics, due to the pervasive need to compute paths that simultaneously avoid complex obstacles, satisfy dynamic constraints, and are high quality according to some cost function. Recent advances in sampling-based optimal motion planning build on decades of work in the topic of feasible motion planning, in which costs are ignored. However, the field is still some ways away from general-purpose optimal planning algorithms that accept arbitrary black-box constraints and costs as input. In particular, optimality under kinematic and differential constraints remains a major challenge for sampling-based planners.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1807.09537", "source": "ar5iv"} -->
+
 ## Introduction
 
 Formal verification, the process of algorithmically generating correctness certificates for a design, and falsification, the process of algorithmically finding trajectories and inputs that lead to a violation of specifications are important steps before a safety-critical control system can be deployed (fainekos2012verification annpureddy2011s sankaranarayanan2012falsification, ). An alternative to these approaches, when a control design is not available but a plant model and specifications are available, is to synthesize a controller that, by construction, guarantees that the specifications are satisfied by the closed-loop system (ozay2017guest, ). The key insight of this paper is to combine ideas from falsification and control synthesis to evaluate control designs for safety.

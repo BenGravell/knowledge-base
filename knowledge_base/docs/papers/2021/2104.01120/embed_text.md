@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2104.01120", "source": "ar5iv"} -->
+
 ## Introduction
 
 Linear system identification focuses on using input-output data samples for learning dynamical systems of form: where $x_{k}$ represents the state, $u_{k}$ represents the control signal, and $w_{k}$ is the process noise. The statistical analysis of system identification algorithms has a long history. Until recently, the main focus was providing guarantees for the convergence of system identification in the *asymptotic regime*, when the number of collected samples $N$ tends to infinity. Under sufficient persistency of excitation, system identification algorithms converge and the asymptotic bounds capture very well how the identification error decays with $N$ qualitatively.

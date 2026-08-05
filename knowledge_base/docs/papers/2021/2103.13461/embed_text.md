@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2103.13461", "source": "ar5iv"} -->
+
 ## Introduction
 
 Data-driven control refers to all approaches that use measured data as starting point in the control design. This design can be done either indirectly via model identification, or by directly mapping data to control policies. Both paradigms have a long history, but data-driven control has recently witnessed a renewed surge of interest, partly because of the widespread availability of data and the successes of machine learning algorithms. We mention contributions to data-driven optimal control, predictive control and robust tracking control, nonlinear control and system level synthesis.

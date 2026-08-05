@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1301.1942", "source": "ar5iv"} -->
+
 ## Introduction
 
 Let $f:{\mathcal{X}\rightarrow{\mathbb{R}}}$ be a function on a compact subset $\mathcal{X} \subseteq {\mathbb{R}}^{D}$. We address the following global optimization problem We are particularly interested in objective functions $f$ that may satisfy one or more of the following criteria: they do not have a closed-form expression, are expensive to evaluate, do not have easily available derivatives, or are non-convex. We treat $f$ as a *blackbox* function that only allows us to query its function value at arbitrary $x \in \mathcal{X}$. To address objectives of this challenging nature, we adopt the Bayesian optimization framework.

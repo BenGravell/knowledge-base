@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1710.01688", "source": "ar5iv"} -->
+
 ## Introduction
 
 Having surpassed human performance in video games and Go, there has been a renewed interest in applying machine learning techniques to planning and control. In particular, there has been a considerable amount of effort in developing new techniques for *continuous control* where an autonomous system interacts with a physical environment. A tremendous opportunity lies in deploying these data-driven systems in more demanding interactive tasks including self-driving vehicles, distributed sensor networks, and agile robotics. As the role of machine learning expands to more ambitious tasks, however, it is critical these new technologies be safe and reliable. Failure of such systems could have severe social and economic consequences including the potential loss of human life. How can we guarantee that our new data-driven automated systems are robust?

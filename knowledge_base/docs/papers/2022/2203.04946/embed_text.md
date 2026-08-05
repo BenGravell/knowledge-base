@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2203.04946", "source": "ar5iv"} -->
+
 ## Introduction
 
 ImageNet is the cornerstone of modern supervised learning and has enabled significant progress in computer vision. Features learnt via training on ImageNet transfer well to a number of downstream tasks, making ImageNet pretraining a standard recipe. Further, better accuracy on ImageNet usually implies better performance on a diverse set of downstream tasks such as robustness to common corruptions, adversarial robustness, out-of-distribution generalization, transfer learning on smaller classification datasets, pose estimation, domain adaptation, object detection and segmentation, and for predicting neural recordings and behaviors of primates on object recognition tasks.

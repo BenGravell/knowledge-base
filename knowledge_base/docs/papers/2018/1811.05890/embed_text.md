@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1811.05890", "source": "ar5iv"} -->
+
 ## Introduction
 
 As systems are becoming more complex and data is becoming more readily available, scientists and practitioners are beginning to bypass classical model-based techniques in favour of data-driven methods. Data-driven methods are suitable for applications where first-principle models are not conceivable (e.g., in human-in-the-loop applications), when models are too complex for control design (e.g., in fluid dynamics), and when thorough modelling and parameter identification is too costly (e.g., in robotics). In fact, it is sometimes easier to learn control policies directly from data, rather than learning a model (the quintessential example supporting this claim is PID control ).

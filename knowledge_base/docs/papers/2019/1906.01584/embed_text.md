@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1906.01584", "source": "ar5iv"} -->
+
 ## Introduction
 
 Learning to make decisions in an uncertain and dynamic environment is a task of fundamental importance in a number of domains. Though it has been the subject of intense research activity since the formulation of the 'dual control problem' in the 1960s, the recent success of reinforcement learning (RL), particularly in games, has inspired a resurgence in interest in the topic. Problems of this nature require decisions to be made with respect to two objectives. First, there is a goal to be achieved, typically quantified as a reward function to be maximized. Second, due to the inherent uncertainty there is a need to gather information about the environment, often referred to as 'learning' via 'exploration'. These two objectives are often competing, a fact known as the exploration/exploitation trade-off in RL, and the 'dual effect' (of decision) in control.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2509.00881", "source": "arxiv-html"} -->
+
 ## Abstract
 
 The Hanson-Wright inequality establishes exponential concentration for quadratic forms $X^{\mathsf{T}}MX$, where $X$ is a vector with independent sub-Gaussian entries and with parameters depending on the Frobenius and operator norms of $M$. The most elementary proof to date is due to Rudelson & Vershynin, who still rely on a convex decoupling argument due to Bourgain, followed by Gaussian comparison to arrive at the result. In this note we sidestep this decoupling and provide an arguably simpler proof reliant only on elementary properties of sub-Gaussian variables and Gaussian rotational invariance. As a consequence we also obtain improved constants.

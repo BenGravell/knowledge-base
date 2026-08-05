@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2508.05396", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Robotic manipulation has seen significant advancements enabled by diffusion models. These models, especially Diffusion Policy (DP), have demonstrated success in a wide range of tasks, improving control, adaptability, and generalization in complex manipulation scenarios.

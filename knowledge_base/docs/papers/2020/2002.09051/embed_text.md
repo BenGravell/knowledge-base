@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2002.09051", "source": "ar5iv"} -->
+
 ## Introduction
 
 Deep networks have achieved remarkable performance in several application domains such as computer vision, natural language processing and genomics. The input-output mapping implemented by a deep neural network is a chain of compositions of modules, where each module is typically a composition of a non-linear mapping, called an activation function, and an affine mapping. The last module in the chain is usually task-specific in that it relates to a performance accuracy for a specific task. This module can be expressed either explicitly in analytical form as in supervised classification or implicitly as a solution of an optimization problem as in dimension reduction or unsupervised clustering.

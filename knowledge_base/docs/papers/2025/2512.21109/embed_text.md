@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2512.21109", "source": "arxiv-html"} -->
+
 ## Introduction
 
 MuJoCo is a powerful and efficient physics simulator widely used in robotics. One way it is applied in practice is through Model Predictive Control (MPC), which uses repeated rollouts of the simulator to optimize future actions and generate responsive control policies in real time. MPC can be implemented on top of a simulator like MuJoCo by differentiating through the simulator, allowing the outer optimization loop to follow derivative information and continuously "surf" the function landscape downhill toward a local minimum over time. To make this process more accessible, the open source library MuJoCo MPC (MJPC) provides ready-to-use MPC algorithms and implementations built directly on top of the MuJoCo simulator.
@@ -184,7 +186,7 @@ We evaluate performance using three primary metrics: where a speedup greater tha
 
 ### V-B3 Comparisons
 
-We compare two planners in Experiment 1: iLQG using an FD backend; and iLQG using a WASP backend. In preliminary experiments, we found that iLQG outperformed gradient descent on all of our tasks, so we only present these results here for simplicity. For full tables including gradient descent, please see our paper website \[link removed for blind review\].
+We compare two planners in Experiment 1: iLQG using an FD backend; and iLQG using a WASP backend. In preliminary experiments, we found that iLQG outperformed gradient descent on all of our tasks, so we only present these results here for simplicity.
 
 ### V-B4 Results
 

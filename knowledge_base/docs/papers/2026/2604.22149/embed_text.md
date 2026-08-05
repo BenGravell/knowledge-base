@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.22149", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 In safety-critical control systems such as autonomous vehicles, control inputs must be generated with rigorous safety assurances to prevent catastrophic failures. However, nominal controllers, often designed via reinforcement learning or heuristic methods, are typically optimized for performance rather than safety. Providing formal guarantees for such policies remains a significant challenge, necessitating an additional supervisory mechanism to ensure safe operation. Safety filters offer a practical, modular solution by monitoring the nominal controller's inputs and intervening only when necessary to enforce safety constraints.

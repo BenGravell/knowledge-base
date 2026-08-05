@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2109.14545", "source": "ar5iv"} -->
+
 ## Introduction
 
 In recent years, deep learning has shown a tremondous growth to solve the challenging problems such as object detection, semantic segmentation, person re-identification, image retrieval, anomaly detection, skin disease diagnosis, and many more. Various types of neural networks have been defined in deep learning to learn abstract features from data, such as Multilayer Perceptron (MLP), Convolutional Neural Networks (CNN), Recurrent Neural Networks (RNN), and Generative Adversarial Networks (GAN). The important aspects of neural networks include weight initialization, loss functions, different layers, overfitting, and optimization.

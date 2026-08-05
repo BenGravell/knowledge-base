@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1802.09767", "source": "ar5iv"} -->
+
 ## Introduction
 
 This manuscript contains technical details of recent results developed by the authors on learning-based model predictive control for linear time invariant systems.

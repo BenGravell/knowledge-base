@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2207.11136", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 In the literature, several approaches for motion planning and control have been developed and tested on high-performance autonomous vehicles. Hierarchical methods which exploit different levels of model complexity at different stages of the motion planner/controller are the current state of the art. The strength of this approach has been shown , where a hierarchical method with a Nonlinear Model Predictive Control (NMPC) at its core was able to outperform a top driver on a formula student race car at lateral accelerations of over 20 m/s^2^.

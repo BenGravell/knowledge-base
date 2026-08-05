@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.05148", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Since their emergence, learned image codecs have shown meaningful compression gains over traditional codecs. In recent years, the field has made significant progress in addressing several challenges that had once hindered practical deployment --- improving computational efficiency, achieving fine-grained rate control with minimal overhead, and ensuring reliable cross-platform coding which is not inherent to hyperprior-based codecs \*e.g*.. A major milestone in this evolution is the standardization of JPEG-AI, which not only highlights the technical maturity of learned codecs but also their growing industrial traction, signaling a clear transition beyond academic research.

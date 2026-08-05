@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1912.09990", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 We will develop controllers for linear systems with time-varying parametric uncertainty, which may cover a wide range of system classes extensively studied in the literature. For example, we obtain Linear Parameter Varying (LPV) systems when the disturbance is observable at each time step, Linear Difference Inclusions (LDIs) when it is unknown but norm-bounded and stochastic systems with multiplicative noise when it varies stochastically.

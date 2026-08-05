@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1805.05533", "source": "ar5iv"} -->
+
 ## Introduction
 
 The Fourier transform in all its forms is ubiquitous. Its many useful properties are introduced early on in Mathematics, Science and Engineering curricula. Typically, it is introduced as a transformation on functions or signals, and then its many useful properties are easily derived. Those properties are then shown to be remarkably effective in solving certain differential equations, or in analyzing the action of time-invariant linear dynamical systems, amongst many other uses. To the student, the effectiveness of the Fourier transform in solving these problems may seem magical at first, before familiarity eventually suppresses that initial sense of wonder. In this tutorial, I'd like to step back to before one is shown the Fourier transform, and ask the following question: How would one naturally discover the Fourier transform rather than have it be postulated?

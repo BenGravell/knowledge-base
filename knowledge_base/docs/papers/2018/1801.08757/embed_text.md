@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1801.08757", "source": "ar5iv"} -->
+
 ## Introduction
 
 In the past two decades, RL has been mainly explored in toy environments and video games, where real-world applications were limited to a few typical use-cases such as recommender systems. However, RL is recently also finding its path into industrial applications in the physical world; e.g., datacenter cooling, robotics, and autonomous vehicles. In all these use-cases, safety is a crucial concern: unless safe operation is addressed thoroughly and ensured from the first moment of deployment, RL is deemed incompatible for them.

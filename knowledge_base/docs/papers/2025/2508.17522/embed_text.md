@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2508.17522", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A quadratic cone program (QCP) is an optimization problem which minimizes a convex quadratic function over the intersection of a subspace and a convex cone. Quadratic cone programming is the generalization of both quadratic programming and (linear) cone programming, which date to the 1950s and 1990s \[23, Chapter 4\], respectively. Specifically, a quadratic program (QP) is a QCP whose cone is restricted to the product of $\{0\}$, R, and ${\mbox{\bf R}}_{+}$, while a (linear) cone program is a QCP restricted to having a linear objective.

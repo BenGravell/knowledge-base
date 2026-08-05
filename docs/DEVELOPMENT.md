@@ -1,13 +1,12 @@
 # Setup and development
 
-This file is the maintainer command reference for the repository. Run commands
-from the repository root unless a section says otherwise.
+This file is the maintainer command reference for the repository.
+Run commands from the repository root unless a section says otherwise.
 
 ## Fresh checkout
 
 Needs `git` plus `curl` or `wget`; no Python or global Pixi install is required.
-The `./dev` wrapper installs Pixi locally on first use, then uses the checked-in
-`pixi.lock`.
+The `./dev` wrapper installs Pixi locally on first use, then uses the checked-in `pixi.lock`.
 
 ```bash
 git clone https://github.com/BenGravell/knowledge-base.git

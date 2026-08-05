@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2101.06679", "source": "ar5iv"} -->
+
 ## Introduction
 
 Self-driving vehicles (SDVs) are going to revolutionize the way we live. Building reliable SDVs at scale is, however, not a solved problem. As is the case in many application domains, the field of autonomous driving has been transformed in the past few years by the success of deep learning. Existing approaches that leverage this technology can be characterized into two main frameworks: end-to-end driving and traditional engineering stacks.

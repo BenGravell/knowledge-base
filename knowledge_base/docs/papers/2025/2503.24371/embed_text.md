@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.24371", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Domain randomization (DR) has emerged as a dominant paradigm to enable transfer of policies optimized in simulation to the real world by randomizing simulator parameters during training. In doing so, just as with robust control, DR accounts for discrepancies between the model used in simulation to synthesize a policy and the system that it is deployed . However, unlike conventional robust control approaches, DR minimizes an average control objective over the uncertainty in the system rather than a worst case objective. Since DR does not solely focus on optimizing the worst-case performance, it can result in less conservative controller performance while still ensuring robust stability with high probability. Furthermore, DR can be easily implemented via first order methods. This makes it straightforward to incorporate into a wide variety of reinforcement learning schemes and to benefit from the increasing availability of parallel computation.

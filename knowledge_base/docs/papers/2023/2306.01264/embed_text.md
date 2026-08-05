@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2306.01264", "source": "ar5iv"} -->
+
 ## Introduction
 
 In this paper, we study the following *unconstrained* optimization problem where $\mathcal{X} \subseteq {\mathbb{R}}^{d}$ is the domain of $f$. Classical textbook analyses of often require the Lipschitz smoothness condition, which assumes $\left\| {{\nabla^{2}f}{(x)}} \right\| \leq L$ almost everywhere for some $L \geq 0$ called the smoothness constant. This condition, however, is rather restrictive and only satisfied by functions that are both upper and lower bounded by quadratic functions.

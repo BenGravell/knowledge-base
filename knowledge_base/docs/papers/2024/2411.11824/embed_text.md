@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2411.11824", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Conformal prediction is a statistical technique that quantifies uncertainty in predictive models, without any assumptions at all on the model and with minimal assumptions on the distribution of the data. Predictive models can be prone to unexpected inaccuracies and errors, complicating their practical usage. Conformal prediction guards against these issues, giving rigorous error bounds on predictions. This book presents the foundational statistical theory of conformal prediction and related methods.

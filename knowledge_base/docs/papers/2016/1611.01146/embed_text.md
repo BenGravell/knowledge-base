@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1611.01146", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Finding a global minimizer of a non-convex optimization problem is NP-hard. Thus, the standard goal of efficient non-convex optimization algorithms is instead to find a local minimum. This problem has become increasingly important as the state-of-the-art in machine learning is attained by non-convex models, many of which are variants of deep neural networks. Experiments in suggest that fast convergence to a local minimum is sufficient for training neural nets, while convergence to critical points (points with vanishing gradients) is not. Theoretical works have also affirmed the same phenomenon for other machine learning problems (see and the references therein).

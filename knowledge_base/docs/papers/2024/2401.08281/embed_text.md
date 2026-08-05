@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2401.08281", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The emergence of deep learning has induced a shift in how complex data is stored and searched, noticeably by the development of *embeddings*. Embeddings are vector representations, typically produced by a neural network, that map (embed) the input media item into a vector space, where the locality encodes the semantics of the input. Embeddings are extracted from various forms of media: words, text, images, users and items for recommendation. They can even encode object relations, for instance multi-modal text-image or text-audio relations.

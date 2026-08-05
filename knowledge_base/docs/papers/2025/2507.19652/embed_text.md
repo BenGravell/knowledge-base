@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2507.19652", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Mobile manipulators are increasingly used in everyday activities due to their ability to perform tasks in industrial, domestic, and natural environments. Successful operations in the real world require the robot to reach and manipulate objects while avoiding collisions with both their own structure and the surrounding environment. The enhanced mobility provided by legs has motivated the robotics community to explore legged systems as mobile bases for manipulators. For these multi-limbed systems, referred to as legged manipulators, it is crucial to plan whole-body motions that are aware of the leg limitations, in order to avoid compromising the robot's balance and performance in terms of tracking. Motion planning specifically addresses this problem by providing a set of collision-free configurations that respect the robot's limitations.

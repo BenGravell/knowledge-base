@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1605.05487", "source": "ar5iv"} -->
+
 ## Introduction
 
 The classical one-sided Chebyshev inequality for a random variable $\overset{\sim}{\xi}$ with mean $\mu$ and variance $\sigma^{2}$ can be represented as This inequality is sharp. Indeed, for $\gamma \neq \mu$ it is binding under the two-point distribution In the degenerate case $\gamma = \mu$, the inequality is still sharp because the distributions have mean $\mu$ and variance $\sigma^{2}$ for every $\kappa > 0$, while ${\lim_{\kappa \uparrow \infty}{{\mathbb{P}}_{\kappa}\left({\overset{\sim}{\xi} \geq \gamma} \right)}} = 1$. Note, however, that no single distribution with mean $\mu = \gamma$ and variance $\sigma^{2} > 0$ can satisfy ${{\mathbb{P}}\left({\overset{\sim}{\xi} \geq \gamma} \right)} = 1$.

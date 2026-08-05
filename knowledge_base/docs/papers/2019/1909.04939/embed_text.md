@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1909.04939", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent times have seen an explosion in the magnitude and prevalence of time series data. Industries varying from health care and social security to human activity recognition and remote sensing, all now produce time series datasets of previously unseen scale --- both in terms of time series length and quantity. This growth also means an increased dependence on automatic classification of time series data, and ideally, algorithms with the ability to do this at scale.

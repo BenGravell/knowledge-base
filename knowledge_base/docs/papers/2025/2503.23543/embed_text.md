@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.23543", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In stochastic optimization a common goal is to minimize an objective $\Psi$ over a set of feasible decisions $\Theta$, where the objective $\Psi$ is defined as an average of a family of individual uncertainty-affected loss functions $\ell:\Theta\times X\to\mathbb{R}$, with $X$ being a random vector of uncertain parameters defined on a probability space $(X,\Sigma,P)$. In mathematical terms, a stochastic optimization method evaluates To avoid trivialities, we assume throughout that the feasible set $\Theta\subseteq\mathbb{R}^{m}$ and the support set $X\subseteq\mathbb{R}^{d}$ are non-empty and closed.

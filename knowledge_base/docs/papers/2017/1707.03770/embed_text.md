@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1707.03770", "source": "ar5iv"} -->
+
 ## Introduction
 
 It is recognized that algorithms for reinforcement learning such as TD- and Q-learning can be slow to converge. The poor performance of Watkins' Q-learning algorithm was first quantified , and since then many papers have appeared with proposed improvements, such as.

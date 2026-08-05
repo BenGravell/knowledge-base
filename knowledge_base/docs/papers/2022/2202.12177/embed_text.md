@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2202.12177", "source": "ar5iv"} -->
+
 ## Introduction
 
 Quadrotors are proved to be one of the most agile platforms which perform increasingly complex missions in different scenarios. However, high-speed flight in unknown environments is still an open problem. The limits on payload and onboard sensing make this task especially challenging for aerial robots. To achieve high-speed flights, trajectory planning is of vital importance to ensure the safety (i.e., collision avoidance ), smoothness, and fast maneuvers facing unknown obstacles.

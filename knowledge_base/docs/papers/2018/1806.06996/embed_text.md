@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1806.06996", "source": "ar5iv"} -->
+
 ### Introduction
 
 Semidefinite programming is a powerful tool in optimization that is used in many different contexts, perhaps most notably to obtain strong bounds on discrete optimization problems or nonconvex polynomial programs. One difficulty in applying semidefinite programming is that state-of-the-art general-purpose solvers often cannot solve very large instances reliably and in a reasonable amount of time. As a result, at relatively large scales, one has to resort either to specialized solution techniques and algorithms that employ problem structure, or to easier optimization problems that lead to weaker bounds. We will focus on the latter approach in this chapter.

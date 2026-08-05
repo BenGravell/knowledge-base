@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2205.04422", "source": "ar5iv"} -->
+
 ## Introduction
 
 In this paper we consider the problem of designing continuous collision-free trajectories for robots moving in environments with obstacles. A wide array of techniques can be found in the literature to tackle this long-standing problem in robotics, and selecting the right one requires compromising between multiple features of the problem at hand: dimensionality and complexity of the environment, dynamic constraints, computation limits, completeness and optimality requirements.

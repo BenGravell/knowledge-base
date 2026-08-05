@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1407.3501", "source": "arxiv-pdf"} -->
+
 ## Methods
 
 ## Notations

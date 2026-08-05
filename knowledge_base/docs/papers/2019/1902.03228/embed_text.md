@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1902.03228", "source": "ar5iv"} -->
+
 ## Introduction
 
 Consider the optimization problem arising when training maximum margin structured prediction models: where each $f^{(i)}$ is the structural hinge loss. Max-margin structured prediction was designed to forecast discrete data structures such as sequences and trees.

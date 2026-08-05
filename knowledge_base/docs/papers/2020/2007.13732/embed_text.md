@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2007.13732", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: Our approach: We construct a lane graph from raw map data and use LaneGCN to extract map features. In parallel, ActorNet extracts actor features from observed past trajectories. We then use FusionNet to model the Interactions between actors themselves and the map, and predict the future trajectories.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.05539", "source": "ar5iv"} -->
+
 ## Introduction
 
 Kinodynamic motion planning is a crucial part of robotics. It aims to find feasible motions that guide robots from a start state to a specified desired goal state while adhering to the robot's dynamic constraints, see Fig. 1. These trajectories can be composed from shorter subtrajectories, so-called motion primitives, which are short, pre-computed motions respecting the robot's dynamic constraints (see top left in Fig. 1). It simultaneously optimizes an objective, such as time or energy consumption. Traditional motion planning methods include graph-based methods such as A^∗^ with motion primitives, sampling-based approaches, or optimization-based methods. While these approaches are effective in various scenarios, they come with limitations. For example, search-based methods require computing effective motion primitives, while optimization-based planners need an initial guess as a starting trajectory. Hybrid approaches are designed to overcome these limitations and have shown significant improvements in both computational efficiency and solution quality.

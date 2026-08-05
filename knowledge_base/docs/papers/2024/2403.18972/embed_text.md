@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2403.18972", "source": "arxiv-pdf"} -->
+
 ## Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification
 
 Prithvi Akella*, Anushri Dixit*, Mohamadreza Ahmadi, Lars Lindemann, Margaret P. Chapman, George J. Pappas, Aaron D. Ames, and Joel W. Burdick P. Akella (prithvi.akella@gmail.com), A. D. Ames (ames@caltech.edu), and J. W. Burdick (jwb@robotics.caltech.edu) are with the Department of Mechanical and Civil Engineering, California Institute of Technology, Pasadena, CA, USA.

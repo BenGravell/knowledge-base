@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1712.09381", "source": "ar5iv"} -->
+
 ## Introduction
 
 Advances in parallel computing and composition through symbolic differentiation have been fundamental to the recent success of deep learning. Today, there are a wide range of deep learning frameworks that enable rapid innovation in neural network design and facilitate training at the scale necessary for progress in the field.

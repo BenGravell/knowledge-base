@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2108.13404", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Modern systems of interest in turbulence, epidemiology, neuroscience, and finance are high-dimensional and nonlinear, and exhibit multiscale phenomena in both space and time. Controlling these nonlinear systems remains an important challenge, as traditional linear control approaches are often insufficient. There are several control approaches for nonlinear systems, including model predictive control and reinforcement learning. These approaches have different performance tradeoffs and requirements, and careful consideration must be given to factors such as the dimensionality of the system, access to an accurate model of the behavior, and the availability of high-quality and abundant data. Both approaches are developing rapidly, driven by advanced algorithms in machine learning and optimization, the rise of big data, and improved computational hardware.

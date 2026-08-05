@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2103.02136", "source": "ar5iv"} -->
+
 ## Introduction
 
 The standard approach to stochastic optimal control is to evaluate a random cumulative cost in expectation. However, this approach is not designed to protect against worst-case circumstances. This limitation motivates robust optimal control and related methods, such as minimax model predictive control and mixed $\mathcal{H}_{2}/\mathcal{H}_{\infty}$ control.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.11335", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Simultaneous discrete and continuous search is fundamental to various scientific and engineering domains, including task and motion planning, hybrid system control, and constrained decision-making. In these settings, discrete choices---such as selecting topological routes or contact modes---are intrinsically coupled with continuous variables like system states and control inputs. Given this interdependence, algorithms capable of efficiently addressing this problem class could have a profound impact across a vast portfolio of autonomous applications.

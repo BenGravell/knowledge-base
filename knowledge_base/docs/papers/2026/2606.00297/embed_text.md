@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.00297", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous robots are of interest for real-time navigation in proximity to obstacles, humans, and other robots. Applications include aerial inspection, warehouse logistics, and autonomous mobility. These applications require that robots achieve performance objectives (e.g., way-point navigation, coordination, formation) while maintaining safety and respecting control input limits (e.g., actuator saturation). Safety can be formalized as forward invariance of a prescribed safe set ${\mathcal{C}}_{\rm s}\subseteq{\mathbb{R}}^{n}$. Frameworks for enforcing forward invariance include Hamilton-Jacobi reachability analysis, model predictive control, and barrier functions.

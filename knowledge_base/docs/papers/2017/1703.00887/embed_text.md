@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1703.00887", "source": "ar5iv"} -->
+
 ## Introduction
 
 Given a function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$, gradient descent aims to minimize the function via the following iteration: where $\eta > 0$ is a step size. Gradient descent and its variants (e.g., stochastic gradient) are widely used in machine learning applications due to their favorable computational properties. This is notably true in the deep learning setting, where gradients can be computed efficiently via back-propagation.

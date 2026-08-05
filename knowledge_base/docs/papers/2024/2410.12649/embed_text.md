@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2410.12649", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A major challenge in robot motion planning is the need to simultaneously consider *task space*, the world in which the robot physically resides, and *configuration space*, $\mathcal{C}$, the set of all possible robot configurations. The planner must produce a trajectory in the configuration space, but many constraints are formulated in the task space. Collision avoidance is particularly challenging, because even geometrically simple obstacles in task space can have intractably complicated descriptions when transformed into configuration space through the robot's inverse kinematics. While there is work on constructing explicit configuration-space representations of workspace obstacles, these methods are intractable for the high degree-of-freedom (dof) robotic systems being used today.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2402.03300", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Large language models (LLM) have revolutionized the approach to mathematical reasoning in artificial intelligence, spurring significant advancements in both the quantitative reasoning benchmark and the geometry reasoning benchmark. Moreover, these models have proven instrumental in assisting humans in solving complex mathematical problems. However, cutting-edge models such as GPT-4 and Gemini-Ultra are not publicly available, and the currently accessible open-source models considerably trail behind in performance.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2205.08480", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 A general-purpose path planner aims to find a path that connects a start to a goal, typically in a continuous space. The underlying structure of many environments is static and tends to pose repetitive problems, such as in home [faust2018prmrl], construction [funk2021learn2assemble,hartmann2020robust], or kitchen [lagriffoul2018platform] scenarios. Multiquery planners are designed to solve multiple different start-goal queries in static environments by exploiting this repetitiveness to reduce the computational time required to find a solution. A large component of this computational effort for an individual planning query is checking if a path is collision free, i.e., validation effort[hauser2015lazy,Solovey2020,sanchez2002]. This can be reduced in multiquery settings by reusing previously gained knowledge of valid edges to solve subsequent queries more efficiently.

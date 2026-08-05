@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.12338", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Sampling from constrained distributions is a fundamental problem in machine learning, with applications including Bayesian inference and molecular design as well as robotics and trajectory optimization. In particular, many tasks in robotics require sampling kinematically feasible states or trajectories, for instance, to generate data for behavior cloning or to sample reset states for reinforcement learning. The feasible set is usually given implicitly by constraint functions, which can only be evaluated point-wise. This makes sampling from it a challenging problem, as we have no prior knowledge about many of its properties, like the number of connected components.

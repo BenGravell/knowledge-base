@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.22207", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In recent years, many challenging problems in optimal policy synthesis, including solving Atari, Go, biped walking and Language Models (naveed24), have been solved using reinforcement learning (RL). This is attributed to RL's ability to maximize cumulative rewards through online exploration, without requiring a model of the underlying dynamics.

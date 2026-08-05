@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.06434", "source": "ar5iv"} -->
+
 ## Introduction
 
 Learning from sequential data is central to modern machine learning (ML) and statistical modeling, underpinning applications such as language modeling, speech recognition, time-series forecasting, generalist robotics, neurological sequence analysis, and many other examples. Yet, despite its importance and prevalence, our fundamental understanding of when learning from sequential streams is possible---and what the sharp, problem-specific sample complexities are---remains far less developed compared with the classical i.i.d. setting.

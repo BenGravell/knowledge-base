@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2511.06385", "source": "arxiv-html"} -->
+
 ## Introduction
 
 One of the main goals of robotics is to reduce the mental and physical burden on human workers by automating tedious and repetitive tasks. Recently, imitation learning using diffusion models and flow matching has enabled robots to successfully perform these complex, long-horizon manipulation tasks. These advances have been reinforced by the availability of large-scale demonstration datasets and the emergence of vision-language-action models. Diffusion policies (DPs), i.e., robot policies parameterized by generative diffusion or flow-matching models, can perform tasks in dynamic environments. However, since DPs are black-box models, they lack safety guarantees for avoiding collisions or safely interacting with dynamic objects. This prevents their deployment in human-centric environments, where safety has to be formally guaranteed.

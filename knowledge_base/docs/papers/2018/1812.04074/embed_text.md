@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1812.04074", "source": "ar5iv"} -->
+
 ## Introduction
 
 ### Geometric and generalized geometric programs

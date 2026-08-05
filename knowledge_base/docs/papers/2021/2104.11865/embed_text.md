@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2104.11865", "source": "ar5iv"} -->
+
 ## Introduction
 
 An advanced control system such as a mobile robot may be required to perform many different tasks. If the task set is finite, like selecting between "map an environment" and "deliver a package", then its size is naturally quantified by the number of tasks. If the task set is infinite, like delivering packages with arbitrary mass and inertial properties, then its size is not so easily quantified. Even if the task space is equipped with a metric or measure, these structures may be only weakly linked to the diversity of behavior required for good performance on all tasks.

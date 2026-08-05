@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2001.00440", "source": "ar5iv"} -->
+
 ## Introduction
 
 Multi-robot path planning (MRPP) has been one of the fundamental problems studied by artificial intelligence and robotics communities. Quickly finding paths that take each robot from their initial location to target location, and ensuring that robots execute these paths in a safe manner have applications in many areas from evacuation planning to warehouse robotics, and from formation control to coverage.

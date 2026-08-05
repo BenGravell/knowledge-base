@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2202.07125", "source": "ar5iv"} -->
+
 ## Introduction
 
 The innovation of Transformer in deep learning Vaswani et al. has brought great interests recently due to its excellent performances in natural language processing (NLP) Kenton and others, computer vision (CV) Dosovitskiy et al., and speech processing Dong et al.. Over the past few years, numerous Transformers have been proposed to advance the state-of-the-art performances of various tasks significantly. There are quite a few literature reviews from different aspects, such as in NLP applications Han et al., CV applications Han et al., and efficient Transformers Tay et al..

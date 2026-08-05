@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2512.15840", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A key component of many robotic systems is the planning algorithm \Garrett et al. which takes a high-level task or instruction alongside the robot's sensory observations to generates a sequence of states and actions that will achieve the goal. General-purpose robots --- systems designed to operate reliably across diverse tasks and novel environments --- would greatly benefit from planning algorithms that are themselves extremely general. Such planning algorithms should be able to comprehend unseen tasks, adapt fluidly to novel scenes, and output physically coherent behaviors. Developing these strong generalization capabilities remains a central, unresolved challenge of embodied intelligence today.

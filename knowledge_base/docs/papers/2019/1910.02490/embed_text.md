@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1910.02490", "source": "ar5iv"} -->
+
 ## Introduction
 
 Metric-semantic understanding is the capability to simultaneously estimate the 3D geometry of a scene and attach a semantic label to objects and structures (*e.g., *tables, walls). Geometric information is critical for robots to navigate safely and to manipulate objects, while semantic information provides the ideal level of abstraction for a robot to understand and execute human instructions (*e.g., *"bring me a cup of coffee", "exit from the red door") and to provide humans with models of the environment that are easy to understand.

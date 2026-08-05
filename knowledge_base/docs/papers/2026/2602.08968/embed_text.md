@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2602.08968", "source": "arxiv-html"} -->
+
 ## Introduction
 
 A promising paradigm toward building capable and general-purpose embodied agents involves learning dynamics models of the world, commonly referred to as World Models (WM, Ha and Schmidhuber ). Despite rapid progress and growing community interest, research on WMs remains fragmented and lacks shared benchmarks comparable to those in vision, reinforcement learning, or language modeling. This diversity of paradigms, design choices, and environments complicates meaningful comparison between methods. Systematic re-implementation of utilities further exacerbates this issue: for example, two recent works, PLDM and DINO-WM, re-implement the same Two-Room environment with substantial divergence (81 deletions, 86 additions, and 18 updates), underscoring the lack of shared infrastructure. Moreover, beyond comparing performance across disparate environments, controlled variations within a single environment are essential to isolate key factors, probe generalization, and better understand the inductive biases and failure modes of WMs.

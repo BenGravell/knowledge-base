@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2310.17556", "source": "ar5iv"} -->
+
 ## Introduction
 
 Natural gradient descent \[, \] is a fundamental optimization technique widely employed in the field of machine learning. Its quantum counterpart, known as stochastic reconfiguration \[, \], holds paramount importance in variational quantum Monte Carlo methods. However, when applied to large-scale problems, such as training neural networks, a significant bottleneck emerges due to the computational burden of inverting the Fisher information matrix. Although approximations like KFAC have been introduced to mitigate this burden, they often fall short of replicating the performance of the exact method.

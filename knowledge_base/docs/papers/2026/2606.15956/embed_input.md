@@ -11,3 +11,191 @@ Progress in AI has largely been driven by methods that assume less. As compute a
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Despite not leveraging any strong inductive biases, TDV matches state-of-the-art recipes on dense spatial tasks, laying the foundation for representation learning without strong assumptions.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Deep learning has achieved remarkable progress over the last decade and a half, advancing from simple object classification to high-resolution image generation and sophisticated cross-modal reasoning. This progress has largely been driven by methods that more effectively leverage increasing data and computation, where approaches with weaker inductive biases^11^1We broadly use the term inductive biases and assumptions interchangeably in this work. tend to outperform those with stronger assumptions as scale increases.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This principle is illustrated by the evolution of visual representation learning, where progress has largely been driven by approaches using progressively weaker inductive biases. For example, early supervised learning with convolutional neural networks (CNNs) assumed that human-annotated labels captured the semantic structure of images, while convolutional architectures imposed spatial locality biases on representations. Moving away from labels, self-supervised contrastive approaches such as SimCLR and MoCo instead pulled augmented views of the same image together and pushed different images apart, but made strong assumptions about the distances between negative pairs. To address this flaw, self-distillation approaches relaxed these assumptions via a slow-moving teacher, and the subsequent adoption of Vision Transformers (ViTs) discarded the locality and translation equivariance biases of CNNs in favor of global attention. Now, modern approaches combining self-distillation with ViTs achieve state-of-the-art performance.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Interestingly, this pattern of weaker assumptions leading to better performance mirrors biological evolution, where innate instincts play a role analogous to hardcoded inductive biases. Across animals, more capable species tend to hardcode less behavior into their genome---insects rely heavily on innate behavioral programs, while mammals depend substantially more on learned behavior. This trend is even more distinct in primates, and most pronounced in humans, who rely heavily on learning from experience rather than hardcoded behavior. In both the case of visual representation learning as well as hardcoded behavior for biological intelligence, less hardcoded structure enables greater asymptotic performance given sufficient scale.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To further support this principle, we empirically test how the optimal strength of inductive biases changes with data scale (Figure 3). We find that as data scale increases, weaker inductive biases outperform stronger ones asymptotically---reinforcing that minimizing assumptions becomes increasingly important as scale increases.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Motivated by this trend, we argue for a new approach to visual representation learning that avoids the inductive biases relied upon by existing methods (we discuss these biases in Section A). Removing them naively, however, leaves no learning signal and collapses the representation (Table 1).
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Therefore, a natural question emerges---"What assumptions should our model have, if not reliant on existing inductive biases?" We argue for assuming causality: that causes precede their effects, and the immediate future is therefore predictable from the past. This principle is foundational across physics, from classical mechanics to relativistic field theories to modern formulations of quantum theory.^22^2We do not claim the stronger thesis of determinism---that the past uniquely determines the future---which is incompatible with quantum mechanics under standard assumptions. We assume only the weaker principle, that the immediate future is generally predictable from the past, sufficient to provide a learning signal. Unlike existing inductive biases for representation learning, we argue causality is weak, and domain agnostic. Additionally, because causality is inherently temporal, applying it points towards training over video, rather than images.^33^3Learning image encoders from video departs from common practice in representation learning, which historically trains them on image datasets.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To achieve this, we jointly train a frame encoder and a motion encoder so that, given two consecutive frames, the embedding of the current frame plus the embedding of the frame delta matches the embedding of the next frame (visualized in Figure 1). Because consecutive frames are close in time, and video has high temporal consistency, the frame delta is intrinsically low-rank, encouraging the motion encoder to capture compact spatial change rather than full scene appearance. Given its similarity to Temporal Difference in Reinforcement Learning, we call our approach Temporal Difference in Vision (TDV). TDV naturally enables learning without restrictive inductive biases or modality-dependent assumptions. Empirical results demonstrate TDV is able to learn dense spatial features comparable to state-of-the-art visual encoders such as DINO and iBOT without relying on strong assumptions during pretraining.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our contributions are as follows: We confirm our hypothesis regarding the importance of weaker assumptions as scale increases through controlled experiments, further motivating TDV.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We present TDV, a new paradigm for learning visual representations that avoids the strong inductive biases of existing approaches.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We demonstrate promising empirical performance for TDV, achieving dense spatial features on par with modern approaches that leverage stronger inductive biases.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Self-Supervised Representation Learning", "weight": 1.0} -->
+
+Self-supervised representation learning has the goal of learning representations without any labels. Early work in this domain learned representations primarily via autoencoding, where models were trained to reconstruct inputs directly in pixel space. Over time, the field has shifted primarily from raw pixel space reconstruction towards Joint Embedding Predictive Architectures (JEPAs), where prediction is done in a latent space as opposed to in the raw pixel space. Such models abstract away irrelevant, unpredictable information, such as background pixels in a scene, in favor of modeling more important information---a form of learning with weaker inductive biases. Recent empirical and theoretical evidence reinforces the benefits of JEPAs, where raw pixel space reconstruction is often theoretically predicted and empirically observed to produce less informative features for perception.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Self-Supervised Representation Learning", "weight": 1.0} -->
+
+The progression within the JEPA family illustrates a recurring pattern: methods with weaker inductive biases have steadily displaced those with stronger ones. Early JEPA approaches relied on contrastive objectives, which prevent collapse by pushing apart representations of distinct images while pulling together augmented views of the same image. However, contrastive methods impose a strong relational prior---that randomly sampled images should be dissimilar in representation space---which is only approximately correct, since sampled pairs frequently depict semantically related content. They also depend on large batches of negative samples, limiting scalability. Self-distillation approaches relax this prior entirely by replacing negative pairs with a slow-moving teacher network: the student is trained to match the teacher's output on a different view of the same image, while the teacher is updated as an exponential moving average of the student. This eliminates the negative relational assumption between images, with centering and stop-gradient mechanisms preventing trivial collapse.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Self-Supervised Representation Learning", "weight": 1.0} -->
+
+Modern state-of-the-art vision foundation models such as DINOV3 and V-JEPA2 build on this self-distillation paradigm,^44^4Some of these architectures, such as DINOV3, are technically considered Joint-Embedding Architecture (JEA) variants, due to not conditioning on a latent variable $z$. reflecting the broader trajectory of the field toward progressively weaker inductive biases.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Temporal Difference for Representation Learning", "weight": 1.0} -->
+
+Despite this trajectory of weakening inductive biases, modern self-distillation approaches still rely on image-level inductive biases such as cropping, masking, or augmentations. A natural alternative is to source paired views from time itself, using temporally adjacent frames in a video. Several works explore this direction. Feng et al. train supervised models over temporal difference features, minimizing mutual information to disentangle task-relevant motion from noise. Wang et al. model low-level frame deltas for action recognition, but rely on a global channel attention mechanism to recalibrate features across long-range differences. Maes et al. predict future frames in latent space, but target world modeling rather than transferable representations. Most closely related to TDV, Midway Networks learn representations directly from temporal differences in video, adding an invariance objective over cropped patches to target semantic performance. In each case, the temporal signal is paired with an additional inductive bias---supervision, attention recalibration, a world-modeling objective, or augmentation-based invariance. With TDV, we instead focus on learning from temporal difference alone, without any such biases.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "TDV Intuition", "weight": 1.0} -->
+
+Learning representations without strong inductive biases is notoriously challenging; removing assumptions such as augmentations or masking often leads to degraded representations or collapse. We confirm this by removing key inductive biases in the well-known DINO recipe, observing poor performance and eventual collapse (Table 1). These results, and our deeper motivation to remove inductive biases, raise a natural question: "What is the weakest assumption that still provides sufficient signal to avoid collapse?"
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "TDV Intuition", "weight": 1.0} -->
+
+Answering this requires understanding why assumptions hurt performance in the first place. We argue that assumptions encode beliefs that are only approximately correct, and at scale these approximations restrict what can be learned. Instead, an assumption that is exactly, rather than approximately, correct, would impose no such bottleneck, providing a learning signal without restricting what can ultimately be learned.^55^5By "exactly correct" we refer to a property of the learning objective, not a claim about causality itself: next-frame prediction imposes no invariance constraint, and therefore never requires the encoder to discard a factor of variation. Augmentation- and masking-based objectives instead enforce invariance to a chosen transformation, discarding the corresponding information by construction, which can degrade downstream performance on tasks where that information is needed (Section A).
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "TDV Intuition", "weight": 1.0} -->
+
+- random crop on both G Full TDV Recipe (ours) Table 1: Removing DINO’s Inductive Biases Degrades Performance. Progressively removing DINO’s augmentations for pre-training on SSV2 degrades KNN performance, and eventually causes representation collapse. TDV, by contrast, avoids collapse without these inductive biases. 2G and 8L denote 2 random global and 8 random local crops respectively. Full augmentations includes random flip, color jitter, Gaussian blur, and solarization.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "TDV Intuition", "weight": 1.0} -->
+
+We argue such an assumption exists: causality---the principle that the past is predictive of the future. This principle is foundational across physics, with classical mechanics serving as a canonical example---an object's position, velocity, and acceleration are sufficient to predict its trajectory. Unlike assumptions such as "augmented views should be invariant" or "masked and unmasked images should be similar," causality is domain-agnostic and, we argue, exactly rather than approximately correct. Perhaps this assumption is part of the reason autoregressive Large-Language Models have been so successful, as they assume causality, which reflects the data-generating procedure of language.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "TDV Intuition", "weight": 1.0} -->
+
+Leveraging causality, however, is non-trivial. Image representations are traditionally learned from static image datasets, which lack the temporal dimension causality requires.^66^6One could apply causality within a single image by predicting one patch from another; however, this does not reflect causality as it operates in the world, where causes precede effects in time. We therefore argue for learning image representations from video, where consecutive frames provide the temporal structure causality demands.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "TDV Intuition", "weight": 1.0} -->
+
+Specifically, we train an image encoder jointly with a motion encoder such that the image encoder's representation of a frame, added to the motion encoder's representation of the change between frames, yields the image encoder's representation of the next frame (visualized in Figure 1). Intuitively, this motion representation generally has low intrinsic rank, since the semantic change between consecutive frames is typically small. By analogy to Temporal Difference in Reinforcement Learning, we call this approach Temporal Difference in Vision (TDV) (Figure 2).
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "TDV Intuition", "weight": 1.0} -->
+
+Beyond its motivation from causality, TDV can also be viewed as a form of self-distillation. However, rather than forcing invariance across hand-crafted augmentations such as cropping, rotating, or masking, the "augmentation" is induced by time, with temporally consecutive frames serving as the two views. The changes produced by this temporal augmentation are then modeled explicitly by the motion encoder, rather than being discarded via an invariance objective. This can be viewed as a learned, latent-space analog of the motion vectors used in classical video codecs, which similarly represent video as a frame plus the motion to the next. Intuitively, this objective forces TDV's representations to be sufficiently informative of the current frame as well as rich enough to predict the next frame.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "TDV Architecture", "weight": 1.0} -->
+
+Having established causality as our guiding assumption, we now derive the architecture for TDV. Our goal is to follow a simple principle: *the representation of a frame, combined with the change that occurs between frames, should yield the representation of the next frame.*
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Learning a representation space", "weight": 1.0} -->
+
+Following our principle, we first need a way to map the frames from RGB space into a meaningful representation space. We therefore learn a frame encoder $f_{\theta}$ that maps each frame $x_{t}$ to a sequence of token embeddings: where $z_{t}$ is the representation for frame $x_{t}$, $n$ is the number of spatial patches plus an additional \[CLS\] token, and $D$ is the embedding dimension. Our causal principle then becomes a constraint in this embedding space: the change between frames, when encoded appropriately, should be sufficient to predict the next frame's embedding.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Encoding change in representation space", "weight": 1.0} -->
+
+The raw RGB difference $\Delta x_{t}=x_{t+1}-x_{t}$ captures what changed in pixel space, but we need to map this into a corresponding shift $\Delta z_{t}$ in the latent space. Importantly, $\Delta x_{t}$ is intrinsically lower rank than the frames themselves, as the background scene pixels remain largely unchanged between adjacent frames, and only moving regions contribute a non-zero signal (as visualized in Figure 1). We therefore learn a motion encoder $m_{\phi}$ that takes the change in RGB space $\Delta x_{t}$, and predicts the change in representation space $\Delta z_{t}$.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Additive latent composition", "weight": 1.0} -->
+
+With the frame encoder learning to encode the current frame in representation space and the motion encoder learning the change in representation space, predicting the next frame's representation reduces to a simple additive composition: This decomposition of $\hat{z}_{t+1}$ into $z_{t}$ and $\Delta z_{t}$ cleanly separates the goal into two objectives: the frame encoder is responsible for learning the content in a frame, and the motion encoder learns how that content evolves over time.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Preventing collapse", "weight": 1.0} -->
+
+Supervising the next frame's predicted representation $\hat{z}_{t+1}$ requires a target: $z_{t+1}$, the next frame $x_{t+1}$ encoded by the frame encoder. However, this makes the TDV recipe prone to collapse, as $z_{t+1}$ is also produced by the same frame encoder that is being trained. Therefore, the encoder can trivially achieve near-zero loss by collapsing all representations to a constant, making the target easy to predict, but meaningless. To prevent this, we adopt a teacher-student framework following DINO: we maintain two copies of the frame encoder, a *student* updated by gradient descent, and a *teacher*, whose parameters are a slowly-evolving exponential moving average (EMA) of the student. The target is then produced by the teacher, which we denote as $z^{\text{teacher}}_{t+1}$. Both the student and teacher pass their representations through respective projection heads, and we apply a cross-entropy loss between the resulting prototype distributions.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Preventing collapse", "weight": 1.0} -->
+
+This penalizes collapse directly: if all frames map to the same representation, the distributions become identical across frames and the cross-entropy loss increases, forcing the encoder to maintain discriminative representations. The teacher's parameters evolve slowly via EMA, ensuring the student and teacher remain sufficiently different at any point in training to provide stable, non-trivial, prediction targets that the student cannot trivially satisfy by collapsing to the same distribution. We illustrate the complete architecture in Figure 2.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "TDV Training Objective", "weight": 1.0} -->
+
+With the architecture set, we now describe how each component is supervised. TDV is trained with a weighted combination of two losses, each targeting a distinct objective.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Temporal prediction loss ($\\mathcal{L}_{\\text{mse}}$)", "weight": 1.0} -->
+
+The first loss directly supervises our causal principle established in Section 3.2: the motion encoder must produce a $\Delta z_{t}$ that, when added to $z_{t}$, accurately recovers the next frame's embedding. This is enforced via a mean-squared error between the predicted next-frame embedding $\hat{z}_{t+1}=z_{t}+\Delta z_{t}$ and the teacher-encoded target $z^{\text{teacher}}_{t+1}$: where $\text{sg}(\cdot)$ denotes stop-gradient, ensuring this loss only updates the motion encoder and student frame encoder, not the teacher.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Self-distillation loss ($\\mathcal{L}_{\\text{dino}}$)", "weight": 1.0} -->
+
+The second loss addresses the collapse problem described in Section 3.2: without an additional signal, the frame encoder can trivially satisfy $\mathcal{L}_{\text{mse}}$ by collapsing all representations to the same embedding. We therefore apply a cross-entropy objective inspired by DINO between student and teacher projection distributions, with one extension: we apply this loss over *both* the \[CLS\] token and *the patch tokens*, encouraging spatially consistent representations at the patch level beyond what the original DINO formulation provides. Let $p_{s}$ and $p_{t}$ denote the student and teacher projection distributions, normalized with temperatures $\tau_{s}$ and $\tau_{t}$ respectively (in practice, we set $\tau_{t}=\tau_{s}=0.1$). The loss is then: where $k$ indexes over the $K$ prototype dimensions of the projection head. The teacher distribution is additionally centered with a running mean to prevent dimensional collapse in the absence of temperature asymmetry.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Self-distillation loss ($\\mathcal{L}_{\\text{dino}}$)", "weight": 1.0} -->
+
+Putting these together, we get the complete training objective for TDV: where $\lambda_{\text{mse}}$ and $\lambda_{\text{dino}}$ are tunable hyperparameters.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experimentation", "weight": 1.0} -->
+
+Semantic Segmentation (UperNet) Table 2: Semantic Segmentation Performance With UperNet. We benchmark the Semantic Segmentation performance of TDV compared to iBOT and DINO on ADE20K and Cityscapes. TDV achieves competitive performance relative to iBOT and DINO despite learning without strong inductive biases.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Motivating Weaker Assumptions", "weight": 1.0} -->
+
+To provide empirical weight to our philosophical argument---that weaker assumptions yield superior asymptotic performance as data scales---we evaluate various models across different subsets of ImageNet-1k. By identifying the top-performing inductive biases at each data scale, we can observe how the optimal "strength" of assumptions shifts. Specifically, we conduct these evaluations using data subsets of $0.1\%$, $1\%$, $10\%$, and $100\%$. To measure the strength of these assumptions, we utilize masking with values of $10\%$, $30\%$, and $50\%$ as a continuous proxy (note that these are values not for TDV, but for testing our argument regarding weaker assumptions; more details are in Section D). We use masking for two primary reasons: it allows for a granular axis, unlike discrete changes such as switching from contrastive learning to self-distillation, and it represents a clear spectrum of assumptions.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Motivating Weaker Assumptions", "weight": 1.0} -->
+
+For instance, requiring models to treat images with $50\%$ masking as "similar" to their original imposes a strong assumption that only the high-level semantics remaining are sufficient for representation. Alternatively, requiring image similarity at $10\%$ masking is a relatively weak assumption, as most of the image details remain intact.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Motivating Weaker Assumptions", "weight": 1.0} -->
+
+The results for these experiments are shown in Figure 3, where the results demonstrate a strong trend between which approaches perform best and the amount of data being leveraged. With just $0.1\%$ of ImageNet, the best performing masking ratio is $50\%$, with $30\%$ and $10\%$ masking falling behind by a significant margin. However, as the amount of data increases, $30\%$ masking eventually outperforms $50\%$ masking, with $10\%$ masking approaching the performance of $50\%$ masking. These results demonstrate that as data increases, the optimal amount of assumptions made, represented here as masking ratio, decreases. This further reinforces our motivation for TDV---to learn representations without any strong inductive biases.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Downstream Evaluations", "weight": 1.0} -->
+
+Following, we argue that semantic benchmarks such as linear probing, $k$-NN retrieval, and action recognition probe ventral stream skills (what), and generally do not accurately measure spatial or temporal representation quality. However, understanding structure and motion, which is performed in the human brain by the dorsal stream, is fundamental to real-world vision applications such as robotics, autonomous driving, and 3D scene understanding. These tasks are often bottlenecked less by semantic representations and more by low-level spatial-temporal information. We therefore focus our evaluations on such properties, specifically segmentation, optical flow and stereo depth, as they demand representations to retain spatial structure and temporal correspondence, precisely the properties suppressed by strong semantic priors but preserved by TDV.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Downstream Evaluations", "weight": 1.0} -->
+
+For our experimental setup, we pretrain all models on the SomethingSomethingV2 (SSV2) dataset, as it has well-defined motion data and is a standard video benchmark. We then evaluate all models on the downstream tasks using the pretrained backbones, with individual setup details provided in Appendix D.3.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Downstream Evaluations", "weight": 1.0} -->
+
+On semantic segmentation, TDV achieves results comparable to DINO and iBOT, trailing behind by a small margin on both mIoU (mean intersection over union) and mAcc (mean per-class accuracy) as shown in Table 2. The competitiveness, visualized in Figure 4, suggests that TDV is capable of learning spatially coherent features that a segmentation head can leverage even without an explicit semantic objective. This competitiveness holds despite TDV producing less object-focused \[CLS\]-token attention than DINO and iBOT (Figure A.1), likely because segmentation relies on patch-level rather than \[CLS\]-token features. We believe the remaining performance gap likely reflects the absence of augmentations like local cropping, which may provide better semantic context.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Downstream Evaluations", "weight": 1.0} -->
+
+We evaluate TDV on temporal tasks against DINO and iBOT in Table 3. On optical flow, TDV consistently outperforms both DINO and iBOT on EPE (endpoint error, the average pixel-level distance between predicted and ground truth flow vectors). We believe this can be attributed to TDV explicitly learning to predict how representations evolve between frames, which naturally preserves the local motion structure that methods trained on images with invariance augmentation tend to discard (optical flow predictions are visualized in Figure 5). On stereo depth, TDV achieves lower "bad" pixel rates at both the 0.5px and 1px thresholds across both architectures, indicating that TDV makes significantly fewer large correspondence errors than DINO and iBOT. The slightly higher average disparity error suggests that while TDV makes fewer large mistakes, it can still struggle to recover precise depth in ambiguous regions where semantic context would otherwise help. These performance gains carry over to the features themselves: Figure B.1 shows PCA visualizations of patch-level features, where TDV produces spatially coherent feature maps.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "TDV Ablation Studies", "weight": 1.0} -->
+
+We ablate the key design choices of TDV to identify the components critical to performance and stability. We pretrain TDV on SSv2 and use online ImageNet KNN Top-5 accuracy as a proxy for general performance, as it is cheap to compute during training, and gives a meaningful signal for representation quality. We show ablation results in Table 4.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "TDV Ablation Studies", "weight": 1.0} -->
+
+The two ablations that cause training to collapse the most are removing the motion encoder and removing the MSE loss, highlighting them as two critical components of TDV. The motion encoder provides the temporal signal necessary for learning, while the MSE loss directly supervises it to predict meaningful changes in representation space. Notably, removing the motion encoder entirely and relying solely on the DINO loss across consecutive frames---effectively reducing TDV to a simple temporal invariance objective---is also not sufficient to learn representations, suggesting that explicitly modeling temporal differences between frames is a necessary choice.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "TDV Ablation Studies", "weight": 1.0} -->
+
+Among the remaining design choices, including the \[CLS\] token in cross-attention and applying the DINO loss on the \[CLS\] token both contribute meaningfully to performance. These suggest that grounding motion predictions in a global scene representation helps the motion encoder focus on semantically meaningful changes. For the teacher's output distribution, removing centering causes a much larger performance drop than removing temperature sharpening, which we attribute to centering preventing the distribution from becoming too peaked on a single mode, a subtler form of collapse. Finally, we find that standard absolute positional encodings consistently outperform RoPE across our experiments. While this ablation study addresses the components that work, we document all the other design choices and training strategies we tried that did not work in Appendix B.1.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "TDV Ablation Studies", "weight": 1.0} -->
+
+Full TDV recipe No [CLS] in Cross Attention No DINO Loss on [CLS] RoPE instead of Positional Enc.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Future Works and Broader Impact", "weight": 1.0} -->
+
+TDV's weak inductive biases and joint frame-motion encoder design open up several new directions for future work. First, deep learning approaches with weaker assumptions tend to scale more favorably with compute and data. Since TDV avoids augmentations, masking, contrastive objectives, and other strong inductive biases, it is positioned for stronger asymptotic performance than existing recipes. Second, unlike existing visual representation learning approaches, TDV relies on no vision-specific techniques, such as masking or augmentation. Therefore, we believe TDV could be applied to any modality with high temporal consistency, including audio, proprioception, and touch. Third, TDV could enable efficient video encoding. Modern approaches for representing video typically pass every frame through a full image encoder. In contrast, using TDV, only the initial frame needs the frame encoder, with subsequent frames represented by composing the previous frame's representation with a lightweight motion encoder. This is similar to classical video codecs such as MPEG, which exploit temporal redundancy by storing keyframes and inter-frame deltas.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+While we achieved promising results with TDV in this work, there remain several limitations for further adoption. First, while TDV matches existing approaches on dense spatial tasks, it does not achieve state-of-the-art results across the board. We view this as expected for a first attempt at representation learning without strong inductive biases, and anticipate that future work can build on the recipe to close the remaining gap. Second, TDV did not achieve strong performance when measured on semantic benchmarks. We believe this is largely caused by a lack of inductive biases for learning invariances, such as local/global crops, which most existing visual representation learning approaches rely. Third, we found that scaling video data to larger video datasets than SomethingSomethingV2 did not improve performance. We believe that this was caused by a lack of high-quality large scale open-source video data as well as our tuning of hyperparameters for performance on SomethingSomethingV2. We believe that with access to larger, higher-quality video datasets and better hyperparameters, TDV should scale further.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+Future work can search for more optimal hyperparameters that scale better to larger video datasets and model sizes.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+In this work we proposed Temporal Difference in Vision (TDV), the first approach for learning representations from videos without any supervision, raw pixel space reconstruction, or strong inductive biases. TDV achieves comparable or sometimes improved dense/spatial task performance to state-of-the-art visual representation learning recipes such as DINO and iBOT, while not relying on strong inductive biases. As deep learning approaches leveraging weaker assumptions generally scale better, TDV lays the groundwork for potentially more scalable representation learning.

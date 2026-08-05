@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2602.11988", "source": "ar5iv"} -->
+
 ## Introduction
 
 Coding agents are being rapidly adopted across the software engineering industry, and providing context files like AGENTS.md, a README specifically targeting agents, has become common practice. With various industry leaders recommending this approach to adapt their agents to specific repositories, context files are now supported by most popular agent frameworks, and included in over 60'000 open-source repositories at the time of writing, as reported by AGENTS.md.

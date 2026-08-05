@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2205.06175", "source": "ar5iv"} -->
+
 ## Introduction
 
 There are significant benefits to using a single neural sequence model across all tasks. It reduces the need for hand crafting policy models with appropriate inductive biases for each domain. It increases the amount and diversity of training data since the sequence model can ingest any data that can be serialized into a flat sequence. Furthermore, its performance continues to improve even at the frontier of data, compute and model scale. Historically, generic models that are better at leveraging computation have also tended to overtake more specialized domain-specific approaches, eventually.

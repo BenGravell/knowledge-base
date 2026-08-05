@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2505.14766", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: \tiny\textbf{A}⃝ Toto is a zero-shot time series forecasting model trained on a mixture of observability data, open datasets, and synthetic data. To predict, context time series points are passed through a patch embedding, processed via proportional factorized variate-time attention layers, and projected to a probabilistic output via a learned Student-T Mixture model. We sample from this distribution to produce a prediction forecast. Note that Toto’s novel architectural components are highlighted in purple. \tiny\textbf{B}⃝ 2D PCA projections of statistical features (described in Section 4.3) of GIFT-Eval [aksu2024giftevalbenchmarkgeneraltime], LSF [Wu2021], and Boom highlight a clear distinction in the underlying time series characteristics of Boom relative to general-purpose time series benchmarks. \tiny\textbf{C}⃝, \tiny\textbf{D}⃝ Toto is the top performing model on Boom, the GIFT-Eval public leaderboard [gifteval_leaderboard], and on LSF (see Table 4).

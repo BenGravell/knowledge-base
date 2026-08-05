@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1509.09259", "source": "ar5iv"} -->
+
 ## Introduction
 
 Logistic regression is one of the most frequently used classification methods applied. Its objective is to establish a probabilistic relationship between a continuous feature vector and a binary explanatory variable. However, in spite of its overwhelming success in machine learning, data analytics and medicine etc., logistic regression models can display a poor out-of-sample performance if training data is sparse. In this case modelers often resort to ad hoc regularization techniques in order to combat overfitting effects. This paper aims to develop new regularization techniques for logistic regression---and to provide intuitive probabilistic interpretations for existing ones---by using tools from modern distributionally robust optimization.

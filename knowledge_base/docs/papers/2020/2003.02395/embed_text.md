@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2003.02395", "source": "ar5iv"} -->
+
 ## Introduction
 
 First-order methods with adaptive step sizes have proved useful in many fields of machine learning, be it for sparse optimization, tensor factorization or deep learning. Duchi et al. introduced Adagrad, which rescales each coordinate by a sum of squared past gradient values. While Adagrad proved effective for sparse optimization, experiments showed that it under-performed when applied to deep learning. RMSProp proposed an exponential moving average instead of a cumulative sum to solve this. Kingma & Ba developed Adam, one of the most popular adaptive methods in deep learning, built upon RMSProp and added corrective terms at the beginning of training, together with heavy-ball style momentum.

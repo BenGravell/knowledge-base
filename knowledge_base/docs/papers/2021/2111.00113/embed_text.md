@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2111.00113", "source": "ar5iv"} -->
+
 ## Introduction
 
 Arguably, the most exciting recent development in numerical linear algebra (NLA) is the advent of new randomized algorithms that are fast, scalable, robust, and reliable. For example, many practitioners have adopted the "randomized SVD" and its relatives to compute truncated singular value decompositions of large matrices. Randomized preconditioning allows us to solve highly overdetermined least-squares problems faster than any previous algorithm.

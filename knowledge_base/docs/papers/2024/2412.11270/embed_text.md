@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2412.11270", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Endowing robots with high-performing and reliable autonomous decision-making is the ultimate goal of robotics research and will enable applications such as sea, air, and space autonomous exploration, self-driving cars, and urban air mobility. These autonomous robots need to make decisions encompassing low-level physical movements (i.e., motion planning) and high-level strategy such as selecting goals, sequencing actions, and optimizing other decision variables.

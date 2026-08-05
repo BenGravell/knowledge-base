@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1806.06920", "source": "ar5iv"} -->
+
 ## Introduction
 
 Model free reinforcement learning algorithms can acquire sophisticated behaviours by interacting with the environment while receiving simple rewards. Recent experiments successfully combined these algorithms with powerful deep neural-network approximators while benefiting from the increase of compute capacity.

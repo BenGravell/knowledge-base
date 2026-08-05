@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.08084", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Progress in autonomous driving research is strongly tied to dataset releases. Every milestone in the field, from modular perception, behavior prediction, to end-to-end driving, has introduced new datasets, expanding a still-growing collection of driving recordings.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1707.04175", "source": "ar5iv"} -->
+
 ## Introduction
 
 Deep Reinforcement Learning is an emerging subfield of Reinforcement Learning (RL) that relies on deep neural networks as function approximators that can scale RL algorithms to complex and rich environments. One key work in this direction was the introduction of DQN Mnih2015Human which is able to play many games in the ATARI suite of games bellemare13arcade at above human performance. However the agent requires a fairly large amount of time and data to learn effective policies and the learning process itself can be quite unstable, even with innovations introduced to improve wall clock time, data efficiency, and robustness by changing the learning algorithm Schaul2015Prioritzed; Hasselt2015Deep or by improving the optimizer MniBadMir2016a; Schulman2015Trust. A different approach was introduced by Jaderber2016Reinforcement; Mirowski2016Learning; Lample2016Playing, whereby data efficiency is improved by training additional auxiliary tasks jointly with the RL task.

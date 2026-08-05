@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1502.04269", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 Scoring systems are linear classification models that only require users to add, subtract and multiply a few small numbers in order to make a prediction. These models are used to assess the risk of numerous serious medical conditions since they allow physicians to make quick predictions, without extensive training, and without the use of a computer [knaus1991apache,bone1992american,moreno2005saps]. Many medical scoring systems that are currently in use were hand-crafted by physicians, whereby a panel of experts simply agreed on a model [gage2001validation]. Some medical scoring systems are data-driven in the sense that they were created by rounding logistic regression coefficients [le1993new]. Despite the widespread use of medical scoring systems in high-stakes applications, there has been little to no work that has focused on a direct method to learn these models from data.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.14623", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Inverse Reinforcement Learning (IRL), also known as Inverse Optimal Control or Structural Estimation, is the problem of finding a reward function that rationalizes (i.e. makes optimal) demonstrated behavior. Such approaches build on the lengthy history of trying to understand intelligent behavior (Muybridge, 1887) as approximate optimization of some cost function. While economists and cognitive scientists are often interested in analyzing the recovered reward function, it is more common in machine learning to view IRL algorithms as methods to imitate or forecast expert behavior.

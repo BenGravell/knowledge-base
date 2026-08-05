@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1704.07910", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Figure 1: Left: Two point-clouds registered using our method. Right: Resulting histogram of residuals error (inliers and outliers), noise estimate (inliers) and probability of inliers as function of residual error. The non-overlapping outlier regions of the point-clouds appear at the tail end of the histogram of residuals.

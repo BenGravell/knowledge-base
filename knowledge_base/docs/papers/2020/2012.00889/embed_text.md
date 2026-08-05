@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2012.00889", "source": "ar5iv"} -->
+
 ## Introduction
 
 Inverse Reinforcement Learning (IRL) searches for a reward or cost function to rationalize observed behaviour. This is challenging because the same reward may be optimized by different behaviors, and optimizing different reward functions can lead to the same behavior. In their seminal work Ziebart et al. developed a principled solution using the Maximum Entropy (MaxEnt) principle to choose the most non-committal consistent reward -- i.e. a reward which matches demonstrated feature counts but makes no additional assumptions about the demonstrated behaviour. Variations of this idea have seen great success in many recent works --- including models based on causal entropy, and efficient sample-based methods that maximize state-conditioned policy entropy.

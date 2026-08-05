@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2202.03183", "source": "ar5iv"} -->
+
 ## Introduction
 
 Car-following is the most common driving task. It refers to a process where the following vehicle (FV) tries to keep a safe distance between itself and the lead vehicle (LV) by adjusting its acceleration in response to the actions of the vehicle ahead. The corresponding car-following models are functions that determine FV's future accelerations based on current (and historical) driving situations. Car-following models are the cornerstone for microscopic traffic simulation and intelligent vehicle development.

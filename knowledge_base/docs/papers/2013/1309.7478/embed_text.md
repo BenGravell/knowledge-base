@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1309.7478", "source": "ar5iv"} -->
+
 ## Introduction
 
 Demixing refers to the problem of extracting multiple informative signals from a single, possibly noisy and undersampled, observation. One rather general model for a mixed observation ${\mathbf{z}}_{0} \in {\mathbb{R}}^{\gtrdot}$ takes the form where the constituents ${({\mathbf{x}}_{i}^{\natural})}_{i = 1}^{n}$ are the unknown informative signals that we wish to find; the matrices ${({\mathbf{U}}_{i})}_{i = 1}^{n}$ model the relative orientation of the constituent vectors; the operator ${\mathbf{A}} \in {\mathbb{R}}^{\gtrdot \times}$ compresses the observation from $d$ dimensions to $m \leq d$ dimensions; and ${\mathbf{w}} \in {\mathbb{R}}$ is unstructured noise. We assume that all elements appearing in (1.1) are known except for the constituents ${({\mathbf{x}}_{i}^{\natural})}_{i = 1}^{n}$ and the noise $\mathbf{w}$.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2103.03006", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 D ISTRIBUTIONALLY robust optimization (DRO) has gained traction recently as a technique that balances robustness with performance in an intuitive fashion. From a theoretical point of view such techniques act as regularizers and in a data-driven setting, DRO acts at the interface between stochastic and robust optimization.

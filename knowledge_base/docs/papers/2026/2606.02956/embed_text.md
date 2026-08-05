@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.02956", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous driving datasets \[geiger2012kitti, caesar2020nuscenes, sun2020waymo_perception, ettinger2021waymo_motion\] have enabled significant progress in both computer vision and autonomous driving research. However, existing datasets still fall short of capturing the complexity required for spatially aware driving in dense urban environments. Some lack public annotations or topology-aware map references \[caesar2020nuscenes, sun2020waymo_perception\], while others focus on comparatively simple driving scenarios such as motorways \[fent2024truckscenes, ghilotti2026truckdrive\]. As autonomous driving systems move toward deeper spatial understanding, datasets must support reasoning not only about objects, but also about geometry, road structure, and their geospatial relationships. High-fidelity datasets enriched with geospatial annotations, HD maps, and 3D labels are essential for evaluating such capabilities.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2007.07461", "source": "ar5iv"} -->
+
 ## Introduction
 
 Recent years have witnessed numerous successes of reinforcement learning (RL) in many applications, e.g., playing strategy games, playing the game of Go, autonomous driving, and security. Most of these successful applications involve more than one decision-maker, giving birth to the surging interests and efforts in studying multi-agent RL (MARL) recently, especially on the theoretical side. See also comprehensive surveys on MARL in Busoniu et al.; Zhang et al.; Nguyen et al..

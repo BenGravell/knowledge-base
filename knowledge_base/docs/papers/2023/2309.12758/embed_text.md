@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.12758", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Model predictive control (MPC) defines an implicit control law via a finite horizon optimal control problem. This optimal control problem is defined by the stage cost $\ell{(x,u)}$, state/input constraints, and a linear discrete-time dynamical model in which $x$ is the state, $u$ is the manipulated input, and $w$ is the disturbance. The primary difference between variants of MPC (e.g., nominal, robust, and stochastic MPC) is their approach to modeling the disturbance $w$ in the optimization problem.

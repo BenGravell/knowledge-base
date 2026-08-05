@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2203.08678", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 Approximate dynamic programming (ADP) is a powerful algorithmic strategy to handle stochastic sequential decision making problems arising in a wide range of applications, from control to games and resource allocation, to name a few. At the core of some of the biggest success stories of ADP is an approximate version of policy iteration. In particular, after an extensive offline training phase where an approximation of the optimal cost is produced, one iteration of an approximate version of policy iteration is performed (online learning). Empirical evidence suggests that this final step greatly enhances performance. In particular, Bertsekas in links these success stories to the equivalence between policy iteration and Newton's method.

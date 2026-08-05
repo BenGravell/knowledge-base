@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2206.05608", "source": "ar5iv"} -->
+
 ## Introduction
 
 Gradient boosting is a classic machine learning algorithm successfully used for web search, recommendation systems, weather forecasting, and other problems. In a nutshell, gradient boosting methods iteratively combine simple models (usually decision trees), minimizing a given loss function. Despite the recent success of neural approaches in various areas, gradient-boosted decision trees (GBDT) are still state-of-the-art algorithms for *tabular* datasets containing heterogeneous features.

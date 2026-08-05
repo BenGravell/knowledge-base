@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2510.22015", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Motion planning is a fundamental problem in robotics and autonomous systems involving the computation of feasible trajectories for agents navigating through complex environments with various constraints. Many approaches have been developed over several decades, including sampling-based methods, combinatorial graph search, and optimization-based techniques. Due to inherent complexities in motion planning, these approaches must navigate trade-offs between computational efficiency, optimality, and the ability to handle rich geometric, dynamic, and logical constraints.

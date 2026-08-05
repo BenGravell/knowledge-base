@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.02821", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Motion planning in environments with complex geometric constraints -- arising from obstacles, workspace boundaries, and configuration space structure -- remains a fundamental challenge in robotics.

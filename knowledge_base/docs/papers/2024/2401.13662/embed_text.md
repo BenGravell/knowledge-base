@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2401.13662", "source": "ar5iv"} -->
+
 ## Introduction
 
 Reinforcement Learning (RL) is a powerful set of methods for an agent to learn how to act optimally in a given environment to maximize some reward signal. In contrast to other methods such as dynamic programming, RL achieves this task of learning an optimal policy, which dictates the optimal behavior, via a trial-and-error process of interacting with the environment. Most early successful applications of RL use value-based methods (e.g., ), which estimate the expected future rewards to inform the agent's decisions. However, these methods only indirectly optimize the true objective of learning an optimal policy and are non-trivial to apply in settings with continuous action spaces.

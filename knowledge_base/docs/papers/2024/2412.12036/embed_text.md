@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2412.12036", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Robustness of robotic systems in unstructured environments requires adaptive control laws, yet their efficacy is fundamentally contingent upon the accuracy of the underlying plant model. Historically, these models have relied on physics-based equations to ensure reliability and physical interpretability under ideal conditions. However, such models face critical limitations: Complex nonlinear dynamics: Many robotic systems operate in high-dimensional spaces with nonlinear interactions, making precise modeling difficult.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2203.00806", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The last decade has seen immense advances in learning-based methods for policy optimization and trajectory optimization in robotics, e.g., for dexterous manipulation, quadrupedal locomotion, and pixels-to-torques control. These advances have largely hinged on innovations in learning architectures, large scale optimization algorithms, and large datasets. In contrast, there has been comparatively little work on the lowest level of the robotics reinforcement learning stack: the physics engine. We argue that core improvements in physics engines can enable future advancements in robotics, and we present Dojo as a physics engine that embodies several such advances.

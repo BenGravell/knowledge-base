@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2509.19789", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Humans, when driving, do not pay equal attention to all agents around them (e.g., other vehicles, pedestrians). Transfomer-based attention models offer the promise of attending only to relevant components of the input, but existing attention models are typically quadratic in the size of the input space. Driving models encounter hundreds of input tokens, leading to substantial computational complexity and latency Harmel et al.; Huang et al.; Baniodeh et al..

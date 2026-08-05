@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1102.2670", "source": "ar5iv"} -->
+
 ## Introduction
 
 The least squares method forms a cornerstone of statistics and machine learning. It is used as the main component of many stochastic sequential decision problems, such as multi-armed bandit, linear bandits, and other linear control problems. However, the analysis of least squares in these online settings is non-trivial because of the correlations between data points. Fortunately, there is a connection between online least squares estimation and the area of self-normalized processes. Study of self-normalized processes has a long history that goes back to Student and is treated in detail in recent book by de la Peña et al.. Using these tools we provide a proof of a bound on the deviation for vector-valued martingales. A less general version of the bound can be found already in de la Peña et al.. Additionally our proof, based on the method of mixtures, is new, simpler and self-contained. The bound improves the previous bound of Rusmevichientong and Tsitsiklis and it is applicable to virtually any online least squares problem.

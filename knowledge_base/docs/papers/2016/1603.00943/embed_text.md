@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1603.00943", "source": "ar5iv"} -->
+
 ## Introduction
 
 Convex optimization has many applications to fields as diverse as machine learning, control, finance, and signal and image processing. Using convex optimization in an application requires either developing a custom solver or converting the problem into a standard form. Both of these tasks require expertise, and are time-consuming and error prone. An alternative is to use a domain-specific language (DSL) for convex optimization, which allows the user to specify the problem in a natural way that follows the math; this specification is then automatically converted into the standard form required by generic solvers. CVX, YALMIP, QCML, PICOS, and Convex.jl are examples of such DSLs for convex optimization.

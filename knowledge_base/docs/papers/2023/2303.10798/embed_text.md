@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.10798", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Given a set of two-dimensional tiles, the nature of the planar tilings that they admit arises from a deep interaction between the local and the global. Constraints on the ways that two neighbouring tiles interlock can reverberate through the global structure of a tiling at every scale. Local constraints encoded in a set of tiles determine the larger space of tilings they admit in subtle ways.

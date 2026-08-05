@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.13312", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Stochastic optimal control under partial observability is a central problem in robotics, autonomous navigation, and aerospace systems. When the state cannot be measured directly, the controller must reason over a *belief*---a probability distribution over possible states---and plan in belief space, leading to partially observable Markov decision processes (POMDPs) that are generally intractable in continuous state, action, and observation spaces.

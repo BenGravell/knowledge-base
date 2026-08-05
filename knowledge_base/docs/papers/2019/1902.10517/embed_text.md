@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1902.10517", "source": "ar5iv"} -->
+
 ## Introduction
 
 In the recent years, there has been a rush towards highly autonomous systems operating in public environments, such as automated driving of road vehicles, passenger shuttle systems and mobile robots. These systems, operating in unstructured, public real-world environments (the *operational design domain* can be characterized as *open context*) per se bear a serious safety risk. The serious safety risk, the complexity of the necessary technical systems, the openness of the operational design domain and the regulatory situation pose a large challenge to the automotive industry.

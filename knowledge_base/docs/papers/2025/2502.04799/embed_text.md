@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2502.04799", "source": "ar5iv"} -->
+
 ## Introduction
 
 We focus on the nonconvex optimization problem where $\varphi:\mathbb{R}^{n}\to\mathbb{R}$ is twice differentiable function with globally Lipschitz continuous Hessian. Since finding a global minimum is generally difficult, the typical goal is to instead find an $\epsilon$-stationary point $x^{*}$ such that $\|\nabla\varphi(x^{*})\|\leq\epsilon$ for arbitrary $\epsilon>0$.

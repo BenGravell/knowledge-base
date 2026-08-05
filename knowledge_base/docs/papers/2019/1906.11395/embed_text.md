@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1906.11395", "source": "ar5iv"} -->
+
 ## Introduction
 
 A key feature in modern reinforcement learning is the ability to provide high-probability guarantees on the finite-data/time behavior of an algorithm acting on a system. The enabling technical tools used in providing such guarantees are concentration of measure results, which should be interpreted as quantitative versions of the strong law of large numbers. This paper provides a brief introduction to such tools, as motivated by the identification of linear-time-invariant (LTI) systems.

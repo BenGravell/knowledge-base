@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2109.13602", "source": "ar5iv"} -->
+
 ## Introduction
 
 Self-Driving Vehicles (SDVs) have the promise to revolutionize several industries including people and goods transportation. However, the development of L4+ SDVs has proved to be a significant challenge. Today, the main bottleneck is the vehicle's ability to safely handle the 'long tail' of driving events. World-class SDVs can handle common situations, but can behave unsafely in the many, rarely-occurring scenarios that are encountered on the road.

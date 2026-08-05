@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1707.06170", "source": "ar5iv"} -->
+
 ## Introduction
 
 Model-based planning involves proposing sequences of actions, evaluating them under a model of the world, and refining these proposals to optimize expected rewards. Several key advantages of model-based planning over model-free methods are that models support generalization to states not previously experienced, help express the relationship between present actions and future rewards, and can resolve states which are aliased in value-based approximations. These advantages are especially pronounced in problems with complex and stochastic environmental dynamics, sparse rewards, and restricted trial-and-error experience. Yet even with an accurate model, planning is often very challenging because while a model can be used to evaluate a plan, it does not prescribe how to construct a plan.

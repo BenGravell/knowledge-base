@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2101.08829", "source": "ar5iv"} -->
+
 ## Introduction
 
 In the burgeoning field of autonomous robotics, aerial robots are quickly becoming a useful platform for firefighting, police, search-and-rescue, surveillance, and product delivery. In the deployment of large fleets of such robots, trajectory plans must satisfy the competing criteria of safety and performance. Specifically, the safety requirement of avoiding vehicle-to-vehicle collisions and the performance requirement of minimizing time-in-flight are considered. As the number of robots increases, so too does the complexity of satisfying these requirements, warranting the development of computationally tractable methods to this end.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2406.15349", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous vehicles (AVs) have gained immense research interest due to their potential to change transportation and improve traffic safety. This has created a large community working on the development of AV algorithms, which map high-dimensional sensor data to desired vehicle control outputs. Therefore, measuring and comparing the performance of AV algorithms is a crucial task.

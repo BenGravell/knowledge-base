@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2004.12919", "source": "arxiv-pdf"} -->
+
 ## First return, then explore
 
 Adrien Ecoffet ∗ 1, Joost Huizinga ∗ 1, Joel Lehman 1, Kenneth O. Stanley 1 &Jeff Clune 1, 2 1 Uber AI, San Francisco, CA, USA 2 OpenAI, San Francisco, CA, USA (work done at Uber AI) ∗ These authors contributed equally to this work Authors' note: This is the pre-print version of this work. You most likely want the updated, published version, which can be found as an unformatted PDF at or as a formatted web-only document.

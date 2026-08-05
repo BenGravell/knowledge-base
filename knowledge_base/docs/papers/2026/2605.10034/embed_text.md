@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.10034", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The ability to train policies at scale is unlocking new capabilities in Autonomous Driving (AD). Reinforcement Learning (RL), in particular, promises to discover policies that go beyond the limitations of both rule-based and imitation-learned planners by optimizing directly for driving objectives. However, it requires millions of environment interactions, far exceeding what current simulators can deliver within a reasonable amount of time. Existing simulation platforms each address a different aspect of AD research, yet none enable large-scale RL. nuPlan targets Imitation Learning (IL) and planner evaluation, CARLA provides photorealistic sensor rendering, and Waymax accelerates multi-agent simulation but still falls short of the throughput required to train policies at scale.

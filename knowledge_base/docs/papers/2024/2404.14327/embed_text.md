@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2404.14327", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Learning-based planning has emerged as a potentially scalable approach for autonomous driving, attracting significant research interest. Imitation-based planning, in particular, has demonstrated noteworthy success in simulations and real-world applications. Yet, the efficacy of learning-based planning remains unsatisfactory. As indicated , conventional rule-based planning outperforms all learning-based alternatives, winning the 2023 nuPlan planning challenge. This paper delineates the principal challenges inherent in learning-based planning and presents our novel solutions, aimed at pushing the boundaries of what is achievable with learning-based planning.

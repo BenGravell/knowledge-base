@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2304.00290", "source": "ar5iv"} -->
+
 ## Introduction
 
 Convex quadratic programs are fundamental in many areas of applied mathematics and engineering. They are utilized in various applications, including portfolio optimization, optimal control, state estimation, and geometry processing. Furthermore, QPs are a crucial building block of powerful optimization techniques, such as sequential quadratic programming for nonlinear programming and branch-and-bound methods for mixed integer quadratic programming. Due to their widespread use, the demand for efficient QP solvers that are both fast and reliable has increased, driven by emerging applications in areas such as optimal control, embedded systems, and signal processing.

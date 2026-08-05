@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2507.22538", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Markov Decision Processes (MDPs) offer a powerful and general mathematical framework for modeling sequential decision-making problems across a wide range of fields, including epidemiology, finance, robotics and agriculture. Dynamic programming, introduced by Bellman in the 1950s, remains a foundational method for solving MDPs. However, practical applications of dynamic programming algorithms face significant challenges, as they typically suffer from slow convergence in high discount factor regimes or limited scalability in large-scale settings. Both aspects are essential for the exact solution of MDPs derived from real-world applications, which are often modeled with very high discount factors and involve extremely large state and action spaces, a challenge commonly referred to as curse of dimensionality. To have any realistic chance of solving such problems exactly, it is crucial to address both of these dimensions.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2011.01522", "source": "ar5iv"} -->
+
 ## INTRODUCTION
 
 From critical infrastructures and industrial process control to autonomous driving and various biomedical applications, dynamical control systems are increasingly able to be instrumented with new sensing and actuation capabilities. These cyber-physical systems (CPS) comprise growing webs of interconnected feedback loops and must operate efficiently and resiliently in dynamic and uncertain environments. As these systems become large, devising both model-based and data-driven methods for detecting anomalies (such as component failures or malicious attacks) are critical for their robust and efficient operation. Such critically important cyber-physical networks have become an attractive target to attackers. These systems are large and complex and are often not monitored well enough, enabling attackers to manipulate the system without being detected and cause damage.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.19968", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Reinforcement learning (RL) models have exhibited remarkable success on a wide range of applied problems. However, in many cases, how they achieve this high performance remains unknown. Attempts to quantitatively interpret the behaviors learned by RL models can require expert knowledge, limiting the ability to achieve safety assurance and to identify novel capabilities that are discovered by RL models during training. Even in simple environments, understanding how the behavior of RL models changes with learning is non-trivial, with typical approaches using heuristics to identify changes in the distribution of visited states.

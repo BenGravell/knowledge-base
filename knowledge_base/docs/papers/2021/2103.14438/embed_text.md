@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2103.14438", "source": "ar5iv"} -->
+
 ## Introduction
 
 We are surrounded by the time series data such as physiological data in healthcare, financial records or various signals captured the sensors. Unlike univariate time series, multivariate time series has much richer information correlated in different channels at each time step. The classification task on univariate time series has been studied comprehensively by the community whereas multivariate time series classification has shown great potential in the real world applications. Learning representations and classifying multivariate time series are still attracting more and more attention.

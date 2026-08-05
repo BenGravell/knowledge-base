@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1612.05628", "source": "ar5iv"} -->
+
 ## Introduction
 
 There is a fundamental tension in decision making between choosing the action that has highest expected utility and avoiding "starving" the other actions. The issue arises in the context of the exploration--exploitation dilemma, non-stationary decision problems, and when interpreting observed decisions.

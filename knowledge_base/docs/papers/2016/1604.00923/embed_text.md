@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1604.00923", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 The ability to predict the performance of a policy without actually having to use it is crucial to the responsible use of reinforcement learning algorithms. Consider the setting where the user of a reinforcement learning algorithm has already deployed some policy, e.g., for determining which advertisement to show a user visiting a website, for determining which medical treatment to suggest for a patient, or for suggesting a personalized curriculum for a student. In these examples, using a bad policy can be costly or dangerous, so it is important that the user of a reinforcement learning algorithm be able to accurately predict how well a new policy will perform without having to deploy it.

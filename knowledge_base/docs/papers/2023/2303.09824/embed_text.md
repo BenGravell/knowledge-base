@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.09824", "source": "ar5iv"} -->
+
 ## Introduction
 
 Intelligent vehicles (IVs) have attracted significant interest from governments, industries, academia, and the public, owing to their potential to transform transportation through advances in artificial intelligence and computer hardware. The deployment of IVs holds great promise for reducing road accidents and alleviating traffic congestion, thereby improving mobility in densely populated urban areas. Despite remarkable contributions by leading experts in the field, IVs remain primarily confined to limited trial programs due to concerns about their reliability and safety. To enhance situational awareness and improve safety, efficiency, and overall capabilities, IVs are equipped with a variety of sensors. However, even with an array of sensors, an IV stills face challenges in adequately detecting and responding to complex scenarios. Consequently, ensuring the safety, robustness, and adaptability of planning methods becomes crucial for the successful implementation of autonomous driving.

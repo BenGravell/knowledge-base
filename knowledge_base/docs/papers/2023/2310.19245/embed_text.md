@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2310.19245", "source": "ar5iv"} -->
+
 ## Introduction
 
 We consider classic least-squares regression, with $p$ features, judged by an out-of-sample $R^{2}$ metric. A natural question is how much each of the $p$ features contributes to our $R^{2}$ metric; roughly speaking, how valuable is each feature to our least-squares predictor? Except for a special case described below in §2.4, this question seems difficult to answer, since the value of a feature depends on the other features.

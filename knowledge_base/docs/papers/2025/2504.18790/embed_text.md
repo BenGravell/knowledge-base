@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.18790", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Mathematical derivatives are fundamental to much of science. At a high level, derivatives offer a local characterization of a function's steepest ascent or descent directions. In practice, this property is frequently employed in numerical optimization, where derivatives guide the iterative process of navigating downhill through the landscape of a function. For example, derivative-based optimization is widely used in robotics for tasks such as inverse kinematics, trajectory optimization, physics simulation, control, learning, and constrained planning.

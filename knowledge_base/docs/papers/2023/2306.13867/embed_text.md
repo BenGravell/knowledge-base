@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2306.13867", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Modern engineering systems generate large amounts of data either via sensors in the physical world or via simulation of virtual environments. The increased storage and computational power of the underlying hardware and communication infrastructure paved the way for the use of data-driven algorithms. Machine learning (ML) methods leverage a large amount of data to achieve remarkable success, especially in areas such as games, speech recognition, or image processing. These recorded successes especially occur in the areas where there is an abundance of data and where the underlying processes have hard-to-discover governing laws and are driven by non-obvious fundamental principles. In such cases, ML shows strong capabilities in learning non-obvious relations that allow to achieve the desired tasks if a sufficient amount of representative data is available.

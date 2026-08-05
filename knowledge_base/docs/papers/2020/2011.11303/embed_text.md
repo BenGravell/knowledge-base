@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2011.11303", "source": "ar5iv"} -->
+
 ## Introduction
 
 Safety is the number one requirement for any system that operates under physical constraints. For decades, this has been a major concern when control systems incorporate forms of adaptation or learning. A considerable body of literature exists establishing stability and performance guarantees in scenarios of parametric plant-model mismatch (see Lorenzen et al.; Tanaskovic et al.; Bujarbaruah and Vallon for some recent works in this direction). Depending on the final application however, assuming that the exact model structure is available might be unrealistic due to the complex physics behind the system at hand, or to the time-monetary costs associated with the modeling process.

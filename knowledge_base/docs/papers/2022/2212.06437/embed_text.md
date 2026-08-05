@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2212.06437", "source": "ar5iv"} -->
+
 ## Introduction
 
 Intelligent robotic systems, such as autonomous vehicles (AVs), are typically architected in a modular fashion and comprised of modules performing detection, tracking, prediction, planning, and control, among others. Modular architectures are generally desirable because of their verifiability, interpretability and generalization performance; however, they also suffer from compounding errors, information bottlenecks, and integration challenges.

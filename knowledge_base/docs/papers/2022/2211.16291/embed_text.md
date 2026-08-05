@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2211.16291", "source": "ar5iv"} -->
+
 ## Introduction
 
 In many control applications, low-order controllers are often preferred over high-order controllers, because they are simpler to maintain, more interpretable, and computationally less demanding. Thus, given a high-order controller, one often would like to approximate it using a lower-order controller that still stabilizes the plant whilst performing similarly on relevant closed-loop performance metrics, such as the Linear Quadratic Gaussian (LQG) cost. This problem is known as *controller reduction*. Traditional approaches to controller reduction in LQG control have typically centered on reducing the order of observer-based controllers and providing error bounds between the performance of the truncated controller and that of the original controller.

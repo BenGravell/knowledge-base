@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2402.13817", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In order to operate safely and effectively in human-populated environments, a robot needs to have a sufficient understanding of the world around it. Such shared spaces are often highly dynamic, with people, robots, and other entities constantly moving, interacting, and modifying the scene. For a robot to operate in such circumstances, it is not sufficient to build a world model just for a single snapshot in time. Instead, the robot should be also able to reason over the state of the scene at past times, inferring how the scene might have changed across multiple observations. Such capabilities are essential for a variety of applications that require reasoning over longer time spans, ranging from household and service robotics, to industrial construction or work-site monitoring, where robots are not only required to operate in highly dynamic environments,but also to keep track of --- or reason about --- the evolution of the environment from the past to more intelligently carry-out tasks efficiently.

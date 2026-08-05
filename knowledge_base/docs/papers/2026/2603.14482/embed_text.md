@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.14482", "source": "arxiv-html"} -->
+
 ## Introduction
 
 World models hold the promise of enabling agents to perceive, predict, and plan effectively in the physical world. At the core of these models lies the state-estimation problem: learning representations that reliably summarize the current world state from low-level, noisy perceptual inputs. Self-Supervised Learning (SSL) from video has recently emerged as a powerful route to this goal, because it can exploit large-scale, label-free data to learn representations that capture scene geometry, dynamics, and intrinsic physical properties.

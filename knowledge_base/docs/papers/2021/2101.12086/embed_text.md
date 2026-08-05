@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2101.12086", "source": "ar5iv"} -->
+
 ## Introduction
 
 Control-theoretic formal verification methods for dynamical systems typically fall in the robust domain or in the stochastic domain. Robust methods for formal verification assume that uncertain disturbances lack probabilistic descriptions, live in bounded sets, and exhibit adversarial behavior. These assumptions are appropriate if probabilistic information about disturbances is not available, and if the conservative policy or safety specification that results from a pessimistic world view is useful in practice. However, when one considers formal verification as a design tool for safety-critical systems in the digital world today, it is reasonable to assume that simulation tools or sensor data are available to estimate probabilistic descriptions for disturbances. Moreover, it is reasonable to consider the following world view: disturbances need not be adversarial, but rare harmful outcomes are still possible.

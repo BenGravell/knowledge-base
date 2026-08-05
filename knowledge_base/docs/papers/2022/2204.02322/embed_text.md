@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2204.02322", "source": "arxiv-html"} -->
+
 ### Introduction
 
 We consider nonlinear control problems in discrete time of the form where at the time index $t$, $x_{t}$ is the state of the system, $u_{t}$ is the control applied to the system, $f_{t}$ is the discretized nonlinear dynamic, $h_{t}$ is the cost applied to the system state and the control variable, and ${\overline{x}}_{0}$ is a given fixed initial state.

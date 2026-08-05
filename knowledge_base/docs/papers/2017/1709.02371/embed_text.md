@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1709.02371", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Optical flow estimation is a core computer vision problem and has many applications, e.g., action recognition, autonomous driving, and video editing. Decades of research efforts have led to impressive performances on challenging benchmarks. Most top-performing methods adopt the energy minimization approach introduced by Horn and Schunck. However, optimizing a complex energy function is usually computationally expensive for real-time applications.

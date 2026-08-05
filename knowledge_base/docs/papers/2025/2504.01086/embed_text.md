@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.01086", "source": "arxiv-html"} -->
+
 ## Introduction
 
 RL and \\acMPC have emerged as two successful frameworks for solving optimal control problems. Each community has developed a mature theory and set of computational tools for dealing with the well-known intractability of dynamic programming. Given their individual success and roots in dynamic programming, there is growing interest in developing complementary frameworks that can synergize the safe decision-making of \\acMPC with the flexible learning of \\acRL.

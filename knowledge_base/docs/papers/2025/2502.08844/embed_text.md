@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2502.08844", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Reinforcement learning (RL) with subsequent transfer to hardware (sim-to-real), is emerging as a leading paradigm in modern robotics. The benefits of simulation are obvious -- safety and cheap data. The recipe involves four steps: Create a simulated environment that matches the real world.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1802.03653", "source": "ar5iv"} -->
+
 ## Introduction
 
 Optimization theory has played an increasingly central role in the development of machine learning in recent years. This has happened not only because optimization theory supplies algorithms and convergence rates for learning algorithms, but also because it supplies lower bounds, and hence fundamental understanding. A milestone in this regard was the discovery by Nemirovskii & Yudin of oracle lower bounds for gradient-based optimization, and the ensuing derivation by Nesterov of an "accelerated gradient descent" (AGD) algorithm whose rate is provably better than that of gradient descent, and which matches the oracle lower bound.

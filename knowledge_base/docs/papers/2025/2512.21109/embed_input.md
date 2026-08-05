@@ -282,7 +282,7 @@ We evaluate performance using three primary metrics: where a speedup greater tha
 
 <!-- chunk {"id": "body-0071", "role": "body", "section": "V-B3 Comparisons", "weight": 1.0} -->
 
-We compare two planners in Experiment 1: iLQG using an FD backend; and iLQG using a WASP backend. In preliminary experiments, we found that iLQG outperformed gradient descent on all of our tasks, so we only present these results here for simplicity. For full tables including gradient descent, please see our paper website \[link removed for blind review\].
+We compare two planners in Experiment 1: iLQG using an FD backend; and iLQG using a WASP backend. In preliminary experiments, we found that iLQG outperformed gradient descent on all of our tasks, so we only present these results here for simplicity.
 
 <!-- chunk {"id": "body-0072", "role": "body", "section": "V-B4 Results", "weight": 1.0} -->
 

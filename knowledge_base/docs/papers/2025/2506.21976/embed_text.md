@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2506.21976", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Imagine an ideal traffic simulation at the city-scale: Starting from a logged or synthetic scene, we initiate the simulation. The virtual world comes alive with agents behaving realistically: cars navigate roads, pedestrians cross streets, and interactions unfold naturally. A pedestrian emerges from behind a bus, prompting a reaction from the ego agent. Vehicles disappear and reappear as they become occluded and disoccluded. Turning onto a new road reveals a fresh stream of traffic. The ego vehicle responds to traffic signals, stopping at red lights and proceeding when they turn green. This simulation persists for a long duration, allowing trip-level evaluations of driving by generating a dynamically populated virtual city with continuous agent interactions.

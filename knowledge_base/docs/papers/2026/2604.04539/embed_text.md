@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.04539", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The long-standing goal of robot learning is to develop agents that generalize across a wide range of tasks in the real world. While large-scale imitation learning from real-world data has recently yielded impressive results in robotic control, reinforcement learning (RL) from simulation remains a core paradigm when expert demonstrations are unavailable, incomplete, or insufficient.

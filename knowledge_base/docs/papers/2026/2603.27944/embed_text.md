@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.27944", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Wheeled and legged robots have recently demonstrated remarkable dynamic capabilities, driven in large part by advances in Reinforcement Learning (RL) and motion imitation. By tracking demonstrations from motion capture, animal locomotion, or model-based controllers, robots can learn parkour and agile behaviors. However, if the original motion references are dynamically or kinematically infeasible, the imitation policy may fail to train or lead to unsafe behaviors not suitable for real-world deployment. Blindly tracking these infeasible references may exceed the robot's torque or joint limits or cause self-collisions.

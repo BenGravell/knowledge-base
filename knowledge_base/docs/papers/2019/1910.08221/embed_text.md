@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1910.08221", "source": "ar5iv"} -->
+
 ## Introduction
 
 We present a convergence analysis of the classical iterative linear quadratic exponential Gaussian controller (ILEQG) for finite-horizon risk-sensitive or safe nonlinear control. The ILEQG algorithm is particularly popular in robotics applications and can be seen as a risk-sensitive counterpart of the iterative linear quadratic Gaussian (ILQG) algorithm. We adopt here the viewpoint of the modern complexity analysis of first-order optimization algorithms as done by Roulet et al. for ILQG.

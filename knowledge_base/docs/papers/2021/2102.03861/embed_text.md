@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2102.03861", "source": "ar5iv"} -->
+
 ## Introduction
 
 *How biological systems, like humans and animals, execute complex movements in a versatile and creative manner?* In the past decades, researchers of neurobiology and motor control have made a significant effort trying in to answer this research question and their experimental findings lead to the formulation of the motor or motion primitives theory. The motion primitives theory explains the execution of complex motion with the ability of biological systems of sequencing and adapting units of actions, the so-called motion primitives.

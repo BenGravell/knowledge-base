@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2205.02160", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Stochastic convex optimization (SCO) is a cornerstone of both the theory and practice of machine learning. Consequently, there is intense interest in developing SCO algorithms that require little to no prior knowledge of the problem parameters, and hence little to no tuning. In this work we consider the fundamental problem of non-smooth SCO (in a potentially unbounded domain) and seek methods that are adaptive to a key problem parameter: the initial distance to optimality.

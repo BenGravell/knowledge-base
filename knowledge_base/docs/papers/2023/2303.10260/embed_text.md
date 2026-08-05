@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.10260", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Linear quadratic tracking (LQT) is the natural generalization of the optimal linear quadratic regulator (LQR) for the setting where the goal is not to drive the state to the origin but to a certain reference. The reference trajectory need not be necessarily time-invariant and in the classic formulation of the problem is known in advance. This is a reasonable assumption in many practical applications, such as aircraft tracking of a predetermined trajectory or precision control in industrial process engineering. However, in other scenarios, for example, in tracking the output of a secondary agent whose dynamics are unknown and/or the measurements are imperfect, the prediction of the next reference point is non-trivial. In these cases the reference trajectory is only revealed sequentially, after the action has been taken, suggesting the need for an online or adaptive algorithm that will learn or adapt to the dynamics of the reference-generating agent.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1711.00501", "source": "ar5iv"} -->
+
 ## Introduction
 
 Scalable optimization has been playing crucial roles in the success of deep learning, which has immense applications in artificial intelligence. Remarkably, optimization issues are often addressed through designing new models that make the resulting training objective functions easier to be optimized. For example, over-parameterization, batch-normalization, and residual networks \[, \] are often considered as ways to improve the optimization landscape of the resulting objective functions.

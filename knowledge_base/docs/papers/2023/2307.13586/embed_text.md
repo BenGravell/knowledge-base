@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2307.13586", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In reinforcement learning (RL), an agent is often asked to learn optimal decisions (i.e., the ones that maximize cumulative reward) through real-time "trial-and-error" interactions with an unknown environment. This task is commonly dubbed as online RL, underscoring the critical role of adaptive online data collection and differentiating it from other RL settings that rely upon pre-collected data. A central challenge in achieving sample-efficient online RL boils down to how to optimally balance exploration and exploitation during data collection, namely, how to trade off the potential revenue of exploring unknown terrain/dynamics against the benefit of exploiting past experience. While decades-long effort has been invested towards unlocking the capability of online RL, how to fully characterize --- and more importantly, attain --- its fundamental performance limit remains largely unsettled.

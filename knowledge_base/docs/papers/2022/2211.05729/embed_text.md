@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2211.05729", "source": "ar5iv"} -->
+
 ## Introduction
 
 Modern deep nets are often overparametrized and have the capacity to fit even randomly labeled data. Thus, a small training loss does not necessarily imply good generalization. Yet, standard gradient-based training algorithms such as SGD are able to find generalizable models. Recent empirical and theoretical studies suggest that generalization is well-correlated with the sharpness of the loss landscape at the learned parameter. Partly motivated by these studies, Foret et al.; Wu et al.; Zheng et al.; Norton & Royset propose to penalize the sharpness of the landscape to improve the generalization. We refer this method to *Sharpness-Aware Minimization* (SAM) and focus on the version of Foret et al. in this paper.

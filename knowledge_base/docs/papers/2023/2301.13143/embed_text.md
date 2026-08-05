@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2301.13143", "source": "ar5iv"} -->
+
 ## Introduction
 
 Motion planning problems have been widely discussed in recent years in the field of robotics, such as self-driving car navigation, automatic drone, and bipedal robots. The main goal of motion planning problems is to find a path for the agents to move from an initial position to a target position in fully-known environments while preventing collisions. However, it still remains challenging to solve the optimal motion planning problems efficiently in dynamic environments and implement the algorithms on the robotic systems in real-time.

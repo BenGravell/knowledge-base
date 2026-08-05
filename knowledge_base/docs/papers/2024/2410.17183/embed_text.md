@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2410.17183", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Expert racing drivers are able to pilot a vehicle at its performance limits by using all the available friction potential between the tires and the road. They are able to do this reliably lap after lap despite changes in the vehicle's performance and behavior due to tire temperature, tire wear, and especially, weather conditions. However, current approaches to autonomous vehicle control struggle in such settings because they are sensitive to discrepancies between the model used for control and the true system. This sensitivity motivates the design of new algorithms that can robustly leverage the full vehicle capabilities. Designing reliable control algorithms for racing may inform the future design of expert driver assistance systems by unlocking reliable responses for avoiding sudden obstacles, driving in adverse weather, and reacting quickly to challenges on the road.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2409.13088", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Estimating system dynamics from data is a fundamental problem in control theory and systems engineering \[ljung1998system, tangirala2018principles, keesman2011system, kostelich1992problems, vandenberghe2012convex\]. Rapidly learning from limited measurements in high-dimensional systems can significantly reduce the cost associated with expensive real-world data collection while yielding more accurate models. Optimizing the actuation input sequence to gather informative measurements while respecting constraints on the state and control inputs remains an open challenge \[kaiser2018sparse\]. From the perspective of experimental design, designing future input signals to aid in the identification of the dynamical system can be framed as an information maximization problem \[uy2009optimization, wahlberg2010optimal\]. This involves perturbing the system in directions that provide high-value information, thereby enhancing the efficiency of the learning process.

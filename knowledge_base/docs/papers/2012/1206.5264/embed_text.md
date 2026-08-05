@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1206.5264", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 The aim of apprenticeship learning is to estimate a policy of an expert based on samples of the expert's behavior. This problem has been studied in the field of robotics for a long time and due to the lack of space we cannot give an overview of the literature. The interested reader might find a short overview in the paper by Abbeel and Ng.

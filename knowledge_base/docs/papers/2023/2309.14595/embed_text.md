@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.14595", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Path planning is the task of finding a path for a robot to traverse from a start to a goal safely and efficiently. An effective path planning algorithm should be complete and optimal: a solution is guaranteed to be found if one exists, and the optimal solution is guaranteed to be achieved with sufficient run time; efficient in optimal convergence: the solution should be quickly improved towards near optimal; and versatile and scalable: the implementation should be modified with minimal effort to generalize across different problems, environments, and robots.

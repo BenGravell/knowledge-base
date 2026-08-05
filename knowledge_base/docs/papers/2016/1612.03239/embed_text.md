@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1612.03239", "source": "ar5iv"} -->
+
 ## Introduction
 
 We consider the control and stabilization of a system observed over a multiplicative noise channel. Specifically, we analyze the following system, $\mathcal{S}_{a}$, with initial state $X_{0} \sim {\mathcal{N}{}}$: In the preceding formulation, the system state is represented by $X_{n}$ at time $n$, and the control $U_{n}$ can be any function of the current and previous observations $Y_{0}$ to $Y_{n}$. The $Z_{n}$'s are i.i.d. random variables with a known continuous distribution. The realization of the noise $Z_{n}$ is unknown to the controller, much like the fading coefficient (gain) of a channel might be unknown to the transmitter or receiver in non-coherent communication. The constant $a$ captures the growth of the system. The controller's objective is to stabilize the system in the second-moment sense, i.e. to ensure that ${\sup_{n}{{\mathbb{E}}{\lbrack{|X_{n}|}^{2}\rbrack}}} < \infty$. Our objective is to understand the largest growth factor $a$ that can be tolerated for a given distribution on $Z_{n}$. Fig. [1 represents a block diagram for this system.

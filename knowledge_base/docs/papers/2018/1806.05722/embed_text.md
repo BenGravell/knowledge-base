@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1806.05722", "source": "ar5iv"} -->
+
 ## Introduction
 
 Many modern control design techniques rely on the existence of a fairly accurate state-space model of the plant to be controlled. Although in some cases a model can be obtained from first principles, there are many situations in which a model should be learned from input/output data. Classical results in system identification provide asymptotic convergence guarantees for learning models from data. However, finite sample complexity properties have been rarely discussed in system identification literature; and earlier results are conservative.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.12032", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Simulation environments allow cheap and fast evaluation of autonomous driving behavior systems, while also reducing the need to deploy potentially risky software releases to physical systems. While generation of synthetic sensor data was an early goal Pomerleau; Dosovitskiy et al. of simulation, use cases have evolved as perception systems have matured. Today, one of the most promising use cases for simulation is system safety validation via statistical model checking Corso et al.; Agha and Palmskog with Monte Carlo trials involving realistically modeled traffic participants, i.e., *simulation agents*.

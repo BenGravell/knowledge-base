@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2505.08510", "source": "arxiv-html"} -->
+
 ## INTRODUCTION
 
 Trajectory planning is integral to autonomous mobile robotics to ensure guided and safe operation. However, in order to make an informed decision, these planning algorithms heavily depend on the underlying environment representations. Popular representations include occupancy grids, signed distance fields, 3D Meshes, and point clouds.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2303.09196", "source": "arxiv-latex"} -->
+
 ## Introduction
 
 The problem of expected risk minimization is ubiquitous in machine learning and statistics [Shalev-Shwartz2013,Vapnik1998]. It is based on the idea that the quality of a model can be assessed by measuring its expected error, quantified by some loss function. The expectation should be evaluated with respect to the data-generating distribution. However, in practice, only samples are available. So the expectation needs to be replaced with a data-driven proxy, which aggregates the data. The common solution is empirical risk minimization or the sample average approach (SAA), where one takes an average over the losses at the sampled data points.

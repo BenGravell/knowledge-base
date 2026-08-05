@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1901.00997", "source": "ar5iv"} -->
+
 ## Introduction
 
 In applications such as portfolio optimization in finance, the quality of a portfolio is not satisfactorily captured by the expected value of return. Indeed, in such applications, a more risk-sensitive metric is desirable, so as to capture typical losses in the case of adverse events. Value-at-Risk (VaR) and Conditional-Value-at-Risk (CVaR) are two risk-aware metrics, which are widely used in applications such as portfolio optimization and insurance. VaR at level $\alpha \in $ conveys the maximum loss incurred by the portfolio with a confidence of $\alpha.$ In other words, the portfolio incurs a loss greater than VaR at level $\alpha$ with probability ${1 - \alpha}.$ In turn, CVaR at level $\alpha \in $ captures the expected loss incurred by the portfolio, *given* that the losses exceed VaR at level $\alpha.$ CVaR has an advantage over VaR, in that the former is a *coherent^11^1A risk measure is said to be coherent, if it is monotonic, translation invariant, sub-additive, and positive homogeneous.* risk measure.

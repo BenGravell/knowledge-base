@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.17080", "source": "ar5iv"} -->
+
 ## Introduction
 
 Figure 1: GAIA-1 multimodal video generation. GAIA-1 can generate videos by performing future rollouts starting from a video prompt. These future rollouts can be further conditioned on actions to influence particular behaviors of the ego-vehicle (e.g. steer left), or on text to drive a change in some aspects of the scene (change the color of the traffic light). For speed and curvature we condition the model by passing the sequence of future speed and / or curvature values. Our model can also generate realistic videos from text prompts, or by simply drawing samples from its prior distribution (fully unconditional generation).

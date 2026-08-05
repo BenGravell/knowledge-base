@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2606.12327", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The Kalman-Bucy filter was originally formulated \[kalman1960new, kalman1961new\] as a stochastic state estimation problem in the presence of uncertainty in the dynamics, measurements and initial states, all of which are characterized probabilistically using their second order statistics. On the other hand, it has long been known that minimum-variance type estimation problems also have equivalent deterministic least-squares versions. Which version (deterministic versus stochastic) of these problems one prefers is often a matter of taste rather than logical necessity. Indeed, as Willems \[willems2002deterministic\] argues "This has been a matter of debate at least since Gauss justified Legendre's least squares as a method of computing the most probable, maximum likelihood, outcome".

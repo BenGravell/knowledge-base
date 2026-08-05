@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2211.07411", "source": "ar5iv"} -->
+
 ## Introduction
 
 A number of real-world problems can be cast into the framework of agents making optimal decisions under uncertainty and/or adversarial disturbances. In this setting, the agent has an associated dynamical system and at each timestep suffers an *a priori* unknown cost that depends on its state and input. In the case of perfect knowledge of the dynamics and the future costs, this can be turned into an optimal control problem and solved with one of the plethora of available methods. As is often the case, however, the dynamics, disturbances, and/or future costs are either entirely unknown or only partially known. This is the setting, for example, in reinforcement learning and approximate dynamic programming.

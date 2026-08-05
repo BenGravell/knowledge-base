@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1910.12342", "source": "ar5iv"} -->
+
 ## Introduction
 
 Suppose $f:{\text{R}^{n}\rightarrow\text{R}}$ is a convex function, and $\alpha \in \text{R}$. We refer to the function $\min{\{{f{(x)}},\alpha\}}$ as a *clipped convex function*. In this paper we consider the problem of minimizing a sum of clipped convex functions, with variable $x \in \text{R}^{n}$, where $f_{0}:{\text{R}^{n}\rightarrow{\text{R} \cup {\{{+ \infty}\}}}}$ and $f_{i}:{\text{R}^{n}\rightarrow\text{R}}$ for $i = {1,\ldots,m}$ are closed proper convex functions, and $\alpha_{i} \in \text{R}$ for $i = {1,\ldots,m}$. We use infinite values of $f_{0}$ to encode constraints on $x$, i.e., to constrain $x \in \mathcal{X}$ for a closed convex set $\mathcal{X}$ we let ${f_{0}{(x)}} = {+ \infty}$ for all $x \notin \mathcal{X}$. When ${f_{i}{(x)}} > \alpha_{i}$, the value of the $i$th term in the sum is *clipped* to $\alpha_{i}$, which limits how large each term in the objective can be. Many practical problems can be formulated as instances of; we describe a few in §2.

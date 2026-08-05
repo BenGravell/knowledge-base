@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2205.04437", "source": "ar5iv"} -->
+
 ## Introduction
 
 Single image super-resolution (SR) is a classic problem in computer vision and image processing. It aims to reconstruct a high-resolution image from a given low-resolution input. Since deep learning has been successfully applied to the SR task, numerous methods based on the convolutional neural network (CNN) have been proposed and almost dominate this field in the past few years. Recently, due to the success in natural language processing, Transformer has attracted the attention of the computer vision community. After making rapid progress on high-level vision tasks, Transformer-based methods are also developed for low-level vision tasks, as well as for SR. Especially, a newly designed network, SwinIR, obtains a breakthrough improvement in this task.

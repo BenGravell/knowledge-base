@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1903.08542", "source": "ar5iv"} -->
+
 ## Introduction
 
 Deep reinforcement learning (RL) can be used to train policies that achieve superhuman performance on Atari games and Go, learn locomotion tasks, and perform complex robotic manipulation skills. However, deploying deep RL on real-world robots often leads to a considerable amount of wear and tear over time, on both the robot itself and the environment, because existing approaches require many trials to learn and often rely on simple stochastic exploration. If robots were able to explore and learn safely, minimizing excessive forces and impacts, they would last longer before needing repairs, and the objects they interact with would not need to be replaced as often.

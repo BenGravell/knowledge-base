@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2309.07879", "source": "ar5iv"} -->
+
 ## Introduction
 
 Gradient descent (GD) is a simple iterative algorithm to minimize an objective function $f$ by producing better and better estimates via the update GD dates back nearly two hundred years to the work of Cauchy, yet it (and its variants) remain a primary workhorse in modern optimization, engineering, and machine learning due to the practical efficacy, simplicity, and scalability. It is of both theoretical and practical importance to analyze the convergence of GD and moreover to optimize parameters so that this convergence is as fast as possible.

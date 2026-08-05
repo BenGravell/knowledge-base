@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1802.06640", "source": "ar5iv"} -->
+
 ## Introduction and Background
 
 As machine learning-based models become more widespread and grow in both scale and complexity, methods of interpreting their predictions are increasingly attracting attention from the machine learning community. Some of the applications and benefits of employing these methods outlined in previous work include "debugging" the model to expose ways of model failures not discoverable via conventional test set performance measuring (e.g., data or target leakages); boosting developer's trust in the model's performance in scenarios when on-line evaluation is not available before deployment; and increasing user satisfaction and/or confidence in provided predictions, etc. Various problem setups and interpretation methods, both model-agnostic and model-specific, have recently been proposed in the literature.

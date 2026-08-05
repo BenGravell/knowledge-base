@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2407.12509", "source": "arxiv-html"} -->
+
 ## Introduction
 
 *Background*: In the context of system identification, *experiment design* is concerned with the selection of inputs of a dynamical system in such a way that the resulting input-output data contain sufficient information about the system dynamics. Experiment design is a classical topic that has been investigated from different angles throughout the years.

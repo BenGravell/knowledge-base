@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2401.12168", "source": "ar5iv"} -->
+
 ## Introduction
 
 Vision language models (VLMs) have made significant progress in recent years across a variety of tasks including image captioning, visual question answering (VQA), embodied planning, action recognition, and more. While VLMs are powerful general-purpose models for a wide range of tasks, most state-of-the-art VLMs still struggle with *spatial* reasoning, i.e. tasks that require understanding the position of objects in 3D space, or spatial relationships between them. Spatial reasoning capabilities are useful in their own right, but also for downstream applications such as in robotics or AR. For example, a spatial reasoning-imbued VLM can be used as a better general-purpose reward annotator and success detector.

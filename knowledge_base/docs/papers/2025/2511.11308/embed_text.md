@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2511.11308", "source": "ar5iv"} -->
+
 ## Introduction
 
 Policy optimization is the problem of designing a control policy that minimizes a prescribed performance objective. In reinforcement learning (RL), the problem is typically formulated as a search over a parameterized policy class \[sutton2002reinforcement\]. *Model-based* RL methods use a model of the dynamics to guide policy updates, improving sample efficiency \[atkeson1997comparison\].

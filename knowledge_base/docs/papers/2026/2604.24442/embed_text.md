@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2604.24442", "source": "arxiv-pdf"} -->
+
 ## INTRODUCTION
 
 The problem of learning to control partially observed systems remains poorly understood, even for the simple case of linear systems with quadratic costs and Gaussian noise (LQG). Although the robust control community has long recognized that partial observations introduce substantial additional subtleties, this insight is largely absent from the recent literature on learning-based control and reinforcement learning. In this paper, we fill this gap by examining the fundamental limits and inherent fragility of learning the optimal LQG controller. We characterize the complexity of this problem through its data requirements, that is, its statistical complexity.

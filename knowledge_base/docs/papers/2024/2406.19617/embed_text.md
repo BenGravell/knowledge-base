@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2406.19617", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Stochastic optimization of an unknown function with access to only noisy function evaluations is a fundamental problem in operations research, optimization, simulation and bandit optimization research, commonly known as *zeroth-order optimization*, *derivative-free optimization* or *bandit optimization*. In this problem, an optimization algorithm interacts sequentially with an oracle and obtains noisy function evaluations at queried points every time. The algorithm produces an approximately optimal solution after $T$ such evaluations, with its performance evaluated by the expected difference between the function values at the approximate optimal solution produced and the optimal solution. A more rigorous formulation of the problem is given in Sec. 2 below.

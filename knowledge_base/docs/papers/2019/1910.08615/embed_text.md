@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1910.08615", "source": "ar5iv"} -->
+
 ## Introduction
 
 Kalman smoothers are widely used to estimate the state of a linear dynamical system from noisy measurements. In the traditional formulation, the dynamics and output matrices are considered fixed attributes of the system; the covariance matrices of the process and sensor noise are tuned by the designer, within some limits, to obtain good performance in simulation or on the actual system. For example, it is common to use noise levels in the Kalman smoother well in excess of the actual noise, to obtain practical robustness \[3, §8\].

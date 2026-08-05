@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.03290", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Domain Randomization (DR) has become a standard and powerful tool in reinforcement learning (RL) for robotics, particularly in contact-rich settings where accurate modeling of friction, inertial parameters, and compliance remains difficult. In contrast, the use of DR in trajectory optimization and model predictive control (MPC) is far less explored, especially for contact-rich problems. This gap is notable because the same modeling challenges that motivate DR in RL also arise in contact-rich trajectory optimization and MPC, where performance can be highly sensitive to physical parameters and contact outcomes.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1909.09688", "source": "ar5iv"} -->
+
 ## Introduction
 
 For many robot motion-planning applications, feasibility is not enough---we further desire path plans that are of high quality, reflecting a need for robots that can achieve their goals with efficiency, alacrity, and economy of motion. To this end we seek planning algorithms that can be trusted, whatever obstacle environment a robot faces, to produce optimal or near-optimal plans with minimal scenario-specific tuning. The advent of the asymptotically-optimal rapidly-exploring random tree (RRT^∗^) algorithm has ushered in a decade of theoretical and practical successes in the development of optimal sampling-based motion-planning algorithms.

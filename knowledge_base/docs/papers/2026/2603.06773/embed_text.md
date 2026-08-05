@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.06773", "source": "arxiv-html"} -->
+
 ## Introduction
 
 ### I-A Motivation

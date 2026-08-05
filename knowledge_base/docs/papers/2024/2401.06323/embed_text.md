@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2401.06323", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Kimera is an open-source metric-semantic visual-inertial SLAM library, released under a permissive BSD license for use by the broader research community and industry. Since its initial release in 2019, Kimera has been used in several academic and industrial projects. End-users of visual-inertial (VI) SLAM pipelines may have diverse system requirements, but generally desire fast (online) performance, as well as accurate and robust state estimation and mapping. To meet these performance goals, several new features were implemented in Kimera to improve VIO tracking performance, robust pose graph optimization, and semantic-mapping. Additionally, Kimera-Multi and Hydra made improvements to Kimera-VIO's tracking to serve as a baseline VI-SLAM pipeline for multi-robot mapping and 3D Scene-Graph creation respectively.

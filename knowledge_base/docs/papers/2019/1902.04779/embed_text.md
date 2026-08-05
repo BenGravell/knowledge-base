@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1902.04779", "source": "ar5iv"} -->
+
 ## Introduction
 
 Markov decision problems (MDP) are known to suffer from the curse of dimensionality. A basic theoretical question is: Suppose that one can query sample transitions from any state of the system using any action, how many samples are needed for learning a good policy? In the tabular setting where the MDP has $S$ states and $A$ actions, the necessary and sufficient sample size for finding an approximate-optimal policy is $\overset{\sim}{\Theta}{(\frac{SA}{{({1 - \gamma})}^{3}})}$ ^11^1$\overset{\sim}{f{(\cdot)}}$ ignores ${{poly}{\log f}}{( \cdot )}$ factors. where $\gamma \in {}$ is a discount factor Azar et al.; Sidford et al.. However, this theoretical-sharp result does not generalize to practical problems where $S,A$ can be arbitrarily large or infinite.

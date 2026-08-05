@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2407.01812", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 The recently proposed Diffusion Policy formulates robotic manipulation action prediction as a diffusion model that denoises the action conditioned on the observation, thereby better capturing the multimodal action distribution of the demonstration data in Behavior Cloning (BC). Although Diffusion Policy often outperforms baselines on benchmarks, a key drawback is that the denoising function is more complex than a standard policy function. In particular, for a single state-action pair ( s, a ), the denoising process uses a mapping ( s, a + ε k, k ) ↦→ ε k for all possible k and ε k, where ε k is Gaussian noise conditioned on step k, which is harder to train compared with an explicit BC s ↦→ a.

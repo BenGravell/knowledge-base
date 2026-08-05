@@ -10,138 +10,158 @@ Topics include Robotics, Optimization.
 
 This is a documentation of a framework for robot motion optimization that aims to draw on classical constrained optimization methods. With one exception the underlying algorithms are classical ones: Gauss-Newton (with adaptive step size and damping), Augmented Lagrangian, log-barrier, etc. The exception is a novel any-time version of the Augmented Lagrangian. The contribution of this framework is to frame motion optimization problems in a way that makes the application of these methods efficient, especially by defining a very general class of robot motion problems while at the same time introducing abstractions that directly reflect the API of the source code.
 
-<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-Let $x_{t} \in {\mathbb{R}}^{n}$ be a joint configuration and $x_{0:T} = {(x_{0},\ldots,x_{T})}$ a trajectory of length $T$. Note that troughout this framework we *do not* represent trajectories in the phase space, where the state is $(x_{t},{\overset{˙}{x}}_{t})$---we represent trajectories directly in configuration space. We consider optimization problems of a general "$k$-order non-linear sum-of-squares constrained" form where $x_{{t - k}:t} = {(x_{t - k},..,x_{t - 1},x_{t})}$ are $k + 1$ tuples of consecutive states.
+#1%$\blacktriangleleft~~$
 
-<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The prefix defines the initial condition of the robot, which could for instance be resting at some given $x_{0}$. (A postfix to constrain the endcondition in configuration space is optional.)
+\newcommand{\mytitle}{\title\newcommand{\thetitle}}%\@title} \newcommand{\header}{\begin{document}\mytitle\cleardefs} \newcommand{\contents}{{\tableofcontents}\renewcommand{\contents}{}} \newcommand{\footer}{\small\bibliography{marc,bibs}\end{document}} \newcommand{\widepaper}{\usepackage{geometry}\geometry{a4paper,hdivide={25mm,*,25mm},vdivide={25mm,*,25mm}}} \newcommand{\moviex}{\movie[externalviewer]} %\pdflatex\usepackage{multimedia} \newcommand{\rbox}{\fboxrule2mm\fcolorbox[rgb]{1,.85,.85}{1,.85,.85}}
 
-<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The term $k{(t,t')}$ is an optional kernel measuring the (desired) correlation between time steps $t$ and $t'$, which we explored but in practice hardly used.
+\newcommand{\mpage}{{\begin{minipage}#2\end{minipage}}} \newcommand{\redbox}{\fboxrule1mm\fcolorbox[rgb]{1,.7,.7}{1,.7,.7}{\begin{minipage}\center#2\end{minipage}}} \begin{minipage}[c]#2\end{minipage}} \begin{minipage}[c]#4\end{minipage}\hspace*% \begin{minipage}[c]#5\end{minipage}} \begin{minipage}[c]#5\end{minipage}\hspace*% \begin{minipage}[c]#6\end{minipage}\hspace*% \begin{minipage}[c]#7\end{minipage}} \begin{minipage}[#1]#5\end{minipage}% \begin{minipage}[#1]#6\end{minipage}%
 
-<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The $k$-order cost vectors ${f_{t}{(x_{{t - k}:t})}} \in {\mathbb{R}}^{d_{t}}$ are very flexible in including various elements that can represent both transition and task-related costs. This is detailed below.
+\begin{minipage}[#1]#7\end{minipage}} \begin{minipage}[t]#5\end{minipage}\hspace*% \begin{minipage}[t]#6\end{minipage}\hspace*% \begin{minipage}[t]#7\end{minipage}} \begin{minipage}[c]#6\end{minipage}\hspace*% \begin{minipage}[c]#7\end{minipage}\hspace*% \begin{minipage}[c]#8\end{minipage}\hspace*% \begin{minipage}[c]#9\end{minipage}} \newcommand{\helvetica}{\setlength{\unitlength}{1pt}\fontsize\linespread\usefont{OT1}{phv}} \newcommand{\helve}{\helvetica{1.5}{m}{n}}
 
-<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-To give first examples, for transitional costs we can penalize square velocities using $k = 1$ (depending on two consecutive configurations) ${f_{t}{(x_{t\text{-}1},x_{t})}} = {({x_{t} - x_{t\text{-}1}})}$, and square accelerations using $k = 2$ (depending on three consecutive configurations) ${f_{t}{(x_{t\text{-}2},x_{t\text{-}1},x_{t})}} = {({{x_{t} + x_{t\text{-}2}} - {2x_{t\text{-}1}}})}$. Likewise, for larger values of $k$, we can penalize higher-order finite-differencing approximations of trajectory derivatives (e.g., jerk).
+\renewcommand{\show}[.8]{\centerline{\includegraphics[width=#1\columnwidth]}} \newcommand{\showh}[.8]{\includegraphics[width=#1\columnwidth]} \newcommand{\shows}[.8]{\centerline{\includegraphics[scale=#1]}} \newcommand{\showhs}[.8]{\includegraphics[scale=#1]} \newcommand{\mov}{\movie[externalviewer]{{\color{blue}\small #1}}{movies/#2}}%\newcommand{\movgb}{\hfill\movie[externalviewer]{\small[movie]}{/home/mtoussai/movies/10-goalDirectedBehavior/#1}} \newcommand{\cen}{\centerline} \newenvironment{code}{\smallskip\newline%
 
-<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The inequality and equality constraints $g_{t}$ and $h_{t}$ are equally general: we can impose $k$-order constraints on joint configuration transitions (velocities, accelerations, torques) or in task spaces.
+\begin{lrbox}{\@tempboxa}\begin{minipage}\helvetica{7}{1.1}{m}{n} \end{minipage}\end{lrbox}% \colorbox[rgb]{\usebox{\@tempboxa}}\smallskip\newline%\graphicspath{{pics/}{figs/}{~/write/tex/pics/}{~/write/tex/figs/}} \newcommand{\refeq}{(\ref)} \algrenewcommand{\algorithmicrequire}{\textbf{Input:~~}} \algrenewcommand{\algorithmicensure}{\textbf{Output:}} \algrenewcommand{\algorithmiccomment}{\qquad\hfill~\hspace*{-5ex}\textit{// #1}}
 
-<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The optimization problem can be rewritten as where $f = {(f_{0};..;f_{T})}$ is the concatenation of all $f_{t}$ and $g = {(g_{0};..;g_{T})}$, $h = {(h_{0};..;h_{T})}$. This defines a constrained sum-of-squares problem which lends to Gauss-Newton methods. Let $J = {\nabla_{x_{0:T}}\Phi}$ be the global Jacobian. It is essential to realize that the pseudo-Hessian $J^{\top}J$ (as used by Gauss-Newton) is a *banded* symmetric matrix. The band-width is ${({k + 1})}n$.
+\algrenewcommand{\alglinenumber}{\helvetica{6}{1.3}{m}{n}#1:} \quad\begin{minipage}\helvetica{1.3}{m}{n} \medskip\hrule\medskip \medskip\hrule\medskip%% \renewcommand{\algorithmicrequire}{\textbf{Input:~~}}%% \renewcommand{\algorithmicensure}{\textbf{Output:}} \newcommand{\draft}{\usepackage[light,first]{draftcopy}\draftcopyName{draft}{350}} \newcommand{\labels}{\usepackage{showlabels}} \newcommand{\maple}{\usepackage{maple2e}} \newcommand{\makeidx}{\usepackage{makeidx}\makeindex}
 
-<!-- chunk {"id": "body-0010", "role": "body", "section": "The KOMO code", "weight": 1.0} -->
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The goal of the implementation is the separation between the code of optimizers and code to specify motion problems. The problem form provides the abstraction for that interface. The optimization methods all assume the general form of a non-linear constrained optimization problem, with the additional assumption that the (approximate) Hessian ${\nabla^{2}f}{(x)}$ can be provided and is semi-pos-def. Therefore, the KOMO code essentially does the following Provide interfaces to define sets of $k$-order task spaces and costs/constraints in these task spaces at various time slices; which constitutes a MotionProblem. Such a MotionProblem definition is very semantic, referring to the kinematics of the robot.
+\newcommand{\chicago}{\usepackage{chicago}\bibliographystyle{chicago} \renewcommand{\refname}{References\renewcommand{\refname}{}}} \newcommand{\natbib}{\usepackage[round]{natbib}\bibliographystyle{abbrvnat}} \usepackage[modulo]{lineno} %options: pagewise, modulo, mathlines \renewcommand{\BM}{\begin{linenomath}} \renewcommand{\EM}{\end{linenomath}} \definecolor{bluecol}{rgb}{0,0,.5} \definecolor{greencol}{rgb}{0,.4,0}%% backref, %link from bibliography back to sections%% pagebackref, %link from bibliography back to pages%% pdfstartview=FitH, %fitwidth instead of fit window pdfpagemode=UseNone, %UseOutlines, %bookmarks are displayed by acrobat
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "The KOMO code", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-Abstracts and converts a MotionProblem definition into the general form using a kinematics engine. The resulting MotionProblemFunction is not semantic anymore and provides the interface to the generic optimization code.
+pdfauthor={Marc Toussaint}%\renewcommand{\Chapter}{\chapter}%\renewcommand{\Subsection}{\subsection} \newtheorem{theorem}{Theorem} \newtheorem{lemma}[theorem]{Lemma} \newtheorem{corollary}[theorem]{Corollary} \newtheorem{proposition}{Proposition} \newtheorem{conjecture}{Conjecture} \newtheorem{result}{Result}[section] \newtheorem{hypothesis}{Hypothesis}[section] \newtheorem{definition}{Definition} \newtheorem{remark}{Remark}[section] \newtheorem{example}{Example}[section] \newtheorem{algoTheo}{Algorithm} \newtheorem{testTheo}{Test} \renewcommand{\labelenumi}{\textbf{(\roman{enumi})}} \renewcommand{\theenumi}{(\roman{enumi})} %for
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "The KOMO code", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-Converts the problem definition into the general forms and using appropriate matrix packings to exploit the chain structure of the problem. This code does not refer to any robotics or kinematics anymore.
+ref%\renewcommand{\labelenumi}{${}^{\bf (\roman{enumi})}$}%\renewcommand{\labelitemi}{\bf $\cdot$} \newcommand{\itemdot}{\renewcommand{\labelitemi}{\bf $\cdot$}} \newcommand{\enumA}{\renewcommand{\labelenumi}{\textbf{\Alph{enumi}}}}%\setlength{\jot}{0pt} %zwischen den math zeilen% Lists and paragraphs \topsep 4pt plus 1pt minus 2pt \partopsep 1pt plus 0.5pt minus 0.5pt \itemsep 2pt plus 1pt minus 0.5pt \parsep 2pt plus 1pt minus 0.5pt \parskip.5pc %add \_in\_ {thebibliography} environment in *.bbl
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "The KOMO code", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-Applies various optimizers. This is generic code.
+\geometry{a4paper,hdivide={35mm,*,35mm},vdivide={35mm,*,35mm}} \renewcommand{\headrulewidth}\renewcommand{\footrulewidth}\cfoot{} \fancyhead[OL,EC]{\it\theauthor---\today}%\usepackage{layout}\layout {\vspace*{5ex}\begin{rblock}\hrule\vspace{1.5ex}{\bf Abstract.~}\small} {\vspace{2ex}\hrule\end{rblock}\vspace{5ex}} \begin{list}{}{\leftmargin3ex \rightmargin3ex \topsep0ex \parsep0ex}\item {\fontsize{18}{25}\selectfont{\thetitle\\}}\vspace{5ex}
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "The KOMO code", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The code introduces specialized matrix packings to exploit the structure of $J$ and to efficiently compute the banded matrix $J^{\top}J$. Note that the rows of $J$ have at most ${({k + 1})}n$ non-zero elements since a row refers to exactly one task and depends only on one specific tuple $(x_{t - k},..,x_{t})$. Therefore, although $J$ is generally a ${D \times {({T + 1})}}n$ matrix (with $D = {\sum_{t}{\dim{(f_{t})}}}$), each row can be packed to store only ${({k + 1})}n$ non-zero elements. We introduced a *row-shifted* matrix packing representation for this. Using specialized methods to compute $J^{\top}J$ and $J^{\top}x$ for any vector $x$ for the row-shifted packing, we can efficiently compute the banded Hessian and any other terms we need in Gauss-Newton methods.
+{\fontsize{14}{16}\selectfont{\theauthor\\}}\vspace{1ex} {\footnotesize{\sl \addressFUB}\\ \emailBerlin} \renewcommand{\maketitle}{\chapter{\thetitle}}% \documentclass[#1pt,fleqn,twoside]{article} \documentclass[10pt,twocolumn,fleqn]{article} \geometry{a4paper,headsep=7mm,hdivide={15mm,*,15mm},vdivide={20mm,*,15mm}} \fancyhead[OL,ER]{\thetitle, \textit{Marc Toussaint}---\today} \usepackage{nips07submit\_e,times}%\usepackage{nips06,times}
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Formal problem representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The following definitions also document the API of the code.: is a mapping $\Gamma:{x\mapsto{\Gamma{(x)}}}$ that maps a joint configuration to a data structure $\Gamma{(x)}$ which allows to efficiently evaluate task maps. Typically $\Gamma{(x)}$ stores the frames of all bodies/shapes/objects and collision information. More abstractly, $\Gamma{(x)}$ is any data structure that is sufficient to define the task maps below.
+\documentclass[10pt,twocolumn]{ijcnn}%\documentclass[10pt,twocolumn]{article}\usepackage{wcci} \documentclass{springer\_llncs} \renewcommand{\theenumi}{\alph{enumi}} \renewcommand{\labelenumi}{(\alph{enumi})} \renewcommand{\labelitemi}{$\bullet$} \documentclass[journal,twoside]{IEEEtran} \renewcommand{\theenumi}{\roman{enumi}} \renewcommand{\labelenumi}{(\roman{enumi})}%\renewcommand{\labelitemi}{$\bullet$} \bibliographystyle{IEEEtran.bst} \documentclass[a4paper, 10pt, conference]{ieeeconf} \bibliographystyle{IEEEtran.bst} \renewcommand{\theenumi}{\roman{enumi}}
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Formal problem representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-Note: In the code there is yet no abstraction KinematicEngine. Only one specific engine (KinematicWorld) is used.
+\renewcommand{\labelenumi}{(\roman{enumi})} \documentclass[#1pt,twoside,fleqn]{book} \newenvironment{abstract}{\begin{rblock}{\bf Abstract.~}\small}{\end{rblock}}%\renewcommand{\thechapter}{\Roman{chapter}} \renewcommand{\familydefault}{\sfdefault}
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Formal problem representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-It would be straight-forward to introduce an abstraction for kinematic engines pin-pointing exactly their role for defining task maps.: is a mapping $\phi:{(\Gamma_{- k},..,\Gamma_{0})}\mapsto{(y,J)}$ which gets $k + 1$ kinematic data structures as input and returns some vector $y \in {\mathbb{R}}^{d}$ and its Jacobian $J \in {{\mathbb{R}}{({d \times n})}}$.: is a tuple $c = {(\phi,\varrho_{0:T},y_{0:T}^{\ast},\text{mode})}$ where $\phi$ is a TaskMap and the parameters ${\varrho_{0:T},y_{0:T}^{\ast}} \in {\mathbb{R}}^{{d \times T}\text{+}1}$ allow for an additional linear transformation in each time slice.
+#1
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Formal problem representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-Here, $d = {\dim{(\phi)}}$ is the dimensionality of the task map. This defines the transformed task map which depending on $\text{mode} \in {\{\text{cost, constraint}\}}$ is interpreted as cost or constraint term. Note that, in the cost case, $y_{0:T}^{\ast}$ has the semantics of a reference target for the task variable, and $\varrho_{0:T}^{\ast}$ of a precision.
+\mbox{}~\hfill Prof.\ Dr.\ Marc Toussaint\\\mbox{}~\hfill Freie Universit\"at Berlin\\\mbox{}~\hfill Arnimallee 7\\\mbox{}~\hfill 14195 Berlin, Germany\\\mbox{}~\hfill marc-toussaint@fu-berlin.de% \mbox{}~\hfill Honda Research Institute Europe\\% \mbox{}~\hfill Carl-Legien-Strasse 30\\% \mbox{}~\hfill 63073 Offenbach/Main\\% \mbox{}~\hfill Telefon: ++49-69-89011-717\\% %\mbox{}~\hfill 10117 Berlin\\% %\mbox{}~\hfill Telefon: +49-30-39494-833\\% \mbox{}~\hfill
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Formal problem representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-In the code, $\varrho_{0:T},y_{0:T}^{\ast}$ may optionally be given as $1 \times 1$, ${1 \times T}\text{+}1$, $d \times 1$, or ${d \times T}\text{+}1$ matrices---and an interpreted constant along the missing dimensions.: is a tuple $(T,\mathcal{C},x_{{- k}:{- 1}})$ which gives the number of time steps, a list $\mathcal{C} = {\{ c_{i}\}}$ of Tasks, and a *prefix* $x_{{- k}:{- 1}} \in {\mathbb{R}}^{k \times n}$.
+Christian Goerick%Honda Research Institute Europe GmbH%63073 Offenbach/Main Fax: ++49 69 89011-759%Christian.Goerick@honda-ri.de \vspace*{5mm}\hfill #3, \today\\\newcommand{\thepage}{\arabic{mypage}} \documentclass[t,hyperref={bookmarks=true}]{beamer} \usefonttheme[onlymath]{serif} \setbeamertemplate{navigation symbols}{} \setbeamersize{text margin left=5mm} \setbeamersize{text margin right=5mm} \setbeamertemplate{itemize items}{{\color{black}$\bullet$}}%%% geometry/spacing issues \definecolor{bluecol}{rgb}{0,0,.5}
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Formal problem representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The prefix allows to evaluate tasks also for time $t = 0$, where the prefix defines the kinematic configurations $\Gamma{(x_{- k})},..,\Gamma{(x_{0})}$ at negative times.^11^1Optionally one can set a postfix $x_{{T + 1}:{T + k}}$ which fixes the final condition. This defines the optimization problem Here, $f_{t}$ is the concatenation of all ${\hat{\phi}}_{t}^{c}$ over tasks $c \in \mathcal{C}:c.\text{mode=cost} \land c.\varrho_{t} \neq 0$; and $g_{t}$ is the concatenation of all ${\hat{\phi}}_{t}^{c}$ over tasks $c \in \mathcal{C}:c.\text{mode=constraint} \land c.\varrho_{t} \neq 0$.
+#1 \\
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Easy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-For convenience there is a single high-level method to call the optimization, defined in \<Motion/komo.h\>\/// Return a trajectory that moves the endeffector to a desired target position arr moveTo(ors::KinematicWorld& world, //in initial state ors::Shape& endeff, //endeffector to be moved ors::Shape& target, //target shape byte whichAxesToAlign=0, //bit coded options to align axes uint iterate=1); //usually the optimization methods may be called just //once; multiple calls -> safety The method returns an optimized joint space trajectory so that the endeff reaches the target. Optionally the optimizer additionaly aligns some axes between the coordinate frames. This is just one typical use case; others would include constraining vector-alignments to zero (orthogonal) instead of +1 (parallel), or directly specifying quaternions, or using many other existing task maps. See expert interface.
+Machine Learning \& Robotics Lab -- University of Stuttgart\\marc.toussaint@informatik.uni-stuttgart.de%\includegraphics[scale=.1]{pics/eushield-fullcolour} \begin{itemize}\item~\\
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Easy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-This interface specifies the relevant coordinate frames by referring to Shapes. Shapes (ors::Shape) are rigidly attached to bodies ("links") and usually represent a (convex) collision mesh/primitive. However, a Shape can also just be a marker frame (ShapeType markerST=5), in which case it is just a convenience to define reference frames attached to bodies. So, the best way to determine the geometric parameters of the endeffector and target (offsets, relative orientations etc) is by transforming the respective shape frames (Shape::rel).
+#4
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Easy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The method uses implicit parameters (grabbed from cfg file or command line or default):\double posPrec = MT::getParameter("KOMO/moveTo/precision", 1e3); double colPrec = MT::getParameter("KOMO/moveTo/collisionPrecision", -1e0); double margin = MT::getParameter("KOMO/moveTo/collisionMargin",.1); double zeroVelPrec = MT::getParameter("KOMO/moveTo/finalVelocityZeroPrecision", 1e1); double alignPrec = MT::getParameter("KOMO/moveTo/alignPrecision", 1e3);
+#3
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Expert using the included kinematics engine", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-See the implementation of moveTo! This really is the core guide to build your own cost functions.
+#2
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Expert using the included kinematics engine", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-More generically, if the user would like to implement new TaskMaps or use some of the existing ones: The user can define new $k$-order task maps by instantiating the abstraction. There exist a number of predefined task maps. The specification of a task map usually has only a few parameters like "which endeffector shape(s) are you referring to". Typically, a good convention is to define task maps in a way such that *zero* is a desired state or the constraint boundary, such as relative coordinates, alignments or orientation. (But that is not necessary, see the linear transformation below.)
+\incpage\begin{frame}%\addtocontents{toc}{\protect\contentsline{section}{\protect\numberline{\thepage}#1}{\thepage}{section.\thepage}}%\addtocontents{toc}{\contentsline{section}{section.\thepage}} \addcontentsline{toc}{section}% \centerline{\headerfont #1} \vspace*{-2ex} \begin{itemize}\item~\\
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Expert using the included kinematics engine", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-To define an optimization problem, the user creates a list of tasks, where each task is defined by a task map and parameters that define how the map is interpreted as a) a cost term or b) an inequality constraint. This interpretation allows: a linear transformation separately for each $t$ (=setting a reference/target and precision); how maps imply a constraint. This interpretation has a significant number of parameters: for each time slice different targets/precisions could be defined.
+#2
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Expert with own kinematics engine", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The code needs a data structure $\Gamma{(q_{t})}$ to represent the (kinematic) state $q_{t}$, where coordinate frames of all bodies/shapes/objects have been precomputed so that evaluation of task maps is fast. Currently this is KinematicWorld.
+#2
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Expert with own kinematics engine", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-Users that prefer using the own kinematics engine can instantiate the abstraction. Note that the engine needs to fulfill two roles: it must have a setJointState method that also precomputes all frames of all bodies/shapes/objects. And it must be siffucient as argument of your task map instantiations.
+#2
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Optimizers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The user can also only use the optimizers, directly instantiating the $k$-order Markov problem abstraction; or, yet a level below, directly instantiating the ConstrainedProblem abstraction. Examples are given in examples/Optim/kOrderMarkov and examples/Optim/constrained. Have a look at the specific implementations of the benchmark problems, esp. the ParticleAroundWalls problem.
+#2
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Parameters & Reporting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-Every run of the code generates a MT.log file, which tells about every parameter that was internally used. You can overwrite any of these parameters on command line or in an MT.cfg file.
+#2
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Parameters & Reporting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-Inspecting the cost report after an optimization is important. Currently, the code goes through the task list $\mathcal{C}$ and reports for each the costs associated to it. There are also methods to display the cost arising in the different tasks over time.
+\documentclass[fleqn]{article}%\textheight 108cm % Paper=???, banner=5cm \renewcommand{\labelitemi}{\rule[.4ex]~} \definecolor{grey}{rgb} \definecolor{main}{rgb}{1,1,1} \author{Marc Toussaint} \newcommand{\inilogo}[.25]{\includegraphics[scale=#1]{INI}} \newcommand{\rublogo}[.25]{\includegraphics[scale=#1]{RUB}} \newcommand{\edinlogo}[.25]{\includegraphics[scale=#1]{pics/eushield-fullcolour}}%\newcommand{\edinlogo}[.25]{\includegraphics[scale=#1]{pics/eushield}} Institute for Theoretical Physics\\{\tt www.thp.uni-koeln.de/\~{}mt/}
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Potential Improvements", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-There is many places the code code be improved (beyond documenting it better): Implementing equality constraints: For a lack of necessity the code does not yet handle equality constraints. We typically handle equality tasks (reach a point) using cost terms; while focussing on inequality constraints for collisions and joint limits.
+\newcommand{\emailINI}{mt@neuroinformatik.ruhr-uni-bochum.de} \newcommand{\urlINI}{\texttt{www.neuroinformatik.rub.de/PEOPLE/mt/}} \newcommand{\emailANC}{mtoussai@inf.ed.ac.uk} \newcommand{\urlANC}{homepages.inf.ed.ac.uk/mtoussai} Institute for Adaptive and Neural Computation,\\University of Edinburgh, 5 Forrest Hill,\\%Institute~for~Adaptive~and~Neural~Computation\\University~of~Edinburgh, 5~Forrest~Hill\\Machine Learning \& Robotics group\\Machine~Learning~\&~Robotics~group, TU~Berlin\\\small Franklinstr.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Potential Improvements", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-The KinematicEngine should be abstracted to allow for easier plugin of alternative engines.
+28/29,~FR~6-9, 10587~Berlin, Germany Machine~Learning~\&~Robotics~lab, FU~Berlin\\\small Arnimallee 7, 14195~Berlin, Germany Machine~Learning~\&~Robotics~lab, U~Stuttgart\\\small Universit{\"a}tsstra{\ss}e 38, 70569~Stuttgart, Germany \newcommand{\emailBerlin}{mtoussai@cs.tu-berlin.de} Honda Research Institute Europe\\Honda~Research~Institute~Europe~GmbH,\\\small Carl-Legien-Strasse~30, 63073~Offenbach/Main% special sectioning, markings, environments, commands \protect\setlength{\subsecwidth}{\textwidth}\protect\addtolength{\subsecwidth}{-27ex} \protect\vspace*{-1.5ex}\protect\hspace*{20ex}
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Potential Improvements", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-Our kinematics engine uses SWIFT++ for proximity and penetration computation. The methods would profit enormously from better (faster, more accurate) proximity engines (signed distance functions, sphere-swept primitives).
+\protect\begin{minipage}[t]{\subsecwidth}\protect\footnotesize\protect\textsf\protect\end{minipage} \begin{rblock}\it #1\end{rblock}\medskip\noindent \addtocontents{toc}{\protect\bigskip} \chapter*\thispagestyle{empty} \addcontentsline{toc}{chapter}{\protect\numberline{}#1} \addcontentsline{toc}{section}{\protect\numberline{}#1} \addcontentsline{toc}{subsection}{\protect\numberline{}#1}% \begin{rblock}\it #1\end{rblock}\medskip% \addtocontents{toc}{\protect\begin{list}{}{\leftmargin9ex% \rightmargin9ex \topsep-2ex \parsep.5ex}}% \addtocontents{toc}{\protect\item
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Disclaimer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-This document by no means aims to document all aspects of the code, esp. those relating to the used kinematics engine etc. It only tries to introduce to the concepts and design decisions behind the KOMO code.
+\newcommand{\Pref}{[\emph{\ref}\,]} \begin{list}{--}{\leftmargin4ex \rightmargin0ex \labelsep1ex \labelwidth2ex \topsep0pt \parsep0ex \itemsep0pt} \small%fontsize{9}{9}\linespread{1.2} \begin{list}{--}{\leftmargin4ex \rightmargin0ex \labelsep1ex \labelwidth2ex \topsep0pt \parsep0ex \itemsep3pt}% * \topsep amount of extra vertical space at top of list% * \partopsep extra length at top if environment is prececed by a blank line (it should be a rubber length)% * \itemsep amount of extra vertical space between items% * \parsep amount of vertical space between paragraphs within an item% * \leftmargin horizontal distance between the left margins of the environment and the list; must be nonnegative% * \rightmargin horizontal distance betwen the right margins of
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Disclaimer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Paper Body", "weight": 1.0} -->
 
-More documentation of optimization and kinematics concepts used in the code can be drawn from my teaching lectures on Optimization and Robotics.
+the enviroment and the list; must be nonnegative% * \listparindent amount of extra space for paragraph indent after the first in an item; can be negative% * \itemindent indentation of first line of an item; can be negative% * \labelsep separation between end of the box containing the label and the text of the first line of an item% * \labelwidth normal width of the box containing the label; if the actual label is bigger, the natural width is used, extending into the space for the first line of the item's text% * \makelabel{label} generates the label printed by the \item command% * \usecounter{ctr} enables the counter ctr to be used for% numbering items; it is initialized to zero and stepped when% executing an \item command that has no optional label argument.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\newenvironment{block}{{\noindent\bf #1} \begin{list}{}{\leftmargin\blockindent \topsep-\parskip} \begin{list}{}{\leftmargin\blockindent \rightmargin\blockindent \topsep-\parskip}\item}{\end{list}}%\renewcommand{\thealgoi}{\textbf{\arabic{enumi}.}}%\newcommand{\labelenumi}{\textbf{(\roman{enumi})}} \begin{list}{{(\thealgoi)}} {\usecounter{algoi} \leftmargin7ex \rightmargin3ex \labelsep1ex \labelwidth5ex \topsep-.5ex \parsep.5ex \itemsep0pt} \end{list}\vspace*{1ex}%% \begin{algoTheo}[#1]~\begin{algoList}%%
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\end{algoList}\end{algoTheo} \medskip\begin{testTheo}[#1]~\begin{algoList} \end{algoList}\end{testTheo} \begin{list}{\textbf{\thealgoi.}} {\usecounter{algoi} \leftmargin2ex \rightmargin0ex \labelsep1ex \labelwidth1ex \topsep0ex \parsep.5ex \itemsep0pt} \item[\textsf{Q\thequesti:}]%\newenvironment{keywords}{\paragraph{Keywords}\begin{rblock}\small}{\end{rblock}} \begin{minipage}{\columnwidth} \begin{list}{}{\leftmargin3ex \topsep0ex \itemsep0ex} \begin{quote} \begin{picture} \end{picture} \end{quote} \begin{bibunit}[chicago]
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\renewcommand{\refname}{\vspace{-\parskip}} \let\chapter\phantom \let\section\phantom \end{bibunit}%use \setcounter{enumiv}{xx} in thebibliography environment%\newcommand{\theauthor}{Marc Toussaint}%\renewcommand{\author}{\renewcommand{\theauthor}}%\@author}%\renewcommand{\title}{\newcommand{\thetitle}}%\@title} \newcommand{\boxpage}[\textwidth]{ \renewcommand{\theequation}{A.\arabic{equation}}
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+#2
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\noindent \textit{Proof.~} language=C, % choose the language of the code basicstyle=\normalfont\small, % the size of the fonts that are used for the code frame=none, % adds a frame around the code tabsize=4, % sets default tabsize to 2 spaces captionpos=b, % sets the caption-position to bottom numbers=left, numberstyle=\footnotesize, stepnumber=1, numbersep=3ex

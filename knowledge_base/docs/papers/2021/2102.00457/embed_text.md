@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2102.00457", "source": "ar5iv"} -->
+
 ## Introduction
 
 Many of the most accurate methods for time series classification (TSC), such as HIVE-COTE 2.0, achieve high classification accuracy at the expense of high computational complexity and limited scalability. Hence scalable TSC has become an important research topic in recent years. Rocket and MiniRocket are the fastest and most scalable among all the proposed scalable TSC methods that achieve state-of-the-art (SOTA) accuracy. They achieve SOTA accuracy with a fraction of the computational expense of any other method of similar accuracy. Despite their scalability, Rocket and MiniRocket are somewhat less accurate than the variants of HIVE-COTE, including the most recent HIVE-COTE 2.0, which is the current best ranked method with respect to accuracy on 112 datasets in the widely used benchmark UCR archive of time series classification datasets.

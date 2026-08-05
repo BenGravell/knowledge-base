@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2402.19033", "source": "ar5iv"} -->
+
 ## Introduction
 
 The ability of aerial swarms to rapidly fly through cluttered environments while avoiding each other and any other obstacles could result in faster mission accomplishment and increase area coverage in inspection tasks, aerial logistics, or search for rescue missions. However, current approaches to coordinated flight of multiple drones cannot leverage the maximum possible speed of the drones and do not meet the speed conditions for the longest flight distance. Although recent work on drone racing achieved human-competitive flight speed through gates, those trajectory planning algorithms apply to a single drone, assume knowledge of the environment, and do not generalize well to flight in environments with unknown obstacle layouts.

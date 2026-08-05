@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2505.13447", "source": "arxiv-html"} -->
+
 ## Introduction
 
 The goal of generative modeling is to transform a prior distribution into the data distribution. Flow Matching provides an intuitive and conceptually simple framework for constructing flow paths that transport one distribution to another. Closely related to diffusion models, Flow Matching focuses on the velocity fields that guide model training. Since its introduction, Flow Matching has seen widespread adoption in modern generative modeling.

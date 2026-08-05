@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2109.06976", "source": "ar5iv"} -->
+
 ## Introduction
 
 Efficient implementations of rigid body dynamics and their gradients have become key computational kernels for robotics applications. Originally required mostly for the nonlinear trajectory optimization sub-problems of model-based planning and control systems for high degrees-of-freedom robots, these computational kernels are also growing in importance for machine learning (ML) techniques.

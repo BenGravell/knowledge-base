@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2011.05944", "source": "ar5iv"} -->
+
 ## Introduction
 
 The stochastic linear bandit problem is an iterative game between a learner and an environment played over $n$ rounds. In each round $t$, the learner chooses an action (or arm) $x_{t}$ from a finite set of actions $\mathcal{X} \subset {\mathbb{R}}^{d}$ and observes a noisy reward $y_{t} = {\left\langle x_{t},\theta^{\ast} \right\rangle + \epsilon_{t}}$ where $\theta^{\ast} \in {\mathbb{R}}^{d}$ is an unknown parameter vector and $\epsilon_{t}$ is zero-mean noise. The learner's goal is to maximize the expected cumulative reward or, equivalently, to minimize the expected regret, which is defined by where $\pi$ is the policy mapping sequences of action/reward pairs to distributions over actions in $\mathcal{X}$ and the expectation is over the randomness in the policy and the rewards. Unlike in the multi-armed bandit setting, the linear structure allows the learner to estimate the reward of an action without directly observing it. In particular, the learner might play an action that it knows to be suboptimal in order to most efficiently identify the optimal action.

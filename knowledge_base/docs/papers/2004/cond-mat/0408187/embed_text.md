@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "cond-mat/0408187", "source": "ar5iv"} -->
+
 ## Introduction
 
 Many systems of current interest to the scientific community can usefully be represented as networks. Examples include the Internet and the world-wide web social networks, citation networks food webs, and biochemical networks;. Each of these networks consists of a set of nodes or vertices representing, for instance, computers or routers on the Internet or people in a social network, connected together by links or edges, representing data connections between computers, friendships between people, and so forth.

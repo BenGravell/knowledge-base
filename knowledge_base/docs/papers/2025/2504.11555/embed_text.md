@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2504.11555", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In many engineering settings, measurements result from the interaction between a measurement device and an unknown quantity. Traditionally, the unknown quantity is assumed to be independent of the measurement process; however, in general it may be influenced by being measured. This "observer effect" is present in examples ranging from electronic circuits, where measurement devices can alter resistance or impedance, to robotics, where active perception requires interaction, and quantum systems, where measurement induces wavefunction collapse. Perhaps the simplest model which captures such interaction is a *bilinear* observation model, in which the output is a bilinear function of the control input and the unknown state. Recent works propose a dynamical system model with linear transitions and bilinear measurements, and study the system identification problem.

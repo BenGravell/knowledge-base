@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2010.11061", "source": "ar5iv"} -->
+
 ## Introduction and related work
 
 (a) Circle configuration: 32 agents, 25 static obstacles and 25 dynamic obstacles.

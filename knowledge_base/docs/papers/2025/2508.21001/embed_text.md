@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2508.21001", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Robotic mobility has been a longstanding goal in artificial intelligence, pivotal for real-world applications such as autonomous driving, drones, and humanoid robots. Such systems are often underactuated, requiring motion planners to account not only for environmental constraints but also for the physical limitations and dynamics of the robot itself, in a problem called *kinodynamic motion planning* (KMP). Despite its importance, KMP remains challenging due to the complexity of searching high-dimensional state and action spaces with non-linear dynamics. Echoing Sutton's "Bitter Lesson", formidable challenges in Computer Science are often solved by large-scale general-purpose methods rather than specialized heuristics, with search and learning emerging as two approaches capable of arbitrary scaling, rendering them essential in tackling KMP.

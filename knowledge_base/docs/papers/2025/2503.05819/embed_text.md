@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.05819", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Sampling-based model predictive controllers generate "minimum cost" trajectories using a set of trajectory samples to achieve objectives such as arriving at a goal location while avoiding obstacles and adhering to motion constraints. They have been used in various robotics applications including autonomous driving, manipulation, and drone navigation. In order to generate random trajectories which are also kinematically valid, existing methods sample control inputs using a simple distribution such as the normal distribution. The system model is then used to propagate the state using these random inputs. However, as shown in Fig. 1, these sampling strategy generally yield samples that are clustered around a mean trajectory which limits the exploration capacity of the controller and reduces the likelihood of finding feasible solutions.

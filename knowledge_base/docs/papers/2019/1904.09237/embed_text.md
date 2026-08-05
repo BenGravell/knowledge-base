@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1904.09237", "source": "ar5iv"} -->
+
 ## Introduction
 
 Stochastic gradient descent (Sgd) is the dominant method to train deep networks today. This method iteratively updates the parameters of a model by moving them in the direction of the negative gradient of the loss evaluated on a minibatch. In particular, variants of Sgd that scale coordinates of the gradient by square roots of some form of averaging of the squared coordinates in the past gradients have been particularly successful, because they automatically adjust the learning rate on a per-feature basis. The first popular algorithm in this line of research is Adagrad, which can achieve significantly better performance compared to vanilla Sgd when the gradients are sparse, or in general small.

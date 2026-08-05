@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2305.08373", "source": "ar5iv"} -->
+
 ## Introduction
 
 Brachiation is a complex dynamic maneuver involving a continuous swing motion and a discontinuity when switching the support arm. Apes brachiate with ease through unstructured environments with flexible or rigid handholds at variable distances, making this motion challenging and interesting to study for roboticists. Brachiating robots can be beneficial for inspection, agriculture, search and rescue applications, etc., since they can perform agile movements in hard to traverse terrains. Hence, there has been extensive research on brachiation robots in the past three decades.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1312.3039", "source": "ar5iv"} -->
+
 ## Introduction
 
 In this paper we develop a method for solving convex cone optimization problems that can (a) provide primal or dual certificates of infeasibility when relevant and (b) scale to large problem sizes. The general idea is to use a first-order method to solve the homogeneous self-dual embedding of the primal-dual pair; the homogeneous self-dual embedding provides the necessary certificates, and first-order methods scale well to large problem sizes.

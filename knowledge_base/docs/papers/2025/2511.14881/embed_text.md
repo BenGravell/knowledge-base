@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2511.14881", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Serving embedding-based Deep Learning recommendation models (DLRM ) at scale is challenging since it is impossible to rank all items during inference. A multi-stage design is widely adopted. First, the retrieval stage narrows the item candidates to thousand scale by formulating the task as an Approximate Nearest Neighbor (ANN) search problem in vector space, identifying relevant items based on vector similarities. This is commonly built using libraries like Faiss, RAFT or a dedicated vector database system like Milvus. Meanwhile, the retrieval stage applies feature filtering to match user attributes in multiple aspects - a process that eliminates candidates violating user-specific constraints such as language, eligibility - using inverted-index mechanism. Retrieval therefore relies on the indexing and filtering services during online serving. Finally, the retrieved items are passed to downstream ranking models to generate recommendation results.

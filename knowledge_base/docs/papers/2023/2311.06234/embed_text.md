@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2311.06234", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Figure 1: This work proposes to learn terrain traction, the ratio between achieved and commanded velocities, while quantifying the uncertainty in the learned model to plan risk-aware trajectories. (a) Aleatoric uncertainty is the inherent and irreducible uncertainty due to partial observability. For example, visually similar terrain may have different traction values due to complex interactions between the robot and vegetation. (b) Epistemic uncertainty is the model uncertainty due to distribution shift between training and test environments, limiting the reliability of the learned model at test time.

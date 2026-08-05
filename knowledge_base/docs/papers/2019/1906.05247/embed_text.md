@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1906.05247", "source": "ar5iv"} -->
+
 ## Introduction
 
 In artificial intelligence, learning to make decisions online plays a critical role in many fields, such as personalized news recommendation, robotics and the game of Go. To learn to make optimal decisions as soon as possible, the decision-makers must carefully design an algorithm to balance the trade-off between the exploration and exploitation. Over-exploration could be expensive and unethical in practice, e.g., medical decision making. On the other hand, insufficient exploration tends to make an algorithm stuck at a sub-optimal solution. The delicate design of exploration methods stands in the heart of online learning and decision making.

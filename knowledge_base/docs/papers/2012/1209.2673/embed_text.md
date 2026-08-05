@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1209.2673", "source": "ar5iv"} -->
+
 ## Introduction
 
 This paper continues study of the method of conformal prediction, introduced in Vovk et al. and Saunders et al. and further developed in Vovk et al.. An advantage of the method is that its predictions (which are set rather than point predictions) automatically satisfy a finite-sample property of validity. Its disadvantage is its relative computational inefficiency in many situations. A modification of conformal predictors, called inductive conformal predictors, was proposed in Papadopoulos et al. with the purpose of improving on the computational efficiency of conformal predictors.

@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1803.06843", "source": "ar5iv"} -->
+
 ## Introduction
 
 Let $b_{k}:{D\rightarrow{\mathbb{R}}}$ $({{k = {0,1,\ldots,N}};{N \in {\mathbb{N}}}})$ be real-valued multivariable functions such that for ${\mathbf{t}} \in C \subseteq D$.

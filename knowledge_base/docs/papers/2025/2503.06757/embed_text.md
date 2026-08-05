@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2503.06757", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Motion planning is a fundamental problem in robotics that involves finding collision-free motion paths through a robot's configuration space. While there are many approaches to planning, sampling-based motion planning (SBMP) approaches are widely used due to their generality and efficiency in higher-dimensions. One of the most popular SBMP algorithms is the Rapidly-Exploring Random Tree (RRT) and its bidirectional variant RRT-Connect. RRT-Connect's design biases it towards quickly solving problems involving large open spaces, even in high dimensions. However, its performance suffers in cluttered environments such as in constrained reaching tasks.

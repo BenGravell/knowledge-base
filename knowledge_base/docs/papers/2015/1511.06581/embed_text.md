@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1511.06581", "source": "ar5iv"} -->
+
 ## Introduction
 
 Over the past years, deep learning has contributed to dramatic advances in scalability and performance of machine learning. One exciting application is the sequential decision-making setting of reinforcement learning (RL) and control. Notable examples include deep Q-learning, deep visuomotor policies, attention with recurrent networks, and model predictive control with embeddings. Other recent successes include massively parallel frameworks and expert move prediction in the game of Go, which produced policies matching those of Monte Carlo tree search programs, and squarely beaten a professional player when combined with search.

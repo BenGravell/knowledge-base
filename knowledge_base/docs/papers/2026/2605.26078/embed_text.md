@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2605.26078", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Policy gradient (PG) methods are among the most widely used algorithms in reinforcement learning (RL). Beginning with REINFORCE and the policy gradient theorem, classical PG performs Euclidean gradient ascent over a parameterized policy class. While simple and scalable, Euclidean PG is sensitive to step sizes and parameterization, which has motivated geometry-aware alternatives. Natural policy gradient replaces the Euclidean metric with the information geometry induced by the Fisher information, and is closely related to trust-region (TR) methods. In deep RL, TRPO constrains the average KL divergence between successive policies, while PPO provides a practical surrogate through clipping or adaptive KL penalties. These developments underscore the central role of geometry in policy optimization.

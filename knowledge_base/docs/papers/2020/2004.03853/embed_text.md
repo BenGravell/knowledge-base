@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2004.03853", "source": "ar5iv"} -->
+
 ## Introduction
 
 Shape-constrained regression is a fundamental problem in statistics and machine learning. It posits the existence of a shape-constrained function $f$ that maps *feature vectors* to *response variables*. Its goal is to obtain an *estimator* (or *regressor*) of this function, with the same shape constraints, from noisy feature vector-response variable pairings. The shape constraints we consider are of two types here: convexity constraints over a box and $K$-bounded-derivative constraints over a box, as defined in Section 2 ‣ Shape-Constrained Regression using Sum of Squares Polynomials"). Bounded-derivative constraints include as subcases both the case where the regressor is constrained to be monotone and the case where it is constrained to be Lipschitz-continuous with a fixed Lipschitz constant. Combined, these shape constraints cover the wide majority of shape constraints arising in applications. A short and non-exhaustive list of areas where regression with shape constraints such as these appear include economics, psychology, engineering, and medicine.

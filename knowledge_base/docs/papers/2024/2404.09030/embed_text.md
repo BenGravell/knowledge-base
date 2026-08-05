@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2404.09030", "source": "arxiv-html"} -->
+
 ## Introduction
 
 In recent years, model-based reinforcement learning has been successfully applied to various application domains including robotics, healthcare, and autonomous driving. These approaches often proceed by performing experiments on a system to collect data, and then using the data to fit models for the dynamics. In the specified application domains, performing experiments requires interaction with the physical world, which can be both costly and time-consuming. It is therefore important to design the experimentation and identification procedures to efficiently extract the most information relevant to control. In particular, experiments must be designed with the downstream control objective in mind. This fact is well-established in classical controls and identification literature. While these works provide some guidance for experiment design, they mostly focus on linear systems, and supply only asymptotic guarantees.

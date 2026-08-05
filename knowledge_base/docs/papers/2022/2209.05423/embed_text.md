@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2209.05423", "source": "arxiv-pdf"} -->
+
 ## Statistical Learning Theory for Control
 
 ## FINITE SAMPLE PERSPECTIVE

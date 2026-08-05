@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1110.1751", "source": "ar5iv"} -->
+
 ## Introduction
 
 Averaging dynamics or distributed averaging dynamics has played a fundamental role in the recent studies of various distributed systems and algorithms. Examples of such distributed problems and algorithms include distributed optimization, distributed control of robotic networks, and study of opinion dynamics in social networks.

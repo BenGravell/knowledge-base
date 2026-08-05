@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2509.21961", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Trajectory planning in autonomous driving requires both safety and efficiency. Traditional planners rely on rule-based methods like model predictive control, graph or sampling-based methods, which are interpretable and safety-driven but often fail in complex, real-world conditions. Recent learning-based planners learn policies from data, capturing nuanced human driving behaviors, and can rival classical systems on large-scale benchmarks.

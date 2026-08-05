@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2603.12607", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Autonomous driving requires robust motion planning to navigate complex and dynamic traffic environments safely and efficiently. Traditional planning approaches have predominantly relied on rule-based algorithms, where the behavior of an autonomous vehicle (AV) is explicitly defined through handcrafted rules. While these methods provide interpretable decision-making, they demand substantial engineering effort to design and modify rules in various driving environments, resulting in a lack of adaptability to new traffic scenarios. To overcome these challenges, Imitation Learning (IL) has emerged as a promising alternative, enabling models to learn driving policies directly from expert human demonstrations. By leveraging large-scale real-world datasets, such as nuPlan, IL-based approaches can capture a wide range of driving behaviors without relying on manually defined rules or reward functions.

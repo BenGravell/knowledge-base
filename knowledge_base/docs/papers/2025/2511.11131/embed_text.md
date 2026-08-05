@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2511.11131", "source": "arxiv-pdf"} -->
+
 ## Introduction
 
 Actor-critic methods are widely used in Reinforcement Learning (RL) and have been successfully applied in various domains, including robotics, game playing, and autonomous systems. Actor-Critic structures are particularly interesting due to their ability to handle continuous state and action spaces and combining the pros of Temporal Difference (TD) learning and Policy Gradient (PG) methods. In these structures, the actor is responsible for selecting actions using an actor network, while the critic evaluates the actions taken by the actor by estimating the value function or action-value function ( Q -function). This separation of roles is particularly efficient for control problems which typically have continuous action spaces as actor-critic methods directly learn a parameterized policy and as such avoid the need for computationally expensive value function optimization in TD approaches. Despite their success, actor-critic methods face several challenges, including stability and convergence issues when applied to closed-loop dynamical systems.

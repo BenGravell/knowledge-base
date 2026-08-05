@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1811.06272", "source": "ar5iv"} -->
+
 ## Introduction
 
 Imagine that a month ago Alice had two job offers from companies $a_{1}$ and $a_{2}$. She decided to join $a_{1}$ because of the larger salary, in spite of an awkward feeling during the job interview. Since then she learned a lot about $a_{1}$ and recently received information about $a_{2}$ from a friend, prodding her now to imagine what would have happened had she joined $a_{2}$. Re-evaluating her decision in hindsight in this way, she concludes that she made a regrettable decision. She could and should have known that $a_{2}$ was a better choice, had she only interpreted the cues during the interview correctly... This example tries to illustrate the everyday human capacity to reason about alternate, counterfactual outcomes of past experience with the goal of "mining worlds that could have been". Social psychologists theorize that such cognitive processes are beneficial for improving future decision making. In this paper we aim to leverage possible advantages of counterfactual reasoning for learning decision making in the reinforcement learning (RL) framework.

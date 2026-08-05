@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1708.06374", "source": "ar5iv"} -->
+
 ## Introduction
 
 The "Winter of AI" is commonly known as the decades long period of inactivity following the collapse of Artificial Intelligence research that over-reached its goals and hyped its promise until the inevitable fall during the early 80s. We believe that the development of Autonomous Vehicles (AV) is dangerously moving along a similar path that might end in great disappointment after which further progress will come to a halt for many years to come.

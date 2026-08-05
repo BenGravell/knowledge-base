@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "2410.01249", "source": "arxiv-html"} -->
+
 ## Introduction
 
 Policy gradient methods represent a paradigm shift in reinforcement learning from value-based methods to a more direct approach of policy optimization. In particular, the natural policy gradient (NPG) method of Kakade inspired later development of trust region policy optimization (TRPO) and proximal policy optimization (PPO) Schulman et al., both with great empirical success.

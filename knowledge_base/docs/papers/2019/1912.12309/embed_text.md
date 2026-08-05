@@ -1,3 +1,5 @@
+<!-- arxiv-full-text:v1 {"arxiv_id": "1912.12309", "source": "ar5iv"} -->
+
 ## Introduction
 
 Time series prediction is a fundamental problem across control theory, economics and machine learning. In the case of autonomous linear time invariant (LTI) systems driven by Gaussian process and sensor noise: the celebrated Kalman Filter (KF) has been the standard method for prediction. When model is known, the KF minimizes the mean square prediction error. However, in many practical cases of interest (e.g., tracking moving objects, stock price forecasting), the state-space parameters are not known and must be learned from time-series data. This system identification step, based on a finite amount of data, inevitably introduces parametric errors in model, which leads to a KF with suboptimal prediction performance.
