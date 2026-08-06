@@ -8,6 +8,13 @@ get rid of todo directory altogether
 
 move todo/chernobyl to another repo (sandbox)
 
+## dev apps
+
+dev_apps
+
+remove, not useful
+
+
 ## map
 
 I think we lost the semantic similarity and tree similarity filters for selected node filters. That was a powerful tool that had good tunings. Restore it.

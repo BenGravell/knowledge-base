@@ -5,25 +5,21 @@ from typing import Any
 
 import streamlit as st
 
-from knowledge_base.scripts.suggest_tree_algorithm_labels import (
-    ACTIONS,
-    CONFIDENCES,
-    METADATA_ROOT,
-    TREE_YML,
-    Suggestion,
+from knowledge_base.scripts.suggest_tree_algorithm_labels.constants import ACTIONS, CONFIDENCES
+from knowledge_base.scripts.suggest_tree_algorithm_labels.edits import (
     apply_canonical_label,
-    clean_text,
-    collect_suggestions,
-    format_nav_path,
     load_metadata,
-    relative_to_kb,
     replace_metadata_algorithm,
     replace_tree_label,
 )
+from knowledge_base.scripts.suggest_tree_algorithm_labels.label_text import clean_text
+from knowledge_base.scripts.suggest_tree_algorithm_labels.model import Suggestion
+from knowledge_base.scripts.suggest_tree_algorithm_labels.suggestions import collect_suggestions
+from knowledge_base.tree.validation import TREE_YML, format_nav_path, relative_to_kb
 
 
 def generate_suggestions() -> list[Suggestion]:
-    return collect_suggestions(TREE_YML, METADATA_ROOT)
+    return collect_suggestions(TREE_YML)
 
 
 def ensure_state() -> None:
