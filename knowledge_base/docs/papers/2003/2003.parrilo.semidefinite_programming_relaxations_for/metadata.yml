@@ -1,6 +1,6 @@
 title: >
   Semidefinite Programming Relaxations for Semialgebraic Problems
-algorithm: SOS SDP Relaxation Hierarchy
+algorithm:
 authors:
   - Pablo A. Parrilo
 year: 2003

@@ -1,6 +1,6 @@
 title: >
   Generalized Chebyshev Bounds via Semidefinite Programming
-algorithm: "Generalized Chebyshev SDP Bounds"
+algorithm:
 authors:
   - "Lieven Vandenberghe"
   - "Stephen Boyd"

@@ -1,6 +1,6 @@
 title: >
   Matrix Concentration Inequalities via the Method of Exchangeable Pairs
-algorithm: Exchangeable Pairs
+algorithm:
 authors:
   - Lester Mackey
   - Michael I. Jordan

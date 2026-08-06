@@ -25,7 +25,7 @@
               - Stable Signal Recovery from Incomplete and Inaccurate Measurements: docs/papers/2005/math/0503066/metadata.yml
               - CoSaMP: docs/papers/2008/0803.2392/metadata.yml
               - Computational Complexity versus Statistical Performance on Sparse Recovery Problems: docs/papers/2015/1506.03295/metadata.yml
-              - Signal Recovery from Random Measurements via Orthogonal Matching Pursuit: docs/papers/2007/2007.tropp.signal_recovery_from_random/metadata.yml
+              - Orthogonal Matching Pursuit: docs/papers/2007/2007.tropp.signal_recovery_from_random/metadata.yml
               - An Introduction to Compressive Sampling: docs/papers/2008/2008.candes.an_introduction_to_compressive/metadata.yml
               - The Restricted Isometry Property and Its Implications for Compressed Sensing: docs/papers/2008/2008.candes.the_restricted_isometry_property/metadata.yml
               - "Robust Uncertainty Principles: Exact Signal Reconstruction from Highly Incomplete Frequency Information": docs/papers/2004/math/0409186/metadata.yml
@@ -33,13 +33,13 @@
               - Convex Demixing:
                 - Hyperspectral Image Unmixing via Alternating Projected Subgradients: docs/papers/2007/2007.zymnis.hyperspectral_image_unmixing_via/metadata.yml
                 - Sharp Recovery Bounds for Convex Demixing, with Applications: docs/papers/2012/1205.1580/metadata.yml
-                - The Achievable Performance of Convex Demixing: docs/papers/2013/1309.7478/metadata.yml
+                - Convex Demixing: docs/papers/2013/1309.7478/metadata.yml
             - Rank Minimization:
               - Low-rank Recovery:
-                - Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization: docs/papers/2007/0706.4138/metadata.yml
+                - Nuclear Norm Rank Minimization: docs/papers/2007/0706.4138/metadata.yml
                 - The Convex Geometry of Linear Inverse Problems: docs/papers/2010/1012.0621/metadata.yml
                 - Sparse and Low-rank Matrix Decompositions: docs/papers/2009/2009.chandrasekaran.sparse_and_low_rank/metadata.yml
-                - Robust Principal Component Analysis: docs/papers/2009/0912.3599/metadata.yml
+                - Principal Component Pursuit: docs/papers/2009/0912.3599/metadata.yml
                 - Exact Matrix Completion via Convex Optimization: docs/papers/2008/0805.4471/metadata.yml
                 - A Singular Value Thresholding Algorithm for Matrix Completion: docs/papers/2008/0810.3286/metadata.yml
                 - "The Power of Convex Relaxation: Near-Optimal Matrix Completion": docs/papers/2009/0903.1476/metadata.yml
@@ -48,19 +48,19 @@
                 - New Restricted Isometry Results for Noisy Low-rank Recovery: docs/papers/2010/2010.mohan.new_restricted_isometry_results/metadata.yml
                 - Flat Minima Generalize for Low-rank Matrix Recovery: docs/papers/2022/2203.03756/metadata.yml
                 - A Rank Minimization Heuristic with Application to Minimum Order System Approximation: docs/papers/2001/2001.fazel.a_rank_minimization_heuristic/metadata.yml
-                - Log-det Heuristic for Matrix Rank Minimization with Applications to Hankel and Euclidean Distance Matrices: docs/papers/2003/2003.fazel.log_det_heuristic_for/metadata.yml
+                - Log-Det Rank Heuristic: docs/papers/2003/2003.fazel.log_det_heuristic_for/metadata.yml
                 - Rank Minimization and Applications in System Theory: docs/papers/2004/2004.fazel.rank_minimization_and_applications/metadata.yml
-                - Iterative Reweighted Algorithms for Matrix Rank Minimization: docs/papers/2012/2012.mohan.iterative_reweighted_algorithms_for/metadata.yml
-                - Robust Computation of Linear Models by Convex Relaxation: docs/papers/2012/1202.4044/metadata.yml
+                - IRLS-p: docs/papers/2012/2012.mohan.iterative_reweighted_algorithms_for/metadata.yml
+                - REAPER: docs/papers/2012/1202.4044/metadata.yml
               - Randomized Algorithms:
-                - "Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions": docs/papers/2009/0909.4061/metadata.yml
+                - 'Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions': docs/papers/2009/0909.4061/metadata.yml
                 - "Randomized Numerical Linear Algebra: Foundations & Algorithms": docs/papers/2020/2002.01387/metadata.yml
                 - "Randomized Algorithms for Low-rank Matrix Approximation: Design, Analysis, and Applications": docs/papers/2023/2306.12418/metadata.yml
                 - "Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue Problems": docs/papers/2021/2111.00113/metadata.yml
               - Matrix Factorization:
                 - Computing a Nonnegative Matrix Factorization - Provably: docs/papers/2011/1111.0952/metadata.yml
-                - Factoring Nonnegative Matrices with Linear Programs: docs/papers/2012/1206.1270/metadata.yml
-                - Practical Large-Scale Optimization for Max-norm Regularization: docs/papers/2010/2010.lee.practical_large_scale_optimization/metadata.yml
+                - HottTopixx: docs/papers/2012/1206.1270/metadata.yml
+                - Practical Large-Scale Optimization for Max-Norm Regularization: docs/papers/2010/2010.lee.practical_large_scale_optimization/metadata.yml
                 - Matrix Completion Has No Spurious Local Minimum: docs/papers/2016/1605.07272/metadata.yml              
           - Sum-of-squares (SOS):
             - Approximation of the Joint Spectral Radius Using Sum of Squares: docs/papers/2007/0712.2887/metadata.yml
@@ -74,12 +74,12 @@
             - Learning Parametric Convex Functions: docs/papers/2025/2506.04183/metadata.yml
             - "Model-Based Deep Learning: On the Intersection of Deep Learning and Optimization": docs/papers/2022/2205.02640/metadata.yml
           - Applications in Probability Theory:
-            - "Optimal Inequalities in Probability Theory: A Convex Optimization Approach": docs/papers/2005/2005.bertsimas.optimal_inequalities_in_probability/metadata.yml
+            - 'Optimal Inequalities in Probability Theory: A Convex Optimization Approach': docs/papers/2005/2005.bertsimas.optimal_inequalities_in_probability/metadata.yml
             - User-friendly Tail Bounds for Sums of Random Matrices: docs/papers/2010/1004.4389/metadata.yml
             - Generalized Chebyshev Bounds via Semidefinite Programming: docs/papers/2007/2007.vandenberghe.generalized_chebyshev_bounds_via/metadata.yml
-            - "A Minimax Theorem with Applications to Machine Learning, Signal Processing, and Finance": docs/papers/2008/2008.kim.a_minimax_theorem_with/metadata.yml
+            - A Minimax Theorem with Applications to Machine Learning, Signal Processing, and Finance: docs/papers/2008/2008.kim.a_minimax_theorem_with/metadata.yml
             - Minimax Time Series Prediction: docs/papers/2015/2015.koolen.minimax_time_series_prediction/metadata.yml
-            - "Freedman's Inequality for Matrix Martingales": docs/papers/2011/1101.3039/metadata.yml
+            - Freedman's Inequality for Matrix Martingales: docs/papers/2011/1101.3039/metadata.yml
             - Tail Bounds for All Eigenvalues of a Sum of Random Matrices: docs/papers/2011/1104.4513/metadata.yml
             - Matrix Concentration Inequalities via the Method of Exchangeable Pairs: docs/papers/2012/1201.6002/metadata.yml
             - An Elementary Proof of the Hanson-Wright Inequality: docs/papers/2025/2509.00881/metadata.yml
@@ -87,7 +87,7 @@
             - Chebyshev Inequalities for Products of Random Variables: docs/papers/2016/1605.05487/metadata.yml
             - A Relationship between Arbitrary Positive Matrices and Doubly Stochastic Matrices: docs/papers/1964/1964.sinkhorn.a_relationship_between_arbitrary/metadata.yml
             - Comparison Theorems for the Minimum Eigenvalue of a Random Positive-semidefinite Matrix: docs/papers/2025/2501.16578/metadata.yml
-            - Concerning Nonnegative Matrices and Doubly Stochastic Matrices: docs/papers/1967/1967.sinkhorn.concerning_nonnegative_matrices_and/metadata.yml
+            - Sinkhorn-Knopp Algorithm: docs/papers/1967/1967.sinkhorn.concerning_nonnegative_matrices_and/metadata.yml
         - Nonlinear Optimization:
           - Nonlinear Programming:
             - Theory of Algorithms for Unconstrained Optimization: docs/papers/1992/1992.nocedal.theory_of_algorithms_for/metadata.yml

@@ -1,6 +1,6 @@
 title: >
   A Rank Minimization Heuristic with Application to Minimum Order System Approximation
-algorithm: Nuclear Norm Rank Heuristic
+algorithm:
 authors:
   - M. Fazel
   - H. Hindi

@@ -1,6 +1,6 @@
 title: >
   A Minimax Theorem with Applications to Machine Learning, Signal Processing, and Finance
-algorithm: "Minimax Probability Bounds"
+algorithm:
 authors:
   - "Seung-Jean Kim"
   - "Stephen Boyd"

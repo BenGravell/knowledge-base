@@ -1,6 +1,6 @@
 title: >
   Compressed Sensing and Robust Recovery of Low Rank Matrices
-algorithm: "Low-Rank Matrix Recovery by Nuclear Norm"
+algorithm:
 authors:
   - "M. Fazel"
   - "E. Candes"

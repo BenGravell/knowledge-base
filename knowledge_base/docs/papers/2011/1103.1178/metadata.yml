@@ -1,6 +1,6 @@
 title: >
   A Simplified Approach to Recovery Conditions for Low Rank Matrices
-algorithm: Singular Value Inequality for Low-Rank Recovery
+algorithm:
 authors:
   - Samet Oymak
   - Karthik Mohan

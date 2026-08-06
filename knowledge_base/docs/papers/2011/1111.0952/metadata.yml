@@ -1,6 +1,6 @@
 title: >
   Computing a Nonnegative Matrix Factorization - Provably
-algorithm: Separable NMF Algorithm
+algorithm:
 authors:
   - Sanjeev Arora
   - Rong Ge

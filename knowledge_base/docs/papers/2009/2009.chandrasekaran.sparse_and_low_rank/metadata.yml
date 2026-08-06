@@ -1,6 +1,6 @@
 title: >
   Sparse and Low-rank Matrix Decompositions
-algorithm: "Sparse Plus Low-Rank Decomposition"
+algorithm:
 authors:
   - "Venkat Chandrasekaran"
   - "Sujay Sanghavi"

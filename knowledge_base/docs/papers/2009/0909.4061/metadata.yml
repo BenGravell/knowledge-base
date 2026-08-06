@@ -1,6 +1,6 @@
 title: >
   Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions
-algorithm: "Randomized Matrix Decomposition"
+algorithm:
 authors:
   - "Nathan Halko"
   - "Per-Gunnar Martinsson"

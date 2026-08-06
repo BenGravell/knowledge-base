@@ -1,6 +1,6 @@
 title: >
   A Relationship between Arbitrary Positive Matrices and Doubly Stochastic Matrices
-algorithm: Sinkhorn Scaling
+algorithm:
 authors:
   - Richard Sinkhorn
 year: 1964

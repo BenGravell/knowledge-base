@@ -1,6 +1,6 @@
 title: >
   Practical Large-Scale Optimization for Max-Norm Regularization
-algorithm: "Max-Norm Regularized Optimization"
+algorithm:
 authors:
   - "Jason Lee"
   - "Ben Recht"

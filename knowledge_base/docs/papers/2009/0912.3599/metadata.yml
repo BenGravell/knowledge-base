@@ -1,6 +1,6 @@
 title: >
   Robust Principal Component Analysis?
-algorithm: "Principal Component Pursuit"
+algorithm: Principal Component Pursuit
 authors:
   - "Emmanuel J. Candes"
   - "Xiaodong Li"

@@ -1,6 +1,6 @@
 title: >
   Tail Bounds for All Eigenvalues of a Sum of Random Matrices
-algorithm: Minimax Laplace Transform Method
+algorithm:
 authors:
   - Alex Gittens
   - Joel A. Tropp

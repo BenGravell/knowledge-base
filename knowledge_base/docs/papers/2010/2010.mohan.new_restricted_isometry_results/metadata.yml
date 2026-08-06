@@ -1,6 +1,6 @@
 title: >
   New Restricted Isometry Results for Noisy Low-rank Recovery
-algorithm: Reweighted Trace Minimization
+algorithm:
 authors:
   - Karthik Mohan
   - Maryam Fazel

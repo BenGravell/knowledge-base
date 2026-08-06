@@ -1,6 +1,6 @@
 title: >
   Computational Methods for Sparse Solution of Linear Inverse Problems
-algorithm: Sparse Approximation Algorithms
+algorithm:
 authors:
   - Joel A Tropp
   - Stephen J Wright

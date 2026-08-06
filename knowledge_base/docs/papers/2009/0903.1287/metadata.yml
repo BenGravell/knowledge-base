@@ -1,6 +1,6 @@
 title: >
   A Convex Polynomial That Is Not sos-convex
-algorithm: "Non-Sos-convex Polynomial Counterexample"
+algorithm:
 authors:
   - "Amir Ali Ahmadi"
   - "Pablo A. Parrilo"

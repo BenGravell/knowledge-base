@@ -1,6 +1,6 @@
 title: >
   User-friendly Tail Bounds for Sums of Random Matrices
-algorithm: "Matrix Concentration Inequalities"
+algorithm:
 authors:
   - "Joel A. Tropp"
 year: 2010

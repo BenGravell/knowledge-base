@@ -1,6 +1,6 @@
 title: >
   The Convex Geometry of Linear Inverse Problems
-algorithm: "Atomic Norm Convex Geometry"
+algorithm:
 authors:
   - "Venkat Chandrasekaran"
   - "Benjamin Recht"

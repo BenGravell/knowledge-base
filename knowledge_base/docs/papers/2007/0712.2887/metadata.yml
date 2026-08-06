@@ -1,6 +1,6 @@
 title: >
   Approximation of the Joint Spectral Radius Using Sum of Squares
-algorithm: "SOS Joint Spectral Radius Approximation"
+algorithm:
 authors:
   - "Pablo A. Parrilo"
   - "Ali Jadbabaie"

@@ -1,6 +1,6 @@
 title: >
   Hyperspectral Image Unmixing via Alternating Projected Subgradients
-algorithm: "Alternating Projected Subgradients"
+algorithm:
 authors:
   - "A. Zymnis"
   - "S.-J. Kim"

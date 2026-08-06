@@ -1,6 +1,6 @@
 title: >
   Freedman's Inequality for Matrix Martingales
-algorithm: Matrix Freedman Inequality
+algorithm:
 authors:
   - Joel A. Tropp
 year: 2011

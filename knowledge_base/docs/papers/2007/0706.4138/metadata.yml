@@ -1,6 +1,6 @@
 title: >
   Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization
-algorithm: "Nuclear Norm Rank Minimization"
+algorithm: Nuclear Norm Rank Minimization
 authors:
   - "Benjamin Recht"
   - "Maryam Fazel"

@@ -1,6 +1,6 @@
 title: >
   Sharp Recovery Bounds for Convex Demixing, with Applications
-algorithm: Convex Demixing
+algorithm:
 authors:
   - Michael B. McCoy
   - Joel A. Tropp

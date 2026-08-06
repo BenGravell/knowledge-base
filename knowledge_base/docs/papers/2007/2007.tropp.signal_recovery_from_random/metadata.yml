@@ -1,6 +1,6 @@
 title: >
   Signal Recovery from Random Measurements via Orthogonal Matching Pursuit
-algorithm: "Orthogonal Matching Pursuit Recovery"
+algorithm: Orthogonal Matching Pursuit
 authors:
   - "Joel A. Tropp"
   - "Anna C. Gilbert"
