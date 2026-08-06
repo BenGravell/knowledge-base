@@ -22,7 +22,7 @@ from knowledge_base.scripts.arxiv_full_text.settings import HTML_HEADERS
 from knowledge_base.scripts.arxiv_full_text.text import conversion_error, remove_rich_content_from_markdown
 from knowledge_base.utils.arxiv_utils import arxiv_pdf_url, normalize_arxiv_id
 
-LATEX_INCLUDE_RE = re.compile(r"\\(?:input|include)\s*\{([^}]+)\}")
+LATEX_INCLUDE_RE = re.compile(r"\\(?:input|include)\*?\s*\{([^}]+)\}")
 LATEX_BAD_ROOT_RE = re.compile(
     r"cover letter|reply to referees|response to reviewers|detailed reply|comments to the authors|resubmission",
     re.IGNORECASE,

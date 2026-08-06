@@ -25,6 +25,7 @@ from knowledge_base.utils.arxiv_utils import normalize_arxiv_id
 UNUSABLE_HTML_MARKERS = (
     "Conversion to HTML had a Fatal error",
     "Conversion to HTML failed",
+    "SubSection/",
 )
 ARXIV_ABS_URL_RE = re.compile(r"^https?://(?:www\.)?arxiv\.org/abs/", re.IGNORECASE)
 ARXIV_ABS_PAGE_MARKERS = ("abs-outer", "submission-history", "View PDF")

@@ -584,7 +584,7 @@
           - Generalized Clothoids (nonlinear curvature):
             - Cubic Curvature Polynomials: docs/papers/2001/2001.nagy.trajectory_generation_for_car/metadata.yml
             - Sharpness Continuous path: docs/papers/2018/1801.08995/metadata.yml
-            - "& Decodes to '&'": docs/papers/2014/2014.chen.decodes_to/metadata.yml
+            - "Quartic Bézier Curve Based Trajectory Generation for Autonomous Vehicles with Curvature and Velocity Constraints": docs/papers/2014/2014.chen.quartic_bezier_curve_based/metadata.yml
             - "Fast and Accurate G1 Fitting of Clothoid Curves": docs/papers/2013/1305.6644/metadata.yml
             - "G2 Hermite Interpolation with Clothoids": docs/papers/2018/2018.bertolazzi.on_the_g2_hermite/metadata.yml
             - "Sharpness Continuous Path optimization and Sparsification for Automated Vehicles": docs/papers/2022/2022.kumar.sharpness_continuous_path_optimization/metadata.yml

@@ -1,21 +1,16 @@
 # TODO
 
+## ultimate goal
+
+get rid of todo directory altogether
+
+## chernobyl
+
+move todo/chernobyl to another repo (sandbox)
+
 ## map
 
 I think we lost the semantic similarity and tree similarity filters for selected node filters. That was a powerful tool that had good tunings. Restore it.
-## fix
-
-https://bengravell.github.io/knowledge-base/papers/2014_chen_decodes_to/
-
-totally borked title/slug
-
-
-## fix
-
-https://bengravell.github.io/knowledge-base/papers/1993_donald_kinodynamic_motion_planning/
-
-Description is garbled, ocr garbage
-
 
 ## FIX
 

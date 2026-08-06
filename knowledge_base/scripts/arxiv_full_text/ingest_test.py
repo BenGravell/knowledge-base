@@ -7,7 +7,8 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 from knowledge_base.catalog import Catalog
-from knowledge_base.scripts.arxiv_full_text.html import arxiv_html_markdown
+from knowledge_base.scripts.arxiv_full_text.docling import inline_latex_inputs
+from knowledge_base.scripts.arxiv_full_text.html import arxiv_html_markdown, usable_html
 from knowledge_base.scripts.arxiv_full_text.ingest import process_entry
 from knowledge_base.scripts.arxiv_full_text.text import (
     embed_text_path,
@@ -42,6 +43,23 @@ CONVERTED_MARKDOWN = "## Introduction\n\n" + " ".join(
 
 
 class ArxivFullTextIngestTests(unittest.TestCase):
+    def test_html_with_unresolved_section_include_is_unusable(self) -> None:
+        html = "<html><body><p>SubSection/Pipeline</p></body></html>"
+
+        self.assertFalse(usable_html(html))
+
+    def test_latex_fallback_inlines_starred_includes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "paper.tex"
+            section = Path(tmp) / "SubSection" / "Pipeline.tex"
+            section.parent.mkdir()
+            root.write_text(r"Before\include*{SubSection/Pipeline}After", encoding="utf-8")
+            section.write_text("Complete pipeline section.", encoding="utf-8")
+
+            flattened = inline_latex_inputs(root)
+
+            self.assertEqual(flattened, "BeforeComplete pipeline section.After")
+
     def test_html_ingest_falls_back_when_source_title_does_not_match_entry(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             metadata_path = Path(tmp) / "docs" / "papers" / "2024" / "2401.00001" / "metadata.yml"

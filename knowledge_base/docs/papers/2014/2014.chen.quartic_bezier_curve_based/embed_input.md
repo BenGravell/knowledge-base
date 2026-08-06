@@ -2,7 +2,7 @@
 
 <!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
 
-& Decodes to '&'
+Quartic Bézier Curve Based Trajectory Generation for Autonomous Vehicles with Curvature and Velocity Constraints
 
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
