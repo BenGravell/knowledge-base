@@ -12,8 +12,9 @@ move todo/chernobyl to another repo (sandbox)
 
 dev_apps
 
-remove, not useful
+remove dev_apps/generator_app.py, not useful
 
+do a pass with dev_apps/tree_label_review_app.py
 
 ## map
 
