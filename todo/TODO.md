@@ -22,6 +22,7 @@ I think we lost the semantic similarity and tree similarity filters for selected
 
 ## FIX
 
+paper detail pages like
 https://bengravell.github.io/knowledge-base/papers/2402_01443/ 
 
 On mobile and narrow pages do not use additional padding before title.
