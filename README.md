@@ -1,8 +1,20 @@
 # knowledge-base
 
-Distilled knowledge on a variety of topics.
+Curated research you can actually navigate.
 
 The public site is published at <https://bengravell.github.io/knowledge-base/>.
+
+## Setup
+
+See [docs/SETUP.md](docs/SETUP.md)
+
+## Workflows
+
+See [docs/WORKFLOWS.md](docs/WORKFLOWS.md)
+
+## Development
+
+See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
 
 ## Repo layout
 
@@ -18,151 +30,9 @@ The public site is published at <https://bengravell.github.io/knowledge-base/>.
   - `scripts/` contains maintenance, audit, placement, and prefill entrypoints.
   - `utils/` contains small shared helpers.
 - `dev_apps/` contains Streamlit apps and other human-facing development tools.
-  `./dev` is the Pixi wrapper command.
+- `./dev` is the Pixi wrapper command.
 - `knowledge_base/components/map/`, `knowledge_base/tree/`, and
   `knowledge_base/components/semantic_search/` derive Map, Timeline, Tree, and
   Semantic Search from `docs/papers/**/metadata.yml` plus `tree.yml`.
 - `todo/PAPERS_FUNNEL.md` and `todo/papers/*.md` hold incoming paper URLs before ingest.
-- `docs/` contains repository docs for maintainers; it is not the published site content.
-  - [Setup and development](docs/DEVELOPMENT.md)
-  - [Content ingest workflow](docs/CONTENT_WORKFLOW.md)
-  - [Site generation and derived features](docs/SITE_GENERATION.md)
-
-## Spin up from scratch
-
-Needs `git` plus `curl` or `wget`.
-No Python or global Pixi install is required.
-The `./dev` wrapper installs Pixi locally on first use, then uses the checked-in `pixi.lock`.
-
-```bash
-git clone https://github.com/BenGravell/knowledge-base.git
-cd knowledge-base
-./dev install
-./dev run serve
-```
-
-`kb` is a Python console script. It is available whenever the active Python environment has this repo installed.
-
-VS Code recommends Pixi Code plus the Python extensions.
-
-Pixi Code follows the upstream extension behavior: it auto-discovers `pixi` on
-`PATH`, then registers the `knowledge-base:default` environment after
-`./dev install` creates `.pixi/envs/default`.
-If VS Code does not select it automatically, choose that Pixi environment manually.
-
-In a plain terminal without the Pixi environment active, use `./dev run serve` or `./dev run kb serve`.
-The `kb ...` examples below assume that environment is active; otherwise prefix them with `./dev run`.
-
-Open the URL printed by Zensical, usually <http://127.0.0.1:8000/>.
-
-## Common workflows
-
-### Serve the site locally
-
-From the repo root, run
-
-```bash
-kb serve
-```
-
-### Run pre-commit
-
-Install the Git hooks once:
-
-```bash
-./dev run pre-commit install
-```
-
-Run the hooks manually:
-
-```bash
-./dev run pre-commit run --all-files
-```
-
-The hook set includes Ruff, Black, Pyrefly, unit tests, Vulture dead-code
-detection, Import Linter architecture contracts, and a Radon complexity gate.
-
-To run only one hook while iterating, pass its id and the files to check:
-
-```bash
-./dev run pre-commit run ruff-check --files knowledge_base/scripts/refresh_offline_data.py
-```
-
-### Add papers
-
-Put URLs in `todo/PAPERS_FUNNEL.md`, route them, prefill metadata, audit it, then place entries in `knowledge_base/tree.yml`.
-
-```bash
-# Route URLs into todo/papers/<SOURCE>.md or todo/PAPERS_MISC.md.
-kb funnel
-
-# Prefill every populated source queue automatically.
-kb prefill
-
-# Audit metadata after prefill, apply safe automatic fixes, then fix remaining issues.
-kb audit-metadata --fix --metadata-only
-
-# Refresh Map embeddings used for automatic placement.
-python -m knowledge_base.components.map.pipeline.generate_data
-
-# Automatically place unplaced papers in knowledge_base/tree.yml, then verify.
-kb list-unplaced --write-tree
-kb list-unplaced --neighbors 0 --fail-on-missing
-
-# Stage ingest and placement changes so refresh sees new paper files.
-git add -A -- knowledge_base/docs/papers knowledge_base/tree.yml todo
-
-# Refresh all generated data and build the site.
-kb refresh
-```
-
-Use `kb prefill --help` to list sources. `kb prefill SOURCE` remains available
-for running or debugging one source at a time.
-
-### Ingest arXiv embed text
-
-Some paper entries can have an optional `embed_text.md` sidecar next to `metadata.yml`.
-These sidecars are cleaned Markdown conversions of arXiv HTML, LaTeX, or PDF sources for embedding and agentic search only.
-They are not the canonical e-print, PDF, or LaTeX source of truth, and this
-repo intentionally does not store PDFs, LaTeX source archives, images, or other
-rich paper assets.
-Reuse of paper text remains governed by each paper's original license and rights holder terms.
-
-Run the ingest script from the repo root:
-
-```bash
-kb ingest-arxiv --id 2402.08954
-```
-
-The script skips existing sidecars unless `--force` is passed. For arXiv
-entries it tries arXiv HTML, ar5iv HTML, arXiv LaTeX source, then the PDF
-inferred from the arXiv ID. HTML conversion uses the Python environment's
-project-managed `pandoc` CLI; LaTeX/PDF fallback uses the Python environment's
-project-managed `docling` CLI.
-
-### Develop Python scripts or site helpers
-
-For a script-only change, run a syntax/import check on the edited file:
-
-```bash
-kb py-compile knowledge_base/scripts/refresh_offline_data.py
-```
-
-Replace the path with the file you changed. If the change affects Zensical
-rendering, navigation, or generated site assets, run:
-
-```bash
-kb build
-```
-
-### Refresh offline data
-
-If local generated data is stale, refresh it from the repo root:
-
-```bash
-kb refresh
-```
-
-### Deploy
-
-Push to `main`; the GitHub Pages workflow runs `kb build` and publishes `knowledge_base/site/`.
+- `docs/` contains repository docs for users and maintainers; it is not the published site content.

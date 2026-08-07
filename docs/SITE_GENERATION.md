@@ -16,12 +16,6 @@ Build the static site:
 kb build
 ```
 
-Build the static files for GitHub Pages:
-
-```bash
-kb build
-```
-
 Before `zensical serve` and `zensical build`, `kb` materializes
 `knowledge_base/.generated/docs/` from `knowledge_base/docs/`, then runs these
 generated-file scripts:

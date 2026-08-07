@@ -1,7 +1,7 @@
 [project]
 name = "knowledge-base"
 version = "0.0.0"
-description = "Distilled knowledge on a variety of topics"
+description = "Curated research you can actually navigate"
 authors = [{ name = "Benjamin Gravell", email = "bjgravell@gmail.com" }]
 license = "MIT"
 readme = "README.md"
