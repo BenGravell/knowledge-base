@@ -58,7 +58,7 @@ kb prefill
 kb audit-metadata --fix --metadata-only
 
 # Refresh Map embeddings used for automatic placement.
-python -m knowledge_base.components.map.pipeline.generate_data
+kb refresh-map
 
 # Place unplaced papers in knowledge_base/tree.yml, then verify the Tree.
 kb list-unplaced --write-tree

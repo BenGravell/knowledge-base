@@ -47,6 +47,7 @@ EXTERNAL_COMMANDS: dict[str, tuple[str, ...]] = {
     "prefill": ("python", "-m", "knowledge_base.prefill"),
     "py-compile": ("python", "-m", "py_compile"),
     "refresh": ("python", "knowledge_base/scripts/refresh_offline_data.py"),
+    "refresh-map": ("python", "-m", "knowledge_base.components.map.pipeline.generate_data"),
     "suggest-tree-labels": ("python", "-m", "knowledge_base.scripts.suggest_tree_algorithm_labels"),
     "test": ("python", "-m", "unittest", "discover", "-s", "knowledge_base", "-p", "*_test.py", "-t", "."),
     "typecheck": ("pyrefly", "check"),
