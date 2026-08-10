@@ -10,7 +10,7 @@ dependencies = [
     "zensical==0.0.43",
     "streamlit[pdf]>=1.56.0,<2.0.0",
     "plotly>=6.6.0,<7.0.0",
-    "numpy>=2.4.4,<3.0.0",
+    "numpy>=2.4.4,<2.5.0",
     "scikit-learn>=1.8.0,<2.0.0",
     "fastembed>=0.8.0,<0.9.0",
     "umap-learn>=0.5.12,<0.6.0",
@@ -38,7 +38,7 @@ dev = [
 
 [tool.pixi.workspace]
 channels = ["conda-forge"]
-platforms = ["linux-64"]
+platforms = ["linux-64", "win-64"]
 
 [tool.pixi.dependencies]
 python = "3.12.*"
