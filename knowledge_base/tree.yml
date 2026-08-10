@@ -3079,6 +3079,11 @@
       - Evolution:
         - Natural Selection: docs/papers/1858/1858.darwin.on_the_tendency_of/metadata.yml
         - Mendelian Inheritance: docs/papers/1866/1866.mendel.versuche_uber_pflanzen_hybriden/metadata.yml
+      - Demography:
+        - Ternary Colour Coding: docs/papers/2018/2018.kashnitsky.regional_population_structures_at/metadata.yml
+      - Neuroscience:
+        - Motor Control:
+          - Minimum-Jerk Model: docs/papers/1985/1985.flash.the_coordination_of_arm/metadata.yml
       - DNA:
         - DNA Transforming Principle: docs/papers/1944/1944.avery.studies_on_the_chemical/metadata.yml
         - DNA Double Helix Structure: docs/papers/1953/1953.watson.molecular_structure_of_nucleic/metadata.yml

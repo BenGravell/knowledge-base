@@ -1,0 +1,29 @@
+title: "Regional Population Structures at a Glance"
+algorithm: "Ternary colour coding"
+authors:
+  - "Ilya Kashnitsky"
+  - "Jonas Schoeley"
+year: 2018
+source: "The Lancet"
+type: "Journal Paper"
+doi: "10.1016/S0140-6736(18)31194-2"
+arxiv_id:
+tags:
+  - "Demography"
+  - "Population age structure"
+  - "Population ageing"
+  - "Ternary colour coding"
+  - "Compositional data"
+  - "Choropleth maps"
+  - "Data visualization"
+  - "European regions"
+abstract:
+summary: >
+  Maps the age structures of European regions with ternary colour coding, assigning each region a colour that encodes its relative shares of children, working-age people, and older people. The visualization exposes geographic patterns in population ageing and demographic history at a glance.
+link: "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(18)31194-2/fulltext"
+links_alt:
+  - "https://ikashnitsky.phd/2018/the-lancet-paper/"
+  - "https://github.com/ikashnitsky/the-lancet-2018"
+  - "https://github.com/jschoeley/tricolore"
+  - "https://pubmed.ncbi.nlm.nih.gov/30043748/"
+audit_status: "partial"
