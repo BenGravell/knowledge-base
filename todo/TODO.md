@@ -30,12 +30,6 @@ On mobile and narrow pages do not use additional padding before title.
 Use Wikipedia page layout as a guide for reasonable spacing to title text from top.
 
 
-## ingest
-
-Need to find a way to represent and ingest all the numerous items in
-
-todo/papers_misc
-
 ## perf
 
 Tree and Timeline pages need major performance increase for handling large number of items.
@@ -191,3 +185,6 @@ Create a special page (like a corner of a physical library) just for Dissertatio
 For this page, the UX should operate more like a gallery or a bookshelf. Each dissertation should get rendered in a nice card with emphasis placed on the title, author, and year.
 
 Include a link to the Advanced Search page for the selected dissertation's author.
+
+Use the sorted-by-paper-count-rank from analytics and make sure we retrieve the dissertations for the top authors in the corpus.
+Ensure we get dissertations for myself, my lab mates, colleagues, friends.
