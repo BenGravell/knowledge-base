@@ -1,0 +1,10 @@
+https://gamma-web.iacs.umd.edu/SSV/ssv.pdf
+https://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf
+https://people.eecs.berkeley.edu/~brecht/papers/09.man.rec.ip.pdf
+https://people.eecs.berkeley.edu/~sseshia/pubdir/atva18.pdf
+https://www.cs.unc.edu/~taylorr/Comp715/papers/00601035.pdf
+https://cs.stanford.edu/~rfrostig/pubs/jax-mlsys2018.pdf
+https://www.spiedigitallibrary.org/conference-proceedings-of-spie/1913/0000/Void-and-cluster-method-for-dither-array-generation/10.1117/12.152707.short
+https://sites.google.com/monash.edu/motionperceiver
+https://jessicaleu24.github.io/doc/ACC21.pdf
+https://sites.google.com/view/alspg-oc
