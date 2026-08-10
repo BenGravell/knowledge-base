@@ -1096,6 +1096,7 @@
           - Convex Hulls of Reachable Sets: docs/papers/2023/2303.17674/metadata.yml
           - "On Infusing Reachability-Based Safety Assurance within Planning Frameworks for Human-Robot Vehicle Interactions": docs/papers/2020/2012.03390/metadata.yml
           - "Using Reachable Sets for Trajectory Planning of Automated Vehicles": docs/papers/2021/2021.manzinger.using_reachable_sets_for/metadata.yml
+          - Reachable-Set Decision Module: docs/papers/2023/2309.12289/metadata.yml
           - Planning for Autonomous Cars That Leverage Effects on Human Actions: docs/papers/2016/2016.sadigh.planning_for_autonomous_cars/metadata.yml
         - Multi-Robot Planning:
           - Generation of collision-free trajectories for a quadrocopter fleet: docs/papers/2012/2012.augugliaro.generation_of_collision_free/metadata.yml

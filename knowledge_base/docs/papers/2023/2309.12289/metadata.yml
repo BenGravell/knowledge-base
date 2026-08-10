@@ -1,0 +1,29 @@
+title: "Real-Time Capable Decision Making for Autonomous Driving Using Reachable Sets"
+algorithm: Reachable-Set Decision Module
+authors:
+  - Niklas Kochdumper
+  - Stanley Bak
+year: 2023
+source: IEEE International Conference on Robotics and Automation
+type: Conference Paper
+doi: 10.1109/ICRA57147.2024.10610689
+arxiv_id: "2309.12289"
+tags:
+  - Autonomous driving
+  - Decision making
+  - Motion planning
+  - Reachability analysis
+  - Reachable sets
+  - Driving corridors
+  - Lane changes
+  - Reference trajectories
+  - CommonRoad
+abstract: >
+  Despite large advances in recent years, real-time capable motion planning for autonomous road vehicles remains a huge challenge. In this work, we present a decision module that is based on set-based reachability analysis: First, we identify all possible driving corridors by computing the reachable set for the longitudinal position of the vehicle along the lanelets of the road network, where lane changes are modeled as discrete events. Next, we select the best driving corridor based on a cost function that penalizes lane changes and deviations from a desired velocity profile. Finally, we generate a reference trajectory inside the selected driving corridor, which can be used to guide or warm start low-level trajectory planners. For the numerical evaluation we combine our decision module with a motion-primitive-based and an optimization-based planner and evaluate the performance on 2000 challenging CommonRoad traffic scenarios as well in the realistic CARLA simulator. The results demonstrate that our decision module is real-time capable and yields significant speed-ups compared to executing a motion planner standalone without a decision module.
+summary: >
+  Introduces a real-time decision module that enumerates reachable driving corridors over a lanelet network, selects a corridor using lane-change and velocity costs, and generates a reference trajectory for downstream planners. Experiments on CommonRoad and CARLA show that the module accelerates both motion-primitive and optimization-based planning.
+link: https://arxiv.org/pdf/2309.12289
+links_alt:
+  - https://arxiv.org/abs/2309.12289
+  - https://doi.org/10.1109/ICRA57147.2024.10610689
+audit_status: partial
