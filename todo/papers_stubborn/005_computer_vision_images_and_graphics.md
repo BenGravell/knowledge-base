@@ -6,3 +6,7 @@ https://people.eecs.berkeley.edu/~sequin/CS284/PAPERS/CatmullClark_SDSurf.pdf
 http://lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
 https://ece.uwaterloo.ca/~z70wang/publications/uqi.html
 http://yann.lecun.com/exdb/publis/pdf/lecun-88.pdf
+https://nvlabs.github.io/GEAR-SONIC/
+https://diglib.eg.org/items/a96087bb-abe8-4851-968c-cccc7f17e08c
+https://www.cs.toronto.edu/~kriz/learning-features-2009-TR.pdf
+http://yann.lecun.com/exdb/publis/pdf/lecun-89e.pdf
