@@ -1,0 +1,10 @@
+https://web.stanford.edu/~boyd/papers/ecos_codegen_ecc.html
+https://web.stanford.edu/~boyd/papers/ecos.html
+https://web.stanford.edu/~boyd/papers/dnlp.html
+https://web.stanford.edu/~boyd/papers/pdf/disc_cvx_prog.pdf
+https://web.stanford.edu/~boyd/papers/pdf/dnlp.pdf
+https://calhoun.nps.edu/server/api/core/bitstreams/d13f9e60-3e4a-4fee-be9e-52779f040aaa/content
+https://www.cambridge.org/core/services/aop-cambridge-core/content/view/82C3938EDF3585B2AC5C27093E23814F/S0334270000005142a.pdf/what_is_invexity.pdf
+https://people.sc.fsu.edu/~inavon/5420a/nocedal92theory.pdf
+https://www.cambridge.org/core/journals/acta-numerica/article/abs/theory-of-algorithms-for-unconstrained-optimization/534929FF15B740BB8F1B2E202583DED6
+https://web.stanford.edu/~boyd/papers/cvxpygen.html
