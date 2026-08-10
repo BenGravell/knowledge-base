@@ -1,0 +1,26 @@
+title: "Anytime RRTs"
+algorithm: Anytime RRT
+authors:
+  - David Ferguson
+  - Anthony Stentz
+year: 2006
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems
+type: Conference Paper
+doi: 10.1109/IROS.2006.282100
+arxiv_id:
+tags:
+  - Rapidly-exploring random tree
+  - Anytime planning
+  - Sampling-based planning
+  - Path optimization
+  - Cost maps
+  - Multi-robot planning
+abstract: >
+  We present an anytime algorithm for planning paths through high-dimensional, non-uniform cost search spaces. Our approach works by generating a series of Rapidly-exploring Random Trees (RRTs), where each tree reuses information from previous trees to improve its growth and the quality of its resulting path. We also present a number of modifications to the RRT algorithm that we use to bias the search in favor of less costly solutions. The resulting approach is able to produce an initial solution very quickly, then improve the quality of this solution while deliberation time allows. It is also able to guarantee that subsequent solutions will be better than all previous ones by a user-defined improvement bound. We demonstrate the effectiveness of the algorithm on both single robot and multirobot planning domains.
+summary: >
+  Turns RRT into an anytime planner by repeatedly building trees that reuse information and enforce a user-selected improvement bound. It produces a feasible path quickly, then steadily lowers path cost as more planning time becomes available.
+link: https://publications.ri.cmu.edu/storage/publications/pub_files/pub4/ferguson_david_2006_4/ferguson_david_2006_4.pdf
+links_alt:
+  - https://www.ri.cmu.edu/publications/anytime-rrts/
+  - https://doi.org/10.1109/IROS.2006.282100
+audit_status: partial

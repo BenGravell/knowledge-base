@@ -1,0 +1,25 @@
+title: "Approaches for Heuristically Biasing RRT Growth"
+algorithm: Heuristically Biased RRT
+authors:
+  - Christopher Urmson
+  - Reid Simmons
+year: 2003
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+  - Rapidly-exploring random tree
+  - Heuristic search
+  - Sampling-based planning
+  - Cost maps
+  - Exploration exploitation
+  - Non-uniform sampling
+abstract: >
+  This paper presents several modifications to the basic rapidly-exploring random tree (RRT) search algorithm. The fundamental idea is to utilize a heuristic quality function to guide the search. Results from a relevant simulation experiment illustrate the benefit and drawbacks of the developed algorithms. The paper concludes with several promising directions for future research.
+summary: >
+  Biases RRT growth with heuristic path-quality estimates so sampling favors lower-cost regions while retaining exploration. The experiments show improved solution cost in binary and continuous cost spaces, and expose the tradeoff between greedier guidance and computational effort.
+link: https://publications.ri.cmu.edu/storage/publications/pub_files/pub4/urmson_christopher_2003_1/urmson_christopher_2003_1.pdf
+links_alt:
+  - https://www.ri.cmu.edu/publications/approaches-for-heuristically-biasing-rrt-growth/
+audit_status: partial

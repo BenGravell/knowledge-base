@@ -493,6 +493,7 @@
             - Cooperative Pathfinding: docs/papers/2005/2005.silver.cooperative_pathfinding/metadata.yml
             - LPA*: docs/papers/2004/2004.koenig.lifelong_planning_a/metadata.yml
             - Differentially Constrained Mobile Robot Motion Planning in State Lattices: docs/papers/2009/2009.pivtoraiko.differentially_constrained_mobile_robot/metadata.yml
+            - Hybrid A*: docs/papers/2008/2008.dolgov.practical_search_techniques_in/metadata.yml
             - "Path Planning for Autonomous Vehicles in Unknown Semi-structured Environments": docs/papers/2010/2010.dolgov.path_planning_for_autonomous/metadata.yml
             - Smac Planner: docs/papers/2026/2026.macenski.cost_aware_kinematically_feasible/metadata.yml
           - Probabilistic Roadmap (PRM):
@@ -508,6 +509,8 @@
               - RRT: docs/papers/1998/1998.lavalle.rapidly_exploring_random_trees/metadata.yml
               - Curvature Aware Motion Planning with Closed-Loop Rapidly-exploring Random Trees: docs/papers/2021/2021.van_den_berg.curvature_aware_motion_planning/metadata.yml
               - RRT-Connect: docs/papers/2000/2000.kuffner.rrt_connect_an_efficient/metadata.yml
+              - Heuristically Biased RRT: docs/papers/2003/2003.urmson.approaches_for_heuristically_biasing/metadata.yml
+              - Anytime RRT: docs/papers/2006/2006.ferguson.anytime_rrts/metadata.yml
             - Asymptotically Optimal:
               - RRT*:
                 - RRT*: docs/papers/2011/1105.1186/metadata.yml
@@ -940,6 +943,7 @@
             - TOPP: docs/papers/1985/1985.bobrow.time_optimal_control_of/metadata.yml
             - AVP: docs/papers/2014/1411.4045/metadata.yml
             - TOPP-RA: docs/papers/2017/1707.07239/metadata.yml
+            - FBGA: docs/papers/2026/2026.piazza.fbga_a_forward_backward/metadata.yml
             - "Kinodynamic motion planning": docs/papers/1993/1993.donald.kinodynamic_motion_planning/metadata.yml
           - Optimization-based Speed Planning:
             - Path-Velocity Decomposition: docs/papers/1986/1986.kant.toward_efficient_trajectory_planning/metadata.yml

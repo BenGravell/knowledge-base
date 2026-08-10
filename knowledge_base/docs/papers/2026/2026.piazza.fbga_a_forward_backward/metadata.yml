@@ -1,0 +1,30 @@
+title: "FBGA: A Forward-Backward Method for Online Time-Optimal Velocity Planning with Generic Acceleration Constraints"
+algorithm: FBGA
+authors:
+  - Mattia Piazza
+  - Mattia Piccinini
+  - Sebastiano Taddei
+  - Francesco Biral
+  - Enrico Bertolazzi
+year: 2026
+source: German Robotics Conference
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+  - Time-optimal planning
+  - Speed planning
+  - Acceleration constraints
+  - Vehicle dynamics
+  - Autonomous racing
+  - Real-time planning
+  - Optimal control
+abstract: >
+  We present FBGA, a new algorithm for time-optimal velocity planning under generic acceleration constraints. By extending previous forward-backward approaches to handle custom acceleration constraints, our FBGA matches the accuracy of optimal control baselines while being up to three orders of magnitude faster. Our open-source C++ implementation is available at: https://github.com/DRIVEWISE/FBGA.
+summary: >
+  Extends forward-backward velocity planning to generic, speed-dependent acceleration envelopes such as g-g-v diagrams. FBGA closely matches optimal-control lap times while reducing full-lap computation to milliseconds, making high-fidelity speed planning practical inside online sampling-based planners.
+link: https://www.mos.ed.tum.de/fileadmin/w00ccp/avs/_my_direct_uploads/Mattia.pdf
+links_alt:
+  - https://github.com/DRIVEWISE/FBGA
+  - https://doi.org/10.1109/LRA.2025.3643297
+audit_status: partial
