@@ -1500,6 +1500,7 @@
             - Nonlinear Control Design for Mobile Robots: docs/papers/1994/1994.de_wit.nonlinear_control_design_for/metadata.yml
             - Feedback Control of a Nonholonomic Car-Like Robot: docs/papers/1998/1998.de_luca.feedback_control_of_a/metadata.yml
             - Autonomous Automobile Trajectory Tracking for Off-road Driving: docs/papers/2007/2007.hoffmann.autonomous_automobile_trajectory_tracking/metadata.yml
+            - Automatic Steering Methods for Autonomous Automobile Path Tracking: docs/papers/2009/2009.snider.automatic_steering_methods_for/metadata.yml
           - Tracking Control for Aerial Robots:
             - Optimization-based iterative learning for precise quadrocopter trajectory tracking: docs/papers/2012/2012.schoellig.optimization_based_iterative_learning/metadata.yml
             - Stability and control of a quadrocopter despite the complete loss of one, two, or three propellers: docs/papers/2014/2014.mueller.stability_and_control_of/metadata.yml
@@ -2118,6 +2119,7 @@
           - "Physics-Informed Kernel Embeddings: Integrating Prior System Knowledge with Data-Driven Control": docs/papers/2023/2301.03565/metadata.yml
           - A Factor Graph Approach to Estimation and Model Predictive Control on Unmanned Aerial Vehicles: docs/papers/2014/2014.ta.a_factor_graph_approach/metadata.yml
         - Map-Based Localization:
+          - Map-Based Precision Vehicle Localization: docs/papers/2007/2007.levinson.map_based_precision_vehicle/metadata.yml
           - Robust Vehicle Localization in Urban Environments Using Probabilistic Maps: docs/papers/2010/2010.levinson.robust_vehicle_localization_in/metadata.yml
         - Dense Mapping:
           - Learning Occupancy Grid Maps with Forward Sensor Models: docs/papers/2003/2003.thrun.learning_occupancy_grid_maps/metadata.yml
