@@ -10,11 +10,22 @@ from knowledge_base.components.semantic_search.generate_semantic_search_index im
     embedding_cache_matches_rows,
     semantic_asset_key,
     semantic_assets_current,
+    source_fingerprint,
 )
 from knowledge_base.embeddings.workbench import EmbeddingRow
 
 
 class SemanticSearchIndexCacheTests(unittest.TestCase):
+    def test_source_fingerprint_changes_when_embed_text_is_added(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "metadata.yml").write_text("title: Paper\n", encoding="utf-8")
+            before = source_fingerprint(root)
+
+            (root / "embed_text.md").write_text("Paper body\n", encoding="utf-8")
+
+            self.assertNotEqual(source_fingerprint(root), before)
+
     def test_asset_key_changes_when_row_hash_changes(self) -> None:
         papers = [{"id": "p1", "title": "Title", "hash": "paper-hash"}]
         key = semantic_asset_key(

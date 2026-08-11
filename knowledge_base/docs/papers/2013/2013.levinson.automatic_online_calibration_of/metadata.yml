@@ -1,4 +1,5 @@
-title: "Automatic Online Calibration of Cameras and Lasers"
+title: >
+  Automatic Online Calibration of Cameras and Lasers
 algorithm: "Online Camera-Laser Calibration"
 authors:
   - "Jesse Levinson"

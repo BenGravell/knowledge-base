@@ -157,6 +157,7 @@ tags:
 - canonical: Arithmetic circuits
 - canonical: Arithmetic coding
 - canonical: Arithmetic complexity
+- canonical: Arm movements
 - canonical: ARMA
 - canonical: Armijo line search
 - canonical: Armijo rule
@@ -395,8 +396,10 @@ tags:
 - canonical: Calculus of variations
 - canonical: Calibrated cameras
 - canonical: Calibration
+- canonical: Calibration monitoring
 - canonical: Called memoryless GAPS
 - canonical: Camera calibration
+- canonical: Camera-LIDAR calibration
 - canonical: Camera position averaging
 - canonical: Canny edge detector
 - canonical: Canonical forms
@@ -460,6 +463,7 @@ tags:
 - canonical: CHOMP
 - canonical: ChopGrad
 - canonical: Chopsticks
+- canonical: Choropleth maps
 - canonical: Chromaticity
 - canonical: CIE color space
 - canonical: CIECAM02
@@ -555,6 +559,7 @@ tags:
 - canonical: Complexity theory
 - canonical: Composite keys
 - canonical: Composite optimization
+- canonical: Compositional data
 - canonical: Compounding errors
 - canonical: Compressed sensing
 - canonical: Compression artifact reduction
@@ -665,6 +670,7 @@ tags:
 - canonical: Controlled generation
 - canonical: Controlled invariance
 - canonical: Controlled invariant sets
+- canonical: Controller comparison
 - canonical: Controller design
 - canonical: Controller synthesis
 - canonical: Controller uncertainty
@@ -837,6 +843,7 @@ tags:
 - canonical: Degradation removal
 - canonical: Degree centrality
 - canonical: Delaunay triangulation
+- canonical: Demography
 - canonical: DenMune
 - canonical: Denoising
 - canonical: Denoising diffusion
@@ -1002,6 +1009,7 @@ tags:
 - canonical: DriveGPT
 - canonical: Driver models
 - canonical: Driver nodes
+- canonical: Driving corridors
 - canonical: Driving datasets
 - canonical: Driving simulation
 - canonical: Driving simulator
@@ -1038,6 +1046,7 @@ tags:
 - canonical: Dynamic model
 - canonical: Dynamic motions
 - canonical: Dynamic obstacles
+- canonical: Dynamic optimization
 - canonical: Dynamic output feedback
 - canonical: Dynamic programming
 - canonical: Dynamic systems
@@ -1136,6 +1145,7 @@ tags:
   aliases:
   - ESDF
 - canonical: Euler-Lagrange equations
+- canonical: European regions
 - canonical: Evaluation
 - canonical: Event camera
 - canonical: Event prediction
@@ -1196,6 +1206,7 @@ tags:
   - Extended DMD
 - canonical: Extended Kalman filters
 - canonical: External memory
+- canonical: Extrinsic calibration
 - canonical: F-S
 - canonical: Face detection
 - canonical: Face super-resolution
@@ -1649,6 +1660,7 @@ tags:
 - canonical: Human guidance
 - canonical: Human-inspired robotics
 - canonical: Human locomotion
+- canonical: Human movement
 - canonical: Human-object interaction
 - canonical: Human prostheses
 - canonical: Human-robot interaction
@@ -1762,6 +1774,7 @@ tags:
 - canonical: Informed sampling
 - canonical: Informed set
 - canonical: Informer
+- canonical: Infrared reflectivity maps
 - canonical: Infrastructure
 - canonical: Initialization
 - canonical: Innovation analysis
@@ -1946,6 +1959,7 @@ tags:
 - canonical: Lanczos method
   aliases:
   - Lanczos methods
+- canonical: Lane changes
 - canonical: Lane detection
 - canonical: Language model features
 - canonical: Language models
@@ -2189,6 +2203,7 @@ tags:
 - canonical: Manipulator control
 - canonical: Manipulator trajectory planning
 - canonical: Manipulators
+- canonical: Map-based localization
 - canonical: Map equation
 - canonical: Map matching
 - canonical: Map tracking
@@ -2197,6 +2212,7 @@ tags:
 - canonical: Marching cubes
 - canonical: Marginal coverage
 - canonical: Marginalized particle filters
+- canonical: Markerless calibration
 - canonical: Markov chain
 - canonical: Markov chain Monte Carlo
 - canonical: Markov decision process
@@ -2297,6 +2313,7 @@ tags:
 - canonical: Minimax theorem
 - canonical: Minimized iterations
 - canonical: Minimum jerk
+- canonical: Minimum-jerk model
 - canonical: Minimum-phase systems
 - canonical: Minimum redundancy coding
 - canonical: Minimum snap trajectories
@@ -2403,6 +2420,8 @@ tags:
 - canonical: Motion prediction
 - canonical: Motion primitives
 - canonical: Motion uncertainty
+- canonical: Motor control
+- canonical: Movement kinematics
 - canonical: MovieLens
 - canonical: Moving average
 - canonical: Moving object indexing
@@ -2683,6 +2702,7 @@ tags:
 - canonical: On-policy generalized knowledge distillation
 - canonical: Once
 - canonical: Online algorithms
+- canonical: Online calibration
 - canonical: Online convex optimization
 - canonical: Online experiment design
 - canonical: Online learning
@@ -2695,10 +2715,10 @@ tags:
 - canonical: Open-loop evaluation
 - canonical: Open-set detection
 - canonical: Open source
-- canonical: Open X-embodiment
 - canonical: Open-source benchmark
 - canonical: Open-source hardware
 - canonical: Open-source software
+- canonical: Open X-embodiment
 - canonical: OpenAI Gym
 - canonical: OpenVLA
 - canonical: Operational space
@@ -2715,6 +2735,7 @@ tags:
 - canonical: Optimal feedback control
 - canonical: Optimal motion planning
 - canonical: Optimal path
+- canonical: Optimal preview control
 - canonical: Optimal transport
   aliases:
   - OT
@@ -2808,6 +2829,7 @@ tags:
 - canonical: Partial match queries
 - canonical: Partial observability
 - canonical: Partially observable planning
+- canonical: Particle filtering
 - canonical: Particle filters
   aliases:
   - Particle filter
@@ -2948,6 +2970,8 @@ tags:
 - canonical: Pontryagin
 - canonical: Pontryagin maximum principle
 - canonical: Popov criterion
+- canonical: Population age structure
+- canonical: Population ageing
 - canonical: Population-based search
 - canonical: Portfolio optimization
 - canonical: Pose estimation
@@ -3248,6 +3272,7 @@ tags:
 - canonical: Reference frame
 - canonical: Reference systems
 - canonical: Reference tracking
+- canonical: Reference trajectories
 - canonical: Reference trajectory
 - canonical: Referring expression comprehension
 - canonical: Regenerative amplifiers
@@ -3515,7 +3540,6 @@ tags:
 - canonical: Search engines
 - canonical: Search heuristics
 - canonical: Search trees
-- canonical: Segment anything
 - canonical: Second derivatives
 - canonical: Second-moment dynamics
 - canonical: Second-order cone program
@@ -3526,6 +3550,7 @@ tags:
 - canonical: Second-order optimization
 - canonical: Secure control
 - canonical: Security
+- canonical: Segment anything
 - canonical: Segregation
 - canonical: Seismic exploration
 - canonical: Selection algorithms
@@ -3551,6 +3576,7 @@ tags:
 - canonical: Sensitivity analysis
 - canonical: Sensitivity function
 - canonical: Sensor attacks
+- canonical: Sensor drift
 - canonical: Sensor fusion
 - canonical: Sensor placement
 - canonical: Sensor selection
@@ -3809,6 +3835,7 @@ tags:
 - canonical: STAMP
 - canonical: Standardized interface
 - canonical: Standards
+- canonical: Stanley controller
 - canonical: STAR
 - canonical: STAR-tree
 - canonical: State-based steering
@@ -4032,6 +4059,7 @@ tags:
 - canonical: Temporal logic planning
 - canonical: Terminal constraints
 - canonical: Terminal cost
+- canonical: Ternary colour coding
 - canonical: Test set
 - canonical: Test-time feedback
 - canonical: Testing
@@ -4220,6 +4248,7 @@ tags:
 - canonical: Upper confidence bounds
 - canonical: Urban challenge
 - canonical: Urban driving
+- canonical: Urban environments
 - canonical: Urban mapping
 - canonical: User studies
 - canonical: V-JEPA
@@ -4266,7 +4295,10 @@ tags:
 - canonical: Vehicle control
 - canonical: Vehicle dynamics
 - canonical: Vehicle kinematics
+- canonical: Vehicle localization
+- canonical: Vehicle modeling
 - canonical: Vehicle models
+- canonical: Vehicle steering control
 - canonical: Vehicles
 - canonical: Velocity control
 - canonical: Velocity obstacles

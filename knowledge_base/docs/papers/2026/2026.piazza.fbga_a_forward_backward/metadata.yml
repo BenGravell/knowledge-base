@@ -1,4 +1,5 @@
-title: "FBGA: A Forward-Backward Method for Online Time-Optimal Velocity Planning with Generic Acceleration Constraints"
+title: >
+  FBGA: A Forward-Backward Method for Online Time-Optimal Velocity Planning with Generic Acceleration Constraints
 algorithm: FBGA
 authors:
   - Mattia Piazza
@@ -9,7 +10,7 @@ authors:
 year: 2026
 source: German Robotics Conference
 type: Conference Paper
-doi:
+doi: 10.1109/LRA.2025.3643297
 arxiv_id:
 tags:
   - Time-optimal planning

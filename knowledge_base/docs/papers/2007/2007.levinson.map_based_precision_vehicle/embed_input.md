@@ -1,0 +1,19 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
+Map-Based Precision Vehicle Localization in Urban Environments
+
+Topics include Autonomous driving, Vehicle localization, Map-based localization, Particle filtering, LiDAR, Infrared reflectivity maps, GraphSLAM, Sensor fusion, Urban environments.
+
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
+Builds a globally consistent infrared road-surface map from GPS, IMU, wheel-odometry, and LIDAR data, then localizes a vehicle against it with a particle filter. The system achieves roughly 10-centimeter real-time accuracy and remains effective in GPS-denied, bad-weather, and dense-traffic conditions.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Many urban navigation applications (e.g., autonomous navigation, driver assistance systems) can benefit greatly from localization with centimeter accuracy. Yet such accuracy cannot be achieved reliably with GPS-based inertial guidance systems, specifically in urban settings. We propose a technique for high-accuracy localization of moving vehicles that utilizes maps of urban environments. Our approach integrates GPS, IMU, wheel odometry, and LIDAR data acquired by an instrumented vehicle, to generate high-resolution environment maps. Offline relaxation techniques similar to recent SLAM methods are employed to bring the map into alignment at intersections and other regions of self-overlap. By reducing the final map to the flat road surface, imprints of other vehicles are removed. The result is a 2-D surface image of ground reflectivity in the infrared spectrum with 5cm pixel resolution. To localize a moving vehicle relative to these maps, we present a particle filter method for correlating LIDAR measurements with this map. As we show by experimentation, the resulting relative accuracies exceed that of conventional GPS-IMU-odometry-based methods by more than an order of magnitude.
+
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Specifically, we show that our algorithm is effective in urban environments, achieving reliable real-time localization with accuracy in the 10-centimeter range. Experimental results are provided for localization in GPS-denied environments, during bad weather, and in dense traffic. The proposed approach has been used successfully for steering a car through narrow, dynamic urban roads.

@@ -1,4 +1,5 @@
-title: "Practical Search Techniques in Path Planning for Autonomous Driving"
+title: >
+  Practical Search Techniques in Path Planning for Autonomous Driving
 algorithm: Hybrid A*
 authors:
   - Dmitri Dolgov

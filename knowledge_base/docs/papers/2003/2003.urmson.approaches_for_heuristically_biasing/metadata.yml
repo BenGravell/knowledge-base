@@ -1,4 +1,5 @@
-title: "Approaches for Heuristically Biasing RRT Growth"
+title: >
+  Approaches for Heuristically Biasing RRT Growth
 algorithm: Heuristically Biased RRT
 authors:
   - Christopher Urmson

@@ -51,7 +51,7 @@ it, place the papers in the Tree, and refresh generated data:
 kb funnel --dry-run
 kb funnel
 
-# Prefill every populated source queue automatically.
+# Prefill every populated source queue and ingest full text for new arXiv-backed entries.
 kb prefill
 
 # Apply supported metadata fixes, then manually review the remaining findings.
@@ -85,10 +85,11 @@ kb prefill <source> --reingest
 ```
 
 Run `kb prefill --help` for the current source list. Prefill removes handled
-rows from its source queue and writes new entries below
-`knowledge_base/docs/papers/` with `audit_status: raw`. Review the generated
-metadata and resulting diff. Agents may promote meaningfully reviewed entries
-to `partial`; only a human may set `reviewed`.
+rows from its source queue, writes new entries below `knowledge_base/docs/papers/`
+with `audit_status: raw`, and automatically attempts to create `embed_text.md`
+for every newly written entry with an `arxiv_id`. Review the generated metadata
+and resulting diff. Agents may promote meaningfully reviewed entries to `partial`;
+only a human may set `reviewed`.
 
 ### Add one paper manually
 
@@ -146,7 +147,8 @@ repo intentionally does not store PDFs, LaTeX source archives, images, or other
 rich paper assets.
 Reuse of paper text remains governed by each paper's original license and rights holder terms.
 
-Run the ingest script from the repo root:
+`kb prefill` runs this ingest automatically for newly written arXiv-backed
+entries. To ingest or retry an existing entry manually, run:
 
 ```bash
 kb ingest-arxiv --id 2402.08954

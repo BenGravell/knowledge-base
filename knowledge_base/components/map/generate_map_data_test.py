@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import tempfile
 import unittest
+from pathlib import Path
 
 import numpy as np
 
+from knowledge_base.components.map.pipeline.generate_data import source_fingerprint
 from knowledge_base.components.map.pipeline.layouts import (
     added_only_cache_hit,
     incremental_neighbor_positions,
@@ -11,6 +14,16 @@ from knowledge_base.components.map.pipeline.layouts import (
 
 
 class MapDataIncrementalLayoutTests(unittest.TestCase):
+    def test_source_fingerprint_changes_when_embed_text_is_added(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "metadata.yml").write_text("title: Paper\n", encoding="utf-8")
+            before = source_fingerprint(root)
+
+            (root / "embed_text.md").write_text("Paper body\n", encoding="utf-8")
+
+            self.assertNotEqual(source_fingerprint(root), before)
+
     def test_added_only_cache_hit_accepts_single_new_paper(self) -> None:
         entry = {
             "ids": ["a", "b"],

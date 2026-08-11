@@ -1,4 +1,5 @@
-title: "Real-Time Capable Decision Making for Autonomous Driving Using Reachable Sets"
+title: >
+  Real-Time Capable Decision Making for Autonomous Driving Using Reachable Sets
 algorithm: Reachable-Set Decision Module
 authors:
   - Niklas Kochdumper
@@ -10,7 +11,7 @@ doi: 10.1109/ICRA57147.2024.10610689
 arxiv_id: "2309.12289"
 tags:
   - Autonomous driving
-  - Decision making
+  - Decision-making
   - Motion planning
   - Reachability analysis
   - Reachable sets
@@ -24,6 +25,5 @@ summary: >
   Introduces a real-time decision module that enumerates reachable driving corridors over a lanelet network, selects a corridor using lane-change and velocity costs, and generates a reference trajectory for downstream planners. Experiments on CommonRoad and CARLA show that the module accelerates both motion-primitive and optimization-based planning.
 link: https://arxiv.org/pdf/2309.12289
 links_alt:
-  - https://arxiv.org/abs/2309.12289
   - https://doi.org/10.1109/ICRA57147.2024.10610689
 audit_status: partial

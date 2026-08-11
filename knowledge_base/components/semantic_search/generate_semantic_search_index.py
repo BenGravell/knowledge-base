@@ -104,7 +104,10 @@ def source_fingerprint(root: Path, extra_files: tuple[Path, ...] = ()) -> str:
     h = hashlib.sha256()
     h.update(f"source-fingerprint:{SOURCE_FINGERPRINT_VERSION}".encode("ascii"))
     paths = sorted(
-        path for pattern in ("metadata.yml", "embed_input.md") for path in root.rglob(pattern) if path.is_file()
+        path
+        for pattern in ("metadata.yml", "embed_text.md", "embed_input.md")
+        for path in root.rglob(pattern)
+        if path.is_file()
     )
     paths.extend(path for path in extra_files if path.is_file())
     for path in paths:
@@ -336,11 +339,13 @@ def generate(args: argparse.Namespace) -> None:
 
     print("Loading paper catalog")
     papers, rows = load_papers()
+    source_key = source_fingerprint(METADATA_ROOT)
     print(f"Found {len(papers)} papers and {len(rows)} embedding chunk(s)")
     asset_key = semantic_asset_key(papers, rows, model=args.model, browser_model=args.browser_model)
     if (
         not args.force
         and semantic_assets_current(args, asset_key=asset_key)
+        and semantic_assets_current(args, source_key=source_key)
         and embedding_cache_matches_rows(args.cache, rows, args.model)
     ):
         print("Semantic search assets loaded from cache (inputs unchanged)")

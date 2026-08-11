@@ -39,7 +39,10 @@ def source_fingerprint(root: Path, extra_files: tuple[Path, ...] = ()) -> str:
     h = hashlib.sha256()
     h.update(f"map-source-fingerprint:{SOURCE_FINGERPRINT_VERSION}".encode("ascii"))
     paths = sorted(
-        path for pattern in ("metadata.yml", "embed_input.md") for path in root.rglob(pattern) if path.is_file()
+        path
+        for pattern in ("metadata.yml", "embed_text.md", "embed_input.md")
+        for path in root.rglob(pattern)
+        if path.is_file()
     )
     paths.extend(path for path in extra_files if path.is_file())
     for path in paths:
@@ -81,6 +84,7 @@ def main() -> None:
     # ---- collect papers ----------------------------------------------------
     print("\n[1/6] Collecting paper metadata…")
     papers, rows = collect_map_papers(paper_to_category)
+    source_key = source_fingerprint(METADATA_ROOT, (SITE_CONFIG,))
     print(f"    Found {len(papers)} papers")
 
     # ---- choose backend ----------------------------------------------------

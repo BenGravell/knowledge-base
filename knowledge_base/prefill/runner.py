@@ -37,7 +37,9 @@ from knowledge_base.prefill.todo_file import (
     source_row_token,
     write_text_atomic,
 )
+from knowledge_base.scripts.arxiv_full_text.ingest import main as ingest_arxiv
 from knowledge_base.utils.arxiv_utils import metadata_to_yaml
+from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 FieldMap = dict[str, Any]
 Entry = Any
@@ -372,6 +374,13 @@ def _success_message(spec: SourceSpec, prefix: str, entry: Entry, fields: FieldM
     return f"{prefix}  OK -> {out}"
 
 
+def _ingest_embed_text(metadata: FieldMap, out: Path) -> None:
+    if not str(metadata.get("arxiv_id") or "").strip():
+        return
+    paper_id = paper_id_from_metadata(out, metadata)
+    ingest_arxiv(["--paper-id", paper_id, "--sleep", "0"])
+
+
 def _skipped_list_message(spec: SourceSpec, entry: Entry, fields: FieldMap | None, existing: Path) -> str:
     if spec.mode in {"doi", "url_doi"}:
         doi = str(fields.get("doi") or "") if fields else _entry_doi(spec, entry)
@@ -467,6 +476,7 @@ def run_source(source: str, argv: Sequence[str] | None = None) -> None:
         out = _write_metadata(spec, entry, fields, metadata_to_yaml(metadata))
         print(_success_message(spec, prefix, entry, fields, out))
         source_removed += _remove_handled_source_rows(spec, args.input, entry, prefix)
+        _ingest_embed_text(metadata, out)
         ok += 1
 
         if args.first is not None and ok + failed >= args.first:
