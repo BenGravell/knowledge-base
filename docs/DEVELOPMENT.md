@@ -1,4 +1,4 @@
-# Setup and development
+# Development
 
 This file is the maintainer command reference for the repository.
 Run commands from the repository root unless a section says otherwise.
@@ -100,6 +100,21 @@ It shows the current Tree label, metadata `algorithm`, paper context, nearby
 
 Applying a label writes back to `knowledge_base/tree.yml`, the affected
 `metadata.yml`, or both, so review the resulting diff before committing.
+
+## Develop Python scripts or site helpers
+
+For a script-only change, run a syntax/import check on the edited file:
+
+```bash
+kb py-compile knowledge_base/scripts/refresh_offline_data.py
+```
+
+Replace the path with the file you changed. If the change affects Zensical
+rendering, navigation, or generated site assets, run:
+
+```bash
+kb build
+```
 
 ## Repo layout
 

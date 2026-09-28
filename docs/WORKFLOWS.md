@@ -160,21 +160,6 @@ inferred from the arXiv ID. HTML conversion uses the Python environment's
 project-managed `pandoc` CLI; LaTeX/PDF fallback uses the Python environment's
 project-managed `docling` CLI.
 
-## Develop Python scripts or site helpers
-
-For a script-only change, run a syntax/import check on the edited file:
-
-```bash
-kb py-compile knowledge_base/scripts/refresh_offline_data.py
-```
-
-Replace the path with the file you changed. If the change affects Zensical
-rendering, navigation, or generated site assets, run:
-
-```bash
-kb build
-```
-
 ## Refresh offline data
 
 If local generated data is stale, refresh it from the repo root:
