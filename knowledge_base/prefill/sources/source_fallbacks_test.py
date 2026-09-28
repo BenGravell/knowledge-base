@@ -44,11 +44,11 @@ class PublisherFallbacksTest(unittest.TestCase):
     def test_ieee_uses_rendered_title_when_xplore_blocks_scraping(
         self, get: Mock, fetch_page: Mock, fetch_title: Mock
     ) -> None:
-        get.return_value = Mock(ok=False)
-        fetch_page.side_effect = ["", "Title: A Useful IEEE Paper\n\nMarkdown Content:"]
-        fetch_title.return_value = "10.1109/example"
+        get.side_effect = [Mock(ok=False), Mock(text="Title: A Useful IEEE Paper\n\nMarkdown Content:")]
+        fetch_page.return_value = ""
+        fetch_title.return_value = "10.1109/example.123"
 
-        self.assertEqual(ieee.fetch_ieee_doi("123"), "10.1109/example")
+        self.assertEqual(ieee.fetch_ieee_doi("123"), "10.1109/example.123")
         fetch_title.assert_called_once_with("A Useful IEEE Paper")
 
 

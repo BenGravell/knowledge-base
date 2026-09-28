@@ -33,7 +33,7 @@ from knowledge_base.prefill.todo_file import read_url_lines
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "IEEE.md"
 
 _IEEE_ARTICLE_RE = re.compile(
-    r"ieeexplore\.ieee\.org/(?:abstract/)?document/(\d+)",
+    r"ieeexplore\.ieee\.org/(?:(?:abstract/)?document/|stampPDF/getPDF\.jsp\?[^#]*?\barnumber=)(\d+)",
     re.I,
 )
 
@@ -99,14 +99,22 @@ def fetch_ieee_doi(article_id: str) -> str:
     except Exception:
         pass
 
-    rendered = fetch_page_html(_READER_TMPL.format(page_url=page_url))
+    reader = requests.get(_READER_TMPL.format(page_url=page_url), timeout=60)
+    reader.raise_for_status()
+    rendered = reader.text
     try:
-        return scrape_doi_from_html(rendered)
+        doi = scrape_doi_from_html(rendered)
+        if article_id in doi:
+            return doi
     except ValueError:
-        title_match = re.search(r"^Title:\s*(.+)$", rendered, re.MULTILINE)
-        if not title_match:
-            raise
-        return fetch_doi_from_crossref_title(title_match.group(1).strip())
+        pass
+    title_match = re.search(r"^Title:\s*(.+)$", rendered, re.MULTILINE)
+    if not title_match:
+        raise ValueError(f"No verified DOI for IEEE article {article_id}")
+    doi = fetch_doi_from_crossref_title(title_match.group(1).strip())
+    if article_id not in doi:
+        raise ValueError(f"No verified DOI for IEEE article {article_id}")
+    return doi
 
 
 def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str]]:

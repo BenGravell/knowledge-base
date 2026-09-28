@@ -10,6 +10,9 @@ _MDPI_ARTICLE_RE = re.compile(
     r"mdpi\.com/(?P<issn>\d{4}-\d{3}[\dX])/(?P<volume>\d+)/(?P<issue>\d+)/(?P<article>\d+)", re.I
 )
 _JOURNAL_BY_ISSN = {
+    "2077-0472": "agriculture",
+    "2227-9091": "economies",
+    "2227-7390": "math",
     "2413-8851": "urbansci",
 }
 

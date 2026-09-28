@@ -31,7 +31,7 @@ from knowledge_base.prefill.todo_file import (
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "NEURIPS.md"
 
 _ABSTRACT_RE = re.compile(
-    r"(?:proceedings\.neurips\.cc|papers\.neurips\.cc|papers\.nips\.cc)/(?:paper|paper_files/paper)/(\d{4})/hash/([0-9a-f]+)-Abstract\.html",
+    r"(?:proceedings\.neurips\.cc|papers\.neurips\.cc|papers\.nips\.cc)/(?:paper|paper_files/paper)/(\d{4})/hash/([0-9a-f]+)-Abstract(?:-Conference)?\.html",
     re.I,
 )
 _FILE_RE = re.compile(
@@ -133,6 +133,8 @@ def fetch_neurips_fields(year: str, paper_hash: str) -> dict[str, Any]:
 
     if not title or not authors or not abstract or not source:
         html = fetch_page_html(abs_url)
+        paper_url = first_meta(html, "citation_pdf_url") or paper_url
+        year = first_meta(html, "citation_publication_date")[:4] or year
         title = title or first_meta(html, "citation_title") or first_element_text(html, "h1", "paper-title")
         authors = authors or meta_contents(html, "citation_author")
         if not authors:
@@ -154,7 +156,7 @@ def fetch_neurips_fields(year: str, paper_hash: str) -> dict[str, Any]:
         "type": "Conference Paper",
         "abstract": abstract,
         "link": paper_url,
-        "links_alt": [abs_url, meta_url],
+        "links_alt": [abs_url] + ([meta_url] if payload else []),
     }
 
 

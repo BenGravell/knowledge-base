@@ -101,6 +101,7 @@ def custom_source_specs(input_path: Callable[[str], Path]) -> list[SourceSpec]:
             extract_entries=dagstuhl.extract_entries,
             entry_label=dagstuhl.entry_label,
             entry_doi=dagstuhl.entry_doi,
+            fetch_fields=dagstuhl.fetch_fields,
             source_key_for_token=dagstuhl.source_key_for_token,
             postprocess_crossref_data=dagstuhl.postprocess_crossref_data,
             doi_link_alt=True,
@@ -285,6 +286,7 @@ def custom_source_specs(input_path: Callable[[str], Path]) -> list[SourceSpec]:
             type_fallback="Technical Report",
             source_hint="RAND",
             accept_url=rand.accept_url,
+            fetch_fields=rand.fetch_fields,
         ),
         SourceSpec(
             "researchgate",

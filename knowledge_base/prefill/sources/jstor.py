@@ -12,6 +12,9 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "JSTOR.md"
 
 _STABLE_RE = re.compile(r"jstor\.org/stable/([^/?#\s]+)", re.I)
 _DOI_BY_STABLE_ID = {
+    "2098941": "10.1137/0111030",
+    "2627476": "10.1287/mnsc.6.1.73",
+    "2630487": "10.1287/mnsc.24.11.1127",
     "2238545": "10.1214/aoms/1177703591",
     "23358653": "10.1287/moor.1120.0566",
     "43633451": "10.1090/qam/10666",

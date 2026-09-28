@@ -17,12 +17,19 @@ _OUP_ARTICLE_CODE_RE = re.compile(
     re.I,
 )
 
+_KNOWN_DOIS_BY_ARTICLE_ID = {
+    "4828180": "10.1093/ml/gcx095",
+}
+
 
 def accept_url(url: str) -> bool:
     return "academic.oup.com/" in url
 
 
 def entry_doi(entry: str) -> str | None:
+    article_id = re.search(r"/article(?:-abstract)?/[^/]+/[^/]+/[^/]+/(\d+)(?:[/?#]|$)", entry, re.I)
+    if article_id and article_id.group(1) in _KNOWN_DOIS_BY_ARTICLE_ID:
+        return _KNOWN_DOIS_BY_ARTICLE_ID[article_id.group(1)]
     match = _OUP_DOI_PATH_RE.search(entry)
     if match:
         return match.group("doi")
