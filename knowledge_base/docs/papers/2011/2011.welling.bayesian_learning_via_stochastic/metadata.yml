@@ -1,0 +1,26 @@
+title: >
+  Bayesian Learning via Stochastic Gradient Langevin Dynamics
+algorithm: Stochastic Gradient Langevin Dynamics
+authors:
+  - Max Welling
+  - Yee Whye Teh
+year: 2011
+source: International Conference on Machine Learning
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+  - Bayesian inference
+  - Stochastic gradient langevin dynamics
+  - Posterior sampling
+  - Markov chain Monte Carlo
+  - Mini-batch learning
+abstract: >
+  In this paper we propose a new framework for learning from large scale datasets based on iterative learning from small mini-batches. By adding the right amount of noise to a standard stochastic gradient optimization algorithm we show that the iterates will converge to samples from the true posterior distribution as we anneal the stepsize. This seamless transition between optimization and Bayesian posterior sampling provides an in-built protection against overfitting. We also propose a practical method for Monte Carlo estimates of posterior statistics which monitors a ``sampling threshold'' and collects samples after it has been surpassed. We apply the method to three models: a mixture of Gaussians, logistic regression and ICA with natural gradients.
+summary: >
+  Introduces stochastic gradient Langevin dynamics, adding calibrated noise to mini-batch gradient updates so an annealed optimization trajectory becomes a posterior sampler. It also proposes a threshold for collecting samples and demonstrates the method on three models.
+link: https://icml.cc/2011/papers/398_icmlpaper.pdf
+links_alt:
+  - https://mlanthology.org/icml/2011/welling2011icml-bayesian/
+  - https://dl.acm.org/doi/10.5555/3104482.3104568
+audit_status: partial

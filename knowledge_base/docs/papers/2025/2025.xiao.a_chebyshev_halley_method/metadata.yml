@@ -1,0 +1,20 @@
+title: >
+  A Chebyshev–Halley Method with Gradient Regularization and an Improved Convergence Rate
+algorithm:
+authors:
+  - Jianyu Xiao
+  - Haibin Zhang
+  - Huan Gao
+year: 2025
+source: Mathematics
+type: Journal Paper
+doi: 10.3390/math13081319
+arxiv_id:
+tags:
+abstract: >
+  High-order methods are particularly crucial for achieving highly accurate solutions or satisfying high-order optimality conditions. However, most existing high-order methods require solving complex high-order Taylor polynomial models, which pose significant computational challenges. In this paper, we propose a Chebyshev–Halley method with gradient regularization, which retains the convergence advantages of high-order methods while effectively addressing computational challenges in polynomial model solving. The proposed method incorporates a quadratic regularization term with an adaptive parameter proportional to a certain power of the gradient norm, thereby ensuring a closed-form solution at each iteration. In theory, the method achieves a global convergence rate of O(k−3) or even O(k−5), attaining the optimal rate of third-order methods without requiring additional acceleration techniques. Moreover, it maintains local superlinear convergence for strongly convex functions. Numerical experiments demonstrate that the proposed method compares favorably with similar methods in terms of efficiency and applicability.
+summary: ''
+link: https://www.mdpi.com/2227-7390/13/8/1319
+links_alt:
+  - https://doi.org/10.3390/math13081319
+audit_status: raw

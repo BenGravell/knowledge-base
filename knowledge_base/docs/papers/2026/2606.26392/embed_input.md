@@ -1,0 +1,145 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
+MPC-Injection: Biasing Off-Policy Locomotion RL Toward Controller-Induced Behavior Basins
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Reinforcement learning (RL) for locomotion frequently converges to locally optimal but undeployable behaviors, such as vibrating limbs or scooting on the torso, that maximize return without producing a usable gait. We present MPC-Injection, a low-overhead method that steers RL toward a designer-preferred behavior by inserting transitions generated in the same environment by a model predictive controller (MPC). Unlike reward shaping, MPC-Injection does not require redesigning the task reward, and unlike adversarial imitation learning, it adds no discriminator, no kinematic retargeting, and no auxiliary objective. We analyze how the injected transitions bias the learning, allowing the policy to converge to behaviors that pure RL may fail to reach under simple reward functions. On a 2D walker in simulation and with sim-to-real evaluation on a Go2 quadruped, we show that MPC-Injection produces gaits qualitatively comparable to those of reward shaping and adversarial motion priors.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+We also show that MPC-Injection can complete a barrel roll that pure RL fails to achieve under the same simple reward and can select between trotting and bounding gaits only through changing the injected MPC data.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Off-policy reinforcement learning for legged locomotion routinely converges to behaviors that are technically optimal but practically useless. A biped trained with a simple velocity-tracking reward learns to drag itself along the ground because scooting is a stable attractor under that reward. A quadruped trained with a similar reward learns to vibrate some of its limbs, hitting the velocity target while producing a gait that no engineer would deploy on hardware. Both policies achieve high return. Neither produces a usable robot. This gap between maximizing a reward and producing a deployable behavior is widely recognized. Tasks that admit multiple high-return solutions admit multiple *behavior basins*, regions of the state-visitation space that achieve similar return but differ in kinematics and dynamics. We use *behavior biasing* to mean selecting, among the high-return basins available under a given task reward, the basin preferred by the designer. The central question of this paper is as follows: *how do we effectively and efficiently execute behavior biasing?* The dominant approaches impose substantial specification costs. Reward shaping adds hand-tuned terms to encourage desired behaviors, requiring extensive trial and error and retraining.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Imitation approaches, such as adversarial motion priors and trajectory-tracking methods, reduce reward engineering but require a discriminator network, kinematic retargeting, and a reference motion dataset that must be collected or curated.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We study *MPC-Injection* as a third option. Here a Model Predictive Controller (MPC) generates trajectories in the RL simulation environment, and the resulting transitions are inserted into an off-policy replay buffer. These transitions change the states used in actor updates and the state-action tuples used in critic updates, biasing the learned policy toward the controller's behavior basin. The actor nevertheless selects its own actions rather than imitating recorded MPC actions. The task reward remains unchanged. No behavior-cloning loss, discriminator, or auxiliary objective is introduced, and the policy continues to learn from online experience unlike offline RL.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+While similar mechanisms have appeared under different names in prior work (e.g., used to improve return in sparse-reward navigation and to bootstrap manipulation controllers ), to our knowledge, *this is the first analysis of replay-distribution biasing as a mechanism for selecting among distinct high-return behavior basins under an intentionally underspecified locomotion reward*.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our primary contributions are: An analysis and empirical characterization of MPC-Injection on a 2D walker, showing that it selects a different behavior basin from vanilla RL under an identical reward, with 25% injection reliably inducing the controller's basin across SAC and TD3.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A Unitree Go2 evaluation showing that MPC-Injection produces gaits qualitatively comparable to twenty-one-term reward shaping and AMP trained on the same MPC data, despite using a two-term task reward. The evaluation includes qualitative sim-to-real transfer and simulation comparisons of torque usage, velocity tracking, and push recovery.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Barrel-roll and bounding experiments extend behavior biasing beyond basic trotting. Here, 25% MPC-Injection completes a roll that pure RL fails under the same simple reward, and solely replacing trotting data with bounding data selects a bounding gait.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Method", "weight": 1.0} -->
+
+MPC-Injection biases the learned policy toward a controller-induced behavior basin by changing the replay state distribution. Injected transitions change both the states at which the actor is optimized and the transition tuples used to train the critic. Actor updates use current-policy actions rather than directly imitating the recorded MPC actions. Figure 2 illustrates the pipeline. The full off-policy training procedure is given as Algorithm 1 in Appendix 0.A, and Appendix 0.D provides an optimization-level account of why this induces basin selection rather than behavior cloning.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Method", "weight": 1.0} -->
+
+Data Generation We generate MPC trajectories offline in the same simulation environment used for RL training, unlike prior work that generates trajectories online. Offline generation is similar to the pipeline of and enables precise control over the MPC-to-RL transition ratio in the replay buffer. The MPC objective is designed to produce the desired behavior under the same task, moving the behavior-specification interface from the RL reward into the MPC cost. We use sampling-based MPC for the walker and gradient-based MPC for the quadruped, showing compatibility with both controller classes in the evaluated systems.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Method", "weight": 1.0} -->
+
+Off-the-shelf controller frameworks and solvers reduced the MPC engineering burden in our experiments: controller setup took less than half a day per experiment. For the walker, we also tested sampling- and gradient-based solvers and obtained nearly identical learning results.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Method", "weight": 1.0} -->
+
+Rewards are recomputed from the RL task reward at injection time rather than stored with the MPC trajectories. This allows different RL reward functions to be evaluated against the same MPC dataset without regenerating trajectories.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Method", "weight": 1.0} -->
+
+Replay Buffer Injection We define the injection ratio $p$ as the target fraction of replay-buffer entries generated by MPC. For $p<100\%$, after each online transition is inserted, MPC transitions are added until $|\mathcal{D}_{\text{MPC}}|/|\mathcal{D}|$ reaches $p$; for $p=100\%$, only MPC transitions are stored. Minibatches are sampled uniformly from the combined buffer, so the expected fraction of MPC samples per gradient update is also approximately $p$. MPC transitions enter learning only through the replay distribution: there is no separate imitation loss, no sample weighting, and no auxiliary objective. The training process of the off-policy agent is otherwise unchanged from standard SAC or TD3.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Through our experiments, we evaluate two claims. First, MPC-Injection selects qualitatively different behavior basins from vanilla RL under identical task rewards, with 25% as the injection ratio that most reliably induces the controller's basin. Second, the resulting behavior is qualitatively similar to reward shaping and AMP trained with MPC data (AMP-MPC) in simulation. Recall that a behavior basin is a region of state space that achieves similar return but may differ in kinematics and dynamics.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Section 4.2 establishes the first claim on a 2D walker and a Unitree Go2 quadruped in simulation. The walker serves as a controlled diagnostic with a deliberately underspecified reward and is evaluated using both SAC and TD3 to confirm that our result is not specific to a single off-policy algorithm. Since the two algorithms produce nearly identical results (Figure 3), subsequent analysis uses SAC. Section 4.3 establishes the second claim on the Go2 in simulation and with qualitative sim-to-real evaluation on hardware, demonstrating real-world practicality of MPC-Injection. Section 4.4 evaluates behavior biasing beyond velocity-tracking trotting locomotion through barrel-roll and bounding tasks. Finally, Section 4.5 provides a qualitative case study on an unconventional morphology, illustrating the data-source advantage of MPC-Injection when reference motions are difficult or impossible to obtain.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+Environments and training We evaluate policies via state-distribution embeddings, footstep regularity, torque usage, and qualitative gait comparison. We use the 2D walker environment from the DeepMind Control Suite and a Unitree Go2 quadruped, both simulated in MuJoCo. We train SAC and TD3 on the walker for 500,000 environment steps with 5 seeds per configuration, and SAC on the quadruped for 1 million environment steps with 5 seeds. Full network architectures and hyperparameters can be found in Appendix 0.C.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+Reward functions The walker uses a torso velocity-tracking reward that admits multiple high-return solutions. Here, $v_{\text{torso}}$ denotes the torso velocity and $v_{\text{cmd}}$ denotes the commanded velocity: The quadruped uses a two-term reward combining velocity tracking with a forward-progress bias (full definitions in Appendix 0.C.1, Table 4): The reward-shaping baseline, adapted from the Unitree mjlab implementation with term weights re-tuned for off-policy training, uses twenty-one tuned terms. The evaluated AMP-MPC baseline uses an off-the-shelf AMP-PPO implementation trained from the same underlying Go2 MPC rollouts as MPC-Injection (Tables 5, 6, and 7).
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+MPC trajectory generation and sim-to-real We use sampling-based MPC for the walker and gradient-based MPC for the quadruped, with trajectories generated offline in the same simulation environment used for RL training. For the quadruped, the MPC outputs joint torques while the RL policy outputs target joint position offsets. For sim-to-real transfer on the Go2, we apply domain randomization over mass, friction, and joint dynamics (Appendix 0.F).
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Replay Buffer Distribution Biasing Under an Identical Reward", "weight": 1.0} -->
+
+We evaluate the claim that MPC-Injection selects qualitatively different locomotion basins from vanilla RL under identical task rewards, by sweeping MPC-Injection ratios on the 2D walker as a controlled diagnostic, then verifying the same pattern on the Unitree Go2 quadruped.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Replay Buffer Distribution Biasing Under an Identical Reward", "weight": 1.0} -->
+
+Walker The walker reward in Eq. 1 depends only on torso velocity and therefore admits multiple high-return solutions. We sweep injection ratios across 0% (pure RL), 25%, 50%, 75%, and 100% on both SAC and TD3. Each ratio was evaluated with five seeds; at the final checkpoint, the controller-like upright gait occurred in all five 25%-injection runs for both SAC and TD3. Figure 3 shows that several injection settings reach similar episodic return across both algorithms, confirming that the replay-distribution bias can change behavior without requiring a different task reward. Because the underspecified reward makes return uninformative about basin membership, we evaluate basin membership through qualitative footstep analysis and state-distribution embeddings.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Replay Buffer Distribution Biasing Under an Identical Reward", "weight": 1.0} -->
+
+Quadruped The quadruped exhibits the same qualitative pattern as the walker. Pure off-policy RL learns to vibrate the joints (Figure 1), producing chaotic and irregular footstep trajectories (Figure ). With 25% MPC-Injection, the policy learns a structured trot with periodic footstep patterns (Figure ). Across five independent Go2 training seeds, the 25% setting produced the structured controller-like trot in all five final-policy rollouts. An analogous injection-ratio sweep on the quadruped (Appendix 0.E) confirms that 25% remains the most reliable operating regime. The torque magnitude CDF in Figure 6(a) ‣ Figure 6 ‣ 4.2 Replay Buffer Distribution Biasing Under an Identical Reward ‣ 4 Experiments ‣ MPC-Injection: Biasing Off-Policy Locomotion RL Toward Controller-Induced Behavior Basins") further shows lower average motor-torque magnitudes for MPC-Injection than for AMP-MPC and reward shaping, consistent with the energy-cost terms in the MPC objective.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Replay Buffer Distribution Biasing Under an Identical Reward", "weight": 1.0} -->
+
+Together with the walker results, this confirms that 25% MPC-Injection consistently induces the controller's behavior basin across both the diagnostic walker and the deployment-target quadruped under simple velocity-tracking rewards.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Replay Buffer Distribution Biasing Under an Identical Reward", "weight": 1.0} -->
+
+(a) Torque usage CDF Figure 6: Quadruped simulation baseline metrics. (a) The motor-torque magnitude CDF compares 25% MPC-Injection with reward shaping and AMP-MPC. MPC-Injection uses lower average torque magnitudes. (b) Forward-velocity tracking at a 0.5 m/s command for 25% MPC-Injection, AMP-MPC, and reward shaping.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Simulation Comparisons to AMP-MPC and Qualitative Hardware Trials", "weight": 1.0} -->
+
+We use an off-the-shelf AMP-PPO implementation with the same asymmetric 45/48 actor--critic observation split used by MPC-Injection. AMP-MPC uses the same underlying MPC data, low-pass filter, PD gains, and domain-randomization setup as MPC-Injection. AMP-MPC produces behavior visually similar to MPC-Injection. Figure 6(a) ‣ Figure 6 ‣ 4.2 Replay Buffer Distribution Biasing Under an Identical Reward ‣ 4 Experiments ‣ MPC-Injection: Biasing Off-Policy Locomotion RL Toward Controller-Induced Behavior Basins") shows that the 25% MPC-Injection policy has lower average motor-torque magnitudes than AMP-MPC and reward shaping. At a 0.5 m/s command, Figure 6(b) ‣ Figure 6 ‣ 4.2 Replay Buffer Distribution Biasing Under an Identical Reward ‣ 4 Experiments ‣ MPC-Injection: Biasing Off-Policy Locomotion RL Toward Controller-Induced Behavior Basins") reports forward-velocity RMSEs of 0.067 for 25% MPC-Injection, 0.071 for AMP-MPC, and 0.091 for reward shaping.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Simulation Comparisons to AMP-MPC and Qualitative Hardware Trials", "weight": 1.0} -->
+
+Table 2 reports simulated lateral-push recovery across ten trials. AMP-MPC has higher success for left pushes at 1.0 and 1.5 m/s, whereas MPC-Injection has higher success for right pushes at 1.0 m/s.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Simulation Comparisons to AMP-MPC and Qualitative Hardware Trials", "weight": 1.0} -->
+
+(a) Pure RL barrel roll (b) MPC-Inj. barrel roll Figure 8: Behavior-biasing case studies. MPC-Injection completes the barrel roll (b) while pure RL fails (a). A bounding gait is learned via MPC-Injection (d, e) by changing only the injected MPC data. MPC-Injection also allows for behavior biasing of unusual morphologies as seen in (c).
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Additional Behavior Tasks: Barrel Roll and Bounding", "weight": 1.0} -->
+
+We evaluate a Go2 barrel-roll task to test MPC-Injection beyond velocity-tracking locomotion. Figure 8 shows that pure RL does not complete the barrel roll, whereas 25% MPC-Injection succeeds under the same simple reward, using the same off-the-shelf MPX controller used for the locomotion task to collect MPC data.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Additional Behavior Tasks: Barrel Roll and Bounding", "weight": 1.0} -->
+
+We note that such behaviors commonly require curriculum learning or assistive wrench forces to help the robot flip, which we can avoid with MPC-Injection. Here, $\tilde{\phi}_{t}$ and $\phi_{t}^{*}$ are the measured and desired unwrapped roll angles, $\Delta\tilde{\phi}_{t}=\tilde{\phi}_{t}-\tilde{\phi}_{t-1}$ is the per-step roll progress, $s\in\{-1,1\}$ is roll direction, and $\Delta\phi_{\mathrm{exp}}$ normalizes progress.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Additional Behavior Tasks: Barrel Roll and Bounding", "weight": 1.0} -->
+
+$\alpha$ controls tracking sensitivity, $c$ bounds rewards, and $r_{t}^{\mathrm{term}}$ provides terminal success or failure: Furthermore, only replacing the injected trotting MPC data with bounding MPC data, while leaving the task reward and training procedure unchanged, induces a bounding gait (Figure 8(d) ‣ Figure 8 ‣ 4.3 Simulation Comparisons to AMP-MPC and Qualitative Hardware Trials ‣ 4 Experiments ‣ MPC-Injection: Biasing Off-Policy Locomotion RL Toward Controller-Induced Behavior Basins")). Thus, changing only the injected controller data can select a different behavior basin, reinforcing the power and simplicity of our core mechanism.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Qualitative Case Study on MPC-Injection for Unusual Robot Morphologies", "weight": 1.0} -->
+
+Finally, we illustrate that MPC can be particularly useful as a behavior-data source for non-standard locomotion tasks, especially those with no reference dataset and no human teleoperation demonstrations. In these settings, adversarial imitation methods and trajectory-tracking methods cannot be directly applied without first synthesizing reference motions through a separate process. MPC, by contrast, can be deployed on any morphology for which a dynamics model and cost function are available. As such, we include a qualitative case study on an unconventional morphology: a 3-legged half-cheetah modified from the DM Control Suite. Figure 8(c) ‣ Figure 8 ‣ 4.3 Simulation Comparisons to AMP-MPC and Qualitative Hardware Trials ‣ 4 Experiments ‣ MPC-Injection: Biasing Off-Policy Locomotion RL Toward Controller-Induced Behavior Basins") compares pure RL and 25% MPC-Injection under the same simple torso-velocity-tracking reward for this unique morphology. As with our prior experiments, the pure RL policy converges to an undesirable strategy, two-legged walking that leaves the front leg vestigial.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Qualitative Case Study on MPC-Injection for Unusual Robot Morphologies", "weight": 1.0} -->
+
+In contrast, the 25% MPC-Injection policy uses all three legs in a coordinated gait that mirrors the optimized MPC behavior.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We presented MPC-Injection, a low-overhead method for behavior biasing in off-policy RL that selects a designer-preferred locomotion behavior by inserting controller-generated transitions into the replay buffer. On a 2D walker and a Unitree Go2 quadruped, MPC-Injection drives the learned policy into the controller's behavior basin using only a one- to two-term task reward. It produces locomotion qualitatively comparable to reward shaping with twenty-one tuned terms and to AMP-MPC trained on the same controller data, while using lower average motor-torque magnitudes in simulation and transferring qualitatively to Go2 hardware. Go2 barrel-roll and bounding tasks further demonstrate behavior biasing beyond velocity-tracking trotting locomotion, including the selection of a different gait by changing only the injected MPC data. These results position MPC-Injection as a practical alternative to reward shaping and imitation learning when a controller for the desired behavior already exists, or is easy to design.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Limitations & Future Work", "weight": 1.5} -->
+
+Several limitations bound our results. First, the optimization-level analysis in Appendix 0.D predicts that the implicit basin pull from replay-distribution biasing may weaken under extended training. Once the policy operates inside the controller's basin, on-policy rollouts overlap heavily with injected MPC states, reducing the additional pull contributed by those transitions. Preliminary experiments on the quadruped are consistent with this prediction, but not conclusive. Future work could study mechanisms for preserving basin membership during late training, such as curriculum-based injection, basin-aware early stopping, or critics augmented with behavior-sensitive regularization. Second, the current paper studies behavior biasing primarily in relatively simple velocity-tracking locomotion tasks, with additional barrel-roll and bounding case studies. It remains to be shown how robust the method is under broader command spaces, more diverse terrains, contact-rich tasks, and online or adaptive MPC data generation. In particular, we found that naively mixing trajectories generated from widely varying velocity commands does not always preserve a clean behavior basin during learning. This motivates future work on curriculum learning over command ranges and online selection of which MPC trajectories to inject.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Limitations & Future Work", "weight": 1.5} -->
+
+Finally, MPC-Injection should not be interpreted as eliminating behavior specification but as shifting the burden from reward tuning or imitation-learning pipeline development to standard controller design, and is therefore most useful when a controller for the desired behavior already exists.

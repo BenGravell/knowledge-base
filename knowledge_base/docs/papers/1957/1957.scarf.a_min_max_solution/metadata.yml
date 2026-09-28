@@ -1,0 +1,19 @@
+title: >
+  A Min-Max Solution of an Inventory Problem
+algorithm:
+authors:
+  - Herbert E. Scarf
+year: 1957
+source: RAND Corporation
+type: Technical Report
+doi:
+arxiv_id:
+tags:
+abstract: >
+  A study of the problem of purchasing a quantity of an item in anticipation of a future demand. It is assumed that only the mean and standard deviation of the demand distribution is known. From this deviation a stock level is determined which maximizes the minimum profit for all demand distributions. The stock level is then compared with the levels obtained by assuming several specific distributions.
+summary: >
+  Determines a robust inventory stock level using only the mean and standard deviation of uncertain demand, then compares it with decisions based on assumed demand distributions.
+link: https://www.rand.org/content/dam/rand/pubs/papers/2008/P910.pdf
+links_alt:
+  - https://www.rand.org/pubs/papers/P910.html
+audit_status: partial

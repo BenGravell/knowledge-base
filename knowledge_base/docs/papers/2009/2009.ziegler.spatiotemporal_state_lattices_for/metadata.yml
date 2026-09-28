@@ -1,0 +1,18 @@
+title: >
+  Spatiotemporal State Lattices for Fast Trajectory Planning in Dynamic on-road Driving Scenarios
+algorithm:
+authors:
+  - Julius Ziegler
+  - Christoph Stiller
+year: 2009
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems
+type: Conference Paper
+doi: 10.1109/iros.2009.5354448
+arxiv_id:
+tags:
+abstract: >
+  We present a method for motion planning in the presence of moving obstacles that is aimed at dynamic on-road driving scenarios. Planning is performed within a geometric graph that is established by sampling deterministically from a manifold that is obtained by combining configuration space and time. We show that these graphs are acyclic and shortest path algorithms with linear runtime can be employed. By reparametrising the configuration space to match the course of the road, it can be sampled very economically with few vertices, and this reduces absolute runtime further. The trajectories generated are quintic splines. They are second order continuous, obey nonholonomic constraints and are optimised for minimum square of jerk. Planning time remains below 20 ms on general purpose hardware.
+summary: ''
+link: https://doi.org/10.1109/iros.2009.5354448
+links_alt:
+audit_status: raw

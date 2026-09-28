@@ -1,0 +1,17 @@
+title: >
+  Norms of Random Submatrices and Sparse Approximation
+algorithm:
+authors:
+  - Joel A. Tropp
+year: 2008
+source: "Comptes Rendus. Math\xE9matique"
+type: Journal Paper
+doi: 10.1016/j.crma.2008.10.008
+arxiv_id:
+tags:
+abstract: >
+  Many problems in the theory of sparse approximation require bounds on operator norms of a random submatrix drawn from a fixed matrix. The purpose of this Note is to collect estimates for several different norms that are most important in the analysis of ℓ 1 minimization algorithms. Several of these bounds have not appeared in detail.
+summary: ''
+link: https://doi.org/10.1016/j.crma.2008.10.008
+links_alt:
+audit_status: raw

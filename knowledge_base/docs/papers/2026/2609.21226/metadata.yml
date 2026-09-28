@@ -1,0 +1,20 @@
+title: >
+  AirSplan: Risk-Aware Motion Planning for Quadrotors in Cluttered 3D Gaussian Splats
+algorithm:
+authors:
+  - Seth Isaacson
+  - William Hong
+  - Katherine A. Skinner
+  - Ram Vasudevan
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2609.21226"
+tags:
+abstract: >
+  Quadrotors are increasingly deployed in applications such as agriculture, infrastructure inspection, and maintenance. In each of these applications, the robot must navigate complex scene geometry while remaining strictly collision-free. Unlike in ground domains, even minor collisions for aerial vehicles can result in the loss of the robot. This safety requirement induces a pair of technical challenges. First, the environment must be represented with sufficient fidelity to encode complex structure, even when no ground-truth obstacle data is available. Second, a motion planner must leverage this representation to determine a collision-free path to the goal. This paper proposes a system that addresses these complementary challenges. The proposed method, AirSplan, adopts a normalized variant of 3D Gaussian Splatting that encodes high-fidelity scene geometry. It then applies a novel reachability-based motion planner that leverages the differential flatness of quadrotors to compute continuous-time collision constraints that tightly overapproximate the robot's occupancy. Experiments demonstrate that AirSplan successfully finds a path in 81.2% of challenging test cases, a significant improvement over the nearest baseline method's 51.2%.
+summary: ''
+link: https://arxiv.org/pdf/2609.21226
+links_alt:
+audit_status: raw

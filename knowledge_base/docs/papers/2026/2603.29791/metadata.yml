@@ -1,0 +1,29 @@
+title: >
+  Reasoning-Driven Synthetic Data Generation and Evaluation
+algorithm: Simula
+authors:
+  - Tim R. Davidson
+  - Benoit Seguin
+  - Enrico Bacis
+  - Cesar Ilharco
+  - Hamza Harkous
+year: 2026
+source: Transactions on Machine Learning Research
+type: Journal Paper
+doi:
+arxiv_id: "2603.29791"
+tags:
+  - Synthetic data
+  - Data generation
+  - Generative models
+  - Data evaluation
+  - Agentic systems
+abstract: >
+  Although many AI applications of interest require specialized multi-modal models, relevant data to train such models is inherently scarce or inaccessible. Filling these gaps with human annotators is prohibitively expensive, error-prone, and time-consuming, leading model builders to increasingly consider synthetic data as a scalable alternative. However, existing synthetic data generation methods often rely on manual prompts, evolutionary algorithms, or extensive seed data from the target distribution - limiting their scalability, explainability, and control. In this paper, we introduce Simula: a novel reasoning-driven framework for data generation and evaluation. It employs a seedless, agentic approach to generate synthetic datasets at scale, allowing users to define desired dataset characteristics through an explainable and controllable process that enables fine-grained resource allocation. We show the efficacy of our approach on a variety of datasets, rigorously testing both intrinsic and downstream properties. Our work (1) offers guidelines for synthetic data mechanism design, (2) provides insights into generating and evaluating synthetic data at scale, and (3) unlocks new opportunities for developing and deploying AI in domains where data scarcity or privacy concerns are paramount.
+summary: >
+  Simula generates and evaluates synthetic datasets through a seedless, reasoning-driven process. It lets users specify dataset characteristics and allocate generation resources, then assesses both dataset properties and downstream results.
+link: https://arxiv.org/pdf/2603.29791
+links_alt:
+  - https://openreview.net/pdf?id=NALsdGEPhB
+  - https://openreview.net/forum?id=NALsdGEPhB
+audit_status: partial

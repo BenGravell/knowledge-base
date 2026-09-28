@@ -1,0 +1,26 @@
+title: >
+  System Identification of the Crazyflie 2.0 Nano Quadrocopter
+algorithm: Crazyflie parameter identification
+authors:
+  - Julian Forster
+year: 2015
+source: ETH Zurich
+type: Other
+doi: 10.3929/ethz-b-000214143
+arxiv_id:
+tags:
+  - System identification
+  - Quadrotor dynamics
+  - Crazyflie
+  - Motor characterization
+  - Inertia estimation
+  - Aerodynamic drag
+abstract: >
+  The physical parameters of the Crazyflie 2.0 nano quadrocopter and the experiments that were used to determine them are presented. Firstly, to measure the coefficients of the inertia matrix, the relationship between the moment of inertia and the period of a pendulum was made use of. Secondly, a set of motor parameter mappings between motor input command, produced thrust and torque and the rotor's angular velocities was determined using a force/torque sensor and a laser tachometer. In addition, a transfer function for the motors was identified by applying sinusoidal inputs to the motors. Thirdly, the quadrocopter's drag coefficients that characterize the force acting on the rotating propellers when the quadrocopter is moving in air were determined. For this, air was blown onto the Crazyflie while it was mounted to the force/torque sensor. Finally, the experimental methods for determining the inertia matrix and the motor parameter mappings were verified using appropriate experiments.
+summary: >
+  Measures the Crazyflie 2.0's inertia, motor command-to-thrust and torque relationships, motor dynamics, and aerodynamic drag through dedicated experiments. These parameters support model-based estimation and control of the nano quadrocopter.
+link: https://www.research-collection.ethz.ch/items/9973b834-69c3-45a0-bb2c-240da4314818
+links_alt:
+  - https://doi.org/10.3929/ethz-b-000214143
+  - https://www.semanticscholar.org/paper/System-Identification-of-the-Crazyflie-2.0-Nano-F%C3%B6rster/7c614b5a930d38092b83459e63390c3721b408b5
+audit_status: partial

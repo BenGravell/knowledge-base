@@ -1,0 +1,20 @@
+title: >
+  Multi-Objective Kinodynamic Motion Planning with Asymptotic Pareto Optimality
+algorithm:
+authors:
+  - Yusif Razzaq
+  - Anne Theurkauf
+  - Nisar Ahmed
+  - Morteza Lahijanian
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2607.15508"
+tags:
+abstract: >
+  In this paper, we address the challenge of multi-objective motion planning for systems under kinodynamic constraints. We consider three problem classes: (i) lexicographic optimization, in which objectives are minimized according to a strict priority ordering, (ii) constrained optimization, in which a primary objective is minimized subject to bounds on the remaining costs, and (iii) Pareto front optimization, in which the goal is to approximate the full set of optimal trade-offs among competing objectives. We first show that established cost scalarization methods for multi-objective problems cannot be extended to continuous-domain systems with correctness guarantees. Then, we propose a unified algorithmic framework built upon the Stable Sparse-RRT (SST) algorithm, in which the single representative maintained at each witness neighborhood is replaced by a representative set of locally Pareto-optimal nodes. This structure gives rise to three distinct algorithms: lexSST for lexicographic minimization, coSST for constrained optimization, and poSST for Pareto-front approximation. We provide theoretical guarantees for the completeness and optimality of our algorithms and demonstrate their effectiveness through extensive empirical evaluations.
+summary: ''
+link: https://arxiv.org/pdf/2607.15508
+links_alt:
+audit_status: raw

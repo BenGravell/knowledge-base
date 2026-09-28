@@ -1,0 +1,385 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
+TerraZero: Procedural Driving Simulation for Zero-Demonstration Self-Play at Scale
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Training robust autonomous driving agents requires a simulator fast enough for reinforcement learning at scale, realistic enough to ground behavior in real-world map structure, and diverse enough to cover the safety-critical long tail that logged data rarely contains. We present TerraZero, a procedural driving simulator and self-play training stack that meets these goals. A configurable C engine runs simulation on the CPU and policy inference on the GPU over a zero-copy path, sustaining 1.3M agent-steps per second on a single server-grade GPU, far faster than existing object-level simulators, while keeping fidelity lighter single-agent systems omit: heterogeneous agents, multiple dynamics models, and full traffic-rule enforcement. TerraZero uses logged data only as a source of real-world map geometry, populating each map with randomized rule-based road users and signal controllers and randomizing agent dynamics, rewards, and sizes per episode, so one map yields an effectively unbounded set of scenarios.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Every reported policy trains from scratch by reinforcement learning alone, with zero human demonstrations, no imitation, no logged trajectories, and no fallback planner at inference, on a compute-efficient self-play recipe scaled across GPUs. The policies generalize zero-shot across cities and datasets, including emergent left-hand-traffic driving without explicit supervision. As an ego policy, a single checkpoint is, to our knowledge, the first fully learned policy to top both val14 and the interactive long-tail InterPlan suite. On Waymo Open Sim Agents realism the same recipe outperforms other demonstration-free methods and is competitive with the strongest reference-anchored self-play method. One stack serves both roles: state-of-the-art demonstration-free driving policies across dynamics for cars and trucks, and sim agents that jointly control vehicles, pedestrians, and cyclists.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Real-world driving data is dominated by routine driving. Most logged miles consist of steady-state lane following, gentle curves, and routine stops, the scenarios an autonomous agent has least to gain from practicing. The long tail of safety-critical situations that largely determine deployment readiness (dense highway merges, aggressive cut-ins, near-miss pedestrian interactions, unprotected left turns through oncoming traffic) is rare, and therefore costly to cover, in real-world driving datasets. Imitation learning on logged trajectories struggles to teach behaviors that the logs barely contain, and collecting more data at fleet scale closes this distributional gap only slowly. Simulation offers a complementary path: a simulator can systematically manufacture the hard scenarios that matter most.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Existing simulation approaches occupy different points in a throughput--fidelity trade-off, and none fully resolves it. Object-level simulators built for speed, such as PufferDrive, reach high throughput but support only a single agent type with fixed dynamics and no traffic signals. Feature-rich environments like SMARTS and CARLA offer the complexity needed for realistic evaluation but are orders of magnitude too slow for from-scratch reinforcement learning (RL) training at scale, where billions of environment steps are routine. A separate line of work builds learned traffic models (SimNet, BITS, Trajeglish ) that generate realistic trajectories for surrounding agents but produce largely non-reactive traffic, limiting their utility for closed-loop policy improvement. Self-play approaches like Gigaflow show that reactive multi-agent training can yield robust driving policies, but they train on a small family of synthetic maps under a single dynamics model shared by every agent class, and they rely on randomization alone, rather than constructed scenario content, for exposure to the long tail.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+TerraZero closes this gap through *procedural scenario generation*. It treats logged data as a source of real-world map geometry, and composes a stack of randomization mechanisms to manufacture hard scenes from each map, while a configurable C simulation engine supplies the throughput that large-scale RL demands. Each map is populated with a procedurally generated cast of rule-based road users (parked and reactive vehicles, planner-driven traffic, crashed-vehicle clusters, construction zones, and crossing and jaywalking pedestrians), driven through randomized traffic-signal controllers, with per-episode randomization of agent dynamics, reward weights, and bounding-box sizes layered on top. Because every axis varies from episode to episode, one map seeds a vast and non-repeating space of training scenarios. The maps themselves span three datasets: the Waymo Open Motion Dataset (WOMD), nuPlan across four cities that span both right- and left-hand traffic, and five synthetic CARLA towns, giving broad coverage of intersection layouts, road topologies, and driving conventions. TerraZero provides a complete training stack from scenario loading through distributed Proximal Policy Optimization (PPO) and evaluation.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Figure 1 summarizes the configuration surface and the training stack.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our contributions are threefold: A fast, feature-rich object-level traffic simulator for RL training. A configurable C engine runs simulation on the CPU and policy inference on the GPU, connected by a zero-copy data path with dense feature packing, 16-bit observations, non-uniform memory access (NUMA)-aware orchestration, and a compact binary scenario format. It supports heterogeneous agents (vehicles, pedestrians, cyclists), multiple dynamics models, and full traffic-rule enforcement, sustaining up to 2.8M agent-steps per second (SPS) on an 8-GPU node, to our knowledge significantly faster than any existing driving simulator, while retaining a fidelity that lighter single-agent systems omit.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A procedural scenario generator that treats logged data as the starting distribution rather than the training distribution. From real-world maps it manufactures diverse scenarios through randomized initialization and goal sampling, agent density and dimension randomization, a configurable population of rule-based road users, and three traffic-signal controllers, so a single map yields an effectively unbounded supply of training scenarios.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A robust self-play training recipe for object-level driving policies. Because the simulator is fast, the recipe trades sample efficiency for compute efficiency via saliency-prioritized sampling, and combines a compact feed-forward policy with V-trace off-policy corrections, PopArt value normalization, reward and kinematic domain randomization, and population play that breaks self-play symmetry, scaled across GPUs with synchronized normalization statistics. The *zero* in TerraZero names the training stance: zero human demonstrations. Because the recipe learns from scratch by reinforcement signal alone, it needs no imitation loss and no logged trajectories, and every result we report is trained this way. Log and hybrid initialization from logged data stay available as options that our reported policies do not use. The resulting policies generalize zero-shot across cities and datasets, including emergent left-hand-traffic driving without explicit supervision.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We validate these contributions on three public datasets (Waymo, nuPlan, CARLA), measuring driving performance on nuPlan val14 and InterPlan and sim-agent realism on the Waymo Open Sim Agents Challenge (WOSAC). Across the three, one recipe tops both the standard val14 benchmark and the interactive long-tail InterPlan benchmark, and outperforms other demonstration-free methods on WOSAC realism, evidence that one stack can serve both traffic simulation and high-performance planning.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Object-Level Driving Simulators", "weight": 1.0} -->
+
+The choice of simulation abstraction sets the ceiling on reinforcement learning scale. Pixel-level simulators such as CARLA render photorealistic urban scenes with full sensor suites, but their rendering cost caps throughput at tens of frames per second. The long-tail situations that most determine deployment readiness are hard to learn, and learning them from scratch through self-play is harder still; both demand orders of magnitude more environment steps than pixel-level rendering can supply. *Object-level* simulators represent the world as structured state (positions, velocities, road geometry) rather than pixels, trading perceptual realism for the throughput that large-scale RL requires. TerraZero takes this trade.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Object-Level Driving Simulators", "weight": 1.0} -->
+
+Nocturne introduced object-level driving simulation with a C++ backend over Waymo Open Motion Dataset scenarios, achieving large speedups over pixel-level alternatives. It remains narrow, however: it drives vehicles only, models no traffic signals, and offers a single dynamics model. SMARTS is more feature-rich, with multiple agent types and flexible scenario specification, but its Python simulation loop bottlenecks on the CPU and caps throughput for large-scale RL. Hardware acceleration lifts that ceiling. Waymax runs batched rollouts in JAX for planning, behavior prediction, and sim-agent research, and GPUDrive lowers observation, reward, and dynamics functions to CUDA on the Madrona game engine, reporting roughly one million steps per second under heavily batched rollouts. Both stay narrow in scenario content: Waymax centers on the WOMD format and a benchmark-oriented API rather than a distributed self-play stack, while GPUDrive drives vehicles only with no signal modeling, so under a realistic configuration (Table 1) its sustained agent throughput falls well below that headline figure.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Object-Level Driving Simulators", "weight": 1.0} -->
+
+PufferDrive is the closest antecedent, a fast C backend over Waymo scenarios, but it too supports a single agent type with limited dynamics.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Object-Level Driving Simulators", "weight": 1.0} -->
+
+Gigaflow pairs a well-engineered platform with self-play to produce robust driving policies. As a training substrate it carries three limitations. First, it trains on a small family of synthetic CARLA-derived maps, affine variants of one fixed network rather than real-world geometry. Second, its scenes hold only policy-driven agents and static obstacles modeled as untyped immobile vehicles, leaving out the real-world situations that any road-ready driving policy must expect to encounter, such as construction zones, crashed-vehicle clusters, curb-parked cars, and jaywalking pedestrians, the long-tail cases that benchmarks such as InterPlan probe. Third, it drives every agent class through a single bicycle model, covering trucks as size variants of the same box, and at evaluation hands pedestrians to a scripted controller in the style of the Intelligent Driver Model (IDM), so its unified control of pedestrians runs only inside its own simulator. Table 1 summarizes these distinctions.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Object-Level Driving Simulators", "weight": 1.0} -->
+
+Veh, Ped, Cyc Veh, Ped, Cyc Veh, Ped, Cyc Veh, Ped, Cyc Waymo, nuPlan, CARLA Table 1. Comparison of object-level driving simulators. TerraZero combines C-level simulation speed with scenario fidelity (heterogeneous agents, multiple dynamics models, traffic signals) typically found only in slower, more feature-rich systems. Agent SPS is reported separately for a single consumer-grade GPU, a single server-grade GPU, and an 8× server-grade GPU node. Numbers marked † are figures reported by the original authors; all other SPS values are benchmarked under our setup. “Multi-node” indicates whether the system supports distributed training across multiple machines.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Traffic Simulation via Imitation Learning", "weight": 1.0} -->
+
+A complementary line of work learns traffic agent behavior directly from logged driving data, producing simulated actors that reproduce the statistical properties of real traffic. SimNet trains a neural network to generate reactive multi-agent rollouts from real-world observations. BITS introduces a bi-level formulation that separates high-level route intentions from low-level trajectory generation. Trajeglish reframes traffic modeling as next-token prediction over discretized trajectory tokens, leveraging the scalability of autoregressive sequence models. CTG++ conditions traffic generation on natural language descriptions via diffusion models. TrafficBots learns action-conditioned world models that can simulate multi-agent interactions. ITRA formulates differentiable simulation that enables gradient-based optimization of traffic scenarios.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Traffic Simulation via Imitation Learning", "weight": 1.0} -->
+
+These methods excel at producing statistically faithful reproductions of logged traffic patterns and have shown strong results on realism benchmarks such as WOSAC. Related planner and policy benchmarks such as NAVSIM instead measure ego-driving performance under non-reactive pseudo-simulation. Their fidelity is bounded by the quality of the logs they learn: WOMD, for instance, carries sparse traffic-signal annotations and very few cyclists, and a shift in sensor configuration or offboard-labeling accuracy can move the target they reproduce. These models are also optimized for fidelity to the *logged* distribution rather than for generating challenging, interactive scenarios, and most are either non-reactive to the ego agent's decisions or offer only limited reactivity that degrades over long rollout horizons, which leaves them less suitable as training environments for RL.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Self-Play for Driving", "weight": 1.0} -->
+
+Reinforcement learning for autonomous driving has shown increasing promise as simulation throughput has improved. Early work demonstrated RL-trained agents in simplified settings, with later efforts carrying the paradigm into domains as varied as off-road terrain, and more recent efforts scaling to complex multi-agent scenarios on object-level simulators. A key challenge is generating sufficiently diverse and challenging training scenarios: logged data provides realistic but mundane distributions, while hand-crafted scenarios are labor-intensive and inevitably incomplete.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Self-Play for Driving", "weight": 1.0} -->
+
+Self-play offers a solution. By training an agent against copies of itself or its prior checkpoints, self-play creates an automatic curriculum: as the policy improves, the traffic it trains against becomes proportionally more competent, generating progressively harder interactions without manual design. This principle has driven breakthroughs across domains, from Go to Dota to multi-agent locomotion.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Self-Play for Driving", "weight": 1.0} -->
+
+Gigaflow gives the most comprehensive demonstration for driving, combining multi-agent self-play with domain randomization to produce policies robust to distributional shift, though it does so entirely on synthetic maps with homogeneous agent dynamics, as discussed above. SPACeR stabilizes self-play with centralized reference models that anchor agent behavior against the policy drift of unconstrained co-adaptation, at the cost of maintaining a separate reference model. HR-PPO regularizes self-play with imitation losses to keep policies human-like, which tethers behavior to the logged demonstration distribution rather than letting self-play explore freely beyond it. BehaviorBenchmark contributes a standardized suite for the closed-loop behavior of learned driving policies; we cite its reported InterPlan RL baselines as comparison points rather than running its suite ourselves.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Fast, Feature-Rich Traffic Simulation", "weight": 1.0} -->
+
+TerraZero is built around two goals that are usually in tension: a simulator fast enough for reinforcement learning at scale, and one feature-rich enough to represent the long-tail situations a policy must learn to handle. We achieve both by carefully partitioning work between the CPU and the GPU (Figure 2) and by implementing only the features that measurably improve training outcomes. Appendix A provides a reference table of simulation constants.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "CPU/GPU division of labor", "weight": 1.0} -->
+
+The object-level dynamics, observation construction, reward computation, and traffic-light logic run entirely in C, compiled into a CPython extension, while policy inference and learning run in PyTorch on the GPU; the whole stack is built on the PufferLib vectorization and training framework. Environments execute in parallel worker processes over a shared set of memory buffers, and the trainer consumes the full batch in a single device transfer and batched forward pass. This split keeps the CPU saturated with cheap, branchy simulation work and the GPU saturated with dense tensor math.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Low-overhead data path", "weight": 1.0} -->
+
+The interface between the two is fully zero-copy: the C engine writes simulation state directly into the buffers that the training loop reads back as PyTorch tensors, eliminating the per-step serialization and allocation that dominate CPU-bound simulators, while host-to-device transfers overlap with kernel launches. TerraZero further sizes its buffers to the controlled agents actually present rather than padding to a fixed count, emits observations in 16-bit precision that the GPU reinterprets bit-for-bit to halve observation bandwidth, and pins each rank's workers to the CPU cores local to its GPU's NUMA node.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Composable Simulation Substrate", "weight": 1.0} -->
+
+Every subsystem in the engine is independently configurable, and the options compose. A scenario is assembled by choosing a subset of options along each axis in Figure 3: agent classes, per-class dynamics, initialization, signal control, rule-based road users, and per-episode randomization. The axes compose independently, so the reachable scenario space grows combinatorially in the per-axis choices; the road-user axis, for instance, admits any subset of its eight generators (Section 4.4). A new combination is a configuration change rather than a code change, which is what lets a single map seed the scenario distributions of Section 4. The observation, reward, and kinematic subsystems expose the same switchable control, and the policy network resizes automatically to the enabled feature set (Section 5).
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Per-class dynamics", "weight": 1.0} -->
+
+Each agent class is simulated under its own dynamics model: pedestrians under a unicycle model, cyclists and cars under a bicycle model, and trucks under a bicycle model augmented with tire cornering forces. Cars are actuated at the jerk level for smooth, jerk-limited control, while the other classes are actuated by acceleration. A single shared policy controls all classes through per-type action masking (Section 5).
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Traffic Rule Enforcement", "weight": 1.0} -->
+
+TerraZero enforces the principal driving rules directly at the simulation layer: each violation drives a reward penalty (Section 5), enters the evaluation metrics, and can trigger a configurable consequence such as stopping or removing the offending agent.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Collisions and off-road", "weight": 1.0} -->
+
+Collisions between agents and between an agent and an obstacle are resolved by a separating-axis test over oriented bounding boxes. Off-road excursions are caught by testing the agent's footprint against road-edge and sidewalk boundaries, with an elevation gate so that overpasses are ignored.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Lane direction", "weight": 1.0} -->
+
+Lane-direction compliance is measured from the heading residual between the agent and its current lane, so reversed travel is penalized but never masked. Map handedness (left- versus right-hand drive) is fixed per map and carried in the lane geometry rather than in a separate check, so the same rule logic applies on both sides of the road.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Signals and stop signs", "weight": 1.0} -->
+
+Signalized and sign-controlled intersections share a common geometric test: the agent's footprint is checked against per-stop-line regions, and entry and exit are tracked as an edge-triggered passage. A red-light violation registers when the agent's swept path crosses the stop bar on a red tick, not merely for waiting within the region on red, so a vehicle that halts at the line and proceeds on green is not penalized. Stop signs require the agent to hold below a speed threshold for a sampled dwell time before the line clears. Pedestrians are exempt from intersection rules, and cyclists are treated as vehicles. The signal state these checks consult comes from the controllers of Section 4.5.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Data Pipeline", "weight": 1.0} -->
+
+An offline pipeline (the left branch of Figure 2) converts each dataset into a single common representation (inspired by ScenarioNet ), decoupling source-specific parsing from the simulator. Separate converters ingest Waymo, nuPlan, and CARLA, and a builder compiles the shared representation into simulation-ready geometry: it identifies intersections, ties stop lines and traffic signals to their lanes, and resolves legal travel directions and speed limits. Intersections come from a source's own junction geometry where it provides one and are otherwise inferred from lane topology.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Data Pipeline", "weight": 1.0} -->
+
+The builder validates each scene and emits it as a compact binary *terrabin* file that the engine reads directly. This keeps the simulator independent of any single data source: supporting a new dataset requires only a new converter. At training time, scenarios are streamed and sampled so that each batch stays balanced across regions and scenario types without holding the full dataset in memory.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Procedural Scenario Generation", "weight": 1.0} -->
+
+A single real-world map is the seed for thousands of distinct training scenarios. TerraZero procedurally generates a superset of the logged data rather than being bounded by it: recorded map geometry and trajectories anchor where roads run and where agents may begin, and a stack of composable randomization mechanisms expands each seed into the far broader distribution the policy actually trains.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Scene Initialization", "weight": 1.0} -->
+
+TerraZero supports three initialization modes: log, random, and hybrid. In log mode, agents are instantiated directly from logged dataset trajectories and inherit their recorded goals. In random mode, the mode used for our default training runs, agents are procedurally placed per class under rejection sampling, so that every agent starts collision-free and compliant with the traffic rules, on a lane from which a sufficiently distant goal is reachable (Appendix D.1). The agent count is itself sampled from a configurable range whose upper bound may exceed the logged agent count, so scenes can be packed denser than any naturalistic recording. The hybrid mode mixes log and random at the granularity of whole environments through an independent per-environment draw, yielding a tunable blend across the batch rather than a within-scene mixture (Appendix D.3).
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
+
+Procedurally initialized agents need navigation goals, which are sampled by a forward walk over the lane-topology graph up to a bounded arc length, filtered so that the goal lies ahead of the agent (Appendix D.5). A configurable goal-dropout probability periodically hides the goal to encourage robust, non-goal-reliant behavior. When an agent reaches its goal, it either receives a freshly sampled goal further along the topology or halts in place, according to configuration.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Actor Diversification", "weight": 1.0} -->
+
+Beyond placement, the actors themselves are diversified. Each agent's bounding-box dimensions are sampled per episode from type-specific ranges, with vehicles further split across car, truck, and bus size classes (Appendix D.1). Sampling dimensions independently of the source recording exposes the policy to a continuum of footprints, from compact cars to long buses and trucks, rather than the fixed sizes of any single dataset.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Rule-Based Non-Player Characters", "weight": 1.0} -->
+
+Alongside the learned agents, TerraZero populates scenes with rule-based road users, or non-player characters (NPCs), which enrich interaction and, in self-play, help break the symmetry of a single shared policy training against copies of itself. The system offers several classes of these characters, and a scene draws a configurable mix of them that varies from episode to episode; the mixed presets used in our default training compose all of the spawned subsystems in one scene. Figure 4 shows how these scripted road users are procedurally generated.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Reactive vehicles", "weight": 1.0} -->
+
+Reactive vehicles are driven either by an IDM longitudinal controller paired with pure-pursuit steering, or by a closed-loop planner in the style of PDM-Closed that forward-simulates a grid of lateral-offset $\times$ IDM-parameter proposals and selects the trajectory maximizing a weighted score of progress, time-to-collision, comfort, and lane-keeping. IDM vehicles sample among default, assertive, and cautious behavior modes that rescale the IDM gains, and may reroll that mode within an episode, producing heterogeneous and time-varying driving styles.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Static actors", "weight": 1.0} -->
+
+Static actors stay fixed for the episode once placed. They include parked vehicles along curbs spanning the car, bus, and truck size classes, pre-arranged crashed-vehicle clusters in a uniform-disc, rear-end chain, T-bone, or outward-fan layout, construction zones built from tiled traffic cones in grid, taper, or lane-block closures with optional stationary workers, and isolated static obstacles offset from the lane center.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Pedestrians and cyclists", "weight": 1.0} -->
+
+Pedestrians cross at crosswalks under a reciprocal collision-avoidance controller (ORCA), arriving on a Poisson schedule sampled per crosswalk as single crossers, packs, bidirectional flows, or staggered sequences, and also jaywalk mid-block away from marked crossings, walking perpendicular to the road until they clear the far edge. Cyclists have no scripted controller; TerraZero populates them as NPCs only through log replay, though the learned policy still controls them as agents.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Signal Control", "weight": 1.0} -->
+
+The intersections in a scene are driven by one of three configurable traffic-light controllers; detection of the resulting violations is handled by the engine and described in Section 3.3. A *NEMA* controller runs the standard dual-ring, eight-phase concurrency plan: each ring advances its phases through green, yellow, and all-red intervals, and the two rings cross barriers together so that conflicting movements never run at once. The *Christmas controller*, used in our default training composition, instead cycles each stop line independently through red, green, and yellow with dwell times drawn from a LogNormal distribution, so signals across a map stay uncoordinated. A *round-robin* controller is the simplest: one approach leg holds green at a time, and the green window rotates leg by leg in canonical NEMA order. Two further mechanisms inject per-scene variety: the initial phase of each intersection is randomized at reset, and protected left turns are flipped to permissive by an independent per-intersection draw, so the same map presents different signal timing and turn permissions across episodes.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Robust Training Recipe", "weight": 1.0} -->
+
+TerraZero is trained with a self-play PPO recipe built on PufferLib and deliberately co-designed with the fast object-level simulator of Section 3. Training is *tabula rasa*: the policy starts from randomly initialized weights and learns from reinforcement signal alone, with zero human demonstrations: no imitation loss and no dependence on logged trajectories. Logged data enters only as map geometry and as the optional starting distribution of Section 4, so the default composition initializes agents randomly, and log and hybrid initialization are available when logged initial states are preferred but never required. The central observation behind the recipe is that when rollouts are cheap, the right currency is *compute* efficiency rather than sample efficiency: it is worth discarding low-value samples and spending the freed compute on aggressive off-policy corrections, value normalization, and a heterogeneous agent population.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Saliency-prioritized sampling", "weight": 1.0} -->
+
+Rather than sweeping every collected transition, TerraZero draws a fixed number of minibatches by sampling trajectory segments *with replacement* in proportion to their priority $p_{i}\propto\big(\sum_{t}|\hat{A}_{i,t}|\big)^{\alpha}$, following the prioritized-replay principle. Because the simulator is fast, this is a favorable trade: high-advantage segments are oversampled while near-zero-advantage segments are simply skipped, yielding more gradient signal per unit of compute at the cost of revisiting fewer unique samples. To correct the induced bias we apply importance-sampling weights $w_{i}=(Np_{i})^{-\beta}$ with $\beta$ annealed upward over training.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Compact feed-forward policy", "weight": 1.0} -->
+
+The default TerraZero policy is a compact multilayer perceptron (MLP) network of approximately $3.5$M parameters, in the style of Cusumano-Towner et al. but with a simpler observation set: a single road-geometry resolution rather than separate coarse and fine map views, a single relative-goal target rather than a routed distance field with intermediate waypoints, and a smaller partner neighborhood (Appendix C). Per-group encoders (an ego MLP and permutation-invariant Deep Sets encoders for the road, partner, and traffic sets) project each group to an embedding, which is concatenated and passed through a three-layer, $1024$-unit MLP shared by the actor and value heads. The value bootstrap is handled separately and is preserved across truncations (next paragraph).
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Markov decision process design", "weight": 1.0} -->
+
+Each agent observes its ego state (speed, dimensions, heading, steering, acceleration, a relative goal, and a one-hot agent type), up to $20$ partner agents within $50$ m, and up to $200$ nearby road segments, with the partner and road sets consumed by the Deep Sets encoders. Vehicles act in a discrete control space, in either acceleration or jerk. We train two kinds of policy on this substrate: a *planner* that controls vehicles alone, and a heterogeneous *sim agent* (Section 6.4) that drives all three classes through separate per-type action heads over their own dynamics models: jerk for vehicles, a unicycle grid for pedestrians, and a compact bicycle grid for cyclists (Appendix E). The reward follows the Gigaflow shaping, combining a goal bonus with collision, off-road, comfort, lane-alignment, lane-centering, velocity, and reverse-driving penalties; the full specification and default weights are given in Appendix B, and observation feature groups in Appendix C.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Value estimation and learning dynamics", "weight": 1.0} -->
+
+Advantages are computed by generalized advantage estimation (GAE), augmented with three stability mechanisms. *V-trace off-policy corrections* clip the temporal-difference and trace terms; because the policy changes between rollout collection and the gradient update, the clipped importance ratio from each minibatch is stored and used to recompute advantages at the start of the next epoch. Setting both clips to infinity recovers standard GAE. True terminals zero the value bootstrap while truncations preserve a saved $V(s_{\text{final}})$ from the pre-reset observation; both cut the $\lambda$ trace, so the policy is never penalized for surviving near a scenario boundary, a documented bias in time-limited RL. *PopArt value normalization* addresses return magnitudes that vary by orders of magnitude across scenarios: running mean $\mu$ and standard deviation $\sigma$ are updated by an exponential moving average each epoch, and the value head is analytically rescaled so that its denormalized predictions are preserved across statistic updates. Value targets are computed in normalized space while advantages enter GAE on the true return scale.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Value estimation and learning dynamics", "weight": 1.0} -->
+
+The three mechanisms (priority sampling, V-trace, and PopArt) address complementary aspects of the off-policy self-play optimization; Appendix E lists the values of every optimization hyperparameter.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Domain randomization over rewards and dynamics", "weight": 1.0} -->
+
+The training environment is randomized along two axes that the policy observes and must adapt to. The reward function is a vector of weighted terms (goal, collision, off-road, comfort, lane-alignment, lane-centering, velocity, and reverse-driving, among others), each of which can be disabled or randomized per agent within a range sampled at episode reset, following the heterogeneous-agent formulation of Gigaflow. The same randomization applies to the four multiplicative kinematic-scaling coefficients $(c_{\text{throttle}},c_{\text{steer}},c_{\text{acc}},c_{\text{vel}})$ that govern each agent's acceleration, steering, and speed limits. Both the sampled reward weights and the kinematic coefficients enter the ego observation (reward- and kinematic-conditioned observations), so the policy adapts to the current regime online rather than memorizing a single one, and its behavior can be steered at inference by adjusting the weight vector without retraining (Appendices B, D.4, and C). Our default training composition randomizes both axes.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Goal dropout", "weight": 1.0} -->
+
+*Goal dropout* keeps the policy from over-relying on its goal input. It marks a per-type fraction of the policy-controlled agents at each reset ($0.3$ of vehicles by default) and hides the goal of a marked agent by zeroing its relative-goal observation, while a separate visible flag tells the network the goal is masked rather than positioned at the origin. The marked agent must continue driving sensibly with its goal hidden, following the road structure until it leaves the map or the episode ends. TerraZero also exposes an optional observation-noise model, off by default, that adds clipped Gaussian perturbations and slot dropout to the ego, partner, and road features for perception-robustness experiments.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Breaking self-play asymmetry with population play", "weight": 1.0} -->
+
+A single shared policy controls all learning agents, so self-play pits the policy against copies of itself; left unchecked this invites degenerate, perfectly symmetric equilibria. TerraZero breaks the symmetry by populating each scene with a heterogeneous *population* of controllers rather than a league of frozen checkpoints. Two ingredients do the work. First, the per-agent kinematic and reward domain randomization described above makes co-trained policy agents behave heterogeneously even under one network. Second, scenes are populated with the rule-based road users of Section 4.4: reactive IDM controllers and closed-loop PDM planners, alongside parked vehicles, crashed-vehicle clusters, construction zones, and crossing or jaywalking pedestrians, in a configurable mix that varies from scene to scene (Figure 4). The learned policy must therefore remain robust to interacting with agents whose behavior it does not control, which is precisely the situation it faces in mixed-control deployment and evaluation.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Distributed Training", "weight": 1.0} -->
+
+TerraZero scales across GPUs and nodes by data parallelism: each rank runs its own simulation environments and computes local gradients over its own rollouts, and the gradients are all-reduced across ranks into a single global mean update.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Distributed Training", "weight": 1.0} -->
+
+The subtlety in distributed self-play is not the gradient all-reduce but keeping the recipe's *normalization statistics* globally consistent, since each stability mechanism maintains running statistics that are meaningless if computed per-rank. TerraZero synchronizes these across ranks so that advantage normalization, PopArt value rescaling, and joint priority sampling all operate on a single global scale rather than on any one rank's shard.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Simulation Throughput", "weight": 1.0} -->
+
+A key claim of TerraZero is high throughput *without* sacrificing scenario fidelity. Figure 5 shows agent-steps-per-second scaling across hardware, and the head-to-head comparison against existing simulators is summarized in Table 1 (Section 2). Measured on a representative training job, TerraZero sustains $560$K agent-steps per second on a single consumer GPU, $1.3$M on a single server-grade GPU, and $2.8$M on an $8$-GPU server node, to our knowledge significantly faster than any existing driving simulator. It reaches these rates while supporting three agent classes, full traffic-signal state machines, and reactive traffic, a fidelity that the single-agent backends it outpaces do not provide.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Training data", "weight": 1.0} -->
+
+We source driving scenarios from three datasets, each converted to the terrabin format of Section 3.4, and we match each dataset to the experiments it supports. nuPlan supplies the map geometry for the planner evaluated on val14 (Section 6.3.1) and InterPlan (Section 6.3.2). WOMD supplies the map geometry for the sim agent evaluated on WOSAC (Section 6.4), which trains on the full WOMD training split and is scored zero-shot on the WOSAC validation sets described there. The transfer study (Section 6.5) draws on all three sources, and their relative scale sets its context.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Training data", "weight": 1.0} -->
+
+WOMD is the largest of the three: our direct converter yields about $576$K scenarios, of which $487$K form the training split. nuPlan contributes about $262$K scenarios across its four cities, distributed unevenly: Las Vegas is by far the largest and Boston the smallest, with Pittsburgh and Singapore in between. CARLA adds only five synthetic towns as map geometry. These sources span a broad distribution of intersections, highway merges, roundabouts, and urban corridors while differing in scale by orders of magnitude, from five hand-built CARLA maps to nearly half a million WOMD scenarios.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Policy and training", "weight": 1.0} -->
+
+Unless otherwise noted, experiments use the compact multilayer-perceptron policy of Section 5 with jerk-based vehicle actions, trained from scratch with zero human demonstrations on nuPlan map geometry with PPO and GAE, V-trace off-policy corrections, and PopArt value normalization, in bf16 mixed precision distributed across 16 NVIDIA A100 80GB GPUs. We apply kinematic, reward, and agent-density domain randomization throughout training, and the configuration of this planner checkpoint, shared by the val14 and InterPlan evaluations, is summarized in Appendix E. The heterogeneous sim agent of Section 6.4 is the exception: it uses separate per-type action heads, about $6.7$M parameters, and trains on 32 GPUs.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Planner Benchmarks", "weight": 1.0} -->
+
+We evaluate TerraZero as a *planner*, an ego driving policy, on two closed-loop ego planning benchmarks. The standard val14 split (Section 6.3.1), run through the PlanTF evaluation suite, draws 14 common nuPlan scenario types from logged validation scenes in balanced proportion, measuring in-distribution urban driving. The InterPlan interactive long-tail suite (Section 6.3.2) rewrites logged nuPlan scenes into the rare, interaction-heavy situations that val14 seldom contains, such as construction zones, accident sites, and jaywalking pedestrians. The two benchmarks score the policy with the official nuPlan closed-loop reactive score and execute its actions through the benchmark's standard nuPlan Linear-Quadratic Regulator (LQR) controller, the same low-level tracker every other planner runs under, so no controller-side change contributes to either score.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Planner Benchmarks", "weight": 1.0} -->
+
+At evaluation TerraZero conditions the policy for each benchmark through the reward- and kinematic-conditioned observations of Section 5, with no retraining, and aligns the eval-time goal and route sampling with the lane-level goals the policy saw during training (Section 4.2); the benchmarks' own scoring stays unchanged.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "nuPlan val14", "weight": 1.0} -->
+
+Our primary ego-policy evaluation uses the nuPlan val14 closed-loop reactive benchmark, run through the PlanTF evaluation suite and scored with the official nuPlan closed-loop reactive score. Each rollout runs the ego policy in closed loop against reactive traffic, and the score aggregates no-at-fault collision, time-to-collision (TTC), drivable-area, driving-direction, and speed-limit compliance, ego progress, making progress, and comfort into a single weighted value in $$, reported in Table 2 alongside its component terms. The comparison set spans the four planner families that populate the val14 leaderboard (rule-based, imitation, hybrid rule-plus-learned, and reinforcement learning), placing TerraZero against both the hand-engineered planners that top the benchmark and the learned policies nearest its own setting; the closest of these is Gigaflow, the one comparable large-scale GPU self-play system. TerraZero is, to our knowledge, the first policy trained exclusively via large-scale self-play to outscore the dedicated nuPlan planners that top val14.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "nuPlan val14", "weight": 1.0} -->
+
+Log Replay (iLQR) FlowDrive w/ guidance + PDM scoring Table 2. Driving policy evaluation on nuPlan val14 (closed-loop reactive). All metrics are higher-is-better. Type: Rule = rule-based; IL = imitation learning; Hybr. = hybrid rule+learned; RL = reinforcement learning; Replay = log replay with tracking controller. Asterisk (*) denotes author re-trained variants; the dagger (†) marks the history-free G2DP variant with rule-based post-hoc refinement (+ref.); dashes mark component scores the source paper does not report. SPDM appears at two proposal budgets Np, its val14-best (Np = 15) and its InterPlan-best (Np = 60; Section 6.3.2). Bold indicates best; underline indicates second best. The Log Replay reference row is excluded from the best and second-best marking.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "nuPlan val14", "weight": 1.0} -->
+
+TerraZero scores $94.19$ on val14, the highest score among the planners we compare against. It leads the reinforcement-learning family, ahead of Gigaflow at $93.8$, CaRL at $90.60$, and PlannerRFT, a diffusion planner refined by reinforcement fine-tuning that reaches $84.46$. The strongest rule-based and hybrid entries, which hand-craft trajectories or graft a rule-based scorer onto a learned model, trail as well: the guidance-plus-PDM variant of FlowDrive at $92.96$, the refinement-augmented G2DP^†^ at $92.92$, SPDM at its val14-tuned 15-proposal setting at $92.28$, and PDM-Closed at $92.13$. That SPDM setting is the very one that gives back most of its long-tail performance on InterPlan (Section 6.3.2).
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "nuPlan val14", "weight": 1.0} -->
+
+TerraZero reaches this with a markedly leaner observation set than Gigaflow: a single road-geometry resolution rather than separate coarse and fine map views, a single relative goal rather than a routed distance field with intermediate waypoints, and a smaller partner neighborhood (Section 5). Because the policy depends on none of these engineered map features, it stays usable where the underlying lane and road topology is imperfect or broken, the regime that richer feature stacks handle poorly. The safety terms carry the score: TerraZero posts the best no-at-fault-collision ($99.02$) and time-to-collision ($95.62$) figures in the table, the safest of the compared planners on both, and the second-best comfort ($97.94$). Ego progress is the one component where a leader still edges it, Gigaflow at $93.6$ against $92.91$, so the residual headroom sits in progress rather than in safety.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "nuPlan val14", "weight": 1.0} -->
+
+This result covers only the in-distribution scenario types that val14 samples. Gigaflow trains on synthetic maps under a single standard-driving distribution and reports no long-tail benchmark, whereas TerraZero trains on both the fat body of routine driving and the procedurally generated long tail of Section 4.4. The next benchmark tests whether that long-tail training pays off where val14 is silent.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "InterPlan", "weight": 1.0} -->
+
+We next evaluate TerraZero on InterPlan, an interactive closed-loop benchmark that stress-tests planning in the long-tail, out-of-distribution situations that val14 rarely contains. InterPlan modifies logged nuPlan scenes into eight interactive scenario families: construction zones, accident sites, jaywalking pedestrians, nudging around a stopped vehicle, overtaking with oncoming traffic, and lane changes at low, medium, and high traffic density. Each planner drives in closed loop against reactive agents and is scored by the nuPlan closed-loop reactive score, which aggregates safety, progress, comfort, and compliance into a single value in $$. We report on the official 80-scenario split so that every method is scored on the same scenarios, and we report TerraZero on the larger 335-scenario set as a broader reference. The planner reported here and in Section 6.3.1 is a single checkpoint trained with one configuration, summarized in Appendix E.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "InterPlan", "weight": 1.0} -->
+
+FlowDrive w/ guidance + PDM scoring Table 3. Driving policy evaluation on the InterPlan interactive long-tail benchmark, scored by the closed-loop reactive nuPlan score in (higher is better). The InterPlan column reports the official 80-scenario split and the Full-Scale InterPlan column the larger 335-scenario set; dashes mark splits a method does not report. Type: Rule = rule-based; IL = imitation learning; Hybr. = hybrid, a learned or language model combined with a rule-based planner, including the LLM planners whose low-level controller is PDM-Closed; RL = reinforcement learning. Scores are from Hallgarten et al., except Diffusion Planner, PPO, and PDM+PPO, which are from Distelzweig et al. on the same reactive benchmark, and SPDM, FlowDrive, Flow Planner, and G2DP, which are from their own papers. Bold is best and underline second best on the InterPlan split.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "InterPlan", "weight": 1.0} -->
+
+TerraZero attains a score of $70.87$ on the 80-scenario split, ahead of every prior planner; the closest is SPDM, a proposal-enriched PDM variant, at $63.66$, and the strongest LLM-based method, the 7B-parameter LLaMA HybridLLMPlanner, reaches $53$. SPDM reaches $63.66$ only at the widest proposal budget it evaluates, 60 candidates per step, and its own sweep reveals a benchmark-specific tuning tax, which is why we tabulate its two endpoints as separate rows in Tables 2 and 3: the 15-proposal setting peaks on val14 at $92.28$ but scores only $42.00$ on InterPlan, while the 60-proposal setting that reaches $63.66$ on InterPlan gives back val14, down to $91.60$. No single SPDM configuration is strong on both benchmarks.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "InterPlan", "weight": 1.0} -->
+
+The base PDM-Closed planner shows the same split, strong on val14 ($92.13$) yet weak on InterPlan ($42$), a tradeoff characteristic of rule-based planners, whose hand-designed proposal and scoring logic is tuned to one regime and does not carry to the long tail without cost elsewhere. One TerraZero checkpoint tops both benchmarks, exceeding SPDM's best val14 ($94.19$ versus $92.28$) and its best InterPlan ($70.87$ versus $63.66$). TerraZero reaches this with the compact multilayer-perceptron policy of Section 5, over three orders of magnitude smaller than a 7B-parameter language model, which points to procedural long-tail scenario generation rather than model scale as the source of the gain: the reported policy trains against a dense, procedurally generated population of construction cones, static obstacles, crashed-vehicle clusters, crossing and jaywalking pedestrians, and reactive IDM traffic (Section 4.4), so the long-tail families InterPlan probes resemble scenes the policy already practices.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "InterPlan", "weight": 1.0} -->
+
+The comparison also separates learned control from rule-based control. The strongest prior entries lean on a hand-crafted planner: the highest prior score is rule-based (SPDM at $63.66$), and the competitive hybrids graft a rule-based planner or a language model onto a learned model, where HybridLLMPlanner pairs a language model with a PDM-Closed fallback, PDM+PPO combines PDM with a learned policy, and FlowDrive climbs from $36.96$ to $44.05$ when its trajectories are reranked by the PDM scorer. Purely learned planners that carry no such planner score far lower (Urban Driver $4$, GameFormer $11$, Diffusion Planner $25.8$, FlowDrive $36.96$, PPO $42.1$). TerraZero uses no rule-based planner and no language model at inference, so the result comes from the learned policy alone. It is, to our knowledge, the first fully learned policy to reach the top of this interactive long-tail benchmark.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "InterPlan", "weight": 1.0} -->
+
+The score is bounded by progress rather than by safety. On the 335-scenario set the route-progress term sits at $67.1$, the lowest of the components, with driving direction next at $88.8$, while time-to-collision ($93.4$), no-fault collision ($95.5$), and drivable-area compliance ($97.3$) all stay high. The policy keeps agents on the road and largely collision-free even in these rare, deliberately adversarial scenes, and the remaining headroom is in making forward progress through them. The same policy scores $71.31$ on that set under the identical training configuration, ahead of the strongest prior learned planners reporting on it, Flow Planner at $61.82$ and G2DP at $61.74$, which confirms that the result is not an artifact of the smaller official split.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Sim Agent Benchmark", "weight": 1.0} -->
+
+We next evaluate TerraZero as a *sim agent*, a controllable traffic actor whose behavior must match the statistical distribution of real human driving. WOSAC characterizes each scenario as a 9.1 s WOMD recording at 10 Hz, uses the first 1.1 s as initial context, and scores how well a method reproduces the remaining 8 s for up to 128 agents under 32 stochastic closed-loop joint rollouts, combined into a realism meta-metric over kinematic, interactive, and map-based likelihood scores. We report both editions on the Waymo validation set, evaluated zero-shot, and match the scenario selection of the competing methods in each edition. The 2023 edition uses the full validation split after removing scenarios above the 128-agent challenge cap, as in Gigaflow. The 2024 edition uses the filtered validation subset of CAT-K and SPACeR, built from the released CAT-K validation manifest under the same 128-agent cap. We use the 2023 edition to compare against Gigaflow, the closest demonstration-free self-play system to ours, and the 2024 edition to compare against more recent self-play methods.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Implementation details", "weight": 1.0} -->
+
+The TerraZero sim agent is a heterogeneous self-play policy that controls vehicles, pedestrians, and cyclists jointly through a single shared network with separate per-type action heads over jerk (vehicles), unicycle (pedestrians), and compact-bicycle (cyclists) dynamics, trained without demonstration trajectories on 32 A100 GPUs (Appendix E). The primary checkpoint trains on Waymo map geometry, and the zero-shot transfer checkpoint trains on nuPlan map geometry. Each checkpoint produces both the vehicle and vulnerable-road-user rollouts reported below.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+We compare against representative imitation and self-play approaches, and we draw the 2024 peer numbers from the SPACeR paper, whose benchmark matches ours. The imitation family comprises SMART and SMART fine-tuned with CAT-K, two tokenized models trained directly on WOMD demonstrations and reported as reference upper bounds. The self-play family comprises decentralized PPO trained on the task reward alone, Human-Regularized PPO (HR-PPO), and SPACeR. These methods differ in how much logged data they require: HR-PPO regularizes its policy toward a behavior-cloning reference and SPACeR anchors self-play to a pretrained tokenized reference model through Kullback--Leibler (KL) alignment, so each depends on a separate reference policy trained on logged data even though neither consumes demonstrations in the self-play loss, whereas PPO and TerraZero use no logged human data of any kind. PPO, HR-PPO, and SPACeR also initialize agents and goals from logged trajectories, while TerraZero uses procedural random initialization.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+The 2023 edition adds the published Gigaflow results alongside the random-agent, linear-extrapolation, and stationary lower bounds reported by the challenge organizers.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+TerraZero (Ours, Waymo) TerraZero (Ours, nuPlan, zero-shot) Table 4. WOSAC 2023 sim agent evaluation against demonstration-free self-play baselines, scored on the full Waymo validation split. All metrics are higher-is-better. TerraZero raises overall realism while jointly controlling vehicles, pedestrians, and cyclists in closed loop, where Gigaflow drives pedestrians with a scripted controller. The shaded row is the logged expert reference; bold marks the best demonstration-free entry per column and underline the second best.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+The 2024 edition scores vehicles and vulnerable road users (VRUs) separately, since their dynamics and behavioral patterns differ, so we report a vehicle table and a VRU table following the SPACeR protocol. WOSAC builds a per-feature negative-log-likelihood of the logged outcome under the simulated rollout distribution and aggregates the kinematic, interactive, and map-based features under the official weights, normalized within each bucket, so realism reads as $0.20$ kinematic $+0.45$ interactive $+0.35$ map. For VRUs we drop the vehicle-only time-to-collision term and renormalize the remaining interactive weights within that bucket. The tables also report the minimum average displacement error (minADE) of the rollouts. The Demo-Free column records how much logged data each method requires: a check mark for methods that use no logged human data at all, an open circle for methods that use no demonstrations directly but depend on a separate reference policy trained on logged data, and a cross for methods trained directly on demonstrations.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+The TerraZero entries come from one Waymo-trained checkpoint at epoch 12,000 and one nuPlan-trained checkpoint at epoch 4,000, each of which controls vehicles, pedestrians, and cyclists jointly. The SPACeR vehicle and VRU numbers come from two separately configured runs.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+TerraZero (Ours, Waymo) TerraZero (Ours, nuPlan, zero-shot) Table 5. WOSAC 2024 vehicle sim agent evaluation on the filtered CAT-K validation subset. The realism, kinematic, interactive, and map columns are likelihood meta-scores (higher is better); minADE, collision, and off-road are rollout statistics (lower is better). The Demo-Free column uses ✓ for no logged human data, ∘ for an anchoring reference policy trained on logged data, and ✗ for direct demonstration training. Shaded rows are tokenized imitation-learning references; bold marks the best self-play entry per column and underline the second best.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+TerraZero (Ours, Waymo) TerraZero (Ours, nuPlan, zero-shot) Table 6. WOSAC 2024 VRU sim agent evaluation on the filtered CAT-K validation subset. All columns are higher-is-better except minADE. The Demo-Free column uses ✓ for no logged human data, ∘ for an anchoring reference policy trained on logged data, and ✗ for direct demonstration training. Bold marks the best self-play entry per column and underline the second best.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Table 4 reports WOSAC 2023 against Gigaflow and the demonstration-free baselines. Unlike Gigaflow, whose WOSAC entry drives pedestrians with a scripted IDM-like controller and applies its learned policy only to vehicles and cyclists, TerraZero controls vehicles, pedestrians, and cyclists through one unified heterogeneous policy, which makes it suitable for unified, interactive traffic-scene simulation. TerraZero edges Gigaflow on overall realism (0.632 versus 0.619) and leads on linear and angular speed, time-to-collision, road-edge distance, off-road, and collision, while trailing on distance-to-object and the acceleration kinematics.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Tables 5 and 6 report WOSAC 2024 against recent self-play methods. On vehicles, TerraZero nearly matches SPACeR on the realism composite (0.740 versus 0.741), slightly exceeds its kinematic score (0.412 versus 0.411), and leads the self-play entries on interactive likelihood (0.797 versus 0.779). Its lower map likelihood (0.853 versus 0.880) accounts for the remaining composite gap. TerraZero also posts the lowest collision and off-road rates of any method in the table, with a higher minADE than SPACeR. On VRUs, TerraZero reaches a realism composite of 0.688 that surpasses PPO (0.648) and HR-PPO (0.668) and trails SPACeR (0.729), with a VRU minADE (2.85) close to SPACeR (2.07) and far below PPO and HR-PPO. TerraZero reaches this without demonstrations, without an anchoring reference policy, and without logged-trajectory initialization, where SPACeR and HR-PPO each rely on a reference policy trained on logged data.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+The same recipe transfers across datasets. A heterogeneous policy trained only on nuPlan map geometry, evaluated zero-shot on the Waymo WOSAC protocol with no Waymo training, nearly matches the Waymo-trained policy: vehicle realism $0.733$ versus $0.740$ and VRU realism $0.686$ versus $0.688$ under the 2024 protocol, and overall realism $0.625$ versus $0.632$ under the 2023 protocol (Tables 4, 5, and 6). This near-parity echoes the transfer study of Section 6.5 (Figure 6), where realism tracks the domain-randomization scheme rather than the training source; the WOSAC comparison here measures that same cross-dataset transfer under the full leaderboard protocol rather than the restricted transfer-matrix protocol.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+The two benchmarks together support our central claim: TerraZero is not merely a fast simulator but a training substrate that yields policies competitive as both ego driving policies (Table 2) and sim agents (Tables 4, 5, and 6). A policy that closely mimics human kinematics may still fail on task metrics, while a policy can game val14 through overly cautious driving that diverges from human behavior; the two metrics therefore catch complementary failure modes.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Generalization", "weight": 1.0} -->
+
+A central claim of our domain-randomization approach is that policy robustness derives from the randomization scheme rather than from memorizing dataset-specific patterns. We test this directly with a transfer study: a separate TerraZero policy is trained on each data source, each for fewer training steps than the main benchmark policies of Sections 6.3.1 and 6.4, and then evaluated, *zero-shot* with no fine-tuning on the target, on every other dataset and nuPlan city. We read each policy through two complementary lenses, distributional *realism* scored with the WOSAC vehicle protocol and ego *safety* scored with the NAVSIM v2 Extended PDM Score (EPDMS). Both lenses share the same five checkpoints and five targets, so together they yield a pair of transfer matrices whose rows are the training source and whose columns are the evaluation target (Figure 6).
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Setup", "weight": 1.0} -->
+
+The realism matrix scores each cell under the WOSAC 2024 protocol restricted to vehicles, reporting the vehicle realism meta-score. The metric compares the distribution of simulated vehicle features against the logged ground truth over an 80-frame future horizon under 32 stochastic closed-loop rollouts, weighting kinematic, interactive, and map-based feature families. Agents are initialized from the logged state but pursue *randomly generated* goals, so the policy never observes the held-out logged destination. The safety matrix scores the same checkpoints with the NAVSIM v2 EPDMS, reporting the core safety score, the minimum of the at-fault-filtered no-collision, drivable-area, driving-direction, and time-to-collision sub-metrics, so a single safety failure caps the cell. In this setup the policy controls only the ego vehicle while every other agent replays its logged trajectory.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Setup", "weight": 1.0} -->
+
+This isolates ego transfer behavior but leaves the surrounding traffic *non-reactive*, so the EPDMS score here measures ego safety against replayed agents rather than the fully reactive closed-loop driving of the nuPlan val14 benchmark in Table 2. Both matrices restore each checkpoint's own training configuration and vary only the target maps, and each cell averages about 100 scenarios, which supports relative comparison rather than leaderboard-grade absolutes. Waymo realism cells use the official WOSAC subject set, while the nuPlan cities have no official subject set and so score all valid logged vehicles, giving WOSAC-2024-*style* rather than official-subject numbers.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Cross-dataset transfer", "weight": 1.0} -->
+
+The first question is whether a policy pays a penalty for being evaluated away from the dataset it trained. It does not, under either lens. Reading down any column of Figure 6, the score barely moves with the training source: the per-source mean realism spans only about $0.011$ across the five policies (from $0.720$ for the CARLA-trained policy to $0.731$ for the Waymo-trained one), and the per-source mean safety spans about $0.018$ (from $0.722$ to $0.740$), with no policy holding a consistent home-dataset advantage in either. A Waymo-trained policy scores $0.745$ realism on Waymo, yet a nuPlan-trained policy reaches $0.713$ there, and on nuPlan Singapore the Waymo-trained policy ($0.753$) edges the nuPlan-trained one ($0.748$).
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Cross-dataset transfer", "weight": 1.0} -->
+
+The CARLA-trained policy, whose training maps are just five synthetic towns, nonetheless lands in this same narrow band as the Waymo- and nuPlan-trained policies drawn from hundreds of thousands of scenes ($0.720$ realism and $0.722$ safety, within $0.011$ and $0.018$ of the best), so transfer quality tracks the randomization scheme rather than the size of the training corpus. Both panels read as near-uniform color within each column: the dominant variation runs across columns, a property of the target, not across rows.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Cross-city transfer", "weight": 1.0} -->
+
+Within nuPlan the same pattern holds at the level of individual cities. The policy trained only on Las Vegas and the policy trained on the US cities both transfer to held-out cities with scores indistinguishable from the policy trained on the full nuPlan mix (Figure 6, bottom strips), even though Las Vegas supplies several times more training scenes than Boston or Singapore. Where the columns differ is between cities, not between sources: under realism, Boston sits lowest ($0.684$ mean) and Pittsburgh highest ($0.760$); under safety, Las Vegas is the uniformly low column ($0.544$ mean, spread only $0.025$ across sources) while the nuPlan cities score high ($0.82$ to $0.83$). The dominant training city thus earns no home advantage, and the safety score binds hardest on that very city.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Cross-city transfer", "weight": 1.0} -->
+
+These are gaps of the target rather than of any policy: the two lenses disagree about which targets are hard, and the low realism on Boston and Pittsburgh is largely an artifact of road-edge geometry in the converted maps that every policy inherits equally, not a transfer penalty; on those two cities the off-road metric flags even logged human vehicles as off-road at rates several times the level seen elsewhere.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Emergent left-hand-traffic driving", "weight": 1.0} -->
+
+The transfer matrices contain a built-in test of whether the policy memorizes a driving side or follows road structure. Four of the five training sources (Waymo, CARLA, the nuPlan US cities, and Las Vegas) contain only right-hand-traffic maps, yet nuPlan Singapore, a left-hand-traffic country, is among the highest-scoring targets under both metrics (a $0.743$ realism column mean and a $0.833$ safety column mean). The policy trained on the US cities, which never sees a left-hand-traffic map, scores $0.747$ realism on Singapore, matching the $0.748$ of the policy trained on the full nuPlan mix, whose training pool is the only source that includes Singapore itself. A policy that had memorized right-hand travel would collapse here; instead its realism and safety are undiminished, which indicates that the learned behavior is to follow the local lane topology rather than a fixed directional convention. We attribute this to kinematic domain randomization combined with reward-conditioned training, which reward progress along the road structure the agent is placed.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Emergent left-hand-traffic driving", "weight": 1.0} -->
+
+As noted by Wang et al., achieving such transfer without human demonstrations is a key indicator of genuine robustness.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Qualitative Analysis", "weight": 1.0} -->
+
+Beyond aggregate metrics, we visualize policy behavior in the situations that most stress a driving policy. Figure 7 shows ego-view rollouts of a single TerraZero policy across four safety-critical scenario types drawn from different cities: a car-crash encounter in Boston, a stop-sign construction zone in Boston, a pedestrian crosswalk in Pittsburgh, and a jaywalking pedestrian in Las Vegas. Each row reads left to right as the episode advances, with the policy-controlled ego agent navigating the hazard while reactive traffic and pedestrians evolve around it. The policy keeps progress through congestion, respects the stop-sign and crosswalk geometry, and yields to the jaywalking pedestrian rather than colliding. These behaviors are consistent with the quantitative gains in the No AF-Collision and TTC components of Table 2. Video rollouts of these and additional scenarios are available on the project website, covering procedurally generated long-tail scenarios for cars and trucks, heterogeneous multi-agent simulation, closed-loop driving on val14 and InterPlan, and traffic simulation on WOSAC.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We have presented TerraZero, a high-performance closed-loop driving simulator designed for self-play reinforcement learning at scale. TerraZero addresses a persistent tension in autonomous driving research: the simulators fast enough for RL-scale training have historically lacked the scenario fidelity needed for meaningful policy transfer, while feature-rich environments remain orders of magnitude too slow. By combining a configurable C simulation engine, a procedural scenario generator, and a compute-efficient self-play recipe, TerraZero achieves among the highest reported throughput for object-level, self-play-enabled driving simulators while supporting heterogeneous traffic (vehicles, pedestrians, cyclists), multiple dynamics models, traffic-rule enforcement, and multi-source map data from Waymo, nuPlan, and CARLA.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+The system makes three concrete contributions: a fast, feature-rich object-level C simulator that retains full scenario fidelity at high throughput across consumer-grade, server-grade, and multi-GPU hardware; a procedural scenario generator that manufactures a vast space of scenarios from real-world maps rather than training on the logs directly; and a compute-efficient self-play recipe that trains every reported policy from scratch with zero human demonstrations, using no imitation and no logged trajectories, and generalizes zero-shot across cities and datasets. We measure driving performance on nuPlan val14 and InterPlan, and sim-agent realism on WOSAC. The same recipe tops both the standard val14 benchmark and the interactive long-tail InterPlan benchmark, and outperforms other demonstration-free methods on WOSAC realism, so one stack yields both a realistic traffic simulator and a high-performance, robust planner.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+TerraZero relies on high-definition maps with lane-level topology, traffic signal phase information, and intersection geometry; regions for which such maps are unavailable cannot be used as training or evaluation scenarios. The object-level simulation abstraction does not model visual perception: policies operate on ground-truth structured features rather than camera or lidar inputs, so the system cannot directly train end-to-end perception-to-control pipelines. While domain randomization over kinematic parameters improves robustness, the sim-to-real gap for physical vehicle dynamics (tire friction, suspension response, aerodynamic effects) remains an open challenge that randomization alone does not fully resolve.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Future Work", "weight": 1.5} -->
+
+Several directions extend naturally from the current system. *City-scale simulation* would increase scenario duration and spatial extent to support long-horizon planning across entire urban networks, moving beyond the intersection-level episodes that currently dominate training. *Expanded agent types* (emergency vehicles, construction equipment, electric scooters, and other underrepresented road users) would enrich interaction dynamics and further stress-test policy generalization. *Sim-to-real transfer experiments* leveraging the kinematic domain randomization framework would provide direct evidence of whether policies trained in TerraZero transfer to physical platforms, closing the loop between simulation and deployment. Finally, *integration with visual perception pipelines* (replacing ground-truth observations with learned representations from camera or lidar inputs) would bridge the gap between object-level and end-to-end autonomous driving, enabling TerraZero to serve as a training environment for full-stack driving systems.

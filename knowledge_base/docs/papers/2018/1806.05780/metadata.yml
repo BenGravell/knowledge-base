@@ -1,0 +1,22 @@
+title: >
+  Surprising Negative Results for Generative Adversarial Tree Search
+algorithm:
+authors:
+  - Kamyar Azizzadenesheli
+  - Brandon Yang
+  - Weitang Liu
+  - Zachary C Lipton
+  - Animashree Anandkumar
+year: 2018
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "1806.05780"
+tags:
+abstract: >
+  While many recent advances in deep reinforcement learning (RL) rely on model-free methods, model-based approaches remain an alluring prospect for their potential to exploit unsupervised data to learn environment model. In this work, we provide an extensive study on the design of deep generative models for RL environments and propose a sample efficient and robust method to learn the model of Atari environments. We deploy this model and propose generative adversarial tree search (GATS) a deep RL algorithm that learns the environment model and implements Monte Carlo tree search (MCTS) on the learned model for planning. While MCTS on the learned model is computationally expensive, similar to AlphaGo, GATS follows depth limited MCTS. GATS employs deep Q network (DQN) and learns a Q-function to assign values to the leaves of the tree in MCTS. We theoretical analyze GATS vis-a-vis the bias-variance trade-off and show GATS is able to mitigate the worst-case error in the Q-estimate. While we were expecting GATS to enjoy a better sample complexity and faster converges to better policies, surprisingly, GATS fails to outperform DQN. We provide a study on which we show why depth limited MCTS fails to perform desirably.
+summary: ''
+link: https://arxiv.org/pdf/1806.05780
+links_alt:
+  - https://www.researchgate.net/profile/Kamyar_Azizzadenesheli/publication/325817047_Sample-Efficient_Deep_RL_with_Generative_Adversarial_Tree_Search/links/5b3185880f7e9b0df5cb8773/Sample-Efficient-Deep-RL-with-Generative-Adversarial-Tree-Search.pdf
+audit_status: raw

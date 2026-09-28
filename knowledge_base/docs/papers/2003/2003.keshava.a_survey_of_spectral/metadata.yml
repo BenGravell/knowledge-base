@@ -1,0 +1,26 @@
+title: >
+  A Survey of Spectral Unmixing Algorithms
+algorithm: Spectral unmixing taxonomy
+authors:
+  - Nirmal Keshava
+year: 2003
+source: Lincoln Laboratory Journal
+type: Survey Paper
+doi:
+arxiv_id:
+tags:
+  - Spectral unmixing
+  - Hyperspectral imaging
+  - Remote sensing
+  - Endmember extraction
+  - Abundance estimation
+  - Algorithm taxonomy
+abstract: >
+  Spatial pixel sizes for multispectral and hyperspectral sensors are often large enough that numerous disparate substances can contribute to the spectrum measured from a single mixed pixel. Consequently, the desire to extract from a spectrum the constituent materials in the mixture, as well as the proportions in which they appear, is important to numerous tactical scenarios where subpixel detail is valuable. With this goal in mind, spectral unmixing algorithms have proliferated in a variety of disciplines that exploit hyperspectral data, often duplicating and renaming previous techniques. This article distills these approaches into a unique set and surveys their characteristics through hierarchical taxonomies that reveal the commonalities and differences between algorithms. A set of criteria organizes algorithms according to the philosophical assumptions they impose on the unmixing problem. Examples demonstrate the performance of key techniques.
+summary: >
+  Organizes spectral unmixing methods by their assumptions and compares representative techniques for identifying materials and their proportions within mixed hyperspectral pixels.
+link: https://archive.ll.mit.edu/publications/journal/pdf/vol14_no1/14_1survey.pdf
+links_alt:
+  - https://archive.ll.mit.edu/publications/journal/journalarchives14-1.html
+  - https://www.semanticscholar.org/paper/A-Survey-of-Spectral-Unmixing-Algorithms-Keshava/8d5a3a134e3340b1754d5608080d9b213c56dd8b
+audit_status: partial

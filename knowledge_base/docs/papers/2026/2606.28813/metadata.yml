@@ -1,0 +1,22 @@
+title: >
+  Human2Any: Human-to-Robot Transfer via Constraint-Aware Compositional Planning
+algorithm:
+authors:
+  - Shuo Cheng
+  - Chuye Zhang
+  - Alfred Cueva
+  - Caelan Garrett
+  - Ajay Mandlekar
+  - Danfei Xu
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2606.28813"
+tags:
+abstract: >
+  Human videos are a scalable source of supervision for robot manipulation, as they are abundant and naturally capture rich object interactions. However, transferring human demonstrations to robots remains challenging due to embodiment mismatch, scene variation, and robot-specific feasibility constraints. We present Human2Any, a framework for learning reusable object-centric interaction priors from human videos without requiring real-world robot demonstrations in the target task contexts. Human2Any represents manipulation through object-object interaction motion, capturing task-relevant scene changes while abstracting away embodiment-specific details. It composes learned interaction priors with robot-side feasibility reasoning and motion planning, allowing the same human-derived knowledge to adapt to different embodiments, scene geometries, and task contexts. We validate Human2Any across diverse manipulation settings, including real-world experiments on a Franka tabletop setup and an RBY-1 humanoid mobile robot, demonstrating robust interaction-centric manipulation without real-world robot training data. Project website: https://human2any.github.io/.
+summary: ''
+link: https://arxiv.org/pdf/2606.28813
+links_alt:
+audit_status: raw

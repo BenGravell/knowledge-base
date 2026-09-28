@@ -1,0 +1,273 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
+Voxtral TTS
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+We introduce Voxtral TTS, an expressive multilingual text-to-speech model that generates natural speech from as little as 3 seconds of reference audio. Voxtral TTS adopts a hybrid architecture that combines auto-regressive generation of semantic speech tokens with flow-matching for acoustic tokens. These tokens are encoded and decoded with Voxtral Codec, a speech tokenizer trained from scratch with a hybrid VQ-FSQ quantization scheme. In human evaluations conducted by native speakers, Voxtral TTS is preferred for multilingual voice cloning due to its naturalness and expressivity, achieving a 68.4\% win rate over ElevenLabs Flash v2.5. We release the model weights under a CC BY-NC license.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Natural and expressive text-to-speech (TTS) remains a cornerstone of flexible human-computer interactions, with applications spanning virtual assistants, audiobooks, and accessibility tools. While recent neural TTS models achieve strong intelligibility, capturing the nuances and expressivity of human speech remains an open challenge, particularly in the zero-shot voice setting.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Recent zero-shot TTS systems typically condition generation on discrete speech tokens extracted from a short voice prompt, enabling generalization to unseen speakers and natural synthesis across long sequences \[Borsos et al., 2023, Wang et al., 2023\]. In parallel, diffusion and flow-based models are effective for modeling rich acoustic variation in speech generation \[Popov et al., 2021, Le et al., 2023\]. Recent speech codecs demonstrate that speech can be factorized into a low-rate semantic stream and a higher-rate acoustic stream \[Défossez et al., 2024\]. Hierarchical generators such as Moshi already exploit this structure using a temporal transformer over timesteps and a depth transformer over codec levels. However, acoustic generation in these systems remains depth-wise autoregressive. For TTS, this raises the question whether the dense acoustic component must be modeled auto-regressively at all, or whether it can instead be generated more effectively with a conditional continuous model.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this work, we introduce Voxtral TTS, a multilingual zero-shot TTS system built around a representation-aware hybrid architecture. A voice prompt is tokenized through Voxtral Codec, a low-bitrate speech tokenizer with an ASR-distilled semantic token and finite scalar quantized (FSQ) acoustic tokens \[Mentzer et al., 2023\]. Given this factorized representation, a decoder-only transformer auto-regressively predicts the semantic token sequence, while a lightweight flow-matching model predicts the acoustic tokens conditioned on the decoder states. This design combines the strengths of auto-regressive modeling for long-range consistency with continuous flow-matching for rich acoustic detail. We adapt Direct Preference Optimization (DPO) \[Rafailov et al., 2023\] to this hybrid discrete-continuous setting by combining a standard preference objective over semantic token generation with a flow-based preference objective for acoustic prediction \[Ziv et al., 2025\].
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Voxtral TTS supports 9 languages, supports voice prompts as short as 3 seconds, and is designed for low-latency streaming inference. Across automatic evaluations on SEED-TTS \[Anastassiou et al., 2024\] and MiniMax-TTS \[Zhang et al., 2025\], it achieves strong intelligibility and naturalness, beating ElevenLabs v3 on speaker similarity scores. In human evaluation for multilingual zero-shot voice cloning, it is preferred over ElevenLabs Flash v2.5 with a 68.4% win rate, while remaining competitive with strong proprietary systems on expressive flagship-voice evaluations.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Voxtral Codec", "weight": 1.0} -->
+
+Voxtral Codec is a convolutional--transformer autoencoder \[Défossez et al., 2022\] that compresses raw 24 kHz mono waveforms into 12.5 Hz frames of 37 discrete tokens (1 semantic + 36 acoustic), achieving a total bitrate of 2.14 kbps. These tokens serve as the input audio representation to Voxtral TTS. Through a novel combination of architectural and training objective improvements, Voxtral Codec outperforms existing baselines such as Mimi \[Défossez et al., 2024\], with results presented in Section 4.1.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Waveform Autoencoder", "weight": 1.0} -->
+
+Inspired by prior works on transformer-based audio codecs \[Parker et al., 2024, Wu et al., 2024\], our audio tokenizer operates on "patchified" waveforms. A 24 kHz mono input waveform is chunked into non-overlapping patches of 240 samples, yielding a 100 Hz input to the encoder. The 100 Hz input frames are first projected to 1024-dimensional embeddings via a causal convolution with kernel size 7. The embeddings are then forwarded through 4 encoder blocks, each comprising: A 2-layer causal self-attention transformer with sliding window attention (window sizes $16\rightarrow 8\rightarrow 4\rightarrow 2$, halved at each downsampling stage), ALiBi positional bias \[Press et al., 2021\], QK-norm, and LayerScale \[Touvron et al., 2021\] initialized at 0.01.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Waveform Autoencoder", "weight": 1.0} -->
+
+A causal CNN layer. In the first three blocks, the CNN downsamples by 2$\times$ (stride 2), yielding a cumulative 8$\times$ reduction from 100 Hz to 12.5 Hz. In the fourth block, the CNN has stride 1 and projects the 1024-dimensional representation to a 292-dimensional latent space.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Waveform Autoencoder", "weight": 1.0} -->
+
+The 292-dimensional latent is subsequently quantized to audio tokens (detailed below). The decoder mirrors the encoder in reverse: a causal CNN first projects the 292-dimensional latent back to 1024 dimensions, followed by 4 blocks each containing a transposed CNN (for 2$\times$ upsampling) and a 2-layer causal self-attention transformer, gradually restoring the 12.5 Hz latent to 100 Hz. A final causal convolution with kernel size 7 maps from 1024 dimensions back to the patch size of 240 samples to reconstruct the waveform.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Representation Quantization", "weight": 1.0} -->
+
+The 292-dimensional latent is split into a 256-dimensional *semantic* component and a 36-dimensional *acoustic* component, which are quantized independently: The semantic component is quantized through a learned vector quantizer with a codebook of size 8192. During training, VQ is applied with 50% probability; the remaining samples pass through unquantized.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Representation Quantization", "weight": 1.0} -->
+
+Each of the 36 acoustic dimensions is passed through a $\tanh$ activation and independently quantized to 21 uniform levels via finite scalar quantization. During training, we apply dither-style FSQ \[Parker et al., 2024\]: 50% of samples are quantized with FSQ, 25% receive uniform noise of magnitude $1/L$ (where $L{=}21$ is the number of levels), and 25% pass through unquantized.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Representation Quantization", "weight": 1.0} -->
+
+The total bitrate is $12.5\times(\log_{2}8192+36\times\log_{2}21)\approx 2.14$ kbps.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Semantic Token Learning", "weight": 1.0} -->
+
+To better incorporate the semantic content of speech into the semantic tokens, we adopt an auxiliary ASR distillation loss. Unlike prior works that learn "semantic" tokens by distilling self-supervised speech representations \[Zhang et al., 2023, Défossez et al., 2024\], which are more phonetic than semantic \[Liu et al., 2024\], we distill from a supervised ASR model. This has been shown to produce more effective semantic representations \[Vashishth et al., 2024\].
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Semantic Token Learning", "weight": 1.0} -->
+
+A frozen Whisper \[Radford et al., 2023\] model is run auto-regressively on the input audio to generate decoder hidden states and cross-attention weights. The post-VQ semantic embeddings are linearly projected to match the Whisper hidden dimension and then aligned to the decoder hidden states from the last decoder layer using a cosine distance loss: where $\boldsymbol{z}_{f}$ are the projected post-VQ semantic embeddings at codec frame $f$, $\boldsymbol{h}_{l}$ are the last-layer decoder hidden states from Whisper at token position $l$, and $A\in\mathbb{R}^{L\times F}$ is a soft alignment matrix derived from a subset of Whisper's cross-attention heads identified as best correlating with word-level timestamps via dynamic time warping (DTW) \[Berndt and Clifford, 1994\]. To compute $A$, the cross-attention weights from these heads are normalized across the decoder token dimension, median-filtered, and averaged over heads.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Semantic Token Learning", "weight": 1.0} -->
+
+The resulting matrix is linearly interpolated along the encoder frame axis to match the codec frame rate (12.5 Hz), so that $\tilde{\boldsymbol{z}}_{l}$ is the attention-weighted sum of codec embeddings aligned to the $l$-th decoder token.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Semantic Token Learning", "weight": 1.0} -->
+
+This design allows the tokenizer to learn text-aligned semantic tokens without requiring an external forced aligner or paired transcripts, since the alignment is derived implicitly from Whisper's cross-attention weights. Distilling from continuous hidden states rather than hard transcript labels provides richer supervision, including model confidence and phonetic similarities.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Adversarial Training", "weight": 1.0} -->
+
+A multi-resolution discriminator with 8 STFT sizes is trained along with the codec. Each discriminator is trained as a binary classifier between real audios $\boldsymbol{x}$ and reconstructed audios $\boldsymbol{\hat{x}}$ using a hinge loss. An $L_{1}$-based feature-matching loss is computed on the activations of every layer of each discriminator: Here, $D_{n}^{m}$ denotes the $m$-th layer of the $n$-th discriminator, where each of the $N$ discriminators has $M$ layers. Following Défossez et al., Parker et al., we use this feature-matching loss *in place of* the standard GAN generator loss, as the evolving discriminator features provide an increasingly discriminative reconstruction signal throughout training.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Training Objective", "weight": 1.0} -->
+
+Voxtral Codec is trained end-to-end with the following losses: where $\alpha{=}1.0$, $\beta{=}1.0$, $\gamma{=}0.9999^{t}$ (with $t$ the current training step), and $\delta{=}0.1$. $\mathcal{L}_{\text{L1}}$ is the $L_{1}$ distance between the original and reconstructed waveforms, and $\mathcal{L}_{\text{STFT}}$ is an $L_{1}$ loss on their STFT magnitudes. Both reconstruction losses share the same exponential decay schedule $\gamma$, which bootstraps learning early in training and diminishes their influence as the adversarial signal strengthens \[Parker et al., 2024\].
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Training Objective", "weight": 1.0} -->
+
+$\mathcal{L}_{\text{commit}}=\lVert\boldsymbol{z}_{e}-\mathrm{sg}(\boldsymbol{z}_{q})\rVert_{2}^{2}$ is the VQ commitment loss \[Van Den Oord et al., 2017\], where $\mathrm{sg}$ denotes the stop-gradient operator.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Training Objective", "weight": 1.0} -->
+
+Encoder patch projection kernel size Encoder patch projection dimension Encoder transformer layers1 Encoder sliding window size Encoder conv kernels Encoder conv strides (Decoder flips all → to ← and uses transposed convolutions) Semantic VQ2 codebook size Acoustic FSQ3 codebook count×size For training stability, we use LayerScale with initial scale of 0.01 and QK normalization with ϵ = 10−6. During training, VQ is applied with 50% probability. During training: 50% quantized with FSQ, 25% dithered (uniform noise of magnitude 1/L), 25% unquantized.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Training Objective", "weight": 1.0} -->
+
+Table 1 presents a summary of the Voxtral Codec configuration. The full model has approximately 300M parameters. All decisions are ablated and the final configuration achieves stable optimization with the best audio quality.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Decoder Backbone", "weight": 1.0} -->
+
+The decoder backbone of Voxtral TTS follows the architecture of Ministral 3B \[Liu et al., 2026\], an auto-regressive decoder-only transformer. The input sequence consists of voice reference audio tokens followed by text tokens, from which the output audio tokens are auto-regressively generated. Each audio frame is represented by 37 discrete tokens (1 semantic, 36 acoustic). Each codebook has its own embedding lookup table (8192 entries for semantic and 21 for each acoustic), which are summed to produce a single embedding per audio frame.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Decoder Backbone", "weight": 1.0} -->
+
+The decoder backbone generates a sequence of hidden states. A linear head projects each hidden state $h$ to logits over the semantic codebook vocabulary (8192 entries plus a special End of Audio (\<EOA\>) token), trained with a standard cross-entropy loss. To predict the acoustic tokens, $h$ is fed to a flow-matching transformer, described in Section 2.3. The float-valued outputs of the flow-matching transformer are discretized before the next AR step to maintain a fully discrete token interface.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Flow-Matching Transformer", "weight": 1.0} -->
+
+To predict the acoustic tokens, a flow-matching (FM) transformer operates independently on the hidden state $h$ from each generation step in the decoder backbone. We model acoustic tokens in continuous space to leverage the smooth velocity field of FM, and discretize only at the output to interface with the AR backbone's discrete token vocabulary.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Flow-Matching Transformer", "weight": 1.0} -->
+
+The FM transformer consists of a bidirectional 3-layer transformer with the same width as the decoder backbone. It models the velocity field that transports Gaussian noise ($x_{0}$) to acoustic embedding ($x_{1}$) over a series of function evaluation steps $0\leq t\leq 1$. It receives as input $h$, the current function evaluation step $t$ encoded as a sinusoidal embedding, and the current acoustic embedding $x_{t}\in\mathbb{R}^{36}$. We use a separate projection layer for each input $h$, $t$ and $x_{t}$, because the scale of activations are different for each one. We also ablated providing conditioning using DiT style adaptive LayerNorm (AdaLN) layers \[Peebles and Xie, 2023\], but found our approach superior.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Flow-Matching Transformer", "weight": 1.0} -->
+
+During training, the hidden state is dropped out 10% of the time for "unconditional" modeling. For inference, we use the Euler method to integrate the velocity vector field $v_{t}$ using 8 function evaluations (NFEs) and classifier-free guidance (CFG) \[Ho and Salimans, 2022\]. Concretely, the form of $v_{t}$ and $x_{t}$ is: where $h$ is the hidden state from decoder backbone and $\emptyset$ is the unconditional case where we pass a vector of zeros with the same shape as $h$. $v_{\theta}(x_{t},t,h)$ is the predicted velocity field at time step $t$, sample $x_{t}$ and conditioning input $h$. We set $\Delta t=1/8$ and $\alpha=1.2$ based on the analysis in Section 5.2.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Flow-Matching Transformer", "weight": 1.0} -->
+
+Note that in our architecture, CFG is applied independently at every frame in the FM transformer. Hence, it only requires an extra forward-propagation of only the FM transformer, and is thus significantly cheaper than applying CFG in the decoder backbone. The float values predicted by the FM transformer are converted to discrete integer values by quantizing to the 21 FSQ levels. These discretized tokens are provided as input to the decoder backbone in the next decoding step.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Flow-Matching Transformer", "weight": 1.0} -->
+
+Given the inputs to the decoder backbone are discrete tokens with embedding lookup, we also considered alternative architectures inspired by MaskGIT \[Chang et al., 2022\] and Depth Transformer \[Défossez et al., 2024\]. Both approaches performed reasonably well, but were inferior to FM in human evaluations, especially on expressivity. In addition, MaskGIT requires attending over all 36 acoustic codebook positions and conditioning tokens, resulting in a per-frame sequence length of 38, compared to just 3 in the FM transformer ($h$, $t$, $x_{t}$). Similarly, the Depth Transformer requires 36 auto-regressive decoding steps, compared to 8 NFEs for FM. Thus, FM is superior in quality, compute and latency.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Pretraining", "weight": 1.0} -->
+
+We train the model using paired audio and transcripts pseudo-labelled with Voxtral Mini Transcribe \[Liu et al., 2025\]. Each training sample consists of a tuple $(A_{1},T_{2},A_{2})$ where $A_{1}$ is a voice reference and $T_{2}$ is the transcript for $A_{2}$, which is our target for generation. Similar to Voxtral, we interleave these segments with a \<next\> special token between $A_{1}$ and $T_{2}$, and a \<repeat\> special token between $T_{2}$ and $A_{2}$. We ensure that $A_{1}$ and $A_{2}$ are single-speaker segments from the same speaker, but not necessarily temporally adjacent. The maximum duration of $A_{1}$ and $A_{2}$ are 180 seconds, and we ensure $A_{1}$ is at least 1 second long.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Pretraining", "weight": 1.0} -->
+
+Due to the long-tailed nature of natural conversational human speech duration, we find the model works best on voice prompts ($A_{1}$) between 3 and 25 seconds.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Pretraining", "weight": 1.0} -->
+
+The loss is computed only on the tokens of $A_{2}$. We optimize the model using a two-part loss function consisting of a cross-entropy loss on the semantic token $\mathcal{L}_{\text{semantic}}$ and flow-matching loss $\mathcal{L}_{\text{acoustic}}$ on the acoustic tokens. We use the simple conditional flow-matching objective as shown below: where $u_{t}$ is the conditional velocity target, $v_{\theta}$ is the velocity predicted by the FM transformer, $x_{1}$ is sampled from a normal distribution, and $x_{0}$ the data distribution $\mathcal{D}$. We initialize the decoder backbone with Ministral 3B. Newly introduced modules, such as the FM transformer, audio codebook embedding lookup-tables and output projection layers, are randomly initialized. During training, we freeze the text-embedding layers in the decoder backbone to improve robustness to text tokens that appear with low-frequency in the Voxtral Mini Transcribe transcriptions.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Pretraining", "weight": 1.0} -->
+
+To avoid overfitting to silence, we also use a lower loss weight for frames that have no speech as determined by a voice-activity-detection (VAD) model and set the loss weight to 0 for extremely long silences. We also perform simple LLM based rewrites of the transcripts to introduce robustness to normalized vs un-normalized text (e.g. \"5 - 4\" vs \"five minus four\").
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Direct Preference Optimization", "weight": 1.0} -->
+
+We use Direct Preference Optimization (DPO) \[Rafailov et al., 2023\] to post-train the model, focusing on improving word error rate (WER) and speaker similarity. For the semantic codebook, we use the standard DPO objective. Given that the acoustic codebooks are predicted with flow-matching, we adapt the objective from Ziv et al.: We make the objective suitable for our auto-regressive setup (note the bold $\boldsymbol{t}$ showing each token has a differently sampled t) by computing: and find that length normalization (dividing by length of winner) causes instability.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Direct Preference Optimization", "weight": 1.0} -->
+
+We ensure that the $t$ and $x_{0}$ sampled for each location in the sequence is consistent for the policy model $\theta$ and reference model $\theta_{\text{ref}}$. The two DPO losses are added with uniform weights but we use a $\beta_{\text{semantic}}=0.1$ and $\beta_{\text{acoustic}}=0.5$ as training is sensitive to the flow-DPO loss. A low learning rate of $8\mathrm{e}{-8}$ is used for training stability.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Direct Preference Optimization", "weight": 1.0} -->
+
+The data for DPO is gathered using a rejection-sampling pipeline that takes as input a set of voice samples from a held-out set of single-speaker voice samples and diverse synthetically generated text-prompts. We prompt Mistral Small Creative ^11^ 1 with the transcript of the voice prompt and randomly chosen personas to synthesize a diverse array of texts which continue or reply to the conversational context. The pretrained checkpoint then takes as input the voice and text prompts and generates multiple samples from each input, from which winner and loser pairs can be constructed. Winners and losers are determined from WER, speaker similarity, loudness consistency, UTMOS-v2 \[Baba et al., 2024\] and other LM judge metrics. We optimize the model using the combined DPO loss along with the pretraining objective on high-quality speech for 1 epoch, as we found that training longer on synthetic data led to more robotic speech.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Voxtral Codec", "weight": 1.0} -->
+
+Table 2 shows a comparison between Voxtral Codec and Mimi on the Expresso dataset \[Nguyen et al., 2023\]. We evaluate on the following objective metrics: Mel distance, STFT distance, perceptual evaluation of speech quality (PESQ), extended short-time objective intelligibility (ESTOI), word error rate between transcriptions generated using an ASR model corresponding to the source and reconstruction (ASR-WER), speaker similarity score computed using a speaker embedding model. We also report the bitrates and frames per second (fps), which are relevant as these codecs are used in the context of auto-regressive decoder models. Given Mimi uses an RVQ design for acoustic codebooks, it has the flexibility to choose a subset of codebooks to trade-off bitrate and quality. When Voxtral Codec is compared to Mimi in a 16 codebook configuration, such that the bitrates are similar, Voxtral Codec outperforms on all the objective metrics. On an internal subjective assessment, we found Voxtral Codec to be comparable or better than Mimi at 16 codebooks on audios consisting of speech which is our main focus.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Automatic Evaluations", "weight": 1.0} -->
+
+We evaluate Voxtral TTS, ElevenLabs v3 and ElevenLabs Flash v2.5 on SEED-TTS \[Anastassiou et al., 2024\] and the nine supported languages in MiniMax-TTS \[Zhang et al., 2025\] using automated metrics: Word Error Rate (WER): Measured by Voxtral Mini Transcribe v2 to capture the intelligibility of speech.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Automatic Evaluations", "weight": 1.0} -->
+
+UTMOS-v2 \[Baba et al., 2024\]: Predicts the Mean Opinion Score (MOS) of generated speech.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Automatic Evaluations", "weight": 1.0} -->
+
+Speaker Similarity: Speaker embeddings are predicted using the ECAPA-TDNN model \[Desplanques et al., 2020\] and the cosine similarity is computed against the reference embedding. This evaluates how closely generated speech emulates the provided voice reference.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Automatic Evaluations", "weight": 1.0} -->
+
+The results for the three models are presented in Table 3. While both ElevenLabs models achieve low WERs across languages, Voxtral TTS significantly outperforms ElevenLabs on the speaker similarity metrics. Surprisingly, we find that ElevenLabs Flash v2.5 performs better on most automated metrics and ElevenLabs v3 better on human evaluations, particularly with emotion steering. This highlights the importance of performing human evaluations in conjunction with automatic evaluations.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Human Evaluations", "weight": 1.0} -->
+
+Automated metrics cannot measure the naturalness and expressivity of a TTS model, especially the ability of the model to speak with a specific emotion. We find that UTMOS is only a loose proxy, not well calibrated across languages and only weakly correlated with human preference. Hence, we perform two sets of human evaluations in which annotators compare generations between two models without knowing their identities. The evaluation consists of 77 prompts, with 11 of them neutral while 66 of them have an associated expected emotion. For all evaluations, annotators are instructed to choose whether one of the generations is \"slightly better\", \"much better\" or if they are \"both good\" or \"both bad\". During labeling, all audio samples are resampled to 24 kHz WAV format (even the reference samples) to ensure there is no bias due to audio quality.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Flagship voices", "weight": 1.0} -->
+
+First, we compare our flagship voices (British-Female, British-Male, American-Male, French-Female) against the flagship voices of same gender and accent provided by competitors. We run two sub-evaluations: Explicit steering: We test the ability to bias a TTS model's generation toward a specific emotion. The TTS prompts which have an associated emotion (not Neutral) are provided as free-form instruction to Gemini 2.5 Flash TTS as it supports free-form instructions such as \"Speak in an angry tone.\". For ElevenLabs v3 we provide emotion tags enclosed in brackets ^22^ 2 While Voxtral TTS does not support emotion tags/text-instructions, we steer the generation by leveraging a different voice prompt provided from the same speaker which embodies the requested emotion.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Flagship voices", "weight": 1.0} -->
+
+Implicit steering: We test the model's capabilities to infer emotion from provided text (e.g. \"This is the best day of my life!\"). No emotion label or instruction is provided to the model. For Voxtral TTS, we use a neutral voice prompt.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Flagship voices", "weight": 1.0} -->
+
+We use three annotators who are native speakers of the same dialect for each language per pair. The win rates of Voxtral TTS (excluding ties) are presented in Table 4. Gemini 2.5 Flash TTS is the strongest model, and Voxtral TTS is competitive against ElevenLabs v3. In the implicit steering setting, Voxtral TTS consistently outperforms both ElevenLabs models.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Flagship voices", "weight": 1.0} -->
+
+Voxtral TTS Win Rate (%) Gemini 2.5 Flash TTS Gemini 2.5 Flash TTS Table 4: Voxtral TTS win rates by steering type. In the explicit steering setting, Voxtral TTS is competitive with ElevenLabs v3, while having a higher win rate compared to both ElevenLabs models in the implicit steering setting.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Zero-Shot Voice Cloning", "weight": 1.0} -->
+
+To evaluate voice cloning capabilities, we source high quality audios from two recognized speakers in each language. We generate speech from each model in a zero-shot setting, and instruct annotators to rate the generations based on (a) likeness of the generated audio to voice prompt and (b) naturalness of speech and expressivity.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Zero-Shot Voice Cloning", "weight": 1.0} -->
+
+Voxtral TTS Win Rate (%) Table 5: Voxtral TTS win rate against ElevenLabs Flash v2.5 across languages. Voxtral TTS matches or outperforms ElevenLabs Flash v2.5 on every language, and has an overall micro-average win rate of 68.4%.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Zero-Shot Voice Cloning", "weight": 1.0} -->
+
+Table 5 shows the Voxtral TTS win rates against ElevenLabs Flash v2.5 across languages. Overall, Voxtral TTS has a win rate of 68.4%, with significantly better results across both high and low-resource languages (such as Arabic and Hindi). Notably, the Voxtral TTS win rate is much higher in the zero-shot setting (68.4%) compared with flagship voices (58.3%), highlighting that Voxtral TTS is a far more generalizable model, capturing a diverse range of user-voices.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+In this Section, we provide a comparison between the pretrained and DPO checkpoints and ablate the pertinent inference parameters.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "DPO improvements", "weight": 1.0} -->
+
+Table 6 shows the WER and UTMOS metrics for the pretrained and DPO checkpoints. Overall, DPO improves on both metrics, with the largest gains in German and French and regressions only on Hindi. Qualitatively, we find that the DPO model hallucinates less and skips fewer words. DPO also ameliorates the pretrained model's occasional tendency to significantly taper in volume throughout the audio. Interestingly, DPO has minimal effect on speaker similarity, which is within $\pm 0.01$ of the pretrained checkpoint (not presented here for brevity).
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Inference Parameters", "weight": 1.0} -->
+
+Increasing the value of CFG $\alpha$, we find that there is a nearly monotonic improvement in all metrics except UTMOS-v2. However, internal human evaluations found that a higher $\alpha$ led to over-adherence to the provided voice-prompt and the model failed to bias towards emotions that are implicit in the text prompt. We also find that lower $\alpha=1.2$ works best for higher quality audio (e.g. professional recordings), while in-the-wild recordings might benefit from a higher $\alpha$.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Inference and Serving in vLLM-Omni", "weight": 1.0} -->
+
+Voxtral TTS is served through vLLM-Omni \[Yin et al., 2026\], an extension of the vLLM \[Kwon et al., 2023\] for multi-stage multimodal models. Voxtral TTS is decomposed into a two-stage pipeline: a generation stage that predicts the audio tokens (semantic and acoustic), followed by a codec decoding stage that converts the tokens into a waveform. The two stages communicate through an asynchronous chunked streaming protocol over shared memory, enabling first-audio latency well before the full waveform has been generated.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "CUDA Graph Acceleration for Flow-Matching Transformer", "weight": 1.0} -->
+
+The flow-matching transformer is the computational bottleneck of the generation stage. Each decoding step requires $N$ function evaluations with CFG, requiring $2\times N$ forward passes per generated frame.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "CUDA Graph Acceleration for Flow-Matching Transformer", "weight": 1.0} -->
+
+To eliminate Python-level overhead and kernel-launch latency, the entire ODE solver is captured into CUDA graphs. At startup, an eager warmup pass is performed for each bucket size and the corresponding CUDA graph is then captured. During inference, the actual batch size is rounded up to the nearest bucket by padding the input with zeros. Next, the CUDA graph is replayed and outputs are sliced back to the actual batch size. If the batch size exceeds the largest captured bucket, the model falls back to eager execution.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "CUDA Graph Acceleration for Flow-Matching Transformer", "weight": 1.0} -->
+
+To evaluate the effect of CUDA graph acceleration, we compare the latency and real-time factor (RTF) when decoding with eager mode and CUDA graphs. Table 7 reports results for a 500-character text input, a 10-second audio reference and concurrency 1 on a single H200. Enabling CUDA graphs results in a 47% improvement to latency and reduces the RTF by 2.5x.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Asynchronous Chunked Streaming", "weight": 1.0} -->
+
+The two pipeline stages run in separate scheduling loops. To overlap the autoregressive generation stage decoding with codec decoding stage waveform synthesis, an asynchronous chunked streaming protocol is introduced.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Asynchronous Chunked Streaming", "weight": 1.0} -->
+
+After each generation step, the vLLM-Omni transfer manager stores the audio tokens to a per-request buffer. Once the buffer length reaches a pre-defined length, a chunk of tokens are emitted to the codec decoding stage. To ensure coherence between chunks, each emitted chunk includes a slice of previous frames in addition to the new frames. This overlap enables the codec decoder's causal sliding-window attention to maintain temporal coherence across chunk boundaries.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Inference Throughput", "weight": 1.0} -->
+
+With the techniques introduced in this section, Voxtral TTS achieves low-latency, high-throughput inference. Table 8 shows the serving performance on a single NVIDIA H200 from concurrency 1 to 32 with 500-character text inputs and 10-second audio references. As the concurrency is increased from 1 to 32, the throughput scales from 119 to 1,431 characters per second per GPU, a 12x increase, while latency remains sub-second. The wait rate, defined as the fraction of audio chunks for which the client must stall since it is waiting for outputs, remains zero across all concurrency levels. As concurrency grows, per-request RTF increases modestly to 0.302 at concurrency 32, still well within the real-time boundary.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Inference Throughput", "weight": 1.0} -->
+
+These results demonstrate that Voxtral TTS is suitable for production deployment: a single H200 can serve over 30 concurrent users with uninterrupted streaming output and sub-second time to first audio.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Inference Throughput", "weight": 1.0} -->
+
+Throughput (char/s/GPU) Table 8: Serving performance of Voxtral TTS on a single H200.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We introduced Voxtral TTS, a multilingual TTS model that leverages a hybrid architecture for auto-regressive generation of semantic tokens and flow-matching for acoustic tokens. The tokens correspond to those from Voxtral Codec, a speech tokenizer that combines ASR-distilled semantic tokens with FSQ acoustic tokens.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Voxtral TTS is able to generate expressive, voice-cloned speech from as little as 3 seconds of reference audio, and is preferred to API baselines in human evaluations. We release Voxtral TTS as open weights under the CC BY-NC license to support further research and development of expressive TTS systems.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Core contributors", "weight": 1.0} -->
+
+Alexander H. Liu, Alexis Tacnet, Andy Ehrenberg, Andy Lo, Chen-Yo Sun, Guillaume Lample, Henry Lagarde, Jean-Malo Delignon, Jaeyoung Kim, John Harvill, Khyathi Raghavi Chandu, Lorenzo Signoretti, Margaret Jennings, Patrick von Platen, Pavankumar Reddy Muddireddy, Rohin Arora, Sanchit Gandhi, Samuel Humeau, Soham Ghosh, Srijan Mishra, Van Phung.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Abdelaziz Bounhar, Abhinav Rastogi, Adrien Sadé, Alan Jeffares, Albert Jiang, Alexandre Cahill, Alexandre Gavaudan, Alexandre Sablayrolles, Amélie Héliou, Amos You, Andrew Bai, Andrew Zhao, Angele Lenglemetz, Anmol Agarwal, Anton Eliseev, Antonia Calvi, Arjun Majumdar, Arthur Fournier, Artjom Joosen, Avi Sooriyarachchi, Aysenur Karaduman Utkur, Baptiste Bout, Baptiste Rozière, Baudouin De Monicault, Benjamin Tibi, Bowen Yang, Charlotte Cronjäger, Clémence Lanfranchi, Connor Chen, Corentin Barreau, Corentin Sautier, Cyprien Courtot, Darius Dabert, Diego de las Casas, Elizaveta Demyanenko, Elliot Chane-Sane, Emmanuel Gottlob, Enguerrand Paquin, Etienne Goffinet, Fabien Niel, Faruk Ahmed, Federico Baldassarre, Gabrielle Berrada, Gaëtan Ecrepont, Gauthier Guinet, Genevieve Hayes, Georgii Novikov,
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Giada Pistilli, Guillaume Kunsch, Guillaume Martin, Guillaume Raille, Gunjan Dhanuka, Gunshi Gupta, Han Zhou, Harshil Shah, Hope McGovern, Hugo Thimonier, Indraneel Mukherjee, Irene Zhang, Jacques Sun, Jan Ludziejewski, Jason Rute, Jérémie Dentan, Joachim Studnia, Jonas Amar, Joséphine Delas, Josselin Somerville Roberts, Julien Tauran, Karmesh Yadav, Kartik Khandelwal, Kilian Tep, Kush Jain, Laurence Aitchison, Laurent Fainsin, Léonard Blier, Lingxiao Zhao, Louis Martin, Lucile Saulnier, Luyu Gao, Maarten Buyl, Manan Sharma, Marie Pellat, Mark Prins, Martin Alexandre, Mathieu Poirée, Mathieu Schmitt, Mathilde Guillaumin, Matthieu Dinot, Matthieu Futeral, Maxime Darrin, Maximilian Augustin, Mert Unsal, Mia Chiquier, Mikhail Biriuchinskii, Minh-Quang Pham, Mircea Lica, Morgane Rivière, Nathan Grinsztajn, Neha Gupta, Olivier
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Bousquet, Olivier Duchenne, Patricia Wang, Paul Jacob, Paul Wambergue, Paula Kurylowicz, Philippe Pinel, Philomène Chagniot, Pierre Stock, Piotr Miłoś, Prateek Gupta, Pravesh Agrawal, Quentin Torroba, Ram Ramrakhya, Randall Isenhour, Rishi Shah, Romain Sauvestre, Roman Soletskyi, Rosalie Millner, Rupert Menneer, Sagar Vaze, Samuel Barry, Samuel Belkadi, Sandeep Subramanian, Sean Cha, Shashwat Verma, Siddhant Waghjale, Siddharth Gandhi, Simon Lepage, Sumukh Aithal, Szymon Antoniak, Tarun Kumar Vangani, Teven Le Scao, Théo Cachet, Theo Simon Sorg, Thibaut Lavril, Thomas Chabal, Thomas Foubert, Thomas Robert, Thomas Wang, Tim Lawson, Tom Bewley, Tom Edwards, Tyler Wang, Umar Jamil, Umberto Tomasini, Valeriia Nemychnikova, Vedant Nanda, Victor Jouault, Vincent Maladière, Vincent Pfister, Virgile
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Richard, Vladislav Bataev, Wassim Bouaziz, Wen-Ding Li, William Havard, William Marshall, Xinghui Li, Xingran Guo, Xinyu Yang, Yannic Neuhaus, Yassine El Ouahidi, Yassir Bendou, Yihan Wang, Yimu Pan, Zaccharie Ramzi, Zhenlin Xu.

@@ -1,0 +1,18 @@
+title: >
+  Minimizing Polynomial Functions
+algorithm:
+authors:
+  - Pablo A. Parrilo
+  - Bernd Sturmfels
+year: 2001
+source:
+type: Preprint
+doi:
+arxiv_id: "math/0103170"
+tags:
+abstract: >
+  We compare algorithms for global optimization of polynomial functions in many variables. It is demonstrated that existing algebraic methods (Gröbner bases, resultants, homotopy methods) are dramatically outperformed by a relaxation technique, due to N.Z. Shor and the first author, which involves sums of squares and semidefinite programming. This opens up the possibility of using semidefinite programming relaxations arising from the Positivstellensatz for a wide range of computational problems in real algebraic geometry. This paper was presented at the Workshop on Algorithmic and Quantitative Aspects of Real Algebraic Geometry in Mathematics and Computer Science, held at DIMACS, Rutgers University, March 12-16, 2001.
+summary: ''
+link: https://arxiv.org/pdf/math/0103170
+links_alt:
+audit_status: raw

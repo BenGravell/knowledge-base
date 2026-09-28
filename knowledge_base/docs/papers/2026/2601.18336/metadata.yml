@@ -1,0 +1,20 @@
+title: >
+  PPISP: Physically-Plausible Compensation and Control of Photometric Variations in Radiance Field Reconstruction
+algorithm:
+authors:
+  - Isaac Deutsch
+  - Nicolas Moenne-Loccoz
+  - Gavriel State
+  - Zan Gojcic
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2601.18336"
+tags:
+abstract: >
+  Multi-view 3D reconstruction methods remain highly sensitive to photometric inconsistencies arising from camera optical characteristics and variations in image signal processing (ISP). Existing mitigation strategies such as per-frame latent variables or affine color corrections lack physical grounding and generalize poorly to novel views. We propose the Physically-Plausible ISP (PPISP) correction module, which disentangles camera-intrinsic and capture-dependent effects through physically based and interpretable transformations. A dedicated PPISP controller, trained on the input views, predicts ISP parameters for novel viewpoints, analogous to auto exposure and auto white balance in real cameras. This design enables realistic and fair evaluation on novel views without access to ground-truth images. PPISP achieves state-of-the-art performance on standard benchmarks, while providing intuitive control and supporting the integration of metadata when available. The source code is available at: https://github.com/nv-tlabs/ppisp
+summary: ''
+link: https://arxiv.org/pdf/2601.18336
+links_alt:
+audit_status: raw

@@ -1,0 +1,20 @@
+title: >
+  The Equal Earth Map Projection
+algorithm:
+authors:
+  - Bojan Savric
+  - Tom Patterson
+  - Bernhard Jenny
+year: 2018
+source: International Journal of Geographical Information Science
+type: Journal Paper
+doi: 10.1080/13658816.2018.1504949
+arxiv_id:
+tags:
+abstract: >
+  The Equal Earth map projection is a new equal-area pseudocylindrical projection for world maps. It is inspired by the widely used Robinson projection, but unlike the Robinson projection, retains the relative size of areas. The projection equations are simple to implement and fast to evaluate. Continental outlines are shown in a visually pleasing and balanced way.
+summary: ''
+link: https://www.tandfonline.com/doi/full/10.1080/13658816.2018.1504949
+links_alt:
+  - https://doi.org/10.1080/13658816.2018.1504949
+audit_status: raw

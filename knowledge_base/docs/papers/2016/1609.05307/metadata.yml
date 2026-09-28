@@ -1,0 +1,28 @@
+title: >
+  On the Structure of the Time-Optimal Path Parameterization Problem with Third-Order Constraints
+algorithm: TOPP3
+authors:
+  - Hung Pham
+  - Quang-Cuong Pham
+year: 2016
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA.2017.7989084
+arxiv_id: "1609.05307"
+tags:
+  - Time-optimal
+  - Speed planning
+  - Path parameterization
+  - Jerk constraints
+  - Numerical integration
+  - Multiple shooting
+  - Singularities
+abstract: >
+  Finding the Time-Optimal Parameterization of a Path (TOPP) subject to second-order constraints (e.g. acceleration, torque, contact stability, etc.) is an important and well-studied problem in robotics. In comparison, TOPP subject to third-order constraints (e.g. jerk, torque rate, etc.) has received far less attention and remains largely open. In this paper, we investigate the structure of the TOPP problem with third-order constraints. In particular, we identify two major difficulties: (i) how to smoothly connect optimal profiles, and (ii) how to address singularities, which stop profile integration prematurely. We propose a new algorithm, TOPP3, which addresses these two difficulties and thereby constitutes an important milestone towards an efficient computational solution to TOPP with third-order constraints.
+summary: >
+  Introduces TOPP3 for time-optimal traversal of a fixed path under third-order constraints, combining multiple shooting to connect extremal jerk profiles with a method for passing through singularities that otherwise halt integration. The analysis focuses on pure third-order constraints and identifies remaining challenges in handling more general switching structures and combined velocity, acceleration, and jerk limits.
+link: https://arxiv.org/pdf/1609.05307
+links_alt:
+  - https://arxiv.org/abs/1609.05307
+  - https://doi.org/10.1109/ICRA.2017.7989084
+audit_status: partial

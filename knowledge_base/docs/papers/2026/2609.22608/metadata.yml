@@ -1,0 +1,20 @@
+title: >
+  Becoming a Fruit Ninja: Real-Time Probabilistic Kinodynamic Planning for Manipulator Projectile Interception
+algorithm:
+authors:
+  - Lucas Chen
+  - Austin Garrett
+  - Andrew Niu
+  - Zachary Kingston
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2609.22608"
+tags:
+abstract: >
+  Projectile interception is a challenging dynamic manipulation problem. Intercepting a thrown object with a robot arm requires reaching a point on the object's path as the object passes through it. Slicing also fixes the blade's velocity and orientation at contact. The goal is therefore a subset of the states of the robot and arrival times that moves as the object falls, and the arm must reach it within its actuator limits in milliseconds. We present FRUITNINJA, an anytime sampling-based planner that grows a tree on the GPU in batches toward the interception manifold. Each edge is an exact cubic whose travel time is found by a parallel search against the arm's dynamics, so every edge satisfies the actuator limits. Plans are ranked by a risk-aware objective over the uncertainty in the object's position and the arm's arrival time. We evaluate on a Franka Research 3 against six baselines in a calibrated real-time simulator, where FRUITNINJA cuts 96.7% of tosses in the open and 68.3% among five obstacles, versus the best baseline's 68.3% and 35.0% respectively.
+summary: ''
+link: https://arxiv.org/pdf/2609.22608
+links_alt:
+audit_status: raw

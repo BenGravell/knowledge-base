@@ -1,0 +1,22 @@
+title: >
+  Fundamental Limitations of Data-Driven Control: A Statistical Decision Perspective
+algorithm:
+authors:
+  - Jiabao He
+  - Feiran Zhao
+  - Yushan Li
+  - Yue Ju
+  - Florian Dorfler
+  - Hakan Hjalmarsson
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2608.01098"
+tags:
+abstract: >
+  Substantial research efforts have been devoted to the design of data-driven controllers; however, comparatively less is known about their statistical performance and fundamental limitations. This contribution develops a statistical decision framework for data-driven control, in which a controller is evaluated by its risk, defined as the expected performance degradation relative to the oracle model-based controller, and by its average risk over the parameter space. Within this framework, we propose a collection of design principles for data-driven controllers. We further derive lower bounds on risks by combining the bias-variance decomposition with the Cramér-Rao inequality. In particular, the optimal bias that attains the lower bound for the average risk is determined by calculus of variations, thereby making the bias-variance tradeoff in data-driven control explicit. Moreover, the derived bound reveals a ``waterbed'' effect in data-driven control: any improvement in risk relative to the lower bound over one region of the parameter space must be compensated by deterioration elsewhere. We illustrate the proposed framework on two canonical data-driven control problems: optimal feedforward control and the linear quadratic regulator benchmark. By comparing several representative data-driven controllers with the derived lower bounds, we sharpen the statistical interpretation of existing methods and reveal quantitative limitations that no controller design can avoid.
+summary: ''
+link: https://arxiv.org/pdf/2608.01098
+links_alt:
+audit_status: raw

@@ -1,0 +1,21 @@
+title: >
+  RoadGen: Generating Road Scenarios for Autonomous Vehicle Testing
+algorithm:
+authors:
+  - Fan Yang
+  - You Lu
+  - Bihuan Chen
+  - Peng Qin
+  - Xin Peng
+year: 2024
+source:
+type: Preprint
+doi:
+arxiv_id: "2411.19577"
+tags:
+abstract: >
+  With the rapid development of autonomous vehicles, there is an increasing demand for scenario-based testing to simulate diverse driving scenarios. However, as the base of any driving scenarios, road scenarios (e.g., road topology and geometry) have received little attention by the literature. Despite several advances, they either generate basic road components without a complete road network, or generate a complete road network but with simple road components. The resulting road scenarios lack diversity in both topology and geometry. To address this problem, we propose RoadGen to systematically generate diverse road scenarios. The key idea is to connect eight types of parameterized road components to form road scenarios with high diversity in topology and geometry. Our evaluation has demonstrated the effectiveness and usefulness of RoadGen in generating diverse road scenarios for simulation.
+summary: ''
+link: https://arxiv.org/pdf/2411.19577
+links_alt:
+audit_status: raw

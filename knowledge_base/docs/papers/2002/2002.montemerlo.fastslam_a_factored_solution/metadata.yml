@@ -1,0 +1,29 @@
+title: >
+  FastSLAM: A Factored Solution to the Simultaneous Localization and Mapping Problem
+algorithm: FastSLAM
+authors:
+  - Michael Montemerlo
+  - Sebastian Thrun
+  - Daphne Koller
+  - Ben Wegbreit
+year: 2002
+source: National Conference on Artificial Intelligence
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+  - Simultaneous localization and mapping
+  - Particle filtering
+  - Rao-blackwellization
+  - Robot localization
+  - Landmark mapping
+abstract: >
+  The ability to simultaneously localize a robot and accurately map its surroundings is considered by many to be a key prerequisite of truly autonomous robots. However, few approaches to this problem scale up to handle the very large number of landmarks present in real environments. Kalman filter-based algorithms, for example, require time quadratic in the number of landmarks to incorporate each sensor observation. This paper presents FastSLAM, an algorithm that recursively estimates the full posterior distribution over robot pose and landmark locations, yet scales logarithmically with the number of landmarks in the map. This algorithm is based on an exact factorization of the posterior into a product of conditional landmark distributions and a distribution over robot paths. The algorithm has been run successfully on as many as 50,000 landmarks, environments far beyond the reach of previous approaches. Experimental results demonstrate the advantages and limitations of the FastSLAM algorithm on both simulated and real-world data.
+summary: >
+  Factors the SLAM posterior into a distribution over robot paths and independent landmark estimates conditioned on each path. A particle filter with per-landmark filters then scales observation updates logarithmically with map size and was tested on maps with up to 50,000 landmarks.
+link: https://aaai.org/Papers/AAAI/2002/AAAI02-089.pdf
+links_alt:
+  - https://robots.stanford.edu/papers/montemerlo.fastslam-tr.html
+  - https://www.cs.cmu.edu/~mmde/mmdeaaai2002.pdf
+  - https://dl.acm.org/doi/10.5555/777092.777184
+audit_status: partial

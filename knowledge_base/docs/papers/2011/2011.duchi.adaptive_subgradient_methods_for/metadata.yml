@@ -1,0 +1,19 @@
+title: >
+  Adaptive Subgradient Methods for Online Learning and Stochastic Optimization
+algorithm:
+authors:
+  - John Duchi
+  - Elad Hazan
+  - Yoram Singer
+year: 2011
+source: Journal of Machine Learning Research
+type: Journal Paper
+doi:
+arxiv_id:
+tags:
+abstract: ''
+summary: ''
+link: http://jmlr.org/papers/volume12/duchi11a/duchi11a.pdf
+links_alt:
+  - https://jmlr.org/papers/v12/duchi11a.html
+audit_status: raw

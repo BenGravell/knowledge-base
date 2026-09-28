@@ -10,7 +10,7 @@ authors:
 year: 1993
 source: Advances in Neural Information Processing Systems
 type: Conference Paper
-doi:
+doi: 10.5555/2987189.2987282
 arxiv_id:
 tags:
   - Siamese networks
@@ -27,4 +27,5 @@ link: https://proceedings.neurips.cc/paper_files/paper/1993/file/288cc0ff022877b
 links_alt:
   - https://proceedings.neurips.cc/paper/1993/hash/288cc0ff022877bd3df94bc9360b9c5d-Abstract.html
   - https://proceedings.neurips.cc/paper_files/paper/1993/file/288cc0ff022877bd3df94bc9360b9c5d-Metadata.json
+  - https://dl.acm.org/doi/10.5555/2987189.2987282
 audit_status: "partial"

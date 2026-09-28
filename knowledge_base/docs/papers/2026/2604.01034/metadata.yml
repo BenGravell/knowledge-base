@@ -1,0 +1,18 @@
+title: >
+  Stein Variational Uncertainty-Adaptive Model Predictive Control
+algorithm:
+authors:
+  - Hrishikesh Sathyanarayan
+  - Ian Abraham
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2604.01034"
+tags:
+abstract: >
+  We propose a Stein variational distributionally robust controller for nonlinear dynamical systems with latent parametric uncertainty. The method is an alternative to conservative worst-case ambiguity-set optimization with a deterministic particle-based approximation of a task-dependent uncertainty distribution, enabling the controller to concentrate on parameter sensitivities that most strongly affect closed-loop performance. Our method yields a controller that is robust to latent parameter uncertainty by coupling optimal control with Stein variational inference, and avoiding restrictive parametric assumptions on the uncertainty model while preserving computational parallelism. In contrast to classical DRO, which can sacrifice nominal performance through worst-case design, we find our approach achieves robustness by shaping the control law around relevant uncertainty that are most critical to the task objective. The proposed framework therefore reconciles robust control and variational inference in a single decision-theoretic formulation for broad classes of control systems with parameter uncertainty. We demonstrate our approach on representative control problems that empirically illustrate improved performance-robustness tradeoffs over nominal, ensemble, and classical distributionally robust baselines.
+summary: ''
+link: https://arxiv.org/pdf/2604.01034
+links_alt:
+audit_status: raw

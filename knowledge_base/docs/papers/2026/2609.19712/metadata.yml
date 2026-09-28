@@ -1,0 +1,18 @@
+title: >
+  (Cheap) Stochastic Policy Gradient Converges with High Probability for Linear Quadratic Regulator
+algorithm:
+authors:
+  - Yan Li
+  - Chengze Xie
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2609.19712"
+tags:
+abstract: >
+  We study the convergence of the vanilla stochastic policy gradient method applied to the linear quadratic regulator (LQR) problem. The method is cheap in the following sense: (1) at each iteration only tildeO(1) interactions with the environment are needed, therefore allowing frequent policy improvement steps, and (2) to ensure stability throughout and convergence to an epsilon-optimal policy with probability 1-delta, only O(mathttPolylog(1/delta)/epsilon) interactions are needed. To the best of our knowledge, this appears to be the first time that a stochastic model-free policy optimization method for LQR converges with high probability with tildeO(1) per-iteration computation and polylogarithmic dependence on the confidence level. The convergence analysis presented here is agnostic to LQR specifics and hence could be potentially generalized to a broader class of problems.
+summary: ''
+link: https://arxiv.org/pdf/2609.19712
+links_alt:
+audit_status: raw

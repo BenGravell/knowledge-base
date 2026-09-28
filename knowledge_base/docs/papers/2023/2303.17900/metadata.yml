@@ -1,0 +1,19 @@
+title: >
+  Procedural Generation of Complex Roundabouts for Autonomous Vehicle Testing
+algorithm:
+authors:
+  - Zarif Ikram
+  - Golam Md Muktadir
+  - Jim Whitehead
+year: 2023
+source:
+type: Preprint
+doi: 10.1109/IV55152.2023.10186533
+arxiv_id: "2303.17900"
+tags:
+abstract: >
+  High-definition roads are an essential component of realistic driving scenario simulation for autonomous vehicle testing. Roundabouts are one of the key road segments that have not been thoroughly investigated. Based on the geometric constraints of the nearby road structure, this work presents a novel method for procedurally building roundabouts. The suggested method can result in roundabout lanes that are not perfectly circular and resemble real-world roundabouts by allowing approaching roadways to be connected to a roundabout at any angle. One can easily incorporate the roundabout in their HD road generation process or use the standalone roundabouts in scenario-based testing of autonomous driving.
+summary: ''
+link: https://arxiv.org/pdf/2303.17900
+links_alt:
+audit_status: raw

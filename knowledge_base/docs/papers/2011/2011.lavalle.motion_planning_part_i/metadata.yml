@@ -1,0 +1,26 @@
+title: >
+  Motion Planning: Part I: The Essentials
+algorithm: Motion Planning Tutorial
+authors:
+  - Steven M. LaValle
+year: 2011
+source: IEEE Robotics and Automation Magazine
+type: Journal Paper
+doi: 10.1109/MRA.2011.940276
+arxiv_id: ""
+tags:
+  - Motion planning
+  - Path planning
+  - Obstacle avoidance
+  - Configuration space
+  - Robotics
+  - Planning algorithms
+abstract: >
+  This is the first installment of a two-part tutorial. The goal of the first part is to give the reader a basic understanding of the technical issues and types of approaches in solving the basic path-planning or obstacle-avoidance problem. The second installment will cover more advanced issues, including feedback, differential constraints, and uncertainty. Note that this is a brief tutorial rather than a comprehensive survey of methods. For the latter, consult some of the recent textbooks [4], [9].
+summary: >
+  Provides an introductory tutorial on core robot motion-planning problems and methods, especially path planning and obstacle avoidance. It sets up a second part on feedback, differential constraints, and uncertainty.
+link: https://lavalle.pl/papers/Lav11b.pdf
+links_alt:
+  - https://experts.illinois.edu/en/publications/motion-planning-part-i-the-essentials/
+  - https://ieeexplore.ieee.org/document/5751929
+audit_status: partial

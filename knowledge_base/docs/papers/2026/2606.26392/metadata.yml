@@ -1,0 +1,19 @@
+title: >
+  MPC-Injection: Biasing Off-Policy Locomotion RL Toward Controller-Induced Behavior Basins
+algorithm:
+authors:
+  - Roy Xing
+  - Seyoung Ree
+  - Brian Plancher
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2606.26392"
+tags:
+abstract: >
+  Reinforcement learning (RL) for locomotion frequently converges to locally optimal but undeployable behaviors, such as vibrating limbs or scooting on the torso, that maximize return without producing a usable gait. We present MPC-Injection, a low-overhead method that steers RL toward a designer-preferred behavior by inserting transitions generated in the same environment by a model predictive controller (MPC). Unlike reward shaping, MPC-Injection does not require redesigning the task reward, and unlike adversarial imitation learning, it adds no discriminator, no kinematic retargeting, and no auxiliary objective. We analyze how the injected transitions bias the learning, allowing the policy to converge to behaviors that pure RL may fail to reach under simple reward functions. On a 2D walker in simulation and with sim-to-real evaluation on a Go2 quadruped, we show that MPC-Injection produces gaits qualitatively comparable to those of reward shaping and adversarial motion priors. We also show that MPC-Injection can complete a barrel roll that pure RL fails to achieve under the same simple reward and can select between trotting and bounding gaits only through changing the injected MPC data.
+summary: ''
+link: https://arxiv.org/pdf/2606.26392
+links_alt:
+audit_status: raw

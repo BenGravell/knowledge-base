@@ -1,0 +1,24 @@
+title: >
+  Finite-Time Curvature-Constrained Vector Field for Saturation-Free Motion Planning of Nonholonomic Robots
+algorithm:
+authors:
+  - Zhouru Xiao
+  - Sha Luo
+  - Yang Lu
+  - Hector Garcia de Marina
+  - Zhenyang Xu
+  - Chaosong Gong
+  - Yaonan Wang
+  - Weijia Yao
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2607.17542"
+tags:
+abstract: >
+  Accurately steering a robot to a target configuration is fundamental in engineering, yet remains challenging for nonholonomic mobile robots. Vector fields (VFs) provide a natural framework by specifying desired motion directions throughout the workspace and enabling direct integration with feedback control. However, most existing VF-based methods cannot explicitly generate trajectories satisfying curvature constraints. Actuator limits are therefore often enforced by input saturation, which may invalidate stability guarantees and degrade closed-loop performance when not considered in controller design. In addition, these methods usually ensure only asymptotic convergence without an explicit settling-time bound. To address these issues, we propose a generalized motion planning and control framework consisting of a finite-time curvature-constrained vector field (FT-C2VF) and a saturation-free control law. Depending on the motion objective, the framework drives the robot to the target configuration in finite time or through it periodically. First, the FT-C2VF is constructed using complementary gains to achieve finite-time convergence while ensuring that the curvature of its integral curves is continuous, bounded, and monotonically decreasing with the radial ratio. Second, an almost globally C1-smooth, saturation-free controller is developed to track the FT-C2VF without Jacobian information, while keeping all control inputs within prescribed actuator limits. Third, dynamical-systems analysis establishes almost-global finite-time stability of the target equilibrium. Numerical simulations show improved performance over representative VF-based methods, and outdoor experiments on an Ackermann-steered vehicle confirm the effectiveness and robustness of the proposed approach.
+summary: ''
+link: https://arxiv.org/pdf/2607.17542
+links_alt:
+audit_status: raw

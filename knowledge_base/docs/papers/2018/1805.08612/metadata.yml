@@ -1,0 +1,25 @@
+title: >
+  On the Worst-Case Complexity of TimSort
+algorithm:
+authors:
+  - Nicolas Auger
+  - Vincent Juge
+  - Cyril Nicaud
+  - Carine Pivoteau
+year: 2018
+source: Annual European Symposium on Algorithms
+type: Conference Paper
+doi: 10.4230/LIPIcs.ESA.2018.4
+arxiv_id: "1805.08612"
+tags:
+  - Sorting algorithms
+  - Algorithm analysis
+abstract: >
+  TimSort is an intriguing sorting algorithm designed in 2002 for Python, whose worst-case complexity was announced, but not proved until our recent preprint. In fact, there are two slightly different versions of TimSort that are currently implemented in Python and in Java respectively. We propose a pedagogical and insightful proof that the Python version runs in O(nlog n). The approach we use in the analysis also applies to the Java version, although not without very involved technical details. As a byproduct of our study, we uncover a bug in the Java implementation that can cause the sorting method to fail during the execution. We also give a proof that Python's TimSort running time is in O(n + nlog rho), where rho is the number of runs (i.e. maximal monotonic sequences), which is quite a natural parameter here and part of the explanation for the good behavior of TimSort on partially sorted inputs.
+summary: >
+  Analyzes the worst-case complexity of Python and Java TimSort, proves an adaptive bound for Python, and identifies a Java implementation bug.
+link: https://arxiv.org/pdf/1805.08612
+links_alt:
+  - https://drops.dagstuhl.de/storage/00lipics/lipics-vol112-esa2018/LIPIcs.ESA.2018.4/LIPIcs.ESA.2018.4.pdf
+  - https://doi.org/10.4230/LIPIcs.ESA.2018.4
+audit_status: partial

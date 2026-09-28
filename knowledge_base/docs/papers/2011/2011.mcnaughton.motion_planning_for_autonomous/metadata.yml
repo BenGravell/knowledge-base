@@ -1,0 +1,20 @@
+title: >
+  Motion Planning for Autonomous Driving with a Conformal Spatiotemporal Lattice
+algorithm:
+authors:
+  - Matthew McNaughton
+  - Chris Urmson
+  - John M. Dolan
+  - Jin-Woo Lee
+year: 2011
+source: IEEE International Conference on Robotics and Automation
+type: Conference Paper
+doi: 10.1109/ICRA.2011.5980223
+arxiv_id:
+tags:
+abstract: >
+  We present a motion planner for autonomous highway driving that adapts the state lattice framework pioneered for planetary rover navigation to the structured environment of public roadways. The main contribution of this paper is a search space representation that allows the search algorithm to systematically and efficiently explore both spatial and temporal dimensions in real time. This allows the low-level trajectory planner to assume greater responsibility in planning to follow a leading vehicle, perform lane changes, and merge between other vehicles. We show that our algorithm can readily be accelerated on a GPU, and demonstrate it on an autonomous passenger vehicle.
+summary: ''
+link: https://doi.org/10.1109/ICRA.2011.5980223
+links_alt:
+audit_status: raw

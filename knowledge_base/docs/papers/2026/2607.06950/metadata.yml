@@ -1,0 +1,18 @@
+title: >
+  Residual-Conservative Model Predictive Path Integral Control
+algorithm:
+authors:
+  - Hyung-Jin Yoon
+  - Hunmin Kim
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2607.06950"
+tags:
+abstract: >
+  Sampling-based model predictive control methods handle nonlinear dynamics and complex cost landscapes through Monte Carlo rollouts, yet typically employ fixed constraint penalties that do not adapt to model-plant mismatch. This paper proposes Residual-Conservative Model Predictive Path Integral Control (RC-MPPI), a sampling-based MPC framework that modulates safety conservatism online using the prediction-execution residual. RC-MPPI combines three coupled mechanisms: residual-dependent constraint tightening, adaptive safety-cost shaping, and residual-adaptive sampling modulation through exploration contraction and temperature relaxation. The temperature adaptation reflects a key insight: when the model is inaccurate, rollout cost evaluations become unreliable, and increasing temperature reduces overcommitment to apparent cost rankings. Under Lipschitz dynamics and sub-Gaussian disturbances, we derive probabilistic bounds on constraint violation and show that the joint effect of the adaptive mechanisms reduces violation probability as the residual grows. A rollout-cost uncertainty analysis further shows that model-plant mismatch perturbs MPPI importance weights in proportion to residual magnitude and inversely with temperature, providing theoretical justification for residual-adaptive temperature relaxation. Simulations on an LTI point-mass system and a planar 2R manipulator show improved safety margin, success rate, and control efficiency compared with vanilla MPPI under significant model-plant mismatch.
+summary: ''
+link: https://arxiv.org/pdf/2607.06950
+links_alt:
+audit_status: raw

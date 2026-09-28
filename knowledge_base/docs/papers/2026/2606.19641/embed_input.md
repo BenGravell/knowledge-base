@@ -1,0 +1,165 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
+Scaling Self-Play for End-to-End Driving
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+End-to-end autonomous driving models are typically trained on offline human-demonstration datasets that provide limited state coverage and often no closed-loop feedback, making them prone to compounding errors when deployed in closed-loop and brittle to long-tail agent interactions. To overcome these limitations, we propose an alternative strategy for training end-to-end driving models: large-scale self-play directly from pixels in simulation. While prior self-play approaches have shown promising transfer to real-world driving, they typically assume vectorized Bird's-Eye-View (BEV) observations that are incompatible with end-to-end policies operating directly on sensor observations. To this end, we introduce Gigapixel, a high-throughput batched driving simulator with perspective rendering, enabling scalable self-play directly from pixel observations. Rather than targeting compute-costly photorealistic sensor simulation, Gigapixel renders a simplified bounding-box world that preserves essential scene structure while achieving throughput at 50k agent steps per second.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Since direct pixel-space self-play RL is prohibitively sample-inefficient at end-to-end model scale, we propose self-play DAgger training: we train pixel-based policies in self-play via on-policy distillation from a privileged RL teacher. To bridge the sim-to-real gap, we subsequently transfer the self-play trained policies to real-world sensor data through lightweight perception adaptation. Policies trained in Gigapixel and adapted to real-world sensor data achieve competitive performance on the HUGSIM and NAVSIM-v2 benchmarks without human trajectory supervision. Moreover, scaling self-play training yields proportional gains in policy performance, establishing self-play as a practical and scalable strategy for training end-to-end models.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Autonomous driving has undergone a decisive shift towards end-to-end models that directly map sensor inputs to planning outputs. Beyond architectural simplicity, end-to-end formulations are inherently scalable: they optimize the planning objective directly, and performance improves predictably with increasing data and model capacity. Realizing this scaling potential, however, requires a principled and scalable training approach. Behavior cloning (BC) of human driving logs remains the dominant training paradigm, but it suffers from structural limitations. Logged datasets provide limited state coverage, leaving policies brittle once they reach states outside nominal human driving. Moreover, the absence of closed-loop interaction during training induces covariate shift, leading to compounding errors at deployment. These shortcomings are intrinsic to BC and do not disappear merely from collecting more data.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Self-play in simulation offers a principled alternative. Agents learn through closed-loop interaction with copies of themselves, generating a diverse experience curriculum during training. Closed-loop interaction enables learning the consequences of its own actions, which improves robustness to compounding errors at test time. Furthermore, unlike offline datasets, which are fixed and costly to expand, self-play state coverage scales directly with compute, enabling arbitrarily large and targeted experience generation. Realizing this benefit at scale requires a high-throughput simulator to cheaply generate on-policy experience. Recent batched simulators such as Gigaflow and PufferDrive demonstrate throughputs exceeding hundreds of thousands of steps per second (SPS), enabling robust closed-loop learning from self-play.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+However, these simulators produce vectorized BEV observations incompatible with end-to-end policies that must act from raw sensor inputs. To overcome this limitation, we introduce Gigapixel, a high-throughput batched driving simulator that extends PufferDrive with ray-traced and rasterized perspective rendering, enabling scalable self-play training directly from pixel observations at 50k agent SPS on 1 GPU, with throughput scaling near-linearly in the number of GPUs. Rather than simulating photorealistic sensors, Gigapixel renders perspective views of a simplified bounding-box world that preserves essential scene geometry and interaction fidelity.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+While Gigapixel enables high-throughput batched simulation from pixels, direct self-play RL at end-to-end model scale remains prohibitively sample-inefficient due to the cost of policy forward and backward passes (Figure 1). As a more sample-efficient alternative, we introduce self-play DAgger: a privileged teacher policy is first trained via RL on vectorized observations, then distilled into a pixel-based student via DAgger in self-play. This preserves the benefits of closed-loop self-play while dramatically reducing sample complexity. Self-play DAgger additionally enables training a trajectory-output policy, matching the output format of standard end-to-end planners, rather than the control outputs of typical RL-based planners. Then, to deploy these policies on real sensor data, we isolate the sim-to-real gap to perception: the planning head already captures the closed-loop behaviors learned in self-play, so we adapt only the perception module to map real sensor inputs into the planning head's latent representation.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We evaluate Gigapixel self-play trained policies in simulation and on real-world benchmarks. Our approach achieves state-of-the-art performance on the closed-loop HUGSIM benchmark and competitive performance on the pseudo-closed-loop NAVSIM-v2 benchmark, without any human trajectory supervision. Empirically, self-play training scales consistently: increasing training experience yields proportional gains in policy performance. We summarize our contributions: 1. We propose self-play as a scalable alternative to offline behavior cloning for training end-to-end driving models. We enable this through self-play DAgger, a sample-efficient alternative to direct self-play RL from pixels. 2. We introduce Gigapixel, a high-throughput batched perspective-rendering simulator that enables pixel-based self-play at scale. 3. We show that the robust driving behavior learned via self-play in simulation transfers to robust driving from real-world observations through lightweight sim-to-real perception adaptation.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Together, these contributions establish self-play as a scalable and practical strategy for training end-to-end driving models---one that addresses the structural limitations of offline behavior cloning and opens a path to continual improvement through synthetic experience.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "End-to-End Autonomous Driving", "weight": 1.0} -->
+
+The growing availability of large-scale datasets of human driving logs have enabled tremendous progress in behavior cloning for end-to-end driving, spanning transformer-based, diffusion-based, and vision-language model-based methods. Despite this progress, behavior cloning suffers from structural limitations that induce brittle behavior when deployed in closed-loop. To address these limitations, prior works have explored direct closed-loop training in simulators via RL either from scratch or as a post-training stage. Other works propose DAgger-based methods with privileged state-based experts, test-time adaptation, or rollouts in a latent world model. However, these prior methods predominantly focus on the single-agent paradigm and therefore train on environments with limited behavioral diversity. Moreover, prior works typically train in slow simulators such as CARLA or neural reconstruction-based simulators that limit scalability. Our method is a closed-loop DAgger-based method, but unlike prior works, we propose a multi-agent training paradigm that leverages the benefits of scalable self-play in a fast simulator to learn a robust end-to-end driving policy.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Autonomous Driving Simulators", "weight": 1.0} -->
+
+The space of driving simulators is characterized by a tension between throughput and representational fidelity. At one extreme, abstract simulators operate on vectorized BEV state representations, sacrificing perceptual realism for speed. At the other end, photorealistic simulators render high-fidelity sensor data to minimize the sim-to-real gap, either via handcrafted assets, neural reconstruction methods, or generative models. However, this comes at a dramatic cost of training throughput (steps per second or SPS). We argue that Gigapixel occupies a productive middle ground: it retains the throughput necessary to experiment with self-play and closed-loop training at scale while providing perspective-view observations that make it suitable for training end-to-end driving policies. The representational approach that most closely mirrors Gigapixel is RAP, which also renders simplified bounding box worlds. However, as shown in Figure 1, RAP rendering is significantly slower than Gigapixel due to the lack of batched GPU rendering support, and RAP utilizes these simplified renderings for data augmentation rather than closed-loop training.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Self-Play for Driving", "weight": 1.0} -->
+
+Self-play RL algorithms are data-hungry, requiring billions of steps of experience to reach (super) human-level performance. The appeal of self-play lies in the nature of the experience it generates. Unlike behavior cloning, which learns from a fixed and narrow distribution of human demonstrations, self-play agents are paired with themselves and are given an objective to optimize. The distribution of encountered behaviors continually shifts as they learn, surfacing many safety-critical interactions that are vanishingly rare in human driving logs. The effectiveness of this paradigm has its roots in competitive and cooperative games. Thus far, the results in driving have been confined to policies operating on vectorized observations. We go beyond prior works by enabling large-scale self-play directly from pixel observations. Moreover, we propose a closed-loop self-play training procedure based on DAgger rather than RL to enable sample-efficient self-play learning at end-to-end model scale.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Problem formulation", "weight": 1.0} -->
+
+Our goal is to learn a robust end-to-end driving policy $\pi(\tau|I,C)$ that outputs a trajectory $\tau$ from raw image observations $I$ and additional ego context $C$ (e.g., ego state and navigation command). We represent a trajectory as a sequence of waypoints $\tau=\{(x_{t},y_{t},\theta_{t})\}_{t=1}^{H}$, where $(x_{t},y_{t})$ denotes the ego-centric position and $\theta_{t}$ the heading of the ego vehicle at future timestep $t$, over a finite planning horizon $H$. A low-level controller maps $\tau$ to a sequence of control actions, of which the first action $a$ is applied before replanning at the next timestep in a closed-loop (receding-horizon) fashion.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Problem formulation", "weight": 1.0} -->
+
+We assume $\pi$ decomposes into a perception backbone $f_{\theta_{\text{per}}}$ that produces perception features $E_{\text{per}}=f_{\theta_{\text{per}}}(I,C)$, and a planning head $f_{\theta_{\text{plan}}}$ that maps these features to a trajectory, $\tau=f_{\theta_{\text{plan}}}(E_{\text{per}},C)$. This decomposition is general and satisfied by a wide range of end-to-end architectures. We place no constraints on $f_{\theta_{\text{plan}}}$ beyond its input-output interface; it may be scoring-based, diffusion-based, or regression-based.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Online RL and DAgger", "weight": 1.0} -->
+
+Self-play is a closed-loop training paradigm: the agent rolls out actions in the simulator, allowing it to learn the consequences of its own actions during training. Two standard paradigms enable closed-loop learning in simulation. Online RL trains a policy $\pi$ to maximize the expected discounted return $\mathbb{E}_{\pi}\!\left[\sum_{t}\gamma^{t}r_{t}\right]$ with discount factor $\gamma$, where $r_{t}$ is the reward obtained at step $t$. The policy is rolled out in the simulator and trained on the generated experience. While effective, online RL is sample-inefficient, often requiring billions of environment steps to converge. This becomes prohibitive when the policy is a large end-to-end model, as each step incurs costly forward and backward passes through the model. Dataset Aggregation (DAgger) offers a more sample-efficient alternative when an expert policy is available.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Online RL and DAgger", "weight": 1.0} -->
+
+At each iteration, the student policy $\pi_{\text{student}}$ is rolled out in the environment, the visited states are labeled by an expert $\pi_{\text{expert}}$, and the student is trained to match the expert's actions on the student's own induced state distribution. Crucially, the student and expert may each act through its own observation function, denoted by $O_{\text{student}}$ and $O_{\text{expert}}$. The DAgger objective is: with action loss $\mathcal{L}$. Like RL, DAgger is closed-loop: the expectation is taken under $\pi_{\text{student}}$'s own state distribution $d_{\pi_{\text{student}}}$, so the student learns to recover from the states it actually visits.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Gigapixel", "weight": 1.0} -->
+
+A key obstacle to leveraging self-play for end-to-end driving is that existing simulators either natively expose vectorized observations incompatible with end-to-end policies, or are too slow to support self-play at scale. Our central observation is that learning robust closed-loop end-to-end driving behavior does not require a photorealistic sensor simulator. Instead, it suffices to learn in a high-throughput abstract simulator that preserves the essential information required for planning while natively supporting pixel observations. To this end, we introduce Gigapixel, a driving simulator that enables scalable self-play directly from pixel observations. In Gigapixel, the global simulator state takes the form $S_{t}=(A_{t},M,L_{t})$, comprising agent bounding boxes $A_{t}$, static map polylines $M$, and traffic light states $L_{t}$. Prior abstract simulators implement vectorized observations $O_{\text{vec}}(S_{t})$, which are cheap to produce but incompatible with end-to-end policies that consume raw sensor inputs.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Gigapixel", "weight": 1.0} -->
+
+Gigapixel additionally implements $O_{\text{pixel}}(S_{t})$, rendering $S_{t}$ into an ego-centric perspective view through a batched, GPU-accelerated renderer. Concretely, we extend the PufferDrive abstract simulator with the Madrona rendering engine, supporting both rasterization and ray tracing. To sustain high throughput, scene elements are represented as simple primitives: agents (e.g., vehicles, pedestrians, cyclists) and static obstacles as cuboids, lane polylines as thin planar strips, and traffic lights as small spheres. Figure 2 shows ray-traced renderings; rasterized counterparts appear in the Appendix. Further details about the Gigapixel simulator---including the renderer, dynamics, action space, and reward functions---are deferred to the Appendix.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Self-play DAgger", "weight": 1.0} -->
+
+Self-play RL from pixels faces two obstacles in our setting. First, training compute-intensive end-to-end architectures in Gigapixel shifts the per-step cost from rendering to policy forward and backward passes; combined with RL's sample inefficiency, this makes self-play RL from pixels prohibitively expensive. Second, end-to-end policies typically output trajectories $\tau$, whereas RL-trained driving policies typically output low-level controls. To address both, we propose self-play DAgger training: pixel-based end-to-end policies are trained in self-play via on-policy distillation from a privileged RL teacher. Critically, RL is tractable for the vectorized teacher but prohibitive for the pixel-based student (Fig. 1): the teacher is a lightweight policy over low-dimensional vectorized observations, making its forward/backward passes cheap, and self-play RL is known to scale to robust, naturalistic driving in high-throughput simulators. We therefore confine RL to the teacher and distill its closed-loop behavior into the expensive pixel-based student.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Self-play DAgger", "weight": 1.0} -->
+
+Distillation is far more sample-efficient than online RL (see Fig. 3), and rolling out the teacher in a forked parallel environment produces trajectory targets $\tau$ directly, sidestepping the waypoint-vs-controls mismatch.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Self-play DAgger vs. vanilla DAgger", "weight": 1.0} -->
+
+Standard DAgger assumes a single learner whose visited states are labeled by an expert. In autonomous driving, this typically means the learner controls the ego vehicle while other agents follow log-replay or handcrafted behaviors. In our setting, every agent in the scene is controlled by the student policy $\pi_{\text{student}}$, so the induced state distribution is a function of all agents' joint behavior. The student is trained on states drawn from the self-play rollout distribution $S\sim d^{\,\text{self-play}}_{\pi_{\text{student}}}$, the marginal state distribution induced when $\pi_{\text{student}}$ controls all agents. This gives the self-play DAgger objective: which is Eq. 1 with the self-play induced state distribution $d^{\,\text{self-play}}_{\pi_{\text{student}}}$ in place of the single-learner distribution and an added expectation over agents $i$. This yields two benefits over vanilla DAgger.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Self-play DAgger vs. vanilla DAgger", "weight": 1.0} -->
+
+First, because all agents are controlled by $\pi_{\text{student}}$, the scenarios encountered during training co-evolve with the policy, continually surfacing interesting multi-agent interactions that are rare in human driving logs. Second, as made explicit by the inner expectation over $i$, every agent in a joint rollout contributes training data, multiplying the training experience extracted per simulator step over vanilla DAgger. We now describe our specific instantiation of self-play DAgger.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Vectorized teacher training", "weight": 1.0} -->
+
+Self-play DAgger requires a teacher $\pi_{\text{teacher}}$ that is robust across the state distribution visited by the student and can be queried cheaply for supervision. We obtain our teacher by adapting Gigaflow which generates robust and naturalistic driving policies from self-play RL, albeit over vectorized BEV representations. We train a compact decentralized policy $\pi_{\text{teacher}}(a_{i}|o^{\text{vec}}_{i})$ on ego-centric vectorized observations $o^{\text{vec}}_{i}=O_{\text{vec}}(S,i)$. Training uses decentralized PPO with a linearly weighted multi-objective reward $R_{i}=\sum_{j=1}^{N_{r}}c_{i}^{j}R^{j}$ consisting of $N_{r}$ individual reward terms (such as collision, offroad, comfort, etc.).
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Vectorized teacher training", "weight": 1.0} -->
+
+On each episode reset, the coefficients $\mathbf{c}_{i}:=(c_{i}^{1},\dots,c_{i}^{N_{r}})$ are randomized per agent $i$ and provided to the policy as conditioning, so a single policy models different driving personas (e.g., cautious vs. aggressive). This induces a diverse population of agents during self-play training, improving the policy's robustness.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Pixel-based student training", "weight": 1.0} -->
+
+Given a trained teacher $\pi_{\text{teacher}}$, we distill it into the pixel-based student $\pi_{\text{student}}$ via self-play DAgger, where $\pi_{\text{teacher}}$ provides trajectory-level supervision. Every agent $i$ is controlled by $\pi_{\text{student}}$, which acts on the ego-centric pixel observation $o^{\text{pix}}_{i}=O_{\text{pix}}(S,i)$ and outputs a trajectory tracked by an LQR controller; the resulting joint behavior induces the global simulator state $S$. To generate supervision at $S$, we fork a parallel simulator instance initialized at $S$ and roll out the teacher in self-play for $H$ steps, acting on $o^{\text{vec}}_{i}$.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Pixel-based student training", "weight": 1.0} -->
+
+This yields a per-agent trajectory target $\tau_{i}$ for every agent $i$ in the scene, giving us the self-play DAgger objective: where $\mathcal{L}_{\text{plan}}$ scores the student's predicted trajectory $\hat{\tau}_{i}=\pi_{\text{student}}^{\theta}(o^{\text{pix}}_{i})$ against the target $\tau_{i}$.^11^ 1 We leave $\mathcal{L}_{\text{plan}}$ deliberately general: it may be any planning loss compatible with the planning head $f_{\theta_{\text{plan}}}$. Because the teacher is conditioned on a per-agent reward-preference vector $\mathbf{c}_{i}$, the target $\tau_{i}$ is persona-specific.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Pixel-based student training", "weight": 1.0} -->
+
+We therefore condition the student on the same $\mathbf{c}_{i}$ and match it to the teacher during distillation, so the target is consistent with the student's inputs; sampling $\mathbf{c}_{i}$ additionally exposes the student to diverse behaviors during training. We suppress $\mathbf{c}_{i}$ in the notation above for brevity; full conditioning details are provided in the Appendix.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Pixel-based student training", "weight": 1.0} -->
+
+Regression-based (Single-Mode) DrivoR Planner Scoring-based (Multimodal) DrivoR Planner Table 1: Closed-loop evaluation in the photorealistic HUGSIM simulator. Scores are reported per difficulty level (E=Easy, M=Medium, H=Hard, X=Extreme). RC=Route Completion, and HD-Score is the HUGSIM Driving Score. Human Trajectory? denotes whether the human trajectory is used as a supervision target during training. Best method is bolded; second-best underlined.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Sim-to-real Perception Adaptation", "weight": 1.0} -->
+
+Self-play DAgger yields a student $\pi_{\text{student}}$ that drives robustly in closed loop on Gigapixel's abstract renderings $o^{\text{pix}}_{i}$, but deploying on real sensor data requires closing the gap between these renderings and real camera images. We frame this as an image-to-image perceptual adaptation task: rather than retraining the full policy, we adapt only the perception stack so that real images map into the same latent representation the planning head already acts. We curate a dataset of paired observations $\mathcal{D}_{\text{paired}}=\{(o^{\text{real}},o^{\text{pix}})\}$, where $o^{\text{pix}}$ is the Gigapixel rendering of the abstract state reconstructed from the real log corresponding to $o^{\text{real}}$.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Sim-to-real Perception Adaptation", "weight": 1.0} -->
+
+The full objective is with $\lambda$ weighting the perceptual loss. This transfers $\pi_{\text{student}}$'s closed-loop behavior to real images using only paired observations, without human trajectory supervision.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+
+We train policies in Gigapixel using 335k 20s scenarios uniformly sampled from the nuPlan train split, extracting agent states, static objects, lane polylines, and traffic-light states. During self-play, vehicles are policy-controlled, while pedestrians, cyclists, and traffic lights are log-replayed. The privileged vectorized teacher $\pi_{\text{teacher}}$ follows our re-implementation of Gigaflow: a compact 2.7M-parameter permutation-invariant policy trained for 25B agent steps in the extracted nuPlan scenarios. We train two pixel-based student architectures: a scoring-based DrivoR model, which predicts 64 trajectory proposals and selects the one with highest predicted PDMS, and a regression-only variant, DrivoR-Reg, which outputs a single trajectory without a scoring head. Both students are trained with self-play DAgger in Gigapixel for 150M steps, then adapted from simulated renderings to real NAVSIM camera images using paired simulated-real observations from navtrain. Further training details and hyperparameters are provided in the Appendix.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+
+Regression-based (Single-Mode) DrivoR Planner Scoring-based (Multimodal) DrivoR Planner Table 2: NAVSIM-v2 navhard Results. Gigapixel models perform competitively across Stage 1 metrics without human trajectory supervision, and further improves Stage 2 performance, which we emphasize as the closest proxy for closed-loop execution robustness; see text for discussion.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Benchmarks and Evaluated Methods", "weight": 1.0} -->
+
+We evaluate in Gigapixel and on two real-world driving benchmarks: HUGSIM and NAVSIM-v2. In Gigapixel, we run closed-loop evaluation on 1,000 held-out nuPlan scenarios with log-replayed surrounding actors, reporting the Gigapixel Driving Score $\max(0,\texttt{Completion Rate}-\texttt{Collision Rate}-\texttt{Off-road Rate})$. HUGSIM evaluates pixel-based policies in closed-loop on reconstructed real-world scenes using HD-Score, reported across Easy, Medium, Hard, and Extreme difficulty tiers. NAVSIM-v2 evaluates pseudo-closed-loop robustness using EPDMS on the navhard split; we emphasize Stage 2 EPDMS as the closest proxy for recovery under closed-loop execution, as it measures performance in perturbed ego poses. We evaluate two self-play trained policies, Gigapixel-DrivoR and Gigapixel-DrivoR-Reg, obtained by training DrivoR and DrivoR-Reg in Gigapixel with self-play DAgger followed by sim-to-real perception adaptation.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Benchmarks and Evaluated Methods", "weight": 1.0} -->
+
+We compare against behavior-cloned DrivoR variants, DrivoR with SimScale recovery data, published leaderboard methods, and ablations that replace self-play DAgger with behavior cloning or single-agent DAgger. Full benchmark protocols and metrics, baseline training details, and metric definitions are provided in the Appendix.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Table 1 reports closed-loop driving performance on the HUGSIM benchmark. Gigapixel-DrivoR achieves state-of-the-art performance, outperforming all baselines on both average RC (50.1) and HD-Score (38.5)---without any human trajectory supervision. The scoring-based Gigapixel-DrivoR improves over its behavior-cloning counterpart DrivoR by 2.8 HD-Score points (38.5 vs. 35.7), and the regression-based Gigapixel-DrivoR-Reg improves over DrivoR-Reg by 12.5 points (33.2 vs. 20.7)---a 60% relative gain that demonstrates the impact of closed-loop self-play DAgger training. The one regime where DrivoR exceeds Gigapixel-DrivoR is the Extreme tier (32.5 vs. 21.6 HD-Score), where surrounding actors are most adversarial.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Manual inspection (examples in the supplementary) reveals a high-velocity bias in DrivoR: it tends to drive fast, which incidentally allows it to outpace adversarial actors attempting to induce collisions. Gigapixel-DrivoR drives more cautiously and instead yields to these actors, often getting stuck. To quantify this, we measured the average collision velocity across the full evaluation set: DrivoR collides at $5.27$ m/s on average, compared to $1.95$ m/s for Gigapixel-DrivoR---a $2.7\times$ reduction, indicating that DrivoR's Extreme-tier advantage stems from a less safe driving style rather than better closed-loop reasoning.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Table 2 reports pseudo-closed-loop performance on NAVSIM-v2 navhard. Without human trajectory supervision or SimScale data, Gigapixel-DrivoR and Gigapixel-DrivoR-Reg outperform their behavior-cloning counterparts in EPDMS (50.1 vs. 48.3 and 29.5 vs. 25.5, respectively). These gains are concentrated in Stage 2, which evaluates planning from perturbed off-distribution ego poses and is therefore the closest proxy for closed-loop robustness: Gigapixel-DrivoR-Reg improves over DrivoR-Reg by 7.1 points (45.5 vs. 38.4), while Gigapixel-DrivoR improves over DrivoR by 4.1 points (63.5 vs. 59.4). DrivoR (w/ SimScale) achieves the best overall EPDMS (54.7), but SimScale's data curation explicitly mines high-EPDMS trajectories, whereas our Gigaflow teacher is not trained with a NAVSIM-v2-specific objective.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Even so, Gigapixel-DrivoR nearly matches its Stage 2 score (63.5 vs. 64.6).
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusion, Limitations, and Future Work", "weight": 1.5} -->
+
+We present the first method for effectively training end-to-end driving policies via self-play. Our approach combines Gigapixel for high-throughput pixel-based simulation, self-play DAgger for distilling a privileged RL teacher, and lightweight sim-to-real adaptation, achieving state-of-the-art HUGSIM performance and strong NAVSIM-v2 performance. These contributions establish self-play as a viable alternative to large-scale behavior cloning for training end-to-end driving models.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+Gigapixel is limited by its abstract scene representation: agent boxes, lane polylines, and traffic-light states cannot capture cues such as debris, unusual obstacles, weather, or lighting. It also introduces a teacher--student asymmetry, where the teacher observes privileged vectorized observations $o^{\text{vec}}$ while the student must infer actions from pixels $o^{\text{pix}}$, which can be unrecoverable under occlusion or limited visibility. Finally, sim-to-real adaptation requires paired data $\mathcal{D}_{\text{paired}}$, which is practical on NAVSIM but less direct with only raw sensor logs.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Future Work", "weight": 1.5} -->
+
+Several directions follow naturally from this work. First, while we deliberately forgo human trajectory supervision to demonstrate the strength of self-play alone, the most capable real-world policies will likely combine both signals. Human data could be incorporated through KL-regularization during self-play training or through post-training toward human-like behavior. Second, Gigapixel currently initializes scenarios from nuPlan logs, which constrains the distribution of initial scene configurations. Generative approaches could synthesize initial conditions that induce rare or informative interactions, further enriching the self-play curriculum. Finally, training pixel-based RL policies directly in Gigapixel with native trajectory outputs remains an open challenge, but would eliminate the teacher-student asymmetry inherent in distillation approaches.

@@ -1,0 +1,18 @@
+title: >
+  The Hyperelliptical and Other New Pseudo Cylindrical Equal Area Map Projections
+algorithm:
+authors:
+  - W. R. Tobler
+year: 1973
+source: Journal of Geophysical Research
+type: Journal Paper
+doi: 10.1029/JB078i011p01753
+arxiv_id:
+tags:
+abstract: >
+  Several, mostly new, finite parameter instances of a special class of map projections are derived, illustrated, and evaluated. It is demonstrated that most of the usual evaluation measures are ordinally equivalent and thus that any one of them suffices. The new projections are shown to be at least as good as existing projections and appear otherwise advantageous.
+summary: ''
+link: https://agupubs.onlinelibrary.wiley.com/doi/10.1029/JB078i011p01753
+links_alt:
+  - https://doi.org/10.1029/JB078i011p01753
+audit_status: raw

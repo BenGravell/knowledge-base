@@ -1,0 +1,21 @@
+title: >
+  MAPIE: An Open-source Library for Distribution-free Uncertainty Quantification
+algorithm:
+authors:
+  - Vianney Taquet
+  - Vincent Blot
+  - Thomas Morzadec
+  - Louis Lacombe
+  - Nicolas Brunel
+year: 2022
+source:
+type: Preprint
+doi:
+arxiv_id: "2207.12274"
+tags:
+abstract: >
+  Estimating uncertainties associated with the predictions of Machine Learning (ML) models is of crucial importance to assess their robustness and predictive power. In this submission, we introduce MAPIE (Model Agnostic Prediction Interval Estimator), an open-source Python library that quantifies the uncertainties of ML models for single-output regression and multi-class classification tasks. MAPIE implements conformal prediction methods, allowing the user to easily compute uncertainties with strong theoretical guarantees on the marginal coverages and with mild assumptions on the model or on the underlying data distribution. MAPIE is hosted on scikit-learn-contrib and is fully "scikit-learn-compatible". As such, it accepts any type of regressor or classifier coming with a scikit-learn API. The library is available at: https://github.com/scikit-learn-contrib/MAPIE/.
+summary: ''
+link: https://arxiv.org/pdf/2207.12274
+links_alt:
+audit_status: raw

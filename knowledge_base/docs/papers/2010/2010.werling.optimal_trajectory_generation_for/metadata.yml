@@ -1,0 +1,32 @@
+title: >
+  Optimal Trajectory Generation for Dynamic Street Scenarios in a Frenét Frame
+algorithm: Frenet Optimal Trajectory Generation
+authors:
+  - Moritz Werling
+  - Julius Ziegler
+  - Soren Kammel
+  - Sebastian Thrun
+year: 2010
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ROBOT.2010.5509799
+arxiv_id:
+tags:
+  - Trajectory generation
+  - Autonomous driving
+  - Frenet frame
+  - Optimal control
+  - Collision avoidance
+  - Dynamic obstacles
+  - Highway driving
+  - Behavior planning
+abstract: >
+  Safe handling of dynamic highway and inner city scenarios with autonomous vehicles involves the problem of generating traffic-adapted trajectories. In order to account for the practical requirements of the holistic autonomous system, we propose a semi-reactive trajectory generation method, which can be tightly integrated into the behavioral layer. The method realizes long-term objectives such as velocity keeping, merging, following, stopping, in combination with a reactive collision avoidance by means of optimal-control strategies within the Frenét-Frame [12] of the street. The capabilities of this approach are demonstrated in the simulation of a typical high-speed highway scenario.
+summary: >
+  Presents a semi-reactive trajectory generator in road-aligned Frenet coordinates that combines longitudinal driving objectives with lateral motion and reactive collision avoidance, while integrating with a higher-level behavioral planner. Obstacle-free driving was tested on JUNIOR; reactive highway maneuvers were evaluated in simulation.
+link: https://www.researchgate.net/profile/Moritz-Werling/publication/224156269_Optimal_Trajectory_Generation_for_Dynamic_Street_Scenarios_in_a_Frenet_Frame/links/54f749df0cf210398e9277af/Optimal-Trajectory-Generation-for-Dynamic-Street-Scenarios-in-a-Frenet-Frame.pdf
+links_alt:
+  - https://publikationen.bibliothek.kit.edu/1000022393
+  - https://doi.org/10.1109/ROBOT.2010.5509799
+  - https://www.researchgate.net/publication/224156269_Optimal_Trajectory_Generation_for_Dynamic_Street_Scenarios_in_a_Frenet_Frame
+audit_status: partial

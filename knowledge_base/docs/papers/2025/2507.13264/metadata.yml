@@ -1,0 +1,122 @@
+title: >
+  Voxtral
+algorithm:
+authors:
+  - Alexander H. Liu
+  - Andy Ehrenberg
+  - Andy Lo
+  - Clement Denoix
+  - Corentin Barreau
+  - Guillaume Lample
+  - Jean-Malo Delignon
+  - Khyathi Raghavi Chandu
+  - Patrick von Platen
+  - Pavankumar Reddy Muddireddy
+  - Sanchit Gandhi
+  - Soham Ghosh
+  - Srijan Mishra
+  - Thomas Foubert
+  - Abhinav Rastogi
+  - Adam Yang
+  - Albert Q. Jiang
+  - Alexandre Sablayrolles
+  - Amelie Heliou
+  - Amelie Martin
+  - Anmol Agarwal
+  - Antoine Roux
+  - Arthur Darcet
+  - Arthur Mensch
+  - Baptiste Bout
+  - Baptiste Roziere
+  - Baudouin De Monicault
+  - Chris Bamford
+  - Christian Wallenwein
+  - Christophe Renaudin
+  - Clemence Lanfranchi
+  - Darius Dabert
+  - Devendra Singh Chaplot
+  - Devon Mizelle
+  - Diego de las Casas
+  - Elliot Chane-Sane
+  - Emilien Fugier
+  - Emma Bou Hanna
+  - Gabrielle Berrada
+  - Gauthier Delerce
+  - Gauthier Guinet
+  - Georgii Novikov
+  - Guillaume Martin
+  - Himanshu Jaju
+  - Jan Ludziejewski
+  - Jason Rute
+  - Jean-Hadrien Chabran
+  - Jessica Chudnovsky
+  - Joachim Studnia
+  - Joep Barmentlo
+  - Jonas Amar
+  - Josselin Somerville Roberts
+  - Julien Denize
+  - Karan Saxena
+  - Karmesh Yadav
+  - Kartik Khandelwal
+  - Kush Jain
+  - Lelio Renard Lavaud
+  - Leonard Blier
+  - Lingxiao Zhao
+  - Louis Martin
+  - Lucile Saulnier
+  - Luyu Gao
+  - Marie Pellat
+  - Mathilde Guillaumin
+  - Mathis Felardos
+  - Matthieu Dinot
+  - Maxime Darrin
+  - Maximilian Augustin
+  - Mickael Seznec
+  - Neha Gupta
+  - Nikhil Raghuraman
+  - Olivier Duchenne
+  - Patricia Wang
+  - Patryk Saffer
+  - Paul Jacob
+  - Paul Wambergue
+  - Paula Kurylowicz
+  - Philomene Chagniot
+  - Pierre Stock
+  - Pravesh Agrawal
+  - Remi Delacourt
+  - Romain Sauvestre
+  - Roman Soletskyi
+  - Sagar Vaze
+  - Sandeep Subramanian
+  - Saurabh Garg
+  - Shashwat Dalal
+  - Siddharth Gandhi
+  - Sumukh Aithal
+  - Szymon Antoniak
+  - Teven Le Scao
+  - Thibault Schueller
+  - Thibaut Lavril
+  - Thomas Robert
+  - Thomas Wang
+  - Timothee Lacroix
+  - Tom Bewley
+  - Valeriia Nemychnikova
+  - Victor Paltz
+  - Virgile Richard
+  - Wen-Ding Li
+  - William Marshall
+  - Xuanyu Zhang
+  - Yihan Wan
+  - Yunhao Tang
+year: 2025
+source:
+type: Preprint
+doi:
+arxiv_id: "2507.13264"
+tags:
+abstract: >
+  We present Voxtral Mini and Voxtral Small, two multimodal audio chat models. Voxtral is trained to comprehend both spoken audio and text documents, achieving state-of-the-art performance across a diverse range of audio benchmarks, while preserving strong text capabilities. Voxtral Small outperforms a number of closed-source models, while being small enough to run locally. A 32K context window enables the model to handle audio files up to 40 minutes in duration and long multi-turn conversations. We also contribute three benchmarks for evaluating speech understanding models on knowledge and trivia. Both Voxtral models are released under Apache 2.0 license.
+summary: ''
+link: https://arxiv.org/pdf/2507.13264
+links_alt:
+audit_status: raw

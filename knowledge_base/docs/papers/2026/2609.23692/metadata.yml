@@ -1,0 +1,19 @@
+title: >
+  Benefits of Linear Dynamic State Feedback in Co-stabilization
+algorithm:
+authors:
+  - Xiong Zeng
+  - Necmiye Ozay
+  - Mario Sznaier
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2609.23692"
+tags:
+abstract: >
+  Co-stabilization, i.e., designing a single controller that stabilizes multiple systems, is a fundamental problem in robust and data-driven control. While any stabilizable linear system admits a stabilizing linear static state feedback controller, this equivalence does not extend to co-stabilization. In particular, there exist system collections that cannot be co-stabilized by linear static state feedback but can be co-stabilized using linear dynamic state feedback. In this paper, we study the role of controller memory in co-stabilization. We show that linear dynamic state feedback strictly enlarges the set of co-stabilizable systems compared to static feedback, for both scalar systems and high-dimensional examples. At the same time, we identify structural limitations that cannot be overcome even with dynamic controllers. We also develop a path-integral-based algorithm for computing co-stabilizing controllers for a finite set of systems. Numerical results demonstrate that increasing controller memory enlarges the feasible co-stabilization region. These results highlight controller architecture as a key structural factor in co-stabilization, with potential implications for reducing the sample complexity of learning-based control.
+summary: ''
+link: https://arxiv.org/pdf/2609.23692
+links_alt:
+audit_status: raw

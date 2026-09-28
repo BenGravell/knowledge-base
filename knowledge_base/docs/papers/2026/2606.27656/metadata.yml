@@ -1,0 +1,22 @@
+title: >
+  Characterizing Driver Interactions with Autonomous Vehicles via Response Maps
+algorithm:
+authors:
+  - Dave Broaddus
+  - Rachel DiPirro
+  - Chishang Yang
+  - Dan Calderone
+  - Wendy Ju
+  - Meeko Oishi
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2606.27656"
+tags:
+abstract: >
+  Understanding human responses to autonomous vehicle (AV) behaviors is essential for socially aware interaction, which is crucial for socially compatible navigation in shared traffic environments. We characterize human driving responses in interactions with AVs as feedback laws over the coupled state space of the human driven vehicle and the AV. We model the human driver's actions using a response map, a concept based in game theory, and employ a linear representation to capture driver behaviors as a function of AV behaviors, based on empirical data from a driving simulator study. Our results show that 1) human driver acceleration behavior can be captured using response maps, and 2) human driver responses differ significantly with respect to AV behaviors of yielding, non-yielding, and responsive to the human driver.
+summary: ''
+link: https://arxiv.org/pdf/2606.27656
+links_alt:
+audit_status: raw

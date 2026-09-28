@@ -1,0 +1,25 @@
+title: >
+  Bigtable: A Distributed Storage System for Structured Data
+algorithm:
+authors:
+  - Fay Chang
+  - Jeffrey Dean
+  - Sanjay Ghemawat
+  - Wilson C. Hsieh
+  - Deborah A. Wallach
+  - Mike Burrows
+  - Tushar Chandra
+  - Andrew Fikes
+  - Robert E. Gruber
+year: 2006
+source: USENIX Symposium on Operating Systems Design and Implementation
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+abstract: >
+  Bigtable is a distributed storage system for managing structured data that is designed to scale to a very large size: petabytes of data across thousands of commodity servers. Many projects at Google store data in Bigtable, including web indexing, Google Earth, and Google Finance. These applications place very different demands on Bigtable, both in terms of data size (from URLs to web pages to satellite imagery) and latency requirements (from backend bulk processing to real-time data serving). Despite these varied demands, Bigtable has successfully provided a flexible, high-performance solution for all of these Google products. In this paper we describe the simple data model provided by Bigtable, which gives clients dynamic control over data layout and format, and we describe the design and implementation of Bigtable.
+summary: ''
+link: https://www.usenix.org/legacy/event/osdi06/tech/chang/chang.pdf
+links_alt:
+audit_status: raw

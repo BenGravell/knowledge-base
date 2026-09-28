@@ -1,0 +1,20 @@
+title: >
+  Parallel Dynamic Programming for Conic Linear Quadratic Control
+algorithm:
+authors:
+  - Luyao Zhang
+  - Gabriel Bravo-Palacios
+  - Brian Plancher
+  - Sergio Grammatico
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2606.24632"
+tags:
+abstract: >
+  Linear Quadratic (LQ) control problems are at the heart of linear control theory and Model Predictive Control (MPC). While performant, standard approaches to solving such problems are inherently serial, limiting real-time scalability despite the parallel computing power available on modern multi-core CPUs. Contributing to addressing this challenge and motivated by ``divide and conquer'' strategies, we present a parallel-in-time approach that solves computationally demanding conic optimal control problems through the use of the alternating direction method of multipliers (ADMM). In particular, we formulate the inner primal update of ADMM as an LQ problem and split the reformulated problem along the time horizon. This enables us to derive a variant of the Riccati recursion using dynamic programming to solve each subproblem in parallel. Numerical benchmarks on two real-world applications demonstrate as much as a 5x speedup compared to existing related approaches on multi-core CPU hardware.
+summary: ''
+link: https://arxiv.org/pdf/2606.24632
+links_alt:
+audit_status: raw
