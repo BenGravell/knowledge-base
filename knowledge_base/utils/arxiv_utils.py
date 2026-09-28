@@ -336,7 +336,8 @@ def metadata_to_yaml(metadata: dict[str, Any]) -> str:
             lines.append(f"{key}:")
         elif isinstance(value, list):
             lines.append(f"{key}:")
-            lines.extend(f"  - {item}" for item in value)
+            if value:
+                lines.extend("  " + line for line in yaml.safe_dump(value, default_flow_style=False).splitlines())
         elif key == "arxiv_id":
             lines.append(f'{key}: "{value}"')
         elif isinstance(value, str) and len(value) > 80:

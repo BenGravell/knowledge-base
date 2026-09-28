@@ -1,11 +1,25 @@
 import unittest
 
+import yaml
+
 from knowledge_base.utils.arxiv_utils import (
     arxiv_record_to_fields,
+    metadata_to_yaml,
     normalize_arxiv_id,
     parse_arxiv_feed_records,
     parse_arxiv_oai_record,
 )
+
+
+class MetadataYamlTest(unittest.TestCase):
+    def test_list_strings_round_trip(self) -> None:
+        for value in [
+            ":", "Team: contributors", "yes", "null", "2026",
+            "# author", "*alias", "[name]", "First\nLast", "Jia'ni Zhao",
+        ]:
+            with self.subTest(value=value):
+                metadata = {"authors": ["GLM-5-Team", value], "tags": [value], "links_alt": [value]}
+                self.assertEqual(yaml.safe_load(metadata_to_yaml(metadata)), metadata)
 
 
 class ArxivRecordParsingTest(unittest.TestCase):
