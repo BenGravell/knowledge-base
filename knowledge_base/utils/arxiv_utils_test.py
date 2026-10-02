@@ -14,8 +14,16 @@ from knowledge_base.utils.arxiv_utils import (
 class MetadataYamlTest(unittest.TestCase):
     def test_list_strings_round_trip(self) -> None:
         for value in [
-            ":", "Team: contributors", "yes", "null", "2026",
-            "# author", "*alias", "[name]", "First\nLast", "Jia'ni Zhao",
+            ":",
+            "Team: contributors",
+            "yes",
+            "null",
+            "2026",
+            "# author",
+            "*alias",
+            "[name]",
+            "First\nLast",
+            "Jia'ni Zhao",
         ]:
             with self.subTest(value=value):
                 metadata = {"authors": ["GLM-5-Team", value], "tags": [value], "links_alt": [value]}

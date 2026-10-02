@@ -16,6 +16,7 @@ from pathlib import Path
 import yaml
 
 from knowledge_base.publishing.generated_assets import render_app_script_blocks
+from knowledge_base.scripts.verify_map_view.layout import verify_settings_layout
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 KB_DIR = Path(__file__).resolve().parent
@@ -167,7 +168,14 @@ def build_site(args: list[str]) -> int:
     result = run_zensical("build", args)
     if result != 0:
         return result
-    return 0 if validate_site_output() else 1
+    if not validate_site_output():
+        return 1
+    try:
+        run_step("verify Map settings layout", lambda: verify_settings_layout(SITE_DIR))
+    except (AssertionError, RuntimeError, TimeoutError, OSError) as error:
+        log(str(error))
+        return 1
+    return 0
 
 
 def parse_dev_addr(dev_addr: str) -> tuple[str, int]:

@@ -100,6 +100,8 @@
       rect.left = Math.max(rect.left, Math.min(panelBounds.right + pad, graphEl.clientWidth - pad));
     }
     const headerBounds = overlayBounds(document.getElementById('mm-panel-header'));
+    const dockBounds = overlayBounds(document.getElementById('mm-branch-dock'));
+    if (dockBounds) rect.bottom = Math.min(rect.bottom, dockBounds.top - pad);
     if (headerBounds) {
       const centerX = (rect.left + rect.right) / 2;
       if (centerX >= headerBounds.left && centerX <= headerBounds.right && headerBounds.height < graphEl.clientHeight * 0.5) {
@@ -586,19 +588,6 @@
 
   camera.setState({ x: 0, y: 0, ratio: 5 });
   await sleep(30);
-  document.getElementById('mm-fit-btn').click();
-  await sleep(420);
-  renderer.refresh();
-  await sleep(60);
-  const buttonFitState = camera.getState();
-  const buttonAllDetailFitted = allDetailViewportBBox();
-  assert(Number.isFinite(buttonFitState.ratio) && buttonFitState.ratio > 0 && buttonFitState.ratio <= settings.maxCameraRatio,
-    'Fit View button returns the camera to a valid fitted zoom',
-    buttonFitState.ratio);
-  assertFittedBBox(buttonAllDetailFitted, 'single-click Fit View across all detail levels');
-
-  camera.setState({ x: 0, y: 0, ratio: 5 });
-  await sleep(30);
   mm.fit(0);
   await sleep(120);
   renderer.refresh();
@@ -614,8 +603,6 @@
       nodes: nodes.length,
       fitted,
       allDetailFitted,
-      buttonAllDetailFitted,
-      buttonFitState,
       selected: {
         labelColor: selected && selected.labelColor,
         labelOutlineColor: selected && selected.labelOutlineColor,

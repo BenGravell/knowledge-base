@@ -69,6 +69,7 @@ h1                  { display: none; }
 
 /* ── Prevent page-level scrolling ─────────────────────────────────────────── */
 html, body          { overflow: hidden !important; height: 100vh !important; }
+html                { scrollbar-gutter: auto; }
 
 /* ── Lock footer to bottom of viewport, always visible ────────────────────── */
 .md-footer {
@@ -84,8 +85,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   --mm-ribbon-h: clamp(12rem, 28vh, 17rem);
   --mm-ribbon-max-h: var(--mm-ribbon-h);
   --mm-ribbon-header-h: 3rem;
-  --mm-branch-panel-w: clamp(16rem, 28vw, 21rem);
-  --mm-overlay-gap: 0.55rem;
   --mm-control-height: 2.12rem;
   --mm-settings-tile-bg: color-mix(in srgb, var(--md-default-fg-color) 5%, var(--md-default-bg-color));
   --mm-settings-tile-border: color-mix(in srgb, var(--md-default-fg-color) 13%, transparent);
@@ -97,6 +96,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   z-index: 0;
   width:  100%;
   height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - var(--kb-app-top-gap, 1rem));
+  height: calc(100dvh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - var(--kb-app-top-gap, 1rem));
   margin-top: var(--kb-app-top-gap, 1rem);
   overflow: hidden;
   background: var(--md-default-bg-color);
@@ -145,10 +145,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   z-index: 5;
   width: auto;
   box-sizing: border-box;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
-  min-height: var(--mm-ribbon-header-h);
+  min-height: 3rem;
   padding: 0.38rem 0.65rem;
   gap: 0.75rem;
   background: var(--kb-app-header-bg);
@@ -167,19 +167,19 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 .mm-header-controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 0.55rem;
   min-width: 0;
   margin-left: auto;
-  overflow-x: auto;
-  scrollbar-width: thin;
 }
 #mm-panel-header .mm-section {
   flex: 0 0 auto;
 }
 #mm-panel-header .mm-section--detail {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.45rem;
   min-width: 0;
@@ -191,15 +191,12 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 #mm-panel-header .mm-detail-controls {
   width: auto;
 }
-#mm-panel-header .mm-section--actions {
-  min-width: 5.8rem;
-}
 
 #mm-panel {
   position: absolute;
   top: calc(var(--mm-ribbon-header-h) + 0.35rem);
   left: var(--kb-app-page-gutter, 0.8rem);
-  right: calc(var(--kb-app-page-gutter, 0.8rem) + var(--mm-branch-panel-w) + var(--mm-overlay-gap));
+  right: var(--kb-app-page-gutter, 0.8rem);
   width: auto;
   height: var(--mm-ribbon-h);
   max-height: var(--mm-ribbon-max-h);
@@ -221,31 +218,63 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   pointer-events: none;
   border-color: transparent;
 }
-#mm-branch-panel {
-  position: absolute;
-  top: calc(var(--mm-ribbon-header-h) + 0.35rem);
-  right: var(--kb-app-page-gutter, 0.8rem);
-  bottom: var(--kb-app-page-gutter, 0.8rem);
-  z-index: 4;
+/* The collapsed button and expanded selector share one bottom-anchored shell. */
+#mm-branch-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--mm-footer-h, 0px);
+  z-index: 5;
   display: flex;
   flex-direction: column;
-  width: var(--mm-branch-panel-w);
+  max-height: calc(100dvh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - var(--kb-app-top-gap, 1rem) - var(--mm-ribbon-header-h) - 0.55rem);
   box-sizing: border-box;
-  min-height: 0;
-  padding: 0.62rem;
   border: 1px solid var(--mm-border);
-  border-radius: 8px;
+  border-radius: 8px 8px 0 0;
   background: var(--mm-panel);
   color: var(--md-default-fg-color);
   overflow: hidden;
-  transform-origin: top;
-  transition: opacity 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+#mm-branch-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: min(50dvh, 24rem);
+  max-height: min(50dvh, 24rem);
+  box-sizing: border-box;
+  padding: 0.62rem;
+  overflow: hidden;
+  transition: max-height 0.18s ease, padding 0.18s ease, visibility 0.18s;
 }
 #mm-branch-panel.body-collapsed {
-  opacity: 0;
-  pointer-events: none;
-  border-color: transparent;
-  transform: scaleY(0);
+  max-height: 0;
+  padding-block: 0;
+  visibility: hidden;
+}
+#mm-panel-hide-btn {
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 2.6rem;
+  padding: 0.6rem 0.8rem calc(0.6rem + env(safe-area-inset-bottom));
+  border: 0;
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+#mm-panel-hide-btn:hover,
+#mm-panel-hide-btn:focus-visible {
+  background: var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color);
+}
+#mm-panel-hide-btn:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: -3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  #mm-branch-panel { transition: none; }
 }
 .mm-branch-panel-head {
   flex: 0 0 auto;
@@ -282,14 +311,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   font-weight: 600;
   margin-bottom: 5px;
 }
-.mm-section--actions {
-  min-width: 5.8rem;
-}
 .mm-section--detail {
   flex: 1 1 17rem;
-}
-.mm-section--visibility {
-  min-width: 8.4rem;
 }
 
 /* Settings layout */
@@ -304,16 +327,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   min-width: 0;
   min-height: 0;
   gap: 0.46rem;
-  grid-template-columns: minmax(11.75rem, 1fr) minmax(5.8rem, 0.4fr) minmax(8.4rem, 0.5fr);
-  grid-template-areas:
-    "detail fit labels"
-    "relevance relevance relevance";
+  grid-template-columns: minmax(0, 1fr);
   align-items: end;
 }
-.mm-settings-grid > .mm-section--detail { grid-area: detail; }
-.mm-settings-grid > .mm-section--actions { grid-area: fit; }
-.mm-settings-grid > .mm-section--visibility { grid-area: labels; }
-.mm-settings-grid > .mm-relevance-panel { grid-area: relevance; }
 .mm-bento-tile {
   min-width: 0;
   min-height: 0;
@@ -528,28 +544,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   scrollbar-width: thin;
 }
 
-/* Action buttons */
-.mm-actions {
-  display: grid;
-  align-items: end;
-  gap: 0.4rem;
-  min-height: 0;
-}
-.mm-actions button {
-  width: 100%;
-  background: var(--md-default-fg-color--lightest);
-  border: 1px solid var(--md-default-fg-color--lighter);
-  color: var(--md-default-fg-color--light);
-  height: var(--mm-control-height);
-  min-height: var(--mm-control-height);
-  padding: 0.48rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.78rem;
-  transition: background 0.15s;
-}
-.mm-actions button:hover { background: var(--md-default-fg-color--lighter); }
-
 /* ── Tooltip ──────────────────────────────────────────────────────────────── */
 #mm-tooltip,
 #mm-hover-tooltip {
@@ -708,40 +702,21 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   margin-top: 0.9rem;
 }
 
-@media (max-width: 1260px) and (min-width: 761px) {
-  .mm-settings-grid {
-    grid-template-columns: minmax(11.75rem, 1fr) minmax(5.8rem, 0.45fr) minmax(8.4rem, 0.55fr);
-    grid-template-areas:
-      "detail fit labels"
-      "relevance relevance relevance";
-  }
-}
-
 @media (max-width: 760px) {
   #mm-app {
     --mm-ribbon-h: min(38vh, 18rem);
     --mm-ribbon-h: min(38dvh, 18rem);
     --mm-ribbon-max-h: var(--mm-ribbon-h);
-    --mm-branch-panel-w: auto;
   }
 
   #mm-panel-header,
-  #mm-panel,
-  #mm-branch-panel {
+  #mm-panel {
     left: 0;
     right: 0;
   }
 
   #mm-panel {
     height: var(--mm-ribbon-h);
-  }
-
-  #mm-branch-panel {
-    top: calc(var(--mm-ribbon-header-h) + var(--mm-ribbon-h) + 0.7rem);
-    bottom: var(--mm-footer-h, 0px);
-    width: auto;
-    max-height: none;
-    padding-inline: 0.5rem;
   }
 
   #mm-panel-body {
@@ -752,21 +727,25 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   }
 
   #mm-panel-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.35rem;
     padding-inline: 0.45rem;
+  }
+
+  .mm-header-controls {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+  }
+
+  #mm-panel-header .mm-section--detail {
+    flex-basis: 100%;
   }
 
   .mm-bento-tile,
   .mm-relevance-panel {
     padding-inline: 0.45rem;
-  }
-
-  .mm-settings-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-areas:
-      "detail detail"
-      "fit labels"
-      "relevance relevance";
-    align-items: stretch;
   }
 
   .mm-detail-controls {
@@ -829,15 +808,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
         <div id="mm-detail-controls" class="mm-detail-controls"></div>
       </div>
 
-      <div class="mm-section mm-section--actions mm-actions">
-        <button id="mm-fit-btn" type="button">Fit View</button>
-      </div>
-
-      <div class="mm-section mm-section--actions mm-actions">
-        <button id="mm-labels-toggle" type="button" aria-pressed="true" aria-label="Node labels: On" title="Hide node labels">Labels On</button>
-      </div>
     </div>
-    <button id="mm-panel-hide-btn" class="kb-app-header-action" type="button" title="Show Branch Selector" aria-expanded="false" aria-controls="mm-branch-panel">Show Branch Selector</button>
   </div>
 
   <!-- Settings ribbon body: collapses upward on hide -->
@@ -897,9 +868,12 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     </div>
   </div>
 
-  <aside id="mm-branch-panel" class="body-collapsed" aria-label="Map branch navigator">
-    <div id="mm-category-filters"></div>
-  </aside>
+  <div id="mm-branch-dock">
+    <aside id="mm-branch-panel" class="body-collapsed" aria-label="Map branch navigator" inert>
+      <div id="mm-category-filters"></div>
+    </aside>
+    <button id="mm-panel-hide-btn" type="button" title="Show Branch Selector" aria-expanded="false" aria-controls="mm-branch-panel">Show Branch Selector</button>
+  </div>
 
   <!-- Tooltip (positioned by JS) -->
   <div id="mm-tooltip"></div>
@@ -938,5 +912,11 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     applyMmSizes();
   }
   window.addEventListener('resize', applyMmSizes);
+  var panelHeader = document.getElementById('mm-panel-header');
+  new ResizeObserver(function () {
+    document.getElementById('mm-app').style.setProperty(
+      '--mm-ribbon-header-h', panelHeader.getBoundingClientRect().height + 'px'
+    );
+  }).observe(panelHeader);
 })();
 </script>

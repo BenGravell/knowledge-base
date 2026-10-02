@@ -354,6 +354,8 @@
         top: Math.max(margin, headerHeight + margin, graphRect.top + margin),
         bottom: Math.min(window.innerHeight - footerHeight - margin, graphRect.bottom - margin),
       };
+      const branchDock = visibleElementRect(document.getElementById('mm-branch-dock'));
+      if (branchDock) rect.bottom = Math.min(rect.bottom, branchDock.top - margin);
 
       tooltipBoundaryRects().forEach(blocker => {
         const overlap = rectOverlap(rect, blocker);

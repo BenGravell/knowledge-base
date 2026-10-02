@@ -1905,17 +1905,6 @@
     });
   }
 
-  function updateVisibilityButtons() {
-    const labelsToggle = document.getElementById('mm-labels-toggle');
-
-    if (labelsToggle) {
-      labelsToggle.setAttribute('aria-pressed', viewState.showNodeLabels ? 'true' : 'false');
-      labelsToggle.setAttribute('aria-label', `Node labels: ${viewState.showNodeLabels ? 'On' : 'Off'}`);
-      labelsToggle.title = viewState.showNodeLabels ? 'Hide node labels' : 'Show node labels';
-      labelsToggle.textContent = viewState.showNodeLabels ? 'Labels On' : 'Labels Off';
-    }
-  }
-
   function syncRelevanceControlValues() {
     if (mapRelevanceFilter) mapRelevanceFilter.syncControlValues();
   }
@@ -1939,32 +1928,24 @@
     }
     hideBtn.addEventListener('click', () => {
       const collapsed = branchPanel.classList.toggle('body-collapsed');
+      branchPanel.inert = collapsed;
       hideBtn.textContent = collapsed ? 'Show Branch Selector' : 'Hide Branch Selector';
       hideBtn.title = collapsed ? 'Show Branch Selector' : 'Hide Branch Selector';
       hideBtn.setAttribute('aria-expanded', String(!collapsed));
       window.requestAnimationFrame(() => updateZoomOutLimit());
     });
+    branchPanel.addEventListener('transitionend', event => {
+      if (event.propertyName === 'max-height') updateZoomOutLimit();
+    });
   }
 
   function setupControls() {
-    document.getElementById('mm-fit-btn').addEventListener('click', () => fitVisible());
-
     buildDetailControls();
     document.querySelectorAll('#mm-detail-controls button[data-level]').forEach(button => {
       button.addEventListener('click', () => applyDetailLevel(button.dataset.level));
     });
     updateDetailButtons();
-    updateVisibilityButtons();
     setupRelevanceControls();
-
-    const labelsToggle = document.getElementById('mm-labels-toggle');
-    if (labelsToggle) {
-      labelsToggle.addEventListener('click', () => {
-        viewState.showNodeLabels = !viewState.showNodeLabels;
-        updateVisibilityButtons();
-        if (renderer) renderer.scheduleRefresh();
-      });
-    }
 
     if (mapOverlays) mapOverlays.setupModalControls();
   }
@@ -2026,7 +2007,6 @@
     },
     setLabelsVisible: visible => {
       viewState.showNodeLabels = Boolean(visible);
-      updateVisibilityButtons();
       if (renderer) renderer.scheduleRefresh();
     },
     metrics: () => ({

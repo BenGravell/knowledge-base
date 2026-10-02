@@ -54,12 +54,13 @@ def fetch_fields(entry: tuple[str, str], context: dict[str, Any]) -> dict[str, A
     return {
         "title": attributes["titles"][0]["title"],
         "authors": [
-            " ".join(part for part in (creator.get("givenName"), creator.get("familyName")) if part)
-            or creator["name"]
+            " ".join(part for part in (creator.get("givenName"), creator.get("familyName")) if part) or creator["name"]
             for creator in attributes.get("creators") or []
         ],
         "year": int(attributes["publicationYear"]),
-        "abstract": next((item["description"] for item in descriptions if item.get("descriptionType") == "Abstract"), ""),
+        "abstract": next(
+            (item["description"] for item in descriptions if item.get("descriptionType") == "Abstract"), ""
+        ),
         "doi": doi,
         "source": "Leibniz International Proceedings in Informatics",
         "type": "Conference Paper",

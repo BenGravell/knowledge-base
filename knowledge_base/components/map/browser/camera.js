@@ -704,17 +704,10 @@
       const panel = document.getElementById('mm-panel');
       const panelOpen = panel && !panel.classList.contains('body-collapsed');
       const panelBounds = panelOpen ? overlayBounds(panel, graphRect, dims) : null;
-      const branchPanel = document.getElementById('mm-branch-panel');
-      const branchPanelOpen = branchPanel && !branchPanel.classList.contains('body-collapsed');
-      const branchBounds = branchPanelOpen ? overlayBounds(branchPanel, graphRect, dims) : null;
+      const branchBounds = overlayBounds(document.getElementById('mm-branch-dock'), graphRect, dims);
 
       applyTopOverlayOcclusion(rect, panelBounds, dims, pad);
-
-      if (branchBounds && branchBounds.right >= dims.width - pad && branchBounds.width < dims.width * 0.45) {
-        rect.right = Math.min(rect.right, Math.max(branchBounds.left - pad, pad));
-      } else {
-        applyTopOverlayOcclusion(rect, branchBounds, dims, pad, 0.7);
-      }
+      if (branchBounds) rect.bottom = Math.min(rect.bottom, branchBounds.top - pad);
 
       const headerBounds = overlayBounds(document.getElementById('mm-panel-header'), graphRect, dims);
       applyTopOverlayOcclusion(rect, headerBounds, dims, pad, 0.5);

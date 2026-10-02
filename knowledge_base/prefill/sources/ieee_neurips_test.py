@@ -18,14 +18,14 @@ class SourceUrlsTest(unittest.TestCase):
     @patch("knowledge_base.prefill.sources.ieee.fetch_doi_from_crossref_title", return_value="10.5772/78")
     @patch("knowledge_base.prefill.sources.ieee.fetch_page_html", return_value="")
     @patch("knowledge_base.prefill.sources.ieee.requests.get")
-    def test_ieee_rejects_unrelated_title_doi(self, get, _page, _title):
+    def test_ieee_rejects_unrelated_title_doi(self, get: Mock, _page: Mock, _title: Mock) -> None:
         get.side_effect = [Mock(ok=False), Mock(text="Title: Motion Planning\n10.5772/78")]
         with self.assertRaisesRegex(ValueError, "No verified DOI"):
             ieee.fetch_ieee_doi("5751929")
 
     @patch("knowledge_base.prefill.sources.neurips.fetch_page_html")
     @patch("knowledge_base.prefill.sources.neurips.fetch_metadata_json", return_value={})
-    def test_neurips_conference_links_and_year(self, _metadata, page):
+    def test_neurips_conference_links_and_year(self, _metadata: Mock, page: Mock) -> None:
         paper_hash = "31fb284a0aaaad837d2930a610cd5e50"
         url = f"https://proceedings.neurips.cc/paper_files/paper/2025/hash/{paper_hash}-Abstract-Conference.html"
         pdf = f"https://proceedings.neurips.cc/paper_files/paper/2025/file/{paper_hash}-Paper-Conference.pdf"
