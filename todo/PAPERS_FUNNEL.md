@@ -4,3 +4,6 @@ https://arxiv.org/pdf/2609.20636
 https://research.google/blog/timesfm-3-a-zero-shot-foundation-model-for-multivariate-forecasting/
 https://arxiv.org/pdf/2609.16300
 https://arxiv.org/pdf/2609.17113
+https://arxiv.org/pdf/2512.12427
+https://arxiv.org/pdf/2609.28179
+https://www.usenix.org/system/files/osdi24-kumar.pdf
