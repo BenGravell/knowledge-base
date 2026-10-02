@@ -1,0 +1,6 @@
+https://arxiv.org/pdf/2609.19080
+https://arxiv.org/pdf/2609.20648
+https://arxiv.org/pdf/2609.20636
+https://research.google/blog/timesfm-3-a-zero-shot-foundation-model-for-multivariate-forecasting/
+https://arxiv.org/pdf/2609.16300
+https://arxiv.org/pdf/2609.17113
