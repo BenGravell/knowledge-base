@@ -170,4 +170,4 @@ kb refresh
 
 ## Deploy
 
-Push to `main`; the GitHub Pages workflow runs `kb build` and publishes `knowledge_base/site/`.
+Push to `main`; the GitHub Pages workflow (defined by `.github/workflows/docs.yml`) runs `kb build` and publishes `knowledge_base/site/`.

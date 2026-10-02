@@ -3,35 +3,6 @@
 This file is the maintainer command reference for the repository.
 Run commands from the repository root unless a section says otherwise.
 
-## Fresh checkout
-
-Needs `git` plus `curl` or `wget`; no Python or global Pixi install is required.
-The `./dev` wrapper installs Pixi locally on first use, then uses the checked-in `pixi.lock`.
-
-```bash
-git clone https://github.com/BenGravell/knowledge-base.git
-cd knowledge-base
-./dev install
-eval "$(./dev shell-hook)"
-kb serve
-```
-
-Run `eval "$(./dev shell-hook)"` once per terminal, or let VS Code use the configured Pixi interpreter.
-
-Build the site from the repository root:
-
-```bash
-kb build
-```
-
-Build the static files for GitHub Pages from the repository root:
-
-```bash
-kb build
-```
-
-GitHub Pages deployment is handled by `.github/workflows/docs.yml` on pushes to `main`.
-
 ## Development checks
 
 Lint and type-check Python code from the repository root:
