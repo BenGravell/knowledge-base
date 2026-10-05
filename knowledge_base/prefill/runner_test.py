@@ -41,6 +41,7 @@ class RunPopulatedSourcesTest(unittest.TestCase):
                 "Fixture",
                 source,
                 "custom",
+                delay=0,
                 extract_entries=lambda _path, _record_failure: ["paper"],
                 prepare_context=lambda _entries, _args: {},
                 existing_for_entry=lambda _entry, _context: None,

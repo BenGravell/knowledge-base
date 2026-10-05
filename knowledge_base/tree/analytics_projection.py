@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import re
 from collections import Counter
+from pathlib import Path
 from typing import Any
 
 from knowledge_base.publishing.generated_assets import ANALYTICS_DATA, render_app_script_tags
@@ -274,7 +275,8 @@ def build_analytics_data(
     }
 
 
-ANALYTICS_PAGE = r"""---
+ANALYTICS_PAGE = (
+    r"""---
 hide:
   - toc
 ---
@@ -350,7 +352,7 @@ body:has(.md-content__inner > #an-app) .md-grid,body:has(.md-content__inner > #a
       <div class="an-card-head">
         <h2>Categories</h2>
         <div class="an-category-control">
-          <span class="an-category-control-label">Level of Detail</span>
+          <span class="an-category-control-label"><!-- kb:lod-label --></span>
           <div class="an-category-level" role="group" aria-label="Level of Detail">
             <button type="button" data-an-category-level="1" aria-pressed="true" aria-label="Level of detail: Level 1" title="Level 1"><span class="an-die an-die--1" aria-hidden="true"><span class="an-die-dot"></span></span></button>
             <button type="button" data-an-category-level="2" aria-pressed="false" aria-label="Level of detail: Level 2" title="Level 2"><span class="an-die an-die--2" aria-hidden="true"><span class="an-die-dot"></span><span class="an-die-dot"></span></span></button>
@@ -393,7 +395,13 @@ body:has(.md-content__inner > #an-app) .md-grid,body:has(.md-content__inner > #a
   </section>
 </div>
 
-""" + render_app_script_tags("analytics.md", "analytics") + "\n"
+""".replace(
+        "<!-- kb:lod-label -->",
+        (Path(__file__).resolve().parents[1] / "docs/templates/lod.html").read_text(encoding="utf-8").strip(),
+    )
+    + render_app_script_tags("analytics.md", "analytics")
+    + "\n"
+)
 
 
 ANALYTICS_CSS = ANALYTICS_PAGE.split("<style>\n", 1)[1].split("</style>", 1)[0].strip()

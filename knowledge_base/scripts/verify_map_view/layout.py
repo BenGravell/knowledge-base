@@ -34,7 +34,7 @@ LAYOUT_SNAPSHOT = """
   };
   return {
     header: rect(header),
-    controls: [...header.querySelectorAll('button, .mm-section-label, #mm-panel-title')].map(rect),
+    controls: [...header.querySelectorAll('button, .mm-section-label:not(:has(button)), #mm-panel-title')].map(rect),
     overflow: [header, ...header.querySelectorAll('*'), dock, toggle, branch]
       .filter(el => el.clientWidth && el.scrollWidth > el.clientWidth + 1)
       .map(el => el.id || el.className),
@@ -136,6 +136,20 @@ def verify_settings_layout(site_dir: Path) -> None:
                             raise AssertionError(
                                 f"Map settings at {width}px (expanded={expanded}):\n" + "\n".join(failures)
                             )
+                    client.evaluate("document.querySelector('.kb-lod-help-button').click()")
+                    if not client.evaluate("document.getElementById('kb-lod-help').matches(':popover-open')"):
+                        raise AssertionError("LoD click must open its explanation")
+                    if not client.evaluate("""(() => {
+                      const help = document.getElementById('kb-lod-help');
+                      return help.scrollWidth <= help.clientWidth && help.scrollHeight <= help.clientHeight;
+                    })()"""):
+                        raise AssertionError("LoD explanation must fit without scrolling")
+                    client.call(
+                        "Input.dispatchKeyEvent",
+                        {"type": "keyDown", "key": "Escape", "code": "Escape", "windowsVirtualKeyCode": 27},
+                    )
+                    if client.evaluate("document.getElementById('kb-lod-help').matches(':popover-open')"):
+                        raise AssertionError("Escape must close the LoD explanation")
             finally:
                 server.shutdown()
                 thread.join()

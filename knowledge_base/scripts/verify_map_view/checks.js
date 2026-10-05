@@ -280,10 +280,13 @@
   const detailControls = document.getElementById('mm-detail-controls');
   const detailLabel = detailControls &&
     detailControls.closest('.mm-section') &&
-    detailControls.closest('.mm-section').querySelector('.mm-section-label');
-  assert(detailLabel && detailLabel.textContent.trim() === 'Level-of-detail',
-    'detail selector label reads Level-of-detail',
+    detailControls.closest('.mm-section').querySelector('.kb-lod-label');
+  assert(detailLabel && detailLabel.textContent.trim() === 'LoD',
+    'detail selector label reads LoD',
     detailLabel && detailLabel.textContent.trim());
+  const detailHelp = document.getElementById('kb-lod-help');
+  assert(detailHelp && detailHelp.textContent.startsWith('Level of Detail:'),
+    'detail selector tooltip expands and explains LoD');
   assert(superGroups.every(group => {
     const items = group.querySelector(':scope > .mm-cat-group-items');
     return items && getComputedStyle(items).display === 'none';

@@ -226,7 +226,9 @@ body:has(#tl-app) .md-grid,body:has(#tl-app) .md-main__inner{max-width:100%!impo
     </div>
     <div id="tl-settings-body" class="tl-controls">
     <div class="tl-control-group tl-detail-control" aria-label="Level of Detail">
-      <span>Level of Detail</span>
+      <span>
+--8<-- "knowledge_base/docs/templates/lod.html"
+      </span>
       <div class="tl-detail-controls" role="group" aria-label="Level of Detail">
         <button type="button" data-tl-mode="level1" aria-pressed="true" aria-label="Level of detail: Level 1" title="Level 1"><span class="tl-detail-icon tl-detail-icon--die tl-detail-icon--die-1" aria-hidden="true"><span class="tl-detail-dot"></span></span></button>
         <button type="button" data-tl-mode="level2" aria-label="Level of detail: Level 2" title="Level 2"><span class="tl-detail-icon tl-detail-icon--die tl-detail-icon--die-2" aria-hidden="true"><span class="tl-detail-dot"></span><span class="tl-detail-dot"></span></span></button>

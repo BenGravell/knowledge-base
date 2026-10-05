@@ -804,7 +804,9 @@ html                { scrollbar-gutter: auto; }
     <span id="mm-panel-title" class="kb-app-header-title">Map</span>
     <div class="mm-header-controls" aria-label="Map settings">
       <div class="mm-section mm-section--detail">
-        <span class="mm-section-label">Level of Detail</span>
+        <span class="mm-section-label">
+--8<-- "knowledge_base/docs/templates/lod.html"
+        </span>
         <div id="mm-detail-controls" class="mm-detail-controls"></div>
       </div>
 
