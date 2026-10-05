@@ -58,8 +58,6 @@ or already-normalized Map category parsing.
 - The synthetic `Tree` wrapper is transparent for taxonomy paths. A placement
   under `Tree > Theory > Leaf` has `path == ("Theory",)` and
   `nav_path == ("Theory", "Leaf")`.
-- The Tree landing page `tree.md` remains in
-  `TreeModel.leaves`, but they are not taxonomy children of branches.
 - `TreeBranch.children` contains immediate taxonomy children only. Branch child
   items carry all descendant paper IDs so branch-level analysis does not need to
   walk the raw YAML again.

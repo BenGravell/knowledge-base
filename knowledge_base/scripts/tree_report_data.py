@@ -125,13 +125,6 @@ def format_path(path: tuple[str, ...]) -> str:
     return " > ".join(display_path(path))
 
 
-def is_landing_item(label: str, child: Any) -> bool:
-    landing_pages = {"tree.md"}
-    return isinstance(child, str) and (
-        child in landing_pages or (label.strip().lower() == "overview" and child in landing_pages)
-    )
-
-
 def collect_branches(tree_path: Path = TREE_YML, *, include_root: bool = False) -> list[TreeBranch]:
     model = load_tree_model(tree_path, base_dir=KB_DIR)
     return [model.root, *model.branches] if include_root else list(model.branches)
@@ -183,7 +176,6 @@ __all__ = [
     "display_path",
     "fast_paper_id_from_file",
     "format_path",
-    "is_landing_item",
     "load_embedding_vectors",
     "load_metadata",
     "load_report_paper",

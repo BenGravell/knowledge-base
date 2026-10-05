@@ -18,7 +18,6 @@ class ListTreeAlgorithmLabelMatchesTests(unittest.TestCase):
             )
             model = TreeModel.from_tree(
                 [
-                    "tree.md",
                     {"Area": [{"Exact Algorithm": "docs/papers/2024/tiny/metadata.yml"}]},
                 ],
                 resolve_source=lambda source: (

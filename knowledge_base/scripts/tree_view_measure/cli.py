@@ -24,8 +24,8 @@ from knowledge_base.scripts.verify_map_view.cdp import CdpClient
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Measure Tree page click timing in headless Chrome")
-    parser.add_argument("--url", help="Served Zensical Tree URL. Defaults to serving site/tree/ locally.")
+    parser = argparse.ArgumentParser(description="Measure Explorer Tree view click timing in headless Chrome")
+    parser.add_argument("--url", help="Served Explorer Tree URL. Defaults to serving site/explorer/?mode=tree locally.")
     parser.add_argument("--site-dir", default="site", help="Built Zensical site directory used when --url is omitted.")
     parser.add_argument("--chrome", help="Path to Chrome/Chromium")
     parser.add_argument("--branch", default=core.DEFAULT_BRANCH, help="First-level branch label to click")

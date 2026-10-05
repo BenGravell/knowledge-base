@@ -8,7 +8,7 @@ from pathlib import Path
 import yaml
 
 from knowledge_base.scripts.suggest_branch_subgroupings.model import Suggestion
-from knowledge_base.scripts.tree_report_data import format_path, is_landing_item, tree_yml_path
+from knowledge_base.scripts.tree_report_data import format_path, tree_yml_path
 
 
 @dataclass(frozen=True)
@@ -17,7 +17,6 @@ class LineItem:
     start: int
     end: int
     lines: tuple[str, ...]
-    is_landing: bool
 
 
 def split_list_mapping_line(line: str) -> tuple[int, str | None, str | None] | None:
@@ -134,7 +133,6 @@ def collect_direct_line_items(
                 start=start,
                 end=end,
                 lines=tuple(lines[start:end]),
-                is_landing=is_landing_item(display_label, scalar or ""),
             )
         )
     return items
@@ -185,18 +183,12 @@ def apply_tree_suggestion(tree_path: Path, suggestion: Suggestion) -> None:
             used_ids.add(id(item))
             cluster_lines.extend(f"  {line}" for line in item.lines)
 
-    landing_lines: list[str] = []
     skipped_lines: list[str] = []
     for item in line_items:
-        if id(item) in used_ids:
-            continue
-        if item.is_landing:
-            landing_lines.extend(item.lines)
-        else:
+        if id(item) not in used_ids:
             skipped_lines.extend(item.lines)
 
     new_lines = lines[: branch_line + 1]
-    new_lines.extend(landing_lines)
     new_lines.extend(cluster_lines)
     new_lines.extend(skipped_lines)
     new_lines.extend(lines[branch_end:])

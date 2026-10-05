@@ -21,9 +21,8 @@ PAPER_SITE_LINK_LABELS = {
     "search": "Search",
 }
 PAPER_SITE_LINK_SOURCES = {
-    "map": {"map.md"},
-    "tree": {"tree.md"},
-    "search": {"search.md"},
+    "explorer.md": ("map", "tree"),
+    "search.md": ("search",),
 }
 FALLBACK_NAV_ICONS = {
     "detail": "lucide/file-text",
@@ -66,32 +65,14 @@ def site_icon_svg(icon_name: str) -> str:
     raise FileNotFoundError(f"Icon not found: {icon}")
 
 
-def nav_page_key(label: str, source: Any) -> str:
-    label_key = clean_text(label).casefold()
-    if label_key in PAPER_SITE_LINK_KEYS:
-        return label_key
-
-    source_text = clean_text(source).replace("\\", "/")
-    for key, sources in PAPER_SITE_LINK_SOURCES.items():
-        if source_text in sources:
-            return key
-    return ""
-
-
 def nav_page_order(config: dict[str, Any]) -> list[str]:
     order: list[str] = []
-    seen: set[str] = set()
     for item in as_list(config.get("nav")):
-        pairs = item.items() if isinstance(item, dict) else ((item, item),)
-
-        for label, source in pairs:
-            key = nav_page_key(str(label), source)
-            if key and key not in seen:
-                seen.add(key)
-                order.append(key)
-
-    order.extend(key for key in PAPER_SITE_LINK_KEYS if key not in seen)
-    return order
+        sources = item.values() if isinstance(item, dict) else (item,)
+        for source in sources:
+            source_text = clean_text(source).replace("\\", "/")
+            order.extend(PAPER_SITE_LINK_SOURCES.get(source_text, ()))
+    return list(dict.fromkeys((*order, *PAPER_SITE_LINK_KEYS)))
 
 
 def nav_icon_for_key(config: dict[str, Any], key: str) -> str:
@@ -157,10 +138,8 @@ def paper_site_url(key: str, paper_id: str, base_path: str) -> str:
     quoted_paper_id = quote(paper_id, safe="")
     if key == "detail":
         return join_url(base_path, f"papers/{quoted_paper_id}/")
-    if key == "map":
-        return join_url(base_path, f"map/#paper={quoted_paper_id}")
-    if key == "tree":
-        return join_url(base_path, f"tree/#paper={quoted_paper_id}")
+    if key in ("map", "tree"):
+        return join_url(base_path, f"explorer/?mode={key}#paper={quoted_paper_id}")
     if key == "search":
         return join_url(base_path, f"search/?paper={quoted_paper_id}")
     return ""
@@ -170,10 +149,8 @@ def paper_site_source_url(key: str, paper_id: str, from_source: str) -> str:
     quoted_paper_id = quote(paper_id, safe="")
     if key == "detail":
         return source_relative_url(from_source, f"papers/{quoted_paper_id}.md")
-    if key == "map":
-        return source_relative_url(from_source, f"map.md?paper={quoted_paper_id}")
-    if key == "tree":
-        return source_relative_url(from_source, f"tree.md?paper={quoted_paper_id}")
+    if key in ("map", "tree"):
+        return source_relative_url(from_source, f"explorer.md?mode={key}&paper={quoted_paper_id}")
     if key == "search":
         return source_relative_url(from_source, f"search.md?paper={quoted_paper_id}")
     return ""

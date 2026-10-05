@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  const app = document.getElementById('ct-app');
+  const app = document.getElementById('ct-sunburst-panel');
   if (!app) return;
 
   const data = window.treeData;
@@ -74,52 +74,71 @@
     hydrate(data.root, null, 0);
   });
 
-  const initialId = readHashId();
-  currentId = initialId && nodes.has(initialId) ? initialId : data.root.id;
   render();
   observeSunburstPalette();
 
-  app.addEventListener('click', function (event) {
-    const target = event.target.closest('[data-ct-select]');
-    if (!target || !app.contains(target)) return;
-    event.preventDefault();
-    selectNode(target.getAttribute('data-ct-select'), {
-      animateSunburst: true,
+  window.kbTreeView = {
+    rootId: data.root.id,
+    selection: selection,
+    selectNode: selectNode,
+    selectPaper: function (paperId, options) {
+      return selectNode(paperNodes.get(paperId), options);
+    },
+    selectPath: function (path, options) {
+      let node = data.root;
+      for (const label of path) {
+        const child = node.children.find(child => child.kind === 'branch' && child.label === label);
+        if (!child) return;
+        node = child;
+      }
+      return selectNode(node.id, options);
+    },
+  };
+
+  [app, ancestorChain].filter(Boolean).forEach(function (region) {
+    region.addEventListener('click', function (event) {
+      const target = event.target.closest('[data-ct-select]');
+      if (!target || !region.contains(target)) return;
+      event.preventDefault();
+      selectNode(target.getAttribute('data-ct-select'), {
+        animateSunburst: true,
+      });
     });
-  });
 
-  app.addEventListener('keydown', function (event) {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-    const target = event.target.closest('[data-ct-select]');
-    if (!target || !app.contains(target)) return;
-    event.preventDefault();
-    selectNode(target.getAttribute('data-ct-select'), {
-      animateSunburst: true,
+    region.addEventListener('keydown', function (event) {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      const target = event.target.closest('[data-ct-select]');
+      if (!target || !region.contains(target)) return;
+      event.preventDefault();
+      selectNode(target.getAttribute('data-ct-select'), {
+        animateSunburst: true,
+      });
     });
-  });
 
-  app.addEventListener('pointerover', function (event) {
-    const target = event.target.closest('[data-ct-preview-node]');
-    if (!target || !app.contains(target) || eventTargetContains(target, event.relatedTarget)) return;
-    setPreviewNode(target.getAttribute('data-ct-preview-node'));
-  });
+    region.addEventListener('pointerover', function (event) {
+      const target = event.target.closest('[data-ct-preview-node]');
+      if (!target || !region.contains(target) || eventTargetContains(target, event.relatedTarget)) return;
+      setPreviewNode(target.getAttribute('data-ct-preview-node'));
+    });
 
-  app.addEventListener('pointerout', function (event) {
-    const target = event.target.closest('[data-ct-preview-node]');
-    if (!target || !app.contains(target) || eventTargetContains(target, event.relatedTarget)) return;
-    clearPreviewNode();
-  });
+    region.addEventListener('pointerout', function (event) {
+      const target = event.target.closest('[data-ct-preview-node]');
+      if (!target || !region.contains(target) || eventTargetContains(target, event.relatedTarget)) return;
+      clearPreviewNode();
+    });
 
-  app.addEventListener('focusin', function (event) {
-    const target = event.target.closest('[data-ct-preview-node]');
-    if (!target || !app.contains(target)) return;
-    setPreviewNode(target.getAttribute('data-ct-preview-node'));
-  });
+    region.addEventListener('focusin', function (event) {
+      const target = event.target.closest('[data-ct-preview-node]');
+      if (!target || !region.contains(target)) return;
+      setPreviewNode(target.getAttribute('data-ct-preview-node'));
+    });
 
-  app.addEventListener('focusout', function (event) {
-    const target = event.target.closest('[data-ct-preview-node]');
-    if (!target || !app.contains(target)) return;
-    clearPreviewNode();
+    region.addEventListener('focusout', function (event) {
+      const target = event.target.closest('[data-ct-preview-node]');
+      if (!target || !region.contains(target)) return;
+      clearPreviewNode();
+    });
+
   });
 
   if (sunburstRootButton) {
@@ -127,14 +146,6 @@
       selectNode(data.root.id, { animateSunburst: true });
     });
   }
-
-  window.addEventListener('popstate', function () {
-    const hashId = readHashId();
-    if (hashId && nodes.has(hashId)) {
-      currentId = hashId;
-      render();
-    }
-  });
 
   if (typeof focusCoreSingleColumn.addEventListener === 'function') {
     focusCoreSingleColumn.addEventListener('change', render);
@@ -173,13 +184,26 @@
 
   function selectNode(id, options) {
     const node = nodes.get(id);
-    if (!node) return;
+    if (!node) return false;
+    if (currentId === id && options && options.notify === false) return true;
     currentId = id;
 
-    const url = new URL(window.location.href);
-    url.hash = 'ct=' + encodeURIComponent(currentId);
-    window.history.pushState(null, '', url);
     render(sunburstSelectionOptions(node, options));
+    if (!options || options.notify !== false) notifySelection();
+    return true;
+  }
+
+  function selection() {
+    const node = nodes.get(currentId) || data.root;
+    return {
+      id: node.id,
+      path: node.pathNodes.slice(1).filter(node => node.kind === 'branch').map(node => node.label),
+      paperId: node.kind === 'paper' ? (node.paper.id || paperIdFromSource(node.source)) : null,
+    };
+  }
+
+  function notifySelection() {
+    window.dispatchEvent(new CustomEvent('kb-tree-select', { detail: selection() }));
   }
 
   function sunburstSelectionOptions(node, options) {
@@ -198,7 +222,9 @@
     const rootLeaves = Number(data.root && data.root.leafCount);
     const maxCounterValue = Math.max(1, totalLeaves || 0, rootLeaves || 0);
     const digitCount = String(Math.floor(maxCounterValue)).length;
-    app.style.setProperty('--ct-tree-count-value-width', digitCount + 'ch');
+    [app, ancestorChain].filter(Boolean).forEach(function (region) {
+      region.style.setProperty('--ct-tree-count-value-width', digitCount + 'ch');
+    });
   }
 
   function render(options) {
@@ -2087,7 +2113,9 @@
     sunburstHitTargetPreviewTargets = [];
 
     const previewElements = treePerf.measure('previewTargets.query', null, function () {
-      return Array.from(app.querySelectorAll('[data-ct-preview-node]'));
+      return [app, ancestorChain].filter(Boolean).flatMap(function (region) {
+        return Array.from(region.querySelectorAll('[data-ct-preview-node]'));
+      });
     });
 
     treePerf.measure('previewTargets.index', {
@@ -2570,28 +2598,6 @@
     return clean;
   }
 
-  function readHashId() {
-    try {
-      const query = new URLSearchParams(window.location.search);
-      const queryNodeId = query.get('ct');
-      if (queryNodeId) return queryNodeId;
-
-      const queryPaperId = query.get('paper');
-      if (queryPaperId && paperNodes.has(queryPaperId)) return paperNodes.get(queryPaperId);
-
-      const hash = window.location.hash.slice(1);
-      const params = new URLSearchParams(hash);
-      const nodeId = params.get('ct');
-      if (nodeId) return nodeId;
-
-      const paperId = params.get('paper');
-      if (paperId && paperNodes.has(paperId)) return paperNodes.get(paperId);
-    } catch (error) {
-      return null;
-    }
-    return null;
-  }
-
   function paperType(node) {
     const paper = node && node.paper ? node.paper : {};
     return String(paper.type || 'Unspecified').trim() || 'Unspecified';
@@ -2599,12 +2605,12 @@
 
   function mapUrlFromSource(source) {
     const match = String(source || '').match(/^papers\/(.+)\.md$/);
-    return match ? '../map/#paper=' + encodeURIComponent(match[1]) : '';
+    return match ? '../explorer/?mode=map#paper=' + encodeURIComponent(match[1]) : '';
   }
 
   function treeUrlFromSource(source) {
     const match = String(source || '').match(/^papers\/(.+)\.md$/);
-    return match ? '../tree/#paper=' + encodeURIComponent(match[1]) : '';
+    return match ? '../explorer/?mode=tree#paper=' + encodeURIComponent(match[1]) : '';
   }
 
   function searchUrlFromSource(source) {

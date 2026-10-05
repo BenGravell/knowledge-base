@@ -67,11 +67,10 @@ class TreeModelTests(unittest.TestCase):
         self.assertEqual(placement.path, ("Theory",))
         self.assertEqual(model.order.super_categories, ("Theory",))
 
-    def test_branch_children_carry_taxonomy_facts_without_landing_pages(self) -> None:
+    def test_branch_children_carry_taxonomy_facts(self) -> None:
         model = TreeModel.from_tree(
             {
                 "Tree": [
-                    "tree.md",
                     {
                         "Theory": [
                             {"Direct": "papers/direct.md"},
@@ -84,7 +83,7 @@ class TreeModelTests(unittest.TestCase):
 
         self.assertEqual(
             [leaf.source for leaf in model.leaves],
-            ["tree.md", "papers/direct.md", "papers/leaf.md"],
+            ["papers/direct.md", "papers/leaf.md"],
         )
         self.assertEqual([child.label for child in model.root.children], ["Theory"])
         theory = next(branch for branch in model.branches if branch.path == ("Theory",))

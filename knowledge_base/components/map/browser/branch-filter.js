@@ -124,14 +124,13 @@
 
     function buildCategoryFilters(selectedKey = viewState.activeBranchFilterKey) {
       const container = document.getElementById('mm-category-filters');
-      if (!container) return;
 
       const model = mapModel.hierarchy();
       const groups = [];
       model.roots.forEach(root => collectBranchFilterGroups(root, groups));
       viewState.branchFilterGroups = new Map(groups.map(group => [group.key, group]));
 
-      container.innerHTML = '';
+      if (container) container.innerHTML = '';
       setActiveBranchFilter(selectedKey);
     }
 
@@ -251,7 +250,7 @@
       deps.refreshView();
       deps.focusCameraOnNode(paperId, 320);
       window.setTimeout(() => deps.showFocusedPaperTooltip(paperId), 340);
-      deps.writeFocusPaperId(paperId);
+      deps.notifySelection();
     }
 
     return {

@@ -54,13 +54,13 @@ python -m knowledge_base.components.map.pipeline.generate_data --backend fastemb
 python -m knowledge_base.components.map.pipeline.generate_data --skip-force-layout
 ```
 
-Smoke-test the served Zensical Map page in headless Chrome:
+Smoke-test Explorer's Map view in headless Chrome:
 
 ```bash
-python -m knowledge_base.scripts.verify_map_view --url http://127.0.0.1:8000/map/
+python -m knowledge_base.scripts.verify_map_view --url 'http://127.0.0.1:8000/explorer/?mode=map'
 ```
 
-Measure the Tree page default-load plus top-level branch-click timing:
+Measure Explorer's Tree view load and top-level branch-click timing:
 
 ```bash
 kb build

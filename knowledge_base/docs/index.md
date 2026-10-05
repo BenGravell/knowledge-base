@@ -10,33 +10,24 @@ render_macros: true
 *Curated research you can actually navigate.*
 
 <div class="kb-home-bento" aria-label="Knowledge Base quick start">
-  <a class="kb-bento-card kb-bento-card--map" href="map/">
+  <a class="kb-bento-card kb-bento-card--explorer" href="explorer/?mode=map">
     <h3>
       <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ site_icon(config.extra.nav_icons.map) }}
+        {{ site_icon(config.extra.nav_icons.explorer) }}
       </span>
-      <span>Map</span>
+      <span>Explorer</span>
     </h3>
-    <span class="kb-bento-visual kb-bento-visual--map" aria-hidden="true">
-      <span class="kb-map-dot-cloud kb-map-dot-cloud--one"></span>
-      <span class="kb-map-dot-cloud kb-map-dot-cloud--two"></span>
-      <span class="kb-map-dot-cloud kb-map-dot-cloud--three"></span>
-      <span class="kb-map-node kb-map-node--a"></span>
-      <span class="kb-map-node kb-map-node--b"></span>
-      <span class="kb-map-node kb-map-node--c"></span>
-      <span class="kb-map-node kb-map-node--d"></span>
-      <span class="kb-map-node kb-map-node--e"></span>
-    </span>
-  </a>
-
-  <a class="kb-bento-card kb-bento-card--tree" href="tree/">
-    <h3>
-      <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ site_icon(config.extra.nav_icons.tree) }}
+    <span class="kb-bento-visual kb-bento-visual--explorer" aria-hidden="true">
+      <span class="kb-map-preview">
+        <span class="kb-map-dot-cloud kb-map-dot-cloud--one"></span>
+        <span class="kb-map-dot-cloud kb-map-dot-cloud--two"></span>
+        <span class="kb-map-dot-cloud kb-map-dot-cloud--three"></span>
+        <span class="kb-map-node kb-map-node--a"></span>
+        <span class="kb-map-node kb-map-node--b"></span>
+        <span class="kb-map-node kb-map-node--c"></span>
+        <span class="kb-map-node kb-map-node--d"></span>
+        <span class="kb-map-node kb-map-node--e"></span>
       </span>
-      <span>Tree</span>
-    </h3>
-    <span class="kb-bento-visual kb-bento-visual--tree" aria-hidden="true">
       <svg class="kb-tree-sunburst" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" focusable="false">
         <circle class="kb-tree-sunburst-base kb-tree-sunburst-base--outer" cx="100" cy="100" r="70" pathLength="100"></circle>
         <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--one" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="4.2 95.8" transform="rotate(-90 100 100)"></circle>

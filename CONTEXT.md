@@ -64,6 +64,12 @@ It owns normalized paper facts, branch paths, aggregate groups, semantic and Tre
 
 _Avoid_: map helpers, graph attrs as model, filter globals, category state
 
+### Explorer
+
+Shared page composing the Map and Tree views at `explorer/`.
+`knowledge_base/components/explorer/` owns mode switching, URL navigation, selection coordination, and the shared branch dock; `docs/explorer.md` and `docs/stylesheets/extra/explorer.css` own the composed page and layout.
+Map and Tree rendering, controls, and view-specific state stay in their respective component directories, templates, and stylesheets. Their browser adapters expose selection operations and events to Explorer without coordinating each other.
+
 ### Map View State
 
 Canonical browser-side mutable state for the Map view.

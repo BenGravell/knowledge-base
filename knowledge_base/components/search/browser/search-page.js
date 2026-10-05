@@ -123,10 +123,10 @@
             `<button class="unified-search-submit" type="submit" aria-label="Search">${icons.search}</button>` +
           '</div>' +
         '</form>' +
-        `<div class="unified-search-mode" aria-label="Search mode" data-active-mode="${escAttr(state.mode)}">` +
+        `<div class="kb-mode-switch" aria-label="Search mode" data-active-mode="${escAttr(state.mode)}">` +
           Object.entries(modeLabels).map(([mode, label]) => (
             `<button type="button" data-search-mode="${escAttr(mode)}">` +
-              `<span class="unified-search-mode-icon">${icons[mode] || ''}</span>` +
+              `<span class="kb-mode-switch-icon">${icons[mode] || ''}</span>` +
               `<span>${esc(label)}</span>` +
             '</button>'
           )).join('') +
@@ -164,7 +164,7 @@
   const settings = app.querySelector('#unified-search-settings');
   const settingsToggle = app.querySelector('#unified-search-settings-toggle');
   const settingsState = app.querySelector('#unified-search-settings-state');
-  const modeControl = app.querySelector('.unified-search-mode');
+  const modeControl = app.querySelector('.kb-mode-switch');
   const modeButtons = Array.from(app.querySelectorAll('[data-search-mode]'));
   const filterInputs = Object.fromEntries(
     filterFields.map(field => [field, app.querySelector(`#unified-search-${field}`)])

@@ -1,11 +1,3 @@
----
-hide:
-  - toc
----
-
-# Map
-
-<style>
 /* ── Derived vars: transparency adjustments on site palette tokens ───────── */
 :root {
   --mm-node-muted:         #a3adb8;
@@ -59,48 +51,13 @@ hide:
   --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
 }
 
-/* ── Remove site layout constraints for full-screen canvas ───────────────── */
-h1                  { display: none; }
-.md-content         { padding: 0 !important; }
-.md-content__inner  { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
-.md-grid            { max-width: 100% !important; }
-.md-main            { overflow: hidden !important; }
-.md-main__inner     { height: 100% !important; margin-top: 0 !important; }
-
-/* ── Prevent page-level scrolling ─────────────────────────────────────────── */
-html, body          { overflow: hidden !important; height: 100vh !important; }
-html                { scrollbar-gutter: auto; }
-
-/* ── Lock footer to bottom of viewport, always visible ────────────────────── */
-.md-footer {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 300 !important; /* must exceed #mm-panel z-index: 200 */
-}
-
-/* ── App shell ────────────────────────────────────────────────────────────── */
-#mm-app {
+#mm-app,
+.mm-header-controls {
   --mm-ribbon-h: clamp(12rem, 28vh, 17rem);
   --mm-ribbon-max-h: var(--mm-ribbon-h);
-  --mm-ribbon-header-h: 3rem;
   --mm-control-height: 2.12rem;
   --mm-settings-tile-bg: color-mix(in srgb, var(--md-default-fg-color) 5%, var(--md-default-bg-color));
   --mm-settings-tile-border: color-mix(in srgb, var(--md-default-fg-color) 13%, transparent);
-  --kb-app-border: var(--mm-border);
-  --kb-app-panel: var(--mm-panel);
-  --kb-app-header-bg: color-mix(in srgb, var(--md-code-bg-color) 82%, var(--kb-app-panel));
-  position: relative;
-  isolation: isolate;
-  z-index: 0;
-  width:  100%;
-  height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - var(--kb-app-top-gap, 1rem));
-  height: calc(100dvh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - var(--kb-app-top-gap, 1rem));
-  margin-top: var(--kb-app-top-gap, 1rem);
-  overflow: hidden;
-  background: var(--md-default-bg-color);
-  font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
 }
 
 /* ── Sigma canvas ─────────────────────────────────────────────────────────── */
@@ -136,35 +93,6 @@ html                { scrollbar-gutter: auto; }
 }
 @keyframes mm-spin { to { transform: rotate(360deg); } }
 
-/* ── Settings ribbon ──────────────────────────────────────────────────────── */
-#mm-panel-header {
-  position: absolute;
-  top: 0;
-  left: var(--kb-app-page-gutter, 0.8rem);
-  right: var(--kb-app-page-gutter, 0.8rem);
-  z-index: 5;
-  width: auto;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  min-height: 3rem;
-  padding: 0.38rem 0.65rem;
-  gap: 0.75rem;
-  background: var(--kb-app-header-bg);
-  border: 1px solid var(--mm-border);
-  border-radius: 8px;
-  user-select: none;
-  font: inherit;
-  text-align: left;
-}
-#mm-panel-title {
-  margin: 0;
-  font-size: 0.88rem;
-  font-weight: 850;
-  color: var(--md-default-fg-color);
-  white-space: nowrap;
-}
 .mm-header-controls {
   display: flex;
   flex-wrap: wrap;
@@ -194,7 +122,7 @@ html                { scrollbar-gutter: auto; }
 
 #mm-panel {
   position: absolute;
-  top: calc(var(--mm-ribbon-header-h) + 0.35rem);
+  top: 0.35rem;
   left: var(--kb-app-page-gutter, 0.8rem);
   right: var(--kb-app-page-gutter, 0.8rem);
   width: auto;
@@ -218,69 +146,6 @@ html                { scrollbar-gutter: auto; }
   pointer-events: none;
   border-color: transparent;
 }
-/* The collapsed button and expanded selector share one bottom-anchored shell. */
-#mm-branch-dock {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: var(--mm-footer-h, 0px);
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  max-height: calc(100dvh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - var(--kb-app-top-gap, 1rem) - var(--mm-ribbon-header-h) - 0.55rem);
-  box-sizing: border-box;
-  border: 1px solid var(--mm-border);
-  border-radius: 8px 8px 0 0;
-  background: var(--mm-panel);
-  color: var(--md-default-fg-color);
-  overflow: hidden;
-}
-#mm-branch-panel {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: min(50dvh, 24rem);
-  max-height: min(50dvh, 24rem);
-  box-sizing: border-box;
-  padding: 0.62rem;
-  overflow: hidden;
-  transition: max-height 0.18s ease, padding 0.18s ease, visibility 0.18s;
-}
-#mm-branch-panel.body-collapsed {
-  max-height: 0;
-  padding-block: 0;
-  visibility: hidden;
-}
-#mm-panel-hide-btn {
-  flex: 0 0 auto;
-  width: 100%;
-  min-height: 2.6rem;
-  padding: 0.6rem 0.8rem calc(0.6rem + env(safe-area-inset-bottom));
-  border: 0;
-  background: transparent;
-  color: var(--md-default-fg-color--light);
-  font: inherit;
-  font-size: 0.78rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-#mm-panel-hide-btn:hover,
-#mm-panel-hide-btn:focus-visible {
-  background: var(--md-default-fg-color--lightest);
-  color: var(--md-default-fg-color);
-}
-#mm-panel-hide-btn:focus-visible {
-  outline: 2px solid var(--md-accent-fg-color);
-  outline-offset: -3px;
-}
-@media (prefers-reduced-motion: reduce) {
-  #mm-branch-panel { transition: none; }
-}
-.mm-branch-panel-head {
-  flex: 0 0 auto;
-  margin-bottom: 0.45rem;
-}
-
 #mm-panel-body {
   padding: 0.62rem;
   display: grid;
@@ -531,19 +396,6 @@ html                { scrollbar-gutter: auto; }
   pointer-events: none;
 }
 
-/* Branch filter */
-#mm-category-filters {
-  display: block;
-  flex: 1 1 auto;
-  width: 100%;
-  min-width: 0;
-  min-height: 0;
-  padding: 0.12rem 0.75rem 0.55rem;
-  box-sizing: border-box;
-  overflow: auto;
-  scrollbar-width: thin;
-}
-
 /* ── Tooltip ──────────────────────────────────────────────────────────────── */
 #mm-tooltip,
 #mm-hover-tooltip {
@@ -709,7 +561,6 @@ html                { scrollbar-gutter: auto; }
     --mm-ribbon-max-h: var(--mm-ribbon-h);
   }
 
-  #mm-panel-header,
   #mm-panel {
     left: 0;
     right: 0;
@@ -724,13 +575,6 @@ html                { scrollbar-gutter: auto; }
     grid-template-columns: 1fr;
     align-items: stretch;
     padding-inline: 0.5rem;
-  }
-
-  #mm-panel-header {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0.35rem;
-    padding-inline: 0.45rem;
   }
 
   .mm-header-controls {
@@ -786,139 +630,3 @@ html                { scrollbar-gutter: auto; }
     padding-inline: 0.55rem;
   }
 }
-</style>
-
-<div id="mm-app" class="kb-app-page kb-app-page--bleed">
-
-  <!-- Loading spinner shown while the graph initialises -->
-  <div id="mm-loading">
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="3">
-      <circle cx="20" cy="20" r="16" stroke-opacity="0.25"/>
-      <path d="M20 4 a16 16 0 0 1 16 16" stroke-linecap="round"/>
-    </svg>
-    Loading…
-  </div>
-
-  <!-- Settings ribbon header: always visible above the graph -->
-  <div id="mm-panel-header" class="kb-app-header">
-    <span id="mm-panel-title" class="kb-app-header-title">Map</span>
-    <div class="mm-header-controls" aria-label="Map settings">
-      <div class="mm-section mm-section--detail">
-        <span class="mm-section-label">
---8<-- "knowledge_base/docs/templates/lod.html"
-        </span>
-        <div id="mm-detail-controls" class="mm-detail-controls"></div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Settings ribbon body: collapses upward on hide -->
-  <div id="mm-panel" class="body-collapsed">
-    <div id="mm-panel-body">
-
-      <section id="mm-settings" class="mm-settings-section" aria-label="Map settings">
-        <div class="mm-settings-grid">
-          <div id="mm-relevance-panel" class="mm-section mm-relevance-panel" hidden>
-            <div class="mm-relevance-head">
-              <span class="mm-section-label" style="margin:0">Selected-node filter</span>
-              <label class="mm-switch">
-                <input id="mm-relevance-enabled" type="checkbox">
-                <span>Enable</span>
-              </label>
-            </div>
-            <div id="mm-relevance-ego" class="mm-relevance-ego"></div>
-            <div class="mm-relevance-options">
-              <select id="mm-relevance-mode" aria-label="Combine selected-node filters">
-                <option value="and">And</option>
-                <option value="or">Or</option>
-              </select>
-            </div>
-            <label class="mm-filter-toggle">
-              <span class="mm-filter-check">
-                <input id="mm-relevance-semantic" type="checkbox" checked>
-              </span>
-              <span class="mm-filter-body">
-                <span class="mm-filter-row">
-                  <span>Semantic similarity</span>
-                  <span id="mm-relevance-similarity-val">0.25</span>
-                </span>
-                <input id="mm-relevance-similarity" type="range" min="0" max="100" step="1" value="25">
-              </span>
-            </label>
-            <label class="mm-filter-toggle">
-              <span class="mm-filter-check">
-                <input id="mm-relevance-taxonomy" type="checkbox" checked>
-              </span>
-              <span class="mm-filter-body">
-                <span class="mm-filter-row">
-                  <span>Tree proximity</span>
-                  <span id="mm-relevance-distance-val">0.25</span>
-                </span>
-                <input id="mm-relevance-distance" type="range" min="0" max="100" step="1" value="25">
-              </span>
-            </label>
-            <div class="mm-relevance-foot">
-              <span id="mm-relevance-status">Filter off</span>
-              <span id="mm-relevance-match-count">…</span>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-    </div>
-  </div>
-
-  <div id="mm-branch-dock">
-    <aside id="mm-branch-panel" class="body-collapsed" aria-label="Map branch navigator" inert>
-      <div id="mm-category-filters"></div>
-    </aside>
-    <button id="mm-panel-hide-btn" type="button" title="Show Branch Selector" aria-expanded="false" aria-controls="mm-branch-panel">Show Branch Selector</button>
-  </div>
-
-  <!-- Tooltip (positioned by JS) -->
-  <div id="mm-tooltip"></div>
-  <div id="mm-hover-tooltip"></div>
-
-  <div id="mm-modal" class="mm-modal" hidden>
-    <article class="mm-modal-card" role="dialog" aria-modal="true" aria-labelledby="mm-modal-title">
-      <header class="mm-modal-head">
-        <h2 id="mm-modal-title">Paper</h2>
-        <button id="mm-modal-close" class="mm-modal-close" type="button" aria-label="Close paper details">&times;</button>
-      </header>
-      <div id="mm-modal-body" class="mm-modal-body"></div>
-    </article>
-  </div>
-
-  <!-- Sigma canvas -->
-  <div id="mm-graph"></div>
-
-</div>
-
-<!-- kb:app-scripts map -->
-<!-- /kb:app-scripts -->
-<script>
-(function () {
-  function applyMmSizes() {
-    var header = document.querySelector('.md-header');
-    var footer = document.querySelector('.md-footer');
-    var hh = header ? header.getBoundingClientRect().height : 56;
-    var fh = footer ? footer.getBoundingClientRect().height : 0;
-    document.documentElement.style.setProperty('--mm-header-h', hh + 'px');
-    document.documentElement.style.setProperty('--mm-footer-h', fh + 'px');
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', applyMmSizes);
-  } else {
-    applyMmSizes();
-  }
-  window.addEventListener('resize', applyMmSizes);
-  var panelHeader = document.getElementById('mm-panel-header');
-  new ResizeObserver(function () {
-    document.getElementById('mm-app').style.setProperty(
-      '--mm-ribbon-header-h', panelHeader.getBoundingClientRect().height + 'px'
-    );
-  }).observe(panelHeader);
-})();
-</script>

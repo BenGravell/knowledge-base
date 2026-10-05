@@ -1,0 +1,187 @@
+/* ── Remove site layout constraints for full-screen canvas ───────────────── */
+html:has(#kb-explorer) .md-content h1 { display: none; }
+html:has(#kb-explorer) .md-content         { padding: 0 !important; }
+html:has(#kb-explorer) .md-content__inner  { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+html:has(#kb-explorer) .md-grid            { max-width: 100% !important; }
+html:has(#kb-explorer) .md-main            { overflow: hidden !important; }
+html:has(#kb-explorer) .md-main__inner     { height: 100% !important; margin-top: 0 !important; padding-inline: 0 !important; }
+
+/* ── Prevent page-level scrolling ─────────────────────────────────────────── */
+html:has(#kb-explorer),
+body:has(#kb-explorer) { overflow: hidden !important; height: 100vh !important; }
+html:has(#kb-explorer) { scrollbar-gutter: auto; }
+
+/* ── Lock footer to bottom of viewport, always visible ────────────────────── */
+html:has(#kb-explorer) .md-footer {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 300 !important;
+}
+
+/* ── App shell ────────────────────────────────────────────────────────────── */
+#kb-explorer {
+  --kb-app-border: color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
+  --kb-app-panel: color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
+  --kb-app-header-bg: color-mix(in srgb, var(--md-code-bg-color) 82%, var(--kb-app-panel));
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.35rem;
+  max-height: none;
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+  width:  100%;
+  height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - var(--kb-app-top-gap, 1rem));
+  height: calc(100dvh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - var(--kb-app-top-gap, 1rem));
+  margin-top: var(--kb-app-top-gap, 1rem);
+  overflow: hidden;
+  background: var(--md-default-bg-color);
+  font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
+}
+
+[data-md-color-scheme="slate"] #kb-explorer {
+  --kb-app-panel: color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
+}
+
+#mm-panel-header {
+  position: relative;
+  z-index: 5;
+  width: auto;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  min-height: 3rem;
+  padding: 0.38rem 0.65rem;
+  gap: 0.75rem;
+  background: var(--kb-app-header-bg);
+  border: 1px solid var(--kb-app-border);
+  border-radius: 8px;
+  user-select: none;
+  font: inherit;
+  text-align: left;
+}
+/* Both views share one workspace and one persistent branch dock. */
+#kb-explorer-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) calc(2.6rem + 2px);
+  min-height: 0;
+  min-width: 0;
+}
+#kb-explorer.is-branch-open #kb-explorer-workspace {
+  grid-template-columns: minmax(0, 65fr) minmax(0, 35fr);
+}
+#kb-explorer-main {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+#mm-app,
+#ct-sunburst-panel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+#kb-explorer[data-mode="tree"] #mm-app,
+#kb-explorer[data-mode="tree"] .mm-header-controls,
+#kb-explorer[data-mode="map"] #ct-sunburst-panel {
+  visibility: hidden;
+  pointer-events: none;
+}
+#mm-branch-dock {
+  display: flex;
+  flex-direction: row;
+  min-width: 0;
+  min-height: 0;
+  z-index: 5;
+  box-sizing: border-box;
+  border: 1px solid var(--kb-app-border);
+  border-radius: 8px 8px 0 0;
+  background: var(--kb-app-panel);
+  overflow: hidden;
+}
+#mm-branch-panel {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  padding: 0.6rem;
+  overflow: hidden;
+}
+#mm-branch-panel.body-collapsed {
+  flex: 0 0 0;
+  padding: 0;
+  visibility: hidden;
+}
+#mm-branch-panel .ct-browser {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+#mm-panel-hide-btn {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 2.6rem;
+  min-height: 2.6rem;
+  padding: 0.6rem 0.4rem;
+  border: 0;
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  font: inherit;
+  cursor: pointer;
+}
+#mm-panel-hide-btn svg {
+  display: block;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+#mm-panel-hide-btn[aria-expanded="false"] .lucide-panel-right-close,
+#mm-panel-hide-btn[aria-expanded="true"] .lucide-panel-right-open {
+  display: none;
+}
+#mm-panel-hide-btn:hover,
+#mm-panel-hide-btn:focus-visible {
+  background: var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color);
+}
+#mm-panel-hide-btn:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: -3px;
+}
+@media (max-width: 760px) {
+  #kb-explorer-workspace,
+  #kb-explorer.is-branch-open #kb-explorer-workspace {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+  #kb-explorer.is-branch-open #kb-explorer-workspace {
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  #mm-branch-dock {
+    flex-direction: column;
+  }
+  #mm-panel-hide-btn {
+    width: 100%;
+    padding-bottom: calc(0.6rem + env(safe-area-inset-bottom));
+  }
+  #mm-panel-hide-btn svg {
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 760px) {
+  #mm-panel-header {
+    left: 0;
+    right: 0;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.35rem;
+    padding-inline: 0.45rem;
+  }
+}

@@ -34,6 +34,7 @@ from knowledge_base.publishing.generated_assets import (
     validate_semantic_search_contract,
 )
 from knowledge_base.publishing.site_links import (
+    nav_page_order,
     paper_site_source_url,
     paper_site_url,
     source_relative_url,
@@ -267,9 +268,9 @@ class GeneratedAssetTests(unittest.TestCase):
 
     def test_deliberate_page_relative_navigation_stays_under_deployed_site_prefix(self) -> None:
         cases = {
-            "tree.md": (
-                "../map/#paper=example",
-                "../tree/#paper=example",
+            "explorer.md": (
+                "../explorer/?mode=map#paper=example",
+                "../explorer/?mode=tree#paper=example",
                 "../search/?paper=example",
             ),
             "papers/example.md": (
@@ -292,14 +293,25 @@ class GeneratedAssetTests(unittest.TestCase):
                         f"{page_name} link {target!r} escapes the deployed site prefix as {resolved}",
                     )
 
+    def test_explorer_nav_keeps_both_view_links_together(self) -> None:
+        self.assertEqual(
+            nav_page_order({"nav": [{"Explorer": "explorer.md"}, {"Search": "search.md"}]}),
+            ["map", "tree", "search"],
+        )
+
     def test_generated_paper_links_use_safe_route_targets(self) -> None:
         self.assertEqual(source_relative_url("papers/current.md", "search.md?author=Ada"), "../search.md?author=Ada")
         self.assertEqual(paper_site_source_url("detail", "other", "papers/current.md"), "other.md")
-        self.assertEqual(paper_site_source_url("map", "other", "papers/current.md"), "../map.md?paper=other")
-        self.assertEqual(paper_site_source_url("tree", "other", "papers/current.md"), "../tree.md?paper=other")
+        self.assertEqual(
+            paper_site_source_url("map", "other", "papers/current.md"), "../explorer.md?mode=map&paper=other"
+        )
+        self.assertEqual(
+            paper_site_source_url("tree", "other", "papers/current.md"), "../explorer.md?mode=tree&paper=other"
+        )
         self.assertEqual(paper_site_source_url("search", "other", "papers/current.md"), "../search.md?paper=other")
 
         for key in ("map", "tree"):
+            self.assertEqual(paper_site_url(key, "other", ".."), f"../explorer/?mode={key}#paper=other")
             self.assertNotIn(".md#", paper_site_source_url(key, "other", "papers/current.md"))
 
     def test_build_staging_excludes_templates_from_published_pages(self) -> None:

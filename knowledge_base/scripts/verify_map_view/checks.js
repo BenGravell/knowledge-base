@@ -535,7 +535,7 @@
 
   renderer.emit('clickStage', {});
   await sleep(80);
-  assert(!hashParams().get('paper') && !hashParams().get('node'),
+  assert(!hashParams().get('paper'),
     'clearing the selected paper removes stale paper URL state',
     window.location.hash);
 

@@ -154,6 +154,7 @@ SEMANTIC_SEARCH_WORKER_SCRIPT = GeneratedAsset("semantic-search-worker.js")
 SIGMA_VENDOR_SCRIPT = GeneratedAsset("sigma.min.js", "javascripts/vendor")
 TREE_NAVIGATOR_SCRIPT = GeneratedAsset("tree-navigator.js")
 TREE_SCRIPT = GeneratedAsset("tree.js")
+EXPLORER_SCRIPT = GeneratedAsset("explorer.js")
 
 HOME_APP_SCRIPTS = AppScriptBundle(
     "home",
@@ -187,6 +188,10 @@ TREE_APP_SCRIPTS = AppScriptBundle(
     "tree",
     (SITE_LINK_DATA, PAPER_LINK_PILLS_SCRIPT, TREE_DATA, TREE_NAVIGATOR_SCRIPT, TREE_SCRIPT),
 )
+EXPLORER_APP_SCRIPTS = AppScriptBundle(
+    "explorer",
+    tuple(dict.fromkeys((*MAP_APP_SCRIPTS.assets, *TREE_APP_SCRIPTS.assets, EXPLORER_SCRIPT))),
+)
 ANALYTICS_APP_SCRIPTS = AppScriptBundle(
     "analytics",
     (ANALYTICS_DATA, ANALYTICS_SCRIPT),
@@ -199,14 +204,14 @@ APP_SCRIPT_BUNDLES = {
         MAP_APP_SCRIPTS,
         SEARCH_APP_SCRIPTS,
         TREE_APP_SCRIPTS,
+        EXPLORER_APP_SCRIPTS,
         ANALYTICS_APP_SCRIPTS,
     )
 }
 APP_SCRIPT_PAGES = {
     "index.md": HOME_APP_SCRIPTS,
-    "map.md": MAP_APP_SCRIPTS,
+    "explorer.md": EXPLORER_APP_SCRIPTS,
     "search.md": SEARCH_APP_SCRIPTS,
-    "tree.md": TREE_APP_SCRIPTS,
 }
 APP_SCRIPT_BLOCK_RE = re.compile(
     r"<!--\s*kb:app-scripts\s+(?P<bundle>[a-z0-9_-]+)\s*-->" r".*?" r"<!--\s*/kb:app-scripts\s*-->",

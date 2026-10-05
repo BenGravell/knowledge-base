@@ -78,14 +78,13 @@
       !parsed.pathname.startsWith('/knowledge-base/');
   }
 
-  function keyFromPath(pathname) {
-    const cleanPath = String(pathname || '').replace(/\/+$/, '');
+  function keyFromUrl(url) {
+    const cleanPath = url.pathname.replace(/\/+$/, '');
     const parts = cleanPath.split('/').filter(Boolean);
     const last = parts[parts.length - 1] || '';
     const beforeLast = parts[parts.length - 2] || '';
 
-    if (last === 'map') return 'map';
-    if (last === 'tree' || beforeLast === 'tree') return 'tree';
+    if (last === 'explorer') return url.searchParams.get('mode') === 'tree' ? 'tree' : 'map';
     if (last === 'search') return 'search';
     if (beforeLast === 'papers' || parts.includes('papers')) return 'detail';
     return '';
@@ -99,7 +98,7 @@
     if (label && specsByLabel.has(label)) return specsByLabel.get(label);
 
     const parsed = urlFromString(options && options.url);
-    const urlKey = parsed ? keyFromPath(parsed.pathname) : '';
+    const urlKey = parsed ? keyFromUrl(parsed) : '';
     return urlKey ? specsByKey.get(urlKey) : null;
   }
 

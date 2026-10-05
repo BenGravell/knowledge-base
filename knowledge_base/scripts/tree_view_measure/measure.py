@@ -24,7 +24,7 @@ def wait_for_tree_ready(client: CdpClient, timeout: float = 25) -> None:
       window.treeData &&
       window.__ctTreePerf &&
       window.__ctTreePerf.enabled &&
-      document.getElementById('ct-app') &&
+      document.getElementById('ct-sunburst-panel') &&
       document.querySelector('#ct-sunburst-stage svg') &&
       document.querySelector('#ct-ancestor-chain [data-ct-select]')
     )

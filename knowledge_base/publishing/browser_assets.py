@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from knowledge_base.publishing.generated_assets import (
+    EXPLORER_SCRIPT,
     HEADER_LINK_SCRIPT,
     HOME_BENTO_SCRIPT,
     MATH_FIT_SCRIPT,
@@ -22,6 +23,7 @@ from knowledge_base.publishing.generated_files import open_generated
 COMPONENTS_DIR = Path(__file__).resolve().parent.parent / "components"
 
 BROWSER_ASSETS: dict[GeneratedAsset, Path] = {
+    EXPLORER_SCRIPT: COMPONENTS_DIR / "explorer" / "browser" / "explorer.js",
     MATHJAX_CONFIG_SCRIPT: COMPONENTS_DIR / "site_shell" / "browser" / "mathjax.js",
     MATH_FIT_SCRIPT: COMPONENTS_DIR / "site_shell" / "browser" / "math-fit.js",
     HEADER_LINK_SCRIPT: COMPONENTS_DIR / "site_shell" / "browser" / "header-link.js",

@@ -1,0 +1,53 @@
+/* Shared abbreviation keeps its case inside uppercase control labels. */
+.kb-lod-control {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.kb-lod-label {
+  text-transform: none;
+}
+
+.kb-lod-help-button {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  anchor-name: --kb-lod;
+}
+
+.kb-lod-help-button:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 3px;
+}
+
+.kb-lod-help {
+  box-sizing: border-box;
+  width: min(28rem, calc(100vw - 2rem));
+  height: fit-content;
+  max-height: none;
+  position-anchor: --kb-lod;
+  position-try-fallbacks: flip-block;
+  inset: auto;
+  top: calc(anchor(bottom) + .4rem);
+  left: clamp(1rem, anchor(left), calc(100vw - min(28rem, calc(100vw - 2rem)) - 1rem));
+  margin: 0;
+  padding: 1rem;
+  overflow: visible;
+  white-space: normal;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: .4rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  font-size: .75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-transform: none;
+}

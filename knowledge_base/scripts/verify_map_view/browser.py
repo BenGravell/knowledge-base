@@ -90,6 +90,7 @@ def get_tab_websocket(session: ChromeSession, url: str) -> str:
 def wait_for_page_ready(client: CdpClient, timeout: float = 35) -> None:
     expression = """
     Boolean(
+      document.readyState !== 'loading' &&
       window._map &&
       window._map.renderer &&
       window._map.renderer() &&

@@ -1,4 +1,4 @@
-/* browser/camera.js - camera fitting, URL focus, and distance measurements. */
+/* browser/camera.js - camera fitting, paper focus, and distance measurements. */
 
 'use strict';
 
@@ -606,63 +606,11 @@
       else r.getCamera().animate(target, { duration: duration || 260 });
     }
 
-    function readFocusPaperId() {
-      try {
-        const query = new URLSearchParams(window.location.search);
-        const paperId = query.get('paper') || query.get('node');
-        if (paperId) return paperId;
-      } catch (error) {
-        // Keep supporting hash-only browsers/links if query parsing fails.
-      }
-
-      const hash = window.location.hash.slice(1);
-      if (!hash) return null;
-
-      const params = new URLSearchParams(hash);
-      return params.get('paper') || params.get('node');
-    }
-
-    function writeFocusPaperId(paperId) {
-      const params = new URLSearchParams(window.location.hash.slice(1));
-
-      if (paperId) {
-        if (params.get('paper') === paperId && !params.has('node')) return;
-        params.set('paper', paperId);
-        params.delete('node');
-      } else {
-        if (!params.has('paper') && !params.has('node')) return;
-        params.delete('paper');
-        params.delete('node');
-      }
-
-      const url = new URL(window.location.href);
-      url.hash = params.toString();
-      window.history.replaceState(null, '', url);
-    }
-
     function paperIdForNode(node) {
       const g = graph();
       if (!node || !g || !graphHasNode(node)) return null;
       const attrs = g.getNodeAttributes(node);
       return attrs.kind === 'paper' ? node : null;
-    }
-
-    function syncUrlToPinnedNode() {
-      writeFocusPaperId(paperIdForNode(viewState.pinnedNode));
-    }
-
-    function clearPinnedPaperSelection() {
-      if (!paperIdForNode(viewState.pinnedNode)) return false;
-
-      viewState.clearSelection();
-      if (typeof deps.setSelectedNodeFilterEnabled === 'function') {
-        deps.setSelectedNodeFilterEnabled(false);
-      }
-      if (typeof deps.hideHoverTooltip === 'function') deps.hideHoverTooltip();
-      if (typeof deps.hideTooltip === 'function') deps.hideTooltip();
-      if (typeof deps.hidePaperModal === 'function') deps.hidePaperModal();
-      if (typeof deps.refreshView === 'function') deps.refreshView();
-      return true;
     }
 
     function overlayBounds(el, graphRect, dims) {
@@ -704,13 +652,7 @@
       const panel = document.getElementById('mm-panel');
       const panelOpen = panel && !panel.classList.contains('body-collapsed');
       const panelBounds = panelOpen ? overlayBounds(panel, graphRect, dims) : null;
-      const branchBounds = overlayBounds(document.getElementById('mm-branch-dock'), graphRect, dims);
-
       applyTopOverlayOcclusion(rect, panelBounds, dims, pad);
-      if (branchBounds) rect.bottom = Math.min(rect.bottom, branchBounds.top - pad);
-
-      const headerBounds = overlayBounds(document.getElementById('mm-panel-header'), graphRect, dims);
-      applyTopOverlayOcclusion(rect, headerBounds, dims, pad, 0.5);
 
       if (rect.right <= rect.left) {
         rect.left = Math.min(pad, dims.width / 2);
@@ -756,7 +698,7 @@
     }
 
     function refocusPinnedPaper(duration) {
-      const paperId = paperIdForNode(viewState.pinnedNode) || readFocusPaperId();
+      const paperId = paperIdForNode(viewState.pinnedNode);
       if (!paperId || !graphHasNode(paperId)) return false;
 
       const attrs = graph().getNodeAttributes(paperId);
@@ -767,8 +709,7 @@
       return true;
     }
 
-    function focusPaperFromHash() {
-      const paperId = readFocusPaperId();
+    function focusPaper(paperId) {
       if (!paperId || !renderer() || !graphHasNode(paperId)) return false;
 
       const attrs = graph().getNodeAttributes(paperId);
@@ -783,39 +724,21 @@
       deps.refreshView();
       focusCameraOnNode(paperId, 320);
       window.setTimeout(() => deps.showFocusedPaperTooltip(paperId), 340);
-      writeFocusPaperId(paperId);
       return true;
-    }
-
-    function syncPaperFocusFromHash() {
-      if (readFocusPaperId()) {
-        const focused = focusPaperFromHash();
-        if (!focused) {
-          clearPinnedPaperSelection();
-          writeFocusPaperId(null);
-        }
-        return focused;
-      }
-
-      return clearPinnedPaperSelection();
     }
 
     return {
       fitVisible,
       focusCameraOnNode,
-      focusPaperFromHash,
+      focusPaper,
       labelTextHalfExtents,
       minimumVisibleGraphDistance,
       minimumVisiblePaperGraphDistance,
       minimumVisibleScreenDistance,
       paperIdForNode,
-      readFocusPaperId,
       refocusPinnedPaper,
-      syncPaperFocusFromHash,
-      syncUrlToPinnedNode,
       updateZoomOutLimit,
       usableCanvasRect,
-      writeFocusPaperId,
     };
   }
 

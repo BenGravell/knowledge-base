@@ -433,8 +433,8 @@ class Entry:
         byline = " / ".join(part for part in (byline_author, year_text) if part)
         quoted_id = quote(paper_id, safe="")
         detail_path = f"papers/{quoted_id}/"
-        tree_path = f"tree/#paper={quoted_id}"
-        map_path = f"map/#paper={quoted_id}"
+        tree_path = f"explorer/?mode=tree#paper={quoted_id}"
+        map_path = f"explorer/?mode=map#paper={quoted_id}"
         search_path = f"search/?paper={quoted_id}"
         cached_embedding_chunks = (
             () if refresh_embedding_input_sidecar else embedding_input_sidecar_chunks(metadata_path)

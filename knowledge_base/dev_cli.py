@@ -16,7 +16,7 @@ from pathlib import Path
 import yaml
 
 from knowledge_base.publishing.generated_assets import render_app_script_blocks
-from knowledge_base.scripts.verify_map_view.layout import verify_settings_layout
+from knowledge_base.scripts.verify_explorer_view import verify_settings_layout
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 KB_DIR = Path(__file__).resolve().parent
@@ -171,7 +171,7 @@ def build_site(args: list[str]) -> int:
     if not validate_site_output():
         return 1
     try:
-        run_step("verify Map settings layout", lambda: verify_settings_layout(SITE_DIR))
+        run_step("verify Explorer layout", lambda: verify_settings_layout(SITE_DIR))
     except (AssertionError, RuntimeError, TimeoutError, OSError) as error:
         log(str(error))
         return 1

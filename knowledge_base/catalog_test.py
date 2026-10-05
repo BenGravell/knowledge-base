@@ -59,7 +59,8 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(entry.doi, "10.1000/example")
         self.assertEqual(entry.arxiv_id, "cond-mat/0112110")
         self.assertEqual(entry.label, "Lovelace et al. 2024")
-        self.assertEqual(entry.url("map", ""), "map/#paper=cond_mat_0112110")
+        self.assertEqual(entry.url("map", ""), "explorer/?mode=map#paper=cond_mat_0112110")
+        self.assertEqual(entry.url("tree", ""), "explorer/?mode=tree#paper=cond_mat_0112110")
         self.assertIn("arXiv:cond-mat/0112110", entry.identifiers)
 
     def test_catalog_compacts_sidecar_text_for_embedding(self) -> None:

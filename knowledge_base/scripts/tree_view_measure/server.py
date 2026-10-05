@@ -24,4 +24,4 @@ def serve_site(site_dir: Path) -> tuple[ThreadingHTTPServer, str]:
     thread.start()
     host = str(server.server_address[0])
     port = int(server.server_address[1])
-    return server, f"http://{host}:{port}/tree/"
+    return server, f"http://{host}:{port}/explorer/?mode=tree"

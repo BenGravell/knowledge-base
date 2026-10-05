@@ -8,7 +8,7 @@ for script, style, and layout work.
 Examples, from the repository root:
 
   python knowledge_base/scripts/measure_tree_view.py
-  python knowledge_base/scripts/measure_tree_view.py --url http://127.0.0.1:8000/tree/
+  python knowledge_base/scripts/measure_tree_view.py --url 'http://127.0.0.1:8000/explorer/?mode=tree'
   python knowledge_base/scripts/measure_tree_view.py --runs 7 --viewport 1366x900
 """
 
@@ -60,7 +60,7 @@ JS_MEASURE_INTERACTION = r"""
     .replace(/\s+/g, ' ')
     .trim();
   const compact = value => normalize(value).replace(/\s+/g, '');
-  const app = document.getElementById('ct-app');
+  const app = document.getElementById('ct-sunburst-panel');
   const chain = document.getElementById('ct-ancestor-chain');
   const perf = window.__ctTreePerf;
   if (!app || !chain || !perf || !perf.enabled) {
@@ -75,10 +75,10 @@ JS_MEASURE_INTERACTION = r"""
   } : null;
 
   const counts = () => ({
-    treeNodes: app.querySelectorAll('.ct-tree-node').length,
-    treeButtons: app.querySelectorAll('.ct-tree-button').length,
-    childRows: app.querySelectorAll('.ct-focus-section--children .ct-tree-node').length,
-    previewTargets: app.querySelectorAll('[data-ct-preview-node]').length,
+    treeNodes: chain.querySelectorAll('.ct-tree-node').length,
+    treeButtons: chain.querySelectorAll('.ct-tree-button').length,
+    childRows: chain.querySelectorAll('.ct-focus-section--children .ct-tree-node').length,
+    previewTargets: [app, chain].reduce((total, region) => total + region.querySelectorAll('[data-ct-preview-node]').length, 0),
     sunburstSegments: app.querySelectorAll('.ct-sunburst-segment').length,
     sunburstCoarseMorphs: app.querySelectorAll('.ct-sunburst-coarse-morph').length,
     sunburstHitTargets: app.querySelectorAll('.ct-sunburst-hit-target').length,

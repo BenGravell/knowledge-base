@@ -1,10 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
-/* Ordered stylesheet manifest. Keep tokens first, then shared layout, then page/app modules. */
+/* Ordered stylesheet manifest. Keep tokens first, then shared layout and components, then page/app modules. */
 @import url("./extra/tokens.css");
 @import url("./extra/layout.css");
 @import url("./extra/home.css");
 @import url("./extra/app-shell.css");
+@import url("./extra/app-header.css");
+@import url("./extra/lod-control.css");
+@import url("./extra/mode-switch.css");
 @import url("./extra/tree.css");
+@import url("./extra/map.css");
+@import url("./extra/explorer.css");
 @import url("./extra/papers.css");
 @import url("./extra/search.css");

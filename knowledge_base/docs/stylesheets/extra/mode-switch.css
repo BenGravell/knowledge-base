@@ -1,0 +1,131 @@
+/* Shared two-mode selector, used by Search and Explorer. */
+.kb-mode-switch {
+  --kb-mode-toggle-pad: 0.16rem;
+  --kb-mode-motion: 190ms cubic-bezier(0.24, 0.8, 0.2, 1);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(5.35rem, 1fr));
+  gap: 0;
+  align-self: center;
+  justify-self: start;
+  width: max-content;
+  min-width: 0;
+  padding: var(--kb-mode-toggle-pad);
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--md-default-fg-color) 4%, var(--md-default-bg-color));
+  overflow: hidden;
+}
+
+.kb-mode-switch::before,
+.kb-mode-switch::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: var(--kb-mode-toggle-pad);
+  bottom: var(--kb-mode-toggle-pad);
+  width: calc((100% - (var(--kb-mode-toggle-pad) * 2)) / 2);
+  background: var(--md-primary-fg-color);
+  opacity: 0;
+  pointer-events: none;
+  transform: scaleX(0.9);
+  transition:
+    opacity var(--kb-mode-motion),
+    transform var(--kb-mode-motion);
+  will-change: opacity, transform;
+}
+
+.kb-mode-switch::before {
+  left: var(--kb-mode-toggle-pad);
+  border-radius: 999px 0 0 999px;
+  opacity: 1;
+  transform: scaleX(1);
+  transform-origin: right center;
+}
+
+.kb-mode-switch::after {
+  right: var(--kb-mode-toggle-pad);
+  border-radius: 0 999px 999px 0;
+  transform-origin: left center;
+}
+
+.kb-mode-switch:has(button:last-child.is-active)::before {
+  opacity: 0;
+  transform: scaleX(0.9);
+}
+
+.kb-mode-switch:has(button:last-child.is-active)::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.kb-mode-switch button {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.84rem;
+  min-width: 0;
+  padding: 0.18rem 0.44rem;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 850;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+
+.kb-mode-switch button:first-child {
+  border-radius: 999px 0 0 999px;
+}
+
+.kb-mode-switch button:last-child {
+  border-radius: 0 999px 999px 0;
+}
+
+.kb-mode-switch button:not(.is-active) {
+  border-color: var(--kb-app-border);
+}
+
+.kb-mode-switch button:hover {
+  color: var(--md-primary-fg-color);
+}
+
+.kb-mode-switch button:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+}
+
+.kb-mode-switch button.is-active {
+  color: var(--md-primary-bg-color);
+}
+
+.kb-mode-switch svg {
+  width: 0.88rem;
+  height: 0.88rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.1;
+}
+
+.kb-mode-switch-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-mode-switch::before,
+  .kb-mode-switch::after {
+    transition: none;
+  }
+}

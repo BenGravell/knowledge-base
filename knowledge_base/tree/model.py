@@ -20,7 +20,6 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 TRANSPARENT_ROOT_LABELS = {"Tree"}
-LANDING_PAGES = {"tree.md"}
 GENERATED_PAPER_RE = re.compile(r"^papers/(?P<paper_id>.+)\.md$")
 
 
@@ -34,10 +33,6 @@ def clean_label(value: Any) -> str:
 
 def leaf_label_from_source(source: str) -> str:
     return source.removesuffix(".md").replace("-", " ").replace("_", " ").title()
-
-
-def is_landing_item(label: str, source: str) -> bool:
-    return source in LANDING_PAGES or (label.strip().lower() == "overview" and source in LANDING_PAGES)
 
 
 def generated_paper_id(source: str) -> str | None:
@@ -271,7 +266,7 @@ class TreeModel:
             label: str,
             source: str,
             path: tuple[str, ...],
-        ) -> tuple[TreeChild | None, str | None]:
+        ) -> tuple[TreeChild, str | None]:
             clean_source = source.replace("\\", "/").strip()
             resolved = resolve_source(clean_source) if resolve_source else None
             nav_path = (*path, label)
@@ -297,14 +292,12 @@ class TreeModel:
                     metadata_path=resolved.metadata_path,
                 )
             paper_ids = (resolved.paper_id,) if resolved else ()
-            child = None
-            if not is_landing_item(label, clean_source):
-                child = TreeChild(
-                    label=label,
-                    kind="leaf",
-                    paper_ids=paper_ids,
-                    source=clean_source,
-                )
+            child = TreeChild(
+                label=label,
+                kind="leaf",
+                paper_ids=paper_ids,
+                source=clean_source,
+            )
             return child, resolved.paper_id if resolved else None
 
         def walk(items: list[Any], path: tuple[str, ...]) -> TreeBranch:
@@ -317,8 +310,7 @@ class TreeModel:
                 if isinstance(item, str):
                     label = leaf_label_from_source(item)
                     child, paper_id = add_leaf(label, item, path)
-                    if child is not None:
-                        children.append(child)
+                    children.append(child)
                     if paper_id:
                         direct_paper_ids.append(paper_id)
                         descendant_paper_ids.append(paper_id)
@@ -348,8 +340,7 @@ class TreeModel:
                         descendant_paper_ids.extend(branch.descendant_paper_ids)
                     elif isinstance(child, str):
                         tree_child, paper_id = add_leaf(label, child, path)
-                        if tree_child is not None:
-                            children.append(tree_child)
+                        children.append(tree_child)
                         if paper_id:
                             direct_paper_ids.append(paper_id)
                             descendant_paper_ids.append(paper_id)

@@ -1,7 +1,7 @@
 /* browser/app.js - Sigma.js paper map visualisation.
  * Published as javascripts/map.js.
  *
- * Loaded by map.md after:
+ * Loaded by the Map script bundle after:
  *   1. graphology.umd.min.js (sets window.graphology)
  *   2. sigma.min.js          (sets window.Sigma)
  *   3. map-data.js           (sets window.mapData, includes UMAP positions)
@@ -34,7 +34,6 @@
    * Guard: dependencies and data must be present
    * -------------------------------------------------------------------------*/
   const graphContainer = document.getElementById('mm-graph');
-  setupBranchPanelToggle();
 
   if (!graphContainer) {
     hideLoading();
@@ -172,6 +171,7 @@
   let graphPanGesture = null;
   let suppressGraphClickUntil = 0;
   let interactionRefreshFrame = null;
+  let updatingSelection = false;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -288,7 +288,7 @@
       detailLevels: DETAIL_LEVELS,
       escHtml,
       setSelectedNodeFilterEnabled,
-      syncUrlToPinnedNode,
+      notifySelection,
       refreshView,
     });
 
@@ -320,6 +320,7 @@
       focusedPaperCameraRatio: FOCUSED_PAPER_CAMERA_RATIO,
       minCameraRatio: MIN_CAMERA_RATIO,
       maxZoomOutOverscanRatio: MAX_ZOOM_OUT_OVERSCAN_RATIO,
+
     });
 
     mapBranchFilter = window.kbMapBranchFilter.createMapBranchFilter({
@@ -339,7 +340,7 @@
       refreshView,
       focusCameraOnNode,
       showFocusedPaperTooltip,
-      writeFocusPaperId,
+      notifySelection,
     });
   }
 
@@ -1199,9 +1200,7 @@
     setupGraphDomEvents();
     setupCameraEvents();
     refreshView();
-    window.setTimeout(() => {
-      if (!focusPaperFromHash()) fitVisible(0);
-    }, 0);
+    fitVisible(0);
   }
 
   function setupCameraEvents() {
@@ -1474,7 +1473,7 @@
       hideHoverTooltip();
       showNodeTooltip(node, nodeTooltipPosition(node) || eventPosition(payload), true);
     }
-    syncUrlToPinnedNode();
+    notifySelection();
     refreshView();
   }
 
@@ -1485,7 +1484,7 @@
     hideHoverTooltip();
     hideTooltip();
     hidePaperModal();
-    syncUrlToPinnedNode();
+    notifySelection();
     refreshView();
   }
 
@@ -1723,7 +1722,7 @@
       hideHoverTooltip();
       hideTooltip();
       hidePaperModal();
-      syncUrlToPinnedNode();
+      notifySelection();
     }
     refreshView();
   }
@@ -1749,7 +1748,7 @@
     hideHoverTooltip();
     hideTooltip();
     hidePaperModal();
-    syncUrlToPinnedNode();
+    notifySelection();
     updateDetailButtons();
     refreshView();
     startLevelTransition(transitionNodes);
@@ -1813,35 +1812,63 @@
     return mapCamera ? mapCamera.refocusPinnedPaper(duration) : false;
   }
 
-  function focusPaperFromHash() {
-    return mapCamera ? mapCamera.focusPaperFromHash() : false;
-  }
-
-  function syncPaperFocusFromHash() {
-    return mapCamera ? mapCamera.syncPaperFocusFromHash() : false;
-  }
-
-  function readFocusPaperId() {
-    return mapCamera ? mapCamera.readFocusPaperId() : null;
-  }
-
-  function writeFocusPaperId(paperId) {
-    if (mapCamera) mapCamera.writeFocusPaperId(paperId);
-  }
-
   function paperIdForNode(node) {
     return mapCamera ? mapCamera.paperIdForNode(node) : null;
   }
 
-  function syncUrlToPinnedNode() {
-    if (mapCamera) mapCamera.syncUrlToPinnedNode();
+  function selection() {
+    const group = viewState.branchFilterGroups.get(viewState.activeBranchFilterKey);
+    return { paperId: paperIdForNode(viewState.pinnedNode), path: group ? group.path.slice() : [] };
+  }
+
+  function notifySelection() {
+    if (updatingSelection) return;
+    const paperId = paperIdForNode(viewState.pinnedNode);
+    if (paperId) selectBranchForPaper(graph.getNodeAttributes(paperId));
+    window.dispatchEvent(new CustomEvent('kb-map-select', { detail: selection() }));
   }
 
   /* -------------------------------------------------------------------------
-   * Category filter panel
+   * Category filter panel and public selection API
    * -------------------------------------------------------------------------*/
   function activateBranchNode(attrs, node) {
-    if (mapBranchFilter) mapBranchFilter.activateBranchNode(attrs, node);
+    updatingSelection = true;
+    try {
+      if (mapBranchFilter) mapBranchFilter.activateBranchNode(attrs, node);
+    } finally {
+      updatingSelection = false;
+    }
+    notifySelection();
+  }
+
+  function select(selection) {
+    if (!renderer) return;
+    updatingSelection = true;
+    try {
+      viewState.clearSelection();
+      setSelectedNodeFilterEnabled(false);
+      hideHoverTooltip();
+      hideTooltip();
+      hidePaperModal();
+      if (selection.paperId && mapCamera.focusPaper(selection.paperId)) return;
+      const group = [...viewState.branchFilterGroups.values()].find(group =>
+        group.path.length === selection.path.length && group.path.every((part, i) => part === selection.path[i])
+      );
+      setActiveBranchFilter(group ? group.key : BRANCH_FILTER_ALL);
+      // A branch can exist without any papers in this Map dataset.
+      if (selection.path.length && !group) {
+        viewState.activeCategories.clear();
+        mapModel.allPaperNodes().forEach(node => {
+          if (selection.path.every((part, i) => mapModel.paperPath(node.data)[i] === part)) {
+            viewState.activeCategories.add(mapModel.nodeKey(node.data));
+          }
+        });
+      }
+      applyCategoryFilter();
+      fitVisible(0);
+    } finally {
+      updatingSelection = false;
+    }
   }
 
   function setActiveBranchFilter(key) {
@@ -1916,29 +1943,6 @@
   /* -------------------------------------------------------------------------
    * Wire up controls
    * -------------------------------------------------------------------------*/
-  function setupBranchPanelToggle() {
-    const branchPanel = document.getElementById('mm-branch-panel');
-    const hideBtn = document.getElementById('mm-panel-hide-btn');
-    if (!branchPanel || !hideBtn) return;
-    if (window.matchMedia('(max-width: 700px)').matches) {
-      branchPanel.classList.add('body-collapsed');
-      hideBtn.textContent = 'Show Branch Selector';
-      hideBtn.title = 'Show Branch Selector';
-      hideBtn.setAttribute('aria-expanded', 'false');
-    }
-    hideBtn.addEventListener('click', () => {
-      const collapsed = branchPanel.classList.toggle('body-collapsed');
-      branchPanel.inert = collapsed;
-      hideBtn.textContent = collapsed ? 'Show Branch Selector' : 'Hide Branch Selector';
-      hideBtn.title = collapsed ? 'Show Branch Selector' : 'Hide Branch Selector';
-      hideBtn.setAttribute('aria-expanded', String(!collapsed));
-      window.requestAnimationFrame(() => updateZoomOutLimit());
-    });
-    branchPanel.addEventListener('transitionend', event => {
-      if (event.propertyName === 'max-height') updateZoomOutLimit();
-    });
-  }
-
   function setupControls() {
     buildDetailControls();
     document.querySelectorAll('#mm-detail-controls button[data-level]').forEach(button => {
@@ -1974,17 +1978,16 @@
     });
   }
 
-  window.addEventListener('resize', () => {
-    if (renderer) {
-      window.setTimeout(() => {
-        if (!refocusPinnedPaper(0)) fitVisible(0);
-      }, 0);
-    }
-  });
-
-  window.addEventListener('hashchange', () => {
-    syncPaperFocusFromHash();
-  });
+  window.kbMapView = {
+    selection,
+    select,
+    resize: function (fit = false) {
+      if (!renderer) return;
+      renderer.resize(true);
+      renderer.refresh();
+      if (fit && !refocusPinnedPaper(0)) fitVisible(0);
+    },
+  };
 
   // Expose a small debugging/control surface.
   window._map = {
