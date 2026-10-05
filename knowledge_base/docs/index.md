@@ -17,7 +17,6 @@ render_macros: true
       </span>
       <span>Map</span>
     </h3>
-    <p>Browse in semantic similarity space.</p>
     <span class="kb-bento-visual kb-bento-visual--map" aria-hidden="true">
       <span class="kb-map-dot-cloud kb-map-dot-cloud--one"></span>
       <span class="kb-map-dot-cloud kb-map-dot-cloud--two"></span>
@@ -37,7 +36,6 @@ render_macros: true
       </span>
       <span>Tree</span>
     </h3>
-    <p>Walk the taxonomy.</p>
     <span class="kb-bento-visual kb-bento-visual--tree" aria-hidden="true">
       <svg class="kb-tree-sunburst" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" focusable="false">
         <circle class="kb-tree-sunburst-base kb-tree-sunburst-base--outer" cx="100" cy="100" r="70" pathLength="100"></circle>
@@ -80,7 +78,6 @@ render_macros: true
       </span>
       <span>Timeline</span>
     </h3>
-    <p>Explore chronology and trends.</p>
     <span class="kb-bento-visual kb-bento-visual--timeline" aria-hidden="true">
       {{ timeline_preview() }}
     </span>
@@ -93,7 +90,6 @@ render_macros: true
       </span>
       <span>Search</span>
     </h3>
-    <p>Find entries by meaning and metadata.</p>
     <span class="kb-bento-visual kb-bento-visual--search" aria-hidden="true">
       <span class="kb-search-window">
         <span class="kb-search-pill">
