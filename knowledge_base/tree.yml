@@ -2409,7 +2409,6 @@
           - IPT Color Space: docs/papers/1998/1998.ebner.development_and_testing_of/metadata.yml
           - "Uniform colour spaces based on CIECAM02 colour appearance model": docs/papers/2006/2006.luo.uniform_colour_spaces_based/metadata.yml
     - Audio:
-      - Internet-mediated music genres: docs/papers/2017/2017.born.from_microsound_to_vaporwave/metadata.yml
       - "Voxtral": docs/papers/2025/2507.13264/metadata.yml
       - "Voxtral TTS": docs/papers/2026/2603.25551/metadata.yml
       - Audio Compression:
