@@ -270,13 +270,6 @@ class GeneratedAssetTests(unittest.TestCase):
             "tree.md": (
                 "../map/#paper=example",
                 "../tree/#paper=example",
-                "../timeline/#paper=example",
-                "../search/?paper=example",
-            ),
-            "timeline.md": (
-                "../map/#paper=example",
-                "../tree/#paper=example",
-                "../timeline/#paper=example",
                 "../search/?paper=example",
             ),
             "papers/example.md": (
@@ -284,7 +277,6 @@ class GeneratedAssetTests(unittest.TestCase):
                 paper_site_url("detail", "other", "../.."),
                 paper_site_url("map", "other", "../.."),
                 paper_site_url("tree", "other", "../.."),
-                paper_site_url("timeline", "other", "../.."),
                 paper_site_url("search", "other", "../.."),
             ),
         }
@@ -305,10 +297,9 @@ class GeneratedAssetTests(unittest.TestCase):
         self.assertEqual(paper_site_source_url("detail", "other", "papers/current.md"), "other.md")
         self.assertEqual(paper_site_source_url("map", "other", "papers/current.md"), "../map.md?paper=other")
         self.assertEqual(paper_site_source_url("tree", "other", "papers/current.md"), "../tree.md?paper=other")
-        self.assertEqual(paper_site_source_url("timeline", "other", "papers/current.md"), "../timeline.md?paper=other")
         self.assertEqual(paper_site_source_url("search", "other", "papers/current.md"), "../search.md?paper=other")
 
-        for key in ("map", "tree", "timeline"):
+        for key in ("map", "tree"):
             self.assertNotIn(".md#", paper_site_source_url(key, "other", "papers/current.md"))
 
     def test_build_staging_excludes_templates_from_published_pages(self) -> None:

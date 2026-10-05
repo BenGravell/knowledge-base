@@ -32,14 +32,7 @@ Use Wikipedia page layout as a guide for reasonable spacing to title text from t
 
 ## perf
 
-Tree and Timeline pages need major performance increase for handling large number of items.
-
-## ux
-
-Timeline
-Settings
-1. re-use the branch selector widget from Tree, Map pages. get rid of nested multiselector. combine branch selector with level of detail widget, including lockout for LoD coarser than selected branch (same as Map page settings)
-2. streamline settings, make it more minimal like the Map page settings bar.
+The Tree page needs major performance increase for handling large number of items.
 
 ## Taxonomy
 

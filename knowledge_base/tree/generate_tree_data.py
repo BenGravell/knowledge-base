@@ -1,4 +1,4 @@
-"""Generated-file script: publish Tree, Timeline, and Analytics projections."""
+"""Generated-file script: publish Tree and Analytics projections."""
 
 from __future__ import annotations
 
@@ -15,7 +15,6 @@ from knowledge_base.tree.projection_common import (
     TREE_YML,
     collect_paper_details,
 )
-from knowledge_base.tree.timeline_projection import build_timeline_data, write_timeline_assets
 from knowledge_base.tree.tree_projection import IdFactory, build_browser_tree
 from knowledge_base.tree.validation import format_tree_validation_report, validate_tree
 
@@ -52,9 +51,7 @@ def main() -> None:
         out.write(TREE_DATA.js_assignment(tree_data, separators=(",", ":")))
 
     analytics_data = build_analytics_data(root, tree_model, paper_details_by_source)
-    timeline_data = build_timeline_data(tree_model, paper_details_by_source)
     write_analytics_assets(analytics_data)
-    write_timeline_assets(timeline_data)
 
 
 if __name__ == "__main__":

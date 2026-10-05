@@ -593,7 +593,7 @@ html                { scrollbar-gutter: auto; }
 .tt-mini-subtitle { font-size: 0.69rem; color: var(--md-default-fg-color--light); line-height: 1.25; margin-top: 3px; }
 .tt-mini-meta  { font-size: 0.68rem; color: var(--md-default-fg-color--light); line-height: 1.25; margin-top: 2px; }
 
-/* ── Mobile modal: same paper-detail pattern as Timeline ─────────────────── */
+/* ── Mobile paper-detail modal ─────────────────── */
 .mm-modal {
   position: fixed;
   inset: var(--mm-header-h, 56px) 0 var(--mm-footer-h, 0px) 0;

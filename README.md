@@ -24,7 +24,7 @@ See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
     - `papers/**/embed_text.md` contains cleaned arXiv full-text conversions for embeddings.
   - `tree.yml` is the editable Tree navigation and classification source.
   - `components/` contains browser component source and Map/Search adapters.
-  - `tree/` contains the Tree model, validation, and generated Tree/Timeline/Analytics projections.
+  - `tree/` contains the Tree model, validation, and generated Tree/Analytics projections.
   - `publishing/` contains generated-site contracts, paper page generation, and shared asset publishing.
   - `prefill/` contains the metadata prefill workflow and source adapters.
   - `scripts/` contains maintenance, audit, placement, and prefill entrypoints.
@@ -32,7 +32,7 @@ See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
 - `dev_apps/` contains Streamlit apps and other human-facing development tools.
 - `./dev` is the Pixi wrapper command.
 - `knowledge_base/components/map/`, `knowledge_base/tree/`, and
-  `knowledge_base/components/semantic_search/` derive Map, Timeline, Tree, and
+  `knowledge_base/components/semantic_search/` derive Map, Tree, and
   Semantic Search from `docs/papers/**/metadata.yml` plus `tree.yml`.
 - `todo/PAPERS_FUNNEL.md` and `todo/papers/*.md` hold incoming paper URLs before ingest.
 - `docs/` contains repository docs for users and maintainers; it is not the published site content.

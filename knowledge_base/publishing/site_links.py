@@ -13,25 +13,22 @@ import yaml
 
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 
-PAPER_SITE_LINK_KEYS = ("map", "tree", "timeline", "search")
+PAPER_SITE_LINK_KEYS = ("map", "tree", "search")
 PAPER_SITE_LINK_LABELS = {
     "detail": "Detail",
     "map": "Map",
     "tree": "Tree",
-    "timeline": "Timeline",
     "search": "Search",
 }
 PAPER_SITE_LINK_SOURCES = {
     "map": {"map.md"},
     "tree": {"tree.md"},
-    "timeline": {"timeline.md"},
     "search": {"search.md"},
 }
 FALLBACK_NAV_ICONS = {
     "detail": "lucide/file-text",
     "map": "lucide/map",
     "tree": "lucide/folder-tree",
-    "timeline": "lucide/history",
     "search": "lucide/search",
 }
 FALLBACK_EXTERNAL_ICON = "lucide/external-link"
@@ -164,8 +161,6 @@ def paper_site_url(key: str, paper_id: str, base_path: str) -> str:
         return join_url(base_path, f"map/#paper={quoted_paper_id}")
     if key == "tree":
         return join_url(base_path, f"tree/#paper={quoted_paper_id}")
-    if key == "timeline":
-        return join_url(base_path, f"timeline/#paper={quoted_paper_id}")
     if key == "search":
         return join_url(base_path, f"search/?paper={quoted_paper_id}")
     return ""
@@ -179,8 +174,6 @@ def paper_site_source_url(key: str, paper_id: str, from_source: str) -> str:
         return source_relative_url(from_source, f"map.md?paper={quoted_paper_id}")
     if key == "tree":
         return source_relative_url(from_source, f"tree.md?paper={quoted_paper_id}")
-    if key == "timeline":
-        return source_relative_url(from_source, f"timeline.md?paper={quoted_paper_id}")
     if key == "search":
         return source_relative_url(from_source, f"search.md?paper={quoted_paper_id}")
     return ""

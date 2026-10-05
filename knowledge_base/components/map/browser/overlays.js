@@ -434,10 +434,6 @@
       return `#paper=${encodeURIComponent(d.id)}`;
     }
 
-    function paperTimelineUrl(d) {
-      return `../timeline/#paper=${encodeURIComponent(d.id)}`;
-    }
-
     function paperSearchUrl(d) {
       return `../search/?paper=${encodeURIComponent(d.id)}`;
     }
@@ -461,7 +457,6 @@
             url: paperDetailUrl(d),
             mapUrl: paperMapUrl(d),
             treeUrl: paperTreeUrl(d),
-            timelineUrl: paperTimelineUrl(d),
             searchUrl: paperSearchUrl(d),
           },
           { includeMap }

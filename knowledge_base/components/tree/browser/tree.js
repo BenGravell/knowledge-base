@@ -2378,7 +2378,6 @@
     const detailUrl = node.url || '';
     const mapUrl = paper.mapUrl || mapUrlFromSource(node.source);
     const treeUrl = paper.treeUrl || treeUrlFromSource(node.source);
-    const timelineUrl = paper.timelineUrl || timelineUrlFromSource(node.source);
     const searchUrl = paper.searchUrl || searchUrlFromSource(node.source);
     const actions = [
       externalUrl
@@ -2393,7 +2392,6 @@
         url: detailUrl,
         mapUrl: mapUrl,
         treeUrl: treeUrl,
-        timelineUrl: timelineUrl,
         searchUrl: searchUrl,
       }),
     ].filter(Boolean).join('');
@@ -2607,11 +2605,6 @@
   function treeUrlFromSource(source) {
     const match = String(source || '').match(/^papers\/(.+)\.md$/);
     return match ? '../tree/#paper=' + encodeURIComponent(match[1]) : '';
-  }
-
-  function timelineUrlFromSource(source) {
-    const match = String(source || '').match(/^papers\/(.+)\.md$/);
-    return match ? '../timeline/#paper=' + encodeURIComponent(match[1]) : '';
   }
 
   function searchUrlFromSource(source) {

@@ -53,7 +53,7 @@ THRESHOLD_TARGET_RECALL = 0.85
 DEFAULT_SCORE_THRESHOLD = SEMANTIC_SCORE_THRESHOLD
 EMBED_PROGRESS_INTERVAL = 32
 ASSET_FORMAT_VERSION = 2
-SOURCE_FINGERPRINT_VERSION = 1
+SOURCE_FINGERPRINT_VERSION = 2
 
 
 def clean_scalar(value: object) -> str:
@@ -79,7 +79,6 @@ def load_papers() -> tuple[list[dict[str, Any]], list[EmbeddingRow]]:
                 "url": entry.url("detail"),
                 "mapUrl": entry.url("map"),
                 "treeUrl": entry.url("tree"),
-                "timelineUrl": entry.url("timeline"),
                 "searchUrl": entry.url("search"),
                 "byline": entry.byline,
                 "embed_text": entry.embedding_text,
@@ -137,7 +136,6 @@ def semantic_asset_key(
         "url",
         "mapUrl",
         "treeUrl",
-        "timelineUrl",
         "searchUrl",
         "byline",
         "hash",
@@ -420,7 +418,6 @@ def generate(args: argparse.Namespace) -> None:
         "url",
         "mapUrl",
         "treeUrl",
-        "timelineUrl",
         "searchUrl",
         "byline",
     )

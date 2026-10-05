@@ -15,10 +15,22 @@ from knowledge_base.tree.projection_common import (
     UNCATEGORIZED_CATEGORY,
     as_list,
     clean_text,
-    page_url,
     slugify_id,
 )
-from knowledge_base.tree.timeline_projection import build_timeline_nav_index
+
+
+def build_analytics_nav_index(model: TreeModel) -> dict[str, dict[str, Any]]:
+    index: dict[str, dict[str, Any]] = {}
+    for placement in model.placements_by_paper_id.values():
+        source = placement.generated_source
+        path = ["Tree", *placement.nav_path]
+        super_category = path[1] if len(path) > 1 else None
+        category = path[2] if len(path) > 2 else super_category or UNCATEGORIZED_CATEGORY
+        index[source] = {
+            "superCategory": super_category,
+            "category": category,
+        }
+    return index
 
 
 def count_rows(counter: Counter[Any], *, limit: int | None = None) -> list[dict[str, Any]]:
@@ -32,42 +44,6 @@ def count_rows(counter: Counter[Any], *, limit: int | None = None) -> list[dict[
 
 def year_bin_label(start: int, end: int) -> str:
     return str(start) if start == end else f"{start}-{end}"
-
-
-def year_bin_width(start: int) -> int:
-    if start < 1950:
-        return 10
-    if start < 2000:
-        return 5
-    return 1
-
-
-def build_year_bins(year_counts: Counter[int]) -> list[dict[str, Any]]:
-    years = sorted(year_counts)
-    if not years:
-        return []
-
-    min_year = min(years)
-    max_year = max(years)
-    ranges: list[tuple[int, int]] = []
-
-    if min_year < 1950:
-        ranges.append((min_year, min(1949, max_year)))
-    ranges.extend((max(start, min_year), min(start + 4, max_year)) for start in range(1950, min(2000, max_year + 1), 5))
-    ranges.extend((year, year) for year in range(max(2000, min_year), max_year + 1))
-
-    return [
-        {
-            "label": year_bin_label(start, end),
-            "start": start,
-            "end": end,
-            "width": year_bin_width(start)
-            + (max(0, int(sum(year_counts.get(year, 0) for year in range(start, end + 1))) - 1) ** 0.62) * 0.7,
-            "count": int(sum(year_counts.get(year, 0) for year in range(start, end + 1))),
-        }
-        for start, end in ranges
-        if start <= end
-    ]
 
 
 def analytics_bin_step(year: int, mode: str) -> int:
@@ -185,7 +161,7 @@ def build_analytics_data(
     model: TreeModel,
     paper_details_by_source: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
-    nav_index = build_timeline_nav_index(model)
+    nav_index = build_analytics_nav_index(model)
     year_counts: Counter[int] = Counter()
     author_counts: Counter[str] = Counter()
     author_display: dict[str, str] = {}
@@ -204,12 +180,8 @@ def build_analytics_data(
         total_papers += 1
         nav = nav_index.get(source)
         nav = nav or {
-            "navLabel": "",
             "superCategory": None,
             "category": UNCATEGORIZED_CATEGORY,
-            "subCategory": None,
-            "path": ["Tree", UNCATEGORIZED_CATEGORY],
-            "url": page_url(source),
         }
         authors = [clean_text(author) for author in as_list(details.get("authors")) if clean_text(author)]
         year = details.get("yearValue")

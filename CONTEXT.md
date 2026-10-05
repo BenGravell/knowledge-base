@@ -14,7 +14,7 @@ _Avoid_: paper loader, metadata helper, papers dict, metadata index
 
 One metadata-backed entry in the `Catalog`.
 
-It owns stable IDs, cleaned metadata, common derived fields, stable local links such as detail, Tree, Map, Timeline, and Search URLs, and embedding text as the canonical answer to what text represents a paper; generated-page presentation link sections, embedding vectors, Map layout, Search vector output, and Tree branch output remain adapter-specific projections.
+It owns stable IDs, cleaned metadata, common derived fields, stable local links such as detail, Tree, Map, and Search URLs, and embedding text as the canonical answer to what text represents a paper; generated-page presentation link sections, embedding vectors, Map layout, Search vector output, and Tree branch output remain adapter-specific projections.
 Author, source, and tag normalization stays adapter-specific because the normalization databases carry audit policy.
 
 Every field needed by adapters belongs on the `Entry` interface from day one; do not preserve raw metadata as a migration escape hatch.
@@ -38,14 +38,14 @@ _Avoid_: site nav, category list, site menu
 ### Tree Placement
 
 Normalized Tree fact that locates an `Entry` at a leaf: branch path, leaf label, source, and generated paper ID when the leaf is metadata-backed.
-Map categories, Timeline groupings, validation coverage, and placement reports are projections of Tree Placement rather than independent category models.
+Map categories, validation coverage, and placement reports are projections of Tree Placement rather than independent category models.
 
 _Avoid_: category info, nav row, paper category, super/category/subcategory tuple
 
 ### Tree Model
 
 Canonical in-process view of the `Tree`, containing ordered branches, leaves, source normalization, Tree Placement lookup, and Tree distance/order facts.
-Browser Tree data, Map categories, Timeline order, validation reports, and Tree scripts remain adapter-specific projections.
+Browser Tree data, Map categories, validation reports, and Tree scripts remain adapter-specific projections.
 
 _Avoid_: nav parser, tree helper, tree.yml wrapper
 

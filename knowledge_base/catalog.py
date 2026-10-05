@@ -23,7 +23,7 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 MetadataYear = int | str
-UrlKey = Literal["detail", "tree", "map", "timeline", "search"]
+UrlKey = Literal["detail", "tree", "map", "search"]
 EMBED_TEXT_SIDECAR = "embed_text.md"
 EMBED_INPUT_SIDECAR = "embed_input.md"
 EMBED_INPUT_SIDECAR_MARKER = "<!-- embedding-input:v1 -->"
@@ -377,7 +377,6 @@ class Entry:
     detail_path: str
     tree_path: str
     map_path: str
-    timeline_path: str
     search_path: str
     embedding_chunks: tuple[EmbeddingInputChunk, ...]
     embedding_text: str
@@ -436,7 +435,6 @@ class Entry:
         detail_path = f"papers/{quoted_id}/"
         tree_path = f"tree/#paper={quoted_id}"
         map_path = f"map/#paper={quoted_id}"
-        timeline_path = f"timeline/#paper={quoted_id}"
         search_path = f"search/?paper={quoted_id}"
         cached_embedding_chunks = (
             () if refresh_embedding_input_sidecar else embedding_input_sidecar_chunks(metadata_path)
@@ -507,7 +505,6 @@ class Entry:
             detail_path=detail_path,
             tree_path=tree_path,
             map_path=map_path,
-            timeline_path=timeline_path,
             search_path=search_path,
             embedding_chunks=embedding_chunks,
             embedding_text=embedding_text,
@@ -519,7 +516,6 @@ class Entry:
             "detail": self.detail_path,
             "tree": self.tree_path,
             "map": self.map_path,
-            "timeline": self.timeline_path,
             "search": self.search_path,
         }
         return join_url(base_path, paths[key])

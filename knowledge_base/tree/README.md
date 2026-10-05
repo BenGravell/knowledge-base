@@ -18,7 +18,7 @@ The generated site later publishes those papers as `papers/<paper_id>.md`.
 
 - `source`: the raw Tree source, used for formatting-preserving edits to
   `tree.yml`.
-- `generated_source`: the generated site paper page, used by Map, Timeline,
+- `generated_source`: the generated site paper page, used by Map,
   Tree browser, and generated site data.
 - `metadata_path`: the resolved metadata file when a leaf points at metadata.
 
@@ -31,7 +31,7 @@ The generated site later publishes those papers as `papers/<paper_id>.md`.
 - `validation.py` checks local links, metadata coverage, and optional
   Tree/metadata algorithm-label drift.
 - `generate_tree_data.py` is a generated-site adapter. It turns `TreeModel`
-  into browser, Analytics, and Timeline JavaScript payloads.
+  into browser and Analytics JavaScript payloads.
 
 ## Preferred Entry Point
 

@@ -68,7 +68,6 @@ def collect_paper_details() -> dict[str, dict[str, Any]]:
             "abstract": clean_text(entry.abstract),
             "summary": clean_text(entry.summary),
             "mapUrl": entry.url("map"),
-            "timelineUrl": entry.url("timeline"),
             "searchUrl": entry.url("search"),
         }
     return details

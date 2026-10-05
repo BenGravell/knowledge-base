@@ -126,11 +126,6 @@ ANALYTICS_DATA = JsonAsset(
     global_name="analyticsData",
     assignment_prefix="window.analyticsData = ",
 )
-TIMELINE_DATA = JsonAsset(
-    "timeline-data.js",
-    global_name="timelineData",
-    assignment_prefix="window.timelineData = ",
-)
 
 MAP_SIMILARITY = GeneratedAsset("map-similarity.i16")
 SEMANTIC_SEARCH_INDEX = JsonAsset("semantic-search-index.json")
@@ -157,7 +152,6 @@ PAPER_LINK_PILLS_SCRIPT = GeneratedAsset("paper-link-pills.js")
 SEARCH_SCRIPT = GeneratedAsset("search.js")
 SEMANTIC_SEARCH_WORKER_SCRIPT = GeneratedAsset("semantic-search-worker.js")
 SIGMA_VENDOR_SCRIPT = GeneratedAsset("sigma.min.js", "javascripts/vendor")
-TIMELINE_SCRIPT = GeneratedAsset("timeline.js")
 TREE_NAVIGATOR_SCRIPT = GeneratedAsset("tree-navigator.js")
 TREE_SCRIPT = GeneratedAsset("tree.js")
 
@@ -193,10 +187,6 @@ TREE_APP_SCRIPTS = AppScriptBundle(
     "tree",
     (SITE_LINK_DATA, PAPER_LINK_PILLS_SCRIPT, TREE_DATA, TREE_NAVIGATOR_SCRIPT, TREE_SCRIPT),
 )
-TIMELINE_APP_SCRIPTS = AppScriptBundle(
-    "timeline",
-    (SITE_LINK_DATA, PAPER_LINK_PILLS_SCRIPT, TIMELINE_DATA, TIMELINE_SCRIPT),
-)
 ANALYTICS_APP_SCRIPTS = AppScriptBundle(
     "analytics",
     (ANALYTICS_DATA, ANALYTICS_SCRIPT),
@@ -209,7 +199,6 @@ APP_SCRIPT_BUNDLES = {
         MAP_APP_SCRIPTS,
         SEARCH_APP_SCRIPTS,
         TREE_APP_SCRIPTS,
-        TIMELINE_APP_SCRIPTS,
         ANALYTICS_APP_SCRIPTS,
     )
 }
@@ -218,7 +207,6 @@ APP_SCRIPT_PAGES = {
     "map.md": MAP_APP_SCRIPTS,
     "search.md": SEARCH_APP_SCRIPTS,
     "tree.md": TREE_APP_SCRIPTS,
-    "timeline.md": TIMELINE_APP_SCRIPTS,
 }
 APP_SCRIPT_BLOCK_RE = re.compile(
     r"<!--\s*kb:app-scripts\s+(?P<bundle>[a-z0-9_-]+)\s*-->" r".*?" r"<!--\s*/kb:app-scripts\s*-->",

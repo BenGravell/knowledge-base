@@ -71,18 +71,6 @@ render_macros: true
     </span>
   </a>
 
-  <a class="kb-bento-card kb-bento-card--timeline" href="timeline/">
-    <h3>
-      <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ site_icon(config.extra.nav_icons.timeline) }}
-      </span>
-      <span>Timeline</span>
-    </h3>
-    <span class="kb-bento-visual kb-bento-visual--timeline" aria-hidden="true">
-      {{ timeline_preview() }}
-    </span>
-  </a>
-
   <a class="kb-bento-card kb-bento-card--search" href="search/">
     <h3>
       <span class="kb-bento-title-icon" aria-hidden="true">
@@ -167,7 +155,7 @@ render_macros: true
 
       <ul>
         <li>They are optimized for discovery sessions, not for maintaining a stable, hand-curated library with my own labels, summaries, tags, and placement decisions.</li>
-        <li>Their maps are usually generated around a query, seed, or remote account state, while I wanted the same corpus to be available as a tree, map, timeline, search surface, and per-paper notes.</li>
+        <li>Their maps are usually generated around a query, seed, or remote account state, while I wanted the same corpus to be available as a tree, map, search surface, and per-paper notes.</li>
         <li>They depend on live third-party services and external ranking logic; this site is static, inspectable, and rebuildable from local metadata.</li>
         <li>They can help find more papers, but they do not answer the quieter question: what have I already decided is worth keeping, and where does it sit relative to everything else I care about?</li>
       </ul>

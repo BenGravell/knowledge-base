@@ -86,7 +86,6 @@
 
     if (last === 'map') return 'map';
     if (last === 'tree' || beforeLast === 'tree') return 'tree';
-    if (last === 'timeline') return 'timeline';
     if (last === 'search') return 'search';
     if (beforeLast === 'papers' || parts.includes('papers')) return 'detail';
     return '';
@@ -152,7 +151,6 @@
     if (key === 'detail') return source.url || source.detailUrl || '';
     if (key === 'map') return source.mapUrl || source.map_url || '';
     if (key === 'tree') return source.treeUrl || source.tree_url || '';
-    if (key === 'timeline') return source.timelineUrl || source.timeline_url || '';
     if (key === 'search') return source.searchUrl || source.search_url || '';
     return '';
   }

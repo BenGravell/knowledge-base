@@ -20,8 +20,8 @@ Important paths:
 - `knowledge_base/docs/`: Zensical markdown content, generated paper pages, paper metadata, and templates.
 - `knowledge_base/docs/papers/`: paper entries. New entries go here.
 - `knowledge_base/docs/templates/metadata.yml`: template for paper metadata.
-- `knowledge_base/tree.yml`: editable Tree taxonomy source used by generated Tree, Map, and Timeline assets.
-- `knowledge_base/tree/`: Tree Model, Tree validation, and Tree/Analytics/Timeline generated-site projections.
+- `knowledge_base/tree.yml`: editable Tree taxonomy source used by generated Tree and Map assets.
+- `knowledge_base/tree/`: Tree Model, Tree validation, and Tree/Analytics generated-site projections.
 - `knowledge_base/publishing/`: generated-site asset contracts, generated docs writer, paper page generation, site-link helpers, and shared browser asset publishing.
 - `knowledge_base/prefill/`: metadata prefill workflow and source-specific paper importers.
 - `knowledge_base/embeddings/`: Embedding Workbench and embedding cache helpers.

@@ -383,7 +383,6 @@ def paper_record(entry: Entry) -> dict[str, Any]:
         "url": entry.url("detail"),
         "treeUrl": entry.url("tree"),
         "mapUrl": entry.url("map"),
-        "timelineUrl": entry.url("timeline"),
         "searchUrl": entry.url("search"),
     }
 
@@ -451,7 +450,6 @@ def build_top_similar_papers(
                     "url": paper_site_source_url("detail", other_id, f"papers/{paper_id}.md"),
                     "tree_url": paper_site_source_url("tree", other_id, f"papers/{paper_id}.md"),
                     "map_url": paper_site_source_url("map", other_id, f"papers/{paper_id}.md"),
-                    "timeline_url": paper_site_source_url("timeline", other_id, f"papers/{paper_id}.md"),
                     "search_url": paper_site_source_url("search", other_id, f"papers/{paper_id}.md"),
                     "site_links": paper_site_links(
                         other_id,

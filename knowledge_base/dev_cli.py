@@ -32,7 +32,7 @@ GENERATED_FILE_SCRIPTS = (
     ("browser component assets", KB_DIR / "publishing" / "browser_assets.py"),
     ("map assets", KB_DIR / "components" / "map" / "pipeline" / "copy_assets.py"),
     ("semantic search assets", KB_DIR / "components" / "semantic_search" / "copy_assets.py"),
-    ("tree, analytics, and timeline data", KB_DIR / "tree" / "generate_tree_data.py"),
+    ("tree and analytics data", KB_DIR / "tree" / "generate_tree_data.py"),
 )
 
 

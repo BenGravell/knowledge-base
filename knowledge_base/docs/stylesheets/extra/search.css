@@ -1226,23 +1226,10 @@
     padding-inline: 0.5rem;
   }
 
-  body:has(#tl-app) .tl-controls,
-  body:has(#tl-app) .tl-legend,
-  body:has(#tl-app) .tl-stage-toolbar,
-  body:has(#tl-app) .tl-modal-head,
-  body:has(#tl-app) .tl-modal-body,
   body:has(.md-content__inner > #an-app) .an-toolbar,
   body:has(.md-content__inner > #an-app) .an-card,
   body:has(.md-content__inner > #an-app) .an-metric {
     padding-inline: 0.5rem !important;
-  }
-
-  body:has(#tl-app) .tl-modal {
-    padding-inline: var(--kb-app-page-gutter) !important;
-  }
-
-  body:has(#tl-app) .tl-modal-card {
-    width: calc(100vw - (2 * var(--kb-app-page-gutter))) !important;
   }
 
   body:has(.md-content__inner > #an-app) .an-table th,
