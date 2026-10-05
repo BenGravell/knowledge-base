@@ -146,28 +146,6 @@ Add an export button to get a json or csv of all currently displayed items
 CSV should include one item per row. Tree ancestry in a column.
 JSON can use tree hierarchy natively.
 
-## Reading plans (new feature)
-
-Hand-crafted
-
-- guide users thru papers in a nice sequence, with rationale provided as a pre amble
-- can have a "view from above" that just hits the most important papers
-- can have "deep dives" that go into weeds on topics
-
-## Quiz questions (new feature)
-
-- phrase them like "knowledge checks"
-- include content like concepts, experimental results, connections to other papers (differentials between papers to show incremental progress)
-- add a difficulty indicator (easy, medium, hard)
-- open ended responses for meditation
-
-## Chain (New feature)
-
-User picks two items and we show the graph chain of hops linking them.
-
-- Using semantic similarity neighbor graph. edges only for nodes whose embedding cosine distance is below a certain threshold (which represents the notion of 'related papers'). shortest path solve.
-- Tree taxonomy
-
 ## Dissertations page (new feature)
 
 Create a special page (like a corner of a physical library) just for Dissertations and Theses. They belong in their own isolated section because
