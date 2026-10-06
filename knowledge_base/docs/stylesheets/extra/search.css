@@ -964,11 +964,12 @@
   }
 
   .semantic-search-results-panel .paper-similar-card {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: 2.8rem minmax(0, 1fr);
   }
 
   .semantic-search-results-panel .paper-similar-card__rank {
-    justify-self: start;
+    width: 2.8rem;
+    height: 2.8rem;
   }
 }
 
@@ -994,14 +995,6 @@
   .semantic-search-result-list,
   .semantic-search-results-panel.has-hidden-results .semantic-search-result-list {
     padding-top: 0;
-  }
-
-  .paper-similar-card {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .paper-similar-card__rank {
-    justify-self: start;
   }
 }
 
