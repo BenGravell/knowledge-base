@@ -141,6 +141,23 @@ NAVIGATION_CHECK = """
     JSON.stringify(window.kbTreeView.selection().path) === JSON.stringify(window.kbMapView.selection().path) &&
     new URLSearchParams(location.hash.slice(1)).get('ct') === window.kbTreeView.selection().id,
     'clearing Map paper selection must retain the same branch in both views and URL');
+  const deepBranch = 'tree-decision-making-reinforcement-learning-linear-systems-policy-optimization';
+  const deepPath = ['Decision-making', 'Reinforcement Learning', 'Linear Systems', 'Policy Optimization'];
+  for (const [index, level] of ['super_category', 'category', 'sub_category'].entries()) {
+    check(window.kbTreeView.selectNode(deepBranch), 'LoD test branch must exist');
+    const button = document.querySelector(`#mm-detail-controls button[data-level="${level}"]`);
+    check(!button.disabled && button.classList.contains('is-ancestor'), 'ancestor LoD must be clickable');
+    button.click();
+    await settle();
+    const expectedPath = JSON.stringify(deepPath.slice(0, index + 1));
+    check(JSON.stringify(window.kbMapView.selection().path) === expectedPath &&
+      JSON.stringify(window.kbTreeView.selection().path) === expectedPath &&
+      window._map.detailLevel() === level &&
+      new URLSearchParams(location.hash.slice(1)).get('ct') === window.kbTreeView.selection().id,
+      'ancestor LoD must navigate Map, Tree, and URL to the chosen level');
+    check(graph.nodes().some(id => !renderer.getNodeDisplayData(id).hidden),
+      'ancestor LoD must leave visible Map nodes');
+  }
   toggle.click();
   switchMode('tree');
   check(modeIs('tree') && foldIs(false), 'Tree must retain the collapsed shared branch selector');

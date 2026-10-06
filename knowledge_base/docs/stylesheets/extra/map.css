@@ -351,8 +351,7 @@
   color: var(--md-default-fg-color);
   font-weight: 600;
 }
-.mm-detail-controls button:disabled {
-  cursor: not-allowed;
+.mm-detail-controls button.is-ancestor {
   opacity: 0.38;
 }
 .mm-detail-icon {

@@ -1930,11 +1930,13 @@
     }
     document.querySelectorAll('#mm-detail-controls button[data-level]').forEach(button => {
       const active = button.dataset.level === viewState.currentDetailLevel;
-      const disabled = !detailLevelAllowedForActiveBranch(button.dataset.level);
+      const ancestor = !detailLevelAllowedForActiveBranch(button.dataset.level);
       button.classList.toggle('active', active);
+      button.classList.toggle('is-ancestor', ancestor);
       button.setAttribute('aria-pressed', active ? 'true' : 'false');
-      button.disabled = disabled;
-      button.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+      const label = detailControlLabel(hierarchyLevel(button.dataset.level));
+      button.title = ancestor ? `Go up to ${label}` : label;
+      button.setAttribute('aria-label', ancestor ? button.title : `Level of detail: ${label}`);
     });
   }
 
@@ -1962,7 +1964,15 @@
     narrowScreen.addEventListener('change', syncDetailLayout);
     syncDetailLayout();
     const choose = button => {
+      let group = viewState.branchFilterGroups.get(viewState.activeBranchFilterKey);
+      const pathIndex = hierarchyLevel(button.dataset.level).pathIndex;
+      const ascending = group && group.pathIndex > pathIndex;
+      if (ascending) {
+        while (group && group.pathIndex > pathIndex) group = group.parent;
+        setActiveBranchFilter(group ? group.key : BRANCH_FILTER_ALL);
+      }
       applyDetailLevel(button.dataset.level);
+      if (ascending) fitVisible(0);
       if (narrowScreen.matches) {
         picker.hidePopover();
         toggle.focus({ preventScroll: true });
