@@ -1922,6 +1922,12 @@
   }
 
   function updateDetailButtons() {
+    const level = DETAIL_CONTROL_LEVELS.find(level => level.id === viewState.currentDetailLevel);
+    const toggle = document.getElementById('mm-detail-toggle');
+    if (toggle && level) {
+      toggle.innerHTML = detailLevelIconMarkup(level);
+      toggle.setAttribute('aria-label', `Level of detail: ${detailControlLabel(level)}`);
+    }
     document.querySelectorAll('#mm-detail-controls button[data-level]').forEach(button => {
       const active = button.dataset.level === viewState.currentDetailLevel;
       const disabled = !detailLevelAllowedForActiveBranch(button.dataset.level);
@@ -1945,8 +1951,63 @@
    * -------------------------------------------------------------------------*/
   function setupControls() {
     buildDetailControls();
-    document.querySelectorAll('#mm-detail-controls button[data-level]').forEach(button => {
-      button.addEventListener('click', () => applyDetailLevel(button.dataset.level));
+    const toggle = document.getElementById('mm-detail-toggle');
+    const picker = document.getElementById('mm-detail-popover');
+    const choices = [...document.querySelectorAll('#mm-detail-controls button[data-level]')];
+    const narrowScreen = window.matchMedia('(max-width: 760px)');
+    const syncDetailLayout = () => {
+      if (picker.matches(':popover-open')) picker.hidePopover();
+      picker.toggleAttribute('popover', narrowScreen.matches);
+    };
+    narrowScreen.addEventListener('change', syncDetailLayout);
+    syncDetailLayout();
+    const choose = button => {
+      applyDetailLevel(button.dataset.level);
+      if (narrowScreen.matches) {
+        picker.hidePopover();
+        toggle.focus({ preventScroll: true });
+      }
+    };
+    choices.forEach(button => button.addEventListener('click', () => choose(button)));
+    // Capture the press so a held mouse or finger can slide into the popup.
+    let sliding = false;
+    let suppressClick = false;
+    const choiceAt = event => {
+      const button = document.elementFromPoint(event.clientX, event.clientY)?.closest('button[data-level]');
+      return choices.includes(button) && !button.disabled ? button : null;
+    };
+    toggle.addEventListener('pointerdown', event => {
+      if (event.button !== 0 || !event.isPrimary) return;
+      event.preventDefault();
+      suppressClick = !picker.matches(':popover-open');
+      picker.showPopover();
+      sliding = true;
+      toggle.setPointerCapture(event.pointerId);
+    });
+    document.addEventListener('pointermove', event => {
+      if (!sliding) return;
+      const hovered = choiceAt(event);
+      choices.forEach(button => button.classList.toggle('is-sliding', button === hovered));
+    });
+    document.addEventListener('pointerup', event => {
+      if (!sliding) return;
+      const button = choiceAt(event);
+      if (button) {
+        choose(button);
+        suppressClick = true;
+      }
+      sliding = false;
+      choices.forEach(button => button.classList.remove('is-sliding'));
+    });
+    toggle.addEventListener('pointercancel', () => {
+      sliding = false;
+      suppressClick = false;
+      choices.forEach(button => button.classList.remove('is-sliding'));
+      picker.hidePopover();
+    });
+    toggle.addEventListener('click', event => {
+      if (suppressClick && event.detail !== 0) event.preventDefault();
+      suppressClick = false;
     });
     updateDetailButtons();
     setupRelevanceControls();

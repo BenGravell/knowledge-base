@@ -315,7 +315,8 @@
   grid-template-columns: repeat(5, var(--mm-detail-button-size));
   justify-content: start;
 }
-.mm-detail-controls button {
+.mm-detail-controls button,
+#mm-detail-toggle {
   min-width: 0;
   width: 100%;
   max-width: 100%;
@@ -331,7 +332,8 @@
   line-height: 1.1;
   white-space: nowrap;
 }
-.mm-detail-controls button {
+.mm-detail-controls button,
+#mm-detail-toggle {
   display: grid;
   place-items: center;
   width: var(--mm-detail-button-size);
@@ -577,15 +579,6 @@
     padding-inline: 0.5rem;
   }
 
-  .mm-header-controls {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    width: 100%;
-  }
-
-  #mm-panel-header .mm-section--detail {
-    flex-basis: 100%;
-  }
 
   .mm-bento-tile,
   .mm-relevance-panel {
@@ -628,5 +621,56 @@
   .mm-modal-head,
   .mm-modal-body {
     padding-inline: 0.55rem;
+  }
+}
+
+/* Float the picker over the canvas to keep the header on one row. */
+#mm-detail-toggle {
+  width: 44px;
+  height: 44px;
+  anchor-name: --mm-detail-toggle;
+  touch-action: none;
+}
+#mm-detail-popover {
+  position-anchor: --mm-detail-toggle;
+  inset: auto;
+  top: calc(anchor(bottom) + 6px);
+  right: max(8px, anchor(right));
+  margin: 0;
+  padding: 10px;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 8px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  box-shadow: 0 4px 16px #0003;
+}
+#mm-detail-popover .mm-detail-controls {
+  --mm-detail-button-size: 44px;
+  margin-top: 6px;
+  touch-action: none;
+}
+#mm-detail-toggle:focus-visible,
+.mm-detail-controls button:focus-visible,
+.mm-detail-controls button.is-sliding {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+}
+
+@media (min-width: 761px) {
+  #mm-detail-toggle {
+    display: none;
+  }
+  #mm-detail-popover {
+    display: flex;
+    position: static;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+  #mm-detail-popover .mm-detail-controls {
+    margin-top: 0;
   }
 }

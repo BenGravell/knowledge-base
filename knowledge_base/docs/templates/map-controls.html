@@ -1,8 +1,11 @@
 <div class="mm-header-controls" aria-label="Map settings">
   <div class="mm-section mm-section--detail">
-    <span class="mm-section-label">
+    <button id="mm-detail-toggle" type="button" popovertarget="mm-detail-popover" aria-label="Level of detail" title="Level of detail: press and slide to choose"></button>
+    <div id="mm-detail-popover" popover aria-label="Level of detail">
+      <span class="mm-section-label">
 --8<-- "knowledge_base/docs/templates/lod.html"
-    </span>
-    <div id="mm-detail-controls" class="mm-detail-controls"></div>
+      </span>
+      <div id="mm-detail-controls" class="mm-detail-controls"></div>
+    </div>
   </div>
 </div>

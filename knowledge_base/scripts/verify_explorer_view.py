@@ -40,7 +40,7 @@ LAYOUT_SNAPSHOT = """
   };
   return {
     header: rect(header),
-    controls: [...header.querySelectorAll('button, .mm-section-label:not(:has(button)), #mm-panel-title')].map(rect),
+    controls: [...header.querySelectorAll('button, .mm-section-label:not(:has(button)), #mm-panel-title')].filter(el => el.getClientRects().length).map(rect),
     overflow: [header, ...header.querySelectorAll('*'), dock, toggle, branch]
       .filter(el => el.clientWidth && el.scrollWidth > el.clientWidth + 1)
       .map(el => el.id || el.className),
@@ -155,7 +155,7 @@ def _header_layout_failures(snapshot: dict[str, Any], width: int) -> list[str]:
     if header["left"] < -1 or header["right"] > width + 1:
         failures.append("settings header exceeds viewport")
     controls = snapshot["controls"]
-    if len(controls) < 7:
+    if len(controls) < 3:
         failures.append("missing settings controls")
     failures.extend(
         f"clipped control: {control['name']}"
@@ -304,6 +304,50 @@ def verify_settings_layout(site_dir: Path) -> None:
                                     + "\n".join(failures)
                                 )
                             previous = snapshot
+                    if width <= 760:
+                        geometry = client.evaluate("""(() => {
+                          const toggle = document.getElementById('mm-detail-toggle');
+                          const mode = document.querySelector('.kb-mode-switch').getBoundingClientRect();
+                          const rect = toggle.getBoundingClientRect();
+                          if (Math.abs((rect.top + rect.bottom) - (mode.top + mode.bottom)) > 2)
+                            throw new Error('LoD and mode switch must share one row');
+                          if (document.getElementById('mm-detail-popover').matches(':popover-open'))
+                            throw new Error('LoD choices must start collapsed');
+                          return {x: rect.x + rect.width / 2, y: rect.y + rect.height / 2};
+                        })()""")
+                        client.call("Input.dispatchTouchEvent", {"type": "touchStart", "touchPoints": [geometry]})
+                        target = client.evaluate("""(() => {
+                          const picker = document.getElementById('mm-detail-popover');
+                          if (!picker.matches(':popover-open')) throw new Error('Press must open LoD');
+                          const rect = picker.getBoundingClientRect();
+                          if (rect.left < 0 || rect.right > innerWidth) throw new Error('LoD popup overflows');
+                          const button = picker.querySelector('button[data-level]:not(:disabled):not(.active)');
+                          const box = button.getBoundingClientRect();
+                          return {x: box.x + box.width / 2, y: box.y + box.height / 2, level: button.dataset.level};
+                        })()""")
+                        level = target.pop("level")
+                        client.call("Input.dispatchTouchEvent", {"type": "touchMove", "touchPoints": [target]})
+                        client.call("Input.dispatchTouchEvent", {"type": "touchEnd", "touchPoints": []})
+                        if not client.evaluate(
+                            f"""document.querySelector('#mm-detail-controls button.active').dataset.level === '{level}' &&
+                          !document.getElementById('mm-detail-popover').matches(':popover-open')"""
+                        ):
+                            raise AssertionError(f"Sliding to {level} at {width}px must select it and close LoD")
+                        client.evaluate("document.getElementById('mm-detail-toggle').click()")
+                    else:
+                        if not client.evaluate("""(() => {
+                          const toggle = document.getElementById('mm-detail-toggle');
+                          const picker = document.getElementById('mm-detail-popover');
+                          const mode = document.querySelector('.kb-mode-switch').getBoundingClientRect();
+                          const rect = picker.getBoundingClientRect();
+                          return !toggle.getClientRects().length && !picker.hasAttribute('popover') &&
+                            picker.querySelectorAll('button[data-level]').length === 5 &&
+                            Math.abs((rect.top + rect.bottom) - (mode.top + mode.bottom)) <= 2;
+                        })()"""):
+                            raise AssertionError(f"LoD icons must appear inline at {width}px")
+                        client.evaluate(
+                            "document.querySelector('#mm-detail-controls button:not(:disabled):not(.active)').click()"
+                        )
                     client.evaluate("document.querySelector('.kb-lod-help-button').click()")
                     if not client.evaluate("document.getElementById('kb-lod-help').matches(':popover-open')"):
                         raise AssertionError("LoD click must open its explanation")
@@ -318,6 +362,33 @@ def verify_settings_layout(site_dir: Path) -> None:
                     )
                     if client.evaluate("document.getElementById('kb-lod-help').matches(':popover-open')"):
                         raise AssertionError("Escape must close the LoD explanation")
+                    if width <= 760:
+                        client.evaluate("document.getElementById('mm-detail-popover').hidePopover()")
+                # Resizing an open picker must restore inline controls without losing selection.
+                selected_level = client.evaluate(
+                    "document.querySelector('#mm-detail-controls button.active').dataset.level"
+                )
+                for resize_width in (390, 1366):
+                    client.call(
+                        "Emulation.setDeviceMetricsOverride",
+                        {
+                            "width": resize_width,
+                            "height": 844,
+                            "deviceScaleFactor": 1,
+                            "mobile": resize_width <= 760,
+                        },
+                    )
+                    client.evaluate(
+                        "new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))"
+                    )
+                    if not client.evaluate(
+                        f"""document.getElementById('mm-detail-popover').hasAttribute('popover') ===
+                      {str(resize_width <= 760).lower()} &&
+                      document.querySelector('#mm-detail-controls button.active').dataset.level === '{selected_level}'"""
+                    ):
+                        raise AssertionError("Resizing must adapt LoD controls and retain the selected level")
+                    if resize_width <= 760:
+                        client.evaluate("document.getElementById('mm-detail-toggle').click()")
                 paper_id = client.evaluate("""(function firstPaper(node) {
                   if (node.kind === 'paper' && window._map.graph().hasNode(node.paper.id)) return node.paper.id;
                   for (const child of node.children || []) {

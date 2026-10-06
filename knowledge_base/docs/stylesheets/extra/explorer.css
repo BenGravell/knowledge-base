@@ -174,6 +174,24 @@ html:has(#kb-explorer) .md-footer {
   #mm-panel-hide-btn svg {
     transform: rotate(90deg);
   }
+  #mm-branch-panel .ct-tree-navigator {
+    --ct-rail-center: 0.82rem;
+    --ct-tree-button-min: 1.86rem;
+    --ct-tree-button-counter-min: 2.08rem;
+    --ct-current-button-min: 2.48rem;
+    --ct-tree-button-center: 0.93rem;
+    --ct-tree-label-size: 0.72rem;
+    gap: 0.3rem;
+  }
+  #mm-branch-panel .ct-tree-node {
+    margin-block: 0.08rem;
+  }
+  #mm-branch-panel .ct-tree-button {
+    padding-block: 0.2rem;
+  }
+  #mm-branch-panel .ct-tree-button.has-counters .ct-tree-copy {
+    padding-block: 0.2rem;
+  }
 }
 
 @media (max-width: 760px) {
