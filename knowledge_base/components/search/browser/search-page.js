@@ -523,7 +523,7 @@
           '<div class="paper-similar-card__actions">' +
             '<div class="paper-similar-card__action-row">' +
               '<div class="paper-link-pills paper-similar-card__action-links">' +
-                window.kbSiteLinks.renderPaperSiteLinks(paper) +
+                window.kbSiteLinks.renderPaperSiteLinks(paper, { includeSearch: false }) +
               '</div>' +
               (toggles ? `<div class="paper-similar-card__toggles">${toggles}</div>` : '') +
             '</div>' +
