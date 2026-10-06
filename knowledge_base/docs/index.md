@@ -18,16 +18,6 @@ render_macros: true
       <span>Explorer</span>
     </h3>
     <span class="kb-bento-visual kb-bento-visual--explorer" aria-hidden="true">
-      <span class="kb-map-preview">
-        <span class="kb-map-dot-cloud kb-map-dot-cloud--one"></span>
-        <span class="kb-map-dot-cloud kb-map-dot-cloud--two"></span>
-        <span class="kb-map-dot-cloud kb-map-dot-cloud--three"></span>
-        <span class="kb-map-node kb-map-node--a"></span>
-        <span class="kb-map-node kb-map-node--b"></span>
-        <span class="kb-map-node kb-map-node--c"></span>
-        <span class="kb-map-node kb-map-node--d"></span>
-        <span class="kb-map-node kb-map-node--e"></span>
-      </span>
       <svg class="kb-tree-sunburst" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" focusable="false">
         <circle class="kb-tree-sunburst-base kb-tree-sunburst-base--outer" cx="100" cy="100" r="70" pathLength="100"></circle>
         <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--one" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="4.2 95.8" transform="rotate(-90 100 100)"></circle>
@@ -53,6 +43,9 @@ render_macros: true
           <span class="kb-tree-preview-rail"><span class="kb-tree-preview-dot"></span></span>
         </span>
         <span class="kb-tree-preview-row kb-tree-preview-row--selected">
+          <span class="kb-tree-preview-rail"><span class="kb-tree-preview-dot"></span></span>
+        </span>
+        <span class="kb-tree-preview-row kb-tree-preview-row--child">
           <span class="kb-tree-preview-rail"><span class="kb-tree-preview-dot"></span></span>
         </span>
         <span class="kb-tree-preview-row kb-tree-preview-row--child">
