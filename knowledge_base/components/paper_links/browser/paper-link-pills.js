@@ -156,8 +156,11 @@
 
   function includeKey(options, key) {
     const opts = options || {};
-    const prop = 'include' + key.charAt(0).toUpperCase() + key.slice(1);
-    return opts[prop] !== false;
+    if (key === 'detail') return opts.includeDetail !== false;
+    if (key === 'map') return opts.includeMap !== false;
+    if (key === 'tree') return opts.includeTree !== false;
+    if (key === 'search') return opts.includeSearch !== false;
+    return false;
   }
 
   function renderPaperSiteLinks(paper, options) {
