@@ -1147,4 +1147,32 @@
   .paper-similar-card {
     padding-inline: 0.58rem;
   }
+
+  /* Search panels span the screen; only their contents need gutters. */
+  body:has(.md-content__inner > .unified-search-app) .md-main__inner {
+    padding-inline: 0;
+  }
+
+  .unified-search-app .tag-search-settings,
+  .unified-search-app .tag-search-settings-header.kb-app-header,
+  .unified-search-app .tag-search-selection,
+  .unified-search-app .paper-similar-card {
+    border-inline: 0;
+    border-radius: 0;
+  }
+
+  .unified-search-app .tag-search-selection {
+    padding-inline: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .unified-search-app .unified-search-panel-count {
+    margin-inline: 0.5rem;
+  }
+
+  .unified-search-app .unified-search-result-head,
+  .unified-search-app .tag-search-selection-empty {
+    padding-inline: 0.5rem;
+  }
 }
