@@ -2991,8 +2991,6 @@
       - Nuclear Reactors:
         - The Characteristics of the RBMK Core: docs/papers/1993/1993.afanasieva.the_characteristics_of_the/metadata.yml
   - Quantitative Foundations:
-    - Economics & Finance:
-      - Islamic banking macroeconomic determinants: docs/papers/2019/2019.setyowati.macroeconomic_determinants_of_islamic/metadata.yml
     - Mathematics:
       - Map Projections:
         - "Hyperelliptical Equal-Area Map Projections": docs/papers/1973/1973.tobler.the_hyperelliptical_and_other/metadata.yml
@@ -3036,6 +3034,7 @@
       - Sampling & Quasi-Monte Carlo:
         - "Neural Low-Discrepancy Sequences": docs/papers/2025/2510.03745/metadata.yml
       - Statistics & Probability:
+        - "PAI: Population Stability and Model Monitoring": docs/papers/2019/2019.taplin.the_population_accuracy_index/metadata.yml
         - "Mean, What do You Mean?": docs/papers/2016/2016.de_carvalho.mean_what_do_you/metadata.yml
         - High-dimensional Statistics: docs/papers/2019/2019.wainwright.high_dimensional_statistics/metadata.yml
         - Picasso: docs/papers/2020/2006.15261/metadata.yml

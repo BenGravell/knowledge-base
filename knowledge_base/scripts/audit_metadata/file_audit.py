@@ -26,6 +26,7 @@ from knowledge_base.scripts.audit_metadata.rules.author_checks import find_autho
 from knowledge_base.scripts.audit_metadata.rules.encoding import (
     find_weird_text_character_issues,
 )
+from knowledge_base.scripts.audit_metadata.rules.identity import find_identity_issues
 from knowledge_base.scripts.audit_metadata.rules.path_checks import find_path_issues
 from knowledge_base.scripts.audit_metadata.rules.string_fields import (
     find_ascii_multi_dash_issues,
@@ -56,6 +57,7 @@ from knowledge_base.scripts.audit_metadata.support.checks import (
     CHECK_AUTHORS,
     CHECK_DASH,
     CHECK_ESCAPE,
+    CHECK_IDENTITY,
     CHECK_MULTILINE,
     CHECK_OPTIONAL,
     CHECK_PATH,
@@ -113,6 +115,9 @@ def audit_file(
 
     if should_check(CHECK_ESCAPE):
         issues.extend(find_escaped_sequence_issues(path, data))
+
+    if should_check(CHECK_IDENTITY):
+        issues.extend(find_identity_issues(path, data))
 
     if should_check(CHECK_URL):
         issues.extend(find_disallowed_url_issues(path, data))

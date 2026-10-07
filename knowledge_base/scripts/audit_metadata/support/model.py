@@ -35,6 +35,7 @@ class Issue:
 
 
 RULE_TITLE_VALUE = "title.value"
+RULE_IDENTITY = "identity.mismatch"
 RULE_ESCAPED_SEQUENCE = "text.escaped-sequence"
 RULE_GARBLED_MARKUP = "text.garbled-markup"
 RULE_BIG_WHITESPACE = "text.big-whitespace"

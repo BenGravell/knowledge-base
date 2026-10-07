@@ -10,6 +10,7 @@ Checks performed on each metadata.yml:
   tags      - ERROR if tags are missing from normalization/tags.yml, differ from its canonical full-spelling form, duplicate after database or plural normalization, contain forbidden generic values, leading articles, more than 4 words, non-capital-case ordinary English words, or sentence-like prose debris copied from an abstract
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
+  identity  - ERROR if primary DOI/arXiv URL disagrees with its stored identifier; verify against sources, never auto-fix; applies even with --skip-reviewed-errors
   abstract  - ERROR if placeholder-like, contains scraped page text, publisher/copyright notices, or PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN if empty, or for dollar math, copied "abstract" headings, likely misspellings, high-confidence OCR artifacts, or OCR word splits
   escape    - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;, or if title contains raw YAML character escapes like \\u2014
   url       - ERROR if URLs appear in title, algorithm, authors, year, source, type, doi, arxiv_id, tags, or audit_status; ERROR if links contain garbled HTML/XML markup
@@ -32,7 +33,7 @@ Use --severity to filter reported issues by severity threshold:
   --severity info     # INFO, WARNING, and ERROR
 
 Available --check names:
-  unknown required title algorithm authors tags year arxiv abstract escape url multiline source type status path summary optional dash whitespace
+  unknown required title algorithm authors tags year arxiv identity abstract escape url multiline source type status path summary optional dash whitespace
 """
 
 __all__ = ["CHECKS_EPILOG"]

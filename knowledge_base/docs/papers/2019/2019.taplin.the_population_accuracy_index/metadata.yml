@@ -1,0 +1,26 @@
+title: >
+  The Population Accuracy Index: A New Measure of Population Stability for Model Monitoring
+algorithm: PAI
+authors:
+  - Ross Taplin
+  - Clive Hunt
+year: 2019
+source: Risks
+type: Journal Paper
+doi: 10.3390/risks7020053
+arxiv_id:
+tags:
+  - Population stability
+  - Model monitoring
+  - Model validation
+  - Financial risk
+  - Distribution shift
+abstract: >
+  Risk models developed on one dataset are often applied to new data and, in such cases, it is prudent to check that the model is suitable for the new data. An important application is in the banking industry, where statistical models are applied to loans to determine provisions and capital requirements. These models are developed on historical data, and regulations require their monitoring to ensure they remain valid on current portfolios—often years since the models were developed. The Population Stability Index (PSI) is an industry standard to measure whether the distribution of the current data has shifted significantly from the distribution of data used to develop the model. This paper explores several disadvantages of the PSI and proposes the Prediction Accuracy Index (PAI) as an alternative. The superior properties and interpretation of the PAI are discussed and it is concluded that the PAI can more accurately summarise the level of population stability, helping risk analysts and managers determine whether the model remains fit-for-purpose.
+summary: >
+  Examines shortcomings of the Population Stability Index (PSI) for monitoring risk models and proposes the Prediction Accuracy Index (PAI), relating population changes to model prediction accuracy.
+link: https://www.mdpi.com/2227-9091/7/2/53
+links_alt:
+  - https://www.mdpi.com/2227-9091/7/2/53/pdf
+  - https://doi.org/10.3390/risks7020053
+audit_status: partial

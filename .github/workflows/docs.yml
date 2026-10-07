@@ -25,6 +25,7 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/checkout@v5
       - run: ./dev install
+      - run: ./dev run python -m knowledge_base.scripts.audit_metadata --check identity --metadata-only
       - run: ./dev run build
       - uses: actions/upload-pages-artifact@v4
         with:

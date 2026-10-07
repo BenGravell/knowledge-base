@@ -164,7 +164,8 @@ def custom_source_specs(input_path: Callable[[str], Path]) -> list[SourceSpec]:
             entry_kind="URLs",
             source_hint="MDPI",
             accept_url=mdpi.accept_url,
-            entry_doi=mdpi.entry_doi,
+            resolve_doi=mdpi.resolve_doi,
+            postprocess_crossref_data=mdpi.postprocess_crossref_data,
         ),
         SourceSpec(
             "mit_press",

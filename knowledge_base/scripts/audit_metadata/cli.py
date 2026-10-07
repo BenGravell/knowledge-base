@@ -14,7 +14,7 @@ from knowledge_base.scripts.audit_metadata.fixes.apply_fixes import apply_fixes,
 from knowledge_base.scripts.audit_metadata.generated_data.map_data import audit_map_data_paths
 from knowledge_base.scripts.audit_metadata.support.checks import CHECK_PATH, CHECKS
 from knowledge_base.scripts.audit_metadata.support.cli_help import CHECKS_EPILOG
-from knowledge_base.scripts.audit_metadata.support.model import _SEVERITY_RANK, Issue, Severity
+from knowledge_base.scripts.audit_metadata.support.model import _SEVERITY_RANK, RULE_IDENTITY, Issue, Severity
 from knowledge_base.scripts.audit_metadata.support.yaml_support import _yaml_safe_load
 
 
@@ -70,7 +70,7 @@ def _skip_reviewed_errors(data: dict[str, Any], issues: list[Issue]) -> tuple[li
     if _audit_status(data) != "reviewed":
         return issues, 0
 
-    kept = [issue for issue in issues if issue.severity != Severity.ERROR]
+    kept = [issue for issue in issues if issue.severity != Severity.ERROR or issue.rule == RULE_IDENTITY]
     return kept, len(issues) - len(kept)
 
 
@@ -151,7 +151,7 @@ def main() -> None:
     parser.add_argument(
         "--skip-reviewed-errors",
         action="store_true",
-        help="Do not report or fail on ERROR issues for metadata with audit_status: reviewed",
+        help="Suppress ERROR issues for reviewed metadata, except identity mismatches",
     )
     parser.add_argument(
         "--metadata-only",

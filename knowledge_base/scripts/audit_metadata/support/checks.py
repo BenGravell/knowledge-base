@@ -8,6 +8,7 @@ CHECK_AUTHORS = "authors"
 CHECK_TAGS = "tags"
 CHECK_YEAR = "year"
 CHECK_ARXIV = "arxiv"
+CHECK_IDENTITY = "identity"
 CHECK_ABSTRACT = "abstract"
 CHECK_ESCAPE = "escape"
 CHECK_URL = "url"
@@ -29,6 +30,7 @@ CHECKS: tuple[str, ...] = (
     CHECK_TAGS,
     CHECK_YEAR,
     CHECK_ARXIV,
+    CHECK_IDENTITY,
     CHECK_ABSTRACT,
     CHECK_ESCAPE,
     CHECK_URL,

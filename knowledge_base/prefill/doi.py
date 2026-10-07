@@ -138,6 +138,8 @@ def fetch_crossref(doi: str) -> dict[str, Any]:
     )
     r.raise_for_status()
     msg = r.json()["message"]
+    if str(msg.get("DOI") or "").strip().casefold() != doi.casefold():
+        raise ValueError(f"Crossref DOI mismatch: requested {doi!r}, received {msg.get('DOI')!r}")
 
     titles = msg.get("title") or []
     title = re.sub(r"\s+", " ", titles[0]).strip() if titles else ""
@@ -174,6 +176,12 @@ def fetch_crossref(doi: str) -> dict[str, Any]:
         "source": source,
         "type": paper_type,
         "link": f"https://doi.org/{doi}",
+        # Preserve identity evidence for publisher URL validation before ingest.
+        "resource_url": (msg.get("resource") or {}).get("primary", {}).get("URL", ""),
+        "issn": msg.get("ISSN") or [],
+        "volume": str(msg.get("volume") or ""),
+        "issue": str(msg.get("issue") or ""),
+        "article": str(msg.get("article-number") or msg.get("page") or ""),
     }
 
 

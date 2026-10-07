@@ -50,8 +50,8 @@ repos:
         require_serial: true
         types_or: [python, pyi]
       - id: generated-data
-        name: generated data matches metadata
-        entry: ./dev run --frozen python -m knowledge_base.scripts.audit_metadata --check path --severity error
+        name: metadata identity and generated data consistency
+        entry: ./dev run --frozen python -m knowledge_base.scripts.audit_metadata --check path identity --severity error
         language: system
         pass_filenames: false
         always_run: true

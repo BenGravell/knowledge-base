@@ -57,6 +57,9 @@ kb prefill
 # Apply supported metadata fixes, then manually review the remaining findings.
 kb audit-metadata --fix --metadata-only
 
+# Reject conflicting primary-link identifiers before placement or publishing.
+kb audit-metadata --check identity --metadata-only
+
 # Refresh Map embeddings used for automatic placement.
 kb refresh-map
 
@@ -90,6 +93,17 @@ with `audit_status: raw`, and automatically attempts to create `embed_text.md`
 for every newly written entry with an `arxiv_id`. Review the generated metadata
 and resulting diff. Agents may promote meaningfully reviewed entries to `partial`;
 only a human may set `reviewed`.
+
+MDPI ingest resolves DOIs through Crossref's journal-by-ISSN endpoint, using the
+volume, issue, and article number from the input URL. It accepts only one matching
+registered DOI among the top ten candidates whose publisher URL identifies that
+article; it does not construct DOIs from journal names. Failed, ambiguous, or
+unmatched lookups leave the source queued for review. The fetched DOI record must
+also match the URL’s ISSN, volume, issue, and article number before writing.
+
+The offline `identity` audit compares primary DOI/arXiv URLs with stored identifiers.
+It cannot verify an MDPI URL against a DOI without external metadata; that check
+runs during MDPI ingestion. Do not treat a passing offline audit as source verification.
 
 ### Add one paper manually
 
