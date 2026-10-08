@@ -4,10 +4,6 @@
 
 get rid of todo directory altogether
 
-## chernobyl
-
-move todo/chernobyl to another repo (sandbox)
-
 ## dev apps
 
 dev_apps
