@@ -1,8 +1,14 @@
 from __future__ import annotations
 
+import os
+import signal
 import sys
+import time
 import unittest
+from collections.abc import Generator
+from contextlib import contextmanager
 from pathlib import Path
+from types import FrameType
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 KB_DIR = REPO_ROOT / "knowledge_base"
@@ -52,10 +58,47 @@ def selected_test_modules(paths: list[str]) -> list[str]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    modules = selected_test_modules(list(sys.argv[1:] if argv is None else argv))
-    suite = unittest.defaultTestLoader.loadTestsFromNames(modules)
-    result = unittest.TextTestRunner(buffer=True).run(suite)
-    return 0 if result.wasSuccessful() else 1
+    stream = sys.stderr
+    started = time.perf_counter()
+    phase_name = "startup"
+    phase_started = started
+
+    def report(message: str) -> None:
+        print(f"unit-tests: {message}", file=stream, flush=True)
+
+    @contextmanager
+    def phase(name: str) -> Generator[None]:
+        nonlocal phase_name, phase_started
+        phase_name, phase_started = name, time.perf_counter()
+        report(f"{name} started")
+        try:
+            yield
+        finally:
+            report(f"{name}: {time.perf_counter() - phase_started:.3f}s")
+
+    def timed_out(_signum: int, _frame: FrameType | None) -> None:
+        report(f"TIMEOUT during {phase_name}: {time.perf_counter() - phase_started:.3f}s")
+        report(f"Python runner total: {time.perf_counter() - started:.3f}s")
+        # unittest catches SystemExit; terminate immediately to preserve the hook's deadline.
+        os._exit(124)
+
+    previous_handler = signal.signal(signal.SIGTERM, timed_out)
+    try:
+        if hook_started := os.environ.get("KB_TEST_STARTED_AT"):
+            report(f"environment and Python startup: {time.time() - float(hook_started):.3f}s")
+        with phase("test selection"):
+            modules = selected_test_modules(list(sys.argv[1:] if argv is None else argv))
+        report(f"selected {len(modules)} module(s)")
+        suite = unittest.TestSuite()
+        for module in modules:
+            with phase(f"load {module}"):
+                suite.addTests(unittest.defaultTestLoader.loadTestsFromName(module))
+        with phase("test execution"):
+            result = unittest.TextTestRunner(stream=stream, buffer=True, verbosity=2).run(suite)
+        return 0 if result.wasSuccessful() else 1
+    finally:
+        report(f"Python runner total: {time.perf_counter() - started:.3f}s")
+        signal.signal(signal.SIGTERM, previous_handler)
 
 
 if __name__ == "__main__":
