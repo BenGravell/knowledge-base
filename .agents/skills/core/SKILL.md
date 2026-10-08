@@ -62,7 +62,7 @@ Human-oriented dev tools:
 
 ```bash
 python knowledge_base/scripts/audit_metadata.py
-streamlit run dev_apps/generator_app.py
+streamlit run dev_apps/tree_label_review_app.py
 ```
 
 ## Conventions

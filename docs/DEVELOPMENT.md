@@ -51,12 +51,6 @@ timing report at the end. For deeper profiling, wrap it with `/usr/bin/time`.
 
 ## Streamlit apps
 
-Generate and edit a `metadata.yml` entry from an arXiv ID:
-
-```bash
-streamlit run dev_apps/generator_app.py
-```
-
 Review Tree and metadata algorithm-label disagreements interactively:
 
 ```bash

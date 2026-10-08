@@ -6,10 +6,6 @@ get rid of todo directory altogether
 
 ## dev apps
 
-dev_apps
-
-remove dev_apps/generator_app.py, not useful
-
 do a pass with dev_apps/tree_label_review_app.py
 
 ## map
