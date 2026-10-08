@@ -1,0 +1,28 @@
+title: >
+  An Algorithm for the Organization of Information
+algorithm: AVL Tree
+authors:
+  - Georgii Maksimovich Adelson-Velskii
+  - Evgenii Mikhailovich Landis
+year: 1962
+source: Soviet Mathematics Doklady
+type: Journal Paper
+doi:
+arxiv_id:
+tags:
+  - Data structures
+  - Binary search trees
+  - Self-balancing trees
+  - AVL trees
+  - Information organization
+  - Logarithmic complexity
+  - Tree rotations
+# Neither the original bibliographic record nor the English translation has an abstract.
+abstract: ""
+summary: >
+  Introduces a height-balanced binary search tree for organizing information in computer memory. Bounds the tree height logarithmically by requiring the two subtree heights at each node to differ by at most one, and gives a rebalancing insertion procedure that supports logarithmic search and insertion.
+link: https://rtheunissen.github.io/bst/docs/references/1962_avl.pdf
+links_alt:
+  - https://www.mathnet.ru/eng/dan26964
+  - https://www.semanticscholar.org/paper/AN-ALGORITHM-FOR-THE-ORGANIZATION-OF-INFORMATION-AdelsonVelskii/3b48b6c79dec4791c36e6623cb0e5bfea6c2a383
+audit_status: partial

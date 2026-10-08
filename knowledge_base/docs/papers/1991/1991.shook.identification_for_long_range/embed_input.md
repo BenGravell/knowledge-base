@@ -2,7 +2,7 @@
 
 <!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
 
-Identification for Long-range Predictive Control
+Identification for Long-Range Predictive Control
 
 Topics include Predictive control, System identification, Adaptive control, Recursive least squares, Multi-step prediction, Industrial process control.
 

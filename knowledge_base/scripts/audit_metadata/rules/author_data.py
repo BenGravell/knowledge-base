@@ -45,6 +45,7 @@ _NON_INDIVIDUAL_AUTHOR_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 )
 _KNOWN_INDIVIDUAL_AUTHOR_NAMES = {
     "angela center",
+    "harshvardhan",  # Published mononym: https://www.opt-ml.org/papers/2021/paper24.pdf
 }
 
 _AUTHOR_ASCII_TRANSLATION = str.maketrans(

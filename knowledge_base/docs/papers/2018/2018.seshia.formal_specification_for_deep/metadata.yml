@@ -12,7 +12,7 @@ authors:
   - "Marcell Vazquez-Chanlatte"
   - "Xiangyu Yue"
 year: 2018
-source: "Lecture Notes in Computer Science"
+source: "International Symposium on Automated Technology for Verification and Analysis (ATVA)"
 type: "Conference Paper"
 doi: 10.1007/978-3-030-01090-4_2
 arxiv_id: 
@@ -29,5 +29,6 @@ summary: >
   Surveys what it means to specify properties of deep neural networks for verification, moving the discussion beyond solver mechanics to the quality of the property being checked. It is useful for thinking about robustness, safety envelopes, and environment assumptions in learning-enabled systems.
 link: "https://people.eecs.berkeley.edu/~sseshia/pubdir/atva18.pdf"
 links_alt:
+  - "https://people.eecs.berkeley.edu/~sseshia/pubs/b2hd-seshia-atva18.html"
   - "https://doi.org/10.1007/978-3-030-01090-4_2"
-audit_status: raw
+audit_status: partial

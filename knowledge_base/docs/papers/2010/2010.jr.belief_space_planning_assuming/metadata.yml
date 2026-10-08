@@ -1,0 +1,28 @@
+title: >
+  Belief Space Planning Assuming Maximum Likelihood Observations
+algorithm: null
+authors:
+- Robert Platt Jr.
+- Russ Tedrake
+- Leslie Pack Kaelbling
+- Tomas Lozano-Perez
+year: 2010
+source: 'Robotics: Science and Systems'
+type: Conference Paper
+doi: 10.15607/RSS.2010.VI.037
+arxiv_id: null
+tags:
+- Belief-space planning
+- Partial observability
+- Maximum likelihood observations
+- Linear quadratic regulation
+- Replanning
+abstract: >
+  We cast the partially observable control problem as a fully observable underactuated stochastic control problem in belief space and apply standard planning and control techniques. One of the difficulties of belief space planning is modeling the stochastic dynamics resulting from unknown future observations. The core of our proposal is to define deterministic beliefsystem dynamics based on an assumption that the maximum likelihood observation (calculated just prior to the observation) is always obtained. The stochastic effects of future observations are modelled as Gaussian noise. Given this model of the dynamics, two planning and control methods are applied. In the first, linear quadratic regulation (LQR) is applied to generate policies in the belief space. This approach is shown to be optimal for linear-Gaussian systems. In the second, a planner is used to find locally optimal plans in the belief space. We propose a replanning approach that is shown to converge to the belief space goal in a finite number of replanning steps. These approaches are characterized in the context of a simple nonlinear manipulation problem where a planar robot simultaneously locates and grasps an object.
+summary: >
+  Approximates belief dynamics using maximum-likelihood future observations and Gaussian stochastic effects. Applies belief-space LQR and local planning, and establishes finite-step convergence of a replanning strategy in the studied setting.
+link: https://www.roboticsproceedings.org/rss06/p37.pdf
+links_alt:
+- https://dspace.mit.edu/handle/1721.1/62571
+- https://www.roboticsproceedings.org/rss06/p37.html
+audit_status: partial

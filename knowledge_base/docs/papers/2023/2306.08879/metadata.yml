@@ -1,0 +1,30 @@
+title: >
+  Motion Perceiver: Real-Time Occupancy Forecasting for Embedded Systems
+algorithm: MotionPerceiver
+authors:
+  - Bryce Ferenczi
+  - Michael Burke
+  - Tom Drummond
+year: 2023
+source: IEEE Robotics and Automation Letters
+type: Journal Paper
+doi: 10.1109/LRA.2024.3360811
+arxiv_id: "2306.08879"
+tags:
+  - Occupancy forecasting
+  - Motion prediction
+  - Autonomous driving
+  - Transformers
+  - Recursive state estimation
+  - Embedded systems
+  - Real-time inference
+abstract: >
+  This work introduces a novel and adaptable architecture designed for real-time occupancy forecasting that outperforms existing state-of-the-art models on the Waymo Open Motion Dataset in Soft IOU. The proposed model uses recursive latent state estimation with learned transformer-based functions to effectively update and evolve the state. This enables highly efficient real-time inference on embedded systems, as profiled on an Nvidia Xavier AGX. Our model, MotionPerceiver, achieves this by encoding a scene into a latent state that evolves in time through self-attention mechanisms. Additionally, it incorporates relevant scene observations, such as traffic signals, road topology and agent detections, through cross-attention mechanisms. This forms an efficient data-streaming architecture, that contrasts with the expensive, fixed-sequence input common in existing models. The architecture also offers the distinct advantage of generating occupancy predictions through localized querying based on a point-of-interest, as opposed to generating fixed-size occupancy images that render potentially irrelevant regions.
+summary: >
+  MotionPerceiver maintains a recursive latent scene state using attention to assimilate streaming observations and forecast future occupancy. Local position queries avoid generating full occupancy grids, enabling real-time embedded inference while improving Soft IOU on the Waymo Open Motion Dataset.
+link: https://arxiv.org/pdf/2306.08879
+links_alt:
+  - https://sites.google.com/monash.edu/motionperceiver
+  - https://github.com/5had3z/motion-perceiver
+  - https://doi.org/10.1109/LRA.2024.3360811
+audit_status: partial

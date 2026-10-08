@@ -1,0 +1,27 @@
+title: >
+  Learning a System-ID Embedding Space for Domain Specialization with Deep Reinforcement Learning
+algorithm: System-ID embedding
+authors:
+  - James A. Preiss
+  - Karol Hausman
+  - Gaurav S. Sukhatme
+year: 2018
+source: NeurIPS Workshop on Reinforcement Learning under Partial Observability
+type: Workshop Paper
+doi:
+arxiv_id:
+tags:
+  - System identification
+  - Reinforcement learning
+  - Domain adaptation
+  - Sim-to-real transfer
+  - Dynamics embeddings
+  - Observability
+abstract: >
+  We propose a method to improve the ability of reinforcement-learned policies to adapt to unknown dynamics of the agent at test time. Our method learns an embedding space to distill system identification information into a form that is both useful for policy specialization, and easy to estimate.
+summary: >
+  Learns a dynamics embedding that is useful for policy specialization and easier to estimate than the original system parameters. An observability reward encourages behavior that enables rapid adaptation to unknown test-time dynamics.
+link: https://www.jamespreiss.com/pubs/Preiss_Hausman_SysID_Embedding_Space_Neurips_RLPO_2018.pdf
+links_alt:
+  - https://robotics.usc.edu/publications/1034/
+audit_status: partial

@@ -1,0 +1,20 @@
+title: >
+  Complexity of Output Feedback Stabilization
+algorithm:
+authors:
+  - Amir Ali Ahmadi
+  - Abraar Chaudhry
+  - Ijay Narang
+  - Yukai Tang
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2609.20636"
+tags:
+abstract: >
+  We show that unless P = NP, there cannot be a polynomial-time (or even pseudo-polynomial-time) algorithm for output feedback stabilization of a linear dynamical system with a linear controller. This settles one of the best-known open problems in control theory. The result holds in both continuous and discrete time. We also present a family of stabilizable linear dynamical systems for which no polynomial-time algorithm can write down a stabilizing controller in its standard representation.
+summary: ''
+link: https://arxiv.org/pdf/2609.20636
+links_alt:
+audit_status: raw

@@ -1,0 +1,24 @@
+title: >
+  It Takes Two Neurons to Ride a Bicycle
+algorithm: Two-neuron bicycle controller
+authors:
+- Matthew Cook
+year: 2004
+source: California Institute of Technology
+type: Technical Report
+doi: null
+arxiv_id: null
+tags:
+- Bicycle control
+- Neural control
+- Balance
+- Simulation
+- Minimal controllers
+abstract: >
+  Past attempts to get computers to ride bicycles have required an inordinate amount of learning time (1700 practice rides for a reinforcement learning approach [1], while still failing to be able to ride in a straight line), or have required an algebraic analysis of the exact equations of motion for the specific bicycle to be controlled [2, 3]. Mysteriously, humans do not need to do either of these when learning to ride a bicycle. Here we present a two-neuron network that can ride a bicycle in a desired direction (for example, towards a desired goal or along a desired path), which may be chosen or changed at run time. Just as when a person rides a bicycle, the network is very accurate for long range goals, but in the short run stability issues dominate the behavior. This happens not by explicit design, but arises as a natural consequence of how the network controls the bicycle.
+summary: >
+  Demonstrates a two-neuron controller that stabilizes and steers a simulated bicycle toward changing goals without lengthy reinforcement learning or explicit inversion of its dynamics.
+link: https://gwern.net/doc/reinforcement-learning/model-free/2004-cook.pdf
+links_alt:
+- https://paradise.caltech.edu/cook/papers/TwoNeurons.pdf
+audit_status: partial

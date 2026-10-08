@@ -1,0 +1,25 @@
+title: >
+  An Album of Map Projections
+algorithm: ''
+authors:
+- John P. Snyder
+- Philip M. Voxland
+year: 1989
+source: U.S. Geological Survey
+type: Technical Report
+doi: 10.3133/pp1453
+arxiv_id: null
+tags:
+- Map projections
+- Cartography
+- Coordinate transformations
+- Distortion
+- Geodesy
+# USGS explicitly reports that no abstract is available.
+abstract: ''
+summary: >
+  Catalogues map projections with illustrations, mathematical formulas, distortion diagrams, and guidance for selecting projections.
+link: https://pubs.usgs.gov/pp/1453/report.pdf
+links_alt:
+- https://pubs.usgs.gov/publication/pp1453
+audit_status: partial

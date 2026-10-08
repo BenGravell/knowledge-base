@@ -1,0 +1,25 @@
+title: >
+  Der Entwurf Linearer Regelungssysteme Im Zustandsraum
+algorithm: Ackermann Pole Placement Formula
+authors:
+- Jurgen Ackermann
+year: 1972
+source: Regelungstechnik
+type: Journal Paper
+doi: null
+arxiv_id: null
+tags:
+- Pole placement
+- State feedback
+- Linear systems
+- Controllability
+- Observer design
+- State-space methods
+abstract: >
+  A simple method for obtaining a desired characteristic equation for a system x[k + 1] = A x[k] + b u[k] by state variable feedback u = -k'x is derived. It does not require a transformation of the state equations to a canonical form. The result is: Obtain k' by substituting the given dynamic matrix A into the desired characteristic polynomial and premultiplying by the last row of the inverse of the controllability matrix. The dual result for the observers of order n and n-1 is shown.
+summary: >
+  Derives Ackermann's explicit formula for assigning the closed-loop characteristic polynomial of a controllable single-input linear system without transforming it into canonical form. Applies the dual construction to full-order and reduced-order observers.
+link: https://elib.dlr.de/96054/1/Ackermann_Der%20Entwurf%20linearer%20Regelungssysteme%20im%20Zustandsraum_Regelungstechnik_1972.pdf
+links_alt:
+- https://elib.dlr.de/96054/
+audit_status: partial

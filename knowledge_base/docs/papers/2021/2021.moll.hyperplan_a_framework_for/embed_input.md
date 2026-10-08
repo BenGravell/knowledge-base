@@ -2,9 +2,9 @@
 
 <!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
 
-Hyperplan: A Framework for Motion Planning Algorithm Selection and Parameter Optimization
+HyperPlan: A Framework for Motion Planning Algorithm Selection and Parameter Optimization
 
-Topics include Robotics, Motion planning.
+Topics include Motion planning, Algorithm selection, Hyperparameter optimization, Planner tuning, Robot manipulators, Generalization.
 
 <!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
 

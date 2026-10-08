@@ -1,0 +1,24 @@
+title: >
+  Portfolio Optimization of Relativistic Value at Risk
+algorithm: RLVaR/RLDaR
+authors:
+- Dany Cajas
+year: 2023
+source: SSRN
+type: Preprint
+doi: 10.2139/ssrn.4378498
+arxiv_id: null
+tags:
+- Portfolio optimization
+- Coherent risk measures
+- Kaniadakis entropy
+- Power cones
+- Drawdown risk
+abstract: >
+  This work presents a new risk measure that is a generalization of Entropic Value at Risk (EVaR). We define the Relativistic Value at Risk (RLVaR) as a special case of φ-divergence risk measures based on Kaniadakis entropy. The RLVaR is a coherent risk measure that is bounded between EVaR and essential supremum (ess sup). First, we define the RLVaR using the dual representation of φ-divergence risk measures, and we use the power cone to express the RLVaR as a conic problem. Due the limitations for modeling of dual formulation, we recover the primal formulation of RLVaR using the cone duality theorem. This primal formulation allows us to use RLVaR in several convex portfolio optimization problems like maximize the risk adjusted return ratio, constraints on risk or risk parity. Also, we extend these framework to drawdowns distribution, defining the relativistic drawdown at risk (RLDaR). Then, we run some numerical examples using Python, Riskfolio-Lib package and MOSEK solver. Finally, we test the efficiency of RLVaR and RLDaR portfolio optimization frameworks in large scale problems respect EVaR and entropic drawdown at risk (EDaR).
+summary: >
+  Introduces a coherent risk measure based on Kaniadakis entropy, derives power-cone formulations, and extends the approach to drawdown risk and convex portfolio optimization.
+link: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4378498
+links_alt:
+- https://doi.org/10.2139/ssrn.4378498
+audit_status: partial

@@ -1,0 +1,18 @@
+title: >
+  The Price of Distributional Robustness in Linear Quadratic Control
+algorithm:
+authors:
+  - Andrea Martin
+  - Giuseppe Belgioioso
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2609.17113"
+tags:
+abstract: >
+  Distributionally robust (DR) optimization seeks decisions that perform best under the most adverse law within a given ambiguity set, enabling the design of data-driven controllers with strong out-of-sample guarantees in the face of uncertainty. In this paper, we study the conservatism introduced by safeguarding against distributional ambiguity. Specifically, we consider the data-driven Wasserstein DR linear quadratic control problem, and we analyze the suboptimality of the corresponding solution relative to the oracle controller computed with foreknowledge of the underlying unknown uncertainty distribution. We present a sample complexity bound that characterizes the number of samples required to ensure that the true cost of the DR solution exceeds that of the oracle controller by at most a user-defined tolerance factor. Our analysis reveals that the suboptimality of the DR solution increases at most linearly with the Wasserstein radius for sufficiently small distributional ambiguity, and at most quadratically away from this local regime. Numerical simulations validate our bounds on the price of distributional robustness.
+summary: ''
+link: https://arxiv.org/pdf/2609.17113
+links_alt:
+audit_status: raw

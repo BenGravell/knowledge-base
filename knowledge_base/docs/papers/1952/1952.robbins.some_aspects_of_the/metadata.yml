@@ -1,0 +1,25 @@
+title: >
+  Some Aspects of the Sequential Design of Experiments
+algorithm: Sequential Experimental Design
+authors:
+- Herbert Robbins
+year: 1952
+source: Bulletin of the American Mathematical Society
+type: Journal Paper
+doi: 10.1090/S0002-9904-1952-09620-8
+arxiv_id: null
+tags:
+- Sequential experiments
+- Multi-armed bandits
+- Adaptive sampling
+- Exploration and exploitation
+- Statistical decision theory
+# No abstract is available in the linked publication records.
+abstract: ''
+summary: >
+  Develops sequential experiment designs in which sampling choices depend on previous observations. Introduces the population-selection problem underlying multi-armed bandits and allocation strategies that balance learning about alternatives with selecting high-reward populations.
+link: https://www.ams.org/bull/1952-58-05/S0002-9904-1952-09620-8/S0002-9904-1952-09620-8.pdf
+links_alt:
+- https://doi.org/10.1090/S0002-9904-1952-09620-8
+- https://projecteuclid.org/journals/bulletin-of-the-american-mathematical-society-new-series/volume-58/issue-5/Some-aspects-of-the-sequential-design-of-experiments/bams/1183517370.full
+audit_status: partial

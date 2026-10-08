@@ -1,0 +1,24 @@
+title: >
+  The Solution of Some Matrix Inequalities Encountered in Automatic Control Theory
+algorithm: Yakubovich Matrix Inequality Lemma
+authors:
+- Vladimir A. Yakubovich
+year: 1962
+source: Doklady Akademii Nauk SSSR
+type: Journal Paper
+doi: null
+arxiv_id: null
+tags:
+  - Matrix inequalities
+  - Control theory
+  - Frequency-domain conditions
+  - Quadratic forms
+  - Kalman-Yakubovich-popov lemma
+# The official MathNet publication record supplies no abstract.
+abstract: ''
+summary: >
+  Establishes a foundational matrix-inequality result connecting quadratic forms and frequency-domain conditions in automatic control. The result is part of the development of the Kalman-Yakubovich-Popov lemma.
+link: https://www.mathnet.ru/eng/dan26403
+links_alt:
+- https://www.mathnet.ru/php/getFT.phtml?jrnid=dan&option_lang=eng&paperid=26403&what=fullt
+audit_status: partial

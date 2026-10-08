@@ -1,0 +1,33 @@
+title: >
+  TabFM: A Zero-Shot Foundation Model for Tabular Data
+algorithm: TabFM
+authors:
+- Weihao Kong
+- Erez Louidor Ilan
+- Shuxin Nie
+- Taman Narayan
+- Rajat Sen
+- Yichen Zhou
+- Deqing Fu
+- Samet Oymak
+- Abhimanyu Das
+year: 2026
+source: arXiv
+type: Preprint
+doi: null
+arxiv_id: "2609.37959"
+tags:
+- Tabular learning
+- Foundation models
+- In-context learning
+- Synthetic data
+- Classification
+- Regression
+abstract: >
+  Tabular machine learning typically relies on per-dataset workflows, fitting tree ensembles or running AutoML searches from scratch for every task. We present TabFM, a 400M-parameter tabular foundation model that formulates supervised tabular prediction as in-context learning. TabFM produces calibrated zero-shot predictions in a single forward pass without task-specific tuning. Trained entirely on synthetic tables generated from structural causal models, TabFM learns general tabular representations that transfer zero-shot to real-world tasks. Across all 51 benchmark datasets in TabArena (38 classification and 13 regression), zero-shot TabFM ranks first among default tabular foundation models and outperforms tuned AutoML pipelines. Two extensions over the same frozen weights improve performance further on both tracks: multi-view feature expansion with ensembling and post-hoc calibration (TabFM+), and LLM-guided, dataset-specific data processing and feature engineering (TabFM-Auto).
+summary: >
+  Introduces a tabular foundation model trained on synthetic causal datasets for zero-shot classification and regression. Evaluates frozen-model ensembling, calibration, and language-model-guided preprocessing extensions.
+link: https://arxiv.org/pdf/2609.37959
+links_alt:
+- https://research.google/blog/introducing-tabfm-a-zero-shot-foundation-model-for-tabular-data/?utm_source=linkedin&utm_medium=social&utm_campaign=social_post&utm_content=gr-acct
+audit_status: partial

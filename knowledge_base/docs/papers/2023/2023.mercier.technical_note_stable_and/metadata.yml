@@ -1,0 +1,26 @@
+title: >
+  Technical Note: Stable and Unstable Reactors
+algorithm: null
+authors:
+- Bertrand Mercier
+- Volodymyr Borysenko
+year: 2023
+source: EPJ Nuclear Sciences & Technologies
+type: Journal Paper
+doi: 10.1051/epjn/2023017
+arxiv_id: null
+tags:
+- Reactor stability
+- Nuclear reactors
+- Nonlinear dynamics
+- Reactivity feedback
+- RBMK
+abstract: >
+  It is well known that a reactor is stable if the core reactivity decreases with the core power. This is the case for many types of reactors, including the PWR. However, this was not the case for the RBMK (Reaktor Bolshoy Moshchnosti Kanalniy) which could be unstable at low power. What does it mean precisely? By using a 2 × 2 system of non-linear ordinary differential equations we show that naturally (i.e. without using the control rods), with the same reactivity injection, if the initial power is lowered, then the final power may be higher, which is a rather unusual behaviour.
+summary: >
+  Uses a two-state nonlinear reactor model to explain how positive feedback at low power can produce an unexpectedly higher final power from a lower initial power. Relates this behavior to RBMK reactor stability.
+link: https://www.epj-n.org/articles/epjn/pdf/2023/01/epjn230019.pdf
+links_alt:
+- https://hal.science/hal-04257169/document
+- https://doi.org/10.1051/epjn/2023017
+audit_status: partial

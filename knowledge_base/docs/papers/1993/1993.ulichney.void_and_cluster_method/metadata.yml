@@ -1,0 +1,27 @@
+title: >
+  Void-and-Cluster Method for Dither Array Generation
+algorithm: Void-and-Cluster
+authors:
+  - Robert A. Ulichney
+year: 1993
+source: Human Vision, Visual Processing, and Digital Display IV
+type: Conference Paper
+doi: 10.1117/12.152707
+arxiv_id:
+tags:
+  - Ordered dithering
+  - Digital halftoning
+  - Blue noise
+  - Dither arrays
+  - Isotropy
+  - Image processing
+abstract: >
+  Halftoning to two or more levels by means of ordered dither has always been attractive because of its speed and simplicity. However, the so-called recursive tessellation arrays in wide used suffer from strong periodic structure that imparts an unnatural appearance to resulting images. A new method for generating homogeneous ordered dither arrays is presented. A dither array is built by looking for voids and clusters in the intermediate patterns and relaxing them to optimize isotropy. While the method can be used for strikingly high quality artifact-free dithering with relatively small arrays, it is quite general; with different initial conditions the familiar recursive tessellation arrays can be built. This paper presents the algorithm for generating such arrays. Example images are compared with other ordered dither and error diffusion-based techniques.
+summary: >
+  Introduces a method for constructing ordered dither arrays by relocating pixels from dense clusters into voids and assigning threshold ranks. The resulting homogeneous, isotropic patterns reduce the periodic artifacts of recursive tessellation while retaining the speed of ordered dithering; the method also supports multilevel output.
+link: https://cv.ulichney.com/papers/1993-void-cluster.pdf
+links_alt:
+  - https://ulichney.com/
+  - https://doi.org/10.1117/12.152707
+  - https://www.spiedigitallibrary.org/conference-proceedings-of-spie/1913/0000/Void-and-cluster-method-for-dither-array-generation/10.1117/12.152707.short
+audit_status: partial

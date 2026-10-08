@@ -1,0 +1,25 @@
+title: >
+  Gradient Theory of Optimal Flight Paths
+algorithm: Flight-path gradient method
+authors:
+- Henry J. Kelley
+year: 1960
+source: ARS Journal
+type: Journal Paper
+doi: 10.2514/8.5282
+arxiv_id: null
+tags:
+- Optimal control
+- Trajectory optimization
+- Gradient method
+- Orbital transfer
+- Solar sails
+abstract: >
+  An analytical development of flight performance optimization according to the method of gradients or "method of steepest descent" is presented. Construction of a minimizing sequence of flight paths by a stepwise process of descent along the local gradient direction is described as a computational scheme. Numerical application of the technique is illustrated in a simple example of orbital transfer via solar sail propulsion. Successive approximations to minimum time planar flight paths from Earth's orbit to the orbit of Mars are presented for cases corresponding to free and fixed boundary conditions on terminal velocity components.
+summary: >
+  Derives a gradient-based procedure for optimizing flight trajectories and illustrates minimum-time solar-sail transfers between Earth and Mars.
+link: https://gwern.net/doc/statistics/decision/1960-kelley.pdf
+links_alt:
+- https://arc.aiaa.org/doi/10.2514/8.5282
+- https://doi.org/10.2514/8.5282
+audit_status: partial

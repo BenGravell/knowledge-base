@@ -1,0 +1,31 @@
+title: >
+  Lazy Anytime Planning for the Dubins Moving Target Traveling Salesman Problem with Obstacles
+algorithm: Lazy IRG
+authors:
+- Anoop Bhat
+- Geordan Gutow
+- Surya Singh
+- Zhongqiang Ren
+- Sivakumar Rathinam
+- Howie Choset
+year: 2026
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA57385.2026.11697102
+arxiv_id: null
+tags:
+  - Moving-target traveling salesman problem
+  - Dubins paths
+  - Lazy collision checking
+  - Anytime planning
+  - Generalized traveling salesman problem
+  - Rapidly-exploring random tree connect
+abstract: >
+  The Dubins Moving Target Traveling Salesman Problem with Obstacles (Dubins MT-TSP-O) seeks an obstacle-free trajectory for an agent with a fixed speed and minimum turning radius that intercepts several moving targets. To tackle this NP-hard problem, we introduce the Lazy Iterated Random Generalized TSP (Lazy IRG) algorithm. Each iteration of Lazy IRG samples a set of possible interception points in space-time along the trajectories of the targets. Lazy IRG then manages the high computational cost of motion planning by alternating between two steps: first, it optimistically selects a sequence of interception points by solving a Generalized TSP (GTSP) assuming an obstacle-free world; second, it searches for obstacle-free trajectories between consecutive points in the sequence using an obstacle-aware RRT-Connect planner. If a trajectory is not found, Lazy IRG solves the GTSP again; otherwise, Lazy IRG enters its next iteration and samples new interception points. By deferring expensive collision-checking, our method efficiently focuses computational effort on the most promising solutions. Numerical results show that Lazy IRG finds significantly lower-cost solutions within a 1-minute time budget compared to the existing IRG-PGLNS algorithm.
+summary: >
+  Alternates optimistic generalized-TSP solutions with obstacle-aware Dubins RRT-Connect checks, lazily evaluating only edges needed by promising target-interception sequences. Repeated space-time sampling makes the method anytime and improves solution costs within a one-minute budget.
+link: https://rai-inst.com/wp-content/uploads/2026/03/ICRA26_1592_FI.pdf
+links_alt:
+- https://doi.org/10.1109/ICRA57385.2026.11697102
+- https://rai-inst.com/resources/papers/lazy-anytime-planning-for-the-dubins-moving-target-traveling-salesman-problem-with-obstacles/
+audit_status: partial

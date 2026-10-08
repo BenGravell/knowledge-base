@@ -1,0 +1,28 @@
+title: >
+  Computing the Shortest Path: A* Search Meets Graph Theory
+algorithm: ALT
+authors:
+- Andrew V. Goldberg
+- Chris Harrelson
+year: 2005
+source: ACM-SIAM Symposium on Discrete Algorithms
+type: Conference Paper
+doi: null
+arxiv_id: null
+tags:
+  - Shortest path
+  - A* search
+  - Landmarks
+  - Triangle inequality
+  - Bidirectional search
+  - Road networks
+abstract: >
+  We propose shortest path algorithms that use A* search in combination with a new graph-theoretic lower-bounding technique based on landmarks and the triangle inequality. Our algorithms compute optimal shortest paths and work on any directed graph. We give experimental results showing that the most efficient of our new algorithms outperforms previous algorithms, in particular A* search with Euclidean bounds, by a wide margin on road networks and on some synthetic problem families.
+summary: >
+  Introduces ALT, combining A* with precomputed landmark distances and triangle-inequality lower bounds to accelerate exact point-to-point shortest paths in directed graphs. It develops bidirectional variants and landmark selection strategies and evaluates them on road networks and synthetic graphs.
+link: https://www.microsoft.com/en-us/research/wp-content/uploads/2005/01/soda05.pdf
+links_alt:
+- https://www.microsoft.com/en-us/research/publication/computing-the-shortest-path-a-search-meets-graph-theory-2/
+- https://www.cs.princeton.edu/courses/archive/spr06/cos423/Handouts/GH05.pdf
+- https://dl.acm.org/doi/10.5555/1070432.1070455
+audit_status: partial

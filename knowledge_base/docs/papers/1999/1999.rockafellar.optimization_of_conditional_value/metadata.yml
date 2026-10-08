@@ -1,0 +1,26 @@
+title: >
+  Optimization of Conditional Value-at-Risk
+algorithm: CVaR Optimization
+authors:
+- R. Tyrrell Rockafellar
+- Stanislav Uryasev
+year: 1999
+source: Journal of Risk
+type: Journal Paper
+doi: 10.21314/JOR.2000.038
+arxiv_id: null
+tags:
+- Conditional value at risk
+- Tail risk
+- Portfolio optimization
+- Convex optimization
+- Linear programming
+- Scenario optimization
+abstract: >
+  A new approach to optimizing or hedging a portfolio of financial instruments to reduce risk is presented and tested on applications. It focuses on minimizing Conditional Value-at-Risk (CVaR) rather than minimizing Value-at-Risk (VaR), but portfolios with low CVaR necessarily have low VaR as well. CVaR, also called Mean Excess Loss, Mean Shortfall, or Tail VaR, is anyway considered to be a more consistent measure of risk than VaR. Central to the new approach is a technique for portfolio optimization which calculates VaR and optimizes CVaR simultaneously. This technique is suitable for use by investment companies, brokerage firms, mutual funds, and any business that evaluates risks. It can be combined with analytical or scenario-based methods to optimize portfolios with large numbers of instruments, in which case the calculations often come down to linear programming or nonsmooth programming. The methodology can be applied also to the optimization of percentiles in contexts outside of finance.
+summary: >
+  Introduces an auxiliary optimization formulation that simultaneously calculates value at risk and minimizes conditional value at risk. Enables tractable portfolio risk optimization through linear or nonsmooth programming and extends to percentile-related problems beyond finance.
+link: https://sites.math.washington.edu/~rtr/papers/rtr179-CVaR1.pdf
+links_alt:
+- https://doi.org/10.21314/JOR.2000.038
+audit_status: partial

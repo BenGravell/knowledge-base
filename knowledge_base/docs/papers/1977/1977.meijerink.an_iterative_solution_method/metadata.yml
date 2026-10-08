@@ -1,0 +1,27 @@
+title: >
+  An Iterative Solution Method for Linear Systems of Which the Coefficient Matrix Is a Symmetric M-Matrix
+algorithm: Incomplete Cholesky Conjugate Gradient
+authors:
+- J. A. Meijerink
+- Henk A. van der Vorst
+year: 1977
+source: Mathematics of Computation
+type: Journal Paper
+doi: 10.1090/S0025-5718-1977-0438681-4
+arxiv_id: null
+tags:
+  - Incomplete cholesky
+  - Conjugate gradient
+  - Preconditioning
+  - M-matrices
+  - Sparse linear systems
+  - Matrix splittings
+abstract: >
+  A particular class of regular splittings of not necessarily symmetric M-matrices is proposed. If the matrix is symmetric, this splitting is combined with the conjugate-gradient method to provide a fast iterative solution algorithm. Comparisons have been made with other well-known methods. In all test problems the new combination was faster than the other methods.
+summary: >
+  Introduces incomplete factorization based regular splittings for M-matrices and combines them with conjugate gradients for symmetric systems. Establishes a foundational incomplete Cholesky preconditioning approach and demonstrates faster convergence than competing iterative methods.
+link: https://www.ams.org/mcom/1977-31-137/S0025-5718-1977-0438681-4/S0025-5718-1977-0438681-4.pdf
+links_alt:
+- https://doi.org/10.1090/S0025-5718-1977-0438681-4
+- https://www.scirp.org/reference/referencespapers?referenceid=1493059
+audit_status: partial

@@ -1,0 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
+TRON: A Fast Solver for Trajectory Optimization with Non-Smooth Cost Functions
+
+Topics include Trajectory optimization, Nonsmooth optimization, Adaptive smoothing, Optimal control, Convergence guarantees, Collision avoidance.
+
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
+Adaptively smooths nonsmooth costs composed of smooth components to accelerate trajectory optimization. TRON proves convergence to a global optimum for convex costs with linear dynamics and to a stationary point for nonlinear dynamics, with demonstrations in motion planning, surgical needles, and satellite rendezvous.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Trajectory optimization is an important tool for control and planning of complex, underactuated robots, and has shown impressive results in real world robotic tasks. However, in applications where the cost function to be optimized is non-smooth, modern trajectory optimization methods have extremely slow convergence. In this work, we present TRON, an iterative solver that can be used for efficient trajectory optimization in applications with non-smooth cost functions that are composed of smooth components. TRON achieves this by exploiting the structure of the objective to adaptively smooth the cost function, resulting in a sequence of objectives that can be efficiently optimized. TRON is provably guaranteed to converge to the global optimum of the non-smooth convex cost function when the dynamics are linear, and to a stationary point when the dynamics are nonlinear. Empirically, we show that TRON has faster convergence and lower final costs when compared to other trajectory optimization methods on a range of simulated tasks including collision-free motion planning for a mobile robot, sparse optimal control for surgical needle, and a satellite rendezvous problem.

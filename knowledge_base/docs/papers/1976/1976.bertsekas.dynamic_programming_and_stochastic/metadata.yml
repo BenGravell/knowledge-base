@@ -1,0 +1,24 @@
+title: >
+  Dynamic Programming and Stochastic Control
+algorithm: Dynamic Programming and Stochastic Control
+authors:
+- Dimitri P. Bertsekas
+year: 1976
+source: Academic Press
+type: Book
+doi: null
+arxiv_id: null
+tags:
+  - Dynamic programming
+  - Stochastic control
+  - Sequential decision making
+  - Partial observation
+  - Markov decision process
+  - Infinite horizon
+# The book has a preface and introduction, but no abstract.
+abstract: ''
+summary: >
+  Develops a unified framework for sequential decision making under uncertainty using dynamic programming. Covers finite and infinite horizon stochastic control, imperfect state information, risk, sufficient statistics, adaptive control, and discounted, undiscounted, and average cost problems.
+link: https://web.mit.edu/dimitrib/www/Bertsekas_1976_dynamic-programming.pdf
+links_alt: []
+audit_status: partial

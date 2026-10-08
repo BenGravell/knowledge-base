@@ -1,0 +1,20 @@
+title: >
+  ElastiQP: An Always-Feasible QP Solver for Constrained Robot Control
+algorithm:
+authors:
+  - Daniel Morton
+  - Jon Arrizabalaga
+  - Zachary Manchester
+  - Marco Pavone
+year: 2026
+source:
+type: Preprint
+doi:
+arxiv_id: "2609.19080"
+tags:
+abstract: >
+  As robot capabilities increase, quadratic programming (QP)-based controllers must account for a similarly increasing number of constraints to ensure safe, reliable operation. Yet, with each added constraint, this introduces more chances of momentary conflict: in which case, a QP solver that returns an "infeasible" status leaves the controller with nothing to execute. To address this, we introduce ElastiQP, a modified dual active-set QP solver that relaxes every inequality constraint with an exact, per-constraint l1 penalty while keeping equality constraints (dynamics) hard. Notably, ElastiQP does so by folding the slack variables into the solver analytically, maintaining a constant size of the condensed linear system. On a suite of robot control benchmarks, ElastiQP achieves microsecond-level performance, matching or outperforming leading modern solvers on feasible problems. On infeasible problems, ElastiQP handles these gracefully, confining violations to strictly the conflicting inequality terms, returning a usable solution up to 40x faster than the best alternative solvers. ElastiQP is available as an open-source C++ header-only library, with Python and JAX interfaces, at https://github.com/StanfordASL/elastiqp.
+summary: ''
+link: https://arxiv.org/pdf/2609.19080
+links_alt:
+audit_status: raw

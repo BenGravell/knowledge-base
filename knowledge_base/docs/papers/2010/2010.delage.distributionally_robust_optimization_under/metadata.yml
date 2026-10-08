@@ -1,0 +1,27 @@
+title: >
+  Distributionally Robust Optimization under Moment Uncertainty with Application to Data-Driven Problems
+algorithm: Moment-based distributionally robust optimization
+authors:
+- Erick Delage
+- Yinyu Ye
+year: 2010
+source: Operations Research
+type: Journal Paper
+doi: 10.1287/opre.1090.0741
+arxiv_id: null
+tags:
+- Distributionally robust optimization
+- Moment uncertainty
+- Mean and covariance
+- Semidefinite programming
+- Statistical confidence regions
+- Portfolio selection
+- Data-driven optimization
+abstract: >
+  Stochastic programming can effectively describe many decision-making problems in uncertain environments. Unfortunately, such programs are often computationally demanding to solve. In addition, their solution can be misleading when there is ambiguity in the choice of a distribution for the random parameters. In this paper, we propose a model that describes uncertainty in both the distribution form (discrete, Gaussian, exponential, etc.) and moments (mean and covariance matrix). We demonstrate that for a wide range of cost functions the associated distributionally robust (or min-max) stochastic program can be solved efficiently. Furthermore, by deriving a new confidence region for the mean and the covariance matrix of a random vector, we provide probabilistic arguments for using our model in problems that rely heavily on historical data. These arguments are confirmed in a practical example of portfolio selection, where our framework leads to better-performing policies on the “true” distribution underlying the daily returns of financial assets.
+summary: >
+  Develops tractable distributionally robust stochastic programs whose ambiguity sets allow uncertainty in both distribution shape and estimated mean and covariance. Statistical confidence regions calibrate those sets from data, and portfolio experiments demonstrate improved out-of-sample performance.
+link: https://web.stanford.edu/~yyye/distRobOpt_OR_rev0.pdf
+links_alt:
+- https://doi.org/10.1287/opre.1090.0741
+audit_status: partial

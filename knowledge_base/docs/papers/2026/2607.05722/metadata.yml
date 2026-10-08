@@ -1,0 +1,49 @@
+title: >
+  Nemotron-Labs-Diffusion: A Tri-Mode Language Model Unifying Autoregressive, Diffusion, and Self-Speculation Decoding
+algorithm: Nemotron-Labs-Diffusion
+authors:
+- Yonggan Fu
+- Lexington Whalen
+- Abhinav Garg
+- Chengyue Wu
+- Maksim Khadkevich
+- Nicolai Oswald
+- Enze Xie
+- Daniel Egert
+- Sharath Turuvekere Sreenivas
+- Shizhe Diao
+- Chenhan Yu
+- Ye Yu
+- Weijia Chen
+- Sajad Norouzi
+- Jingyu Liu
+- Shiyi Lan
+- Ligeng Zhu
+- Jin Wang
+- Jindong Jiang
+- Morteza Mardani
+- Mehran Maghoumi
+- Song Han
+- Ante Jukic
+- Nima Tajbakhsh
+- Jan Kautz
+- Pavlo Molchanov
+year: 2026
+source: arXiv
+type: Preprint
+doi: null
+arxiv_id: "2607.05722"
+tags:
+- Language models
+- Discrete diffusion
+- Autoregressive models
+- Speculative decoding
+- Efficient inference
+abstract: >
+  We introduce Nemotron-Labs-Diffusion, a tri-mode language model (LM) that unifies AR, diffusion, and self-speculation decoding within a single architecture. Trained with a joint AR-diffusion objective, Nemotron-Labs-Diffusion can switch modes to sustain high throughput across deployment settings and concurrency levels. Our study shows that (1) AR and diffusion objectives are complementary: diffusion improves lookahead planning, while AR provides left-to-right linguistic priors. (2) In self-speculation mode, diffusion drafts while AR verifies, outperforming multi-token prediction (MTP) methods in both acceptance rate and real-device efficiency. (3) A speed-of-light analysis further demonstrates diffusion's long-term potential, with up to 76.5% more tokens per forward pass than self-speculation under an optimal sampler. Scaling to 3B, 8B, and 14B parameters, our Nemotron-Labs-Diffusion family, including base, instruct, and vision-language models, consistently outperforms state-of-the-art open-source AR and diffusion LMs in both accuracy and speed. For example, Nemotron-Labs-Diffusion-8B decodes 6x more tokens per forward than Qwen3-8B with comparable accuracy, translating to 4x higher throughput on SPEED-Bench with SGLang on a GB200 GPU.
+summary: >
+  Unifies autoregressive, diffusion, and self-speculative decoding in one language model trained with a joint objective, evaluating accuracy and throughput across deployment regimes.
+link: https://arxiv.org/pdf/2607.05722
+links_alt:
+- https://research.nvidia.com/publication/2026-05_nemotron-labs-diffusion-tri-mode-language-model-unifying-autoregressive
+audit_status: partial

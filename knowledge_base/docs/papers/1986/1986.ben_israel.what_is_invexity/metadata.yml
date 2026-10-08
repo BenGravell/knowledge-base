@@ -1,0 +1,26 @@
+title: >
+  What Is Invexity?
+algorithm: Invexity
+authors:
+- Adi Ben-Israel
+- Bertram Mond
+year: 1986
+source: Journal of the Australian Mathematical Society, Series B, Applied Mathematics
+type: Journal Paper
+doi: 10.1017/S0334270000005142
+arxiv_id: null
+tags:
+- Invexity
+- Generalized convexity
+- Nonlinear programming
+- Global optimality
+- Saddle points
+- Slater constraint qualification
+abstract: >
+  Recently it was shown that many results in Mathematical Programming involving convex functions actually hold for a wider class of functions, called invex. Here a simple characterization of invexity is given for both constrained and unconstrained problems. The relationship between invexity and other generalizations of convexity is illustrated. Finally, it is shown that invexity can be substituted for convexity in the saddle point problem and in the Slater constraint qualification.
+summary: >
+  Characterizes invex functions through global optimality of stationary points and extends constrained optimality, saddle-point, and constraint-qualification results beyond convexity. It clarifies how invexity relates to other generalized convexity notions.
+link: https://www.cambridge.org/core/services/aop-cambridge-core/content/view/82C3938EDF3585B2AC5C27093E23814F/S0334270000005142a.pdf/what-is-invexity.pdf
+links_alt:
+- https://doi.org/10.1017/S0334270000005142
+audit_status: partial

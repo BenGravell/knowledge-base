@@ -1,0 +1,27 @@
+title: >
+  Computing Machinery and Intelligence
+algorithm: Turing Test
+authors:
+  - Alan M. Turing
+year: 1950
+source: Mind
+type: Journal Paper
+doi: 10.1093/mind/LIX.236.433
+arxiv_id:
+tags:
+  - Artificial intelligence
+  - Turing test
+  - Imitation game
+  - Machine intelligence
+  - Philosophy of mind
+  - Learning machines
+  - Digital computers
+# The original article begins with section 1 and has no abstract.
+abstract: ""
+summary: >
+  Proposes the imitation game as an operational way to examine machine intelligence through written conversation. Discusses digital computers, responds to objections to thinking machines, and outlines learning through the education of a child-machine rather than programming an adult mind directly.
+link: https://courses.cs.umbc.edu/471/papers/turing.pdf
+links_alt:
+  - https://turingarchive.kings.cam.ac.uk/publications-lectures-and-talks-amtb/amt-b-9
+  - https://doi.org/10.1093/mind/LIX.236.433
+audit_status: partial

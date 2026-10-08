@@ -1,0 +1,26 @@
+title: >
+  An Introduction to the Safety Force Field
+algorithm: Safety Force Field
+authors:
+- David Nister
+- Hon-Leung Lee
+- Julia Ng
+- Yizhou Wang
+year: 2019
+source: NVIDIA
+type: Technical Report
+doi: null
+arxiv_id: null
+tags:
+- Autonomous driving
+- Collision avoidance
+- Safety constraints
+- Motion planning
+- Safety-critical control
+# The NVIDIA report begins with introductory prose and has no abstract.
+abstract: ''
+summary: >
+  Introduces a driving-safety framework that restricts vehicle actions to avoid creating or escalating unsafe situations, treating longitudinal and lateral interactions together.
+link: https://www.nvidia.com/content/dam/en-zz/Solutions/self-driving-cars/safety-force-field/an-introduction-to-the-safety-force-field-v2.pdf
+links_alt: []
+audit_status: partial

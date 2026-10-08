@@ -1,0 +1,20 @@
+title: >
+  Temporal Cascading of Planning and Control for Quadrotor MPC
+algorithm:
+authors:
+  - Rudolf Reiter
+  - Chao Qin
+  - Leonard Bauersfeld
+  - Davide Scaramuzza
+year: 2025
+source:
+type: Preprint
+doi: 10.1109/TRO.2026.3726670
+arxiv_id: "2512.12427"
+tags:
+abstract: >
+  Many aerial tasks involving quadrotors demand both instant reactivity and long-horizon planning for obstacle avoidance, energy efficiency, or trajectory tracking. High-fidelity models enable accurate control but are too slow for long horizons. Low-fidelity planners scale but cannot directly control the system, necessitating cascaded architectures. Prevailing hierarchical approaches plan with a simplified model and use a high-fidelity controller for tracking, yet this decomposition is inherently suboptimal. The controller is limited by the coarse plan, and conventional MPC alternatives shorten the horizon to stay real-time feasible. We present UNIQUE, an MPC architecture that replaces this hierarchical stacking with temporal cascading. The planning problem is formulated as the second-tail horizon of a single multi-phase MPC, rather than being solved separately. We align costs across horizons, derive feasibility constraints for the point-mass planning model, and introduce transition constraints that convert high-fidelity states into meaningful low-fidelity states. Parallel point-mass and mixed-integer solvers address nonconvexities while incorporating progressive 3D obstacle smoothing over the planning horizon. In simulations and real flights, under equal computational budgets, UNIQUE improves closed-loop tracking by up to 75% compared with standard MPC and hierarchical baselines. Ablations and Pareto analyses confirm performance gains across variations in horizon, constraint approximations, and smoothing schedules.
+summary: ''
+link: https://arxiv.org/pdf/2512.12427
+links_alt:
+audit_status: raw

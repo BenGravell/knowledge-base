@@ -1,0 +1,28 @@
+title: >
+  Factor Graphs and GTSAM: A Hands-On Introduction
+algorithm: GTSAM
+authors:
+- Frank Dellaert
+year: 2012
+source: Georgia Institute of Technology
+type: Technical Report
+doi: null
+arxiv_id: null
+tags:
+- Factor graphs
+- GTSAM
+- Simultaneous localization and mapping
+- State estimation
+- Sparse optimization
+- Structure from motion
+# Paraphrase of the official repository abstract; full source text in links_alt.
+abstract: >
+  This tutorial introduces factor graphs and the GTSAM library through examples from robotics and computer vision. Factor graphs express estimation problems, including simultaneous localization and mapping and structure from motion, as bipartite graphs connecting unknown variables to factors that encode measurements and prior information. GTSAM is a BSD-licensed C++ library developed at Georgia Tech for solving these and other estimation problems. Its MATLAB interface supports prototyping, visualization, and interaction. The library exploits the sparse connections produced by measurements involving only a few variables to reduce computational cost, and offers iterative methods for graphs that are too dense for efficient direct solution.
+summary: >
+  Introduces factor graphs and the GTSAM library through executable examples of inference, robot localization, SLAM, and structure from motion. Explains how sparse graphical structure enables efficient batch and incremental estimation.
+link: https://repository.gatech.edu/server/api/core/bitstreams/b3606eb4-ce55-4c16-8495-767bd46f0351/content
+links_alt:
+- https://repository.gatech.edu/entities/publication/0c2ac17c-1df4-48fe-8532-8f746868934a
+- https://gtsam.org/tutorials/intro.html
+- https://www.borg.cc.gatech.edu/papers/gtsam.html
+audit_status: partial

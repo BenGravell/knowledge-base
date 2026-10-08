@@ -6,12 +6,15 @@ authors:
   - Ye Yuan
   - Tingwu Wang
   - Chenran Li
-  - Sirui Chen
   - Fernando Castaneda
+  - Sirui Chen
   - Zi-Ang Cao
   - Jiefeng Li
   - David Minor
   - Qingwei Ben
+  - Jinhyung Park
+  - David Sami
+  - Zi Wang
   - Xingye Da
   - Runyu Ding
   - Cyrus Hogg
@@ -21,7 +24,6 @@ authors:
   - Tairan He
   - Haoru Xue
   - Wenli Xiao
-  - Zi Wang
   - Simon Yuen
   - Jan Kautz
   - Yan Chang
@@ -29,25 +31,29 @@ authors:
   - Linxi "Jim" Fan
   - Yuke Zhu
 year: 2025
-source: arXiv
-type: Preprint
-doi:
+source: Science Robotics
+type: Journal Paper
+doi: 10.1126/scirobotics.aed4592
 arxiv_id: "2511.07820"
 tags:
-  - Robustness
+  - Humanoid robot
+  - Whole-body control
+  - Motion tracking
+  - Reinforcement learning
   - Foundation models
-  - Vision-language models
-  - Datasets
-  - Real-time systems
-  - Control
-  - SONIC
+  - Scaling laws
+  - Motion capture
+  - Teleoperation
   - Vision-language-action
-  - Vision-language-action model
+  - Kinematic planning
 abstract: >
-  Despite the rise of billion-parameter foundation models trained across thousands of GPUs, similar scaling gains have not been shown for humanoid control. Current neural controllers for humanoids remain modest in size, target a limited set of behaviors, and are trained on a handful of GPUs over several days. We show that scaling up model capacity, data, and compute yields a generalist humanoid controller capable of creating natural and robust whole-body movements. Specifically, we posit motion tracking as a natural and scalable task for humanoid control, leveraging dense supervision from diverse motion-capture data to acquire human motion priors without manual reward engineering. We build a foundation model for motion tracking by scaling along three axes: network size (from 1.2M to 42M parameters), dataset volume (over 100M frames, 700 hours of high-quality motion data), and compute (9k GPU hours). Beyond demonstrating the benefits of scale, we show the practical utility of our model through two mechanisms: (1) a real-time universal kinematic planner that bridges motion tracking to downstream task execution, enabling natural and interactive control, and (2) a unified token space that supports various motion input interfaces, such as VR teleoperation devices, human videos, and vision-language-action (VLA) models, all using the same policy. Scaling motion tracking exhibits favorable properties: performance improves steadily with increased compute and data diversity, and learned representations generalize to unseen motions, establishing motion tracking at scale as a practical foundation for humanoid control.
-summary:
+  Despite the rise of billion-parameter foundation models trained across thousands of graphical processing units (GPUs), similar scaling gains have not been shown for humanoid control. Current neural controllers for humanoids remain modest in size, target a limited set of behaviors, and are trained on a handful of GPUs. We show that scaling model capacity, data, and compute yields a generalist humanoid controller capable of natural, robust whole-body movements. We position motion tracking as a scalable task for humanoid control, leveraging dense supervision from diverse motion-capture data to acquire human motion priors without manual reward engineering. We build a foundation model for motion tracking by scaling along three axes: network size (1.2M to 42M parameters), dataset volume (100M+ frames from 700 hours of motion capture), and compute (21k GPU hours). Beyond demonstrating the benefits of scale, we further show downstream utility through a real-time kinematic planner that bridges motion tracking to tasks such as navigation, enabling natural and interactive control, as well as a unified token space that supports virtual reality (VR) teleoperation and vision-language-action (VLA) models with a single policy. Through this interface, we demonstrate autonomous VLA-driven whole-body loco-manipulation requiring coordinated hand and foot placement. Scaling motion tracking exhibits favorable properties: performance improves steadily with compute and data diversity, and learned policies generalize to unseen motions, establishing motion tracking at scale as a practical foundation for humanoid control.
+summary: >
+  Scales motion tracking in model capacity, motion-capture data, and training compute to learn a generalist humanoid whole-body controller. A kinematic planner and shared motion-token interface connect the same policy to navigation, teleoperation, and vision-language-action models.
 link: https://arxiv.org/pdf/2511.07820
 links_alt:
-  - https://nvlabs.github.io/SONIC/
+  - https://nvlabs.github.io/GEAR-SONIC/
+  - https://github.com/NVlabs/GR00T-WholeBodyControl
   - https://huggingface.co/nvidia/GEAR-SONIC
-audit_status: raw
+  - https://doi.org/10.1126/scirobotics.aed4592
+audit_status: partial

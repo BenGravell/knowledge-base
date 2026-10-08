@@ -2,9 +2,9 @@
 
 <!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
 
-Optimal Sampling-based Planning for Linear-quadratic Kinodynamic Systems
+Optimal Sampling-Based Planning for Linear-Quadratic Kinodynamic Systems
 
-Topics include Robotics, Motion planning.
+Topics include Kinodynamic planning, Rapidly-exploring random tree star, Linear quadratic regulation, Optimal motion planning, Differential constraints, State-time space.
 
 <!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
 

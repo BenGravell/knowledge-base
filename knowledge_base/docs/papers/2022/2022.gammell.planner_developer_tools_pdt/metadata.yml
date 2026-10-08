@@ -1,0 +1,27 @@
+title: >
+  Planner Developer Tools (PDT): Reproducible Experiments and Statistical Analysis for Developing and Testing Motion Planners
+algorithm: PDT
+authors:
+- Jonathan D. Gammell
+- Marlin P. Strub
+- Valentin N. Hartmann
+year: 2022
+source: IROS Workshop on Evaluating Motion Planning Performance
+type: Workshop Paper
+doi: null
+arxiv_id: null
+tags:
+- Motion planning
+- Benchmarking
+- Reproducibility
+- Statistical analysis
+- Sampling-based planning
+abstract: >
+  The success of sampling-based planning algorithms has made their design and evaluation a popular area of research. Evaluating different algorithms is complicated due to their use of quasirandom sampling. Experiments and analysis must be designed to calculate probabilistic performance from a finite number of individual trials. This requires careful experimental design and statistical analysis. Planner Developer Tools (PDT) is a C++ project to make it easier to test, evaluate, and analyze sampling-based planners across problem domains. It provides tools to evaluate Open Motion Planning Library (OMPL) algorithms fairly and also a number of abstract scenarios that isolate specific challenging aspects of the planning problem during algorithm development. It is the result of almost 10 years of development and is available open source to the sampling-based motion planning research community.
+summary: >
+  Provides tools and controlled scenarios for reproducible sampling-based planner experiments and statistical evaluation of probabilistic performance.
+link: https://robotic-esp.com/papers/gammell_empp22.pdf
+links_alt:
+- https://robotic-esp.com/papers/gammell_empp22
+- https://robotic-esp.com/code/pdt/
+audit_status: partial

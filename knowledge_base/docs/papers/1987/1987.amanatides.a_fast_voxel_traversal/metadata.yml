@@ -1,0 +1,26 @@
+title: >
+  A Fast Voxel Traversal Algorithm for Ray Tracing
+algorithm: Amanatides-Woo voxel traversal
+authors:
+- John Amanatides
+- Andrew Woo
+year: 1987
+source: Eurographics
+type: Conference Paper
+doi: 10.2312/egtp.19871000
+arxiv_id: null
+tags:
+- Ray tracing
+- Voxel traversal
+- Uniform grids
+- Spatial subdivision
+- Digital differential analyzer
+abstract: >
+  A fast and simple voxel traversal algorithm through a 3D space partition is introduced. Going from one voxel to its neighbour requires only two floating point comparisons and one floating point addition. Also, multiple ray intersections with objects that are in more than one voxel are eliminated.
+summary: >
+  Introduces incremental traversal of a uniform 3D voxel grid along a ray using very few arithmetic operations per step. It also avoids repeated intersection tests for objects spanning multiple voxels.
+link: http://www.cse.yorku.ca/~amana/research/grid.pdf
+links_alt:
+- https://www.cs.yorku.ca/~amana/research/
+- https://doi.org/10.2312/egtp.19871000
+audit_status: partial

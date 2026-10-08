@@ -8,6 +8,7 @@ from knowledge_base.scripts.audit_metadata.rules.algorithm_cues import (
     _algorithm_issue_cue,
     _text_introduces_algorithm_label,
 )
+from knowledge_base.scripts.audit_metadata.rules.author_checks import find_author_field_issues
 from knowledge_base.scripts.audit_metadata.rules.tag_text import _tag_issue_index
 from knowledge_base.scripts.audit_metadata.rules.text_quality import (
     find_likely_misspelling_issues,
@@ -17,6 +18,13 @@ from knowledge_base.scripts.audit_metadata.support.model import RULE_TAG_VALUE, 
 
 
 class MetadataAuditRuleTests(unittest.TestCase):
+    def test_author_audit_accepts_verified_mononym_but_flags_other_single_tokens(self) -> None:
+        self.assertEqual(find_author_field_issues(Path("metadata.yml"), ["Harshvardhan"], ["Harshvardhan"]), [])
+
+        issues = find_author_field_issues(Path("metadata.yml"), ["Usability"], ["Usability"])
+        self.assertEqual(len(issues), 1)
+        self.assertIn("single-token author", issues[0].suggestion or "")
+
     def test_fix_routing_uses_rule_code_and_index_before_message_text(self) -> None:
         issue = Issue(
             Path("metadata.yml"),

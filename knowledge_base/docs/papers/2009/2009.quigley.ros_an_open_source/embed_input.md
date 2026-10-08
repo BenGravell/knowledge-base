@@ -2,7 +2,7 @@
 
 <!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
 
-ROS: An Open-source Robot Operating System
+ROS: An Open-Source Robot Operating System
 
 Topics include Robot software, Middleware, Open-source software, Message passing, Robotics systems, Software architecture.
 
@@ -12,4 +12,4 @@ Introduces ROS as an open-source robotics middleware and ecosystem for message p
 
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-This paper gives an overview of ROS, an open-source robot operating system. ROS is not an operating system in the traditional sense of process management and scheduling; rather, it provides a structured communications layer above the host operating systems of a heterogeneous compute cluster. In this paper, we discuss how ROS relates to existing robot software frameworks, and briefly overview some of the available application software which uses ROS.
+This paper gives an overview of ROS, an open-source robot operating system. ROS is not an operating system in the traditional sense of process management and scheduling; rather, it provides a structured communications layer above the host operating systems of a heterogenous compute cluster. In this paper, we discuss how ROS relates to existing robot software frameworks, and briefly overview some of the available application software which uses ROS.

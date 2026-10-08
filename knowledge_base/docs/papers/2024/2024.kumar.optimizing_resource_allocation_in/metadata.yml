@@ -1,0 +1,32 @@
+title: >
+  Optimizing Resource Allocation in Hyperscale Datacenters: Scalability, Usability, and Experiences
+algorithm: Rebalancer
+authors:
+- Neeraj Kumar
+- Pol Mauri Ruiz
+- Vijay Menon
+- Igor Kabiljo
+- Mayank Pundir
+- Andrew Newell
+- Daniel Lee
+- Liyuan Wang
+- Chunqiang Tang
+year: 2024
+source: USENIX Symposium on Operating Systems Design and Implementation
+type: Conference Paper
+doi: null
+arxiv_id: null
+tags:
+- Resource allocation
+- Data centers
+- Scalability
+- Optimization
+- Expression graphs
+abstract: >
+  Meta's private cloud uses millions of servers to host tens of thousands of services that power multiple products for billions of users. This complex environment has various optimization problems involving resource allocation, including hardware placement, server allocation, ML training & inference placement, traffic routing, database & container migration for load balancing, grouping serverless functions for locality, etc. The main challenges for a reusable resource-allocation framework are its usability and scalability. Usability is impeded by practitioners struggling to translate real-life policies into precise mathematical formulas required by formal optimization methods, while scalability is hampered by NP-hard problems that cannot be solved efficiently by commercial solvers. These challenges are addressed by Rebalancer, Meta's resource-allocation framework. It has been applied to dozens of large-scale use cases over the past seven years, demonstrating its usability, scalability, and generality. At the core of Rebalancer is an expression graph that enables its optimization algorithm to run more efficiently than past algorithms. Moreover, Rebalancer offers a high-level specification language to lower the barrier for adoption by systems practitioners.
+summary: >
+  Introduces Rebalancer, Meta's reusable framework for large-scale resource allocation. An expression graph accelerates optimization, while a high-level specification language lets systems practitioners express allocation policies. Production use across dozens of applications demonstrates scalability and generality.
+link: https://www.usenix.org/system/files/osdi24-kumar.pdf
+links_alt:
+- https://www.usenix.org/conference/osdi24/presentation/kumar
+audit_status: partial

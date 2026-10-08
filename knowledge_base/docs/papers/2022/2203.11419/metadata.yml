@@ -22,10 +22,12 @@ tags:
   - Domain-specific language
 abstract: >
   We introduce CVXPYgen, a tool for generating custom C code, suitable for embedded applications, that solves a parametrized class of convex optimization problems. CVXPYgen is based on CVXPY, a Python-embedded domain-specific language that supports a natural syntax (that follows the mathematical description) for specifying convex optimization problems. Along with the C implementation of a custom solver, CVXPYgen creates a Python wrapper for prototyping and desktop (non-embedded) applications. We give two examples, position control of a quadcopter and back-testing a portfolio optimization model. CVXPYgen outperforms a state-of-the-art code generation tool in terms of problem size it can handle, binary code size, and solve times. CVXPYgen and the generated solvers are open-source.
-summary:
+summary: >
+  Introduces CVXPYgen, which compiles parametrized convex problems modeled in CVXPY into custom C solvers and Python wrappers. Quadcopter control and portfolio examples demonstrate reductions in solve time and binary size while supporting larger embedded problems.
 link: https://arxiv.org/pdf/2203.11419
 links_alt:
-  - https://doi.org/10.1109/lcsys.2022.3173209
-  - https://ieeexplore.ieee.org/document/9770189/
-  - http://xplorestaging.ieee.org/ielx7/7782633/9462165/09770189.pdf?arnumber=9770189
-audit_status: raw
+- https://web.stanford.edu/~boyd/papers/pdf/cvxpygen.pdf
+- https://web.stanford.edu/~boyd/papers/cvxpygen.html
+- https://github.com/cvxgrp/cvxpygen
+- https://doi.org/10.1109/LCSYS.2022.3173209
+audit_status: partial

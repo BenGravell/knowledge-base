@@ -1,0 +1,25 @@
+title: >
+  A Combined Corner and Edge Detector
+algorithm: Harris Corner Detector
+authors:
+- Chris Harris
+- Mike Stephens
+year: 1988
+source: Alvey Vision Conference
+type: Conference Paper
+doi: 10.5244/C.2.23
+arxiv_id: null
+tags:
+- Corner detection
+- Edge detection
+- Feature tracking
+- Autocorrelation
+- Computer vision
+abstract: >
+  Consistency of image edge filtering is of prime importance for 3D interpretation of image sequences using feature tracking algorithms. To cater for image regions containing texture and isolated features, a combined corner and edge detector based on the local auto-correlation function is utilised, and it is shown to perform with good consistency on natural imagery.
+summary: >
+  Introduces a combined corner and edge detector based on local image autocorrelation. The response separates corners, edges, and flat regions to support consistent feature tracking across image sequences.
+link: https://www.bmva-archive.org.uk/bmvc/1988/avc-88-023.pdf
+links_alt:
+- https://www.bmva-archive.org.uk/bmvc/1988/avc-88-023.html
+audit_status: partial

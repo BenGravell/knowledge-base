@@ -1,0 +1,30 @@
+title: >
+  Robust Obstacle Avoidance Using Tube NMPC
+algorithm: Tube NMPC Obstacle Avoidance
+authors:
+- Gowtham Garimella
+- Matthew Sheckells
+- Joseph Moore
+- Marin Kobilarov
+year: 2018
+source: 'Robotics: Science and Systems (RSS)'
+type: Conference Paper
+doi: 10.15607/RSS.2018.XIV.055
+arxiv_id: null
+tags:
+  - Tube model predictive control
+  - Nonlinear model predictive control
+  - Robust obstacle avoidance
+  - Disturbance invariant sets
+  - Bi-level optimization
+  - Nonlinear dynamics
+abstract: >
+  This work considers the problem of avoiding obstacles for general nonlinear systems subject to disturbances. Obstacle avoidance is achieved by computing disturbance invariant sets along a nominal trajectory and ensuring these invariant sets do not intersect with obstacles. We develop a novel technique to compute approximate disturbance invariant sets for general nonlinear systems using a set of finite dimensional optimizations. A bi-level NMPC optimization strategy alternates between optimizing over the nominal trajectory and finding the disturbance invariant sets. Simulation results show that the proposed algorithm is able to generate disturbance invariant sets for standard 3D aerial and planar ground vehicles models, and the NMPC algorithm successfully computes obstacle avoidance trajectories using the disturbance invariant sets.
+summary: >
+  Alternates nominal-trajectory optimization with finite-dimensional approximations of disturbance-invariant tubes for nonlinear systems. The resulting NMPC avoids obstacles under disturbances in ground and aerial vehicle simulations, with approximate rather than exact invariance guarantees.
+link: https://www.roboticsproceedings.org/rss14/p55.pdf
+links_alt:
+- https://www.roboticsproceedings.org/rss14/p55.html
+- https://doi.org/10.15607/RSS.2018.XIV.055
+- https://asco.lcsr.jhu.edu/wp-content/uploads/2018/05/robust-obstacle-avoidance.pdf
+audit_status: partial

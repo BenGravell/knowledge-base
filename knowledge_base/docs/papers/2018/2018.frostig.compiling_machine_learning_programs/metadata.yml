@@ -7,7 +7,7 @@ authors:
   - "Chris Leary"
 year: 2018
 source: "Systems for Machine Learning (SysML)"
-type: "Workshop Paper"
+type: "Conference Paper"
 doi: 
 arxiv_id: 
 tags:
@@ -27,4 +27,4 @@ link: "https://cs.stanford.edu/~rfrostig/pubs/jax-mlsys2018.pdf"
 links_alt:
   - "https://research.google/pubs/compiling-machine-learning-programs-via-high-level-tracing/"
   - "https://github.com/jax-ml/jax"
-audit_status: raw
+audit_status: partial

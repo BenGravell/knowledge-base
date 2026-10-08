@@ -1,0 +1,35 @@
+title: >
+  CCosmo: A Conic First-Order Solver
+algorithm: CCosmo
+authors:
+- Alexandre Amice
+- Bernhard Paus Graesdal
+- Paulo H. S. Silva
+- Pablo A. Parrilo
+- Russ Tedrake
+year: 2026
+source: ICRA Workshop on Frontiers of Optimization for Robotics
+type: Workshop Paper
+doi: null
+arxiv_id: null
+tags:
+- Conic optimization
+- Convex optimization
+- Alternating-direction method of multipliers
+- First-order methods
+- Operator splitting
+- Quadratic programming
+- Second-order cone programming
+- Warm-starting
+- Model predictive control
+- Graphs of convex sets
+abstract: >
+  In robotics, convex optimization solvers frequently appear inside larger loops that repeatedly solve closely related problems and only require moderate accuracy. This operating regime favors first-order methods that are easily warm started and have predictable memory requirements. We present CCosmo, a family of general-purpose conic optimization solvers based on the alternating direction method of multipliers. CCosmo is written in C++ with a Python interface. It supports both single- and double-precision arithmetic and can dispatch to either sparse or dense linear algebra backends. It implements the same base algorithm as COSMO.jl [1] for conic programs and reduces to OSQP [2] when solving a QP. We evaluate CCosmo on standard QP and SOCP benchmarks and find that CCosmo is broadly competitive with the open-source baselines on every family. On a synthetic MPC benchmark, CCosmo gives the fastest warm-starting performance, beating out SCS, another popular first-order solver, and Clarabel, an interior point solver. Finally, on a benchmark of Graph of Convex Sets relaxations, we show the benefit of avoiding SCS's homogeneous embedding when the original problem is already homogeneous.
+summary: >
+  Introduces an ADMM-based conic solver family implemented in C++ with Python bindings, configurable precision, and sparse or dense linear algebra. Benchmarks compare its QP and SOCP performance with existing solvers, demonstrate effective MPC warm starts, and show advantages of avoiding an extra homogeneous embedding for graph-of-convex-sets relaxations.
+link: https://openreview.net/pdf?id=G81ClpWiPQ
+links_alt:
+- https://openreview.net/pdf/df0ded3f3d47fabf063862bd2ad933f3ba1a4b2c.pdf
+- https://openreview.net/forum?id=G81ClpWiPQ
+- https://alexandreamice.github.io/project/ccosmo/
+audit_status: partial

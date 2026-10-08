@@ -1,0 +1,27 @@
+title: >
+  Chance Constrained RRT for Probabilistic Robustness to Environmental Uncertainty
+algorithm: CC-RRT
+authors:
+- Brandon D. Luders
+- Mangal Kothari
+- Jonathan P. How
+year: 2010
+source: AIAA Guidance, Navigation, and Control Conference
+type: Conference Paper
+doi: 10.2514/6.2010-8160
+arxiv_id: null
+tags:
+- Motion planning
+- Chance constraints
+- Sampling-based planning
+- Uncertainty
+- Linear systems
+abstract: >
+  For motion planning problems involving many or unbounded forms of uncertainty, it may not be possible to identify a path guaranteed to be feasible, requiring consideration of the trade-off between planner conservatism and the risk of infeasibility. This paper presents a novel real-time planning algorithm, chance constrained rapidly-exploring random trees (CC-RRT), which uses chance constraints to guarantee probabilistic feasibility for linear systems subject to process noise and/or uncertain, possibly dynamic obstacles. By using RRT, the algorithm enjoys the computational benefits of sampling-based algorithms, such as trajectory-wise constraint checking and incorporation of heuristics, while explicitly incorporating uncertainty within the formulation. Under the assumption of Gaussian noise, probabilistic feasibility at each time step can be established through simple simulation of the state conditional mean and the evaluation of linear constraints. Alternatively, a small amount of additional computation can be used to explicitly compute a less conservative probability bound at each time step. Simulation results show that this algorithm can be used for efficient identification and execution of probabilistically safe paths in real time.
+summary: >
+  Combines chance constraints with sampling-based planning to construct probabilistically feasible trajectories for uncertain linear systems. Handles process noise and uncertain dynamic obstacles using Gaussian state propagation.
+link: https://dspace.mit.edu/bitstreams/613720fe-a2c3-4a1c-a6f9-84547b4be030/download
+links_alt:
+- https://arc.aiaa.org/doi/abs/10.2514/6.2010-8160
+- https://doi.org/10.2514/6.2010-8160
+audit_status: partial

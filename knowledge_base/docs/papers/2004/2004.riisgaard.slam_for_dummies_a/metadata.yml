@@ -1,0 +1,30 @@
+title: >
+  SLAM for Dummies: A Tutorial Approach to Simultaneous Localization and Mapping
+algorithm: null
+authors:
+- Soren Riisgaard
+- Morten Rufus Blas
+year: 2004
+source: MIT OpenCourseWare, Cognitive Robotics
+type: Technical Report
+doi: null
+arxiv_id: null
+tags:
+- Simultaneous localization and mapping
+- Extended Kalman filter
+- Mobile robotics
+- Laser range finding
+- Landmark extraction
+- Data association
+- RANSAC
+- Odometry
+- Tutorial
+# The report begins with an introduction and has no abstract.
+abstract: ''
+summary: >
+  A practical tutorial for implementing two-dimensional EKF-SLAM on an indoor mobile robot using laser range measurements and wheel odometry. It explains landmark extraction with spikes and RANSAC, data association, state and covariance updates, and adding new landmarks, with C# hardware-interface and landmark-extraction code.
+link: https://wiki.hshl.de/wiki/images/c/cb/1aslam_blas_repo.pdf
+links_alt:
+- https://dspace.mit.edu/bitstream/handle/1721.1/36832/16-412JSpring2004/NR/rdonlyres/Aeronautics-and-Astronautics/16-412JSpring2004/A3C5517F-C092-4554-AA43-232DC74609B3/0/1Aslam_blas_report.pdf
+- https://ocw.mit.edu/courses/16-412j-cognitive-robotics-spring-2005/pages/projects/
+audit_status: partial

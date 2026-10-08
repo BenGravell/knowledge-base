@@ -1,0 +1,36 @@
+title: >
+  Robots Need More than VLA and World Models
+algorithm: null
+authors:
+- Elis Karcini
+- Faisal Mehrban
+- Quang Nguyen
+- Mac Schwager
+- Arash Ajoudani
+- Cesar Cadena
+- Jan Peters
+- Marco Hutter
+- Haitham Bou-Ammar
+year: 2026
+source: arXiv
+type: Preprint
+doi: null
+arxiv_id: "2606.06556"
+tags:
+- Robot learning
+- Foundation models
+- Vision-language-action models
+- World models
+- Imitation learning
+- Reward modeling
+- Embodied intelligence
+abstract: >
+  Generalist robot intelligence is often framed as a policy-scaling problem: collect more robot demonstrations, train larger Vision-Language-Action (VLA) models, and expect broader generalisation. In this position paper, we argue that this framing is incomplete. The central bottleneck is not only policy learning, but the absence of mechanisms that convert the world's abundant unstructured behavioural data into grounded robot supervision. Human motion, internet video, simulation rollouts, and interactive demonstrations contain rich information about tasks, goals, contacts, failures, and physical constraints, yet most of this information is not directly usable by robot policies because it lacks embodiment-specific action labels, task semantics, and reward structure. We identify four missing components for the next generation of robotics: data interfaces for autolabelling unstructured behaviour, embodiment interfaces for retargeting human motion to robot actions, world-model interfaces for physics-grounded 3D reasoning, and reward interfaces for inferring task progress and success from video and language. We survey recent progress in robot foundation models, cross-embodiment datasets, learning from video, world models, and reward modelling, and propose a research agenda for building robotics systems that can learn not only from robot demonstrations, but from the broader physical world.
+summary: >
+  Argues that generalist robotics needs mechanisms that turn unstructured physical experience into usable supervision, beyond scaling robot policies. Organizes this agenda around data autolabelling, cross-embodiment retargeting, physics-grounded world models, and task-conditioned reward inference.
+link: https://arxiv.org/pdf/2606.06556
+links_alt:
+- https://paper.motoniq.ai/paper.pdf
+- https://paper.motoniq.ai/
+- https://www.motoniq.ai/research/robots-need-more-than-vlas-world-models
+audit_status: partial

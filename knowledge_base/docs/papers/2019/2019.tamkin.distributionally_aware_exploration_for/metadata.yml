@@ -1,0 +1,28 @@
+title: >
+  Distributionally-Aware Exploration for CVaR Bandits
+algorithm: Distributionally-Aware CVaR Bandits
+authors:
+- Alex Tamkin
+- Ramtin Keramati
+- Christoph Dann
+- Emma Brunskill
+year: 2019
+source: NeurIPS Workshop on Safety and Robustness in Decision Making
+type: Workshop Paper
+doi: null
+arxiv_id: null
+tags:
+- Multi-armed bandits
+- Conditional value at risk
+- Risk-sensitive learning
+- Optimism
+- Distributional exploration
+- Regret bounds
+abstract: >
+  Risk sensitive objectives are often desirable in settings like healthcare or finance, where agents are more sensitive to worst-case than average outcomes. However, current risk-sensitive algorithms for multi-armed bandits utilize exploration bonuses which do not adapt to the distributional nature of these objectives. In this paper, we consider multi-armed bandits with a popular risk-sensitive objective called the Conditional Value at Risk (CVaR). We present an novel optimism-based algorithm for this setting: instead of adding bonuses to the CVaR estimate of each arm, we apply optimism at the sample level, generating an optimistic set of samples for each arm and then computing CVaR estimates from them instead. We present regret bounds for our algorithm, along with experiments showing order-of-magnitude improvements over baselines and prior work. Further experiments demonstrate how sample-level optimism enables our algorithm to adapt to the shape of each arm distribution in ways that exploration bonuses do not.
+summary: >
+  Constructs optimistic sample distributions using Dvoretzky-Kiefer-Wolfowitz confidence bands before estimating each arm's CVaR. Provides regret guarantees and experiments showing that distribution-aware exploration improves on bonuses applied directly to scalar CVaR estimates.
+link: https://rkeramati.github.io/assets/pdf/CVaR_Bandit.pdf
+links_alt:
+- https://rkeramati.github.io/academics.html
+audit_status: partial

@@ -1,0 +1,28 @@
+title: >
+  Clothoids: A C++ Library with Matlab Interface for the Handling of Clothoid Curves
+algorithm: Clothoids C++ Library
+authors:
+- Enrico Bertolazzi
+- Paolo Bevilacqua
+- Marco Frego
+year: 2018
+source: Rendiconti del Seminario Matematico Universita e Politecnico di Torino
+type: Journal Paper
+doi: null
+arxiv_id: null
+tags:
+  - Clothoid
+  - Fresnel integrals
+  - Hermite interpolation
+  - Curve intersection
+  - C++ library
+  - Matlab interface
+abstract: >
+  A C++ library with Matlab interface for the computation of clothoid curves and related algorithms, such as interpolation problems, is herein presented. Clothoids are planar curves parametrised by arclength that exhibit linear curvature. Therefore, they are useful in a variety of applications, as they naturally model many phenomena in various fields of science. However, their transcendental nature and oscillatory behaviour (because of the Fresnel integrals) render their computation a difficult task. The present library offers a numerically accurate and efficient answer to important problems of interpolation, intersection and manipulation of these curves. It is freely available at Matlab Central.
+summary: >
+  Presents an efficient C++ library and Matlab interface for constructing and manipulating clothoid curves. Supports G1 and G2 Hermite interpolation, distance queries, intersections, and clothoid splines while handling the numerical challenges of Fresnel integrals.
+link: https://seminariomatematico.polito.it/rendiconti/76-2/47.pdf
+links_alt:
+- https://iris.unitn.it/handle/11572/261539
+- https://github.com/ebertolazzi/Clothoids
+audit_status: partial

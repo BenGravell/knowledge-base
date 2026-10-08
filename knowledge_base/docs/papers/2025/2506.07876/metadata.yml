@@ -1,0 +1,32 @@
+title: >
+  Versatile Loco-Manipulation through Flexible Interlimb Coordination
+algorithm: ReLIC
+authors:
+- Xinghao Zhu
+- Yuxin Chen
+- Lingfeng Sun
+- Farzad Niroui
+- Simon Le Cleac'h
+- Jiuguang Wang
+- Kuan Fang
+year: 2025
+source: Conference on Robot Learning (CoRL)
+type: Conference Paper
+doi: null
+arxiv_id: "2506.07876"
+tags:
+- Loco-manipulation
+- Interlimb coordination
+- Reinforcement learning
+- Whole-body control
+- Sim-to-real transfer
+- Quadruped robots
+abstract: >
+  The ability to flexibly leverage limbs for loco-manipulation is essential for enabling autonomous robots to operate in unstructured environments. Yet, prior work on loco-manipulation is often constrained to specific tasks or predetermined limb configurations. In this work, we present Reinforcement Learning for Interlimb Coordination (ReLIC), an approach that enables versatile loco-manipulation through flexible interlimb coordination. The key to our approach is an adaptive controller that seamlessly bridges the execution of manipulation motions and the generation of stable gaits based on task demands. Through the interplay between two controller modules, ReLIC dynamically assigns each limb for manipulation or locomotion and robustly coordinates them to achieve the task success. Using efficient reinforcement learning in simulation, ReLIC learns to perform stable gaits in accordance with the manipulation goals in the real world. To solve diverse and complex tasks, we further propose to interface the learned controller with different types of task specifications, including target trajectories, contact points, and natural language instructions. Evaluated on 12 real-world tasks that require diverse and complex coordination patterns, ReLIC demonstrates its versatility and robustness by achieving a success rate of 78.9% on average. Videos and code can be found at this https URL .
+summary: >
+  Learns an adaptive locomotion controller coordinated with a manipulation controller so limbs can switch dynamically between support and manipulation. ReLIC accepts trajectories, contact points, or language specifications and succeeds on an average of 78.9% of twelve real-world tasks.
+link: https://arxiv.org/pdf/2506.07876
+links_alt:
+- https://relic-locoman.rai-inst.com
+- https://rai-inst.com/resources/papers/relic-versatile-loco-manipulation-through-flexible-interlimb-coordination/
+audit_status: partial

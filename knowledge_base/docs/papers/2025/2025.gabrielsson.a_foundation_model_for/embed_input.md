@@ -4,12 +4,12 @@
 
 A Foundation Model for Consumption, Transactions, and Actions: The Inception of BehaviorGPT
 
-Topics include Foundation models.
+Topics include Behavioral foundation models, Transformers, Next-event prediction, Grocery consumption, Recommendations, Retail search, Multimodal embeddings.
 
 <!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
 
-Introduces BehaviorGPT-v1 as a Transformer foundation model for grocery consumption, treating purchase histories, searches, clicks, and other retail events as token sequences. The paper frames consumption as a behavioral language, reports large recommendation and conversion gains over production baselines, and positions the model as a foundation for retail search, recommendations, assortment planning, fraud detection, and transaction intelligence.
+Introduces BehaviorGPT-v1 as a Transformer foundation model for grocery consumption, treating purchase histories, searches, clicks, and other retail events as token sequences. The article frames consumption as a behavioral language, reports large recommendation and conversion gains over production baselines, and positions the model as a foundation for retail search, recommendations, assortment planning, fraud detection, and transaction intelligence.
 
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-We applied language modeling to rich grocery consumption data to build BehaviorGPT-v1, treating user consumption history as a language to predict future events.
+We present BehaviorGPT-v1, a foundation model for grocery consumption built by applying language modeling techniques to large-scale consumer data. By treating each user’s purchase history as a sequence of tokens—“the language of grocery consumption”—we trained a Transformer capable of predicting future consumption patterns. Our dataset spans approximately 600M online actions and 15B offline grocery purchases. The resulting 150M-parameter model incorporates architectural modifications tailored to the unique challenges of this tokenization. We position this work as a step toward a broader foundation model for payments, retail, and ultimately human behavior—what we call BehaviorGPT. The results were notable: • 10× improvement in recommendations over baseline, • +9.4% conversion against RichRelevance search and +5.7% over Algolia, • +2.2% sales in physical stores after using dense vectors of physical stores to dynamically assign assortments based on regional behavioral patterns. • Several qualitative demonstrations of substantial performance gains.

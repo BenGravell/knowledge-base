@@ -1,0 +1,25 @@
+title: >
+  Problem Complexity and Method Efficiency in Optimization
+algorithm: ''
+authors:
+- Arkadii Semenovich Nemirovsky
+- David Borisovich Yudin
+year: 1983
+source: Wiley
+type: Book
+doi: null
+arxiv_id: null
+tags:
+- Optimization complexity
+- Convex optimization
+- Oracle complexity
+- First-order methods
+- Lower bounds
+# The scanned book has an introduction, but no abstract.
+abstract: ''
+summary: >
+  Develops an information-based complexity framework for optimization, deriving limits and algorithms for convex and other mathematical programming problems.
+link: https://www2.isye.gatech.edu/~nemirovs/Nemirovskii_Yudin_1983.pdf
+links_alt:
+- https://www.scirp.org/reference/referencespapers?referenceid=610553
+audit_status: partial
