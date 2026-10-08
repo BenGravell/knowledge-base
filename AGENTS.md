@@ -20,10 +20,10 @@ Use this dependency chain:
 
 Additional repo-local skills are available under `.agents/skills/`:
 
-- Ponytail skills: `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, and `ponytail-help`.
-- Engineering skills: `diagnose`, `grill-with-docs`, `improve-codebase-architecture`, `prototype`, `tdd`, `to-todos`, `to-prd`, and `zoom-out`.
+- Ponytail skills: `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, `ponytail-gain`, and `ponytail-help`.
+- Engineering skills: `improve-codebase-architecture`, `codebase-design`, `domain-modeling`, and `diagnosing-bugs`.
 
-This repo has no issue tracker workflow. Future work lives in markdown under `todo/`; use `to-todos` or `to-prd` for task breakdowns and PRDs. Do not create `docs/agents/` or triage-label setup for work tracking.
+This repo has no issue tracker workflow. Future work lives in markdown under `todo/`. Do not create `docs/agents/` or triage-label setup for work tracking.
 
 ## Global guardrails
 

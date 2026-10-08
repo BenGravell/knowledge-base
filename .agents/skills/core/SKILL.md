@@ -86,19 +86,29 @@ Use sub-agents as an internal implementation detail whenever the primary agent j
 Ponytail skills are vendored in this repo:
 
 - `../ponytail/SKILL.md`: default minimalism guardrail.
-- `../ponytail-review/SKILL.md`, `../ponytail-audit/SKILL.md`, `../ponytail-debt/SKILL.md`, and `../ponytail-help/SKILL.md`: callable complexity review, audit, debt ledger, and help workflows.
+- `../ponytail-review/SKILL.md`, `../ponytail-audit/SKILL.md`, `../ponytail-debt/SKILL.md`, and `../ponytail-help/SKILL.md`: callable quality review, audit, debt ledger, and help workflows.
 
-Matt Pocock engineering skills are forked and adapted for this repo:
+Matt Pocock skills retain their upstream names and content, except for removing the architecture skill's grilling dependency:
 
-- `../diagnose/SKILL.md`
-- `../grill-with-docs/SKILL.md`
+- `../diagnosing-bugs/SKILL.md`
 - `../improve-codebase-architecture/SKILL.md`
-- `../prototype/SKILL.md`
-- `../tdd/SKILL.md`
-- `../to-todos/SKILL.md`
-- `../to-prd/SKILL.md`
-- `../zoom-out/SKILL.md`
+- `../codebase-design/SKILL.md`
+- `../domain-modeling/SKILL.md`
 
-This repo has no issue tracker workflow. Future work lives in markdown under `todo/`; use `to-todos` or `to-prd` for task breakdowns and PRDs. Do not create `docs/agents/` or triage-label setup for work tracking.
+This repo has no issue tracker workflow. Future work lives in markdown under `todo/`. Do not create `docs/agents/` or triage-label setup for work tracking.
+
+### Applying upstream skills here
+
+Keep vendored skills verbatim where possible; repository-specific rules belong here or in
+`AGENTS.md`. These rules take precedence over upstream workflow defaults:
+
+- When a skill says to call a Skill tool that the host does not provide, read
+  `.agents/skills/<name>/SKILL.md` and follow it.
+- The local planning destination is `todo/`: specs and task files go there.
+  No tracker setup, external issue publication, or triage labels are needed.
+- If this repo already has `CONTEXT.md` or `CONTEXT-MAP.md`, use it for the
+  corresponding upstream `GLOSSARY.md` or `GLOSSARY-MAP.md` role.
+- Ponytail plugin configuration and update commands in its help apply to the
+  separately installed plugin, not these vendored files.
 
 Upstream license notices live in `../vendor-licenses/`.
