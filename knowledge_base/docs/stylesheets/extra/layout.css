@@ -521,8 +521,10 @@ body:has(.paper-detail-title) {
   --kb-paper-top-gap: clamp(0.75rem, 1vw, 1.05rem);
 }
 
-body:has(.paper-detail-title) .md-main__inner {
-  padding-top: var(--kb-paper-top-gap);
+@media screen and (min-width: 60em) {
+  body:has(.paper-detail-title) .md-main__inner {
+    padding-top: var(--kb-paper-top-gap);
+  }
 }
 
 @media (max-width: 44.984375em) {

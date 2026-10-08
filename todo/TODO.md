@@ -13,15 +13,6 @@ streamlit run dev_apps/tree_label_review_app.py
 
 I think we lost the semantic similarity and tree similarity filters for selected node filters. That was a powerful tool that had good tunings. Restore it.
 
-## FIX
-
-paper detail pages like
-https://bengravell.github.io/knowledge-base/papers/2402_01443/ 
-
-On mobile and narrow pages do not use additional padding before title.
-
-Use Wikipedia page layout as a guide for reasonable spacing to title text from top.
-
 
 ## perf
 
