@@ -51,9 +51,20 @@ def launch_chrome(chrome: str) -> ChromeSession:
         f"--user-data-dir={user_data_dir}",
         "about:blank",
     ]
-    process = subprocess.Popen(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    session = ChromeSession(process=process, user_data_dir=user_data_dir, port=port)
-    wait_for_json(session, "/json/version")
+    with tempfile.TemporaryFile() as stderr:
+        try:
+            process = subprocess.Popen(command, stdout=subprocess.DEVNULL, stderr=stderr)
+        except OSError:
+            shutil.rmtree(user_data_dir, ignore_errors=True)
+            raise
+        session = ChromeSession(process=process, user_data_dir=user_data_dir, port=port)
+        try:
+            wait_for_json(session, "/json/version", timeout=60)
+        except Exception as error:
+            shutdown_chrome(session)
+            stderr.seek(0)
+            diagnostics = stderr.read().decode("utf-8", errors="replace").strip()
+            raise RuntimeError(f"{error}; Chrome stderr: {diagnostics or '(empty)'}") from error
     return session
 
 
