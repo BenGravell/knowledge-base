@@ -8,7 +8,7 @@ Topics include Genetic algorithms, Adaptation, Complex adaptive systems, Schemat
 
 <!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
 
-Holland's foundational book formalizes genetic algorithms and adaptive systems through schemata, recombination, and selection. The 1992 MIT Press edition helped make the theory accessible to machine learning, economics, psychology, game theory, and artificial intelligence communities studying nonlinear adaptive behavior.
+Holland's foundational book formalizes genetic algorithms and adaptive systems through schemata, recombination, and selection. This book helped make the theory accessible to machine learning, economics, psychology, game theory, and artificial intelligence communities studying nonlinear adaptive behavior.
 
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
@@ -16,4 +16,4 @@ Genetic algorithms are playing an increasingly important role in studies of comp
 
 <!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-Along the way he accounts for major effects of coadaptation and coevolution: the emergence of building blocks, or schemata, that are recombined and passed on to succeeding generations to provide, innovations and improvements. Bradford Books imprint
+Along the way he accounts for major effects of coadaptation and coevolution: the emergence of building blocks, or schemata, that are recombined and passed on to succeeding generations to provide, innovations and improvements.

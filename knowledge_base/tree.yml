@@ -92,26 +92,26 @@
         - Nonlinear Optimization:
           - Nonlinear Programming:
             - Theory of Algorithms for Unconstrained Optimization: docs/papers/1992/1992.nocedal.theory_of_algorithms_for/metadata.yml
-            - Disciplined Nonlinear Programming: docs/papers/2025/2025.cederberg.disciplined_nonlinear_programming/metadata.yml
+            - DNLP: docs/papers/2025/2025.cederberg.disciplined_nonlinear_programming/metadata.yml
             - Global Solutions to Non-Convex Functional Constrained Problems with Hidden Convexity: docs/papers/2025/2511.10626/metadata.yml
             - Universal Convexification via Risk-Aversion: docs/papers/2014/1406.0554/metadata.yml
             - First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems: docs/papers/2022/2204.03036/metadata.yml
           - Problem Classes:
             - Optimal Transport:
               - On the Optimal Mapping of Distributions: docs/papers/1984/1984.knott.on_the_optimal_mapping/metadata.yml
-              - "Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better than by Sinkhorn's Algorithm": docs/papers/2018/1802.04367/metadata.yml
+              - APDAGD: docs/papers/2018/1802.04367/metadata.yml
             - Facility Location:
               - How the oldest recorded multiple facility location problem was solved: docs/papers/1995/1995.wilamowsky.how_the_oldest_recorded/metadata.yml
               - Geometric Median in Nearly Linear Time: docs/papers/2016/1606.05225/metadata.yml
           - Zeroth-Order Methods:
-            - Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization: docs/papers/2018/1805.10367/metadata.yml
-            - Gradientless Descent: docs/papers/2019/1911.06317/metadata.yml
+            - ZO-SVRG: docs/papers/2018/1805.10367/metadata.yml
+            - GLD: docs/papers/2019/1911.06317/metadata.yml
             - Low-Rank Gradient Descent: docs/papers/2023/2023.cosson.low_rank_gradient_descent/metadata.yml
             - Gradient Descent for Low-Rank Functions: docs/papers/2022/2206.08257/metadata.yml
             - SPSA: docs/papers/1998/1998.spall.implementation_of_the_simultaneous/metadata.yml
             - "An Introduction to Zero-Order Optimization Techniques for Robotics": docs/papers/2025/2506.22087/metadata.yml
             - "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback": docs/papers/2015/1507.08752/metadata.yml
-            - "Random Gradient-Free Minimization of Convex Functions": docs/papers/2015/2015.nesterov.random_gradient_free_minimization/metadata.yml
+            - Random Gradient-Free Minimization of Convex Functions: docs/papers/2015/2015.nesterov.random_gradient_free_minimization/metadata.yml
             - On the Optimization Landscape of Tensor Decompositions: docs/papers/2017/1706.05598/metadata.yml
             - Stochastic First-Order Methods with Random Constraint Projection: docs/papers/2016/2016.wang.stochastic_first_order_methods/metadata.yml
             - Shampoo: docs/papers/2018/1802.09568/metadata.yml
@@ -125,12 +125,12 @@
               - Evaluating AGENTS.md: docs/papers/2026/2602.11988/metadata.yml
               - Code as Agent Harness: docs/papers/2026/2605.18747/metadata.yml
               - EvoClaw: docs/papers/2026/2603.13428/metadata.yml
-              - "Adaptation in Natural and Artificial Systems": docs/papers/1992/1992.holland.adaptation_in_natural_and/metadata.yml
+              - Adaptation in Natural and Artificial Systems: docs/papers/1992/1992.holland.adaptation_in_natural_and/metadata.yml
               - Evolving Virtual Creatures: docs/papers/1994/1994.sims.evolving_virtual_creatures/metadata.yml
               - Particle Swarm Optimization: docs/papers/1995/1995.kennedy.particle_swarm_optimization/metadata.yml
               - Differential Evolution: docs/papers/1997/1997.storn.differential_evolution_a_simple/metadata.yml
               - CMA-ES: docs/papers/2001/2001.hansen.completely_derandomized_self_adaptation/metadata.yml
-              - "The CMA Evolution Strategy: A Tutorial": docs/papers/2016/1604.00772/metadata.yml
+              - 'The CMA Evolution Strategy: A Tutorial': docs/papers/2016/1604.00772/metadata.yml
               - NEAT: docs/papers/2002/2002.stanley.evolving_neural_networks_through/metadata.yml
               - HyperNEAT: docs/papers/2009/2009.stanley.a_hypercube_based_encoding/metadata.yml
               - "The Evolutionary Origin of Complex Features": docs/papers/2003/2003.lenski.the_evolutionary_origin_of/metadata.yml

@@ -1,6 +1,6 @@
 title: >
   Disciplined Nonlinear Programming
-algorithm: "DNLP"
+algorithm: DNLP
 authors:
   - "Daniel Cederberg"
   - "William Zhang"

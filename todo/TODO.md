@@ -6,7 +6,8 @@ get rid of todo directory altogether
 
 ## dev apps
 
-do a pass with dev_apps/tree_label_review_app.py
+do a pass with 
+streamlit run dev_apps/tree_label_review_app.py
 
 ## map
 

@@ -1,6 +1,6 @@
 title: >
   The CMA Evolution Strategy: A Tutorial
-algorithm: CMA-ES
+algorithm: 'The CMA Evolution Strategy: A Tutorial'
 authors:
   - Nikolaus Hansen
 year: 2016
