@@ -1,6 +1,6 @@
 """Issue-routing predicates for metadata autofixes."""
 
-from knowledge_base.config import VALID_TYPES
+from knowledge_base.metadata import VALID_TYPES
 from knowledge_base.scripts.audit_metadata.rules.abstract_data import (
     _ABSTRACT_DOLLAR_MATH_ISSUE_PREFIX,
     _ABSTRACT_LATEX_ARTIFACT_ISSUE_PREFIX,

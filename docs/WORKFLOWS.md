@@ -108,7 +108,8 @@ runs during MDPI ingestion. Do not treat a passing offline audit as source verif
 ### Add one paper manually
 
 Create `knowledge_base/docs/papers/<YEAR>/<SLUG>/metadata.yml` from
-`knowledge_base/docs/templates/metadata.yml`, then audit that file:
+`knowledge_base/docs/templates/metadata.yml`, following the [metadata schema reference](METADATA.md),
+then audit that file:
 
 ```bash
 kb audit-metadata --file knowledge_base/docs/papers/<YEAR>/<SLUG>/metadata.yml --metadata-only

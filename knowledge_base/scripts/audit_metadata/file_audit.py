@@ -5,13 +5,7 @@ from typing import Any
 
 import yaml
 
-from knowledge_base.config import (
-    AUDIT_STATUS_FIELD,
-    REQUIRED_FIELDS,
-    VALID_AUDIT_STATUSES,
-    VALID_FIELDS,
-    VALID_TYPES,
-)
+from knowledge_base.metadata import AUDIT_STATUS_FIELD, REQUIRED_FIELDS, VALID_AUDIT_STATUSES, VALID_FIELDS, VALID_TYPES
 from knowledge_base.scripts.audit_metadata.fixes.title_fixes import (
     _suggest_title_fix,
     _title_has_garbage,

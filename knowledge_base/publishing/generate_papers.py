@@ -18,12 +18,7 @@ from knowledge_base.publishing.site_links import (
     site_link_data,
     source_relative_url,
 )
-from knowledge_base.utils.arxiv_utils import (
-    arxiv_abs_url,
-    arxiv_html_url,
-    arxiv_pdf_url,
-    normalize_arxiv_id,
-)
+from knowledge_base.utils.arxiv_ids import arxiv_abs_url, arxiv_html_url, arxiv_pdf_url, normalize_arxiv_id
 
 try:
     import numpy as np

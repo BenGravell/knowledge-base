@@ -20,7 +20,7 @@ from knowledge_base.scripts.arxiv_full_text.text import (
     remove_rich_content_from_html,
     remove_rich_content_from_markdown,
 )
-from knowledge_base.utils.arxiv_utils import normalize_arxiv_id
+from knowledge_base.utils.arxiv_ids import normalize_arxiv_id
 
 UNUSABLE_HTML_MARKERS = (
     "Conversion to HTML had a Fatal error",

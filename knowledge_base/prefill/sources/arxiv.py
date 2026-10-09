@@ -21,12 +21,8 @@ from knowledge_base.prefill.sources.arxiv_fetch import (
     extract_ids,
     fetch_with_retry,
 )
-from knowledge_base.utils.arxiv_utils import (
-    build_metadata,
-    normalize_arxiv_id,
-    target_path,
-    write_metadata,
-)
+from knowledge_base.utils.arxiv_ids import normalize_arxiv_id
+from knowledge_base.utils.arxiv_utils import build_metadata, target_path, write_metadata
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ARXIV.md"
 

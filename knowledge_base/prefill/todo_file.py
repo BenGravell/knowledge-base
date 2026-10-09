@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, unquote, urljoin, urlparse
 
-from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
+from knowledge_base.metadata import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
 from knowledge_base.prefill.doi import (
     fetch_page_html,
     scrape_abstract_from_html,

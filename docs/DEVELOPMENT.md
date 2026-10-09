@@ -36,6 +36,15 @@ Linter for architecture contracts, and Radon for new F-ranked complexity.
 
 ## Local generated data
 
+The [metadata schema reference](METADATA.md) is generated from `knowledge_base/metadata.py`.
+After changing the model or YAML template, regenerate it:
+
+```bash
+python -m knowledge_base.scripts.generate_metadata_docs
+```
+
+Use `--check` to validate the template and detect stale documentation without writing files.
+
 Refresh local generated data and validate that the site is self-consistent from
 the repository root:
 

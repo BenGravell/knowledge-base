@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 
-from knowledge_base.utils.arxiv_utils import normalize_arxiv_id
+from knowledge_base.utils.arxiv_ids import normalize_arxiv_id
 
 
 def clean_space(text: str | None) -> str:

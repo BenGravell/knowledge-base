@@ -15,14 +15,14 @@ from typing import Any, Literal
 from urllib.parse import quote
 
 import yaml
-from pydantic import BaseModel, ConfigDict, ValidationError, field_validator
+from pydantic import ValidationError
 
-from knowledge_base.config import PAPERS_DIR, VALID_AUDIT_STATUSES, VALID_TYPES
-from knowledge_base.utils.arxiv_utils import normalize_arxiv_id
+from knowledge_base.config import PAPERS_DIR
+from knowledge_base.metadata import MetadataRecord, MetadataYear, clean_scalar
+from knowledge_base.utils.arxiv_ids import normalize_arxiv_id
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
-MetadataYear = int | str
 UrlKey = Literal["detail", "tree", "map", "search"]
 EMBED_TEXT_SIDECAR = "embed_text.md"
 EMBED_INPUT_SIDECAR = "embed_input.md"
@@ -132,10 +132,6 @@ EMBEDDING_LOW_SIGNAL_RE = re.compile(
 )
 
 
-def clean_scalar(value: Any) -> str:
-    return str(value or "").strip()
-
-
 def clean_inline(value: Any) -> str:
     return re.sub(r"[ \t\r\f\v]+", " ", clean_scalar(value))
 
@@ -166,124 +162,10 @@ def content_hash(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
 
 
-def clean_doi(doi: Any) -> str:
-    return re.sub(
-        r"^https?://(?:dx\.)?doi\.org/",
-        "",
-        clean_scalar(doi),
-        flags=re.IGNORECASE,
-    )
-
-
 def join_url(base_path: str, target: str) -> str:
     base = clean_scalar(base_path).rstrip("/")
     path = target.lstrip("/")
     return f"{base}/{path}" if base else path
-
-
-def _clean_metadata_scalar(value: Any) -> str:
-    if value is None:
-        return ""
-    if isinstance(value, (list, tuple, dict, set)):
-        raise ValueError("expected a scalar value")
-    return clean_scalar(value)
-
-
-def _clean_metadata_tuple(value: Any) -> tuple[str, ...]:
-    if value is None:
-        return ()
-    if isinstance(value, (list, tuple)):
-        items = value
-    elif isinstance(value, (dict, set)):
-        raise ValueError("expected a scalar value or list")
-    else:
-        items = (value,)
-
-    cleaned: list[str] = []
-    for item in items:
-        if isinstance(item, (list, tuple, dict, set)):
-            raise ValueError("expected scalar list entries")
-        if text := clean_scalar(item):
-            cleaned.append(text)
-    return tuple(cleaned)
-
-
-def _clean_metadata_year(value: Any) -> MetadataYear:
-    if value is None:
-        return ""
-    if isinstance(value, (bool, list, tuple, dict, set)):
-        raise ValueError("expected an integer year or year string")
-    if isinstance(value, int):
-        return value
-    return clean_scalar(value)
-
-
-class _MetadataRecord(BaseModel):
-    model_config = ConfigDict(extra="forbid", frozen=True)
-
-    title: str = ""
-    algorithm: str = ""
-    authors: tuple[str, ...] = ()
-    year: MetadataYear = ""
-    source: str = ""
-    type: str = ""
-    doi: str = ""
-    arxiv_id: str = ""
-    tags: tuple[str, ...] = ()
-    abstract: str = ""
-    summary: str = ""
-    link: str = ""
-    links_alt: tuple[str, ...] = ()
-    audit_status: str = ""
-
-    @field_validator(
-        "title",
-        "algorithm",
-        "source",
-        "abstract",
-        "summary",
-        "link",
-        mode="before",
-    )
-    @classmethod
-    def clean_scalar_fields(cls, value: Any) -> str:
-        return _clean_metadata_scalar(value)
-
-    @field_validator("authors", "tags", "links_alt", mode="before")
-    @classmethod
-    def clean_tuple_fields(cls, value: Any) -> tuple[str, ...]:
-        return _clean_metadata_tuple(value)
-
-    @field_validator("year", mode="before")
-    @classmethod
-    def clean_year_field(cls, value: Any) -> MetadataYear:
-        return _clean_metadata_year(value)
-
-    @field_validator("doi", mode="before")
-    @classmethod
-    def clean_doi_field(cls, value: Any) -> str:
-        return clean_doi(_clean_metadata_scalar(value))
-
-    @field_validator("arxiv_id", mode="before")
-    @classmethod
-    def clean_arxiv_id_field(cls, value: Any) -> str:
-        return normalize_arxiv_id(_clean_metadata_scalar(value))
-
-    @field_validator("type", mode="before")
-    @classmethod
-    def clean_type_field(cls, value: Any) -> str:
-        text = _clean_metadata_scalar(value)
-        if text and text not in VALID_TYPES:
-            raise ValueError(f"must be one of: {', '.join(VALID_TYPES)}")
-        return text
-
-    @field_validator("audit_status", mode="before")
-    @classmethod
-    def clean_audit_status_field(cls, value: Any) -> str:
-        text = _clean_metadata_scalar(value)
-        if text and text not in VALID_AUDIT_STATUSES:
-            raise ValueError(f"must be one of: {', '.join(VALID_AUDIT_STATUSES)}")
-        return text
 
 
 @dataclass(frozen=True, slots=True)
@@ -337,9 +219,9 @@ def _format_catalog_load_issues(issues: tuple[CatalogLoadIssue, ...]) -> str:
     return "\n".join(lines)
 
 
-def _validate_metadata_record(metadata_path: Path, data: dict[str, Any]) -> _MetadataRecord:
+def _validate_metadata_record(metadata_path: Path, data: dict[str, Any]) -> MetadataRecord:
     try:
-        return _MetadataRecord.model_validate(data)
+        return MetadataRecord.model_validate(data)
     except ValidationError as exc:
         raise CatalogLoadError.from_validation_error(metadata_path, exc) from exc
 

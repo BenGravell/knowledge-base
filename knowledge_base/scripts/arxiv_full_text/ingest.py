@@ -28,7 +28,7 @@ from knowledge_base.scripts.arxiv_full_text.text import (
 from knowledge_base.scripts.arxiv_full_text.text import (
     self_test as text_self_test,
 )
-from knowledge_base.utils.arxiv_utils import arxiv_pdf_url, normalize_arxiv_id
+from knowledge_base.utils.arxiv_ids import arxiv_pdf_url, normalize_arxiv_id
 
 
 def candidates(

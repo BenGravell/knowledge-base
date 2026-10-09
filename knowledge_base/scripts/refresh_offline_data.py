@@ -41,6 +41,8 @@ HOT_START_STATUS_PATHS = (
     "knowledge_base/zensical.yml",
     "knowledge_base/catalog.py",
     "knowledge_base/config.py",
+    "knowledge_base/metadata.py",
+    "knowledge_base/utils/arxiv_ids.py",
     "knowledge_base/dev_cli.py",
     "knowledge_base/embeddings",
     "knowledge_base/publishing",

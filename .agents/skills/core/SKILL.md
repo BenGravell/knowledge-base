@@ -71,7 +71,9 @@ streamlit run dev_apps/tree_label_review_app.py
 - New knowledge entries go under `knowledge_base/docs/` following the structure of existing files.
 - Paper URL lists live under `todo/papers/<SOURCE>.md`.
 - Source-specific prefill adapters live under `knowledge_base/prefill/sources/<source>.py`.
-- Valid metadata fields, item types, and audit statuses are defined in `knowledge_base/config.py`.
+- Metadata fields, types, defaults, descriptions, and audit requirements are defined in `knowledge_base/metadata.py`.
+  `docs/METADATA.md` is the generated human-readable reference. Import schema constants directly from `knowledge_base.metadata`;
+  `knowledge_base/config.py` only defines repository paths.
 - Do not promote `audit_status` to `reviewed`. Agents may set it to `partial` after meaningful manual review or correction.
 - There is no general test suite.
 - Do not run programmatic tests except when a task skill explicitly requires a verification command or UX controls changed.

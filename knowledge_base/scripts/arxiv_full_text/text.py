@@ -12,7 +12,7 @@ from typing import Any
 from knowledge_base.catalog import Entry, clean_embedding_sidecar_text
 from knowledge_base.config import KB_DIR
 from knowledge_base.scripts.arxiv_full_text.settings import MIN_BODY_CHARS, SIDECAR_NAME
-from knowledge_base.utils.arxiv_utils import normalize_arxiv_id
+from knowledge_base.utils.arxiv_ids import normalize_arxiv_id
 
 IMAGE_MARKDOWN_RE = re.compile(r"!\[[^\]]*]\([^)]*\)")
 HTML_IMAGE_RE = re.compile(r"<(?:img|source)\b[^>]*>", re.IGNORECASE)

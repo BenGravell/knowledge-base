@@ -6,7 +6,7 @@ from urllib.parse import unquote, urlparse
 
 from knowledge_base.scripts.audit_metadata.support.model import RULE_IDENTITY, Issue
 from knowledge_base.scripts.audit_metadata.support.slugs import is_valid_arxiv_id
-from knowledge_base.utils.arxiv_utils import normalize_arxiv_id
+from knowledge_base.utils.arxiv_ids import normalize_arxiv_id
 
 
 def find_identity_issues(path: Path, data: dict[str, Any]) -> list[Issue]:

@@ -11,12 +11,8 @@ from pathlib import Path
 import yaml
 from rich.console import Console
 
-from knowledge_base.config import (
-    AUDIT_STATUS_FIELD,
-    DEFAULT_AUDIT_STATUS,
-    KB_DIR,
-    VALID_AUDIT_STATUSES,
-)
+from knowledge_base.config import KB_DIR
+from knowledge_base.metadata import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS, VALID_AUDIT_STATUSES
 
 console = Console(highlight=False)
 err_console = Console(stderr=True, highlight=False)

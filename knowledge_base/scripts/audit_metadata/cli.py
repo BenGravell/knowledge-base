@@ -7,7 +7,8 @@ from typing import Any
 
 import yaml
 
-from knowledge_base.config import AUDIT_STATUS_FIELD, KB_DIR, VALID_AUDIT_STATUSES
+from knowledge_base.config import KB_DIR
+from knowledge_base.metadata import AUDIT_STATUS_FIELD, VALID_AUDIT_STATUSES
 from knowledge_base.progress import emit_progress
 from knowledge_base.scripts.audit_metadata.file_audit import audit_file
 from knowledge_base.scripts.audit_metadata.fixes.apply_fixes import apply_fixes, console

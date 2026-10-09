@@ -9,7 +9,7 @@ from typing import Any
 
 import yaml
 
-from knowledge_base.config import VALID_FIELDS
+from knowledge_base.metadata import VALID_FIELDS
 
 TOP_LEVEL_FIELD_RE = re.compile(r"^(?P<key>[A-Za-z_][A-Za-z0-9_]*):(?P<value>[^\n\r]*)(?P<newline>\r?\n?)$")
 

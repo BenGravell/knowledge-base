@@ -20,7 +20,7 @@ from knowledge_base.catalog import Entry
 from knowledge_base.config import REPO_ROOT
 from knowledge_base.scripts.arxiv_full_text.settings import HTML_HEADERS
 from knowledge_base.scripts.arxiv_full_text.text import conversion_error, remove_rich_content_from_markdown
-from knowledge_base.utils.arxiv_utils import arxiv_pdf_url, normalize_arxiv_id
+from knowledge_base.utils.arxiv_ids import arxiv_pdf_url, normalize_arxiv_id
 
 LATEX_INCLUDE_RE = re.compile(r"\\(?:input|include)\*?\s*\{([^}]+)\}")
 LATEX_BAD_ROOT_RE = re.compile(

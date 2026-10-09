@@ -13,13 +13,8 @@ from knowledge_base.scripts.enrich_existing_arxiv_metadata.constants import PAPE
 from knowledge_base.scripts.enrich_existing_arxiv_metadata.tag_rules import build_tags
 from knowledge_base.scripts.enrich_existing_arxiv_metadata.text import bare_arxiv_id, title_case_ascii
 from knowledge_base.scripts.enrich_existing_arxiv_metadata.yaml_io import dump_yaml, load_yaml, replace_scalar_field
-from knowledge_base.utils.arxiv_utils import (
-    ArxivRecord,
-    arxiv_abs_url,
-    arxiv_html_url,
-    arxiv_pdf_url,
-    normalize_arxiv_id,
-)
+from knowledge_base.utils.arxiv_ids import arxiv_abs_url, arxiv_html_url, arxiv_pdf_url, normalize_arxiv_id
+from knowledge_base.utils.arxiv_utils import ArxivRecord
 
 
 def target_files(refresh_derived: bool = False) -> list[Path]:

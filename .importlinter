@@ -12,3 +12,15 @@ source_modules =
     knowledge_base.components
 forbidden_modules =
     knowledge_base.scripts
+
+[importlinter:contract:metadata_dependencies]
+name = Metadata and arXiv identifiers stay independent of configuration and workflows
+type = forbidden
+source_modules =
+    knowledge_base.metadata
+    knowledge_base.utils.arxiv_ids
+forbidden_modules =
+    knowledge_base.config
+    knowledge_base.catalog
+    knowledge_base.utils.arxiv_utils
+    knowledge_base.prefill

@@ -13,7 +13,8 @@ import requests
 from knowledge_base.prefill.doi import find_existing_by_arxiv_id
 from knowledge_base.prefill.runner import REPO_ROOT, FieldMap, HaltPrefill
 from knowledge_base.prefill.todo_file import read_url_lines
-from knowledge_base.utils.arxiv_utils import fetch_arxiv, fetch_arxiv_many, fetch_arxiv_oai, normalize_arxiv_id
+from knowledge_base.utils.arxiv_ids import normalize_arxiv_id
+from knowledge_base.utils.arxiv_utils import fetch_arxiv, fetch_arxiv_many, fetch_arxiv_oai
 
 # Duration in seconds between arXiv API requests.
 # arXiv asks clients to make no more than one request every 3 seconds and
