@@ -13,11 +13,6 @@ streamlit run dev_apps/tree_label_review_app.py
 
 I think we lost the semantic similarity and tree similarity filters for selected node filters. That was a powerful tool that had good tunings. Restore it.
 
-
-## perf
-
-The Tree page needs major performance increase for handling large number of items.
-
 ## Taxonomy
 
 ```sh
@@ -74,21 +69,6 @@ No output means the path is gone from reachable local history.
 
 One more reality check: “completely” means removed from refs you control. Old clones, forks, PR refs, and GitHub’s internal unreachable-object cache may still retain it for a while. If this was just build-output cleanup, that’s fine. If it contained secrets, rotate them and contact GitHub Support to purge cached objects.
 
-## Metadata cleanup
-
-### Schema
-
-Define the schema in a single source of truth doc.
-
-- use pydantic?
-- human-readable
-
-- revise the metadata schema:
-  - links: single list instead of primary + alt. maybe also include a specifier to indicate if the link leads to an open-able pdf or not
-
-clarify distinction between year of first publication (typically arxiv preprint) and year of official publication
-
-add other URIs besides DOI since not all papers have DOI e.g. dissertations, arxiv papers, PLMR and JMLR
 
 ## Quality of life
 
