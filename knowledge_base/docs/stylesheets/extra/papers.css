@@ -197,8 +197,8 @@
 .paper-link-pill {
   display: inline-grid;
   box-sizing: border-box;
-  grid-template-columns: minmax(0, 1fr) var(--kb-chip-action-bubble-size);
-  grid-auto-rows: minmax(var(--kb-chip-height), auto);
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-auto-rows: minmax(calc(var(--kb-chip-height) - 2 * var(--kb-chip-border-width)), auto);
   align-items: center;
   justify-content: start;
   max-width: 100%;
@@ -232,12 +232,14 @@
   grid-column: 2;
   grid-row: 1;
   justify-self: end;
-  align-self: center;
-  inline-size: var(--kb-chip-action-bubble-size);
-  block-size: var(--kb-chip-action-bubble-size);
-  margin-inline-end: 0;
+  align-self: stretch;
+  min-inline-size: var(--kb-chip-action-bubble-size);
+  aspect-ratio: 1;
+  /* Include the pill border so both circular outlines share the same arc. */
+  margin-block: calc(-1 * var(--kb-chip-border-width));
+  margin-inline-end: calc(-1 * var(--kb-chip-border-width));
   place-items: center;
-  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+  border: var(--kb-chip-border-width) solid color-mix(in srgb, currentColor 28%, transparent);
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 9%, transparent);
   pointer-events: none;
