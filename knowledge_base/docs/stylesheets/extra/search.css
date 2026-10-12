@@ -1,9 +1,9 @@
 .tag-search-app {
+  --kb-app-top-gap: 0.25rem;
   --tag-search-border: var(--kb-border-strong);
   --tag-search-panel: var(--kb-surface-muted);
   --kb-app-border: var(--tag-search-border);
   --kb-app-panel: var(--tag-search-panel);
-  --kb-app-header-bg: var(--kb-surface-raised);
   display: grid;
   gap: 0.85rem;
   margin-top: var(--kb-app-top-gap);
@@ -75,18 +75,18 @@
   container-type: inline-size;
   display: grid;
   grid-template-rows: auto auto;
+  gap: 0.35rem;
   min-width: 0;
   min-height: 0;
-  border: 1px solid var(--tag-search-border);
-  border-radius: 8px;
-  background: var(--tag-search-panel);
   overflow: hidden;
 }
 
 .tag-search-settings-header.kb-app-header {
+  min-height: 0;
+  padding-block: 0;
   border: 0;
-  border-bottom: 1px solid var(--tag-search-border);
-  border-radius: 8px 8px 0 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .unified-search-settings-header.kb-app-header {
@@ -113,11 +113,6 @@
   display: none;
 }
 
-.tag-search-settings.is-collapsed .tag-search-settings-header.kb-app-header {
-  border-bottom: 0;
-  border-radius: 8px;
-}
-
 .tag-search-settings-body {
   display: grid;
   grid-template-columns: minmax(15rem, 1fr) minmax(0, 2fr);
@@ -125,6 +120,8 @@
   align-items: start;
   min-width: 0;
   padding: 0.78rem;
+  border: 1px solid var(--tag-search-border);
+  border-radius: 8px;
   background: var(--tag-search-panel);
 }
 
@@ -287,10 +284,7 @@
   width: 100%;
   min-width: 0;
   min-height: 0;
-  padding: 0.78rem;
-  border: 1px solid var(--tag-search-border);
-  border-radius: 8px;
-  background: var(--tag-search-panel);
+  padding: 0;
   overflow: visible;
 }
 
@@ -823,8 +817,8 @@
 
 .unified-search-panel-count {
   position: absolute;
-  top: 0.78rem;
-  right: 0.78rem;
+  top: 0;
+  right: 0;
   z-index: 1;
   box-sizing: border-box;
   width: 7.6rem;
@@ -877,9 +871,6 @@
 
 .semantic-search-results-panel.is-empty {
   min-height: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
 }
 
 .semantic-search-result-list {
@@ -1096,7 +1087,6 @@
   .ct-selection-details,
   .tag-search-hero,
   .tag-search-settings-body,
-  .tag-search-selection,
   .tag-search-app > .tag-search-results,
   .tag-search-card {
     padding-inline: 0.5rem;
@@ -1146,18 +1136,11 @@
     padding-inline: 0;
   }
 
-  .unified-search-app .tag-search-settings,
+  .unified-search-app .tag-search-settings-body,
   .unified-search-app .tag-search-settings-header.kb-app-header,
-  .unified-search-app .tag-search-selection,
   .unified-search-app .paper-similar-card {
     border-inline: 0;
     border-radius: 0;
-  }
-
-  .unified-search-app .tag-search-selection {
-    padding-inline: 0;
-    border: 0;
-    background: transparent;
   }
 
   .unified-search-app .unified-search-panel-count {

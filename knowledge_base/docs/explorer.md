@@ -7,7 +7,7 @@ render_macros: true
 # Explorer
 
 <div id="kb-explorer" class="ct-page kb-app-page kb-app-page--bleed" data-mode="map">
-  <div id="mm-panel-header" class="kb-app-header">
+  <div id="mm-panel-header">
     <div class="kb-mode-switch" role="group" aria-label="Explorer view">
       <button type="button" class="is-active" data-explorer-mode="map" aria-pressed="true" aria-controls="mm-app">
         <span class="kb-mode-switch-icon" aria-hidden="true">{{ site_icon('lucide/map') }}</span>
