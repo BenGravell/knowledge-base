@@ -6,11 +6,9 @@ from pathlib import Path
 
 from knowledge_base.publishing.generated_assets import (
     EXPLORER_SCRIPT,
-    HEADER_LINK_SCRIPT,
     HOME_BENTO_SCRIPT,
     MATH_FIT_SCRIPT,
     MATHJAX_CONFIG_SCRIPT,
-    NAV_DRAWER_STATE_SCRIPT,
     PAPER_LINK_PILLS_SCRIPT,
     SEARCH_SCRIPT,
     SEMANTIC_SEARCH_WORKER_SCRIPT,
@@ -26,8 +24,6 @@ BROWSER_ASSETS: dict[GeneratedAsset, Path] = {
     EXPLORER_SCRIPT: COMPONENTS_DIR / "explorer" / "browser" / "explorer.js",
     MATHJAX_CONFIG_SCRIPT: COMPONENTS_DIR / "site_shell" / "browser" / "mathjax.js",
     MATH_FIT_SCRIPT: COMPONENTS_DIR / "site_shell" / "browser" / "math-fit.js",
-    HEADER_LINK_SCRIPT: COMPONENTS_DIR / "site_shell" / "browser" / "header-link.js",
-    NAV_DRAWER_STATE_SCRIPT: COMPONENTS_DIR / "site_shell" / "browser" / "nav-drawer-state.js",
     HOME_BENTO_SCRIPT: COMPONENTS_DIR / "home" / "browser" / "home-bento.js",
     PAPER_LINK_PILLS_SCRIPT: COMPONENTS_DIR / "paper_links" / "browser" / "paper-link-pills.js",
     SEARCH_SCRIPT: COMPONENTS_DIR / "search" / "browser" / "search-page.js",

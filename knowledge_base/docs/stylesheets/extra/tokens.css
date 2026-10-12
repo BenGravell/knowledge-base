@@ -26,9 +26,6 @@
   --kb-app-header-bg: var(--kb-surface-raised);
   --kb-site-header-bg: #0069b8;
   --kb-site-header-ink: #ffffff;
-  --kb-site-header-search-bg: #ffffff;
-  --kb-site-header-search-fg: #1f2937;
-  --kb-site-header-search-placeholder: #526173;
   /* Source palette for Map branch nodes and home-page decorative previews. */
   --kb-map-node-color-1: #005AB5;
   --kb-map-node-color-2: #A52A00;
@@ -83,8 +80,6 @@
   --kb-z-app-sticky: 8;
   --kb-z-app-local-overlay: 20;
   --kb-z-site-header: 1100;
-  --kb-z-site-scrim: 950;
-  --kb-z-site-drawer: 1000;
   --kb-z-site-search: 1200;
 }
 

@@ -1,44 +1,21 @@
-{#-
-  Based on the Material-compatible Zensical partials/header.html.
-  The local change replaces page-index search with the metadata
-  search page as the single global search entrypoint.
--#}
-{% set class = "md-header" %}
-{% if "navigation.tabs.sticky" in features %}
-  {% set class = class ~ " md-header--shadow md-header--lifted" %}
-{% elif "navigation.tabs" not in features %}
-  {% set class = class ~ " md-header--shadow" %}
-{% endif %}
-{% set is_search_page = page and page.file and page.file.src_path == "search.md" %}
-<header class="{{ class }}" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="{{ lang.t('header') }}">
-    <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}" title="{{ config.site_name | e }}" class="md-header__button md-logo" aria-label="{{ config.site_name }}" data-md-component="logo">
-      {% include "partials/logo.html" %}
-    </a>
-    <label class="md-header__button md-icon" for="__drawer" aria-label="Toggle navigation" title="Toggle navigation">
-      {% set icon = config.theme.icon.menu or "lucide/menu" %}
-      {% include ".icons/" ~ icon ~ ".svg" %}
-    </label>
-    <div class="md-header__title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            {{ config.site_name }}
-          </span>
-        </div>
-      </div>
-    </div>
-    {% if not is_search_page %}
-      <div class="kb-header-search" role="search">
-        <form class="kb-header-search__form" action="{{ 'search/' | url }}" method="get">
-          <button class="kb-header-search__button md-icon" type="submit" aria-label="Search paper metadata">
-            {% set icon = config.theme.icon.search or "lucide/search" %}
-            {% include ".icons/" ~ icon ~ ".svg" %}
-          </button>
-          <input id="kb-header-search-input" class="kb-header-search__input" type="search" name="q" aria-label="Search paper metadata" placeholder="Search papers, authors, tags" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false">
-        </form>
-      </div>
-    {% endif %}
+{# Direct page navigation replaces the primary drawer and global search form. #}
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="{{ lang.t('nav') }}">
+    <ul class="kb-header-nav">
+      {% for item in nav.items %}
+        <li>
+          <a href="{{ item.url | url }}" class="kb-header-nav__link"{% if item.active %} aria-current="page"{% endif %}>
+            {% set icon = config.extra.nav_icons[item.title | lower] %}
+            {% if icon %}
+              <span class="kb-header-nav__icon" aria-hidden="true">
+                {% include ".icons/" ~ icon ~ ".svg" %}
+              </span>
+            {% endif %}
+            <span>{{ item.title }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
     {% if config.theme.palette %}
       {% if not config.theme.palette is mapping %}
         {% include "partials/palette.html" %}
@@ -56,9 +33,4 @@
       </div>
     {% endif %}
   </nav>
-  {% if "navigation.tabs.sticky" in features %}
-    {% if "navigation.tabs" in features %}
-      {% include "partials/tabs.html" %}
-    {% endif %}
-  {% endif %}
 </header>

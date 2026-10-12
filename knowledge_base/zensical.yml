@@ -68,8 +68,6 @@ extra_javascript:
   - javascripts/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
   - javascripts/math-fit.js
-  - javascripts/header-link.js
-  - javascripts/nav-drawer-state.js
   - javascripts/site-link-data.js
   - javascripts/paper-link-pills.js
 
