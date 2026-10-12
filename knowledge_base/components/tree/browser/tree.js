@@ -76,6 +76,7 @@
 
   render();
   observeSunburstPalette();
+  if (app.closest('[data-home-preview]')) return;
 
   window.kbTreeView = {
     rootId: data.root.id,

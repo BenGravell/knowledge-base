@@ -495,7 +495,7 @@
   .md-typeset .kb-home-expander,
   .md-typeset .kb-home-expander > summary,
   .md-typeset .kb-home-expander > summary::after,
-  .md-typeset .kb-home-bento a.kb-bento-card::after,
+  .md-typeset .kb-home-bento .kb-bento-card::after,
   .md-typeset .unified-search-filter-expander > summary::after {
     transition: none;
   }
@@ -1112,8 +1112,7 @@
     padding-right: 0.36rem;
   }
 
-  .md-typeset a.kb-bento-card,
-  .md-typeset a.kb-bento-secondary-card,
+  .md-typeset .kb-bento-card,
   .md-typeset .kb-home-expander > summary,
   .md-typeset .kb-home-expander-content,
   .md-typeset .kb-home-about {

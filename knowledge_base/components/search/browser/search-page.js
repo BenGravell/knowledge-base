@@ -4,6 +4,7 @@
   const app = document.getElementById('tag-search-app') || document.getElementById('search-app');
   const data = window.tagSearchData;
   if (!app) return;
+  const isPreview = Boolean(app.closest('[data-home-preview]'));
 
   if (!data || !data.papers) {
     app.innerHTML = '<p class="tag-search-empty">Search data is unavailable. Run <code>kb build</code> to regenerate it.</p>';
@@ -179,6 +180,11 @@
   const panel = app.querySelector('#unified-search-results-panel');
   const resultsBody = app.querySelector('#unified-search-results-body');
 
+  if (isPreview) {
+    render();
+    return;
+  }
+
   syncThresholdControl();
   loadSemanticSettings();
 
@@ -332,15 +338,15 @@
     const title = metadataTitle();
     const kicker = metadataKicker();
     resultsBody.innerHTML =
-      '<section class="tag-search-selected-head unified-search-result-head">' +
+      (title ? '<section class="tag-search-selected-head unified-search-result-head">' +
         '<div>' +
           (kicker === 'Metadata' ? '' : `<span class="tag-search-kicker">${esc(kicker)}</span>`) +
           `<h2>${esc(title)}</h2>` +
         '</div>' +
-      '</section>' +
+      '</section>' : '') +
       '<div class="tag-search-results unified-search-results">' +
         (rows.length
-          ? rows.slice(0, 160).map(renderMetadataCard).join('')
+          ? rows.slice(0, isPreview ? 2 : 160).map(renderMetadataCard).join('')
           : emptyBlock('', 'No items match the current query and filters.')) +
       '</div>';
   }
@@ -892,7 +898,7 @@
   }
 
   function parseState() {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(isPreview ? { q: data.previewQuery } : window.location.search);
     const rawMode = params.get('mode');
     const inferredMode = rawMode || inferDefaultMode(params);
     const mode = Object.hasOwn(modeLabels, inferredMode) ? inferredMode : inferDefaultMode(params);
@@ -980,7 +986,7 @@
       .filter(field => state[field])
       .map(field => `${fieldConfig[field].label}: ${state[field]}`);
     if (active.length) return active.join(' / ');
-    return state.q ? 'Results' : 'All Papers';
+    return state.q ? '' : 'All Papers';
   }
 
   function metadataKicker() {

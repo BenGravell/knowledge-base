@@ -5,6 +5,17 @@
   const cards = Array.from(root.querySelectorAll('.kb-bento-card'));
   if (!cards.length) return;
 
+  const previewObserver = new ResizeObserver(function (entries) {
+    entries.forEach(function (entry) {
+      const stage = entry.target.querySelector('.kb-bento-preview-stage');
+      const scale = Math.min(entry.contentRect.width / stage.offsetWidth, entry.contentRect.height / stage.offsetHeight);
+      stage.style.setProperty('--kb-preview-scale', scale);
+    });
+  });
+  root.querySelectorAll('[data-home-preview]').forEach(function (preview) {
+    previewObserver.observe(preview);
+  });
+
   const activeClass = 'is-hover-active';
   const managedClass = 'is-hover-managed';
   const hasActiveClass = 'has-hover-active';

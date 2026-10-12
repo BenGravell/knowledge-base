@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import yaml
 
-from knowledge_base.publishing.generated_assets import TREE_DATA
+from knowledge_base.components.home.preview_data import build_home_tree_data
+from knowledge_base.publishing.generated_assets import HOME_TREE_DATA, TREE_DATA
 from knowledge_base.publishing.generated_files import open_generated
 from knowledge_base.tree.analytics_projection import build_analytics_data, write_analytics_assets
 from knowledge_base.tree.model import load_tree_model
@@ -49,6 +50,9 @@ def main() -> None:
 
     with open_generated(TREE_DATA.published_path, "w") as out:
         out.write(TREE_DATA.js_assignment(tree_data, separators=(",", ":")))
+
+    with open_generated(HOME_TREE_DATA.published_path, "w") as out:
+        out.write(HOME_TREE_DATA.js_assignment(build_home_tree_data(tree_data), separators=(",", ":")))
 
     analytics_data = build_analytics_data(root, tree_model, paper_details_by_source)
     write_analytics_assets(analytics_data)

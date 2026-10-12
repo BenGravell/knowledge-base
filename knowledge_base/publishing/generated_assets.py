@@ -121,6 +121,16 @@ TREE_DATA = JsonAsset(
     global_name="treeData",
     assignment_prefix="window.treeData = ",
 )
+HOME_TREE_DATA = JsonAsset(
+    "home-tree-data.js",
+    global_name="treeData",
+    assignment_prefix="window.treeData = ",
+)
+HOME_SEARCH_DATA = JsonAsset(
+    "home-search-data.js",
+    global_name="tagSearchData",
+    assignment_prefix="window.tagSearchData = ",
+)
 ANALYTICS_DATA = JsonAsset(
     "analytics-data.js",
     global_name="analyticsData",
@@ -156,7 +166,18 @@ EXPLORER_SCRIPT = GeneratedAsset("explorer.js")
 
 HOME_APP_SCRIPTS = AppScriptBundle(
     "home",
-    (ANALYTICS_DATA, HOME_BENTO_SCRIPT, ANALYTICS_SCRIPT),
+    (
+        SITE_LINK_DATA,
+        PAPER_LINK_PILLS_SCRIPT,
+        HOME_TREE_DATA,
+        TREE_NAVIGATOR_SCRIPT,
+        TREE_SCRIPT,
+        HOME_SEARCH_DATA,
+        SEARCH_SCRIPT,
+        ANALYTICS_DATA,
+        HOME_BENTO_SCRIPT,
+        ANALYTICS_SCRIPT,
+    ),
 )
 MAP_APP_SCRIPTS = AppScriptBundle(
     "map",

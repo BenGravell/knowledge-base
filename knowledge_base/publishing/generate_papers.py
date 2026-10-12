@@ -9,8 +9,9 @@ import yaml
 from jinja2 import Environment
 
 from knowledge_base.catalog import Entry
+from knowledge_base.components.home.preview_data import build_home_search_data
 from knowledge_base.config import KB_DIR, PAPERS_DIR
-from knowledge_base.publishing.generated_assets import SEARCH_DATA, SITE_LINK_DATA, TAG_SEARCH_DATA
+from knowledge_base.publishing.generated_assets import HOME_SEARCH_DATA, SEARCH_DATA, SITE_LINK_DATA, TAG_SEARCH_DATA
 from knowledge_base.publishing.generated_files import open_generated, set_edit_path
 from knowledge_base.publishing.site_links import (
     paper_site_links,
@@ -621,6 +622,9 @@ def publish_paper_assets(paper_records: list[dict[str, Any]]) -> None:
     for asset in (SEARCH_DATA, TAG_SEARCH_DATA):
         with open_generated(asset.published_path, "w") as out:
             out.write(asset.js_assignment(search_data, separators=(",", ":")))
+
+    with open_generated(HOME_SEARCH_DATA.published_path, "w") as out:
+        out.write(HOME_SEARCH_DATA.js_assignment(build_home_search_data(paper_records), separators=(",", ":")))
 
 
 def main(*, include_pages: bool = True) -> None:

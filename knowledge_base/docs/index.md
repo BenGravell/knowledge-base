@@ -10,73 +10,42 @@ render_macros: true
 *Curated research you can actually navigate.*
 
 <div class="kb-home-bento" aria-label="Knowledge Base quick start">
-  <a class="kb-bento-card kb-bento-card--explorer" href="explorer/?mode=map">
+  <div class="kb-bento-card kb-bento-card--explorer">
     <h3>
-      <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ site_icon(config.extra.nav_icons.explorer) }}
-      </span>
-      <span>Explorer</span>
+      <a class="kb-bento-link" href="explorer/?mode=map">
+        <span class="kb-bento-title-icon" aria-hidden="true">
+          {{ site_icon(config.extra.nav_icons.explorer) }}
+        </span>
+        <span>Explorer</span>
+      </a>
     </h3>
-    <span class="kb-bento-visual kb-bento-visual--explorer" aria-hidden="true">
-      <svg class="kb-tree-sunburst" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" focusable="false">
-        <circle class="kb-tree-sunburst-base kb-tree-sunburst-base--outer" cx="100" cy="100" r="70" pathLength="100"></circle>
-        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--one" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="4.2 95.8" transform="rotate(-90 100 100)"></circle>
-        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--one" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="3.2 96.8" transform="rotate(-70 100 100)"></circle>
-        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--two" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="4.8 95.2" transform="rotate(-35 100 100)"></circle>
-        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--two" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="4 96" transform="rotate(-14 100 100)"></circle>
-        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--four" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="4.4 95.6" transform="rotate(88 100 100)"></circle>
-        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--four" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="3.2 96.8" transform="rotate(108 100 100)"></circle>
-        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--five" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="3.8 96.2" transform="rotate(154 100 100)"></circle>
-        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--five" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="3.4 96.6" transform="rotate(173 100 100)"></circle>
-        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--five" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="2.8 97.2" transform="rotate(191 100 100)"></circle>
-        <circle class="kb-tree-sunburst-base kb-tree-sunburst-base--inner" cx="100" cy="100" r="46" pathLength="100"></circle>
-        <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--one" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="10 90" transform="rotate(-90 100 100)"></circle>
-        <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--two" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="11 89" transform="rotate(-35 100 100)"></circle>
-        <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--three" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="12 88" transform="rotate(24 100 100)"></circle>
-        <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--four" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="10 90" transform="rotate(88 100 100)"></circle>
-        <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--five" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="13 87" transform="rotate(154 100 100)"></circle>
-        <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--six" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="9 91" transform="rotate(222 100 100)"></circle>
-        <circle class="kb-tree-sunburst-core" cx="100" cy="100" r="30"></circle>
-      </svg>
-      <span class="kb-tree-list-preview">
-        <span class="kb-tree-preview-row kb-tree-preview-row--parent">
-          <span class="kb-tree-preview-rail"><span class="kb-tree-preview-dot"></span></span>
-        </span>
-        <span class="kb-tree-preview-row kb-tree-preview-row--selected">
-          <span class="kb-tree-preview-rail"><span class="kb-tree-preview-dot"></span></span>
-        </span>
-        <span class="kb-tree-preview-row kb-tree-preview-row--child">
-          <span class="kb-tree-preview-rail"><span class="kb-tree-preview-dot"></span></span>
-        </span>
-        <span class="kb-tree-preview-row kb-tree-preview-row--child">
-          <span class="kb-tree-preview-rail"><span class="kb-tree-preview-dot"></span></span>
-        </span>
-      </span>
-    </span>
-  </a>
+    <div class="kb-bento-preview" data-home-preview inert aria-hidden="true">
+      <div class="kb-bento-preview-stage kb-bento-explorer-preview ct-page">
+--8<-- "knowledge_base/docs/templates/tree.html"
+        <div class="ct-browser">
+          <section class="ct-chain">
+            <div id="ct-ancestor-chain"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <a class="kb-bento-card kb-bento-card--search" href="search/">
+  <div class="kb-bento-card kb-bento-card--search">
     <h3>
-      <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ site_icon(config.extra.nav_icons.search) }}
-      </span>
-      <span>Search</span>
-    </h3>
-    <span class="kb-bento-visual kb-bento-visual--search" aria-hidden="true">
-      <span class="kb-search-window">
-        <span class="kb-search-pill">
-          <span class="kb-search-pill-label">safe planning</span>
-          <span class="kb-search-pill-icon">
-            <svg viewBox="0 0 24 24" focusable="false"><path d="m21 21-4.35-4.35"></path><circle cx="10.5" cy="10.5" r="6.5"></circle></svg>
-          </span>
+      <a class="kb-bento-link" href="search/">
+        <span class="kb-bento-title-icon" aria-hidden="true">
+          {{ site_icon(config.extra.nav_icons.search) }}
         </span>
-        <span class="kb-search-result kb-search-result--one"></span>
-        <span class="kb-search-result kb-search-result--two"></span>
-        <span class="kb-search-result kb-search-result--three"></span>
-      </span>
-    </span>
-  </a>
-
+        <span>Search</span>
+      </a>
+    </h3>
+    <div class="kb-bento-preview" data-home-preview inert aria-hidden="true">
+      <div class="kb-bento-preview-stage">
+        <div id="tag-search-app" class="tag-search-app unified-search-app semantic-search-app" data-default-mode="metadata"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="kb-home-expanders" aria-label="Additional Knowledge Base context">
